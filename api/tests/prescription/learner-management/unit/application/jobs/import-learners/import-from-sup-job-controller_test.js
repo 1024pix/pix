@@ -49,7 +49,11 @@ describe('Unit | Prescription | Application | Jobs | ImportFromSupJobController'
       // given
       const errorStub = sinon.stub();
       const handler = new ImportFromSupJobController({ logger: { error: errorStub } });
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT };
+      const data = {
+        organizationImportId: Symbol('organizationImportId'),
+        locale: 'en',
+        type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT,
+      };
 
       // when & then
       await expect(handler.handle({ data })).fulfilled;
@@ -63,7 +67,11 @@ describe('Unit | Prescription | Application | Jobs | ImportFromSupJobController'
       // given
       const errorStub = sinon.stub();
       const handler = new ImportFromSupJobController({ logger: { error: errorStub } });
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT };
+      const data = {
+        organizationImportId: Symbol('organizationImportId'),
+        locale: 'en',
+        type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT,
+      };
 
       // when
       const result = await catchErr(handler.handle)({ data });

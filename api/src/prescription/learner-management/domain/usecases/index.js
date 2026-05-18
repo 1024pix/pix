@@ -112,7 +112,7 @@ import { validateSupFile } from './validate-learners-file/validate-sup-file.js';
 const usecasesWithoutInjectedDependencies = {
   importLearnersFromGenericFile,
   uploadGenericFile,
-  validateOrganizationLearnersFile: validateGenericFile,
+  validateGenericFile,
   importLearnersFromSiecleFile,
   anonymizeUser,
   computeOrganizationLearnerCertificability,

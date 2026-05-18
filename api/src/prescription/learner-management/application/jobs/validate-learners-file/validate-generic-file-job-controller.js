@@ -20,7 +20,7 @@ class ValidateGenericFileJobController extends JobController {
   async handle({ data }) {
     const { organizationImportId } = data;
     try {
-      await usecases.validateOrganizationLearnersFile({ organizationImportId });
+      await usecases.validateGenericFile({ organizationImportId });
     } catch (err) {
       if (!(err instanceof DomainError)) {
         throw err;

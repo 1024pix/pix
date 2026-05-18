@@ -40,7 +40,11 @@ describe('Unit | Prescription | Application | Jobs | ImportFromFregataJobControl
 
       // given
       const handler = new ImportFromFregataJobController();
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.REPLACE_STUDENT };
+      const data = {
+        organizationImportId: Symbol('organizationImportId'),
+        locale: 'en',
+        type: SUP_IMPORT_TYPES.REPLACE_STUDENT,
+      };
 
       // when
       await handler.handle({ data });
@@ -60,7 +64,11 @@ describe('Unit | Prescription | Application | Jobs | ImportFromFregataJobControl
       // given
       const errorStub = sinon.stub();
       const handler = new ImportFromFregataJobController({ logger: { error: errorStub } });
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.REPLACE_STUDENT };
+      const data = {
+        organizationImportId: Symbol('organizationImportId'),
+        locale: 'en',
+        type: SUP_IMPORT_TYPES.REPLACE_STUDENT,
+      };
 
       // when & then
       await handler.handle({ data });
@@ -74,7 +82,11 @@ describe('Unit | Prescription | Application | Jobs | ImportFromFregataJobControl
 
       // given
       const handler = new ImportFromFregataJobController();
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.REPLACE_STUDENT };
+      const data = {
+        organizationImportId: Symbol('organizationImportId'),
+        locale: 'en',
+        type: SUP_IMPORT_TYPES.REPLACE_STUDENT,
+      };
 
       // when
       const result = await catchErr(handler.handle)({ data });

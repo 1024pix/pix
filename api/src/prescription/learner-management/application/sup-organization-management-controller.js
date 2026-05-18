@@ -1,9 +1,9 @@
 import * as fs from 'node:fs/promises';
 
-import { SUP_IMPORT_TYPES } from '../domain/constants.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import { SUP_IMPORT_TYPES } from '../domain/constants.js';
 import { usecases } from '../domain/usecases/index.js';
 
 const importSupOrganizationLearners = async function (request, h, dependencies = { logger, unlink: fs.unlink }) {

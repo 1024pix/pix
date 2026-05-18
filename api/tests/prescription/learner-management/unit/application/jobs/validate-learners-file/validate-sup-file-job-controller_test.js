@@ -40,7 +40,11 @@ describe('Unit | Prescription | Application | Jobs | ValidateSupFileJobControlle
       sinon.stub(usecases, 'validateSupFile');
       // given
       const handler = new ValidateSupFileJobController();
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT };
+      const data = {
+        organizationImportId: Symbol('organizationImportId'),
+        locale: 'en',
+        type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT,
+      };
 
       // when
       await handler.handle({ data });
@@ -58,7 +62,11 @@ describe('Unit | Prescription | Application | Jobs | ValidateSupFileJobControlle
       sinon.stub(usecases, 'validateSupFile');
       // given
       const handler = new ValidateSupFileJobController();
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.REPLACE_STUDENT };
+      const data = {
+        organizationImportId: Symbol('organizationImportId'),
+        locale: 'en',
+        type: SUP_IMPORT_TYPES.REPLACE_STUDENT,
+      };
 
       // when
       await handler.handle({ data });
@@ -79,7 +87,11 @@ describe('Unit | Prescription | Application | Jobs | ValidateSupFileJobControlle
       // given
       const warnStub = sinon.stub();
       const handler = new ValidateSupFileJobController({ logger: { warn: warnStub } });
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT };
+      const data = {
+        organizationImportId: Symbol('organizationImportId'),
+        locale: 'en',
+        type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT,
+      };
 
       // when
       await handler.handle({ data });
@@ -94,7 +106,11 @@ describe('Unit | Prescription | Application | Jobs | ValidateSupFileJobControlle
 
       // given
       const handler = new ValidateSupFileJobController();
-      const data = { organizationImportId: Symbol('organizationImportId'), locale: 'en', type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT };
+      const data = {
+        organizationImportId: Symbol('organizationImportId'),
+        locale: 'en',
+        type: SUP_IMPORT_TYPES.ADDITIONAL_STUDENT,
+      };
 
       // when
       const result = await catchErr(handler.handle)({ data });
