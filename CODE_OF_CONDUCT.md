@@ -1,90 +1,88 @@
-# Contributor Code of Conduct
 
-## Our Pledge
+# Code de conduite 3.0 _Contributor Covenant_
 
-We pledge to make our community welcoming, safe, and equitable for all.
+## Notre engagement
 
-We are committed to fostering an environment that respects and promotes the dignity, rights, and contributions of all individuals, regardless of characteristics including race, ethnicity, caste, color, age, physical characteristics, neurodiversity, disability, sex or gender, gender identity or expression, sexual orientation, language, philosophy or religion, national or social origin, socio-economic position, level of education, or other status. The same privileges of participation are extended to everyone who participates in good faith and in accordance with this Covenant.
+Nous nous engageons à faire de notre communauté un espace accueillant, positif, et équitable pour toutes et tous.
 
+Nous sommes dédiés à encourager un environnement qui respecte et valorise la dignité, les droits, les contributions de tous les individus, quelque soit leurs caractéristiques comme l'origine, l'ethnicité, la classe sociale, la couleur de peau, l'âge, l'apparence physique, la neurodiversité, le handicap, le sexe ou le genre, l'identité ou l'expression de genre, l'orientation sexuelle, la langue, la spiritualité ou religion, l'origine sociale ou nationale, la position socio-économique, le niveau d'éducation, ou autre statut. Les mêmes droits à la participation sont offerts à tous·te les participant·es de bonne foi et en accord avec cet engagement.
 
-## Encouraged Behaviors
+## Comportements valorisés
 
-While acknowledging differences in social norms, we all strive to meet our community's expectations for positive behavior. We also understand that our words and actions may be interpreted differently than we intend based on culture, background, or native language.
+Tout en reconnaissant les différences entre les normes sociales, nous nous efforçons chacun·e pour pousser les attentes de notre communauté vers des comportements positifs. Nous comprenons aussi que nos mots et actions peuvent être interprétés différemment de notre intention initiale, selon la culture, le vécu ou la langue natale.
 
-With these considerations in mind, we agree to behave mindfully toward each other and act in ways that center our shared values, including:
+Avec ces considérations en tête, nous acceptons de nous comporter consciencieusement entre nous, et d'agir de manière à favoriser nos valeurs communes, incluant :
 
-1. Respecting the **purpose of our community**, our activities, and our ways of gathering.
-2. Engaging **kindly and honestly** with others.
-3. Respecting **different viewpoints** and experiences.
-4. **Taking responsibility** for our actions and contributions.
-5. Gracefully giving and accepting **constructive feedback**.
-6. Committing to **repairing harm** when it occurs.
-7. Behaving in other ways that promote and sustain the **well-being of our community**.
+1. Respecter **la raison d'être de notre communauté**, nos activités, et nos manières de nous réunir.
+2. Dialoguer de manière **bienveillante et honnête** avec les autres.
+3. Respecter les **différences de point de vue** et les ressentis.
+4. **Prendre la responsabilité** de nos actes et contributions.
+5. Donnez et recevoir les **critiques constructives** avec dignité.
+6. S'engager à **réparer nos torts** une fois fait.
+7. Bien se tenir pour favoriser et maintenir un **environnement sain pour notre communauté**
 
+## Comportements interdits
 
-## Restricted Behaviors
+Nous acceptons de restreindre les comportements suivants au sein de notre communauté. Commettre, menacer de, ou faire la promotion des comportements suivants sont des infractions au Code de Conduite.
 
-We agree to restrict the following behaviors in our community. Instances, threats, and promotion of these behaviors are violations of this Code of Conduct.
+1. **Harcèlement.** Outrepasser les limites exprimées ou solliciter une attention inutile après une demande claire de cesser.
+2. **Attaque personnelle.** Insulter, dévaloriser, ou faire des commentaires désobligeant envers une personne de la communauté ou un groupe de personne.
+3. **Stéréotype ou discrimination.** Réduire la personnalité ou le comportement de quiconque sur la base de caractères identitaires ou innés.
+4. **Sexualisation.** Se comporter de manière inappropriée et trop intime pour le contexte ou la raison d'être de la communauté.
+5. **Effraction de confidentialité.** Divulguer ou agir sur un fait personnel ou privé sans l'accord de la personne.
+6. **Mise en danger.** Provoquer, encourager, attiser la violence ou une autre nuisance sur une personne ou un groupe.
+7. Se comporter d'une manière qui **nuit au vivre-ensemble** de la communauté.
 
-1. **Harassment.** Violating explicitly expressed boundaries or engaging in unnecessary personal attention after any clear request to stop.
-2. **Character attacks.** Making insulting, demeaning, or pejorative comments directed at a community member or group of people.
-3. **Stereotyping or discrimination.** Characterizing anyone’s personality or behavior on the basis of immutable identities or traits.
-4. **Sexualization.** Behaving in a way that would generally be considered inappropriately intimate in the context or purpose of the community.
-5. **Violating confidentiality**. Sharing or acting on someone's personal or private information without their permission.
-6. **Endangerment.** Causing, encouraging, or threatening violence or other harm toward any person or group.
-7. Behaving in other ways that **threaten the well-being** of our community.
+## Autres Restrictions
 
-### Other Restrictions
+1. **Usurpation d'identité.** Se faire passer pour quelqu'un d'autre sans raison, ou prétendre être quelqu'un d'autre pour éviter des sentences.
+2. **Refuser de créditer ses sources.** Ne pas créditer correctement les sources des contenus que vous avancez.
+3. **Support publicitaire.** Partager des contenus marketing ou promotionnels d'une manière qui outrepasse les normes de la communauté.
+4. **Communication irresponsable.** Échouer à présenter de manière responsable du contenu incluant, reliant ou retraçant une autre infraction.
 
-1. **Misleading identity.** Impersonating someone else for any reason, or pretending to be someone else to evade enforcement actions.
-2. **Failing to credit sources.** Not properly crediting the sources of content you contribute.
-3. **Promotional materials**. Sharing marketing or other commercial content in a way that is outside the norms of the community.
-4. **Irresponsible communication.** Failing to responsibly present content which includes, links or describes any other restricted behaviors.
+## Rapporter un Problème
 
+Des tensions peuvent se produire entre les membres de la communauté même lorsque iels font de leur mieux pour collaborer. Tous les conflits ne représentent pas une infraction au code de conduite, et ce Code de Conduite encourage les comportements et normes qui aident à éloigner les conflits, et à minimiser les douleurs.
 
-## Reporting an Issue
+Lorsqu'un problème se produit, il est important de le notifier rapidement. Pour rapporter une possible infraction, merci d'utiliser [ce formulaire](https://docs.google.com/forms/d/1ThHx7WzWuJvXPgTwsEkMm6JqLakjHBJe0HSNgwUGHN4/edit).
 
-Tensions can occur between community members even when they are trying their best to collaborate. Not every conflict represents a code of conduct violation, and this Code of Conduct reinforces encouraged behaviors and norms that can help avoid conflicts and minimize harm.
+La modération de la communauté recueille les infractions sérieusement et fait tout son possible pour répondre rapidement. Les modérateur·ices examinerons toutes plaintes d'infraction au code de conduite, vérifieront les messages, les évènements, les enregistrements, solliciteront des témoins ou autres participants. La modération de la communauté gardera l'investigation et la prise de mesures aussi transparente que possible, tout en priorisant la sécurité et la confidentialité. Dans le but d'honorer ces engagements, les mesures prises sont portées de manière privée aux parties concernées, mais communiquer au reste de la communauté peut faire partie de la résolution convenue conjointement.
 
-When an incident does occur, it is important to report it promptly. To report a possible violation, please use [this form](https://docs.google.com/forms/d/1ThHx7WzWuJvXPgTwsEkMm6JqLakjHBJe0HSNgwUGHN4/edit).
+## Résolution et Réparation des Torts
 
-Community Moderators take reports of violations seriously and will make every effort to respond in a timely manner. They will investigate all reports of code of conduct violations, reviewing messages, logs, and recordings, or interviewing witnesses and other participants. Community Moderators will keep investigation and enforcement actions as transparent as possible while prioritizing safety and confidentiality. In order to honor these values, enforcement actions are carried out in private with the involved parties, but communicating to the whole community may be part of a mutually agreed upon resolution.
+**[NOTE: Les résolutions et réparations soulignées dessous ne sont que des suggestions proposées pour l'application du code de conduite. Si votre communauté a son propre mode d'application, adaptez cette section pour décrire vos pratiques.]**
 
+Si l'enquête par les modérateur·ices évalue que ce Code de Conduite a été enfreint, la grille de mesures suivante peut être utilisé pour déterminer comment réparer au mieux les torts, en se basant sur l'impact de l'incident sur les individus concernés et la communauté entière. En fonction de la sévérité de l'infraction, les premières étapes peuvent être sautées.
 
-## Addressing and Repairing Harm
+1) Avertissement
+   1) Cas : Une infraction concernant un unique incident, ou des séries d'incidents isolés.
+   2) Conséquences : Un avertissement privé, écrit de la part des modérateur·ices.
+   3) Réparation : Une réparation comprend des excuses écrites privées, une reconnaissance de responsabilité, et la recherche d'éclaircissement sur les attendus.
+2) Limitation d'activité temporaire
+   1) Cas : La répétition d'infractions qui ont déjà donné lieu à des avertissements, ou le premier incident d'une infraction plus importante.
+   2) Conséquences : Un avertissement privé écrit accompagné d'une période de retour au calme pour mettre en évidence l'importance de la situation et donner à la communauté le temps d'intégrer ce qui s'est passé. Ce temps de réflexion peut être limité à certains canaux de communication ou aux interactions avec certains membres de la communauté.
+   3) Réparation : Une réparation peut inclure la formulation d'excuses, l'utilisation d'un temps de retour au calme pour réfléchir aux actions et conséquences, et être plus consciencieu·se après la fin de la période, au retour dans les espaces communautaires.
+3) Suspension provisoire
+   1) Cas : Un schéma de répétition d'infraction auquel les modérateur·ices ont adressé des avertissements, ou une seule infraction d'importance.
+   2) Conséquences : Un avertissement privé écrit informant des conditions de retour de suspension. En général, une suspension provisoire donne à la personne suspendue le temps d'introspection sur son comportement et sur les corrections qu'elle doit entreprendre.
+   3) Réparation : Une réparation peut inclure la compréhension du motif de la suspension, le respect des conditions de retour, et réfléchir à comment réintégrer la communauté lorsque la suspension sera levé.
+4) Bannissement permanent
+   1) Cas : Un schéma de répétition d'infractions du Code de Conduite où les premières étapes de résolution ont échoué, ou une infraction tellement importante que les modérateur·ices de la communauté déterminent qu'il n'y a aucun moyen de maintenir un espace communautaire sûr avec cette personne comme membre.
+   2) Conséquences : L'accès aux espaces communautaires, les outils, les canaux de communication sont révoqués. En général, les bannissements permanents devraient être rare, et doivent être appuyés de raisons fortes, et être le dernier recourt lorsque toutes les solutions ont échoué à corriger le comportement.
+   3) Réparation : Il n'y a aucune réparation possible pour des cas de cette sévérité.
 
-If an investigation by the Community Moderators finds that this Code of Conduct has been violated, the following enforcement ladder may be used to determine how best to repair harm, based on the incident's impact on the individuals involved and the community as a whole. Depending on the severity of a violation, lower rungs on the ladder may be skipped.
+Cette échelle de mesure est une ligne directrice. Elle ne limite pas la capacité des modérateur·ices à utiliser leurs discrétions et leurs jugements, en adéquation avec l'intérêt de la communauté.
 
-1) Warning
-   1) Event: A violation involving a single incident or series of incidents.
-   2) Consequence: A private, written warning from the Community Moderators.
-   3) Repair: Examples of repair include a private written apology, acknowledgement of responsibility, and seeking clarification on expectations.
-2) Temporarily Limited Activities
-   1) Event: A repeated incidence of a violation that previously resulted in a warning, or the first incidence of a more serious violation.
-   2) Consequence: A private, written warning with a time-limited cooldown period designed to underscore the seriousness of the situation and give the community members involved time to process the incident. The cooldown period may be limited to particular communication channels or interactions with particular community members.
-   3) Repair: Examples of repair may include making an apology, using the cooldown period to reflect on actions and impact, and being thoughtful about re-entering community spaces after the period is over.
-3) Temporary Suspension
-   1) Event: A pattern of repeated violation which the Community Moderators have tried to address with warnings, or a single serious violation.
-   2) Consequence: A private written warning with conditions for return from suspension. In general, temporary suspensions give the person being suspended time to reflect upon their behavior and possible corrective actions.
-   3) Repair: Examples of repair include respecting the spirit of the suspension, meeting the specified conditions for return, and being thoughtful about how to reintegrate with the community when the suspension is lifted.
-4) Permanent Ban
-   1) Event: A pattern of repeated code of conduct violations that other steps on the ladder have failed to resolve, or a violation so serious that the Community Moderators determine there is no way to keep the community safe with this person as a member.
-   2) Consequence: Access to all community spaces, tools, and communication channels is removed. In general, permanent bans should be rarely used, should have strong reasoning behind them, and should only be resorted to if working through other remedies has failed to change the behavior.
-   3) Repair: There is no possible repair in cases of this severity.
+## Portée
 
-This enforcement ladder is intended as a guideline. It does not limit the ability of Community Managers to use their discretion and judgment, in keeping with the best interests of our community.
+Ce Code de Conduite s'applique au sein des espaces communautaires, et s'applique également lorsqu'un individu représente officiellement la communauté auprès du public ou dans un autre espace. La représentation de la communauté inclut l'utilisation d'adresse e-mail officielle, les posts via un compte officiel d'un réseau social, ou agir en tant que représentant élu lors d'un évènement en ligne ou non.
 
+## Attributions
 
-## Scope
+Ce Code de Conduite est adapté du _Contributor Covenant_, version 3.0, disponible ici [https://www.contributor-covenant.org/version/3/0/](https://www.contributor-covenant.org/version/3/0/).
 
-This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public or other spaces. Examples of representing our community include using an official email address, posting via an official social media account, or acting as an appointed representative at an online or offline event.
+Le _Contributor Covenant_ est géré par l'_Organization for Ethical Source_ et sous licence CC BY-SA 4.0. Pour accéder à une copie de cette licence, visitez [https://creativecommons.org/licenses/by-sa/4.0/deed.fr](https://creativecommons.org/licenses/by-sa/4.0/deed.fr).
 
+Pour répondre aux questions fréquentes à propos du _Contributor Covenant_, consultez la FAQ ici [https://www.contributor-covenant.org/faq](https://www.contributor-covenant.org/faq). Des traductions sont fournie ici [https://www.contributor-covenant.org/translations](https://www.contributor-covenant.org/translations). Des mesures additionnelles et des lignes directrices de communauté peuvent être trouvé ici [https://www.contributor-covenant.org/resources](https://www.contributor-covenant.org/resources). L'échelle des mesures est inspirée par le travail de [l'équipe du code de conduite de Mozilla](https://github.com/mozilla/inclusion).
 
-## Attribution
-
-This Code of Conduct is adapted from the Contributor Covenant, version 3.0, permanently available at [https://www.contributor-covenant.org/version/3/0/](https://www.contributor-covenant.org/version/3/0/).
-
-Contributor Covenant is stewarded by the Organization for Ethical Source and licensed under CC BY-SA 4.0. To view a copy of this license, visit [https://creativecommons.org/licenses/by-sa/4.0/](https://creativecommons.org/licenses/by-sa/4.0/)
-
-For answers to common questions about Contributor Covenant, see the FAQ at [https://www.contributor-covenant.org/faq](https://www.contributor-covenant.org/faq). Translations are provided at [https://www.contributor-covenant.org/translations](https://www.contributor-covenant.org/translations). Additional enforcement and community guideline resources can be found at [https://www.contributor-covenant.org/resources](https://www.contributor-covenant.org/resources). The enforcement ladder was inspired by the work of [Mozilla’s code of conduct team](https://github.com/mozilla/inclusion).
 
