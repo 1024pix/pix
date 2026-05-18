@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../../../shared/domain/DomainTransactio
 import { GenericParser } from '../../../infrastructure/serializers/csv/parsers/generic-parser.js';
 import { getDataBuffer } from '../../../infrastructure/utils/bufferize/get-data-buffer.js';
 import { AggregateImportError } from '../../errors.js';
-import { ImportOrganizationLearnerSet } from '../../models/ImportOrganizationLearnerSet.js';
+import { GenericOrganizationLearnerSet } from '../../models/GenericOrganizationLearnerSet.js';
 
 const importLearnersFromGenericFile = async function ({
   organizationImportId,
@@ -27,7 +27,7 @@ const importLearnersFromGenericFile = async function ({
 
     const learnersData = parser.parse(organizationImport.encoding);
 
-    const learnerSet = ImportOrganizationLearnerSet.buildSet({
+    const learnerSet = GenericOrganizationLearnerSet.buildSet({
       organizationId,
       importFormat,
     });
@@ -44,11 +44,11 @@ const importLearnersFromGenericFile = async function ({
 
     await DomainTransaction.execute(async () => {
       await organizationLearnerFilterRepository.deleteOrganizationLearnerFiltersFromOrganizationId(organizationId);
-      await organizationLearnerRepository.disableCommonOrganizationLearnersFromOrganizationId({
+      await organizationLearnerRepository.disableGenericOrganizationLearnersFromOrganizationId({
         organizationId,
         excludeOrganizationLearnerIds: learners.existinglearnerIds,
       });
-      await organizationLearnerRepository.saveCommonOrganizationLearners(learners.list);
+      await organizationLearnerRepository.saveGenericOrganizationLearners(learners.list);
 
       if (learnerSet.filtersAvailableValues.length > 0) {
         await organizationLearnerFilterRepository.saveOrganizationLearnerFilters(

@@ -1,9 +1,9 @@
-import { CommonOrganizationLearnerFilter } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerFilter.js';
+import { GenericOrganizationLearnerFilter } from '../../../../../../src/prescription/learner-management/domain/models/GenericOrganizationLearnerFilter.js';
 import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Models | CommonOrganizationLearnerFilter', function () {
+describe('Unit | Models | GenericOrganizationLearnerFilter', function () {
   describe('#constructor', function () {
-    it('should create a CommonOrganizationLearnerFilter from parameters', function () {
+    it('should create a GenericOrganizationLearnerFilter from parameters', function () {
       // given
       const input = {
         organizationId: 1,
@@ -15,7 +15,7 @@ describe('Unit | Models | CommonOrganizationLearnerFilter', function () {
       };
 
       // when
-      const learnerFilter = new CommonOrganizationLearnerFilter(input);
+      const learnerFilter = new GenericOrganizationLearnerFilter(input);
 
       // then
       expect(learnerFilter).to.deep.equal({
@@ -35,7 +35,7 @@ describe('Unit | Models | CommonOrganizationLearnerFilter', function () {
       };
 
       // when
-      const learnerFilter = new CommonOrganizationLearnerFilter(input);
+      const learnerFilter = new GenericOrganizationLearnerFilter(input);
 
       // when
       const dataToInsert = learnerFilter.dataToInsert;

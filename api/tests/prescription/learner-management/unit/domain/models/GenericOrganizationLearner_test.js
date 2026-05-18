@@ -1,10 +1,10 @@
 import { ReconcileLearnerFromGenericImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
-import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearner.js';
+import { GenericOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/GenericOrganizationLearner.js';
 import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Models | CommonOrganizationLearner', function () {
+describe('Unit | Models | GenericOrganizationLearner', function () {
   describe('#constructor', function () {
-    it('should create a CommonOrganizationLearner from parameters', function () {
+    it('should create a GenericOrganizationLearner from parameters', function () {
       // given
       const input = {
         id: 1,
@@ -17,7 +17,7 @@ describe('Unit | Models | CommonOrganizationLearner', function () {
       };
 
       // when
-      const learner = new CommonOrganizationLearner(input);
+      const learner = new GenericOrganizationLearner(input);
 
       // then
       expect(learner).to.deep.equal({
@@ -33,7 +33,7 @@ describe('Unit | Models | CommonOrganizationLearner', function () {
       });
     });
 
-    it('should create a CommonOrganizationLearner without id and userId', function () {
+    it('should create a GenericOrganizationLearner without id and userId', function () {
       // given
       const input = {
         firstName: 'Kimberley',
@@ -44,7 +44,7 @@ describe('Unit | Models | CommonOrganizationLearner', function () {
       };
 
       // when
-      const learner = new CommonOrganizationLearner(input);
+      const learner = new GenericOrganizationLearner(input);
 
       // then
       expect(learner).to.deep.equal({
@@ -62,7 +62,7 @@ describe('Unit | Models | CommonOrganizationLearner', function () {
   describe('#reconcileUser', function () {
     it('should throw if user is already reconcile', function () {
       // given
-      const learner = new CommonOrganizationLearner({
+      const learner = new GenericOrganizationLearner({
         id: 1,
         userId: 2,
         firstName: 'Kimberley',
@@ -77,7 +77,7 @@ describe('Unit | Models | CommonOrganizationLearner', function () {
     it('should update the userId', function () {
       const userId = Symbol('user-id');
       // given
-      const learner = new CommonOrganizationLearner({
+      const learner = new GenericOrganizationLearner({
         id: 1,
         firstName: 'Kimberley',
         lastName: 'Tartine',

@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { UnicityConstraintError } from '../../../../shared/domain/errors.js';
 import * as knexUtils from '../../../../shared/infrastructure/utils/knex-utils.js';
-import { CommonOrganizationLearnerFilter } from '../../domain/models/CommonOrganizationLearnerFilter.js';
+import { GenericOrganizationLearnerFilter } from '../../domain/models/GenericOrganizationLearnerFilter.js';
 
 const deleteOrganizationLearnerFiltersFromOrganizationId = async function (organizationId) {
   const knexConn = DomainTransaction.getConnection();
@@ -32,7 +32,7 @@ const findByOrganizationId = async function (organizationId) {
     .select('organization_id', 'attribute_name', 'values');
   return rows.map(
     (row) =>
-      new CommonOrganizationLearnerFilter({
+      new GenericOrganizationLearnerFilter({
         organizationId: row.organization_id,
         attributeName: row.attribute_name,
         values: row.values,

@@ -36,7 +36,7 @@ const reconcileLearnerFromGenericImport = async function ({
 
   const transformedReconciliationData = importFormat.transformReconciliationData(reconciliationInfos);
 
-  const matchingLearners = await organizationLearnerRepository.findAllCommonOrganizationLearnerByReconciliationInfos({
+  const matchingLearners = await organizationLearnerRepository.findAllGenericOrganizationLearnerByReconciliationInfos({
     organizationId,
     reconciliationInformations: transformedReconciliationData.attributes,
   });

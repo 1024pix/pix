@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
-import { ImportOrganizationLearnerSet } from '../../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnerSet.js';
+import { GenericOrganizationLearnerSet } from '../../../../../../../src/prescription/learner-management/domain/models/GenericOrganizationLearnerSet.js';
 import { importLearnersFromGenericFile } from '../../../../../../../src/prescription/learner-management/domain/usecases/import-learners/import-learners-from-generic-file.js';
 import { GenericParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/generic-parser.js';
 import { expect } from '../../../../../../test-helper.js';
@@ -59,8 +59,8 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
     };
 
     organizationLearnerRepositoryStub = {
-      disableCommonOrganizationLearnersFromOrganizationId: sinon.stub(),
-      saveCommonOrganizationLearners: sinon.stub(),
+      disableGenericOrganizationLearnersFromOrganizationId: sinon.stub(),
+      saveGenericOrganizationLearners: sinon.stub(),
       findAllCommonLearnersFromOrganizationId: sinon.stub(),
     };
 
@@ -70,7 +70,7 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
       parse: sinon.stub(),
     };
 
-    sinon.stub(ImportOrganizationLearnerSet, 'buildSet');
+    sinon.stub(GenericOrganizationLearnerSet, 'buildSet');
     importOrganizationLearnerSetStub = {
       addLearners: sinon.stub(),
       setExistingLearners: sinon.stub(),
@@ -108,7 +108,7 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
       .resolves(existingLearners);
 
     // instantiate learners to save
-    ImportOrganizationLearnerSet.buildSet
+    GenericOrganizationLearnerSet.buildSet
       .withArgs({ organizationId, importFormat })
       .returns(importOrganizationLearnerSetStub);
     importOrganizationLearnerSetStub.addLearners.withArgs(parsedLearners);
@@ -133,12 +133,12 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
       // then
       expect(saveError).to.instanceOf(AggregateImportError);
       expect(
-        organizationLearnerRepositoryStub.disableCommonOrganizationLearnersFromOrganizationId.called,
-        'organizationLearnerRepository.disableCommonOrganizationLearnersFromOrganizationId',
+        organizationLearnerRepositoryStub.disableGenericOrganizationLearnersFromOrganizationId.called,
+        'organizationLearnerRepository.disableGenericOrganizationLearnersFromOrganizationId',
       ).to.be.false;
       expect(
-        organizationLearnerRepositoryStub.saveCommonOrganizationLearners.called,
-        'organizationLearnerRepository.saveCommonOrganizationLearners',
+        organizationLearnerRepositoryStub.saveGenericOrganizationLearners.called,
+        'organizationLearnerRepository.saveGenericOrganizationLearners',
       ).to.be.false;
       expect(
         organizationImportRepositoryStub.save.calledOnceWith(organizationImportStub),

@@ -5,11 +5,11 @@ import {
   ModelValidationError,
 } from '../../../../shared/domain/errors.js';
 import { convertDateValue } from '../../../../shared/infrastructure/utils/date-utils.js';
-import { CommonOrganizationLearner } from '../models/CommonOrganizationLearner.js';
+import { GenericOrganizationLearner } from '../models/GenericOrganizationLearner.js';
 import { validateCommonOrganizationLearner } from '../validators/common-organization-learner-validator.js';
-import { CommonOrganizationLearnerFilter } from './CommonOrganizationLearnerFilter.js';
+import { GenericOrganizationLearnerFilter } from './GenericOrganizationLearnerFilter.js';
 
-class ImportOrganizationLearnerSet {
+class GenericOrganizationLearnerSet {
   #learners;
   #existingLearners;
   #organizationId;
@@ -47,7 +47,7 @@ class ImportOrganizationLearnerSet {
   }
 
   static buildSet() {
-    return new ImportOrganizationLearnerSet(...arguments);
+    return new GenericOrganizationLearnerSet(...arguments);
   }
 
   #constructorValidation() {
@@ -146,7 +146,7 @@ class ImportOrganizationLearnerSet {
     learners.forEach((learner, index) => {
       try {
         this.#validateRules(learner);
-        const commonOrganizationLearner = new CommonOrganizationLearner(
+        const commonOrganizationLearner = new GenericOrganizationLearner(
           this.#lineToOrganizationLearnerAttributes(learner),
         );
         this.#learners.push(commonOrganizationLearner);
@@ -270,7 +270,7 @@ class ImportOrganizationLearnerSet {
           ),
         ];
 
-        return new CommonOrganizationLearnerFilter({ organizationId: this.#organizationId, attributeName, values });
+        return new GenericOrganizationLearnerFilter({ organizationId: this.#organizationId, attributeName, values });
       });
   }
 
@@ -295,4 +295,4 @@ class ImportOrganizationLearnerSet {
   }
 }
 
-export { ImportOrganizationLearnerSet };
+export { GenericOrganizationLearnerSet };

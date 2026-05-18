@@ -151,14 +151,14 @@ describe('Unit | Prescription | learner management | Application | Router | orga
   });
 
   describe('POST /api/organization-learners/reconcile', function () {
-    let url, method, httpTestServer, headers, reconcileCommonOrganizationLearnerStub;
+    let url, method, httpTestServer, headers, reconcileGenericOrganizationLearnerStub;
 
     beforeEach(async function () {
       method = 'POST';
       url = '/api/organization-learners/reconcile';
       headers = generateAuthenticatedUserRequestHeaders({ userId: 666 });
 
-      reconcileCommonOrganizationLearnerStub = sinon
+      reconcileGenericOrganizationLearnerStub = sinon
         .stub(organizationLearnersController, 'reconcileLearnerFromGenericImport')
         .resolves('ok');
 
@@ -176,7 +176,7 @@ describe('Unit | Prescription | learner management | Application | Router | orga
 
         // then
         expect(response.statusCode).to.equal(400);
-        expect(reconcileCommonOrganizationLearnerStub.called).to.be.false;
+        expect(reconcileGenericOrganizationLearnerStub.called).to.be.false;
       });
 
       it('should not called controller when payload organization is not a string', async function () {
@@ -188,7 +188,7 @@ describe('Unit | Prescription | learner management | Application | Router | orga
 
         // then
         expect(response.statusCode).to.equal(400);
-        expect(reconcileCommonOrganizationLearnerStub.called).to.be.false;
+        expect(reconcileGenericOrganizationLearnerStub.called).to.be.false;
       });
     });
 
@@ -202,7 +202,7 @@ describe('Unit | Prescription | learner management | Application | Router | orga
       await httpTestServer.request(method, url, payload, null, headers);
 
       // then
-      expect(reconcileCommonOrganizationLearnerStub.called).to.be.true;
+      expect(reconcileGenericOrganizationLearnerStub.called).to.be.true;
     });
   });
 });

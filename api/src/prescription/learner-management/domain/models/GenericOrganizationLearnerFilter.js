@@ -1,4 +1,4 @@
-class CommonOrganizationLearnerFilter {
+class GenericOrganizationLearnerFilter {
   constructor({ organizationId, attributeName, values }) {
     this.organizationId = organizationId;
     this.attributeName = attributeName;
@@ -13,4 +13,4 @@ class CommonOrganizationLearnerFilter {
     };
   }
 }
-export { CommonOrganizationLearnerFilter };
+export { GenericOrganizationLearnerFilter };

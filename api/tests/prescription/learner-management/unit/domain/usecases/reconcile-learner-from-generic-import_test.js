@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { ReconcileLearnerFromGenericImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
-import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearner.js';
+import { GenericOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/GenericOrganizationLearner.js';
 import { reconcileLearnerFromGenericImport } from '../../../../../../src/prescription/learner-management/domain/usecases/reconcile-learner-from-generic-import.js';
 import { expect } from '../../../../../test-helper.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -37,7 +37,7 @@ describe('Unit | UseCase | reconcile-learner-from-generic-import', function () {
     };
 
     organizationLearnerRepository = {
-      findAllCommonOrganizationLearnerByReconciliationInfos: sinon.stub(),
+      findAllGenericOrganizationLearnerByReconciliationInfos: sinon.stub(),
       update: sinon.stub(),
     };
     userReconciliationService = {
@@ -46,7 +46,7 @@ describe('Unit | UseCase | reconcile-learner-from-generic-import', function () {
   });
 
   context('when organization id does not exist', function () {
-    it('should throw a ReconcileCommonOrganizationLearnerError', async function () {
+    it('should throw a ReconcileGenericOrganizationLearnerError', async function () {
       // given
       organizationFeatureApi.getAllFeaturesFromOrganization.resolves([]);
 
@@ -68,7 +68,7 @@ describe('Unit | UseCase | reconcile-learner-from-generic-import', function () {
   });
 
   context('when there is no import feature on organization', function () {
-    it('should throw a ReconcileCommonOrganizationLearnerError', async function () {
+    it('should throw a ReconcileGenericOrganizationLearnerError', async function () {
       // given
       organizationFeatureApi.getAllFeaturesFromOrganization
         .withArgs(organizationId)
@@ -92,7 +92,7 @@ describe('Unit | UseCase | reconcile-learner-from-generic-import', function () {
   });
 
   context('when there is no import format for organization', function () {
-    it('should throw a ReconcileCommonOrganizationLearnerError', async function () {
+    it('should throw a ReconcileGenericOrganizationLearnerError', async function () {
       // given
       organizationFeatureApi.getAllFeaturesFromOrganization
         .withArgs(organizationId)
@@ -126,9 +126,9 @@ describe('Unit | UseCase | reconcile-learner-from-generic-import', function () {
     });
 
     context('when there is no matching learner', function () {
-      it('should throw a ReconcileCommonOrganizationLearnerError', async function () {
+      it('should throw a ReconcileGenericOrganizationLearnerError', async function () {
         // given
-        organizationLearnerRepository.findAllCommonOrganizationLearnerByReconciliationInfos
+        organizationLearnerRepository.findAllGenericOrganizationLearnerByReconciliationInfos
           .withArgs({
             organizationId,
             reconciliationInformations: reconcilePayload.attributes,
@@ -153,13 +153,13 @@ describe('Unit | UseCase | reconcile-learner-from-generic-import', function () {
     });
 
     context('when there is multiple matching learners', function () {
-      it('should throw a ReconcileCommonOrganizationLearnerError if no one match', async function () {
+      it('should throw a ReconcileGenericOrganizationLearnerError if no one match', async function () {
         // given
         const matchingLearners = [
           { id: 1, firstName: 'Uno', lastName: 'Bono' },
           { id: 2, firstName: 'Due', lastName: 'Bono' },
         ];
-        organizationLearnerRepository.findAllCommonOrganizationLearnerByReconciliationInfos
+        organizationLearnerRepository.findAllGenericOrganizationLearnerByReconciliationInfos
           .withArgs({
             organizationId,
             reconciliationInformations: reconcilePayload.attributes,
@@ -190,7 +190,7 @@ describe('Unit | UseCase | reconcile-learner-from-generic-import', function () {
     context('when reconciliation works', function () {
       it('should return nothing', async function () {
         // given
-        const learner = new CommonOrganizationLearner({
+        const learner = new GenericOrganizationLearner({
           firstName: 'Amanda',
           lastName: 'Rine',
           id: 1,
@@ -199,7 +199,7 @@ describe('Unit | UseCase | reconcile-learner-from-generic-import', function () {
         });
         sinon.spy(learner, 'reconcileUser');
 
-        organizationLearnerRepository.findAllCommonOrganizationLearnerByReconciliationInfos
+        organizationLearnerRepository.findAllGenericOrganizationLearnerByReconciliationInfos
           .withArgs({
             organizationId,
             reconciliationInformations: reconcilePayload.attributes,

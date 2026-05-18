@@ -1,11 +1,11 @@
-import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearner.js';
-import { ImportOrganizationLearnerSet } from '../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnerSet.js';
+import { GenericOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/GenericOrganizationLearner.js';
+import { GenericOrganizationLearnerSet } from '../../../../../../src/prescription/learner-management/domain/models/GenericOrganizationLearnerSet.js';
 import { VALIDATION_ERRORS } from '../../../../../../src/shared/domain/constants.js';
 import { CsvImportError, ImportLearnerConfigurationError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | Models | ImportOrganizationLearnerSet', function () {
+describe('Unit | Models | GenericOrganizationLearnerSet', function () {
   const organizationId = 123;
   const learnerAttributes = {
     prénom: 'Tomie',
@@ -40,26 +40,26 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
   });
 
   describe('buildSet', function () {
-    it('should return an instance of ImportOrganizationLearnerSet', function () {
-      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+    it('should return an instance of GenericOrganizationLearnerSet', function () {
+      const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
-      expect(learnerSet).to.be.instanceOf(ImportOrganizationLearnerSet);
+      expect(learnerSet).to.be.instanceOf(GenericOrganizationLearnerSet);
     });
   });
 
   describe('#addLearner', function () {
     describe('create learner context', function () {
       it('should add a learner', function () {
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
         learnerSet.addLearners([learnerAttributes]);
 
         const learners = learnerSet.learners;
 
         expect(learners.list).to.lengthOf(1);
-        expect(learners.list[0]).to.be.an.instanceOf(CommonOrganizationLearner);
+        expect(learners.list[0]).to.be.an.instanceOf(GenericOrganizationLearner);
         expect(learners.list).to.deep.equal([
-          new CommonOrganizationLearner({
+          new GenericOrganizationLearner({
             firstName: 'Tomie',
             lastName: 'Katana',
             organizationId,
@@ -94,7 +94,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           },
         };
 
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
         const newLearnerAttributes = {
           prénom: 'Tomie',
@@ -108,9 +108,9 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         const learners = learnerSet.learners;
 
         expect(learners.list).to.lengthOf(1);
-        expect(learners.list[0]).to.be.an.instanceOf(CommonOrganizationLearner);
+        expect(learners.list[0]).to.be.an.instanceOf(GenericOrganizationLearner);
         expect(learners.list).to.deep.equal([
-          new CommonOrganizationLearner({
+          new GenericOrganizationLearner({
             firstName: 'Tomie',
             lastName: 'Katana',
             organizationId,
@@ -121,7 +121,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
       });
 
       it('should return multiple learners', function () {
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
         const learnerAttributes2 = {
           prénom: 'Mieto',
@@ -137,7 +137,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
       });
 
       it('should return null for an attribute that is an empty string', function () {
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
         learnerSet.addLearners([{ ...learnerAttributes, group: '' }]);
 
@@ -147,11 +147,11 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
     describe('update learner context', function () {
       it('return learner to update', function () {
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
         learnerSet.addLearners([learnerAttributes]);
 
-        const learnerFromDB1 = new CommonOrganizationLearner({
+        const learnerFromDB1 = new GenericOrganizationLearner({
           id: 666,
           userId: 24,
           firstName: 'Tomie',
@@ -193,7 +193,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           },
         };
 
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
         const newLearnerAttributes = {
           prénom: 'Tomie',
@@ -204,7 +204,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
         learnerSet.addLearners([newLearnerAttributes]);
 
-        const learnerFromDB1 = new CommonOrganizationLearner({
+        const learnerFromDB1 = new GenericOrganizationLearner({
           id: 666,
           userId: 24,
           firstName: 'Tomie',
@@ -219,9 +219,9 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         const learners = learnerSet.learners;
 
         expect(learners.list).to.lengthOf(1);
-        expect(learners.list[0]).to.be.an.instanceOf(CommonOrganizationLearner);
+        expect(learners.list[0]).to.be.an.instanceOf(GenericOrganizationLearner);
         expect(learners.list).to.deep.equal([
-          new CommonOrganizationLearner({
+          new GenericOrganizationLearner({
             firstName: 'Tomie',
             lastName: 'Katana',
             id: 666,
@@ -235,7 +235,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
       it('return distinct list of learner to create or update', function () {
         importFormat.config.unicityColumns = ['prénom', 'group'];
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
         const learnerAttributes2 = {
           prénom: 'Edgar',
@@ -245,7 +245,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         };
         learnerSet.addLearners([learnerAttributes, learnerAttributes2]);
 
-        const learnerFromDB = new CommonOrganizationLearner({
+        const learnerFromDB = new GenericOrganizationLearner({
           id: 777,
           userId: 42,
           firstName: 'Edgar',
@@ -285,7 +285,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
       });
 
       it('should default existingLearners to empty array when setExistingLearners is called without argument', function () {
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
         learnerSet.addLearners([learnerAttributes]);
         learnerSet.setExistingLearners();
@@ -312,7 +312,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             },
           };
 
-          const errors = await catchErr(ImportOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
+          const errors = await catchErr(GenericOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
 
           expect(errors).lengthOf(1);
           expect(errors[0]).instanceOf(ImportLearnerConfigurationError);
@@ -336,7 +336,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             },
           };
 
-          const errors = await catchErr(ImportOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
+          const errors = await catchErr(GenericOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
 
           expect(errors).lengthOf(1);
           expect(errors[0]).instanceOf(ImportLearnerConfigurationError);
@@ -359,7 +359,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             },
           };
 
-          const errors = await catchErr(ImportOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
+          const errors = await catchErr(GenericOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
 
           expect(errors).lengthOf(2);
           expect(errors[0]).instanceOf(ImportLearnerConfigurationError);
@@ -387,7 +387,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             },
           };
 
-          const errors = await catchErr(ImportOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
+          const errors = await catchErr(GenericOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
 
           expect(errors).lengthOf(1);
           expect(errors[0]).instanceOf(ImportLearnerConfigurationError);
@@ -398,7 +398,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         it('should throw an error when unicity rules is empty', async function () {
           importFormat.config.unicityColumns = [];
 
-          const errors = await catchErr(ImportOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
+          const errors = await catchErr(GenericOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
 
           expect(errors).lengthOf(1);
           expect(errors[0]).instanceOf(ImportLearnerConfigurationError);
@@ -407,7 +407,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
 
         it('should throw unicity errors on one attribute', async function () {
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes, learnerAttributes]);
 
@@ -421,7 +421,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         it('should throw unicity errors on multiple attributes', async function () {
           importFormat.config.unicityColumns = ['prénom', 'group'];
 
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes, learnerAttributes]);
 
@@ -435,7 +435,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         it('should not throw unicity errors when all unicity attributes are differents', async function () {
           importFormat.config.unicityColumns = ['prénom', 'group'];
 
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const secondLearnerAttributes = { ...learnerAttributes, group: 'cheese' };
 
@@ -444,7 +444,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
         it('should falsely detect duplicates when column values contain the separator "-" (known limitation)', async function () {
           importFormat.config.unicityColumns = ['prénom', 'group'];
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const learner1 = { ...learnerAttributes, prénom: 'a-b', group: 'c' };
           const learner2 = { ...learnerAttributes, prénom: 'a', group: 'b-c' };
@@ -469,13 +469,13 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
 
         it('when the date respect the format, should not throw an error', async function () {
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           expect(() => learnerSet.addLearners([{ ...learnerAttributes, birthdate: '2026-03-06' }])).to.not.throw();
         });
 
         it('should throw date error when the format is not respected', async function () {
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
@@ -490,7 +490,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
 
         it('should throw date error when the format is not possible', async function () {
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
@@ -506,7 +506,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
 
         it('should throw a field_required error when a required field is missing', async function () {
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(learnerSet.addLearners, learnerSet)([{ ...learnerAttributes }]);
 
@@ -525,7 +525,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             formats: [{ name: 'cycle', type: 'string', expectedValues: ['Cycle III'], required: true }],
           };
 
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           expect(() => learnerSet.addLearners([{ ...learnerAttributes, cycle: 'Cycle III' }])).to.not.throw();
         });
@@ -539,7 +539,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
               config: { validate: { type: 'string', expectedValues: ['CM1', 'CM2'], required: true } },
             },
           ];
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
@@ -565,7 +565,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             ...importFormat.config.headers,
             { name: 'code', config: { validate: { type: 'string', min: 2, required: true } } },
           ];
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           expect(() => learnerSet.addLearners([{ ...learnerAttributes, code: 'ABC' }])).to.not.throw();
         });
@@ -575,7 +575,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             ...importFormat.config.headers,
             { name: 'code', config: { validate: { type: 'string', min: 3, required: true } } },
           ];
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(learnerSet.addLearners, learnerSet)([{ ...learnerAttributes, code: 'AB' }]);
 
@@ -592,7 +592,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             ...importFormat.config.headers,
             { name: 'code', config: { validate: { type: 'string', max: 5, required: true } } },
           ];
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           expect(() => learnerSet.addLearners([{ ...learnerAttributes, code: 'ABC' }])).to.not.throw();
         });
@@ -602,7 +602,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             ...importFormat.config.headers,
             { name: 'code', config: { validate: { type: 'string', max: 3, required: true } } },
           ];
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(learnerSet.addLearners, learnerSet)([{ ...learnerAttributes, code: 'ABCDE' }]);
 
@@ -621,7 +621,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             ...importFormat.config.headers,
             { name: 'codePays', config: { validate: { type: 'string', length: 5, required: true } } },
           ];
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           expect(() => learnerSet.addLearners([{ ...learnerAttributes, codePays: '99100' }])).to.not.throw();
         });
@@ -631,7 +631,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             ...importFormat.config.headers,
             { name: 'codePays', config: { validate: { type: 'string', length: 5, required: true } } },
           ];
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
@@ -656,7 +656,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
               config: { validate: { type: 'string', regexp: '/9{2}[1-5]{1}[0-9]{2}/', required: true } },
             },
           ];
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           expect(() => learnerSet.addLearners([{ ...learnerAttributes, codePays: '99100' }])).to.not.throw();
         });
@@ -669,7 +669,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
               config: { validate: { type: 'string', regexp: '/9{2}[1-5]{1}[0-9]{2}/', required: true } },
             },
           ];
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
@@ -708,7 +708,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
 
         it('when the condition matches and the then-required field is present and valid, should not throw', function () {
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           expect(() =>
             learnerSet.addLearners([{ ...learnerAttributes, codePays: '99100', codeCommune: '75056' }]),
@@ -716,7 +716,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
 
         it('when the condition does not match and codeCommune is absent, should not throw', function () {
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           expect(() =>
             learnerSet.addLearners([{ ...learnerAttributes, codePays: '99200', codeCommune: undefined }]),
@@ -724,7 +724,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
 
         it('when the condition matches and the then-required field is absent, should throw FIELD_REQUIRED', async function () {
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
@@ -739,7 +739,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
 
         it('when the condition matches and the then-required field fails length, should throw FIELD_STRING_LENGTH', async function () {
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
@@ -773,7 +773,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
               },
             };
           });
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
@@ -806,7 +806,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             group: 'Solo',
           };
 
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
@@ -842,7 +842,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             group: 'Solo',
           };
 
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+          const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
@@ -873,7 +873,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           },
         ];
 
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
         learnerSet.addLearners([{ ...learnerAttributes, birthdate: '2026/03/06' }]);
 
@@ -897,7 +897,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
         importFormat.config.headers.push({ name: 'marriage' });
 
-        const learnerSet = new ImportOrganizationLearnerSet({
+        const learnerSet = new GenericOrganizationLearnerSet({
           organizationId,
           importFormat,
         });
@@ -913,14 +913,14 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
     context('edge cases', function () {
       it('should do nothing and not throw when called with an empty array', function () {
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
         expect(() => learnerSet.addLearners([])).to.not.throw();
         expect(learnerSet.learners.list).to.be.empty;
       });
 
       it('should accumulate learners across multiple addLearners calls', function () {
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+        const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
         const learner2 = { ...learnerAttributes, prénom: 'Mieto', nom: 'Nataka' };
 
         learnerSet.addLearners([learnerAttributes]);
@@ -933,7 +933,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
   describe('learners getter', function () {
     it('should return empty list and existinglearnerIds before any addLearners call', function () {
-      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+      const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
       expect(learnerSet.learners.list).to.be.empty;
       expect(learnerSet.learners.existinglearnerIds).to.be.empty;
@@ -942,7 +942,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
   describe('#filtersAvailableValues', function () {
     it('should return an empty array when no header is filterable', function () {
-      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+      const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
       learnerSet.addLearners([learnerAttributes]);
 
       expect(learnerSet.filtersAvailableValues).to.deep.equal([]);
@@ -958,7 +958,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           },
         },
       ];
-      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+      const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
       learnerSet.addLearners([{ ...learnerAttributes, group: 'A' }]);
 
       expect(learnerSet.filtersAvailableValues).to.deep.equal([]);
@@ -974,7 +974,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           },
         },
       ];
-      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+      const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
       learnerSet.addLearners([
         { ...learnerAttributes, group: 'A' },
         { ...learnerAttributes, prénom: 'Mieto', group: 'B' },
@@ -1002,7 +1002,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           },
         },
       ];
-      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+      const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
       learnerSet.addLearners([
         { ...learnerAttributes, group: 'A', status: 'active' },
         { ...learnerAttributes, prénom: 'Mieto', group: 'B', status: 'active' },
@@ -1026,7 +1026,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           },
         },
       ];
-      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+      const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
       learnerSet.addLearners([{ ...learnerAttributes, CATEGORY: 'Solo' }]);
 
       expect(learnerSet.filtersAvailableValues).to.deep.equal([
@@ -1045,7 +1045,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         },
         { name: 'nom', config: { property: 'lastName' } },
       ];
-      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+      const learnerSet = GenericOrganizationLearnerSet.buildSet({ organizationId, importFormat });
       learnerSet.addLearners([
         { prénom: 'Tomie', nom: 'Katana' },
         { prénom: 'Mieto', nom: 'Nataka' },

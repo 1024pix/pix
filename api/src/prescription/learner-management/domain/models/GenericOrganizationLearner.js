@@ -1,6 +1,6 @@
 import { ReconcileLearnerFromGenericImportError } from '../errors.js';
 
-class CommonOrganizationLearner {
+class GenericOrganizationLearner {
   constructor({ id, userId, lastName, firstName, organizationId, ...attributes } = {}) {
     this.lastName = lastName;
     this.firstName = firstName;
@@ -32,4 +32,4 @@ class CommonOrganizationLearner {
     this.userId = userId;
   }
 }
-export { CommonOrganizationLearner };
+export { GenericOrganizationLearner };

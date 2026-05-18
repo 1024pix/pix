@@ -242,7 +242,7 @@ describe('Unit | Infrastructure | GenericParser', function () {
         expect(call).to.not.throw();
       });
 
-      it('should return CommonOrganizationLearner from CSV', function () {
+      it('should return GenericOrganizationLearner from CSV', function () {
         // given
         const input = `prénom;nom
         Godzilla;King of monsters
