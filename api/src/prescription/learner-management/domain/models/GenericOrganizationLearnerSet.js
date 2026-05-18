@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/domain/errors.js';
 import { convertDateValue } from '../../../../shared/infrastructure/utils/date-utils.js';
 import { GenericOrganizationLearner } from '../models/GenericOrganizationLearner.js';
-import { validateCommonOrganizationLearner } from '../validators/common-organization-learner-validator.js';
+import { validateGenericOrganizationLearner } from '../validators/generic-organization-learner-validator.js';
 import { GenericOrganizationLearnerFilter } from './GenericOrganizationLearnerFilter.js';
 
 class GenericOrganizationLearnerSet {
@@ -241,7 +241,7 @@ class GenericOrganizationLearnerSet {
     }
 
     if (this.#validationRuleList.length > 0) {
-      const validationErrors = validateCommonOrganizationLearner(learner, this.#validationRuleList);
+      const validationErrors = validateGenericOrganizationLearner(learner, this.#validationRuleList);
 
       if (validationErrors) {
         errors.push(...validationErrors);

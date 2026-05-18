@@ -34,7 +34,7 @@ describe('Unit | Prescription | Application | Jobs | ValidateGenericFileJobContr
 
   describe('#handle', function () {
     it('should call usecase', async function () {
-      sinon.stub(usecases, 'validateOrganizationLearnersFile');
+      sinon.stub(usecases, 'validateGenericFile');
       // given
       const handler = new ValidateGenericFileJobController();
       const data = { organizationImportId: Symbol('organizationImportId') };
@@ -43,14 +43,14 @@ describe('Unit | Prescription | Application | Jobs | ValidateGenericFileJobContr
       await handler.handle({ data });
 
       // then
-      expect(usecases.validateOrganizationLearnersFile).to.have.been.calledOnceWithExactly({
+      expect(usecases.validateGenericFile).to.have.been.calledOnceWithExactly({
         organizationImportId: data.organizationImportId,
       });
     });
 
     it('should not throw when error is from domain', async function () {
       const error = new S3FileDoesNotExistError();
-      sinon.stub(usecases, 'validateOrganizationLearnersFile').rejects(error);
+      sinon.stub(usecases, 'validateGenericFile').rejects(error);
 
       // given
       const warnStub = sinon.stub();
@@ -66,7 +66,7 @@ describe('Unit | Prescription | Application | Jobs | ValidateGenericFileJobContr
 
     it('should throw when error is not from domain', async function () {
       const error = new Error();
-      sinon.stub(usecases, 'validateOrganizationLearnersFile').rejects(error);
+      sinon.stub(usecases, 'validateGenericFile').rejects(error);
 
       // given
       const handler = new ValidateGenericFileJobController();

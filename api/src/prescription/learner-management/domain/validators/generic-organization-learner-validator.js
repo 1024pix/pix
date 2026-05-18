@@ -29,7 +29,7 @@ function buildStringSchema({ required, min, max, length, regexp } = {}) {
   return schema;
 }
 
-const validateCommonOrganizationLearner = function (commonOrganizationLearner, validationFormatRules) {
+const validateGenericOrganizationLearner = function (commonOrganizationLearner, validationFormatRules) {
   const customAttributeRule = {};
   validationFormatRules?.forEach(
     ({ name, type, format, required, min, max, length, regexp, expectedValues, conditional }) => {
@@ -70,4 +70,4 @@ const validateCommonOrganizationLearner = function (commonOrganizationLearner, v
   }
 };
 
-export { validateCommonOrganizationLearner };
+export { validateGenericOrganizationLearner };

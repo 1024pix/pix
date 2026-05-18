@@ -1,11 +1,11 @@
-import { validateCommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/validators/common-organization-learner-validator.js';
+import { validateGenericOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/validators/generic-organization-learner-validator.js';
 import { ModelValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Common Organization Learner Validator', function () {
   context('When learner is correct', function () {
     it('should return an empty array', function () {
-      const errors = validateCommonOrganizationLearner({ prénom: 'Godzilla' }, [
+      const errors = validateGenericOrganizationLearner({ prénom: 'Godzilla' }, [
         {
           name: 'nom',
           type: 'string',
@@ -19,7 +19,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
   context('When attribute is a string type', function () {
     context('required cases', function () {
       it('when missing attributes, throws an error', async function () {
-        const errors = validateCommonOrganizationLearner({ prénom: 'Aldana' }, [
+        const errors = validateGenericOrganizationLearner({ prénom: 'Aldana' }, [
           {
             name: 'nom',
             type: 'string',
@@ -33,7 +33,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
       });
 
       it('when attributes is not required, not throws', async function () {
-        const errors = validateCommonOrganizationLearner({}, [
+        const errors = validateGenericOrganizationLearner({}, [
           {
             name: 'nom',
             type: 'string',
@@ -46,7 +46,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('min length', function () {
       it('when min length reach, not throws', async function () {
-        const errors = validateCommonOrganizationLearner({ nom: 'abcdefg' }, [
+        const errors = validateGenericOrganizationLearner({ nom: 'abcdefg' }, [
           {
             name: 'nom',
             type: 'string',
@@ -59,7 +59,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
       });
 
       it('when min length not reach, throws', async function () {
-        const errors = validateCommonOrganizationLearner({ nom: 'A' }, [
+        const errors = validateGenericOrganizationLearner({ nom: 'A' }, [
           {
             name: 'nom',
             type: 'string',
@@ -77,7 +77,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('max length', function () {
       it('when min length reach, not throws', async function () {
-        const errors = validateCommonOrganizationLearner({ nom: 'abcdefg' }, [
+        const errors = validateGenericOrganizationLearner({ nom: 'abcdefg' }, [
           {
             name: 'nom',
             type: 'string',
@@ -93,7 +93,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
       });
 
       it('when min length not reach, throws', async function () {
-        const errors = validateCommonOrganizationLearner({ nom: 'A' }, [
+        const errors = validateGenericOrganizationLearner({ nom: 'A' }, [
           {
             name: 'nom',
             type: 'string',
@@ -108,7 +108,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('length', function () {
       it('when length matches, not throws', async function () {
-        const errors = validateCommonOrganizationLearner({ nom: 'ABC' }, [
+        const errors = validateGenericOrganizationLearner({ nom: 'ABC' }, [
           {
             name: 'nom',
             type: 'string',
@@ -121,7 +121,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
       });
 
       it('when length does not match, throws', async function () {
-        const errors = validateCommonOrganizationLearner({ nom: 'AB' }, [
+        const errors = validateGenericOrganizationLearner({ nom: 'AB' }, [
           {
             name: 'nom',
             type: 'string',
@@ -139,7 +139,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('regexp', function () {
       it('when value matches pattern, not throws', async function () {
-        const errors = validateCommonOrganizationLearner({ nom: 'ABC123' }, [
+        const errors = validateGenericOrganizationLearner({ nom: 'ABC123' }, [
           {
             name: 'nom',
             type: 'string',
@@ -152,7 +152,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
       });
 
       it('when value does not match pattern, throws', async function () {
-        const errors = validateCommonOrganizationLearner({ nom: 'abc!' }, [
+        const errors = validateGenericOrganizationLearner({ nom: 'abc!' }, [
           {
             name: 'nom',
             type: 'string',
@@ -171,7 +171,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
     context('When a specific value is required', function () {
       it('Should throw an error if the value do not corresponding to the expected value', async function () {
         const expectedValues = ['Theotime', 'Theo-a-pas-le-time'];
-        const errors = validateCommonOrganizationLearner({ nom: 'abcdefg' }, [
+        const errors = validateGenericOrganizationLearner({ nom: 'abcdefg' }, [
           {
             name: 'nom',
             type: 'string',
@@ -188,7 +188,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
       it('Should not throw an error if the value corresponding to the expected value', async function () {
         const expectedValues = ['Theotime', 'Theo-a-pas-le-time'];
-        const errors = validateCommonOrganizationLearner({ nom: 'Theotime' }, [
+        const errors = validateGenericOrganizationLearner({ nom: 'Theotime' }, [
           {
             name: 'nom',
             type: 'string',
@@ -203,7 +203,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
   context('When attribute has a conditional rule', function () {
     it('when condition is met, applies then schema', async function () {
-      const errors = validateCommonOrganizationLearner({ type: 'pro', nom: '' }, [
+      const errors = validateGenericOrganizationLearner({ type: 'pro', nom: '' }, [
         {
           name: 'nom',
           type: 'string',
@@ -223,7 +223,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
     });
 
     it('when condition is not met, applies otherwise schema', async function () {
-      const errors = validateCommonOrganizationLearner({ type: 'student', nom: '' }, [
+      const errors = validateGenericOrganizationLearner({ type: 'student', nom: '' }, [
         {
           name: 'nom',
           type: 'string',
@@ -243,7 +243,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
   context('When attribute is a date', function () {
     context('when birthdate is not conform', function () {
       it('throws an error', async function () {
-        const errors = validateCommonOrganizationLearner({ birthdate: '500-13-58' }, [
+        const errors = validateGenericOrganizationLearner({ birthdate: '500-13-58' }, [
           {
             name: 'birthdate',
             type: 'date',
@@ -260,7 +260,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('when birthdate is not a date', function () {
       it('throws an error', async function () {
-        const errors = validateCommonOrganizationLearner({ birthdate: 'i`m not a date' }, [
+        const errors = validateGenericOrganizationLearner({ birthdate: 'i`m not a date' }, [
           {
             name: 'birthdate',
             type: 'date',
@@ -278,7 +278,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('when birthdate has not a valid format', function () {
       it('throws an error', function () {
-        const errors = validateCommonOrganizationLearner({ birthdate: '2020/03/19' }, [
+        const errors = validateGenericOrganizationLearner({ birthdate: '2020/03/19' }, [
           {
             name: 'birthdate',
             type: 'date',
@@ -295,7 +295,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('when birthdate does not exist ', function () {
       it('throws an error', function () {
-        const errors = validateCommonOrganizationLearner({}, [
+        const errors = validateGenericOrganizationLearner({}, [
           {
             name: 'birthdate',
             type: 'date',
@@ -312,7 +312,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('when birthdate presence is optional', function () {
       it('should not throw an error', function () {
-        const errors = validateCommonOrganizationLearner({}, [
+        const errors = validateGenericOrganizationLearner({}, [
           {
             name: 'birthdate',
             type: 'date',
