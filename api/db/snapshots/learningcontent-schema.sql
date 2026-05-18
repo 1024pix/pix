@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict CAU8TcOFFUe3iQcxJ7COPgHfZAuyXIoSvStBybAcU1kupYDo5BJllYfUVdDjaOu
+\restrict mWQJIBXfzVJKdYxC8X6hDQwmb5OMzwn4ymdZGBvYoJOKQnfvPeRrOpnd1AaxoUd
 
 -- Dumped from database version 16.9
 -- Dumped by pg_dump version 16.13 (Ubuntu 16.13-0ubuntu0.24.04.1)
@@ -25,9 +25,9 @@ SET row_security = off;
 CREATE DATABASE pix WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.utf8';
 
 
-\unrestrict CAU8TcOFFUe3iQcxJ7COPgHfZAuyXIoSvStBybAcU1kupYDo5BJllYfUVdDjaOu
+\unrestrict mWQJIBXfzVJKdYxC8X6hDQwmb5OMzwn4ymdZGBvYoJOKQnfvPeRrOpnd1AaxoUd
 \connect pix
-\restrict CAU8TcOFFUe3iQcxJ7COPgHfZAuyXIoSvStBybAcU1kupYDo5BJllYfUVdDjaOu
+\restrict mWQJIBXfzVJKdYxC8X6hDQwmb5OMzwn4ymdZGBvYoJOKQnfvPeRrOpnd1AaxoUd
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -188,6 +188,98 @@ CREATE TABLE learningcontent.missions (
 
 
 --
+-- Name: modules; Type: TABLE; Schema: learningcontent; Owner: -
+--
+
+CREATE TABLE learningcontent.modules (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    "shortId" character varying(8) NOT NULL,
+    slug character varying(100) NOT NULL,
+    title character varying(255) NOT NULL,
+    "isBeta" boolean DEFAULT true NOT NULL,
+    visibility character varying(255) NOT NULL,
+    image text NOT NULL,
+    description text NOT NULL,
+    duration integer NOT NULL,
+    level character varying(255) NOT NULL,
+    "tabletSupport" character varying(255) NOT NULL,
+    objectives text[] NOT NULL,
+    sections jsonb NOT NULL,
+    glossary jsonb DEFAULT '[]'::jsonb NOT NULL
+);
+
+
+--
+-- Name: COLUMN modules."shortId"; Type: COMMENT; Schema: learningcontent; Owner: -
+--
+
+COMMENT ON COLUMN learningcontent.modules."shortId" IS 'used for permanent url';
+
+
+--
+-- Name: COLUMN modules.slug; Type: COMMENT; Schema: learningcontent; Owner: -
+--
+
+COMMENT ON COLUMN learningcontent.modules.slug IS 'used for user-friendly url';
+
+
+--
+-- Name: COLUMN modules."isBeta"; Type: COMMENT; Schema: learningcontent; Owner: -
+--
+
+COMMENT ON COLUMN learningcontent.modules."isBeta" IS 'draft status of the module';
+
+
+--
+-- Name: COLUMN modules.visibility; Type: COMMENT; Schema: learningcontent; Owner: -
+--
+
+COMMENT ON COLUMN learningcontent.modules.visibility IS 'controls visibility in trainings configuration';
+
+
+--
+-- Name: COLUMN modules.image; Type: COMMENT; Schema: learningcontent; Owner: -
+--
+
+COMMENT ON COLUMN learningcontent.modules.image IS 'url';
+
+
+--
+-- Name: COLUMN modules.description; Type: COMMENT; Schema: learningcontent; Owner: -
+--
+
+COMMENT ON COLUMN learningcontent.modules.description IS 'may contain html content';
+
+
+--
+-- Name: COLUMN modules.duration; Type: COMMENT; Schema: learningcontent; Owner: -
+--
+
+COMMENT ON COLUMN learningcontent.modules.duration IS 'duration of the module in minutes';
+
+
+--
+-- Name: COLUMN modules."tabletSupport"; Type: COMMENT; Schema: learningcontent; Owner: -
+--
+
+COMMENT ON COLUMN learningcontent.modules."tabletSupport" IS 'convenientness level of module reading on small screens';
+
+
+--
+-- Name: COLUMN modules.objectives; Type: COMMENT; Schema: learningcontent; Owner: -
+--
+
+COMMENT ON COLUMN learningcontent.modules.objectives IS 'objectives of the module. May contain html content';
+
+
+--
+-- Name: COLUMN modules.sections; Type: COMMENT; Schema: learningcontent; Owner: -
+--
+
+COMMENT ON COLUMN learningcontent.modules.sections IS 'main content of the module';
+
+
+--
 -- Name: skills; Type: TABLE; Schema: learningcontent; Owner: -
 --
 
@@ -303,6 +395,22 @@ ALTER TABLE ONLY learningcontent.missions
 
 
 --
+-- Name: modules modules_pkey; Type: CONSTRAINT; Schema: learningcontent; Owner: -
+--
+
+ALTER TABLE ONLY learningcontent.modules
+    ADD CONSTRAINT modules_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: modules modules_shortid_unique; Type: CONSTRAINT; Schema: learningcontent; Owner: -
+--
+
+ALTER TABLE ONLY learningcontent.modules
+    ADD CONSTRAINT modules_shortid_unique UNIQUE ("shortId");
+
+
+--
 -- Name: skills skills_pkey; Type: CONSTRAINT; Schema: learningcontent; Owner: -
 --
 
@@ -338,5 +446,5 @@ ALTER TABLE ONLY learningcontent.tutorials
 -- PostgreSQL database dump complete
 --
 
-\unrestrict CAU8TcOFFUe3iQcxJ7COPgHfZAuyXIoSvStBybAcU1kupYDo5BJllYfUVdDjaOu
+\unrestrict mWQJIBXfzVJKdYxC8X6hDQwmb5OMzwn4ymdZGBvYoJOKQnfvPeRrOpnd1AaxoUd
 
