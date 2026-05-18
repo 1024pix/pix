@@ -4,6 +4,8 @@ import { service } from '@ember/service';
 import ENV from 'pix-orga/config/environment';
 import { formats } from 'pix-orga/ember-intl';
 
+const translations = import.meta.glob('/translations/*.json');
+
 export default class ApplicationRoute extends Route {
   @service store;
   @service featureToggles;
@@ -39,6 +41,13 @@ export default class ApplicationRoute extends Route {
     await this.oidcIdentityProviders.load().catch();
 
     await this.dayjsLocaleLoader.load(this.locale.currentLanguage);
+    const loader = translations[`/translations/${this.locale.currentLanguage}.json`];
+    if (!loader) {
+      throw new Error(`Missing locale: ${this.locale.currentLanguage}`);
+    }
+    const mod = await loader();
+    this.intl.addTranslations(this.locale.currentLanguage, mod.default);
+    this.intl.setLocale([this.locale.currentLanguage]);
   }
 
   async model() {
