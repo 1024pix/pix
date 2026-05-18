@@ -7,10 +7,9 @@
  * @param{OrganizationLearnerRepository} organizationLearnerRepository
  * @returns {Promise<number[]>}
  */
-const findOrganizationLearnersBeforeImportFeature = async function ({ organizationId, organizationLearnerRepository }) {
-  return organizationLearnerRepository.findOrganizationLearnerIdsBeforeImportFeatureFromOrganizationId({
+const findOrganizationLearnersBeforeImportFeature = async ({ organizationId, organizationLearnerRepository }) =>
+  await organizationLearnerRepository.findOrganizationLearnerIdsBeforeImportFeatureFromOrganizationId({
     organizationId,
   });
-};
 
 export { findOrganizationLearnersBeforeImportFeature };

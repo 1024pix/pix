@@ -1,5 +1,4 @@
-const getOrganizationLearnerFilters = async function ({ organizationId, organizationLearnerFilterRepository }) {
-  return organizationLearnerFilterRepository.findByOrganizationId(organizationId);
-};
+const getOrganizationLearnerFilters = async ({ organizationId, organizationLearnerFilterRepository }) =>
+  await organizationLearnerFilterRepository.findByOrganizationId(organizationId);
 
 export { getOrganizationLearnerFilters };

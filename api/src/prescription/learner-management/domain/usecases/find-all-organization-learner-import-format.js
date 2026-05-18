@@ -1,4 +1,4 @@
 const findAllOrganizationLearnerImportFormats = async ({ organizationLearnerImportFormatRepository }) =>
-  organizationLearnerImportFormatRepository.findAll();
+  await organizationLearnerImportFormatRepository.findAll();
 
 export { findAllOrganizationLearnerImportFormats };
