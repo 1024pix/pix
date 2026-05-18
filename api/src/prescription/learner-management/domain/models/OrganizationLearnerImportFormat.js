@@ -12,6 +12,7 @@ const organizationLearnerImportFormatSchame = Joi.object({
   createdAt: Joi.date().required(),
   createdBy: Joi.number().required(),
 });
+
 class OrganizationLearnerImportFormat {
   /**
    * @param data
@@ -30,76 +31,6 @@ class OrganizationLearnerImportFormat {
     this.createdBy = createdBy;
 
     this.#validate();
-  }
-
-  #validate() {
-    const { error } = organizationLearnerImportFormatSchame.validate(this, { abortEarly: false });
-
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details);
-    }
-  }
-
-  #sortObject = (columnA, columnB) => columnA.position - columnB.position;
-
-  get #displayable() {
-    return this.config.headers.flatMap((header) => (header?.config?.displayable ? header : [])).slice();
-  }
-
-  get reconciliationFields() {
-    return this.config.headers
-      .flatMap((header) =>
-        header?.config?.reconcile
-          ? {
-              name: header.config.reconcile.name,
-              fieldId: header.config.reconcile.fieldId,
-              position: header.config.reconcile.position,
-              type: header.config.validate.type,
-            }
-          : [],
-      )
-      .sort(this.#sortObject);
-  }
-
-  get headersName() {
-    return this.config.headers.map(({ name }) => ({ name }));
-  }
-
-  get orderedDisplayableColumns() {
-    return this.#displayable
-      .map(({ config }) => {
-        return { name: config.displayable.name, position: config.displayable.position };
-      })
-      .sort(this.#sortObject);
-  }
-
-  get orderedFilterableColumns() {
-    return this.#displayable
-      .flatMap(({ config }) =>
-        config.displayable.filterable?.type
-          ? { name: config.displayable.name, position: config.displayable.position }
-          : [],
-      )
-      .sort(this.#sortObject);
-  }
-
-  get columnsToDisplay() {
-    return this.orderedDisplayableColumns.map((column) => column?.config?.mappingColumn ?? column.name);
-  }
-
-  get filtersToDisplay() {
-    return this.orderedFilterableColumns.map((column) => column?.config?.mappingColumn ?? column.name);
-  }
-
-  get extraColumns() {
-    return this.#displayable.map((header) => {
-      const key = header.config.mappingColumn ?? header.name;
-
-      return {
-        name: header.config.displayable.name,
-        key,
-      };
-    });
   }
 
   anonymizeAttributes(attributes) {
@@ -129,14 +60,66 @@ class OrganizationLearnerImportFormat {
     return result;
   }
 
-  #setDateToFirstJanuary(date) {
-    return dayjs(date).set('date', 1).set('month', 0).format('YYYY-MM-DD');
+  get columnsToDisplay() {
+    return this.orderedDisplayableColumns.map((column) => column?.config?.mappingColumn ?? column.name);
   }
 
   get exportableColumns() {
     return this.config.headers.flatMap(({ name, config }) =>
       config?.exportable ? { columnName: config.mappingColumn ?? name } : [],
     );
+  }
+
+  get extraColumns() {
+    return this.#displayable.map((header) => {
+      const key = header.config.mappingColumn ?? header.name;
+
+      return {
+        name: header.config.displayable.name,
+        key,
+      };
+    });
+  }
+
+  get filtersToDisplay() {
+    return this.orderedFilterableColumns.map((column) => column?.config?.mappingColumn ?? column.name);
+  }
+
+  get headersName() {
+    return this.config.headers.map(({ name }) => ({ name }));
+  }
+
+  get orderedDisplayableColumns() {
+    return this.#displayable
+      .map(({ config }) => {
+        return { name: config.displayable.name, position: config.displayable.position };
+      })
+      .sort(this.#sortObject);
+  }
+
+  get orderedFilterableColumns() {
+    return this.#displayable
+      .flatMap(({ config }) =>
+        config.displayable.filterable?.type
+          ? { name: config.displayable.name, position: config.displayable.position }
+          : [],
+      )
+      .sort(this.#sortObject);
+  }
+
+  get reconciliationFields() {
+    return this.config.headers
+      .flatMap((header) =>
+        header?.config?.reconcile
+          ? {
+              name: header.config.reconcile.name,
+              fieldId: header.config.reconcile.fieldId,
+              position: header.config.reconcile.position,
+              type: header.config.validate.type,
+            }
+          : [],
+      )
+      .sort(this.#sortObject);
   }
 
   /**
@@ -166,6 +149,24 @@ class OrganizationLearnerImportFormat {
       }
       return obj;
     }, {});
+  }
+
+  get #displayable() {
+    return this.config.headers.flatMap((header) => (header?.config?.displayable ? header : [])).slice();
+  }
+
+  #setDateToFirstJanuary(date) {
+    return dayjs(date).set('date', 1).set('month', 0).format('YYYY-MM-DD');
+  }
+
+  #sortObject = (columnA, columnB) => columnA.position - columnB.position;
+
+  #validate() {
+    const { error } = organizationLearnerImportFormatSchame.validate(this, { abortEarly: false });
+
+    if (error) {
+      throw EntityValidationError.fromJoiErrors(error.details);
+    }
   }
 }
 
