@@ -1,6 +1,6 @@
 import {
-  validateFregataOrganizationLearner,
   FRANCE_COUNTRY_CODE,
+  validateFregataOrganizationLearner,
 } from '../../../../src/prescription/learner-management/domain/validators/fregata-organization-learner-validator.js';
 import { expect } from '../../../test-helper.js';
 
@@ -114,7 +114,11 @@ describe('Unit | Domain | Organization Learner validator', function () {
       });
 
       it('throw an error when birthCountryCode before birthCity', async function () {
-        const error = await validateFregataOrganizationLearner({ ...validAttributes, birthCity: '', birthCountryCode: '12345' });
+        const error = await validateFregataOrganizationLearner({
+          ...validAttributes,
+          birthCity: '',
+          birthCountryCode: '12345',
+        });
 
         expect(error[0].key).to.equal('birthCountryCode');
         expect(error[0].why).to.equal('not_valid_insee_code');
@@ -269,7 +273,11 @@ describe('Unit | Domain | Organization Learner validator', function () {
         context('when birthCountryCode equal to France', function () {
           it('respects INSEE Code, with one letter', async function () {
             try {
-              validateFregataOrganizationLearner({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '2B125' });
+              validateFregataOrganizationLearner({
+                ...validAttributes,
+                birthCountryCode: FRANCE_COUNTRY_CODE,
+                birthCityCode: '2B125',
+              });
             } catch {
               expect.fail('OrganizationLearner is valid birthCityCode respect INSEE code, like Corsica');
             }
@@ -277,7 +285,11 @@ describe('Unit | Domain | Organization Learner validator', function () {
 
           it('respects INSEE Code, only number', async function () {
             try {
-              validateFregataOrganizationLearner({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '13125' });
+              validateFregataOrganizationLearner({
+                ...validAttributes,
+                birthCountryCode: FRANCE_COUNTRY_CODE,
+                birthCityCode: '13125',
+              });
             } catch {
               expect.fail('OrganizationLearner is valid birthCityCode respect INSEE code, like Corsica');
             }
@@ -287,7 +299,11 @@ describe('Unit | Domain | Organization Learner validator', function () {
         context('when birthCountryCode not equal to France', function () {
           it('is valid with birthCityCode undefined', async function () {
             try {
-              validateFregataOrganizationLearner({ ...validAttributes, birthCountryCode: '99125', birthCityCode: undefined });
+              validateFregataOrganizationLearner({
+                ...validAttributes,
+                birthCountryCode: '99125',
+                birthCityCode: undefined,
+              });
             } catch {
               expect.fail('OrganizationLearner is valid when birthCity is undefined and birthCountry is not France');
             }
@@ -325,7 +341,10 @@ describe('Unit | Domain | Organization Learner validator', function () {
           it('throws an error with a birthCityCode of 256 characters', async function () {
             const stringOf256Char =
               'hZSJIp6WBhnZFxsnTxEQo1oSoWkRDSB8nQsbScrK9IfAmVGb1PFNdX333k6Tsn6YKHfebdRg2VryzQcY06GTm1sYIN9Y3B0uy1ZsZIFpZ3cQNLxnawaUfVQFylq1GFba9LNDowH7lISfn7HJbdf3hNawofdCbVNgRdw7ZAN8XdggDJUgyAs91GpQ6vCkrxa08AMYTI8QClkhUVazVGgwndtwN4EBG23K2AfayHKWVi6jSlPOgUrx4tgSAcxELxW2';
-            const error = await validateFregataOrganizationLearner({ ...validAttributes, birthCityCode: stringOf256Char });
+            const error = await validateFregataOrganizationLearner({
+              ...validAttributes,
+              birthCityCode: stringOf256Char,
+            });
 
             expect(error[0].key).to.equal('birthCityCode');
             expect(error[0].why).to.equal('max_length');

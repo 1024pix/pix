@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import * as url from 'node:url';
 
+import { SIECLE_ERRORS } from '../../../../../../../src/prescription/learner-management/domain/constants.js';
 import {
   AggregateImportError,
   SiecleXmlImportError,
@@ -9,7 +10,6 @@ import { SiecleParser } from '../../../../../../../src/prescription/learner-mana
 import { detectEncoding } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/detect-encoding.js';
 import { SiecleFileStreamer } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
 import { FileValidationError } from '../../../../../../../src/shared/domain/errors.js';
-import { SIECLE_ERRORS } from '../../../../../../../src/prescription/learner-management/domain/constants.js';
 import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
