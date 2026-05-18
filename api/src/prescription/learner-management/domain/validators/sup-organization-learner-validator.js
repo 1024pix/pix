@@ -58,9 +58,6 @@ const validateSupOrganizationLearner = function (supOrganizationLearner) {
     if (type === 'number.base' || type === 'number.integer') {
       err.why = 'not_an_integer';
     }
-    if (type === 'boolean.base') {
-      err.why = 'not_a_boolean';
-    }
     if (context.key === 'studentNumber' && type === 'string.pattern.base') {
       err.why = 'student_number_format';
     }

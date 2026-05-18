@@ -82,10 +82,6 @@ const validateFregataOrganizationLearner = function (organizationLearner) {
         err.why = 'bad_values';
         err.valids = context.valids;
       }
-      if (type === 'string.pattern.name') {
-        err.why = 'bad_pattern';
-        err.pattern = context.name;
-      }
       err.key = context.key;
 
       errors.push(err);
