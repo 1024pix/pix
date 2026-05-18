@@ -45,7 +45,7 @@ const validationSchema = Joi.object({
   }),
 });
 
-const checkValidation = function (organizationLearner) {
+const validateFregataOrganizationLearner = function (organizationLearner) {
   const errors = [];
   const { error } = validationSchema.validate(organizationLearner, validationConfiguration);
 
@@ -95,4 +95,4 @@ const checkValidation = function (organizationLearner) {
   return errors;
 };
 
-export { checkValidation, FRANCE_COUNTRY_CODE };
+export { validateFregataOrganizationLearner, FRANCE_COUNTRY_CODE };

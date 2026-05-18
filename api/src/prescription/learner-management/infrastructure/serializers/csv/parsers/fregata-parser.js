@@ -1,6 +1,6 @@
 import { CsvImportError, DomainError } from '../../../../../../shared/domain/errors.js';
 import { OrganizationLearner } from '../../../../domain/models/OrganizationLearner.js';
-import { checkValidation } from '../../../../domain/validators/organization-learner-validator.js';
+import { validateFregataOrganizationLearner } from '../../../../domain/validators/fregata-organization-learner-validator.js';
 import { FregataHeader } from '../headers/fregata-header.js';
 import { SharedCsvParser } from './shared-csv-parser.js';
 
@@ -29,7 +29,7 @@ class OrganizationLearnerSet {
   }
 
   _performValidation(learnerAttributes) {
-    const errors = checkValidation(learnerAttributes);
+    const errors = validateFregataOrganizationLearner(learnerAttributes);
 
     const unicityError = this._checkOrganizationLearnersUnicity(learnerAttributes.nationalIdentifier);
     if (unicityError) errors.push(unicityError);
