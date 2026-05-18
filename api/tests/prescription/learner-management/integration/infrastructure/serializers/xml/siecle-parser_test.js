@@ -8,7 +8,8 @@ import {
 import { SiecleParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
 import { detectEncoding } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/detect-encoding.js';
 import { SiecleFileStreamer } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
-import { FileValidationError, SIECLE_ERRORS } from '../../../../../../../src/shared/domain/errors.js';
+import { FileValidationError } from '../../../../../../../src/shared/domain/errors.js';
+import { SIECLE_ERRORS } from '../../../../../../../src/prescription/learner-management/domain/constants.js';
 import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 

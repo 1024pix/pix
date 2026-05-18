@@ -937,18 +937,6 @@ class WrongDateFormatError extends DomainError {
   }
 }
 
-const SIECLE_ERRORS = {
-  INE_REQUIRED: 'INE_REQUIRED',
-  INE_UNIQUE: 'INE_UNIQUE',
-  SEX_CODE_REQUIRED: 'SEX_CODE_REQUIRED',
-  BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT: 'BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT',
-  BIRTHDATE_REQUIRED: 'BIRTHDATE_REQUIRED',
-  INVALID_BIRTHDATE_FORMAT: 'INVALID_BIRTHDATE_FORMAT',
-  LAST_NAME_REQUIRED: 'LAST_NAME_REQUIRED',
-  FIRST_NAME_REQUIRED: 'FIRST_NAME_REQUIRED',
-  INVALID_CHAR_DETECTED: 'INVALID_CHAR_DETECTED',
-};
-
 class NotImplementedError extends Error {
   constructor(message = 'Not implemented error.') {
     super(message);
@@ -1170,7 +1158,6 @@ export {
   SendingEmailError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-  SIECLE_ERRORS,
   TargetProfileInvalidError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
   UnexpectedUserAccountError,
