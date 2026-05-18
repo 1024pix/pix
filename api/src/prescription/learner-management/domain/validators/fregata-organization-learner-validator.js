@@ -95,4 +95,4 @@ const validateFregataOrganizationLearner = function (organizationLearner) {
   return errors;
 };
 
-export { validateFregataOrganizationLearner, FRANCE_COUNTRY_CODE };
+export { FRANCE_COUNTRY_CODE, validateFregataOrganizationLearner };
