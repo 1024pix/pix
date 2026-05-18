@@ -18,14 +18,17 @@ export class Session {
     this.isPublished = Boolean(publishedAt);
   }
 
-  updateDateAndTime(dateTime) {
-    const year = dateTime.getFullYear();
-    const month = String(dateTime.getMonth() + 1).padStart(2, '0');
-    const day = String(dateTime.getDate()).padStart(2, '0');
-    const hours = String(dateTime.getHours()).padStart(2, '0');
-    const minutes = String(dateTime.getMinutes()).padStart(2, '0');
-
-    this.date = `${year}-${month}-${day}`;
-    this.time = `${hours}:${minutes}:00`;
+  setStartDate(timezone) {
+    if (!timezone) return;
+    try {
+      this.date = new Intl.DateTimeFormat('en-CA', {
+        timeZone: timezone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      }).format(new Date());
+    } catch {
+      // Let the date as it is
+    }
   }
 }

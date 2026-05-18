@@ -26,7 +26,7 @@ const register = async function (server) {
             },
           }),
           headers: Joi.object({
-            'accept-language': Joi.string(), // TODO: Remove 1 week after the fronts have been updated in production
+            'x-timezone': Joi.string().optional(),
           }),
           options: {
             allowUnknown: true,

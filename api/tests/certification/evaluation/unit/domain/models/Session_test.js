@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { Session } from '../../../../../../src/certification/evaluation/domain/models/Session.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -54,19 +55,52 @@ describe('Certification | Evaluation| Unit | domain | models | Session', functio
     });
   });
 
-  describe('#updateDateAndTime', function () {
-    it('sets the new date and time properties based on provided timestamp', function () {
-      const session = domainBuilder.certification.evaluation.buildSession({
-        date: '2026-01-01',
-        time: '12:00:00',
-        hasStarted: false,
+  describe('setStartDate', function () {
+    let clock;
+    const now = new Date('2022-11-28T01:00:00Z');
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    context('when a timezone is provided', function () {
+      it('updates the date according to the provided timezone', function () {
+        const session = domainBuilder.certification.evaluation.buildSession({
+          date: '2026-01-01',
+        });
+
+        session.setStartDate('America/Catamarca');
+
+        expect(session.date).to.equal('2022-11-27');
       });
+    });
 
-      // eslint-disable-next-line no-restricted-syntax
-      session.updateDateAndTime(new Date('2026-05-04T05:09:02.674+02:00'));
+    context('when no timezone is provided', function () {
+      it('leaves the date as it is', function () {
+        const session = domainBuilder.certification.evaluation.buildSession({
+          date: '2026-01-01',
+        });
 
-      expect(session.date).to.equal('2026-05-04');
-      expect(session.time).to.equal('05:09:00');
+        session.setStartDate();
+
+        expect(session.date).to.equal('2026-01-01');
+      });
+    });
+
+    context('when invalid timezone is provided', function () {
+      it('leaves the date as it is', function () {
+        const session = domainBuilder.certification.evaluation.buildSession({
+          date: '2026-01-01',
+        });
+
+        session.setStartDate('choubidou/surlagaronne');
+
+        expect(session.date).to.equal('2026-01-01');
+      });
     });
   });
 });

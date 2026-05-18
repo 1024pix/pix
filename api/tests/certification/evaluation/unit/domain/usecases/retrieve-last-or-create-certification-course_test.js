@@ -52,7 +52,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   };
 
   beforeEach(function () {
-    reconciledAt = new Date('2019-01-01T05:06:07Z');
+    reconciledAt = new Date('2026-01-01T05:06:07Z');
     clock = sinon.useFakeTimers({ now: reconciledAt, toFake: ['Date'] });
     verificationCode = Symbol('verificationCode');
 
@@ -509,7 +509,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               });
             });
 
-            it('updates the session date and time', async function () {
+            it('updates the session date', async function () {
               // given
               const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
                 id: 1,
@@ -550,11 +550,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 lang: user.lang,
                 framework: Frameworks.CORE,
               });
-              const savedCertificationCourse = domainBuilder.buildCertificationCourse({
-                ...certificationCourseToSave.toDTO(),
-                // eslint-disable-next-line no-restricted-syntax
-                createdAt: new Date('2026-05-04T09:02:02.674+02:00'),
-              });
+              const savedCertificationCourse = domainBuilder.buildCertificationCourse(
+                certificationCourseToSave.toDTO(),
+              );
               certificationCourseRepository.save
                 .withArgs({ certificationCourse: certificationCourseToSave })
                 .resolves(savedCertificationCourse);
@@ -576,6 +574,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 accessCode: 'accessCode',
                 userId: user.id,
                 locale: 'fr',
+                clientTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                 ...injectables,
               });
 
@@ -590,8 +589,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               });
               expect(sessionRepository.update).to.have.been.calledWithMatch({
                 id: 1,
-                date: '2026-05-04',
-                time: '09:02:00',
+                date: '2026-01-01',
+                time: '12:00:00',
               });
             });
 

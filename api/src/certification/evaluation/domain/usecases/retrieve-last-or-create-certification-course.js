@@ -53,6 +53,7 @@ export async function retrieveLastOrCreateCertificationCourse({
   versionApi,
   certificationBadgesService,
   verifyCertificateCodeService,
+  clientTimezone,
 }) {
   const session = await sessionRepository.get({ id: sessionId });
   if (session.accessCode !== accessCode) throw new NotFoundError('Session not found');
@@ -100,6 +101,7 @@ export async function retrieveLastOrCreateCertificationCourse({
     certificationCenterRepository,
     verifyCertificateCodeService,
     certificationBadgesService,
+    clientTimezone,
   });
 }
 
@@ -131,6 +133,7 @@ async function _preventCandidateFromRestarting(candidate, candidateRepository) {
  * @param {Session} params.session
  * @param {string} params.locale
  * @param {Candidate} params.candidate
+ * @param {string} params.clientTimezone
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {CertificationCenterRepository} params.certificationCenterRepository
  * @param {CertificationBadgesService} params.certificationBadgesService
@@ -149,6 +152,7 @@ async function _startNewCertification({
   certificationBadgesService,
   verifyCertificateCodeService,
   locale,
+  clientTimezone,
 }) {
   _validateUserLocale(locale);
 
@@ -206,6 +210,7 @@ async function _startNewCertification({
     complementaryCertificationCourseData,
     lang: locale,
     framework,
+    clientTimezone,
   });
 }
 
@@ -224,6 +229,7 @@ function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository
 
 /**
  * @param {object} params
+ * @param {string} params.clientTimezone
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {AssessmentRepository} params.assessmentRepository
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
@@ -240,6 +246,7 @@ async function _createCertificationCourse({
   complementaryCertificationCourseData,
   lang,
   framework,
+  clientTimezone,
 }) {
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
   const complementaryCertificationCourse = complementaryCertificationCourseData
@@ -274,7 +281,7 @@ async function _createCertificationCourse({
     certificationCourse.setNumberOfChallenges(certificationVersion.challengesConfiguration.maximumAssessmentLength);
 
     if (!session.hasStarted) {
-      session.updateDateAndTime(savedCertificationCourse.getCreatedAt());
+      session.setStartDate(clientTimezone);
       await sessionRepository.update(session);
     }
 
