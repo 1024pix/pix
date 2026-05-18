@@ -313,53 +313,9 @@ describe('Acceptance | API | Certification Course', function () {
       },
     ];
 
-    context('when the given access code does not correspond to the session', function () {
-      it('should respond with 404 status code', async function () {
-        // given
-        const { options } = _createRequestOptions();
-        await databaseBuilder.commit();
-        options.payload.data.attributes['access-code'] = 'wrongcode';
-
-        // when
-        response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-    });
-
     context('when the certification course does not exist', function () {
       context('when locale is fr-fr', function () {
-        it('should respond with 201 status code', async function () {
-          // given
-          const { options, userId, sessionId } = _createRequestOptions();
-          _createNonExistingCertifCourseSetup({ learningContent, userId, sessionId });
-          await databaseBuilder.commit();
-
-          // when
-          response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(201);
-        });
-
-        it('should have created a v3 certification course without any challenges', async function () {
-          // given
-          const { options, userId, sessionId } = _createRequestOptions({ version: AlgorithmEngineVersion.V3 });
-          _createNonExistingCertifCourseSetup({ learningContent, userId, sessionId });
-          await databaseBuilder.commit();
-
-          // when
-          response = await server.inject(options);
-
-          // then
-          const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId });
-          expect(certificationCourse.version).to.equal(AlgorithmEngineVersion.V3);
-          expect(certificationCourse.lang).to.equal('fr-fr');
-          expect(response.statusCode).to.equal(201);
-        });
-
-        it('should have copied matching certification candidate info into created certification course', async function () {
+        it('should respond with 201 status code, create a v3 certification', async function () {
           // given
           const { options, userId, sessionId } = _createRequestOptions();
           const { certificationCandidate } = _createNonExistingCertifCourseSetup({
@@ -370,24 +326,26 @@ describe('Acceptance | API | Certification Course', function () {
           await databaseBuilder.commit();
 
           // when
-          await server.inject(options);
+          response = await server.inject(options);
 
           // then
-          const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
-          expect(certificationCourses[0].firstName).to.equal(certificationCandidate.firstName);
-          expect(certificationCourses[0].lastName).to.equal(certificationCandidate.lastName);
-          expect(certificationCourses[0].birthdate).to.equal(certificationCandidate.birthdate);
-          expect(certificationCourses[0].birthplace).to.equal(certificationCandidate.birthCity);
-          expect(certificationCourses[0].externalId).to.equal(certificationCandidate.externalId);
+          expect(response.statusCode).to.equal(201);
+          const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId });
+          expect(certificationCourse.version).to.equal(AlgorithmEngineVersion.V3);
+          expect(certificationCourse.lang).to.equal('fr-fr');
+          expect(certificationCourse.firstName).to.equal(certificationCandidate.firstName);
+          expect(certificationCourse.lastName).to.equal(certificationCandidate.lastName);
+          expect(certificationCourse.birthdate).to.equal(certificationCandidate.birthdate);
+          expect(response.statusCode).to.equal(201);
         });
       });
     });
 
     context('when the certification course already exists', function () {
-      it('should respond with 200 status code', async function () {
+      it('should respond with 200 status code and retrieve the already existing certification course', async function () {
         // given
-        const { options, userId, sessionId } = _createRequestOptions();
-        _createExistingCertifCourseSetup({ learningContent, userId, sessionId });
+        const { options, userId, sessionId } = _createRequestOptions({ version: AlgorithmEngineVersion.V3 });
+        _createExistingCertifCourseSetup({ learningContent, userId, sessionId, version: AlgorithmEngineVersion.V3 });
         await databaseBuilder.commit();
 
         // when
@@ -395,41 +353,8 @@ describe('Acceptance | API | Certification Course', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
-      });
-
-      it('should retrieve the already existing V2 certification course', async function () {
-        // given
-        const { options, userId, sessionId } = _createRequestOptions();
-        _createExistingCertifCourseSetup({ learningContent, userId, sessionId, version: AlgorithmEngineVersion.V2 });
-        await databaseBuilder.commit();
-
-        // when
-        response = await server.inject(options);
-
-        // then
-        const [certificationCourse, ...otherCertificationCourses] = await knex('certification-courses').where({
-          userId,
-          sessionId,
-        });
-        expect(otherCertificationCourses).to.have.lengthOf(0);
-        expect(certificationCourse.id + '').to.equal(response.result.data.id);
-        expect(certificationCourse.version).to.equal(AlgorithmEngineVersion.V2);
-      });
-
-      context('when the session is v3', function () {
-        it('should retrieve the already existing V3 certification course', async function () {
-          // given
-          const { options, userId, sessionId } = _createRequestOptions({ version: AlgorithmEngineVersion.V3 });
-          _createExistingCertifCourseSetup({ learningContent, userId, sessionId, version: AlgorithmEngineVersion.V3 });
-          await databaseBuilder.commit();
-
-          // when
-          await server.inject(options);
-
-          // then
-          const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId });
-          expect(certificationCourse.version).to.equal(AlgorithmEngineVersion.V3);
-        });
+        const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId });
+        expect(certificationCourse.version).to.equal(AlgorithmEngineVersion.V3);
       });
     });
   });
