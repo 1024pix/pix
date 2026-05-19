@@ -277,17 +277,6 @@ const findByIds = async function ({ ids }) {
   );
 };
 
-const findByOrganizationId = function ({ organizationId }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  return knexConn('view-active-organization-learners')
-    .where({ organizationId })
-    .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC')
-    .then((organizationLearners) =>
-      organizationLearners.map((organizationLearner) => new OrganizationLearnerToManage(organizationLearner)),
-    );
-};
-
 const findByOrganizationIdAndUpdatedAtOrderByDivision = async function ({ organizationId, page, filter }) {
   const BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-08-15';
 
@@ -520,7 +509,6 @@ export {
   findAllLearnerWithAtLeastOneParticipationByOrganizationId,
   findAllLearnerWithAtLeastOneParticipationByOrganizationIds,
   findByIds,
-  findByOrganizationId,
   findByOrganizationIdAndBirthdate,
   findByOrganizationIdAndUpdatedAtOrderByDivision,
   findByOrganizationsWhichNeedToComputeCertificability,

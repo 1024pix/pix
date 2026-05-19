@@ -12,6 +12,7 @@ import {
   disableCommonOrganizationLearnersFromOrganizationId,
   findAllCommonLearnersFromOrganizationId,
   findAllCommonOrganizationLearnerByReconciliationInfos,
+  findByOrganizationId,
   findOrganizationLearnerIdsBeforeImportFeatureFromOrganizationId,
   findOrganizationLearnersByOrganizationIdAndLearnerIds,
   getLearnerInfo,
@@ -296,6 +297,32 @@ describe('Integration | Repository | Organization Learner Management | Organizat
     });
   });
 
+  describe('#findByOrganizationId', function () {
+    it('should return userId and nationalStudentId for non-deleted learners in the organization', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      const user = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId: user.id, nationalStudentId: 'INE1' });
+      databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId: null, nationalStudentId: 'INE2' });
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+        nationalStudentId: 'INE3',
+        deletedAt: new Date(),
+      });
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: otherOrganizationId,
+        nationalStudentId: 'INE4',
+      });
+      await databaseBuilder.commit();
+
+      const result = await DomainTransaction.execute(() => findByOrganizationId({ organizationId }));
+
+      expect(result).to.have.lengthOf(2);
+      expect(result).to.deep.include({ userId: user.id, nationalStudentId: 'INE1' });
+      expect(result).to.deep.include({ userId: null, nationalStudentId: 'INE2' });
+    });
+  });
+
   describe('#addOrUpdateOrganizationOfOrganizationLearners', function () {
     context('when there are only organizationLearners to create', function () {
       it('should create all organizationLearners', async function () {
@@ -325,11 +352,11 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
         await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([learner]));
 
-        const actual = await organizationLearnerRepository.findByOrganizationId({ organizationId });
-        expect(actual).to.have.lengthOf(1);
-        expect(actual[0].firstName).to.equal(learner.firstName);
-        expect(actual[0].lastName).to.equal(learner.lastName);
-        expect(actual[0].organizationId).to.equal(learner.organizationId);
+        const rows = await knex('organization-learners').where({ organizationId });
+        expect(rows).to.have.lengthOf(1);
+        expect(rows[0].firstName).to.equal(learner.firstName);
+        expect(rows[0].lastName).to.equal(learner.lastName);
+        expect(rows[0].organizationId).to.equal(learner.organizationId);
       });
     });
 
@@ -345,7 +372,13 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         });
         await databaseBuilder.commit();
 
-        const updated = new OrganizationLearner({ firstName: 'Boba', lastName: 'Fett', birthdate: '1986-01-05', nationalStudentId: 'INE1', organizationId });
+        const updated = new OrganizationLearner({
+          firstName: 'Boba',
+          lastName: 'Fett',
+          birthdate: '1986-01-05',
+          nationalStudentId: 'INE1',
+          organizationId,
+        });
 
         await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([updated]));
 
@@ -365,7 +398,12 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         });
         await databaseBuilder.commit();
 
-        const updated = new OrganizationLearner({ firstName: 'Alex', lastName: 'Dupont', nationalStudentId: 'INE1', organizationId });
+        const updated = new OrganizationLearner({
+          firstName: 'Alex',
+          lastName: 'Dupont',
+          nationalStudentId: 'INE1',
+          organizationId,
+        });
 
         await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([updated]));
 
@@ -377,11 +415,24 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       it('should update the organizationLearner only in the given organization', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: 'INE1', firstName: 'Lucy', organizationId });
-        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: 'INE1', firstName: 'Lucie', organizationId: otherOrganizationId });
+        databaseBuilder.factory.buildOrganizationLearner({
+          nationalStudentId: 'INE1',
+          firstName: 'Lucy',
+          organizationId,
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          nationalStudentId: 'INE1',
+          firstName: 'Lucie',
+          organizationId: otherOrganizationId,
+        });
         await databaseBuilder.commit();
 
-        const updated = new OrganizationLearner({ firstName: 'Lili', lastName: 'Dupont', nationalStudentId: 'INE1', organizationId });
+        const updated = new OrganizationLearner({
+          firstName: 'Lili',
+          lastName: 'Dupont',
+          nationalStudentId: 'INE1',
+          organizationId,
+        });
 
         await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([updated]));
 
@@ -392,10 +443,18 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       });
 
       it('should enable a disabled organization learner', async function () {
-        const { id, organizationId } = databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: 'INE1', isDisabled: true });
+        const { id, organizationId } = databaseBuilder.factory.buildOrganizationLearner({
+          nationalStudentId: 'INE1',
+          isDisabled: true,
+        });
         await databaseBuilder.commit();
 
-        const learner = new OrganizationLearner({ firstName: 'Alex', lastName: 'Dupont', nationalStudentId: 'INE1', organizationId });
+        const learner = new OrganizationLearner({
+          firstName: 'Alex',
+          lastName: 'Dupont',
+          nationalStudentId: 'INE1',
+          organizationId,
+        });
 
         await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([learner]));
 
@@ -407,13 +466,18 @@ describe('Integration | Repository | Organization Learner Management | Organizat
     context('when there are deleted organizationLearners with same nationalStudentId', function () {
       it('should create a new organizationLearner', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const learner = new OrganizationLearner({ firstName: 'Alex', lastName: 'Dupont', nationalStudentId: '1234', organizationId });
+        const learner = new OrganizationLearner({
+          firstName: 'Alex',
+          lastName: 'Dupont',
+          nationalStudentId: '1234',
+          organizationId,
+        });
         databaseBuilder.factory.buildOrganizationLearner({ ...learner, deletedAt: new Date() });
         await databaseBuilder.commit();
 
         await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([learner]));
 
-        const actual = await organizationLearnerRepository.findByOrganizationId({ organizationId });
+        const actual = await findByOrganizationId({ organizationId });
         expect(actual).to.have.lengthOf(1);
       });
     });
@@ -424,8 +488,18 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: 'INE1', organizationId });
         await databaseBuilder.commit();
 
-        const toUpdate = new OrganizationLearner({ firstName: 'Lucy', lastName: 'Granger', nationalStudentId: 'INE1', organizationId });
-        const toCreate = new OrganizationLearner({ firstName: 'Harry', lastName: 'Potter', nationalStudentId: 'INE2', organizationId });
+        const toUpdate = new OrganizationLearner({
+          firstName: 'Lucy',
+          lastName: 'Granger',
+          nationalStudentId: 'INE1',
+          organizationId,
+        });
+        const toCreate = new OrganizationLearner({
+          firstName: 'Harry',
+          lastName: 'Potter',
+          nationalStudentId: 'INE2',
+          organizationId,
+        });
 
         await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([toUpdate, toCreate]));
 
@@ -457,10 +531,21 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const id = databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: 'INE1', organizationId }).id;
         await databaseBuilder.commit();
-        await knex('organization-learners').update({ updatedAt: new Date('2019-01-01') }).where({ id });
-        const { updatedAt: before } = await knex.select('updatedAt').from('organization-learners').where({ id }).first();
+        await knex('organization-learners')
+          .update({ updatedAt: new Date('2019-01-01') })
+          .where({ id });
+        const { updatedAt: before } = await knex
+          .select('updatedAt')
+          .from('organization-learners')
+          .where({ id })
+          .first();
 
-        const updated = new OrganizationLearner({ firstName: 'Lili', lastName: 'Dupont', nationalStudentId: 'INE1', organizationId });
+        const updated = new OrganizationLearner({
+          firstName: 'Lili',
+          lastName: 'Dupont',
+          nationalStudentId: 'INE1',
+          organizationId,
+        });
 
         await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([updated]));
 

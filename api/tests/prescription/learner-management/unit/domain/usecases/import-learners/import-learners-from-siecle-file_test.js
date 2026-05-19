@@ -11,7 +11,6 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
   const organizationImportId = 1234;
   let organizationId;
   let organizationLearnerRepositoryStub;
-  let libOrganizationLearnerRepositoryStub;
   let studentRepositoryStub;
   let organizationImportRepositoryStub;
   let importStorageStub;
@@ -59,8 +58,6 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
     organizationLearnerRepositoryStub = {
       addOrUpdateOrganizationOfOrganizationLearners: sinon.stub().resolves(),
       disableAllOrganizationLearnersInOrganization: sinon.stub().resolves(),
-    };
-    libOrganizationLearnerRepositoryStub = {
       findByOrganizationId: sinon.stub().resolves([]),
     };
     studentRepositoryStub = {
@@ -77,7 +74,6 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
       importStorage: importStorageStub,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
-      libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
       studentRepository: studentRepositoryStub,
       chunkSize: 2,
     });
@@ -100,7 +96,6 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
       importStorage: importStorageStub,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
-      libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
       studentRepository: studentRepositoryStub,
       chunkSize: 2,
     });
@@ -119,7 +114,6 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
       importStorage: importStorageStub,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
-      libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
       studentRepository: studentRepositoryStub,
       logger: loggerStub,
       chunkSize: 2,

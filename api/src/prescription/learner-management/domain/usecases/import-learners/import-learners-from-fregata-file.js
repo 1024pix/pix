@@ -10,7 +10,6 @@ const { chunk } = lodash;
 const importLearnersFromFregataFile = withTransaction(async function ({
   organizationImportId,
   organizationLearnerRepository,
-  libOrganizationLearnerRepository,
   studentRepository,
   organizationImportRepository,
   importStorage,
@@ -42,12 +41,12 @@ const importLearnersFromFregataFile = withTransaction(async function ({
       nationalStudentIds: nationalStudentIdData,
     });
 
+    const existingOrganizationLearners = await organizationLearnerRepository.findByOrganizationId({ organizationId });
+    const reconciledStudents = await studentRepository.findReconciledStudentsByNationalStudentId(
+      nationalStudentIdData.filter(Boolean),
+    );
+
     for (const chunk of organizationLearnersChunks) {
-      const nationalStudentIds = chunk.map(({ nationalStudentId }) => nationalStudentId).filter(Boolean);
-      const existingOrganizationLearners = await libOrganizationLearnerRepository.findByOrganizationId({
-        organizationId,
-      });
-      const reconciledStudents = await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIds);
       const scoLearnerSet = new ScoOrganizationLearnerSet(chunk);
       const learnersToSave = scoLearnerSet.reconcile(reconciledStudents, existingOrganizationLearners);
       await organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(learnersToSave);

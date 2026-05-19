@@ -12,7 +12,6 @@ const { chunk } = lodash;
 async function importLearnersFromSiecleFile({
   organizationImportId,
   organizationLearnerRepository,
-  libOrganizationLearnerRepository,
   studentRepository,
   organizationImportRepository,
   importStorage,
@@ -42,16 +41,13 @@ async function importLearnersFromSiecleFile({
         nationalStudentIds: nationalStudentIdData,
       });
 
+      const existingOrganizationLearners = await organizationLearnerRepository.findByOrganizationId({ organizationId });
+      const reconciledStudents = await studentRepository.findReconciledStudentsByNationalStudentId(
+        nationalStudentIdData.filter(Boolean),
+      );
+
       for (const chunk of organizationLearnersChunks) {
         const organizationLearnersFromChunk = chunk.map((data) => new OrganizationLearner({ ...data, organizationId }));
-        const nationalStudentIds = organizationLearnersFromChunk
-          .map(({ nationalStudentId }) => nationalStudentId)
-          .filter(Boolean);
-        const existingOrganizationLearners = await libOrganizationLearnerRepository.findByOrganizationId({
-          organizationId,
-        });
-        const reconciledStudents =
-          await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIds);
         const scoLearnerSet = new ScoOrganizationLearnerSet(organizationLearnersFromChunk);
         const learnersToSave = scoLearnerSet.reconcile(reconciledStudents, existingOrganizationLearners);
         await organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(learnersToSave);

@@ -278,6 +278,12 @@ const findOrganizationLearnerIdsBeforeImportFeatureFromOrganizationId = async fu
   const knexConn = DomainTransaction.getConnection();
   return knexConn('view-active-organization-learners').where({ organizationId }).whereNull('attributes').pluck('id');
 };
+
+const findByOrganizationId = async function ({ organizationId }) {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('view-active-organization-learners').select('userId', 'nationalStudentId').where({ organizationId });
+};
+
 export {
   addOrUpdateOrganizationOfOrganizationLearners,
   countByUserId,
@@ -286,6 +292,7 @@ export {
   dissociateUserFromOrganizationLearner,
   findAllCommonLearnersFromOrganizationId,
   findAllCommonOrganizationLearnerByReconciliationInfos,
+  findByOrganizationId,
   findByUserId,
   findOrganizationLearnerIdsBeforeImportFeatureFromOrganizationId,
   findOrganizationLearnersByOrganizationIdAndLearnerIds,

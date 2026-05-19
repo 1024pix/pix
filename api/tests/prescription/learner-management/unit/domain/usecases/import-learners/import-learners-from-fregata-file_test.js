@@ -17,7 +17,6 @@ describe('Unit | UseCase | importLearnersFromFregataFile', function () {
     organizationImport,
     organizationImportRepositoryStub,
     organizationLearnerRepositoryStub,
-    libOrganizationLearnerRepositoryStub,
     studentRepositoryStub,
     importStorageStub,
     parserStub;
@@ -39,9 +38,6 @@ describe('Unit | UseCase | importLearnersFromFregataFile', function () {
     organizationLearnerRepositoryStub = {
       disableAllOrganizationLearnersInOrganization: sinon.stub(),
       addOrUpdateOrganizationOfOrganizationLearners: sinon.stub().resolves(),
-    };
-
-    libOrganizationLearnerRepositoryStub = {
       findByOrganizationId: sinon.stub().resolves([]),
     };
 
@@ -85,7 +81,6 @@ describe('Unit | UseCase | importLearnersFromFregataFile', function () {
         organizationImportId,
         i18n,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
-        libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
         studentRepository: studentRepositoryStub,
         organizationImportRepository: organizationImportRepositoryStub,
         importStorage: importStorageStub,
@@ -110,7 +105,6 @@ describe('Unit | UseCase | importLearnersFromFregataFile', function () {
         organizationImportId,
         i18n,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
-        libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
         studentRepository: studentRepositoryStub,
         organizationImportRepository: organizationImportRepositoryStub,
         importStorage: importStorageStub,
@@ -128,7 +122,6 @@ describe('Unit | UseCase | importLearnersFromFregataFile', function () {
         organizationImportId,
         i18n,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
-        libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
         studentRepository: studentRepositoryStub,
         organizationImportRepository: organizationImportRepositoryStub,
         importStorage: importStorageStub,
@@ -143,7 +136,6 @@ describe('Unit | UseCase | importLearnersFromFregataFile', function () {
         organizationImportId,
         i18n,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
-        libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
         studentRepository: studentRepositoryStub,
         organizationImportRepository: organizationImportRepositoryStub,
         importStorage: importStorageStub,
@@ -181,7 +173,6 @@ describe('Unit | UseCase | importLearnersFromFregataFile', function () {
         organizationImportId,
         i18n,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
-        libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
         studentRepository: studentRepositoryStub,
         organizationImportRepository: organizationImportRepositoryStub,
         importStorage: importStorageStub,
