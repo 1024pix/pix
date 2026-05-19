@@ -8,9 +8,6 @@ import { t } from 'ember-intl';
 
 import OidcProviderSelector from './oidc-provider-selector';
 
-// It will be managed through an API property in the future
-const EXCLUDED_PROVIDER_CODES = ['FWB', 'GOOGLE'];
-
 export default class SsoSelectionForm extends Component {
   @service router;
   @service oidcIdentityProviders;
@@ -20,12 +17,6 @@ export default class SsoSelectionForm extends Component {
   @action
   async onProviderChange(selectedProviderId) {
     this.selectedProviderId = selectedProviderId;
-  }
-
-  get providers() {
-    return this.oidcIdentityProviders.visibleIdentityProviders.filter(
-      (provider) => !EXCLUDED_PROVIDER_CODES.includes(provider.code),
-    );
   }
 
   get hasSelectedProvider() {
@@ -71,7 +62,10 @@ export default class SsoSelectionForm extends Component {
         {{t "common.form.mandatory-all-fields"}}
       </p>
 
-      <OidcProviderSelector @providers={{this.providers}} @onProviderChange={{this.onProviderChange}} />
+      <OidcProviderSelector
+        @providers={{this.oidcIdentityProviders.visibleIdentityProviders}}
+        @onProviderChange={{this.onProviderChange}}
+      />
 
       {{#if this.hasSelectedProvider}}
         {{#if this.shouldDisplayAccountRecoveryBanner}}

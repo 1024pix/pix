@@ -15,15 +15,21 @@ module('Integration | Component | Authentication | SsoSelectionForm', function (
     const oidcProvidersServiceStub = stubOidcIdentityProvidersService(this.owner, {
       oidcIdentityProviders: [
         { id: 'cem', slug: 'cem', code: 'CEM', organizationName: 'ConnectEtMoi', isVisible: true },
+        {
+          id: 'HIDDEN1',
+          code: 'HIDDEN1',
+          slug: 'hidden1',
+          organizationName: 'Not displayed provider 1',
+          isVisible: false,
+        },
         { id: 'sc', slug: 'sc', code: 'SC', organizationName: 'StarConnect', isVisible: true },
         { id: 'fer', slug: 'fer', code: 'FER', organizationName: 'FER', isVisible: true },
-        { id: 'hidden1', slug: 'hidden1', code: 'FWB', organizationName: 'Not displayed provider 1', isVisible: true },
         {
-          id: 'hidden2',
+          id: 'HIDDEN2',
+          code: 'HIDDEN2',
           slug: 'hidden2',
-          code: 'GOOGLE',
-          organizationName: 'Not displayed provider 2',
-          isVisible: true,
+          organizationName: 'Not displayed provider 1',
+          isVisible: false,
         },
       ],
     });
@@ -74,7 +80,7 @@ module('Integration | Component | Authentication | SsoSelectionForm', function (
     assert.strictEqual(button.getAttribute('aria-disabled'), 'true');
   });
 
-  test('it excludes some providers', async function (assert) {
+  test('it excludes not-visible providers', async function (assert) {
     // when
     const screen = await render(<template><SsoSelectionForm /></template>);
     await clickByName(t('components.authentication.oidc-provider-selector.label'));
