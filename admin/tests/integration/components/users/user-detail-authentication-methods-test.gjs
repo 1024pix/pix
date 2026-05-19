@@ -6,6 +6,7 @@ import UserDetailAuthenticationMethods from 'pix-admin/components/users/user-det
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import { stubOidcIdentityProvidersService } from '../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { waitForDialogClose } from '../../../helpers/wait-for';
 
@@ -106,16 +107,17 @@ module('Integration | Component | users | user-detail-authentication-methods', f
   module('when there is only one authentication method', function () {
     test('it should not be possible de remove the last authentication method', async function (assert) {
       // given
-      class OidcIdentityProvidersStub extends Service {
-        get list() {
-          return [
-            {
-              code: 'SUNLIGHT_NAVIGATIONS',
-              organizationName: 'Sunlight Navigations',
-            },
-          ];
-        }
-      }
+      stubOidcIdentityProvidersService(this.owner, {
+        oidcIdentityProviders: [
+          {
+            id: 'SUNLIGHT_NAVIGATIONS',
+            code: 'SUNLIGHT_NAVIGATIONS',
+            application: 'app',
+            applicationTld: '.fr',
+            organizationName: 'Sunlight Navigations',
+          },
+        ],
+      });
 
       const user = EmberObject.create({
         lastName: 'Pix',
@@ -125,14 +127,15 @@ module('Integration | Component | users | user-detail-authentication-methods', f
       });
 
       this.owner.register('service:access-control', AccessControlStub);
-      this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
       const screen = await render(<template><UserDetailAuthenticationMethods @user={{user}} /></template>);
 
       // when & then
       assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec adresse e-mail")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
-      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Sunlight Navigations")).exists();
+      assert
+        .dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Sunlight Navigations – app.pix.fr"))
+        .exists();
       assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
     });
   });

@@ -105,7 +105,7 @@ export default class AuthenticationMethod extends Component {
 
       return {
         code: oidcIdentityProvider.code,
-        name: oidcIdentityProvider.organizationName,
+        name: oidcIdentityProvider.contextualizedName,
         userHasThisOidcAuthenticationMethod,
         canBeRemovedFromUserAuthenticationMethods:
           userHasThisOidcAuthenticationMethod && this._hasMultipleAuthenticationMethods(),

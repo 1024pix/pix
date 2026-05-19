@@ -722,7 +722,10 @@ export default function routes() {
           id: 'OIDC_PARTNER',
           attributes: {
             code: 'OIDC_PARTNER',
+            application: 'app',
+            'application-tld': '.fr',
             'organization-name': 'Partenaire OIDC',
+            slug: 'oidc-partner',
             'should-close-session': false,
             source: 'oidc-externe',
           },
@@ -739,7 +742,10 @@ export default function routes() {
           id: 'OIDC_PARTNER',
           attributes: {
             code: 'OIDC_PARTNER',
+            application: 'app',
+            'application-tld': '.fr',
             'organization-name': 'Partenaire OIDC',
+            slug: 'oidc-partner',
             'should-close-session': false,
             source: 'oidc-externe',
           },

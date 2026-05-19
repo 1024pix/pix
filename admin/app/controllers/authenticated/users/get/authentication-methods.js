@@ -30,7 +30,7 @@ export default class UserAuthenticationMethodsController extends Controller {
     );
     const oidcIdentityProvider = this.oidcIdentityProviders.findByCode(identityProvider);
     const reassignedAuthenticationMethodLabel = oidcIdentityProvider
-      ? oidcIdentityProvider.organizationName
+      ? oidcIdentityProvider.contextualizedName
       : 'Médiacentre';
     try {
       await authenticationMethod.destroyRecord({

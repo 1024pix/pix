@@ -70,10 +70,12 @@ export default class OrganizationInformationSectionEditionMode extends Component
   }
 
   get identityProviderOptions() {
-    const oidcIdentityProvidersOptions = this.oidcIdentityProviders.list.map((identityProvider) => ({
-      value: identityProvider.code,
-      label: identityProvider.organizationName,
-    }));
+    const oidcIdentityProvidersOptions = this.oidcIdentityProviders.identityProvidersForPixApp.map(
+      (identityProvider) => ({
+        value: identityProvider.code,
+        label: identityProvider.contextualizedName,
+      }),
+    );
     return [this.noIdentityProviderOption, this.garIdentityProviderOption, ...oidcIdentityProvidersOptions];
   }
 

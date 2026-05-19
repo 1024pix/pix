@@ -7,6 +7,7 @@ import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import { stubOidcIdentityProvidersService } from '../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | organizations/information-section-view', function (hooks) {
@@ -32,10 +33,17 @@ module('Integration | Component | organizations/information-section-view', funct
 
     test('it renders general information about organization', async function (assert) {
       // given
-      class OidcIdentityProvidersStub extends Service {
-        list = [{ organizationName: 'super-sso', code: 'IDP' }];
-      }
-      this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
+      stubOidcIdentityProvidersService(this.owner, {
+        oidcIdentityProviders: [
+          {
+            id: 'IDP',
+            code: 'IDP',
+            application: 'app',
+            applicationTld: '.fr',
+            organizationName: 'super-sso',
+          },
+        ],
+      });
 
       const organization = {
         type: 'SUP',
@@ -106,7 +114,7 @@ module('Integration | Component | organizations/information-section-view', funct
         .hasText('https://pix.fr');
       assert
         .dom(screen.getByText(t('components.organizations.information-section-view.sso')).nextElementSibling)
-        .hasText('super-sso');
+        .hasText('super-sso – app.pix.fr');
       assert
         .dom(
           screen.getByText(t('components.organizations.information-section-view.organization-learner-type'))

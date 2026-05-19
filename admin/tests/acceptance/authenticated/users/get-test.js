@@ -3,7 +3,9 @@ import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
+import Location from 'pix-admin/utils/location';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntl from '../../../helpers/setup-intl';
 
@@ -118,6 +120,8 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   module('when administrator click on anonymize button and confirm modal', function () {
     test('anonymizes the user and remove all authentication methods', async function (assert) {
       // given
+      sinon.stub(Location, 'getHref').returns('https://admin.pix.fr/');
+
       this.intl = this.owner.lookup('service:intl');
       await _buildAndAuthenticateUser(this.server, {
         email: 'john.harry@example.net',
@@ -181,7 +185,9 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
-      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
+      assert
+        .dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC – app.pix.fr"))
+        .exists();
 
       // when & then #3
       await click(screen.getByRole('link', { name: 'Organisations de l’utilisateur' }));

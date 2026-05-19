@@ -7,6 +7,7 @@ import InformationSection from 'pix-admin/components/organizations/information-s
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import { stubOidcIdentityProvidersService } from '../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | organizations/information-section', function (hooks) {
@@ -126,23 +127,25 @@ module('Integration | Component | organizations/information-section', function (
     test('it should submit the form if there is no error', async function (assert) {
       // given
       const onSubmit = () => {};
-      const store = this.owner.lookup('service:store');
-      const oidcIdentityProvider1 = store.createRecord('oidc-identity-provider', {
-        code: 'OIDC-1',
-        organizationName: 'organization 1',
-        shouldCloseSession: false,
-        source: 'source1',
+
+      stubOidcIdentityProvidersService(this.owner, {
+        oidcIdentityProviders: [
+          {
+            id: 'OIDC-1',
+            code: 'OIDC-1',
+            application: 'app',
+            applicationTld: '.fr',
+            organizationName: 'organization 1',
+          },
+          {
+            id: 'OIDC-2',
+            code: 'OIDC-2',
+            application: 'app',
+            applicationTld: '.fr',
+            organizationName: 'organization 2',
+          },
+        ],
       });
-      const oidcIdentityProvider2 = store.createRecord('oidc-identity-provider', {
-        code: 'OIDC-2',
-        organizationName: 'organization 2',
-        shouldCloseSession: false,
-        source: 'source2',
-      });
-      class OidcIdentittyProvidersStub extends Service {
-        list = [oidcIdentityProvider1, oidcIdentityProvider2];
-      }
-      this.owner.register('service:oidcIdentityProviders', OidcIdentittyProvidersStub);
 
       const screen = await render(
         <template><InformationSection @organization={{organization}} @onSubmit={{onSubmit}} /></template>,
@@ -175,7 +178,7 @@ module('Integration | Component | organizations/information-section', function (
 
       await clickByName(t('components.organizations.information-section-view.sso'));
       await screen.findByRole('listbox');
-      const ssoOption = await screen.findByRole('option', { name: 'organization 2' });
+      const ssoOption = await screen.findByRole('option', { name: 'organization 2 – app.pix.fr' });
       await click(ssoOption);
 
       // when
@@ -203,7 +206,7 @@ module('Integration | Component | organizations/information-section', function (
       assert.dom(screen.getByRole('link', { name: 'https://pix.fr/' })).exists();
       assert
         .dom(screen.getByText(t('components.organizations.information-section-view.sso')).nextElementSibling)
-        .hasText('organization 2');
+        .hasText('organization 2 – app.pix.fr');
     });
 
     test('it should not submit the form if there is an error', async function (assert) {

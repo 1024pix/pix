@@ -33,13 +33,15 @@ class OrganizationDescription extends Component {
   @service intl;
 
   get identityProviderName() {
-    const GARIdentityProvider = { code: 'GAR', organizationName: 'GAR' };
-    const allIdentityProviderList = [...this.oidcIdentityProviders.list, GARIdentityProvider];
-    const identityProvider = allIdentityProviderList.find(
-      (identityProvider) => identityProvider.code === this.args.organization.identityProviderForCampaigns,
+    const identityProviderForCampaigns = this.args.organization.identityProviderForCampaigns;
+    if (identityProviderForCampaigns === 'GAR') {
+      return 'GAR';
+    }
+
+    const identityProvider = this.oidcIdentityProviders.list.find(
+      (identityProvider) => identityProvider.code === identityProviderForCampaigns,
     );
-    const identityProviderName = identityProvider?.organizationName;
-    return identityProviderName || this.intl.t('common.words.none');
+    return identityProvider?.contextualizedName ?? this.intl.t('common.words.none');
   }
 
   get dpoSectionTitle() {

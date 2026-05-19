@@ -3,11 +3,20 @@ import { click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
+import Location from 'pix-admin/utils/location';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Acceptance | authenticated/users | authentication-method', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+
+  hooks.beforeEach(function () {
+    sinon.stub(Location, 'getHref').returns('https://admin.pix.fr/');
+  });
+  hooks.afterEach(function () {
+    Location.getHref.restore();
+  });
 
   module('when adding Pix authentication method', function () {
     test("should display Pix authentication method with email's information", async function (assert) {
@@ -127,8 +136,12 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
       // then
       assert.dom(screen.getByText("La méthode de connexion a bien été déplacée vers l'utilisateur 1")).exists();
-      assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Partenaire OIDC")).exists();
-      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
+      assert
+        .dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Partenaire OIDC – app.pix.fr"))
+        .exists();
+      assert
+        .dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC – app.pix.fr"))
+        .exists();
     });
   });
 
@@ -169,7 +182,9 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       await click(screen.getByRole('button', { name: 'Valider le déplacement' }));
 
       // then
-      assert.dom(screen.getByText("L'utilisateur a déjà une méthode de connexion Partenaire OIDC")).exists();
+      assert
+        .dom(screen.getByText("L'utilisateur a déjà une méthode de connexion Partenaire OIDC – app.pix.fr"))
+        .exists();
     });
   });
 });

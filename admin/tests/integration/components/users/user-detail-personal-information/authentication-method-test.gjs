@@ -5,6 +5,7 @@ import AuthenticationMethod from 'pix-admin/components/users/user-detail-persona
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import { stubOidcIdentityProvidersService } from '../../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | users | user-detail-personal-information | authentication-method', function (hooks) {
@@ -265,30 +266,36 @@ module('Integration | Component | users | user-detail-personal-information | aut
         });
       });
 
-      module('OIDC authentication method', function () {
-        class OidcIdentityProvidersStub extends Service {
-          get list() {
-            return [
+      module('OIDC authentication method', function (hooks) {
+        hooks.beforeEach(function () {
+          stubOidcIdentityProvidersService(this.owner, {
+            oidcIdentityProviders: [
               {
+                id: 'SUNLIGHT_NAVIGATIONS',
                 code: 'SUNLIGHT_NAVIGATIONS',
+                application: 'app',
+                applicationTld: '.fr',
                 organizationName: 'Sunlight Navigations',
               },
-            ];
-          }
-        }
+            ],
+          });
+        });
 
         module('when user does not have "Sunlight Navigations" authentication method', function () {
           test('should display information', async function (assert) {
             // given
             const user = { authenticationMethods: [] };
-            this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
             // when
             const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
             // then
             assert
-              .dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Sunlight Navigations"))
+              .dom(
+                screen.getByLabelText(
+                  "L'utilisateur n'a pas de méthode de connexion Sunlight Navigations – app.pix.fr",
+                ),
+              )
               .exists();
           });
         });
@@ -302,8 +309,6 @@ module('Integration | Component | users | user-detail-personal-information | aut
               authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'SUNLIGHT_NAVIGATIONS' }],
             };
 
-            this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
-
             // when
             const screen = await render(
               <template>
@@ -314,7 +319,9 @@ module('Integration | Component | users | user-detail-personal-information | aut
               </template>,
             );
             // then
-            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations")).exists();
+            assert
+              .dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations – app.pix.fr"))
+              .exists();
             assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
             assert.strictEqual(screen.getAllByRole('button', { name: 'Supprimer' }).length, 2);
           });
@@ -325,8 +332,6 @@ module('Integration | Component | users | user-detail-personal-information | aut
               username: 'PixAile',
               authenticationMethods: [{ identityProvider: 'PIX' }],
             };
-
-            this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
             // when
             const screen = await render(
@@ -341,7 +346,7 @@ module('Integration | Component | users | user-detail-personal-information | aut
             assert.dom(screen.queryByRole('button', { name: 'Déplacer cette méthode de connexion' })).doesNotExist();
             assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
             assert.ok(
-              screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Sunlight Navigations", {
+              screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Sunlight Navigations – app.pix.fr", {
                 exact: false,
               }),
             );
@@ -362,17 +367,17 @@ module('Integration | Component | users | user-detail-personal-information | aut
         });
 
         test('it should display reassign button if it is the last authentication method', async function (assert) {
-          class OidcIdentityProvidersStub extends Service {
-            get list() {
-              return [
-                {
-                  code: 'SUNLIGHT_NAVIGATIONS',
-                  organizationName: 'Sunlight Navigations',
-                },
-              ];
-            }
-          }
-          this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
+          stubOidcIdentityProvidersService(this.owner, {
+            oidcIdentityProviders: [
+              {
+                id: 'SUNLIGHT_NAVIGATIONS',
+                code: 'SUNLIGHT_NAVIGATIONS',
+                application: 'app',
+                applicationTld: '.fr',
+                organizationName: 'Sunlight Navigations',
+              },
+            ],
+          });
 
           // given
           const user = {
@@ -385,7 +390,9 @@ module('Integration | Component | users | user-detail-personal-information | aut
 
           // then
           assert.ok(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' }));
-          assert.ok(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations"));
+          assert.ok(
+            screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations – app.pix.fr"),
+          );
         });
 
         module('When user does not have pix authentication method', function () {
