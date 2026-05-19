@@ -9,6 +9,7 @@ import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authenti
 export class OidcAuthenticationServiceRegistry {
   #allOidcProviderServices = null;
   #readyOidcProviderServicesByRequestedApplication = {};
+  #readyOidcProviderServicesByIdentityProviderCode = {};
 
   constructor(dependencies = {}) {
     this.oidcProviderRepository = dependencies.oidcProviderRepository ?? oidcProviderRepository;
@@ -36,14 +37,23 @@ export class OidcAuthenticationServiceRegistry {
   async getOidcProviderServiceByCode({ identityProviderCode, requestedApplication }) {
     await this.#loadAllOidcProviderServices();
 
-    await this.#configureReadyOidcProviderServiceByCode(identityProviderCode);
+    const key = generateGroupByKeyForIdentityProviderCode(
+      identityProviderCode,
+      requestedApplication.applicationName,
+      requestedApplication.applicationTld,
+    );
+    let oidcProviderService = this.#readyOidcProviderServicesByIdentityProviderCode[key];
+    if (oidcProviderService) {
+      return oidcProviderService;
+    }
 
     const oidcProviderServices = await this.getReadyOidcProviderServicesByRequestedApplication(requestedApplication);
-    const oidcProviderService = oidcProviderServices.find((service) => identityProviderCode === service.code);
-
+    oidcProviderService = oidcProviderServices.find((service) => identityProviderCode === service.code);
     if (!oidcProviderService) {
       throw new InvalidIdentityProviderError(identityProviderCode);
     }
+
+    await this.#configureReadyOidcProviderServiceByCode(identityProviderCode);
 
     return oidcProviderService;
   }
@@ -51,6 +61,7 @@ export class OidcAuthenticationServiceRegistry {
   async testOnly_reset(oidcProviderServices) {
     this.#allOidcProviderServices = null;
     this.#readyOidcProviderServicesByRequestedApplication = {};
+    this.#readyOidcProviderServicesByIdentityProviderCode = {};
 
     if (oidcProviderServices) {
       await this.#loadAllOidcProviderServices(oidcProviderServices);
@@ -65,6 +76,7 @@ export class OidcAuthenticationServiceRegistry {
     if (!oidcProviderService) return;
 
     await oidcProviderService.initializeClientConfig();
+    this.#readyOidcProviderServicesByIdentityProviderCode[key] = oidcProviderService;
   }
 
   async #loadAllOidcProviderServices(oidcProviderServices) {
@@ -104,4 +116,8 @@ export class OidcAuthenticationServiceRegistry {
 
 function generateGroupByKeyForRequestedApplication(application, applicationTld) {
   return application + applicationTld;
+}
+
+function generateGroupByKeyForIdentityProviderCode(identityProviderCode, application, applicationTld) {
+  return `${identityProviderCode}-${application}${applicationTld}`;
 }
