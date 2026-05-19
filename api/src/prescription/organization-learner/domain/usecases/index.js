@@ -24,6 +24,7 @@ import * as userService from '../../../../shared/domain/services/user-service.js
 import * as passwordValidator from '../../../../shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../../shared/domain/validators/user-validator.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import * as studentRepository from '../../../../shared/infrastructure/repositories/student-repository.js';
 import * as userLoginRepository from '../../../../shared/infrastructure/repositories/user-login-repository.js';
 import * as writeCsvUtils from '../../../../shared/infrastructure/utils/csv/write-csv-utils.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -34,7 +35,6 @@ import * as groupRepository from '../../../campaign/infrastructure/repositories/
 import * as campaignParticipationOverviewRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as prescriptionOrganizationLearnerRepository from '../../../learner-management/infrastructure/repositories/organization-learner-repository.js';
-import * as studentRepository from '../../../learner-management/infrastructure/repositories/student-repository.js';
 import * as analysisRepository from '../../infrastructure/repositories/analysis-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';

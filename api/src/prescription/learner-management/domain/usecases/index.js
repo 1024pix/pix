@@ -10,6 +10,7 @@ import { featureToggles } from '../../../../shared/infrastructure/feature-toggle
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import { auditLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import * as studentRepository from '../../../../shared/infrastructure/repositories/student-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
@@ -30,7 +31,6 @@ import * as organizationImportRepository from '../../infrastructure/repositories
 import * as organizationLearnerFilterRepository from '../../infrastructure/repositories/organization-learner-filter-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
-import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as supOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
 import { importStorage } from '../../infrastructure/storage/import-storage.js';
 

@@ -1,28 +1,5 @@
-import _ from 'lodash';
-
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { Student } from '../../../../shared/domain/models/Student.js';
-
-const _toStudents = function (results) {
-  const students = [];
-  const resultsGroupedByNatId = Object.groupBy(results, (result) => result.nationalStudentId);
-  for (const [nationalStudentId, accounts] of Object.entries(resultsGroupedByNatId)) {
-    const mostRelevantAccount = _.orderBy(accounts, ['certificationCount', 'updatedAt'], ['desc', 'desc'])[0];
-    students.push(
-      new Student({
-        nationalStudentId,
-        account: _.pick(mostRelevantAccount, [
-          'userId',
-          'certificationCount',
-          'organizationId',
-          'birthdate',
-          'updatedAt',
-        ]),
-      }),
-    );
-  }
-  return students;
-};
+import { DomainTransaction } from '../../domain/DomainTransaction.js';
+import { Student } from '../../domain/models/Student.js';
 
 const findReconciledStudentsByNationalStudentId = async function (nationalStudentIds) {
   const knexConn = DomainTransaction.getConnection();
@@ -48,13 +25,13 @@ const findReconciledStudentsByNationalStudentId = async function (nationalStuden
     )
     .orderBy('users.id');
 
-  return this._toStudents(results);
+  return Student.fromRawResults(results);
 };
 
 const getReconciledStudentByNationalStudentId = async function (nationalStudentId) {
-  const [result] = await this.findReconciledStudentsByNationalStudentId([nationalStudentId]);
+  const [result] = await findReconciledStudentsByNationalStudentId([nationalStudentId]);
 
   return result ?? null;
 };
 
-export { _toStudents, findReconciledStudentsByNationalStudentId, getReconciledStudentByNationalStudentId };
+export { findReconciledStudentsByNationalStudentId, getReconciledStudentByNationalStudentId };
