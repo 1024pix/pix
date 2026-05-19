@@ -26,8 +26,11 @@ export class OidcAuthenticationServiceRegistry {
   async getReadyOidcProviderServicesByRequestedApplication(requestedApplication) {
     await this.#loadAllOidcProviderServices();
 
-    const groupByKey = generateGroupByKey(requestedApplication.applicationName, requestedApplication.applicationTld);
-    return this.#readyOidcProviderServicesByRequestedApplication[groupByKey] || [];
+    const key = generateGroupByKeyForRequestedApplication(
+      requestedApplication.applicationName,
+      requestedApplication.applicationTld,
+    );
+    return this.#readyOidcProviderServicesByRequestedApplication[key] || [];
   }
 
   async getOidcProviderServiceByCode({ identityProviderCode, requestedApplication }) {
@@ -93,11 +96,12 @@ export class OidcAuthenticationServiceRegistry {
 
     this.#readyOidcProviderServicesByRequestedApplication = Object.groupBy(
       enabledOidcProviderServices,
-      (oidcProviderService) => generateGroupByKey(oidcProviderService.application, oidcProviderService.applicationTld),
+      (oidcProviderService) =>
+        generateGroupByKeyForRequestedApplication(oidcProviderService.application, oidcProviderService.applicationTld),
     );
   }
 }
 
-function generateGroupByKey(application, applicationTld) {
+function generateGroupByKeyForRequestedApplication(application, applicationTld) {
   return application + applicationTld;
 }
