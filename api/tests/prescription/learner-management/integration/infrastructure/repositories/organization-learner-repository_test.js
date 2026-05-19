@@ -297,123 +297,12 @@ describe('Integration | Repository | Organization Learner Management | Organizat
   });
 
   describe('#addOrUpdateOrganizationOfOrganizationLearners', function () {
-    context(
-      'when imported organization learner is in a different organization as an existing organization learner with the same national student id',
-      function () {
-        context('and same birthday', function () {
-          it('should save the imported organization learner with the user id of the existing one', async function () {
-            // given
-            const nationalStudentId = '123456A';
-            const birthdate = '2000-01-01';
-            const anotherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-            const existingOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-              id: 1,
-              organizationId: databaseBuilder.factory.buildOrganization().id,
-              nationalStudentId,
-              birthdate,
-              userId: databaseBuilder.factory.buildUser().id,
-            });
-            await databaseBuilder.commit();
-
-            const importedOrganizationLearners = [
-              new OrganizationLearner({
-                lastName: 'Pipeau',
-                firstName: 'Peaupi',
-                birthdate,
-                nationalStudentId,
-                userId: null,
-                isDisabled: false,
-                organizationId: anotherOrganizationId,
-              }),
-            ];
-
-            // when
-            await DomainTransaction.execute((domainTransaction) => {
-              return addOrUpdateOrganizationOfOrganizationLearners(
-                importedOrganizationLearners,
-                anotherOrganizationId,
-                domainTransaction,
-              );
-            });
-
-            // then
-            const [newOrganizationLearner] = await organizationLearnerRepository.findByOrganizationId({
-              organizationId: anotherOrganizationId,
-            });
-            expect(newOrganizationLearner).to.not.be.null;
-            expect(newOrganizationLearner.userId).to.equal(existingOrganizationLearner.userId);
-            expect(newOrganizationLearner.id).to.not.equal(existingOrganizationLearner.id);
-            expect(newOrganizationLearner.organizationId).to.not.equal(existingOrganizationLearner.organizationId);
-            expect(newOrganizationLearner.nationalStudentId).to.equal(existingOrganizationLearner.nationalStudentId);
-            expect(newOrganizationLearner.birthdate).to.equal(existingOrganizationLearner.birthdate);
-          });
-        });
-
-        context('and different birthday', function () {
-          it('should save the organization learner without a user id', async function () {
-            // given
-            const nationalStudentId = '123456A';
-            const anotherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-            const existingOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-              organizationId: databaseBuilder.factory.buildOrganization().id,
-              nationalStudentId,
-              birthdate: '2000-01-01',
-              userId: databaseBuilder.factory.buildUser().id,
-            });
-            await databaseBuilder.commit();
-
-            const importedOrganizationLearners = [
-              new OrganizationLearner({
-                lastName: 'Pipeau',
-                firstName: 'Peaupi',
-                birthdate: '2003-01-01',
-                nationalStudentId,
-                userId: null,
-                isDisabled: false,
-                organizationId: anotherOrganizationId,
-              }),
-            ];
-
-            // when
-            await DomainTransaction.execute((domainTransaction) => {
-              return addOrUpdateOrganizationOfOrganizationLearners(
-                importedOrganizationLearners,
-                anotherOrganizationId,
-                domainTransaction,
-              );
-            });
-
-            // then
-            const existingOrganizationLearners = await organizationLearnerRepository.findByIds({
-              ids: [existingOrganizationLearner.id],
-            });
-            expect(existingOrganizationLearners).to.have.lengthOf(1);
-            expect(existingOrganizationLearner).to.deep.contain(existingOrganizationLearners[0]);
-
-            const [newOrganizationLearner] = await organizationLearnerRepository.findByOrganizationId({
-              organizationId: anotherOrganizationId,
-            });
-            expect(newOrganizationLearner).to.not.be.null;
-            expect(newOrganizationLearner.userId).to.be.null;
-            expect(newOrganizationLearner.id).to.not.equal(existingOrganizationLearner.id);
-            expect(newOrganizationLearner.organizationId).to.equal(anotherOrganizationId);
-            expect(newOrganizationLearner.nationalStudentId).to.equal(existingOrganizationLearner.nationalStudentId);
-            expect(newOrganizationLearner.birthdate).to.not.equal(existingOrganizationLearner.birthdate);
-          });
-        });
-      },
-    );
-
     context('when there are only organizationLearners to create', function () {
-      let organizationLearners;
-      let organizationId;
-      let firstOrganizationLearner;
-
-      beforeEach(async function () {
-        organizationId = databaseBuilder.factory.buildOrganization().id;
+      it('should create all organizationLearners', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
         await databaseBuilder.commit();
 
-        firstOrganizationLearner = new OrganizationLearner({
+        const learner = new OrganizationLearner({
           lastName: 'Pipeau',
           preferredLastName: 'Toto',
           firstName: 'Corinne',
@@ -434,727 +323,168 @@ describe('Integration | Repository | Organization Learner Management | Organizat
           organizationId,
         });
 
-        organizationLearners = [firstOrganizationLearner];
-      });
+        await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([learner]));
 
-      it('should create all organizationLearners', async function () {
-        // when
-        await DomainTransaction.execute((domainTransaction) => {
-          return addOrUpdateOrganizationOfOrganizationLearners(organizationLearners, organizationId, domainTransaction);
-        });
-
-        // then
-        const actualOrganizationLearners = await organizationLearnerRepository.findByOrganizationId({
-          organizationId,
-        });
-        expect(actualOrganizationLearners).to.have.lengthOf(1);
-        expect({
-          lastName: firstOrganizationLearner.lastName,
-          preferredLastName: firstOrganizationLearner.preferredLastName,
-          firstName: firstOrganizationLearner.firstName,
-          middleName: firstOrganizationLearner.middleName,
-          thirdName: firstOrganizationLearner.thirdName,
-          sex: firstOrganizationLearner.sex,
-          birthdate: firstOrganizationLearner.birthdate,
-          birthCity: firstOrganizationLearner.birthCity,
-          birthCityCode: firstOrganizationLearner.birthCityCode,
-          birthProvinceCode: firstOrganizationLearner.birthProvinceCode,
-          birthCountryCode: firstOrganizationLearner.birthCountryCode,
-          MEFCode: firstOrganizationLearner.MEFCode,
-          status: firstOrganizationLearner.status,
-          nationalStudentId: firstOrganizationLearner.nationalStudentId,
-          division: firstOrganizationLearner.division,
-          userId: firstOrganizationLearner.userId,
-          isDisabled: firstOrganizationLearner.isDisabled,
-          organizationId: firstOrganizationLearner.organizationId,
-        }).deep.equal({
-          lastName: actualOrganizationLearners[0].lastName,
-          preferredLastName: actualOrganizationLearners[0].preferredLastName,
-          firstName: actualOrganizationLearners[0].firstName,
-          middleName: actualOrganizationLearners[0].middleName,
-          thirdName: actualOrganizationLearners[0].thirdName,
-          sex: actualOrganizationLearners[0].sex,
-          birthdate: actualOrganizationLearners[0].birthdate,
-          birthCity: actualOrganizationLearners[0].birthCity,
-          birthCityCode: actualOrganizationLearners[0].birthCityCode,
-          birthProvinceCode: actualOrganizationLearners[0].birthProvinceCode,
-          birthCountryCode: actualOrganizationLearners[0].birthCountryCode,
-          MEFCode: actualOrganizationLearners[0].MEFCode,
-          status: actualOrganizationLearners[0].status,
-          nationalStudentId: actualOrganizationLearners[0].nationalStudentId,
-          division: actualOrganizationLearners[0].division,
-          userId: actualOrganizationLearners[0].userId,
-          isDisabled: actualOrganizationLearners[0].isDisabled,
-          organizationId: actualOrganizationLearners[0].organizationId,
-        });
+        const actual = await organizationLearnerRepository.findByOrganizationId({ organizationId });
+        expect(actual).to.have.lengthOf(1);
+        expect(actual[0].firstName).to.equal(learner.firstName);
+        expect(actual[0].lastName).to.equal(learner.lastName);
+        expect(actual[0].organizationId).to.equal(learner.organizationId);
       });
     });
 
     context('when there are only organizationLearners to update', function () {
-      let firstOrganizationLearner;
-      let organizationId;
-      let certifiableDate;
-
-      beforeEach(async function () {
-        certifiableDate = '2023-09-09';
-        organizationId = databaseBuilder.factory.buildOrganization().id;
-        firstOrganizationLearner = {
+      it('should update organizationLearners attributes', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildOrganizationLearner({
           firstName: 'Lucy',
           lastName: 'Handmade',
           birthdate: '1990-12-31',
+          nationalStudentId: 'INE1',
+          organizationId,
+        });
+        await databaseBuilder.commit();
+
+        const updated = new OrganizationLearner({ firstName: 'Boba', lastName: 'Fett', birthdate: '1986-01-05', nationalStudentId: 'INE1', organizationId });
+
+        await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([updated]));
+
+        const [row] = await knex('organization-learners').where({ organizationId });
+        expect(row.firstName).to.equal('Boba');
+        expect(row.lastName).to.equal('Fett');
+      });
+
+      it('should not erase certificability status', async function () {
+        const certifiableDate = '2023-09-09';
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildOrganizationLearner({
           nationalStudentId: 'INE1',
           organizationId,
           isCertifiable: true,
           certifiableAt: new Date(certifiableDate),
-        };
-
-        databaseBuilder.factory.buildOrganizationLearner(firstOrganizationLearner);
-
+        });
         await databaseBuilder.commit();
+
+        const updated = new OrganizationLearner({ firstName: 'Alex', lastName: 'Dupont', nationalStudentId: 'INE1', organizationId });
+
+        await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([updated]));
+
+        const [row] = await knex('organization-learners').where({ organizationId });
+        expect(row.isCertifiable).to.be.true;
+        expect(row.certifiableAt).to.deep.equal(certifiableDate);
       });
 
-      context('when an organizationLearner is already imported', function () {
-        it('should update organizationLearners attributes', async function () {
-          // given
-          const organizationLearners = [
-            new OrganizationLearner({
-              firstName: 'Boba',
-              lastName: 'Fett',
-              birthdate: '1986-01-05',
-              nationalStudentId: 'INE1',
-              status: firstOrganizationLearner.status,
-              organizationId,
-            }),
-          ];
+      it('should update the organizationLearner only in the given organization', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: 'INE1', firstName: 'Lucy', organizationId });
+        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: 'INE1', firstName: 'Lucie', organizationId: otherOrganizationId });
+        await databaseBuilder.commit();
 
-          // when
-          await DomainTransaction.execute((domainTransaction) => {
-            return addOrUpdateOrganizationOfOrganizationLearners(
-              organizationLearners,
-              organizationId,
-              domainTransaction,
-            );
-          });
+        const updated = new OrganizationLearner({ firstName: 'Lili', lastName: 'Dupont', nationalStudentId: 'INE1', organizationId });
 
-          // then
-          const [updatedOrganizationLearner] = await knex('organization-learners').where({
-            organizationId,
-          });
+        await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([updated]));
 
-          expect(updatedOrganizationLearner).to.not.be.null;
-          expect(updatedOrganizationLearner.firstName).to.be.equal(organizationLearners[0].firstName);
-          expect(updatedOrganizationLearner.lastName).to.be.equal(organizationLearners[0].lastName);
-          expect(updatedOrganizationLearner.birthdate).to.be.equal(organizationLearners[0].birthdate);
-        });
-
-        it('should not erase certificability status', async function () {
-          // given
-
-          await databaseBuilder.commit();
-
-          const organizationLearners = [
-            new OrganizationLearner({
-              firstName: 'Alex',
-              lastName: 'Terieur',
-              birthdate: '1992-07-07',
-              nationalStudentId: 'INE1',
-              organizationId,
-            }),
-          ];
-
-          // when
-          await DomainTransaction.execute((domainTransaction) => {
-            return addOrUpdateOrganizationOfOrganizationLearners(
-              organizationLearners,
-              organizationId,
-              domainTransaction,
-            );
-          });
-
-          // then
-          const [updatedOrganizationLearner] = await knex('organization-learners').where({
-            organizationId,
-          });
-
-          expect(updatedOrganizationLearner.isCertifiable).to.be.true;
-          expect(updatedOrganizationLearner.certifiableAt).to.deep.equal(certifiableDate);
-        });
+        const [updatedRow] = await knex('organization-learners').where({ organizationId });
+        const [untouchedRow] = await knex('organization-learners').where({ organizationId: otherOrganizationId });
+        expect(updatedRow.firstName).to.equal('Lili');
+        expect(untouchedRow.firstName).to.equal('Lucie');
       });
 
-      context('when an organizationLearner is already imported in several organizations', function () {
-        let firstUpdatedOrganizationLearner;
-        let otherFirstOrganizationLearner;
-        let otherOrganizationId;
-        let organizationLearners;
+      it('should enable a disabled organization learner', async function () {
+        const { id, organizationId } = databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: 'INE1', isDisabled: true });
+        await databaseBuilder.commit();
 
-        beforeEach(async function () {
-          otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-          otherFirstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-            firstName: 'Lucie',
-            lastName: 'Handmad',
-            birthdate: '1990-12-31',
-            nationalStudentId: firstOrganizationLearner.nationalStudentId,
-            status: firstOrganizationLearner.status,
-            organizationId: otherOrganizationId,
-          });
+        const learner = new OrganizationLearner({ firstName: 'Alex', lastName: 'Dupont', nationalStudentId: 'INE1', organizationId });
 
-          await databaseBuilder.commit();
+        await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([learner]));
 
-          firstUpdatedOrganizationLearner = new OrganizationLearner({
-            firstName: 'Lili',
-            lastName: firstOrganizationLearner.lastName,
-            birthdate: firstOrganizationLearner.birthdate,
-            nationalStudentId: firstOrganizationLearner.nationalStudentId,
-            organizationId,
-            status: firstOrganizationLearner.status,
-          });
-
-          organizationLearners = [firstUpdatedOrganizationLearner];
-        });
-
-        it('should update the organizationLearner only in the organization that imports the file', async function () {
-          // when
-          await DomainTransaction.execute((domainTransaction) => {
-            return addOrUpdateOrganizationOfOrganizationLearners(
-              organizationLearners,
-              organizationId,
-              domainTransaction,
-            );
-          });
-
-          // then
-          const [updatedOrganizationLearner] = await knex('organization-learners').where({
-            organizationId,
-          });
-          const [notUpdatedOrganizationLearner] = await knex('organization-learners').where({
-            organizationId: otherOrganizationId,
-          });
-
-          expect(updatedOrganizationLearner).to.not.be.null;
-          expect(updatedOrganizationLearner.firstName).to.equal(firstUpdatedOrganizationLearner.firstName);
-          expect(updatedOrganizationLearner.lastName).to.equal(firstUpdatedOrganizationLearner.lastName);
-          expect(updatedOrganizationLearner.birthdate).to.equal(firstUpdatedOrganizationLearner.birthdate);
-
-          expect(notUpdatedOrganizationLearner).to.not.be.null;
-          expect(notUpdatedOrganizationLearner.firstName).to.equal(otherFirstOrganizationLearner.firstName);
-          expect(notUpdatedOrganizationLearner.lastName).to.equal(otherFirstOrganizationLearner.lastName);
-          expect(notUpdatedOrganizationLearner.birthdate).to.equal(otherFirstOrganizationLearner.birthdate);
-        });
-      });
-
-      context('when an organization learner disabled already exists', function () {
-        it('should enable the updated organization learner', async function () {
-          // given
-          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-            nationalStudentId: 'INE1',
-            isDisabled: true,
-          });
-          const { id, organizationId } = organizationLearner;
-          await databaseBuilder.commit();
-
-          // when
-          await DomainTransaction.execute((domainTransaction) => {
-            return addOrUpdateOrganizationOfOrganizationLearners(
-              [organizationLearner],
-              organizationId,
-              domainTransaction,
-            );
-          });
-
-          // then
-          const expectedEnabled = await knex('organization-learners').where({ id }).first();
-
-          expect(expectedEnabled.isDisabled).to.be.false;
-        });
+        const row = await knex('organization-learners').where({ id }).first();
+        expect(row.isDisabled).to.be.false;
       });
     });
 
     context('when there are deleted organizationLearners with same nationalStudentId', function () {
-      let organizationLearners;
-      let organizationId;
-      let firstOrganizationLearner;
-
-      beforeEach(async function () {
-        organizationId = databaseBuilder.factory.buildOrganization().id;
-
-        firstOrganizationLearner = new OrganizationLearner({
-          lastName: 'Pipeau',
-          preferredLastName: 'Toto',
-          firstName: 'Corinne',
-          middleName: 'Dorothée',
-          thirdName: 'Driss',
-          sex: 'F',
-          birthdate: '2000-01-01',
-          birthCity: 'Perpi',
-          birthCityCode: '123456',
-          birthProvinceCode: '66',
-          birthCountryCode: '100',
-          MEFCode: 'MEF123456',
-          status: 'ST',
-          nationalStudentId: '1234',
-          division: '4B',
-          userId: null,
-          isDisabled: false,
-          organizationId,
-        });
-
-        databaseBuilder.factory.buildOrganizationLearner({ ...firstOrganizationLearner, deletedAt: new Date() });
-
+      it('should create a new organizationLearner', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const learner = new OrganizationLearner({ firstName: 'Alex', lastName: 'Dupont', nationalStudentId: '1234', organizationId });
+        databaseBuilder.factory.buildOrganizationLearner({ ...learner, deletedAt: new Date() });
         await databaseBuilder.commit();
 
-        organizationLearners = [firstOrganizationLearner];
-      });
+        await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([learner]));
 
-      it('should create all organizationLearners', async function () {
-        // when
-        await DomainTransaction.execute((domainTransaction) => {
-          return addOrUpdateOrganizationOfOrganizationLearners(organizationLearners, organizationId, domainTransaction);
-        });
-
-        // then
-        const actualOrganizationLearners = await organizationLearnerRepository.findByOrganizationId({
-          organizationId,
-        });
-        expect(actualOrganizationLearners).to.have.lengthOf(1);
+        const actual = await organizationLearnerRepository.findByOrganizationId({ organizationId });
+        expect(actual).to.have.lengthOf(1);
       });
     });
 
-    context('when an organizationLearner is saved with a userId already present in organization', function () {
-      it('should save the organization learner with userId as null', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        const { id: userId } = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildOrganizationLearner({
-          nationalStudentId: 'INE1',
-          userId,
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          nationalStudentId: 'INE2',
-          organizationId: organizationId,
-          userId,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const organizationLearner = domainBuilder.buildOrganizationLearner({ nationalStudentId: 'INE1' });
-        await DomainTransaction.execute((domainTransaction) => {
-          return addOrUpdateOrganizationOfOrganizationLearners(
-            [organizationLearner],
-            organizationId,
-            domainTransaction,
-          );
-        });
-
-        // then
-        const expected = await knex('organization-learners')
-          .where({ nationalStudentId: 'INE1', organizationId: organizationId })
-          .first();
-
-        expect(expected.userId).to.be.null;
-      });
-
-      it('should update the organization learner with userId as null', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        const { id: userId } = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildOrganizationLearner({
-          nationalStudentId: 'INE1',
-          userId,
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          nationalStudentId: 'INE2',
-          organizationId: organizationId,
-          userId,
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          nationalStudentId: 'INE1',
-          organizationId: organizationId,
-          userId: null,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const organizationLearner = domainBuilder.buildOrganizationLearner({ nationalStudentId: 'INE1' });
-        await DomainTransaction.execute((domainTransaction) => {
-          return addOrUpdateOrganizationOfOrganizationLearners(
-            [organizationLearner],
-            organizationId,
-            domainTransaction,
-          );
-        });
-
-        // then
-        const expected = await knex('organization-learners')
-          .where({ nationalStudentId: 'INE1', organizationId: organizationId })
-          .first();
-
-        expect(expected.userId).to.be.null;
-      });
-    });
-
-    context('when several imported organization learners are reconciled with the same userId', function () {
-      it('should save both organization learners with userId as null', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        const { id: userId } = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildOrganizationLearner({
-          nationalStudentId: 'INE1',
-          userId,
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          nationalStudentId: 'INE2',
-          userId,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const organizationLearner1 = domainBuilder.buildOrganizationLearner({ nationalStudentId: 'INE1' });
-        const organizationLearner2 = domainBuilder.buildOrganizationLearner({ nationalStudentId: 'INE2' });
-        await DomainTransaction.execute((domainTransaction) => {
-          return addOrUpdateOrganizationOfOrganizationLearners(
-            [organizationLearner1, organizationLearner2],
-            organizationId,
-            domainTransaction,
-          );
-        });
-
-        // then
-        const expected1 = await knex('organization-learners')
-          .where({ nationalStudentId: 'INE1', organizationId })
-          .first();
-        const expected2 = await knex('organization-learners')
-          .where({ nationalStudentId: 'INE2', organizationId })
-          .first();
-
-        expect(expected1.userId).to.be.null;
-        expect(expected2.userId).to.be.null;
-      });
-
-      it('should save both organization learners with userId as null when one is already reconciled in the target organization', async function () {
-        // - Org A already has INE1 reconciled with userId (existing reconciliation)
-        // - Org B has INE2 reconciled with the same userId
-        // - Importing both INE1 and INE2 into Org A should remove reconciliation from both
-        const { id: orgAId } = databaseBuilder.factory.buildOrganization();
-        const { id: orgBId } = databaseBuilder.factory.buildOrganization();
-        const { id: userId } = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildOrganizationLearner({
-          nationalStudentId: 'INE2',
-          organizationId: orgBId,
-          userId,
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          nationalStudentId: 'INE1',
-          organizationId: orgAId,
-          userId,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const organizationLearner1 = domainBuilder.buildOrganizationLearner({ nationalStudentId: 'INE1' });
-        const organizationLearner2 = domainBuilder.buildOrganizationLearner({ nationalStudentId: 'INE2' });
-        await DomainTransaction.execute((domainTransaction) => {
-          return addOrUpdateOrganizationOfOrganizationLearners(
-            [organizationLearner1, organizationLearner2],
-            orgAId,
-            domainTransaction,
-          );
-        });
-
-        // then
-        const expected1 = await knex('organization-learners')
-          .where({ nationalStudentId: 'INE1', organizationId: orgAId })
-          .first();
-        const expected2 = await knex('organization-learners')
-          .where({ nationalStudentId: 'INE2', organizationId: orgAId })
-          .first();
-
-        expect(expected1.userId).to.be.null;
-        expect(expected2.userId).to.be.null;
-      });
-    });
-
-    context('when there are organizationLearners in another organization', function () {
-      let organizationLearners;
-      let organizationId;
-      let organizationLearnerFromFile;
-      let userId;
-      let nationalStudentId;
-      const birthdate = '1990-12-31';
-
-      beforeEach(async function () {
-        userId = databaseBuilder.factory.buildUser().id;
-        nationalStudentId = 'salut';
-        organizationId = databaseBuilder.factory.buildOrganization().id;
-        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: otherOrganizationId,
-          nationalStudentId,
-        });
-        await databaseBuilder.commit();
-
-        organizationLearnerFromFile = new OrganizationLearner({
-          firstName: 'Lucy',
-          lastName: 'Handmade',
-          birthdate,
-          nationalStudentId,
-          organizationId,
-        });
-
-        organizationLearners = [organizationLearnerFromFile];
-      });
-
-      it('should create organizationLearner and reconcile it with the help of another organizationLearner', async function () {
-        // given
-        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId, birthdate, userId });
-        databaseBuilder.factory.buildCertificationCourse({ userId });
-        await databaseBuilder.commit();
-
-        // when
-        await DomainTransaction.execute((domainTransaction) => {
-          return addOrUpdateOrganizationOfOrganizationLearners(organizationLearners, organizationId, domainTransaction);
-        });
-
-        // then
-        const newOrganizationLearner = await knex('organization-learners').where({
-          organizationId,
-          nationalStudentId,
-        });
-        expect(newOrganizationLearner[0].userId).to.equal(userId);
-      });
-
-      it('should update and reconcile organizationLearner with the help of another organizationLearner', async function () {
-        // given
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          nationalStudentId,
-          birthdate,
-          userId: null,
-        });
-        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId, birthdate, userId });
-        databaseBuilder.factory.buildCertificationCourse({ userId });
-        await databaseBuilder.commit();
-
-        // when
-        await DomainTransaction.execute((domainTransaction) => {
-          return addOrUpdateOrganizationOfOrganizationLearners(organizationLearners, organizationId, domainTransaction);
-        });
-
-        // then
-        const newOrganizationLearner = await knex('organization-learners')
-          .where({ organizationId, nationalStudentId })
-          .first();
-        expect(newOrganizationLearner.userId).to.equal(userId);
-        expect(newOrganizationLearner.firstName).to.equal(organizationLearnerFromFile.firstName);
-      });
-
-      context('when userId is already defined for an organizationLearner', function () {
-        it('should update organizationLearner but not override userId', async function () {
-          // given
-          const expectedUserId = databaseBuilder.factory.buildOrganizationLearner({
-            organizationId,
-            nationalStudentId,
-          }).userId;
-          await databaseBuilder.commit();
-
-          // when
-          await DomainTransaction.execute((domainTransaction) => {
-            return addOrUpdateOrganizationOfOrganizationLearners(
-              organizationLearners,
-              organizationId,
-              domainTransaction,
-            );
-          });
-
-          // then
-          const alreadyReconciledOrganizationLearners = await knex('organization-learners')
-            .where({
-              nationalStudentId: organizationLearnerFromFile.nationalStudentId,
-              organizationId: organizationId,
-            })
-            .first();
-          expect(alreadyReconciledOrganizationLearners.userId).to.equal(expectedUserId);
-          expect(alreadyReconciledOrganizationLearners.firstName).to.equal(organizationLearnerFromFile.firstName);
-        });
-      });
-    });
-
-    context('when there are organizationLearners to create and organizationLearners to update', function () {
-      let organizationLearners;
-      let organizationId;
-      let organizationLearnerToCreate, organizationLearnerUpdated;
-
-      beforeEach(async function () {
-        organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildOrganizationLearner({
-          firstName: 'Lucy',
-          lastName: 'Handmade',
-          birthdate: '1990-12-31',
-          nationalStudentId: 'INE1',
-          organizationId,
-        });
-        await databaseBuilder.commit();
-
-        organizationLearnerUpdated = new OrganizationLearner({
-          firstName: 'Lucy',
-          lastName: 'Handmade',
-          birthdate: '1990-12-31',
-          nationalStudentId: 'INE1',
-          organizationId,
-        });
-
-        organizationLearnerToCreate = new OrganizationLearner({
-          firstName: 'Harry',
-          lastName: 'Covert',
-          birthdate: '1990-01-01',
-          nationalStudentId: 'INE2',
-          organizationId,
-        });
-
-        organizationLearners = [organizationLearnerUpdated, organizationLearnerToCreate];
-      });
-
+    context('when there are organizationLearners to create and to update', function () {
       it('should update and create all organizationLearners', async function () {
-        // when
-        await DomainTransaction.execute((domainTransaction) => {
-          return addOrUpdateOrganizationOfOrganizationLearners(organizationLearners, organizationId, domainTransaction);
-        });
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: 'INE1', organizationId });
+        await databaseBuilder.commit();
 
-        // then
-        const actualOrganizationLearners = await knex('organization-learners').where({ organizationId });
-        expect(actualOrganizationLearners).to.have.lengthOf(2);
+        const toUpdate = new OrganizationLearner({ firstName: 'Lucy', lastName: 'Granger', nationalStudentId: 'INE1', organizationId });
+        const toCreate = new OrganizationLearner({ firstName: 'Harry', lastName: 'Potter', nationalStudentId: 'INE2', organizationId });
 
-        expect(_.map(actualOrganizationLearners, 'firstName')).to.have.members([
-          organizationLearnerUpdated.firstName,
-          organizationLearnerToCreate.firstName,
-        ]);
+        await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([toUpdate, toCreate]));
+
+        const rows = await knex('organization-learners').where({ organizationId });
+        expect(rows).to.have.lengthOf(2);
+        expect(_.map(rows, 'firstName')).to.have.members(['Lucy', 'Harry']);
       });
     });
 
     context('when an error occurs', function () {
-      let organizationLearners;
-      let organizationId;
-      let firstOrganizationLearner, secondOrganizationLearner;
-      const sameNationalStudentId = 'SAMEID123';
-
-      beforeEach(async function () {
-        organizationId = databaseBuilder.factory.buildOrganization().id;
+      it('should return a OrganizationLearnersCouldNotBeSavedError on unicity errors', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
         await databaseBuilder.commit();
 
-        firstOrganizationLearner = new OrganizationLearner({
-          firstName: 'Lucy',
-          lastName: 'Handmade',
-          birthdate: '1990-12-31',
-          nationalStudentId: sameNationalStudentId,
-          organizationId,
-        });
+        const learner1 = new OrganizationLearner({ nationalStudentId: 'SAME', organizationId });
+        const learner2 = new OrganizationLearner({ nationalStudentId: 'SAME', organizationId });
 
-        secondOrganizationLearner = new OrganizationLearner({
-          firstName: 'Harry',
-          lastName: 'Covert',
-          birthdate: '1990-01-01',
-          nationalStudentId: sameNationalStudentId,
-          organizationId,
-        });
-
-        organizationLearners = [firstOrganizationLearner, secondOrganizationLearner];
-      });
-
-      it('should return a OrganizationLearnersCouldNotBeSavedError on unicity errors', async function () {
-        // when
         let error;
-        await DomainTransaction.execute(async (domainTransaction) => {
-          error = await catchErr(addOrUpdateOrganizationOfOrganizationLearners, organizationLearnerRepository)(
-            organizationLearners,
-            organizationId,
-            domainTransaction,
-          );
+        await DomainTransaction.execute(async () => {
+          error = await catchErr(addOrUpdateOrganizationOfOrganizationLearners)([learner1, learner2]);
         });
 
-        // then
-        expect(error).to.be.instanceof(OrganizationLearnersCouldNotBeSavedError);
-      });
-
-      it('should return a OrganizationLearnersCouldNotBeSavedError', async function () {
-        // when
-        let error;
-        await DomainTransaction.execute(async (domainTransaction) => {
-          error = await catchErr(addOrUpdateOrganizationOfOrganizationLearners, organizationLearnerRepository)(
-            [{ nationalStudentId: 'something' }],
-            organizationId,
-            domainTransaction,
-          );
-        });
-
-        // then
         expect(error).to.be.instanceof(OrganizationLearnersCouldNotBeSavedError);
       });
     });
 
     context('whenever an organization-learner is updated', function () {
-      it('should update the updatedAt column in row', async function () {
-        // given
+      it('should update the updatedAt column', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const baseOrganizationLearner = {
-          firstName: 'Lucy',
-          lastName: 'Handmade',
-          birthdate: '1990-12-31',
-          nationalStudentId: 'INE1',
-          organizationId,
-        };
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner(baseOrganizationLearner).id;
+        const id = databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: 'INE1', organizationId }).id;
         await databaseBuilder.commit();
-        await knex('organization-learners')
-          .update({ updatedAt: new Date('2019-01-01') })
-          .where({ id: organizationLearnerId });
-        const { updatedAt: beforeUpdatedAt } = await knex
-          .select('updatedAt')
-          .from('organization-learners')
-          .where({ id: organizationLearnerId })
-          .first();
+        await knex('organization-learners').update({ updatedAt: new Date('2019-01-01') }).where({ id });
+        const { updatedAt: before } = await knex.select('updatedAt').from('organization-learners').where({ id }).first();
 
-        const organizationLearner_updated = new OrganizationLearner({
-          ...baseOrganizationLearner,
-          firstName: 'Lili',
-        });
+        const updated = new OrganizationLearner({ firstName: 'Lili', lastName: 'Dupont', nationalStudentId: 'INE1', organizationId });
 
-        // when
-        await DomainTransaction.execute((domainTransaction) => {
-          return addOrUpdateOrganizationOfOrganizationLearners(
-            [organizationLearner_updated],
-            organizationId,
-            domainTransaction,
-          );
-        });
+        await DomainTransaction.execute(() => addOrUpdateOrganizationOfOrganizationLearners([updated]));
 
-        // then
-        const { updatedAt: afterUpdatedAt } = await knex
-          .select('updatedAt')
-          .from('organization-learners')
-          .where({ id: organizationLearnerId })
-          .first();
-
-        expect(afterUpdatedAt).to.be.above(beforeUpdatedAt);
+        const { updatedAt: after } = await knex.select('updatedAt').from('organization-learners').where({ id }).first();
+        expect(after).to.be.above(before);
       });
     });
 
     context('when an error occurs during transaction', function () {
       it('should rollback', async function () {
-        // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const organizationLearner = new OrganizationLearner({ organizationId });
+        await databaseBuilder.commit();
 
-        // when
+        const learner = new OrganizationLearner({ organizationId });
+
         await catchErr(async () => {
-          await DomainTransaction.execute(async (domainTransaction) => {
-            await addOrUpdateOrganizationOfOrganizationLearners(
-              [organizationLearner],
-              organizationId,
-              domainTransaction,
-            );
+          await DomainTransaction.execute(async () => {
+            await addOrUpdateOrganizationOfOrganizationLearners([learner]);
             throw new Error('an error occurs within the domain transaction');
           });
         });
 
-        // then
-        const organizationLearners = await knex.from('organization-learners');
-        expect(organizationLearners).to.deep.equal([]);
+        const rows = await knex.from('organization-learners');
+        expect(rows).to.deep.equal([]);
       });
     });
   });

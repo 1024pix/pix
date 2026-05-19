@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import * as organizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import {
   NotFoundError,
@@ -11,9 +10,7 @@ import { batchUpdate } from '../../../../shared/infrastructure/utils/knex-utils.
 import { OrganizationLearnerCertificabilityNotUpdatedError } from '../../domain/errors.js';
 import { CommonOrganizationLearner } from '../../domain/models/CommonOrganizationLearner.js';
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
-import { ScoOrganizationLearnerSet } from '../../domain/models/ScoOrganizationLearnerSet.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
-import * as studentRepository from './student-repository.js';
 
 const dissociateUserFromOrganizationLearner = async function (organizationLearnerId) {
   const knexConn = DomainTransaction.getConnection();
@@ -66,31 +63,10 @@ const disableAllOrganizationLearnersInOrganization = async function ({ organizat
     .update({ isDisabled: true, updatedAt: knexConn.raw('CURRENT_TIMESTAMP') });
 };
 
-const addOrUpdateOrganizationOfOrganizationLearners = async function (organizationLearnerDatas, organizationId) {
+const addOrUpdateOrganizationOfOrganizationLearners = async function (organizationLearners) {
   const knexConn = DomainTransaction.getConnection();
-  const organizationLearnersFromFile = organizationLearnerDatas.map(
-    (organizationLearnerData) =>
-      new OrganizationLearner({
-        ...organizationLearnerData,
-        organizationId,
-      }),
-  );
-  const existingOrganizationLearners = await organizationLearnerRepository.findByOrganizationId({ organizationId });
-
-  const nationalStudentIdsFromFile = organizationLearnersFromFile
-    .map(({ nationalStudentId }) => nationalStudentId)
-    .filter(Boolean);
-  const reconciledStudents =
-    await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIdsFromFile);
-
-  const scoLearnerSet = new ScoOrganizationLearnerSet(organizationLearnersFromFile);
-  const reconciledOrganizationLearnersToImport = scoLearnerSet.reconcile(
-    reconciledStudents,
-    existingOrganizationLearners,
-  );
-
   try {
-    const organizationLearnersToSave = reconciledOrganizationLearnersToImport.map((organizationLearner) => ({
+    const organizationLearnersToSave = organizationLearners.map((organizationLearner) => ({
       ..._.omit(organizationLearner, ['id', 'createdAt', 'isCertifiable', 'certifiableAt']),
       updatedAt: knexConn.raw('CURRENT_TIMESTAMP'),
       isDisabled: false,

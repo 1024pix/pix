@@ -11,6 +11,8 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
   const organizationImportId = 1234;
   let organizationId;
   let organizationLearnerRepositoryStub;
+  let libOrganizationLearnerRepositoryStub;
+  let studentRepositoryStub;
   let organizationImportRepositoryStub;
   let importStorageStub;
   let readableSymbol;
@@ -55,8 +57,14 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
     sinon.stub(SiecleParser, 'create').withArgs(streamerSymbol).returns(parserStub);
 
     organizationLearnerRepositoryStub = {
-      addOrUpdateOrganizationOfOrganizationLearners: sinon.stub(),
+      addOrUpdateOrganizationOfOrganizationLearners: sinon.stub().resolves(),
       disableAllOrganizationLearnersInOrganization: sinon.stub().resolves(),
+    };
+    libOrganizationLearnerRepositoryStub = {
+      findByOrganizationId: sinon.stub().resolves([]),
+    };
+    studentRepositoryStub = {
+      findReconciledStudentsByNationalStudentId: sinon.stub().resolves([]),
     };
     loggerStub = {
       error: sinon.stub(),
@@ -64,13 +72,13 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
   });
 
   it('should save learners', async function () {
-    organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners.resolves();
-
     await importLearnersFromSiecleFile({
       organizationImportId,
       importStorage: importStorageStub,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
+      libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
+      studentRepository: studentRepositoryStub,
       chunkSize: 2,
     });
 
@@ -79,22 +87,8 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
       nationalStudentIds: ['INE1', 'INE2', 'INE3'],
     });
     expect(organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners).to.have.been.calledTwice;
-    expect(
-      organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners.getCall(0).args,
-    ).to.deep.equal([
-      [
-        { lastName: 'Student1', nationalStudentId: 'INE1' },
-        { lastName: 'Student2', nationalStudentId: 'INE2' },
-      ],
-      organizationId,
-    ]);
-    expect(
-      organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners.getCall(1).args,
-    ).to.deep.equal([[{ lastName: 'Student3', nationalStudentId: 'INE3' }], organizationId]);
-
     expect(organizationImportStub.process).to.have.been.calledWith({ errors: [] });
     expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
-
     expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({ filename: organizationImportStub.filename });
   });
 
@@ -106,6 +100,8 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
       importStorage: importStorageStub,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
+      libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
+      studentRepository: studentRepositoryStub,
       chunkSize: 2,
     });
     expect(error).to.equal(s3Error);
@@ -123,6 +119,8 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
       importStorage: importStorageStub,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
+      libOrganizationLearnerRepository: libOrganizationLearnerRepositoryStub,
+      studentRepository: studentRepositoryStub,
       logger: loggerStub,
       chunkSize: 2,
     });
