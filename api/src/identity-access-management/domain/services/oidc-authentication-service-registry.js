@@ -53,7 +53,8 @@ export class OidcAuthenticationServiceRegistry {
       throw new InvalidIdentityProviderError(identityProviderCode);
     }
 
-    await this.#configureReadyOidcProviderServiceByCode(identityProviderCode);
+    await oidcProviderService.initializeClientConfig();
+    this.#readyOidcProviderServicesByIdentityProviderCode[key] = oidcProviderService;
 
     return oidcProviderService;
   }
@@ -66,17 +67,6 @@ export class OidcAuthenticationServiceRegistry {
     if (oidcProviderServices) {
       await this.#loadAllOidcProviderServices(oidcProviderServices);
     }
-  }
-
-  async #configureReadyOidcProviderServiceByCode(oidcProviderServiceCode) {
-    const oidcProviderService = this.#allOidcProviderServices?.find(
-      (oidcProviderService) => oidcProviderService.code === oidcProviderServiceCode,
-    );
-
-    if (!oidcProviderService) return;
-
-    await oidcProviderService.initializeClientConfig();
-    this.#readyOidcProviderServicesByIdentityProviderCode[key] = oidcProviderService;
   }
 
   async #loadAllOidcProviderServices(oidcProviderServices) {
