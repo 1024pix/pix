@@ -43,14 +43,14 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
       // given
       const providers = [
         {
-          id: 'CONNECT_ET_MOI',
+          id: '1',
           code: 'CONNECT_ET_MOI',
           slug: 'connect-et-moi',
           organizationName: 'ConnectEtMoi',
           isVisible: true,
         },
         {
-          id: 'STAR_CONNECT',
+          id: '2',
           code: 'STAR_CONNECT',
           slug: 'star-connect',
           organizationName: 'StarConnect',
@@ -72,7 +72,7 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
       await click(screen.getByRole('option', { name: 'ConnectEtMoi' }));
 
       // then
-      sinon.assert.calledWith(onProviderChangeStub, 'connect-et-moi');
+      sinon.assert.calledWith(onProviderChangeStub, 'CONNECT_ET_MOI');
       assert.ok(true);
     });
   });

@@ -11,27 +11,29 @@ export default class SsoSelectionForm extends Component {
   @service router;
   @service oidcIdentityProviders;
 
-  @tracked selectedProviderSlug = null;
+  @tracked selectedIdentityProviderCode = null;
 
   @action
-  async onProviderChange(selectedProviderSlug) {
-    this.selectedProviderSlug = selectedProviderSlug;
+  async onProviderChange(selectedIdentityProviderCode) {
+    this.selectedIdentityProviderCode = selectedIdentityProviderCode;
   }
 
-  get hasSelectedProvider() {
-    return this.selectedProviderSlug !== null;
+  get hasSelectedIdentityProvider() {
+    return this.selectedIdentityProviderCode !== null;
   }
 
-  get selectedProviderName() {
-    const provider = this.oidcIdentityProviders.findBySlug(this.selectedProviderSlug);
-    if (!provider) return null;
-    return provider.organizationName;
+  get selectedIdentityProvider() {
+    return this.oidcIdentityProviders.findByCode(this.selectedIdentityProviderCode);
+  }
+
+  get selectedIdentityProviderName() {
+    return this.selectedIdentityProvider.organizationName;
   }
 
   @action
-  goToOidcProviderLoginPage() {
+  goToIdentityProviderLoginPage() {
     this.oidcIdentityProviders.isOidcProviderAuthenticationInProgress = true;
-    this.router.transitionTo('authentication.oidc.flow', this.selectedProviderSlug);
+    this.router.transitionTo('authentication.oidc.flow', this.selectedIdentityProvider.slug);
   }
 
   <template>
@@ -49,9 +51,9 @@ export default class SsoSelectionForm extends Component {
         @onProviderChange={{this.onProviderChange}}
       />
 
-      {{#if this.hasSelectedProvider}}
+      {{#if this.hasSelectedIdentityProvider}}
         <PixButton
-          @triggerAction={{this.goToOidcProviderLoginPage}}
+          @triggerAction={{this.goToIdentityProviderLoginPage}}
           @isLoading={{this.oidcIdentityProviders.isOidcProviderAuthenticationInProgress}}
           aria-describedby="login-message"
         >
@@ -63,7 +65,7 @@ export default class SsoSelectionForm extends Component {
         </PixButton>
 
         <p id="login-message" class="sso-selection-form__login-message" aria-live="polite">
-          {{t "pages.sso-selection.login.message" providerName=this.selectedProviderName}}
+          {{t "pages.sso-selection.login.message" providerName=this.selectedIdentityProviderName}}
         </p>
       {{else}}
         <PixButton @type="button" @isDisabled={{true}}>

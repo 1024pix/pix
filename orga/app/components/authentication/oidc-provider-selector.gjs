@@ -6,22 +6,22 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
 export default class OidcProviderSelector extends Component {
-  @tracked selectedProvider;
+  @tracked selectedIdentityProviderCode;
   @service locale;
 
   get providerOptions() {
     const { providers = [] } = this.args;
     return providers
-      .map((provider) => ({ label: provider.organizationName, value: provider.slug }))
+      .map((provider) => ({ label: provider.organizationName, value: provider.code }))
       .sort((option1, option2) => option1.label.localeCompare(option2.label));
   }
 
   @action
   onProviderChange(value) {
-    this.selectedProvider = value;
+    this.selectedIdentityProviderCode = value;
 
     if (this.args.onProviderChange) {
-      this.args.onProviderChange(this.selectedProvider);
+      this.args.onProviderChange(this.selectedIdentityProviderCode);
     }
   }
 
@@ -35,7 +35,7 @@ export default class OidcProviderSelector extends Component {
       @placeholder={{t "components.authentication.oidc-provider-selector.placeholder"}}
       @locale={{this.locale.currentLocale}}
       @searchPlaceholder={{t "components.authentication.oidc-provider-selector.searchLabel"}}
-      @value={{this.selectedProvider}}
+      @value={{this.selectedIdentityProviderCode}}
       class="oidc-provider-selector"
       ...attributes
     >
