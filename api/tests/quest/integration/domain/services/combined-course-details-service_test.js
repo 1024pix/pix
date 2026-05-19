@@ -9,27 +9,18 @@ import {
   CombinedCourseItem,
 } from '../../../../../src/quest/domain/models/CombinedCourseItem.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
-import combinedCourseDetailsService from '../../../../../src/quest/domain/services/combined-course-details-service.js';
-import { repositories } from '../../../../../src/quest/infrastructure/repositories/index.js';
+import CombinedCourseDetailsService from '../../../../../src/quest/domain/services/combined-course-details-service.js';
+import * as campaignRepository from '../../../../../src/quest/infrastructure/repositories/campaign-repository.js';
+import * as combinedCourseParticipationRepository from '../../../../../src/quest/infrastructure/repositories/combined-course-participant-repository.js';
+import * as combinedCourseRepository from '../../../../../src/quest/infrastructure/repositories/combined-course-repository.js';
+import * as moduleRepository from '../../../../../src/quest/infrastructure/repositories/module-repository.js';
+import * as eligibilityRepository from '../../../../../src/quest/infrastructure/repositories/module-repository.js';
+import * as recommendedModuleRepository from '../../../../../src/quest/infrastructure/repositories/module-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
-import { injectDependencies } from '../../../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
-
-const { combinedCourseDetailsService: CombinedCourseDetailsService } = injectDependencies(
-  { combinedCourseDetailsService },
-  {
-    combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
-    combinedCourseRepository: repositories.combinedCourseRepository,
-    campaignRepository: repositories.campaignRepository,
-    questRepository: repositories.questRepository,
-    moduleRepository: repositories.moduleRepository,
-    eligibilityRepository: repositories.eligibilityRepository,
-    recommendedModuleRepository: repositories.recommendedModuleRepository,
-  },
-);
 
 describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService', function () {
   let code, combinedCourseUrl;
@@ -92,10 +83,12 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       // when
       const combinedCourseDetails = await CombinedCourseDetailsService.instantiateCombinedCourseDetails({
         combinedCourseId,
+        dependencies: { campaignRepository, moduleRepository, recommendedModuleRepository, combinedCourseRepository },
       });
       const result = await CombinedCourseDetailsService.getCombinedCourseDetails({
         organizationLearnerId,
         combinedCourseDetails,
+        dependencies: { combinedCourseParticipationRepository, eligibilityRepository, recommendedModuleRepository },
       });
 
       // then
@@ -218,10 +211,12 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       // when
       const combinedCourseDetails = await CombinedCourseDetailsService.instantiateCombinedCourseDetails({
         combinedCourseId,
+        dependencies: { campaignRepository, moduleRepository, recommendedModuleRepository, combinedCourseRepository },
       });
       const result = await CombinedCourseDetailsService.getCombinedCourseDetails({
         combinedCourseDetails,
         organizationLearnerId,
+        dependencies: { combinedCourseParticipationRepository, eligibilityRepository, recommendedModuleRepository },
       });
 
       // then
@@ -330,10 +325,12 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       // when
       const combinedCourseDetails = await CombinedCourseDetailsService.instantiateCombinedCourseDetails({
         combinedCourseId,
+        dependencies: { campaignRepository, moduleRepository, recommendedModuleRepository, combinedCourseRepository },
       });
       const resultsByLearnerId = await CombinedCourseDetailsService.getCombinedCourseDetailsForMultipleLearners({
         organizationLearnerIds: [organizationLearnerId, secondLearner.id],
         combinedCourseDetails,
+        dependencies: { combinedCourseParticipationRepository, eligibilityRepository, recommendedModuleRepository },
       });
 
       // then
@@ -400,10 +397,12 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       // when
       const combinedCourseDetails = await CombinedCourseDetailsService.instantiateCombinedCourseDetails({
         combinedCourseId,
+        dependencies: { campaignRepository, moduleRepository, recommendedModuleRepository, combinedCourseRepository },
       });
       const result = await CombinedCourseDetailsService.getCombinedCourseDetails({
         combinedCourseDetails,
         organizationLearnerId,
+        dependencies: { combinedCourseParticipationRepository, eligibilityRepository, recommendedModuleRepository },
       });
 
       // then

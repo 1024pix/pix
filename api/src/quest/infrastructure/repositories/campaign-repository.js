@@ -1,13 +1,14 @@
+import * as campaignsApi from '../../../prescription/campaign/application/api/campaigns-api.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 
-export const getByCode = async function ({ code, campaignsApi }) {
-  const campaign = await campaignsApi.getByCode(code);
+export const getByCode = async function ({ code, dependencies = { campaignsApi } }) {
+  const campaign = await dependencies.campaignsApi.getByCode(code);
   return new Campaign(campaign);
 };
 
-export const get = async function ({ id, campaignsApi }) {
-  const campaign = await campaignsApi.get(id);
+export const get = async function ({ id, dependencies = { campaignsApi } }) {
+  const campaign = await dependencies.campaignsApi.get(id);
   return new Campaign(campaign);
 };
 
@@ -48,9 +49,9 @@ export const getCampaignIdsByCombinedCourseIds = async function ({ combinedCours
   return campaignIds;
 };
 
-export const save = async function ({ campaigns, campaignsApi }) {
+export const save = async function ({ campaigns, dependencies = { campaignsApi } }) {
   const campaignToCreate = campaigns.map(_toDTO);
-  const createdCampaigns = await campaignsApi.save(campaignToCreate, {
+  const createdCampaigns = await dependencies.campaignsApi.save(campaignToCreate, {
     allowCreationWithoutTargetProfileShare: true,
   });
   return createdCampaigns.map((campaign) => new Campaign(campaign));

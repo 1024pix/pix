@@ -1,14 +1,17 @@
+import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
+import * as combinedCourseParticipationRepository from '../../infrastructure/repositories/combined-course-participation-repository.js';
+import * as combinedCourseRepository from '../../infrastructure/repositories/combined-course-repository.js';
+import * as eligibilityRepository from '../../infrastructure/repositories/eligibility-repository.js';
+import * as moduleRepository from '../../infrastructure/repositories/module-repository.js';
+import * as recommendedModuleRepository from '../../infrastructure/repositories/recommended-module-repository.js';
 import { CombinedCourseDetails } from '../models/CombinedCourseDetails.js';
 import { DataForQuest } from '../models/DataForQuest.js';
 
 async function instantiateCombinedCourseDetails({
   combinedCourseId,
-  combinedCourseRepository,
-  campaignRepository,
-  recommendedModuleRepository,
-  moduleRepository,
+  dependencies = { campaignRepository, moduleRepository, combinedCourseRepository, recommendedModuleRepository },
 }) {
-  const combinedCourse = await combinedCourseRepository.getById({ id: combinedCourseId });
+  const combinedCourse = await dependencies.combinedCourseRepository.getById({ id: combinedCourseId });
 
   const combinedCourseDetails = new CombinedCourseDetails(combinedCourse, combinedCourse.quest);
   await combinedCourseDetails.setEncryptedUrl();
@@ -16,18 +19,18 @@ async function instantiateCombinedCourseDetails({
   const campaigns = [];
   const targetProfileIds = [];
   for (const campaignId of campaignIds) {
-    const campaign = await campaignRepository.get({ id: campaignId });
+    const campaign = await dependencies.campaignRepository.get({ id: campaignId });
     campaigns.push(campaign);
     targetProfileIds.push(campaign.targetProfileId);
   }
 
-  const modules = await moduleRepository.getByIds({ moduleIds: combinedCourseDetails.moduleIds });
+  const modules = await dependencies.moduleRepository.getByIds({ moduleIds: combinedCourseDetails.moduleIds });
 
   combinedCourseDetails.setItems({ campaigns, modules });
 
   let recommendableModuleIds = [];
   if (targetProfileIds.length > 0) {
-    recommendableModuleIds = await recommendedModuleRepository.findIdsByTargetProfileIds({
+    recommendableModuleIds = await dependencies.recommendedModuleRepository.findIdsByTargetProfileIds({
       targetProfileIds,
     });
   }
@@ -40,12 +43,10 @@ async function instantiateCombinedCourseDetails({
 async function getCombinedCourseDetails({
   combinedCourseDetails,
   organizationLearnerId,
-  combinedCourseParticipationRepository,
-  eligibilityRepository,
-  recommendedModuleRepository,
   reward,
+  dependencies = { combinedCourseParticipationRepository, eligibilityRepository, recommendedModuleRepository },
 }) {
-  const participation = await combinedCourseParticipationRepository.findByLearnerId({
+  const participation = await dependencies.combinedCourseParticipationRepository.findByLearnerId({
     organizationLearnerId,
     combinedCourseId: combinedCourseDetails.id,
   });
@@ -54,7 +55,7 @@ async function getCombinedCourseDetails({
   let dataForQuest;
 
   if (participation) {
-    const eligibility = await eligibilityRepository.findByOrganizationAndOrganizationLearnerId({
+    const eligibility = await dependencies.eligibilityRepository.findByOrganizationAndOrganizationLearnerId({
       organizationLearnerId,
       organizationId: combinedCourseDetails.organizationId,
       moduleIds: combinedCourseDetails.moduleIds,
@@ -66,7 +67,7 @@ async function getCombinedCourseDetails({
       combinedCourseDetails.quest.findCampaignParticipationIdsContributingToQuest(dataForQuest);
 
     if (campaignParticipationIds.length > 0) {
-      recommendedModuleIdsForUser = await recommendedModuleRepository.findIdsByCampaignParticipationIds({
+      recommendedModuleIdsForUser = await dependencies.recommendedModuleRepository.findIdsByCampaignParticipationIds({
         campaignParticipationIds,
       });
     }
@@ -85,11 +86,9 @@ async function getCombinedCourseDetails({
 async function getCombinedCourseDetailsForMultipleLearners({
   combinedCourseDetails,
   organizationLearnerIds,
-  combinedCourseParticipationRepository,
-  eligibilityRepository,
-  recommendedModuleRepository,
+  dependencies = { combinedCourseParticipationRepository, eligibilityRepository, recommendedModuleRepository },
 }) {
-  const participations = await combinedCourseParticipationRepository.findByLearnerIds({
+  const participations = await dependencies.combinedCourseParticipationRepository.findByLearnerIds({
     organizationLearnerIds,
     combinedCourseId: combinedCourseDetails.id,
   });
@@ -101,7 +100,7 @@ async function getCombinedCourseDetailsForMultipleLearners({
   let eligibilitiesByLearnerId = new Map();
 
   if (learnerIdsWithParticipation.length > 0) {
-    eligibilitiesByLearnerId = await eligibilityRepository.findByOrganizationAndOrganizationLearnerIds({
+    eligibilitiesByLearnerId = await dependencies.eligibilityRepository.findByOrganizationAndOrganizationLearnerIds({
       organizationLearnerIds: learnerIdsWithParticipation,
       organizationId: combinedCourseDetails.organizationId,
       moduleIds: combinedCourseDetails.moduleIds,
@@ -122,7 +121,7 @@ async function getCombinedCourseDetailsForMultipleLearners({
       combinedCourseDetails.quest.findCampaignParticipationIdsContributingToQuest(dataForQuest);
 
     if (campaignParticipationIds.length > 0) {
-      const recommendedModules = await recommendedModuleRepository.findIdsByCampaignParticipationIds({
+      const recommendedModules = await dependencies.recommendedModuleRepository.findIdsByCampaignParticipationIds({
         campaignParticipationIds,
       });
       recommendedModulesByLearnerId.set(learnerId, recommendedModules);
