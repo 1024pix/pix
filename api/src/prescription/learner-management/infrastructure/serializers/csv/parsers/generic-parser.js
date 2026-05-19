@@ -14,8 +14,8 @@ const PARSING_OPTIONS = {
   skipEmptyLines: 'greedy',
   transform: (value) => {
     if (typeof value === 'string') {
-      value = value.trim();
-      return value.length ? value : undefined;
+      const trimmed = value.trim();
+      return trimmed.length ? trimmed : undefined;
     }
     return value;
   },
@@ -26,37 +26,32 @@ class GenericParser {
   #input;
   #errors;
 
-  // compute heading
   #columns;
-  // compute support_encoding
   #supportedEncodings;
 
-  constructor({ buffer, importFormat = {} }) {
+  constructor({ buffer, importFormat }) {
     this.#input = buffer;
     this.#errors = [];
-
-    // compute heading
     this.#columns = importFormat.config.headers;
-
-    // compute support_encoding
-    this.#supportedEncodings = importFormat.config.acceptedEncoding;
-    this.#supportedEncodings.sort((encoding) => (encoding === 'utf8' ? -1 : 1));
+    this.#supportedEncodings = importFormat.config.acceptedEncoding.toSorted((a, b) =>
+      a === 'utf8' ? -1 : b === 'utf8' ? 1 : 0,
+    );
   }
 
-  static buildParser() {
-    return new GenericParser(...arguments);
+  static buildParser(options) {
+    return new GenericParser(options);
   }
 
   parse(encoding) {
-    const { learnerLines, fields } = this.#parse(encoding);
+    const { rows, fields } = this.#parseCsvContent(encoding);
 
-    this.#throwHasErrors();
+    this.#throwIfErrors();
 
-    this.#checkColumns(fields);
+    this.#validateRequiredColumns(fields);
 
-    this.#throwHasErrors();
+    this.#throwIfErrors();
 
-    return learnerLines;
+    return rows;
   }
 
   /**
@@ -65,8 +60,7 @@ class GenericParser {
    * If there is one with at least "First name" or "Student number" correctly parsed and decoded.
    */
   getEncoding() {
-    const supported_encodings = this.#supportedEncodings;
-    for (const encoding of supported_encodings) {
+    for (const encoding of this.#supportedEncodings) {
       const decodedInput = iconv.decode(this.#input, encoding);
       if (!decodedInput.includes('�')) {
         return encoding;
@@ -74,17 +68,17 @@ class GenericParser {
     }
 
     this.#errors.push(new CsvImportError(ERRORS.ENCODING_NOT_SUPPORTED));
-    this.#throwHasErrors();
+    this.#throwIfErrors();
   }
 
-  #throwHasErrors() {
+  #throwIfErrors() {
     if (this.#errors.length > 0) throw this.#errors;
   }
 
-  #parse(encoding) {
+  #parseCsvContent(encoding) {
     const decodedInput = iconv.decode(this.#input, encoding);
     const {
-      data: learnerLines,
+      data: rows,
       meta: { fields },
       errors,
     } = papa.parse(decodedInput, PARSING_OPTIONS);
@@ -97,16 +91,15 @@ class GenericParser {
       }
     }
 
-    this.#throwHasErrors();
+    this.#throwIfErrors();
 
-    return { learnerLines, fields };
+    return { rows, fields };
   }
 
-  #checkColumns(parsedColumns) {
-    // Required columns
-    const mandatoryColumn = this.#columns.filter((c) => c.required);
+  #validateRequiredColumns(parsedColumns) {
+    const requiredColumns = this.#columns.filter((column) => column.required);
 
-    mandatoryColumn.forEach((colum) => {
+    requiredColumns.forEach((colum) => {
       if (!parsedColumns.includes(colum.name)) {
         this.#errors.push(new CsvImportError(ERRORS.HEADER_REQUIRED, { field: colum.name }));
       }
