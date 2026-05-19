@@ -1,5 +1,7 @@
 import Service, { service } from '@ember/service';
 
+const PIX_APP_APPLICATION_NAME = 'app';
+
 export default class OidcIdentityProviders extends Service {
   @service store;
 
@@ -9,6 +11,10 @@ export default class OidcIdentityProviders extends Service {
 
   get hasIdentityProviders() {
     return this.list.length > 0;
+  }
+
+  get identityProvidersForPixApp() {
+    return this.list.filter((identityProvider) => identityProvider.application == PIX_APP_APPLICATION_NAME);
   }
 
   findByCode(identityProviderCode) {

@@ -1,5 +1,7 @@
 import Service from '@ember/service';
 
+const PIX_APP_APPLICATION_NAME = 'app';
+
 /**
  * Stubs the oidcIdentityProviders service.
  *
@@ -33,6 +35,10 @@ export function stubOidcIdentityProvidersService(
 
     get hasIdentityProviders() {
       return this.oidcIdentityProviders.length > 0;
+    }
+
+    get identityProvidersForPixApp() {
+      return this.list.filter((identityProvider) => identityProvider.application == PIX_APP_APPLICATION_NAME);
     }
 
     findByCode(identityProviderCode) {
