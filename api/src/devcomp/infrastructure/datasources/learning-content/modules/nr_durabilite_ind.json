@@ -7,13 +7,13 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/NR_Durabilit%C3%A9_IND/picto_nr_durabilite_ind-1.svg",
-    "description": "<p>Nos smartphones et ordinateurs contiennent de nombreux métaux (lithium, cobalt, terres rares) dont l’extraction consomme beaucoup d’eau et de produits chimiques, avec des impacts sur l’environnement et la santé. 🌍</p><p>Ce module vous montre les impacts de la fabrication des appareils numériques et montre comment le réemploi et le reconditionnement permettent d’en réduire l’empreinte. 🔁</p>",
+    "description": "<p>Nos smartphones et ordinateurs contiennent de nombreux métaux. L’extraction de ces métaux consomme beaucoup d’eau et de produits chimiques, avec des impacts sur l’environnement et la santé. 🌍</p><p>Ce module vous montre les impacts de la fabrication des appareils numériques et montre comment le réemploi et le reconditionnement permettent d’en réduire l’empreinte. 🔁</p>",
     "duration": 10,
     "level": "independent",
     "objectives": [
-      "<p>Connaître les métaux et terres rares qui composent les appareils numériques (ordinateurs, tablettes, smarphones, etc).</p>",
-      "<p>Identifier les principaux impacts environnementaux liés à l’extraction des métaux et terres rares.</p>",
-      "<p>Comprendre l’intérêt du réemploi et du reconditionnement pour réduire l’impact environnemental.</p>"
+      "<p>Connaître les métaux et terres rares qui composent les appareils numériques (ordinateurs, tablettes, smartphones, etc.)</p>",
+      "<p>Identifier les principaux impacts environnementaux liés à l’extraction des métaux et terres rares</p>",
+      "<p>Comprendre l’intérêt du réemploi et du reconditionnement pour réduire l’impact environnemental</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -45,41 +45,41 @@
                 "id": "539c81ce-9924-46f1-b221-00fc2ce2642e",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Selon vous, combien de kilogrammes (kg) de ressources faut-il mobiliser pour fabriquer un seul smartphone ?<br></p>",
+                "instruction": "<p>Selon vous, quelle quantitié de ressources (en kg) faut-il utiliser pour fabriquer un seul smartphone ?<br></p>",
                 "functionalInstruction": "",
                 "tagName": "pix-cursor",
                 "props": {
                   "options": [
                     {
-                      "label": "2 kilogrammes",
-                      "feedback": {
-                        "type": "bad",
-                        "text": "Eh non ! Pour un seul smartphone, c’est environ 200 kilogrammes de matières premières qu’il faut extraire, transformer et transporter pour produire un seul smartphone neuf."
-                      }
-                    },
-                    {
-                      "label": "20 kilogrammes",
-                      "feedback": {
-                        "type": "bad",
-                        "text": "Pour un seul smartphone, c’est environ 200 kilogrammes de matières premières qu’il faut extraire, transformer et transporter pour produire un seul smartphone neuf."
-                      }
-                    },
-                    {
-                      "label": "120 kilogrammes",
+                      "label": "2 kg",
                       "feedback": {
                         "type": "bad",
                         "text": "Eh non ! C’est environ 200 kilogrammes de matières premières qu’il faut extraire, transformer et transporter pour produire un seul smartphone neuf."
                       }
                     },
                     {
-                      "label": "200 kilogrammes",
+                      "label": "20 kg",
+                      "feedback": {
+                        "type": "bad",
+                        "text": "Eh non ! C’est environ 200 kilogrammes de matières premières qu’il faut extraire, transformer et transporter pour produire un seul smartphone neuf."
+                      }
+                    },
+                    {
+                      "label": "120 kg",
+                      "feedback": {
+                        "type": "bad",
+                        "text": "Eh non ! C’est environ 200 kilogrammes de matières premières qu’il faut extraire, transformer et transporter pour produire un seul smartphone neuf."
+                      }
+                    },
+                    {
+                      "label": "200 kg",
                       "feedback": {
                         "type": "good",
                         "text": "Bien vu ! C’est environ 200 kilogrammes de matières premières qu’il faut extraire, transformer et transporter pour produire un seul smartphone neuf."
                       }
                     },
                     {
-                      "label": "2 tonnes",
+                      "label": "2000 kg",
                       "feedback": {
                         "type": "bad",
                         "text": "Eh non ! C’est environ 200 kilogrammes de matières premières qu’il faut extraire, transformer et transporter pour produire un seul smartphone neuf."
@@ -102,7 +102,7 @@
                 "id": "d55e6ae8-8bb5-40e3-b256-1568a51ebe95",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voyons ensemble pourquoi <strong>autant de matières premières sont nécessaires</strong> pour un si petit objet.&nbsp;<br><br></p>"
+                "content": "<p>Voyons  pourquoi <strong>autant de matières premières sont nécessaires</strong> pour un si petit objet.&nbsp;<br><br></p>"
               }
             }
           ]
@@ -124,7 +124,7 @@
                 "id": "9b0552bc-4f23-4190-9c27-f7f4892b3383",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Cliquez sur les différentes parties du smartphone ci-dessous pour découvrir les matériaux qui le composent.</p>",
+                "instruction": "<p>Survolez les différentes parties du smartphone ci-dessous pour découvrir les matériaux qui le composent.</p>",
                 "functionalInstruction": "",
                 "tagName": "clickable-image",
                 "props": {
@@ -142,11 +142,11 @@
                         "x2": 250,
                         "y2": 440
                       },
-                      "info": "📱 Écran tactile : sensibilité et couleurs assurées par l’indium, l’étain et plusieurs terres rares (europium, terbium et yttrium).",
                       "spot": {
                         "x": 0,
                         "y": 0
-                      }
+                      },
+                      "info": "📱 Écran tactile : sensibilité et couleurs assurées par l’indium, l’étain et plusieurs terres rares (l'europium, le terbium et l'yttrium)."
                     },
                     {
                       "coords": {
@@ -155,11 +155,11 @@
                         "x2": 470,
                         "y2": 440
                       },
-                      "info": "⚙️ Circuits électroniques : conduction et résistance assurées grâce aux métaux précieux (cuivre, argent et or).",
                       "spot": {
                         "x": 0,
                         "y": 0
-                      }
+                      },
+                      "info": "⚙️ Circuits électroniques : conduction et résistance assurées grâce aux métaux précieux (le cuivre, l'argent et l'or)."
                     },
                     {
                       "coords": {
@@ -168,11 +168,11 @@
                         "x2": 560,
                         "y2": 360
                       },
-                      "info": "🔋 Batterie : stockage d’énergie grâce aux métaux rares (lithium et cobalt).",
                       "spot": {
                         "x": 0,
                         "y": 0
-                      }
+                      },
+                      "info": "🔋 Batterie : stockage d’énergie grâce aux métaux rares ( le lithium et le cobalt)."
                     },
                     {
                       "coords": {
@@ -181,11 +181,11 @@
                         "x2": 800,
                         "y2": 440
                       },
-                      "info": "🔈 Haut-parleur / Microphone : production du son rendue possible par le cobalt et le néodyme, une terre rare magnétique.",
                       "spot": {
                         "x": 0,
                         "y": 30
-                      }
+                      },
+                      "info": "🔈 Haut-parleur / Microphone : production du son rendue possible par le cobalt et le néodyme, une terre rare magnétique."
                     },
                     {
                       "coords": {
@@ -194,11 +194,11 @@
                         "x2": 990,
                         "y2": 440
                       },
-                      "info": "💻 Boîtier / Structure : solidité et légèreté obtenues grâce à l’aluminium et au magnésium.",
                       "spot": {
                         "x": 0,
                         "y": 0
-                      }
+                      },
+                      "info": "💻 Boîtier / Structure : solidité et légèreté obtenues grâce à l’aluminium et au magnésium."
                     }
                   ]
                 }
@@ -219,21 +219,21 @@
                     "type": "select",
                     "input": "choice1",
                     "display": "inline",
-                    "placeholder": "Sélectionnez une réponse.",
+                    "placeholder": "- Sélectionner -",
                     "ariaLabel": "Sélectionner un usage pour le lithium",
                     "tolerances": [],
                     "options": [
                       {
                         "id": "2",
-                        "content": "Écrans (couleurs et sensibilité tactile)"
+                        "content": "les écrans (couleurs et sensibilité tactile)"
                       },
                       {
                         "id": "1",
-                        "content": "Batteries"
+                        "content": "les batteries"
                       },
                       {
                         "id": "3",
-                        "content": "Circuits électroniques"
+                        "content": "les circuits électroniques"
                       }
                     ],
                     "solutions": [
@@ -242,27 +242,27 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p><span>Les terres rares (europium, terbium, yttrium, etc) : </span></p>"
+                    "content": "<br><p><span>Les terres rares (europium, terbium, yttrium, etc.) : </span></p>"
                   },
                   {
                     "type": "select",
                     "input": "choice2",
                     "display": "inline",
-                    "placeholder": "Sélectionnez une réponse.",
+                    "placeholder": "- Sélectionner -",
                     "ariaLabel": "Sélectionner un usage pour les terres rares",
                     "tolerances": [],
                     "options": [
                       {
                         "id": "1",
-                        "content": "Batteries"
+                        "content": "les batteries"
                       },
                       {
                         "id": "3",
-                        "content": "Circuits électroniques"
+                        "content": "les circuits électroniques"
                       },
                       {
                         "id": "2",
-                        "content": "Écrans (couleurs et sensibilité tactile)"
+                        "content": "les écrans (couleurs et sensibilité tactile)"
                       }
                     ],
                     "solutions": [
@@ -277,21 +277,21 @@
                     "type": "select",
                     "input": "choice3",
                     "display": "inline",
-                    "placeholder": "Sélectionnez une réponse.",
+                    "placeholder": "- Sélectionner -",
                     "ariaLabel": "Sélectionner un usage pour l’or, le cuivre et l’argent",
                     "tolerances": [],
                     "options": [
                       {
                         "id": "3",
-                        "content": "Circuits électroniques"
+                        "content": "les circuits électroniques"
                       },
                       {
                         "id": "2",
-                        "content": "Écrans (couleurs et sensibilité tactile)"
+                        "content": "les écrans (couleurs et sensibilité tactile)"
                       },
                       {
                         "id": "1",
-                        "content": "Batteries"
+                        "content": "les batteries"
                       }
                     ],
                     "solutions": [
@@ -302,11 +302,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bonne réponse !&nbsp;</p>",
-                    "diagnosis": "<p>Le <strong>lithium</strong> sert surtout aux <strong>batteries</strong>, les <strong>terres rares</strong> aux <strong>couleurs et à la luminosité des écrans</strong>, et l’<strong>or</strong> aux <strong>circuits électroniques</strong> pour une bonne conductivité.</p><p>Cette image ne montre qu’une partie des matériaux&nbsp;: un smartphone peut contenir <strong>plus de cinquante métaux différents</strong>.</p>"
+                    "diagnosis": "<p>Le <strong>lithium</strong> sert surtout aux <strong>batteries</strong>, les <strong>terres rares</strong> aux <strong>couleurs et à la sensibilité tactile des écrans</strong>, et l’<strong>or</strong> aux <strong>circuits électroniques</strong> pour une bonne conductivité.</p><p>Cette image ne montre qu’une partie des matériaux&nbsp;: un smartphone peut contenir <strong>plus de 70 métaux différents</strong>.</p>"
                   },
                   "invalid": {
                     "state": "<p>Pas exactement...</p>",
-                    "diagnosis": "<p>Le <strong>lithium</strong> sert surtout aux <strong>batteries</strong>, les <strong>terres rares</strong> aux <strong>couleurs et à la luminosité des écrans</strong>, et l’<strong>or</strong> aux <strong>circuits électroniques</strong> pour une bonne conductivité.</p><p>Cette image ne montre qu’une partie des matériaux&nbsp;: un smartphone peut contenir <strong>plus de cinquante métaux différents</strong>.</p>"
+                    "diagnosis": "<p>Le <strong>lithium</strong> sert surtout aux <strong>batteries</strong>, les <strong>terres rares</strong> aux <strong>couleurs et à la sensibilité tactile des écrans</strong>, et l’<strong>or</strong> aux <strong>circuits électroniques</strong> pour une bonne conductivité.</p>\n<p>Cette image ne montre qu’une partie des matériaux&nbsp;: un smartphone peut contenir <strong>plus de 70 métaux différents</strong>.</p>"
                   }
                 }
               }
@@ -328,7 +328,7 @@
                       "id": "fd4686e7-d519-425e-a6f0-f8b14c5d18f9",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Aujourd’hui, la production d’appareils augmente partout dans le monde.</p><h5>🤔 Que provoque cette hausse continue ?</h5><p>La demande en métaux et en terres rares <strong>explose</strong>. Le numérique <strong>mobilise</strong> maintenant <strong>une grande part des réserves mondiales</strong> de matériaux comme le germanium ou l’indium.</p>"
+                      "content": "<p>Aujourd’hui, la production d’appareils numériques (ordinateurs, tablettes, smartphones, etc.) augmente partout dans le monde.</p><h5>🤔 Quelles sont les conséquences de cette augmentation continue de la production ?</h5><p>La demande en métaux et en terres rares <strong>explose</strong>. Le numérique <strong>mobilise</strong> maintenant <strong>une grande part des réserves mondiales</strong> de matériaux comme le germanium ou l’indium.</p>"
                     }
                   ]
                 },
@@ -337,8 +337,8 @@
                     {
                       "id": "843b69d0-3f09-4c93-adb4-f57ffe20b587",
                       "type": "text",
-                      "tag": " ",
-                      "content": "<p><strong>💡Bon à savoir</strong></p><p>Les <strong>terres rares&nbsp;</strong>(néodyme, europium, yttrium, etc) sont des métaux <strong>essentiels aux appareils numériques&nbsp;</strong>(les ordinateurs, tablettes, smartphones, etc). Présentes en très faible concentration dans la terre, leur extraction demande beaucoup d’énergie, d’eau et de produits chimiques polluants.</p>"
+                      "tag": "further-information",
+                      "content": "<p>Les <strong>terres rares&nbsp;</strong>(néodyme, europium, yttrium, etc.) sont des métaux <strong>essentiels aux appareils numériques&nbsp;</strong>(les ordinateurs, tablettes, smartphones, etc.) Présentes en très faible concentration dans la terre, l'extraction des terres rares demande beaucoup d’énergie, d’eau et de produits chimiques polluants.</p>"
                     }
                   ]
                 }
@@ -357,7 +357,7 @@
                 "id": "149fd62a-f59a-4534-8a74-30f7bcebc934",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Maintenant que nous savons de quoi sont faits nos appareils, voyons <strong>ce que leur fabrication implique</strong> pour <strong>l’environnement et les populations</strong>.</p>"
+                "content": "<p>Maintenant que vous savez de quoi sont faits nos appareils. Voyons&nbsp;<strong>les conséquences de leur fabrication</strong>.</p>"
               }
             }
           ]
@@ -377,19 +377,19 @@
                       "id": "ce66cf46-2ea1-4536-bfe6-506736e41df5",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Observez l’évolution de cette mine de Mongolie intérieure au fil des années. Répondez ensuite à la question ci-dessous.</p>"
+                      "content": "<p>Observez l’évolution d’une zone minière en Mongolie au fil des années. Répondez ensuite à la question qui suit.</p>"
                     },
                     {
                       "id": "6d6c87da-b248-4abc-936a-62938426826a",
                       "type": "short-video",
-                      "title": "Timelapse d’une vue aérienne. ",
+                      "title": "Vue aérienne d'une mine. ",
                       "url": "https://assets.pix.org/modules/NR_Durabilit%C3%A9_IND/timelaps_mine.mp4",
                       "transcription": "<p>Vidéo en vue aérienne montrant l’évolution d’une zone industrielle entre 1985 et 2025. Une petite tache noire apparaît au sol en 1985. Au fil des années, elle s’agrandit progressivement, s’étend sur le paysage et finit par occuper une grande partie de l’image en 2025.</p>"
                     },
                     {
                       "id": "8db7e730-9601-4e62-b6a4-9e351097e40f",
                       "type": "qcu-discovery",
-                      "instruction": "<p> À votre avis, à cause de quoi s’est formé le «&nbsp;lac noir&nbsp;» visible depuis l’espace ?</p>",
+                      "instruction": "<p>À votre avis, à cause de quoi le « lac noir » visible depuis l’espace s’est-il formé ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -455,11 +455,11 @@
                               "x2": 60,
                               "y2": 140
                             },
-                            "info": "Sous le désert de sel, il y a de l’eau très salée qui contient du lithium.",
                             "spot": {
                               "x": 3,
                               "y": 12
-                            }
+                            },
+                            "info": "Sous le désert de sel, il y a de l’eau très salée qui contient du lithium."
                           },
                           {
                             "coords": {
@@ -468,11 +468,11 @@
                               "x2": 95,
                               "y2": 95
                             },
-                            "info": "Cette eau est pompée depuis le sous-sol. Cela utilise beaucoup d’eau, dans des régions souvent très sèches.",
                             "spot": {
-                              "x": -15,
-                              "y": 0
-                            }
+                              "x": -16,
+                              "y": 16
+                            },
+                            "info": "Cette eau est pompée depuis le sous-sol. Cela utilise beaucoup d’eau, dans des régions souvent très sèches."
                           },
                           {
                             "coords": {
@@ -481,11 +481,11 @@
                               "x2": 145,
                               "y2": 115
                             },
-                            "info": "L’eau est versée dans de grands bassins. Le soleil fait évaporer l’eau lentement.",
                             "spot": {
                               "x": -3,
                               "y": -3
-                            }
+                            },
+                            "info": "L’eau est versée dans de grands bassins. Le soleil fait évaporer l’eau lentement."
                           },
                           {
                             "coords": {
@@ -494,11 +494,11 @@
                               "x2": 175,
                               "y2": 115
                             },
-                            "info": "Quand l’eau disparaît, le lithium se concentre. Des résidus de sel et de produits chimiques restent sur place, polluants durablement les sols.",
                             "spot": {
                               "x": -9,
                               "y": -5
-                            }
+                            },
+                            "info": "Quand l’eau disparaît, le lithium se concentre. Des résidus de sel et de produits chimiques restent sur place, polluant durablement les sols."
                           },
                           {
                             "coords": {
@@ -507,11 +507,11 @@
                               "x2": 225,
                               "y2": 105
                             },
-                            "info": "Le lithium est envoyé vers une usine pour être transformé en poudre.",
                             "spot": {
                               "x": 0,
-                              "y": -5
-                            }
+                              "y": 10
+                            },
+                            "info": "Le lithium est envoyé vers une usine pour être transformé en poudre."
                           },
                           {
                             "coords": {
@@ -520,11 +520,11 @@
                               "x2": 280,
                               "y2": 115
                             },
-                            "info": "Cette poudre sert à fabriquer des batteries.",
                             "spot": {
                               "x": 0,
-                              "y": -5
-                            }
+                              "y": 0
+                            },
+                            "info": "Cette poudre sert à fabriquer des batteries."
                           }
                         ]
                       }
@@ -537,30 +537,30 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Oui, grâce au lithium.</p>",
+                          "content": "<p>Oui, grâce aux batteries au du lithium.</p>",
                           "feedback": {
                             "diagnosis": "<p>Eh non ! </p><p>Le <strong>lithium</strong> est indispensable aux batteries, mais son extraction <strong>détruit les écosystèmes</strong> et <strong>contamine les nappes phréatiques</strong>, entraînant manque d’eau et pollution pour les populations locales.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Oui, si on les recharge souvent.</p>",
+                          "content": "<p>Oui, si on recharge souvent les batteries.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. </p><p>Le <strong>lithium</strong> est indispensable aux batteries, mais son extraction <strong>détruit les écosystèmes</strong> et <strong>contamine les nappes phréatiques</strong>, entraînant manque d’eau et pollution pour les populations locales.</p>"
+                            "diagnosis": "<p>Eh non. </p><p>Le <strong>lithium</strong> est indispensable aux batteries. Mais son extraction <strong>détruit les écosystèmes</strong> et <strong>contamine les nappes phréatiques</strong>, entraînant manque d’eau et pollution pour les populations locales.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Non, car l’extraction est polluante.</p>",
+                          "content": "<p>Non, car l’extraction du lithium est polluante.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu. </p><p>Le <strong>lithium</strong> est indispensable aux batteries, mais son extraction <strong>détruit les écosystèmes</strong> et <strong>contamine les nappes phréatiques</strong>, entraînant manque d’eau et pollution pour les populations locales.</p>"
+                            "diagnosis": "<p>Bien vu. </p>\n<p>Le <strong>lithium</strong> est indispensable aux batteries. Mais son extraction <strong>détruit les écosystèmes</strong> et <strong>contamine les nappes phréatiques</strong>, entraînant manque d’eau et pollution pour les populations locales.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.&nbsp;</p>",
                           "feedback": {
-                            "diagnosis": "<p>Le <strong>lithium</strong> est indispensable aux batteries, mais son extraction <strong>détruit les écosystèmes</strong> et <strong>contamine les nappes phréatiques</strong>, entraînant manque d’eau et pollution pour les populations locales, ce qui engendre parfois des tensions pour le contrôle de celles-ci.</p>"
+                            "diagnosis": "<p>Le <strong>lithium</strong> est indispensable aux batteries. Mais son extraction <strong>détruit les écosystèmes</strong> et <strong>contamine les nappes phréatiques</strong>, entraînant manque d’eau et pollution pour les populations locales.</p>"
                           }
                         }
                       ],
@@ -581,14 +581,14 @@
                       "type": "image",
                       "url": "https://assets.pix.org/modules/NR_Durabilit%C3%A9_IND/article_mine.svg",
                       "alt": "",
-                      "alternativeText": "<p><strong>Extraction artisanale en RDC&nbsp;: conditions de travail et risques humains</strong></p><p>Novembre 2014 – Par la rédaction</p><p>Dans la mine de Kailo, en République démocratique du Congo, les habitants extraient à la main de la wolframite (pour le tungstène) et de la cassitérite (pour l’étain), deux minerais essentiels à la fabrication d’appareils électroniques.</p><p><strong>Des enfants participent parfois au tri ou au transport du minerai, travaillant dans des conditions dangereuses et sans protection.</strong> Ces activités artisanales exposent les travailleurs à des conditions précaires et à un manque de protections élémentaires.</p><p>Dans cette région, l’exploitation minière représente souvent la seule source de revenus, mais elle se fait au prix de risques sanitaires importants pour les adultes comme pour les enfants.</p>",
+                      "alternativeText": "<p><strong>Extraction artisanale en République Démocratique du Congo (RDC) : conditions de travail et risques humains</strong></p><p>Novembre 2014 – Par la rédaction</p><p>Dans la mine de Kailo, en République démocratique du Congo, les habitants extraient à la main de la wolframite (pour le tungstène) et de la cassitérite (pour l’étain), deux minerais essentiels à la fabrication d’appareils électroniques.</p><p><strong>Des enfants participent parfois au tri ou au transport desu minerais, travaillant dans des conditions dangereuses et sans protection.</strong> Ces activités artisanales exposent les travailleurs à des conditions précaires et à un manque de protections élémentaires.</p><p>Dans cette région, l’exploitation minière représente souvent la seule source de revenus, mais elle se fait au prix de risques sanitaires importants pour les adultes comme pour les enfants.</p>",
                       "legend": "",
                       "licence": ""
                     },
                     {
                       "id": "664090f9-9d14-45f8-bfbd-8c09715ee51a",
                       "type": "qcu-discovery",
-                      "instruction": "<p>En 2014, certaines mines impliquaient des enfants. Est-ce encore le cas aujourd’hui, selon vous ?</p>",
+                      "instruction": "<p>En 2014, des enfants travaillaient dans certaines mines. Est-ce encore le cas aujourd’hui, selon vous ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -602,14 +602,14 @@
                           "id": "3",
                           "content": "<p>Seulement pour les appareils anciens.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Malheureusement non. </p><p>Dans certaines zones minières, l’extraction du cobalt, de l’étain ou du tungstène peut <strong>toujours&nbsp;</strong><strong>impliquer des enfants</strong>.</p>"
+                            "diagnosis": "<p>Malheureusement si. </p><p>Dans certaines zones minières, l’extraction du cobalt, de l’étain ou du tungstène peut <strong>toujours&nbsp;</strong><strong>impliquer des enfants</strong>.</p>"
                           }
                         },
                         {
                           "id": "1",
                           "content": "<p>Non, impossible !</p>",
                           "feedback": {
-                            "diagnosis": "<p>Malheureusement non. </p><p>Dans certaines zones minières, l’extraction du cobalt, de l’étain ou du tungstène peut <strong>toujours&nbsp;</strong><strong>impliquer des enfants</strong>.</p>"
+                            "diagnosis": "<p>Malheureusement si. </p><p>Dans certaines zones minières, l’extraction du cobalt, de l’étain ou du tungstène peut <strong>toujours&nbsp;</strong><strong>impliquer des enfants</strong>.</p>"
                           }
                         },
                         {
@@ -639,7 +639,7 @@
                 "id": "5d37b812-b5a9-4ebc-af92-260c6ede361e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’extraction des métaux nécessaires aux smartphones, ordinateurs et batteries a des <strong>impacts environnementaux et humains importants</strong>&nbsp;:</p><ul>    <li>une forte consommation d’eau</li>    <li>la pollution des sols</li>    <li>des risques pour la santé et les droits des populations locales</li></ul><h5>🤔 Tout cela, pour fabriquer nos smartphones et ordinateurs ?</h5><p>Oui. Ces métaux sont essentiels au fonctionnement des appareils numériques. Leur demande croissante pour fabriquer toujours plus d’appareils pèse fortement sur l’environnement et les droits humains.</p>"
+                "content": "<p>L’extraction des métaux nécessaires aux smartphones, ordinateurs et batteries a des <strong>impacts environnementaux et humains importants</strong>&nbsp;:</p><ul>    <li>une forte consommation d’eau</li>    <li>la pollution des sols</li>    <li>des risques pour la santé et les droits des populations locales</li></ul><h5>🤔 Tout cela, pour fabriquer nos smartphones et ordinateurs ?</h5><p>Oui. Ces métaux sont essentiels au fonctionnement des appareils numériques. La demande croissante pour fabriquer toujours plus d’appareils pèse fortement sur l’environnement et les droits humains.</p>"
               }
             }
           ]
@@ -655,7 +655,7 @@
                 "id": "138eea6b-49c9-449c-993d-0440fdf59a0b",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous avez vu les impacts de l’extraction. Passons aux décisions du quotidien.</p>"
+                "content": "<p>Vous avez vu les impacts de l’extraction. Passons aux décisions du quotidien qui peuvent limiter votre impact.</p>"
               }
             }
           ]
@@ -675,7 +675,7 @@
                       "id": "1a7e6933-9fd4-42ce-a844-44547efcd603",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>Amandine a un souci d’ordinateur portable.</strong><br>Au bout de quelques années, son appareil commence à avoir <strong>des problèmes d’affichage</strong> et la batterie tient de moins en moins longtemps. Il fonctionne encore, mais est de plus en plus<strong> inconfortable à utiliser</strong>.</p>"
+                      "content": "<p><strong>Amandine a un souci avec son ordinateur portable.</strong><br>Après quelques années d'utilisation, son appareil commence à avoir <strong>des problèmes d’affichage</strong> et la batterie tient de moins en moins longtemps. L'ordinateur fonctionne encore, mais est de plus en plus<strong> inconfortable à utiliser</strong>.</p>"
                     },
                     {
                       "id": "c62a71c2-ec8a-4da8-b1dc-fbebd3e86f69",
@@ -722,7 +722,7 @@
                       "id": "685e2165-8a4c-426c-b43d-5e48b6ce67ea",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>Deux ans plus tard</strong>, Amandine commence une formation de graphiste.<br><strong>Son ordinateur</strong> réparé <strong>fonctionne toujours</strong>, mais il n’est <strong>plus assez puissant</strong> pour utiliser les logiciels de création dont elle a <strong>besoin</strong> (retouche photo, modélisation 3D, etc).<br><br></p>"
+                      "content": "<p><strong>Deux ans plus tard</strong>, Amandine commence une formation de graphiste.<br><strong>Son ordinateur</strong> réparé <strong>fonctionne toujours</strong>, mais il n’est <strong>plus assez puissant</strong> pour utiliser les logiciels de création dont elle a <strong>besoin</strong> (retouche photo, modélisation 3D, etc.)<br><br></p>"
                     },
                     {
                       "id": "22e11b89-febc-4cbc-b65a-ebc109072b52",
@@ -782,7 +782,7 @@
                       "id": "db56ae01-3e09-4601-83bf-338c6520d013",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>Réparer ou prolonger l’utilisation</strong> d’un appareil permet d’éviter d’en fabriquer un nouveau.&nbsp; </p><h5>🤔 Et si j’ai besoin d’en changer ?</h5><p>Dans ce cas,<strong> choisir un appareil reconditionné</strong> est la meilleure option&nbsp;: il a déjà été fabriqué, puis <strong>testé, réparé et remis en état</strong>; ce qui lui donne une seconde vie et limite son impact. </p><h5><br></h5>"
+                      "content": "<p><strong>Réparer ou prolonger l’utilisation</strong> d’un appareil permet d’éviter d’en fabriquer un nouveau.&nbsp; </p><h5>🤔 Et si vous avez besoin d’en changer ?</h5><p>Dans ce cas,<strong> choisir un appareil reconditionné</strong> est la meilleure option&nbsp;: il a déjà été fabriqué, puis <strong>testé, réparé et remis en état</strong>; ce qui lui donne une seconde vie et limite son impact. </p><h5><br></h5>"
                     }
                   ]
                 },
@@ -792,13 +792,13 @@
                       "id": "0612b141-3b5d-4ba9-9a12-cfc99392e67d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>🤔 Le reconditionné, c’est donc mieux pour la planète ?</h5><p>Pas toujours. Ces gestes sont efficaces <strong>seulement</strong> <strong>s’ils remplacent vraiment l’achat d’un produit neuf</strong>, pas s’ils viennent s’y ajouter.</p>"
+                      "content": "<h5>🤔 Le reconditionné, c’est donc toujours mieux pour la planète ?</h5>\n<p>Pas toujours. <strong>Le reconditionné réduit l’impact seulement s’il remplace l’achat d’un appareil neuf</strong>. S’il vient s’ajouter à un appareil encore utilisable, il reste un achat supplémentaire.</p>"
                     },
                     {
                       "id": "5aafa8f3-3e00-416f-92e9-17d052c50516",
                       "type": "text",
-                      "tag": " ",
-                      "content": "<p><strong>💡Astuce</strong></p><p>Pensez à <strong>protéger</strong> vos appareils (coques, écrans, antivirus, etc) afin de les faire <strong>durer plus longtemps</strong> !&nbsp;</p>"
+                      "tag": "tip",
+                      "content": "<p>Pensez à <strong>protéger</strong> vos appareils (coques, écrans, antivirus, etc.) afin de les faire <strong>durer plus longtemps</strong> !&nbsp;</p>"
                     }
                   ]
                 }
@@ -823,7 +823,7 @@
                 "id": "b413213a-8e21-4985-8b39-80c70fa042f5",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>⛏️ Un ordinateur ou un téléphone contient plus de 50 métaux, dont plusieurs terres rares, extraits au prix d’une <strong>forte consommation d’eau</strong> douce, de <strong>pollution</strong> et de <strong>conditions de travail difficiles</strong>.</li>    <li>🔧 <strong>Faire durer</strong> ou <strong>réparer ses appareils</strong>, c’est éviter la production de nouveaux appareils, limiter l’extraction de métaux et la consommation d’eau.</li>    <li>♻️ Dans le cas d’un achat, <strong>choisir le reconditionné</strong> reste la solution la plus économe en ressources et la plus responsable.</li>    <li>🌍 <strong>Chaque geste compte.</strong> Remplacer une batterie, réparer un écran ou garder votre téléphone plus longtemps permet <strong>de produire moins</strong> et donc <strong>d’extraire moins de ressources</strong>.</li></ul>"
+                "content": "<ul>\n    <li>Un ordinateur ou un téléphone contient plus de 70 métaux, dont plusieurs terres rares. Ils sont extraits au prix d’une <strong>forte consommation d’eau douce</strong>, de <strong>pollution</strong> et de <strong>conditions de travail difficiles</strong>. ⛏️</li>\n    <li><strong>Faire durer</strong> ou <strong>réparer ses appareils</strong>, c’est éviter la production de nouveaux appareils, limiter l’extraction de métaux et la consommation d’eau. 🔧</li>\n    <li>Dans le cas d’un achat, <strong>choisir le reconditionné</strong> reste la solution la plus économe en ressources et la plus responsable. ♻️</li>\n    <li><strong>Chaque geste compte.</strong> Remplacer une batterie, réparer un écran ou garder votre téléphone plus longtemps permet <strong>de produire moins</strong> et donc <strong>d’extraire moins de ressources</strong>. 🌍</li>\n</ul>"
               }
             }
           ]
@@ -892,7 +892,7 @@
                   },
                   {
                     "id": "3950dc63-be0c-404e-93cc-465c3a145d20",
-                    "text": "Le néodyme, une terre rare, est utilisé dans les haut-parleurs pour produire le son.",
+                    "text": "Le néodyme, une terre rare, est utilisé dans les haut-parleurs pour produire du son.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -946,7 +946,7 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bien joué !</p>",
-                    "diagnosis": "<p>Ces situations entraînent souvent de fortes pollutions, des risques pour la santé et le déplacement de familles touchées par la dégradation durable de leur environnement. Et ce ne sont que quelques exemples&nbsp;: d’autres impacts sociaux et humains existent, même s’ils ne figurent pas ici.</p>"
+                    "diagnosis": "<p>L'extraction des terres rares entraîne souvent de fortes pollutions, des risques pour la santé et le déplacement de familles touchées par la dégradation durable de leur environnement. Et ce ne sont que quelques exemples&nbsp;: d’autres impacts sociaux et humains existent, même s’ils ne figurent pas ici.</p>"
                   },
                   "invalid": {
                     "state": "<p>Eh non.</p>",
@@ -982,7 +982,7 @@
                     "type": "select",
                     "input": "choice1",
                     "display": "block",
-                    "placeholder": "Sélectionner un rang",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "Sélectionner un rang pour l’achat d’un appareil neuf",
                     "tolerances": [],
                     "options": [
@@ -1015,7 +1015,7 @@
                     "type": "select",
                     "input": "choice2",
                     "display": "block",
-                    "placeholder": "Sélectionner un rang",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "Sélectionner un rang pour l’achat reconditionné alors que l’appareil fonctionne encore",
                     "tolerances": [],
                     "options": [
@@ -1048,7 +1048,7 @@
                     "type": "select",
                     "input": "choice3",
                     "display": "block",
-                    "placeholder": "Sélectionner un rang",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "Sélectionner un rang pour l’achat reconditionné après fin de vie",
                     "tolerances": [],
                     "options": [
@@ -1081,7 +1081,7 @@
                     "type": "select",
                     "input": "choice4",
                     "display": "block",
-                    "placeholder": "Sélectionner un rang",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "Sélectionner un rang pour la réparation",
                     "tolerances": [],
                     "options": [
@@ -1147,7 +1147,7 @@
                       "label": "0 an",
                       "feedback": {
                         "type": "neutral",
-                        "text": "Votre smartphone est tout récent. Sa durée de vie technique peut atteindre 5 à 10 ans si vous l’entretenez. Prenez en soin !"
+                        "text": "Votre smartphone est tout récent. Sa durée de vie technique peut atteindre 5 à 10 ans si vous l’entretenez. Prenez-en soin !"
                       }
                     },
                     {
@@ -1161,7 +1161,7 @@
                       "label": "2 ans",
                       "feedback": {
                         "type": "neutral",
-                        "text": "Vous êtes dans la moyenne exacte de remplacement observée dans les pays de l’OCDE. Pourtant, votre téléphone peut souvent durer bien plus de 5 ans s’il est entretenu ou réparé. Prenez en soin !"
+                        "text": "Vous êtes dans la moyenne exacte de remplacement observée dans les pays européens. Pourtant, votre téléphone peut souvent durer bien plus de 5 ans s’il est entretenu ou réparé. Prenez en soin !"
                       }
                     },
                     {
@@ -1182,7 +1182,7 @@
                       "label": "5 ans",
                       "feedback": {
                         "type": "neutral",
-                        "text": "Félicitations ! Vous dépassez déjà la durée d’usage moyenne de 2 à 3 ans observée dans les pays de l’OCDE. Vous exploitez bien les capacités techniques de votre appareil, qui peut encore fonctionner avec des réparations simples. Prenez en soin ! "
+                        "text": "Félicitations ! Vous dépassez déjà la durée d’usage moyenne de 2 à 3 ans observée dans les pays européens. Vous exploitez bien les capacités techniques de votre appareil, qui peut encore fonctionner avec des réparations simples. Prenez en soin ! "
                       }
                     },
                     {
