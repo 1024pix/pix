@@ -16,7 +16,7 @@ const uploadGenericFile = async function ({
   importStorage,
   dependencies = { createReadStream, getDataBuffer },
 }) {
-  let organizationImport = OrganizationImportStatus.create({ organizationId, createdBy: userId });
+  let organizationImportStatus = OrganizationImportStatus.create({ organizationId, createdBy: userId });
   let filename;
   let encoding;
   const errors = [];
@@ -27,9 +27,9 @@ const uploadGenericFile = async function ({
     if (organizationLearnerImportFormat === null)
       throw new OrganizationLearnerImportFormatNotFoundError(organizationId);
 
-    await organizationImportRepository.save(organizationImport);
+    await organizationImportRepository.save(organizationImportStatus);
 
-    organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
+    organizationImportStatus = await organizationImportRepository.getLastByOrganizationId(organizationId);
 
     const readableStreamEncoding = dependencies.createReadStream(payload.path);
     const bufferEncoding = await dependencies.getDataBuffer(readableStreamEncoding);
@@ -42,8 +42,9 @@ const uploadGenericFile = async function ({
     encoding = parser.getEncoding();
 
     filename = await importStorage.sendFile({ filepath: payload.path });
+
     await validateGenericFileJobRepository.performAsync(
-      new ValidateGenericFileJob({ organizationImportId: organizationImport.id }),
+      new ValidateGenericFileJob({ organizationImportId: organizationImportStatus.id }),
     );
   } catch (error) {
     if (Array.isArray(error)) {
@@ -55,8 +56,8 @@ const uploadGenericFile = async function ({
     throw new AggregateImportError(errors);
   } finally {
     try {
-      organizationImport.upload({ filename, encoding, errors });
-      await organizationImportRepository.save(organizationImport);
+      organizationImportStatus.upload({ filename, encoding, errors });
+      await organizationImportRepository.save(organizationImportStatus);
     } catch {
       if (filename) await importStorage.deleteFile({ filename });
     }
