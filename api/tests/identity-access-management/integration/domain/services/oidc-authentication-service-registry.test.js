@@ -126,7 +126,7 @@ describe('Integration | Identity Access Management | Domain | Service | oidc-aut
     });
   });
 
-  describe('#getReadyOidcProviderServicesByRequestedApplication', function () {
+  describe('#getOidcProviderServicesByRequestedApplication', function () {
     it('returns ready OIDC Providers by requestedApplication', async function () {
       // given
       const requestedApplicationForApp = new RequestedApplication({ applicationName: 'app', applicationTld: '.org' });
@@ -137,11 +137,11 @@ describe('Integration | Identity Access Management | Domain | Service | oidc-aut
 
       // when
       const readyServicesForApp =
-        await oidcAuthenticationServiceRegistry.getReadyOidcProviderServicesByRequestedApplication(
+        await oidcAuthenticationServiceRegistry.getOidcProviderServicesByRequestedApplication(
           requestedApplicationForApp,
         );
       const readyServicesForAdmin =
-        await oidcAuthenticationServiceRegistry.getReadyOidcProviderServicesByRequestedApplication(
+        await oidcAuthenticationServiceRegistry.getOidcProviderServicesByRequestedApplication(
           requestedApplicationForAdmin,
         );
 

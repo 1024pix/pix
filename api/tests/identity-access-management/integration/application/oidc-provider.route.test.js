@@ -94,7 +94,7 @@ describe('Integration | Identity Access Management | Application | Route | oidc-
         const headers = { 'x-forwarded-proto': 'https', 'x-forwarded-host': 'orga.dev.pix.org' };
 
         const error = new Error('BOOM!');
-        sinon.stub(usecases, 'getReadyIdentityProviders').rejects(error);
+        sinon.stub(usecases, 'getIdentityProvidersByRequestedApplication').rejects(error);
 
         // when
         const response = await httpTestServer.request('GET', '/api/oidc/identity-providers', null, null, headers);

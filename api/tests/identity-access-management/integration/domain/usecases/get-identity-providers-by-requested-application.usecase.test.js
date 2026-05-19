@@ -7,7 +7,7 @@ import { RequestedApplication } from '../../../../../src/identity-access-managem
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
-describe('Integration | Identity Access Management | Domain | UseCases | get-ready-identity-providers', function () {
+describe('Integration | Identity Access Management | Domain | UseCases | get-identity-providers-by-requested-application', function () {
   beforeEach(async function () {
     await databaseBuilder.factory.buildOidcProvider({
       application: 'app',
@@ -67,7 +67,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | get-rea
     const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.org' });
 
     // when
-    const identityProviders = await usecases.getReadyIdentityProviders({ requestedApplication });
+    const identityProviders = await usecases.getIdentityProvidersByRequestedApplication({ requestedApplication });
 
     // then
     expect(identityProviders).to.be.instanceOf(Array);
@@ -83,7 +83,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | get-rea
     const requestedApplication = new RequestedApplication({ applicationName: 'admin', applicationTld: '.fr' });
 
     // when
-    const identityProviders = await usecases.getReadyIdentityProviders({ requestedApplication });
+    const identityProviders = await usecases.getIdentityProvidersByRequestedApplication({ requestedApplication });
 
     // then
     expect(identityProviders).to.be.instanceOf(Array);

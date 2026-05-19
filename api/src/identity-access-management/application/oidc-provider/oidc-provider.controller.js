@@ -117,17 +117,17 @@ async function getAuthorizationUrl(request, h) {
 }
 
 /**
- * @typedef {function} getIdentityProviders
+ * @typedef {function} getIdentityProvidersByRequestedApplication
  * @param request
  * @param h
  * @return {Promise<*>}
  */
-async function getIdentityProviders(request, h) {
+async function getIdentityProvidersByRequestedApplication(request, h) {
   try {
     const origin = getForwardedOrigin(request.headers);
     const requestedApplication = RequestedApplication.fromOrigin(origin);
 
-    const identityProviders = await usecases.getReadyIdentityProviders({ requestedApplication });
+    const identityProviders = await usecases.getIdentityProvidersByRequestedApplication({ requestedApplication });
 
     return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
   } catch (error) {
@@ -209,7 +209,7 @@ async function logout(request, h) {
  * @property {authenticateOidcUser} authenticateOidcUser
  * @property {findUserForReconciliation} findUserForReconciliation
  * @property {getAuthorizationUrl} getAuthorizationUrl
- * @property {getIdentityProviders} getIdentityProviders
+ * @property {getIdentityProvidersByRequestedApplication} getIdentityProvidersByRequestedApplication
  * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
  * @property {reconcileUser} reconcileUser
  * @property {logout} logout
@@ -219,7 +219,7 @@ export const oidcProviderController = {
   createUser,
   findUserForReconciliation,
   getAuthorizationUrl,
-  getIdentityProviders,
+  getIdentityProvidersByRequestedApplication,
   getRedirectLogoutUrl,
   reconcileUser,
   logout,

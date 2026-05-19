@@ -141,7 +141,7 @@ import { getAllIdentityProviders } from './get-all-identity-providers.usecase.js
 import { getAuthorizationUrl } from './get-authorization-url.usecase.js';
 import { getCertificationPointOfContact } from './get-certification-point-of-contact.usecase.js';
 import { getCurrentUser } from './get-current-user.usecase.js';
-import { getReadyIdentityProviders } from './get-ready-identity-providers.usecase.js';
+import { getIdentityProvidersByRequestedApplication } from './get-identity-providers-by-requested-application.usecase.js';
 import { getRedirectLogoutUrl } from './get-redirect-logout-url.usecase.js';
 import { getSamlAuthenticationRedirectionUrl } from './get-saml-authentication-redirection-url.js';
 import { getUserAccountInfo } from './get-user-account-info.usecase.js';
@@ -202,7 +202,7 @@ const usecasesWithoutInjectedDependencies = {
   getAuthorizationUrl,
   getCertificationPointOfContact,
   getCurrentUser,
-  getReadyIdentityProviders,
+  getIdentityProvidersByRequestedApplication,
   getRedirectLogoutUrl,
   getSamlAuthenticationRedirectionUrl,
   getUserAccountInfo,

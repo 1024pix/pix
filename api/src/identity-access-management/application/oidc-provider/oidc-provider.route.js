@@ -10,7 +10,7 @@ export const oidcProviderRoutes = [
     options: {
       auth: false,
       cache: false,
-      handler: (request, h) => oidcProviderController.getIdentityProviders(request, h),
+      handler: (request, h) => oidcProviderController.getIdentityProvidersByRequestedApplication(request, h),
       notes: [
         'Cette route renvoie une liste contenant les informations requises par le front pour les partenaires OIDC',
       ],

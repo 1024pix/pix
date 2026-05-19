@@ -8,7 +8,7 @@ import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authenti
 
 export class OidcAuthenticationServiceRegistry {
   #allOidcProviderServices = null;
-  #readyOidcProviderServicesByRequestedApplication = {};
+  #oidcProviderServicesByRequestedApplication = {};
   #readyOidcProviderServicesByIdentityProviderCode = {};
 
   constructor(dependencies = {}) {
@@ -24,14 +24,14 @@ export class OidcAuthenticationServiceRegistry {
     return this.#allOidcProviderServices;
   }
 
-  async getReadyOidcProviderServicesByRequestedApplication(requestedApplication) {
+  async getOidcProviderServicesByRequestedApplication(requestedApplication) {
     await this.#loadAllOidcProviderServices();
 
     const key = generateGroupByKeyForRequestedApplication(
       requestedApplication.applicationName,
       requestedApplication.applicationTld,
     );
-    return this.#readyOidcProviderServicesByRequestedApplication[key] || [];
+    return this.#oidcProviderServicesByRequestedApplication[key] || [];
   }
 
   async getOidcProviderServiceByCode({ identityProviderCode, requestedApplication }) {
@@ -47,7 +47,7 @@ export class OidcAuthenticationServiceRegistry {
       return oidcProviderService;
     }
 
-    const oidcProviderServices = await this.getReadyOidcProviderServicesByRequestedApplication(requestedApplication);
+    const oidcProviderServices = await this.getOidcProviderServicesByRequestedApplication(requestedApplication);
     oidcProviderService = oidcProviderServices.find((service) => identityProviderCode === service.code);
     if (!oidcProviderService) {
       throw new InvalidIdentityProviderError(identityProviderCode);
@@ -60,7 +60,7 @@ export class OidcAuthenticationServiceRegistry {
 
   async testOnly_reset(oidcProviderServices) {
     this.#allOidcProviderServices = null;
-    this.#readyOidcProviderServicesByRequestedApplication = {};
+    this.#oidcProviderServicesByRequestedApplication = {};
     this.#readyOidcProviderServicesByIdentityProviderCode = {};
 
     if (oidcProviderServices) {
@@ -106,7 +106,7 @@ export class OidcAuthenticationServiceRegistry {
       (oidcProviderService) => oidcProviderService.isEnabled,
     );
 
-    this.#readyOidcProviderServicesByRequestedApplication = Object.groupBy(
+    this.#oidcProviderServicesByRequestedApplication = Object.groupBy(
       enabledOidcProviderServices,
       (oidcProviderService) =>
         generateGroupByKeyForRequestedApplication(oidcProviderService.application, oidcProviderService.applicationTld),
