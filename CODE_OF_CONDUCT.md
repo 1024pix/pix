@@ -44,9 +44,9 @@ Nous acceptons de restreindre les comportements suivants au sein de notre commun
 
 Des tensions peuvent se produire entre les membres de la communauté même lorsque iels font de leur mieux pour collaborer. Tous les conflits ne représentent pas une infraction au code de conduite, et ce Code de Conduite encourage les comportements et normes qui aident à éloigner les conflits, et à minimiser les douleurs.
 
-Lorsqu'un problème se produit, il est important de le notifier rapidement. Pour rapporter une possible infraction, merci d'utiliser [ce formulaire](https://docs.google.com/forms/d/1ThHx7WzWuJvXPgTwsEkMm6JqLakjHBJe0HSNgwUGHN4/edit).
+Lorsqu'un problème se produit, il est important de le notifier rapidement. Pour rapporter une possible infraction, merci d'utiliser [ce formulaire](https://docs.google.com/forms/d/e/1FAIpQLSed1t5tJiGG7GUN7Q68eIi7mafH76aFE25j_uwYhRubQM85-A/viewform?usp=header).
 
-La modération de la communauté recueille les infractions sérieusement et fait tout son possible pour répondre rapidement. Les modérateur·ices examinerons toutes plaintes d'infraction au code de conduite, vérifieront les messages, les évènements, les enregistrements, solliciteront des témoins ou autres participants. La modération de la communauté gardera l'investigation et la prise de mesures aussi transparente que possible, tout en priorisant la sécurité et la confidentialité. Dans le but d'honorer ces engagements, les mesures prises sont portées de manière privée aux parties concernées, mais communiquer au reste de la communauté peut faire partie de la résolution convenue conjointement.
+La modération de la communauté recueille les infractions sérieusement et fait tout son possible pour répondre rapidement. Les modérateurs et modératrices examinerons toutes plaintes d'infraction au code de conduite, vérifieront les messages, les évènements, les enregistrements, solliciteront des témoins ou autres participants. La modération de la communauté gardera l'investigation et la prise de mesures aussi transparente que possible, tout en priorisant la sécurité et la confidentialité. Dans le but d'honorer ces engagements, les mesures prises sont portées de manière privée aux parties concernées, mais communiquer au reste de la communauté peut faire partie de la résolution convenue conjointement.
 
 ## Résolution et Réparation des Torts
 
