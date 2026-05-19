@@ -42,8 +42,8 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
     test('it triggers the onProviderChange property', async function (assert) {
       // given
       const providers = [
-        { id: '1', organizationName: 'ConnectEtMoi', isVisible: true },
-        { id: '2', organizationName: 'StarConnect', isVisible: true },
+        { id: '1', code: 'CEM', organizationName: 'ConnectEtMoi', isVisible: true },
+        { id: '2', code: 'SC', organizationName: 'StarConnect', isVisible: true },
       ];
 
       const onProviderChangeStub = sinon.stub();
@@ -60,7 +60,7 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
       await click(screen.getByRole('option', { name: 'ConnectEtMoi' }));
 
       // then
-      sinon.assert.calledWith(onProviderChangeStub, '1');
+      sinon.assert.calledWith(onProviderChangeStub, 'CEM');
       assert.ok(true);
     });
   });
