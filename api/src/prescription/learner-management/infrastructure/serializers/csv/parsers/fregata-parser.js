@@ -1,6 +1,5 @@
-import { CsvImportError, DomainError } from '../../../../../../shared/domain/errors.js';
-import { OrganizationLearner } from '../../../../domain/models/OrganizationLearner.js';
-import { validateFregataOrganizationLearner } from '../../../../domain/validators/fregata-organization-learner-validator.js';
+import { CsvImportError } from '../../../../../../shared/domain/errors.js';
+import { FregataOrganizationLearnerSet } from '../../../../domain/models/FregataOrganizationLearnerSet.js';
 import { FregataHeader } from '../headers/fregata-header.js';
 import { SharedCsvParser } from './shared-csv-parser.js';
 
@@ -9,70 +8,9 @@ const ERRORS = {
   INSEE_CODE_INVALID: 'INSEE_CODE_INVALID',
 };
 
-const sexPossibleValues = {
-  M: 'M',
-  F: 'F',
-};
-
-class OrganizationLearnerSet {
-  constructor() {
-    this.learners = [];
-    this.existingNationalStudentIds = [];
-  }
-
-  addLearner(learnerAttributes) {
-    this._performValidation(learnerAttributes);
-
-    const transformedAttributes = this._transform(learnerAttributes);
-    const organizationLearner = new OrganizationLearner(transformedAttributes);
-    this.learners.push(organizationLearner);
-  }
-
-  _performValidation(learnerAttributes) {
-    const errors = validateFregataOrganizationLearner(learnerAttributes);
-
-    const unicityError = this._checkOrganizationLearnersUnicity(learnerAttributes.nationalIdentifier);
-    if (unicityError) errors.push(unicityError);
-
-    if (errors.length > 0) throw errors;
-  }
-
-  _transform(learnerAttributes) {
-    const { birthCountryCode, nationalIdentifier, division } = learnerAttributes;
-
-    return {
-      ...learnerAttributes,
-      birthCountryCode: birthCountryCode.slice(-3),
-      nationalStudentId: nationalIdentifier,
-      division: division?.trim().replace(/\s+/g, ' '),
-      sex: _convertSexCodeToLabel(learnerAttributes.sex),
-    };
-  }
-
-  _checkOrganizationLearnersUnicity(nationalIdentifier) {
-    // we removed JOI unicity validation (uniq)
-    // because it took too much time (2h30  for 10000 learners)
-    // we did the same validation but manually
-    if (this.existingNationalStudentIds.includes(nationalIdentifier)) {
-      const err = new DomainError();
-      err.key = 'nationalIdentifier';
-      err.why = 'uniqueness';
-
-      return err;
-    }
-
-    this.existingNationalStudentIds.push(nationalIdentifier);
-    return null;
-  }
-}
-
-function _convertSexCodeToLabel(sexCode) {
-  return sexPossibleValues[sexCode.toUpperCase().charAt(0)];
-}
-
 class FregataParser extends SharedCsvParser {
   constructor(input, organizationId, i18n) {
-    const learnerSet = new OrganizationLearnerSet();
+    const learnerSet = new FregataOrganizationLearnerSet();
     const columns = new FregataHeader(i18n).columns;
 
     super(input, organizationId, columns, learnerSet);
