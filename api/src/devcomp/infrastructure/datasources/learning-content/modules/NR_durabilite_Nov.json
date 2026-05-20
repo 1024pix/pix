@@ -63,7 +63,7 @@
                         "x": 0,
                         "y": 0
                       },
-                      "info": "Métaux : 40\u00a0% à 60\u00a0%",
+                      "info": "Métaux : 40 % à 60 %",
                       "tooltipPosition": "bottom"
                     },
                     {
@@ -77,7 +77,7 @@
                         "x": 0,
                         "y": 0
                       },
-                      "info": "Plastiques et matières synthétiques : 30\u00a0% à 50\u00a0%",
+                      "info": "Plastiques et matières synthétiques : 30 % à 50 %",
                       "tooltipPosition": "bottom"
                     },
                     {
@@ -105,7 +105,7 @@
                         "x": 0,
                         "y": 0
                       },
-                      "info": "Verre et céramique : 15\u00a0% à 20\u00a0%",
+                      "info": "Verre et céramique : 15 % à 20 %",
                       "tooltipPosition": "bottom"
                     }
                   ]
@@ -224,7 +224,7 @@
                           "id": "2",
                           "content": "Le cobalt",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui ! Il s’agit effectivement du <strong>cobalt</strong>.</p>"
+                            "diagnosis": "<p>Eh oui ! Il s’agit effectivement du <strong>cobalt</strong>.</p>"
                           }
                         },
                         {
@@ -260,7 +260,7 @@
                           "id": "0",
                           "content": "Le lithium",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui ! Il s’agit effectivement du <strong>lithium</strong>.<br></p>"
+                            "diagnosis": "<p>Eh oui ! Il s’agit effectivement du <strong>lithium</strong>.<br></p>"
                           }
                         },
                         {
@@ -317,7 +317,7 @@
                           "id": "1",
                           "content": "L’or",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui ! Il s’agit effectivement de l’or.</p>"
+                            "diagnosis": "<p>Eh oui ! Il s’agit effectivement de l’or.</p>"
                           }
                         },
                         {
@@ -422,7 +422,7 @@
                     },
                     {
                       "title": "Étape 3 : fabrication des principaux composants",
-                      "description": "La fabrication des composants d'un smartphone a lieu en Asie, notamment en Chine.",
+                      "description": "La fabrication des composants d’un smartphone a lieu en Asie, notamment en Chine.",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/nr_durabilite-nov/tour_monde_3.png",
@@ -477,7 +477,7 @@
               "element": {
                 "id": "e9aa0bd3-a7f4-4945-9c5d-80f11588a5a1",
                 "type": "qcu-discovery",
-                "instruction": "<p>À votre avis, combien de tours du monde a parcouru un smartphone depuis sa conception jusqu'à sa distribution&nbsp;?</p>",
+                "instruction": "<p>À votre avis, combien de tours du monde a parcouru un smartphone depuis sa conception jusqu’à sa distribution&nbsp;?</p>",
                 "hasShortProposals": true,
                 "proposals": [
                   {
@@ -673,7 +673,7 @@
                 "id": "63b608dc-ce5b-468d-8c37-b9eaa9b3d469",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Parfois, notre smartphone ne répond plus à nos besoins. Quels sont les gestes à adopter lors de l'achat d'un nouveau modèle ?</p>"
+                "content": "<p>Parfois, notre smartphone ne répond plus à nos besoins. Quels sont les gestes à adopter lors de l’achat d’un nouveau modèle ?</p>"
               }
             }
           ]
@@ -792,7 +792,7 @@
                       "id": "d96098f4-08a5-4317-b1f4-7b79fd1b45a0",
                       "type": "text",
                       "tag": " ",
-                      "content": "Si votre ancien smartphone ne <strong>fonctionne plus</strong>, alors ne le jetez pas dans n'importe quelle poubelle&nbsp;!"
+                      "content": "Si votre ancien smartphone ne <strong>fonctionne plus</strong>, alors ne le jetez pas dans n’importe quelle poubelle&nbsp;!"
                     },
                     {
                       "id": "f1b636f3-4a9a-41df-adb4-7d3120b7fdb7",
@@ -848,7 +848,7 @@
                 "id": "84230031-3337-4598-9a01-971e1b8c8c47",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>😱 Un smartphone est composé de nombreux matériaux différents. Leur extraction est souvent <strong>très polluante</strong> et réalisée dans de <strong>mauvaises conditions de travail</strong>.</li>    <li>✈️ Les  étapes de conception, fabrication et distribution d’un smartphone ont lieu sur des continents différents, ce qui nécessite beaucoup de <strong>transports</strong>, donc émet beaucoup de <strong>gaz à effet de serre</strong>.</li><li>💡 Pour limiter l’impact environnemental d’un smartphone, le plus important est qu’il soit <strong>utilisé le plus longtemps possible</strong>. Pour cela on peut&nbsp;:        <ul>            <li>en prendre soin, le protéger</li>            <li>le faire réparer s’il est cassé</li>            <li>le donner ou le vendre plutôt que le jeter où l’abandonner</li>        </ul>    </li>    <li>♻️ S’il ne marche plus, il faut le déposer dans un <strong>point de collecte spécialisé</strong> pour que les composants soient <strong>recyclés</strong> ou <strong>réutilisés</strong>.</li></ul><p>Désormais, vous savez qu’utiliser un smartphone a des impacts importants sur l’environnement, mais aussi qu’il est possible de les réduire avec de bons gestes.</p>"
+                "content": "<ul>    <li>Un smartphone est composé de nombreux matériaux différents. L’extraction de ces matériaux est souvent <strong>très polluante</strong> et réalisée dans de <strong>mauvaises conditions de travail</strong>.&nbsp;😱</li>    <li> Les  étapes de conception, fabrication et distribution d’un smartphone ont lieu sur des continents différents. Ces étapes nécessitent beaucoup de <strong>transports</strong> et émettent beaucoup de <strong>gaz à effet de serre</strong>.&nbsp;✈️</li><li>Pour limiter l’impact environnemental d’un smartphone, le plus important est de <strong>l’utiliser le plus longtemps possible</strong>.💡Pour cela il faut&nbsp;:        <ul>            <li>En prendre soin, le protéger.</li>            <li>Le faire réparer s’il est cassé.</li>            <li>Le donner ou le vendre plutôt que le jeter où l’abandonner.</li>        </ul>    </li>    <li>Si le smartphone ne fonctionne plus, il faut le déposer dans un <strong>point de collecte spécialisé</strong> pour que les composants soient <strong>recyclés</strong> ou <strong>réutilisés</strong>.&nbsp;♻️</li></ul><p>Désormais, vous savez qu’utiliser un smartphone a des impacts importants sur l’environnement, mais aussi qu’il est possible de les réduire avec de bons gestes.</p>"
               }
             }
           ]
