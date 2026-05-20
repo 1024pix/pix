@@ -89,9 +89,11 @@ const answers = [
 module('Integration | Component | Certifications | certification > details v3', function (hooks) {
   setupIntlRenderingTest(hooks);
   let store;
+  let intl;
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
+    intl = this.owner.lookup('service:intl');
   });
 
   module('#display', function () {
@@ -140,7 +142,7 @@ module('Integration | Component | Certifications | certification > details v3', 
           )
           .exists();
         assert.dom(screen.getByLabelText(`${pixScoreLabel} :`)).exists();
-        assert.strictEqual(creationDate, '13/01/2023 08:00:00');
+        assert.strictEqual(creationDate, intl.formatDate(model.createdAt, { format: 'long' }));
       });
 
       module('when the certification is valid', function () {
@@ -171,7 +173,9 @@ module('Integration | Component | Certifications | certification > details v3', 
           const lastAnswerAtLabel = t(
             'pages.certifications.certification.details.v3.general-informations.labels.last-answer-at',
           );
-          assert.dom(screen.getByLabelText(`${lastAnswerAtLabel} :`)).containsText('13/01/2023 09:05:00');
+          assert
+            .dom(screen.getByLabelText(`${lastAnswerAtLabel} :`))
+            .containsText(intl.formatDate(new Date('2023-01-13T09:05:00Z'), { format: 'long' }));
         });
 
         test('should display the certification duration', async function (assert) {
@@ -301,7 +305,9 @@ module('Integration | Component | Certifications | certification > details v3', 
 
             // then
             assert.dom(screen.getByText('Dernière réponse le :')).exists();
-            assert.dom(screen.getByText('13/01/2023 08:05:00')).exists();
+            assert
+              .dom(screen.getByText(intl.formatDate(new Date('2023-01-13T08:05:00Z'), { format: 'long' })))
+              .exists();
           });
           test('should display the session finalized tooltip', async function (assert) {
             // given
@@ -325,7 +331,9 @@ module('Integration | Component | Certifications | certification > details v3', 
             const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
             // then
-            const tooltipTrigger = screen.getByText('13/01/2023 08:05:00');
+            const tooltipTrigger = screen.getByText(
+              intl.formatDate(new Date('2023-01-13T08:05:00Z'), { format: 'long' }),
+            );
 
             fireEvent.mouseOver(tooltipTrigger);
 
@@ -359,7 +367,9 @@ module('Integration | Component | Certifications | certification > details v3', 
 
             // then
             assert.dom(screen.getByText('Dernière réponse le :')).exists();
-            assert.dom(screen.getByText('13/01/2023 08:05:00')).exists();
+            assert
+              .dom(screen.getByText(intl.formatDate(new Date('2023-01-13T08:05:00Z'), { format: 'long' })))
+              .exists();
           });
           test('should display the ended by invigilator tooltip', async function (assert) {
             // given
@@ -381,7 +391,9 @@ module('Integration | Component | Certifications | certification > details v3', 
 
             // when
             const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
-            fireEvent.mouseOver(screen.getByText('13/01/2023 08:05:00'));
+            fireEvent.mouseOver(
+              screen.getByText(intl.formatDate(new Date('2023-01-13T08:05:00Z'), { format: 'long' })),
+            );
 
             // then
             assert
@@ -488,7 +500,7 @@ module('Integration | Component | Certifications | certification > details v3', 
 
         const expected = answers.map((answer) => [
           answer.questionNumber,
-          `${answer.answeredAt.getUTCHours()}:${answer.answeredAt.getUTCMinutes()}:00`,
+          intl.formatTime(answer.answeredAt, { format: 'long' }),
           answer.answerStatusName,
           `${answer.competenceIndex} ${answer.competenceName}`,
           answer.skillName,
