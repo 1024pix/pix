@@ -539,7 +539,7 @@
                 "id": "678c96f8-8acc-46eb-97b0-3dc610bb5d8e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les différentes étapes de fabrication d’un smartphone se font dans <strong>plusieurs pays</strong>, souvent très éloignés. Les matériaux doivent donc être <strong>transportés par camion, bateau, train ou avion</strong>. Ces transports polluent et consomment beaucoup d’énergie, ce qui libère des gaz à effet de serre.</p>"
+                "content": "<p>Les différentes étapes de fabrication d’un smartphone se font dans <strong>plusieurs pays</strong>, souvent très éloignés les uns des autres. Les matériaux doivent donc être transportés par camion, bateau, train ou avion. Ces transports <strong>polluent et consomment beaucoup d’énergie</strong>, ce qui libère des <strong>gaz à effet de serre</strong>.</p>"
               }
             }
           ]
@@ -555,7 +555,7 @@
                 "id": "7532844f-4f8c-46bb-a3cf-ccbf7ef63e9d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Avec l’extraction des matériaux, leur transport et leur transformation, la fabrication d’un smartphone est donc polluante. Mais que peut-on faire, à notre échelle, pour réduire ces impacts ?</p>"
+                "content": "<p>Avec l’extraction, le transport et la transformation des matériaux, la fabrication d’un smartphone est donc polluante. Que pouvons-nous faire, à notre échelle, pour réduire ces impacts ?</p>"
               }
             }
           ]
