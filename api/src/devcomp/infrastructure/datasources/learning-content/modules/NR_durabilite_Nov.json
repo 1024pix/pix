@@ -697,28 +697,28 @@
             },
             {
               "type": "stepper",
-              "instruction": "Jane a un modèle d’il y a 5 ans. Elle décide d’acheter le smartphone Univers 13. Que doit-elle&nbsp; faire avec son ancien portable ?",
+              "instruction": "Jane a le même téléphone depuis 5&nbsp;ans. Elle décide d’acheter le nouveau smartphone Univers 13. Que doit-elle&nbsp;faire avec son ancien smartphone ?",
               "steps": [
                 {
                   "elements": [
                     {
                       "id": "d8578db9-9592-407b-844b-7885d6981806",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Quelle est la meilleure option si le smartphone marche encore ?</p>",
+                      "instruction": "<p>Quelle est la meilleure option si le smartphone fonctionne encore ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Le garder dans un tiroir au cas où elle en aurait besoin</p>",
+                          "content": "<p>Le garder dans un tiroir au cas où elle en aurait besoin.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Moins on multiplie les appareils, moins on pollue. Quelqu’un d’autre pourrait avoir besoin d’un smartphone de seconde main.</p>"
+                            "diagnosis": "<p>Multiplier les appareils multiplie aussi les pollutions. Quelqu’un d’autre pourrait avoir besoin d’un smartphone de seconde main.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Le donner ou le vendre</p>",
+                          "content": "<p>Le donner ou le vendre.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Moins on multiplie les appareils, moins on pollue. Quelqu’un d’autre pourrait avoir besoin d’un smartphone de seconde main.</p>"
+                            "diagnosis": "<p>Multiplier les appareils multiplie aussi les pollutions. Quelqu’un d’autre pourrait avoir besoin d’un smartphone de seconde main.</p>"
                           }
                         }
                       ],
@@ -736,7 +736,7 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Le jeter à la poubelle</p>",
+                          "content": "<p>Le jeter à la poubelle.</p>",
                           "feedback": {
                             "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés et cela provoquerait des fumées polluantes. Il&nbsp; faut donc déposer un vieux smartphone dans un point de collecte spécialisé.</p>"
                           }
@@ -745,7 +745,7 @@
                           "id": "2",
                           "content": "<p>Le déposer dans un point de collecte.</p>",
                           "feedback": {
-                            "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés et cela provoquerait des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collecte.</p>"
+                            "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés et de provoquer des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collecte.</p>"
                           }
                         }
                       ],
