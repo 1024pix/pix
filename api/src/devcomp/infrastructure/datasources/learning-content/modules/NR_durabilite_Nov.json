@@ -489,35 +489,35 @@
                   },
                   {
                     "id": "1",
-                    "caent": "2",
+                    "content": "2",
                     "feedback": {
                       "diagnosis": "<p>Eh non ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "caent": "3",
+                    "content": "3",
                     "feedback": {
                       "diagnosis": "<p>Presque ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "caent": "4",
+                    "content": "4",
                     "feedback": {
                       "diagnosis": "<p>Exact ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
                   },
                   {
                     "id": "4",
-                    "caent": "5",
+                    "content": "5",
                     "feedback": {
                       "diagnosis": "<p>Presque ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
                   },
                   {
                     "id": "5",
-                    "caent": "6",
+                    "content": "6",
                     "feedback": {
                       "diagnosis": "<p>Eh non ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
@@ -570,7 +570,7 @@
               "element": {
                 "id": "cb955e5a-9c04-4e41-b95f-6e1d89cc20fd",
                 "type": "qab",
-                "instruction": "<p>Guillaume s’est acheté un Smartphone Univers 12 et il veut le protéger pour le faire durer longtemps. Il est impeccable et il veut le protéger pour le faire durer longtemps. Parmi ces options, que lui conseillez vous de faire ?</p>",
+                "instruction": "<p>Guillaume s’est acheté un Smartphone Univers 12 et il veut le protéger pour le faire durer longtemps. Parmi les options suivantes, que lui conseillez-vous de faire ?</p>",
                 "cards": [
                   {
                     "id": "4cbc176e-d10f-480a-ba7a-2f54352d512b",
@@ -607,7 +607,7 @@
                   },
                   {
                     "id": "7c31a22e-5b87-4f66-93a7-f4e26dfad379",
-                    "text": "Nettoyer doucement l’écran du smartphone.",
+                    "text": "Nettoyer l’écran du smartphone avec précaution",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -640,7 +640,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>Pour faire durer son smartphone, il faut en <strong>prendre soin</strong> !<br>Le protéger avec une coque et un film protecteur, mais aussi l’eloigner des sources de chaleur et des objets qui pourraient l’abîmer.<br>Il faut aussi prendre soin de la batterie et, pour cela, pas besoin de recharger votre smartphone tous les soirs ou d’attendre que la batterie soit complètement à plat !&nbsp;</p>"
+                  "diagnosis": "<p>Pour faire durer son smartphone, il faut en <strong>prendre soin</strong>, le protéger avec <strong>une coque et un film protecteur</strong>, mais aussi <strong>l’éloigner des sources de chaleur</strong> et des objets qui pourraient l’abîmer, comme les clés.<br><strong>Prendre soin de la batterie</strong> est important aussi. Pour cela, pas besoin de recharger votre smartphone tous les soirs ou d’attendre que la batterie soit complètement à plat&nbsp;!</p>"
                 }
               }
             }
@@ -657,7 +657,7 @@
                 "id": "c08cdadc-1fbc-4e9e-bf46-ebef6e73a2d7",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>La meilleure chose à faire est de <strong>garder son smartphone le plus longtemps possible</strong>. Comment y arriver ? </p><ul><li><strong>en prendre soin</strong> (le protéger des chocs, protéger l’écran et la batterie&nbsp;...).</li><li><strong>résister aux effets de mode </strong>et aux nouvelles fonctionnalités qui donnent envie de changer de smartphone.</li><li>le <strong>réparer</strong> quand c’est possible et pas trop cher.</li></ul>"
+                "content": "<p>Pour limiter les impacts environnementaux des smartphones, la meilleure chose à faire est de <strong>garder son smartphone le plus longtemps possible</strong>. Pour y arriver, il est important de suivre certaines recommandations&nbsp;:</p><ul><li><strong>en prendre soin</strong> (le protéger des chocs, protéger l’écran et la batterie&nbsp;etc.).</li><li><strong>résister aux effets de mode </strong>et aux nouvelles fonctionnalités qui donnent envie de changer de smartphone.</li><li>le <strong>réparer</strong> quand c’est possible.</li></ul>"
               }
             }
           ]
@@ -673,7 +673,7 @@
                 "id": "63b608dc-ce5b-468d-8c37-b9eaa9b3d469",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Parfois, le smartphone ne répond plus à nos besoins. Quels gestes adopter si on achète un nouveau modèle ?</p>"
+                "content": "<p>Parfois, notre smartphone ne répond plus à nos besoins. Quels sont les gestes à adopter lors de l'achat d'un nouveau modèle ?</p>"
               }
             }
           ]
