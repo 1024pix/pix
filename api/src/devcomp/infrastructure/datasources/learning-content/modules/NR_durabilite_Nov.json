@@ -63,7 +63,7 @@
                         "x": 0,
                         "y": 0
                       },
-                      "info": "Métaux : 40% à 60%",
+                      "info": "Métaux : 40\u00a0% à 60\u00a0%",
                       "tooltipPosition": "bottom"
                     },
                     {
@@ -77,7 +77,7 @@
                         "x": 0,
                         "y": 0
                       },
-                      "info": "Plastiques et matières synthétiques : 30% à 50%",
+                      "info": "Plastiques et matières synthétiques : 30\u00a0% à 50\u00a0%",
                       "tooltipPosition": "bottom"
                     },
                     {
@@ -105,7 +105,7 @@
                         "x": 0,
                         "y": 0
                       },
-                      "info": "Verre et céramique : 15% à 20%",
+                      "info": "Verre et céramique : 15\u00a0% à 20\u00a0%",
                       "tooltipPosition": "bottom"
                     }
                   ]
@@ -122,7 +122,7 @@
                 "proposals": [
                   {
                     "id": "0",
-                    "content": "Moins de 10",
+                    "content": "Moins de dix",
                     "feedback": {
                       "state": "<p>Eh non !</p>",
                       "diagnosis": "<p>Il y en a beaucoup plus !&nbsp;Un smartphone contient plusieurs dizaines de matériaux différents.</p>"
@@ -146,9 +146,9 @@
                   },
                   {
                     "id": "3",
-                    "content": "Je ne sais pas",
+                    "content": "Je ne sais pas.",
                     "feedback": {
-                      "state": "<p>Plusieurs dizaines !<br></p>",
+                      "state": "",
                       "diagnosis": "<p>Un smartphone contient plusieurs dizaines de matériaux différents.</p>"
                     }
                   }
@@ -187,7 +187,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p>Voici les descriptions de quelques métaux qui se trouvent dans votre smartphone. Pour chaque description sélectionnez le métal qui convient.</p>",
+              "instruction": "<p>Ci-dessous se trouvent les descriptions de quelques métaux qui se trouvent dans votre smartphone. Pour chaque description sélectionnez le métal qui convient.</p>",
               "steps": [
                 {
                   "elements": [
