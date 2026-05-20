@@ -172,7 +172,7 @@
                         "x": 0,
                         "y": 0
                       },
-                      "info": "🔋 Batterie : stockage d’énergie grâce aux métaux rares ( le lithium et le cobalt)."
+                      "info": "🔋 Batterie : stockage d’énergie grâce aux métaux rares (le lithium et le cobalt)."
                     },
                     {
                       "coords": {
@@ -357,7 +357,7 @@
                 "id": "149fd62a-f59a-4534-8a74-30f7bcebc934",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Maintenant que vous savez de quoi sont faits nos appareils. Voyons&nbsp;<strong>les conséquences de leur fabrication</strong>.</p>"
+                "content": "<p>Maintenant que vous savez de quoi sont faits nos appareils, voyons&nbsp;<strong>les conséquences de leur fabrication</strong>.</p>"
               }
             }
           ]
@@ -782,7 +782,7 @@
                       "id": "db56ae01-3e09-4601-83bf-338c6520d013",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>Réparer ou prolonger l’utilisation</strong> d’un appareil permet d’éviter d’en fabriquer un nouveau.&nbsp; </p><h5>🤔 Et si vous avez besoin d’en changer ?</h5><p>Dans ce cas,<strong> choisir un appareil reconditionné</strong> est la meilleure option&nbsp;: il a déjà été fabriqué, puis <strong>testé, réparé et remis en état</strong>; ce qui lui donne une seconde vie et limite son impact. </p><h5><br></h5>"
+                      "content": "<p><strong>Réparer ou prolonger l’utilisation</strong> d’un appareil permet d’éviter d’en fabriquer un nouveau.&nbsp; </p><h5>🤔 Et si vous avez besoin d’en changer ?</h5><p>Dans ce cas,<strong> choisir un appareil reconditionné</strong> est la meilleure option&nbsp;: il a déjà été fabriqué, puis <strong>testé, réparé et remis en état</strong>. Ce qui lui donne une seconde vie et limite son impact. </p><h5><br></h5>"
                     }
                   ]
                 },
