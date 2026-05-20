@@ -7,12 +7,12 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/nr_durabilite-nov/picto_nr_durabilite_nov.svg",
-    "description": "<p>On a presque tous un smartphone aujourd’hui, mais sait-on vraiment comment a-t-il été fabriqué ?&nbsp; </p><p>Sa fabrication a des impacts importants sur l’environnement, et sur les personnes qui le fabriquent.</p><p>Connaître ce qu’il y a derrière toute la chaîne de production, c’est aussi comprendre l’importance d’adopter les bons gestes pour réduire ces impacts négatifs.</p>",
+    "description": "<p>Avoir un smartphone est très courant de nos jours, mais sait-on vraiment comment il a été fabriqué ?&nbsp; </p><p>Sa fabrication a des impacts importants sur l’environnement et sur les personnes qui le fabriquent.</p><p>Connaître ce qu’il y a derrière toute la chaîne de production, c’est aussi comprendre l’importance d’adopter les bons gestes pour en réduire les impacts négatifs.</p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
-      "<p>Identifier les impacts environnementaux de la fabrication des smartphones.</p>",
-      "<p>Connaître les gestes pour prolonger la durée de vie d’un smartphone.</p>"
+      "<p>Identifier les impacts environnementaux de la fabrication des smartphones</p>",
+      "<p>Connaître les gestes pour prolonger la durée de vie d’un smartphone</p>"
     ],
     "tabletSupport": "comfortable"
   },
