@@ -7,7 +7,6 @@ export const formats = {
       day: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
-      timeZone: 'UTC',
     },
     // DD/MM/YYYY HH:mm:ss
     long: {
@@ -17,7 +16,6 @@ export const formats = {
       hour: 'numeric',
       minute: 'numeric',
       second: 'numeric',
-      timeZone: 'UTC',
     },
   },
   formatTime: {
@@ -26,7 +24,6 @@ export const formats = {
       hour: 'numeric',
       minute: 'numeric',
       second: 'numeric',
-      timeZone: 'UTC',
     },
   },
 };
