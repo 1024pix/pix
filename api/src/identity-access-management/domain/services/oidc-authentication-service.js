@@ -126,6 +126,8 @@ export class OidcAuthenticationService {
         event: 'initialize-client-config',
         startDate,
       });
+
+      throw new OidcError({ message: 'Error during initializeClientConfig' });
     }
   }
 
