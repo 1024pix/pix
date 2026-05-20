@@ -873,13 +873,13 @@
                 "cards": [
                   {
                     "id": "3899e12e-e58c-43d8-84ed-7697c60a118d",
-                    "text": "Un smartphone est constitué de plusieurs dizaines de matériaux différents.",
+                    "text": "Un smartphone est composé de plusieurs dizaines de matériaux différents.",
                     "image": {
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vrai.",
-                    "proposalB": "Faux.",
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
                     "solution": "A"
                   },
                   {
@@ -889,8 +889,8 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vrai.",
-                    "proposalB": "Faux.",
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
                     "solution": "B"
                   },
                   {
@@ -900,8 +900,8 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vrai.",
-                    "proposalB": "Faux.",
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
                     "solution": "A"
                   },
                   {
@@ -911,13 +911,13 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vrai.",
-                    "proposalB": "Faux.",
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
                     "solution": "B"
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<ul><li>Un smartphone est constitué d’au moins <strong>70 matériaux différents</strong>.</li><li>Les différentes étapes de fabrication ont lieu dans des <strong>pays</strong> et même des <strong>continents différents</strong> !</li><li>Un smartphone <strong>contient plusieurs métaux précieux</strong>, comme l’or et l’argent.</li><li>Certaines de ces mines sont situées dans des pays où <strong>les travailleurs sont très peu protégés</strong>, et <strong>emploient parfois des enfants</strong>.</li></ul>"
+                  "diagnosis": "<ul><li>Un smartphone est constitué d’au moins <strong>70 matériaux différents</strong>.</li><li>Les différentes étapes de fabrication ont lieu dans des <strong>pays</strong> et même des <strong>continents différents</strong> !</li><li>Un smartphone <strong>contient plusieurs métaux précieux</strong>, comme l’or et l’argent.</li><li>Certaines mines sont situées dans des pays où <strong>les travailleurs sont très peu protégés</strong>, et <strong>des enfants y sont parfois employés</strong>.</li></ul>"
                 }
               }
             }
