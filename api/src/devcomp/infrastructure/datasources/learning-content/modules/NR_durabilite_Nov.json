@@ -772,7 +772,7 @@
                       "id": "da5b7905-7192-43d5-a7e5-7a196ea69a48",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Parfois, vous pouvez être <strong>obligés de changer de smartphone</strong> car il ne permet plus de faire ce dont vous avez besoin, ou qu’il est cassé mais impossible à réparer.</p>"
+                      "content": "<p>Parfois, vous devez changer de smartphone car il ne permet plus de faire ce que vous voulez, ou qu’il est cassé mais impossible à réparer.</p>"
                     }
                   ]
                 },
@@ -792,13 +792,13 @@
                       "id": "d96098f4-08a5-4317-b1f4-7b79fd1b45a0",
                       "type": "text",
                       "tag": " ",
-                      "content": "Si votre ancien smartphone ne <strong>fonctionne plus</strong>, alors ne le jetez pas dans une poubelle quelconque !"
+                      "content": "Si votre ancien smartphone ne <strong>fonctionne plus</strong>, alors ne le jetez pas dans n'importe quelle poubelle&nbsp;!"
                     },
                     {
                       "id": "f1b636f3-4a9a-41df-adb4-7d3120b7fdb7",
                       "type": "text",
                       "tag": " ",
-                      "content": "Sur les smartphones, et la plupart des appareils électroniques, on trouve <strong>ce logo</strong>&nbsp;:"
+                      "content": "Sur les smartphones, et la plupart des appareils électroniques, on trouve <strong>le logo suivant</strong>&nbsp;:"
                     },
                     {
                       "id": "ab421b9d-b6f1-4648-a481-26e05a5fe17f",
@@ -817,33 +817,17 @@
                       "id": "697ffc30-66c1-4169-ae5b-305e1a26109e",
                       "type": "text",
                       "tag": " ",
-                      "content": "Il indique qu’ils ne doivent <strong>pas être jetés dans une poubelle classique</strong>. En effet, certains composants dégagent des fumées toxiques s’ils sont incinérés de la même manière que les déchets classiques."
+                      "content": "Ce logo indique que les appareils électroniques ne doivent <strong>pas être jetés dans une poubelle classique</strong>. En effet, dans ces appareils, certains composants dégagent des fumées toxiques s’ils sont incinérés de la même manière que les déchets classiques."
                     },
                     {
                       "id": "46925f16-03eb-4911-93f4-7ddc7e6af4ee",
                       "type": "text",
                       "tag": " ",
-                      "content": "La bonne chose à faire est donc de <strong>déposer votre smartphone dans un point de collecte spécialisé</strong> pour que les composants soient récupérés ou recyclés. On trouve souvent des points de collecte dans les magasins d’électroménager, par exemple."
+                      "content": "La bonne chose à faire est donc de <strong>déposer votre smartphone dans un point de collecte spécialisé</strong> pour que les composants soient récupérés ou recyclés. Vous pouvez trouver des points de collecte dans les magasins d’électroménager, par exemple."
                     }
                   ]
                 }
               ]
-            }
-          ]
-        },
-        {
-          "id": "d2e6592a-7ec9-4216-b48e-9d0b1d61e50f",
-          "type": "transition",
-          "title": "Transition 5",
-          "components": [
-            {
-              "type": "element",
-              "element": {
-                "id": "a38ed311-0b93-4b45-a1d7-94390e2b6c93",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Désormais, vous savez qu’utiliser un smartphone a des impacts importants sur l’environnement, mais aussi qu’il est possible de les réduire avec de bons gestes.</p>"
-              }
             }
           ]
         }
@@ -864,7 +848,7 @@
                 "id": "84230031-3337-4598-9a01-971e1b8c8c47",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>😱 Un smartphone est composé de nombreux matériaux différents. Leur extraction est souvent <strong>très polluante</strong> et réalisée dans de <strong>mauvaises conditions de travail</strong>.</li>    <li>✈️ Les  étapes de conception, fabrication et distribution d’un smartphone ont lieu sur des continents différents, ce qui nécessite beaucoup de <strong>transports</strong>, donc émet beaucoup de <strong>gaz à effet de serre</strong>.</li><li>💡 Pour limiter l’impact environnemental d’un smartphone, le plus important est qu’il soit <strong>utilisé le plus longtemps possible</strong>. Pour cela on peut&nbsp;:        <ul>            <li>en prendre soin, le protéger</li>            <li>le faire réparer s’il est cassé</li>            <li>le donner ou le vendre plutôt que le jeter où l’abandonner</li>        </ul>    </li>    <li>♻️ S’il ne marche plus, il faut le déposer dans un <strong>point de collecte spécialisé</strong> pour que les composants soient <strong>recyclés</strong> ou <strong>réutilisés</strong>.</li></ul>"
+                "content": "<ul>    <li>😱 Un smartphone est composé de nombreux matériaux différents. Leur extraction est souvent <strong>très polluante</strong> et réalisée dans de <strong>mauvaises conditions de travail</strong>.</li>    <li>✈️ Les  étapes de conception, fabrication et distribution d’un smartphone ont lieu sur des continents différents, ce qui nécessite beaucoup de <strong>transports</strong>, donc émet beaucoup de <strong>gaz à effet de serre</strong>.</li><li>💡 Pour limiter l’impact environnemental d’un smartphone, le plus important est qu’il soit <strong>utilisé le plus longtemps possible</strong>. Pour cela on peut&nbsp;:        <ul>            <li>en prendre soin, le protéger</li>            <li>le faire réparer s’il est cassé</li>            <li>le donner ou le vendre plutôt que le jeter où l’abandonner</li>        </ul>    </li>    <li>♻️ S’il ne marche plus, il faut le déposer dans un <strong>point de collecte spécialisé</strong> pour que les composants soient <strong>recyclés</strong> ou <strong>réutilisés</strong>.</li></ul><p>Désormais, vous savez qu’utiliser un smartphone a des impacts importants sur l’environnement, mais aussi qu’il est possible de les réduire avec de bons gestes.</p>"
               }
             }
           ]
