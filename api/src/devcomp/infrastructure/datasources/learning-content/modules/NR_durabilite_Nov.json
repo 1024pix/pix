@@ -385,15 +385,15 @@
               "element": {
                 "id": "5fc90905-6385-40f4-880f-5c836fd721bb",
                 "type": "custom",
-                "title": "Parcourez les différentes étapes de fabrication d’un smartphone.",
-                "instruction": "",
+                "title": "",
+                "instruction": "Parcourez les différentes étapes de fabrication d’un smartphone.",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
                   "type": "image",
                   "slides": [
                     {
-                      "title": "Étape 1 : la conception.",
+                      "title": "Étape 1 : conception",
                       "description": "La première étape de fabrication d’un smartphone est la conception. Elle a généralement lieu aux États-Unis, en Chine ou en Europe.",
                       "displayWidth": 0,
                       "image": {
@@ -407,7 +407,7 @@
                       }
                     },
                     {
-                      "title": "Étape 2 : extraction et transformation des matières premières.",
+                      "title": "Étape 2 : extraction et transformation des matières premières",
                       "description": "L’extraction des matières premières a lieu sur plusieurs continents : l’Amérique du Sud, l’Afrique, l’Océanie et l’Asie.",
                       "displayWidth": 0,
                       "image": {
@@ -421,8 +421,8 @@
                       }
                     },
                     {
-                      "title": "Étape 3 : fabrication des principaux composants.",
-                      "description": "La fabrication des composants du smartphone a lieu en Asie, notamment en Chine.",
+                      "title": "Étape 3 : fabrication des principaux composants",
+                      "description": "La fabrication des composants d'un smartphone a lieu en Asie, notamment en Chine.",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/nr_durabilite-nov/tour_monde_3.png",
@@ -435,7 +435,7 @@
                       }
                     },
                     {
-                      "title": "Étape 4 : assemblage.",
+                      "title": "Étape 4 : assemblage",
                       "description": "L’assemblage des composants a généralement lieu en Asie du Sud-Est.",
                       "displayWidth": 0,
                       "image": {
@@ -449,7 +449,7 @@
                       }
                     },
                     {
-                      "title": "Étape 5 : distribution.",
+                      "title": "Étape 5 : distribution",
                       "description": "La distribution des smartphones a lieu principalement en Europe et en Amérique du Nord.",
                       "displayWidth": 0,
                       "image": {
@@ -477,49 +477,49 @@
               "element": {
                 "id": "e9aa0bd3-a7f4-4945-9c5d-80f11588a5a1",
                 "type": "qcu-discovery",
-                "instruction": "<p>D’après vous, combien de tours du monde ont parcouru les éléments d’un smartphone entre sa conception et sa distribution ?</p>",
+                "instruction": "<p>À votre avis, combien de tours du monde a parcouru un smartphone depuis sa conception jusqu'à sa distribution&nbsp;?</p>",
                 "hasShortProposals": true,
                 "proposals": [
                   {
                     "id": "0",
                     "content": "1",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! On estime que les matériaux d’un smartphone ont parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
+                      "diagnosis": "<p>Eh non ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
                   },
                   {
                     "id": "1",
-                    "content": "2",
+                    "caent": "2",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! On estime que les matériaux d’un smartphone ont parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
+                      "diagnosis": "<p>Eh non ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "3",
+                    "caent": "3",
                     "feedback": {
-                      "diagnosis": "<p>Presque ! On estime que les matériaux d’un smartphone ont parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
+                      "diagnosis": "<p>Presque ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "4",
+                    "caent": "4",
                     "feedback": {
-                      "diagnosis": "<p>Exact ! On estime que les matériaux d’un smartphone ont parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
+                      "diagnosis": "<p>Exact ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
                   },
                   {
                     "id": "4",
-                    "content": "5",
+                    "caent": "5",
                     "feedback": {
-                      "diagnosis": "<p>Presque ! On estime que les matériaux d’un smartphone ont parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
+                      "diagnosis": "<p>Presque ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
                   },
                   {
                     "id": "5",
-                    "content": "6",
+                    "caent": "6",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! On estime que les matériaux d’un smartphone ont parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
+                      "diagnosis": "<p>Eh non ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
                     }
                   }
                 ],
