@@ -8,6 +8,7 @@ const buildCompetence = function ({
   areaId = 'area123',
   skillIds = [],
   thematicIds = [],
+  thematics = [],
   tubes = [],
   origin = 'Pix',
 } = {}) {
@@ -20,6 +21,7 @@ const buildCompetence = function ({
     areaId,
     skillIds,
     thematicIds,
+    thematics,
     tubes,
   });
 };

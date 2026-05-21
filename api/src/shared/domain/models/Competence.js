@@ -1,5 +1,16 @@
 class Competence {
-  constructor({ id, name, index, description, origin, areaId, skillIds = [], thematicIds = [], tubes = [] }) {
+  constructor({
+    id,
+    name,
+    index,
+    description,
+    origin,
+    areaId,
+    skillIds = [],
+    thematicIds = [],
+    thematics = [],
+    tubes = [],
+  }) {
     this.id = id;
     this.name = name;
     this.index = index;
@@ -9,6 +20,7 @@ class Competence {
     this.level = -1;
     this.skillIds = skillIds;
     this.thematicIds = thematicIds;
+    this.thematics = thematics;
     this.tubes = tubes;
   }
 

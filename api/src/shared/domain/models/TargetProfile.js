@@ -22,12 +22,14 @@ class TargetProfile {
     stages,
     badges,
     description,
+    estimatedTime,
   } = {}) {
     this.id = id;
     this.name = name;
     this.internalName = internalName;
     this.imageUrl = imageUrl;
     this.category = category;
+    this.estimatedTime = estimatedTime;
     this.isSimplifiedAccess = isSimplifiedAccess;
     this.outdated = outdated;
     this.stages = stages;

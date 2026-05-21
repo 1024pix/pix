@@ -6,6 +6,7 @@ const buildThematic = function buildThematic({
   index = 0,
   competenceId = 'recComp1',
   tubeIds = [],
+  tubes = [],
 } = {}) {
   return new Thematic({
     id,
@@ -13,6 +14,7 @@ const buildThematic = function buildThematic({
     index,
     competenceId,
     tubeIds,
+    tubes,
   });
 };
 
