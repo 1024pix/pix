@@ -19,6 +19,54 @@
       "type": "question-yourself",
       "grains": [
         {
+          "id": "9c154e1c-f038-48cc-8a6d-b4dfccb4175c",
+          "type": "challenge",
+          "title": "Grain avec QCM Declaratif",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "a4ec3dc4-507b-47bd-bc25-e3582fd06aa4",
+                "type": "qcm-declarative",
+                "instruction": "<p>Indiquez le ou les continent.s où vous aimeriez voyager</p>",
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "Afrique",
+                    "feedback": "Un voyage de 1 000 kilomètres commence toujours par un pas. (Lao Tseu)"
+                  },
+                  {
+                    "id": "2",
+                    "content": "Asie",
+                    "feedback": "Un voyage de 1 000 kilomètres commence toujours par un pas. (Lao Tseu)"
+                  },
+                  {
+                    "id": "3",
+                    "content": "Amérique",
+                    "feedback": "Un voyage de 1 000 kilomètres commence toujours par un pas. (Lao Tseu)"
+                  },
+                  {
+                    "id": "4",
+                    "content": "Europe",
+                    "feedback": "Un voyage de 1 000 kilomètres commence toujours par un pas. (Lao Tseu)"
+                  },
+                  {
+                    "id": "5",
+                    "content": "Océanie",
+                    "feedback": "Un voyage de 1 000 kilomètres commence toujours par un pas. (Lao Tseu)"
+                  },
+                  {
+                    "id": "6",
+                    "content": "Antarctique",
+                    "feedback": "Un voyage de 1 000 kilomètres commence toujours par un pas. (Lao Tseu)"
+                  }
+                ],
+                "hasShortProposals": false
+              }
+            }
+          ]
+        },
+        {
           "id": "9de10c46-df0e-41f5-a709-81637f0d5cc3",
           "type": "challenge",
           "title": "Element text avec tags",
