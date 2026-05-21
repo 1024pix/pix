@@ -1066,7 +1066,7 @@
               "element": {
                 "id": "efb0ac7c-5c9c-4a52-882f-15dfccec89ae",
                 "type": "qcu-declarative",
-                "instruction": "Ce matin, vous avez fait tomber votre smartphone, ce qui a cassé l’écran. Que faites-vous ?",
+                "instruction": "Ce matin, vous avez fait tomber votre smartphone. L'écran est cassé. Que faites-vous ?",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -1080,14 +1080,14 @@
                     "id": "2",
                     "content": "J’achète un nouveau smartphone d’occasion.",
                     "feedback": {
-                      "diagnosis": "Bien, c’est la solution si on ne peut pas le réparer."
+                      "diagnosis": "Effectivement, c’est une bonne solution si on ne peut pas le réparer."
                     }
                   },
                   {
                     "id": "3",
                     "content": "À l’avenir, je protégerais tout le temps mon smartphone avec une coque et un écran de protection.",
                     "feedback": {
-                      "diagnosis": "Bien vu, protéger son appareil permet d’allonger sa durée de vie, et donc de ne pas provoquer la fabrication d’un nouveau."
+                      "diagnosis": "Bien vu ! Protéger son appareil permet d’allonger sa durée de vie, et donc de ne pas provoquer la fabrication d’un nouveau."
                     }
                   }
                 ]
