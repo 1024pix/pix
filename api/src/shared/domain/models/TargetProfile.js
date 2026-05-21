@@ -33,15 +33,10 @@ class TargetProfile {
     this.stages = stages;
     this.badges = badges;
     this.description = description;
-    this.organizationsAttached = [];
   }
 
   get hasBadges() {
     return !!this.badges && this.badges.length > 0;
-  }
-
-  get organizations() {
-    return this.organizationsAttached;
   }
 }
 
