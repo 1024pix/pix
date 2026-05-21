@@ -1,5 +1,5 @@
 import { User } from '../../../../../../src/identity-access-management/domain/models/User.js';
-import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
+import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serializer', function () {

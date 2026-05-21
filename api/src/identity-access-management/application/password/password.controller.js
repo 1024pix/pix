@@ -1,6 +1,6 @@
-import * as userSerializer from '../../../shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
+import * as userSerializer from '../../infrastructure/serializers/jsonapi/user-serializer.js';
 
 const checkResetDemand = async function (request, h, dependencies = { userSerializer }) {
   const temporaryKey = request.params.temporaryKey;
