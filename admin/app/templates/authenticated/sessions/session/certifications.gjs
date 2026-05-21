@@ -14,6 +14,7 @@ import List from 'pix-admin/components/sessions/certifications/list';
     />
 
     <List
+      @session={{@controller.model.session}}
       @juryCertificationSummaries={{@controller.model.juryCertificationSummaries}}
       @pagination={{@controller.model.juryCertificationSummaries.meta}}
     />

@@ -102,7 +102,7 @@ export default class CertificationsHeader extends Component {
               {{t "pages.certifications.table.headers.finished-certification-date"}}
             </:header>
             <:cell>
-              {{certification.lastAnswerDate}}
+              {{if @session.isFinalized certification.lastAnswerDate}}
             </:cell>
           </PixTableColumn>
         </:columns>
