@@ -22,12 +22,12 @@ const save = async (request, h) => {
   return h.response().code(204);
 };
 
-const findAllByOrganizationId = async (request, _, dependencies = { attestationSerializer }) => {
+const getAllByOrganizationId = async (request, _, dependencies = { attestationSerializer }) => {
   const organizationId = request.params['organizationId'];
-  const attestations = await usecases.findOrganizationAttestations({ organizationId });
+  const attestations = await usecases.getOrganizationAttestations({ organizationId });
   return dependencies.attestationSerializer.serialize(attestations);
 };
 
-const attestationController = { save, findAllByOrganizationId };
+const attestationController = { save, getAllByOrganizationId };
 
 export { attestationController };

@@ -2,7 +2,7 @@ import { Attestation } from '../../../../../src/quest/domain/models/Attestation.
 import * as attestationRepository from '../../../../../src/quest/infrastructure/repositories/attestation-repository.js';
 import { AttestationStorage } from '../../../../../src/quest/infrastructure/storage/attestation-storage.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
-import { AlreadyExistingEntityError } from '../../../../../src/shared/domain/errors.js';
+import { AlreadyExistingEntityError, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { S3UploadError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -89,7 +89,7 @@ describe('Quest | Integration | Repository | attestation', function () {
       expect(error).to.be.instanceOf(AlreadyExistingEntityError);
     });
   });
-  describe('#findAllByOrganizationId', function () {
+  describe('#getAllByOrganizationId', function () {
     it('should retrieve attestations by organization id', async function () {
       const attestation1 = databaseBuilder.factory.buildAttestation({
         key: 'key',
@@ -118,7 +118,7 @@ describe('Quest | Integration | Repository | attestation', function () {
       await databaseBuilder.commit();
 
       //when
-      const results = await attestationRepository.findAllByOrganizationId({
+      const results = await attestationRepository.getAllByOrganizationId({
         organizationId: organization.id,
       });
 
@@ -136,6 +136,37 @@ describe('Quest | Integration | Repository | attestation', function () {
           label: attestation2.label,
         }),
       ]);
+    });
+    it('should fail if params are null are for the attestation feature linked to the organization', async function () {
+      const attestationFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.ATTESTATIONS_MANAGEMENT);
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildOrganizationFeature({
+        organizationId,
+        featureId: attestationFeature.id,
+        params: null,
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      const error = await catchErr(attestationRepository.getAllByOrganizationId)({
+        organizationId: organizationId,
+      });
+
+      expect(error).to.be.an.instanceOf(NotFoundError);
+    });
+    it('should fail the attestation feature linked to the organization is not found', async function () {
+      databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.ATTESTATIONS_MANAGEMENT);
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+
+      await databaseBuilder.commit();
+
+      //when
+      const error = await catchErr(attestationRepository.getAllByOrganizationId)({
+        organizationId: organizationId,
+      });
+
+      expect(error).to.be.an.instanceOf(NotFoundError);
     });
   });
 });

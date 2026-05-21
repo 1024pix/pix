@@ -1,6 +1,6 @@
 import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
+import { AlreadyExistingEntityError, NotFoundError } from '../../../shared/domain/errors.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 import { REWARD_TYPES } from '../../domain/constants.js';
 import { Attestation } from '../../domain/models/Attestation.js';
@@ -24,7 +24,7 @@ export const save = async ({ templateName, templateKey, templateFile, label, att
   });
 };
 
-export const findAllByOrganizationId = async ({ organizationId }) => {
+export const getAllByOrganizationId = async ({ organizationId }) => {
   const knexConn = DomainTransaction.getConnection();
 
   const organizationAttestationManagementFeature = await knexConn('organization-features')
@@ -35,6 +35,9 @@ export const findAllByOrganizationId = async ({ organizationId }) => {
     .andWhere('organizationId', organizationId)
     .first();
 
+  if (!organizationAttestationManagementFeature || !organizationAttestationManagementFeature.params) {
+    throw new NotFoundError();
+  }
   const attestations = await knexConn('attestations')
     .select('id', 'key', 'label')
     .whereIn('key', organizationAttestationManagementFeature.params);
