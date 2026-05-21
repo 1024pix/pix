@@ -59,7 +59,7 @@ const register = async function (server) {
             assign: 'makeCheckOrganizationHasFeature',
           },
         ],
-        handler: attestationController.findAllByOrganizationId,
+        handler: attestationController.getAllByOrganizationId,
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',

@@ -24,7 +24,7 @@ export const save = async ({ templateName, templateKey, templateFile, label, att
   });
 };
 
-export const findAllByOrganizationId = async ({ organizationId }) => {
+export const getAllByOrganizationId = async ({ organizationId }) => {
   const knexConn = DomainTransaction.getConnection();
 
   const organizationAttestationManagementFeature = await knexConn('organization-features')

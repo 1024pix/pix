@@ -3,6 +3,7 @@ import differenceBy from 'lodash/differenceBy.js';
 import isEmpty from 'lodash/isEmpty.js';
 
 import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
+import { FeatureParamsNotProcessable } from '../errors.js';
 import { DataProtectionOfficer } from './DataProtectionOfficer.js';
 import { Network } from './Network.js';
 
@@ -166,6 +167,12 @@ class OrganizationForAdmin {
   }
 
   #validate() {
+    if (
+      this.features[ORGANIZATION_FEATURE.ATTESTATIONS_MANAGEMENT.key]?.active &&
+      this.features[ORGANIZATION_FEATURE.ATTESTATIONS_MANAGEMENT.key].params === null
+    ) {
+      throw new FeatureParamsNotProcessable();
+    }
     const { error } = schema.validate(this);
 
     if (error) {

@@ -62,7 +62,6 @@ import { findCombinedCourseBlueprints } from './find-combined-course-blueprints.
 import { findCombinedCourseByCampaignId } from './find-combined-course-by-campaign-id.js';
 import { findCombinedCourseByModuleIdAndUserId } from './find-combined-course-by-moduleId-and-user-id.js';
 import { findCombinedCourseParticipations } from './find-combined-course-participations.js';
-import { findOrganizationAttestations } from './find-organization-attestations.js';
 import { getCombinedCourseBlueprintById } from './get-combined-course-blueprint-by-id.js';
 import { getCombinedCourseByCode } from './get-combined-course-by-code.js';
 import getCombinedCourseById from './get-combined-course-by-id.js';
@@ -70,6 +69,7 @@ import { getCombinedCourseParticipationById } from './get-combined-course-partic
 import { getCombinedCourseStatistics } from './get-combined-course-statistics.js';
 import getCombinedCoursesByOrganizationId from './get-combined-courses-by-organization-id.js';
 import { getCourseByOrganizationId } from './get-course-by-organization-id.js';
+import { getOrganizationAttestations } from './get-organization-attestations.js';
 import { getQuestResultsForCampaignParticipation } from './get-quest-results-for-campaign-participation.js';
 import { getVerifiedCode } from './get-verified-code.js';
 import { rewardUser } from './reward-user.js';
@@ -105,7 +105,7 @@ const usecasesWithoutInjectedDependencies = {
   findByOrganizationId,
   deleteAndAnonymizeParticipationsForALearnerId,
   updateCombinedCourses,
-  findOrganizationAttestations,
+  getOrganizationAttestations,
   getCourseByOrganizationId,
 };
 

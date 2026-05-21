@@ -89,7 +89,7 @@ describe('Quest | Integration | Repository | attestation', function () {
       expect(error).to.be.instanceOf(AlreadyExistingEntityError);
     });
   });
-  describe('#findAllByOrganizationId', function () {
+  describe('#getAllByOrganizationId', function () {
     it('should retrieve attestations by organization id', async function () {
       const attestation1 = databaseBuilder.factory.buildAttestation({
         key: 'key',
@@ -118,7 +118,7 @@ describe('Quest | Integration | Repository | attestation', function () {
       await databaseBuilder.commit();
 
       //when
-      const results = await attestationRepository.findAllByOrganizationId({
+      const results = await attestationRepository.getAllByOrganizationId({
         organizationId: organization.id,
       });
 
