@@ -15,7 +15,7 @@ export default class Card extends Component {
   get tagProperties() {
     const registrationRequired = this.args.training.registrationRequired;
 
-    const color = registrationRequired ? 'blue-light' : 'primary';
+    const color = registrationRequired ? 'blue-light' : 'purple';
     const iconName = registrationRequired ? 'lock' : 'acute';
     const translationKey = registrationRequired ? 'yes' : 'no';
     const text = this.intl.t(
