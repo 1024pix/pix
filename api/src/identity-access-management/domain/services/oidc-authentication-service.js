@@ -171,7 +171,8 @@ export class OidcAuthenticationService {
         event: 'generate-authorization-url',
         startDate,
       });
-      throw new OidcError({ message: error.message });
+
+      throw new OidcError({ message: 'Error during getAuthorizationUrl' });
     }
   }
 
@@ -207,7 +208,8 @@ export class OidcAuthenticationService {
         event: 'exchange-code-for-tokens',
         startDate,
       });
-      throw new OidcError({ message: error.message });
+
+      throw new OidcError({ message: 'Error during exchangeCodeForTokens' });
     }
   }
 
@@ -303,7 +305,8 @@ export class OidcAuthenticationService {
         event: 'get-redirect-logout-url',
         startDate,
       });
-      throw new OidcError({ message: error.message });
+
+      throw new OidcError({ message: 'Error during getRedirectLogoutUrl' });
     }
   }
 
@@ -321,7 +324,8 @@ export class OidcAuthenticationService {
         event: 'get-user-info-from-endpoint',
         startDate,
       });
-      throw new OidcError({ message: error.message });
+
+      throw new OidcError({ message: 'Error during _getUserInfoFromEndpoint' });
     }
 
     const missingClaims = this.claimManager.getMissingMandatoryClaims(userInfo);
