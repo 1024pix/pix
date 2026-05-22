@@ -41,6 +41,7 @@ module('Unit | Route | login-oidc', function (hooks) {
     module('when no code is present in queryParams', function (hooks) {
       hooks.beforeEach(function () {
         sinon.stub(window, 'fetch').resolves({
+          status: 200,
           json: sinon.stub().resolves({ redirectTarget: 'https://oidc/connexion' }),
         });
 
