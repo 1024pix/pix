@@ -274,6 +274,10 @@ module('Unit | Services | locale', function (hooks) {
           value: 'en',
         },
         {
+          label: 'Español',
+          value: 'es',
+        },
+        {
           label: 'Français',
           value: 'fr',
         },
