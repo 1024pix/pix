@@ -90,11 +90,20 @@ export default class LoginOidcRoute extends Route {
       this.session.set('data.nextURL', nextURL);
     }
 
-    const response = await fetch(
-      `${ENV.APP.API_HOST}/api/oidc/authorization-url?identity_provider=${identityProvider.code}`,
-    );
-    const { redirectTarget: authorizationUrl } = await response.json();
-    Location.assign(authorizationUrl);
+    try {
+      const response = await fetch(
+        `${ENV.APP.API_HOST}/api/oidc/authorization-url?identity_provider=${identityProvider.code}`,
+      );
+      if (response.status != 200) throw response;
+
+      const { redirectTarget: authorizationUrl } = await response.json();
+      Location.assign(authorizationUrl);
+    } catch {
+      this.oidcIdentityProviders.isOidcProviderAuthenticationInProgress = false;
+
+      // TODO: Here it would be nice to display an explanation message for the user
+      this.router.transitionTo('authentication.login');
+    }
   }
 
   async _handleOidcCallbackRequest({ identityProvider, code, state, iss }) {
