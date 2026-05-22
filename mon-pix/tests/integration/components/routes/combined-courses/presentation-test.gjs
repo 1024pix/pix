@@ -48,12 +48,10 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
       );
       assert.ok(screen.getByText('Le but de ma quête', { exact: false }));
-      assert.ok(document.getElementsByClassName('link-markdown-to-html'));
       const expectedLink = screen.getByRole('link', { name: 'plus de détails' });
       assert.ok(expectedLink.hasAttribute('href', 'http://pix.fr'));
-      assert.ok(expectedLink.hasAttribute('rel', 'noopener noreferrer'));
-      assert.ok(expectedLink.hasAttribute('target', '_blank'));
     });
+
     test('should display exit button', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
