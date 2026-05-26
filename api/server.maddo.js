@@ -12,11 +12,11 @@ import * as serverAuthentication from './src/identity-access-management/infrastr
 import * as campaignsRoutes from './src/maddo/application/campaigns-routes.js';
 import * as organizationsRoutes from './src/maddo/application/organizations-routes.js';
 import * as replicationsRoutes from './src/maddo/application/replications-routes.js';
-import { Metrics } from './src/monitoring/infrastructure/metrics.js';
 import * as franceTravailRoutes from './src/prescription/campaign-participation/application/pole-emploi-route.js';
 import * as healthcheckRoutes from './src/shared/application/healthcheck/index.js';
 import { config } from './src/shared/config.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
+import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metrics.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 import { maddoSwaggers } from './src/shared/swaggers.js';
@@ -29,7 +29,7 @@ const createMaddoServer = async () => {
   const server = createBareServer();
 
   // initialisation of Datadog link for metrics publication
-  const metrics = new Metrics({ config });
+  const metrics = new DatadogMetrics({ config });
   server.directMetrics = metrics;
 
   if (logOpsMetrics) {

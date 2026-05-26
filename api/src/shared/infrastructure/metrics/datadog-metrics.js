@@ -1,10 +1,10 @@
 import metrics from 'datadog-metrics';
 
-import { child } from '../../shared/infrastructure/utils/logger.js';
+import { child } from '../utils/logger.js';
 
 const logger = child('metrics', { event: 'metrics' });
 
-export class Metrics {
+export class DatadogMetrics {
   static intervals = [];
   static metricDefinitions = {};
 
@@ -56,7 +56,7 @@ export class Metrics {
         }
       });
     };
-    Metrics.intervals.push(setInterval(f(valueProducer), intervalInSeconds));
+    DatadogMetrics.intervals.push(setInterval(f(valueProducer), intervalInSeconds));
     metricDefinitionsArray.forEach(({ type, name, tags }) => {
       this.#registerMetric({ type, name, tags });
     });
@@ -64,16 +64,16 @@ export class Metrics {
 
   #registerMetric({ type, name, tags }) {
     const metricSignature = `${type}|${name}|${tags}`;
-    if (!Metrics.metricDefinitions[metricSignature]) {
+    if (!DatadogMetrics.metricDefinitions[metricSignature]) {
       logger.info(`Metric registered with : ${type}, ${name}, ${tags}`);
-      Metrics.metricDefinitions[metricSignature] = { type, name, tags };
+      DatadogMetrics.metricDefinitions[metricSignature] = { type, name, tags };
     }
   }
 
   async clearMetrics() {
-    Metrics.intervals.forEach(clearInterval);
-    logger.info(JSON.stringify(Metrics.metricDefinitions));
-    Object.values(Metrics.metricDefinitions).forEach((v) => {
+    DatadogMetrics.intervals.forEach(clearInterval);
+    logger.info(JSON.stringify(DatadogMetrics.metricDefinitions));
+    Object.values(DatadogMetrics.metricDefinitions).forEach((v) => {
       const zero = v;
       zero.value = 0;
       this.#addMetricPointWithoutRegistration(zero);

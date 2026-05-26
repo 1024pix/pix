@@ -1,9 +1,9 @@
 import { databaseConnections } from './db/database-connections.js';
-import { Metrics } from './src/monitoring/infrastructure/metrics.js';
 import { checkJobGroups, JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { config, schema as configSchema } from './src/shared/config.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
 import { quitAllStorages } from './src/shared/infrastructure/key-value-storages/index.js';
+import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metrics.js';
 import { quitMutex } from './src/shared/infrastructure/mutex/RedisMutex.js';
 import { close as closePubsub } from './src/shared/infrastructure/pubsub.js';
 import { child } from './src/shared/infrastructure/utils/logger.js';
@@ -11,7 +11,7 @@ import { validateEnvironmentVariables } from './src/shared/infrastructure/valida
 
 const logger = child('worker', { event: 'worker' });
 
-const metrics = new Metrics({ config });
+const metrics = new DatadogMetrics({ config });
 
 const isRunningFromCli = import.meta.filename === process.argv[1];
 

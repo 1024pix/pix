@@ -1,10 +1,10 @@
 import metrics from 'datadog-metrics';
 import nock from 'nock';
 
-import { Metrics } from '../../../../src/monitoring/infrastructure/metrics.js';
-import { expect } from '../../../test-helper.js';
+import { DatadogMetrics } from '../../../../../src/shared/infrastructure/metrics/datadog-metrics.js';
+import { expect } from '../../../../test-helper.js';
 
-describe('Integration | Monitoring | Infrastructure | metrics', function () {
+describe('Integration | Monitoring | Infrastructure | Datadog metrics', function () {
   describe('constructor', function () {
     describe('when isDirectMetricsEnabled is false', function () {
       it('should not send metrics to Datadog', async function () {
@@ -17,7 +17,7 @@ describe('Integration | Monitoring | Infrastructure | metrics', function () {
         nock('https://api.datadog_fake.com').post('/api/v1/series').reply(200);
 
         // when
-        const m = new Metrics({ config });
+        const m = new DatadogMetrics({ config });
         m.addMetricPoint({ type: 'histogram', name: 'test', value: 1 });
         await metrics.flush();
 
@@ -37,7 +37,7 @@ describe('Integration | Monitoring | Infrastructure | metrics', function () {
         nock('https://api.datadog_fake.com').post('/api/v1/series').reply(200);
 
         // when
-        const m = new Metrics({ config });
+        const m = new DatadogMetrics({ config });
         m.addMetricPoint({ type: 'histogram', name: 'test', value: 1 });
         await metrics.flush();
 

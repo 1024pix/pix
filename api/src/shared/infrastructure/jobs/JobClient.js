@@ -4,16 +4,16 @@ import { fileURLToPath } from 'node:url';
 
 import { PgBoss } from 'pg-boss';
 
-import { Metrics } from '../../../monitoring/infrastructure/metrics.js';
 import { config } from '../../config.js';
 import { executeInContext, EXECUTORS } from '../execution-context-manager.js';
+import { DatadogMetrics } from '../metrics/datadog-metrics.js';
 import { importNamedExportFromFile } from '../utils/import-named-exports-from-directory.js';
 import { child } from '../utils/logger.js';
 import { MonitoredJobHandler } from './MonitoredJobHandler.js';
 
 const workerDirPath = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..');
 const logger = child('worker', { event: 'worker' });
-const metrics = new Metrics({ config });
+const metrics = new DatadogMetrics({ config });
 
 export class JobClient {
   /** @type JobClient */

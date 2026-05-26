@@ -23,7 +23,6 @@ import { identityAccessManagementRoutes } from './src/identity-access-management
 import * as serverAuthentication from './src/identity-access-management/infrastructure/server-authentication.js';
 import { learningContentRoutes } from './src/learning-content/routes.js';
 import { llmRoutes } from './src/llm/routes.js';
-import { Metrics } from './src/monitoring/infrastructure/metrics.js';
 import { organizationalEntitiesRoutes } from './src/organizational-entities/application/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
 import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';
@@ -38,6 +37,7 @@ import { questRoutes } from './src/quest/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 import { config } from './src/shared/config.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
+import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metrics.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 // bounded context migration
@@ -74,7 +74,7 @@ const createServer = async () => {
   const server = await createBareServer();
 
   // initialisation of Datadog link for metrics publication
-  const metrics = new Metrics({ config });
+  const metrics = new DatadogMetrics({ config });
   server.directMetrics = metrics;
 
   if (logOpsMetrics) {
