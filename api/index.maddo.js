@@ -3,7 +3,11 @@ import { createMaddoServer } from './server.maddo.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { config, schema as configSchema } from './src/shared/config.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
+import { quitAllStorages } from './src/shared/infrastructure/key-value-storages/index.js';
+import { quitMutex } from './src/shared/infrastructure/mutex/RedisMutex.js';
+import { close as closePubSub } from './src/shared/infrastructure/pubsub.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
+import { redisMonitor } from './src/shared/infrastructure/utils/redis-monitor.js';
 import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
 
 validateEnvironmentVariables(configSchema);
@@ -33,14 +37,22 @@ async function _exitOnSignal(signal) {
   await JobClient.instance.stop();
   logger.info('Closing connections to databases...');
   await databaseConnections.disconnect();
+  logger.info('Closing connections to pubsub...');
+  await closePubSub();
+  logger.info('Closing connections to storages...');
+  await quitAllStorages();
+  logger.info('Closing connections to redis mutex...');
+  await quitMutex();
+  logger.info('Closing connections to redis monitor...');
+  await redisMonitor.quit();
   logger.info('Exiting process...');
 }
 
-process.on('SIGTERM', () => {
-  _exitOnSignal('SIGTERM');
+process.on('SIGTERM', async () => {
+  await _exitOnSignal('SIGTERM');
 });
-process.on('SIGINT', () => {
-  _exitOnSignal('SIGINT');
+process.on('SIGINT', async () => {
+  await _exitOnSignal('SIGINT');
 });
 
 (async () => {
