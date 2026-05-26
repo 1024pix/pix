@@ -596,28 +596,28 @@
                     "id": "1",
                     "content": "Les deux modèles sont cadrés par des règles internes différentes.",
                     "feedback": {
-                      "diagnosis": "<p>Bien vu !&nbsp;</p><p>Le logiciel d’intelligence artificielle applique son <strong>prompt système</strong>, qui définit la manière dont il doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. <br><strong>Une IA ne choisit pas ses valeurs&nbsp;: elle reflète celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p>Bien vu !&nbsp;</p><p>Le logiciel d’intelligence artificielle applique son <strong>prompt système</strong>, qui définit la manière dont il doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. </p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Les deux&nbsp;modèles interprètent différemment le profil de l’utilisateur</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !</p><p>L’IA ne tire pas cette orientation du profil de l’utilisateur. Elle applique son <strong>prompt système</strong>, qui définit la manière dont elle doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. <br><strong>Une IA ne choisit pas ses valeurs&nbsp;: elle reflète celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p>Eh non !</p><p>L’IA ne tire pas cette orientation du profil de l’utilisateur. Elle applique son <strong>prompt système</strong>, qui définit la manière dont elle doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. </p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p><p><br></p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Un modèle prend en compte les conversations précédentes et l’autre non.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp;</p><p>Il ne s’agit pas d’une influence des réponses précédentes, ici la discussion de Fabrice vient tout juste de commencer. Le logiciel d’intelligence artificielle applique son <strong>prompt système</strong>, qui définit la manière dont il doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. <br><strong>Une IA ne choisit pas ses valeurs&nbsp;: elle reflète celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p>Eh non !&nbsp;</p><p>Il ne s’agit pas d’une influence des réponses précédentes, ici la discussion de Fabrice vient tout juste de commencer. Le logiciel d’intelligence artificielle applique son <strong>prompt système</strong>, qui définit la manière dont il doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. </p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "Le logiciel d’intelligence artificielle applique son <strong>prompt système</strong>, qui définit la manière dont il doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. <br><strong>Une IA ne choisit pas ses valeurs&nbsp;: elle reflète celles définies par ses concepteurs.</strong>"
+                      "diagnosis": "<p>Le logiciel d’intelligence artificielle applique son <strong>prompt système</strong>, qui définit la manière dont il doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. </p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p>"
                     }
                   }
                 ],
