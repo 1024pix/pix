@@ -3,6 +3,7 @@ import BaseJoi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { SCOPES } from '../../shared/domain/models/Scopes.js';
 import { certificationVersionController } from './certification-version-controller.js';
 
 const Joi = BaseJoi.extend(JoiDate);
@@ -106,6 +107,42 @@ const register = async function (server) {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
           "Elle supprime une version de référentiel de certification en cours d'édition.",
+        ],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/frameworks/{scope}/new-version',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
+            assign: 'hasRoleSuperAdmin',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            scope: Joi.string()
+              .required()
+              .valid(...Object.values(SCOPES)),
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                tubeIds: Joi.array().items(identifiersType.tubeId).min(1).unique().required(),
+              },
+            },
+          }),
+        },
+        handler: certificationVersionController.createCertificationVersion,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
+          'Elle permet de créer une nouvelle version de référentiel de certification',
         ],
       },
     },

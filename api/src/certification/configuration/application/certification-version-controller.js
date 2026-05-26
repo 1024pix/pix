@@ -31,7 +31,24 @@ const deleteCertificationVersion = async function (request, h) {
   return h.response().code(204);
 };
 
+const createCertificationVersion = async function (request, h) {
+  const { scope } = request.params;
+  const { tubeIds } = request.payload.data.attributes;
+
+  await usecases.createCertificationVersion({ scope, tubeIds });
+
+  return h
+    .response({
+      data: {
+        id: scope,
+        type: 'certification-consolidated-framework',
+      },
+    })
+    .code(201);
+};
+
 const certificationVersionController = {
+  createCertificationVersion,
   getVersionById,
   deleteCertificationVersion,
   update,
