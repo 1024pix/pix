@@ -426,8 +426,8 @@
           },
           "label": "Admissible",
           "summary": {
-            "shareable": "Le/la candidat(e) est admissible à la certification Pix+ Edu.",
-            "user": "Vous êtes admissible à la certification Pix+ Edu."
+            "shareable": "Le/la candidat(e) est admissible à la certification Pix+ Édu.",
+            "user": "Vous êtes admissible à la certification Pix+ Édu."
           }
         },
         "LEVEL_ADVANCED": {
@@ -461,8 +461,8 @@
           },
           "label": "Admissible",
           "summary": {
-            "shareable": "Le/la candidat(e) est admissible à la certification Pix+ Edu.",
-            "user": "Vous êtes admissible à la certification Pix+ Edu."
+            "shareable": "Le/la candidat(e) est admissible à la certification Pix+ Édu.",
+            "user": "Vous êtes admissible à la certification Pix+ Édu."
           }
         },
         "LEVEL_ADVANCED": {
@@ -496,8 +496,8 @@
           },
           "label": "Admissible",
           "summary": {
-            "shareable": "Le/la candidat(e) est admissible à la certification Pix+ Edu.",
-            "user": "Vous êtes admissible à la certification Pix+ Edu."
+            "shareable": "Le/la candidat(e) est admissible à la certification Pix+ Édu.",
+            "user": "Vous êtes admissible à la certification Pix+ Édu."
           }
         },
         "LEVEL_ADVANCED": {

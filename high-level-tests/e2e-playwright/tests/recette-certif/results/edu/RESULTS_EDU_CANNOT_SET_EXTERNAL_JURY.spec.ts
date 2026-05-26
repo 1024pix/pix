@@ -160,7 +160,7 @@ test(
       const adminHomepage = new AdminHomePage(pixAdminRoleCertifPage);
       const sessionsMainPage = await adminHomepage.goToCertificationSessionsTab();
       await sessionsMainPage.goToCertificationWithSearchBar(certificationNumber);
-      await expect(pixAdminRoleCertifPage.getByText('Résultats de la certification Pix+ Edu')).not.toBeVisible();
+      await expect(pixAdminRoleCertifPage.getByText('Résultats de la certification Pix+ Édu')).not.toBeVisible();
     });
 
     await snapshotHandler.expectOrRecord(snapshotPath);

@@ -193,7 +193,7 @@ export default class List extends Component {
                       <:default>Message du certificat</:default>
                       <:tooltip>
                         Renseignez le message définitif à afficher sur le certificat Pix App pour les certifications
-                        comportant plusieurs volets (exemple : Vous avez obtenu la certification Pix+ Edu niveau
+                        comportant plusieurs volets (exemple : Vous avez obtenu la certification Pix+ Édu niveau
                         “Avancé”).
                       </:tooltip>
                     </ContentHeader>

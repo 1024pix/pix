@@ -530,7 +530,7 @@ module('Acceptance | Route | routes/authenticated/sessions/certification | infor
         const screen = await visit(`/sessions/certification/${certification.id}`);
 
         // then
-        assert.dom(screen.getByText('Résultats de la certification complémentaire Pix+ Edu')).exists();
+        assert.dom(screen.getByText('Résultats de la certification complémentaire Pix+ Édu')).exists();
         assert.dom(screen.getByText('Volet Pix')).exists();
         assert.dom(screen.getByText('Volet jury')).exists();
         assert.dom(screen.getByText('Niveau final')).exists();

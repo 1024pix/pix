@@ -4,7 +4,7 @@ import PixSelect from '@1024pix/pix-ui/components/pix-select';
 
 <template>
   <div class="certification-information-pix-edu">
-    <h2 class="certification-information__title">Résultats de la certification complémentaire Pix+ Edu</h2>
+    <h2 class="certification-information__title">Résultats de la certification complémentaire Pix+ Édu</h2>
     <div class="certification-information-pix-edu__container">
       <div class="certification-information-pix-edu__card">
         <h3>Volet Pix</h3>
