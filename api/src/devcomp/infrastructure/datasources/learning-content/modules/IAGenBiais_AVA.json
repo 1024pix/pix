@@ -352,21 +352,21 @@
                     "id": "1",
                     "content": "<p>La règle centrée sur la sécurité.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Une règle centrée sur la sécurité peut être très utile, mais elle peut aussi rendre l’IA <strong>rigide</strong> ou <strong>excessivement prudente</strong>. </p><p>Chaque configuration implique des <strong>compromis </strong>: il n'existe pas de \"bonne\" configuration universelle : c'est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
+                      "diagnosis": "<p>Une règle centrée sur la sécurité peut être très utile, mais elle peut aussi rendre l’IA <strong>rigide</strong> ou <strong>excessivement prudente</strong>. </p><p>Chaque configuration implique des <strong>compromis </strong>: il n'existe pas de «&nbsp;bonne » configuration universelle : c'est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>La règle centrée sur la neutralité et l’analyse prudente.</p>",
                     "feedback": {
-                      "diagnosis": "<p>La neutralité donne des réponses équilibrées, mais elle peut paraître <strong>peu engageante</strong> ou trop vague.</p><p>Chaque configuration implique des <strong>compromis </strong>: il n'existe pas de \"bonne\" configuration universelle : c'est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
+                      "diagnosis": "<p>La neutralité donne des réponses équilibrées, mais elle peut paraître <strong>peu engageante</strong> ou trop vague.</p><p>Chaque configuration implique des <strong>compromis </strong>: il n'existe pas de «&nbsp;bonne » configuration universelle : c'est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>La règle centrée sur le soutien et la valorisation de l’utilisateur.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Une règle orientée vers le soutien peut renforcer la motivation, mais elle peut aussi donner des réponses <strong>trop positives</strong> ou <strong>peu critiques</strong>. </p><p>Chaque configuration implique des <strong>compromis </strong>: il n'existe pas de \"bonne\" configuration universelle : c'est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
+                      "diagnosis": "<p>Une règle orientée vers le soutien peut renforcer la motivation, mais elle peut aussi donner des réponses <strong>trop positives</strong> ou <strong>peu critiques</strong>. </p><p>Chaque configuration implique des <strong>compromis </strong>: il n'existe pas de&nbsp;«&nbsp;bonne » configuration universelle : c'est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
                     }
                   }
                 ]
@@ -380,13 +380,36 @@
           "title": "Leçon 2",
           "components": [
             {
-              "type": "element",
-              "element": {
-                "id": "eeb0f0fc-b7e7-462e-a64f-2a82ece8da94",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Ce que vous venez de voir est ce que l’on appelle l’<strong>alignement par prompt système</strong>&nbsp;: l’éditeur ajoute des consignes que l’IA doit suivre dans toutes ses réponses.</p><h5><br>🤔 Existe-t-il d’autres méthodes d’alignement ?</h5><p>Oui. Voici un tableau présentant les <strong>méthodes d’alignement les plus courantes</strong> d’un logiciel d’IA générative.<br><br></p><table> </table><table>    <caption class=\"sr-only\">Résumé des trois méthodes d’alignement</caption>    <thead>        <tr>            <th scope=\"col\"><br></th>            <th scope=\"col\">Prompt système</th>            <th scope=\"col\">Feedback humain</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\">C’est quoi ?</th>            <td>Règle interne définie par l’éditeur&nbsp;: fixe le comportement par défaut de l’IA.</td>            <td>Des personnes évaluent les réponses données par le logiciel d’intelligence artificielle. Leurs jugements ajustent le comportement de l’IA.</td>        </tr>        <tr>            <th scope=\"row\">Qui le fait ?</th>            <td>Éditeurs de logiciels d’IA</td>            <td>Évaluateurs humains (souvent sur demande de l’éditeur)</td>        </tr>        <tr>            <th scope=\"row\">Visible par l’utilisateur ?</th>            <td>Non</td>            <td>Non</td>        </tr>    </tbody></table><p><strong><br></strong></p><p><strong>💡 Bon à savoir</strong></p><p>Le pré-prompt est une consigne comme le prompt système mais écrite par l’utilisateur. Cette consigne modifie le ton et la posture de l’IA. Il agit seulement pour la session en cours et ne modifie pas les règles internes du modèle.</p>"
-              }
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "1d1ec7cb-4bb2-4a08-8754-c21fb4d1326d",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Ce que vous venez de voir est ce que l’on appelle l’<strong>alignement par prompt système&nbsp;</strong>: l’éditeur ajoute des consignes que l’IA doit suivre dans toutes ses réponses.</p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "b4f4846d-fdab-4710-8772-a779ae33628d",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<h5>Donc les éditeurs d’IA veulent toujours protéger les utilisateurs ?&nbsp; </h5><p>C’est dans leur intérêt, ces règles protègent les utilisateurs et évitent aux éditeurs d’éventuels problèmes juridiques. Mais on peut également imaginer une IA configurée pour être très permissive : tout dépend des choix faits par les éditeurs de l’IA.<br></p>"
+                    },
+                    {
+                      "id": "7aeafcd3-3290-47b7-a037-c38d8c96563b",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<h5>Et est-ce que l’utilisateur peut-lui aussi donner ses préférence à l’IA ?</h5>\n<p> Oui, l’utilisateur peut par exemple utiliser le <strong>pré-prompt</strong>. Le pré-prompt est une consigne comme le prompt système mais écrite par l’utilisateur. Cette consigne peux modifier le ton et la posture de l’IA. Il agit seulement pour la session en cours et ne modifie pas le prompt système du modèle.</p>"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
