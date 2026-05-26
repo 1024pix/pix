@@ -2228,6 +2228,12 @@
             "on-site": "In loco",
             "remote": "A distanza"
           },
+          "duration": {
+            "and": "e",
+            "days": "{ count, plural, =1 {giorno} other {giorni} }",
+            "hours": "h",
+            "minutes": "min"
+          },
           "registration-required": {
             "no": "Accesso libero immediato",
             "yes": "Iscrizione richiesta"

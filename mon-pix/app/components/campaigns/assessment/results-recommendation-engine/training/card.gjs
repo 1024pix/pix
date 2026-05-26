@@ -35,13 +35,6 @@ export default class Card extends Component {
     return this.intl.t(`pages.skill-review.recommended-engine.training-card.delivery-mode.${deliveryMode}`);
   }
 
-  get formattedDuration() {
-    const days = this.args.training.duration.days ? `${this.args.training.duration.days}j ` : '';
-    const hours = this.args.training.duration.hours ? `${this.args.training.duration.hours}h ` : '';
-    const minutes = this.args.training.duration.minutes ? `${this.args.training.duration.minutes}min` : '';
-    return `${days}${hours}${minutes}`.trim();
-  }
-
   get type() {
     if (this.args.training.isTypeLinkedToALocation) {
       return this.intl.t('pages.training.type.formation');
@@ -78,8 +71,12 @@ export default class Card extends Component {
       </PixTag>
       <section class="results-recommendation-engine-training-card-content">
         <p class="results-recommendation-engine-training-card-content__title">{{@training.title}}</p>
-        <ul class="results-recommendation-engine-training-card-content__details"><li>{{this.type}}</li><li
-          >{{this.deliveryMode}}</li><li>{{this.formattedDuration}}</li></ul>
+        <ul class="results-recommendation-engine-training-card-content__details"><li>{{this.type}}</li>
+          <li>{{this.deliveryMode}}</li>
+          {{#if @training.hasDuration}}
+            <li>{{@training.formattedDuration}}</li>
+          {{/if}}
+        </ul>
       </section>
     </button>
     <PixModal @title={{@training.title}} @showModal={{this.modalIsOpen}} @onCloseButtonClick={{this.closeModal}}>

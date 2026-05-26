@@ -2228,6 +2228,12 @@
             "on-site": "Vor Ort",
             "remote": "Fernkurs"
           },
+          "duration": {
+            "and": "und",
+            "days": "{ count, plural, =1 {Tag} other {Tage} }",
+            "hours": "Std",
+            "minutes": "Min"
+          },
           "registration-required": {
             "no": "Sofortiger freier Zugang",
             "yes": "Anmeldung erforderlich"

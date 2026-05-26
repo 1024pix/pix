@@ -2228,6 +2228,12 @@
             "on-site": "Presencial",
             "remote": "A distancia"
           },
+          "duration": {
+            "and": "y",
+            "days": "{ count, plural, =1 {día} other {días} }",
+            "hours": "h",
+            "minutes": "min"
+          },
           "registration-required": {
             "no": "Acceso libre inmediato",
             "yes": "Inscripción requerida"

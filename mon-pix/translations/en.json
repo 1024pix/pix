@@ -2228,6 +2228,12 @@
             "on-site": "On-site",
             "remote": "Remote"
           },
+          "duration": {
+            "and": "and",
+            "days": "{ count, plural, =1 {day} other {days} }",
+            "hours": "h",
+            "minutes": "min"
+          },
           "registration-required": {
             "no": "Immediate free access",
             "yes": "Registration required"

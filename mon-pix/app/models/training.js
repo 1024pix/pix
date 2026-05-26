@@ -42,4 +42,8 @@ export default class Training extends Model {
   get isTypeLinkedToALocation() {
     return this.isElearning || this.isHybrid || this.isInPerson;
   }
+
+  get hasDuration() {
+    return this.duration.days || this.duration.hours || this.duration.minutes;
+  }
 }

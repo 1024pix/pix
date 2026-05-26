@@ -22,7 +22,7 @@ module(
       const trainingTitle = screen.getAllByText(training.title);
       assert.strictEqual(trainingTitle.length, 2);
       assert.dom(screen.getByText('Webinaire')).exists();
-      assert.dom(screen.getByText('2h')).exists();
+      assert.dom(screen.getByText('1 jour et 2h')).exists();
     });
 
     module('when delivery mode is hybrid', function () {
@@ -133,11 +133,87 @@ module(
       });
     });
 
-    function _buildTraining({ deliveryMode = 'remote', registrationRequired = true, type = 'webinaire' }) {
+    module('handle duration', function () {
+      module('when training has no duration', function () {
+        test('it displays nothing', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const training = store.createRecord(
+            'training',
+            _buildTraining({ type: 'modulix', duration: { days: 0, hours: 0, minutes: 0 } }),
+          );
+
+          // when
+          const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+
+          // then
+          const list = screen.getByRole('list');
+          assert.strictEqual(list.children.length, 2);
+        });
+      });
+
+      module('when training has only days duration', function () {
+        test('it displays days only', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const training = store.createRecord(
+            'training',
+            _buildTraining({ type: 'modulix', duration: { days: 3, hours: 0, minutes: 0 } }),
+          );
+
+          // when
+          const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+
+          // then
+          assert.dom(screen.getByText('3 jours')).exists();
+        });
+      });
+
+      module('when training has days and hours duration', function () {
+        test('it displays complete duration', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const training = store.createRecord(
+            'training',
+            _buildTraining({ type: 'modulix', duration: { days: 3, hours: 1, minutes: 0 } }),
+          );
+
+          // when
+          const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+
+          // then
+          assert.dom(screen.getByText('3 jours et 1h')).exists();
+        });
+      });
+
+      module('when training has minutes and hours duration', function () {
+        test('it displays complete duration', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const training = store.createRecord(
+            'training',
+            _buildTraining({ type: 'modulix', duration: { days: 0, hours: 1, minutes: 30 } }),
+          );
+
+          // when
+          const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+
+          // then
+          assert.dom(screen.getByText('1h30min')).exists();
+        });
+      });
+    });
+
+    function _buildTraining({
+      deliveryMode = 'remote',
+      registrationRequired = true,
+      type = 'webinaire',
+      duration = { days: 1, hours: 2, minutes: 0 },
+    }) {
       return {
         title: 'Apprendre à manger un croissant comme les français',
         link: 'https://example.net/',
-        duration: { hours: 2 },
+        duration,
         editorLogoUrl:
           'https://assets.pix.org/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
         editorName: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",

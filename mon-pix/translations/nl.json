@@ -2228,6 +2228,12 @@
             "on-site": "Ter plaatse",
             "remote": "Op afstand"
           },
+          "duration": {
+            "and": "en",
+            "days": "{ count, plural, =1 {dag} other {dagen} }",
+            "hours": "u",
+            "minutes": "min"
+          },
           "registration-required": {
             "no": "Onmiddellijke vrije toegang",
             "yes": "Inschrijving vereist"
