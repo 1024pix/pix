@@ -2,9 +2,9 @@ import sinon from 'sinon';
 
 import { DomainTransaction, withTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { catchErr } from '../../../../tests/tooling/test-utils/error.js';
 import { expect } from '../../../test-helper.js';
 import { knex } from '../../../tooling/databases.js';
+import { catchErr } from '../../../tooling/test-utils/error.js';
 
 describe('Shared | Integration | Domain | DomainTransaction', function () {
   context('behaviour when nesting', function () {

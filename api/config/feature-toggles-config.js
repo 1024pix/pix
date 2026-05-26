@@ -130,4 +130,11 @@ export default {
     devDefaultValues: { test: true, reviewApp: true },
     tags: ['team-combinix', 'pix-api', 'frontend'],
   },
+  isEventSourcingCertificationEnabled: {
+    type: 'boolean',
+    description: 'Enable event sourcing for certification related events',
+    defaultValue: false,
+    devDefaultValues: { test: true, reviewApp: true },
+    tags: ['team-certif', 'pix-api', 'backend'],
+  },
 };
