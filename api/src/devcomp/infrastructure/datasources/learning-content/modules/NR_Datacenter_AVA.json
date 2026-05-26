@@ -1235,7 +1235,7 @@
                           "content": "<p>Expliquer des technologies permettant de réduire les impacts des centres de données.</p>",
                           "feedback": {
                             "state": "<p>Pas du tout.</p>",
-                            "diagnosis": "<p> Cet article met en valeur les aspects positifs de la création de centres de données au Mexique. Cet article est grandement inspiré de la communication officielle des géants de la technologie.</p>"
+                            "diagnosis": "<p> Cet article met en valeur les aspects positifs de la création de centres de données au Mexique. Cet article est grandement inspiré de la communication officielle des géants de la technologie (<a href="https://local.microsoft.com/fr/communities/americas/mexico/">source</a>).</p>"
                           }
                         },
                         {
@@ -1243,7 +1243,7 @@
                           "content": "<p>Informer le public de la création de nouveaux centres de données.</p>",
                           "feedback": {
                             "state": "<p>Certes mais cet article insiste uniquement sur le positif.</p>",
-                            "diagnosis": "<p>Cet article est grandement inspiré de la communication officielle des géants de la technologie.</p>"
+                            "diagnosis": "<p>Cet article est grandement inspiré de la communication officielle des géants de la technologie (<a href="https://local.microsoft.com/fr/communities/americas/mexico/">source</a>).</p>"
                           }
                         },
                         {
@@ -1251,7 +1251,7 @@
                           "content": "<p>Mettre en valeur les effets positifs de la création de centres de données au Mexique.</p>",
                           "feedback": {
                             "state": "<p>Tout à fait.</p>",
-                            "diagnosis": "<p>Cet article insiste uniquement sur le positif. Cet article est grandement inspiré de la communication officielle des géants de la technologie. </p>"
+                            "diagnosis": "<p>Cet article insiste uniquement sur le positif. Cet article est grandement inspiré de la communication officielle des géants de la technologie (<a href="https://local.microsoft.com/fr/communities/americas/mexico/">source</a>). </p>"
                           }
                         }
                       ],
