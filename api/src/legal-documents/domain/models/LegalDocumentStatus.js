@@ -1,6 +1,7 @@
 export const STATUS = {
   ACCEPTED: 'accepted',
   REQUESTED: 'requested',
+  NOT_APPLICABLE: 'not-applicable',
   UPDATE_REQUESTED: 'update-requested',
 };
 
@@ -34,6 +35,17 @@ export class LegalDocumentStatus {
     }
 
     return new LegalDocumentStatus({ status: STATUS.UPDATE_REQUESTED, acceptedAt: null, documentPath });
+  }
+
+  static buildForLegacyPixAppCgu({ mustValidateTermsOfService, lastTermsOfServiceValidatedAt }) {
+    if (mustValidateTermsOfService) {
+      return new LegalDocumentStatus({ status: STATUS.UPDATE_REQUESTED, acceptedAt: null, documentPath: null });
+    }
+    return new LegalDocumentStatus({
+      status: STATUS.ACCEPTED,
+      acceptedAt: lastTermsOfServiceValidatedAt,
+      documentPath: null,
+    });
   }
 
   static notFound() {
