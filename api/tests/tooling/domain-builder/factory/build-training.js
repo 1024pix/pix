@@ -18,6 +18,7 @@ const buildTraining = function ({
   registrationRequired = false,
   program = 'training program',
   objectives = ['objective 1', 'objective 2'],
+  description = "<p>Voici la description d'un contenu formatif</p>",
 } = {}) {
   return new Training({
     id,
@@ -35,6 +36,7 @@ const buildTraining = function ({
     registrationRequired,
     program,
     objectives,
+    description,
   });
 };
 

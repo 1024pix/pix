@@ -19,6 +19,7 @@ import { databaseBuffer } from '../database-buffer.js';
  *   registrationRequired: boolean,
  *   program: string,
  *   objectives: string[],
+ *   description: string,
  * }} Training
  */
 
@@ -39,6 +40,7 @@ function buildTraining({
   registrationRequired = false,
   program = 'Programme du contenu formatif',
   objectives = [],
+  description = "<p>Voici la description d'un contenu formatif</p>",
 } = {}) {
   const values = {
     id,
@@ -57,6 +59,7 @@ function buildTraining({
     registrationRequired,
     program,
     objectives,
+    description,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'trainings',

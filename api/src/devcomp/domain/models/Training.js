@@ -21,6 +21,7 @@ class Training {
     registrationRequired,
     program,
     objectives,
+    description,
   } = {}) {
     this.id = id;
     this.title = title;
@@ -37,6 +38,7 @@ class Training {
     this.registrationRequired = registrationRequired;
     this.program = program;
     this.objectives = objectives;
+    this.description = description;
   }
 
   shouldBeObtained(knowledgeElements, skills) {

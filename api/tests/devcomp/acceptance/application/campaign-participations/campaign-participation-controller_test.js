@@ -49,6 +49,7 @@ describe('Acceptance | API | Campaign Participations', function () {
         'registration-required': false,
         program: 'Programme du contenu formatif',
         objectives: [],
+        description: "<p>Voici la description d'un contenu formatif</p>",
       });
     });
   });

@@ -98,6 +98,7 @@ const serialize = function (training = {}, meta) {
       'registrationRequired',
       'program',
       'objectives',
+      'description',
     ],
     targetProfileSummaries: {
       ref: 'id',

@@ -12,6 +12,7 @@ class UserRecommendedTraining {
     registrationRequired,
     program,
     objectives,
+    description,
   } = {}) {
     this.id = id;
     this.title = title;
@@ -25,6 +26,7 @@ class UserRecommendedTraining {
     this.registrationRequired = registrationRequired;
     this.program = program;
     this.objectives = objectives;
+    this.description = description;
   }
 }
 

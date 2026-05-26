@@ -28,6 +28,7 @@ describe('Unit | Devcomp | Domain | Models | Training', function () {
         editorName: 'Example',
         editorLogoUrl: 'https://example.net/logo.svg',
         trainingTriggers,
+        description: 'Voici la description de mon contenu formatif',
       });
 
       // then
@@ -49,6 +50,7 @@ describe('Unit | Devcomp | Domain | Models | Training', function () {
         title: 'Training 1',
         trainingTriggers,
         type: 'webinar',
+        description: 'Voici la description de mon contenu formatif',
       });
     });
   });

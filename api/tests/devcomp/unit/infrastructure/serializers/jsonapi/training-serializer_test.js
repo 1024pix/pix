@@ -350,6 +350,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
             objectives: ['objective 1', 'objective 2'],
             program: 'training program',
             'registration-required': false,
+            description: "<p>Voici la description d'un contenu formatif</p>",
           },
           relationships: {
             'target-profile-summaries': {
@@ -400,6 +401,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
             objectives: ['objective 1', 'objective 2'],
             program: 'training program',
             'registration-required': false,
+            description: "<p>Voici la description d'un contenu formatif</p>",
           },
           relationships: {
             'target-profile-summaries': {
@@ -436,6 +438,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
             'editor-name': 'Ministère education nationale',
             'editor-logo-url': 'https://assets.pix.org/contenu-formatif/editeur/editor_logo_url.svg',
             'is-disabled': true,
+            description: "<p>Voici la description d'un contenu formatif pour le ministère</p>",
           },
         },
       };
@@ -452,6 +455,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
         editorLogoUrl: 'https://assets.pix.org/contenu-formatif/editeur/editor_logo_url.svg',
         editorName: 'Ministère education nationale',
         isDisabled: true,
+        description: "<p>Voici la description d'un contenu formatif pour le ministère</p>",
       });
     });
 

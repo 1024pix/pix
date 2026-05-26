@@ -52,6 +52,7 @@ describe('Acceptance | Routes | UserTrainingsRoute', function () {
             'editor-name': "Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité",
             'editor-logo-url':
               'https://assets.pix.org/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
+            description: "<p>Voici la description d'un contenu formatif</p>",
           },
           relationships: {
             'target-profile-summaries': {
