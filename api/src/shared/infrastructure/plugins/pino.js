@@ -5,6 +5,7 @@ import { getForwardedOrigin } from '../../../identity-access-management/infrastr
 import { config } from '../../config.js';
 import { getCorrelationInfo, getInContext, setInContext } from '../execution-context-manager.js';
 import { loggerPino } from '../utils/logger.js';
+import { routeDomainToOwnerTeam } from '../utils/route-domain-to-owner-team.js';
 
 const serializersSym = Symbol.for('pino.serializers');
 
@@ -40,6 +41,9 @@ function requestSerializer(req) {
     metrics,
     route: request?.route?.path,
     routeDomain: request?.route?.realm?.plugin,
+    teamsToContact: routeDomainToOwnerTeam(config.routeDomainToOwnerTeamMapping, request?.route?.realm?.plugin).join(
+      ',',
+    ),
   };
 }
 

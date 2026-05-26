@@ -2,8 +2,10 @@ import Knex from 'knex';
 import QueryBuilder from 'knex/lib/query/querybuilder.js';
 import pg from 'pg';
 
+import { config } from '../src/shared/config.js';
 import { getInContext, getRequestId } from '../src/shared/infrastructure/execution-context-manager.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { routeDomainToOwnerTeam } from '../src/shared/infrastructure/utils/route-domain-to-owner-team.js';
 
 const types = pg.types;
 
@@ -31,8 +33,12 @@ export function configureGlobalExtensions() {
   QueryBuilder.prototype.toSQL = function () {
     const ret = originalToSQL.apply(this);
     const request = getInContext('request');
+    const teamsToContact = routeDomainToOwnerTeam(
+      config.routeDomainToOwnerTeamMapping,
+      request?.route?.realm?.plugin,
+    ).join(',');
     ret.sql =
-      `/* path:${request?.route?.path} | routeDomain:${request?.route?.realm?.plugin} | request_id:${getRequestId()} */ `.concat(
+      `/* path:${request?.route?.path} | routeDomain:${request?.route?.realm?.plugin} | request_id:${getRequestId()} | teamsToContact:${teamsToContact} */ `.concat(
         ret.sql,
       );
     return ret;

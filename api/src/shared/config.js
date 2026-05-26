@@ -184,6 +184,7 @@ const schema = Joi.object({
   APIM_URL: Joi.string().optional(),
   PIX_ASSETS_MANAGER_URL: Joi.string().uri().optional(),
   HTTP_SERVER_RESPONSE_TIMEOUT_MS: Joi.number().integer().min(0).optional(),
+  ROUTE_DOMAIN_TO_OWNER_TEAM_MAPPING: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
 const configuration = (function () {
@@ -556,6 +557,7 @@ const configuration = (function () {
     autonomousCourse: {
       autonomousCoursesOrganizationId: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10),
     },
+    routeDomainToOwnerTeamMapping: parseJSONEnv('ROUTE_DOMAIN_TO_OWNER_TEAM_MAPPING'),
   };
 
   if (process.env.NODE_ENV === 'test') {
