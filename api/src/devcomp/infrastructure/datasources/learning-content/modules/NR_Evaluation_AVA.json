@@ -43,13 +43,7 @@
                       "userName": "Olivier",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "C’est vraiment pratique les smartphones, ça remplace plein d’objets !"
-                    },
-                    {
-                      "userName": "Olivier",
-                      "direction": "outgoing",
-                      "type": "Texte",
-                      "content": "📱= ☎️+ 📻 +🗺️+⏰..."
+                      "content": "C’est vraiment pratique le télétravail, ça évite beaucoup de déplacements ! 🚗"
                     },
                     {
                       "userName": "Olivier",
@@ -61,13 +55,13 @@
                       "userName": "Alise",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Tu es sûr de ça ? 🤔"
+                      "content": "Je ne suis pas d'accord !"
                     },
                     {
                       "userName": "Alise",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "La fabrication d’un smartphone est particulièrement polluante, peut-être plus que celle des GPS, des réveils, et tous les appareils remplacés réunis !"
+                      "content": "L'utilisation de la visioconférence est polluante. Et puis, comme ils restent chez eux, les télétravailleurs utilisent plus de chauffage chez eux. 🏠"
                     }
                   ],
                   "animationSpeed": 0
@@ -105,14 +99,7 @@
                   },
                   {
                     "id": "4",
-                    "content": "aucun des deux",
-                    "feedback": {
-                      "diagnosis": "<p><strong>Effectivement, difficile de dire qui a raison ! </strong></p><p>Le remplacement d’une technologie par une autre a un <strong>effet indirect </strong>sur l’environnement. Cet effet est très <strong>difficile à quantifier.</strong></p>"
-                    }
-                  },
-                  {
-                    "id": "3",
-                    "content": "Je ne sais pas.",
+                    "content": "Avec les deux",
                     "feedback": {
                       "diagnosis": "<p><strong>Effectivement, difficile de dire qui a raison ! </strong></p><p>Le remplacement d’une technologie par une autre a un <strong>effet indirect </strong>sur l’environnement. Cet effet est très <strong>difficile à quantifier.</strong></p>"
                     }
