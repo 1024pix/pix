@@ -972,7 +972,7 @@ class OidcMissingFieldsError extends DomainError {
 
 class InvalidIdentityProviderError extends DomainError {
   constructor(identityProvider) {
-    const message = `Identity provider ${identityProvider} is not supported.`;
+    const message = `Identity provider ${identityProvider} not available.`;
     super(message);
   }
 }
