@@ -502,4 +502,98 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
       });
     });
   });
+
+  describe('#countParticipantsByOrganizationId', function () {
+    it('returns 0 when the organization has no campaigns', async function () {
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationsStatsRepository.countParticipantsByOrganizationId(organizationId);
+
+      expect(result).to.equal(0);
+    });
+
+    it('returns 0 when the organization has campaigns but no participations', async function () {
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildCampaign({ organizationId });
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationsStatsRepository.countParticipantsByOrganizationId(organizationId);
+
+      expect(result).to.equal(0);
+    });
+
+    it('returns the count of distinct organizationLearnerIds across all campaigns of the organization', async function () {
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: campaignId1 } = databaseBuilder.factory.buildCampaign({ organizationId });
+      const { id: campaignId2 } = databaseBuilder.factory.buildCampaign({ organizationId });
+      const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      const { id: organizationLearnerId2 } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaignId1,
+        organizationLearnerId: organizationLearnerId1,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaignId2,
+        organizationLearnerId: organizationLearnerId2,
+      });
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationsStatsRepository.countParticipantsByOrganizationId(organizationId);
+
+      expect(result).to.equal(2);
+    });
+
+    it('counts a learner only once even if they participated in multiple campaigns', async function () {
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: campaignId1 } = databaseBuilder.factory.buildCampaign({ organizationId });
+      const { id: campaignId2 } = databaseBuilder.factory.buildCampaign({ organizationId });
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignId1, organizationLearnerId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignId2, organizationLearnerId });
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationsStatsRepository.countParticipantsByOrganizationId(organizationId);
+
+      expect(result).to.equal(1);
+    });
+
+    it('does not count participations from other organizations', async function () {
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: otherOrganizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
+      const { id: otherCampaignId } = databaseBuilder.factory.buildCampaign({ organizationId: otherOrganizationId });
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      const { id: otherOrganizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: otherOrganizationId,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: otherCampaignId,
+        organizationLearnerId: otherOrganizationLearnerId,
+      });
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationsStatsRepository.countParticipantsByOrganizationId(organizationId);
+
+      expect(result).to.equal(1);
+    });
+
+    it('counts deleted participations and disabled learners regardless of their status', async function () {
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
+      const { id: disabledLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+        isDisabled: true,
+      });
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId, deletedAt: new Date() });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId: disabledLearnerId });
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationsStatsRepository.countParticipantsByOrganizationId(organizationId);
+
+      expect(result).to.equal(2);
+    });
+  });
 });

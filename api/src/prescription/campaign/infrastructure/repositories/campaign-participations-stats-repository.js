@@ -80,7 +80,24 @@ const countParticipationsByStatus = async (campaignId) => {
   };
 };
 
+const countParticipantsByOrganizationId = async (organizationId) => {
+  const knexConn = DomainTransaction.getConnection();
+
+  const [{ count }] = await knexConn
+    .count('* as count')
+    .from(
+      knexConn('campaign-participations')
+        .select('campaign-participations.organizationLearnerId')
+        .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+        .where('campaigns.organizationId', organizationId)
+        .groupBy('campaign-participations.organizationLearnerId'),
+    );
+
+  return count;
+};
+
 export {
+  countParticipantsByOrganizationId,
   countParticipationsByMasteryRate,
   countParticipationsByStatus,
   getAllParticipationsByCampaignId,
