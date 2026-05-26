@@ -2,12 +2,12 @@
   "id": "7ee3ef2d-b29d-4029-86cf-f88ceb4ddea2",
   "shortId": "e89cf72c",
   "slug": "centre-de-donnees-mieux-faire",
-  "title": "Centre de données : peut-on mieux faire ?",
+  "title": "Centres de données : peut-on mieux faire ?",
   "isBeta": true,
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/NR_Datacenter_Ava/picto_nr_datacenter_ava.svg",
-    "description": "<p>Tous les usages numériques mobilisent des centres de données, de plus en plus nombreux, qui sont très énergivores, consommateurs de ressources et générateurs de pollution.&nbsp;</p><p> Découvrez dans ce module, quelles sont les pistes pour réduire ces impacts à l’échelle des entreprises.<br><br></p>",
+    "description": "<p>Tous les usages numériques mobilisent des centres de données, de plus en plus nombreux. Ces centres de données  sont très énergivores, consommateurs de ressources et générateurs de pollution.&nbsp;</p><p> Découvrez dans ce module, quelles sont les pistes pour réduire ces impacts à l’échelle des entreprises.<br><br></p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -33,7 +33,7 @@
                 "id": "6395f495-5219-445d-9976-53710245da39",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Entre 2010 et 2025, le nombre de centres de données est passé d’environ 4 500 à près 12 000, et avec lui l’électricité consommée par les centre de données a fortement augmentée.</p>"
+                "content": "<p>Entre 2010 et 2025, le nombre de centres de données est passé d’environ 4 500 à près de 12 000. Ce nombre croissant s’accompagne d’une forte augmentation de la consommation d’électricité des centres de données.</p>"
               }
             },
             {
@@ -51,35 +51,35 @@
               "element": {
                 "id": "f2665813-82bb-4427-a9a0-14a6a5f3df8f",
                 "type": "qcu-discovery",
-                "instruction": "<p>L’agence internationale de l’énergie (IAE) a fait des projections concernant la consommation d’énergie par les centres de données pour les années à venir.<br>À votre avis, que disent ces projections pour la période 2024 à 2030 ?<br></p>",
+                "instruction": "<p>L’Agence internationale de l’énergie (IAE) a fait des projections concernant la consommation d’énergie par les centres de données pour les années à venir.<br>À votre avis, que disent ces projections pour la période 2024 à 2030 ?<br></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>Leur consommation d’énergie va diminuer. ↘️</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! </p><p>Il est estimé que l’<strong>électricité consommée par les centres de données va doubler entre 2024 et 2030.&nbsp;</strong>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie&nbsp;</strong>et les nouvelles technologies sont très gourmandes en calcul.&nbsp;Par exemple pour les vidéos, les objets connectés, les cryptomonnaies mais surtout à l’essor de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
+                      "diagnosis": "<p>Eh non ! </p><p>L’IAE estime que l’<strong>électricité consommée par les centres de données va doubler entre 2024 et 2030.&nbsp;</strong>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie&nbsp;</strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour les vidéos, les objets connectés, les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Leur consommation d’énergie va rester stable. ➡️<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! </p><p>Il est estimé que l’<strong>électricité</strong><strong> consommée par les</strong><strong> centres de données va doubler </strong>entre 2024&nbsp;et 2030.<br>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul.&nbsp;Par exemple pour les vidéos, les objets connectés, les cryptomonnaies mais surtout l’essor de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public. </p>"
+                      "diagnosis": "<p>Eh non ! </p><p>L’IAE estime que l’<strong>électricité</strong><strong> consommée par les</strong><strong> centres de données va doubler </strong>entre 2024&nbsp;et 2030.<br>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour les vidéos, les objets connectés, les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public. </p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Leur consommation d’énergie va augmenter de 20%. ↗️<br></p>",
+                    "content": "<p>Leur consommation d’énergie va augmenter de 20&nbsp;%. ↗️<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! </p><p>Il est estimé que l’<strong>électricité consommée par les centres de données va doubler </strong>entre 2024 et 2030.<br></p><p>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul.&nbsp;Par exemple pour&nbsp;les objets connectés, les cryptomonnaies mais surtout à l’essor de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
+                      "diagnosis": "<p>Eh non ! </p><p>L’IAE estime que l’<strong>électricité consommée par les centres de données va doubler </strong>entre 2024 et 2030.<br></p><p>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour&nbsp;les objets connectés, les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Leur consommation d’énergie va doubler. ↗️↗️<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement ! </p><p>Il est estimé que l’<strong>électricité consommée par les centres de données va doubler </strong>entre 2024 et 2030.<br>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul.&nbsp;Par exemple pour les vidéos, les objets connectés les cryptomonnaies mais surtout l’essor de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
+                      "diagnosis": "<p>Effectivement ! </p><p>L’IAE estime que l’<strong>électricité consommée par les centres de données va doubler </strong>entre 2024 et 2030.<br>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour les vidéos, les objets connectés les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
                     }
                   }
                 ],
@@ -105,7 +105,7 @@
                 "id": "1ec87fee-69c4-4062-8a25-89da3a479c2f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>La <strong>construction </strong>d’un<strong> centre de données</strong> nécessite l’extraction de grandes quantités de <strong>métaux</strong> et&nbsp;de<strong> terres rares</strong>. Elle participe également à l’<strong>artificialisation des sols</strong>.</p><br><p>De plus, le centre de données consomme une grande quantité d’<strong>énergie</strong>&nbsp;et <strong>d’eau </strong>(pour son refroidissement) et génère de nombreux <strong>déchets</strong> toxiques.</p>"
+                "content": "<p>La <strong>construction </strong>d’un<strong> centre de données</strong> nécessite l’extraction de grandes quantités de <strong>métaux</strong> et&nbsp;de<strong> terres rares</strong>. La construction participe également à l’<strong>artificialisation des sols</strong>.</p><br><p>Par ailleurs, un centre de données consomme une grande quantité d’<strong>énergie</strong>&nbsp;et <strong>d’eau </strong>(pour son refroidissement) et génère de nombreux <strong>déchets</strong> toxiques.</p>"
               }
             },
             {
@@ -115,7 +115,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_impacts_envir_1.png",
                 "alt": "Un schéma des conséquences d’un centre de données",
-                "alternativeText": "<p>Un schéma des conséquences d’un centre de données&nbsp;:</p><ul><li> la consommation d’eau</li><li>la consommation d’énergie</li><li>l’artificialisation des sols</li><li>l’extraction de métaux et de terres rares</li><li>la production de déchets toxiques.</li></ul>",
+                "alternativeText": "<p>Un schéma des conséquences d’un centre de données&nbsp;:</p><ul><li> la consommation d’eau</li><li>la consommation d’énergie</li><li>l’artificialisation des sols</li><li>l’extraction de métaux et de terres rares</li><li>la production de déchets toxiques</li></ul>",
                 "legend": "",
                 "licence": ""
               }
@@ -138,7 +138,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_impacts_envir_2.png",
                       "alt": "Schéma des conséquences d’un centre de données",
-                      "alternativeText": "<p>Schéma des conséquences d’un centre de données&nbsp;:</p><ul><li>la consommation d’eau,</li><li>la consommation d’énergie,</li><li>l’artificialisation des sols,</li><li> l’extraction de métaux et de terres rares,</li><li> la production de déchets toxiques.</li></ul><p>Le focus est mis sur l’extraction de métaux et de terres rares.</p>",
+                      "alternativeText": "<p>Schéma des conséquences d’un centre de données&nbsp;:</p><ul><li>la consommation d’eau</li><li>la consommation d’énergie</li><li>l’artificialisation des sols</li><li> l’extraction de métaux et de terres rares</li><li> la production de déchets toxiques</li></ul><p>Le focus est mis sur l’extraction de métaux et de terres rares.</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -162,7 +162,7 @@
                         },
                         {
                           "id": "4",
-                          "content": "<p>l’exploitation de populations pauvres</p>"
+                          "content": "<p>l’exploitation de populations </p>"
                         }
                       ],
                       "feedbacks": {
@@ -171,7 +171,7 @@
                           "diagnosis": "<p>Il fallait cocher toutes les cases car toutes ces propositions sont des impacts  de l’extraction de métaux pour la construction de centres de données.</p>"
                         },
                         "invalid": {
-                          "state": "<p>Pas tout à fait<br></p>",
+                          "state": "<p>Pas tout à fait.<br></p>",
                           "diagnosis": "<p>Toutes les propositions sont des impacts de l’extraction de métaux pour la construction de centres de données.</p>"
                         }
                       },
@@ -191,7 +191,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_impacts_envir_3.png",
                       "alt": "Schéma des conséquences d’un centre de données.",
-                      "alternativeText": "<p>Schéma des conséquences d’un centre de données&nbsp;: </p><p>- la consommation d’eau </p><p> - la consommation d’énergie </p><p> - l’artificialisation des sols </p><p> - l’extraction de métaux et de terres rares </p><p> - la production de déchets toxiques. <br> </p><p>Le focus est mis sur  la consommation d’eau.</p>",
+                      "alternativeText": "<p>Schéma des conséquences d’un centre de données&nbsp;: </p><ul><li> la consommation d’eau </li><li>la consommation d’énergie </li><li> l’artificialisation des sols </li><li>l’extraction de métaux et de terres rares </li><li>la production de déchets toxiques <br> </li></ul><p>Le focus est mis sur  la consommation d’eau.</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -221,10 +221,10 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien vu !</p>",
-                          "diagnosis": "<p>La consommation d’eau pour faire fonctionner les systèmes de refroidissement participe à la pénurie de l’eau et la détourne d’autres usages (agriculture, population, irrigation naturelle, etc).</p>"
+                          "diagnosis": "<p>La consommation d’eau pour faire fonctionner les systèmes de refroidissement participe à la pénurie de l’eau et la détourne d’autres usages (agriculture, population, irrigation naturelle, etc.).</p>"
                         },
                         "invalid": {
-                          "state": "<p>Pas vraiment<br></p>",
+                          "state": "<p>Pas vraiment...<br></p>",
                           "diagnosis": "<p>La consommation d’eau pour faire fonctionner les systèmes de refroidissement participe à la pénurie de l’eau et la détourne d’autres usages (agriculture, population, irrigation naturelle, etc).</p>"
                         }
                       },
@@ -241,14 +241,14 @@
                       "id": "755cd426-f67f-4d3c-b54f-9921d19a3d20",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>En plus de la consommation d’eau et de métaux, les centres de données consomment aussi de l’énergie et participent à l’artificialisaiton des sols.</p>"
+                      "content": "<p>En plus de l’eau et des métaux, les centres de données consomment aussi de l’énergie et participent à l’artificialisaiton des sols.</p>"
                     },
                     {
                       "id": "74d11d84-eee4-4347-a4b4-baa07086af27",
                       "type": "image",
                       "url": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_impacts_envir_4.png",
                       "alt": "Schéma des conséquences d’un centre de données",
-                      "alternativeText": "<p>Schéma des conséquences d’un centre de données&nbsp;: </p><ul><li> la consommation d’eau<ul><li>qui peut entraîner une pénurie d’eau potable</li><li>et un manque d’eau pour l’agriculture</li></ul></li><li>  la consommation d’énergie </li><li>  l’artificialisation des sols </li><li> l’extraction de métaux et de terres rares </li><li>  la production de déchets toxiques.</li></ul><p>Cela entraîne également la génération de CO².</p>",
+                      "alternativeText": "<p>Schéma des conséquences d’un centre de données&nbsp;: </p><ul><li> la consommation d’eau<ul><li>qui peut entraîner une pénurie d’eau potable</li><li>et un manque d’eau pour l’agriculture</li></ul></li><li>  la consommation d’énergie </li><li>  l’artificialisation des sols </li><li> l’extraction de métaux et de terres rares </li><li>  la production de déchets toxiques</li></ul><p>Cela entraîne également la génération de CO2.</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -264,7 +264,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>des effets négatifs sur la santé des populations humaines</p>"
+                          "content": "<p>des effets négatifs sur la santé des populations </p>"
                         },
                         {
                           "id": "3",
@@ -278,11 +278,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Malheureusement oui...</p>",
-                          "diagnosis": "<p>Toutes ces propositions font partie des impacts  du fonctionnement des centres de données, sur l’environnement et la santé humaine.</p>"
+                          "diagnosis": "<p>Toutes ces propositions font partie des impacts  du fonctionnement des centres de données sur l’environnement et la santé humaine.</p>"
                         },
                         "invalid": {
-                          "state": "<p>Pas tout à fait<br></p>",
-                          "diagnosis": "Toutes ces propositions font partie des impacts  du fonctionnement des centres de données, sur l’environnement et la santé humaine."
+                          "state": "<p>Pas tout à fait.&nbsp;<br></p>",
+                          "diagnosis": "<p>Toutes ces propositions font partie des impacts  du fonctionnement des centres de données sur l’environnement et la santé humaine.</p>"
                         }
                       },
                       "solutions": [
@@ -319,7 +319,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_impacts_envir_5.png",
                 "alt": "Schéma des impacts environnementaux des centres de données",
-                "alternativeText": "<p>Schéma des impacts environnementaux des centres de données&nbsp;: </p><p>Conséquences primaires&nbsp;:</p><ul><li>consommation d’eau,</li><li> consommation d’énergie / électricité</li><li>extractions des métaux et terres rares</li><li>artificialisation des sols</li><li>production de déchets toxiques</li></ul><p>Conséquences secondaires&nbsp;:&nbsp;</p><ul><li>pénurie d’eau potable</li><li>manque d’eau pour l’agriculture</li><li>raréfaction des ressources</li><li>génération de CO²</li></ul><p>Conséquences systémiques&nbsp;:&nbsp;&nbsp;</p><ul><li>dégradatio de la santé et bien-être des populations </li><li>déstruction des habitats</li><li>dérèglement climatique</li><li>dégradations de la biodiversité </li></ul>",
+                "alternativeText": "<p>Schéma des impacts environnementaux des centres de données&nbsp;: </p><p>Conséquences primaires&nbsp;:</p><ul><li>consommation d’eau,</li><li> consommation d’énergie / électricité</li><li>extraction des métaux et terres rares</li><li>artificialisation des sols</li><li>production de déchets toxiques</li></ul><p>Conséquences secondaires&nbsp;:&nbsp;</p><ul><li>pénurie d’eau potable</li><li>manque d’eau pour l’agriculture</li><li>raréfaction des ressources</li><li>génération de CO2</li></ul><p>Conséquences systémiques&nbsp;:&nbsp;&nbsp;</p><ul><li>dégradation de la santé et du bien-être des populations </li><li>déstruction des habitats</li><li>dérèglement climatique</li><li>dégradation de la biodiversité </li></ul>",
                 "legend": "Schéma des impacts environnementaux des centres de données",
                 "licence": ""
               }
@@ -353,7 +353,7 @@
                 "id": "27e0d4c8-ee6a-4b80-949e-1ca319d81a82",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Prenons l’exemple de Malo, concepteur de site web dans une entreprise.&nbsp;Il est en train d’améliorer un site existant.</p><p>Pour chaque action de Malo, quelle va être la conséquence sur la sollication des serveurs, et donc sur la consommation d’énergie des centres de données ?&nbsp;🤔</p>"
+                "content": "<p>Prenons l’exemple de Malo, concepteur de sites web dans une entreprise.&nbsp;Il est en train d’améliorer un site existant.</p><p>Pour chaque action de Malo, quelle va être la conséquence sur la sollication des serveurs, et donc sur la consommation d’énergie des centres de données ?&nbsp;🤔</p>"
               }
             },
             {
@@ -366,7 +366,7 @@
                       "id": "0ac5c76d-8698-40bf-9b6c-fd815931686c",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo choisit d’illustrer la page d’accueil avec une vidéo plutôt qu’avec une photo.</p>"
+                      "content": "<p>Malo choisit d’illustrer la page d’accueil du site web avec une vidéo plutôt qu’avec une photo.</p>"
                     },
                     {
                       "id": "7fb2c32e-586d-4a88-ad50-368a2292ae97",
@@ -424,21 +424,21 @@
                             "label": "Elle diminue. 📉",
                             "feedback": {
                               "type": "neutral",
-                              "text": "Bien vu ! En réduisant la taille du fichier, on réduit la sollicitation des serveurs."
+                              "text": "Bien vu ! En réduisant la taille d’un fichier, on réduit la sollicitation des serveurs."
                             }
                           },
                           {
                             "label": "Elle reste stable. ",
                             "feedback": {
                               "type": "neutral",
-                              "text": "Eh non ! En réduisant la taille du fichier, on réduit la sollicitation des serveurs."
+                              "text": "Eh non ! En réduisant la taille d’un fichier, on réduit la sollicitation des serveurs."
                             }
                           },
                           {
                             "label": "Elle augmente. 📈",
                             "feedback": {
                               "type": "neutral",
-                              "text": "Eh non ! En réduisant la taille du fichier, on réduit la sollicitation des serveurs."
+                              "text": "Eh non ! En réduisant la taille d’un fichier, on réduit la sollicitation des serveurs."
                             }
                           }
                         ]
@@ -495,7 +495,7 @@
                       "id": "420482f8-f04b-441a-a8ed-9146b4787a71",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo se rend compte que le forum du site web a très peu d’activité.<br>Comme le forum est peu utilisé, il décide de le supprimer.</p>"
+                      "content": "<p>Malo se rend compte que le forum du site web a très peu d’activité.<br>Comme le forum est peu utilisé, Malo décide de le supprimer.</p>"
                     },
                     {
                       "id": "14580542-77e4-454a-9dea-991225bf4c73",
@@ -551,7 +551,7 @@
                       "id": "b56c9059-13a2-4357-b80d-63614674f3b9",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo a donc parfois contribué à solliciter davantage les serveurs, mais parfois il a permis de réduire leur charge.<br></p>"
+                      "content": "<p>Malo a donc parfois contribué à solliciter davantage les serveurs, mais dans d’autres cas, il a permis de réduire leur charge.<br></p>"
                     }
                   ]
                 },
@@ -590,7 +590,7 @@
                 "id": "6379f16a-320d-4217-8b85-e5190f6bc29b",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Il n’y a pas que les concepteurs de site web qui peuvent agir.&nbsp;Il y a aussi les concepteurs des centres de données. Que peuvent-ils faire ?</p>"
+                "content": "<p>Il n’y a pas que les concepteurs de sites web qui peuvent agir. Il y a aussi ceux qui conçoivent les centres de données. Mais que peuvent-ils faire ?</p>"
               }
             }
           ]
@@ -620,7 +620,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_reunion_1.png",
                       "alt": "Un échange en réunion entre Dona et Boubacar",
-                      "alternativeText": "<p>Dona&nbsp;:&nbsp;Bonjour à tous ! J’espère que vous êtes en forme pour cette réunion. Alors, quelles solutions proposez-vous ?</p><p>Boubacar&nbsp;:&nbsp;Peut-être que l’on pourrait faire fonctionner le centre de données avec de l’énergie produite par des éoliennes ou par des panneaux solaires ? ☀️</p>",
+                      "alternativeText": "<p>Dona et ses trois collègues sont en réunion, assis autour d’une table.</p><p>Dona&nbsp;:&nbsp;Bonjour à tous ! J’espère que vous êtes en forme pour cette réunion. Alors, quelles solutions proposez-vous ?</p><p>Boubacar&nbsp;:&nbsp;Peut-être que l’on pourrait faire fonctionner le centre de données avec de l’énergie produite par des éoliennes ou par des panneaux solaires ? ☀️</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -634,28 +634,28 @@
                           "id": "1",
                           "content": "<p>Transférer la chaleur produite par le centre de données.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Cette solution permet d’alimenter le centre de données avec une <strong>énergie renouvelable</strong> (solaire ou éolienne) et permet donc de <strong>réduire les émissions de gaz à effet de serre. <br></strong>À Champs sur Marne,&nbsp;un centre de données est équipé de panneaux solaires depuis 2024. Cependant,&nbsp;ils ne couvrent que 2% de la consommation d’énergie annuelle&nbsp;du centre de données.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Cette solution permet d’alimenter le centre de données avec une <strong>énergie renouvelable</strong> (solaire ou éolienne) et permet donc de <strong>réduire les émissions de gaz à effet de serre. <br></strong>À Champs sur Marne,&nbsp;un centre de données est équipé de panneaux solaires depuis 2024. Cependant,&nbsp;ils ne couvrent que 2&nbsp;% de la consommation d’énergie annuelle&nbsp;du centre de données.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Utiliser des techniques de refroidissement moins consommatrices d’énergie.",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! </p><p>Cette solution permet d’alimenter le centre de données avec une <strong>énergie renouvelable</strong> (solaire, éolienne, etc.) et permet donc de <strong>réduire les émissions de gaz à effet de serre.<br></strong>À Champs sur Marne, un centre de données est ainsi équipé de panneaux solaires depuis 2024.&nbsp;Cependant,&nbsp;ils ne couvrent que 2% de la consommation d’énergie annuelle&nbsp;du centre de données.</p>"
+                            "diagnosis": "<p>Eh non ! </p><p>Cette solution permet d’alimenter le centre de données avec une <strong>énergie renouvelable</strong> (solaire, éolienne, etc.) et permet donc de <strong>réduire les émissions de gaz à effet de serre.<br></strong>À Champs sur Marne, un centre de données est ainsi équipé de panneaux solaires depuis 2024.&nbsp;Cependant,&nbsp;ils ne couvrent que 2&nbsp;% de la consommation d’énergie annuelle&nbsp;du centre de données.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Alimenter le centre de données avec une énergie renouvelable.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Cette solution permet d’alimenter le centre de données avec une <strong>énergie renouvelable</strong> (solaire, éolienne, etc.) et permet donc de <strong>réduire les émissions de gaz à effet de serre.<br></strong>À Champs sur Marne, un centre de données est ainsi équipé de panneaux solaires depuis 2024.&nbsp;Cependant,&nbsp;ils ne couvrent que 2% de la consommation d’énergie annuelle&nbsp;du centre de données.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Cette solution permet d’alimenter le centre de données avec une <strong>énergie renouvelable</strong> (solaire, éolienne, etc.) et permet donc de <strong>réduire les émissions de gaz à effet de serre.<br></strong>À Champs sur Marne, un centre de données est ainsi équipé de panneaux solaires depuis 2024.&nbsp;Cependant,&nbsp;ils ne couvrent que 2&nbsp;% de la consommation d’énergie annuelle&nbsp;du centre de données.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.<strong></strong></p>",
                           "feedback": {
-                            "diagnosis": "<p>Cette solution permet d’alimenter le centre de données avec une <strong>énergie renouvelable </strong>(solaire, éolienne, etc.) et permet donc de <strong>réduire les émissions de gaz à effet de serre.<br></strong>À Champs sur Marne, un centre de données est ainsi équipé de panneaux solaires depuis 2024.&nbsp;Cependant,&nbsp;ils ne couvrent que 2% de la consommation d’énergie annuelle&nbsp;du centre de données.</p>"
+                            "diagnosis": "<p>Cette solution permet d’alimenter le centre de données avec une <strong>énergie renouvelable </strong>(solaire, éolienne, etc.) et permet donc de <strong>réduire les émissions de gaz à effet de serre.<br></strong>À Champs sur Marne, un centre de données est ainsi équipé de panneaux solaires depuis 2024.&nbsp;Cependant,&nbsp;ils ne couvrent que 2&nbsp;% de la consommation d’énergie annuelle&nbsp;du centre de données.</p>"
                           }
                         }
                       ],
@@ -782,7 +782,7 @@
                       "id": "f7ede699-b068-472c-8c35-dd9ea5049edf",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Il existe donc plusieurs<strong> pistes de solutions techniques</strong> pour améliorer le coût environnemental des centres de données.</p><h5><br>Donc, le problème va bientôt être résolu ?</h5><p>\tCe n’est pas si simple. <br>Il est très <strong>difficile d’évaluer les apports</strong> de certaines solutions du fait de la multitude d’impacts. Une solution plus économe en énergie peut être plus coûteuse en eau.&nbsp;Aucune solution n’est parfaite.&nbsp;🤔<br>Et une conception <strong>plus responsable</strong> peut entraîner des <strong>coûts économiques</strong> importants. 💶<br></p>"
+                      "content": "<p>Il existe donc plusieurs<strong> pistes de solutions techniques</strong> pour améliorer le coût environnemental des centres de données.</p><h5><br>Peut-on alors dire que le problème va bientôt être résolu ?</h5><p>\tCe n’est pas si simple. <br>Il est très <strong>difficile d’évaluer les apports</strong> de certaines solutions du fait de la multitude d’impacts. Une solution plus économe en énergie peut être plus coûteuse en eau.&nbsp;Aucune solution n’est parfaite.&nbsp;🤔<br>Et une conception <strong>plus responsable</strong> peut entraîner des <strong>coûts économiques</strong> importants. 💶<br></p>"
                     }
                   ]
                 },
@@ -792,7 +792,7 @@
                       "id": "75e9088f-97d4-45de-8631-5a84e7399b08",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Alors, comment inciter les acteurs du numérique à adopter des pratiques plus vertueuses ?</h5><p>La <strong>loi </strong>joue un rôle important pour encourager ces changements de pratiques.&nbsp;<br>Depuis 2019, un <strong>règlement de l’Union européenne</strong> définit des exigences d’<strong>éco-conception</strong> applicables aux exploitants de <strong>centres de données</strong>.&nbsp;♻️</p>"
+                      "content": "<h5>Alors, comment inciter les entreprises du numérique à adopter des pratiques plus vertueuses ?</h5><p>La <strong>loi </strong>joue un rôle important pour encourager ces changements de pratiques.&nbsp;<br>Depuis 2019, un <strong>règlement de l’Union européenne</strong> définit des exigences d’<strong>éco-conception</strong> applicables aux exploitants de <strong>centres de données</strong>.&nbsp;♻️</p>"
                     },
                     {
                       "id": "331b8252-cd22-4713-af75-212a5b912302",
@@ -823,7 +823,7 @@
                 "id": "8dde623f-d573-4782-925b-f3c0e50bf780",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li><strong>📈L’essor continu des usages numériques</strong>, amplifié par l’IA générative, entraîne une forte <strong>croissance des centres de données</strong> et de leurs<strong> impacts environnementaux</strong>. <br></li><li>📉En tant que concepteur de services numériques, <strong>réduire la sollicitation des centres de données</strong> est un geste efficace. <br></li><li>💡Il existe des <strong>pistes de solutions techniques </strong>pour réduire les impacts environnementaux des centres comme l’optimisation du fonctionnement des systèmes de refroidissement ou l’adoption d’énergie renouvelable.<br></li><li>⚖️ La <strong>législation </strong>joue un rôle important pour <strong>encourager </strong>les différents acteurs du numérique à adopter des <strong>pratiques plus vertueuses. </strong></li></ul>"
+                "content": "<ul><li>L’<strong>essor continu des usages numériques</strong>, amplifié par l’IA générative, entraîne une forte <strong>croissance des centres de données</strong> et de leurs<strong> impacts environnementaux</strong>. 📈 </li><li>En tant que concepteur de services numériques, <strong>réduire la sollicitation des centres de données</strong> est un geste efficace. 📉 </li><li>Il existe des <strong>pistes de solutions techniques </strong>pour réduire les impacts environnementaux des centres comme l’optimisation du fonctionnement des systèmes de refroidissement ou l’adoption d’énergies renouvelables. 💡</li><li> La <strong>législation </strong>joue un rôle important pour <strong>encourager </strong>les différents acteurs du numérique à adopter des <strong>pratiques plus vertueuses</strong>.<strong> ⚖️ </strong></li></ul>"
               }
             }
           ]
@@ -857,7 +857,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "",
+              "instruction": "<p>D’après&nbsp;ce que vous avez appris dans le module et à l’aide des photographies, complétez les textes suivants.</p>",
               "steps": [
                 {
                   "elements": [
@@ -865,15 +865,15 @@
                       "id": "00980dc6-6072-4a42-b077-75c9d9f310d7",
                       "type": "image",
                       "url": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_img_serveurs.png",
-                      "alt": "Un bâtiment avec beaucoup de matériel informatique et des cables",
-                      "alternativeText": "<p>Un bâtiment avec beaucoup de matériel informatique et des cables.</p>",
+                      "alt": "Une photo représente un bâtiment avec beaucoup de matériel informatique et des câbles.",
+                      "alternativeText": "<p>Une photo représente un bâtiment avec beaucoup de matériel informatique et des câbles.</p>",
                       "legend": "",
                       "licence": ""
                     },
                     {
                       "id": "aa68678f-3038-41eb-a70e-e3b73c314ce6",
                       "type": "qrocm",
-                      "instruction": "Complétez la légende de cette photo.",
+                      "instruction": "<p>Complétez le texte suivant.</p>",
                       "proposals": [
                         {
                           "type": "text",
@@ -885,8 +885,8 @@
                           "inputType": "text",
                           "size": 15,
                           "display": "inline",
-                          "placeholder": "à compléter",
-                          "ariaLabel": "à compléter",
+                          "placeholder": "",
+                          "ariaLabel": "",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -923,13 +923,13 @@
                       "url": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr-datacenter-ava-mine-vue-satellite.jpg",
                       "alt": "Une photo de mine",
                       "alternativeText": "",
-                      "legend": "Une photo satellite d'une mine.",
+                      "legend": "Une photo satellite d’une mine.",
                       "licence": "NASA Earth Observatory, Public domain, via Wikimedia Commons"
                     },
                     {
                       "id": "7f95712c-ce12-4e11-8d3f-e4a196dc4135",
                       "type": "qrocm",
-                      "instruction": "Complétez la légende de cette photo.",
+                      "instruction": "<p>Complétez le texte suivant.</p>",
                       "proposals": [
                         {
                           "type": "text",
@@ -941,8 +941,8 @@
                           "inputType": "text",
                           "size": 15,
                           "display": "inline",
-                          "placeholder": "à compléter",
-                          "ariaLabel": "à compléter",
+                          "placeholder": "",
+                          "ariaLabel": "",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -962,8 +962,8 @@
                           "inputType": "text",
                           "size": 15,
                           "display": "inline",
-                          "placeholder": "à compléter",
-                          "ariaLabel": "à compléter",
+                          "placeholder": "",
+                          "ariaLabel": "",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -1006,7 +1006,7 @@
                 "id": "d041ad34-1d9a-444c-816f-c42313619932",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Faites défiler ces 4 exemples de sites web puis répondez à la question.<br></p>",
+                "instruction": "<p>Faites défiler les 4 exemples de sites web ci-dessous puis répondez à la question.<br></p>",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
@@ -1027,12 +1027,12 @@
                       }
                     },
                     {
-                      "title": "Le lecteur vidéo de PixVideo propose par défaut une définition standard plutôt que HD. ",
+                      "title": "Le lecteur vidéo de PixVidéo propose par défaut une définition standard plutôt que haute définition (HD). ",
                       "description": "",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_eco_conception_2.png",
-                        "alt": "Le lecteur vidéo de PixVideo propose par défaut une définition standard plutôt que HD. "
+                        "alt": "Le lecteur vidéo de PixVidéo propose par défaut une définition standard plutôt que haute définition (HD). "
                       },
                       "license": {
                         "name": "",
@@ -1082,7 +1082,7 @@
               "element": {
                 "id": "b040a865-2b7f-4729-958b-bad07815a8b5",
                 "type": "qcm",
-                "instruction": "<p>Parmi ces exemples de sites web, lesquels respectent des pratiques d’éco-conception ?</p>",
+                "instruction": "<p>Parmi les exemples de sites web, lesquels respectent des pratiques d’éco-conception ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -1109,7 +1109,7 @@
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.</p>",
-                    "diagnosis": "<p>Essayer de vous demander quelles pratiques sollicitent le moins les serveurs.</p>"
+                    "diagnosis": "<p>Essayez de vous demander quelles pratiques sollicitent le moins les serveurs.</p>"
                   }
                 },
                 "solutions": [
@@ -1130,7 +1130,7 @@
               "element": {
                 "id": "b29b9b11-f2d1-4acd-8877-cbed05f7cdea",
                 "type": "qab",
-                "instruction": "Vrai ou Faux&nbsp;: dites si chaque proposition permet de réduire l’impact environnemental d’un centre de données sans gêner son fonctionnement.",
+                "instruction": "<p>Vrai ou Faux&nbsp;? Dites si chaque proposition permet de réduire l’impact environnemental d’un centre de données sans gêner son fonctionnement.</p>",
                 "cards": [
                   {
                     "id": "aeafa8b8-1f91-4fbc-a586-e19e77e7d2cc",
@@ -1145,7 +1145,7 @@
                   },
                   {
                     "id": "101e1ba2-41a8-4d76-8ed1-bb456df4df9e",
-                    "text": "Installer les centres de données en Égypte plutôt qu’au Canada.",
+                    "text": "Installer des centres de données en Égypte plutôt qu’au Canada.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -1167,7 +1167,7 @@
                   },
                   {
                     "id": "de1b2228-57cf-4a5d-9f7c-01678f72b467",
-                    "text": "Utiliser l’énergie d’un barrage hydroélectrique pour alimenter le centre de données.",
+                    "text": "Utiliser l’énergie d’un barrage hydroélectrique pour alimenter un centre de données.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -1178,7 +1178,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<ul>    <li>Éteindre aléatoirement les serveurs n’est pas une bonne idée car les données contenues dessus deviendraient inaccessibles.</li>    <li>Installer les centres de données en Égypte plutôt qu’au Canada n’est pas une bonne idée car il s’agit d’un pays chaud qui souffre de stress hydrique.</li></ul>"
+                  "diagnosis": "<ul>    <li>Éteindre aléatoirement les serveurs n’est pas une bonne idée car les données contenues dessus deviendraient inaccessibles.</li>    <li>Installer des centres de données en Égypte plutôt qu’au Canada n’est pas une bonne idée car il s’agit d’un pays chaud qui souffre de stress hydrique.</li></ul>"
                 }
               }
             }
@@ -1235,15 +1235,15 @@
                           "content": "<p>Expliquer des technologies permettant de réduire les impacts des centres de données.</p>",
                           "feedback": {
                             "state": "<p>Pas du tout.</p>",
-                            "diagnosis": "<p> Cet article met en valeur les aspects positifs de la création de centres de données au Mexique. Il est grandement inspiré de la communication officielle des géants de la technologie (GAFAM).</p>"
+                            "diagnosis": "<p> Cet article met en valeur les aspects positifs de la création de centres de données au Mexique.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Informer le public de la création de nouveaux centres de données.</p>",
                           "feedback": {
-                            "state": "<p>Certes mais cet article insiste sur le positif.</p>",
-                            "diagnosis": "<p>Cet article est grandement inspiré de la communication officielle des géants de la technologie (GAFAM).</p>"
+                            "state": "<p>Certes mais...</p>",
+                            "diagnosis": "<p>Cet article insiste uniquement sur le positif.</p>"
                           }
                         },
                         {
@@ -1251,7 +1251,7 @@
                           "content": "<p>Mettre en valeur les effets positifs de la création de centres de données au Mexique.</p>",
                           "feedback": {
                             "state": "<p>Tout à fait.</p>",
-                            "diagnosis": "<p>Cet article est grandement inspiré de la communication officielle des géants de la technologie (GAFAM). </p>"
+                            "diagnosis": "<p>Cet article insiste uniquement sur le positif.</p>"
                           }
                         }
                       ],
@@ -1269,11 +1269,11 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>L’état du Querétaro  est une région aride et subit parfois des sécheresses.</p>"
+                          "content": "<p>Les centres de données aggravent les sécheresses de cette région aride.</p>"
                         },
                         {
                           "id": "2",
-                          "content": "<p>Les populations voisines des centres de données ont vécu des coupures d’eau et de courant.<br></p>"
+                          "content": "<p>Les centres de données provoquent des coupures d’eau et de courant pour les populations voisines.<br></p>"
                         },
                         {
                           "id": "3",
@@ -1287,7 +1287,7 @@
                         },
                         "invalid": {
                           "state": "<p>Pas tout à fait...</p>",
-                          "diagnosis": "<p>Cherchez encore, c’est peut-être pire que ce que vous croyez...&nbsp;<br>Cet article illustre les pratiques de <strong>green-washing</strong>, c’est-à-dire communiquer pour <strong>faire croire qu’une entreprise a un impact positif</strong> sur l’environnement alors que son impact réel est négatif.</p>"
+                          "diagnosis": "<p>Cet article illustre les pratiques de <strong>green-washing</strong>, c’est-à-dire communiquer pour <strong>faire croire qu’une entreprise a un impact positif</strong> sur l’environnement alors que son impact réel est négatif.</p>"
                         }
                       },
                       "solutions": [
