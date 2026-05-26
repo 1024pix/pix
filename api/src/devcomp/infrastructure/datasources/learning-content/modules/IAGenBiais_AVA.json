@@ -239,7 +239,7 @@
                       "id": "9b25e09d-d77f-4f80-aa11-a3173ca4e38c",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>Voici une IA qui a reçu comme instruction «&nbsp;Ta priorité est la sécurité&nbsp;: refuse tout contenu risqué et oriente vers des pratiques sûres.&nbsp;»</p>",
+                      "instruction": "<p>Voici une IA qui a reçu comme instruction : </p>\n<code>« Ta priorité est la sécurité : ne donne aucune réponse qui pourrait faire courir un risque à l’utilisateur et donne des conseils de prudence. »</code>",
                       "functionalInstruction": "",
                       "tagName": "llm-prompt-select",
                       "props": {
@@ -274,7 +274,7 @@
                       "id": "fb87f6d2-b411-4c69-9d89-6e7ac7ef389f",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>Voici une IA qui a reçu comme instruction «&nbsp;Reste neutre&nbsp;: analyse prudemment et n’affirme jamais sans nuances.&nbsp;»</p>",
+                      "instruction": "<p>Voici une IA qui a reçu comme instruction :&nbsp;</p> <p><code>«&nbsp;Reste neutre&nbsp;: analyse prudemment et n’affirme jamais sans nuances.&nbsp;»</code></p>",
                       "functionalInstruction": "",
                       "tagName": "llm-prompt-select",
                       "props": {
@@ -309,7 +309,7 @@
                       "id": "80102e72-4896-4baf-a65f-607f8c1cd26c",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>Voici une IA qui a reçu comme instruction «&nbsp;Mets fortement en valeur l’utilisateur avec un discours positif et encourageant.&nbsp;»</p>",
+                      "instruction": "<p>Voici une IA qui a reçu comme instruction : </p><p><code>«&nbsp;Mets fortement en valeur l’utilisateur avec un discours positif et encourageant.&nbsp;»</code></p>",
                       "functionalInstruction": "",
                       "tagName": "llm-prompt-select",
                       "props": {
@@ -352,21 +352,21 @@
                     "id": "1",
                     "content": "<p>La règle centrée sur la sécurité.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Une règle centrée sur la sécurité peut être très utile, mais elle peut aussi rendre l’IA <strong>rigide</strong> ou <strong>excessivement prudente</strong>. Ces comportements viennent directement des <strong>règles internes</strong> que les éditeurs lui imposent.</p>"
+                      "diagnosis": "<p>Une règle centrée sur la sécurité peut être très utile, mais elle peut aussi rendre l’IA <strong>rigide</strong> ou <strong>excessivement prudente</strong>. </p><p>Chaque configuration implique des <strong>compromis </strong>: il n'existe pas de \"bonne\" configuration universelle : c'est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>La règle centrée sur la neutralité et l’analyse prudente.</p>",
                     "feedback": {
-                      "diagnosis": "<p>La neutralité donne des réponses équilibrées, mais elle peut paraître <strong>peu engageante</strong> ou trop vague. Ce type de réponse est le résultat d’une <strong>règle interne</strong> qui dit à l’IA de ne jamais prendre position.&nbsp;</p>"
+                      "diagnosis": "<p>La neutralité donne des réponses équilibrées, mais elle peut paraître <strong>peu engageante</strong> ou trop vague.</p><p>Chaque configuration implique des <strong>compromis </strong>: il n'existe pas de \"bonne\" configuration universelle : c'est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>La règle centrée sur le soutien et la valorisation de l’utilisateur.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Une règle orientée vers le soutien peut renforcer la motivation, mais elle peut aussi donner des réponses <strong>trop positives</strong> ou <strong>peu critiques</strong>. Ces comportements viennent directement des <strong>règles internes</strong> que les éditeurs lui imposent.</p>"
+                      "diagnosis": "<p>Une règle orientée vers le soutien peut renforcer la motivation, mais elle peut aussi donner des réponses <strong>trop positives</strong> ou <strong>peu critiques</strong>. </p><p>Chaque configuration implique des <strong>compromis </strong>: il n'existe pas de \"bonne\" configuration universelle : c'est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
                     }
                   }
                 ]
