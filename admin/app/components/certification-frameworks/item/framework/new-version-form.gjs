@@ -14,27 +14,7 @@ export default class NewVersionForm extends Component {
   @service router;
   @service store;
 
-  @tracked frameworks = [];
   @tracked selectedTubes = [];
-
-  constructor() {
-    super(...arguments);
-
-    this.#onMount();
-  }
-
-  get scope() {
-    return this.router.currentRoute.parent.parent.params.certification_framework_key;
-  }
-
-  get frameworkLabel() {
-    return this.store.peekRecord('certification-framework', this.scope)?.name;
-  }
-
-  async #onMount() {
-    const foundFrameworks = await this.store.findAll('framework');
-    this.frameworks = foundFrameworks.map((framework) => framework);
-  }
 
   @action
   onTubesSelectionChange(selectedTubes) {
@@ -44,7 +24,7 @@ export default class NewVersionForm extends Component {
   @action
   async onSubmit() {
     const consolidatedFramework = this.store.createRecord('certification-consolidated-framework', {
-      scope: this.scope,
+      scope: this.args.scope,
       tubes: this.selectedTubes,
     });
 
@@ -69,9 +49,9 @@ export default class NewVersionForm extends Component {
 
     <form>
       <section>
-        {{#if this.frameworks.length}}
+        {{#if @frameworks.length}}
           <TubesSelection
-            @frameworks={{this.frameworks}}
+            @frameworks={{@frameworks}}
             @onChange={{this.onTubesSelectionChange}}
             @displaySkillDifficultyAvailability={{true}}
             @displaySkillDifficultySelection={{false}}

@@ -1,3 +1,3 @@
 import NewVersionForm from 'pix-admin/components/certification-frameworks/item/framework/new-version-form';
 
-<template><NewVersionForm /></template>
+<template><NewVersionForm @frameworks={{@model.frameworks}} @scope={{@model.scope}} /></template>

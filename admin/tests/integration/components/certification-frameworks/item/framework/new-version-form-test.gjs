@@ -2,7 +2,6 @@ import { render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import NewVersionForm from 'pix-admin/components/certification-frameworks/item/framework/new-version-form';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 
 import setupIntlRenderingTest, { t } from '../../../../../helpers/setup-intl-rendering';
 
@@ -14,20 +13,14 @@ module('Integration | Component | complementary-certifications/item/framework/ne
     const store = this.owner.lookup('service:store');
 
     const frameworks = _createFrameworks(store);
-    sinon.stub(store, 'findAll').withArgs('framework').resolves(frameworks);
 
     store.createRecord('certification-framework', {
       id: 'DROIT',
       name: 'Pix+Droit',
     });
 
-    const serviceRouter = this.owner.lookup('service:router');
-    sinon
-      .stub(serviceRouter, 'currentRoute')
-      .value({ parent: { parent: { params: { certification_framework_key: 'DROIT' } } } });
-
     // when
-    const screen = await render(<template><NewVersionForm /></template>);
+    const screen = await render(<template><NewVersionForm @frameworks={{frameworks}} @scope="DROIT" /></template>);
 
     assert
       .dom(
