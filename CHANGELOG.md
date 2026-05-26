@@ -1,5 +1,26 @@
 # Pix Changelog
 
+# [5.414.0](https://github.com/1024pix/pix/compare/v5.413.0...v5.414.0) (2026-05-26)
+
+### :rocket: Amélioration
+
+- [#16248](https://github.com/1024pix/pix/pull/16248) MDX-34, retours Jennifer 
+- [#16218](https://github.com/1024pix/pix/pull/16218) Nouveau module Miseenformetxt2_NOV 
+
+### :bug: Correction
+
+- [#16299](https://github.com/1024pix/pix/pull/16299) Mauvais lien pour le questionnaire France Travail (PIX-22876) 
+
+### :building_construction: Tech
+
+- [#16293](https://github.com/1024pix/pix/pull/16293) Améliore les tests du composant markdown-to-html 
+- [#16292](https://github.com/1024pix/pix/pull/16292) Traiter les retours partenaire sur la traduction 'es' (PIX-22869) 
+- [#16244](https://github.com/1024pix/pix/pull/16244) Utilise les ids directement dans la création de schéma de parcours combinés. 
+
+### :coffee: Autre
+
+- [#16296](https://github.com/1024pix/pix/pull/16296) Corrige des accents absents sur Édu
+
 # [5.413.0](https://github.com/1024pix/pix/compare/v5.412.0...v5.413.0) (2026-05-25)
 
 ### :rocket: Amélioration
