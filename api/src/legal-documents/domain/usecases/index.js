@@ -1,11 +1,15 @@
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import * as legalDocumentRepository from '../../infrastructure/repositories/legal-document.repository.js';
+import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 import * as userAcceptanceRepository from '../../infrastructure/repositories/user-acceptance.repository.js';
+import * as userScoRepository from '../../infrastructure/repositories/user-sco.repository.js';
 
 const repositories = {
   legalDocumentRepository,
   userAcceptanceRepository,
+  userRepository,
+  userScoRepository,
 };
 
 const dependencies = Object.assign({ logger }, repositories);
