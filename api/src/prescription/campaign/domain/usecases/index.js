@@ -117,6 +117,7 @@ import { getBadgeAcquisitionsStatistics } from './statistics/get-badge-acquisiti
 import { getCampaignParticipationsActivityByDay } from './statistics/get-campaign-participations-activity-by-day.js';
 import { getCampaignParticipationsCountByStage } from './statistics/get-campaign-participations-counts-by-stage.js';
 import { getCampaignParticipationsCountsByStatus } from './statistics/get-campaign-participations-counts-by-status.js';
+import { getOrganizationParticipantsStatistics } from './statistics/get-organization-participants-statistics.js';
 import { getParticipationsCountByMasteryRate } from './statistics/get-participations-count-by-mastery-rate.js';
 import { swapCampaignCodes } from './swap-campaign-code.js';
 import { unarchiveCampaign } from './unarchive-campaign.js';
@@ -159,6 +160,7 @@ const usecasesWithoutInjectedDependencies = {
   getCampaignParticipationsActivityByDay,
   getCampaignParticipationsCountByStage,
   getCampaignParticipationsCountsByStatus,
+  getOrganizationParticipantsStatistics,
   getParticipationsCountByMasteryRate,
 };
 
