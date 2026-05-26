@@ -684,28 +684,28 @@
                           "id": "1",
                           "content": "<p>Transférer la chaleur produite par le centre de données.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu ! </p><p>Il s’agit ici d’<strong>utiliser la chaleur fatale produite par le centre de données</strong>. C’est comme ça qu’est partiellement chauffée la piscine de la Butte aux cailles, à Paris, ou des habitations de la ville de Mantsala, en Finlande.</p>"
+                            "diagnosis": "<p>Bien vu ! </p><p>Il s’agit ici d’<strong>utiliser la chaleur produite par le centre de données</strong>. C’est comme ça qu’est partiellement chauffée la piscine de la Butte aux cailles, à Paris, ou des habitations de la ville de Mantsala, en Finlande.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Utiliser des techniques de refroidissement moins consommatrices d’énergie.",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>  Il s’agit ici d’<strong>utiliser la chaleur fatale produite par le centre de données</strong>. C’est comme ça qu’est partiellement chauffée la piscine de la Butte aux cailles, à Paris, ou des habitations de la ville de Mantsala, en Finlande.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>  Il s’agit ici d’<strong>utiliser la chaleur produite par le centre de données</strong>. C’est comme ça qu’est partiellement chauffée la piscine de la Butte aux cailles, à Paris, ou des habitations de la ville de Mantsala, en Finlande.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Alimenter le centre de données avec une énergie renouvelable.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! </p><p>  Il s’agit ici <strong>d’utiliser la chaleur fatale produite par le centre de données.</strong> C’est comme ça qu’est partiellement chauffée la piscine de la Butte aux cailles, à Paris, ou des habitations de la ville de Mantsala, en Finlande.</p>"
+                            "diagnosis": "<p>Eh non ! </p><p>  Il s’agit ici <strong>d’utiliser la chaleur produite par le centre de données.</strong> C’est comme ça qu’est partiellement chauffée la piscine de la Butte aux cailles, à Paris, ou des habitations de la ville de Mantsala, en Finlande.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit ici d’<strong>utiliser la chaleur fatale produite par le centre de données</strong>. C’est comme ça qu’est&nbsp;partiellement chauffée la piscine de la Butte aux cailles, à Paris, ou des habitations de la ville de Mantsala, en Finlande.</p>"
+                            "diagnosis": "<p>Il s’agit ici d’<strong>utiliser la chaleur produite par le centre de données</strong>. C’est comme ça qu’est&nbsp;partiellement chauffée la piscine de la Butte aux cailles, à Paris, ou des habitations de la ville de Mantsala, en Finlande.</p>"
                           }
                         }
                       ],
@@ -1235,15 +1235,15 @@
                           "content": "<p>Expliquer des technologies permettant de réduire les impacts des centres de données.</p>",
                           "feedback": {
                             "state": "<p>Pas du tout.</p>",
-                            "diagnosis": "<p> Cet article met en valeur les aspects positifs de la création de centres de données au Mexique.</p>"
+                            "diagnosis": "<p> Cet article met en valeur les aspects positifs de la création de centres de données au Mexique. Cet article est grandement inspiré de la communication officielle des géants de la technologie.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Informer le public de la création de nouveaux centres de données.</p>",
                           "feedback": {
-                            "state": "<p>Certes mais...</p>",
-                            "diagnosis": "<p>Cet article insiste uniquement sur le positif.</p>"
+                            "state": "<p>Certes mais cet article insiste uniquement sur le positif.</p>",
+                            "diagnosis": "<p>Cet article est grandement inspiré de la communication officielle des géants de la technologie.</p>"
                           }
                         },
                         {
@@ -1251,7 +1251,7 @@
                           "content": "<p>Mettre en valeur les effets positifs de la création de centres de données au Mexique.</p>",
                           "feedback": {
                             "state": "<p>Tout à fait.</p>",
-                            "diagnosis": "<p>Cet article insiste uniquement sur le positif.</p>"
+                            "diagnosis": "<p>Cet article insiste uniquement sur le positif. Cet article est grandement inspiré de la communication officielle des géants de la technologie. </p>"
                           }
                         }
                       ],
