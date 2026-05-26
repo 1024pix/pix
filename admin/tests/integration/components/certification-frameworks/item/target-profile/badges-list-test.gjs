@@ -31,7 +31,7 @@ module('Integration | Component | complementary-certifications/item/target-profi
 
     // then
     const table = screen.getByRole('table', {
-      name: t('components.complementary-certifications.target-profiles.badges-list.caption'),
+      name: t('components.certification-frameworks.target-profiles.badges-list.caption'),
     });
     assert.dom(within(table).getByRole('columnheader', { name: 'Image du badge certifié' })).exists();
     assert.dom(within(table).getByRole('columnheader', { name: 'Nom du badge certifié' })).exists();

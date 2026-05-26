@@ -23,14 +23,14 @@ export default class VersionComment extends Component {
       await this.args.version.save();
       this.pixToast.sendSuccessNotification({
         message: this.intl.t(
-          'components.complementary-certifications.item.framework.version-detail-modal.comment-save-success',
+          'components.certification-frameworks.item.framework.version-detail-modal.comment-save-success',
         ),
       });
     } catch {
       this.args.version.rollbackAttributes();
       this.pixToast.sendErrorNotification({
         message: this.intl.t(
-          'components.complementary-certifications.item.framework.version-detail-modal.comment-save-error',
+          'components.certification-frameworks.item.framework.version-detail-modal.comment-save-error',
         ),
       });
     }
@@ -43,7 +43,7 @@ export default class VersionComment extends Component {
 
   <template>
     <h2 class="certification-version-detail-modal__subtitle">{{t
-        "components.complementary-certifications.item.framework.version-detail-modal.comment"
+        "components.certification-frameworks.item.framework.version-detail-modal.comment"
       }}</h2>
     <PixBlock class="certification-version-detail-modal__comment">
       <PixTextarea

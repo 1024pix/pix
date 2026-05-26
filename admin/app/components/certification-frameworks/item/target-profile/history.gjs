@@ -22,18 +22,18 @@ export default class TargetProfilesHistory extends Component {
     <section class="page-section framework-target-profiles-history">
       <PixAccordions>
         <:title>
-          {{t "components.complementary-certifications.target-profiles.history-list.title"}}
+          {{t "components.certification-frameworks.target-profiles.history-list.title"}}
         </:title>
         <:content>
           <PixTable
             @variant="admin"
             @data={{@targetProfilesHistory}}
-            @caption={{t "components.complementary-certifications.target-profiles.history-list.caption"}}
+            @caption={{t "components.certification-frameworks.target-profiles.history-list.caption"}}
           >
             <:columns as |row targetProfileHistory|>
               <PixTableColumn @context={{targetProfileHistory}}>
                 <:header>
-                  {{t "components.complementary-certifications.target-profiles.history-list.headers.name"}}
+                  {{t "components.certification-frameworks.target-profiles.history-list.headers.name"}}
                 </:header>
                 <:cell>
                   {{row.name}}
@@ -42,7 +42,7 @@ export default class TargetProfilesHistory extends Component {
               <PixTableColumn @context={{targetProfileHistory}}>
                 <:header>
                   <PixIcon @name="calendar" @ariaHidden={{true}} />
-                  {{t "components.complementary-certifications.target-profiles.history-list.headers.attached-at"}}
+                  {{t "components.certification-frameworks.target-profiles.history-list.headers.attached-at"}}
                 </:header>
                 <:cell>
                   <strong>{{formatDate row.attachedAt}}</strong>
@@ -51,7 +51,7 @@ export default class TargetProfilesHistory extends Component {
               <PixTableColumn @context={{targetProfileHistory}}>
                 <:header>
                   <PixIcon @name="calendar" @ariaHidden={{true}} />
-                  {{t "components.complementary-certifications.target-profiles.history-list.headers.detached-at"}}
+                  {{t "components.certification-frameworks.target-profiles.history-list.headers.detached-at"}}
                 </:header>
                 <:cell>
                   <strong>{{if row.detachedAt (formatDate row.detachedAt) "-"}}</strong>
@@ -59,12 +59,12 @@ export default class TargetProfilesHistory extends Component {
               </PixTableColumn>
               <PixTableColumn @context={{targetProfileHistory}}>
                 <:header>
-                  {{t "components.complementary-certifications.target-profiles.history-list.headers.actions"}}
+                  {{t "components.certification-frameworks.target-profiles.history-list.headers.actions"}}
                 </:header>
                 <:cell>
                   <PixIconButton
                     @triggerAction={{fn this.viewTargetProfile row.id}}
-                    @ariaLabel={{t "components.complementary-certifications.target-profiles.history-list.actions.view"}}
+                    @ariaLabel={{t "components.certification-frameworks.target-profiles.history-list.actions.view"}}
                     @iconName="eye"
                   />
                 </:cell>

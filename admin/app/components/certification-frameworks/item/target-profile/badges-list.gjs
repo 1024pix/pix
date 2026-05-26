@@ -17,17 +17,17 @@ export default class BadgesList extends Component {
   <template>
     <section class="page-section">
       <h2 class="certification-framework-details__badges-title page-section__header">
-        {{t "components.complementary-certifications.target-profiles.badges-list.title"}}
+        {{t "components.certification-frameworks.target-profiles.badges-list.title"}}
       </h2>
       <PixTable
         @variant="admin"
         @data={{this.currentTargetProfileBadges}}
-        @caption={{t "components.complementary-certifications.target-profiles.badges-list.caption"}}
+        @caption={{t "components.certification-frameworks.target-profiles.badges-list.caption"}}
       >
         <:columns as |row currentTargetProfileBadge|>
           <PixTableColumn @context={{currentTargetProfileBadge}}>
             <:header>
-              {{t "components.complementary-certifications.target-profiles.badges-list.header.image-url"}}
+              {{t "components.certification-frameworks.target-profiles.badges-list.header.image-url"}}
             </:header>
             <:cell>
               <img
@@ -39,7 +39,7 @@ export default class BadgesList extends Component {
           </PixTableColumn>
           <PixTableColumn @context={{currentTargetProfileBadge}} class="table__column--wide">
             <:header>
-              {{t "components.complementary-certifications.target-profiles.badges-list.header.name"}}
+              {{t "components.certification-frameworks.target-profiles.badges-list.header.name"}}
             </:header>
             <:cell>
               {{row.label}}
@@ -47,7 +47,7 @@ export default class BadgesList extends Component {
           </PixTableColumn>
           <PixTableColumn @context={{currentTargetProfileBadge}}>
             <:header>
-              {{t "components.complementary-certifications.target-profiles.badges-list.header.level"}}
+              {{t "components.certification-frameworks.target-profiles.badges-list.header.level"}}
             </:header>
             <:cell>
               {{row.level}}
@@ -55,7 +55,7 @@ export default class BadgesList extends Component {
           </PixTableColumn>
           <PixTableColumn @context={{currentTargetProfileBadge}}>
             <:header>
-              {{t "components.complementary-certifications.target-profiles.badges-list.header.minimum-earned-pix"}}
+              {{t "components.certification-frameworks.target-profiles.badges-list.header.minimum-earned-pix"}}
             </:header>
             <:cell>
               {{this.getMinimumEarnedPixValue row.minimumEarnedPix}}
@@ -63,7 +63,7 @@ export default class BadgesList extends Component {
           </PixTableColumn>
           <PixTableColumn @context={{currentTargetProfileBadge}}>
             <:header>
-              {{t "components.complementary-certifications.target-profiles.badges-list.header.id"}}
+              {{t "components.certification-frameworks.target-profiles.badges-list.header.id"}}
             </:header>
             <:cell>
               <LinkTo

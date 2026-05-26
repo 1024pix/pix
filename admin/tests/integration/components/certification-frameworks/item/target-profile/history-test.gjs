@@ -24,32 +24,32 @@ module('Integration | Component | certification-frameworks/item/target-profile/h
     const screen = await render(<template><History @targetProfilesHistory={{targetProfilesHistory}} /></template>);
     await click(
       screen.getByRole('button', {
-        name: t('components.complementary-certifications.target-profiles.history-list.title'),
+        name: t('components.certification-frameworks.target-profiles.history-list.title'),
       }),
     );
 
     // then
     const table = screen.getByRole('table', {
-      name: t('components.complementary-certifications.target-profiles.history-list.caption'),
+      name: t('components.certification-frameworks.target-profiles.history-list.caption'),
     });
     assert
       .dom(
         within(table).getByRole('columnheader', {
-          name: t('components.complementary-certifications.target-profiles.history-list.headers.name'),
+          name: t('components.certification-frameworks.target-profiles.history-list.headers.name'),
         }),
       )
       .exists();
     assert
       .dom(
         within(table).getByRole('columnheader', {
-          name: t('components.complementary-certifications.target-profiles.history-list.headers.attached-at'),
+          name: t('components.certification-frameworks.target-profiles.history-list.headers.attached-at'),
         }),
       )
       .exists();
     assert
       .dom(
         within(table).getByRole('columnheader', {
-          name: t('components.complementary-certifications.target-profiles.history-list.headers.detached-at'),
+          name: t('components.certification-frameworks.target-profiles.history-list.headers.detached-at'),
         }),
       )
       .exists();
@@ -57,7 +57,7 @@ module('Integration | Component | certification-frameworks/item/target-profile/h
     assert.dom(within(table).getByRole('cell', { name: 'Target Volcan' })).exists();
     assert.strictEqual(
       within(table).getAllByRole('button', {
-        name: t('components.complementary-certifications.target-profiles.history-list.actions.view'),
+        name: t('components.certification-frameworks.target-profiles.history-list.actions.view'),
       }).length,
       2,
     );

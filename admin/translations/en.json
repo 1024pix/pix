@@ -487,13 +487,64 @@
         "title": "Confirmation of version deletion"
       },
       "item": {
+        "certification-framework": "Certification framework",
         "framework": {
+          "create-button": "Create a new version of the certification framework",
+          "details": {
+            "title": "Current certification framework details"
+          },
+          "history": {
+            "label": "Versions",
+            "statuses": {
+              "ACTIVE": "Active",
+              "ARCHIVED": "Archived",
+              "DRAFT": "Draft"
+            },
+            "table": {
+              "actions": {
+                "delete": "Delete version",
+                "edit": "Edit version",
+                "view": "View version details"
+              },
+              "caption": "Versions list in descending order",
+              "columns": {
+                "actions": "Actions",
+                "assessment-duration": "Duration (min)",
+                "expiration-date": "Expiration date",
+                "maximum-assessment-length": "Nb of questions",
+                "start-date": "Start date",
+                "status": "Status",
+                "version-id": "Version ID"
+              }
+            },
+            "title": "Framework versions history"
+          },
           "new-version-form": {
             "submit-button": "Submit the new version of the certification framework ",
             "success-notification": "The new version of the certification framework  has been successfully created.",
             "title": "Creating a new version of the certification framework for {frameworkLabel}"
+          },
+          "no-current-framework": "No certification framework is currently used.",
+          "tab": "Certification framework",
+          "version-detail-modal": {
+            "assessment-duration": "Duration:",
+            "comment": "Comment:",
+            "comment-save-error": "An error occurred while saving the comment.",
+            "comment-save-success": "The comment has been saved.",
+            "content": "Framework content:",
+            "expiration-date": "Expiration date:",
+            "locales": "Languages:",
+            "maximum-assessment-length": "Max nb of questions:",
+            "minimum-answers-required": "Min nb of answers:",
+            "parameters": "Framework parameters:",
+            "start-date": "Start date:",
+            "status": "Status:"
           }
-        }
+        },
+        "navigation": {
+          "aria-label": "Navigation of the complementary certification section"
+        },
+        "target-profile": "Target profile"
       },
       "labels": {
         "CLEA": "CléA Numérique",
@@ -509,7 +560,34 @@
         "caption": "List of certification frameworks, including name and active version start date",
         "name": "Name"
       },
-      "page-title": "Certification Frameworks"
+      "page-title": "Certification Frameworks",
+      "target-profiles": {
+        "badges-list": {
+          "caption": "Liste des badges certifiants liés au profil cible, comprenant l'identifiant unique, l'image associée, le niveau, le nombre de pix minimum pour l'obtenir et le nom du badge.",
+          "header": {
+            "id": "ID du badge certifiant",
+            "image-url": "Image du badge certifié",
+            "level": "Niveau du badge certifié",
+            "minimum-earned-pix": "Nombre de pix minimum",
+            "name": "Nom du badge certifié"
+          },
+          "title": "Badges certifiés du profil cible actuel"
+        },
+        "history-list": {
+          "actions": {
+            "view": "View target profile"
+          },
+          "caption": "Liste des profils cibles (actuellement rattaché ou ayant étés rattachés à la complémentaire). Contient la date de rattachement et de détachement et le nom.",
+          "headers": {
+            "actions": "Actions",
+            "attached-at": "Attachment date",
+            "detached-at": "Detachment date",
+            "name": "Internal name"
+          },
+          "title": "Historique des profils cibles rattachés"
+        }
+      },
+      "title": "All certification frameworks"
     },
     "certifications": {
       "edu-results": {
@@ -628,98 +706,14 @@
         "detach-organization-success": "Blueprint is not shared with organization {name} anymore."
       }
     },
-    "complementary-certifications": {
-      "item": {
-        "certification-framework": "Complementary certification",
-        "framework": {
-          "create-button": "Create a new version of the certification framework",
-          "details": {
-            "title": "Current certification framework details"
-          },
-          "history": {
-            "label": "Versions",
-            "statuses": {
-              "ACTIVE": "Active",
-              "ARCHIVED": "Archived",
-              "DRAFT": "Draft"
-            },
-            "table": {
-              "actions": {
-                "delete": "Delete version",
-                "edit": "Edit version",
-                "view": "View version details"
-              },
-              "caption": "Versions list in descending order",
-              "columns": {
-                "actions": "Actions",
-                "assessment-duration": "Duration (min)",
-                "expiration-date": "Expiration date",
-                "maximum-assessment-length": "Nb of questions",
-                "start-date": "Start date",
-                "status": "Status",
-                "version-id": "Version ID"
-              }
-            },
-            "title": "Framework versions history"
-          },
-          "no-current-framework": "No certification framework is currently used.",
-          "tab": "Certification framework",
-          "version-detail-modal": {
-            "assessment-duration": "Duration:",
-            "comment": "Comment:",
-            "comment-save-error": "An error occurred while saving the comment.",
-            "comment-save-success": "The comment has been saved.",
-            "content": "Framework content:",
-            "expiration-date": "Expiration date:",
-            "locales": "Languages:",
-            "maximum-assessment-length": "Max nb of questions:",
-            "minimum-answers-required": "Min nb of answers:",
-            "parameters": "Framework parameters:",
-            "start-date": "Start date:",
-            "status": "Status:"
-          }
-        },
-        "navigation": {
-          "aria-label": "Navigation of the complementary certification section"
-        },
-        "target-profile": "Target profile"
-      },
-      "target-profiles": {
-        "badges-list": {
-          "caption": "Liste des badges certifiants liés au profil cible, comprenant l'identifiant unique, l'image associée, le niveau, le nombre de pix minimum pour l'obtenir et le nom du badge.",
-          "header": {
-            "id": "ID du badge certifiant",
-            "image-url": "Image du badge certifié",
-            "level": "Niveau du badge certifié",
-            "minimum-earned-pix": "Nombre de pix minimum",
-            "name": "Nom du badge certifié"
-          },
-          "title": "Badges certifiés du profil cible actuel"
-        },
-        "history-list": {
-          "actions": {
-            "view": "View target profile"
-          },
-          "caption": "Liste des profils cibles (actuellement rattaché ou ayant étés rattachés à la complémentaire). Contient la date de rattachement et de détachement et le nom.",
-          "headers": {
-            "actions": "Actions",
-            "attached-at": "Attachment date",
-            "detached-at": "Detachment date",
-            "name": "Internal name"
-          },
-          "title": "Historique des profils cibles rattachés"
-        }
-      },
-      "title": "All certification frameworks"
-    },
     "layout": {
       "menu-bar": {
         "entries": {
           "administration": "Administration",
           "autonomous-courses": "Parcours autonomes",
           "certification-centers": "Centres de certification",
+          "certification-frameworks": "Certification frameworks",
           "certifications": "Certifications",
-          "complementary-certifications": "Certifications complémentaires",
           "logout": "Se déconnecter",
           "organizations": "Organisations",
           "sessions": "Sessions de certifications",

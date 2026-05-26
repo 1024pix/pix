@@ -56,7 +56,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
     assert
       .dom(
         screen.getByRole('table', {
-          name: t('components.complementary-certifications.item.framework.history.table.caption'),
+          name: t('components.certification-frameworks.item.framework.history.table.caption'),
         }),
       )
       .exists();
@@ -66,13 +66,13 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
     assert.dom(screen.getByRole('cell', { name: `${frameworkItem1.id}` })).exists();
     assert.dom(screen.getByRole('cell', { name: intl.formatDate(frameworkItem1.startDate) })).exists();
     assert
-      .dom(screen.getByText(t('components.complementary-certifications.item.framework.history.statuses.ACTIVE')))
+      .dom(screen.getByText(t('components.certification-frameworks.item.framework.history.statuses.ACTIVE')))
       .hasClass('pix-tag--success');
 
     assert.dom(screen.getByRole('cell', { name: `${frameworkItem2.id}` })).exists();
     assert.dom(screen.getByRole('cell', { name: intl.formatDate(frameworkItem2.startDate) })).exists();
     assert
-      .dom(screen.getByText(t('components.complementary-certifications.item.framework.history.statuses.ARCHIVED')))
+      .dom(screen.getByText(t('components.certification-frameworks.item.framework.history.statuses.ARCHIVED')))
       .hasClass('pix-tag--secondary');
   });
 
@@ -85,7 +85,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
     await click(
       screen.getAllByRole('button', {
-        name: t('components.complementary-certifications.item.framework.history.table.actions.view'),
+        name: t('components.certification-frameworks.item.framework.history.table.actions.view'),
       })[0],
     );
 
@@ -113,7 +113,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
     await click(
       screen.getAllByRole('button', {
-        name: t('components.complementary-certifications.item.framework.history.table.actions.view'),
+        name: t('components.certification-frameworks.item.framework.history.table.actions.view'),
       })[0],
     );
     assert.dom(screen.getByRole('dialog')).exists();
@@ -128,7 +128,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
   module('deletion', function (hooks) {
     let deleteButtonName;
     hooks.beforeEach(() => {
-      deleteButtonName = t('components.complementary-certifications.item.framework.history.table.actions.delete');
+      deleteButtonName = t('components.certification-frameworks.item.framework.history.table.actions.delete');
     });
 
     test('it should not be possible to delete an ACTIVE or ARCHIVED version', async function (assert) {

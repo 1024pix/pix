@@ -41,7 +41,7 @@ module('Integration | Component | complementary-certifications/item/target-profi
       assert
         .dom(
           screen.getByRole('heading', {
-            name: t('components.complementary-certifications.target-profiles.badges-list.title'),
+            name: t('components.certification-frameworks.target-profiles.badges-list.title'),
           }),
         )
         .exists();
@@ -51,7 +51,7 @@ module('Integration | Component | complementary-certifications/item/target-profi
       assert
         .dom(
           screen.getByRole('button', {
-            name: t('components.complementary-certifications.target-profiles.history-list.title'),
+            name: t('components.certification-frameworks.target-profiles.history-list.title'),
           }),
         )
         .exists();
@@ -92,7 +92,7 @@ module('Integration | Component | complementary-certifications/item/target-profi
       assert
         .dom(
           screen.queryByRole('heading', {
-            name: t('components.complementary-certifications.target-profiles.badges-list.title'),
+            name: t('components.certification-frameworks.target-profiles.badges-list.title'),
           }),
         )
         .doesNotExist();
@@ -100,7 +100,7 @@ module('Integration | Component | complementary-certifications/item/target-profi
       assert.dom(screen.queryByText('Badge Volcan')).doesNotExist();
 
       assert
-        .dom(screen.getByText(t('components.complementary-certifications.target-profiles.history-list.title')))
+        .dom(screen.getByText(t('components.certification-frameworks.target-profiles.history-list.title')))
         .exists();
     });
   });

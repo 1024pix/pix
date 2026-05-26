@@ -42,34 +42,32 @@ export default class CertificationVersionDetailModal extends Component {
     >
       <:content>
         <h2 class="certification-version-detail-modal__subtitle">{{t
-            "components.complementary-certifications.item.framework.version-detail-modal.parameters"
+            "components.certification-frameworks.item.framework.version-detail-modal.parameters"
           }}</h2>
         <PixBlock class="certification-version-detail-modal__parameters">
           <dl>
             <PixIcon @name="star" @ariaHidden={{true}} />
-            <dt>{{t "components.complementary-certifications.item.framework.version-detail-modal.status"}}</dt>
+            <dt>{{t "components.certification-frameworks.item.framework.version-detail-modal.status"}}</dt>
             <dd>
               <PixTag @color={{get STATUS_COLORS @status}}>
-                {{t (concat "components.complementary-certifications.item.framework.history.statuses." @status)}}
+                {{t (concat "components.certification-frameworks.item.framework.history.statuses." @status)}}
               </PixTag>
             </dd>
 
             {{#if @version.startDate}}
               <PixIcon @name="calendar" @ariaHidden={{true}} />
-              <dt>{{t "components.complementary-certifications.item.framework.version-detail-modal.start-date"}}</dt>
+              <dt>{{t "components.certification-frameworks.item.framework.version-detail-modal.start-date"}}</dt>
               <dd>{{formatDate @version.startDate}}</dd>
             {{/if}}
 
             {{#if @version.expirationDate}}
               <PixIcon @name="calendar" @ariaHidden={{true}} />
-              <dt>{{t
-                  "components.complementary-certifications.item.framework.version-detail-modal.expiration-date"
-                }}</dt>
+              <dt>{{t "components.certification-frameworks.item.framework.version-detail-modal.expiration-date"}}</dt>
               <dd>{{formatDate @version.expirationDate}}</dd>
             {{/if}}
 
             <PixIcon @name="flag" @ariaHidden={{true}} />
-            <dt>{{t "components.complementary-certifications.item.framework.version-detail-modal.locales"}}</dt>
+            <dt>{{t "components.certification-frameworks.item.framework.version-detail-modal.locales"}}</dt>
             <dd>
               {{#each this.locales as |locale|}}
                 {{locale.flag}}
@@ -78,20 +76,18 @@ export default class CertificationVersionDetailModal extends Component {
             </dd>
 
             <PixIcon @name="time" @ariaHidden={{true}} />
-            <dt>{{t
-                "components.complementary-certifications.item.framework.version-detail-modal.assessment-duration"
-              }}</dt>
+            <dt>{{t "components.certification-frameworks.item.framework.version-detail-modal.assessment-duration"}}</dt>
             <dd>{{formatMinutes @version.assessmentDuration}}</dd>
 
             <PixIcon @name="helpSimple" @ariaHidden={{true}} />
             <dt>{{t
-                "components.complementary-certifications.item.framework.version-detail-modal.maximum-assessment-length"
+                "components.certification-frameworks.item.framework.version-detail-modal.maximum-assessment-length"
               }}</dt>
             <dd>{{@version.maximumAssessmentLength}}</dd>
 
             <PixIcon @name="helpSimple" @ariaHidden={{true}} />
             <dt>{{t
-                "components.complementary-certifications.item.framework.version-detail-modal.minimum-answers-required"
+                "components.certification-frameworks.item.framework.version-detail-modal.minimum-answers-required"
               }}</dt>
             <dd>{{@version.minimumAnswersRequiredForValidation}}</dd>
           </dl>

@@ -46,7 +46,7 @@ export default class Header extends Component {
           @route="authenticated.certification-frameworks.item.framework.new-version"
           @iconBefore="add"
         >
-          {{t "components.complementary-certifications.item.framework.create-button"}}
+          {{t "components.certification-frameworks.item.framework.create-button"}}
         </PixButtonLink>
       {{/if}}
     </div>

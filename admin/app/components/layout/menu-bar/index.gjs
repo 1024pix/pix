@@ -53,7 +53,7 @@ export default class MenuBar extends Component {
         <MenuBarEntry
           @path="authenticated.certification-frameworks"
           @icon="extension"
-          @title={{t "components.layout.menu-bar.entries.complementary-certifications"}}
+          @title={{t "components.layout.menu-bar.entries.certification-frameworks"}}
           @inline={{true}}
         />
         {{#if this.accessControl.hasAccessToTargetProfilesActionsScope}}

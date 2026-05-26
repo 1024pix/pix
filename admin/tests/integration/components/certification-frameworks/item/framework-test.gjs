@@ -27,7 +27,7 @@ module('Integration | Component | certification-frameworks/item/framework', func
       assert
         .dom(
           screen.getByRole('table', {
-            name: t('components.complementary-certifications.item.framework.history.table.caption'),
+            name: t('components.certification-frameworks.item.framework.history.table.caption'),
           }),
         )
         .exists();
@@ -45,7 +45,7 @@ module('Integration | Component | certification-frameworks/item/framework', func
       assert
         .dom(
           screen.queryByRole('button', {
-            name: t('components.complementary-certifications.target-profiles.history-list.title'),
+            name: t('components.certification-frameworks.target-profiles.history-list.title'),
           }),
         )
         .doesNotExist();
@@ -76,7 +76,7 @@ module('Integration | Component | certification-frameworks/item/framework', func
       assert
         .dom(
           screen.getByRole('button', {
-            name: t('components.complementary-certifications.target-profiles.history-list.title'),
+            name: t('components.certification-frameworks.target-profiles.history-list.title'),
           }),
         )
         .exists();

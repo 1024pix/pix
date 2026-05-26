@@ -200,8 +200,8 @@ module('Integration | Component | menu-bar', function (hooks) {
     assert.dom(screen.getByRole('link', { name: 'Sessions de certifications' })).exists();
   });
 
-  module('Complementary certifications tab', function () {
-    test('should contain link to "complementary certifications" management page', async function (assert) {
+  module('Certification framework tab', function () {
+    test('should contain link to "certification frameworks" management page', async function (assert) {
       // given
       class AccessControlStub extends Service {
         hasAccessToComplementaryCertificationsScope = true;
@@ -212,7 +212,7 @@ module('Integration | Component | menu-bar', function (hooks) {
       const screen = await render(<template><MenuBar /></template>);
 
       // then
-      assert.dom(screen.getByRole('link', { name: 'Certifications complémentaires' })).exists();
+      assert.dom(screen.getByRole('link', { name: 'Référentiels de certification' })).exists();
     });
   });
 
