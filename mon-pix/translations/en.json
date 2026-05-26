@@ -2222,6 +2222,11 @@
       },
       "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
       "recommended-engine": {
+        "modal": {
+          "duration": "Duration",
+          "editor-name": "Proposed by: ",
+          "localisation": "Location"
+        },
         "training-card": {
           "delivery-mode": {
             "hybrid": "Hybrid",

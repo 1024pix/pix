@@ -1,4 +1,5 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import TrainingCard from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/training/card';
 import { module, test } from 'qunit';
@@ -35,8 +36,13 @@ module(
         const screen = await render(<template><TrainingCard @training={{training}} /></template>);
 
         // then
+        const trainingCardList = screen.getByRole('list');
         assert
-          .dom(screen.getByText(t('pages.skill-review.recommended-engine.training-card.delivery-mode.hybrid')))
+          .dom(
+            within(trainingCardList).getByText(
+              t('pages.skill-review.recommended-engine.training-card.delivery-mode.hybrid'),
+            ),
+          )
           .exists();
       });
     });
@@ -51,8 +57,13 @@ module(
         const screen = await render(<template><TrainingCard @training={{training}} /></template>);
 
         // then
+        const trainingCardList = screen.getByRole('list');
         assert
-          .dom(screen.getByText(t('pages.skill-review.recommended-engine.training-card.delivery-mode.on-site')))
+          .dom(
+            within(trainingCardList).getByText(
+              t('pages.skill-review.recommended-engine.training-card.delivery-mode.on-site'),
+            ),
+          )
           .exists();
       });
     });
@@ -67,8 +78,13 @@ module(
         const screen = await render(<template><TrainingCard @training={{training}} /></template>);
 
         // then
+        const trainingCardList = screen.getByRole('list');
         assert
-          .dom(screen.getByText(t('pages.skill-review.recommended-engine.training-card.delivery-mode.remote')))
+          .dom(
+            within(trainingCardList).getByText(
+              t('pages.skill-review.recommended-engine.training-card.delivery-mode.remote'),
+            ),
+          )
           .exists();
       });
     });
@@ -83,9 +99,10 @@ module(
         const screen = await render(<template><TrainingCard @training={{training}} /></template>);
 
         // then
-        assert
-          .dom(screen.getByText(t('pages.skill-review.recommended-engine.training-card.registration-required.yes')))
-          .exists();
+        const tag = screen.getAllByText(
+          t('pages.skill-review.recommended-engine.training-card.registration-required.yes'),
+        );
+        assert.strictEqual(tag.length, 2);
       });
     });
 
@@ -99,9 +116,10 @@ module(
         const screen = await render(<template><TrainingCard @training={{training}} /></template>);
 
         // then
-        assert
-          .dom(screen.getByText(t('pages.skill-review.recommended-engine.training-card.registration-required.no')))
-          .exists();
+        const tag = screen.getAllByText(
+          t('pages.skill-review.recommended-engine.training-card.registration-required.no'),
+        );
+        assert.strictEqual(tag.length, 2);
       });
     });
 
@@ -152,25 +170,8 @@ module(
         });
       });
 
-      module('when training has only days duration', function () {
-        test('it displays days only', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          const training = store.createRecord(
-            'training',
-            _buildTraining({ type: 'modulix', duration: { days: 3, hours: 0, minutes: 0 } }),
-          );
-
-          // when
-          const screen = await render(<template><TrainingCard @training={{training}} /></template>);
-
-          // then
-          assert.dom(screen.getByText('3 jours')).exists();
-        });
-      });
-
-      module('when training has days and hours duration', function () {
-        test('it displays complete duration', async function (assert) {
+      module('when training has duration', function () {
+        test('it displays duration', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
           const training = store.createRecord(
@@ -185,22 +186,38 @@ module(
           assert.dom(screen.getByText('3 jours et 1h')).exists();
         });
       });
+    });
 
-      module('when training has minutes and hours duration', function () {
-        test('it displays complete duration', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          const training = store.createRecord(
-            'training',
-            _buildTraining({ type: 'modulix', duration: { days: 0, hours: 1, minutes: 30 } }),
-          );
+    module('when user clicks on a training card', function () {
+      test('should display a modal with training information', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const training = store.createRecord(
+          'training',
+          _buildTraining({ type: 'modulix', duration: { days: 1, hours: 2, minutes: 10 } }),
+        );
 
-          // when
-          const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+        // when
+        const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+        await click(screen.getByRole('button', { name: /Apprendre à manger un croissant comme les français / }));
 
-          // then
-          assert.dom(screen.getByText('1h30min')).exists();
-        });
+        // then
+        const modal = await screen.findByRole('dialog');
+        assert
+          .dom(within(modal).getByRole('heading', { name: 'Apprendre à manger un croissant comme les français' }))
+          .exists();
+        assert
+          .dom(
+            within(modal).getByText(t('pages.skill-review.recommended-engine.training-card.registration-required.yes')),
+          )
+          .exists();
+        assert.dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.duration'))).exists();
+        assert.dom(within(modal).getByText(training.editorName)).exists();
+        assert.dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.localisation'))).exists();
+        assert
+          .dom(within(modal).getByText(t('pages.skill-review.recommended-engine.training-card.delivery-mode.remote')))
+          .exists();
+        assert.dom(within(modal).getByText(training.description)).exists();
       });
     });
 
@@ -222,6 +239,8 @@ module(
         deliveryMode,
         objectives: ['Repérer si le croissant est de bonne qualité', 'Rechercher un croissant pour le manger'],
         program: 'Heure 1 : Théorie & culture du croissant, Heure 2 : Pratique et technique de dégustation',
+        description:
+          "Aujourd'hui, manger un croissant est tout un art en France. De nombreux touristes viennent en France et font le tour des meilleures boulangeries pour en manger, mais sans connaître les différentes manières de le savourer pleinement.",
         registrationRequired,
       };
     }

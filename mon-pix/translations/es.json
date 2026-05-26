@@ -2222,6 +2222,11 @@
       },
       "not-finished": "Todavía no puedes enviar tus resultados, aún tenemos algunas preguntas para ti.",
       "recommended-engine": {
+        "modal": {
+          "duration": "Duración",
+          "editor-name": "Propuesto por: ",
+          "localisation": "Localización"
+        },
         "training-card": {
           "delivery-mode": {
             "hybrid": "Híbrido",

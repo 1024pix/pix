@@ -2222,6 +2222,11 @@
       },
       "not-finished": "Je kunt je resultaten nog niet opsturen, dus we hebben nog een paar vragen voor je.",
       "recommended-engine": {
+        "modal": {
+          "duration": "Duur",
+          "editor-name": "Voorgesteld door : ",
+          "localisation": "Locatie"
+        },
         "training-card": {
           "delivery-mode": {
             "hybrid": "Hybride",

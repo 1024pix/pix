@@ -6,6 +6,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 export default class Card extends Component {
   @service intl;
@@ -79,9 +80,49 @@ export default class Card extends Component {
         </ul>
       </section>
     </button>
-    <PixModal @title={{@training.title}} @showModal={{this.modalIsOpen}} @onCloseButtonClick={{this.closeModal}}>
+    <PixModal
+      @title={{@training.title}}
+      @showModal={{this.modalIsOpen}}
+      @onCloseButtonClick={{this.closeModal}}
+      class="results-recommendation-engine-training-card-modal"
+    >
       <:content>
+        <section class="results-recommendation-engine-training-card-modal__section">
+          <div class="results-recommendation-engine-training-card-modal-section__description">
+            <PixTag @color={{this.tagProperties.color}} class="results-recommendation-engine-training-card__tag">
+              <PixIcon
+                class="results-recommendation-engine-training-card__tag-icon"
+                @name={{this.tagProperties.iconName}}
+                @ariaHidden={{true}}
+              />
+              {{this.tagProperties.text}}
+            </PixTag>
+            <p>{{t "pages.skill-review.recommended-engine.modal.editor-name"}}<span>{{@training.editorName}}</span></p>
+            <p>{{@training.description}}</p>
+          </div>
+          <div class="results-recommendation-engine-training-card-modal-section__information">
+            {{#if @training.hasDuration}}
+              <div class="results-recommendation-engine-training-card-modal-section__time-information">
+                <PixIcon @name="time" @ariaHidden={{true}} />
+                <p>{{t "pages.skill-review.recommended-engine.modal.duration"}}</p>
+                <p class="results-recommendation-engine-training-card-modal-section__time-information--bold">
+                  <span>{{this.formattedDays}}</span>
+                  <span>{{this.formattedTime}}</span>
+                </p>
+              </div>
+            {{/if}}
+            <div class="results-recommendation-engine-training-card-modal-section__localisation-information">
+              <PixIcon @name="mapPin" @ariaHidden={{true}} />
+              <p>{{t "pages.skill-review.recommended-engine.modal.localisation"}}</p>
+              <p
+                class="results-recommendation-engine-training-card-modal-section__localisation-information--bold"
+              >{{this.deliveryMode}}</p>
+            </div>
+          </div>
+        </section>
       </:content>
+      <:footer>
+      </:footer>
     </PixModal>
   </template>
 }
