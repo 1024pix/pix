@@ -652,13 +652,15 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
         // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/campaigns/${campaign.id}/participations?authenticationData=employeeNumber`,
+          url: `/api/campaigns/${campaign.id}/participations?authenticationRequestedData=employeeNumber`,
           headers: { authorization },
         });
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.campaignParticipations[0].authenticationData).to.deep.equal({ employeeNumber: 'MCFCH' });
+        expect(response.result.campaignParticipations[0].authenticationRequestedData).to.deep.equal({
+          employeeNumber: 'MCFCH',
+        });
       });
 
       context('when no authentication data are requested', function () {
@@ -672,7 +674,7 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
 
           // then
           expect(response.statusCode).to.equal(200);
-          expect(response.result.campaignParticipations[0].authenticationData).to.deep.equal({});
+          expect(response.result.campaignParticipations[0].authenticationRequestedData).to.deep.equal({});
         });
       });
 
@@ -681,13 +683,13 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
           // when
           const response = await server.inject({
             method: 'GET',
-            url: `/api/campaigns/${campaign.id}/participations?authenticationData=employeeNumber&authenticationData=population`,
+            url: `/api/campaigns/${campaign.id}/participations?authenticationRequestedData=employeeNumber&authenticationRequestedData=population`,
             headers: { authorization },
           });
 
           // then
           expect(response.statusCode).to.equal(200);
-          expect(response.result.campaignParticipations[0].authenticationData).to.deep.equal({
+          expect(response.result.campaignParticipations[0].authenticationRequestedData).to.deep.equal({
             population: 'MCF',
             employeeNumber: 'MCFCH',
           });
@@ -699,7 +701,7 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
           // when
           const response = await server.inject({
             method: 'GET',
-            url: `/api/campaigns/${campaign.id}/participations?authenticationData=foo`,
+            url: `/api/campaigns/${campaign.id}/participations?authenticationRequestedData=foo`,
             headers: { authorization },
           });
 
@@ -711,7 +713,7 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
                 status: '400',
                 code: 'INVALID_AUTHENTICATION_DATA',
                 title: 'Bad Request',
-                detail: 'Invalid authenticationData, must be some of: employeeNumber, population',
+                detail: 'Invalid authenticationRequestedData, must be some of: employeeNumber, population',
               },
             ],
           });

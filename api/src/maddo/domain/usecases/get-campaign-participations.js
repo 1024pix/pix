@@ -7,7 +7,7 @@ export const getCampaignParticipations = async ({
   clientId,
   page,
   since,
-  authenticationData,
+  authenticationRequestedData,
   campaignsAPI,
   organizationRepository,
   authenticationMethodRepository,
@@ -23,7 +23,7 @@ export const getCampaignParticipations = async ({
 
   const authenticationDataByUserId = await getAuthenticationDataByParticipations({
     campaignParticipations,
-    authenticationData,
+    authenticationRequestedData,
     identityProviderForCampaigns,
     authenticationMethodRepository,
     oidcProviderRepository,
@@ -51,7 +51,7 @@ const toDomain = (rawCampaignParticipation, userAuthenticationData, clientId, ca
 
 const getAuthenticationDataByParticipations = async ({
   campaignParticipations,
-  authenticationData,
+  authenticationRequestedData,
   identityProviderForCampaigns,
   authenticationMethodRepository,
   oidcProviderRepository,
@@ -60,10 +60,12 @@ const getAuthenticationDataByParticipations = async ({
     return {};
   }
 
-  if (authenticationData) {
+  if (authenticationRequestedData) {
     const claims = await oidcProviderRepository.findOidcProviderClaims(identityProviderForCampaigns);
-    if (!areAuthenticationDataValid(authenticationData, claims)) {
-      throw new InvalidAuthenticationDataError(`Invalid authenticationData, must be some of: ${claims.join(', ')}`);
+    if (!areAuthenticationDataValid(authenticationRequestedData, claims)) {
+      throw new InvalidAuthenticationDataError(
+        `Invalid authenticationRequestedData, must be some of: ${claims.join(', ')}`,
+      );
     }
   }
 
@@ -76,21 +78,24 @@ const getAuthenticationDataByParticipations = async ({
   return authenticationMethods.reduce((authenticationDataByUserId, method) => {
     authenticationDataByUserId[method.userId] = {
       authenticationId: method.externalIdentifier,
-      authenticationData: filterAuthenticationData(authenticationData, method.authenticationComplement),
+      authenticationRequestedData: filterAuthenticationData(
+        authenticationRequestedData,
+        method.authenticationComplement,
+      ),
     };
     return authenticationDataByUserId;
   }, {});
 };
 
-const areAuthenticationDataValid = (authenticationData, claims) => {
+const areAuthenticationDataValid = (authenticationRequestedData, claims) => {
   if (!claims) return false;
-  return authenticationData.every((authenticationClaim) => claims.includes(authenticationClaim));
+  return authenticationRequestedData.every((authenticationClaim) => claims.includes(authenticationClaim));
 };
 
-const filterAuthenticationData = (authenticationData, authenticationComplement) => {
-  if (!authenticationData) return null;
+const filterAuthenticationData = (authenticationRequestedData, authenticationComplement) => {
+  if (!authenticationRequestedData) return null;
   const result = {};
-  for (const claim of authenticationData) {
+  for (const claim of authenticationRequestedData) {
     result[claim] = authenticationComplement[claim];
   }
   return result;
