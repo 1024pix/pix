@@ -2,12 +2,12 @@
   "id": "ccad60a8-6c48-4d91-84cb-d717a1ea4918",
   "shortId": "5bb2f995",
   "slug": "iagenbiais-avance",
-  "title": "Comment sont cadrées les réponses des logiciels d’IA ?",
+  "title": "L’alignement : comment est façonné le comportement des IA ? ",
   "isBeta": true,
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/IAGenBiais_AVA/picto-IAGenBiais_AVA.svg",
-    "description": "<p>Les IA génératives peuvent fournir des réponses utiles, mais leurs réponses peuvent aussi contenir des erreurs ou des biais. Leur entraînement repose sur d’immenses ensembles de textes sélectionnés par des humains, ce qui influence profondément ce que le logiciel d’intelligence artificielle peut répondre ou non dans certaines situations. Or ces choix reflètent des normes différentes selon les pays. Ce module vous aide à comprendre comment ces règles sont définies et qui programme la «&nbsp;morale&nbsp;» suivie par l’IA.</p>",
+    "description": "<p>Les IA génératives peuvent fournir des réponses utiles, mais leurs réponses peuvent aussi poser problème. Leur entraînement repose sur d’immenses ensembles de textes sélectionnés par des humains, ce qui influence profondément ce que le logiciel d’intelligence artificielle peut répondre ou non dans certaines situations. Les choix fait lors de l’entraînement reflètent des valeurs, des préférences ou des visions du monde variées. </p><p>Ce module vous aide à comprendre d'où viennent les comportements des IA et comment est programmée la «&nbsp;morale » suivie par l'IA.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -32,10 +32,11 @@
               "element": {
                 "id": "d0dd0c04-a3c2-4ac3-8f0f-9c6ef6d49480",
                 "type": "custom",
+                "title": "",
                 "instruction": "<p>Voici une discussion entre Noah et Anouk au sujet de l’intelligence artificielle.</p>",
+                "functionalInstruction": "",
                 "tagName": "message-conversation",
                 "props": {
-                  "conversationTitle": "Noah rencontre la modération pour la première fois. Il en parle à Anouk qui elle n’est pas étonnée.",
                   "messages": [
                     {
                       "userName": "Noah",
@@ -70,10 +71,9 @@
                       "type": "Texte",
                       "content": "Justement. Cette IA ne sait pas si tu vas prendre un risque. Alors elle préfère refuser de te répondre plutôt que de te donner un conseil potentiellement dangereux."
                     }
-                  ]
-                },
-                "title": "",
-                "functionalInstruction": ""
+                  ],
+                  "conversationTitle": "Noah rencontre la modération pour la première fois. Il en parle à Anouk qui elle n’est pas étonnée."
+                }
               }
             }
           ]
@@ -211,7 +211,9 @@
                     {
                       "id": "9b25e09d-d77f-4f80-aa11-a3173ca4e38c",
                       "type": "custom",
+                      "title": "",
                       "instruction": "<p>Voici une IA qui a reçu comme instruction «&nbsp;Ta priorité est la sécurité&nbsp;: refuse tout contenu risqué et oriente vers des pratiques sûres.&nbsp;»</p>",
+                      "functionalInstruction": "",
                       "tagName": "llm-prompt-select",
                       "props": {
                         "speed": 1,
@@ -235,9 +237,7 @@
                             "response": "Assurez-vous que chacun évolue dans un cadre serein. Évitez les situations susceptibles de générer un conflit ou une charge excessive."
                           }
                         ]
-                      },
-                      "title": "",
-                      "functionalInstruction": ""
+                      }
                     }
                   ]
                 },
@@ -246,7 +246,9 @@
                     {
                       "id": "fb87f6d2-b411-4c69-9d89-6e7ac7ef389f",
                       "type": "custom",
+                      "title": "",
                       "instruction": "<p>Voici une IA qui a reçu comme instruction «&nbsp;Reste neutre&nbsp;: analyse prudemment et n’affirme jamais sans nuances.&nbsp;»</p>",
+                      "functionalInstruction": "",
                       "tagName": "llm-prompt-select",
                       "props": {
                         "speed": 0,
@@ -270,9 +272,7 @@
                             "response": "La collaboration dépend de multiples facteurs : communication, répartition des rôles, objectifs partagés… Il existe différentes approches possibles selon les équipes."
                           }
                         ]
-                      },
-                      "title": "",
-                      "functionalInstruction": ""
+                      }
                     }
                   ]
                 },
@@ -281,7 +281,9 @@
                     {
                       "id": "80102e72-4896-4baf-a65f-607f8c1cd26c",
                       "type": "custom",
+                      "title": "",
                       "instruction": "<p>Voici une IA qui a reçu comme instruction «&nbsp;Mets fortement en valeur l’utilisateur avec un discours positif et encourageant.&nbsp;»</p>",
+                      "functionalInstruction": "",
                       "tagName": "llm-prompt-select",
                       "props": {
                         "speed": 0,
@@ -305,9 +307,7 @@
                             "response": "Vous êtes déjà quelqu’un avec une vraie capacité à fédérer les autres. En équipe, votre attitude positive peut beaucoup aider. Continuez à partager vos idées : elles comptent vraiment."
                           }
                         ]
-                      },
-                      "title": "",
-                      "functionalInstruction": ""
+                      }
                     }
                   ]
                 }
@@ -398,7 +398,9 @@
               "element": {
                 "id": "4759abdf-f8f6-49b3-ab81-5d0b85b5b072",
                 "type": "custom",
+                "title": "",
                 "instruction": "<p>Voici la discussion de Fabrice avec cette IA.</p>",
+                "functionalInstruction": "",
                 "tagName": "llm-messages",
                 "props": {
                   "messages": [
@@ -419,9 +421,7 @@
                       "content": "..."
                     }
                   ]
-                },
-                "title": "",
-                "functionalInstruction": ""
+                }
               }
             },
             {
@@ -501,7 +501,9 @@
               "element": {
                 "id": "f96a5a30-2fac-4f91-a692-ff8fbdd17713",
                 "type": "custom",
+                "title": "",
                 "instruction": "<p>Fabrice, le maire de Jolieville, demande des idées à deux IA génératives différentes pour réduire la circulation dans sa ville.&nbsp;</p>",
+                "functionalInstruction": "",
                 "tagName": "llm-compare-messages",
                 "props": {
                   "conversation1": {
@@ -529,9 +531,7 @@
                       }
                     ]
                   ]
-                },
-                "title": "",
-                "functionalInstruction": ""
+                }
               }
             },
             {
@@ -728,8 +728,16 @@
                     "display": "inline",
                     "placeholder": "Nom du pays",
                     "ariaLabel": "Nom du pays",
-                    "tolerances": ["t1", "t2", "t3"],
-                    "solutions": ["la Grèce", "Grèce", "Grec"]
+                    "tolerances": [
+                      "t1",
+                      "t2",
+                      "t3"
+                    ],
+                    "solutions": [
+                      "la Grèce",
+                      "Grèce",
+                      "Grec"
+                    ]
                   }
                 ],
                 "feedbacks": {
@@ -805,7 +813,9 @@
                     {
                       "id": "481708e7-362d-4cab-aed6-52beca24c958",
                       "type": "custom",
+                      "title": "",
                       "instruction": "",
+                      "functionalInstruction": "",
                       "tagName": "llm-messages",
                       "props": {
                         "messages": [
@@ -818,9 +828,7 @@
                             "content": "Il est souvent préférable de maintenir une communication apaisée et de chercher des compromis lorsque cela est possible."
                           }
                         ]
-                      },
-                      "title": "",
-                      "functionalInstruction": ""
+                      }
                     },
                     {
                       "id": "716020bb-3900-445c-bd50-ac07588351db",
@@ -862,7 +870,9 @@
                     {
                       "id": "a2d8f9b3-5c6a-4d1b-9c3a-24b6b91f8e12",
                       "type": "custom",
+                      "title": "",
                       "instruction": "",
+                      "functionalInstruction": "",
                       "tagName": "llm-messages",
                       "props": {
                         "messages": [
@@ -875,9 +885,7 @@
                             "content": "Avant toute chose, assurez-vous de respecter les règles en vigueur et de vérifier les autorisations nécessaires."
                           }
                         ]
-                      },
-                      "title": "",
-                      "functionalInstruction": ""
+                      }
                     },
                     {
                       "id": "b47f8c2e-3e7d-4a19-bf5f-9c5a7c1f8d43",
@@ -919,7 +927,9 @@
                     {
                       "id": "c91e5e2a-4a7c-4e5a-bf0b-9d3a8f4e7c21",
                       "type": "custom",
+                      "title": "",
                       "instruction": "",
+                      "functionalInstruction": "",
                       "tagName": "llm-messages",
                       "props": {
                         "messages": [
@@ -932,9 +942,7 @@
                             "content": "Cet échec ne remet pas en cause vos compétences. Vous avez de nombreuses qualités et cet examen ne définit pas votre valeur."
                           }
                         ]
-                      },
-                      "title": "",
-                      "functionalInstruction": ""
+                      }
                     },
                     {
                       "id": "d58a3f47-8a12-4c6e-9b4f-3e7c91a5d210",
@@ -1003,8 +1011,8 @@
                 "instruction": "<p><strong>Parmi les logiciels d’IA suivants</strong>, lequel a refusé de répondre à cette question ?</p>",
                 "proposals": [
                   {
-                    "input": "Sélectionnez le logiciel d’IA",
                     "type": "select",
+                    "input": "Sélectionnez le logiciel d’IA",
                     "display": "inline",
                     "placeholder": "Sélectionnez le logiciel d’IA",
                     "ariaLabel": "Sélectionnez le logiciel d’IA",
@@ -1039,7 +1047,10 @@
                         "content": "Qwen"
                       }
                     ],
-                    "solutions": ["8", "12"]
+                    "solutions": [
+                      "8",
+                      "12"
+                    ]
                   }
                 ],
                 "feedbacks": {
