@@ -705,17 +705,6 @@
                     "solution": "A"
                   },
                   {
-                    "id": "62b8573c-58b1-4b9a-8c01-1eaf2f8ad58e",
-                    "text": "Si l’IA associe spontanément certains métiers à un genre, cela peut venir des biais présents dans les textes sur lesquels elle a été entraînée.",
-                    "image": {
-                      "url": "",
-                      "altText": ""
-                    },
-                    "proposalA": "Vrai",
-                    "proposalB": "Faux",
-                    "solution": "A"
-                  },
-                  {
                     "id": "1a8d3422-daa1-48b4-823d-2c26a2b2a8c2",
                     "text": "Le prompt système est un texte visible par l’utilisateur et facile à modifier.",
                     "image": {
@@ -812,30 +801,22 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "Un alignement par les données d’entraînement",
+                    "content": "<p>Un alignement avec des notes données par des évaluateurs humains (RHLF)</p>",
                     "feedback": {
-                      "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Une IA entraînée sur des données faisant beaucoup revenir un pays pourrait le mettre davantage en valeur, mais pas aussi systématiquement sur tous les sujets.</p>"
+                      "state": "<p>C’est peu probable.<br></p>",
+                      "diagnosis": "<p>Une IA entraînée avec&nbsp; des évaluateurs d’un payd pourrait le mettre davantage en valeur, mais pas aussi systématiquement sur tous les sujets.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Une règle de sécurité.</p>",
-                    "feedback": {
-                      "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Les règles de sécurité servent surtout à empêcher des contenus <strong>dangereux</strong> ou <strong>sensibles</strong>, pas à forcer l’IA à parler exclusivement d’un pays.</p>"
-                    }
-                  },
-                  {
-                    "id": "3",
-                    "content": "<p>Un prompt système.</p>",
+                    "content": "<p>Un alignement avec un prompt système.</p>",
                     "feedback": {
                       "state": "<p>Bonne réponse ! 🎯</p>",
-                      "diagnosis": "<p>Exact&nbsp;! Le comportement de l’IA vient d’un <strong>prompt système</strong>&nbsp;: une consigne cachée ajoutée par les éditeurs qui oriente toutes ses réponses vers la Grèce, quel que soit le sujet demandé.</p>"
+                      "diagnosis": "<p>Le comportement de l’IA vient d’un <strong>prompt système</strong>&nbsp;: une consigne cachée ajoutée par les éditeurs qui oriente toutes ses réponses vers la Grèce, quel que soit le sujet demandé.</p>"
                     }
                   }
                 ],
-                "solution": "3"
+                "solution": "2"
               }
             }
           ]
