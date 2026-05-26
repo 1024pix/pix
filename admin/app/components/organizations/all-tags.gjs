@@ -86,7 +86,7 @@ export default class OrganizationAllTags extends Component {
                   onClick={{fn this.removeTagToOrganization tag}}
                   aria-label="Tag {{tag.name}} assigné à l'organisation"
                 >
-                  <PixTag @color="purple-light">
+                  <PixTag @color="blue">
                     {{tag.name}}
                   </PixTag>
                 </button>
@@ -129,7 +129,7 @@ export default class OrganizationAllTags extends Component {
                   onClick={{fn this.removeTagToOrganization tag}}
                   aria-label="Tag {{tag.name}} assigné à l'organisation"
                 >
-                  <PixTag @color="purple-light">
+                  <PixTag @color="blue">
                     {{tag.name}}
                   </PixTag>
                 </button>

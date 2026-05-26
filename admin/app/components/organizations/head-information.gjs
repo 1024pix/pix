@@ -132,7 +132,7 @@ export default class HeadInformation extends Component {
           {{#if this.hasTags}}
             {{#each @organization.tags as |tag|}}
               <li>
-                <PixTag @color="purple-light">{{tag.name}}</PixTag>
+                <PixTag @color="blue">{{tag.name}}</PixTag>
               </li>
             {{/each}}
           {{/if}}
