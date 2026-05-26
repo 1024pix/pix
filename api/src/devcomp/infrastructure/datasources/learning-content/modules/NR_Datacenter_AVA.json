@@ -886,7 +886,7 @@
                           "size": 15,
                           "display": "inline",
                           "placeholder": "",
-                          "ariaLabel": "",
+                          "ariaLabel": "à compléter",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -942,7 +942,7 @@
                           "size": 15,
                           "display": "inline",
                           "placeholder": "",
-                          "ariaLabel": "",
+                          "ariaLabel": "à compléter",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -963,7 +963,7 @@
                           "size": 15,
                           "display": "inline",
                           "placeholder": "",
-                          "ariaLabel": "",
+                          "ariaLabel": "à compléter",
                           "tolerances": [
                             "t1",
                             "t2",
