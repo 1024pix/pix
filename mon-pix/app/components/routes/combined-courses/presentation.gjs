@@ -134,6 +134,10 @@ export default class CombinedCoursePresentation extends Component {
   get isSurveyEnabled() {
     const surveyEnabledForCombinedCourses = this.featureToggles.featureToggles?.isSurveyEnabledForCombinedCourses;
 
+    if (this.args.combinedCourse.organizationId === ENV.APP.FRANCE_TRAVAIL_ORGANIZATION_ID) {
+      return true;
+    }
+
     if (!ENV.APP.ORGANIZATIONS_COMBINIX_SURVEY_EXCLUSION_LIST) return surveyEnabledForCombinedCourses;
 
     const organizationsToExclude = ENV.APP.ORGANIZATIONS_COMBINIX_SURVEY_EXCLUSION_LIST.split(',');

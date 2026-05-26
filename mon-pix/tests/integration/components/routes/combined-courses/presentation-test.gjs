@@ -450,12 +450,12 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       assert.dom(link).hasAttribute('rel', 'noopener noreferrer');
     });
 
-    test('should display France Travail survey cta', async function (assert) {
+    test('should display France Travail survey cta in all cases', async function (assert) {
       // given
       const FRANCE_TRAVAIL_ORGANIZATION_ID = 456;
       const store = this.owner.lookup('service:store');
       const featureToggles = this.owner.lookup('service:featureToggles');
-      sinon.stub(featureToggles, 'featureToggles').value({ isSurveyEnabledForCombinedCourses: true });
+      sinon.stub(featureToggles, 'featureToggles').value({ isSurveyEnabledForCombinedCourses: false });
       const combinedCourse = store.createRecord('combined-course', {
         id: 1,
         status: CombinedCourseStatuses.COMPLETED,
