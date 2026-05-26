@@ -7,13 +7,13 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/deepfakes/picto-deepfakes.svg",
-    "description": "<p>Le numérique a d’importants effets directs sur l’environnement, mais provoque aussi de nombreux changements de comportements individuels et collectifs. Ce sont des effets indirects, et ils peuvent aussi avoir des impacts sur l’environnement.<br> Dans ce module, vous allez découvrir comment il est possible de les évaluer et de les limiter s’ils sont négatifs.</p>",
+    "description": "<p>Le numérique a des effets directs sur l’environnement : fabrication des appareils, consommation d’électricité des centres de données, etc. Mais il modifie aussi nos habitudes, avec des conséquences indirectes sur l’environnement. </p><p>Dans ce module, vous apprendrez à identifier ces effets, à limiter leurs impacts négatifs et à comprendre l’effet rebond.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
-      "<p>Identifier les effets environnementaux indirects du numérique</p>",
+      "<p>Distinguer les effets environnementaux directs et indirects du numérique</p>",
       "<p>Comprendre le mécanisme de l’effet rebond et de son évaluation</p>",
-      "<p>Éveiller son esprit critique et encourager la sobriété</p>"
+      "<p>Développer l’esprit critique face au greenwashing et encourager la sobriété numérique.</p>"
     ],
     "tabletSupport": "comfortable"
   },
