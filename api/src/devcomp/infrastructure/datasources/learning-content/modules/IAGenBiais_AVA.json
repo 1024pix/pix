@@ -72,7 +72,7 @@
                       "content": "Justement. Cette IA ne sait pas si tu vas prendre un risque. Alors elle préfère refuser de te répondre plutôt que de te donner un conseil potentiellement dangereux."
                     }
                   ],
-                  "conversationTitle": "Noah rencontre la modération pour la première fois. Il en parle à Anouk qui elle n’est pas étonnée."
+                  "conversationTitle": "Noah fait face à une IA qui refuse de répondre à sa question. Il en parle à Anouk qui elle n’est pas étonnée."
                 }
               }
             }
@@ -162,13 +162,40 @@
           "title": "Leçon 1",
           "components": [
             {
-              "type": "element",
-              "element": {
-                "id": "6e9d0896-95ac-4c33-9c85-5116c318f35e",
-                "type": "text",
-                "tag": " ",
-                "content": "<p> <strong>Les IA génératives sont entraînées sur de vastes ensembles de contenus</strong>, parfois biaisés ou problématiques. Sans <strong>règles de sécurité</strong>, elles peuvent produire des réponses <strong>injurieuses, discriminatoires</strong> ou faisant <strong>l’apologie de la violence et d’actes illégaux</strong>.&nbsp;🚫🤔 Comment réduire le risque que cela arrive ?</p><p>Pour limiter les risques, les éditeurs ajoutent des <strong>règles de sécurité</strong>.&nbsp;Cet encadrement du comportement de l’IA s’appelle<strong> l’alignement.</strong> </p><br><h5>🤔 Donc les éditeurs d’IA veulent toujours protéger les utilisateurs ?&nbsp;</h5><p>C’est dans leur intérêt, ces règles protègent les utilisateurs et évitent aux éditeurs d’éventuels problèmes juridiques. Mais on peut également imaginer une IA configurée pour être très permissive&nbsp;: tout dépend des choix faits par les éditeurs de l’IA.</p>"
-              }
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "29976fc9-4ad7-486e-ae45-b958459a57cd",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p><strong>Les IA génératives sont entraînées sur de vastes ensembles de contenus, parfois biaisés ou problématiques.</strong> Elles risquent donc de produire des conseils <strong>dangeureux</strong>, des réponses <strong>discriminatoires </strong>ou faire l’apologie de la <strong>violence </strong>et d’actes illégaux.</p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "058bc776-1994-4191-9b89-60729a52306d",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<h5> Comment réduire le risque que cela arrive ?</h5><p> Pour limiter ces risques, les éditeurs encadrent le comportement de l’IA grâce à différentes méthode dites d’<strong>alignement</strong>. On parle d’ « alignement » parce qu’il s’agit d’<strong>ajuster l’IA pour que son comportement corresponde aux valeurs et attentes des concepteurs.</strong></p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "0533f8c1-899a-4eca-832a-218784310fc3",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<h5>Quelles sont les méthodes d’alignement ? </h5><p>Une des méthodes principales d’alignement a lieu pendant l’entraînement : <strong>des évaluateurs humains notent les réponses de l’IA</strong>. L’IA ajuste au fur et à mesure son comportement pour avoir une meilleure note. On appelle ce système le<strong> RLHF pour Reinforcement Learning from Human Feedback</strong></p>"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -183,7 +210,7 @@
                 "id": "11925a64-942e-4cb4-8266-a4f20bdd12b4",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Nous avons vu les règles de sécurité, mais ce ne sont pas les seules règles qu’une IA doit suivre. Voyons maintenant <strong>comment ces règles influencent les réponses données par le logiciel d’IA générative</strong>.</p>"
+                "content": "<p>Voyons maintenant une autre méthode d’alignement très utilisée.</p>"
               }
             }
           ]
