@@ -51,35 +51,35 @@
               "element": {
                 "id": "f2665813-82bb-4427-a9a0-14a6a5f3df8f",
                 "type": "qcu-discovery",
-                "instruction": "<p>L’Agence internationale de l’énergie (IAE) a fait des projections concernant la consommation d’énergie par les centres de données pour les années à venir.<br>À votre avis, que disent ces projections pour la période 2024 à 2030 ?<br></p>",
+                "instruction": "<p>L’Agence internationale de l’énergie (AIE) a fait des projections concernant la consommation d’énergie par les centres de données pour les années à venir.<br>À votre avis, que disent ces projections pour la période 2024 à 2030 ?<br></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>Leur consommation d’énergie va diminuer. ↘️</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! </p><p>L’IAE estime que l’<strong>électricité consommée par les centres de données va doubler entre 2024 et 2030.&nbsp;</strong>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie&nbsp;</strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour les vidéos, les objets connectés, les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
+                      "diagnosis": "<p>Eh non ! </p><p>L’AIE estime que l’<strong>électricité consommée par les centres de données va doubler entre 2024 et 2030.&nbsp;</strong>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie&nbsp;</strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour les vidéos, les objets connectés, les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Leur consommation d’énergie va rester stable. ➡️<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! </p><p>L’IAE estime que l’<strong>électricité</strong><strong> consommée par les</strong><strong> centres de données va doubler </strong>entre 2024&nbsp;et 2030.<br>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour les vidéos, les objets connectés, les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public. </p>"
+                      "diagnosis": "<p>Eh non ! </p><p>L’AIE estime que l’<strong>électricité</strong><strong> consommée par les</strong><strong> centres de données va doubler </strong>entre 2024&nbsp;et 2030.<br>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour les vidéos, les objets connectés, les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public. </p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Leur consommation d’énergie va augmenter de 20&nbsp;%. ↗️<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! </p><p>L’IAE estime que l’<strong>électricité consommée par les centres de données va doubler </strong>entre 2024 et 2030.<br></p><p>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour&nbsp;les objets connectés, les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
+                      "diagnosis": "<p>Eh non ! </p><p>L’AIE estime que l’<strong>électricité consommée par les centres de données va doubler </strong>entre 2024 et 2030.<br></p><p>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour&nbsp;les objets connectés, les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Leur consommation d’énergie va doubler. ↗️↗️<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement ! </p><p>L’IAE estime que l’<strong>électricité consommée par les centres de données va doubler </strong>entre 2024 et 2030.<br>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour les vidéos, les objets connectés les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
+                      "diagnosis": "<p>Effectivement ! </p><p>L’AIE estime que l’<strong>électricité consommée par les centres de données va doubler </strong>entre 2024 et 2030.<br>Les <strong>calculs </strong>demandent beaucoup d’<strong>énergie </strong>et les nouvelles technologies sont très gourmandes en calcul&nbsp;: par exemple, pour les vidéos, les objets connectés les cryptomonnaies mais surtout en raison de l’essort de l’<strong>utilisation des intelligences artificielles</strong> génératives par le grand public.</p>"
                     }
                   }
                 ],
