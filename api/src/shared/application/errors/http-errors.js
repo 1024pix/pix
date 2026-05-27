@@ -170,8 +170,8 @@ class TooManyRequestsError extends BaseHttpError {
 }
 
 /**
- *
- * @param {import('../../infrastructure/serializers/jsonapi/error-serializer.js').HttpError} httpError
+ * @typedef {import('../../infrastructure/serializers/jsonapi/error-serializer.js').HttpError} HttpError
+ * @param {Array<HttpError>|HttpError} httpError
  * @param {Object} h
  * @returns {Promise}
  */

@@ -1,6 +1,5 @@
 import kebabCase from 'lodash/kebabCase.js';
 
-import { AggregateImportError } from '../../../prescription/learner-management/domain/errors.js';
 import { DomainError, EntityValidationError } from '../../domain/errors.js';
 import { getBaseLocale } from '../../domain/services/locale-service.js';
 import { getI18n } from '../../infrastructure/i18n/i18n.js';
@@ -35,13 +34,6 @@ export class HapiErrorMapper {
 
     if (response instanceof DomainError) {
       const httpError = this.#registry.mapToError(response) ?? mapToHttpError(response);
-
-      if (response instanceof AggregateImportError) {
-        httpError.meta.forEach((error) => {
-          error.status = httpError.status;
-        });
-        return HttpErrors.sendJsonApiError(httpError.meta, h);
-      }
       return HttpErrors.sendJsonApiError(httpError, h);
     }
     return h.continue;

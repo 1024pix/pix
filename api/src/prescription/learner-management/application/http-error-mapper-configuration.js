@@ -4,7 +4,12 @@ import { AggregateImportError, CouldNotDeleteLearnersError, SiecleXmlImportError
 const learnerManagementDomainErrorMappingConfiguration = [
   {
     name: AggregateImportError.name,
-    httpErrorFn: (error) => new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta),
+    httpErrorFn: (aggregateError) => {
+      // For AggregateImportError, all errors are aggregated in error.meta
+      return aggregateError.meta.map(
+        (error) => new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta),
+      );
+    },
   },
   {
     name: CouldNotDeleteLearnersError.name,
