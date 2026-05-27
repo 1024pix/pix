@@ -2225,7 +2225,9 @@
         "modal": {
           "duration": "Duur",
           "editor-name": "Voorgesteld door : ",
-          "localisation": "Locatie"
+          "localisation": "Locatie",
+          "objectives": "Doelstellingen",
+          "program": "Programma"
         },
         "training-card": {
           "delivery-mode": {

@@ -1,3 +1,4 @@
+import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
@@ -120,6 +121,35 @@ export default class Card extends Component {
             </div>
           </div>
         </section>
+
+        <PixAccordions>
+          <:title>
+            <h2>{{t "pages.skill-review.recommended-engine.modal.objectives"}}</h2>
+          </:title>
+          <:content>
+            <ol class="results-recommendation-engine-training-card-modal__objectives">
+              {{#each @training.objectives as |objective|}}
+                <li>
+                  <PixIcon
+                    @name="checkCircle"
+                    @plainIcon={{true}}
+                    class="results-recommendation-engine-training-card-modal-objectives__icon"
+                    @ariaHidden={{true}}
+                  />
+                  {{objective}}
+                </li>
+              {{/each}}
+            </ol>
+          </:content>
+        </PixAccordions>
+        <PixAccordions>
+          <:title>
+            <h2>{{t "pages.skill-review.recommended-engine.modal.program"}}</h2>
+          </:title>
+          <:content>
+            <p class="results-recommendation-engine-training-card-modal__program">{{@training.program}}</p>
+          </:content>
+        </PixAccordions>
       </:content>
       <:footer>
       </:footer>

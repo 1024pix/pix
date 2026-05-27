@@ -128,6 +128,25 @@
       gap: var(--pix-spacing-2x);
     }
   }
+
+  &__objectives {
+    @extend %pix-body-m;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-2x);
+
+    li {
+      display: flex;
+      gap: var(--pix-spacing-3x);
+      align-items: center;
+      color: var(--pix-neutral-800);
+    }
+  }
+
+  &__program {
+    color: var(--pix-neutral-800);
+  }
 }
 
 .results-recommendation-engine-training-card-modal-section {
@@ -170,5 +189,11 @@
       flex-direction: column;
       font-weight: var(--pix-font-bold);
     }
+  }
+}
+
+.results-recommendation-engine-training-card-modal-objectives {
+  &__icon {
+    color: var(--pix-primary-300);
   }
 }

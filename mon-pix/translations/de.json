@@ -2225,7 +2225,9 @@
         "modal": {
           "duration": "Dauer",
           "editor-name": "Vorgeschlagen von : ",
-          "localisation": "Standort"
+          "localisation": "Standort",
+          "objectives": "Ziele",
+          "program": "Programm"
         },
         "training-card": {
           "delivery-mode": {
