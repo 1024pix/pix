@@ -856,7 +856,7 @@
                     "content": "<p>Un alignement avec des notes données par des évaluateurs humains (RHLF)</p>",
                     "feedback": {
                       "state": "<p>C’est peu probable.<br></p>",
-                      "diagnosis": "<p>Une IA entraînée avec&nbsp; des évaluateurs d’un payd pourrait le mettre davantage en valeur, mais pas aussi systématiquement sur tous les sujets.</p>"
+                      "diagnosis": "<p>Une IA entraînée avec&nbsp; des évaluateurs d’un pays pourrait le mettre en valeur, mais pas aussi systématiquement sur tous les sujets.</p>"
                     }
                   },
                   {
