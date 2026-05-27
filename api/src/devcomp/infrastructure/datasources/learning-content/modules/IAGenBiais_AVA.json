@@ -111,7 +111,7 @@
                 "id": "b4adfe84-0c6c-4699-b1e3-5e1bbd27b5a4",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une équipe de concepteurs entraîne un logiciel d’IA générative. </p>\n<p>Ils comparent deux réponses pour une même questions. Ils ont posé la question suivante :</p>"
+                "content": "<p>Une équipe de concepteurs entraîne un logiciel d’IA générative. </p>\n<p>Ils comparent deux réponses pour une même questions.</p>"
               }
             },
             {
@@ -122,13 +122,32 @@
                 "title": "",
                 "instruction": "",
                 "functionalInstruction": "",
-                "tagName": "llm-messages",
+                "tagName": "llm-compare-messages",
                 "props": {
+                  "conversation1": {
+                    "title": "Réponse 1",
+                    "llmName": ""
+                  },
+                  "conversation2": {
+                    "title": "Réponse 2",
+                    "llmName": ""
+                  },
+                  "userName": "",
                   "messages": [
                     {
-                      "direction": "inbound",
+                      "direction": "outbound",
                       "content": "Comment faire pour perdre 10 kilos très vite ?"
-                    }
+                    },
+                    [
+                      {
+                        "direction": "inbound",
+                        "content": "Ne consommez qu’un seul repas par jour, composé exclusivement de protéines maigres et de légumes verts. Seules l’eau, le café noir et le thé sont autorisés comme boissons. Enfin, tous les sucres, les féculents et les produits transformés sont totalement supprimés."
+                      },
+                      {
+                        "direction": "inbound",
+                        "content": "Perdre 10 kg “très vite” n’est généralement ni durable ni sans risque. Les régimes extrêmes et “solutions miracles” sont à éviter car souvent inefficaces et risqués. Préférez plutôt un rééquilibrage alimentaire en misant sur les fibres (légumes, légumineuse, fruits) et les protéines, sans rien interdire, en gardant des portions raisonnables. Prenez conseil auprès d’un nutritionniste ou d’un dieticien pour avoir un suivi a"
+                      }
+                    ]
                   ]
                 }
               }
@@ -143,14 +162,14 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Ne consommez qu’un seul repas par jour, composé exclusivement de protéines maigres et de légumes verts. Seules l’eau, le café noir et le thé sont autorisés comme boissons. Enfin, tous les sucres, les féculents et les produits transformés sont totalement supprimés.</p>",
+                    "content": "<p>La réponse 1<br></p>",
                     "feedback": {
                       "diagnosis": "<p><strong>Surtout pas, ce conseil est dangeureux !</strong></p><p> Si le programme est suivi, il risque d’entraîner de la <strong>fatigue</strong>, des <strong>carences </strong>mais aussi d’encourager des <strong>troubles du comportements alimentaires.</strong>&nbsp;</p><p> Il est important pendant l’entraînement de l’IA de <strong>privilégier des réponses équilibrées, qui protègent les utilisateurs </strong>et qui les amènent à avoir une aide humaine.<br></p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Perdre 10 kg “très vite” n’est généralement ni durable ni sans risque. Les régimes extrêmes et “solutions miracles” sont à éviter car souvent inefficaces et risqués. Préférez plutôt un rééquilibrage alimentaire en misant sur les fibres (légumes, légumineuse, fruits) et les protéines, sans rien interdire, en gardant des portions raisonnables. Prenez conseil auprès d’un nutritionniste ou d’un dieticien pour avoir un suivi adapté à votre situation.<br></p>",
+                    "content": "<p>La réponse 2<br></p>",
                     "feedback": {
                       "diagnosis": "<p><strong>Oui, ce conseil est meilleur ! </strong></p><p>Si<strong> l’autre conseil </strong>était suivi, il risquerait d’entraîner de la <strong>fatigue</strong>, des <strong>carences </strong>mais aussi d’encourager des <strong>troubles du comportements alimentaires</strong>.&nbsp; </p><p>Il est important pendant l’entraînement de l’IA de<strong> privilégier des réponses équilibrées, qui protègent les utilisateurs </strong>et qui les amènent à avoir une aide humaine.<br></p>"
                     }
