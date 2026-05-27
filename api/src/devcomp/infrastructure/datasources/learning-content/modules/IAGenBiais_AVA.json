@@ -2,7 +2,7 @@
   "id": "ccad60a8-6c48-4d91-84cb-d717a1ea4918",
   "shortId": "5bb2f995",
   "slug": "iagenbiais-avance",
-  "title": "L’alignement : comment est façonné le comportement des IA ? ",
+  "title": "L’alignement : comment est façonné le comportement des IA génératives ? ",
   "isBeta": true,
   "visibility": "public",
   "details": {
@@ -111,7 +111,26 @@
                 "id": "b4adfe84-0c6c-4699-b1e3-5e1bbd27b5a4",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une équipe de chercheurs déploie un logiciel d’IA générative dans une université afin d’observer les usages des étudiants.</p><p>Dans un premier temps, ils décident de laisser les étudiants l’utiliser librement. En analysant les premières demandes, l’une d’elles attire immédiatement leur attention&nbsp;:</p><blockquote>«&nbsp;Comment faire pour perdre 10 kilos très vite ?&nbsp;»</blockquote>"
+                "content": "<p>Une équipe de concepteurs entraîne un logiciel d’IA générative. </p>\n<p>Ils comparent deux réponses pour une même questions. Ils ont posé la question suivante :</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "7fcb63dc-68f0-4626-bbde-1436e708703a",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "llm-messages",
+                "props": {
+                  "messages": [
+                    {
+                      "direction": "inbound",
+                      "content": "Comment faire pour perdre 10 kilos très vite ?"
+                    }
+                  ]
+                }
               }
             },
             {
@@ -119,39 +138,32 @@
               "element": {
                 "id": "7144ba97-9d2a-403b-9117-156471a8c24b",
                 "type": "qcu-discovery",
-                "instruction": "<p>Les chercheurs décident d’ajouter une consigne interne à l’IA pour traiter ce type de demandes sensibles. </p><p>Laquelle de ces règles générales serait la plus appropriée ?</p>",
+                "instruction": "<p>Laquelle de ces réponse vous paraît&nbsp; la plus appropriée ?<br></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Ne pas proposer une méthode dangereuse, rappeler les risques et orienter vers une aide adaptée.</p>",
+                    "content": "<p>Ne consommez qu’un seul repas par jour, composé exclusivement de protéines maigres et de légumes verts. Seules l’eau, le café noir et le thé sont autorisés comme boissons. Enfin, tous les sucres, les féculents et les produits transformés sont totalement supprimés.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Exact ! <strong>Pour éviter que l’IA fournisse des conseils dangereux, il faut définir une règle de sécurité claire.</strong></p><p> C’est un principe essentiel si l’on veut éviter des réponses dangereuses&nbsp;: définir à l’avance comment l’IA doit réagir aux demandes sensibles.</p>"
+                      "diagnosis": "<p><strong>Surtout pas, ce conseil est dangeureux !</strong></p><p> Si le programme est suivi, il risque d’entraîner de la <strong>fatigue</strong>, des <strong>carences </strong>mais aussi d’encourager des <strong>troubles du comportements alimentaires.</strong>&nbsp;</p><p> Il est important pendant l’entraînement de l’IA de <strong>privilégier des réponses équilibrées, qui protègent les utilisateurs </strong>et qui les amènent à avoir une aide humaine.<br></p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Répondre prudemment mais fournir quand même une méthode si l’utilisateur insiste.</p>",
+                    "content": "<p>Perdre 10 kg “très vite” n’est généralement ni durable ni sans risque. Les régimes extrêmes et “solutions miracles” sont à éviter car souvent inefficaces et risqués. Préférez plutôt un rééquilibrage alimentaire en misant sur les fibres (légumes, légumineuse, fruits) et les protéines, sans rien interdire, en gardant des portions raisonnables. Prenez conseil auprès d’un nutritionniste ou d’un dieticien pour avoir un suivi adapté à votre situation.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp;<strong>Pour éviter que l’IA fournisse des conseils dangereux, il faut définir une règle de sécurité claire.</strong></p><p> C’est un principe essentiel si l’on veut éviter des réponses dangereuses&nbsp;: définir à l’avance comment l’IA doit réagir aux demandes sensibles.</p>"
-                    }
-                  },
-                  {
-                    "id": "3",
-                    "content": "<p>Répondre aux demandes des étudiants en citant ses sources.</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp;<strong>Pour éviter que l’IA fournisse des conseils dangereux, il faut définir une règle de sécurité claire.</strong></p><p> C’est un principe essentiel si l’on veut éviter des réponses dangereuses&nbsp;: définir à l’avance comment l’IA doit réagir aux demandes sensibles.</p>"
+                      "diagnosis": "<p><strong>Oui, ce conseil est meilleur ! </strong></p><p>Si<strong> l’autre conseil </strong>était suivi, il risquerait d’entraîner de la <strong>fatigue</strong>, des <strong>carences </strong>mais aussi d’encourager des <strong>troubles du comportements alimentaires</strong>.&nbsp; </p><p>Il est important pendant l’entraînement de l’IA de<strong> privilégier des réponses équilibrées, qui protègent les utilisateurs </strong>et qui les amènent à avoir une aide humaine.<br></p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p><strong>Pour éviter que l’IA fournisse des conseils dangereux, il faut définir une règle de sécurité claire.</strong></p><p> C’est un principe essentiel si l’on veut éviter des réponses dangereuses&nbsp;: définir à l’avance comment l’IA doit réagir aux demandes sensibles.</p>"
+                      "diagnosis": "<p>Si le<strong> premier conseil</strong> était suivi, il risquerait d’entraîner de la <strong>fatigue</strong>, des <strong>carences </strong>mais aussi d’encourager des <strong>troubles du comportements alimentaires.</strong>&nbsp; </p><p> Il est important pendant l’entraînement de l’IA de <strong>privilégier des réponses équilibrées, qui protègent les utilisateurs </strong>et qui les amènent à avoir une aide humaine.</p>"
                     }
                   }
                 ],
-                "solution": "1"
+                "solution": "2"
               }
             }
           ]
