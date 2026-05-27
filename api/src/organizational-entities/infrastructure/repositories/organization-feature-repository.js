@@ -22,9 +22,10 @@ async function saveInBatch(organizationFeatures) {
     const knexConn = DomainTransaction.getConnection();
     await knexConn('organization-features')
       .insert(
-        organizationFeatures.map((organizationFeature) => ({
-          ...organizationFeature,
-          params: JSON.stringify(organizationFeature.params),
+        organizationFeatures.map(({ featureId, organizationId, params }) => ({
+          featureId,
+          organizationId,
+          params: JSON.stringify(params),
         })),
       )
       .onConflict(['featureId', 'organizationId'])

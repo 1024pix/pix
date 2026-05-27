@@ -47,22 +47,19 @@ class OrganizationFeature {
             ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key,
             ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
           ),
-          then: Joi.valid(null, '').optional(),
+          then: Joi.valid(null).optional(),
         },
       ],
     }),
     deleteLearner: Joi.when('featureName', {
       is: Joi.string().required().valid(ORGANIZATION_FEATURE.LEARNER_IMPORT.key),
-      then: Joi.valid('Y', 'N').allow(null).optional(),
-      otherwise: Joi.valid(null, '').optional(),
+      then: Joi.boolean().allow(null).optional(),
+      otherwise: Joi.valid(null, false).optional(),
     }),
     organizationId: Joi.number().integer().required(),
   });
 
-  #deleteLearner;
   constructor({ featureName, organizationId, params, deleteLearner, features }) {
-    const parsedParams = params ? JSON.parse(params) : null;
-    const parsedOrganizationId = parseInt(organizationId, 10);
     const selectedFeature = features.find(({ key }) => key === featureName);
 
     if (!selectedFeature) {
@@ -74,17 +71,12 @@ class OrganizationFeature {
       );
     }
 
-    this.#validate({ featureName, params: parsedParams, deleteLearner, organizationId });
+    this.#validate({ featureName, params, deleteLearner, organizationId });
 
     this.featureId = selectedFeature.id;
-    this.organizationId = parsedOrganizationId;
-    this.params = parsedParams;
-
-    this.#deleteLearner = deleteLearner === 'Y';
-  }
-
-  get deleteLearner() {
-    return this.#deleteLearner;
+    this.organizationId = organizationId;
+    this.params = params ?? null;
+    this.deleteLearner = deleteLearner ?? false;
   }
 
   #validate(data) {

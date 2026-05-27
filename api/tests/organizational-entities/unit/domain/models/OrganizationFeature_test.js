@@ -11,8 +11,8 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
     beforeEach(function () {
       // given
       featureName = 'TOTO';
-      organizationId = '2';
-      params = `{"id": 3}`;
+      organizationId = 2;
+      params = { id: 3 };
       features = [
         {
           key: 'TATA',
@@ -34,8 +34,8 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
     beforeEach(function () {
       // given
       featureName = ORGANIZATION_FEATURE.ATTESTATIONS_MANAGEMENT.key;
-      organizationId = '2';
-      params = `["RIRI","FIFI","LOULOU"]`;
+      organizationId = 2;
+      params = ['RIRI', 'FIFI', 'LOULOU'];
       features = [
         {
           key: ORGANIZATION_FEATURE.ATTESTATIONS_MANAGEMENT.key,
@@ -52,6 +52,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
         featureId: 1,
         organizationId: 2,
         params: ['RIRI', 'FIFI', 'LOULOU'],
+        deleteLearner: false,
       });
     });
 
@@ -66,7 +67,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
     it('should throw EntityErrorValidation on deleteLearner', function () {
       //when
       const error = catchErrSync(
-        () => new OrganizationFeature({ featureName, organizationId, deleteLearner: 'Y', features }),
+        () => new OrganizationFeature({ featureName, organizationId, deleteLearner: true, features }),
       )();
 
       // then
@@ -78,8 +79,8 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
     beforeEach(function () {
       // given
       featureName = ORGANIZATION_FEATURE.ORALIZATION_MANAGED_BY_PRESCRIBER.key;
-      organizationId = '2';
-      params = `{"id": 3}`;
+      organizationId = 2;
+      params = { id: 3 };
       features = [
         {
           key: ORGANIZATION_FEATURE.ORALIZATION_MANAGED_BY_PRESCRIBER.key,
@@ -96,6 +97,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
         featureId: 1,
         organizationId: 2,
         params: { id: 3 },
+        deleteLearner: false,
       });
     });
 
@@ -108,13 +110,14 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
         featureId: 1,
         organizationId: 2,
         params: null,
+        deleteLearner: false,
       });
     });
 
     it('should throw EntityErrorValidation on deleteLearner', function () {
       //when
       const error = catchErrSync(
-        () => new OrganizationFeature({ featureName, organizationId, deleteLearner: 'Y', features }),
+        () => new OrganizationFeature({ featureName, organizationId, deleteLearner: true, features }),
       )();
 
       // then
@@ -126,8 +129,8 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
     beforeEach(function () {
       // given
       featureName = ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key;
-      organizationId = '2';
-      params = `{"id": 3}`;
+      organizationId = 2;
+      params = { id: 3 };
       features = [
         {
           key: ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key,
@@ -144,6 +147,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
         featureId: 1,
         organizationId: 2,
         params: { id: 3 },
+        deleteLearner: false,
       });
     });
 
@@ -156,13 +160,14 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
         featureId: 1,
         organizationId: 2,
         params: null,
+        deleteLearner: false,
       });
     });
 
     it('should throw EntityErrorValidation on deleteLearner', function () {
       //when
       const error = catchErrSync(
-        () => new OrganizationFeature({ featureName, organizationId, deleteLearner: 'Y', features }),
+        () => new OrganizationFeature({ featureName, organizationId, deleteLearner: true, features }),
       )();
 
       // then
@@ -174,8 +179,8 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
     beforeEach(function () {
       // given
       featureName = ORGANIZATION_FEATURE.LEARNER_IMPORT.key;
-      organizationId = '2';
-      params = `{"id": 3}`;
+      organizationId = 2;
+      params = { id: 3 };
       features = [
         {
           key: ORGANIZATION_FEATURE.LEARNER_IMPORT.key,
@@ -192,6 +197,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
         featureId: 1,
         organizationId: 2,
         params: { id: 3 },
+        deleteLearner: false,
       });
     });
 
@@ -206,7 +212,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
     it('should throw EntityErrorValidation on non object params', function () {
       //when
       const error = catchErrSync(
-        () => new OrganizationFeature({ featureName, organizationId, features, params: '[]' }),
+        () => new OrganizationFeature({ featureName, organizationId, features, params: [] }),
       )();
 
       // then
@@ -220,7 +226,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
           featureName,
           organizationId,
           params,
-          deleteLearner: 'Y',
+          deleteLearner: true,
           features,
         });
         // then
@@ -233,7 +239,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
           featureName,
           organizationId,
           params,
-          deleteLearner: 'N',
+          deleteLearner: false,
           features,
         });
         // then
@@ -271,8 +277,8 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
     describe(`#${featureName}`, function () {
       beforeEach(function () {
         // given
-        organizationId = '2';
-        params = `{"id": 3}`;
+        organizationId = 2;
+        params = { id: 3 };
         features = [
           {
             key: featureName,
@@ -289,6 +295,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
           featureId: 1,
           organizationId: 2,
           params: null,
+          deleteLearner: false,
         });
       });
 
@@ -303,7 +310,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature'
       it('should throw EntityErrorValidation on deleteLearner', function () {
         //when
         const error = catchErrSync(
-          () => new OrganizationFeature({ featureName, organizationId, deleteLearner: 'Y', features }),
+          () => new OrganizationFeature({ featureName, organizationId, deleteLearner: true, features }),
         )();
 
         // then

@@ -30,7 +30,13 @@ export const addOrganizationFeatureInBatch = withTransaction(
     const csvData = csvParser.parse();
     const data = csvData.map(({ featureName, organizationId, params, deleteLearner }) => {
       try {
-        return new OrganizationFeature({ featureName, organizationId, params, deleteLearner, features });
+        return new OrganizationFeature({
+          featureName,
+          organizationId: parseInt(organizationId, 10),
+          params: params ? JSON.parse(params) : null,
+          deleteLearner: deleteLearner === 'Y',
+          features,
+        });
       } catch (error) {
         if (error instanceof EntityValidationError) throw error;
         throw new FeatureParamsNotProcessable();
