@@ -583,7 +583,7 @@
                 "id": "cf315382-c3f4-4a21-bb31-57226246a345",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées  pour réduire la circulation dans sa ville.</p><p>Il demande des idées à deux IA génératives différentes.</p>"
+                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées  pour réduire la circulation dans sa ville.</p><p>Il se créé un compte et demande des idées à deux IA génératives différentes.</p>"
               }
             },
             {
@@ -592,7 +592,7 @@
                 "id": "eb39984b-7e4b-456f-98ad-5d9e164851d5",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Comparez les réponses obtenues avec Grok et Mistral.<br></p>",
+                "instruction": "<p>Comparez les réponses obtenues avec Grok 4 et ChatGPT 5.5.<br></p>",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
@@ -603,7 +603,7 @@
                       "description": "Capture d'écran prise le 27 mai 2026",
                       "displayWidth": 0,
                       "image": {
-                        "src": "",
+                        "src": "https://assets.pix.org/draft/modules/biais-avances/ia-gen-biais-ava-grok-capture-ecran27mai2026.png",
                         "alt": ""
                       },
                       "license": {
@@ -613,11 +613,11 @@
                       }
                     },
                     {
-                      "title": "La réponse donnée par Mistral",
+                      "title": "La réponse donnée par ChatGPT",
                       "description": "Capture d'écran prise le 27 mai 2026",
                       "displayWidth": 0,
                       "image": {
-                        "src": "",
+                        "src": "https://assets.pix.org/draft/modules/biais-avances/ia-gen-biais-ava-chat-gpt-capture-ecran27mai2026.png",
                         "alt": ""
                       },
                       "license": {
@@ -646,30 +646,30 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "Les deux modèles sont cadrés par des règles internes différentes.",
+                    "content": "<p>L'alignement des deux modèles a été réalisé de façon différente.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bien vu !&nbsp;</p><p>Le logiciel d’intelligence artificielle applique son <strong>prompt système</strong>, qui définit la manière dont il doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. </p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p>Bien vu !&nbsp;</p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Les deux&nbsp;modèles interprètent différemment le profil de l’utilisateur</p>",
+                    "content": "<p>Les deux&nbsp;modèles interprètent différemment le profil de l’utilisateur.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !</p><p>L’IA ne tire pas cette orientation du profil de l’utilisateur. Elle applique son <strong>prompt système</strong>, qui définit la manière dont elle doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. </p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p><p><br></p>"
+                      "diagnosis": "<p>Eh non !</p><p>L’IA ne tire pas cette orientation du profil de l’utilisateur (Fabrice vient de se créer un compte) mais de la façon dont elle a été alignée.</p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Un modèle prend en compte les conversations précédentes et l’autre non.</p>",
+                    "content": "<p>La réponse donnée par un modèle est toujours différente.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp;</p><p>Il ne s’agit pas d’une influence des réponses précédentes, ici la discussion de Fabrice vient tout juste de commencer. Le logiciel d’intelligence artificielle applique son <strong>prompt système</strong>, qui définit la manière dont il doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. </p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p><strong>C'est vrai mais l'alignement joue aussi un rôle !</strong></p><p>Même si les réponses sont toujours un peu différentes certaines propositions n'arriveront jamais dans un modèle et seront fréquentes dans un autre.</p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Le logiciel d’intelligence artificielle applique son <strong>prompt système</strong>, qui définit la manière dont il doit aborder les situations liées aux déplacements et à la gestion de l’espace urbain. </p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p>Même si les réponses sont toujours un peu différentes certaines propositions n'arriveront jamais dans un modèle et seront fréquentes dans un autre. </p><p><strong>Les valeurs et préférences de l'IA reflètent celles définies par ses concepteurs.</strong></p>"
                     }
                   }
                 ],
