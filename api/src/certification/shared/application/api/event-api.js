@@ -3,81 +3,63 @@ import { CandidateEnrolledEvent } from '../../domain/models/events/CandidateEnro
 import * as eventRepository from '../../infrastructure/repositories/event-repository.js';
 
 /**
+ * @typedef {Object} CandidateEnrolledParams
+ * @property {number} id
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} sex
+ * @property {string} birthPostalCode
+ * @property {string} birthINSEECode
+ * @property {string} birthCity
+ * @property {string} birthProvinceCode
+ * @property {string} birthCountry
+ * @property {string} email
+ * @property {string} resultRecipientEmail
+ * @property {string} externalId
+ * @property {string} birthdate
+ * @property {number} extraTimePercentage
+ * @property {string} billingMode
+ * @property {string} prepaymentCode
+ * @property {string} subscription
+ * @property {boolean} accessibilityAdjustmentNeeded
+ * @property {number} sessionId
+ * @property {number} organizationLearnerId
+ */
+
+/**
  * @function
  * @name pushCandidateEnrolledEvent
- *
- * @param {Object} params
- * @param {number} params.id
- * @param {string} params.firstName
- * @param {string} params.lastName
- * @param {string} params.sex
- * @param {string} params.birthPostalCode
- * @param {string} params.birthINSEECode
- * @param {string} params.birthCity
- * @param {string} params.birthProvinceCode
- * @param {string} params.birthCountry
- * @param {string} params.email
- * @param {string} params.resultRecipientEmail
- * @param {string} params.externalId
- * @param {string} params.birthdate
- * @param {number} params.extraTimePercentage
- * @param {string} params.billingMode
- * @param {string} params.prepaymentCode
- * @param {string} params.subscription
- * @param {boolean} params.accessibilityAdjustmentNeeded
- * @param {number} params.sessionId
- * @param {number} params.organizationLearnerId
+ * @param {CandidateEnrolledParams} candidateParams
  * @returns {Promise<void>}
  */
-export async function pushCandidateEnrolledEvent({
-  id,
-  firstName,
-  lastName,
-  sex,
-  birthPostalCode,
-  birthINSEECode,
-  birthCity,
-  birthProvinceCode,
-  birthCountry,
-  email,
-  resultRecipientEmail,
-  externalId,
-  birthdate,
-  extraTimePercentage,
-  billingMode,
-  prepaymentCode,
-  subscription,
-  accessibilityAdjustmentNeeded,
-  sessionId,
-  organizationLearnerId,
-}) {
-  try {
+export async function pushCandidateEnrolledEvent(candidateParams) {
+  await _pushCandidateEnrolledEvents([candidateParams]);
+}
+
+/**
+ * @function
+ * @name pushCandidateEnrolledEvent
+ * @param {CandidateEnrolledParams[]} manyCandidatesParams
+ * @returns {Promise<void>}
+ */
+export async function pushMultipleCandidatesEnrolledEvent(manyCandidatesParams) {
+  await _pushCandidateEnrolledEvents(manyCandidatesParams);
+}
+
+async function _pushCandidateEnrolledEvents(candidateEnrolledParamsArray) {
+  const events = [];
+  for (const candidateEnrolledParams of candidateEnrolledParamsArray) {
     const event = new CandidateEnrolledEvent({
-      candidateId: id,
-      metadata: {
-        firstName,
-        lastName,
-        sex,
-        birthPostalCode,
-        birthINSEECode,
-        birthCity,
-        birthProvinceCode,
-        birthCountry,
-        email,
-        resultRecipientEmail,
-        externalId,
-        birthdate,
-        extraTimePercentage,
-        billingMode,
-        prepaymentCode,
-        subscription,
-        accessibilityAdjustmentNeeded,
-        sessionId,
-        organizationLearnerId,
-      },
+      candidateId: candidateEnrolledParams.id,
+      metadata: candidateEnrolledParams,
     });
-    await eventRepository.push(event);
+    events.push(event);
+  }
+  try {
+    await eventRepository.push(events);
   } catch (err) {
-    logger.warn(`Error in "pushCandidateEnrolledEvent" for ID ${id}: ${err}`);
+    logger.warn(
+      `Error in "_pushCandidateEnrolledEvents" for IDs ${events.map(({ candidateId }) => candidateId).join(', ')}: ${err}`,
+    );
   }
 }

@@ -10,27 +10,39 @@ import { knex } from '../../../../../tooling/databases.js';
 describe('Certification | Shared | Integration | Repository | Event', function () {
   describe('#push', function () {
     context('when FT isEventSourcingCertificationEnabled is true', function () {
-      it('persists the event in db', async function () {
+      it('persists the events in db', async function () {
         await featureToggles.set('isEventSourcingCertificationEnabled', true);
         await setImmediate();
-        const event = {
-          name: 'SomeEvent',
+        const event1 = {
+          name: 'SomeEvent1',
           candidateId: 123,
           createdAt: new Date('2021-01-01T00:00:00Z'),
           metadata: { foo: 'bar' },
         };
+        const event2 = {
+          name: 'SomeEvent2',
+          candidateId: 456,
+          createdAt: new Date('2022-02-02T02:00:00Z'),
+          metadata: { list: ['h', 'e', 'y'] },
+        };
 
-        await eventRepository.push(event);
+        await eventRepository.push([event1, event2]);
 
-        // then
         const events = await knex('certification_events').select();
         sinon.assert.match(events, [
           {
             id: sinon.match.number,
-            eventName: 'SomeEvent',
+            eventName: 'SomeEvent1',
             candidateId: 123,
             createdAt: new Date('2021-01-01T00:00:00Z'),
             metadata: { foo: 'bar' },
+          },
+          {
+            id: sinon.match.number,
+            eventName: 'SomeEvent2',
+            candidateId: 456,
+            createdAt: new Date('2022-02-02T02:00:00Z'),
+            metadata: { list: ['h', 'e', 'y'] },
           },
         ]);
       });
@@ -40,16 +52,21 @@ describe('Certification | Shared | Integration | Repository | Event', function (
       it('does nothing', async function () {
         await featureToggles.set('isEventSourcingCertificationEnabled', false);
         await setImmediate();
-        const event = {
-          name: 'SomeEvent',
+        const event1 = {
+          name: 'SomeEvent1',
           candidateId: 123,
           createdAt: new Date('2021-01-01T00:00:00Z'),
           metadata: { foo: 'bar' },
         };
+        const event2 = {
+          name: 'SomeEvent2',
+          candidateId: 456,
+          createdAt: new Date('2022-02-02T02:00:00Z'),
+          metadata: { list: ['h', 'e', 'y'] },
+        };
 
-        await eventRepository.push(event);
+        await eventRepository.push([event1, event2]);
 
-        // then
         const events = await knex('certification_events').select();
         expect(events).to.have.length(0);
       });

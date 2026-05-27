@@ -3,20 +3,19 @@ import { featureToggles } from '../../../../shared/infrastructure/feature-toggle
 
 /**
  *
- * @param {BaseEvent} event
- * @param event
+ * @param {BaseEvent[]} events
  * @returns {Promise<void>}
  */
-export async function push(event) {
+export async function push(events) {
   const isEventSourcingCertificationEnabled = await featureToggles.get('isEventSourcingCertificationEnabled');
   if (isEventSourcingCertificationEnabled) {
-    const knexConn = DomainTransaction.getConnection();
-    const eventDTO = {
+    const eventDTOs = events.map((event) => ({
       eventName: event.name,
       candidateId: event.candidateId,
       createdAt: event.createdAt,
       metadata: JSON.stringify(event.metadata),
-    };
-    await knexConn('certification_events').insert(eventDTO);
+    }));
+    const knexConn = DomainTransaction.getConnection();
+    await knexConn.batchInsert('certification_events', eventDTOs).transacting(knexConn);
   }
 }
