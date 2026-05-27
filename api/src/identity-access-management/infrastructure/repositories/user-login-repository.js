@@ -1,6 +1,6 @@
-import { UserLogin } from '../../../identity-access-management/domain/models/UserLogin.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { DomainTransaction } from '../../domain/DomainTransaction.js';
+import { UserLogin } from '../../domain/models/UserLogin.js';
 
 const USER_LOGINS_TABLE_NAME = 'user-logins';
 

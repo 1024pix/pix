@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
 import { UserLogin } from '../../../../../src/identity-access-management/domain/models/UserLogin.js';
+import * as userLoginRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user-login-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

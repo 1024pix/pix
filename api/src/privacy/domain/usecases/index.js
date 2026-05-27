@@ -3,11 +3,11 @@ import { lastUserApplicationConnectionsRepository } from '../../../identity-acce
 import { refreshTokenRepository } from '../../../identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../../identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as userLoginRepository from '../../../identity-access-management/infrastructure/repositories/user-login-repository.js';
 import * as userAcceptanceRepository from '../../../legal-documents/infrastructure/repositories/user-acceptance.repository.js';
 import * as organizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { featureToggles as featureTogglesService } from '../../../shared/infrastructure/feature-toggles/index.js';
 import { auditLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
-import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';

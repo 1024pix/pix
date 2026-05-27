@@ -21,7 +21,7 @@ import { httpAgent } from '../../../shared/infrastructure/http-agent.js';
 import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
 import { auditLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
-import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
+import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
 import * as codeUtils from '../../../shared/infrastructure/utils/code-utils.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';

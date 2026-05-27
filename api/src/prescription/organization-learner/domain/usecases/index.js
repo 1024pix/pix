@@ -4,6 +4,7 @@ import { emailValidationDemandRepository } from '../../../../identity-access-man
 import { lastUserApplicationConnectionsRepository } from '../../../../identity-access-management/infrastructure/repositories/last-user-application-connections.repository.js';
 import { organizationLearnerIdentityRepository } from '../../../../identity-access-management/infrastructure/repositories/organization-learner-identity.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as userLoginRepository from '../../../../identity-access-management/infrastructure/repositories/user-login-repository.js';
 import { userToCreateRepository } from '../../../../identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import * as organizationFeaturesAPI from '../../../../organizational-entities/application/api/organization-features-api.js';
 import { tagRepository } from '../../../../organizational-entities/infrastructure/repositories/tag.repository.js';
@@ -25,7 +26,6 @@ import * as passwordValidator from '../../../../shared/domain/validators/passwor
 import * as userValidator from '../../../../shared/domain/validators/user-validator.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import * as studentRepository from '../../../../shared/infrastructure/repositories/student-repository.js';
-import * as userLoginRepository from '../../../../shared/infrastructure/repositories/user-login-repository.js';
 import * as writeCsvUtils from '../../../../shared/infrastructure/utils/csv/write-csv-utils.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as emailRepository from '../../../../shared/mail/infrastructure/repositories/email.repository.js';
