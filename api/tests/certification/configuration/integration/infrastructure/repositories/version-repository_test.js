@@ -167,7 +167,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
   });
 
   describe('#findActiveByScope', function () {
-    it('should return the current version for the given scope', async function () {
+    it('should return the current active version for the given scope', async function () {
       // given
       const scope = SCOPES.PIX_PLUS_DROIT;
 
@@ -218,6 +218,17 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultCandidateCapacity: -3,
         defaultProbabilityToPickChallenge: 30,
       };
+
+      databaseBuilder.factory.buildCertificationVersion({
+        scope,
+        startDate: null,
+        expirationDate: null,
+        assessmentDuration: 120,
+        globalScoringConfiguration: [{ config: 'latest' }],
+        competencesScoringConfiguration: [{ config: 'latest' }],
+        challengesConfiguration: expectedConfig,
+      });
+
       const expectedVersionId = databaseBuilder.factory.buildCertificationVersion({
         scope,
         startDate: new Date('2025-06-01'),
