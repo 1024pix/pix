@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
 import { BadRequestError, sendJsonApiError } from '../../../shared/application/errors/http-errors.js';
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { responseAuthenticationDoc } from '../../../shared/infrastructure/open-api-doc/authentication/response-authentication-doc.js';
 import { responseObjectErrorDoc } from '../../../shared/infrastructure/open-api-doc/response-object-error-doc.js';
+import { checkIfUserIsBlocked } from '../security-pre-handlers.js';
 import { tokenController } from './token.controller.js';
 
 export const tokenRoutes = [
@@ -74,7 +74,7 @@ export const tokenRoutes = [
             }),
         ),
       },
-      pre: [{ method: securityPreHandlers.checkIfUserIsBlocked }],
+      pre: [{ method: checkIfUserIsBlocked }],
       handler: (request, h) => tokenController.createToken(request, h),
       tags: ['identity-access-management', 'api', 'token'],
       notes: [

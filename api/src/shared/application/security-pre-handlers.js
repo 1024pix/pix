@@ -25,7 +25,6 @@ import * as checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdmin
 import * as checkAdminMemberHasRoleSupportUseCase from './usecases/checkAdminMemberHasRoleSupport.js';
 import * as checkAuthorizationToAccessCampaignUsecase from './usecases/checkAuthorizationToAccessCampaign.js';
 import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
-import * as checkIfUserIsBlockedUseCase from './usecases/checkIfUserIsBlocked.js';
 import * as checkOrganizationDoesNotHaveFeatureUseCase from './usecases/checkOrganizationDoesNotHaveFeature.js';
 import * as checkOrganizationHasFeatureUseCase from './usecases/checkOrganizationHasFeature.js';
 import * as checkOrganizationIsNotManagingStudentsUseCase from './usecases/checkOrganizationIsNotManagingStudents.js';
@@ -69,31 +68,6 @@ function _replyNotFoundError(h) {
   });
 
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-}
-
-async function checkIfUserIsBlocked(
-  request,
-  h,
-  dependencies = {
-    checkIfUserIsBlockedUseCase,
-  },
-) {
-  const { username, grant_type: grantType, data } = request.payload;
-
-  let usernameOrEmailToCheck;
-  if (grantType === 'password') {
-    usernameOrEmailToCheck = username;
-  } else if (data?.attributes?.username) {
-    usernameOrEmailToCheck = data.attributes.username;
-  } else if (data?.attributes?.email) {
-    usernameOrEmailToCheck = data.attributes.email;
-  }
-
-  if (usernameOrEmailToCheck) {
-    await dependencies.checkIfUserIsBlockedUseCase.execute(usernameOrEmailToCheck);
-  }
-
-  return h.response(true);
 }
 
 async function checkUserIsCandidate(
@@ -959,7 +933,6 @@ export const securityPreHandlers = {
   checkUserCanManageCombinedCourse,
   checkCampaignBelongsToCombinedCourse,
   checkCertificationCenterIsNotScoManagingStudents,
-  checkIfUserIsBlocked,
   checkOrganizationHasFeature,
   checkRequestedUserIsAuthenticatedUser,
   checkSchoolSessionIsActive,

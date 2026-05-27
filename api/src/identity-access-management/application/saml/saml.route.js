@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { checkIfUserIsBlocked } from '../security-pre-handlers.js';
 import { samlController } from './saml.controller.js';
 
 export const samlRoutes = [
@@ -49,7 +49,7 @@ export const samlRoutes = [
           },
         }),
       },
-      pre: [{ method: securityPreHandlers.checkIfUserIsBlocked }],
+      pre: [{ method: checkIfUserIsBlocked }],
       handler: samlController.authenticateForSaml,
       notes: [
         '- Cette route permet d’authentifier un utilisateur Pix provenant de la double mire GAR.\n' +

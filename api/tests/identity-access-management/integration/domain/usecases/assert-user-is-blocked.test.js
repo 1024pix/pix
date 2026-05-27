@@ -1,12 +1,12 @@
 import sinon from 'sinon';
 
-import { execute } from '../../../../../src/shared/application/usecases/checkIfUserIsBlocked.js';
+import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { UserIsBlocked, UserIsTemporaryBlocked } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Integration | Shared | Domain | UseCase | check-if-user-is-blocked', function () {
+describe('Identity Access Management | Integration | Domain | UseCase | assert-user-is-blocked', function () {
   let clock;
   const now = new Date('2024-04-05T03:04:05Z');
 
@@ -31,7 +31,7 @@ describe('Integration | Shared | Domain | UseCase | check-if-user-is-blocked', f
       await databaseBuilder.commit();
 
       // when
-      const result = await execute(user.email);
+      const result = await usecases.assertUserIsBlocked({ emailOrUsername: user.email });
 
       // then
       expect(result).to.be.undefined;
@@ -52,7 +52,7 @@ describe('Integration | Shared | Domain | UseCase | check-if-user-is-blocked', f
         await databaseBuilder.commit();
 
         // when / then
-        const error = await catchErr(execute)(user.email);
+        const error = await catchErr(usecases.assertUserIsBlocked)({ emailOrUsername: user.email });
         expect(error).to.be.instanceOf(UserIsBlocked);
         expect(error.meta.isLoginFailureWithUsername).to.be.false;
       });
@@ -71,7 +71,7 @@ describe('Integration | Shared | Domain | UseCase | check-if-user-is-blocked', f
         await databaseBuilder.commit();
 
         // when / then
-        const error = await catchErr(execute)(user.username);
+        const error = await catchErr(usecases.assertUserIsBlocked)({ emailOrUsername: user.username });
         expect(error).to.be.instanceOf(UserIsBlocked);
         expect(error.meta.isLoginFailureWithUsername).to.be.true;
       });
@@ -92,7 +92,7 @@ describe('Integration | Shared | Domain | UseCase | check-if-user-is-blocked', f
         await databaseBuilder.commit();
 
         // when / then
-        const error = await catchErr(execute)(user.email);
+        const error = await catchErr(usecases.assertUserIsBlocked)({ emailOrUsername: user.email });
         expect(error).to.be.instanceOf(UserIsTemporaryBlocked);
         expect(error.meta.isLoginFailureWithUsername).to.be.false;
         expect(error.meta.blockingDurationMs).to.be.equal(120000); // 2 minutes in milliseconds
@@ -112,7 +112,7 @@ describe('Integration | Shared | Domain | UseCase | check-if-user-is-blocked', f
         await databaseBuilder.commit();
 
         // when / then
-        const error = await catchErr(execute)(user.username);
+        const error = await catchErr(usecases.assertUserIsBlocked)({ emailOrUsername: user.username });
         expect(error).to.be.instanceOf(UserIsTemporaryBlocked);
         expect(error.meta.isLoginFailureWithUsername).to.be.true;
         expect(error.meta.blockingDurationMs).to.be.equal(120000); // 2 minutes in milliseconds

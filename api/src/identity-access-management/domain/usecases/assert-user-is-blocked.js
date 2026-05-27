@@ -1,8 +1,6 @@
-import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import { UserIsBlocked, UserIsTemporaryBlocked } from '../../domain/errors.js';
-import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
+import { UserIsBlocked, UserIsTemporaryBlocked } from '../../../shared/domain/errors.js';
 
-const execute = async function (emailOrUsername) {
+export async function assertUserIsBlocked({ emailOrUsername, userRepository, userLoginRepository }) {
   const foundUserLogin = await userLoginRepository.findByUsername(emailOrUsername);
 
   if (!foundUserLogin) return;
@@ -21,6 +19,4 @@ const execute = async function (emailOrUsername) {
       blockingDurationMs: foundUserLogin.computeBlockingDurationMs(),
     });
   }
-};
-
-export { execute };
+}

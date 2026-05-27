@@ -120,6 +120,7 @@ import { addPixAuthenticationMethod } from './add-pix-authentication-method.usec
 import { addUserEmailWithValidation } from './add-user-email-with-validation.usecase.js';
 import { anonymizeGarAuthenticationMethods } from './anonymize-gar-authentication-methods.usecase.js';
 import { anonymizeUser } from './anonymize-user.usecase.js';
+import { assertUserIsBlocked } from './assert-user-is-blocked.js';
 import { authenticateAnonymousUser } from './authenticate-anonymous-user.usecase.js';
 import { authenticateApplication } from './authenticate-application.js';
 import { authenticateForSaml } from './authenticate-for-saml.usecase.js';
@@ -180,6 +181,7 @@ const usecasesWithoutInjectedDependencies = {
   addPixAuthenticationMethod,
   anonymizeGarAuthenticationMethods,
   anonymizeUser,
+  assertUserIsBlocked,
   authenticateAnonymousUser,
   authenticateApplication,
   authenticateForSaml,
