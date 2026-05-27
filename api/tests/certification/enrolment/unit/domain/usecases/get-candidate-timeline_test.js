@@ -10,6 +10,7 @@ import { CertificationStartedEvent } from '../../../../../../src/certification/e
 import { LastAnsweredEvent } from '../../../../../../src/certification/enrolment/domain/models/timeline/LastAnsweredEvent.js';
 import { UserCertificationEligibility } from '../../../../../../src/certification/enrolment/domain/read-models/UserCertificationEligibility.js';
 import { getCandidateTimeline } from '../../../../../../src/certification/enrolment/domain/usecases/get-candidate-timeline.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -186,10 +187,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
           const candidate = domainBuilder.certification.enrolment.buildCandidate({
             userId: 222,
             reconciledAt: new Date(),
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription(),
-              domainBuilder.certification.enrolment.buildComplementarySubscription(),
-            ],
+            subscription: Frameworks.CLEA,
           });
           candidateRepository.get.resolves(candidate);
           const placementProfile = domainBuilder.buildPlacementProfile();
@@ -226,10 +224,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
           const candidate = domainBuilder.certification.enrolment.buildCandidate({
             userId: 222,
             reconciledAt: new Date(),
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription(),
-              domainBuilder.certification.enrolment.buildComplementarySubscription(),
-            ],
+            subscription: Frameworks.CLEA,
           });
           candidateRepository.get.resolves(candidate);
           const placementProfile = domainBuilder.buildPlacementProfile();

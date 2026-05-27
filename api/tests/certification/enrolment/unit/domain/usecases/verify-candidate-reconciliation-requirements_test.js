@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { verifyCandidateReconciliationRequirements } from '../../../../../../src/certification/enrolment/domain/usecases/verify-candidate-reconciliation-requirements.js';
 import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -85,11 +86,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCases | verify-candidat
         const candidate = domainBuilder.certification.enrolment.buildCandidate({
           userId,
           reconciledAt,
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildComplementarySubscription({
-              complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-            }),
-          ],
+          subscription: Frameworks.DROIT,
         });
 
         placementProfileService.getPlacementProfile
@@ -128,11 +125,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCases | verify-candidat
         const candidate = domainBuilder.certification.enrolment.buildCandidate({
           userId,
           reconciledAt,
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildComplementarySubscription({
-              complementaryCertificationKey: complementaryCertification.key,
-            }),
-          ],
+          subscription: complementaryCertification.key,
         });
 
         placementProfileService.getPlacementProfile

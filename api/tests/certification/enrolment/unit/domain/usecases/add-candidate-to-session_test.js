@@ -315,11 +315,6 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             it('should insert the candidate and return the id', async function () {
               // given
               centerRepository.getById.resolves(domainBuilder.certification.enrolment.buildCenter({}));
-              candidateToEnroll.subscriptions = [
-                domainBuilder.certification.enrolment.buildCoreSubscription({
-                  certificationCandidateId: null,
-                }),
-              ];
               const correctedCandidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
                 ...candidateToEnroll,
                 sessionId,
@@ -327,9 +322,6 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
                 birthINSEECode: 'INSEE_CODE',
                 birthPostalCode: null,
                 birthCity: 'CITY',
-                subscriptions: [
-                  domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-                ],
               });
               candidateRepository.insert.resolves(159);
 

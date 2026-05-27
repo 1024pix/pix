@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSessions } from '../../../../../../src/certification/enrolment/domain/usecases/create-sessions.js';
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
@@ -35,13 +35,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
     candidateData = {
       sessionId: undefined,
-      subscriptions: [
-        domainBuilder.certification.enrolment.buildCoreSubscription(),
-        domainBuilder.certification.enrolment.buildComplementarySubscription({
-          id: 1,
-          complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-        }),
-      ],
+      subscription: Frameworks.DROIT,
     };
   });
 
@@ -153,7 +147,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
               domainBuilder.certification.enrolment.buildCandidate({
                 ...candidate,
                 sessionId: 1234,
-                subscription: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
+                subscription: Frameworks.DROIT,
               }),
             ],
           });
@@ -195,7 +189,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             domainBuilder.certification.enrolment.buildCandidate({
               ...candidate,
               sessionId: 1234,
-              subscription: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
+              subscription: Frameworks.DROIT,
             }),
           ],
         });

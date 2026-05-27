@@ -9,22 +9,25 @@
  * @typedef {import ('../../infrastructure/repositories/index.js').ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
  * @typedef {import ('../models/timeline/TimelineEvent.js').TimelineEvent} TimelineEvent
  * @typedef {import ('../models/Candidate.js').Candidate} Candidate
- * @typedef {import ('../models/Candidate.js').Subscription} Subscription
  * @typedef {import ('../read-models/UserCertificationEligibility.js').UserCertificationEligibility} UserCertificationEligibility
  * @typedef {import ('../../../shared/domain/models/CertificationCourse.js').CertificationCourse} CertificationCourse
  * @typedef {import ('../../../session-management/domain/models/CertificationAssessment.js').CertificationAssessment} CertificationAssessment
  */
 
-import { CandidateCertifiableEvent } from '../models/timeline/CandidateCertifiableEvent.js';
-import { CandidateCreatedEvent } from '../models/timeline/CandidateCreatedEvent.js';
-import { CandidateDoubleCertificationEligibleEvent } from '../models/timeline/CandidateDoubleCertificationEligibleEvent.js';
-import { CandidateEligibleButNotRegisteredToDoubleCertificationEvent } from '../models/timeline/CandidateEligibleButNotRegisteredToDoubleCertificationEvent.js';
-import { CandidateNotCertifiableEvent } from '../models/timeline/CandidateNotCertifiableEvent.js';
-import { CandidateNotEligibleEvent } from '../models/timeline/CandidateNotEligibleEvent.js';
-import { CandidateReconciledEvent } from '../models/timeline/CandidateReconciledEvent.js';
-import { CandidateTimeline } from '../models/timeline/CandidateTimeline.js';
-import { CertificationStartedEvent } from '../models/timeline/CertificationStartedEvent.js';
-import { LastAnsweredEvent } from '../models/timeline/LastAnsweredEvent.js';
+import { CandidateCertifiableEvent } from "../models/timeline/CandidateCertifiableEvent.js";
+import { CandidateCreatedEvent } from "../models/timeline/CandidateCreatedEvent.js";
+import {
+  CandidateDoubleCertificationEligibleEvent
+} from "../models/timeline/CandidateDoubleCertificationEligibleEvent.js";
+import {
+  CandidateEligibleButNotRegisteredToDoubleCertificationEvent
+} from "../models/timeline/CandidateEligibleButNotRegisteredToDoubleCertificationEvent.js";
+import { CandidateNotCertifiableEvent } from "../models/timeline/CandidateNotCertifiableEvent.js";
+import { CandidateNotEligibleEvent } from "../models/timeline/CandidateNotEligibleEvent.js";
+import { CandidateReconciledEvent } from "../models/timeline/CandidateReconciledEvent.js";
+import { CandidateTimeline } from "../models/timeline/CandidateTimeline.js";
+import { CertificationStartedEvent } from "../models/timeline/CertificationStartedEvent.js";
+import { LastAnsweredEvent } from "../models/timeline/LastAnsweredEvent.js";
 
 /**
  * @param {object} params

@@ -2,10 +2,10 @@
  * @typedef {import ("./index.js").dependencies} deps
  */
 
-import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
-import { Candidate } from '../models/Candidate.js';
-import { SessionEnrolment } from '../models/SessionEnrolment.js';
-import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
+import { PromiseUtils } from "../../../../shared/infrastructure/utils/promise-utils.js";
+import { Candidate } from "../models/Candidate.js";
+import { SessionEnrolment } from "../models/SessionEnrolment.js";
+import { SessionMassImportReport } from "../models/SessionMassImportReport.js";
 
 /**
  * @param {object} params
@@ -125,19 +125,19 @@ async function _createValidCertificationCandidates({
 
     const certificationCandidateErrors = [];
 
-    const { certificationCandidateComplementaryErrors, subscriptions } =
+    const { certificationCandidateComplementaryErrors, subscription } =
       await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
-        subscriptionKeys: candidateDTO.subscriptionKeys,
+        subscriptionKeys: candidateDTO.subscriptionKey,
         line: candidateDTO.line,
       });
 
     certificationCandidateErrors.push(...certificationCandidateComplementaryErrors);
 
-    const candidate = Candidate.create({
+    const candidate = new Candidate({
       ...candidateDTO,
       sessionId,
+      subscription,
       billingMode: billingMode || candidateDTO.billingMode,
-      subscriptions,
       id: null,
       userId: null,
       reconciledAt: null,
