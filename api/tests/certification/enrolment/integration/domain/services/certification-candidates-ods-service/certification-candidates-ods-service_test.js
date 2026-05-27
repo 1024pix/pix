@@ -241,6 +241,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
         subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
+        subscriptions: [],
       });
     });
     expect(actualCandidates).to.deep.equal(expectedCandidates);
@@ -283,6 +284,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         return domainBuilder.certification.enrolment.buildCandidate({
           ...candidate,
           subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
+          subscriptions: [],
         });
       });
 
@@ -304,7 +306,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       expect(actualCandidates).to.deep.equal(expectedCandidates);
     });
 
-    it('should throw an error if candidate is registered for multiple complementary certifications', async function () {
+    it('should throw an error if candidate is registered for multiple certifications', async function () {
       // given
       mailCheck.assertEmailDomainHasMx.resolves();
 
@@ -362,6 +364,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
         subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
+        subscriptions: [],
       });
     });
 
@@ -409,6 +412,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
         subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
+        subscriptions: [],
       });
     });
     expect(actualCandidates).to.deep.equal(expectedCandidates);

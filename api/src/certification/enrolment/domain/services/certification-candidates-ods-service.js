@@ -1,13 +1,11 @@
 import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
-import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
-import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/candidates-import/candidates-import-transformation-structures.js';
 import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
 import { Candidate } from '../models/Candidate.js';
-import { Subscription } from '../models/Subscription.js';
 
 export async function extractCertificationCandidatesFromCandidatesImportSheet({
   i18n,
@@ -73,7 +71,7 @@ export async function extractCertificationCandidatesFromCandidatesImportSheet({
       certificationCpfCountryRepository,
     });
 
-    const subscriptions = _buildSubscriptions(candidateData);
+    const subscription = _buildSubscription(candidateData);
 
     if (cpfBirthInformation.hasFailed()) {
       _handleBirthInformationValidationError(cpfBirthInformation, line);
@@ -110,7 +108,7 @@ export async function extractCertificationCandidatesFromCandidatesImportSheet({
       }
     }
 
-    const candidate = Candidate.create({
+    const candidate = new Candidate({
       ...candidateData,
       birthCountry,
       birthINSEECode,
@@ -120,7 +118,7 @@ export async function extractCertificationCandidatesFromCandidatesImportSheet({
       sessionId: session.id,
       billingMode: billingMode ?? null,
       prepaymentCode: candidateData.prepaymentCode ?? null,
-      subscriptions,
+      subscription,
       id: null,
       birthProvinceCode: null,
       createdAt: null,
@@ -195,28 +193,15 @@ function _handleDuplicateCandidate() {
   };
 }
 
-function _buildComplementaryCertification(complementaryCertificationKey) {
-  return Subscription.buildComplementary({
-    certificationCandidateId: null,
-    complementaryCertificationKey,
-  });
-}
-
-function _buildSubscriptions(candidateData) {
-  const subscriptionKeys = Object.values(ComplementaryCertificationKeys).filter((key) => Boolean(candidateData[key]));
-
-  if (subscriptionKeys.includes(ComplementaryCertificationKeys.CLEA) || subscriptionKeys.length === 0) {
-    subscriptionKeys.push(SUBSCRIPTION_TYPES.CORE);
+function _buildSubscription(candidateData) {
+  const selectedFrameworks = Object.values(Frameworks)
+    .filter((key) => key !== Frameworks.CORE)
+    .filter((key) => Boolean(candidateData[key]));
+  if (selectedFrameworks.length > 1) {
+    throw new CertificationCandidatesError({
+      code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+      message: 'A candidate cannot have more than one complementary certification',
+    });
   }
-
-  const subscriptions = [];
-  for (const subscriptionKey of subscriptionKeys) {
-    if (subscriptionKey === SUBSCRIPTION_TYPES.CORE) {
-      subscriptions.push(Subscription.buildCore({ certificationCandidateId: null }));
-    } else {
-      subscriptions.push(_buildComplementaryCertification(subscriptionKey));
-    }
-  }
-
-  return subscriptions;
+  return selectedFrameworks[0] || Frameworks.CORE;
 }

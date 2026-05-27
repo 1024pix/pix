@@ -28,7 +28,7 @@ export const registerCandidateParticipation = withTransaction(
       normalizeStringFnc,
     });
 
-    if (candidate.hasComplementarySubscription() && !isFrenchDomainExtension) {
+    if (candidate.hasNonCoreSubscription() && !isFrenchDomainExtension) {
       throw new WrongDomainExtensionForPixPlusError();
     }
 

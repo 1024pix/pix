@@ -4,11 +4,10 @@ import * as mailCheck from '../../../../shared/mail/infrastructure/services/mail
 import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../shared/domain/constants/sessions-errors.js';
-import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 //  should be injected
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
-import { Subscription } from '../models/Subscription.js';
 
 const validateSession = async function ({
   session,
@@ -130,28 +129,13 @@ const getValidatedSubscriptionsForMassImport = async function ({ subscriptionKey
       codes: [CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code],
     });
 
-    return { certificationCandidateComplementaryErrors, subscriptions: [] };
+    return { certificationCandidateComplementaryErrors, subscription: Frameworks.CORE };
   }
 
-  if (subscriptionKeys.includes(ComplementaryCertificationKeys.CLEA) || subscriptionKeys.length === 0) {
-    subscriptionKeys.push(SUBSCRIPTION_TYPES.CORE);
-  }
+  const complementaryKey = subscriptionKeys.find((key) => key !== SUBSCRIPTION_TYPES.CORE);
+  const subscription = complementaryKey ?? Frameworks.CORE;
 
-  const subscriptions = [];
-  for (const subscriptionKey of subscriptionKeys) {
-    if (subscriptionKey === SUBSCRIPTION_TYPES.CORE) {
-      subscriptions.push(Subscription.buildCore({ certificationCandidateId: null }));
-    } else {
-      subscriptions.push(
-        Subscription.buildComplementary({
-          certificationCandidateId: null,
-          complementaryCertificationKey: subscriptionKey,
-        }),
-      );
-    }
-  }
-
-  return { certificationCandidateComplementaryErrors, subscriptions };
+  return { certificationCandidateComplementaryErrors, subscription };
 };
 
 const getValidatedCandidateInformation = async function ({

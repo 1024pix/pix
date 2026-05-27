@@ -5,6 +5,7 @@ import * as sessionsImportValidationService from '../../../../../../src/certific
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -461,7 +462,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
   describe('#getValidatedSubscriptionsForMassImport', function () {
     context('when there are many complementary subscriptions', function () {
-      it('should return an error accordingly and no subscriptions models', async function () {
+      it('should return an error accordingly and a CORE subscription', async function () {
         // given
         const subscriptionKeys = [
           ComplementaryCertificationKeys.PIX_PLUS_DROIT,
@@ -470,7 +471,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         const line = 12;
 
         // when
-        const { certificationCandidateComplementaryErrors, subscriptions } =
+        const { certificationCandidateComplementaryErrors, subscription } =
           await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
             subscriptionKeys,
             line,
@@ -484,18 +485,18 @@ describe('Unit | Service | sessions import validation Service', function () {
             isBlocking: true,
           },
         ]);
-        expect(subscriptions).to.be.empty;
+        expect(subscription).to.equal(Frameworks.CORE);
       });
     });
 
     context('when there are no subscriptions at all', function () {
-      it('should add core subscription', async function () {
+      it('should return CORE subscription', async function () {
         // given
         const subscriptionKeys = [];
         const line = 12;
 
         // when
-        const { certificationCandidateComplementaryErrors, subscriptions } =
+        const { certificationCandidateComplementaryErrors, subscription } =
           await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
             subscriptionKeys,
             line,
@@ -503,19 +504,17 @@ describe('Unit | Service | sessions import validation Service', function () {
 
         // then
         expect(certificationCandidateComplementaryErrors).to.be.empty;
-        expect(subscriptions).to.deepEqualArray([
-          domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-        ]);
+        expect(subscription).to.equal(Frameworks.CORE);
       });
     });
     context('when there is a double certification subscription', function () {
-      it('should add core subscription', async function () {
+      it('should return CLEA subscription', async function () {
         // given
         const subscriptionKeys = [ComplementaryCertificationKeys.CLEA];
         const line = 12;
 
         // when
-        const { certificationCandidateComplementaryErrors, subscriptions } =
+        const { certificationCandidateComplementaryErrors, subscription } =
           await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
             subscriptionKeys,
             line,
@@ -523,13 +522,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
         // then
         expect(certificationCandidateComplementaryErrors).to.be.empty;
-        expect(subscriptions).to.deepEqualArray([
-          domainBuilder.certification.enrolment.buildComplementarySubscription({
-            certificationCandidateId: null,
-            complementaryCertificationKey: ComplementaryCertificationKeys.CLEA,
-          }),
-          domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-        ]);
+        expect(subscription).to.equal(Frameworks.CLEA);
       });
     });
     context('when there is a complementary certification subscription', function () {
@@ -539,7 +532,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         const line = 12;
 
         // when
-        const { certificationCandidateComplementaryErrors, subscriptions } =
+        const { certificationCandidateComplementaryErrors, subscription } =
           await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
             subscriptionKeys,
             line,
@@ -547,12 +540,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
         // then
         expect(certificationCandidateComplementaryErrors).to.be.empty;
-        expect(subscriptions).to.deepEqualArray([
-          domainBuilder.certification.enrolment.buildComplementarySubscription({
-            certificationCandidateId: null,
-            complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-          }),
-        ]);
+        expect(subscription).to.equal(Frameworks.DROIT);
       });
     });
   });
