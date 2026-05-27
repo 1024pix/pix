@@ -2,7 +2,7 @@ import { usecases } from '../../../../../../src/prescription/target-profile/doma
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Unit | Prescription | Domain | Models | TargetProfileOverview', function () {
+describe('Integration | Prescription | Domain | Models | TargetProfileOverview', function () {
   it('should return a targetProfilOverview', async function () {
     //given
     const framework = {
