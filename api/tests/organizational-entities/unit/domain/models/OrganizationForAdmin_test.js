@@ -1,9 +1,11 @@
 import { OrganizationBatchUpdateDTO } from '../../../../../src/organizational-entities/domain/dtos/OrganizationBatchUpdateDTO.js';
+import { FeatureParamsNotProcessable } from '../../../../../src/organizational-entities/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../../../../src/organizational-entities/domain/models/OrganizationLearnerType.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin', function () {
   describe('constructor', function () {
@@ -45,6 +47,22 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
       }).to.throw();
     });
 
+    context('attestation management feature', function () {
+      it('should throw if params are not in the expected format', function () {
+        const error = catchErrSync(() => {
+          new OrganizationForAdmin({
+            features: { [ORGANIZATION_FEATURE.ATTESTATIONS_MANAGEMENT.key]: { active: true, params: null } },
+          });
+        })();
+        expect(error).to.be.instanceOf(FeatureParamsNotProcessable);
+      });
+      it('should not throw if feature is not active while params are not in the expected format', function () {
+        const organization = new OrganizationForAdmin({
+          features: { [ORGANIZATION_FEATURE.ATTESTATIONS_MANAGEMENT.key]: { active: false, params: null } },
+        });
+        expect(organization).to.be.instanceOf(OrganizationForAdmin);
+      });
+    });
     context('legacy features', function () {
       it('put legacy features to new feature format', function () {
         // given

@@ -188,7 +188,6 @@ const get = async function ({ organizationId }) {
     });
 
   const importFormats = await knexConn('organization-learner-import-formats');
-
   organization.features = availableFeatures.reduce((features, { key, enabled, params }) => {
     switch (key) {
       case ORGANIZATION_FEATURE.LEARNER_IMPORT.key:
