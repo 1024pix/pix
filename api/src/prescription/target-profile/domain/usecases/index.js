@@ -10,18 +10,7 @@ import * as targetProfileForSpecifierRepository from '../../infrastructure/repos
 import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';
 import * as targetProfileSummaryForAdminRepository from '../../infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 
-/**
- * @typedef {import('../../../shared/domain/services/learning-content-conversion-service.js')} LearningContentConversionService
- * @typedef {import('../../../../../lib/infrastructure/repositories/learning-content-repository.js')} LearningContentRepository
- * @typedef {import('../../../../shared/infrastructure/repositories/organization-repository.js')} OrganizationRepository
- * @typedef {import('../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js')} OrganizationsToAttachToTargetProfileRepository
- * @typedef {import('../../infrastructure/repositories/target-profile-administration-repository.js')} TargetProfileAdministrationRepository
- * @typedef {import('../../infrastructure/repositories/target-profile-bond-repository.js')} TargetProfileBondRepository
- * @typedef {import('../../infrastructure/repositories/target-profile-for-specifier-repository.js')} TargetProfileForSpecifierRepository
- * @typedef {import('../../infrastructure/repositories/target-profile-for-update-repository.js')} TargetProfileForUpdateRepository
- * @typedef {import('../../../../../lib/infrastructure/repositories/target-profile-repository.js')} TargetProfileRepository
- * @typedef {import('../../infrastructure/repositories/target-profile-summary-for-admin-repository.js')} TargetProfileSummaryForAdminRepository
- */
+/** @typedef {typeof dependencies} Dependencies */
 
 const dependencies = {
   learningContentConversionService,
@@ -51,6 +40,7 @@ import { getLearningContentByTargetProfile } from './get-learning-content-by-tar
 import { getTargetProfile } from './get-target-profile.js';
 import { getTargetProfileContentAsJson } from './get-target-profile-content-as-json.js';
 import { getTargetProfileForAdmin } from './get-target-profile-for-admin.js';
+import { getTargetProfileOverview } from './get-target-profile-overview.js';
 import { markTargetProfileAsSimplifiedAccess } from './mark-target-profile-as-simplified-access.js';
 import { outdateTargetProfile } from './outdate-target-profile.js';
 import { updateTargetProfile } from './update-target-profile.js';
@@ -71,6 +61,7 @@ const usecasesWithoutInjectedDependencies = {
   getTargetProfileContentAsJson,
   getTargetProfileForAdmin,
   getTargetProfile,
+  getTargetProfileOverview,
   markTargetProfileAsSimplifiedAccess,
   outdateTargetProfile,
   updateTargetProfile,
