@@ -87,21 +87,21 @@
                     "id": "1",
                     "content": "Olivier",
                     "feedback": {
-                      "diagnosis": "<p><strong>Difficile de dire qui a raison ! </strong></p><p>Le remplacement d’une technologie par une autre a un <strong>effet indirect </strong>sur l’environnement. Cet effet est très <strong>difficile à quantifier.</strong></p>"
+                      "diagnosis": "<p><strong>Difficile de dire qui a raison ! </strong></p><p>Cet effet est très <strong>difficile à quantifier.</strong></p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "Alise",
                     "feedback": {
-                      "diagnosis": "<p><strong>Difficile de dire qui a raison ! </strong></p><p>Le remplacement d’une technologie par une autre a un <strong>effet indirect </strong>sur l’environnement. Cet effet est très <strong>difficile à quantifier.</strong></p>"
+                      "diagnosis": "<p><strong>Difficile de dire qui a raison ! </strong></p><p>Cet effet est très <strong>difficile à quantifier.</strong></p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "Avec les deux",
                     "feedback": {
-                      "diagnosis": "<p><strong>Effectivement, difficile de dire qui a raison ! </strong></p><p>Le remplacement d’une technologie par une autre a un <strong>effet indirect </strong>sur l’environnement. Cet effet est très <strong>difficile à quantifier.</strong></p>"
+                      "diagnosis": "<p><strong>Effectivement, difficile de dire qui a raison ! </strong></p><p> Cet effet est très <strong>difficile à quantifier.</strong></p>"
                     }
                   }
                 ],
@@ -121,7 +121,7 @@
                 "id": "a8a69700-d558-4d44-91b7-b4d1b009f3d1",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le numérique a des <strong>effets directs</strong> sur l’environnement, mais aussi des <strong>effets indirects</strong>. </p><p>Voyons cela de plus près.</p>"
+                "content": "<p>Le numérique a des <strong>effets directs</strong> sur l’environnement pour sa fabrication et son utilisation, mais aussi des <strong>effets indirects,</strong> dû fait de nos changements de comportements.</p><p>Voyons cela de plus près.</p>"
               }
             }
           ]
@@ -139,7 +139,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p> Demandons-nous pour chacun des cas suivants,  si l’effet sur l’environnement est direct ou indirect.<br></p>",
+              "instruction": "<p> À votre avis, pour chacun des cas suivants, l’effet sur l’environnement est-il direct ou indirect ?<br></p>",
               "steps": [
                 {
                   "elements": [
@@ -147,19 +147,19 @@
                       "id": "38c04097-96ce-430a-9350-0ccde106a9bc",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>La <strong>construction du matériel informatique </strong>nécessite d’extraire beaucoup de ressources minérales, ce qui pollue l’environnement.<br></p>"
+                      "content": "<p>La <strong>fabrication&nbsp;</strong><strong>du matériel informatique </strong>nécessite d’extraire beaucoup de ressources minérales, ce qui pollue l’environnement.<br></p>"
                     },
                     {
                       "id": "4d9696fa-083f-4f3c-8354-b1c259e0046e",
                       "type": "qcu-discovery",
-                      "instruction": "<p>S’agit-il d’un effet direct ou indirect sur l’environnement ?</p>",
+                      "instruction": "<p>À votre avis, s’agit-il d’un effet direct ou indirect sur l’environnement ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>La fabrication de matériel informatique impacte directement l’environnement.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>La fabrication de matériel informatique impacte <strong>directement </strong>l’environnement.</p>"
                           }
                         },
                         {
@@ -192,7 +192,7 @@
                     {
                       "id": "17dee555-4c04-4121-bb5f-3707ae6c600e",
                       "type": "qcu-discovery",
-                      "instruction": "<p>S’agit-il d’un effet direct ou indirect sur l’environnement ?</p>",
+                      "instruction": "<p>À votre avis, s’agit-il d’un effet direct ou indirect sur l’environnement ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -227,33 +227,33 @@
                       "id": "ed766469-ad4f-4484-b16c-24f267894f97",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Dans certaines entreprises, des réunions qui avaient lieu physiquement se tiennent maintenant en <strong>visioconférence.</strong> Les employés de ces entreprises ne se rendent donc plus au bureau pour ces réunions, donc utilisent moins leur voiture.</p>"
+                      "content": "<p>L’essor des smartphones a réduit les achats d’appareils comme les radios, GPS, réveils, agendas ou lecteurs MP3.</p>"
                     },
                     {
                       "id": "85bba006-de87-43c1-aa3a-f6e1617bc642",
                       "type": "qcu-discovery",
-                      "instruction": "<p>S’agit-il d’un effet direct ou indirect sur l’environnement ?<br></p>",
+                      "instruction": "<p>À votre avis, s’agit-il d’un effet direct ou indirect sur l’environnement ?<br></p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution </strong>: la visioconférence se substitue aux réunions physiques et aux déplacements associés.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution </strong>: le smartphone&nbsp;remplace d'autres équipements.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution </strong>: la visioconférence se substitue aux réunions physiques et aux déplacements associés.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution </strong>:&nbsp;le smartphone&nbsp;remplace d'autres équipements.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: la visioconférence se substitue aux réunions physiques et aux déplacements associés.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: le smartphone&nbsp;remplace d'autres équipements.</p>"
                           }
                         }
                       ],
@@ -280,7 +280,7 @@
                       "id": "b60da4bd-2370-43a4-91c4-7a32dcf36561",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’usage du numérique peut provoquer des changements de comportements, individuels ou collectifs. Ces nouveaux comportements peuvent avoir des effets sur l’environnement, on parle donc d’effets indirects du numérique sur l’environnement.</p>"
+                      "content": "<p>L’usage du numérique peut provoquer des <strong>changements de comportements</strong>, individuels ou collectifs. Ces nouveaux comportements peuvent avoir des effets sur l’environnement, on parle donc d’<strong>effets indirects du numérique sur l’environnement</strong>.</p>"
                     }
                   ]
                 },
@@ -290,7 +290,13 @@
                       "id": "7342c038-5818-4eef-ae13-94ca1f99e496",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>                <br></p><table><thead><tr><th scope=\"\\&quot;col\\&quot;\" class=\"\\&quot;width-15\\&quot;\">Type</th><th scope=\"\\&quot;col\\&quot;\">Description</th><th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th></tr></thead><tbody><tr><th>Effet direct</th><td>Impact de la fabrication et de l’utilisation des appareils numériques<br></td><td>- Consommation d’énergie pour recharger le smartphone<br>- Consommation de métaux pour fabriquer le smartphone<br>- Déchets électronique en fin de vie du smartphone<br></td></tr><tr><th>Effet indirect</th><td>Changements de comportement des utilisateurs ayant eux même des effets sur l’environnement<br></td><td>-&nbsp;L’ utilisateur du smartphone n’achète pas de radio (effet de substitution)<br>- L’utilisateur du smartphone se perd moins en voiture et économise du carburant (effet d’efficacité)</td></tr></tbody></table>"
+                      "content": "<p> <br></p>\n<table>\n    <thead>\n        <tr>\n            <th scope=\"\" style=\"width: 36.9427%;\">Type d'effet</th>\n            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>\n            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>Effet direct</th>\n            <td>Impact de la fabrication et de l’utilisation des appareils numériques<br></td>\n            <td>\n                <ul>\n                    <li>Consommation d’énergie pour recharger le smartphone<br></li>\n                    <li>Consommation de métaux pour fabriquer le smartphone</li>\n                    <li> Déchets électroniques en fin de vie du smartphone<br></li>\n                </ul>\n            </td>\n        </tr>\n        <tr>\n            <th>Effet indirect</th>\n            <td>Changements de comportement des utilisateurs des effets sur l’environnement<br></td>\n            <td>\n                <ul>\n                    <li>&nbsp;L’ utilisateur du smartphone n’achète pas de radio (effet de substitution)</li>\n                    <li>Grâce à un compteur connecté, un utilisateur fait des économies d'énergie. (effet d’efficacité ou d'optimisation)</li>\n                </ul>\n            </td>\n        </tr>\n    </tbody>\n</table>"
+                    },
+                    {
+                      "id": "368c6e0a-fa53-4ac5-a0b0-0e2972da90ff",
+                      "type": "text",
+                      "tag": "further-information",
+                      "content": "<p>Ce sont des effets indirects dans le cadre du numérique, mais la notion d'effet direct et indirect peut s'apppliquer dans d'autres contextes comme l'économie ou la médecine.<br></p>"
                     }
                   ]
                 },
