@@ -249,9 +249,13 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
     context('when requestedApplication is admin', function () {
       beforeEach(async function () {
-        await createServerWithMockedTestOidcProvider({ application: 'admin', applicationTld: '.fr' });
+        await createServerWithMockedTestOidcProvider({
+          application: 'admin',
+          applicationTld: '.fr',
+          identityProvider: 'OIDC2-ADMIN-FR',
+        });
 
-        const query = querystring.stringify({ identity_provider: 'OIDC_EXAMPLE_NET' });
+        const query = querystring.stringify({ identity_provider: 'OIDC2-ADMIN-FR' });
         const authUrlResponse = await server.inject({
           method: 'GET',
           url: `/api/oidc/authorization-url?${query}`,
@@ -267,7 +271,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
         payload = {
           data: {
             attributes: {
-              identity_provider: 'OIDC_EXAMPLE_NET',
+              identity_provider: 'OIDC2-ADMIN-FR',
               code: 'code',
               state: redirectTarget.searchParams.get('state'),
             },
@@ -284,7 +288,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
           const userId = databaseBuilder.factory.buildUser({ firstName, lastName }).id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-            identityProvider: 'OIDC_EXAMPLE_NET',
+            identityProvider: 'OIDC2-ADMIN-FR',
             externalIdentifier,
             userId,
           });
@@ -329,7 +333,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
           const userId = databaseBuilder.factory.buildUser.withRole({ firstName, lastName, role: 'SUPER_ADMIN' }).id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-            identityProvider: 'OIDC_EXAMPLE_NET',
+            identityProvider: 'OIDC2-ADMIN-FR',
             externalIdentifier,
             userId,
           });
