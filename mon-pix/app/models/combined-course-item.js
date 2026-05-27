@@ -25,7 +25,7 @@ export default class CombinedCourseItem extends Model {
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;
 
   get route() {
-    return this.type === CombinedCourseItemTypes.CAMPAIGN ? 'campaigns' : 'old-module';
+    return this.type === CombinedCourseItemTypes.CAMPAIGN ? 'campaigns' : 'module';
   }
 
   get iconUrl() {

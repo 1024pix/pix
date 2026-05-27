@@ -286,7 +286,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       assert.strictEqual(
         screen.getByRole('link', { name: /mon module/ }).getAttribute('href'),
         router.urlFor(
-          'old-module',
+          'module',
           {
             slug: combinedCourseItem.reference,
           },
