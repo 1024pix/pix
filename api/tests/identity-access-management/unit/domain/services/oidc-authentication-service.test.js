@@ -855,7 +855,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         await oidcAuthenticationService.initializeClientConfig();
 
         const accessToken = 'thisIsSerializedInformation';
-        const errorMessage = `Un ou des champs obligatoires (family_name) n'ont pas été renvoyés par votre fournisseur d'identité Oidc Example.`;
 
         // when
         const error = await catchErr(
@@ -865,7 +864,9 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
         // then
         expect(error).to.be.instanceOf(OidcMissingFieldsError);
-        expect(error.message).to.be.equal(errorMessage);
+        expect(error.message).to.be.equal(
+          'Le ou les champs obligatoires suivants n’ont pas été renvoyés par le fournisseur d’identité Oidc Example : family_name',
+        );
         expect(error.code).to.be.equal(OIDC_ERRORS.USER_INFO.missingFields.code);
         expect(logger.error).to.have.been.calledWithExactly({
           context: 'oidc',
@@ -878,8 +879,8 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
             },
             organizationName: 'Oidc Example',
           },
-          event: 'find-missing-required-claims',
-          message: errorMessage,
+          event: 'missing-required-claims',
+          message: 'Missing required claims',
           team: 'acces',
         });
       });

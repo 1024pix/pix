@@ -331,19 +331,18 @@ export class OidcAuthenticationService {
     const missingClaims = this.claimManager.getMissingMandatoryClaims(userInfo);
 
     if (missingClaims.length > 0) {
-      const message = `Un ou des champs obligatoires (${missingClaims.join(
-        ',',
-      )}) n'ont pas été renvoyés par votre fournisseur d'identité ${this.organizationName}.`;
-
-      _monitorOidcError(message, {
+      _monitorOidcError('Missing required claims', {
         data: { missingFields: missingClaims.join(', '), userInfo, organizationName: this.organizationName },
-        event: 'find-missing-required-claims',
+        event: 'missing-required-claims',
       });
 
       const error = OIDC_ERRORS.USER_INFO.missingFields;
       const meta = {
         shortCode: error.shortCode,
       };
+
+      // TODO: Do the i18n on the front apps
+      const message = `Le ou les champs obligatoires suivants n’ont pas été renvoyés par le fournisseur d’identité ${this.organizationName} : ${missingClaims.join(',')}`;
       throw new OidcMissingFieldsError(message, error.code, meta);
     }
 
