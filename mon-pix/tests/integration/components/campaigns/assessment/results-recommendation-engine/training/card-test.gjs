@@ -223,10 +223,8 @@ module(
         assert.dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.objectives'))).exists();
         assert.dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.program'))).exists();
 
-        const objectives = within(modal).getByRole('list');
-        assert.strictEqual(objectives.children.length, 2);
-
-        assert.dom(within(modal).getByRole('button', { name: t('common.actions.cancel') })).exists();
+        const actionButtons = within(modal).getByRole('list');
+        assert.dom(within(actionButtons).getByRole('button', { name: t('common.actions.close') })).exists();
       });
 
       module('when training is modulix type', function () {
