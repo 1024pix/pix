@@ -2,8 +2,8 @@ import sinon from 'sinon';
 
 import { CombinedCourseStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/models/CombinedCourseItem.js';
-import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/CombinedCourseReward.js';
+import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/models/combined-course-participation/CombinedCourseItem.js';
+import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participation/CombinedCourseReward.js';
 import * as combinedCourseSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-serializer.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';

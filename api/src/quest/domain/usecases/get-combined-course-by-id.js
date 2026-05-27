@@ -1,4 +1,4 @@
-import { CombinedCourseDetails } from '../models/CombinedCourseDetails.js';
+import { CombinedCourseDetails } from '../models/combined-course-participation/CombinedCourseDetails.js';
 
 const getCombinedCourseById = async ({ combinedCourseId, combinedCourseRepository, questRepository }) => {
   const combinedCourse = await combinedCourseRepository.getById({ id: combinedCourseId });

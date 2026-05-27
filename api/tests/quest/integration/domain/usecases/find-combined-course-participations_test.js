@@ -1,6 +1,6 @@
 import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { CombinedCourseParticipationDetails } from '../../../../../src/quest/domain/models/combined-course-participation/CombinedCourseParticipationDetails.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
-import { CombinedCourseParticipationDetails } from '../../../../../src/quest/domain/models/CombinedCourseParticipationDetails.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';

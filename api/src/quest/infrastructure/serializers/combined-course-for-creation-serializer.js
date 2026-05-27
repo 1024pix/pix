@@ -1,4 +1,4 @@
-import { CombinedCourseForCreation } from '../../domain/models/CombinedCourseForCreation.js';
+import { CombinedCourseForCreation } from '../../domain/models/combined-course/CombinedCourseForCreation.js';
 
 const deserialize = function (payload) {
   const organizationId = parseInt(payload.data.relationships.organization.data.id) || null;

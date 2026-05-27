@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
-import { CombinedCourseParticipation } from '../../domain/models/CombinedCourseParticipation.js';
+import { CombinedCourseParticipation } from '../../domain/models/combined-course-participation/CombinedCourseParticipation.js';
 import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,

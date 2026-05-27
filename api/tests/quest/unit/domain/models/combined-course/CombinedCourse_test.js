@@ -1,7 +1,7 @@
-import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
-import { CombinedCourse } from '../../../../../src/quest/domain/models/CombinedCourse.js';
-import { CombinedCourseParticipation } from '../../../../../src/quest/domain/models/CombinedCourseParticipation.js';
-import { expect } from '../../../../test-helper.js';
+import { CombinedCourseParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CombinedCourse } from '../../../../../../src/quest/domain/models/combined-course/CombinedCourse.js';
+import { CombinedCourseParticipation } from '../../../../../../src/quest/domain/models/combined-course-participation/CombinedCourseParticipation.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourse', function () {
   it('should return model with given parameters', function () {

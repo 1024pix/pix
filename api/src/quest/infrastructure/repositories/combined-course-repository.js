@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
-import { CombinedCourse } from '../../domain/models/CombinedCourse.js';
+import { CombinedCourse } from '../../domain/models/combined-course/CombinedCourse.js';
 import { Quest } from '../../domain/models/Quest.js';
 
 const getByCode = async ({ code }) => {

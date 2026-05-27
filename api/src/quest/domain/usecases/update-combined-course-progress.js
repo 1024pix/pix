@@ -1,4 +1,4 @@
-import { COMBINED_COURSE_ITEM_TYPES } from '../models/CombinedCourseItem.js';
+import { COMBINED_COURSE_ITEM_TYPES } from '../models/combined-course-participation/CombinedCourseItem.js';
 import { OrganizationLearnerParticipation } from '../models/OrganizationLearnerParticipation.js';
 
 export async function updateCombinedCourseProgress({

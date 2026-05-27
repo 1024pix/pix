@@ -1,5 +1,5 @@
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
-import { CombinedCourse } from '../../../../../src/quest/domain/models/CombinedCourse.js';
+import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-course/CombinedCourse.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
 import {
   CRITERION_COMPARISONS,

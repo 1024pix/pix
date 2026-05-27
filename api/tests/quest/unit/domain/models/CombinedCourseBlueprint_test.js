@@ -1,5 +1,5 @@
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { CombinedCourse } from '../../../../../src/quest/domain/models/CombinedCourse.js';
+import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-course/CombinedCourse.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
 import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
 import { expect } from '../../../../test-helper.js';

@@ -1,4 +1,4 @@
-import { CombinedCourse } from '../../../../../src/quest/domain/models/CombinedCourse.js';
+import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-course/CombinedCourse.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';

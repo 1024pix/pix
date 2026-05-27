@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { EntityValidationError } from '../../../shared/domain/errors.js';
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
 
 const schema = Joi.object({
   name: Joi.string().required().messages({

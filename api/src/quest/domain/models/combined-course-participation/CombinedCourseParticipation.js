@@ -1,4 +1,4 @@
-import { CombinedCourseParticipationStatuses } from '../../../prescription/shared/domain/constants.js';
+import { CombinedCourseParticipationStatuses } from '../../../../prescription/shared/domain/constants.js';
 
 export class CombinedCourseParticipation {
   constructor({

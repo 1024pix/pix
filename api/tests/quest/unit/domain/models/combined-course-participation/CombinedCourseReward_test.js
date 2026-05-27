@@ -1,13 +1,13 @@
 import {
   CombinedCourseReward,
   CombinedCourseRewardStatuses,
-} from '../../../../../src/quest/domain/models/CombinedCourseReward.js';
+} from '../../../../../../src/quest/domain/models/combined-course-participation/CombinedCourseReward.js';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
-import { expect } from '../../../../test-helper.js';
-import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+} from '../../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+import { expect } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
   let organizationId, name, code, questId;

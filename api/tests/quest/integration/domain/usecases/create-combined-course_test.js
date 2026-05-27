@@ -1,6 +1,6 @@
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
+import { CombinedCourseForCreation } from '../../../../../src/quest/domain/models/combined-course/CombinedCourseForCreation.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
-import { CombinedCourseForCreation } from '../../../../../src/quest/domain/models/CombinedCourseForCreation.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';

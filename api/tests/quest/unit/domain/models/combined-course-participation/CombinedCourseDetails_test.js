@@ -4,22 +4,22 @@ import {
   CampaignParticipationStatuses,
   CombinedCourseParticipationStatuses,
   CombinedCourseStatuses,
-} from '../../../../../src/prescription/shared/domain/constants.js';
-import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { CombinedCourseDetails } from '../../../../../src/quest/domain/models/CombinedCourseDetails.js';
+} from '../../../../../../src/prescription/shared/domain/constants.js';
+import { REWARD_TYPES } from '../../../../../../src/quest/domain/constants.js';
+import { CombinedCourseDetails } from '../../../../../../src/quest/domain/models/combined-course-participation/CombinedCourseDetails.js';
 import {
   COMBINED_COURSE_ITEM_TYPES,
   CombinedCourseItem,
-} from '../../../../../src/quest/domain/models/CombinedCourseItem.js';
-import { CombinedCourseParticipation } from '../../../../../src/quest/domain/models/CombinedCourseParticipation.js';
-import { CombinedCourseReward } from '../../../../../src/quest/domain/models/CombinedCourseReward.js';
+} from '../../../../../../src/quest/domain/models/combined-course-participation/CombinedCourseItem.js';
+import { CombinedCourseParticipation } from '../../../../../../src/quest/domain/models/combined-course-participation/CombinedCourseParticipation.js';
+import { CombinedCourseReward } from '../../../../../../src/quest/domain/models/combined-course-participation/CombinedCourseReward.js';
 import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
-import { expect } from '../../../../test-helper.js';
-import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+} from '../../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+import { expect } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
   let organizationId, name, code, questId, cryptoService;
