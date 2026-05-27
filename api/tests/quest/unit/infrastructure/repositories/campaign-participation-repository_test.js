@@ -1,30 +1,25 @@
 import sinon from 'sinon';
 
-import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
-import { CampaignParticipation } from '../../../../../src/quest/domain/models/CampaignParticipation.js';
 import * as campaignParticipationRepository from '../../../../../src/quest/infrastructure/repositories/campaign-participation-repository.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | campaign-participation', function () {
-  let expectedResult, campaignParticipationsApiStub;
-  const organizationLearnerId = 1;
-  const campaignId = 1;
+  let campaignParticipationsApiStub;
+  const organizationLearnerId = 123;
+  const campaignId = 456;
+  const mockApiResult = Symbol('internalApiResult');
 
   beforeEach(async function () {
-    expectedResult = {
-      id: 1,
-      sharedAt: null,
-      status: CampaignParticipationStatuses.SHARED,
-    };
-
     campaignParticipationsApiStub = {
       getCampaignParticipationsByLearnerIdAndCampaignId: sinon.stub(),
       deleteCampaignParticipations: sinon.stub(),
     };
     campaignParticipationsApiStub.getCampaignParticipationsByLearnerIdAndCampaignId
       .withArgs({ organizationLearnerId, campaignId })
-      .resolves(new CampaignParticipation(expectedResult));
+      .resolves(mockApiResult);
+    campaignParticipationsApiStub.deleteCampaignParticipations.resolves(mockApiResult);
   });
+
   describe('#getCampaignParticipationsByLearnerIdAndCampaignId', function () {
     it('should call getCampaignParticipationsByLearnerIdAndCampaignId method from campaignParticipationsApi', async function () {
       // when
@@ -35,22 +30,25 @@ describe('Quest | Unit | Infrastructure | Repositories | campaign-participation'
       });
 
       // then
-      expect(result).to.be.an.instanceof(CampaignParticipation);
-      expect(result).to.deep.equal(expectedResult);
+      expect(campaignParticipationsApiStub.getCampaignParticipationsByLearnerIdAndCampaignId).to.be.calledWithExactly({
+        organizationLearnerId,
+        campaignId,
+      });
+      expect(result).to.deep.equal(mockApiResult);
     });
   });
   describe('#deleteCampaignParticipationInCombinedCourse', function () {
     it('should call deleteCampaignParticipationInCombinedCourse method from campaignParticipationsApi', async function () {
       //given
-      const userId = Symbol(1);
-      const campaignId = Symbol(1);
-      const campaignParticipationIds = Symbol(1);
+      const userId = Symbol(123);
+      const campaignId = Symbol(456);
+      const campaignParticipationIds = Symbol(789);
       const userRole = Symbol('admin');
       const client = Symbol('client');
       const keepPreviousDeletion = Symbol('true');
 
       // when
-      await campaignParticipationRepository.deleteCampaignParticipations({
+      const result = await campaignParticipationRepository.deleteCampaignParticipations({
         userId,
         campaignId,
         campaignParticipationIds,
@@ -69,6 +67,7 @@ describe('Quest | Unit | Infrastructure | Repositories | campaign-participation'
         userRole,
         client,
       });
+      expect(result).to.deep.equal(mockApiResult);
     });
   });
 });
