@@ -1,13 +1,13 @@
 {
   "id": "b080b39e-fa3d-4cd1-84b5-3f385d94f26d",
   "shortId": "5c1088d0",
-  "slug": "liste-resultats-recherche",
-  "title": "Comprendre la liste des résultats d’une recherche sur internet",
-  "isBeta": false,
+  "slug": "resultats-recherche",
+  "title": "Comprendre les résultats d’une recherche sur internet",
+  "isBeta": true,
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/draft/modules/vg3Ro1F.png",
-    "description": "<p>Quand vous faites une recherche sur internet, une liste de résultats s’affiche. Dans ce module, vous allez apprendre à lire cette liste, à comprendre pourquoi certains résultats arrivent avant d’autres, et à repérer les publicités déguisées en résultats. 🥸</p>",
+    "description": "<p>Quand vous faites une recherche sur internet, une liste de résultats s’affiche.</p><p>Dans ce module, vous allez apprendre à lire cette liste, à comprendre pourquoi certains résultats apparaissent avant d’autres, et à repérer les publicités déguisées en résultats. 🥸</p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
@@ -33,7 +33,7 @@
                 "id": "1f2da8d0-e896-40a2-bb8d-8df954ff20b5",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Kevin fait une recherche sur internet.</p><p>Il veut savoir quand il est possible de visiter le Louvre de nuit. Il tape les mots clés suivants&nbsp;: «&nbsp;<strong>louvre visite de nuit date</strong>&nbsp;»</p><p>Une liste de résultats s’affiche.</p>"
+                "content": "<p>Kevin fait une recherche sur internet.</p><p>Il veut savoir quand il est possible de visiter le Louvre de nuit. Il tape les mots clés suivants dans son moteur de recherche&nbsp;: «&nbsp;<strong>louvre visite de nuit date</strong>&nbsp;».</p><p>Une liste de résultats s’affiche.</p>"
               }
             },
             {
@@ -54,7 +54,7 @@
                 "id": "3a78dc6a-9faa-4698-b049-8dc56f5c7299",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Il voit plusieurs pages web proposées, mais il ne sait pas laquelle choisir.</p>"
+                "content": "<p>Dans cette liste de résultats, plusieurs pages web sont proposées. Kevin ne sait pas laquelle choisir.</p>"
               }
             },
             {
@@ -62,35 +62,35 @@
               "element": {
                 "id": "127d0ade-245e-4eef-a67a-185abf45fec9",
                 "type": "qcu-discovery",
-                "instruction": "<p>Que pourriez-vous lui conseiller ?<br></p>",
+                "instruction": "<p>Quel conseil pouvez-vous donner à Kevin&nbsp;?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>Aller sur la première page, c’est toujours la meilleure.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp;</p><p>Sur une liste de résultats, il faut regarder avant de cliquer. Toutes les pages web ne se valent pas toujours.</p>"
+                      "diagnosis": "<p>Eh non !&nbsp;</p><p>Face à une liste de résultats, il faut regarder avant de cliquer. Toutes les pages web ne se valent pas toujours.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Choisir au hasard, toutes les pages se valent.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp;</p><p>Sur une liste de résultats, il faut regarder avant de cliquer. Toutes les pages web ne se valent pas toujours.</p>"
+                      "diagnosis": "<p>Eh non !&nbsp;</p><p>Face à une liste de résultats, il faut regarder avant de cliquer. Toutes les pages web ne se valent pas toujours.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Bien regarder les résultats avant de choisir.</p>",
+                    "content": "<p>Analyser les résultats grâce aux informations visibles.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bien vu !&nbsp;</p><p>Sur une liste de résultats, il faut regarder avant de cliquer. Toutes les pages web ne se valent pas toujours.</p>"
+                      "diagnosis": "<p>Bien vu !&nbsp;</p><p>Face à une liste de résultats, il faut regarder avant de cliquer. Toutes les pages web ne se valent pas toujours.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Sur une liste de résultats, il faut regarder avant de cliquer. Toutes les pages web ne se valent pas toujours.</p>"
+                      "diagnosis": "<p>Face à une liste de résultats, il faut regarder avant de cliquer. Toutes les pages web ne se valent pas toujours.</p>"
                     }
                   }
                 ],
@@ -110,7 +110,7 @@
                 "id": "9825419c-3a51-40cc-876d-1ace3ea6e03e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voyons maintenant ce que l’on peut repérer dans un résultat de recherche.<br></p>"
+                "content": "<p>Voyons maintenant les informations à regarder dans un résultat de recherche.</p>"
               }
             }
           ]
@@ -132,7 +132,7 @@
                 "id": "7c1d8e0e-1270-4f58-b10a-73bcbb5ed17d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voici un résultat de recherche. Observez les informations qu’il contient puis répondez à la question qui suit.</p>"
+                "content": "<p>Observez le résultat de recherche ci-dessous puis répondez à la question qui suit.</p>"
               }
             },
             {
@@ -152,33 +152,33 @@
               "element": {
                 "id": "918de184-e46e-4836-ab06-ced1ff94e216",
                 "type": "qcu-discovery",
-                "instruction": "<p>Qu’est-ce qui peut aider Kevin à choisir une page web&nbsp;?</p>",
+                "instruction": "<p>Qu’est-ce qui peut aider Kevin à choisir un résultat plutôt qu’un autre ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Le nom du site web.</p>",
+                    "content": "<p>Uniquement le nom du site web.</p>",
                     "feedback": {
                       "diagnosis": "<p>Pas tout à fait&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> peut aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Le titre du résultat.</p>",
+                    "content": "<p>Uniquement le titre du résultat.</p>",
                     "feedback": {
                       "diagnosis": "<p>Pas tout à fait&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> peut aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>L’extrait de la page web.</p>",
+                    "content": "<p>Uniquement l’extrait de la page web.</p>",
                     "feedback": {
                       "diagnosis": "<p>Pas tout à fait&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> peut aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
                     }
                   },
                   {
                     "id": "4",
-                    "content": "<p>Tous ces éléments</p>",
+                    "content": "<p>Tous ces éléments.</p>",
                     "feedback": {
                       "diagnosis": "<p>Bien vu&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> peut aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
                     }
@@ -199,7 +199,7 @@
         {
           "id": "cdd4ae83-dc12-4f69-9a09-5ed1943c71dc",
           "type": "short-lesson",
-          "title": "leçon 1",
+          "title": "Leçon 1",
           "components": [
             {
               "type": "element",
@@ -207,7 +207,7 @@
                 "id": "be068486-faf3-4128-9234-d6d6af7166da",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand on fait une <strong>recherche</strong>, on n’a pas seulement une <strong>liste de pages web</strong>. Chaque <strong>résultat</strong> donne déjà des <strong>indices utiles</strong>.</p><p>Ces <strong>informations</strong> aident à <strong>choisir quelle page visiter</strong>. Chaque résultat est associé à un <strong>lien</strong> qui permet d’<strong>accéder à la page</strong> lorsque l’on clique dessus.</p>"
+                "content": "<p>Quand on fait une <strong>recherche</strong>, on obtient une <strong>liste de résultats qui mènent à des pages web</strong>.</p><p>Chaque <strong>résultat</strong> donne des <strong>informations utiles</strong> pour choisir quelle page web visiter et est associé à un <strong>lien</strong> qui permet d’<strong>accéder à la page web</strong> lorsque l’on clique dessus.</p>"
               }
             }
           ]
@@ -223,7 +223,7 @@
                 "id": "40598e91-593c-4eb2-a875-b8a1dd1b11dd",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous savez maintenant lire les résultats d’une recherche sur internet. Mais on obtient souvent beaucoup de résultats&nbsp;: comment sont-ils classés ?<br></p>"
+                "content": "<p>Vous savez maintenant lire les résultats d’une recherche sur internet. </p><p>Voyons comment ces résultats sont classés.</p>"
               }
             }
           ]
@@ -239,7 +239,7 @@
                 "id": "a8160e77-0337-4ef5-bac7-fa2466f9f51d",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Kevin observe les <strong>résultats</strong> de sa recherche «&nbsp;<strong>louvre visite de nuit date</strong>&nbsp;».</p><p>Lors d’une <strong>recherche sur internet</strong>, il peut y avoir des <strong>milliers de pages possibles</strong>.<br>Pourtant, certaines pages apparaissent <strong>tout en haut de la liste</strong>.</p><p>Il se demande ce qui les rend <strong>plus visibles</strong> que les autres.</p>"
+                "content": "<p>Kevin observe les résultats de sa recherche «&nbsp;<strong>louvre visite de nuit date</strong>&nbsp;». Ils sont très nombreux. Kevin se demande pourquoi certaines pages web apparaissent tout en haut de liste de résultats et d’autres plus bas.</p>"
               }
             },
             {
@@ -247,7 +247,7 @@
               "element": {
                 "id": "61def0e1-524c-4f36-bd45-276758efcb2e",
                 "type": "qcm",
-                "instruction": "<p>À votre avis, pourquoi certaines pages web sont-elles mises en avant plutôt que d’autres ?<br> (3 bonnes réponses à sélectionner)</p>",
+                "instruction": "<p>À votre avis, pourquoi certaines pages web apparaissent plus haut que d’autres dans la liste de résultats ? (3 bonnes réponses)</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -301,7 +301,7 @@
                 "id": "69a9c46e-904c-4d5c-99f8-9fa227d2894d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Dans les <strong>résultats d’un moteur de recherche</strong>, l’<strong>ordre des pages web</strong> dépend de plusieurs <strong>critères</strong>.</p><p>Une page peut apparaître plus haut si elle est jugée&nbsp;:</p><ul>  <li><strong>pertinente</strong>&nbsp;: les <strong>mots clés</strong> de votre recherche sont bien présents dans le résultat.</li>  <li><strong>populaire</strong>&nbsp;: d’autres <strong>sites font des liens</strong> vers cette page. Plus il y a de liens qui pointent vers une page, plus le moteur de recherche peut considérer qu’elle est <strong>importante</strong> ou <strong>reconnue</strong>.</li>  <li><strong>récente</strong>&nbsp;: elle a été <strong>publiée ou mise à jour récemment</strong>. C’est surtout utile pour les <strong>sujets qui changent vite</strong>.</li></ul>"
+                "content": "<p>Dans les <strong>résultats d’un moteur de recherche</strong>, l’<strong>ordre des pages web</strong> dépend de plusieurs <strong>critères</strong>.</p><p>Une page peut apparaître plus haut si elle est jugée&nbsp;:</p><ul>  <li><strong>pertinente</strong>&nbsp;: les <strong>mots clés</strong> de votre recherche sont bien présents dans le résultat.</li>  <li><strong>populaire</strong>&nbsp;: d’autres sites contiennent des <strong>liens cliquables</strong> qui envoient <strong>vers cette page web</strong>. Plus il y a de liens qui envoient vers une page web, plus le moteur de recherche peut considérer qu’elle est <strong>importante</strong> ou <strong>reconnue</strong>.</li>  <li><strong>récente</strong>&nbsp;: elle a été <strong>publiée ou mise à jour récemment</strong>.</li></ul>"
               }
             },
             {
@@ -310,7 +310,7 @@
                 "id": "4bed406b-7cce-4ccc-b83b-351c32656fe3",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Parfois, d’autres critères peuvent aussi être utilisés. </p><p>Par exemple&nbsp;: l’endroit où vous êtes, ou les sites web que vous avez déjà visités.</p><p>Les résultats ne sont donc pas toujours les mêmes pour tout le monde.</p><br>"
+                "content": "<p>Parfois, d’autres critères entrent en compte dans l’ordre d’affichage des résultats. </p><p>Par exemple&nbsp;: votre localisation ou les pages web que vous avez déjà visitées. </p><p>Les résultats ne sont donc pas toujours les mêmes ni affichés dans le même ordre pour tout le monde.</p><br>"
               }
             }
           ]
@@ -326,7 +326,7 @@
                 "id": "2c3a8d41-727a-4018-8dfe-afa81fb05b45",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Nous avons vu que les résultats donnés par un moteur de recherche ne sont pas rangés au hasard.</p><p> Mais il reste une question. Est-ce que les premiers résultats respectent toujours ces critères de classement ? Voyons cela ensemble.&nbsp;</p>"
+                "content": "<p>Nous avons vu plusieurs critères qui expliquent l’ordre d’apparition des pages web dans la liste de résultats d’une recherche. Mais certains résultats ne respectent pas ces critères.</p><p>Voyons cela ensemble.</p>"
               }
             }
           ]
@@ -342,7 +342,7 @@
                 "id": "29a4e381-d8e3-443f-96f1-2b24feb3435a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Kevin cherche maintenant à <strong>réserver sa visite de nuit</strong>.</p><p>Mais en faisant sa recherche «&nbsp;<strong>réserver visite de nuit louvre</strong>&nbsp;», il se rend compte que certaines <strong>pages</strong> peuvent aussi apparaître <strong>tout en haut de la liste</strong>, alors qu’elles ne respectent pas les <strong>critères de pertinence</strong>, de <strong>popularité</strong> ou de <strong>date de mise à jour</strong>.</p>"
+                "content": "<p>Kevin a fait une nouvelle recherche en ligne pour réserver sa visite de nuit au musée du Louvre.Il s’interroge, certains des premiers résultats ne semblent pas correspondre à sa recherche.</p><p><br></p><p><strong>Observez la liste des résultats de la recherche de Kevin, puis répondez à la question qui suit.</strong></p>"
               }
             },
             {
@@ -410,7 +410,7 @@
                 "id": "46c04a44-e878-457f-8c1f-d9067d61e766",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Parfois, des <strong>résultats</strong> apparaissent <strong>en haut de la liste</strong> parce que des entreprises <strong>paient le moteur de recherche</strong> 🪙 ou <strong>achètent des mots clés</strong> pour apparaître en tête de liste lorsque ces termes sont recherchés.</p><p>On les appelle des <strong>annonces</strong> ou des <strong>résultats sponsorisés</strong>.</p><p>C’est la <strong>principale source de revenus</strong> des moteurs de recherche.</p>"
+                "content": "<p>Parfois, des <strong>résultats</strong> apparaissent <strong>en haut de la liste</strong> parce que des entreprises <strong>paient le moteur de recherche</strong> ou <strong>achètent des mots clés</strong> pour apparaître en tête de liste lorsque ces termes sont recherchés.&nbsp;🪙</p><p>On les appelle des <strong>annonces</strong> ou des <strong>résultats sponsorisés</strong>.</p><p>C’est la <strong>principale source de revenus</strong> des moteurs de recherche.</p><p><br></p><p>Lors d’une recherche, faites attention avant de cliquer sur les\n premiers résultats qui apparaissent : correspondent-ils bien à votre \nrecherche ?</p>"
               }
             },
             {
@@ -441,7 +441,7 @@
                 "id": "680df229-5d3e-4fbc-9f03-85acf5e8aa01",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>  <li>🌐 Dans un moteur de recherche, les <strong>résultats</strong> sont présentés sous forme d’une <strong>liste de pages web</strong>.</li>  <li>🔎 Avant de cliquer sur un résultat, on peut déjà lire des informations utiles&nbsp;: le <strong>nom du site</strong>, le <strong>titre de la page</strong> et un <strong>extrait</strong>.</li>  <li>📊 L’ordre des résultats n’est pas choisi au hasard, le moteur de recherche mettra en haut de la liste les pages les plus <strong>pertinentes</strong>, les plus populaires ou les plus récentes.</li>  <li>📢 Certains résultats sont des <strong>annonces</strong>&nbsp;: ils apparaissent au début de la liste, car les propriétaires de ces pages ont payé pour les mettre en premier.</li></ul>"
+                "content": "<ul>  <li> Dans un moteur de recherche, les <strong>résultats</strong> sont présentés sous forme d’une <strong>liste de pages web</strong>.&nbsp;🌐</li>  <li>Avant de cliquer sur un résultat, on peut déjà lire des informations utiles&nbsp;: le <strong>nom du site</strong>, le <strong>titre de la page</strong> et un <strong>extrait</strong>.&nbsp;🔎</li>  <li>L’ordre des résultats n’est pas choisi au hasard, le moteur de recherche mettra en haut de la liste les pages les plus <strong>pertinentes</strong>, les plus <strong>populaires</strong> ou les plus <strong>récentes</strong>.&nbsp;📊</li>  <li>Certains résultats sont des <strong>annonces</strong>&nbsp;: ils apparaissent au début de la liste, car les propriétaires de ces pages ont payé pour les mettre en premier.&nbsp;📢</li></ul>"
               }
             }
           ]
@@ -453,6 +453,22 @@
       "type": "practise",
       "grains": [
         {
+          "id": "cc4853a0-9c18-427c-a9f5-f0d27570df22",
+          "type": "transition",
+          "title": "Transition S'exercer",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "d238db44-0fa8-447a-96c4-5642039a1500",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voyons si vous avez retenu l’essentiel.</p>"
+              }
+            }
+          ]
+        },
+        {
           "id": "84f947be-662e-4ada-a751-8ba111cb7931",
           "type": "activity",
           "title": "Activité 1 ",
@@ -460,19 +476,10 @@
             {
               "type": "element",
               "element": {
-                "id": "2c9c2cfd-19f9-41c4-8f33-ba39c3bdf951",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Voyons ensemble si vous avez retenu l’essentiel !&nbsp;<br></p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
                 "id": "137f4b49-dcc3-401d-9724-b9118781b6d5",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Samira</strong> s’intéresse à l’<strong>histoire de la planète Saturne</strong>. Elle fait une <strong>recherche</strong>. Elle obtient le <strong>résultat suivant</strong> mais décide de l’<strong>ignorer</strong>. </p>"
+                "content": "<p>Samira fait une recherche sur l’histoire de la planète Saturne.</p>\n<p>Elle obtient le résultat suivant mais décide de l’ignorer.</p>"
               }
             },
             {
@@ -492,30 +499,30 @@
               "element": {
                 "id": "4ac3d276-b987-4fb2-8f09-896ffacf3c56",
                 "type": "qcu",
-                "instruction": "<p>Quel est l’élément qui incite Samira à ignorer ce résultat ?</p>",
+                "instruction": "<p>À votre avis, lequel de ces 4 sites va apparaitre en premier sur la <strong>liste de résultats</strong> que va obtenir Gaëtan ?&nbsp;</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Le nom du site web.</p>",
+                    "content": "<p>Le nom du site web</p>",
                     "feedback": {
-                      "state": "<p>Eh non !&nbsp;<br></p>",
+                      "state": "<p>Mauvaise réponse.</p>",
                       "diagnosis": "<p>Le site web est une encyclopédie en ligne qui peut contenir des informations intéressantes par rapport au besoin de Samira.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Le titre du résultat.</p>",
+                    "content": "<p>Le titre du résultat</p>",
                     "feedback": {
-                      "state": "<p>Eh non !<br></p>",
-                      "diagnosis": "<p>Mauvaise réponse. Le titre du résultat correspond bien aux mots clés de la recherche de Samira.</p>"
+                      "state": "<p>Mauvaise réponse.</p>",
+                      "diagnosis": "<p>Le titre du résultat correspond bien aux mots clés de la recherche de Samira.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>L’extrait de la page web.</p>",
+                    "content": "<p>L’extrait de la page web</p>",
                     "feedback": {
-                      "state": "<p>Bien vu !&nbsp;<br></p>",
+                      "state": "<p>Bonne réponse&nbsp;!&nbsp;🎉</p>",
                       "diagnosis": "<p>L’extrait de la page web parle du dieu romain Saturne et non pas de la planète Saturne.</p>"
                     }
                   }
@@ -536,7 +543,7 @@
                 "id": "9472a4c5-3247-4f64-bd43-aac76087d717",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Gaëtan</strong> fait une <strong>recherche</strong> pour suivre les <strong>actualités sur les dernières missions spatiales</strong>. Il tape dans son moteur de recherche «&nbsp;<strong>actualité spatiale</strong>&nbsp;»</p>"
+                "content": "<p>Gaëtan fait une recherche pour suivre les actualités sur les dernières missions spatiales. </p>\n<p>Il tape les mots clés suivants dans son moteur de recherche&nbsp;: «&nbsp;<strong>actualités spatiales</strong>&nbsp;».</p>\n<p><strong>Observez 4 résultats qui apparaissent dans sa liste de résultats puis répondez à la question qui suit.</strong></p>"
               }
             },
             {
@@ -544,9 +551,9 @@
               "element": {
                 "id": "b967f928-7378-44b7-ba32-bcb689be03db",
                 "type": "custom",
-                "title": "Carrousel résultats recherche",
-                "instruction": "<p>Voici 4 résultats qui pourraient apparaitre dans la liste de résultats suite à la recherche de Gaëtan.<br></p>",
-                "functionalInstruction": "<p>Analysez bien ces résultats pour savoir lequel est le plus adapté pour la recherche effectuée.&nbsp;</p>",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
                   "type": "image",
@@ -566,21 +573,7 @@
                       }
                     },
                     {
-                      "title": "Le blog Espace et Exploration.",
-                      "description": "",
-                      "displayWidth": 500,
-                      "image": {
-                        "src": "https://assets.pix.org/draft/modules/11_Moteur_Rechinfo_NOV_2/motrech2_5.png",
-                        "alt": ""
-                      },
-                      "license": {
-                        "name": "",
-                        "attribution": "",
-                        "url": ""
-                      }
-                    },
-                    {
-                      "title": "Le site Aerocontact.com.",
+                      "title": "Le site Aerocontact.com",
                       "description": "",
                       "displayWidth": 500,
                       "image": {
@@ -594,7 +587,7 @@
                       }
                     },
                     {
-                      "title": "Le site de l’Agence spatiale européenne (ESA).",
+                      "title": "Le site de l’Agence spatiale européenne (ESA)",
                       "description": "",
                       "displayWidth": 500,
                       "image": {
@@ -622,43 +615,35 @@
               "element": {
                 "id": "43762795-d2a4-4494-bc65-dce8bf989a21",
                 "type": "qcu",
-                "instruction": "<p>À votre avis, lequel de ces 4 sites va apparaitre en premier sur la <strong>liste de résultats</strong> que va obtenir Gaëtan ?&nbsp;</p>",
+                "instruction": "<p>Lequel de ces 4 sites a le plus de chances d’apparaître en premier dans la liste de résultats de Gaëtan ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
-                    "id": "1",
-                    "content": "<p>Le site DW.com.</p>",
+                    "id": "0",
+                    "content": "<p>Le site DW.com</p>",
                     "feedback": {
-                      "state": "<p>Eh non !</p>",
+                      "state": "<p>Mauvaise réponse.</p>",
                       "diagnosis": "<p>Ce contenu est ancien. Les moteurs de recherche privilégient souvent des informations plus récentes.</p>"
                     }
                   },
                   {
-                    "id": "2",
-                    "content": "<p>Le blog Espace et Exploration.</p>",
+                    "id": "1",
+                    "content": "<p>Le site Aerocontact.com</p>",
                     "feedback": {
-                      "state": "<p>Eh non !</p>",
-                      "diagnosis": "<p>Le contenu est pertinent, mais le site manque de popularité, ce qui peut le faire apparaître plus bas.</p>"
-                    }
-                  },
-                  {
-                    "id": "3",
-                    "content": "<p>Le site Aerocontact.com.</p>",
-                    "feedback": {
-                      "state": "<p>Eh non !</p>",
+                      "state": "<p>Mauvaise réponse.</p>",
                       "diagnosis": "<p>Ce résultat ne correspond pas à la recherche. Il n’est pas pertinent.</p>"
                     }
                   },
                   {
-                    "id": "4",
-                    "content": "<p>Le site de l’Agence spatiale européenne (ESA).</p>",
+                    "id": "2",
+                    "content": "<p>Le site de l’Agence spatiale européenne (ESA)</p>",
                     "feedback": {
-                      "state": "<p>Bien vu !</p>",
+                      "state": "<p></p><p>Bonne réponse&nbsp;!&nbsp;🎉</p><p></p>",
                       "diagnosis": "<p>Ce site est pertinent, populaire et à jour. Il a donc plus de chances d’apparaître en premier.</p>"
                     }
                   }
                 ],
-                "solution": "4"
+                "solution": "2"
               }
             }
           ]
@@ -755,7 +740,7 @@
                 "id": "12fd500d-89e0-4a9d-8d4f-aa8df8a48c6c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous cherchez à vous renseigner sur comment les enfants vivaient au moyen-âge sur internet. Vous utilisez votre moteur de recherche préféré pour faire la recherche suivante&nbsp;:  «&nbsp;histoire enfants moyen âge&nbsp;». Voici la liste de résultats pour le recherche</p>"
+                "content": "<p>Vous cherchez à vous renseigner sur comment les enfants vivaient au moyen-âge sur internet. Vous utilisez un moteur de recherche pour faire la recherche suivante&nbsp;:  «&nbsp;histoire enfants moyen âge&nbsp;». Voici la liste de résultats pour le recherche</p>"
               }
             },
             {
