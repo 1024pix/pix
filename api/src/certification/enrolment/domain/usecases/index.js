@@ -13,6 +13,7 @@ import * as sessionValidator from '../../../shared/domain/validators/session-val
 import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as eligibilityService from '../services/eligibility-service.js';
@@ -85,6 +86,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
 const dependencies = {
   certificationBadgesService,
   ...enrolmentRepositories,
+  candidateRepository,
   sessionCodeService,
   sessionsImportValidationService,
   temporarySessionsStorageForMassImportService,

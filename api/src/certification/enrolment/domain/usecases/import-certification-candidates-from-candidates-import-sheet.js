@@ -43,7 +43,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
 
   await DomainTransaction.execute(async () => {
     await candidateRepository.deleteBySessionId({ sessionId });
-    await candidateRepository.save({ candidates });
+    await candidateRepository.save(candidates);
   });
 };
 

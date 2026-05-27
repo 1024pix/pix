@@ -301,67 +301,6 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
     });
   });
 
-  describe('#insert', function () {
-    let candidateData;
-
-    beforeEach(function () {
-      candidateData = {
-        id: null,
-        createdAt: new Date('2020-01-01'),
-        firstName: 'Jean-Charles',
-        lastName: 'Quiberon',
-        sex: 'M',
-        birthPostalCode: 'Code postal',
-        birthINSEECode: 'Insee code',
-        birthCity: 'Ma ville',
-        birthProvinceCode: 'Mon département',
-        birthCountry: 'Mon pays',
-        email: 'jc.quiberon@example.net',
-        resultRecipientEmail: 'ma_maman@example.net',
-        birthdate: '1990-05-06',
-        extraTimePercentage: 0.3,
-        externalId: 'JCQUIB',
-        userId: null,
-        sessionId: 888,
-        organizationLearnerId: null,
-        authorizedToStart: false,
-        complementaryCertificationId: null,
-        billingMode: null,
-        prepaymentCode: null,
-        hasSeenCertificationInstructions: false,
-        accessibilityAdjustmentNeeded: false,
-        reconciledAt: null,
-        subscription: Frameworks.DROIT,
-      };
-      databaseBuilder.factory.buildSession({ id: candidateData.sessionId });
-      databaseBuilder.factory.buildComplementaryCertification({ key: Frameworks.DROIT });
-      return databaseBuilder.commit();
-    });
-
-    it('should insert candidate in DB with subscription', async function () {
-      // given
-      const candidateToInsert = domainBuilder.certification.enrolment.buildCandidate(candidateData);
-
-      // when
-      const candidateId = await candidateRepository.insert(candidateToInsert);
-
-      // then
-      const savedCandidateData = await knex('certification-candidates').select('*').where({ id: candidateId }).first();
-      expect(savedCandidateData.subscription).to.equal(Frameworks.DROIT);
-      expect(parseFloat(savedCandidateData.extraTimePercentage)).to.equal(candidateData.extraTimePercentage);
-
-      const savedSubscriptionsData = await knex('certification-subscriptions')
-        .select('*')
-        .where({ certificationCandidateId: candidateId })
-        .orderBy('type');
-      expect(savedSubscriptionsData).to.have.lengthOf(1);
-      expect(savedSubscriptionsData[0]).to.deepEqualInstanceOmitting(
-        { certificationCandidateId: candidateId, type: SUBSCRIPTION_TYPES.COMPLEMENTARY },
-        ['createdAt', 'complementaryCertificationId'],
-      );
-    });
-  });
-
   describe('#save', function () {
     it("should insert session's candidates in DB with their subscriptions", async function () {
       // given
@@ -403,7 +342,7 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
       });
 
       // when
-      await candidateRepository.save({ candidates: [candidateA, candidateB, candidateC] });
+      await candidateRepository.save([candidateA, candidateB, candidateC]);
 
       // then
       // Candidate A

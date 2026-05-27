@@ -13,7 +13,7 @@ import { SessionEnrolment } from '../models/SessionEnrolment.js';
  * @param {deps["sessionRepository"]} params.sessionRepository
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
-const createSessions = async function ({
+export async function createSessions({
   userId,
   cachedValidatedSessionsKey,
   candidateRepository,
@@ -44,7 +44,7 @@ const createSessions = async function ({
         sessionId = id;
       }
 
-      if (_hasCandidates(candidates)) {
+      if (candidates.length > 0) {
         await _saveCandidates({
           candidates,
           sessionId,
@@ -58,12 +58,6 @@ const createSessions = async function ({
     cachedValidatedSessionsKey,
     userId,
   });
-};
-
-export { createSessions };
-
-function _hasCandidates(candidates) {
-  return candidates.length > 0;
 }
 
 async function _saveNewSessionReturningId({ sessionRepository, sessionDTO }) {
@@ -79,5 +73,5 @@ async function _saveCandidates({ candidates, sessionId, candidateRepository }) {
   const candidatesToSave = candidates.map((candidate) => {
     return new Candidate({ ...candidate, sessionId });
   });
-  await candidateRepository.save({ candidates: candidatesToSave });
+  await candidateRepository.save(candidatesToSave);
 }

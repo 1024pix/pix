@@ -5,7 +5,6 @@ import * as certificationCandidateRepository from '../../../shared/infrastructur
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
-import * as candidateRepository from './candidate-repository.js';
 import * as centerRepository from './center-repository.js';
 import * as certificationCpfCityRepository from './certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from './certification-cpf-country-repository.js';
@@ -20,7 +19,6 @@ import * as sessionRepository from './session-repository.js';
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
- * @typedef {candidateRepository} CandidateRepository
  * @typedef {centerRepository} CenterRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {sessionRepository} SessionRepository
@@ -39,7 +37,6 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {complementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
  */
 const repositoriesWithoutInjectedDependencies = {
-  candidateRepository,
   centerRepository,
   certificationCandidateRepository,
   certificationCenterRepository,

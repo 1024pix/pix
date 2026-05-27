@@ -39,7 +39,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       getById: sinon.stub(),
     };
     candidateRepository = {
-      insert: sinon.stub(),
+      save: sinon.stub(),
       findBySessionId: sinon.stub(),
     };
     certificationCpfService = {
@@ -99,7 +99,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       // then
       expect(error).to.be.an.instanceOf(CertificationCandidateOnFinalizedSessionError);
       expect(error.message).to.equal("Cette session a déjà été finalisée, l'ajout de candidat n'est pas autorisé");
-      expect(candidateRepository.insert).not.to.have.been.called;
+      expect(candidateRepository.save).not.to.have.been.called;
       expect(eventApi.pushCandidateEnrolledEvent).not.to.have.been.called;
     });
   });
@@ -139,7 +139,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             },
           }),
         );
-        expect(candidateRepository.insert).not.to.have.been.called;
+        expect(candidateRepository.save).not.to.have.been.called;
         expect(eventApi.pushCandidateEnrolledEvent).not.to.have.been.called;
       });
     });
@@ -181,7 +181,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
 
           // then
           expect(error).to.be.instanceof(CertificationCandidateByPersonalInfoTooManyMatchesError);
-          expect(candidateRepository.insert).not.to.have.been.called;
+          expect(candidateRepository.save).not.to.have.been.called;
           expect(eventApi.pushCandidateEnrolledEvent).not.to.have.been.called;
         });
       });
@@ -216,7 +216,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             // then
             expect(error).to.be.an.instanceOf(CertificationCandidatesError);
             expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED.code);
-            expect(candidateRepository.insert).not.to.have.been.called;
+            expect(candidateRepository.save).not.to.have.been.called;
             expect(eventApi.pushCandidateEnrolledEvent).not.to.have.been.called;
           });
         });
@@ -258,7 +258,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
                   meta: { email: 'jesuisunemail@incorrect.fr' },
                 });
                 expect(error).to.deepEqualInstance(certificationCandidatesError);
-                expect(candidateRepository.insert).not.to.have.been.called;
+                expect(candidateRepository.save).not.to.have.been.called;
                 expect(eventApi.pushCandidateEnrolledEvent).not.to.have.been.called;
               });
             });
@@ -288,7 +288,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
                 });
 
                 expect(error).to.deepEqualInstance(certificationCandidatesError);
-                expect(candidateRepository.insert).not.to.have.been.called;
+                expect(candidateRepository.save).not.to.have.been.called;
                 expect(eventApi.pushCandidateEnrolledEvent).not.to.have.been.called;
               });
             });
@@ -310,7 +310,11 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
                 birthPostalCode: null,
                 birthCity: 'CITY',
               });
-              candidateRepository.insert.resolves(159);
+              const savedCandidate = domainBuilder.certification.enrolment.buildCandidate({
+                ...candidateToEnroll.toDTO(),
+                id: 159,
+              });
+              candidateRepository.save.resolves([savedCandidate]);
 
               // when
               const id = await addCandidateToSession({
@@ -321,11 +325,8 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
               });
 
               // then
-              expect(candidateRepository.insert).to.have.been.calledWithExactly(correctedCandidateToEnroll);
-              expect(eventApi.pushCandidateEnrolledEvent).to.have.been.calledOnceWith({
-                ...candidateToEnroll.toDTO(),
-                id: 159,
-              });
+              expect(candidateRepository.save).to.have.been.calledWithExactly([correctedCandidateToEnroll]);
+              expect(eventApi.pushCandidateEnrolledEvent).to.have.been.calledOnceWith(savedCandidate.toDTO());
               expect(id).to.equal(159);
             });
           });

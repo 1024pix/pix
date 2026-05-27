@@ -136,7 +136,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           expect(candidateRepository.deleteBySessionId).to.have.been.calledWithExactly({
             sessionId,
           });
-          expect(candidateRepository.save).to.have.been.calledWithExactly({ candidates });
+          expect(candidateRepository.save).to.have.been.calledWithExactly(candidates);
           expect(candidateRepository.deleteBySessionId.calledBefore(candidateRepository.save)).to.be.true;
         });
       });

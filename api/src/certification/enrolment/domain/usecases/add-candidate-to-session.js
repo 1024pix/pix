@@ -15,7 +15,6 @@ import {
 } from '../../../../shared/domain/errors.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
-import { pushCandidateEnrolledEvent } from '../../../shared/application/api/event-api.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 
@@ -118,10 +117,7 @@ export async function addCandidateToSession({
     }
   }
 
-  const candidateId = await candidateRepository.insert(candidate);
-  await eventApi.pushCandidateEnrolledEvent({
-    ...candidate.toDTO(),
-    id: candidateId,
-  });
-  return candidateId;
+  const [savedCandidate] = await candidateRepository.save([candidate]);
+  await eventApi.pushCandidateEnrolledEvent(savedCandidate.toDTO());
+  return savedCandidate.id;
 }
