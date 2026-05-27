@@ -16,7 +16,9 @@ export class OidcAuthenticationServiceRegistry {
   }
 
   /**
-   * @return {OidcAuthenticationService[]|null}
+   * Returns all the OidcAuthenticationServices, enabled or not.
+   *
+   * @returns {OidcAuthenticationService[]|null}
    */
   async getAllOidcProviderServices() {
     await this.#loadAllOidcProviderServices();
@@ -24,6 +26,11 @@ export class OidcAuthenticationServiceRegistry {
     return this.#allOidcProviderServices;
   }
 
+  /**
+   * Returns the enabled OidcAuthenticationServices for the given requestedApplication.
+   *
+   * @returns {OidcAuthenticationService[]|null}
+   */
   async getOidcProviderServicesByRequestedApplication(requestedApplication) {
     await this.#loadAllOidcProviderServices();
 
@@ -34,6 +41,12 @@ export class OidcAuthenticationServiceRegistry {
     return this.#oidcProviderServicesByRequestedApplication[key] || [];
   }
 
+  /**
+   * Returns the configured OidcAuthenticationService for a given code and requestedApplication.
+   *
+   * @returns {OidcAuthenticationService}
+   * @throws {InvalidArgumentException} if oidcProviderService.initializeClientConfig() throws an error
+   */
   async getOidcProviderServiceByCode({ identityProviderCode, requestedApplication }) {
     await this.#loadAllOidcProviderServices();
 
