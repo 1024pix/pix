@@ -1,5 +1,5 @@
-import { AdminMemberError } from '../../../authorization/domain/errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { AdminMemberError } from '../../domain/errors.js';
 import { AdminMember } from '../../domain/models/AdminMember.js';
 
 const TABLE_NAME = 'pix-admin-roles';
@@ -68,14 +68,14 @@ const save = async function (pixAdminRole) {
 const deactivate = async function ({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const now = new Date();
-  const [deactivateddAdminMember] = await knexConn
+  const [deactivatedAdminMember] = await knexConn
     .from('pix-admin-roles')
     .where({ id })
     .whereRaw('"disabledAt" IS NULL')
     .update({ disabledAt: now, updatedAt: now })
     .returning('*');
 
-  if (!deactivateddAdminMember) {
+  if (!deactivatedAdminMember) {
     throw new AdminMemberError(
       'A problem occurred while trying to deactivate an admin member',
       'DEACTIVATE_ADMIN_MEMBER_ERROR',

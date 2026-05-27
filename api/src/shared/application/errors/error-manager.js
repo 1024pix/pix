@@ -1,4 +1,3 @@
-import { AdminMemberError } from '../../../authorization/domain/errors.js';
 import * as SharedDomainErrors from '../../domain/errors.js';
 import { HttpErrors } from './http-errors.js';
 
@@ -101,7 +100,6 @@ const BAD_REQUEST_ERRORS = [
 
 const UNPROCESSABLE_ENTITY_ERRORS = [
   SharedDomainErrors.UserCouldNotBeReconciledError,
-  AdminMemberError,
   SharedDomainErrors.OidcError,
   SharedDomainErrors.AuthenticationMethodAlreadyExistsError,
   SharedDomainErrors.MissingAttributesError,

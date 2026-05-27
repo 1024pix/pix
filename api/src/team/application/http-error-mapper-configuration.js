@@ -1,5 +1,6 @@
 import { HttpErrors } from '../../shared/application/errors/http-errors.js';
 import {
+  AdminMemberError,
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingAdminMemberError,
   OrganizationArchivedError,
@@ -10,16 +11,20 @@ import {
 
 const teamDomainErrorMappingConfiguration = [
   {
+    name: AdminMemberError.name,
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
     name: UncancellableOrganizationInvitationError.name,
-    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message),
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
   },
   {
     name: AlreadyExistingAdminMemberError.name,
-    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message),
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
   },
   {
     name: OrganizationArchivedError.name,
-    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message),
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
   },
   {
     name: AlreadyAcceptedOrCancelledInvitationError.name,

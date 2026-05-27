@@ -1,4 +1,3 @@
-import { AdminMemberError } from '../../../src/authorization/domain/errors.js';
 import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../../src/organizational-entities/domain/errors.js';
 import * as errors from '../../../src/shared/domain/errors.js';
 import {
@@ -10,10 +9,6 @@ import {
 import { expect } from '../../test-helper.js';
 
 describe('Unit | Domain | Errors', function () {
-  it('should export a AdminMemberError', function () {
-    expect(AdminMemberError).to.exist;
-  });
-
   it('should export a CandidateAlreadyLinkedToUserError', function () {
     expect(errors.CandidateAlreadyLinkedToUserError).to.exist;
   });

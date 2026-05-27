@@ -1,5 +1,13 @@
 import { DomainError } from '../../shared/domain/errors.js';
 
+class AdminMemberError extends DomainError {
+  constructor(message = 'An error occurred on admin member', code = 'ADMIN_MEMBER_ERROR') {
+    super(message);
+    this.code = code;
+    this.message = message;
+  }
+}
+
 class AlreadyAcceptedOrCancelledInvitationError extends DomainError {
   constructor() {
     super('The invitation has already been accepted or cancelled', 'INVITATION_ALREADY_ACCEPTED_OR_CANCELLED');
@@ -51,6 +59,7 @@ class OrganizationArchivedError extends DomainError {
 }
 
 export {
+  AdminMemberError,
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingAdminMemberError,
   MembershipNotFound,

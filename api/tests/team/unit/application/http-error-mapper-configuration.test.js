@@ -1,6 +1,7 @@
 import { HttpErrors } from '../../../../src/shared/application/errors/http-errors.js';
 import { teamDomainErrorMappingConfiguration } from '../../../../src/team/application/http-error-mapper-configuration.js';
 import {
+  AdminMemberError,
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingAdminMemberError,
   OrganizationArchivedError,
@@ -11,6 +12,19 @@ import {
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Team | Application | HttpErrorMapperConfiguration', function () {
+  it('instantiates UnprocessableEntityError when AdminMemberError', async function () {
+    //given
+    const httpErrorMapper = teamDomainErrorMappingConfiguration.find(
+      (httpErrorMapper) => httpErrorMapper.name === AdminMemberError.name,
+    );
+
+    //when
+    const error = httpErrorMapper.httpErrorFn(new AdminMemberError());
+
+    //then
+    expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+  });
+
   it('instantiates UnprocessableEntityError when UncancellableOrganizationInvitationError', async function () {
     //given
     const httpErrorMapper = teamDomainErrorMappingConfiguration.find(

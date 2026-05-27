@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
-import { AdminMemberError } from '../../../../../src/authorization/domain/errors.js';
+import { AdminMemberError } from '../../../../../src/team/domain/errors.js';
 import { AdminMember } from '../../../../../src/team/domain/models/AdminMember.js';
 import { adminMemberRepository } from '../../../../../src/team/infrastructure/repositories/admin-member.repository.js';
 import { expect } from '../../../../test-helper.js';
