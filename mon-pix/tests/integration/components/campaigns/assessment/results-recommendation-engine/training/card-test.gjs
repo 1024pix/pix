@@ -199,7 +199,9 @@ module(
 
         // when
         const screen = await render(<template><TrainingCard @training={{training}} /></template>);
-        await click(screen.getByRole('button', { name: /Apprendre à manger un croissant comme les français / }));
+        await click(
+          screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.training-card.aria-label') }),
+        );
 
         // then
         const modal = await screen.findByRole('dialog');
@@ -235,7 +237,9 @@ module(
 
           // when
           const screen = await render(<template><TrainingCard @training={{training}} /></template>);
-          await click(screen.getByRole('button', { name: /Apprendre à manger un croissant comme les français / }));
+          await click(
+            screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.training-card.aria-label') }),
+          );
 
           // then
           const modal = await screen.findByRole('dialog');
@@ -257,7 +261,9 @@ module(
 
           // when
           const screen = await render(<template><TrainingCard @training={{training}} /></template>);
-          await click(screen.getByRole('button', { name: /Apprendre à manger un croissant comme les français / }));
+          await click(
+            screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.training-card.aria-label') }),
+          );
 
           // then
           const modal = await screen.findByRole('dialog');

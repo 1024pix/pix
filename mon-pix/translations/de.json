@@ -2234,6 +2234,7 @@
           "program": "Programm"
         },
         "training-card": {
+          "aria-label": "Trainingsdetails öffnen",
           "delivery-mode": {
             "hybrid": "Hybrid",
             "on-site": "Vor Ort",
