@@ -112,7 +112,7 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/frameworks/{scope}/new-version',
+      path: '/api/admin/frameworks/{scope}/version',
       config: {
         pre: [
           {

@@ -5,7 +5,7 @@ export default class CertificationConsolidatedFrameworkAdapter extends Applicati
 
   createRecord(store, type, snapshot) {
     const scope = snapshot.attr('scope');
-    const url = `${this.host}/${this.namespace}/frameworks/${scope}/new-version`;
+    const url = `${this.host}/${this.namespace}/frameworks/${scope}/version`;
     const payload = {
       data: {
         data: {

@@ -223,7 +223,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
     });
   });
 
-  describe('POST /api/admin/frameworks/{scope}/new-version', function () {
+  describe('POST /api/admin/frameworks/{scope}/version', function () {
     const now = new Date('2025-06-15T12:00:00Z');
 
     let clock;
@@ -256,7 +256,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
 
       const options = {
         method: 'POST',
-        url: `/api/admin/frameworks/${SCOPES.CORE}/new-version`,
+        url: `/api/admin/frameworks/${SCOPES.CORE}/version`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
         payload: {
           data: {
@@ -339,7 +339,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
 
       const options = {
         method: 'POST',
-        url: `/api/admin/frameworks/${SCOPES.CORE}/new-version`,
+        url: `/api/admin/frameworks/${SCOPES.CORE}/version`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
         payload: {
           data: {

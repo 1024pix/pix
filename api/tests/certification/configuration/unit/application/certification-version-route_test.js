@@ -196,7 +196,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
     });
   });
 
-  describe('POST /api/admin/frameworks/{scope}/new-version', function () {
+  describe('POST /api/admin/frameworks/{scope}/version', function () {
     describe('when the user authenticated has no role', function () {
       it('should return 403 HTTP status code', async function () {
         // given
@@ -208,7 +208,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request('POST', `/api/admin/frameworks/${SCOPES.CORE}/new-version`, {
+        const response = await httpTestServer.request('POST', `/api/admin/frameworks/${SCOPES.CORE}/version`, {
           data: { attributes: { tubeIds: ['tubeId'] } },
         });
 
@@ -227,7 +227,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request('POST', '/api/admin/frameworks/INVALID_SCOPE/new-version', {
+        const response = await httpTestServer.request('POST', '/api/admin/frameworks/INVALID_SCOPE/version', {
           data: { attributes: { tubeIds: ['tubeId'] } },
         });
 
