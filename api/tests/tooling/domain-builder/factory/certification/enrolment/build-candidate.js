@@ -1,6 +1,5 @@
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { domainBuilder } from '../../../domain-builder.js';
 
 const buildCandidate = function ({
   id = 123,
@@ -26,7 +25,6 @@ const buildCandidate = function ({
   billingMode = null,
   prepaymentCode = null,
   hasSeenCertificationInstructions = false,
-  subscriptions = [domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null })],
   accessibilityAdjustmentNeeded,
   subscription = Frameworks.CORE,
 } = {}) {
@@ -54,7 +52,6 @@ const buildCandidate = function ({
     billingMode,
     prepaymentCode,
     hasSeenCertificationInstructions,
-    subscriptions,
     accessibilityAdjustmentNeeded,
     subscription,
   });

@@ -1,15 +1,7 @@
-/**
- * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
- */
-
 // @ts-check
-import dayjs from 'dayjs';
-
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
-import { CertificationCandidateNotFoundError } from '../../../shared/domain/errors.js';
-import { Candidate } from '../../domain/models/Candidate.js';
-import { Subscription } from '../../domain/models/Subscription.js';
+import { DomainTransaction } from "../../../../shared/domain/DomainTransaction.js";
+import { CertificationCandidateNotFoundError } from "../../../shared/domain/errors.js";
+import { Candidate } from "../../domain/models/Candidate.js";
 
 /**
  * @function
@@ -78,31 +70,6 @@ export async function update(candidate) {
   if (!updatedCertificationCandidate) {
     throw new CertificationCandidateNotFoundError();
   }
-
-  await knexConn('certification-subscriptions').where({ certificationCandidateId: candidate.id }).del();
-
-  for (const subscription of candidate.subscriptions) {
-    if (subscription.type === SUBSCRIPTION_TYPES.CORE) {
-      await knexConn('certification-subscriptions').insert({
-        certificationCandidateId: candidate.id,
-        type: subscription.type,
-        complementaryCertificationId: null,
-      });
-    } else {
-      const { id: complementaryCertificationId } = await knexConn('complementary-certifications')
-        .select('id')
-        .where({
-          key: subscription.complementaryCertificationKey,
-        })
-        .first();
-
-      await knexConn('certification-subscriptions').insert({
-        certificationCandidateId: candidate.id,
-        type: subscription.type,
-        complementaryCertificationId: complementaryCertificationId,
-      });
-    }
-  }
 }
 
 /**
@@ -124,36 +91,12 @@ export async function insert(candidate) {
  */
 export async function save({ candidates }) {
   const knexConn = DomainTransaction.getConnection();
-  const complementaryCertificationsData = await knexConn('complementary-certifications').select('id', 'key');
 
   const candidatesData = candidates.map(adaptModelToDb);
 
   const insertedCandidatesData = await knexConn('certification-candidates')
     .insert(candidatesData)
     .returning(['id', 'firstName', 'lastName', 'birthdate']);
-
-  const subscriptionsData = [];
-  for (const candidate of candidates) {
-    const insertedCandidateId = insertedCandidatesData.find(
-      (insertedCandidateData) =>
-        insertedCandidateData.firstName === candidate.firstName &&
-        insertedCandidateData.lastName === candidate.lastName &&
-        dayjs(insertedCandidateData.birthdate).format('YYYY-MM-DD') === dayjs(candidate.birthdate).format('YYYY-MM-DD'),
-    ).id;
-
-    subscriptionsData.push(
-      ...candidate.subscriptions.map((subscription) => ({
-        certificationCandidateId: insertedCandidateId,
-        type: subscription.type,
-        complementaryCertificationId:
-          complementaryCertificationsData.find(
-            (complementaryCertificationData) =>
-              complementaryCertificationData.key === subscription.complementaryCertificationKey,
-          )?.id ?? null,
-      })),
-    );
-  }
-  await knexConn('certification-subscriptions').insert(subscriptionsData);
 
   return insertedCandidatesData.map(({ id }) => id);
 }
@@ -166,10 +109,6 @@ export async function save({ candidates }) {
  */
 export async function deleteBySessionId({ sessionId }) {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification-subscriptions')
-    .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
-    .del();
-
   await knexConn('certification-candidates').where({ sessionId }).del();
 }
 
@@ -181,7 +120,6 @@ export async function deleteBySessionId({ sessionId }) {
  */
 export async function remove({ id }) {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification-subscriptions').where({ certificationCandidateId: id }).del();
   return knexConn('certification-candidates').where({ id }).del();
 }
 
@@ -192,29 +130,8 @@ export async function remove({ id }) {
 function buildBaseReadQuery(knexConn) {
   return knexConn('certification-candidates')
     .select('certification-candidates.*', 'certification-courses.id as certificationCourseId')
-    .select({
-      subscriptions: knexConn.raw(
-        `json_agg(
-          json_build_object(
-            'type', "certification-subscriptions"."type",
-            'complementaryCertificationKey', "complementary-certifications"."key",
-            'certificationCandidateId', "certification-candidates"."id"
-          ) ORDER BY type
-      )`,
-      ),
-    })
     .from('certification-candidates')
     .leftJoin('certification-courses', 'certification-courses.candidateId', 'certification-candidates.id')
-    .join(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'certification-subscriptions.complementaryCertificationId',
-      'complementary-certifications.id',
-    )
     .groupBy('certification-candidates.id', 'certification-courses.id');
 }
 
@@ -303,16 +220,9 @@ function adaptModelToDb(candidate) {
  * @property {boolean} accessibilityAdjustmentNeeded
  * @property {boolean} hasStartedTest
  * @property {number | null} extraTimePercentage
- * @property {Array<SubscriptionDTO>} subscriptions
+ * @property {String} subscription
  * @property {Date} reconciledAt
  * @property {Date} createdAt
- */
-
-/**
- * @typedef {object} SubscriptionDTO
- * @property {string} type
- * @property {ComplementaryCertificationKeys} complementaryCertificationKey
- * @property {number} certificationCandidateId
  */
 
 /**
@@ -321,10 +231,8 @@ function adaptModelToDb(candidate) {
  * @returns {Candidate}
  */
 function toDomain(candidateData) {
-  const subscriptions = candidateData.subscriptions.map((subscription) => new Subscription(subscription));
   return new Candidate({
     ...candidateData,
     hasStartedTest: Boolean(candidateData.certificationCourseId),
-    subscriptions,
   });
 }
