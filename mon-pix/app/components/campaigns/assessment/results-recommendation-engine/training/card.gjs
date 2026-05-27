@@ -3,7 +3,6 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -11,27 +10,12 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
+import CardTag from './card-tag';
+
 export default class Card extends Component {
   @service intl;
 
   @tracked modalIsOpen = false;
-
-  get tagProperties() {
-    const registrationRequired = this.args.training.registrationRequired;
-
-    const color = registrationRequired ? 'blue-light' : 'purple';
-    const iconName = registrationRequired ? 'lock' : 'acute';
-    const translationKey = registrationRequired ? 'yes' : 'no';
-    const text = this.intl.t(
-      `pages.skill-review.recommended-engine.training-card.registration-required.${translationKey}`,
-    );
-
-    return {
-      color,
-      iconName,
-      text,
-    };
-  }
 
   get deliveryMode() {
     const deliveryMode = this.args.training.deliveryMode === 'onSite' ? 'on-site' : this.args.training.deliveryMode;
@@ -70,14 +54,7 @@ export default class Card extends Component {
           alt=""
         />
       </div>
-      <PixTag @color={{this.tagProperties.color}} class="results-recommendation-engine-training-card__tag">
-        <PixIcon
-          class="results-recommendation-engine-training-card__tag-icon"
-          @name={{this.tagProperties.iconName}}
-          @ariaHidden={{true}}
-        />
-        {{this.tagProperties.text}}
-      </PixTag>
+      <RegistrationCardTag @registrationRequired={{@training.registrationRequired}} />
       <section class="results-recommendation-engine-training-card-content">
         <p class="results-recommendation-engine-training-card-content__title">{{@training.title}}</p>
         <ul class="results-recommendation-engine-training-card-content__details"><li>{{this.type}}</li>
@@ -97,14 +74,7 @@ export default class Card extends Component {
       <:content>
         <section class="results-recommendation-engine-training-card-modal__section">
           <div class="results-recommendation-engine-training-card-modal-section__description">
-            <PixTag @color={{this.tagProperties.color}} class="results-recommendation-engine-training-card__tag">
-              <PixIcon
-                class="results-recommendation-engine-training-card__tag-icon"
-                @name={{this.tagProperties.iconName}}
-                @ariaHidden={{true}}
-              />
-              {{this.tagProperties.text}}
-            </PixTag>
+            <CardTag @registrationRequired={{@training.registrationRequired}} />
             <p>{{t "pages.skill-review.recommended-engine.modal.editor-name"}}<span>{{@training.editorName}}</span></p>
             <p>{{@training.description}}</p>
           </div>
