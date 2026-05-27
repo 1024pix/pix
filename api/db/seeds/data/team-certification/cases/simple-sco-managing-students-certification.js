@@ -3,9 +3,9 @@ import dayjs from 'dayjs';
 import { services as enrolmentServices } from '../../../../../src/certification/enrolment/application/services/index.js';
 import { Candidate } from '../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
-import { Subscription } from '../../../../../src/certification/enrolment/domain/models/Subscription.js';
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { usecases as sessionManagementUseCases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
+import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { usecases as prescriptionLearnerManagementUsecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import {
@@ -173,7 +173,7 @@ export class ScoManagingStudent {
   }
 
   async #addCandidateToSession({ organizationLearner, session }) {
-    const candidate = Candidate.create({
+    const candidate = new Candidate({
       firstName: organizationLearner.firstName,
       lastName: organizationLearner.lastName,
       sex: 'F',
@@ -184,7 +184,7 @@ export class ScoManagingStudent {
       isLinked: true,
       hasSeenCertificationInstructions: false,
       accessibilityAdjustmentNeeded: false,
-      subscriptions: [Subscription.buildCore({ certificationCandidateId: null })],
+      subscription: Frameworks.CORE,
       userId: organizationLearner.userId,
       organizationLearnerId: organizationLearner.id,
     });

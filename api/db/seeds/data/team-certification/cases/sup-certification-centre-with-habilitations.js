@@ -1,11 +1,11 @@
 import { services as enrolmentServices } from '../../../../../src/certification/enrolment/application/services/index.js';
 import { Candidate } from '../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
-import { Subscription } from '../../../../../src/certification/enrolment/domain/models/Subscription.js';
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { usecases as sessionManagementUseCases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import {
   CertificationCenter,
@@ -65,12 +65,7 @@ export class SupWithHabilitationsSeed {
       await this.#addCandidateToSession({
         pixAppUser: certifiableUser,
         session: sessionDroitReadyToStart,
-        subscriptions: [
-          Subscription.buildComplementary({
-            certificationCandidateId: null,
-            complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-          }),
-        ],
+        subscription: Frameworks.EDU_1ER_DEGRE,
       });
     }
 
@@ -89,12 +84,7 @@ export class SupWithHabilitationsSeed {
       await this.#addCandidateToSession({
         pixAppUser: certifiableUser,
         session: sessionEduReadyToStart,
-        subscriptions: [
-          Subscription.buildComplementary({
-            certificationCandidateId: null,
-            complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-          }),
-        ],
+        subscription: Frameworks.DROIT,
       });
     }
   }
@@ -177,7 +167,7 @@ export class SupWithHabilitationsSeed {
     });
   }
 
-  async #addCandidateToSession({ pixAppUser, session, subscriptions }) {
+  async #addCandidateToSession({ pixAppUser, session, subscription }) {
     const candidateBirthdate = '2000-10-30';
 
     const candidateDTO = {
@@ -191,14 +181,14 @@ export class SupWithHabilitationsSeed {
       isLinked: true,
       hasSeenCertificationInstructions: false,
       accessibilityAdjustmentNeeded: false,
-      subscriptions,
+      subscription,
       userId: pixAppUser.id,
       billingMode: BILLING_MODES.FREE,
     };
 
     const candidateId = await enrolmentUseCases.addCandidateToSession({
       sessionId: session.id,
-      candidate: Candidate.create(candidateDTO), // Warning: usecase modifies the entry model...
+      candidate: new Candidate(candidateDTO), // Warning: usecase modifies the entry model...
       normalizeStringFnc: normalize,
     });
 

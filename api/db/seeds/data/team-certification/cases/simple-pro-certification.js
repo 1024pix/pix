@@ -3,10 +3,10 @@ import dayjs from 'dayjs';
 import { services as enrolmentServices } from '../../../../../src/certification/enrolment/application/services/index.js';
 import { Candidate } from '../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
-import { Subscription } from '../../../../../src/certification/enrolment/domain/models/Subscription.js';
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { usecases as sessionManagementUseCases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
+import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import {
   CertificationCenter,
@@ -158,14 +158,14 @@ export class ProSeed {
       isLinked: true,
       hasSeenCertificationInstructions: false,
       accessibilityAdjustmentNeeded: false,
-      subscriptions: [Subscription.buildCore({ certificationCandidateId: null })],
+      subscription: Frameworks.CORE,
       userId: pixAppUser.id,
       billingMode: BILLING_MODES.FREE,
     };
 
     const candidateId = await enrolmentUseCases.addCandidateToSession({
       sessionId: session.id,
-      candidate: Candidate.create(candidateDTO), // Warning: usecase modifies the entry model...
+      candidate: new Candidate(candidateDTO), // Warning: usecase modifies the entry model...
       normalizeStringFnc: normalize,
     });
 
