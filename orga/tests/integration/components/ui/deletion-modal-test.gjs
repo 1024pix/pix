@@ -38,10 +38,11 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
       assert.ok(screen.getByRole('button', { name: t('components.ui.deletion-modal.confirm-deletion') }));
     });
 
-    test('it should call onTriggerAction when click on confirm', async function (assert) {
+    test('it should display checkbox for confirmation', async function (assert) {
       //given
       const triggerActionStub = sinon.stub();
       const onCloseModalStub = sinon.stub();
+      const count = 3;
       const title = 'Coucou';
       const content = 'Juste du texte';
 
@@ -51,7 +52,37 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
           <UiDeletionModal
             @title={{title}}
             @showModal={{true}}
-            @count={{1}}
+            @count={{count}}
+            @onTriggerAction={{triggerActionStub}}
+            @onCloseModal={{onCloseModalStub}}
+          ><:content>
+              {{content}}</:content></UiDeletionModal>
+        </template>,
+      );
+
+      //then
+      assert.ok(
+        screen.getByRole('checkbox', {
+          name: t('components.ui.deletion-modal.confirmation-checkbox', { count }),
+        }),
+      );
+    });
+
+    test('confirm button should not be clickable if checkbox is not checked', async function (assert) {
+      //given
+      const triggerActionStub = sinon.stub();
+      const onCloseModalStub = sinon.stub();
+      const count = 3;
+      const title = 'Coucou';
+      const content = 'Juste du texte';
+
+      // when
+      const screen = await render(
+        <template>
+          <UiDeletionModal
+            @title={{title}}
+            @showModal={{true}}
+            @count={{count}}
             @onTriggerAction={{triggerActionStub}}
             @onCloseModal={{onCloseModalStub}}
           ><:content>
@@ -63,10 +94,8 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
         name: t('components.ui.deletion-modal.confirm-deletion'),
       });
 
-      await click(confirmButton);
-
       // then
-      assert.ok(triggerActionStub.called);
+      assert.dom(confirmButton).hasAttribute('aria-disabled');
     });
 
     test('it should call onTriggerAction after confirmation when click on confirm', async function (assert) {
@@ -136,68 +165,6 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
 
       // then
       assert.ok(onCloseModalStub.called);
-    });
-  });
-
-  module('when there is multiple elements', function () {
-    test('it should display checkbox for confirmation', async function (assert) {
-      //given
-      const triggerActionStub = sinon.stub();
-      const onCloseModalStub = sinon.stub();
-      const count = 3;
-      const title = 'Coucou';
-      const content = 'Juste du texte';
-
-      // when
-      const screen = await render(
-        <template>
-          <UiDeletionModal
-            @title={{title}}
-            @showModal={{true}}
-            @count={{count}}
-            @onTriggerAction={{triggerActionStub}}
-            @onCloseModal={{onCloseModalStub}}
-          ><:content>
-              {{content}}</:content></UiDeletionModal>
-        </template>,
-      );
-
-      //then
-      assert.ok(
-        screen.getByRole('checkbox', {
-          name: t('components.ui.deletion-modal.confirmation-checkbox', { count }),
-        }),
-      );
-    });
-
-    test('confirm button should not be clickable if checkbox is not checked', async function (assert) {
-      //given
-      const triggerActionStub = sinon.stub();
-      const onCloseModalStub = sinon.stub();
-      const count = 3;
-      const title = 'Coucou';
-      const content = 'Juste du texte';
-
-      // when
-      const screen = await render(
-        <template>
-          <UiDeletionModal
-            @title={{title}}
-            @showModal={{true}}
-            @count={{count}}
-            @onTriggerAction={{triggerActionStub}}
-            @onCloseModal={{onCloseModalStub}}
-          ><:content>
-              {{content}}</:content></UiDeletionModal>
-        </template>,
-      );
-
-      const confirmButton = screen.getByRole('button', {
-        name: t('components.ui.deletion-modal.confirm-deletion'),
-      });
-
-      // then
-      assert.dom(confirmButton).hasAttribute('aria-disabled');
     });
   });
 });

@@ -11,17 +11,6 @@ import { not } from 'ember-truth-helpers';
 export default class DeletionModal extends Component {
   @tracked allowDeletion = false;
 
-  get isMultipleDeletion() {
-    return this.args.count > 1;
-  }
-
-  get canDelete() {
-    if (!this.isMultipleDeletion) {
-      return true;
-    }
-    return this.allowDeletion;
-  }
-
   @action
   giveDeletionPermission() {
     this.allowDeletion = !this.allowDeletion;
@@ -30,26 +19,24 @@ export default class DeletionModal extends Component {
     <PixModal @title={{@title}} @showModal={{@showModal}} @onCloseButtonClick={{@onCloseModal}}>
       <:content>
         {{yield to="content"}}
-        {{#if this.isMultipleDeletion}}
-          <PixCheckbox
-            {{on "click" this.giveDeletionPermission}}
-            @size="small"
-            @checked={{this.allowDeletion}}
-            @class="deletion-modal__permission-checkbox"
-          >
-            <:label>
-              <strong>
-                {{t "components.ui.deletion-modal.confirmation-checkbox" count=@count}}
-              </strong>
-            </:label>
-          </PixCheckbox>
-        {{/if}}
+        <PixCheckbox
+          {{on "click" this.giveDeletionPermission}}
+          @size="small"
+          @checked={{this.allowDeletion}}
+          @class="deletion-modal__permission-checkbox"
+        >
+          <:label>
+            <strong>
+              {{t "components.ui.deletion-modal.confirmation-checkbox" count=@count}}
+            </strong>
+          </:label>
+        </PixCheckbox>
       </:content>
       <:footer>
         <PixButton @variant="secondary" @triggerAction={{@onCloseModal}}>
           {{t "common.actions.cancel"}}
         </PixButton>
-        <PixButton @variant="error" @triggerAction={{@onTriggerAction}} @isDisabled={{not this.canDelete}}>
+        <PixButton @variant="error" @triggerAction={{@onTriggerAction}} @isDisabled={{not this.allowDeletion}}>
           {{t "components.ui.deletion-modal.confirm-deletion"}}
         </PixButton>
       </:footer>

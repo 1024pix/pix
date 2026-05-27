@@ -494,7 +494,7 @@
     "ui": {
       "deletion-modal": {
         "confirm-deletion": "Ja, verwijderen",
-        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen van de {count} verwijderingen volledig begrijp. "
+        "confirmation-checkbox": "{count, plural, =1 {Ik kan bevestigen dat ik de gevolgen van de verwijdering volledig begrijp.} other {Ik kan bevestigen dat ik de gevolgen van de {count} verwijderingen volledig begrijp.}}"
       },
       "edit-participant-name-modal": {
         "error-messages": {
@@ -907,6 +907,9 @@
     "campaign-settings": {
       "actions": {
         "archive": "Archiveren",
+        "delete": "Verwijderen",
+        "delete-error": "Er is een fout opgetreden, de campagne is niet verwijderd.",
+        "delete-success": "De campagne (en de resultaten ervan) is verwijderd.",
         "duplicate": "Dupliceren",
         "edit": "Wijzigen"
       },
@@ -915,6 +918,14 @@
         "exam": "Quiz-campagne",
         "profiles-collection": "Verzamelcampagne profielen",
         "title": "Soort campagne"
+      },
+      "delete-confirmation-modal": {
+        "content": {
+          "footer": "Let op, deze actie is onomkeerbaar.",
+          "header": "Deze campagne is niet langer zichtbaar in Pix Orga.",
+          "main-participation-prevent": "Alle deelnames aan deze campagne en de resultaten ervan worden verwijderd."
+        },
+        "title": "Weet u zeker dat u de campagne wilt verwijderen?"
       },
       "direct-link": "Directe link",
       "external-user-id-label": "Type externe user-ID",
@@ -968,7 +979,7 @@
         "success-message": "{count, plural, =1 {De campagne is verwijderd uit de lijst.} other {De {count} geselecteerde campagnes zijn verwijderd uit de lijst.}}"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen van de {count} verwijderingen volledig begrijp. ",
+        "confirmation-checkbox": "{count, plural, =1 {Ik kan bevestigen dat ik de gevolgen van de verwijdering volledig begrijp.} other {Ik kan bevestigen dat ik de gevolgen van de {count} verwijderingen volledig begrijp.}}",
         "content": {
           "footer": "Houd er rekening mee dat deze actie onomkeerbaar is.",
           "header": "{count, plural, =1 {Deze campagne zal niet langer zichtbaar zijn} other {Deze campagnes zullen niet langer zichtbaar zijn}} in Pix Orga.",
@@ -1445,7 +1456,7 @@
         "success-message": "{count, plural, =1 {{firstname} {lastname} is verwijderd van de lijst met deelnemers.} other {De {count} geselecteerde deelnemers zijn verwijderd van de lijst.}}"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen van de {count} verwijderingen volledig begrijp. ",
+        "confirmation-checkbox": "{count, plural, =1 {Ik kan bevestigen dat ik de gevolgen van de verwijdering volledig begrijp.} other {Ik kan bevestigen dat ik de gevolgen van de {count} verwijderingen volledig begrijp.}}",
         "content": {
           "footer": "Houd er rekening mee dat deze actie onomkeerbaar is.",
           "header": "{count, plural, =1 {Deze deelnemer is niet meer zichtbaar} other {Deze deelnemers zijn niet meer zichtbaar}} in Pix Orga.",

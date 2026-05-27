@@ -497,7 +497,7 @@
     "ui": {
       "deletion-modal": {
         "confirm-deletion": "Ja, ich streiche",
-        "confirmation-checkbox": "Ich bestätige, dass ich die Auswirkungen der {count} Löschungen gut verstanden habe."
+        "confirmation-checkbox": "{count, plural, =1 {Ich bestätige, dass ich die Auswirkungen der Löschung gut verstanden habe.} other {Ich bestätige, dass ich die Auswirkungen der {count} Löschungen gut verstanden habe.}}"
       },
       "edit-participant-name-modal": {
         "error-messages": {
@@ -910,6 +910,9 @@
     "campaign-settings": {
       "actions": {
         "archive": "Archivieren",
+        "delete": "Löschen",
+        "delete-error": "Ein Fehler ist aufgetreten, die Kampagne wurde nicht gelöscht.",
+        "delete-success": "Die Kampagne (sowie ihre Ergebnisse) wurde erfolgreich gelöscht.",
         "duplicate": "Duplizieren",
         "edit": "Bearbeiten"
       },
@@ -918,6 +921,14 @@
         "exam": "Test-Kampagne [Beta]",
         "profiles-collection": "Kampagne zum Sammeln von Profilen",
         "title": "Art der Kampagne"
+      },
+      "delete-confirmation-modal": {
+        "content": {
+          "footer": "Achtung, diese Aktion ist unwiderruflich.",
+          "header": "Diese Kampagne wird in Pix Orga nicht mehr sichtbar sein.",
+          "main-participation-prevent": "Alle Teilnahmen an dieser Kampagne und ihre Ergebnisse werden gelöscht."
+        },
+        "title": "Sind Sie sicher, dass Sie die Kampagne löschen möchten?"
       },
       "direct-link": "Direkter Link",
       "external-user-id-label": "Bezeichnung der Kennung",
@@ -971,7 +982,7 @@
         "success-message": "{count, plural, =1 {Die Kampagne (sowie ihre Ergebnisse) wurde tatsächlich aus der Liste entfernt.} other {Die {count}ausgewählten Kampagnen (sowie ihre Ergebnisse) wurden tatsächlich aus der Liste entfernt.}}."
       },
       "deletion-modal": {
-        "confirmation-checkbox": "Ich bestätige, dass ich die Auswirkungen der {count} Löschungen gut verstanden habe.",
+        "confirmation-checkbox": "{count, plural, =1 {Ich bestätige, dass ich die Auswirkungen der Löschung gut verstanden habe.} other {Ich bestätige, dass ich die Auswirkungen der {count} Löschungen gut verstanden habe.}}",
         "content": {
           "footer": "Achtung: Diese Aktion kann nicht rückgängig gemacht werden.",
           "header": "{count, plural, =1 {Diese Kampagne wird nicht mehr sichtbar sein} other {Diese Kampagnen werden nicht mehr sichtbar sein}} in Pix Orga.",
@@ -1453,7 +1464,7 @@
         "success-message": "{count, plural, =1 {{firstname} {lastname} wurde tatsächlich aus der Teilnehmerliste entfernt.} other {Die {count} ausgewählten Teilnehmer wurden tatsächlich aus der Liste entfernt.}}"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "Ich bestätige, dass ich die Auswirkungen der {count} Löschungen gut verstanden habe.",
+        "confirmation-checkbox": "{count, plural, =1 {Ich bestätige, dass ich die Auswirkungen der Löschung gut verstanden habe.} other {Ich bestätige, dass ich die Auswirkungen der {count} Löschungen gut verstanden habe.}}",
         "content": {
           "footer": "Achtung: Diese Aktion kann nicht rückgängig gemacht werden.",
           "header": "{count, plural, =1 {Dieser Teilnehmer wird nicht mehr sichtbar sein} other {Diese Teilnehmer werden nicht mehr sichtbar sein}} in Pix Orga.",

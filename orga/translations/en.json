@@ -495,7 +495,7 @@
     "ui": {
       "deletion-modal": {
         "confirm-deletion": "Yes, I delete",
-        "confirmation-checkbox": "I confirm that I have understood the impacts of the {count} deletions"
+        "confirmation-checkbox": "{count, plural, =1 {I confirm that I have understood the impacts of the deletion} other {I confirm that I have understood the impacts of the {count} deletions}}"
       },
       "edit-participant-name-modal": {
         "error-messages": {
@@ -920,6 +920,9 @@
     "campaign-settings": {
       "actions": {
         "archive": "Archive",
+        "delete": "Delete",
+        "delete-error": "An error occurred, the campaign was not deleted.",
+        "delete-success": "The campaign (and its results) has been successfully deleted.",
         "duplicate": "Duplicate",
         "edit": "Edit"
       },
@@ -928,6 +931,14 @@
         "exam": "Questioning campaign",
         "profiles-collection": "Profiles collection campaign",
         "title": "Type of campaign"
+      },
+      "delete-confirmation-modal": {
+        "content": {
+          "footer": "Warning, this action is irreversible.",
+          "header": "This campaign will no longer be visible in Pix Orga.",
+          "main-participation-prevent": "All participations in this campaign and their results will be deleted."
+        },
+        "title": "Are you sure you want to delete the campaign?"
       },
       "direct-link": "Direct link",
       "external-user-id-label": "External user ID label",
@@ -981,7 +992,7 @@
         "success-message": "{count, plural, =1 {The campaign (and the results) has successfully been deleted from the list.} other {The {count} selected campaigns (and the results) have successfully been deleted from the list.}}"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "I confirm that I have understood the impacts of the {count} deletions",
+        "confirmation-checkbox": "{count, plural, =1 {I confirm that I have understood the impacts of the deletion} other {I confirm that I have understood the impacts of the {count} deletions}}",
         "content": {
           "footer": "Please note that this action is irreversible.",
           "header": "{count, plural, =1 {This campaign} other {These campaigns}} will no longer be visible in Pix Orga.",
@@ -1464,7 +1475,7 @@
         "success-message": "{count, plural, =1 {{firstname} {lastname} has successfully been deleted from the participants list.} other {The {count} selected participants have successfully been deleted from the list.}}"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "I confirm that I have understood the impacts of the {count} deletions",
+        "confirmation-checkbox": "{count, plural, =1 {I confirm that I have understood the impacts of the deletion} other {I confirm that I have understood the impacts of the {count} deletions}}",
         "content": {
           "footer": "Please note that this action is irreversible.",
           "header": "{count, plural, =1 {This participant} other {These participants}} will no longer be visible in Pix Orga.",

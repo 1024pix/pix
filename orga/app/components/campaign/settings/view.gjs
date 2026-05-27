@@ -7,8 +7,10 @@ import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { or } from 'ember-truth-helpers';
+import UiDeletionModal from 'pix-orga/components/ui/deletion-modal';
 
 import { ID_PIX_TYPES } from '../../../helpers/id-pix-types';
 import CopyPasteButton from '../../copy-paste-button';
@@ -21,15 +23,19 @@ export default class CampaignView extends Component {
   @service url;
   @service intl;
   @service currentUser;
+  @service router;
+
+  @tracked isDeleteModalOpen = false;
+
+  get canManageCampaign() {
+    const isCurrentUserAdmin = this.currentUser.prescriber.isAdminOfTheCurrentOrganization;
+    const isCurrentUserOwnerOfTheCampaign = parseInt(this.currentUser.prescriber.id) === this.args.campaign.ownerId;
+    return isCurrentUserAdmin || isCurrentUserOwnerOfTheCampaign;
+  }
 
   get displayCampaignActionsButtons() {
     const campaignIsNotArchived = !this.args.campaign.isArchived;
-
-    const isCurrentUserAdmin = this.currentUser.prescriber.isAdminOfTheCurrentOrganization;
-    const isCurrentUserOwnerOfTheCampaign = parseInt(this.currentUser.prescriber.id) === this.args.campaign.ownerId;
-    const isCurrentUserAllowedToUpdateCampaign = isCurrentUserAdmin || isCurrentUserOwnerOfTheCampaign;
-
-    return campaignIsNotArchived && isCurrentUserAllowedToUpdateCampaign;
+    return campaignIsNotArchived && this.canManageCampaign;
   }
 
   get displayCampaignsRootUrl() {
@@ -96,6 +102,28 @@ export default class CampaignView extends Component {
       await campaign.archive();
     } catch {
       this.notifications.sendError(this.intl.t('api-error-messages.global'));
+    }
+  }
+  @action
+  openDeleteModal() {
+    this.isDeleteModalOpen = true;
+  }
+
+  @action
+  closeDeleteModal() {
+    this.isDeleteModalOpen = false;
+  }
+
+  @action
+  async deleteCampaign(campaignId) {
+    this.isDeleteModalOpen = false;
+    try {
+      await this.store.adapterFor('campaign').delete(this.currentUser.organization.id, [campaignId]);
+      this.store.peekRecord('campaign', campaignId)?.unloadRecord();
+      this.notifications.sendSuccess(this.intl.t('pages.campaign-settings.actions.delete-success'));
+      this.router.replaceWith('authenticated.campaigns.list.my-campaigns');
+    } catch {
+      this.notifications.sendError(this.intl.t('pages.campaign-settings.actions.delete-error'));
     }
   }
 
@@ -223,20 +251,37 @@ export default class CampaignView extends Component {
           </div>
         </div>
       </dl>
-
-      {{#if this.displayCampaignActionsButtons}}
+      {{#if this.canManageCampaign}}
         <div class="campaign-settings-buttons">
-          <PixButtonLink @route="authenticated.campaigns.update" @model={{@campaign.id}} @variant="secondary">
-            {{t "pages.campaign-settings.actions.edit"}}
-          </PixButtonLink>
-          <PixButtonLink @route="authenticated.campaigns.new" @query={{this.queryForDuplicate}} @variant="secondary">
-            {{t "pages.campaign-settings.actions.duplicate"}}
-          </PixButtonLink>
-          <PixButton @triggerAction={{fn this.archiveCampaign @campaign.id}} @variant="error">
-            {{t "pages.campaign-settings.actions.archive"}}
+          {{#if this.displayCampaignActionsButtons}}
+            <PixButtonLink @route="authenticated.campaigns.update" @model={{@campaign.id}} @variant="secondary">
+              {{t "pages.campaign-settings.actions.edit"}}
+            </PixButtonLink>
+            <PixButtonLink @route="authenticated.campaigns.new" @query={{this.queryForDuplicate}} @variant="secondary">
+              {{t "pages.campaign-settings.actions.duplicate"}}
+            </PixButtonLink>
+            <PixButton @triggerAction={{fn this.archiveCampaign @campaign.id}} @variant="primary-bis">
+              {{t "pages.campaign-settings.actions.archive"}}
+            </PixButton>
+          {{/if}}
+          <PixButton @triggerAction={{this.openDeleteModal}} @variant="error">
+            {{t "pages.campaign-settings.actions.delete"}}
           </PixButton>
         </div>
       {{/if}}
+      <UiDeletionModal
+        @title={{t "pages.campaign-settings.delete-confirmation-modal.title" htmlSafe=true}}
+        @showModal={{this.isDeleteModalOpen}}
+        @count={{1}}
+        @onTriggerAction={{fn this.deleteCampaign @campaign.id}}
+        @onCloseModal={{this.closeDeleteModal}}
+      >
+        <:content>
+          <p>{{t "pages.campaign-settings.delete-confirmation-modal.content.header"}}</p>
+          <p>{{t "pages.campaign-settings.delete-confirmation-modal.content.main-participation-prevent"}}</p>
+          <p><strong>{{t "pages.campaign-settings.delete-confirmation-modal.content.footer"}}</strong></p>
+        </:content>
+      </UiDeletionModal>
     </PixBlock>
   </template>
 }

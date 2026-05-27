@@ -495,7 +495,7 @@
     "ui": {
       "deletion-modal": {
         "confirm-deletion": "Oui, je supprime",
-        "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions"
+        "confirmation-checkbox": "{count, plural, =1 {Je confirme avoir bien compris les impacts de la suppression} other {Je confirme avoir bien compris les impacts des {count} suppressions}}"
       },
       "edit-participant-name-modal": {
         "error-messages": {
@@ -908,6 +908,9 @@
     "campaign-settings": {
       "actions": {
         "archive": "Archiver",
+        "delete": "Supprimer",
+        "delete-error": "Une erreur est survenue, la campagne n'a pas été supprimée.",
+        "delete-success": "La campagne (ainsi que ses résultats) a bien été supprimée.",
         "duplicate": "Dupliquer",
         "edit": "Modifier"
       },
@@ -916,6 +919,14 @@
         "exam": "Campagne d'interro",
         "profiles-collection": "Campagne de collecte de profils",
         "title": "Type de la campagne"
+      },
+      "delete-confirmation-modal": {
+        "content": {
+          "footer": "Attention, cette action est irréversible.",
+          "header": "Cette campagne ne sera plus visible dans Pix Orga.",
+          "main-participation-prevent": "Toutes les participations à cette campagne et leurs résultats seront supprimés."
+        },
+        "title": "Êtes-vous sûr(e) de vouloir supprimer la campagne ?"
       },
       "direct-link": "Lien direct",
       "external-user-id-label": "Libellé de l'identifiant",
@@ -969,7 +980,7 @@
         "success-message": "{count, plural, =1 {La campagne (ainsi que ses résultats) a bien été supprimée de la liste.} other {Les {count} campagnes sélectionnées (ainsi que leurs résultats) ont bien été supprimés de la liste.}}"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions",
+        "confirmation-checkbox": "{count, plural, =1 {Je confirme avoir bien compris les impacts de la suppression} other {Je confirme avoir bien compris les impacts des {count} suppressions}}",
         "content": {
           "footer": "Attention, cette action est irréversible.",
           "header": "{count, plural, =1 {Cette campagne ne sera plus visible} other {Ces campagnes ne seront plus visibles}} dans Pix Orga.",
@@ -1451,7 +1462,7 @@
         "success-message": "{count, plural, =1 {{firstname} {lastname} a bien été supprimé de la liste des participants.} other {Les {count} participants sélectionnés ont bien été supprimés de la liste.}}"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions",
+        "confirmation-checkbox": "{count, plural, =1 {Je confirme avoir bien compris les impacts de la suppression} other {Je confirme avoir bien compris les impacts des {count} suppressions}}",
         "content": {
           "footer": "Attention, cette action est irréversible.",
           "header": "{count, plural, =1 {Ce participant ne sera plus visible} other {Ces participants ne seront plus visibles}} dans Pix Orga.",

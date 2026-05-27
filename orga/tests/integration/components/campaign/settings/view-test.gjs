@@ -1,8 +1,10 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import View from 'pix-orga/components/campaign/settings/view';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -16,6 +18,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
 
   class CurrentUserStub extends Service {
     prescriber = { isAdminOfTheCurrentOrganization: true };
+    organization = { id: 456 };
   }
 
   hooks.beforeEach(function () {
@@ -514,6 +517,151 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
     });
   });
 
+  module('Delete campaign Action', function () {
+    module('when the user is a MEMBER and does not own the campaign', function () {
+      test('it should not display the delete button', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          prescriber = { isAdminOfTheCurrentOrganization: false };
+        }
+        this.owner.register('service:currentUser', CurrentUserStub);
+        const campaign = store.createRecord('campaign', { isArchived: false, ownerId: 1 });
+
+        // when
+        const screen = await render(<template><View @campaign={{campaign}} /></template>);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: t('pages.campaign-settings.actions.delete') })).doesNotExist();
+      });
+    });
+    module('when user is ADMIN or owns the campaign', function () {
+      test('it should display the delete button', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign');
+
+        // when
+        const screen = await render(<template><View @campaign={{campaign}} /></template>);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: t('pages.campaign-settings.actions.delete') })).exists();
+      });
+
+      module('when deleting campaign', function (hooks) {
+        let deleteStub, routerService, replaceWithStub, notificationsService;
+
+        hooks.beforeEach(function () {
+          deleteStub = sinon.stub();
+          notificationsService = this.owner.lookup('service:notifications');
+          routerService = this.owner.lookup('service:router');
+          sinon.stub(store, 'adapterFor').withArgs('campaign').returns({ delete: deleteStub });
+          sinon.stub(store, 'peekRecord');
+          replaceWithStub = sinon.stub(routerService, 'replaceWith');
+        });
+
+        test('it should open the confirmation modal when clicking the delete button', async function (assert) {
+          // given
+          const campaign = store.createRecord('campaign', { isArchived: false });
+
+          // when
+          const screen = await render(<template><View @campaign={{campaign}} /></template>);
+          await click(screen.getByRole('button', { name: t('pages.campaign-settings.actions.delete') }));
+          await screen.findByRole('dialog');
+
+          // then
+          assert
+            .dom(screen.getByRole('heading', { name: t('pages.campaign-settings.delete-confirmation-modal.title') }))
+            .exists();
+          assert.ok(deleteStub.notCalled);
+        });
+
+        test('it should not delete campaign when cancelling the confirmation modal', async function (assert) {
+          // given
+          const campaign = store.createRecord('campaign', { isArchived: false });
+
+          // when
+          const screen = await render(<template><View @campaign={{campaign}} /></template>);
+          await click(screen.getByRole('button', { name: t('pages.campaign-settings.actions.delete') }));
+          await screen.findByRole('dialog');
+          await click(screen.getByRole('button', { name: t('common.actions.cancel') }));
+
+          // then
+          assert.ok(deleteStub.notCalled);
+        });
+
+        test('it should delete campaign after confirmation', async function (assert) {
+          // given
+          const campaign = store.createRecord('campaign', { isArchived: false });
+          deleteStub.resolves(true);
+
+          // when
+          const screen = await render(<template><View @campaign={{campaign}} /></template>);
+          await click(screen.getByRole('button', { name: t('pages.campaign-settings.actions.delete') }));
+          await screen.findByRole('dialog');
+          await click(screen.getByLabelText(t('components.ui.deletion-modal.confirmation-checkbox', { count: 1 })));
+          await click(screen.getByRole('button', { name: t('components.ui.deletion-modal.confirm-deletion') }));
+
+          // then
+          assert.ok(deleteStub.calledOnceWithExactly(456, [campaign.id]));
+        });
+
+        test('it should display a success notification', async function (assert) {
+          // given
+          sinon.stub(notificationsService, 'sendSuccess');
+          const campaign = store.createRecord('campaign', { isArchived: false });
+          deleteStub.resolves();
+
+          // when
+          const screen = await render(<template><View @campaign={{campaign}} /></template>);
+          await click(screen.getByRole('button', { name: t('pages.campaign-settings.actions.delete') }));
+          await screen.findByRole('dialog');
+          await click(screen.getByLabelText(t('components.ui.deletion-modal.confirmation-checkbox', { count: 1 })));
+          await click(screen.getByRole('button', { name: t('components.ui.deletion-modal.confirm-deletion') }));
+
+          // then
+          assert.ok(
+            notificationsService.sendSuccess.calledOnceWithExactly(t('pages.campaign-settings.actions.delete-success')),
+          );
+        });
+
+        test('it should display an error notification when delete fails', async function (assert) {
+          // given
+          sinon.stub(notificationsService, 'sendError');
+          const campaign = store.createRecord('campaign', { isArchived: false });
+          deleteStub.rejects();
+
+          // when
+          const screen = await render(<template><View @campaign={{campaign}} /></template>);
+          await click(screen.getByRole('button', { name: t('pages.campaign-settings.actions.delete') }));
+          await screen.findByRole('dialog');
+          await click(screen.getByLabelText(t('components.ui.deletion-modal.confirmation-checkbox', { count: 1 })));
+          await click(screen.getByRole('button', { name: t('components.ui.deletion-modal.confirm-deletion') }));
+
+          // then
+          assert.ok(
+            notificationsService.sendError.calledOnceWithExactly(t('pages.campaign-settings.actions.delete-error')),
+          );
+        });
+
+        test('it should redirect to index after delete', async function (assert) {
+          // given
+          sinon.stub(notificationsService, 'sendSuccess');
+          const campaign = store.createRecord('campaign', { isArchived: false });
+          deleteStub.resolves();
+
+          // when
+          const screen = await render(<template><View @campaign={{campaign}} /></template>);
+          await click(screen.getByRole('button', { name: t('pages.campaign-settings.actions.delete') }));
+          await screen.findByRole('dialog');
+          await click(screen.getByLabelText(t('components.ui.deletion-modal.confirmation-checkbox', { count: 1 })));
+          await click(screen.getByRole('button', { name: t('components.ui.deletion-modal.confirm-deletion') }));
+
+          // then
+          assert.ok(replaceWithStub.calledOnceWithExactly('authenticated.campaigns.list.my-campaigns'));
+        });
+      });
+    });
+  });
+
   module('on Modify action display', function () {
     module('when the user is a MEMBER and does not own the campaign', function () {
       test('it should not display the button modify', async function (assert) {
@@ -556,11 +704,8 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
 
         // when
         const screen = await render(<template><View @campaign={{campaign}} /></template>);
-
         // then
-        assert
-          .dom(screen.queryByText(t('pages.campaign-settings.actions.editpages.campaign-settings.actions.edit')))
-          .doesNotExist();
+        assert.dom(screen.queryByText(t('pages.campaign-settings.actions.edit'))).doesNotExist();
       });
     });
   });
