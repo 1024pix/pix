@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { targetProfilePreHandlers } from './pre-handlers.js';
 import { targetProfileController } from './target-profile-controller.js';
 
 const register = async function (server) {

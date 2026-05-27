@@ -28,6 +28,7 @@ const dependencies = {
 import { attachOrganizationsFromExistingTargetProfile } from './attach-organizations-from-existing-target-profile.js';
 import { attachOrganizationsToTargetProfile } from './attach-organizations-to-target-profile.js';
 import { attachTargetProfilesToOrganization } from './attach-target-profiles-to-organization.js';
+import { checkTargetProfileBelongsToOrganization } from './check-target-profile-belongs-to-organization.js';
 import { copyTargetProfile } from './copy-target-profile.js';
 import { createTargetProfile } from './create-target-profile.js';
 import { detachOrganizationsFromTargetProfile } from './detach-organizations-from-target-profile.js';
@@ -49,6 +50,7 @@ const usecasesWithoutInjectedDependencies = {
   attachOrganizationsFromExistingTargetProfile,
   attachOrganizationsToTargetProfile,
   attachTargetProfilesToOrganization,
+  checkTargetProfileBelongsToOrganization,
   copyTargetProfile,
   createTargetProfile,
   detachOrganizationsFromTargetProfile,
