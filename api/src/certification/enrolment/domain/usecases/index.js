@@ -6,6 +6,7 @@ import * as countryRepository from '../../../../shared/infrastructure/repositori
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
+import * as eventApi from '../../../shared/application/api/event-api.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
@@ -45,6 +46,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../../shared/infrastructure/repositories/certification-candidate-repository.js')} certificationCandidateRepository
  * @typedef {import('../../../../prescription/campaign/infrastructure/repositories/division-repository.js')} divisionRepository
  * @typedef {import('../../../shared/infrastructure/repositories/certification-center-repository.js')} CertificationCenterRepository
+ * @typedef {import('../../../shared/application/api/event-api.js')} EventApi
  **/
 
 /**
@@ -99,6 +101,7 @@ const dependencies = {
   certificationCourseRepository,
   certificationCenterRepository,
   countryRepository,
+  eventApi,
 };
 
 import { addCandidateToSession } from './add-candidate-to-session.js';

@@ -5,6 +5,7 @@
  * @typedef {import ('./index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import ('./index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import ('./index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import ('./index.js').EventApi} EventApi
  */
 
 import {
@@ -14,6 +15,7 @@ import {
 } from '../../../../shared/domain/errors.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
+import { pushCandidateEnrolledEvent } from '../../../shared/application/api/event-api.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 
@@ -25,6 +27,7 @@ import { ComplementaryCertificationKeys } from '../../../shared/domain/models/Co
  * @param {CertificationCpfCountryRepository} params.certificationCpfCountryRepository
  * @param {CertificationCpfCityRepository} params.certificationCpfCityRepository
  * @param {ComplementaryCertificationRepository} params.complementaryCertificationRepository
+ * @param {EventApi} params.eventApi
  */
 export async function addCandidateToSession({
   sessionId,
@@ -35,6 +38,7 @@ export async function addCandidateToSession({
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
+  eventApi,
   mailCheck = mailCheckImplementation,
   normalizeStringFnc,
 }) {
@@ -114,5 +118,10 @@ export async function addCandidateToSession({
     }
   }
 
-  return candidateRepository.insert(candidate);
+  const candidateId = await candidateRepository.insert(candidate);
+  await eventApi.pushCandidateEnrolledEvent({
+    ...candidate.toDTO(),
+    id: candidateId,
+  });
+  return candidateId;
 }

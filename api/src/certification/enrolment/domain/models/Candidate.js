@@ -182,4 +182,29 @@ export class Candidate {
   isRegisteredToDoubleCertification() {
     return this.subscription === Frameworks.CLEA;
   }
+
+  toDTO() {
+    return {
+      id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      sex: this.sex,
+      birthPostalCode: this.birthPostalCode,
+      birthINSEECode: this.birthINSEECode,
+      birthCity: this.birthCity,
+      birthProvinceCode: this.birthProvinceCode,
+      birthCountry: this.birthCountry,
+      email: this.email,
+      resultRecipientEmail: this.resultRecipientEmail,
+      externalId: this.externalId,
+      birthdate: this.birthdate,
+      extraTimePercentage: this.extraTimePercentage,
+      billingMode: this.billingMode,
+      prepaymentCode: this.prepaymentCode,
+      subscription: this.subscription,
+      accessibilityAdjustmentNeeded: this.accessibilityAdjustmentNeeded,
+      sessionId: this.sessionId,
+      organizationLearnerId: this.organizationLearnerId,
+    };
+  }
 }
