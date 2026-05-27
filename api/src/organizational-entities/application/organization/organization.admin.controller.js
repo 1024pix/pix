@@ -1,9 +1,16 @@
-import * as csvSerializer from '../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import { generateCSVTemplate } from '../../../shared/infrastructure/serializers/csv/csv-template.js';
 import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { ORGANIZATION_FEATURES_HEADER, ORGANIZATIONS_UPDATE_HEADER } from '../../domain/constants.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { organizationTagCsvParser } from '../../infrastructure/parsers/csv/organization-tag-csv.parser.js';
+import {
+  deserializeForOrganizationBatchArchive,
+  requiredFieldNamesForOrganizationBatchArchive,
+} from '../../infrastructure/serializers/csv/organization-archive-csv-serializer.js';
+import {
+  deserializeForOrganizationsImport,
+  requiredFieldNamesForOrganizationsImport,
+} from '../../infrastructure/serializers/csv/organizations-csv-serializer.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import { organizationForAdminSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 import * as organizationPlacesStatisticsSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-places-statistics.serializer.js';
@@ -82,7 +89,7 @@ const create = async function (request) {
 };
 
 const getTemplateForCreateOrganizationsInBatch = async function (request, h) {
-  const csvTemplateFileContent = generateCSVTemplate(csvSerializer.requiredFieldNamesForOrganizationsImport);
+  const csvTemplateFileContent = generateCSVTemplate(requiredFieldNamesForOrganizationsImport);
 
   return h
     .response(csvTemplateFileContent)
@@ -92,7 +99,7 @@ const getTemplateForCreateOrganizationsInBatch = async function (request, h) {
 };
 
 const createInBatch = async function (request, h) {
-  const organizations = await csvSerializer.deserializeForOrganizationsImport(request.payload.path);
+  const organizations = await deserializeForOrganizationsImport(request.payload.path);
 
   const createdOrganizations = await usecases.createOrganizationsWithTagsAndTargetProfiles({ organizations });
 
@@ -100,7 +107,7 @@ const createInBatch = async function (request, h) {
 };
 
 const getTemplateForArchiveOrganizationsInBatch = async function (request, h) {
-  const csvTemplateFileContent = generateCSVTemplate(csvSerializer.requiredFieldNamesForOrganizationBatchArchive);
+  const csvTemplateFileContent = generateCSVTemplate(requiredFieldNamesForOrganizationBatchArchive);
 
   return h
     .response(csvTemplateFileContent)
@@ -112,7 +119,7 @@ const getTemplateForArchiveOrganizationsInBatch = async function (request, h) {
 const archiveInBatch = async function (request, h) {
   const userId = extractUserIdFromRequest(request);
 
-  const organizationIds = await csvSerializer.deserializeForOrganizationBatchArchive(request.payload.file.path);
+  const organizationIds = await deserializeForOrganizationBatchArchive(request.payload.file.path);
   await usecases.archiveOrganizationsInBatch({ organizationIds, userId });
 
   return h.response().code(204);
