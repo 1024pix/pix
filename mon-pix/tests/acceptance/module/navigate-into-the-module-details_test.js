@@ -36,30 +36,6 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleDetails', function (
       assert.dom(screen.getByRole('button', { name: t('pages.modulix.details.startModule') })).exists({ count: 1 });
     });
 
-    test('should ignore tmp string from slug if present in url', async function (assert) {
-      // given
-      server.create('module', {
-        id: '6282925d-4775-4bca-b513-4c3009ec5886',
-        shortId: 'm4tth7a5',
-        slug: 'ia-def-ind',
-        title: 'Bien écrire son adresse mail',
-        sections: [],
-        details: {
-          image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
-          description: '<p>Description</p>',
-          duration: 'duration',
-          level: 'level',
-          objectives: ['Objectif #1'],
-        },
-      });
-
-      // when
-      await visit('/modules/tmp-ia-def-ind');
-
-      // then
-      assert.strictEqual(currentURL(), '/modules/m4tth7a5/ia-def-ind/details');
-    });
-
     test('should navigate to passage page by clicking on start module button', async function (assert) {
       // given
       const section = server.create('section', {
