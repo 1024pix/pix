@@ -1,7 +1,13 @@
 import lodash from 'lodash';
+import sinon from 'sinon';
 
 import { FileValidationError } from '../../../../../src/shared/domain/errors.js';
-import { checkCsvHeader, parseCsvWithHeader } from '../../../../../src/shared/infrastructure/helpers/csv.js';
+import {
+  checkCsvHeader,
+  parseCsvWithHeader,
+  serializeLine,
+} from '../../../../../src/shared/infrastructure/helpers/csv.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -11,6 +17,73 @@ import * as url from 'node:url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Infrastructure | Helpers | csv.js', function () {
+  describe('#serializeLine', function () {
+    it('should quote strings', async function () {
+      // given
+      const safeNumberAsString = '-123456';
+      const csvExpected =
+        '"String with \'single quotes\'";' + '"String with ""double quotes""";' + safeNumberAsString + '\n';
+
+      // when
+      const csv = serializeLine(["String with 'single quotes'", 'String with "double quotes"', safeNumberAsString]);
+
+      // then
+      expect(csv).to.equal(csvExpected);
+    });
+
+    it('should format numbers in French locale', async function () {
+      // given
+      const csvExpected = '123;' + '123,456\n';
+
+      // when
+      const csv = serializeLine([123, 123.456]);
+
+      // then
+      expect(csv).to.equal(csvExpected);
+    });
+
+    it('should escape formula-likes to prevent CSV injections', async function () {
+      // given
+      const csvExpected = '"\'=formula-like";' + '"\'@formula-like";' + '"\'+formula-like";' + '"\'-formula-like"\n';
+
+      // when
+      const csv = serializeLine(['=formula-like', '@formula-like', '+formula-like', '-formula-like']);
+
+      // then
+      expect(csv).to.equal(csvExpected);
+    });
+
+    context('should log errors for invalid format', function () {
+      it('given object', async function () {
+        // when
+        sinon.stub(logger, 'error');
+        serializeLine([{}]);
+        // then
+        expect(logger.error).to.have.been.calledWithExactly(
+          'Unknown value type in _csvSerializeValue: object: [object Object]',
+        );
+      });
+
+      it('given null', async function () {
+        // when
+        sinon.stub(logger, 'error');
+        serializeLine([null]);
+        // then
+        expect(logger.error).to.have.been.calledWithExactly('Unknown value type in _csvSerializeValue: object: null');
+      });
+
+      it('given undefined', async function () {
+        // when
+        sinon.stub(logger, 'error');
+        serializeLine([undefined]);
+        // then
+        expect(logger.error).to.have.been.calledWithExactly(
+          'Unknown value type in _csvSerializeValue: undefined: undefined',
+        );
+      });
+    });
+  });
+
   const emptyFilePath = `${__dirname}/files/organizations-empty-file.csv`;
   const organizationWithTagsAndTargetProfilesFilePath = `${__dirname}/files/organizations-with-tags-and-target-profiles-test.csv`;
   const withHeaderFilePath = `${__dirname}/files/withHeader-test.csv`;

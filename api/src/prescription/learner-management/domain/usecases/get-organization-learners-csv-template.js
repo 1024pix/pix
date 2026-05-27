@@ -1,5 +1,5 @@
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
-import * as csvSerializer from '../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
+import { serializeLine } from '../../../../shared/infrastructure/helpers/csv.js';
 import { SupHeader } from '../../infrastructure/serializers/csv/headers/sup-header.js';
 
 const ERROR_MESSAGE = 'User is not allowed to download csv template.';
@@ -46,7 +46,7 @@ function _createHeaderOfCSV(header) {
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
-  return '\uFEFF' + csvSerializer.serializeLine(header);
+  return '\uFEFF' + serializeLine(header);
 }
 
 function _isAdminOrganization(membership) {

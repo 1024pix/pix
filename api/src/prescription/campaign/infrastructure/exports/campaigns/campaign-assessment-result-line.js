@@ -9,8 +9,8 @@ import _ from 'lodash';
 
 const STATS_COLUMNS_COUNT = 3;
 
+import { serializeLine } from '../../../../../shared/infrastructure/helpers/csv.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
-import * as csvSerializer from '../../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import * as campaignParticipationService from '../../../domain/services/campaign-participation-service.js';
 
 class CampaignAssessmentResultLine {
@@ -59,7 +59,7 @@ class CampaignAssessmentResultLine {
       ...(this.campaignParticipationInfo.isShared ? this._makeSharedColumns() : this._makeNotSharedColumns()),
     ];
 
-    return csvSerializer.serializeLine(line);
+    return serializeLine(line);
   }
 
   _makeSharedStatsColumns({ targetedSkillCount, validatedSkillCount }) {

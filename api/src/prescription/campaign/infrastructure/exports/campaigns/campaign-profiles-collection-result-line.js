@@ -5,8 +5,8 @@ import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+import { serializeLine } from '../../../../../shared/infrastructure/helpers/csv.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
-import * as csvSerializer from '../../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 
 const EMPTY_ARRAY = [];
 
@@ -52,7 +52,7 @@ class CampaignProfilesCollectionResultLine {
       ...this._competenceColumns(),
     ];
 
-    return csvSerializer.serializeLine(line);
+    return serializeLine(line);
   }
 
   #makeAdditionalInfos() {

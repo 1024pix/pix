@@ -2,13 +2,12 @@ import fs, { promises } from 'node:fs';
 
 const { readFile, access } = promises;
 
-import lodash from 'lodash';
-
-const { isEmpty, difference } = lodash;
-
+import difference from 'lodash/difference.js';
+import isEmpty from 'lodash/isEmpty.js';
 import papa from 'papaparse';
 
 import { FileValidationError, NotFoundError } from '../../domain/errors.js';
+import { logger } from '../utils/logger.js';
 
 const ERRORS = {
   MISSING_REQUIRED_FIELD_NAMES: 'MISSING_REQUIRED_FIELD_NAMES',
@@ -91,6 +90,30 @@ async function streamCsv(options) {
   return papa.parse(papa.NODE_STREAM_INPUT, options);
 }
 
+function _csvFormulaEscapingPrefix(data) {
+  const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);
+  return mayBeInterpretedAsFormula ? "'" : '';
+}
+
+function _csvSerializeValue(data) {
+  if (typeof data === 'number') {
+    return data.toString().replace(/\./, ',');
+  } else if (typeof data === 'string') {
+    if (/^[0-9-]+$/.test(data)) {
+      return data;
+    } else {
+      return `"${_csvFormulaEscapingPrefix(data)}${data.replace(/"/g, '""')}"`;
+    }
+  } else {
+    logger.error(`Unknown value type in _csvSerializeValue: ${typeof data}: ${data}`);
+    return '""';
+  }
+}
+
+function serializeLine(lineArray) {
+  return lineArray.map(_csvSerializeValue).join(';') + '\n';
+}
+
 const csvHelper = { checkCsvHeader, parseCsvWithHeader, parseCsvData, readCsvFile };
 
-export { checkCsvHeader, csvHelper, parseCsvData, parseCsvWithHeader, streamCsv };
+export { checkCsvHeader, csvHelper, parseCsvData, parseCsvWithHeader, serializeLine, streamCsv };

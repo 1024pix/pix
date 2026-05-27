@@ -4,8 +4,8 @@ import {
   CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
   CONCURRENCY_HEAVY_OPERATIONS,
 } from '../../../../../shared/infrastructure/constants.js';
+import { serializeLine } from '../../../../../shared/infrastructure/helpers/csv.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
-import * as csvSerializer from '../../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import { PromiseUtils } from '../../../../../shared/infrastructure/utils/promise-utils.js';
 import { CampaignProfilesCollectionResultLine } from '../../exports/campaigns/campaign-profiles-collection-result-line.js';
 
@@ -78,7 +78,7 @@ class CampaignProfilesCollectionExport {
     // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
     // - https://en.wikipedia.org/wiki/Byte_order_mark
     // - https://stackoverflow.com/a/38192870
-    return '\uFEFF' + csvSerializer.serializeLine(header.filter(Boolean));
+    return '\uFEFF' + serializeLine(header.filter(Boolean));
   }
 
   async _getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService) {
