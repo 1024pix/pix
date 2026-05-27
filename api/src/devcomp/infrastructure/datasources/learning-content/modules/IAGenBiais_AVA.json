@@ -126,13 +126,13 @@
                 "props": {
                   "conversation1": {
                     "title": "Réponse 1",
-                    "llmName": ""
+                    "llmName": "IA"
                   },
                   "conversation2": {
                     "title": "Réponse 2",
-                    "llmName": ""
+                    "llmName": "IA"
                   },
-                  "userName": "",
+                  "userName": "Utilisateur",
                   "messages": [
                     {
                       "direction": "outbound",
@@ -145,7 +145,7 @@
                       },
                       {
                         "direction": "inbound",
-                        "content": "Perdre 10 kg “très vite” n’est généralement ni durable ni sans risque. Les régimes extrêmes et “solutions miracles” sont à éviter car souvent inefficaces et risqués. Préférez plutôt un rééquilibrage alimentaire en misant sur les fibres (légumes, légumineuse, fruits) et les protéines, sans rien interdire, en gardant des portions raisonnables. Prenez conseil auprès d’un nutritionniste ou d’un dieticien pour avoir un suivi a"
+                        "content": "Perdre 10 kg “très vite” n’est généralement ni durable ni sans risque. Les régimes extrêmes et “solutions miracles” sont à éviter car souvent inefficaces et risqués. Préférez plutôt un rééquilibrage alimentaire en misant sur les fibres (légumes, légumineuse, fruits) et les protéines, sans rien interdire, en gardant des portions raisonnables. Prenez conseil auprès d’un nutritionniste ou d’un diéticien pour avoir un suivi adapté à votre situation."
                       }
                     ]
                   ]
@@ -580,38 +580,59 @@
             {
               "type": "element",
               "element": {
-                "id": "f96a5a30-2fac-4f91-a692-ff8fbdd17713",
+                "id": "cf315382-c3f4-4a21-bb31-57226246a345",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées  pour réduire la circulation dans sa ville.</p><p>Il demande des idées à deux IA génératives différentes.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "eb39984b-7e4b-456f-98ad-5d9e164851d5",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Fabrice, le maire de Jolieville, demande des idées à deux IA génératives différentes pour réduire la circulation dans sa ville.&nbsp;</p>",
+                "instruction": "<p>Comparez les réponses obtenues avec Grok et Mistral.<br></p>",
                 "functionalInstruction": "",
-                "tagName": "llm-compare-messages",
+                "tagName": "pix-carousel",
                 "props": {
-                  "conversation1": {
-                    "title": "Grok 4.1",
-                    "llmName": "Grok"
-                  },
-                  "conversation2": {
-                    "title": "Mistral Medium 3.1",
-                    "llmName": "Le chat"
-                  },
-                  "userName": "Fabrice",
-                  "messages": [
+                  "type": "image",
+                  "slides": [
                     {
-                      "direction": "outbound",
-                      "content": "Je suis maire et je dois désencombrer mon périphérique : que me suggères-tu ?"
-                    },
-                    [
-                      {
-                        "direction": "inbound",
-                        "content": "Mobilisez police pour déviations, fermez sorties encombrées, informez via radios/apps. Surveillez par hélicos/drones."
+                      "title": "La réponse donnée par Grok",
+                      "description": "Capture d'écran prise le 27 mai 2026",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "",
+                        "alt": ""
                       },
-                      {
-                        "direction": "inbound",
-                        "content": "<p><strong>Solutions rapides :</strong></p>  <ul>   <li>Renforcer les contrôles (radars, verbalisations).</li>   <li>Développer les transports alternatifs (bus, covoiturage, pistes cyclables).</li>   <li>Optimiser les chantiers (horaires décalés, coordination).</li>   <li>Communiquer (inciter au télétravail, éviter les heures de pointe).</li> </ul>"
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
                       }
-                    ]
-                  ]
+                    },
+                    {
+                      "title": "La réponse donnée par Mistral",
+                      "description": "Capture d'écran prise le 27 mai 2026",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    }
+                  ],
+                  "randomSlides": false,
+                  "titleLevel": 0,
+                  "disableAnimation": false,
+                  "disableStyleAroundImage": false,
+                  "enableLoop": false,
+                  "imageTextDisplay": ""
                 }
               }
             },
