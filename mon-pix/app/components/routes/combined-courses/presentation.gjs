@@ -128,7 +128,9 @@ export default class CombinedCoursePresentation extends Component {
   @action
   goToNextItem() {
     const item = this.args.combinedCourse.nextCombinedCourseItem;
-    this.router.transitionTo(item.route, item.reference, { queryParams: { redirection: item.redirection } });
+    this.router.transitionTo(item.route, ...item.models, {
+      queryParams: { redirection: item.redirection },
+    });
   }
 
   get isSurveyEnabled() {

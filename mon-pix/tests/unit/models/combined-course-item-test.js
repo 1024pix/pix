@@ -41,7 +41,7 @@ module('Unit | Model | Combined Course Item', function (hooks) {
       const combinedCourseItem = store.createRecord('combined-course-item', {
         type: CombinedCourseItemTypes.MODULE,
       });
-      assert.strictEqual(combinedCourseItem.route, 'old-module');
+      assert.strictEqual(combinedCourseItem.route, 'module');
     });
 
     test('return iconUrl related for campaign', function (assert) {

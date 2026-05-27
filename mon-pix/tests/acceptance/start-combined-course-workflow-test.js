@@ -116,6 +116,7 @@ module('Acceptance | Combined course | Start Combined course workflow', function
           title: module.title,
           reference: module.slug,
           type: 'MODULE',
+          shortId: 'm4tth74s',
         });
         combinedCourse = server.create('combined-course', {
           code: 'COMBINIX1',

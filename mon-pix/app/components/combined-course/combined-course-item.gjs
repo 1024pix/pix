@@ -134,7 +134,7 @@ function hasWhiteBackground(item) {
       <LinkTo
         {{on "click" @onClick}}
         @route={{@item.route}}
-        @model={{@item.reference}}
+        @models={{@item.models}}
         @query={{hash redirection=@item.redirection}}
         disabled
       >

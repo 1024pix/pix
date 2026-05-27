@@ -264,6 +264,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         id: 1,
         title: 'mon module',
         reference: 'mon-module',
+        shortId: 'abc123',
         type: 'MODULE',
         redirection: 'une+url+chiffree',
       });
@@ -285,17 +286,9 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       assert.ok(screen.getByText('mon module'));
       assert.strictEqual(
         screen.getByRole('link', { name: /mon module/ }).getAttribute('href'),
-        router.urlFor(
-          'old-module',
-          {
-            slug: combinedCourseItem.reference,
-          },
-          {
-            queryParams: {
-              redirection: combinedCourseItem.redirection,
-            },
-          },
-        ),
+        router.urlFor('module', combinedCourseItem.shortId, combinedCourseItem.reference, {
+          queryParams: { redirection: combinedCourseItem.redirection },
+        }),
       );
     });
     test('should display completed status for finished items', async function (assert) {
@@ -345,6 +338,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       id: 2,
       title: 'mon module',
       reference: 'mon-module',
+      shortId: 'abc123',
       type: 'MODULE',
       redirection: 'une+url+chiffree',
       isCompleted: false,
@@ -366,7 +360,9 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
     // then
     await click(screen.getByRole('button', { name: t('pages.combined-courses.content.resume-button') }));
     assert.ok(
-      router.transitionTo.calledWith('old-module', 'mon-module', { queryParams: { redirection: 'une+url+chiffree' } }),
+      router.transitionTo.calledWith('module', 'abc123', 'mon-module', {
+        queryParams: { redirection: 'une+url+chiffree' },
+      }),
     );
   });
   test('when an item is locked, its link does not exist', async function (assert) {

@@ -22,10 +22,18 @@ export default class CombinedCourseItem extends Model {
   @attr('boolean') isLocked;
   @attr('number') duration;
   @attr('string') image;
+  @attr('string') shortId;
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;
 
   get route() {
-    return this.type === CombinedCourseItemTypes.CAMPAIGN ? 'campaigns' : 'old-module';
+    return this.type === CombinedCourseItemTypes.CAMPAIGN ? 'campaigns' : 'module';
+  }
+
+  get models() {
+    if (this.type === CombinedCourseItemTypes.MODULE) {
+      return [this.shortId, this.reference];
+    }
+    return [this.reference];
   }
 
   get iconUrl() {
