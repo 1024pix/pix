@@ -50,6 +50,7 @@ export async function findActiveByScope({ scope }) {
     .select('*')
     .where({ scope })
     .whereNull('expirationDate')
+    .whereNotNull('startDate')
     .first();
 
   if (!versionData) {
