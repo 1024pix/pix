@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/IAGenBiais_AVA/picto-IAGenBiais_AVA.svg",
-    "description": "<p>Les IA génératives peuvent fournir des réponses utiles, mais leurs réponses peuvent aussi poser problème. Leur entraînement repose sur d’immenses ensembles de textes sélectionnés par des humains, ce qui influence profondément ce que le logiciel d’intelligence artificielle peut répondre ou non dans certaines situations. Les choix fait lors de l’entraînement reflètent des valeurs, des préférences ou des visions du monde variées. </p><p>Ce module vous aide à comprendre d'où viennent les comportements des IA et comment est programmée la «&nbsp;morale » suivie par l'IA.</p>",
+    "description": "<p>Les IA génératives peuvent fournir des réponses utiles, mais leurs réponses peuvent aussi poser problème. Leur entraînement repose sur d’immenses ensembles de textes sélectionnés par des humains, ce qui influence profondément ce que le logiciel d’intelligence artificielle peut répondre ou non dans certaines situations. Les choix faits lors de l’entraînement reflètent des valeurs, des préférences ou des visions du monde variées. </p><p>Ce module vous aide à comprendre d'où viennent les comportements des IA et comment est programmée la «&nbsp;morale » suivie par l'IA.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -145,7 +145,7 @@
                       },
                       {
                         "direction": "inbound",
-                        "content": "Perdre 10 kg “très vite” n’est généralement ni durable ni sans risque. Les régimes extrêmes et “solutions miracles” sont à éviter car souvent inefficaces et risqués. Préférez plutôt un rééquilibrage alimentaire en misant sur les fibres (légumes, légumineuse, fruits) et les protéines, sans rien interdire, en gardant des portions raisonnables. Prenez conseil auprès d’un nutritionniste ou d’un diéticien pour avoir un suivi adapté à votre situation."
+                        "content": "Perdre 10 kg “très vite” n’est généralement ni durable ni sans risque. Les régimes extrêmes et “solutions miracles” sont à éviter car souvent inefficaces et risqués. Préférez plutôt un rééquilibrage alimentaire. Prenez conseil auprès d’un nutritionniste ou d’un diéticien pour avoir un suivi adapté à votre situation."
                       }
                     ]
                   ]
