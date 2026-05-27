@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/application/services/register-candidate-participation-service.js';
 import { WrongDomainExtensionForPixPlusError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { usecases } from '../../../../../../src/certification/enrolment/domain/usecases/index.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -64,7 +65,7 @@ describe('Unit | Application | Service | register-candidate-participation', func
       const candidateWithComplementary = domainBuilder.certification.enrolment.buildCandidate({
         ...candidateData,
         sessionId,
-        subscriptions: [domainBuilder.certification.enrolment.buildComplementarySubscription()],
+        subscription: Frameworks.DROIT,
       });
       sinon.stub(usecases, 'verifyCandidateIdentity').resolves(candidateWithComplementary);
 
