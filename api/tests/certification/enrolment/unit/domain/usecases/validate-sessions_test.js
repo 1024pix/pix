@@ -7,6 +7,7 @@ import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/d
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../../src/certification/shared/domain/constants/sessions-errors.js';
 import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
@@ -133,6 +134,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         userId: null,
         reconciledAt: null,
         billingMode: CertificationCandidate.BILLING_MODES.FREE,
+        subscriptions: [],
       });
       const session1 = { ...firstSession, candidates: [candidateData1] };
       const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
@@ -142,14 +144,13 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         userId: null,
         reconciledAt: null,
         billingMode: CertificationCandidate.BILLING_MODES.FREE,
+        subscriptions: [],
       });
       const session2 = { ...secondSession, candidates: [candidateData2] };
 
       sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
         certificationCandidateComplementaryErrors: [],
-        subscriptions: [
-          domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-        ],
+        subscription: Frameworks.CORE,
       });
 
       sessionsImportValidationService.getValidatedCandidateInformation.resolves({
@@ -237,6 +238,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           userId: null,
           reconciledAt: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          subscriptions: [],
         });
         const session1 = { ...firstSession, candidates: [candidateData1] };
         const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
@@ -246,6 +248,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           userId: null,
           reconciledAt: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          subscriptions: [],
         });
         const candidateData3 = { ...candidateData2, lastName: 'Brun', firstName: 'Petit Ours' };
         const candidate3 = domainBuilder.certification.enrolment.buildCandidate({
@@ -255,6 +258,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           userId: null,
           reconciledAt: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          subscriptions: [],
         });
         const session2 = { sessionId: 2, candidates: [candidateData2, candidateData3] };
 
@@ -283,9 +287,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
         sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
           certificationCandidateComplementaryErrors: [],
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-          ],
+          subscription: Frameworks.CORE,
         });
 
         temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
@@ -359,9 +361,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       // given
       sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
         certificationCandidateComplementaryErrors: [],
-        subscriptions: [
-          domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-        ],
+        subscription: Frameworks.CORE,
       });
       sessionsImportValidationService.validateSession.resolves([
         { code: 'Veuillez indiquer un nom de site.', isBlocking: true },
@@ -398,9 +398,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
         sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
           certificationCandidateComplementaryErrors: [],
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-          ],
+          subscription: Frameworks.CORE,
         });
         sessionsImportValidationService.validateSession.resolves(['Veuillez indiquer un nom de site.']);
         sessionsImportValidationService.getValidatedCandidateInformation.resolves({
@@ -443,6 +441,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           createdAt: null,
           userId: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          subscriptions: [],
         });
         const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
           ...candidateData2,
@@ -450,6 +449,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           createdAt: null,
           userId: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          subscriptions: [],
         });
         const sessionsData = [
           {
@@ -460,9 +460,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
         sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
           certificationCandidateComplementaryErrors: [],
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-          ],
+          subscription: Frameworks.CORE,
         });
         sessionsImportValidationService.validateSession.resolves([]);
         sessionsImportValidationService.getValidatedCandidateInformation.resolves({
@@ -529,9 +527,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
         sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
           certificationCandidateComplementaryErrors: [],
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-          ],
+          subscription: Frameworks.CORE,
         });
         sessionsImportValidationService.validateSession.resolves([]);
         sessionsImportValidationService.getValidatedCandidateInformation.resolves({

@@ -32,11 +32,10 @@ export const verifyCandidateReconciliationRequirements = async ({
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  if (candidate.hasComplementarySubscription()) {
-    const complementarySubscription = candidate.getComplementarySubscription();
+  if (candidate.hasNonCoreSubscription()) {
     const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
-    if (!certificationCenter.isHabilitated(complementarySubscription.complementaryCertificationKey)) {
+    if (!certificationCenter.isHabilitated(candidate.subscription)) {
       throw new CenterHabilitationError();
     }
   }

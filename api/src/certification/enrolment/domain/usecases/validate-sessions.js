@@ -125,7 +125,7 @@ async function _createValidCertificationCandidates({
 
     const certificationCandidateErrors = [];
 
-    const { certificationCandidateComplementaryErrors, subscriptions } =
+    const { certificationCandidateComplementaryErrors, subscription } =
       await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
         subscriptionKeys: candidateDTO.subscriptionKeys,
         line: candidateDTO.line,
@@ -133,11 +133,11 @@ async function _createValidCertificationCandidates({
 
     certificationCandidateErrors.push(...certificationCandidateComplementaryErrors);
 
-    const candidate = Candidate.create({
+    const candidate = new Candidate({
       ...candidateDTO,
       sessionId,
+      subscription,
       billingMode: billingMode || candidateDTO.billingMode,
-      subscriptions,
       id: null,
       userId: null,
       reconciledAt: null,

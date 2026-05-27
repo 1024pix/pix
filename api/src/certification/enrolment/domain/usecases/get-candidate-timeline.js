@@ -9,7 +9,6 @@
  * @typedef {import ('../../infrastructure/repositories/index.js').ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
  * @typedef {import ('../models/timeline/TimelineEvent.js').TimelineEvent} TimelineEvent
  * @typedef {import ('../models/Candidate.js').Candidate} Candidate
- * @typedef {import ('../models/Candidate.js').Subscription} Subscription
  * @typedef {import ('../read-models/UserCertificationEligibility.js').UserCertificationEligibility} UserCertificationEligibility
  * @typedef {import ('../../../shared/domain/models/CertificationCourse.js').CertificationCourse} CertificationCourse
  * @typedef {import ('../../../session-management/domain/models/CertificationAssessment.js').CertificationAssessment} CertificationAssessment
