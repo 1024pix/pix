@@ -2223,6 +2223,10 @@
       "not-finished": "Je kunt je resultaten nog niet opsturen, dus we hebben nog een paar vragen voor je.",
       "recommended-engine": {
         "modal": {
+          "actions": {
+            "discover-module": "Module starten",
+            "discover-program": "Dit programma ontdekken"
+          },
           "duration": "Duur",
           "editor-name": "Voorgesteld door : ",
           "localisation": "Locatie",

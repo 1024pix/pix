@@ -2223,6 +2223,10 @@
       "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
       "recommended-engine": {
         "modal": {
+          "actions": {
+            "discover-module": "Découvrir le module",
+            "discover-program": "Découvrir ce programme"
+          },
           "duration": "Durée",
           "editor-name": "Proposé par : ",
           "localisation": "Localisation",

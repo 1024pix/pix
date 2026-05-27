@@ -197,3 +197,25 @@
     color: var(--pix-primary-300);
   }
 }
+
+.results-recommendation-engine-training-card-modal-footer {
+  display: flex;
+  gap: var(--pix-spacing-2x);
+  justify-content: flex-end;
+
+  @include breakpoints.device-is('mobile') {
+    flex-direction: column;
+    justify-content: center;
+    width: 100%
+  }
+
+  &__link-button {
+    display: flex;
+    gap: var(--pix-spacing-1x);
+    justify-content: center;
+  }
+
+  &__cancel-button {
+    width: 100%;
+  }
+}

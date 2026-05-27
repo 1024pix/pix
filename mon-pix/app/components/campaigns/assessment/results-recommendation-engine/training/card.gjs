@@ -1,4 +1,6 @@
 import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
@@ -152,6 +154,31 @@ export default class Card extends Component {
         </PixAccordions>
       </:content>
       <:footer>
+        <ul class="results-recommendation-engine-training-card-modal-footer">
+          <li>
+            <PixButton
+              @triggerAction={{this.closeModal}}
+              @variant="secondary"
+              class="results-recommendation-engine-training-card-modal-footer__cancel-button"
+            >
+              {{t "common.actions.cancel"}}
+            </PixButton>
+          </li>
+          <li>
+            <PixButtonLink
+              @href={{@training.link}}
+              target="_blank"
+              class="results-recommendation-engine-training-card-modal-footer__link-button"
+            >
+              {{#if @training.isModulix}}
+                {{t "pages.skill-review.recommended-engine.modal.actions.discover-module"}}
+              {{else}}
+                {{t "pages.skill-review.recommended-engine.modal.actions.discover-program"}}
+                <PixIcon @name="openNew" @title={{t "navigation.external-link-title"}} />
+              {{/if}}
+            </PixButtonLink>
+          </li>
+        </ul>
       </:footer>
     </PixModal>
   </template>

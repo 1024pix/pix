@@ -220,8 +220,55 @@ module(
         assert.dom(within(modal).getByText(training.description)).exists();
         assert.dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.objectives'))).exists();
         assert.dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.program'))).exists();
+
         const objectives = within(modal).getByRole('list');
         assert.strictEqual(objectives.children.length, 2);
+
+        assert.dom(within(modal).getByRole('button', { name: t('common.actions.cancel') })).exists();
+      });
+
+      module('when training is modulix type', function () {
+        test('it displays a link button to redirect to a module', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const training = store.createRecord('training', _buildTraining({ type: 'modulix' }));
+
+          // when
+          const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+          await click(screen.getByRole('button', { name: /Apprendre à manger un croissant comme les français / }));
+
+          // then
+          const modal = await screen.findByRole('dialog');
+          assert
+            .dom(
+              within(modal).getByRole('link', {
+                name: t('pages.skill-review.recommended-engine.modal.actions.discover-module'),
+              }),
+            )
+            .exists();
+        });
+      });
+
+      module('when training is a other type than modulix', function () {
+        test('it displays a link button to redirect to an external website', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const training = store.createRecord('training', _buildTraining({ type: 'webinaire' }));
+
+          // when
+          const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+          await click(screen.getByRole('button', { name: /Apprendre à manger un croissant comme les français / }));
+
+          // then
+          const modal = await screen.findByRole('dialog');
+          assert
+            .dom(
+              within(modal).getByRole('link', {
+                name: `${t('pages.skill-review.recommended-engine.modal.actions.discover-program')} ${t('navigation.external-link-title')}`,
+              }),
+            )
+            .exists();
+        });
       });
     });
 
