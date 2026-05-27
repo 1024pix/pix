@@ -1,7 +1,7 @@
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
-import * as csvSerializer from '../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import * as csvHelpers from '../../shared/application/helpers/csvHelpers.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as csvSerializer from '../infrastructure/serializers/csv/sessions-csv-serializer.js';
 import { getCsvHeaders } from '../infrastructure/utils/sessions-import.js';
 
 const createSessions = async function (request, h) {
