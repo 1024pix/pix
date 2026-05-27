@@ -4,7 +4,6 @@ import * as organizationRepository from '../../../../src/shared/infrastructure/r
 import * as certificationCenterRepository from '../../../certification/shared/infrastructure/repositories/certification-center-repository.js';
 import { refreshTokenRepository } from '../../../identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
 import { certificationCenterInvitedUserRepository } from '../../infrastructure/repositories/certification-center-invited-user.repository.js';
@@ -41,6 +40,7 @@ const dependencies = {
   userRepository,
 };
 
+import { adminMemberRepository } from '../../infrastructure/repositories/admin-member.repository.js';
 import { acceptCertificationCenterInvitation } from './accept-certification-center-invitation.usecase.js';
 import { acceptOrganizationInvitation } from './accept-organization-invitation.usecase.js';
 import { archiveCertificationCenterData } from './archive-certification-center-data.usecase.js';
