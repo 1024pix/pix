@@ -1,7 +1,5 @@
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -58,7 +56,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
     });
 
-    it('should deserialize correctly candidate with subscriptions', async function () {
+    it('should deserialize correctly candidate with subscription', async function () {
       // given
       const candidateJsonApiData = {
         data: {
@@ -86,16 +84,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
             'billing-mode': candidateData.billingMode,
             'prepayment-code': candidateData.prepaymentCode,
             'has-seen-certification-instructions': candidateData.hasSeenCertificationInstructions,
-            subscriptions: [
-              {
-                complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
-                type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-              },
-              {
-                complementaryCertificationKey: null,
-                type: SUBSCRIPTION_TYPES.CORE,
-              },
-            ],
+            subscription: Frameworks.PRO_SANTE,
           },
         },
       };
@@ -107,15 +96,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       expect(deserializedCandidate).to.deepEqualInstance(
         domainBuilder.certification.enrolment.buildCandidate({
           ...candidateData,
-          complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
           subscription: Frameworks.PRO_SANTE,
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildComplementarySubscription({
-              certificationCandidateId: null,
-              complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
-            }),
-            domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-          ],
         }),
       );
     });
