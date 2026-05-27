@@ -26,7 +26,35 @@ const register = async function (server) {
         tags: ['api', 'target-profile'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des profiles cibles utilisables par l‘organisation\n',
+            '- Récupération des profils cibles utilisables par l‘organisation\n',
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{organizationId}/target-profiles/{targetProfileId}',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToOrganization,
+            assign: 'checkUserBelongsToOrganization',
+          },
+          {
+            method: targetProfilePreHandlers.checkTargetProfileBelongsToOrganization,
+            assign: 'checkTargetProfileBelongsToOrganization',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            organizationId: identifiersType.organizationId,
+            targetProfileId: identifiersType.targetProfileId,
+          }),
+        },
+        handler: targetProfileController.getTargetProfileOverview,
+        tags: ['api', 'target-profile'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Récupération du détail d'un profil cible via l‘organisation\n",
         ],
       },
     },

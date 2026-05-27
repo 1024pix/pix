@@ -76,6 +76,12 @@ describe('Unit | Target Profiles | Application | Routes', function () {
     const url = '/api/organizations/123/frameworks';
     const payload = null;
 
+    beforeEach(function () {
+      sinon
+        .stub(targetProfileController, 'findLearningContentsByOrganizationId')
+        .callsFake((request, h) => h.response('ok'));
+    });
+
     it('should called controller findLearningContentsByOrganizationId', async function () {
       // given
       securityPreHandlers.checkUserBelongsToOrganization.callsFake(() => (request, h) => h.response(true));
