@@ -7,8 +7,11 @@ export function buildTrainings(databaseBuilder) {
     id: trainingId++,
     title: 'Apprendre à manger un croissant comme les français',
     internalTitle: 'Apprendre à manger un croissant comme les français',
+    duration: { days: 0, hours: 0, minutes: 0 },
     locales: ['fr'],
     objectives: ['Repérer si le croissant est de bonne qualité', 'Rechercher un croissant pour le manger'],
+    description:
+      "Aujourd'hui, manger un croissant est tout un art en France. De nombreux touristes viennent en France et font le tour des meilleures boulangeries pour en manger, mais sans connaître les différentes manières de le savourer pleinement.",
   }).id;
 
   databaseBuilder.factory.buildTargetProfileTraining({
@@ -43,6 +46,8 @@ export function buildTrainings(databaseBuilder) {
       'Savoir rédiger un prompt qui n’inclut pas d’informations personnelles',
     ],
     registrationRequired: true,
+    description:
+      'Quand vous discutez avec un logiciel d’intelligence artificielle (IA) générative, la conversation n’est pas privée. Tout ce que vous écrivez peut être enregistré et parfois réutilisé pour améliorer l’IA. Dans ce module, vous allez comprendre pourquoi les échanges avec une IA générative ne sont pas totalement privés et quelles informations il vaut mieux éviter d’écrire dans vos instructions (prompts).',
   }).id;
 
   databaseBuilder.factory.buildTargetProfileTraining({
@@ -67,13 +72,15 @@ export function buildTrainings(databaseBuilder) {
     title: 'Des mots de passe solides',
     internalTitle: 'Des mots de passe solides',
     link: '/modules/3e5fa7fc/mots-de-passe-securises',
-    duration: '00:12:00',
+    duration: '2days 00:12:00',
     editorName: 'Pix',
     editorLogoUrl: 'https://assets.pix.org/contenu-formatif/editeur/pix-logo.svg',
     type: 'modulix',
     locales: ['fr'],
     objectives: ['Connaître les principaux risques liés aux mots de passe', 'Savoir créer un mot de passe solide'],
     deliveryMode: Training.modes.ONSITE,
+    description:
+      "Aujourd'hui, on utilise des mots de passe pour tout : son téléphone, son adresse mail, ses réseaux sociaux. Dans ce module, vous allez découvrir pourquoi et comment créer des mots de passe solides.",
   }).id;
 
   databaseBuilder.factory.buildTargetProfileTraining({
