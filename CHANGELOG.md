@@ -1,5 +1,29 @@
 # Pix Changelog
 
+# [5.415.0](https://github.com/1024pix/pix/compare/v5.414.0...v5.415.0) (2026-05-27)
+
+### :rocket: Amélioration
+
+- [#16288](https://github.com/1024pix/pix/pull/16288) Activer la locale « es » sur Pix Orga (PIX-22847) 
+- [#16312](https://github.com/1024pix/pix/pull/16312) Autoriser France Travail à voir le questionnaire de fin de parcours combiné dans tous les cas 
+- [#16302](https://github.com/1024pix/pix/pull/16302) datacenter-ava-final 
+- [#15963](https://github.com/1024pix/pix/pull/15963) Fixer définitivement la date de démarrage de la session selon la date de démarrage du premier test de certification (PIX-22408) 
+- [#16176](https://github.com/1024pix/pix/pull/16176) MADDO - enrichir les données des participations (PIX-22452). 
+- [#16099](https://github.com/1024pix/pix/pull/16099) Utiliser le code au lieu du slug comme ID de la ressource oidc-providers (PIX-22099) 
+
+### :building_construction: Tech
+
+- [#16301](https://github.com/1024pix/pix/pull/16301) ajoute l'équipe responsable du code dans les logs 
+- [#16308](https://github.com/1024pix/pix/pull/16308) Déplacement de la récupération des donnée du composant vers la route parente (pix-22889) 
+- [#16281](https://github.com/1024pix/pix/pull/16281) Déplacer le user-serializer dans le context IAM 
+- [#16309](https://github.com/1024pix/pix/pull/16309) Permettre de correctement fermer Maddo lorsqu'on fait Ctrl+C dans le terminal 
+- [#16139](https://github.com/1024pix/pix/pull/16139) Suppression cache frameworks + contextualisation 
+
+### :arrow_up: Montée de version
+
+- [#16267](https://github.com/1024pix/pix/pull/16267) Update dependency @1024pix/pix-ui to ^60.11.0 (admin) 
+- [#16307](https://github.com/1024pix/pix/pull/16307) Update dependency axios to v1.16.1 (api)
+
 # [5.414.0](https://github.com/1024pix/pix/compare/v5.413.0...v5.414.0) (2026-05-26)
 
 ### :rocket: Amélioration
