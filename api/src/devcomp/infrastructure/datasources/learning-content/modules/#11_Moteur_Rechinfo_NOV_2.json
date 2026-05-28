@@ -499,7 +499,7 @@
               "element": {
                 "id": "4ac3d276-b987-4fb2-8f09-896ffacf3c56",
                 "type": "qcu",
-                "instruction": "<p>À votre avis, lequel de ces 4 sites va apparaitre en premier sur la <strong>liste de résultats</strong> que va obtenir Gaëtan ?&nbsp;</p>",
+                "instruction": "<p>Quel est l’élément qui incite Samira à ignorer ce résultat&nbsp;?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
