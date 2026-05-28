@@ -331,6 +331,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             isCompleted: false,
             isLocked: false,
             duration: 10,
+            shortId: 'short-abcdefgh1',
           }),
         ]);
       });
@@ -430,6 +431,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             duration: 10,
             isCompleted: false,
             isLocked: false,
+            shortId: 'short-ebcde1',
           }),
         ]);
       });
@@ -700,6 +702,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               redirection: 'encryptedUrl',
               isCompleted: false,
               isLocked: true,
+              shortId: 'short-abcdef1',
             }),
             new CombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
@@ -773,6 +776,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           redirection: 'encryptedUrl',
           isCompleted: false,
           isLocked: true,
+          shortId: 'short-abc2de',
         }),
       ]);
     });
@@ -921,6 +925,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           redirection: 'encryptedUrl',
           isCompleted: true,
           isLocked: false,
+          shortId: 'short-abcde3',
         }),
         new CombinedCourseItem({
           id: 'abcde4',
@@ -932,6 +937,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           redirection: 'encryptedUrl',
           isCompleted: true,
           isLocked: false,
+          shortId: 'short-abcde4',
         }),
         new CombinedCourseItem({
           id: 2,
@@ -953,6 +959,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           redirection: 'encryptedUrl',
           isCompleted: false,
           isLocked: false,
+          shortId: 'short-abcde1',
         }),
         new CombinedCourseItem({
           id: 'abcde2',
@@ -964,6 +971,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           redirection: 'encryptedUrl',
           isCompleted: false,
           isLocked: true,
+          shortId: 'short-abcde2',
         }),
       ]);
     });

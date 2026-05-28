@@ -133,6 +133,7 @@ export class CombinedCourseDetails extends CombinedCourse {
       isLocked,
       duration: module?.duration,
       image: module.image,
+      shortId: module.shortId,
     });
   }
 
