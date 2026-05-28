@@ -1,5 +1,6 @@
 {
   "name": "maddo",
-  "dependsOn": ["identity-access-management", "prescription/campaign", "shared"],
+  "dependsOn": ["identity-access-management", "shared"],
+  "dependsOnViaApi": ["prescription/campaign"],
   "circular": "forbidden"
 }

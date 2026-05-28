@@ -16,19 +16,23 @@ export function buildForbiddenRules(contexts = []) {
     });
   }
 
-  // build context dependency rules
-  const dependsOnContexts = contexts
-    .filter((context) => Array.isArray(context.dependsOn))
+  // build dependency violation rules
+  const dependsOnRules = contexts
+    .filter((context) => Array.isArray(context.dependsOn) || Array.isArray(context.dependsOnViaApi))
     .map((context) => {
-      const dependsOn = [context.name, ...context.dependsOn];
+      const dependsOn = [
+        context.name,
+        ...(context.dependsOn || []),
+        ...(context.dependsOnViaApi || []).map((dep) => `${dep}/application/api`),
+      ];
       return {
-        name: `${context.name}-no-context`,
+        name: `${context.name}-dependency-violation`,
         severity: 'error',
         from: { path: `^src/${context.name}/` },
         to: { path: `^src/(?!${dependsOn.join('/|')}/)` },
       };
     });
-  forbiddenRules.push(...dependsOnContexts);
+  forbiddenRules.push(...dependsOnRules);
 
   return forbiddenRules;
 }

@@ -3,7 +3,7 @@ import { buildForbiddenRules } from '../../tooling/dependency-cruiser-generator.
 
 describe('Unit | Tooling | Dependency cruiser generator', function () {
   describe('Context dependency rules', function () {
-    it('builds context dependency rule for contexts', function () {
+    it('builds dependency violation rule for contexts', function () {
       const contexts = [
         { name: 'shared', dependsOn: [] },
         { name: 'banner', dependsOn: ['shared'] },
@@ -13,16 +13,31 @@ describe('Unit | Tooling | Dependency cruiser generator', function () {
 
       expect(rules).to.deep.equal([
         {
-          name: 'shared-no-context',
+          name: 'shared-dependency-violation',
           severity: 'error',
           from: { path: '^src/shared/' },
           to: { path: '^src/(?!shared/)' },
         },
         {
-          name: 'banner-no-context',
+          name: 'banner-dependency-violation',
           severity: 'error',
           from: { path: '^src/banner/' },
           to: { path: '^src/(?!banner/|shared/)' },
+        },
+      ]);
+    });
+
+    it('builds dependency violation without api rule for contexts', function () {
+      const contexts = [{ name: 'banner', dependsOn: ['other'], dependsOnViaApi: ['shared'] }];
+
+      const rules = buildForbiddenRules(contexts);
+
+      expect(rules).to.deep.equal([
+        {
+          name: 'banner-dependency-violation',
+          severity: 'error',
+          from: { path: '^src/banner/' },
+          to: { path: '^src/(?!banner/|other/|shared/application/api/)' },
         },
       ]);
     });
