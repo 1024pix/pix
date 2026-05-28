@@ -1406,6 +1406,116 @@ describe('Integration | Repository | Campaign Participation', function () {
         });
       });
     });
+
+    context('sort', function () {
+      let campaignId;
+
+      beforeEach(async function () {
+        // given
+        campaignId = campaign1.id;
+
+        const organizationLearner2 = {
+          organizationId,
+          firstName: 'Jean',
+          lastName: 'Bart',
+          division: '6emeA',
+          group: null,
+          attributes: { hobby: 'Genky' },
+          studentNumber: '1003',
+        };
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(organizationLearner2, {
+          campaignId,
+          createdAt: new Date('2018-03-15T14:59:35Z'),
+          sharedAt: new Date('2018-03-16T14:59:35Z'),
+          validatedSkillsCount: 10,
+          pixScore: 10,
+          masteryRate: null,
+        });
+
+        const organizationLearner1Namesake = {
+          organizationId,
+          firstName: 'Hubert',
+          lastName: 'Parterre',
+          division: '6emeB',
+          group: null,
+          attributes: { hobby: 'Genky' },
+          studentNumber: '1004',
+        };
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(organizationLearner1Namesake, {
+          campaignId,
+          createdAt: new Date('2021-03-15T14:59:35Z'),
+          sharedAt: new Date('2021-03-16T14:59:35Z'),
+          validatedSkillsCount: 10,
+          pixScore: 10,
+          masteryRate: null,
+        });
+
+        await databaseBuilder.commit();
+      });
+      it('should order by lastName, firstName and createdAt by default', async function () {
+        // when
+        const { models: participationResultDatas } = await campaignParticipationRepository.findInfoByCampaignId({
+          campaignId,
+        });
+
+        // then
+        const attributes = participationResultDatas.map((participationResultData) =>
+          _.pick(participationResultData, ['participantFirstName', 'participantLastName', 'createdAt']),
+        );
+
+        expect(attributes).to.deep.equal([
+          {
+            createdAt: new Date('2018-03-15T14:59:35Z'),
+            participantFirstName: 'Jean',
+            participantLastName: 'Bart',
+          },
+          {
+            createdAt: new Date('2021-03-15T14:59:35Z'),
+            participantFirstName: 'Hubert',
+            participantLastName: 'Parterre',
+          },
+          {
+            createdAt: campaignParticipation1.createdAt,
+            participantFirstName: 'Hubert',
+            participantLastName: 'Parterre',
+          },
+        ]);
+      });
+
+      it('should order by given sort', async function () {
+        // when
+        const { models: participationResultDatas } = await campaignParticipationRepository.findInfoByCampaignId({
+          campaignId,
+          sort: [
+            { value: 'createdAt', type: 'asc' },
+            { value: 'lastName', type: 'asc' },
+            { value: 'firstName', type: 'asc' },
+          ],
+        });
+
+        // then
+        const attributes = participationResultDatas.map((participationResultData) =>
+          _.pick(participationResultData, ['participantFirstName', 'participantLastName', 'createdAt']),
+        );
+        expect(attributes).to.deep.equal([
+          {
+            createdAt: campaignParticipation1.createdAt,
+            participantFirstName: 'Hubert',
+            participantLastName: 'Parterre',
+          },
+          {
+            createdAt: new Date('2018-03-15T14:59:35Z'),
+            participantFirstName: 'Jean',
+            participantLastName: 'Bart',
+          },
+          {
+            createdAt: new Date('2021-03-15T14:59:35Z'),
+            participantFirstName: 'Hubert',
+            participantLastName: 'Parterre',
+          },
+        ]);
+      });
+    });
   });
 
   describe('#findOneByCampaignIdAndUserId', function () {

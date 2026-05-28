@@ -7,6 +7,7 @@ export const getCampaignParticipations = async ({
   clientId,
   page,
   since,
+  sort,
   authenticationRequestedData,
   campaignsAPI,
   organizationRepository,
@@ -17,6 +18,7 @@ export const getCampaignParticipations = async ({
     campaignId,
     page,
     since,
+    sort,
   });
   const identityProviderForCampaigns =
     await organizationRepository.findIdentityProviderForCampaignsByCampaignId(campaignId);

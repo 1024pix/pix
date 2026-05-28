@@ -48,7 +48,7 @@ describe('Integration | UseCase | get-campaign-participations', function () {
         level: 2,
         competenceId: competence.id,
       }).id;
-      const organizationLearner1 = buildOrganizationLearner({ lastName: 'Albert' });
+      const organizationLearner1 = buildOrganizationLearner({ lastName: 'Michel' });
 
       const targetProfile = buildTargetProfile();
 
@@ -110,7 +110,7 @@ describe('Integration | UseCase | get-campaign-participations', function () {
       });
 
       const organizationLearner2 = buildOrganizationLearner({
-        lastName: 'Michele',
+        lastName: 'Albert',
         organizationId: organizationLearner1.organizationId,
       });
       buildCampaignParticipation({
@@ -138,20 +138,23 @@ describe('Integration | UseCase | get-campaign-participations', function () {
       await databaseBuilder.commit();
 
       const page = {
-        size: 1,
+        size: 2,
         number: 1,
       };
       const since = new Date('2020-01-02').getTime();
+
+      const sort = [{ value: 'createdAt', type: 'asc' }];
       // when
       const { models, meta } = await usecases.getCampaignParticipations({
         campaignId: campaign.id,
         locale: FRENCH_SPOKEN,
         page,
         since,
+        sort,
       });
 
       // then
-      expect(models).to.have.lengthOf(1);
+      expect(models).to.have.lengthOf(2);
       expect(models[0]).to.deep.equal(
         new AssessmentCampaignParticipation({
           campaignParticipationId: participation1.id,
@@ -202,8 +205,8 @@ describe('Integration | UseCase | get-campaign-participations', function () {
       );
       expect(meta).to.deep.equal({
         page: 1,
-        pageCount: 2,
-        pageSize: 1,
+        pageCount: 1,
+        pageSize: 2,
         rowCount: 2,
       });
     });

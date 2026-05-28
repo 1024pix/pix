@@ -22,6 +22,12 @@ const register = async function (server) {
               number: Joi.number().integer().empty('').allow(null).optional(),
               size: Joi.number().integer().max(200).empty('').allow(null).optional(),
             }).default({}),
+            sort: Joi.array().items(
+              Joi.object({
+                value: Joi.string().empty('').allow(null).optional(),
+                type: Joi.string().valid('asc', 'desc').empty(['', null]).allow(null).optional(),
+              }),
+            ),
             authenticationRequestedData: Joi.alternatives(Joi.array().items(Joi.string()), Joi.string()).optional(),
           }),
         },

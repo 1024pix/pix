@@ -579,6 +579,99 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
       });
     });
 
+    context('should handle sort', function () {
+      let campaign, clientId, tube, competenceId, skillId;
+
+      beforeEach(async function () {
+        const orgaInJurisdiction = databaseBuilder.factory.buildOrganization({ name: 'orga-in-jurisdiction' });
+        databaseBuilder.factory.buildOrganization({ name: 'orga-not-in-jurisdiction' });
+
+        const tag = databaseBuilder.factory.buildTag();
+        databaseBuilder.factory.buildOrganizationTag({ organizationId: orgaInJurisdiction.id, tagId: tag.id });
+
+        clientId = 'client';
+        databaseBuilder.factory.buildClientApplication({
+          clientId: 'client',
+          jurisdiction: { rules: [{ name: 'tags', value: [tag.name] }] },
+        });
+
+        const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
+        const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
+        competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+        tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
+        skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId: tube.id, status: 'actif' }).id;
+
+        campaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.ASSESSMENT,
+          organizationId: orgaInJurisdiction.id,
+        });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should returns participations sorted by given sort param', async function () {
+        // given
+        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+        const participationCreatedLast = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          status: CampaignParticipationStatuses.STARTED,
+          participantExternalId: 'started last',
+          createdAt: new Date('2026-01-01'),
+        });
+        const participationCreatedFirst = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          status: CampaignParticipationStatuses.STARTED,
+          participantExternalId: 'started first',
+          masteryRate: null,
+          createdAt: new Date('2024-01-03'),
+          organizationLearnerId: organizationLearner.id,
+        });
+
+        const participationCreatedSecond = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          status: CampaignParticipationStatuses.SHARED,
+          masteryRate: 0.1,
+          validatedSkillsCount: 10,
+          participantExternalId: 'started 2nd',
+          createdAt: new Date('2025-01-01'),
+          sharedAt: new Date('2025-01-01'),
+        });
+        const ke = databaseBuilder.factory.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.VALIDATED,
+          skillId,
+          userId: participationCreatedFirst.userId,
+        });
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({
+          campaignParticipationId: participationCreatedSecond.id,
+          snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+        });
+
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'GET',
+          url: `/api/campaigns/${campaign.id}/participations?sort[0][value]=createdAt&sort[0][type]=asc`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeaderForApplication(
+              clientId,
+              'pix-client',
+              'campaigns meta',
+            ),
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.campaignParticipations[0].createdAt).to.deep.equal(participationCreatedFirst.createdAt);
+        expect(response.result.campaignParticipations[1].createdAt).to.deep.equal(participationCreatedSecond.createdAt);
+        expect(response.result.campaignParticipations[2].createdAt).to.deep.equal(participationCreatedLast.createdAt);
+      });
+    });
+
     context('when authentication data are requested', function () {
       let campaign;
       let authorization;

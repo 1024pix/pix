@@ -197,6 +197,7 @@ export const findCampaignSkillIdsForCampaignParticipations = async (campaignPart
  * @type {object}
  * @property {number} campaignId
  * @property {string} since
+ * @property {Array<object>} sort
  * @property {PageDefinition} page
  */
 
@@ -207,11 +208,12 @@ export const findCampaignSkillIdsForCampaignParticipations = async (campaignPart
  * @param {CampaignParticipationsPayload} payload
  * @returns {Promise<{models: Array<AssessmentCampaignParticipationAPI>|Array<ProfilesCollectionCampaignParticipationAPI>, meta: Pagination}>}
  */
-export const getCampaignParticipations = async function ({ campaignId, page, since }) {
+export const getCampaignParticipations = async function ({ campaignId, page, since, sort }) {
   const { models: campaignParticipations, meta } = await usecases.getCampaignParticipations({
     campaignId,
     page,
     since,
+    sort,
   });
   return {
     models: campaignParticipations.map((campaignParticipation) =>

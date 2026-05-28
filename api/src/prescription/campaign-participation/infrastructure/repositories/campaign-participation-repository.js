@@ -147,7 +147,16 @@ const updateInBatchByIds = async function (campaignParticipations) {
   });
 };
 
-const findInfoByCampaignId = async function ({ campaignId, page, since }) {
+const findInfoByCampaignId = async function ({
+  campaignId,
+  page,
+  since,
+  sort = [
+    { value: 'lastName', type: 'ASC' },
+    { value: 'firstName', type: 'ASC' },
+    { value: 'createdAt', type: 'DESC' },
+  ],
+}) {
   const knexConn = DomainTransaction.getConnection();
   const query = knexConn('campaign-participations')
     .select([
@@ -164,10 +173,9 @@ const findInfoByCampaignId = async function ({ campaignId, page, since }) {
       'view-active-organization-learners.id',
       'campaign-participations.organizationLearnerId',
     )
-    .where({ campaignId, 'campaign-participations.deletedAt': null })
-    .orderBy('lastName', 'ASC')
-    .orderBy('firstName', 'ASC')
-    .orderBy('createdAt', 'DESC');
+    .where({ campaignId, 'campaign-participations.deletedAt': null });
+
+  sort.forEach((order) => query.orderBy(order.value, order.type));
 
   if (since !== undefined) {
     const sinceDate = new Date(since);

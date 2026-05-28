@@ -88,6 +88,7 @@ export const getCampaignParticipations = async function ({
   locale,
   page,
   since,
+  sort,
   campaignRepository,
   badgeRepository,
   badgeForCalculationRepository,
@@ -103,6 +104,7 @@ export const getCampaignParticipations = async function ({
     campaignId,
     page,
     since,
+    sort,
   });
   const participationIds = participations.map(({ id }) => id);
 
