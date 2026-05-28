@@ -1,5 +1,21 @@
 # Pix Changelog
 
+# [5.416.0](https://github.com/1024pix/pix/compare/v5.415.0...v5.416.0) (2026-05-28)
+
+### :rocket: Amélioration
+
+- [#16300](https://github.com/1024pix/pix/pull/16300) Renvoyer la description sur la route de récupération de CF (PIX-22853) 
+- [#16305](https://github.com/1024pix/pix/pull/16305) Update IAGenBiais_AVA.json - Modif titre + descriptif 
+
+### :building_construction: Tech
+
+- [#16310](https://github.com/1024pix/pix/pull/16310) Changement d'emplacement de la route de création d'une version de certification (pix-22897) 
+- [#16324](https://github.com/1024pix/pix/pull/16324) Déplacer les serializers de CSV dans leurs contextes 
+- [#16306](https://github.com/1024pix/pix/pull/16306) Déplacer metrics.js dans shared 
+- [#16316](https://github.com/1024pix/pix/pull/16316) Extrait la logique de parsing du model OrganizationFeature 
+- [#16328](https://github.com/1024pix/pix/pull/16328) Génération des règles dependency cruiser 
+- [#16315](https://github.com/1024pix/pix/pull/16315) Revoir les dépendances admin-member de shared
+
 # [5.415.0](https://github.com/1024pix/pix/compare/v5.414.0...v5.415.0) (2026-05-27)
 
 ### :rocket: Amélioration
