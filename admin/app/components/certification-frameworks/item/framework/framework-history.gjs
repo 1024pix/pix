@@ -181,7 +181,7 @@ export default class FrameworkHistory extends Component {
       <CertificationVersionDetailModal
         @version={{this.selectedVersion}}
         @status={{this.selectedVersionStatus}}
-        @scope={{@scope}}
+        @frameworkKey={{@frameworkKey}}
         @onClose={{this.closeModalVersionDetail}}
         @showModal={{this.showVersionDetailModal}}
       />

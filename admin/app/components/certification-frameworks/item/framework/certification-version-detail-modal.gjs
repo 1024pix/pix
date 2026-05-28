@@ -18,11 +18,11 @@ export default class CertificationVersionDetailModal extends Component {
   @service intl;
 
   get frameworkLabel() {
-    return this.intl.t(`components.certification-frameworks.labels.${this.args.scope}`);
+    return this.intl.t(`components.certification-frameworks.labels.${this.args.frameworkKey}`);
   }
 
   get locales() {
-    if (this.args.scope === 'CORE') {
+    if (this.args.frameworkKey === 'CORE') {
       return [
         { flag: '🇫🇷', label: 'fr-FR' },
         { flag: '🇫🇷', label: 'fr' },
