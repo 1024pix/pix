@@ -1,13 +1,25 @@
+import { buildForbiddenRules } from './tests/tooling/dependency-cruiser-generator.js';
+
+const CONTEXTS = [
+  {
+    name: 'shared',
+    // dependsOn: [],
+    circular: 'forbidden',
+  },
+  {
+    name: 'banner',
+    // dependsOn: ['shared'],
+    circular: 'forbidden',
+  },
+  {
+    name: 'learning-content',
+    // dependsOn: ['shared'],
+    circular: 'forbidden',
+  },
+];
+
 export default {
-  forbidden: [
-    {
-      name: 'no-circular',
-      severity: 'error',
-      comment: 'prevent circular dependencies contexts',
-      from: { path: '^src/(banner|learning-content|shared)/' },
-      to: { circular: true },
-    },
-  ],
+  forbidden: buildForbiddenRules(CONTEXTS),
   options: {
     doNotFollow: { path: 'node_modules' },
   },
