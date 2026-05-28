@@ -1,3 +1,4 @@
+import { FeatureParamsNotProcessable } from '../../../organizational-entities/domain/errors.js';
 import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AlreadyExistingEntityError, NotFoundError } from '../../../shared/domain/errors.js';
@@ -35,8 +36,12 @@ export const getAllByOrganizationId = async ({ organizationId }) => {
     .andWhere('organizationId', organizationId)
     .first();
 
-  if (!organizationAttestationManagementFeature || !organizationAttestationManagementFeature.params) {
+  if (!organizationAttestationManagementFeature) {
     throw new NotFoundError();
+  }
+
+  if (!organizationAttestationManagementFeature.params) {
+    throw new FeatureParamsNotProcessable();
   }
   const attestations = await knexConn('attestations')
     .select('id', 'key', 'label')

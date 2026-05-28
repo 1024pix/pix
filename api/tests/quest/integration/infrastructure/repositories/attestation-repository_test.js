@@ -1,3 +1,4 @@
+import { FeatureParamsNotProcessable } from '../../../../../src/organizational-entities/domain/errors.js';
 import { Attestation } from '../../../../../src/quest/domain/models/Attestation.js';
 import * as attestationRepository from '../../../../../src/quest/infrastructure/repositories/attestation-repository.js';
 import { AttestationStorage } from '../../../../../src/quest/infrastructure/storage/attestation-storage.js';
@@ -153,7 +154,7 @@ describe('Quest | Integration | Repository | attestation', function () {
         organizationId: organizationId,
       });
 
-      expect(error).to.be.an.instanceOf(NotFoundError);
+      expect(error).to.be.an.instanceOf(FeatureParamsNotProcessable);
     });
     it('should fail the attestation feature linked to the organization is not found', async function () {
       databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.ATTESTATIONS_MANAGEMENT);

@@ -16,6 +16,7 @@ import Attestations from 'pix-orga/components/attestations';
       @statusesFilter={{@controller.statuses}}
       @divisionsFilter={{@controller.divisions}}
       @availableAttestations={{@model.availableAttestations}}
+      @getAttestationsError={{@model.getAttestationsError}}
     />
   </div>
 </template>

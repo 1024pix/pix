@@ -36,8 +36,12 @@ export default class AuthenticatedAttestationsRoute extends Route {
 
   async model(params) {
     const organizationId = this.currentUser.organization.id;
-
-    const availableAttestations = await this.store.findAll('attestation', { adapterOptions: { organizationId } });
+    let availableAttestations, getAttestationsError;
+    try {
+      availableAttestations = await this.store.findAll('attestation', { adapterOptions: { organizationId } });
+    } catch (error) {
+      getAttestationsError = error;
+    }
     const attestationKey = params.attestationKey ?? availableAttestations[0].key;
     const currentAttestation = availableAttestations.find((attestation) => attestationKey === attestation.key);
 
@@ -61,7 +65,7 @@ export default class AuthenticatedAttestationsRoute extends Route {
       return { options, attestationParticipantStatuses, currentAttestation, availableAttestations };
     }
 
-    return { attestationParticipantStatuses, currentAttestation, availableAttestations };
+    return { attestationParticipantStatuses, currentAttestation, availableAttestations, getAttestationsError };
   }
 
   resetController(controller, isExiting) {
