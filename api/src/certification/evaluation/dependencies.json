@@ -1,0 +1,11 @@
+{
+  "name": "certification/evaluation",
+  "dependsOn": [
+    "certification/configuration",
+    "certification/session-management",
+    "certification/shared",
+    "evaluation",
+    "shared"
+  ],
+  "circular": "forbidden"
+}

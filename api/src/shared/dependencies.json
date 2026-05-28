@@ -1,0 +1,24 @@
+{
+  "name": "shared",
+  "dependsOn": [
+    "authorization",
+    "certification/configuration",
+    "certification/enrolment",
+    "certification/evaluation",
+    "certification/session-management",
+    "certification/shared",
+    "evaluation",
+    "identity-access-management",
+    "learning-content",
+    "organizational-entities",
+    "prescription/campaign",
+    "prescription/learner-management",
+    "prescription/organization-place",
+    "prescription/shared",
+    "prescription/stages",
+    "quest",
+    "school",
+    "team"
+  ],
+  "circular": "forbidden"
+}

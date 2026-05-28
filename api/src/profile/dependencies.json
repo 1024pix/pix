@@ -1,0 +1,15 @@
+{
+  "name": "profile",
+  "dependsOn": [
+    "evaluation",
+    "identity-access-management",
+    "learning-content",
+    "prescription/campaign",
+    "prescription/organization-learner",
+    "prescription/shared",
+    "prescription/target-profile",
+    "quest",
+    "shared"
+  ],
+  "circular": "temporary-allowed"
+}

@@ -1,0 +1,5 @@
+{
+  "name": "prescription/shared",
+  "dependsOn": ["learning-content", "prescription/campaign", "prescription/learner-management", "shared"],
+  "circular": "forbidden"
+}

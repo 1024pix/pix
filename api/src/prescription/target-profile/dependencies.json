@@ -1,0 +1,5 @@
+{
+  "name": "prescription/target-profile",
+  "dependsOn": ["evaluation", "prescription/shared", "prescription/stages", "quest", "shared"],
+  "circular": "forbidden"
+}

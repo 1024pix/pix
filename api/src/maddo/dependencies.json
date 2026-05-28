@@ -1,0 +1,5 @@
+{
+  "name": "maddo",
+  "dependsOn": ["identity-access-management", "prescription/campaign", "shared"],
+  "circular": "forbidden"
+}

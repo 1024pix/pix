@@ -1,0 +1,12 @@
+{
+  "name": "certification/enrolment",
+  "dependsOn": [
+    "certification/session-management",
+    "certification/shared",
+    "organizational-entities",
+    "prescription/campaign",
+    "prescription/organization-learner",
+    "shared"
+  ],
+  "circular": "forbidden"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "evaluation",
+  "dependsOn": [
+    "certification/evaluation",
+    "devcomp",
+    "identity-access-management",
+    "llm",
+    "prescription/campaign",
+    "prescription/campaign-participation",
+    "prescription/organization-learner",
+    "prescription/shared",
+    "prescription/stages",
+    "prescription/target-profile",
+    "profile",
+    "quest",
+    "shared"
+  ],
+  "circular": "temporary-allowed"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "devcomp",
+  "dependsOn": [
+    "identity-access-management",
+    "llm",
+    "prescription/campaign",
+    "prescription/campaign-participation",
+    "prescription/target-profile",
+    "quest",
+    "shared"
+  ],
+  "circular": "forbidden"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "privacy",
+  "dependsOn": [
+    "certification/enrolment",
+    "identity-access-management",
+    "legal-documents",
+    "prescription/campaign-participation",
+    "prescription/learner-management",
+    "prescription/organization-learner",
+    "shared",
+    "team"
+  ],
+  "circular": "temporary-allowed"
+}

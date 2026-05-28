@@ -1,0 +1,5 @@
+{
+  "name": "prescription/organization-learner-feature",
+  "dependsOn": ["prescription/organization-learner", "shared"],
+  "circular": "forbidden"
+}

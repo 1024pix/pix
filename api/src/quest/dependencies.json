@@ -1,0 +1,20 @@
+{
+  "name": "quest",
+  "dependsOn": [
+    "authorization",
+    "devcomp",
+    "evaluation",
+    "identity-access-management",
+    "learning-content",
+    "organizational-entities",
+    "prescription/campaign",
+    "prescription/campaign-participation",
+    "prescription/learner-management",
+    "prescription/organization-learner",
+    "prescription/shared",
+    "prescription/target-profile",
+    "profile",
+    "shared"
+  ],
+  "circular": "temporary-allowed"
+}

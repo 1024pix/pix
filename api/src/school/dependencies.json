@@ -1,0 +1,5 @@
+{
+  "name": "school",
+  "dependsOn": ["evaluation", "prescription/campaign", "prescription/organization-learner", "shared"],
+  "circular": "forbidden"
+}

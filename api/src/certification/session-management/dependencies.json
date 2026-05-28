@@ -1,0 +1,13 @@
+{
+  "name": "certification/session-management",
+  "dependsOn": [
+    "certification/configuration",
+    "certification/enrolment",
+    "certification/evaluation",
+    "certification/results",
+    "certification/shared",
+    "identity-access-management",
+    "shared"
+  ],
+  "circular": "forbidden"
+}

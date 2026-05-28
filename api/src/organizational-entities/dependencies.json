@@ -1,0 +1,13 @@
+{
+  "name": "organizational-entities",
+  "dependsOn": [
+    "certification/enrolment",
+    "identity-access-management",
+    "prescription/campaign",
+    "prescription/learner-management",
+    "school",
+    "shared",
+    "team"
+  ],
+  "circular": "temporary-allowed"
+}

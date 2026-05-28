@@ -116,3 +116,4 @@ GEMINI.md
 !.stylelintrc.json
 !nodemon.json
 !timings.json
+!dependencies.json

@@ -1,0 +1,19 @@
+{
+  "name": "prescription/campaign",
+  "dependsOn": [
+    "authorization",
+    "devcomp",
+    "evaluation",
+    "identity-access-management",
+    "organizational-entities",
+    "prescription/campaign-participation",
+    "prescription/learner-management",
+    "prescription/shared",
+    "prescription/stages",
+    "prescription/target-profile",
+    "quest",
+    "shared",
+    "team"
+  ],
+  "circular": "temporary-allowed"
+}

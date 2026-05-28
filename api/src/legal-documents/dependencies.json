@@ -1,0 +1,1 @@
+{ "name": "legal-documents", "dependsOn": ["shared"], "circular": "forbidden" }

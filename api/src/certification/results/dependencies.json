@@ -1,0 +1,5 @@
+{
+  "name": "certification/results",
+  "dependsOn": ["certification/enrolment", "certification/shared", "shared"],
+  "circular": "forbidden"
+}

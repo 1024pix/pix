@@ -1,0 +1,12 @@
+{
+  "name": "prescription/stages",
+  "dependsOn": [
+    "evaluation",
+    "prescription/campaign",
+    "prescription/campaign-participation",
+    "prescription/shared",
+    "prescription/target-profile",
+    "shared"
+  ],
+  "circular": "forbidden"
+}

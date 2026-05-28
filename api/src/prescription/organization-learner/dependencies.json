@@ -1,0 +1,16 @@
+{
+  "name": "prescription/organization-learner",
+  "dependsOn": [
+    "identity-access-management",
+    "organizational-entities",
+    "prescription/campaign",
+    "prescription/campaign-participation",
+    "prescription/learner-management",
+    "prescription/shared",
+    "prescription/stages",
+    "profile",
+    "quest",
+    "shared"
+  ],
+  "circular": "temporary-allowed"
+}
