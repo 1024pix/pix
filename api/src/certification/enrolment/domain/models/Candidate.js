@@ -162,6 +162,10 @@ export class Candidate {
     return this.subscriptions.some((subscription) => subscription.isComplementary());
   }
 
+  hasNonCoreSubscription() {
+    return this.subscription !== Frameworks.CORE;
+  }
+
   getComplementarySubscription() {
     return this.subscriptions.find((subscription) => subscription.type === SUBSCRIPTION_TYPES.COMPLEMENTARY);
   }
@@ -172,6 +176,6 @@ export class Candidate {
   }
 
   isRegisteredToDoubleCertification() {
-    return this.subscriptions.length === 2;
+    return this.subscription === Frameworks.CLEA;
   }
 }

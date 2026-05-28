@@ -1,55 +1,9 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
-import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
+import { BILLING_MODES } from '../../../shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
-import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
-
-// eslint-disable-next-line no-unused-vars
-const { CLEA, ...COMPLEMENTARY_CERTIFICATIONS_EXCEPTED_DOUBLE_CERTIFICATION } = ComplementaryCertificationKeys;
-
-const alternativeCoreOnly = Joi.array()
-  .length(1)
-  .items({
-    certificationCandidateId: Joi.number().allow(null),
-    type: SUBSCRIPTION_TYPES.CORE,
-    complementaryCertificationKey: null,
-  })
-  .required();
-const alternativeDoubleCertification = Joi.array()
-  .length(2)
-  .items(
-    Joi.object({
-      certificationCandidateId: Joi.number().allow(null),
-      type: Joi.string()
-        .required()
-        .valid(...Object.values(SUBSCRIPTION_TYPES)),
-      complementaryCertificationKey: Joi.when('type', {
-        is: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-        then: Joi.string().valid(ComplementaryCertificationKeys.CLEA),
-        otherwise: null,
-      }),
-    }),
-  )
-  .unique('type')
-  .required();
-
-const alternativeComplementaryCertification = Joi.array()
-  .length(1)
-  .items(
-    Joi.object({
-      type: Joi.string().required().valid(SUBSCRIPTION_TYPES.COMPLEMENTARY),
-      complementaryCertificationKey: Joi.string().valid(
-        ...Object.values(COMPLEMENTARY_CERTIFICATIONS_EXCEPTED_DOUBLE_CERTIFICATION),
-      ),
-    }),
-  )
-  .unique('type')
-  .required();
-
-const schemaForCompatibilitySubscriptions = Joi.alternatives()
-  .match('one')
-  .try(alternativeCoreOnly, alternativeDoubleCertification, alternativeComplementaryCertification);
+import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 
 const schema = Joi.object({
   firstName: Joi.string().trim().required().empty(['', null]).messages({
@@ -90,7 +44,7 @@ const schema = Joi.object({
       'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_NOT_A_NUMBER.code,
     }),
   }),
-  subscriptions: schemaForCompatibilitySubscriptions,
+  subscription: Joi.string().valid(...Object.values(Frameworks)),
   billingMode: Joi.when('$isSco', {
     is: false,
     then: Joi.string()

@@ -1,14 +1,13 @@
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CertificationCandidatesError } from '../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr, catchErrSync } from '../../../../../tooling/test-utils/error.js';
+
 const FIRST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code;
 const LAST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code;
 const BIRTHDATE_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code;
@@ -44,76 +43,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       billingMode: CertificationCandidate.BILLING_MODES.FREE,
       prepaymentCode: null,
       hasSeenCertificationInstructions: false,
-      subscriptions: [
-        {
-          type: SUBSCRIPTION_TYPES.CORE,
-          complementaryCertificationId: null,
-          complementaryCertificationLabel: null,
-          complementaryCertificationKey: null,
-        },
-      ],
     };
-  });
-
-  context('create', function () {
-    context('when the candidate subscription is registered for CORE', function () {
-      it('should create a new Candidate with a CORE subscription attribute', function () {
-        // given
-        const candidateDTO = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
-        });
-
-        // when
-        const expectedCandidate = Candidate.create(candidateDTO);
-
-        // then
-        expect(expectedCandidate.subscription).to.equal(Frameworks.CORE);
-      });
-    });
-
-    context('when the candidate is registered for a double certification', function () {
-      it('should create a new Candidate with a CORE subscription attribute', function () {
-        // given
-        const candidateDTO = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildCoreSubscription(),
-            domainBuilder.certification.enrolment.buildComplementarySubscription({
-              certificationCandidateId: null,
-              complementaryCertificationKey: ComplementaryCertificationKeys.CLEA,
-            }),
-          ],
-        });
-
-        // when
-        const expectedCandidate = Candidate.create(candidateDTO);
-
-        // then
-        expect(expectedCandidate.subscription).to.equal(Frameworks.CLEA);
-      });
-    });
-
-    context('when the candidate is registered for a Pix+ certification', function () {
-      it('should create a new Candidate with a PIX+ subscription attribute', function () {
-        // given
-        const candidateDTO = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildComplementarySubscription({
-              certificationCandidateId: null,
-              complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-            }),
-          ],
-        });
-
-        // when
-        const expectedCandidate = Candidate.create(candidateDTO);
-
-        // then
-        expect(expectedCandidate.subscription).to.equal(Frameworks.DROIT);
-      });
-    });
   });
 
   context('updateBirthInformation', function () {
@@ -453,169 +383,22 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
-    context('compatibility core/complementary enable, should use new schema', function () {
+    context('subscription validation', function () {
       context('success cases', function () {
-        it('should validate when there is only one core subscription', function () {
-          // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-            ],
+        Object.values(Frameworks).forEach((subscription) => {
+          it(`should validate when subscription is ${subscription}`, function () {
+            const candidate = domainBuilder.certification.enrolment.buildCandidate({ ...candidateData, subscription });
+            candidate.validate();
           });
-
-          // when, then
-          candidate.validate();
-        });
-
-        it('should validate when there is a double certification', function () {
-          // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId: null,
-                complementaryCertificationKey: ComplementaryCertificationKeys.CLEA,
-              }),
-              domainBuilder.certification.enrolment.buildCoreSubscription({
-                certificationCandidateId: null,
-              }),
-            ],
-          });
-
-          // when, then
-          candidate.validate();
-        });
-        it('should validate when there is only one complementary subscription excluding CLEA', function () {
-          // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId: null,
-                complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-              }),
-            ],
-          });
-
-          // when, then
-          candidate.validate();
         });
       });
 
       context('ko cases', function () {
-        it('should not validate when there are no subscription at all', async function () {
-          // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            subscriptions: [],
-          });
-          const certificationCandidatesError = new CertificationCandidatesError({
-            code: '"subscriptions" does not match any of the allowed types',
-          });
-
-          // when
+        it('should not validate when subscription is an unknown value', async function () {
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({ ...candidateData });
+          candidate.subscription = 'UNKNOWN_FRAMEWORK';
           const error = await catchErr(candidate.validate, candidate)();
-
-          // then
-          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack', 'meta']);
-        });
-
-        it('should not validate when there are two complementary', async function () {
-          // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId: null,
-              }),
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId: null,
-              }),
-            ],
-          });
-          const certificationCandidatesError = new CertificationCandidatesError({
-            code: '"subscriptions" does not match any of the allowed types',
-          });
-
-          // when
-          const error = await catchErr(candidate.validate, candidate)();
-
-          // then
-          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack', 'meta']);
-        });
-
-        it('should not validate when there are two complementary, one of which is CLEA', async function () {
-          // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId: null,
-              }),
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId: null,
-                complementaryCertificationKey: ComplementaryCertificationKeys.CLEA,
-              }),
-            ],
-          });
-          const certificationCandidatesError = new CertificationCandidatesError({
-            code: '"subscriptions" does not match any of the allowed types',
-          });
-
-          // when
-          const error = await catchErr(candidate.validate, candidate)();
-
-          // then
-          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack', 'meta']);
-        });
-
-        it('should not validate when there are two core', async function () {
-          // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription({
-                certificationCandidateId: null,
-              }),
-              domainBuilder.certification.enrolment.buildCoreSubscription({
-                certificationCandidateId: null,
-              }),
-            ],
-          });
-          const certificationCandidatesError = new CertificationCandidatesError({
-            code: '"subscriptions" does not match any of the allowed types',
-          });
-
-          // when
-          const error = await catchErr(candidate.validate, candidate)();
-
-          // then
-          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack', 'meta']);
-        });
-
-        it('should not validate when there are one core and one complementary not clea', async function () {
-          // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription({
-                certificationCandidateId: null,
-              }),
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId: null,
-              }),
-            ],
-          });
-          const certificationCandidatesError = new CertificationCandidatesError({
-            code: '"subscriptions" does not match any of the allowed types',
-          });
-
-          // when
-          const error = await catchErr(candidate.validate, candidate)();
-
-          // then
-          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack', 'meta']);
+          expect(error).to.be.instanceOf(CertificationCandidatesError);
         });
       });
     });
@@ -1170,94 +953,26 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
-  describe('hasComplementarySubscription', function () {
-    it('should return true', function () {
-      // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        ...candidateData,
-        subscriptions: [
-          domainBuilder.certification.enrolment.buildComplementarySubscription({ certificationCandidateId: null }),
-        ],
-      });
-
-      // when
-      const hasCoreSubscription = candidate.hasComplementarySubscription();
-
-      // when / then
-      expect(hasCoreSubscription).to.be.true;
+  describe('hasNonCoreSubscription', function () {
+    it('should return true when subscription is not CORE', function () {
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CLEA });
+      expect(candidate.hasNonCoreSubscription()).to.be.true;
     });
 
-    it('should return false', function () {
-      // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        ...candidateData,
-        subscriptions: [
-          domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-        ],
-      });
-
-      // when
-      const hasCoreSubscription = candidate.hasComplementarySubscription();
-
-      // when / then
-      expect(hasCoreSubscription).to.be.false;
-    });
-  });
-
-  describe('#complementaryCertificationKey', function () {
-    it('should return null when there is no complementary subscription', function () {
-      // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        ...candidateData,
-        subscriptions: [
-          domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-        ],
-      });
-
-      // when
-      const result = candidate.complementaryCertificationKey;
-
-      // then
-      expect(result).to.be.null;
-    });
-
-    it('should return the complementary certification key when there is a complementary subscription', function () {
-      // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        ...candidateData,
-        subscriptions: [
-          domainBuilder.certification.enrolment.buildComplementarySubscription({
-            certificationCandidateId: null,
-            complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-          }),
-        ],
-      });
-
-      // when
-      const result = candidate.complementaryCertificationKey;
-
-      // then
-      expect(result).to.equal(ComplementaryCertificationKeys.PIX_PLUS_DROIT);
+    it('should return false when subscription is CORE', function () {
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CORE });
+      expect(candidate.hasNonCoreSubscription()).to.be.false;
     });
   });
 
   describe('#isRegisteredToDoubleCertification', function () {
-    it('returns true when candidate is registered to double certification', function () {
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        subscriptions: [
-          domainBuilder.certification.enrolment.buildCoreSubscription(),
-          domainBuilder.certification.enrolment.buildCoreSubscription(),
-        ],
-      });
-
+    it('returns true when candidate subscription is CLEA', function () {
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CLEA });
       expect(candidate.isRegisteredToDoubleCertification()).to.be.true;
     });
 
-    it('returns false when candidate is not registered to double certification', function () {
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        subscriptions: [domainBuilder.certification.enrolment.buildComplementarySubscription()],
-      });
-
+    it('returns false when candidate subscription is not CLEA', function () {
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.DROIT });
       expect(candidate.isRegisteredToDoubleCertification()).to.be.false;
     });
   });
