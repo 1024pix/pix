@@ -273,27 +273,27 @@
                       "id": "dd52b629-a49f-4848-bc30-be71527bd921",
                       "type": "qcu-discovery",
                       "instruction": "<p>À votre avis, s’agit-il d’un effet direct ou indirect sur l’environnement ?</p>",
-                      "hasShortProposals": false,
+                      "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Effet direct<br></p>",
+                          "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s'agit d'un <strong>effet indirect</strong> sous la forme d'un<strong> gain de revenus</strong>&nbsp; : on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un<strong> gain de revenus</strong>&nbsp;&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Effet indirect<br></p>",
+                          "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p> Il s'agit d'un <strong>effet indirect</strong> sous la forme d'un<strong> gain de revenus</strong>&nbsp; : on dispose de plus de revenus qu’on consacre à une consommation supplémentaire. Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p> Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un<strong> gain de revenus</strong>&nbsp;&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire. Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Je ne sais pas.</p>",
+                          "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s'agit d'un <strong>effet indirect</strong> sous la forme d'un <strong>gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire. Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un <strong>gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire. Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         }
                       ],
@@ -721,7 +721,7 @@
                 "id": "882a3170-8e32-461c-bef3-1ed864a63a96",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’effet rebond montre qu’une innovation technologique ne garantit pas des bénéfices environnementaux. Cela soulève alors une autre question importante : comment reconnaître un véritable engagement pour l'environnement dans la stratégie de communication d'une organisation ?</p>"
+                "content": "<p>L’effet rebond montre qu’une innovation technologique ne garantit pas des bénéfices environnementaux. Cela soulève alors une autre question importante&nbsp;: comment reconnaître un véritable engagement pour l’environnement dans la stratégie de communication d’une organisation ?</p>"
               }
             }
           ]
@@ -737,7 +737,7 @@
                 "id": "1d708f09-ff47-4585-8292-6e4504d31f2a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Olivier s'interroge en voyant cette publicité du système Domotico qui permet l’optimisation de la consommation électrique grâce à l’intelligence artificielle (IA).<br></p>"
+                "content": "<p>Olivier s’interroge en voyant cette publicité du système Domotico qui permet l’optimisation de la consommation électrique grâce à l’intelligence artificielle (IA).<br></p>"
               }
             },
             {
@@ -1211,7 +1211,7 @@
               "element": {
                 "id": "0af3aa8d-4e6e-47eb-9892-ac43febde2bb",
                 "type": "qcm",
-                "instruction": "<p>Parmi ces publicités, lesquelles font de l’éco-blanchiment ou greenswashing ?<br></p>",
+                "instruction": "<p>Parmi ces publicités, lesquelles font de l’éco-blanchiment ou greenswashing ?<br></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -1237,12 +1237,12 @@
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "<p>Bonne réponse !<br></p>",
-                    "diagnosis": "<p>La <strong>mention </strong>«&nbsp;100% respectueux de l'environnement&nbsp;» est <strong>vague </strong>et probablement <strong>trompeuse </strong>tandis que l<strong>'indice de réparabilité</strong> correspond à un critère qui repose sur une méthode officielle et normée.<br></p>"
+                    "state": "<p>Bonne réponse !<br></p>",
+                    "diagnosis": "<p>La <strong>mention </strong>«&nbsp;100% respectueux de l’environnement&nbsp;» est <strong>vague </strong>et probablement <strong>trompeuse </strong>tandis que l<strong>’indice de réparabilité</strong> correspond à un critère qui repose sur une méthode officielle et normée.<br></p>"
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.</p>",
-                    "diagnosis": "<p>Soyez vigilants vis-à-vis des publicités qui mettent en avant des engagements environnementaux de façon vague !</p>"
+                    "diagnosis": "<p>Soyez vigilants vis-à-vis des publicités qui mettent en avant des engagements environnementaux de façon vague !</p>"
                   }
                 },
                 "solutions": [
@@ -1270,7 +1270,7 @@
                 "id": "89825fe0-aff8-43c4-9ad0-4d433810ed96",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous vous souvenez du débat entre Olivier et Alise sur l’impact du télétravail ?</p><p><br></p><p>L’ADEME a également essayé de répondre à la question. Elle a publié en 2025 une <a href=\"https://drive.google.com/file/d/1N4HCT6yYVVpQEUH_uFZ6Jv2o41apUQHh/view\" target=\"_blank\">étude</a>&nbsp;sur plusieurs cas d’usage du numérique, dont le <strong>télétravail</strong>, afin d’en mesurer les effets directs et indirects.</p>"
+                "content": "<p>Vous vous souvenez du débat entre Olivier et Alise sur l’impact du télétravail ?</p><p>L’ADEME a également essayé de répondre à la question. Elle a publié en 2025 une <a href=\"https://drive.google.com/file/d/1N4HCT6yYVVpQEUH_uFZ6Jv2o41apUQHh/view\" target=\"_blank\">étude</a>&nbsp;sur plusieurs cas d’usage du numérique, dont le <strong>télétravail</strong>, afin d’en mesurer les effets directs et indirects.</p>"
               }
             },
             {
