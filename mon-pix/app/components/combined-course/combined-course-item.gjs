@@ -1,7 +1,7 @@
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixStars from '@1024pix/pix-ui/components/pix-stars';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
-import { hash } from '@ember/helper';
+import { array, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
@@ -134,8 +134,8 @@ function hasWhiteBackground(item) {
       <LinkTo
         {{on "click" @onClick}}
         @route={{@item.route}}
-        @model={{@item.reference}}
-        @query={{hash redirection=@item.redirection}}
+        @models={{array @item.reference @item.shortId}}
+        @query={{hash redirection=@item.redirection shortId=@item.shortId}}
         disabled
       >
         <Content

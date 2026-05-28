@@ -22,6 +22,7 @@ export default class CombinedCourseItem extends Model {
   @attr('boolean') isLocked;
   @attr('number') duration;
   @attr('string') image;
+  @attr('string') shortId;
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;
 
   get route() {
