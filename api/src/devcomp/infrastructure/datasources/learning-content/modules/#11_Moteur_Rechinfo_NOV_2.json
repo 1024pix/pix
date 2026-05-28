@@ -274,11 +274,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bien vu !&nbsp;<br></p>",
-                    "diagnosis": "<p>Les résultats qui apparaissent en premier sont souvent ceux qui répondent le mieux à la recherche, qui sont les plus connus ou les plus récents.&nbsp;</p>"
+                    "diagnosis": "<p>Les résultats qui apparaissent <strong>en premier</strong> sont souvent ceux qui <strong>répondent le mieux à la recherche</strong>, qui sont <strong>les plus consultés ou cités</strong> ou <strong>les plus récents</strong>.</p>"
                   },
                   "invalid": {
                     "state": "<p>Pas exactement !<br></p>",
-                    "diagnosis": "<p>Les résultats qui apparaissent en premier sont souvent ceux qui répondent le mieux à la recherche, qui sont les plus consultés ou cités et les plus récents.&nbsp;<br></p>"
+                    "diagnosis": "<p>Les résultats qui apparaissent <strong>en premier</strong> sont souvent ceux qui <strong>répondent le mieux à la recherche</strong>, qui sont <strong>les plus consultés ou cités</strong> ou <strong>les plus récents</strong>.</p>"
                   }
                 },
                 "solutions": [
