@@ -33,7 +33,7 @@
                 "id": "37a9e342-ceee-494e-ae50-1690aea3b6bb",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Olivier et Alise s’interrogent sur l’impact environnemental des smartphones.</p>",
+                "instruction": "<p>Olivier et Alise s’interrogent sur l’impact environnemental du télétravail.</p>",
                 "functionalInstruction": "",
                 "tagName": "message-conversation",
                 "props": {
@@ -254,6 +254,46 @@
                           "content": "Je ne sais pas.",
                           "feedback": {
                             "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: le smartphone&nbsp;remplace d’autres équipements.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "0c40003a-900a-48c1-9f4c-f27d4b3aa464",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Une personne en télétravail a réduit ses dépenses d’essence. Grâce à ses économies, elle achète une montre connectée.</p>"
+                    },
+                    {
+                      "id": "dd52b629-a49f-4848-bc30-be71527bd921",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>À votre avis, s’agit-il d’un effet direct ou indirect sur l’environnement ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Effet direct<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non !</p><p>Il s'agit d'un <strong>effet indirect</strong> sous la forme d'un<strong> gain de revenus</strong>&nbsp; : on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.<br></p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Effet indirect<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Bien vu !</p><p> Il s'agit d'un <strong>effet indirect</strong> sous la forme d'un<strong> gain de revenus</strong>&nbsp; : on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Il s'agit d'un <strong>effet indirect</strong> sous la forme d'un <strong>gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.</p>"
                           }
                         }
                       ],
@@ -1136,7 +1176,7 @@
                 "id": "89825fe0-aff8-43c4-9ad0-4d433810ed96",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous vous souvenez du débat entre Olivier et Alize sur l’impact du télétravail ?</p><p>L’ADEME a également essayé de répondre à la question.</p><p>Dans cette <a href=\"https://drive.google.com/file/d/1N4HCT6yYVVpQEUH_uFZ6Jv2o41apUQHh/view\" target=\"_blank\">étude</a>  publiée en 2025, elle s’est intéressée à plusieurs cas d’usage du numérique afin d’en mesurer les effets directs et indirects.</p>"
+                "content": "<p>Vous vous souvenez du débat entre Olivier et Alize sur l’impact du télétravail ?</p><p><br></p><p>L’ADEME a également essayé de répondre à la question. Elle a publié en 2025 une <a href=\"https://drive.google.com/file/d/1N4HCT6yYVVpQEUH_uFZ6Jv2o41apUQHh/view\" target=\"_blank\">étude</a>&nbsp;sur plusieurs cas d’usage du numérique, dont le <strong>télétravail</strong>, afin d’en mesurer les effets directs et indirects.</p>"
               }
             },
             {
@@ -1144,32 +1184,32 @@
               "element": {
                 "id": "c482307d-6b24-458a-92a0-b6cd8f95d51e",
                 "type": "qcm",
-                "instruction": "<p>Dans cette étude, quels effets ont été <strong>quantifiés </strong>pour le <strong>télétravail </strong>?</p><br>",
+                "instruction": "<p>Dans cette étude, quels effets ont été <strong>quantifiés </strong>pour le <strong>télétravail </strong>?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>L’évolution de la distance parcourus pour les trajets domicile- travail.</p>"
+                    "content": "<p>l’évolution de la distance parcourus pour les trajets domicile- travail</p>"
                   },
                   {
                     "id": "2",
-                    "content": "<p>Les problèmes de santé physique et mentale.</p>"
+                    "content": "<p>les problèmes de santé physique et mentale</p>"
                   },
                   {
                     "id": "3",
-                    "content": "<p>La réduction des besoins en espaces de travail.</p>"
+                    "content": "<p>la réduction des besoins en espaces de travail</p>"
                   },
                   {
                     "id": "4",
-                    "content": "<p>La réaffectation des économies réalisées par les employeurs.</p>"
+                    "content": "<p>la réaffectation des économies réalisées par les employeurs</p>"
                   },
                   {
                     "id": "5",
-                    "content": "<p>La relocalisation potentielle du domicile des travailleurs.</p>"
+                    "content": "<p>la relocalisation potentielle du domicile des travailleurs</p>"
                   },
                   {
                     "id": "6",
-                    "content": "<p>L’évolution de la consommation énergétique liée au chauffage du domicile.</p>"
+                    "content": "<p>l’évolution de la consommation énergétique liée au chauffage du domicile</p>"
                   }
                 ],
                 "feedbacks": {
