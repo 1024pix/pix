@@ -24,7 +24,15 @@ export default class ChallengeController extends Controller {
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasUserConfirmedTimedChallengeWarning = false;
-  @tracked isTextToSpeechActivated = true;
+  @tracked userEnabledTextToSpeech = false;
+
+  get isTextToSpeechActivated() {
+    const certificationCourse = this.model.assessment.belongsTo('certificationCourse').value();
+    if (certificationCourse) {
+      return certificationCourse?.isAdjustedForAccessibility;
+    }
+    return this.userEnabledTextToSpeech;
+  }
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -241,7 +249,7 @@ export default class ChallengeController extends Controller {
   }
 
   @action toggleTextToSpeech() {
-    this.isTextToSpeechActivated = !this.isTextToSpeechActivated;
+    this.userEnabledTextToSpeech = !this.userEnabledTextToSpeech;
     if (!this.isTextToSpeechActivated) {
       speechSynthesis.cancel();
     }

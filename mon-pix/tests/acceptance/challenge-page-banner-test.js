@@ -76,7 +76,24 @@ module('Acceptance | Challenge page banner', function (hooks) {
         });
       });
 
-      test("should display text-to-speech button in challenge instruction when it's been activated in the banner", async function (assert) {
+      test('displays deactivated text-to-speech button in challenge instruction', async function (assert) {
+        // given
+        class MetricsStubService extends Service {
+          trackPage = sinon.stub();
+          trackEvent = sinon.stub();
+          context = {};
+        }
+        this.owner.register('service:pix-metrics', MetricsStubService);
+
+        // when
+        const screen = await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Activer la vocalisation' })).exists();
+        assert.dom(screen.queryByRole('button', { name: 'Lire la consigne à haute voix' })).doesNotExist();
+      });
+
+      test("displays text-to-speech button in challenge instruction when it's been activated in the banner", async function (assert) {
         // given
         class MetricsStubService extends Service {
           trackPage = sinon.stub();
@@ -86,24 +103,12 @@ module('Acceptance | Challenge page banner', function (hooks) {
         this.owner.register('service:pix-metrics', MetricsStubService);
 
         const screen = await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
-        await click(screen.getByRole('button', { name: 'Désactiver la vocalisation' }));
 
         // when
         await click(screen.getByRole('button', { name: 'Activer la vocalisation' }));
 
         // then
         assert.dom(screen.getByRole('button', { name: 'Lire la consigne à haute voix' })).exists();
-      });
-
-      test("should hide text-to-speech button in challenge instruction when it's been deactivated in the banner", async function (assert) {
-        // given
-        const screen = await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
-
-        // when
-        await click(screen.getByRole('button', { name: 'Désactiver la vocalisation' }));
-
-        // then
-        assert.dom(screen.queryByRole('button', { name: 'Lire la consigne à haute voix' })).doesNotExist();
       });
     });
   });
