@@ -15,14 +15,14 @@ describe('Unit | Tooling | Dependency cruiser generator', function () {
         {
           name: 'shared-no-context',
           severity: 'error',
-          from: { path: '^src/shared' },
-          to: { path: '^src/(?!shared)' },
+          from: { path: '^src/shared/' },
+          to: { path: '^src/(?!shared/)' },
         },
         {
           name: 'banner-no-context',
           severity: 'error',
-          from: { path: '^src/banner' },
-          to: { path: '^src/(?!banner|shared)' },
+          from: { path: '^src/banner/' },
+          to: { path: '^src/(?!banner/|shared/)' },
         },
       ]);
     });
@@ -41,7 +41,7 @@ describe('Unit | Tooling | Dependency cruiser generator', function () {
         {
           name: 'no-circular',
           severity: 'error',
-          from: { path: '^src/(banner|shared)/' },
+          from: { path: '^src/(banner/|shared/)' },
           to: { circular: true },
         },
       ]);

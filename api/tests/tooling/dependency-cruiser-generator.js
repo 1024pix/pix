@@ -11,7 +11,7 @@ export function buildForbiddenRules(contexts = []) {
     forbiddenRules.push({
       name: 'no-circular',
       severity: 'error',
-      from: { path: `^src/(${forbiddenCirculars.join('|')})/` },
+      from: { path: `^src/(${forbiddenCirculars.join('/|')}/)` },
       to: { circular: true },
     });
   }
@@ -24,8 +24,8 @@ export function buildForbiddenRules(contexts = []) {
       return {
         name: `${context.name}-no-context`,
         severity: 'error',
-        from: { path: `^src/${context.name}` },
-        to: { path: `^src/(?!${dependsOn.join('|')})` },
+        from: { path: `^src/${context.name}/` },
+        to: { path: `^src/(?!${dependsOn.join('/|')}/)` },
       };
     });
   forbiddenRules.push(...dependsOnContexts);
