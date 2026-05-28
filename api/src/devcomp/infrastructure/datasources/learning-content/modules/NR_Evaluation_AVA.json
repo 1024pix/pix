@@ -679,7 +679,7 @@
                       "id": "f03f5137-a79c-41a0-a2d7-69019d815759",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’amélioration de l’efficacité d’une technologie améliore souvent l’efficacité énérgétique. Mais elle provoque aussi souvent une augmentation de son usage ou une augmentation de l’usage d’autres technologies.</p>"
+                      "content": "<p>L’amélioration d’une technologie améliore souvent son efficacité énérgétique. Mais elle peut aussi provoquer une augmentation de son usage ou de l’usage d’autres technologies.</p>"
                     }
                   ]
                 },
@@ -812,7 +812,7 @@
                       "id": "71741a0f-9a72-4a76-8f0e-f4e58c7d09f3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5> Finalement, comment peut-on vérifier si les effets sont positifs ou négatifs ? </h5><p>Il existe des méthodes scientifiques pour mesurer les effets indirects du numérique comme l’Analyse de Cycle de Vie conséquentielle. C’est une méthode de mesure normée qui prend en compte les effets directs et indirects sur l’environnement, sur plusieurs critères environnementaux et pour l’ensemble du cycle de vie.<br></p>"
+                      "content": "<h5> Finalement, comment peut-on vérifier si les effets sont positifs ou négatifs ? </h5><p>Il existe des méthodes scientifiques pour mesurer les effets indirects du numérique comme l’<strong>Analyse de Cycle de Vie conséquentielle</strong>. C’est une méthode de mesure normée qui prend en compte les effets directs et indirects sur l’environnement, sur plusieurs critères environnementaux et pour l’ensemble du cycle de vie.<br></p>"
                     }
                   ]
                 },
