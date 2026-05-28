@@ -1,3 +1,4 @@
+import * as campaignStatsApi from '../../../prescription/campaign/application/api/campaign-stats-api.js';
 import * as campaignApi from '../../../prescription/campaign/application/api/campaigns-api.js';
 import * as learnerApi from '../../../prescription/learner-management/application/api/learners-api.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
@@ -13,6 +14,7 @@ const dependencies = {
   organizationApi,
   learnerApi,
   campaignApi,
+  campaignStatsApi,
 };
 
 const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies);

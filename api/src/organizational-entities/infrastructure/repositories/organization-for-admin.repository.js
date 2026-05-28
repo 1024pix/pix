@@ -377,6 +377,15 @@ const createProOrganizationInvitation = async function ({
   });
 };
 
+/**
+ * @type {function}
+ * @param {number} organizationId
+ * @return {Promise<{totalParticipantsCount: number}>}
+ */
+const getOrganizationParticipantsStatistics = async ({ campaignStatsApi, organizationId }) => {
+  return campaignStatsApi.getOrganizationParticipantsStatistics(organizationId);
+};
+
 async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
   await knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME)
     .insert(dataProtectionOfficer)
@@ -560,6 +569,7 @@ export const organizationForAdminRepository = {
   findPaginatedFiltered,
   findChildrenByParentOrganizationId,
   get,
+  getOrganizationParticipantsStatistics,
   save,
   update,
 };
