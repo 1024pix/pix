@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
-import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
 import { adminMemberController } from '../../../../../src/team/application/admin-member/admin-member.controller.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
 import { expect } from '../../../../test-helper.js';

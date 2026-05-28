@@ -1,7 +1,6 @@
 {
   "name": "team",
   "dependsOn": [
-    "authorization",
     "certification/shared",
     "identity-access-management",
     "legal-documents",

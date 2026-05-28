@@ -1,7 +1,7 @@
 import FormData from 'form-data';
 
 import { createServer } from '../../../../server.js';
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { PIX_ADMIN } from '../../../../src/shared/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';

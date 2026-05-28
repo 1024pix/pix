@@ -1,7 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 import lodash from 'lodash';
 
-import { PIX_ADMIN } from '../../authorization/domain/constants.js';
 import * as checkUserIsCandidateUseCase from '../../certification/enrolment/application/usecases/check-user-is-candidate.js';
 import * as centerRepository from '../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
@@ -12,6 +11,7 @@ import * as checkAuthorizationToAccessCombinedCourseUsecase from '../../quest/ap
 import * as checkParticipationBelongsToCombinedCourseUsecase from '../../quest/application/usecases/check-participation-belongs-to-combined-course.js';
 import * as checkUserCanManageCombinedCourseUsecase from '../../quest/application/usecases/check-user-can-manage-combined-course.js';
 import * as isSchoolSessionActive from '../../school/application/usecases/is-school-session-active.js';
+import { PIX_ADMIN } from '../../shared/domain/constants.js';
 import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
 import { featureToggles } from '../infrastructure/feature-toggles/index.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';

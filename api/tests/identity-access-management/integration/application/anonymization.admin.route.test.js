@@ -1,5 +1,5 @@
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { identityAccessManagementRoutes } from '../../../../src/identity-access-management/application/routes.js';
+import { PIX_ADMIN } from '../../../../src/shared/domain/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';

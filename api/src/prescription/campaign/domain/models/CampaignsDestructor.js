@@ -1,4 +1,4 @@
-import { PIX_ADMIN } from '../../../../authorization/domain/constants.js';
+import { PIX_ADMIN } from '../../../../shared/domain/constants.js';
 import { ObjectValidationError } from '../../../../shared/domain/errors.js';
 
 /**

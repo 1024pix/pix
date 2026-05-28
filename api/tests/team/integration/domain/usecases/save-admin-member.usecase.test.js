@@ -1,5 +1,5 @@
-import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
 import { saveAdminMember } from '../../../../../src/team/domain/usecases/save-admin-member.usecase.js';
 import { adminMemberRepository } from '../../../../../src/team/infrastructure/repositories/admin-member.repository.js';
 import { expect } from '../../../../test-helper.js';

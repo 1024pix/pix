@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
-import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
+import { PIX_ADMIN } from '../../../src/shared/domain/constants.js';
 
 const getAdminRoleStub = (role) => {
   const pixAdminRole = PIX_ADMIN.ROLES[role];

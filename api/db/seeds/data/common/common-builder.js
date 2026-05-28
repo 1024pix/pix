@@ -1,4 +1,4 @@
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { PIX_ADMIN } from '../../../../src/shared/domain/constants.js';
 import {
   ADMINISTRATION_TEAM_ALPHA_ID,
   ADMINISTRATION_TEAM_ROCKET_ID,

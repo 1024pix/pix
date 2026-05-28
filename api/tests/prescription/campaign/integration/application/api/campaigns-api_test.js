@@ -1,4 +1,3 @@
-import { PIX_ADMIN } from '../../../../../../src/authorization/domain/constants.js';
 import * as campaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign/application/api/models/CampaignParticipation.js';
 import { SavedCampaign } from '../../../../../../src/prescription/campaign/application/api/models/SavedCampaign.js';
@@ -9,6 +8,7 @@ import {
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { PIX_ADMIN } from '../../../../../../src/shared/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';

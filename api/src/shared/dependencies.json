@@ -1,7 +1,6 @@
 {
   "name": "shared",
   "dependsOn": [
-    "authorization",
     "certification/configuration",
     "certification/enrolment",
     "certification/evaluation",

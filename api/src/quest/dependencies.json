@@ -1,7 +1,6 @@
 {
   "name": "quest",
   "dependsOn": [
-    "authorization",
     "devcomp",
     "evaluation",
     "identity-access-management",

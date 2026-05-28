@@ -1,7 +1,7 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { CLIENTS, PIX_ADMIN } from '../../authorization/domain/constants.js';
 import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import { CLIENTS, PIX_ADMIN } from '../../shared/domain/constants.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import { usecases as learnerManagementUsecases } from '../learner-management/domain/usecases/index.js';
 

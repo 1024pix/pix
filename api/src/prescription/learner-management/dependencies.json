@@ -1,7 +1,6 @@
 {
   "name": "prescription/learner-management",
   "dependsOn": [
-    "authorization",
     "devcomp",
     "evaluation",
     "identity-access-management",

@@ -2,9 +2,9 @@ import lodash from 'lodash';
 
 const { isUndefined, isNil } = lodash;
 
-import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { AuthenticationMethod } from '../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
+import { PIX_ADMIN } from '../../../src/shared/domain/constants.js';
 import { Membership } from '../../../src/shared/domain/models/Membership.js';
 import { DEFAULT_PASSWORD } from '../../constants.js';
 import { databaseBuffer } from '../database-buffer.js';

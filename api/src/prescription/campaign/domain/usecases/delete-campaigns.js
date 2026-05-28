@@ -1,5 +1,5 @@
-import { CLIENTS, PIX_ORGA } from '../../../../authorization/domain/constants.js';
 import * as CombinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-course-repository.js';
+import { CLIENTS, PIX_ORGA } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { AuditLoggingJob } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
 import { CampaignBelongsToCombinedCourseError } from '../errors.js';

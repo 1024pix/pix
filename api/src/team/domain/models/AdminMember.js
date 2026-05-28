@@ -2,7 +2,7 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { PIX_ADMIN } from '../../../authorization/domain/constants.js';
+import { PIX_ADMIN } from '../../../shared/domain/constants.js';
 import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
 
 const { ROLES } = PIX_ADMIN;

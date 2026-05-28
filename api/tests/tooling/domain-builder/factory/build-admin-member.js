@@ -1,4 +1,4 @@
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { PIX_ADMIN } from '../../../../src/shared/domain/constants.js';
 import { AdminMember } from '../../../../src/team/domain/models/AdminMember.js';
 
 const { ROLES } = PIX_ADMIN;

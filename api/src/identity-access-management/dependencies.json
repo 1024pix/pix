@@ -1,7 +1,6 @@
 {
   "name": "identity-access-management",
   "dependsOn": [
-    "authorization",
     "certification/enrolment",
     "devcomp",
     "legal-documents",

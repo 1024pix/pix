@@ -1,8 +1,8 @@
-import { PIX_ADMIN } from '../../../../../../src/authorization/domain/constants.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import { CampaignsDestructor } from '../../../../../../src/prescription/campaign/domain/models/CampaignsDestructor.js';
 import { OrganizationMembership } from '../../../../../../src/prescription/campaign/domain/read-models/OrganizationMembership.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
+import { PIX_ADMIN } from '../../../../../../src/shared/domain/constants.js';
 import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 

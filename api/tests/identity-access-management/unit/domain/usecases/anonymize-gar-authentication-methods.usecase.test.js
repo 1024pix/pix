@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
-import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { anonymizeGarAuthenticationMethods } from '../../../../../src/identity-access-management/domain/usecases/anonymize-gar-authentication-methods.usecase.js';
+import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { expect } from '../../../../test-helper.js';

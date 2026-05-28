@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { AlreadyExistingAdminMemberError } from '../../../../../src/team/domain/errors.js';
 import { AdminMember } from '../../../../../src/team/domain/models/AdminMember.js';
