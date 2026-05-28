@@ -77,7 +77,7 @@ export default class PixPlusCertificate extends Component {
         <PixBlock class="v3-pix-plus-certificate__infos-block">
           <div>
             {{#if this.isUserCertificate}}
-              <h2 class="v3-pix-plus-certificate__title">
+              <h2 class="v3-pix-plus-certificate__title" data-testid="pw-candidate-certificate-global-level">
                 <strong>{{t "pages.certificate.congratulations"}}</strong>
                 {{this.certificationSubTitle}}
               </h2>
@@ -87,7 +87,7 @@ export default class PixPlusCertificate extends Component {
                 {{t "pages.certificate.valid-status"}}
               </PixTag>
 
-              <h2 class="v3-pix-plus-certificate__title">
+              <h2 class="v3-pix-plus-certificate__title" data-testid="pw-candidate-certificate-global-level">
                 <strong>{{t "pages.certificate.valid-status"}}</strong>
                 {{this.certificationSubTitle}}
               </h2>
@@ -135,7 +135,7 @@ export default class PixPlusCertificate extends Component {
               />
               <PixTag @color="green">{{this.reachedMeshLabel}}</PixTag>
             {{else}}
-              <img class="v3-pix-plus-certificate-score__badge" src={{@certificate.badgeUrl}} alt="" />
+              <Hexagon @badgeUrl={{@certificate.badgeUrl}} />
             {{/if}}
           </div>
         </PixBlock>

@@ -277,7 +277,7 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
 
         // then
         assert.dom(screen.queryByText(t('pages.user-certifications.meshes.EDU_1ER_DEGRE.EXPERT'))).doesNotExist();
-        assert.dom('.v3-pix-plus-certificate-score__badge').exists();
+        assert.dom('.certification-result-badge').exists();
         assert.dom('.certification-result-hexagon').doesNotExist();
       });
     });
@@ -441,7 +441,7 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
       assert
         .dom(screen.queryByRole('heading', { level: 3, name: t('pages.certificate.results.title') }))
         .doesNotExist();
-      assert.dom('.v3-pix-plus-certificate-score__badge').exists();
+      assert.dom('.certification-result-badge').exists();
       assert.dom('.certification-result-hexagon').doesNotExist();
     });
 
