@@ -1,5 +1,15 @@
 # Pix Changelog
 
+# [5.417.0](https://github.com/1024pix/pix/compare/v5.416.0...v5.417.0) (2026-05-28)
+
+### :rocket: Amélioration
+
+- [#16317](https://github.com/1024pix/pix/pull/16317) Ne pas autoriser l'ajout de la feature Attestation Management sans paramètres (PIX-22821). 
+
+### :building_construction: Tech
+
+- [#16333](https://github.com/1024pix/pix/pull/16333) Fix la fonction routeDomainToOwnerTeam
+
 # [5.416.0](https://github.com/1024pix/pix/compare/v5.415.0...v5.416.0) (2026-05-28)
 
 ### :rocket: Amélioration
