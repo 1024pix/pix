@@ -71,4 +71,15 @@ describe('Unit | Shared | infrastructure | Utils | route-domain-to-owner-team', 
     const team = routeDomainToOwnerTeam(config, route);
     expect(team).to.be.empty;
   });
+
+  it('should not fail if the route is undefined', function () {
+    const config = {
+      announcements: ['team-1', 'team-2'],
+      banner: ['team-3'],
+    };
+
+    const route = undefined;
+    const team = routeDomainToOwnerTeam(config, route);
+    expect(team).to.be.empty;
+  });
 });

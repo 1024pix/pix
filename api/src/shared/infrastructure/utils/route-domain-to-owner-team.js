@@ -20,7 +20,7 @@ export function routeDomainToOwnerTeam(routeDomainToOwnerTeamMap, routeDomain) {
     return [];
   }
   const matchingKeys = Object.entries(routeDomainToOwnerTeamMap)
-    .filter(([routeDomainPattern, _value]) => routeDomain.startsWith(routeDomainPattern))
+    .filter(([routeDomainPattern, _value]) => routeDomain?.startsWith(routeDomainPattern))
     .map(([key, _value]) => key);
 
   const longestMatchingKey = matchingKeys.sort((a, b) => b.length - a.length)[0];
