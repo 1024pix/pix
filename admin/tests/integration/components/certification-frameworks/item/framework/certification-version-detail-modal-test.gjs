@@ -40,7 +40,7 @@ module(
           <CertificationVersionDetailModal
             @version={{version}}
             @status="ACTIVE"
-            @scope="CORE"
+            @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{true}}
           />
@@ -62,7 +62,7 @@ module(
           <CertificationVersionDetailModal
             @version={{version}}
             @status="ACTIVE"
-            @scope="CORE"
+            @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{true}}
           />
@@ -86,7 +86,7 @@ module(
           <CertificationVersionDetailModal
             @version={{version}}
             @status="ACTIVE"
-            @scope="CORE"
+            @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{true}}
           />
@@ -117,7 +117,7 @@ module(
           <CertificationVersionDetailModal
             @version={{version}}
             @status="ACTIVE"
-            @scope="CORE"
+            @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{true}}
           />
@@ -139,7 +139,7 @@ module(
           <CertificationVersionDetailModal
             @version={{version}}
             @status="ACTIVE"
-            @scope="CORE"
+            @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{true}}
           />
@@ -168,7 +168,7 @@ module(
           <CertificationVersionDetailModal
             @version={{version}}
             @status="ACTIVE"
-            @scope="CORE"
+            @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{false}}
           />

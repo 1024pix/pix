@@ -94,6 +94,23 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
     assert.dom(screen.getByRole('dialog')).exists();
   });
 
+  test('it displays the framework label as the modal title', async function (assert) {
+    // given
+    sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version'));
+
+    // when
+    const screen = await render(<template><FrameworkHistory @frameworkKey="CORE" /></template>);
+
+    await click(
+      screen.getAllByRole('button', {
+        name: t('components.complementary-certifications.item.framework.history.table.actions.view'),
+      })[0],
+    );
+
+    // then
+    assert.dom(screen.getByRole('heading', { name: t('components.certification-frameworks.labels.CORE') })).exists();
+  });
+
   test('it leaves detail modal opened after saving comments successfully', async function (assert) {
     // given
     const certificationVersion = store.createRecord('certification-version', {
