@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import sinon from 'sinon';
 
+import { Badge } from '../../../../../../src/evaluation/domain/models/Badge.js';
 import * as targetProfileRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { TargetProfile } from '../../../../../../src/shared/domain/models/TargetProfile.js';
@@ -28,6 +29,28 @@ describe('Integration | Repository | Target-profile', function () {
       // then
       expect(foundTargetProfile).to.be.an.instanceOf(TargetProfile);
       expect(foundTargetProfile.id).to.be.equal(targetProfile.id);
+    });
+
+    it('should return targetProfile badges', async function () {
+      //given
+      const badge1 = databaseBuilder.factory.buildBadge({
+        targetProfileId: targetProfile.id,
+      });
+      const badge2 = databaseBuilder.factory.buildBadge({
+        targetProfileId: targetProfile.id,
+      });
+      databaseBuilder.factory.buildBadge();
+      await databaseBuilder.commit();
+
+      //when
+      const result = await targetProfileRepository.get(targetProfile.id);
+
+      //then
+      expect(result.badges.length).to.be.equal(2);
+      expect(result.badges[0]).to.be.an.instanceOf(Badge);
+      expect(result.badges[1]).to.be.an.instanceOf(Badge);
+      expect(result.badges[0].id).to.be.equal(badge1.id);
+      expect(result.badges[1].id).to.be.equal(badge2.id);
     });
 
     context('when the targetProfile does not exist', function () {
