@@ -159,35 +159,35 @@
                     "id": "1",
                     "content": "<p>Uniquement le nom du site web.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pas tout à fait&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> peut aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
+                      "diagnosis": "<p>Pas tout à fait&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> et son <strong>icône</strong> peuvent aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Uniquement le titre du résultat.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pas tout à fait&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> peut aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
+                      "diagnosis": "<p>Pas tout à fait&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> et son <strong>icône</strong> peuvent aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Uniquement l’extrait de la page web.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pas tout à fait&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> peut aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
+                      "diagnosis": "<p>Pas tout à fait&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> et son <strong>icône</strong> peuvent aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Tous ces éléments.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bien vu&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> peut aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
+                      "diagnosis": "<p>Bien vu&nbsp;!</p><p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> et son <strong>icône</strong> peuvent aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
                     }
                   },
                   {
                     "id": "5",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> peut aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
+                      "diagnosis": "<p>Avant de cliquer, on peut déjà lire plusieurs informations&nbsp;:</p><ul>    <li>Le <strong>nom du site web</strong> et son <strong>icône</strong> peuvent aider à savoir d’où vient l’information.</li>    <li>Le <strong>titre du résultat</strong> et l’<strong>extrait de la page web</strong> aident à comprendre de quoi parle la page web. </li></ul><p>Tous ces éléments peuvent aider à choisir une page web.</p>"
                     }
                   }
                 ],
@@ -342,7 +342,7 @@
                 "id": "29a4e381-d8e3-443f-96f1-2b24feb3435a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Kevin a fait une nouvelle recherche en ligne pour réserver sa visite de nuit au musée du Louvre.Il s’interroge, certains des premiers résultats ne semblent pas correspondre à sa recherche.</p><p><br></p><p><strong>Observez la liste des résultats de la recherche de Kevin, puis répondez à la question qui suit.</strong></p>"
+                "content": "<p>Kevin a fait une nouvelle recherche en ligne pour réserver sa visite de nuit au musée du Louvre. Il s’interroge car certains des premiers résultats ne semblent pas correspondre à sa recherche.</p><p><br></p><p><strong>Observez la liste des résultats de la recherche de Kevin, puis répondez à la question qui suit.</strong></p>"
               }
             },
             {
