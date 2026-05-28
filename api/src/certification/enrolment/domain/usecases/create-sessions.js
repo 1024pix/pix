@@ -19,6 +19,7 @@ export async function createSessions({
   candidateRepository,
   sessionRepository,
   temporarySessionsStorageForMassImportService,
+  eventApi,
 }) {
   const temporaryCachedSessions = await temporarySessionsStorageForMassImportService.getByKeyAndUserId({
     cachedValidatedSessionsKey,
@@ -49,6 +50,7 @@ export async function createSessions({
           candidates,
           sessionId,
           candidateRepository,
+          eventApi,
         });
       }
     }
@@ -69,9 +71,10 @@ async function _deleteExistingCandidatesInSession({ candidateRepository, session
   await candidateRepository.deleteBySessionId({ sessionId });
 }
 
-async function _saveCandidates({ candidates, sessionId, candidateRepository }) {
+async function _saveCandidates({ candidates, sessionId, candidateRepository, eventApi }) {
   const candidatesToSave = candidates.map((candidate) => {
     return new Candidate({ ...candidate, sessionId });
   });
-  await candidateRepository.save(candidatesToSave);
+  const savedCandidates = await candidateRepository.save(candidatesToSave);
+  await eventApi.pushMultipleCandidatesEnrolledEvent(savedCandidates.map((savedCandidate) => savedCandidate.toDTO()));
 }

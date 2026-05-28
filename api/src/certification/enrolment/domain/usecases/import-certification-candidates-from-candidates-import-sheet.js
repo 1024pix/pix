@@ -11,7 +11,7 @@ import { CandidateAlreadyLinkedToUserError } from '../../../../shared/domain/err
  * @param {CandidateRepository} params.candidateRepository
  * @param {SessionRepository} params.sessionRepository
  */
-const importCertificationCandidatesFromCandidatesImportSheet = async function ({
+export async function importCertificationCandidatesFromCandidatesImportSheet({
   sessionId,
   odsBuffer,
   i18n,
@@ -22,6 +22,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   sessionRepository,
   certificationCandidatesOdsService,
   certificationCpfService,
+  eventApi,
 }) {
   const candidatesInSession = await candidateRepository.findBySessionId({ sessionId });
   const session = await sessionRepository.get({ id: sessionId });
@@ -43,8 +44,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
 
   await DomainTransaction.execute(async () => {
     await candidateRepository.deleteBySessionId({ sessionId });
-    await candidateRepository.save(candidates);
+    const savedCandidates = await candidateRepository.save(candidates);
+    await eventApi.pushMultipleCandidatesEnrolledEvent(savedCandidates.map((savedCandidate) => savedCandidate.toDTO()));
   });
-};
-
-export { importCertificationCandidatesFromCandidatesImportSheet };
+}

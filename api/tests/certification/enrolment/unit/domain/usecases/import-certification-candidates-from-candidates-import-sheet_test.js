@@ -19,6 +19,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let certificationCpfCountryRepository;
   let centerRepository;
   let sessionRepository;
+  let eventApi;
 
   beforeEach(function () {
     candidateRepository = {
@@ -35,6 +36,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     certificationCpfService = {
       getBirthInformation: sinon.stub(),
     };
+    eventApi = { pushMultipleCandidatesEnrolledEvent: sinon.stub() };
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
     centerRepository = Symbol('centerRepository');
@@ -70,10 +72,12 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           certificationCpfCityRepository,
           centerRepository,
           sessionRepository,
+          eventApi,
         });
 
         // then
         expect(result).to.be.an.instanceOf(CandidateAlreadyLinkedToUserError);
+        expect(eventApi.pushMultipleCandidatesEnrolledEvent).not.to.have.been.called;
       });
     });
 
@@ -117,6 +121,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
               centerRepository,
             })
             .resolves(candidates);
+          candidateRepository.save.resolves(candidates);
 
           // when
           await importCertificationCandidatesFromCandidatesImportSheet({
@@ -130,6 +135,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
             certificationCpfCityRepository,
             centerRepository,
             sessionRepository,
+            eventApi,
           });
 
           // then
@@ -138,6 +144,9 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           });
           expect(candidateRepository.save).to.have.been.calledWithExactly(candidates);
           expect(candidateRepository.deleteBySessionId.calledBefore(candidateRepository.save)).to.be.true;
+          expect(eventApi.pushMultipleCandidatesEnrolledEvent).to.have.been.calledOnceWith(
+            candidates.map((savedCandidate) => savedCandidate.toDTO()),
+          );
         });
       });
     });
