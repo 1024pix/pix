@@ -5,37 +5,39 @@ export const COMBINED_COURSE_ITEM_TYPES = {
 };
 
 export class CombinedCourseItem {
-  constructor({
-    id,
-    title,
-    reference,
-    type,
-    redirection,
-    participationStatus,
-    isCompleted,
-    duration,
-    image,
-    isLocked = true,
-    masteryRate = null,
-    totalStagesCount = null,
-    validatedStagesCount = null,
-    shortId,
-  }) {
+  constructor({ id, title, reference, type, isCompleted, isLocked = true }) {
     this.id = id;
     this.title = title;
     this.reference = reference;
-    this.redirection = redirection;
     this.type = type;
-    this.participationStatus = participationStatus;
     this.isCompleted = isCompleted;
     this.isLocked = isLocked;
-    this.duration = duration;
-    this.image = image;
+  }
+}
+
+export class CampaignItem extends CombinedCourseItem {
+  constructor({ participationStatus, masteryRate = null, totalStagesCount = null, validatedStagesCount = null, ...rest }) {
+    super({ ...rest, type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN });
+    this.participationStatus = participationStatus;
     this.masteryRate = masteryRate;
     this.totalStagesCount = totalStagesCount;
     this.validatedStagesCount = validatedStagesCount;
-    if (type === COMBINED_COURSE_ITEM_TYPES.MODULE) {
-      this.shortId = shortId;
-    }
+  }
+}
+
+export class ModuleItem extends CombinedCourseItem {
+  constructor({ participationStatus, redirection, duration, image, shortId, ...rest }) {
+    super({ ...rest, type: COMBINED_COURSE_ITEM_TYPES.MODULE });
+    this.participationStatus = participationStatus;
+    this.redirection = redirection;
+    this.duration = duration;
+    this.image = image;
+    this.shortId = shortId;
+  }
+}
+
+export class FormationItem extends CombinedCourseItem {
+  constructor(args) {
+    super({ ...args, type: COMBINED_COURSE_ITEM_TYPES.FORMATION });
   }
 }

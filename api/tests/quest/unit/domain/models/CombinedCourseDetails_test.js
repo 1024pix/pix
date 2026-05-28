@@ -8,8 +8,11 @@ import {
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseDetails } from '../../../../../src/quest/domain/models/CombinedCourseDetails.js';
 import {
+  CampaignItem,
   COMBINED_COURSE_ITEM_TYPES,
   CombinedCourseItem,
+  FormationItem,
+  ModuleItem,
 } from '../../../../../src/quest/domain/models/CombinedCourseItem.js';
 import { CombinedCourseParticipation } from '../../../../../src/quest/domain/models/CombinedCourseParticipation.js';
 import { CombinedCourseReward } from '../../../../../src/quest/domain/models/CombinedCourseReward.js';
@@ -250,14 +253,12 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
         // then
         expect(combinedCourseDetails.items).to.deep.equal([
-          new CombinedCourseItem({
+          new CampaignItem({
             id: 2,
             reference: 'ABCDIAG2',
             title: 'diagnostique2',
-            type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
             masteryRate: null,
             validatedStagesCount: null,
-            redirection: undefined,
             totalStagesCount: null,
             participationStatus: CampaignParticipationStatuses.SHARED,
             isCompleted: true,
@@ -280,11 +281,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
         // then
         expect(combinedCourseDetails.items).to.deep.equal([
-          new CombinedCourseItem({
+          new CampaignItem({
             id: 7,
             reference: 'ABCDIAG7',
             title: 'diagnostique7',
-            type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
             isCompleted: false,
             isLocked: false,
             masteryRate: null,
@@ -321,12 +321,11 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
         // then
         expect(combinedCourseDetails.items).to.deep.equal([
-          new CombinedCourseItem({
+          new ModuleItem({
             id: 'abcdefgh1',
             reference: 'slugabcdefgh1',
             title: 'titleabcdefgh1',
             image: 'emileabcdefgh1',
-            type: COMBINED_COURSE_ITEM_TYPES.MODULE,
             redirection: 'encryptedUrl',
             isCompleted: false,
             isLocked: false,
@@ -365,11 +364,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
         // then
         expect(combinedCourseDetails.items).to.deep.equal([
-          new CombinedCourseItem({
+          new CampaignItem({
             id: 777,
             reference: 'ABCDIAG777',
             title: 'diagnostique777',
-            type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
             participationStatus: CampaignParticipationStatuses.SHARED,
             isCompleted: true,
             isLocked: false,
@@ -409,11 +407,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
         // then
         expect(combinedCourseDetails.items).to.deep.equal([
-          new CombinedCourseItem({
+          new CampaignItem({
             id: 777,
             title: 'diagnostique777',
             reference: 'ABCDIAG777',
-            type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
             participationStatus: CampaignParticipationStatuses.SHARED,
             isCompleted: true,
             masteryRate: null,
@@ -421,12 +418,11 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             validatedStagesCount: null,
             isLocked: false,
           }),
-          new CombinedCourseItem({
+          new ModuleItem({
             id: 'ebcde1',
             reference: 'slugebcde1',
             title: 'titleebcde1',
             image: 'emileebcde1',
-            type: COMBINED_COURSE_ITEM_TYPES.MODULE,
             redirection: 'encryptedUrl',
             duration: 10,
             isCompleted: false,
@@ -501,11 +497,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
           // then
           expect(combinedCourseDetails.items).to.deep.equal([
-            new CombinedCourseItem({
+            new CampaignItem({
               id: 777,
               reference: 'ABCDIAG777',
               title: 'diagnostique777',
-              type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
               masteryRate: null,
               totalStagesCount: null,
               validatedStagesCount: null,
@@ -513,10 +508,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               isCompleted: false,
               isLocked: false,
             }),
-            new CombinedCourseItem({
+            new FormationItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
               reference: 888,
-              type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
               isLocked: true,
             }),
           ]);
@@ -561,11 +555,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
           // then
           expect(combinedCourseDetails.items).to.deep.equal([
-            new CombinedCourseItem({
+            new CampaignItem({
               id: 777,
               reference: 'ABCDIAG777',
               title: 'diagnostique777',
-              type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
               masteryRate: null,
               totalStagesCount: null,
               validatedStagesCount: null,
@@ -573,27 +566,24 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               isCompleted: false,
               isLocked: false,
             }),
-            new CombinedCourseItem({
+            new FormationItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
               reference: 888,
-              type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
               isLocked: true,
             }),
-            new CombinedCourseItem({
+            new CampaignItem({
               id: 999,
               reference: 'ABCDIAG999',
               title: 'diagnostique999',
-              type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
               isCompleted: false,
               masteryRate: null,
               totalStagesCount: null,
               validatedStagesCount: null,
               isLocked: true,
             }),
-            new CombinedCourseItem({
+            new FormationItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 101,
               reference: 101,
-              type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
               isLocked: true,
             }),
           ]);
@@ -623,21 +613,19 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
           // then
           expect(combinedCourseDetails.items).to.deep.equal([
-            new CombinedCourseItem({
+            new CampaignItem({
               id: 777,
               reference: 'ABCDIAG777',
               title: 'diagnostique777',
-              type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
               masteryRate: null,
               totalStagesCount: null,
               validatedStagesCount: null,
               isCompleted: false,
               isLocked: false,
             }),
-            new CombinedCourseItem({
+            new FormationItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
               reference: 888,
-              type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
               isLocked: true,
             }),
           ]);
@@ -680,11 +668,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
           // then
           expect(combinedCourseDetails.items).to.deep.equal([
-            new CombinedCourseItem({
+            new CampaignItem({
               id: 777,
               reference: 'ABCDIAG777',
               title: 'diagnostique777',
-              type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
               masteryRate: null,
               totalStagesCount: null,
               validatedStagesCount: null,
@@ -692,22 +679,20 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               isCompleted: false,
               isLocked: false,
             }),
-            new CombinedCourseItem({
+            new ModuleItem({
               id: 'abcdef1',
               reference: 'slugabcdef1',
               title: 'titleabcdef1',
               image: 'emileabcdef1',
               duration: 10,
-              type: COMBINED_COURSE_ITEM_TYPES.MODULE,
               redirection: 'encryptedUrl',
               isCompleted: false,
               isLocked: true,
               shortId: 'short-abcdef1',
             }),
-            new CombinedCourseItem({
+            new FormationItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
               reference: 888,
-              type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
               isLocked: true,
             }),
           ]);
@@ -742,11 +727,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
       // then
       expect(combinedCourseDetails.items).to.deep.equal([
-        new CombinedCourseItem({
+        new CampaignItem({
           id: 2,
           reference: 'ABCDIAG2',
           title: 'diagnostique2',
-          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
           masteryRate: null,
           totalStagesCount: null,
           validatedStagesCount: null,
@@ -754,11 +738,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: true,
           isLocked: false,
         }),
-        new CombinedCourseItem({
+        new CampaignItem({
           id: 3,
           reference: 'ABCDIAG3',
           title: 'diagnostique3',
-          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
           masteryRate: null,
           totalStagesCount: null,
           validatedStagesCount: null,
@@ -766,13 +749,12 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: false,
           isLocked: false,
         }),
-        new CombinedCourseItem({
+        new ModuleItem({
           id: 'abc2de',
           duration: 10,
           reference: 'slugabc2de',
           title: 'titleabc2de',
           image: 'emileabc2de',
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
           redirection: 'encryptedUrl',
           isCompleted: false,
           isLocked: true,
@@ -905,69 +887,63 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
       // then
       expect(combinedCourseDetails.items).to.deep.equal([
-        new CombinedCourseItem({
+        new CampaignItem({
           id: 3,
           reference: 'ABCDIAG3',
           title: 'diagnostique3',
-          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
           masteryRate: 0.12,
           participationStatus: CampaignParticipationStatuses.SHARED,
           isCompleted: true,
           isLocked: false,
         }),
-        new CombinedCourseItem({
+        new ModuleItem({
           id: 'abcde3',
           reference: 'slugabcde3',
           title: 'titleabcde3',
           image: 'emileabcde3',
           duration: 10,
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
           redirection: 'encryptedUrl',
           isCompleted: true,
           isLocked: false,
           shortId: 'short-abcde3',
         }),
-        new CombinedCourseItem({
+        new ModuleItem({
           id: 'abcde4',
           reference: 'slugabcde4',
           title: 'titleabcde4',
           image: 'emileabcde4',
           duration: 10,
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
           redirection: 'encryptedUrl',
           isCompleted: true,
           isLocked: false,
           shortId: 'short-abcde4',
         }),
-        new CombinedCourseItem({
+        new CampaignItem({
           id: 2,
           reference: 'ABCDIAG2',
           title: 'diagnostique2',
-          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
           participationStatus: CampaignParticipationStatuses.SHARED,
           masteryRate: 0.21,
           isCompleted: true,
           isLocked: false,
         }),
-        new CombinedCourseItem({
+        new ModuleItem({
           id: 'abcde1',
           reference: 'slugabcde1',
           title: 'titleabcde1',
           image: 'emileabcde1',
           duration: 10,
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
           redirection: 'encryptedUrl',
           isCompleted: false,
           isLocked: false,
           shortId: 'short-abcde1',
         }),
-        new CombinedCourseItem({
+        new ModuleItem({
           id: 'abcde2',
           reference: 'slugabcde2',
           title: 'titleabcde2',
           image: 'emileabcde2',
           duration: 10,
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
           redirection: 'encryptedUrl',
           isCompleted: false,
           isLocked: true,

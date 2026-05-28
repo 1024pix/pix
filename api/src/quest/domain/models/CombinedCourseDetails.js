@@ -5,7 +5,12 @@ import {
 import { config } from '../../../shared/config.js';
 import { cryptoService as injectedCryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { CombinedCourse } from './CombinedCourse.js';
-import { COMBINED_COURSE_ITEM_TYPES, CombinedCourseItem } from './CombinedCourseItem.js';
+import {
+  CampaignItem,
+  COMBINED_COURSE_ITEM_TYPES,
+  FormationItem,
+  ModuleItem,
+} from './CombinedCourseItem.js';
 import { CombinedCourseParticipationDetails } from './CombinedCourseParticipationDetails.js';
 import { CombinedCourseReward } from './CombinedCourseReward.js';
 import { DataForQuest } from './DataForQuest.js';
@@ -107,11 +112,10 @@ export class CombinedCourseDetails extends CombinedCourse {
     totalStagesCount,
     validatedStagesCount,
   }) {
-    return new CombinedCourseItem({
+    return new CampaignItem({
       id: campaign.id,
       reference: campaign.code,
       title: campaign.title,
-      type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
       masteryRate: isCompleted ? masteryRate : null,
       participationStatus,
       isCompleted,
@@ -122,11 +126,10 @@ export class CombinedCourseDetails extends CombinedCourse {
   }
 
   #createModuleCombinedCourseItem(module, participationStatus, isCompleted, isLocked) {
-    return new CombinedCourseItem({
+    return new ModuleItem({
       id: module.id,
       reference: module.slug,
       title: module.title,
-      type: COMBINED_COURSE_ITEM_TYPES.MODULE,
       redirection: this.#combinedCourseUrl,
       participationStatus,
       isCompleted,
@@ -138,10 +141,9 @@ export class CombinedCourseDetails extends CombinedCourse {
   }
 
   #createFormationCombinedCourseItem(targetProfileId) {
-    return new CombinedCourseItem({
+    return new FormationItem({
       id: 'formation_' + this.quest.id + '_' + targetProfileId,
       reference: targetProfileId,
-      type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
     });
   }
 
