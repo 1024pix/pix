@@ -53,6 +53,7 @@ function buildCombinedCourseDetails({
           duration: 10,
           version: '',
           image: 'emile' + content.moduleId,
+          shortId: 'short-' + content.moduleId,
         }),
       );
     }
