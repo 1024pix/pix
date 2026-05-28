@@ -627,7 +627,7 @@
         {
           "id": "3bd07713-f81b-4646-80ce-906aa3e0b26b",
           "type": "short-lesson",
-          "title": "Leçon 2 : les effets rebond",
+          "title": "Leçon 2 : les effets rebonds",
           "components": [
             {
               "type": "stepper",
@@ -639,7 +639,7 @@
                       "id": "f03f5137-a79c-41a0-a2d7-69019d815759",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’amélioration de l’efficacité d’une technologie peut sembler être une bonne chose, mais elle provoque parfois une augmentation de son usage ou une augmentation de l’usage d’autres technologies.</p>"
+                      "content": "<p>L’amélioration de l’efficacité d’une technologie améliore souvent l'efficacité énérgétique. Mais elle provoque aussi souvent une augmentation de son usage ou une augmentation de l’usage d’autres technologies.</p>"
                     }
                   ]
                 },
@@ -649,7 +649,7 @@
                       "id": "96f917f3-39ae-42d6-9b1d-94ee179a7b0f",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>C’est un peu paradoxal, non ?</h5><p>Effectivement, ça peut être contre-intuitif. Ces augmentations annulent une partie, voire tout ce qui a été gagné avec l’amélioration. D’où le nom de ce phénomène&nbsp;: l’<strong>effet rebond.</strong><br></p>"
+                      "content": "<h5>C’est un peu paradoxal, non ?</h5><p>Effectivement, ça peut être contre-intuitif. Les augmentations d'usages annulent une partie des gains, voire tout ce qui a été gagné avec l’amélioration. D’où le nom de ce phénomène&nbsp;: l’<strong>effet rebond.</strong><br></p>"
                     }
                   ]
                 },
