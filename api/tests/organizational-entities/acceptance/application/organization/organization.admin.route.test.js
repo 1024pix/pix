@@ -1615,6 +1615,32 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       expect(response.result.data.type).to.equal('organization-places-statistics');
     });
   });
+
+  describe('GET /api/organizations/{id}/statistics', function () {
+    it('should return statistics of a given organization and http code 200', async function () {
+      // given
+      const server = await createServer();
+
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/admin/organizations/${organizationId}/statistics`,
+        headers: generateAuthenticatedUserRequestHeaders({
+          userId: superAdmin.id,
+        }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.type).to.equal('organization-statistics');
+      expect(response.result.data.id).to.equal(`${organizationId}_organization_statistics`);
+    });
+  });
 });
 
 function _createMultipartPayload({ boundary, filename, fieldName, contentType, content }) {

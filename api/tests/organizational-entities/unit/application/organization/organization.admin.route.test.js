@@ -107,4 +107,53 @@ describe('Unit | Organizational Entities | Application | route | Admin | organiz
       });
     });
   });
+
+  describe('GET /api/admin/organizations/{id}/statistics', function () {
+    describe('when the user authenticated has no role', function () {
+      it('returns a 403 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) =>
+          h
+            .response({ errors: new Error('forbidden') })
+            .code(403)
+            .takeover(),
+        );
+        sinon.stub(organizationAdminController, 'getOrganizationStatistics');
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/organizations/1/statistics');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(organizationAdminController.getOrganizationStatistics);
+      });
+    });
+
+    const authorizedRoles = [
+      { role: 'SuperAdmin', stub: 'checkAdminMemberHasRoleSuperAdmin' },
+      { role: 'Support', stub: 'checkAdminMemberHasRoleSupport' },
+      { role: 'Certif', stub: 'checkAdminMemberHasRoleCertif' },
+      { role: 'Metier', stub: 'checkAdminMemberHasRoleMetier' },
+    ];
+
+    authorizedRoles.forEach(({ role, stub }) => {
+      describe(`when the user has ${role} role`, function () {
+        it('returns a 200 HTTP status code', async function () {
+          // given
+          sinon.stub(securityPreHandlers, stub).callsFake((request, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').callsFake((_handlers) => {
+            return () => true;
+          });
+          sinon.stub(organizationAdminController, 'getOrganizationStatistics').returns('ok');
+
+          // when
+          const response = await httpTestServer.request('GET', '/api/admin/organizations/1/statistics');
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          sinon.assert.calledOnce(organizationAdminController.getOrganizationStatistics);
+        });
+      });
+    });
+  });
 });
