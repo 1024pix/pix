@@ -26,7 +26,7 @@ describe('Certification | Enrolment | Integration | Repository | SCOCertificatio
       clock.restore();
     });
 
-    it('adds only the unenrolled candidates', async function () {
+    it('adds only the unenrolled candidates and returns only the indeed enrolled ScoCandidate models with id', async function () {
       // given
       const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner().id;
       const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner().id;
@@ -69,9 +69,13 @@ describe('Certification | Enrolment | Integration | Repository | SCOCertificatio
           sessionId,
         }),
       ];
+      scoCandidates[0].id = null;
+      scoCandidates[1].id = null;
+      scoCandidates[2].id = null;
+      scoCandidates[3].id = null;
 
       // when
-      await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({
+      const savedScoCandidates = await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({
         sessionId,
         scoCertificationCandidates: scoCandidates,
       });
@@ -93,6 +97,11 @@ describe('Certification | Enrolment | Integration | Repository | SCOCertificatio
 
       const { count: subscriptionsCount } = await knex('certification-subscriptions').count().first();
       expect(subscriptionsCount).to.equal(actualCandidates.length);
+
+      sinon.assert.match(
+        savedScoCandidates.map(({ id }) => id),
+        [sinon.match.number, sinon.match.number],
+      );
     });
 
     it('saves only candidate core subscription', async function () {
