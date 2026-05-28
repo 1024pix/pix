@@ -7,7 +7,7 @@ import { HomePage } from '../../../pages/pix-app/index.ts';
 import { SessionManagementPage } from '../../../pages/pix-certif/index.ts';
 import { allTestData } from './right-answers-data.ts';
 
-test.describe('Happy paths on all certifications, 32 right answers, through app.dev.pix.fr', () => {
+test.describe('Happy paths on all certifications, 32 right answers', () => {
   for (const testData of allTestData) {
     test(
       `${getTestRef(import.meta.url)}_${testData.certification}`,
@@ -149,7 +149,8 @@ test.describe('Happy paths on all certifications, 32 right answers, through app.
             examDate,
             result,
             comment,
-            hasBadge,
+            hasBadge: hasBadgeInList,
+            badgeSrc: badgeSrcInList,
           } = await certificateListPage.getCertificateData(certificationNumber);
           expect(mainStatus).toBe(testData.appCertificationListInfo.mainStatus);
           expect(extraStatus).toBe(testData.appCertificationListInfo.extraStatus);
@@ -158,20 +159,22 @@ test.describe('Happy paths on all certifications, 32 right answers, through app.
           expect(examDate).toBe('Date de passage : ' + getNowAsDDMMYYYY());
           expect(comment).toBe(null);
           snapshotHandler.push('appCertificationListInfo_result', result);
-          snapshotHandler.push('appCertificationListInfo_hasBadge', `${hasBadge}`);
+          snapshotHandler.push('appCertificationListInfo_hasBadge', `${hasBadgeInList}`);
+          snapshotHandler.push('appCertificationListInfo_badgeSrc', badgeSrcInList);
 
-          if ([CERTIFICATIONS_DATA.CLEA, CERTIFICATIONS_DATA.CORE].includes(testData.certification)) {
-            const certificationResultPage = await certificateListPage.goToCertificateDetails(certificationNumber);
-            const { pixScoreObtained, pixLevelReached, isCleaObtained } = await certificationResultPage.getResultInfo();
-            if (testData.certification === CERTIFICATIONS_DATA.CLEA) {
-              expect(isCleaObtained).toBe(true);
-            }
-            snapshotHandler.push('appCertificationDetails_pixScoreObtained', pixScoreObtained);
-            snapshotHandler.push('appCertificationDetails_pixLevelReached', pixLevelReached);
-
-            const certificatePdfBuffer = await certificationResultPage.downloadCertificate();
-            await snapshotHandler.comparePdfOrRecord(certificatePdfBuffer, certificateBasePath);
+          const certificationResultPage = await certificateListPage.goToCertificateDetails(certificationNumber);
+          const { pixScoreObtained, pixLevelReached, isCleaObtained, hasBadge, badgeSrc } =
+            await certificationResultPage.getResultInfo();
+          if (testData.certification === CERTIFICATIONS_DATA.CLEA) {
+            expect(isCleaObtained).toBe(true);
           }
+          snapshotHandler.push('appCertificationDetails_pixScoreObtained', pixScoreObtained);
+          snapshotHandler.push('appCertificationDetails_pixLevelReached', pixLevelReached);
+          snapshotHandler.push('appCertificationDetails_hasBadge', `${hasBadge}`);
+          snapshotHandler.push('appCertificationDetails_badgeSrc', badgeSrc);
+
+          const certificatePdfBuffer = await certificationResultPage.downloadCertificate();
+          await snapshotHandler.comparePdfOrRecord(certificatePdfBuffer, certificateBasePath);
         });
 
         await test.step('Checking CSV result file content', async () => {

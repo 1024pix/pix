@@ -7,7 +7,7 @@ import { HomePage } from '../../../pages/pix-app/index.ts';
 import { SessionManagementPage } from '../../../pages/pix-certif/index.ts';
 import { allTestData } from './wrong-answers-data.ts';
 
-test.describe('Happy paths on all certifications, 32 wrong answers, through app.dev.pix.fr', () => {
+test.describe('Happy paths on all certifications, 32 wrong answers', () => {
   for (const testData of allTestData) {
     test(
       `${getTestRef(import.meta.url)}_${testData.certification}`,
