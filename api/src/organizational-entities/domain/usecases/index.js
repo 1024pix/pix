@@ -107,6 +107,7 @@ import { getNetworkDetails } from './get-network-details.usecase.js';
 import { getOrganizationById } from './get-organization-by-id.js';
 import { getOrganizationDetails } from './get-organization-details.usecase.js';
 import { getOrganizationPlacesStatistics } from './get-organization-places-statistics.usecase.js';
+import { getOrganizationStatistics } from './get-organization-statistics.usecase.js';
 import { getRecentlyUsedTags } from './get-recently-used-tags.usecase.js';
 import { updateCertificationCenter } from './update-certification-center.usecase.js';
 import { updateCertificationCenterDataProtectionOfficerInformation } from './update-certification-center-data-protection-officer-information.usecase.js';
@@ -141,6 +142,7 @@ const usecasesWithoutInjectedDependencies = {
   getOrganizationById,
   getOrganizationDetails,
   getOrganizationPlacesStatistics,
+  getOrganizationStatistics,
   getRecentlyUsedTags,
   updateCertificationCenterDataProtectionOfficerInformation,
   updateCertificationCenter,
@@ -157,6 +159,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {detachParentOrganizationFromOrganization} detachParentOrganizationFromOrganization
  * @property {findPaginatedFilteredCertificationCenters} findPaginatedFilteredCertificationCenters
  * @property {getOrganizationDetails} getOrganizationDetails
+ * @property {getOrganizationStatistics} getOrganizationStatistics
  * @property {getNetworkDetails} getNetworkDetails
  * @property {updateOrganizationsInBatch} updateOrganizationsInBatch
  * @property {updateOrganizationInformation} updateOrganizationInformation
