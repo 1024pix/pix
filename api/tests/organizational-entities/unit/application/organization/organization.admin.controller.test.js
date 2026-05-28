@@ -229,4 +229,33 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | or
       expect(result).to.equal(organizationPlacesStatisticsSerialized);
     });
   });
+
+  describe('#getOrganizationStatistics', function () {
+    it('should call the usecase and serialize the response', async function () {
+      // given
+      const organizationId = 1234;
+      const request = { params: { organizationId } };
+
+      const organizationStatistics = Symbol('statistics');
+      const organizationStatisticsSerialized = Symbol('serializedStatistics');
+      sinon.stub(usecases, 'getOrganizationStatistics').withArgs({ organizationId }).resolves(organizationStatistics);
+      const organizationStatisticsSerializerStub = {
+        serialize: sinon.stub(),
+      };
+
+      organizationStatisticsSerializerStub.serialize
+        .withArgs(organizationStatistics)
+        .returns(organizationStatisticsSerialized);
+
+      const dependencies = {
+        organizationStatisticsSerializer: organizationStatisticsSerializerStub,
+      };
+
+      // when
+      const result = await organizationAdminController.getOrganizationStatistics(request, hFake, dependencies);
+
+      // then
+      expect(result).to.equal(organizationStatisticsSerialized);
+    });
+  });
 });

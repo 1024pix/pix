@@ -14,6 +14,7 @@ import {
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import { organizationForAdminSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 import * as organizationPlacesStatisticsSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-places-statistics.serializer.js';
+import * as organizationStatisticsSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-statistics.serializer.js';
 
 const ADD_TAGS_TO_ORGANIZATIONS_HEADER = organizationTagCsvParser.CSV_HEADER;
 
@@ -190,6 +191,11 @@ const findChildrenOrganizations = async function (request, h, dependencies = { o
   return dependencies.organizationForAdminSerializer.serialize(childOrganizations);
 };
 
+const getOrganizationStatistics = async function (request, h, dependencies = { organizationStatisticsSerializer }) {
+  const organizationId = request.params.organizationId;
+  const statistics = await usecases.getOrganizationStatistics({ organizationId });
+  return dependencies.organizationStatisticsSerializer.serialize(statistics);
+};
 const organizationAdminController = {
   getTemplateForAddTagsToOrganizations,
   addTagsToOrganizations,
@@ -210,6 +216,7 @@ const organizationAdminController = {
   updateOrganizationInformation,
   findPaginatedFilteredOrganizations,
   findChildrenOrganizations,
+  getOrganizationStatistics,
 };
 
 export { organizationAdminController };
