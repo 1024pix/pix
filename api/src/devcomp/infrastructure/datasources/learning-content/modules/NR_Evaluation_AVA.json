@@ -325,7 +325,7 @@
                 "id": "758f542b-4d48-42d7-b788-a1e33b150052",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Prenons l’exemple des ordinateurs pour voir quels changements les effets indirects peuvent produire.</p>"
+                "content": "<p>Prenons l’exemple des ordinateurs pour voir comment leurs évolutions technologique a transformé nos usages au fil du temps et entraîné des effets indirects sur l’environnement.</p>"
               }
             }
           ]
@@ -345,7 +345,7 @@
                       "id": "5d14295a-486a-45dc-b965-61256248e92b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>En 1945, le premier ordinateur, l’ENIAC, voyait le jour. </p><p>Il est célèbre pour ses dimensions exceptionnelle&nbsp;: plus de 30 tonnes et 167 m² !</p>"
+                      "content": "<p>En 1945, le premier ordinateur, nommé ENIAC, voyait le jour. </p><p>Il est célèbre pour ses dimensions exceptionnelles : plus de 30 tonnes et 167 m² !</p>"
                     },
                     {
                       "id": "0636bcfb-6aa2-4f43-9ead-b70ce64cb8c9",
@@ -359,35 +359,35 @@
                     {
                       "id": "6ab4e662-9a2c-4564-9954-46d29b309563",
                       "type": "qcu-discovery",
-                      "instruction": "<p>A votre avis, quel était la puissance électrique du premier ordinateur ?</p>",
+                      "instruction": "<p>A votre avis, quelle était la puissance électrique du premier ordinateur ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "<p>160 kW, soit environ 2 500 fois plus qu’un PC portable actuel</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p>"
+                            "diagnosis": "<p>C'est exact !&nbsp;</p><p>Impressionnant, non ?</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>6 kW, soit environ 100 fois plus qu’un PC actuel</p>",
+                          "content": "<p>6 kW, soit environ 100 fois plus qu’un PC actuel.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p><p>Impressionnant, non ?</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>60 W, soit environ autant qu’un PC actuel</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p>"
+                            "diagnosis": "<p>Eh non ! Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p><p>Impressionnant, non ?</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p> Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p>"
+                            "diagnosis": "<p> Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p><p>Impressionnant, non ?</p>"
                           }
                         }
                       ],
@@ -401,7 +401,7 @@
                       "id": "0f220daf-360e-48ff-961a-dc5f56e78374",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Les chercheurs et les ingénieurs ont travaillé à améliorer les performances des ordinateurs. </p><p>Dans les années 70, les «&nbsp;mini-ordinateurs&nbsp;» sont populaires. </p><p>Par exemple, le Data General Nova a une puissance de 1kW, soit 160 fois moins que l’ENIAC.</p>"
+                      "content": "<p>Les chercheurs et les ingénieurs améliorent en continu les performances des ordinateurs.</p><p>Dans les années 70, les «&nbsp;mini-ordinateurs&nbsp;» sont populaires. </p><p>Par exemple, le Data General Nova a une puissance de 1kW, soit 160 fois moins que l’ENIAC.</p>"
                     },
                     {
                       "id": "ad1954e0-6dc0-484a-ad04-4744a5f31305",
@@ -422,28 +422,28 @@
                           "id": "1",
                           "content": "<p>500 exemplaires</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! </p><p>Le Data General Nova a été vendu à 50 000 exemplaires. Pour l’époque, c’est un succès commercial !</p>"
+                            "diagnosis": "<p>Eh non ! </p><p>Le Data General Nova a été vendu à 50 000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque machine consomme moins qu’un ENIAC, le nombre total de machines augmente fortement.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>50 000 exemplaires</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien&nbsp; vu ! </p><p> Pour l’époque, c’est un succès commercial !</p>"
+                            "diagnosis": "<p>Bien&nbsp; vu ! </p><p> Pour l’époque, c’est un succès commercial !</p><p>Même si chaque machine consomme moins qu’un ENIAC, le nombre total de machines augmente fortement.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>5 millions d’exemplaires</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Le Data General Nova a été vendu à 50 000 exemplaires. Pour l’époque, c’est un succès commercial !</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Le Data General Nova a été vendu à 50 000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque machine consomme moins qu’un ENIAC, le nombre total de machines augmente fortement.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Le Data General Nova a été vendu à 50 000 exemplaires. Pour l’époque, c’est un succès commercial !</p>"
+                            "diagnosis": "<p>Le Data General Nova a été vendu à 50 000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque machine consomme moins qu’un ENIAC, le nombre total de machines augmente fortement.</p>"
                           }
                         }
                       ],
@@ -457,7 +457,7 @@
                       "id": "89821a3c-5b6f-419f-b028-f04f243a4f56",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Et aujourd’hui ?<br></p>"
+                      "content": "<p>Et aujourd’hui, quelle est la consommation énergétique des ordinateurs ?<br></p>"
                     },
                     {
                       "id": "a92a9ac3-0080-43c2-9242-2464b493118f",
@@ -471,11 +471,11 @@
                     {
                       "id": "380d4129-39fa-4b83-8a62-d38664048404",
                       "type": "qrocm",
-                      "instruction": "<p>Complètez le texte suivant.</p>",
+                      "instruction": "<p>Complétez la phrase suivante.</p>",
                       "proposals": [
                         {
                           "type": "text",
-                          "content": "<p>Un ordinateur actuel est consomme</p>"
+                          "content": "<p>Un ordinateur actuel consomme</p>"
                         },
                         {
                           "type": "select",
@@ -529,11 +529,11 @@
                     {
                       "id": "b712b6cc-5dd8-40fb-90cf-fe69dcc578af",
                       "type": "qrocm",
-                      "instruction": "Complètez la phrase",
+                      "instruction": "<p>Complétez la phrase suivante.</p>",
                       "proposals": [
                         {
                           "type": "text",
-                          "content": "<p>Les améliorations technologiques liés aux ordinateurs les ont </p>"
+                          "content": "<p>Les améliorations technologiques liées aux ordinateurs les ont </p>"
                         },
                         {
                           "type": "select",
@@ -575,7 +575,7 @@
                     {
                       "id": "a299262d-b5aa-43dd-aa1f-d977dc655756",
                       "type": "qrocm",
-                      "instruction": "Complètez la phrase",
+                      "instruction": "<p>Complétez la phrase.</p>",
                       "proposals": [
                         {
                           "type": "text",
@@ -595,7 +595,7 @@
                             },
                             {
                               "id": "2",
-                              "content": "a diminuée."
+                              "content": "a diminué."
                             },
                             {
                               "id": "3",
@@ -610,11 +610,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien vu !<br></p>",
-                          "diagnosis": "<p>Ce phénomène de compensation du gain unitaire par une augmentation des usages s’appelle l’<strong>effet rebond.</strong><br></p>"
+                          "diagnosis": "<p>Alors q'un ordinateur consomme moins d'énergie, la somme de tous les ordinateurs en consomme beaucoup plus.<br></p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non&nbsp; !<br></p>",
-                          "diagnosis": "<p>Au global, la consommation d’énergie par les ordinateurs a explosé.<br>Ce phénomène de compensation du gain unitaire par une augmentation des usages s’appelle l’<strong>effet rebond.</strong><br></p>"
+                          "diagnosis": "<p>Au global, la consommation d’énergie par les ordinateurs a explosé.</p><p>Autrement dit, alors q'un ordinateur consomme moins d'énergie, la somme de tous les ordinateurs en consomme beaucoup plus.</p>"
                         }
                       }
                     }
