@@ -23,12 +23,8 @@ export default class PixPlusCertificate extends Component {
 
   @tracked eduCurrentStep = this.isCandidateEduAdmissible ? EDU_STEPS.ADMISSIBLE : EDU_STEPS.FINAL;
 
-  get isEduCertification() {
-    return this.args.certificate.certificationFramework.includes('EDU');
-  }
-
   get isCandidateEduAdmissible() {
-    return this.isEduCertification && this.args.certificate.level === 'ADMISSIBLE';
+    return this.args.certificate.certificationFramework.includes('EDU') && this.args.certificate.level === 'ADMISSIBLE';
   }
 
   get isUserCertificate() {
@@ -97,7 +93,7 @@ export default class PixPlusCertificate extends Component {
               </h2>
             {{/if}}
 
-            {{#if this.isEduCertification}}
+            {{#if this.isCandidateEduAdmissible}}
               <PixStepper
                 class="v3-pix-plus-certificate__stepper"
                 @steps={{this.steps}}
