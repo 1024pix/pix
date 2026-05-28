@@ -1096,65 +1096,143 @@
         {
           "id": "e728bdef-a9dc-46dd-9993-9589bc22e4b7",
           "type": "activity",
-          "title": "Activité #3 : Éveiller son esprit critique et encourager la sobriété",
+          "title": "Activité #3 : Développer son esprit critique et encourager la sobriété",
           "components": [
             {
               "type": "element",
               "element": {
-                "id": "0af3aa8d-4e6e-47eb-9892-ac43febde2bb",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Dans la publicité suivante, le constructeur ne parle que des effets positifs sur l’environnement de son produit mais passe sous silence les effets négatifs.</p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "f23df50b-6ebd-4074-aa99-1dd569fea1d3",
-                "type": "image",
-                "url": "https://assets.pix.org/draft/modules/NR_Eval_Ava/nr-eval-ava-publicite-smartphone.png",
-                "alt": "Une publicité pour le smartphone Univers 14",
-                "alternativeText": "<p>Publicité pour le smartphone Univers 14</p><ul><li>Double objectifs 120M Pixels</li><li>65% de plastique recyclé</li><br></ul>",
-                "legend": "",
-                "licence": ""
-              }
-            },
-            {
-              "type": "element",
-              "element": {
                 "id": "4d607d31-ce42-47b6-8ce9-4b928cda9609",
-                "type": "qrocm",
-                "instruction": "<p>Comment appelle-t-on cette pratique ?</p>",
+                "type": "custom",
+                "title": "",
+                "instruction": "<p>Observez ces différentes publicités.<br></p>",
+                "functionalInstruction": "",
+                "tagName": "pix-carousel",
+                "props": {
+                  "type": "image",
+                  "slides": [
+                    {
+                      "title": "Publicité 1",
+                      "description": "",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Eval_Ava/pub1.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Publicité 2",
+                      "description": "",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Eval_Ava/pub2.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Publicité 3",
+                      "description": "",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Eval_Ava/pub3.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Publicité 4",
+                      "description": "",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Eval_Ava/pub4.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Publicité 5",
+                      "description": "",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Eval_Ava/pub5.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    }
+                  ],
+                  "randomSlides": false,
+                  "titleLevel": 0,
+                  "disableAnimation": false,
+                  "disableStyleAroundImage": false,
+                  "enableLoop": false,
+                  "imageTextDisplay": ""
+                }
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "0af3aa8d-4e6e-47eb-9892-ac43febde2bb",
+                "type": "qcm",
+                "instruction": "<p>Parmi ces publicités, lesquelles font de l’éco-blanchiment ou greenswashing ?<br></p>",
+                "hasShortProposals": false,
                 "proposals": [
                   {
-                    "input": "publicite-nom-pratique",
-                    "type": "input",
-                    "inputType": "text",
-                    "size": 15,
-                    "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "Complétez",
-                    "tolerances": [
-                      "t1",
-                      "t2",
-                      "t3"
-                    ],
-                    "solutions": [
-                      "greenwashing",
-                      "écoblanchiment"
-                    ]
+                    "id": "1",
+                    "content": "<p>la publicité 1<br></p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>la publicité 2<br></p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>la publicité 3</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>la publicité 4<br></p>"
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>la publicité 5</p>"
                   }
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "<p>Bravo !<br></p>",
-                    "diagnosis": "<p>La publicité met en avant le plastique recyclé car beaucoup d’autres métaux qui entrent dans la composition du téléphone, dont l’extraction est polluante, ne sont pas mentionnés.<br></p>"
+                    "state": "<p>Bonne réponse !<br></p>",
+                    "diagnosis": "<p>La <strong>mention </strong>«&nbsp;100% respectueux de l'environnement&nbsp;» est <strong>vague </strong>et probablement <strong>trompeuse </strong>tandis que l<strong>'indice de réparabilité</strong> correspond à un critère qui repose sur une méthode officielle et normée.<br></p>"
                   },
                   "invalid": {
-                    "state": "<p>N’hésitez pas réessayer !<br></p>",
-                    "diagnosis": "<p>En mettant en avant le plastique recyclé utilisé dans le smartphone, que cherche à faire le constructeur ?<br></p>"
+                    "state": "<p>Mauvaise réponse.</p>",
+                    "diagnosis": "<p>Soyez vigilants vis-à-vis des publicités qui mettent en avant des engagements environnementaux de façon vague !</p>"
                   }
-                }
+                },
+                "solutions": [
+                  "1",
+                  "5"
+                ]
               }
             }
           ]
