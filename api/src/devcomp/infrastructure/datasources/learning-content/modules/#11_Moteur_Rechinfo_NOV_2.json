@@ -369,28 +369,28 @@
                     "id": "2",
                     "content": "<p>Ils sont certainement pertinents, mais on ne le voit pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !</p><p>Ces résultats sont en haut, mais ce sont des <strong>annonces</strong>. Ce sont donc des <strong>publicités</strong>.</p>"
+                      "diagnosis": "<p>Eh non !</p><p>Ces résultats apparaissent en haut de la liste de résultats, mais ce sont des <strong>annonces</strong>. Ce sont donc des <strong>publicités</strong>.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Ils cherchent à vendre quelque chose.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bien vu !</p><p>Ces résultats sont en haut, mais ce sont des <strong>annonces</strong>. Ce sont donc des <strong>publicités</strong>.</p>"
+                      "diagnosis": "<p>Bien vu !</p><p>Ces résultats apparaissent en haut de la liste de résultats, mais ce sont des <strong>annonces</strong>. Ce sont donc des <strong>publicités</strong>.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Ce sont les pages sur lesquelles les gens cliquent le plus.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !</p><p>Ces résultats sont en haut, mais ce sont des <strong>annonces</strong>. Ce sont donc des <strong>publicités</strong>.</p>"
+                      "diagnosis": "<p>Eh non !</p><p>Ces résultats apparaissent en haut de la liste de résultats, mais ce sont des <strong>annonces</strong>. Ce sont donc des <strong>publicités</strong>.</p>"
                     }
                   },
                   {
                     "id": "5",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Ces résultats sont en haut, mais ce sont des <strong>annonces</strong>. Ce sont donc des <strong>publicités</strong>.</p>"
+                      "diagnosis": "<p>Ces résultats apparaissent en haut de la liste de résultats, mais ce sont des <strong>annonces</strong>. Ce sont donc des <strong>publicités</strong>.</p>"
                     }
                   }
                 ],
@@ -410,7 +410,7 @@
                 "id": "46c04a44-e878-457f-8c1f-d9067d61e766",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Parfois, des <strong>résultats</strong> apparaissent <strong>en haut de la liste</strong> parce que des entreprises <strong>paient le moteur de recherche</strong> ou <strong>achètent des mots clés</strong> pour apparaître en tête de liste lorsque ces termes sont recherchés.&nbsp;🪙</p><p>On les appelle des <strong>annonces</strong> ou des <strong>résultats sponsorisés</strong>.</p><p>C’est la <strong>principale source de revenus</strong> des moteurs de recherche.</p><p><br></p><p>Lors d’une recherche, faites attention avant de cliquer sur les\n premiers résultats qui apparaissent : correspondent-ils bien à votre \nrecherche ?</p>"
+                "content": "<p>Parfois, des <strong>pages web</strong> apparaissent <strong>en haut de la liste de résultats</strong> parce que des entreprises <strong>paient le moteur de recherche</strong> ou <strong>achètent des mots clés</strong> pour apparaître en tête de liste lorsque ces termes sont recherchés.&nbsp;🪙</p><p>On les appelle des <strong>annonces</strong> ou des <strong>résultats sponsorisés</strong>.</p><p>C’est la <strong>principale source de revenus</strong> des moteurs de recherche.</p><p><br></p><p>Lors d’une recherche, faites attention avant de cliquer sur les\n premiers résultats qui apparaissent : correspondent-ils bien à votre \nrecherche ?</p>"
               }
             },
             {
