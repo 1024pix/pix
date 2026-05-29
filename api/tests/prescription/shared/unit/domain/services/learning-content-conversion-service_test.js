@@ -1,10 +1,10 @@
 import sinon from 'sinon';
 
-import { findActiveSkillsForCappedTubes } from '../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
-import { expect } from '../../../../test-helper.js';
-import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { findActiveSkillsForCappedTubes } from '../../../../../../src/prescription/shared/domain/services/learning-content-conversion-service.js';
+import { expect } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Unit | Service | learning-content-conversion-service', function () {
+describe('Prescription | Shared | Unit | Service | learning-content-conversion-service', function () {
   describe('#findActiveSkillsForCappedTubes', function () {
     it('should find all skills of provided tubes capped by difficulty', async function () {
       // given

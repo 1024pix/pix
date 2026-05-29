@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import * as learningContentConversionService from '../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
 import * as frameworksAPI from '../../../../learning-content/application/api/frameworks-api.js';
 import * as campaignRepository from '../../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import { PIX_ORIGIN } from '../../../../shared/domain/constants.js';
@@ -14,6 +13,7 @@ import * as competenceRepository from '../../../../shared/infrastructure/reposit
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import * as thematicRepository from '../../../../shared/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
+import * as learningContentConversionService from '../../domain/services/learning-content-conversion-service.js';
 
 export const findBySkillIds = async (skillIds, locale) => {
   const skills = await skillRepository.findByRecordIds(skillIds);

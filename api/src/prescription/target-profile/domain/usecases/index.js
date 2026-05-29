@@ -1,6 +1,6 @@
-import * as learningContentConversionService from '../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
+import * as learningContentConversionService from '../../../shared/domain/services/learning-content-conversion-service.js';
 import * as learningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import * as targetProfileRepository from '../../../target-profile/infrastructure/repositories/target-profile-repository.js';
 import * as organizationsToAttachToTargetProfileRepository from '../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
@@ -11,8 +11,7 @@ import * as targetProfileForUpdateRepository from '../../infrastructure/reposito
 import * as targetProfileSummaryForAdminRepository from '../../infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 
 /**
- * @typedef {import('../../infrastructure/repositories/')} AdminMemberRepository
- * @typedef {import('../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js')} LearningContentConversionService
+ * @typedef {import('../../../shared/domain/services/learning-content-conversion-service.js')} LearningContentConversionService
  * @typedef {import('../../../../../lib/infrastructure/repositories/learning-content-repository.js')} LearningContentRepository
  * @typedef {import('../../../../shared/infrastructure/repositories/organization-repository.js')} OrganizationRepository
  * @typedef {import('../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js')} OrganizationsToAttachToTargetProfileRepository
