@@ -504,51 +504,6 @@
                 {
                   "elements": [
                     {
-                      "id": "ec963e6e-ecdf-437a-a973-2d9f8976edb1",
-                      "type": "text",
-                      "tag": " ",
-                      "content": "<p><em>[Ce sera une variante du POI -&gt; à imaginer sans la consigne et le titre]</em></p>"
-                    },
-                    {
-                      "id": "57d18016-3c27-4b72-92d5-54a8ebc9679e",
-                      "type": "custom",
-                      "title": "",
-                      "instruction": "À&nbsp;votre avis, quelle partie du prompt permet d’identifier l’outil nécessaire au logiciel d’IA conversationnel ?",
-                      "functionalInstruction": "",
-                      "tagName": "pix-anonymisation",
-                      "props": {
-                        "titleLevel": 2,
-                        "steps": [
-                          {
-                            "fullSentence": [
-                              {
-                                "content": "J’habite à Jolieville",
-                                "isAnonymizable": false
-                              },
-                              {
-                                "content": "et je veux refaire ma terrasse.",
-                                "isAnonymizable": false
-                              },
-                              {
-                                "content": "Est-ce que la météo",
-                                "isAnonymizable": true
-                              },
-                              {
-                                "content": "permettra de le faire",
-                                "isAnonymizable": false
-                              },
-                              {
-                                "content": "ce week-end ?",
-                                "isAnonymizable": false
-                              }
-                            ],
-                            "rephrase": " L’expression “est-ce que la météo” permet à l’IA de s’orienter vers l’outil Météo.",
-                            "feedback": " Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil."
-                          }
-                        ]
-                      }
-                    },
-                    {
                       "id": "1904da0e-efb2-4470-bcbe-8e8d3435b468",
                       "type": "qcu-discovery",
                       "instruction": "<p>À&nbsp;votre avis, quelle partie du prompt permet d’identifier l’outil nécessaire au logiciel d’IA conversationnel ?</p>",
