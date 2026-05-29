@@ -103,7 +103,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
     await click(
       screen.getAllByRole('button', {
-        name: t('components.complementary-certifications.item.framework.history.table.actions.view'),
+        name: t('components.certification-frameworks.item.framework.history.table.actions.view'),
       })[0],
     );
 
