@@ -330,13 +330,13 @@
                       "id": "7342c038-5818-4eef-ae13-94ca1f99e496",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p> <br></p><table>    <thead>        <tr>            <th scope=\"\" style=\"width: 36.9427%;\">Type d’effet</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>        </tr>    </thead>    <tbody>        <tr>            <th>Effet direct</th>            <td>Impact de la fabrication et de l’utilisation des appareils numériques<br></td>            <td>                <ul>                    <li>Consommation d’énergie pour recharger le smartphone<br></li>                    <li>Consommation de métaux pour fabriquer le smartphone</li>                    <li> Déchets électroniques en fin de vie du smartphone<br></li>                </ul>            </td>        </tr>        <tr>            <th>Effet indirect</th>            <td>Changements de comportement des utilisateurs des effets sur l’environnement<br></td>            <td>                <ul>                    <li>&nbsp;L’utilisateur du smartphone n’achète pas de radio (effet de substitution)</li>                    <li>Grâce à un compteur connecté, un utilisateur fait des économies d’énergie (effet d’efficacité ou d’optimisation)</li>                </ul>            </td>        </tr>    </tbody></table>"
+                      "content": "<p> <br></p><table>    <thead>        <tr>            <th scope=\"\" style=\"width: 36.9427%;\">Type d’effet</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>        </tr>    </thead>    <tbody>        <tr>            <th>Effet direct</th>            <td>Impact de la fabrication et de l’utilisation des appareils numériques<br></td>            <td>                <ul>                    <li>Consommation d’énergie pour recharger le smartphone<br></li>                    <li>Consommation de métaux pour fabriquer le smartphone</li>                    <li> Déchets électroniques en fin de vie du smartphone<br></li>                </ul>            </td>        </tr>        <tr>            <th>Effet indirect</th>            <td>Changements de comportements des utilisateurs ayants des effets sur l’environnement<br></td>            <td>                <ul>                    <li>&nbsp;L’utilisateur du smartphone n’achète pas de radio (effet de substitution)</li>                    <li>Grâce à un compteur connecté, un utilisateur fait des économies d’énergie (effet d’efficacité ou d’optimisation)</li>                </ul>            </td>        </tr>    </tbody></table>"
                     },
                     {
                       "id": "368c6e0a-fa53-4ac5-a0b0-0e2972da90ff",
                       "type": "text",
                       "tag": "further-information",
-                      "content": "<p>Ce sont des effets indirects dans le cadre du numérique, mais la notion d’effet direct et indirect peut s’apppliquer dans d’autres contextes comme l’économie ou la médecine.<br></p>"
+                      "content": "<p>Ce sont des effets indirects dans le cadre du numérique, mais la notion d’effet direct et indirect peut s’appliquer dans d’autres contextes comme l’économie ou la médecine.<br></p>"
                     }
                   ]
                 },
@@ -399,7 +399,7 @@
                     {
                       "id": "6ab4e662-9a2c-4564-9954-46d29b309563",
                       "type": "qcu-discovery",
-                      "instruction": "<p>A votre avis, quelle était la puissance électrique du premier ordinateur ?</p>",
+                      "instruction": "<p>À votre avis, quelle était la puissance électrique du premier ordinateur ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -650,7 +650,7 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien vu !<br></p>",
-                          "diagnosis": "<p>Alors q’un ordinateur consomme moins d’énergie, la somme de tous les ordinateurs en consomme beaucoup plus.<br></p>"
+                          "diagnosis": "<p>Alors qu’un ordinateur consomme moins d’énergie, la somme de tous les ordinateurs en consomme beaucoup plus.<br></p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non&nbsp; !<br></p>",
@@ -679,7 +679,7 @@
                       "id": "f03f5137-a79c-41a0-a2d7-69019d815759",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’amélioration d’une technologie améliore souvent son efficacité énérgétique. Mais elle peut aussi provoquer une augmentation de son usage ou de l’usage d’autres technologies.</p>"
+                      "content": "<p>L’amélioration d’une technologie améliore souvent son efficacité énergétique. Mais elle peut aussi provoquer une augmentation de son usage ou de l’usage d’autres technologies.</p>"
                     }
                   ]
                 },
