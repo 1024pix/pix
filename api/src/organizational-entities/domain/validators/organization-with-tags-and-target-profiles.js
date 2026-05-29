@@ -15,9 +15,7 @@ const schema = Joi.object({
       'string.empty': 'Le type n’est pas renseigné.',
       'any.only': `Le type fourni doit avoir l'une des valeurs suivantes : ${Object.values(Organization.types)}`,
     }),
-  externalId: Joi.string().required().messages({
-    'string.empty': "L'externalId n’est pas renseigné.",
-  }),
+  externalId: Joi.string().allow(null),
   name: Joi.string().required().messages({
     'string.empty': 'Le nom n’est pas renseigné.',
   }),

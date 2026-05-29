@@ -77,7 +77,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         const organizationsWithEmptyValues = [
           {
             type: '',
-            externalId: '',
+            externalId: null,
             name: '',
             provinceCode: '',
             credit: '',
@@ -108,10 +108,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           {
             attribute: 'type',
             message: 'Le type n’est pas renseigné.',
-          },
-          {
-            attribute: 'externalId',
-            message: "L'externalId n’est pas renseigné.",
           },
           {
             attribute: 'name',

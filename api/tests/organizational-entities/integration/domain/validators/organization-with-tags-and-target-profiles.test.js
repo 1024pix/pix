@@ -49,7 +49,6 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
             // given
             const organization = {
               type: organizationType,
-              externalId: 'EXTERNAL_ID',
               name: 'Organization Name',
               createdBy: 0,
               administrationTeamId: 1,
@@ -96,7 +95,6 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         expect(error.message).to.equal(`Échec de validation de l'entité.`);
         expect(error.invalidAttributes).to.have.deep.members([
           { attribute: 'type', message: '"type" is required' },
-          { attribute: 'externalId', message: '"externalId" is required' },
           { attribute: 'name', message: '"name" is required' },
           { attribute: 'createdBy', message: "L'id du créateur est manquant" },
           { attribute: 'administrationTeamId', message: "L'id de l'équipe en charge est manquant" },

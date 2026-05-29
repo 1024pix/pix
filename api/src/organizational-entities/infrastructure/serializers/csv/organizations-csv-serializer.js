@@ -62,6 +62,7 @@ export async function deserializeForOrganizationsImport(file) {
         }
       } else {
         if (
+          columnName === 'externalId' ||
           columnName === 'identityProviderForCampaigns' ||
           columnName === 'DPOFirstName' ||
           columnName === 'DPOLastName' ||
