@@ -1,4 +1,3 @@
-import { CertificationRejectNotAllowedError } from '../../../../shared/domain/errors.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourseRejected } from '../events/CertificationCourseRejected.js';
@@ -17,9 +16,6 @@ export const rejectCertificationCourse = async ({
   });
   if (!latestAssessmentResult) {
     throw new NotFoundError('No assessment result found');
-  }
-  if (latestAssessmentResult.status === 'cancelled') {
-    throw new CertificationRejectNotAllowedError();
   }
 
   certificationCourse.rejectForFraud();

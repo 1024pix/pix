@@ -1025,12 +1025,6 @@ class NotFinalizedSessionError extends DomainError {
   }
 }
 
-class CertificationRejectNotAllowedError extends DomainError {
-  constructor(message = 'A certification course cannot be rejected while it is cancelled.') {
-    super(message);
-  }
-}
-
 class CertificationCancelNotAllowedError extends DomainError {
   constructor(message = 'A certification course cannot be cancelled while it is rejected.') {
     super(message);
@@ -1107,7 +1101,6 @@ export {
   CertificationCenterMembershipDisableError,
   CertificationEndedByFinalizationError,
   CertificationEndedByInvigilatorError,
-  CertificationRejectNotAllowedError,
   CertificationRescoringNotAllowedError,
   ChallengeAlreadyAnsweredError,
   ChallengeNotAskedError,
