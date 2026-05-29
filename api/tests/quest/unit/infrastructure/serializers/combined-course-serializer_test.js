@@ -65,6 +65,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
             'is-locked': true,
             duration: 10,
             image: 'emile7',
+            'short-id': 'short-7',
           },
         },
         {

@@ -19,6 +19,7 @@ export class CombinedCourseItem {
     masteryRate = null,
     totalStagesCount = null,
     validatedStagesCount = null,
+    shortId,
   }) {
     this.id = id;
     this.title = title;
@@ -33,5 +34,8 @@ export class CombinedCourseItem {
     this.masteryRate = masteryRate;
     this.totalStagesCount = totalStagesCount;
     this.validatedStagesCount = validatedStagesCount;
+    if (type === COMBINED_COURSE_ITEM_TYPES.MODULE) {
+      this.shortId = shortId;
+    }
   }
 }

@@ -130,6 +130,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
           totalStagesCount: null,
           validatedStagesCount: null,
+          shortId: '6a68bf32',
         },
         {
           id: moduleId2,
@@ -145,6 +146,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           image: 'https://assets.pix.org/modules/1emarche-clavier1/picto-1eremarche_clavier1.svg',
           totalStagesCount: null,
           validatedStagesCount: null,
+          shortId: '740d5aa9',
         },
       ]);
       expect(result.id).to.equal(combinedCourseId);
@@ -256,6 +258,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
           totalStagesCount: null,
           validatedStagesCount: null,
+          shortId: '6a68bf32',
         },
         {
           id: moduleId3,
@@ -271,6 +274,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
           totalStagesCount: null,
           validatedStagesCount: null,
+          shortId: '9d4dcab8',
         },
       ]);
 
