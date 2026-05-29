@@ -1,15 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { cancel } from '../../../../../../src/certification/session-management/domain/usecases/cancel.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import {
-  CertificationCancelNotAllowedError,
-  NotFinalizedSessionError,
-  NotFoundError,
-} from '../../../../../../src/shared/domain/errors.js';
+import { NotFinalizedSessionError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
-import { status as assessmentResultStatuses } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
@@ -283,53 +278,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(certificationEvaluationRepository.rescoreV3Certification).to.not.have.been.called;
-    });
-  });
-
-  describe('when certification is rejected', function () {
-    it('should not cancel the certification and throw CertificationCancelNotAllowedError', async function () {
-      // given
-      const juryId = 123;
-      const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
-        finalizedAt: new Date('2020-01-01'),
-        version: AlgorithmEngineVersion.V2,
-      });
-      const certificationCourse = domainBuilder.buildCertificationCourse({
-        id: 123,
-        sessionId: session.id,
-        version: AlgorithmEngineVersion.V2,
-      });
-      const certificationCourseRepository = {
-        get: sinon.stub(),
-      };
-      const sessionManagementRepository = {
-        isFinalized: sinon.stub(),
-      };
-      const certificationEvaluationRepository = {
-        rescoreV2Certification: sinon.stub(),
-      };
-      const courseAssessmentResultRepository = {
-        getLatestAssessmentResult: sinon.stub(),
-      };
-
-      certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
-      sessionManagementRepository.isFinalized.withArgs({ id: certificationCourse.getSessionId() }).resolves(true);
-      courseAssessmentResultRepository.getLatestAssessmentResult.resolves(
-        domainBuilder.buildAssessmentResult({ status: assessmentResultStatuses.REJECTED }),
-      );
-      // when
-      const error = await catchErr(cancel)({
-        certificationCourseId: 123,
-        juryId,
-        certificationCourseRepository,
-        sessionManagementRepository,
-        certificationEvaluationRepository,
-        courseAssessmentResultRepository,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(CertificationCancelNotAllowedError);
-      expect(certificationEvaluationRepository.rescoreV2Certification).to.not.have.been.called;
     });
   });
 });

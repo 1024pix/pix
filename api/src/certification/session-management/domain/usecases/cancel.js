@@ -6,7 +6,7 @@
  */
 
 import CertificationCancelled from '../../../../../src/shared/domain/events/CertificationCancelled.js';
-import { CertificationCancelNotAllowedError, NotFinalizedSessionError } from '../../../../shared/domain/errors.js';
+import { NotFinalizedSessionError } from '../../../../shared/domain/errors.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 
@@ -37,9 +37,6 @@ export const cancel = async function ({
   });
   if (!latestAssessmentResult) {
     throw new NotFoundError('No assessment result found');
-  }
-  if (latestAssessmentResult.status === 'rejected') {
-    throw new CertificationCancelNotAllowedError();
   }
 
   const event = new CertificationCancelled({
