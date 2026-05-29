@@ -12,8 +12,8 @@
     "level": "advanced",
     "objectives": [
       "<p>Repérer pourquoi une demande unique peut produire une réponse insatisfaisante face à une tâche complexe avec une IA générative</p>",
-      "<p>Découvrir plusieurs techniques de coversation pour mieux guider une IA générative</p>",
-      "<p>Comprendre ce que chaque technique apporte, et dans quels cas l’utiliser</p>"
+      "<p>Découvrir plusieurs techniques de conversation pour mieux guider une IA générative</p>",
+      "<p>Comprendre ce que chaque technique apporte et dans quels cas l’utiliser</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -33,7 +33,7 @@
                 "id": "369dc90d-d020-4dcd-971e-fa199786accf",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Plusieurs membres de votre association de théâtre ont reçu des emails suspects. On vous demande de préparer quelques actions simples pour les aider à mieux se protéger en ligne.</p><p>La cybersécurité, c’est l’ensemble des réflexes qui permettent de protéger ses comptes, ses données et ses appareils face aux risques numériques du quotidien.</p><p>Voici votre objectif&nbsp;:</p><ul>    <li>aider les membres à <strong>repérer les risques les plus courants</strong>, comme les faux emails, les liens suspects ou les demandes inhabituelles&nbsp;;</li>    <li>faire connaître les <strong>bons réflexes</strong> à adopter&nbsp;;</li>    <li>réduire les risques d’incident au quotidien.</li></ul><p>Vous essayez d’abord de demander à une IA de produire directement le résultat final, en une seule demande&nbsp;:</p><blockquote>«&nbsp;Prépare un plan de sensibilisation à la cybersécurité pour notre association de théâtre. Il faut expliquer les risques courants, être bref mais ultra précis, parler à tous avec des messages très calibrés, tenir compte des bénévoles et du bureau, et produire un résultat succint, complet et  prêt à servir.&nbsp;»</blockquote>"
+                "content": "<p>Plusieurs membres de votre association de théâtre ont reçu des emails suspects. On vous demande de préparer quelques actions simples pour les aider à mieux se protéger en ligne.</p><p>La cybersécurité, c’est l’ensemble des réflexes qui permettent de protéger ses comptes, ses données et ses appareils face aux risques numériques du quotidien.</p><p>Voici votre objectif&nbsp;:</p><ul>    <li>aider les membres à <strong>repérer les risques les plus courants</strong>, comme les faux emails, les liens suspects ou les demandes inhabituelles&nbsp;;</li>    <li>faire connaître les <strong>bons réflexes</strong> à adopter&nbsp;;</li>    <li>réduire les risques d’incident au quotidien.</li></ul><p>Vous essayez d’abord de demander à une IA de produire directement le résultat final, en une seule demande&nbsp;:</p><blockquote>«&nbsp;Prépare un plan de sensibilisation à la cybersécurité pour notre association de théâtre. Il faut expliquer les risques courants, être bref mais ultra précis, parler à tous avec des messages très calibrés, tenir compte des bénévoles et du bureau et produire un résultat succinct, complet et prêt à servir.&nbsp;»</blockquote>"
               }
             },
             {
@@ -44,7 +44,7 @@
                 "isCompletionRequired": false,
                 "title": "Vous avez 1 prompt ! ",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmmm6spb900005d01onjeba2s",
-                "instruction": "<p>Copier-coller le prompt dans ChatPix pour obtenir un plan de sensibilisation sur le thème de la cyber-écurité.</p>",
+                "instruction": "<p>Copier-coller le prompt dans ChatPix pour obtenir un plan de sensibilisation sur le thème de la cybersécurité.</p>",
                 "solution": "",
                 "height": 500
               }
@@ -369,7 +369,7 @@
                 "isCompletionRequired": false,
                 "title": "simu 4",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmmm8z3es00025d012eyao6yh",
-                "instruction": "<p>Demandez à ChatPix de vous poser quelques questions pour établir votre plan de sensibilisation en cybersécurité afin mieux cadrer votre besoin. Répondez-y, puis observez le plan obtenu.</p>",
+                "instruction": "<p>Demandez à ChatPix de vous poser quelques questions pour établir votre plan de sensibilisation en cybersécurité afin de mieux cadrer votre besoin. Répondez-y, puis observez le plan obtenu.</p>",
                 "solution": "",
                 "height": 500
               }
