@@ -151,7 +151,7 @@
                 "id": "dc5d5e33-e512-4abb-b331-4076d0439b57",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Maintenant, voici un schéma qui représente cette organisation.<br><strong>Observez le schéma suivant puis répondez aux questions ci-dessous.</strong></p>"
+                "content": "<p>Maintenant, voici un schéma appelé arborescence. Il représente l’organisation des dossiers et des fichiers sur l’ordinateur.<br><strong>Observez le schéma suivant puis répondez aux questions ci-dessous.</strong></p>"
               }
             },
             {
@@ -685,7 +685,7 @@
                 "id": "5b96f537-0742-46d3-88f2-ae11fb01b0bd",
                 "type": "text",
                 "tag": "did-you-know",
-                "content": "<p>Voici deux manières d’ouvrir le gestionaire de fichiers&nbsp;:</p><ul>    <li>cliquer sur l’icône dans la barre des tâches (Windows) ou dock (Mas OS).</li>    <li>double cliquer sur un dossier sur le bureau.</li></ul>"
+                "content": "<p>Voici deux manières d’ouvrir le gestionnaire de fichiers&nbsp;:</p><ul>    <li>cliquer sur l’icône dans la barre des tâches (Windows) ou dock (Mac OS).</li>    <li>double cliquer sur un dossier sur le bureau.</li></ul>"
               }
             }
           ]
@@ -728,7 +728,7 @@
                 "isCompletionRequired": true,
                 "title": "simulateur gestionnaire de fichiers",
                 "url": "https://epreuves.pix.fr/filemanager/filemanager.html?mode=modulix_rangerfichiers_ind_decouverte4&lang=fr",
-                "instruction": "<p>Dans le gestionnaire de fichiers ci-dessous&nbsp;: </p><ol><li> Dans le dossier «&nbsp;Documents&nbsp;», créer 2 sous-dossiers&nbsp;:&nbsp; «&nbsp;Factures&nbsp;» et «&nbsp;Notes&nbsp;».</li><li>Ranger les fichiers du dossier «&nbsp;Documents&nbsp;» dans les bons sous-dossiers.</li><li>Déplacer le dossier «&nbsp;Playlist fêtes&nbsp;» dans le dossier «&nbsp;Musique&nbsp;».</li></ol>",
+                "instruction": "<p>Dans le gestionnaire de fichiers ci-dessous&nbsp;: </p><ol><li> Dans le dossier «&nbsp;Documents&nbsp;», créer 2 sous-dossiers&nbsp;:&nbsp; «&nbsp;Factures&nbsp;» et «&nbsp;Notes&nbsp;».</li><li>Ranger les fichiers du dossier «&nbsp;Documents&nbsp;» dans les bons sous-dossiers.</li><li>Déplacer le dossier «&nbsp;Playlist fêtes&nbsp;» dans le dossier «&nbsp;Musiques&nbsp;».</li></ol>",
                 "solution": "courgette",
                 "height": 500
               }
@@ -748,7 +748,7 @@
                 "id": "0de4339c-c273-4f16-b1b3-3c148c531a93",
                 "type": "expand",
                 "title": "🗝️Indice 2",
-                "content": "<p>Le dossier «&nbsp;Playlist fête&nbsp;» contient des fichiers de type audio. Ce dossier sera plus à sa place en le rangeant dans le dossier «&nbsp;Musique&nbsp;».</p><p>Le dossier «&nbsp;Musique&nbsp;» est visible dans le volet latéral du gestionnaire.</p>"
+                "content": "<p>Le dossier «&nbsp;Playlist fête&nbsp;» contient des fichiers de type audio. Ce dossier sera plus à sa place en le rangeant dans le dossier «&nbsp;Musique&nbsp;».</p><p>Le dossier «&nbsp;Musiques&nbsp;» est visible dans le volet latéral du gestionnaire.</p>"
               }
             }
           ]
@@ -851,7 +851,7 @@
                 "isCompletionRequired": false,
                 "title": "Simulateur interface de gestionnaire de fichiers sans validation",
                 "url": "https://epreuves.pix.fr/filemanager-visu/filemanager-visu.html?mode=modulix_rangerfichiers_ind_activite1&lang=fr",
-                "instruction": "<p>Dans l’interface suivante, suivez le chemin et regardez quel autre fichier est rangé au même endroit que « Baguette ».</p>",
+                "instruction": "<p>Dans l’interface suivante, suivez le chemin et regardez quel autre fichier est rangé au même endroit que «&nbsp;Baguette&nbsp;».</p>",
                 "solution": "",
                 "height": 500
               }
@@ -861,7 +861,7 @@
               "element": {
                 "id": "4ef0651e-e59c-4893-9fa2-d82d8944653a",
                 "type": "qrocm",
-                "instruction": "<p>Quel est le nom de l'autre fichier rangé au même endroit que « Baguette ».</p>",
+                "instruction": "<p>Quel est le nom de l’autre fichier rangé au même endroit que «&nbsp;Baguette&nbsp;».</p>",
                 "proposals": [
                   {
                     "type": "text",
@@ -892,7 +892,7 @@
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.</p>",
-                    "diagnosis": "<p>Pour retrouver le fichier « Baguette », il faut suivre le chemin d’accès indiqué et ouvrir les dossiers dans l’ordre (dans le gestionnaire de fichiers). Quel est le nom de l'autre fichier rangé au même endroit ?</p>"
+                    "diagnosis": "<p>Pour retrouver le fichier «&nbsp;Baguette&nbsp;», il faut suivre le chemin d’accès indiqué et ouvrir les dossiers dans l’ordre (dans le gestionnaire de fichiers). Quel est le nom de l’autre fichier rangé au même endroit ?</p>"
                   }
                 }
               }
@@ -996,7 +996,7 @@
                 "isCompletionRequired": true,
                 "title": "simulateur gestionnaire de fichiers",
                 "url": "https://epreuves.pix.fr/filemanager/filemanager.html?mode=modulix_rangerfichiers_ind_activite3&lang=fr",
-                "instruction": "<p>Suivez les instructions suivantes pour ranger les photos du dossier «&nbsp;Images&nbsp;»&nbsp;: </p>\n<ul>\n    <li>Dans le dossier «&nbsp;Images&nbsp;», créez un dossier «&nbsp;Victor&nbsp;».</li>\n    <li>Rangez-y toutes les photos dont l’auteur est Victor.</li>\n</ul>",
+                "instruction": "<p>Suivez les instructions suivantes pour ranger les photos du dossier «&nbsp;Images&nbsp;»&nbsp;: </p><ul>    <li>Dans le dossier «&nbsp;Images&nbsp;», créez un dossier «&nbsp;Victor&nbsp;».</li>    <li>Rangez-y toutes les photos dont l’auteur est Victor.</li></ul>",
                 "solution": "courgette",
                 "height": 500
               }
@@ -1033,9 +1033,9 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Utilser beaucoup de sous-dossiers pour classer mes fichiers dans des catégories précises.</p>",
+                    "content": "<p>Utiliser beaucoup de sous-dossiers pour classer mes fichiers dans des catégories précises.</p>",
                     "feedback": {
-                      "diagnosis": "Quel sens de l’organisation&nbsp;! Cela permet de structurer finement les fichiers. Chaque organisation a ses avantages et ses limites.<br>Chaque organisation a ses avantages et ses limites. L’important est de choisir une organisation qui vous correspond et qui vous permet de retrouver facilement vos fichiers."
+                      "diagnosis": "<p>Quel sens de l’organisation&nbsp;! Cela permet de structurer finement les fichiers.<br>Chaque organisation a ses avantages et ses limites.&nbsp; L’important est de choisir une organisation qui vous correspond et qui vous permet de retrouver facilement vos fichiers.</p>"
                     }
                   },
                   {
