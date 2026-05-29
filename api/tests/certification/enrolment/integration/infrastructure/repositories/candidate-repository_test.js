@@ -256,76 +256,31 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
         expect(candidate.firstName).to.equal('tutu');
       });
 
-      it('should update its subscriptions', async function () {
-        // when
-        const complementaryCertificationDroit = databaseBuilder.factory.buildComplementaryCertification({
-          id: 555,
-          key: Frameworks.DROIT,
-        });
-        const complementaryCertificationEdu = databaseBuilder.factory.buildComplementaryCertification({
-          id: 666,
-          key: Frameworks.EDU_1ER_DEGRE,
-        });
+      it('should update its subscription', async function () {
+        // given
+        const droitCertification = databaseBuilder.factory.buildComplementaryCertification({ key: Frameworks.DROIT });
+        databaseBuilder.factory.buildComplementaryCertification({ key: Frameworks.EDU_1ER_DEGRE });
         const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-          firstName: 'toto',
+          subscription: Frameworks.DROIT,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
         databaseBuilder.factory.buildComplementaryCertificationSubscription({
           certificationCandidateId: certificationCandidate.id,
-          complementaryCertificationId: complementaryCertificationDroit.id,
+          complementaryCertificationId: droitCertification.id,
         });
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: certificationCandidate.id,
-        });
-
         await databaseBuilder.commit();
 
-        const certificationCandidateToUpdate = domainBuilder.certification.enrolment.buildCandidate({
+        const candidateToUpdate = domainBuilder.certification.enrolment.buildCandidate({
           ...certificationCandidate,
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildCoreSubscription({
-              certificationCandidateId: certificationCandidate.id,
-            }),
-            domainBuilder.certification.enrolment.buildComplementarySubscription({
-              certificationCandidateId: certificationCandidate.id,
-              complementaryCertificationKey: complementaryCertificationEdu.key,
-            }),
-          ],
+          subscription: Frameworks.EDU_1ER_DEGRE,
         });
 
         // when
-        const subscriptionsBefore = (
-          await candidateRepository.get({
-            certificationCandidateId: certificationCandidateToUpdate.id,
-          })
-        ).subscriptions;
-
-        await candidateRepository.update(certificationCandidateToUpdate);
-
-        const subscriptionsAfter = (
-          await candidateRepository.get({
-            certificationCandidateId: certificationCandidateToUpdate.id,
-          })
-        ).subscriptions;
+        await candidateRepository.update(candidateToUpdate);
 
         // then
-        expect(subscriptionsBefore).to.deepEqualArray([
-          domainBuilder.certification.enrolment.buildComplementarySubscription({
-            certificationCandidateId: certificationCandidate.id,
-            complementaryCertificationKey: complementaryCertificationDroit.key,
-          }),
-          domainBuilder.certification.enrolment.buildCoreSubscription({
-            certificationCandidateId: certificationCandidate.id,
-          }),
-        ]);
-        expect(subscriptionsAfter).to.deepEqualArray([
-          domainBuilder.certification.enrolment.buildComplementarySubscription({
-            certificationCandidateId: certificationCandidate.id,
-            complementaryCertificationKey: complementaryCertificationEdu.key,
-          }),
-          domainBuilder.certification.enrolment.buildCoreSubscription({
-            certificationCandidateId: certificationCandidate.id,
-          }),
-        ]);
+        const updated = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
+        expect(updated.subscription).to.equal(Frameworks.EDU_1ER_DEGRE);
       });
     });
 
@@ -350,12 +305,6 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
     let candidateData;
 
     beforeEach(function () {
-      const subscriptionCore = domainBuilder.certification.enrolment.buildCoreSubscription({
-        certificationCandidateId: null,
-      });
-      const subscriptionComplementary = domainBuilder.certification.enrolment.buildComplementarySubscription({
-        certificationCandidateId: null,
-      });
       candidateData = {
         id: null,
         createdAt: new Date('2020-01-01'),
@@ -381,20 +330,15 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
         prepaymentCode: null,
         hasSeenCertificationInstructions: false,
         accessibilityAdjustmentNeeded: false,
-        subscriptions: [subscriptionCore, subscriptionComplementary],
         reconciledAt: null,
-        subscription: null,
+        subscription: Frameworks.DROIT,
       };
       databaseBuilder.factory.buildSession({ id: candidateData.sessionId });
-      databaseBuilder.factory.buildComplementaryCertification({
-        id: 22,
-        label: 'Pix+DROIT',
-        key: Frameworks.DROIT,
-      });
+      databaseBuilder.factory.buildComplementaryCertification({ key: Frameworks.DROIT });
       return databaseBuilder.commit();
     });
 
-    it('should insert candidate in DB with subscriptions', async function () {
+    it('should insert candidate in DB with subscription', async function () {
       // given
       const candidateToInsert = domainBuilder.certification.enrolment.buildCandidate(candidateData);
 
@@ -403,34 +347,17 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
 
       // then
       const savedCandidateData = await knex('certification-candidates').select('*').where({ id: candidateId }).first();
+      expect(savedCandidateData.subscription).to.equal(Frameworks.DROIT);
+      expect(parseFloat(savedCandidateData.extraTimePercentage)).to.equal(candidateData.extraTimePercentage);
+
       const savedSubscriptionsData = await knex('certification-subscriptions')
         .select('*')
         .where({ certificationCandidateId: candidateId })
         .orderBy('type');
-      expect(savedCandidateData).to.deepEqualInstanceOmitting(candidateData, [
-        'id',
-        'createdAt',
-        'subscriptions',
-        'complementaryCertificationId',
-        'extraTimePercentage',
-      ]);
-      expect(parseFloat(savedCandidateData.extraTimePercentage)).to.equal(candidateData.extraTimePercentage);
-      expect(savedSubscriptionsData).to.have.lengthOf(2);
+      expect(savedSubscriptionsData).to.have.lengthOf(1);
       expect(savedSubscriptionsData[0]).to.deepEqualInstanceOmitting(
-        {
-          certificationCandidateId: candidateId,
-          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-          complementaryCertificationId: 22,
-        },
-        ['createdAt'],
-      );
-      expect(savedSubscriptionsData[1]).to.deepEqualInstanceOmitting(
-        {
-          certificationCandidateId: candidateId,
-          type: SUBSCRIPTION_TYPES.CORE,
-          complementaryCertificationId: null,
-        },
-        ['createdAt'],
+        { certificationCandidateId: candidateId, type: SUBSCRIPTION_TYPES.COMPLEMENTARY },
+        ['createdAt', 'complementaryCertificationId'],
       );
     });
   });

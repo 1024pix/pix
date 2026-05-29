@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { CertificationCandidateNotFoundError } from '../../../shared/domain/errors.js';
+import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 import { Subscription } from '../../domain/models/Subscription.js';
 
@@ -78,31 +79,10 @@ export async function update(candidate) {
   if (!updatedCertificationCandidate) {
     throw new CertificationCandidateNotFoundError();
   }
-
+  // TODO: supprimer lors du drop de certification-subscriptions
+  const complementaryCertificationsData = await knexConn('complementary-certifications').select('id', 'key');
   await knexConn('certification-subscriptions').where({ certificationCandidateId: candidate.id }).del();
-
-  for (const subscription of candidate.subscriptions) {
-    if (subscription.type === SUBSCRIPTION_TYPES.CORE) {
-      await knexConn('certification-subscriptions').insert({
-        certificationCandidateId: candidate.id,
-        type: subscription.type,
-        complementaryCertificationId: null,
-      });
-    } else {
-      const { id: complementaryCertificationId } = await knexConn('complementary-certifications')
-        .select('id')
-        .where({
-          key: subscription.complementaryCertificationKey,
-        })
-        .first();
-
-      await knexConn('certification-subscriptions').insert({
-        certificationCandidateId: candidate.id,
-        type: subscription.type,
-        complementaryCertificationId: complementaryCertificationId,
-      });
-    }
-  }
+  await _writeLegacySubscriptions(knexConn, candidate.id, candidate, complementaryCertificationsData);
 }
 
 /**
@@ -124,15 +104,12 @@ export async function insert(candidate) {
  */
 export async function save({ candidates }) {
   const knexConn = DomainTransaction.getConnection();
-  const complementaryCertificationsData = await knexConn('complementary-certifications').select('id', 'key');
-
   const candidatesData = candidates.map(adaptModelToDb);
 
   const insertedCandidatesData = await knexConn('certification-candidates')
     .insert(candidatesData)
     .returning(['id', 'firstName', 'lastName', 'birthdate']);
 
-  const subscriptionsData = [];
   for (const candidate of candidates) {
     const insertedCandidateId = insertedCandidatesData.find(
       (insertedCandidateData) =>
@@ -140,20 +117,10 @@ export async function save({ candidates }) {
         insertedCandidateData.lastName === candidate.lastName &&
         dayjs(insertedCandidateData.birthdate).format('YYYY-MM-DD') === dayjs(candidate.birthdate).format('YYYY-MM-DD'),
     ).id;
-
-    subscriptionsData.push(
-      ...candidate.subscriptions.map((subscription) => ({
-        certificationCandidateId: insertedCandidateId,
-        type: subscription.type,
-        complementaryCertificationId:
-          complementaryCertificationsData.find(
-            (complementaryCertificationData) =>
-              complementaryCertificationData.key === subscription.complementaryCertificationKey,
-          )?.id ?? null,
-      })),
-    );
+    // TODO: supprimer lors du drop de certification-subscriptions
+    const complementaryCertificationsData = await knexConn('complementary-certifications').select('id', 'key');
+    await _writeLegacySubscriptions(knexConn, insertedCandidateId, candidate, complementaryCertificationsData);
   }
-  await knexConn('certification-subscriptions').insert(subscriptionsData);
 
   return insertedCandidatesData.map(({ id }) => id);
 }
@@ -327,4 +294,32 @@ function toDomain(candidateData) {
     hasStartedTest: Boolean(candidateData.certificationCourseId),
     subscriptions,
   });
+}
+
+async function _writeLegacySubscriptions(knexConn, candidateId, candidate, complementaryCertificationsData) {
+  const subscription = candidate.subscription;
+  const rows = [];
+  if (!subscription || subscription === Frameworks.CORE) {
+    rows.push({
+      certificationCandidateId: candidateId,
+      type: SUBSCRIPTION_TYPES.CORE,
+      complementaryCertificationId: null,
+    });
+  } else {
+    if (subscription === Frameworks.CLEA) {
+      rows.push({
+        certificationCandidateId: candidateId,
+        type: SUBSCRIPTION_TYPES.CORE,
+        complementaryCertificationId: null,
+      });
+    }
+    const complementaryCertificationId =
+      complementaryCertificationsData.find((c) => c.key === subscription)?.id ?? null;
+    rows.push({
+      certificationCandidateId: candidateId,
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+      complementaryCertificationId,
+    });
+  }
+  await knexConn('certification-subscriptions').insert(rows);
 }
