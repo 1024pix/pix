@@ -19,33 +19,39 @@ export default class CertificationInformationGlobalActions extends Component {
   @tracked displayConfirm = false;
   @tracked modalTitle = null;
 
-  get canPerformCertificationActions() {
-    return Boolean(
-      !this.args.certification.isPublished &&
-      this.args.session.finalizedAt &&
-      (this.args.certification.status === 'validated' ||
-        this.args.certification.status === 'error' ||
-        !this.args.certification.status),
-    );
+  get basicActionsRequirements() {
+    return this.args.session.finalizedAt && !this.args.certification.isPublished;
   }
 
   get displayCancelCertificationButton() {
-    return this.canPerformCertificationActions;
+    return (
+      this.basicActionsRequirements &&
+      !this.args.certification.isCertificationCancelled &&
+      !this.isCertificationRejected
+    );
   }
 
   get displayUncancelCertificationButton() {
-    return Boolean(
-      this.args.certification.isCertificationCancelled &&
-      !this.args.certification.isPublished &&
-      this.args.session.finalizedAt,
+    return (
+      this.basicActionsRequirements && this.args.certification.isCertificationCancelled && !this.isCertificationRejected
     );
   }
 
   get displayRejectCertificationButton() {
-    return this.canPerformCertificationActions;
+    return (
+      this.basicActionsRequirements &&
+      !this.isCertificationRejected &&
+      !this.args.certification.isCertificationCancelled
+    );
   }
 
   get displayUnrejectCertificationButton() {
+    return (
+      this.basicActionsRequirements && this.isCertificationRejected && !this.args.certification.isCertificationCancelled
+    );
+  }
+
+  get isCertificationRejected() {
     return this.args.certification.status === 'rejected' && this.args.certification.isRejectedForFraud;
   }
 

@@ -58,9 +58,9 @@ module('Integration | Component | Certifications | Certification | Information |
   });
 
   module('cancel button', function () {
-    module('when should display', function () {
-      module('when certification is validated, session is finalized and not published', function () {
-        test('should display a cancel button', async function (assert) {
+    module('when session is finalized and not published', function () {
+      module('when certification is not rejected for fraud', function () {
+        test('displays a cancel button', async function (assert) {
           // given
           const certification = store.createRecord('certification', {
             userId: 1,
@@ -79,73 +79,13 @@ module('Integration | Component | Certifications | Certification | Information |
         });
       });
 
-      module('when certification has error status, session is finalized and not published', function () {
-        test('should display a cancel button', async function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            userId: 1,
-            status: assessmentResultStatus.ERROR,
-            isPublished: false,
-          });
-          const session = createFinalizedSession();
-
-          // when
-          const screen = await renderGlobalActions(certification, session);
-
-          // then
-          assert
-            .dom(screen.getByRole('button', { name: t('components.certifications.global-actions.cancel.button') }))
-            .exists();
-        });
-      });
-      module('when certification has no status, session is finalized and not published', function () {
-        test('should display a cancel button', async function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            userId: 1,
-            status: null,
-            isPublished: false,
-          });
-          const session = createFinalizedSession();
-
-          // when
-          const screen = await renderGlobalActions(certification, session);
-
-          // then
-          assert
-            .dom(screen.getByRole('button', { name: t('components.certifications.global-actions.cancel.button') }))
-            .exists();
-        });
-      });
-    });
-
-    module('when should not display', function () {
-      module('when certification status is cancelled', function () {
-        test('should not display a cancel button', async function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            userId: 1,
-            status: assessmentResultStatus.CANCELLED,
-            isPublished: false,
-          });
-          const session = createFinalizedSession();
-
-          // when
-          const screen = await renderGlobalActions(certification, session);
-
-          // then
-          assert
-            .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.cancel.button') }))
-            .doesNotExist();
-        });
-      });
-
-      module('when certification status is rejected', function () {
-        test('should not display a cancel button', async function (assert) {
+      module('when certification is rejected for fraud', function () {
+        test('does not display a cancel button', async function (assert) {
           // given
           const certification = store.createRecord('certification', {
             userId: 1,
             status: assessmentResultStatus.REJECTED,
+            isRejectedForFraud: true,
             isPublished: false,
           });
           const session = createFinalizedSession();
@@ -159,45 +99,45 @@ module('Integration | Component | Certifications | Certification | Information |
             .doesNotExist();
         });
       });
+    });
 
-      module('when session is not finalized', function () {
-        test('should not display a cancel button', async function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            userId: 1,
-            status: assessmentResultStatus.VALIDATED,
-            isPublished: false,
-          });
-          const session = createNonFinalizedSession();
-
-          // when
-          const screen = await renderGlobalActions(certification, session);
-
-          // then
-          assert
-            .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.cancel.button') }))
-            .doesNotExist();
+    module('when session is not finalized', function () {
+      test('does not display a cancel button', async function (assert) {
+        // given
+        const certification = store.createRecord('certification', {
+          userId: 1,
+          status: assessmentResultStatus.VALIDATED,
+          isPublished: false,
         });
+        const session = createNonFinalizedSession();
+
+        // when
+        const screen = await renderGlobalActions(certification, session);
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.cancel.button') }))
+          .doesNotExist();
       });
+    });
 
-      module('when certification is published', function () {
-        test('should not display a cancel button', async function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            userId: 1,
-            status: assessmentResultStatus.VALIDATED,
-            isPublished: true,
-          });
-          const session = createFinalizedSession();
-
-          // when
-          const screen = await renderGlobalActions(certification, session);
-
-          // then
-          assert
-            .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.cancel.button') }))
-            .doesNotExist();
+    module('when certification is published', function () {
+      test('does not display a cancel button', async function (assert) {
+        // given
+        const certification = store.createRecord('certification', {
+          userId: 1,
+          status: assessmentResultStatus.VALIDATED,
+          isPublished: true,
         });
+        const session = createFinalizedSession();
+
+        // when
+        const screen = await renderGlobalActions(certification, session);
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.cancel.button') }))
+          .doesNotExist();
       });
     });
 
@@ -223,7 +163,7 @@ module('Integration | Component | Certifications | Certification | Information |
         screen = await renderGlobalActions(certification, session);
       });
 
-      test('should display confirmation modal on click', async function (assert) {
+      test('displays confirmation modal on click', async function (assert) {
         // when
         await fireEvent.click(
           screen.getByRole('button', { name: t('components.certifications.global-actions.cancel.button') }),
@@ -238,7 +178,7 @@ module('Integration | Component | Certifications | Certification | Information |
       });
 
       module('when modal is confirmed', function () {
-        test('should perform action and close modal on success', async function (assert) {
+        test('performs action and close modal on success', async function (assert) {
           // given
           const currentCertification = store.peekRecord('certification', 1);
 
@@ -258,7 +198,7 @@ module('Integration | Component | Certifications | Certification | Information |
           assert.dom(screen.queryByRole('button', { name: t('common.actions.confirm') })).doesNotExist();
         });
 
-        test('should display notification and close modal on error', async function (assert) {
+        test('displays notification and close modal on error', async function (assert) {
           // given
           const notificationStub = setupNotificationStub(this.owner);
           const currentCertification = store.peekRecord('certification', 1);
@@ -280,7 +220,7 @@ module('Integration | Component | Certifications | Certification | Information |
         });
       });
 
-      test('should close modal on cancellation', async function (assert) {
+      test('closes modal on cancellation', async function (assert) {
         // given
         const currentCertification = store.peekRecord('certification', 1);
 
@@ -301,19 +241,129 @@ module('Integration | Component | Certifications | Certification | Information |
   });
 
   module('uncancel button', function () {
-    module('when the certification is cancelled, not published and the session is finalized', function (hooks) {
+    module('when session is finalized and not published', function () {
       let screen;
 
-      const modalTitle = 'Confirmer la désannulation de la certification';
-      const modalMessage =
-        'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.';
+      module('when certification is cancelled', function (hooks) {
+        const modalTitle = 'Confirmer la désannulation de la certification';
+        const modalMessage =
+          'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.';
 
-      hooks.beforeEach(async function () {
+        hooks.beforeEach(async function () {
+          // given
+          const certification = store.createRecord('certification', {
+            id: '2',
+            userId: 1,
+            status: assessmentResultStatus.CANCELLED,
+            isPublished: false,
+            save: sinon.stub(),
+            reload: sinon.stub(),
+          });
+          const session = createFinalizedSession();
+
+          // when
+          screen = await renderGlobalActions(certification, session);
+        });
+
+        test('displays an uncancel button', async function (assert) {
+          // then
+          assert
+            .dom(screen.getByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }))
+            .exists();
+        });
+
+        test('on cancel button click, displays a confirmation modal', async function (assert) {
+          // when
+          await fireEvent.click(
+            screen.getByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }),
+          );
+
+          await screen.findByRole('dialog');
+
+          // then
+          assert.dom(screen.getByText(modalTitle)).exists();
+          assert.dom(screen.getByText(modalMessage)).exists();
+          assert.dom(screen.getByRole('button', { name: t('common.actions.confirm') })).exists();
+          assert.dom(screen.getByRole('button', { name: t('common.actions.cancel') })).exists();
+        });
+
+        module('on modal confirmation', function () {
+          test('uncancels the certification and closes the modal', async function (assert) {
+            // given
+            const currentCertification = store.peekRecord('certification', 2);
+
+            // when
+            await fireEvent.click(
+              screen.getByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }),
+            );
+
+            await screen.findByRole('dialog');
+
+            await fireEvent.click(screen.getByRole('button', { name: t('common.actions.confirm') }));
+
+            await waitForDialogClose();
+
+            // then
+            sinon.assert.calledWith(currentCertification.save, {
+              adapterOptions: { isCertificationUncancel: true },
+            });
+            assert.ok(currentCertification.reload.calledOnce);
+            assert.dom(screen.queryByRole('button', { name: t('common.actions.confirm') })).doesNotExist();
+          });
+
+          test('on error, displays a notification and closes the modal', async function (assert) {
+            // given
+            const notificationStub = setupNotificationStub(this.owner);
+
+            const currentCertification = store.peekRecord('certification', 2);
+            currentCertification.save.rejects();
+
+            // when
+            await fireEvent.click(
+              screen.getByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }),
+            );
+            await screen.findByRole('dialog');
+            await fireEvent.click(screen.getByRole('button', { name: t('common.actions.confirm') }));
+            await waitForDialogClose();
+
+            // then
+            sinon.assert.calledWith(notificationStub, {
+              message: t('components.certifications.global-actions.uncancel.error-message'),
+            });
+            assert.dom(screen.queryByRole('button', { name: t('common.actions.confirm') })).doesNotExist();
+          });
+        });
+
+        test('on modal cancellation, closes the modal', async function (assert) {
+          // given
+          const currentCertification = store.peekRecord('certification', 2);
+
+          // when
+          await fireEvent.click(
+            screen.getByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }),
+          );
+
+          await screen.findByRole('dialog');
+
+          await fireEvent.click(screen.getByRole('button', { name: t('common.actions.cancel') }));
+
+          await waitForDialogClose();
+
+          // then
+          assert.ok(currentCertification.save.notCalled);
+          assert.ok(currentCertification.reload.notCalled);
+          assert.dom(screen.queryByRole('button', { name: t('common.actions.cancel') })).doesNotExist();
+        });
+      });
+    });
+
+    module('when certification is not cancelled', function () {
+      test('does not display an uncancel button', async function (assert) {
         // given
         const certification = store.createRecord('certification', {
           id: '1',
           userId: 1,
-          status: assessmentResultStatus.CANCELLED,
+          status: assessmentResultStatus.VALIDATED,
           isPublished: false,
           save: sinon.stub(),
           reload: sinon.stub(),
@@ -321,105 +371,60 @@ module('Integration | Component | Certifications | Certification | Information |
         const session = createFinalizedSession();
 
         // when
-        screen = await renderGlobalActions(certification, session);
-      });
+        const screen = await renderGlobalActions(certification, session);
 
-      test('should display an uncancel button', async function (assert) {
         // then
         assert
-          .dom(screen.getByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }))
-          .exists();
+          .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }))
+          .doesNotExist();
       });
+    });
 
-      test('on cancel button click, should display a confirmation modal', async function (assert) {
-        // when
-        await fireEvent.click(
-          screen.getByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }),
-        );
-
-        await screen.findByRole('dialog');
-
-        // then
-        assert.dom(screen.getByText(modalTitle)).exists();
-        assert.dom(screen.getByText(modalMessage)).exists();
-        assert.dom(screen.getByRole('button', { name: t('common.actions.confirm') })).exists();
-        assert.dom(screen.getByRole('button', { name: t('common.actions.cancel') })).exists();
-      });
-
-      module('on modal confirmation', function () {
-        test('should uncancel the certification and close the modal', async function (assert) {
-          // given
-          const currentCertification = store.peekRecord('certification', 1);
-
-          // when
-          await fireEvent.click(
-            screen.getByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }),
-          );
-
-          await screen.findByRole('dialog');
-
-          await fireEvent.click(screen.getByRole('button', { name: t('common.actions.confirm') }));
-
-          await waitForDialogClose();
-
-          // then
-          sinon.assert.calledWith(currentCertification.save, {
-            adapterOptions: { isCertificationUncancel: true },
-          });
-          assert.ok(currentCertification.reload.calledOnce);
-          assert.dom(screen.queryByRole('button', { name: t('common.actions.confirm') })).doesNotExist();
-        });
-
-        test('on error, should display a notification and close the modal', async function (assert) {
-          // given
-          const notificationStub = setupNotificationStub(this.owner);
-
-          const currentCertification = store.peekRecord('certification', 1);
-          currentCertification.save.rejects();
-
-          // when
-          await fireEvent.click(
-            screen.getByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }),
-          );
-          await screen.findByRole('dialog');
-          await fireEvent.click(screen.getByRole('button', { name: t('common.actions.confirm') }));
-          await waitForDialogClose();
-
-          // then
-          sinon.assert.calledWith(notificationStub, {
-            message: t('components.certifications.global-actions.uncancel.error-message'),
-          });
-          assert.dom(screen.queryByRole('button', { name: t('common.actions.confirm') })).doesNotExist();
-        });
-      });
-
-      test('on modal cancellation, should close the modal', async function (assert) {
+    module('when session is not finalized', function () {
+      test('does not display an uncancel button', async function (assert) {
         // given
-        const currentCertification = store.peekRecord('certification', 1);
+        const certification = store.createRecord('certification', {
+          userId: 1,
+          status: assessmentResultStatus.VALIDATED,
+          isPublished: false,
+        });
+        const session = createNonFinalizedSession();
 
         // when
-        await fireEvent.click(
-          screen.getByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }),
-        );
-
-        await screen.findByRole('dialog');
-
-        await fireEvent.click(screen.getByRole('button', { name: t('common.actions.cancel') }));
-
-        await waitForDialogClose();
+        const screen = await renderGlobalActions(certification, session);
 
         // then
-        assert.ok(currentCertification.save.notCalled);
-        assert.ok(currentCertification.reload.notCalled);
-        assert.dom(screen.queryByRole('button', { name: t('common.actions.cancel') })).doesNotExist();
+        assert
+          .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }))
+          .doesNotExist();
+      });
+    });
+
+    module('when certification is published', function () {
+      test('does not display a uncancel button', async function (assert) {
+        // given
+        const certification = store.createRecord('certification', {
+          userId: 1,
+          status: assessmentResultStatus.VALIDATED,
+          isPublished: true,
+        });
+        const session = createFinalizedSession();
+
+        // when
+        const screen = await renderGlobalActions(certification, session);
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.uncancel.button') }))
+          .doesNotExist();
       });
     });
   });
 
   module('reject button', function () {
-    module('when should display', function () {
-      module('when certification is validated, session is finalized and not published', function () {
-        test('should display a reject button', async function (assert) {
+    module('when session is finalized and not published', function () {
+      module('when certification is validated', function () {
+        test('displays a reject button', async function (assert) {
           // given
           const certification = store.createRecord('certification', {
             userId: 1,
@@ -438,69 +443,8 @@ module('Integration | Component | Certifications | Certification | Information |
         });
       });
 
-      module('when certification has error status, session is finalized and not published', function () {
-        test('should display a reject button', async function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            userId: 1,
-            status: assessmentResultStatus.ERROR,
-            isPublished: false,
-          });
-          const session = createFinalizedSession();
-
-          // when
-          const screen = await renderGlobalActions(certification, session);
-
-          // then
-          assert
-            .dom(screen.getByRole('button', { name: t('components.certifications.global-actions.reject.button') }))
-            .exists();
-        });
-      });
-      module('when certification has no status, session is finalized and not published', function () {
-        test('should display a cancel button', async function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            userId: 1,
-            status: null,
-            isPublished: false,
-          });
-          const session = createFinalizedSession();
-
-          // when
-          const screen = await renderGlobalActions(certification, session);
-
-          // then
-          assert
-            .dom(screen.getByRole('button', { name: t('components.certifications.global-actions.reject.button') }))
-            .exists();
-        });
-      });
-    });
-
-    module('when should not display', function () {
-      module('when certification status is cancelled', function () {
-        test('should not display a reject button', async function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            userId: 1,
-            status: assessmentResultStatus.CANCELLED,
-            isPublished: false,
-          });
-          const session = createFinalizedSession();
-
-          // when
-          const screen = await renderGlobalActions(certification, session);
-
-          // then
-          assert
-            .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.reject.button') }))
-            .doesNotExist();
-        });
-      });
-
-      module('when certification status is rejected', function () {
-        test('should not display a reject button', async function (assert) {
+      module('when certification is rejected due to lack of answers', function () {
+        test('displays a reject button', async function (assert) {
           // given
           const certification = store.createRecord('certification', {
             userId: 1,
@@ -515,52 +459,72 @@ module('Integration | Component | Certifications | Certification | Information |
           // then
           assert
             .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.reject.button') }))
-            .doesNotExist();
-        });
-      });
-
-      module('when session is not finalized', function () {
-        test('should not display a reject button', async function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            userId: 1,
-            status: assessmentResultStatus.VALIDATED,
-            isPublished: false,
-          });
-          const session = createNonFinalizedSession();
-
-          // when
-          const screen = await renderGlobalActions(certification, session);
-
-          // then
-          assert
-            .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.reject.button') }))
-            .doesNotExist();
-        });
-      });
-
-      module('when certification is published', function () {
-        test('should not display a reject button', async function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            userId: 1,
-            status: assessmentResultStatus.VALIDATED,
-            isPublished: true,
-          });
-          const session = createFinalizedSession();
-
-          // when
-          const screen = await renderGlobalActions(certification, session);
-
-          // then
-          assert
-            .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.reject.button') }))
-            .doesNotExist();
+            .exists();
         });
       });
     });
 
-    module('when button is displayed', function (hooks) {
+    module('when certification status is cancelled', function () {
+      test('does not display a reject button', async function (assert) {
+        // given
+        const certification = store.createRecord('certification', {
+          userId: 1,
+          status: assessmentResultStatus.CANCELLED,
+          isPublished: false,
+        });
+        const session = createFinalizedSession();
+
+        // when
+        const screen = await renderGlobalActions(certification, session);
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.reject.button') }))
+          .doesNotExist();
+      });
+    });
+
+    module('when session is not finalized', function () {
+      test('does not display a reject button', async function (assert) {
+        // given
+        const certification = store.createRecord('certification', {
+          userId: 1,
+          status: assessmentResultStatus.VALIDATED,
+          isPublished: false,
+        });
+        const session = createNonFinalizedSession();
+
+        // when
+        const screen = await renderGlobalActions(certification, session);
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.reject.button') }))
+          .doesNotExist();
+      });
+    });
+
+    module('when certification is published', function () {
+      test('does not display a reject button', async function (assert) {
+        // given
+        const certification = store.createRecord('certification', {
+          userId: 1,
+          status: assessmentResultStatus.VALIDATED,
+          isPublished: true,
+        });
+        const session = createFinalizedSession();
+
+        // when
+        const screen = await renderGlobalActions(certification, session);
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.reject.button') }))
+          .doesNotExist();
+      });
+    });
+
+    module('when reject button is displayed', function (hooks) {
       let screen;
       const modalTitle = 'Confirmer le rejet de la certification';
       const modalMessage =
@@ -582,7 +546,7 @@ module('Integration | Component | Certifications | Certification | Information |
         screen = await renderGlobalActions(certification, session);
       });
 
-      test('should display confirmation modal on click', async function (assert) {
+      test('displays confirmation modal on click', async function (assert) {
         // when
         await fireEvent.click(
           screen.getByRole('button', { name: t('components.certifications.global-actions.reject.button') }),
@@ -597,7 +561,7 @@ module('Integration | Component | Certifications | Certification | Information |
       });
 
       module('when modal is confirmed', function () {
-        test('should perform action and close modal on success', async function (assert) {
+        test('performs action and closes modal on success', async function (assert) {
           // given
           const currentCertification = store.peekRecord('certification', 1);
 
@@ -617,7 +581,7 @@ module('Integration | Component | Certifications | Certification | Information |
           assert.dom(screen.queryByRole('button', { name: t('common.actions.confirm') })).doesNotExist();
         });
 
-        test('should display notification and close modal on error', async function (assert) {
+        test('displays notification and closes modal on error', async function (assert) {
           // given
           const notificationStub = setupNotificationStub(this.owner);
           const currentCertification = store.peekRecord('certification', 1);
@@ -639,7 +603,7 @@ module('Integration | Component | Certifications | Certification | Information |
         });
       });
 
-      test('should close modal on cancellation', async function (assert) {
+      test('closes modal on cancellation', async function (assert) {
         // given
         const currentCertification = store.peekRecord('certification', 1);
 
@@ -677,20 +641,20 @@ module('Integration | Component | Certifications | Certification | Information |
           save: sinon.stub(),
           reload: sinon.stub(),
         });
-        const session = store.createRecord('session', {});
+        const session = createFinalizedSession();
 
         // when
         screen = await renderGlobalActions(certification, session);
       });
 
-      test('should display an uncancel button', async function (assert) {
+      test('displays an unreject button', async function (assert) {
         // then
         assert
           .dom(screen.getByRole('button', { name: t('components.certifications.global-actions.unreject.button') }))
           .exists();
       });
 
-      test('on cancel button click, should display a confirmation modal', async function (assert) {
+      test('on unreject button click, displays a confirmation modal', async function (assert) {
         // when
         await fireEvent.click(
           screen.getByRole('button', { name: t('components.certifications.global-actions.unreject.button') }),
@@ -706,7 +670,7 @@ module('Integration | Component | Certifications | Certification | Information |
       });
 
       module('on modal confirmation', function () {
-        test('should unreject the certification and close the modal', async function (assert) {
+        test('unrejects the certification and closes the modal', async function (assert) {
           // given
           const currentCertification = store.peekRecord('certification', 1);
 
@@ -729,7 +693,7 @@ module('Integration | Component | Certifications | Certification | Information |
           assert.dom(screen.queryByRole('button', { name: t('common.actions.confirm') })).doesNotExist();
         });
 
-        test('on error, should display a notification and close the modal', async function (assert) {
+        test('on error, displays a notification and closes the modal', async function (assert) {
           // given
           const notificationStub = setupNotificationStub(this.owner);
 
@@ -752,7 +716,7 @@ module('Integration | Component | Certifications | Certification | Information |
         });
       });
 
-      test('on modal cancellation, should close the modal', async function (assert) {
+      test('on modal cancellation, closes the modal', async function (assert) {
         // given
         const currentCertification = store.peekRecord('certification', 1);
 
@@ -771,6 +735,46 @@ module('Integration | Component | Certifications | Certification | Information |
         assert.ok(currentCertification.save.notCalled);
         assert.ok(currentCertification.reload.notCalled);
         assert.dom(screen.queryByRole('button', { name: t('common.actions.cancel') })).doesNotExist();
+      });
+    });
+
+    module('when session is not finalized', function () {
+      test('does not display an unreject button', async function (assert) {
+        // given
+        const certification = store.createRecord('certification', {
+          userId: 1,
+          status: assessmentResultStatus.VALIDATED,
+          isPublished: false,
+        });
+        const session = createNonFinalizedSession();
+
+        // when
+        const screen = await renderGlobalActions(certification, session);
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.unreject.button') }))
+          .doesNotExist();
+      });
+    });
+
+    module('when certification is published', function () {
+      test('does not display an unreject button', async function (assert) {
+        // given
+        const certification = store.createRecord('certification', {
+          userId: 1,
+          status: assessmentResultStatus.VALIDATED,
+          isPublished: true,
+        });
+        const session = createFinalizedSession();
+
+        // when
+        const screen = await renderGlobalActions(certification, session);
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: t('components.certifications.global-actions.unreject.button') }))
+          .doesNotExist();
       });
     });
   });
