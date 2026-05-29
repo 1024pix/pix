@@ -175,7 +175,7 @@
                 "id": "759f9687-45a7-4d7f-a2c6-eead977661a9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’algorithme de recommandation analyse le <strong>comportement de l’utilisateur</strong>&nbsp;: là où il <strong>clique</strong>, ce qu’il <strong>regarde</strong>, ce qui le fait <strong>réagir</strong> (avec des likes, des commentaires ou des partages).<br>Ensuite, il lui recommande des contenus similaires susceptibles de le faire réagir à nouveau. Certains de ces contenus peuvent avoir été créés en utilisant des logiciels d’intelligence artificielle (IA) générative.</p>\n<p><br></p>\n<p>Ce mécanisme de recommandation est utilisé pour <strong>capter l’attention de l’utilisateur</strong> et pour le faire <strong>rester le plus longtemps possible</strong> sur le réseau social.</p>"
+                "content": "<p>L’algorithme de recommandation analyse le <strong>comportement de l’utilisateur</strong>&nbsp;: là où il <strong>clique</strong>, ce qu’il <strong>regarde</strong>, ce qui le fait <strong>réagir</strong> (avec des mentions J’aime, des commentaires ou des partages).<br>Ensuite, il lui recommande des contenus similaires susceptibles de le faire réagir à nouveau.</p><p><br></p><p>Ce mécanisme de recommandation est utilisé pour <strong>capter l’attention de l’utilisateur</strong> et pour le faire <strong>rester le plus longtemps possible</strong> sur le réseau social.</p>"
               }
             }
           ]
@@ -287,7 +287,7 @@
                       "id": "42feb874-5fd5-4c9f-aa47-7f63ce3bf284",
                       "type": "text",
                       "tag": "further-information",
-                      "content": "<p>Des <strong>faux comptes</strong>, parfois automatisés, sont utilisés pour <strong>liker, commenter et partager massivement</strong> certains contenus afin de les rendre viraux.</p>"
+                      "content": "<p>Des <strong>faux comptes</strong>, parfois automatisés, sont utilisés pour <strong>approuver, commenter et partager massivement</strong> certains contenus afin de les rendre viraux.</p>"
                     }
                   ]
                 }
@@ -430,7 +430,7 @@
                       "id": "cc4bfd6d-4aaf-4f4b-b7d6-8c445865dc76",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’arrivée des <strong>IA génératives renforce</strong> le <strong>phénomène de viralité</strong>.</p><br><p>En plus, ces contenus générés grâce à l’IA générative sont parfois <strong>diffusés par des comptes entièrement automatisés</strong>, puis likés, commentés et partagés par d’autres comptes automatisés dans le but d’<strong>accélérer leur propagation</strong>.</p><br><p>Résultat, quelqu’un qui souhaite créer du contenu dans le but de diffuser des <strong>informations fausses ou trompeuses</strong> pour <strong>manipuler les utilisateurs</strong> peut le faire <strong>beaucoup plus facilement avec plus de succès</strong>.</p>"
+                      "content": "<p>L’arrivée des <strong>IA génératives renforce</strong> le <strong>phénomène de viralité</strong>.</p><br><p>En plus, ces contenus générés grâce à l’IA générative sont parfois <strong>diffusés par des comptes entièrement automatisés</strong>, puis approuvés, commentés et partagés par d’autres comptes automatisés dans le but d’<strong>accélérer leur propagation</strong>.</p><br><p>Résultat, quelqu’un qui souhaite créer du contenu dans le but de diffuser des <strong>informations fausses ou trompeuses</strong> pour <strong>manipuler les utilisateurs</strong> peut le faire <strong>beaucoup plus facilement avec plus de succès</strong>.</p>"
                     }
                   ]
                 },
