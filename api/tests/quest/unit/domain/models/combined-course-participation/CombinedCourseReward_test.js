@@ -32,6 +32,8 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
     });
     const attestationDetails = domainBuilder.buildAttestationUserDetail({
       obtainedAt: null,
+      label: 'label TEST',
+      templateName: 'template-name',
     });
 
     // when
@@ -41,6 +43,8 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
     expect(combinedCourseReward.id).equal(attestationDetails.id);
     expect(combinedCourseReward.type).equal('attestations');
     expect(combinedCourseReward.status).equal(CombinedCourseRewardStatuses.NOT_STARTED);
+    expect(combinedCourseReward.label).equal('label TEST');
+    expect(combinedCourseReward.templateName).equal('template-name');
     expect(combinedCourseReward.data).to.contains({ attestationKey: attestationDetails.attestationKey });
   });
 

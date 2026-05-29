@@ -5,6 +5,8 @@ export function buildAttestationUserDetail({
   attestationKey = 'attestation-key',
   userId = 123,
   obtainedAt = new Date(),
+  label,
+  templateName,
 } = {}) {
-  return new AttestationUserDetail({ id, attestationKey, userId, obtainedAt });
+  return new AttestationUserDetail({ id, attestationKey, userId, obtainedAt, label, templateName });
 }

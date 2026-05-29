@@ -34,6 +34,8 @@ export async function getCombinedCourseByCode({
       id: attestation.id,
       key: attestation.key,
       obtainedAt: profileReward?.createdAt,
+      label: attestation?.label,
+      templateName: attestation.templateName,
     },
   });
 }

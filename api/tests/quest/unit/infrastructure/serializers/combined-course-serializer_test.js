@@ -6,6 +6,7 @@ import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/mode
 import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participation/CombinedCourseReward.js';
 import * as combinedCourseSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-serializer.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
+import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course', function () {
@@ -19,11 +20,13 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
       rewardType: REWARD_TYPES.ATTESTATION,
     });
     await combinedCourseDetails.setEncryptedUrl();
-
+    const obtainedAt = new Date();
     const reward = {
       id: 456,
       key: 'key',
-      obtainedAt: new Date(),
+      label: 'rewardLabel',
+      obtainedAt,
+      templateName: 'template-name',
     };
 
     combinedCourseDetails.setDataAndGenerateItems({ reward });
@@ -31,7 +34,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
     const serializedCombinedCourse = combinedCourseSerializer.serialize(combinedCourseDetails);
 
     // then
-    sinon.assert.match(serializedCombinedCourse, {
+    expect(serializedCombinedCourse).to.deep.equal({
       included: [
         {
           type: 'combined-course-items',
@@ -74,11 +77,15 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
           attributes: {
             status: CombinedCourseRewardStatuses.OBTAINED,
             type: REWARD_TYPES.ATTESTATION,
-            data: sinon.match.object,
+            label: 'rewardLabel',
+            'template-name': 'template-name',
+            data: { id: 456, key: 'key', label: 'rewardLabel', obtainedAt, templateName: 'template-name' },
           },
         },
       ],
       data: {
+        type: 'combined-courses',
+        id: '1',
         attributes: {
           name: 'Mon parcours',
           code: 'COMBINIX1',
@@ -87,8 +94,6 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
           illustration: '/illustrations/image.svg',
         },
-        type: 'combined-courses',
-        id: '1',
         relationships: {
           items: {
             data: [

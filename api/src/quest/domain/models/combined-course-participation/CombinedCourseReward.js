@@ -13,6 +13,8 @@ export class CombinedCourseReward {
     this.type = combinedCourseDetails.quest.rewardType;
     this.data = reward;
     this.status = this.#computeStatus({ combinedCourseDetails });
+    this.label = reward.label;
+    this.templateName = reward.templateName;
   }
 
   #computeStatus({ combinedCourseDetails }) {
