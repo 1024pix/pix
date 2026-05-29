@@ -1,5 +1,29 @@
 # Pix Changelog
 
+# [5.418.0](https://github.com/1024pix/pix/compare/v5.417.0...v5.418.0) (2026-05-29)
+
+### :rocket: Amélioration
+
+- [#16329](https://github.com/1024pix/pix/pull/16329) MDX-119 Visio_IND Corrections suite à la relecture experts 
+- [#16331](https://github.com/1024pix/pix/pull/16331) MDX-142 IA_Infox_IND Corrections 
+- [#16346](https://github.com/1024pix/pix/pull/16346) modif suite relectures experts RangerFichiersIND 
+- [#16345](https://github.com/1024pix/pix/pull/16345) Ne pas afficher la vocalisation par défaut hors certif (PIX-22890). 
+- [#16332](https://github.com/1024pix/pix/pull/16332) Suppression du stepper sur le certificat Pix+ Edu avec niveau (PIX-22888). 
+
+### :bug: Correction
+
+- [#16334](https://github.com/1024pix/pix/pull/16334) Réparer le titre de la modale de détail d'une version de certification (PIX-22916) 
+
+### :building_construction: Tech
+
+- [#16343](https://github.com/1024pix/pix/pull/16343) Ajouter les dépendances via API dans le linter de dependances 
+- [#16340](https://github.com/1024pix/pix/pull/16340) Compléter les tests E2E des certifications Pix+ pour tester la page de détails d'un certificat et son PDF 
+- [#16337](https://github.com/1024pix/pix/pull/16337) Configurer les dépendances actuelles dans dependency-cruiser 
+- [#16321](https://github.com/1024pix/pix/pull/16321) Déplace les modèles liés aux Combined Courses et Combined Course Participations dans des répertoires dédiés. 
+- [#16338](https://github.com/1024pix/pix/pull/16338) Gestion des version DRAFT dans findActiveByScope 
+- [#16298](https://github.com/1024pix/pix/pull/16298) Renommer la clé de traduction obsolète "complementary-certification' dans Pix Admin (PIX-22698) 
+- [#16342](https://github.com/1024pix/pix/pull/16342) Supprime le script check-api-dependency.
+
 # [5.417.0](https://github.com/1024pix/pix/compare/v5.416.0...v5.417.0) (2026-05-28)
 
 ### :rocket: Amélioration
