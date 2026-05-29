@@ -32,6 +32,7 @@ const enrolStudentsToSession = async function ({
   certificationCpfCityRepository,
   certificationCpfCountryRepository,
   certificationCpfService,
+  eventApi,
 } = {}) {
   const session = await sessionRepository.get({ id: sessionId });
   const center = await centerRepository.getById({ id: session.certificationCenterId });
@@ -85,10 +86,13 @@ const enrolStudentsToSession = async function ({
     });
   });
 
-  await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({
+  const savedScoCandidates = await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({
     sessionId,
     scoCertificationCandidates,
   });
+  await eventApi.pushMultipleCandidatesEnrolledEvent(
+    savedScoCandidates.map((savedCandidate) => savedCandidate.toDTO()),
+  );
 };
 
 export { enrolStudentsToSession };

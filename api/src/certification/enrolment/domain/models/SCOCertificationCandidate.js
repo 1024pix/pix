@@ -3,7 +3,7 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { InvalidCertificationCandidate } from '../errors.js';
-import { Subscription } from '../models/Subscription.js';
+import { Subscription } from './Subscription.js';
 
 const scoCertificationCandidateValidationJoiSchema = Joi.object({
   firstName: Joi.string().required().empty(null),
@@ -50,6 +50,22 @@ class SCOCertificationCandidate {
     if (error) {
       throw InvalidCertificationCandidate.fromJoiErrorDetail(error.details[0]);
     }
+  }
+
+  toDTO() {
+    return {
+      id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      sex: this.sex,
+      birthINSEECode: this.birthINSEECode,
+      birthCity: this.birthCity,
+      birthCountry: this.birthCountry,
+      birthdate: this.birthdate,
+      subscription: this.subscription,
+      sessionId: this.sessionId,
+      organizationLearnerId: this.organizationLearnerId,
+    };
   }
 }
 

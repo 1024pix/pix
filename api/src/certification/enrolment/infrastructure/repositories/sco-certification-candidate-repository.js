@@ -3,8 +3,6 @@
  * @typedef {import ('../../domain/models/SCOCertificationCandidate.js').SCOCertificationCandidate} SCOCertificationCandidate
  */
 
-import dayjs from 'dayjs';
-
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 
@@ -59,8 +57,7 @@ export async function addNonEnrolledCandidatesToSession({ sessionId, scoCertific
         (insertedCandidateData) =>
           insertedCandidateData.firstName === scoCertificationCandidate.firstName &&
           insertedCandidateData.lastName === scoCertificationCandidate.lastName &&
-          dayjs(insertedCandidateData.birthdate).format('YYYY-MM-DD') ===
-            dayjs(scoCertificationCandidate.birthdate).format('YYYY-MM-DD'),
+          insertedCandidateData.birthdate === scoCertificationCandidate.birthdate,
       ).id;
 
       subscriptionsData.push({
