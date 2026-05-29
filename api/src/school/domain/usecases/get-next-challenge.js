@@ -30,6 +30,10 @@ export async function getNextChallenge({
     alternativeVersion: activity.alternativeVersion,
   });
 
+  if (!challengeId) {
+    return null;
+  }
+
   await assessmentRepository.updateWhenNewChallengeIsAsked({ id: assessmentId, lastChallengeId: challengeId });
   return challengeToPlayApi.get(challengeId);
 }
