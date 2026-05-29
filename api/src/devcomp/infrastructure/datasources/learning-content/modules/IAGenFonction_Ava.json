@@ -547,6 +547,43 @@
                           }
                         ]
                       }
+                    },
+                    {
+                      "id": "1904da0e-efb2-4470-bcbe-8e8d3435b468",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>À&nbsp;votre avis, quelle partie du prompt permet d’identifier l’outil nécessaire au logiciel d’IA conversationnel ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>J'habite à Jolieville,<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non !</p>\n<p>L’expression «&nbsp;<strong>est-ce que la météo&nbsp;»&nbsp;</strong>permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong> </p>\n<p>Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil. </p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>et je veux refaire ma terasse.<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Eh non !\n</strong></p><p>L’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>»&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p> \nLors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Est-ce que la météo<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Bien vu !\n&nbsp;</p><p>\nLors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>permettra de le faire ce week-end ?<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non !\n</p><p> L’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>»&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>  \nLors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
                     }
                   ]
                 },
