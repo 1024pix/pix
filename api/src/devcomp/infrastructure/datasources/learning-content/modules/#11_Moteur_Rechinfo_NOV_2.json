@@ -543,7 +543,7 @@
                 "id": "9472a4c5-3247-4f64-bd43-aac76087d717",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gaëtan fait une recherche pour suivre les actualités sur les dernières missions spatiales. </p>\n<p>Il tape les mots clés suivants dans son moteur de recherche&nbsp;: «&nbsp;<strong>actualités spatiales</strong>&nbsp;».</p>\n<p><strong>Observez 4 résultats qui apparaissent dans sa liste de résultats puis répondez à la question qui suit.</strong></p>"
+                "content": "<p>Gaëtan fait une recherche pour suivre les actualités sur les dernières missions spatiales. </p>\n<p>Il tape les mots clés suivants dans son moteur de recherche&nbsp;: «&nbsp;<strong>actualités spatiales</strong>&nbsp;».</p>\n<p><strong>Observez 3 résultats qui apparaissent dans sa liste de résultats puis répondez à la question qui suit.</strong></p>"
               }
             },
             {
@@ -559,7 +559,7 @@
                   "type": "image",
                   "slides": [
                     {
-                      "title": "Le site DW.com",
+                      "title": "Une page du site DW.com",
                       "description": "",
                       "displayWidth": 500,
                       "image": {
@@ -573,7 +573,7 @@
                       }
                     },
                     {
-                      "title": "Le site Aerocontact.com",
+                      "title": "Une page du site Aerocontact.com",
                       "description": "",
                       "displayWidth": 500,
                       "image": {
@@ -587,7 +587,7 @@
                       }
                     },
                     {
-                      "title": "Le site de l’Agence spatiale européenne (ESA)",
+                      "title": "Une page du site de l’Agence spatiale européenne (ESA)",
                       "description": "",
                       "displayWidth": 500,
                       "image": {
@@ -615,7 +615,7 @@
               "element": {
                 "id": "43762795-d2a4-4494-bc65-dce8bf989a21",
                 "type": "qcu",
-                "instruction": "<p>Lequel de ces 4 sites a le plus de chances d’apparaître en premier dans la liste de résultats de Gaëtan ?</p>",
+                "instruction": "<p>Laquelle de ces 3 pages a le plus de chances d’apparaître en premier dans la liste de résultats de Gaëtan ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -639,7 +639,7 @@
                     "content": "<p>Le site de l’Agence spatiale européenne (ESA)</p>",
                     "feedback": {
                       "state": "<p></p><p>Bonne réponse&nbsp;!&nbsp;🎉</p><p></p>",
-                      "diagnosis": "<p>Ce site est pertinent, populaire et à jour. Il a donc plus de chances d’apparaître en premier.</p>"
+                      "diagnosis": "<p>Cette page est pertinente, populaire et à jour. Elle a donc plus de chances d’apparaître en premier.</p>"
                     }
                   }
                 ],
