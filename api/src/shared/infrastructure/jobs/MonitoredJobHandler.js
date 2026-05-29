@@ -70,7 +70,8 @@ class MonitoredJobHandler {
         jobId: job.id,
         data: job.data,
         handlerName: name,
-        error: error?.message ? error.message + ' (see dedicated log for more information)' : undefined,
+        error: error?.message,
+        stack: error?.stack,
       },
       'PGBOSS ERROR IN JOB',
     );

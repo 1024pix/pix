@@ -46,6 +46,7 @@ describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function
       );
       expect(metricsMock.addMetricPoint).to.have.been.called;
     });
+
     it('should log failure when job failed', async function () {
       // given
       const metricsMock = { addMetricPoint: sinon.stub() };
@@ -64,17 +65,18 @@ describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function
       await expect(monitorJobHandler.handle('MyJob', jobData)).to.be.rejectedWith('error in handler');
 
       // then
-      expect(loggerMock.error).to.have.been.calledWith(
-        {
-          type: 'JOB_LOG_ERROR',
-          message: 'Job failed',
-          jobId: jobData.id,
-          data: jobData.data,
-          handlerName: 'MyJob',
-          error: 'error in handler (see dedicated log for more information)',
-        },
-        'PGBOSS ERROR IN JOB',
-      );
+      const message = loggerMock.error.getCalls()[0].lastArg;
+      const payload = loggerMock.error.getCalls()[0].firstArg;
+
+      expect(message).to.equal('PGBOSS ERROR IN JOB');
+      expect(payload.type).to.equal('JOB_LOG_ERROR');
+      expect(payload.message).to.equal('Job failed');
+      expect(payload.jobId).to.equal(jobData.id);
+      expect(payload.data).to.equal(jobData.data);
+      expect(payload.handlerName).to.equal('MyJob');
+      expect(payload.error).to.equal('error in handler');
+      expect(payload.stack).to.contains('Error: error in handler\n');
+
       expect(metricsMock.addMetricPoint).to.have.been.called;
     });
   });
