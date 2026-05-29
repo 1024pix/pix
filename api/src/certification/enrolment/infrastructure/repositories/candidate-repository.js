@@ -10,7 +10,6 @@ import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { CertificationCandidateNotFoundError } from '../../../shared/domain/errors.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { Candidate } from '../../domain/models/Candidate.js';
-import { Subscription } from '../../domain/models/Subscription.js';
 
 /**
  * @function
@@ -159,29 +158,8 @@ export async function remove({ id }) {
 function buildBaseReadQuery(knexConn) {
   return knexConn('certification-candidates')
     .select('certification-candidates.*', 'certification-courses.id as certificationCourseId')
-    .select({
-      subscriptions: knexConn.raw(
-        `json_agg(
-          json_build_object(
-            'type', "certification-subscriptions"."type",
-            'complementaryCertificationKey', "complementary-certifications"."key",
-            'certificationCandidateId', "certification-candidates"."id"
-          ) ORDER BY type
-      )`,
-      ),
-    })
     .from('certification-candidates')
     .leftJoin('certification-courses', 'certification-courses.candidateId', 'certification-candidates.id')
-    .join(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'certification-subscriptions.complementaryCertificationId',
-      'complementary-certifications.id',
-    )
     .groupBy('certification-candidates.id', 'certification-courses.id');
 }
 
@@ -270,16 +248,8 @@ function adaptModelToDb(candidate) {
  * @property {boolean} accessibilityAdjustmentNeeded
  * @property {boolean} hasStartedTest
  * @property {number | null} extraTimePercentage
- * @property {Array<SubscriptionDTO>} subscriptions
  * @property {Date} reconciledAt
  * @property {Date} createdAt
- */
-
-/**
- * @typedef {object} SubscriptionDTO
- * @property {string} type
- * @property {ComplementaryCertificationKeys} complementaryCertificationKey
- * @property {number} certificationCandidateId
  */
 
 /**
@@ -288,11 +258,9 @@ function adaptModelToDb(candidate) {
  * @returns {Candidate}
  */
 function toDomain(candidateData) {
-  const subscriptions = candidateData.subscriptions.map((subscription) => new Subscription(subscription));
   return new Candidate({
     ...candidateData,
     hasStartedTest: Boolean(candidateData.certificationCourseId),
-    subscriptions,
   });
 }
 

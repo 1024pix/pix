@@ -14,42 +14,16 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
     context('when the candidate exists', function () {
       it('should return the candidate', async function () {
         // given
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
-
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: certificationCandidate.id,
+        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+          subscription: Frameworks.CLEA,
         });
-
-        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          id: 1,
-          key: Frameworks.CLEA,
-        });
-
-        databaseBuilder.factory.buildComplementaryCertificationSubscription({
-          certificationCandidateId: certificationCandidate.id,
-          complementaryCertificationId: complementaryCertification.id,
-        });
-
         await databaseBuilder.commit();
 
         // when
         const result = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
 
         // then
-        expect(result).to.deepEqualInstance(
-          new Candidate({
-            ...certificationCandidate,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId: certificationCandidate.id,
-                complementaryCertificationKey: complementaryCertification.key,
-              }),
-              domainBuilder.certification.enrolment.buildCoreSubscription({
-                certificationCandidateId: certificationCandidate.id,
-              }),
-            ],
-          }),
-        );
+        expect(result).to.deepEqualInstance(new Candidate({ ...certificationCandidate, hasStartedTest: false }));
       });
     });
 
@@ -57,35 +31,17 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
       it('should return the candidate with information on whether he/she started the test', async function () {
         // given
         const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
-
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: certificationCandidate.id,
-        });
-
         databaseBuilder.factory.buildCertificationCourse({
           userId: certificationCandidate.userId,
           candidateId: certificationCandidate.id,
         });
-
         await databaseBuilder.commit();
 
         // when
-        const result = await candidateRepository.get({
-          certificationCandidateId: certificationCandidate.id,
-        });
+        const result = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
 
         // then
-        expect(result).to.deepEqualInstance(
-          new Candidate({
-            ...certificationCandidate,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription({
-                certificationCandidateId: certificationCandidate.id,
-              }),
-            ],
-            hasStartedTest: true,
-          }),
-        );
+        expect(result).to.deepEqualInstance(new Candidate({ ...certificationCandidate, hasStartedTest: true }));
       });
     });
 
@@ -108,28 +64,15 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
       it('should return the candidates', async function () {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
-        databaseBuilder.factory.buildComplementaryCertification({
-          id: 1,
-          key: Frameworks.CLEA,
-        });
         const certificationCandidate1 = databaseBuilder.factory.buildCertificationCandidate({
           sessionId,
+          subscription: Frameworks.CLEA,
         });
         const certificationCandidate2 = databaseBuilder.factory.buildCertificationCandidate({
           firstName: 'FiFouLaPraline',
           sessionId,
         });
         databaseBuilder.factory.buildCertificationCandidate();
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: certificationCandidate1.id,
-        });
-        databaseBuilder.factory.buildComplementaryCertificationSubscription({
-          certificationCandidateId: certificationCandidate1.id,
-          complementaryCertificationId: 1,
-        });
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: certificationCandidate2.id,
-        });
         await databaseBuilder.commit();
 
         // when
@@ -137,26 +80,8 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
 
         // then
         expect(result).to.deepEqualArray([
-          domainBuilder.certification.enrolment.buildCandidate({
-            ...certificationCandidate1,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId: certificationCandidate1.id,
-                complementaryCertificationKey: Frameworks.CLEA,
-              }),
-              domainBuilder.certification.enrolment.buildCoreSubscription({
-                certificationCandidateId: certificationCandidate1.id,
-              }),
-            ],
-          }),
-          domainBuilder.certification.enrolment.buildCandidate({
-            ...certificationCandidate2,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription({
-                certificationCandidateId: certificationCandidate2.id,
-              }),
-            ],
-          }),
+          domainBuilder.certification.enrolment.buildCandidate({ ...certificationCandidate1 }),
+          domainBuilder.certification.enrolment.buildCandidate({ ...certificationCandidate2 }),
         ]);
       });
     });
@@ -166,8 +91,7 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const otherSessionId = databaseBuilder.factory.buildSession().id;
-        const candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateId });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId });
         await databaseBuilder.commit();
 
         //when
@@ -184,14 +108,9 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
       it('should return the candidates', async function () {
         // given
         const candidate1 = databaseBuilder.factory.buildCertificationCandidate();
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate1.id });
         const userId = candidate1.userId;
-
         const candidate2 = databaseBuilder.factory.buildCertificationCandidate({ userId });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate2.id });
-
-        const candidate3 = databaseBuilder.factory.buildCertificationCandidate();
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate3.id });
+        databaseBuilder.factory.buildCertificationCandidate();
         await databaseBuilder.commit();
 
         // when
@@ -199,18 +118,8 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
 
         // then
         expect(result).to.deepEqualArray([
-          domainBuilder.certification.enrolment.buildCandidate({
-            ...candidate1,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: candidate1.id }),
-            ],
-          }),
-          domainBuilder.certification.enrolment.buildCandidate({
-            ...candidate2,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: candidate2.id }),
-            ],
-          }),
+          domainBuilder.certification.enrolment.buildCandidate({ ...candidate1 }),
+          domainBuilder.certification.enrolment.buildCandidate({ ...candidate2 }),
         ]);
       });
     });
