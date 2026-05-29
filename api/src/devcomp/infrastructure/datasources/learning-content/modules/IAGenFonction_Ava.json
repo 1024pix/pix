@@ -553,7 +553,7 @@
                     {
                       "id": "d81c2f6a-7811-4ed5-8959-70fd4ed60bd2",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGenFonctionAva/etape1.png",
+                      "url": "https://assets.pix.org/modules/IAGenFonction_AVA/outils_stepper1.svg",
                       "alt": "Le logiciel d’IA analyse le prompt.",
                       "alternativeText": "",
                       "legend": "",
@@ -702,7 +702,7 @@
                     {
                       "id": "d0ad2b49-770f-437e-8b00-ef2d6530bd67",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGenFonctionAva/etape2.png",
+                      "url": "https://assets.pix.org/modules/IAGenFonction_AVA/outils_stepper2.svg",
                       "alt": "",
                       "alternativeText": "",
                       "legend": "",
@@ -780,10 +780,10 @@
               "element": {
                 "id": "80389fe9-a325-4543-ac42-d2fa31d65013",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/IAGenFonctionAva/schema-lesson3.png",
+                "url": "https://assets.pix.org/modules/IAGenFonction_AVA/schema_ia_outils_global.svg",
                 "alt": "Schéma des étapes de la génération d’une réponse d’un logiciel d’IA conversationnelle qui fait appel à un outil.",
-                "alternativeText": "à venir",
-                "legend": "Ceci est une version brouillon.",
+                "alternativeText": "<p><br></p>",
+                "legend": "",
                 "licence": ""
               }
             },
@@ -871,9 +871,9 @@
               "element": {
                 "id": "3160cd4e-d8f5-4d1b-adda-867c0ae9bb64",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/IAGenFonctionAva/schema-recap.png",
+                "url": "https://assets.pix.org/modules/IAGenFonction_AVA/recap_outils_fond_jaune.svg",
                 "alt": "Schéma récapitulatif des outils intégrés dans les logiciels d’IA conversationnelle",
-                "alternativeText": "à venir",
+                "alternativeText": "<p><br></p>",
                 "legend": "Ceci est une image brouillon.",
                 "licence": ""
               }
