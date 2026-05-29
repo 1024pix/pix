@@ -1308,6 +1308,31 @@
           "select-passages": "Selección de cursos de formación adecuados."
         },
         "title": "Cálculo de los siguientes pasos en tu curso actual"
+      },
+      "rewards": {
+        "in-progress": {
+          "details": {
+            "text": "En función de tu nivel al finalizar el curso, se te podrá expedir un certificado de superación.",
+            "title": "Completa todos los cursos para obtener tu certificado"
+          },
+          "status": "Pendiente"
+        },
+        "not-obtained": {
+          "details": {
+            "text": "Por desgracia, los resultados obtenidos en las pruebas realizadas no permiten validar la obtención de su certificado",
+            "title": "Entender el motivo"
+          },
+          "status": "No obtenido"
+        },
+        "obtained": {
+          "details": {
+            "text": "¡Descarga tu certificado de aprobación! Este documento también está disponible en tu cuenta Pix.",
+            "title": "¿Dónde se puede encontrar eso?"
+          },
+          "link": "Descargaré mi certificado",
+          "status": "Obtenido"
+        },
+        "title": "Certificado"
       }
     },
     "comparison-window": {

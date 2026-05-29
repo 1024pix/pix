@@ -1308,6 +1308,31 @@
           "select-passages": "Auswahl geeigneter Übungen."
         },
         "title": "Berechnung des weiteren Verlaufs des aktuellen Pfads."
+      },
+      "rewards": {
+        "in-progress": {
+          "details": {
+            "text": "Je nach Ihrem Leistungsstand am Ende des Kurses kann eine Teilnahmebescheinigung ausgestellt werden.",
+            "title": "Schließe alle Kurse ab, um dein Zertifikat zu erhalten"
+          },
+          "status": "Steht noch aus"
+        },
+        "not-obtained": {
+          "details": {
+            "text": "Leider lassen die auf den absolvierten Strecken erzielten Ergebnisse keine Bestätigung des Erwerbs Ihrer Bescheinigung zu",
+            "title": "Den Grund verstehen"
+          },
+          "status": "Nicht erhalten"
+        },
+        "obtained": {
+          "details": {
+            "text": "Laden Sie Ihre Teilnahmebescheinigung herunter! Dieses Dokument finden Sie auch in Ihrem Pix-Konto.",
+            "title": "Wo findet man das?"
+          },
+          "link": "Ich lade meine Bescheinigung herunter",
+          "status": "Erhalten"
+        },
+        "title": "Bescheinigung"
       }
     },
     "comparison-window": {

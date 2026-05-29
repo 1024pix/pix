@@ -1308,6 +1308,31 @@
           "select-passages": "Sélection des formations adaptées."
         },
         "title": "Calcul de la suite du parcours en cours."
+      },
+      "rewards": {
+        "in-progress": {
+          "details": {
+            "text": "En fonction de votre niveau en fin de parcours, une attestation de réussite pourra être délivrée.",
+            "title": "Terminez tous les parcours pour obtenir votre attestation"
+          },
+          "status": "En cours"
+        },
+        "not-obtained": {
+          "details": {
+            "text": "Malheureusement les résultats obtenus sur les parcours réalisés ne permettent pas de valider l’obtention de votre attestation",
+            "title": "Comprendre pourquoi"
+          },
+          "status": "Non obtenue"
+        },
+        "obtained": {
+          "details": {
+            "text": "Téléchargez votre attestation de réussite ! Ce document est également disponible dans votre compte Pix.",
+            "title": "Où la retrouver ?"
+          },
+          "link": "Je télécharge mon attestation",
+          "status": "Obtenue"
+        },
+        "title": "Attestation"
       }
     },
     "comparison-window": {

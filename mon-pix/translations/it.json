@@ -1308,6 +1308,31 @@
           "select-passages": "Selezione di corsi di formazione adeguati."
         },
         "title": "Calcolo del seguito del percorso in corso."
+      },
+      "rewards": {
+        "in-progress": {
+          "details": {
+            "text": "A seconda del livello raggiunto al termine del corso, potrà essere rilasciato un attestato di completamento.",
+            "title": "Completa tutti i percorsi per ottenere il tuo attestato"
+          },
+          "status": "In attesa"
+        },
+        "not-obtained": {
+          "details": {
+            "text": "Purtroppo, i risultati ottenuti nei percorsi svolti non consentono di confermare il rilascio del certificato",
+            "title": "Capire il motivo"
+          },
+          "status": "Non ottenuto"
+        },
+        "obtained": {
+          "details": {
+            "text": "Scarica il tuo attestato di superamento dell'esame! Questo documento è disponibile anche nel tuo account Pix.",
+            "title": "Dove si trova?"
+          },
+          "link": "Scarico il mio certificato",
+          "status": "Ottenuto"
+        },
+        "title": "Certificato"
       }
     },
     "comparison-window": {

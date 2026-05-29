@@ -1308,6 +1308,31 @@
           "select-passages": "Geschikte trainingen selecteren."
         },
         "title": "De volgende stappen in uw huidige cursus berekenen."
+      },
+      "rewards": {
+        "in-progress": {
+          "details": {
+            "text": "Afhankelijk van uw niveau aan het einde van de opleiding kan een certificaat van succes worden uitgereikt.",
+            "title": "Voltooi alle parcours om je certificaat te behalen"
+          },
+          "status": "Behandeling"
+        },
+        "not-obtained": {
+          "details": {
+            "text": "Helaas kunnen we op basis van de behaalde resultaten op de afgelegde parcoursen niet bevestigen dat u uw certificaat hebt behaald",
+            "title": "De reden begrijpen"
+          },
+          "status": "Niet behaald"
+        },
+        "obtained": {
+          "details": {
+            "text": "Download je certificaat van succes! Dit document is ook beschikbaar in je Pix-account.",
+            "title": "Waar is ze te vinden?"
+          },
+          "link": "Ik download mijn verklaring",
+          "status": "Behaald"
+        },
+        "title": "Certificaat"
       }
     },
     "comparison-window": {

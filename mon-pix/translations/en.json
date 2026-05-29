@@ -1308,6 +1308,31 @@
           "select-passages": "Selecting suitable training courses."
         },
         "title": "Calculating the next steps in your current course."
+      },
+      "rewards": {
+        "in-progress": {
+          "details": {
+            "text": "Depending on your level at the end of the course, a certificate of completion may be issued.",
+            "title": "Complete all the courses to earn your attestation"
+          },
+          "status": "Pending"
+        },
+        "not-obtained": {
+          "details": {
+            "text": "Unfortunately, the results obtained on the courses you completed do not meet the requirements for issuing your attestation",
+            "title": "Understand why"
+          },
+          "status": "Not obtained"
+        },
+        "obtained": {
+          "details": {
+            "text": "Download your certificate of completion! This document is also available in your Pix account.",
+            "title": "Where can I find it?"
+          },
+          "link": "Download my attestation",
+          "status": "Obtained"
+        },
+        "title": "Attestation"
       }
     },
     "comparison-window": {
