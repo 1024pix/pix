@@ -13,7 +13,7 @@
     "objectives": [
       "<p>Distinguer les effets environnementaux directs et indirects du numérique</p>",
       "<p>Comprendre le mécanisme de l’effet rebond et de son évaluation</p>",
-      "<p>Développer l’esprit critique face au greenwashing et encourager la sobriété numérique.</p>"
+      "<p>Développer l’esprit critique face au greenwashing et encourager la sobriété numérique</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -121,7 +121,7 @@
                 "id": "a8a69700-d558-4d44-91b7-b4d1b009f3d1",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le numérique a des <strong>effets directs</strong> sur l’environnement pour sa fabrication et son utilisation, mais aussi des <strong>effets indirects,</strong> dû fait de nos changements de comportements.</p><p>Voyons cela de plus près.</p>"
+                "content": "<p>Le numérique a des <strong>effets directs</strong> sur l’environnement pour sa fabrication et son utilisation, mais aussi des <strong>effets indirects</strong>, du fait de nos changements de comportements.</p><p>Voyons cela de plus près.</p>"
               }
             }
           ]
@@ -239,14 +239,14 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution </strong>: le smartphone&nbsp;remplace d’autres équipements.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: le smartphone&nbsp;remplace d’autres équipements.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution </strong>:&nbsp;le smartphone&nbsp;remplace d’autres équipements.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: le smartphone&nbsp;remplace d’autres équipements.</p>"
                           }
                         },
                         {
@@ -279,14 +279,14 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un<strong> gain de revenus</strong>&nbsp;&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un<strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p> Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un<strong> gain de revenus</strong>&nbsp;&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire. Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p> Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un<strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire. Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         },
                         {
@@ -330,7 +330,7 @@
                       "id": "7342c038-5818-4eef-ae13-94ca1f99e496",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p> <br></p><table>    <thead>        <tr>            <th scope=\"\" style=\"width: 36.9427%;\">Type d’effet</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>        </tr>    </thead>    <tbody>        <tr>            <th>Effet direct</th>            <td>Impact de la fabrication et de l’utilisation des appareils numériques<br></td>            <td>                <ul>                    <li>Consommation d’énergie pour recharger le smartphone<br></li>                    <li>Consommation de métaux pour fabriquer le smartphone</li>                    <li> Déchets électroniques en fin de vie du smartphone<br></li>                </ul>            </td>        </tr>        <tr>            <th>Effet indirect</th>            <td>Changements de comportement des utilisateurs des effets sur l’environnement<br></td>            <td>                <ul>                    <li>&nbsp;L’ utilisateur du smartphone n’achète pas de radio (effet de substitution)</li>                    <li>Grâce à un compteur connecté, un utilisateur fait des économies d’énergie. (effet d’efficacité ou d’optimisation)</li>                </ul>            </td>        </tr>    </tbody></table>"
+                      "content": "<p> <br></p><table>    <thead>        <tr>            <th scope=\"\" style=\"width: 36.9427%;\">Type d’effet</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>        </tr>    </thead>    <tbody>        <tr>            <th>Effet direct</th>            <td>Impact de la fabrication et de l’utilisation des appareils numériques<br></td>            <td>                <ul>                    <li>Consommation d’énergie pour recharger le smartphone<br></li>                    <li>Consommation de métaux pour fabriquer le smartphone</li>                    <li> Déchets électroniques en fin de vie du smartphone<br></li>                </ul>            </td>        </tr>        <tr>            <th>Effet indirect</th>            <td>Changements de comportement des utilisateurs des effets sur l’environnement<br></td>            <td>                <ul>                    <li>&nbsp;L’utilisateur du smartphone n’achète pas de radio (effet de substitution)</li>                    <li>Grâce à un compteur connecté, un utilisateur fait des économies d’énergie (effet d’efficacité ou d’optimisation)</li>                </ul>            </td>        </tr>    </tbody></table>"
                     },
                     {
                       "id": "368c6e0a-fa53-4ac5-a0b0-0e2972da90ff",
