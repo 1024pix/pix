@@ -1,5 +1,5 @@
 import { action } from '@ember/object';
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 
 export const CombinedCourseStatuses = {
@@ -18,6 +18,7 @@ export default class CombinedCourse extends Model {
   @attr('string') illustration;
 
   @hasMany('combined-course-item', { async: false, inverse: 'combinedCourse' }) items;
+  @belongsTo('combined-course-reward', { async: false, inverse: null }) reward;
 
   get nextCombinedCourseItem() {
     return this.hasMany('items')

@@ -1,0 +1,80 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+
+.attestation {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-8x);
+  align-items: center;
+  width: 100%;
+  margin-top: var(--pix-spacing-6x);
+  margin-bottom: var(--pix-spacing-6x);
+  padding: var(--pix-spacing-6x);
+  background: var(--pix-neutral-0);
+  border: 1px solid var(--pix-primary-100);
+  border-radius: var(--pix-spacing-4x);
+
+  @include breakpoints.device-is('tablet') {
+    flex-direction: row;
+  }
+
+  h2 {
+    @extend %pix-title-xs;
+
+    display: flex;
+    flex-direction: row;
+    gap: var(--pix-spacing-4x);
+    font-weight: bold;
+  }
+
+  &__picto {
+    &--not-obtained, &--in-progress {
+     filter: grayscale(1);
+    }
+  }
+
+  &__details {
+    margin-top: var(--pix-spacing-2x);
+  }
+
+  &__download-button {
+    margin-top: var(--pix-spacing-4x)
+  }
+
+  .attestation-details {
+    display: flex;
+
+    &__title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      margin-bottom:  var(--pix-spacing-2x);
+
+      @include breakpoints.device-is('tablet') {
+        flex-direction: row;
+        justify-content: flex-start;
+        margin-bottom: 0;
+    }
+    }
+
+    &__tag {
+      width: fit-content;
+    }
+
+    p {
+      text-align: justify;
+    }
+
+    flex-direction: column;
+
+    em {
+      @extend %pix-subtitle-xs;
+
+      font-style: normal;
+    }
+
+    gap: var(--pix-spacing-2x)
+  }
+
+}

@@ -698,4 +698,29 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       assert.notOk(screen.queryByRole('heading', { name: 'étape 1' }));
     });
   });
+  module('when there is a reward attached to the combined course', function () {
+    test('it should display the attestation component', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const reward = store.createRecord('combined-course-reward', {
+        id: 1,
+        type: 'attestations',
+        status: 'OBTAINED',
+        label: 'Sensibilisation au numérique',
+        data: {},
+      });
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 1,
+        status: CombinedCourseStatuses.COMPLETED,
+        code: 'COMBINIX9',
+      });
+      combinedCourse.reward = reward;
+      // when
+      const screen = await render(
+        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
+      );
+      // then
+      assert.dom(screen.getByRole('article')).hasClass('attestation');
+    });
+  });
 });

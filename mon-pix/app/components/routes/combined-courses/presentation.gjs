@@ -6,6 +6,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { and, eq } from 'ember-truth-helpers';
+import Attestation from 'mon-pix/components/combined-course/attestation';
 import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
 import ENV from 'mon-pix/config/environment';
@@ -87,6 +88,9 @@ export default class CombinedCoursePresentation extends Component {
         @isSurveyEnabled={{this.isSurveyEnabled}}
         @surveyLink={{this.surveyLink}}
       />
+      {{#if (eq @combinedCourse.reward.type "attestations")}}
+        <Attestation @attestation={{@combinedCourse.reward}} />
+      {{/if}}
       <hr class="combined-course__divider" />
       {{#if this.shouldDisplayRetryModulesText}}
         <p class="combined-course__retry-text">{{t "pages.combined-courses.completed.retry-text"}}</p>

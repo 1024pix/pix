@@ -1,6 +1,6 @@
 @use 'pix-design-tokens/typography';
 @use 'pix-design-tokens/breakpoints';
-@use '../globals/a11y' as *;
+@use '../../globals/a11y' as *;
 
 .combined-course {
   padding: var(--pix-spacing-4x);
