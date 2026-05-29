@@ -1,6 +1,5 @@
 // @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { Subscription } from '../../domain/models/Subscription.js';
 import { EnrolledCandidate } from '../../domain/read-models/EnrolledCandidate.js';
 
 /**
@@ -10,10 +9,6 @@ import { EnrolledCandidate } from '../../domain/read-models/EnrolledCandidate.js
  * @property {string} firstName
  * @property {string} lastName
  * @property {string} email
- * @property {Array<object>} subscriptions
- * @property {string} subscriptions.type
- * @property {string} subscriptions.complementaryCertificationKey
- * @property {number} subscriptions.certificationCandidateId
  */
 /**
 
@@ -56,11 +51,9 @@ function sortAlphabeticallyByLastNameThenFirstName(
  * @returns {EnrolledCandidate}
  */
 function toDomain(candidateData) {
-  const subscriptions = candidateData.subscriptions.map((subscription) => new Subscription(subscription));
   return new EnrolledCandidate({
     ...candidateData,
     hasStartedTest: Boolean(candidateData.certificationCourseId),
-    subscriptions,
   });
 }
 
@@ -71,29 +64,7 @@ function toDomain(candidateData) {
 function buildBaseReadQuery(knexConn) {
   return knexConn
     .select('certification-candidates.*', 'certification-courses.id as certificationCourseId')
-    .select({
-      subscriptions: knexConn.raw(
-        `json_agg(
-          json_build_object(
-            'type', "certification-subscriptions"."type",
-            'complementaryCertificationKey', "complementary-certifications"."key",
-            'certificationCandidateId', "certification-candidates"."id"
-          )
-          ORDER BY "complementary-certifications"."key" ASC NULLS FIRST
-      )`,
-      ),
-    })
     .from('certification-candidates')
     .leftJoin('certification-courses', 'certification-courses.candidateId', 'certification-candidates.id')
-    .join(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'certification-subscriptions.complementaryCertificationId',
-      'complementary-certifications.id',
-    )
     .groupBy('certification-candidates.id', 'certification-courses.id');
 }

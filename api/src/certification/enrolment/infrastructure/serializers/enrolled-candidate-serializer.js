@@ -11,17 +11,6 @@ const deserialize = function ({ candidateId, candidateData }) {
 
 const serialize = function (enrolledCandidates) {
   return new Serializer('certification-candidate', {
-    transform: function (enrolledCandidate) {
-      const candidateSubscription = enrolledCandidate.findComplementarySubscriptionInfo();
-      const complementaryCertification = candidateSubscription
-        ? { key: candidateSubscription.complementaryCertificationKey }
-        : null;
-
-      return {
-        ...enrolledCandidate,
-        complementaryCertification,
-      };
-    },
     attributes: [
       'firstName',
       'lastName',
@@ -39,17 +28,12 @@ const serialize = function (enrolledCandidates) {
       'birthINSEECode',
       'birthPostalCode',
       'complementaryCertification',
-      'subscriptions',
+      'subscription',
       'billingMode',
       'prepaymentCode',
       'hasSeenCertificationInstructions',
       'accessibilityAdjustmentNeeded',
     ],
-    subscriptions: {
-      include: true,
-      ref: 'id',
-      attributes: ['complementaryCertificationKey', 'type'],
-    },
   }).serialize(enrolledCandidates);
 };
 

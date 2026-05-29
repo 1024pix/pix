@@ -1,8 +1,6 @@
 /**
- * @typedef {import('../models/Subscription.js').Subscription} Subscription
  * @typedef {import('../models/Candidate.js').Candidate} Candidate
  */
-import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 
 /**
  * @deprecated please use Candidate model that has no differences with this model
@@ -11,7 +9,6 @@ import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 export class EnrolledCandidate {
   /**
    * @param {object} params
-   * @param {Array<Subscription>} params.subscriptions
    */
   constructor({
     id,
@@ -32,7 +29,7 @@ export class EnrolledCandidate {
     sessionId,
     userId,
     organizationLearnerId,
-    subscriptions,
+    subscription,
     billingMode,
     prepaymentCode,
     accessibilityAdjustmentNeeded = false,
@@ -61,12 +58,8 @@ export class EnrolledCandidate {
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
-    this.subscriptions = subscriptions;
+    this.subscription = subscription;
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
     this.hasStartedTest = hasStartedTest;
-  }
-
-  findComplementarySubscriptionInfo() {
-    return this.subscriptions.find((sub) => sub.type === SUBSCRIPTION_TYPES.COMPLEMENTARY);
   }
 }
