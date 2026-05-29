@@ -69,28 +69,28 @@
                     "id": "1",
                     "content": "Regrouper certains éléments ensemble.",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement, regrouper des éléments est un bon moyen pour s’y retrouver plus facilement.<br>Mais il existe plusieurs autres options&nbsp;: supprimer des éléments et choisir des noms compréhensibles peut aussi permettre de mieux s’organiser sur un ordinateur.</p>"
+                      "diagnosis": "<p>Effectivement, regrouper des éléments est un bon moyen pour s’y retrouver plus facilement.<br>Mais il existe plusieurs autres options&nbsp;: supprimer ce qui ne sert plus et donner des noms plus clairs peut aussi permettre de mieux s’organiser sur un ordinateur.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "Supprimer ce qui ne sert plus.",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement, supprimer des éléments quand ils ne sont plus utiles peut aider à s’y retrouver plus facilement.<br>Mais il existe plusieurs autres options&nbsp;: regrouper des éléments et choisir des noms compréhensibles peut aussi permettre de mieux s’organiser sur un ordinateur.</p>"
+                      "diagnosis": "<p>Effectivement, supprimer des éléments quand ils ne sont plus utiles peut aider à s’y retrouver plus facilement.<br>Mais il existe plusieurs autres options&nbsp;: regrouper des éléments ensemble et donner des noms plus clairs peut aussi permettre de mieux s’organiser sur un ordinateur.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "Donner des noms plus clairs.",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement, choisir des noms compréhensibles permet de s’y retrouver plus facilement.<br>Mais il existe plusieurs autres options&nbsp;: regrouper ou supprimer des éléments peut aussi permettre de mieux s’organiser sur un ordinateur.</p>"
+                      "diagnosis": "<p>Effectivement, choisir des noms compréhensibles permet de s’y retrouver plus facilement.<br>Mais il existe plusieurs autres options&nbsp;: regrouper des éléments ou supprimer ce qui ne sert plus peut aussi permettre de mieux s’organiser sur un ordinateur.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "Je ne sais pas.",
                     "feedback": {
-                      "diagnosis": "<p>Il existe des moyens simples pour mieux s’organiser sur un ordinateur&nbsp;: choisir des noms compréhensibles, regrouper des éléments dans des dossiers ou encore supprimer les éléments quand ils ne sont plus utiles.</p>"
+                      "diagnosis": "<p>Il existe des moyens simples pour mieux s’organiser sur un ordinateur&nbsp;: donner des noms noms plus clairs, regrouper des éléments ensemble ou encore supprimer ce qui ne sert plus.</p>"
                     }
                   }
                 ]
@@ -159,11 +159,11 @@
                       "proposals": [
                         {
                           "type": "text",
-                          "content": "«&nbsp;Demande de documents&nbsp;» est un&nbsp;"
+                          "content": "«&nbsp;Demande infos&nbsp;» est un&nbsp;"
                         },
                         {
                           "type": "select",
-                          "input": "demande de documents",
+                          "input": "demande infos",
                           "display": "inline",
                           "placeholder": "Sélectionnez",
                           "ariaLabel": "Sélectionnez",
@@ -190,11 +190,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "",
-                          "diagnosis": "Effectivement, «&nbsp;Demande de documents&nbsp;» est&nbsp;bien un <strong>fichier</strong>. Un fichier peut être représenté par un aperçu de son contenu, ou par une icône qui varie selon le type de fichier (texte, image, son, vidéo, etc.). Ici c’est un fichier de texte.&nbsp;"
+                          "diagnosis": "Effectivement, «&nbsp;Demande infos&nbsp;» est bien un <strong>fichier</strong>. Un fichier peut être représenté par un aperçu de son contenu, ou par une icône qui varie selon le type de fichier (texte, image, son, vidéo, etc.). Ici c’est un fichier de texte."
                         },
                         "invalid": {
                           "state": "",
-                          "diagnosis": " Eh non, «&nbsp;Demande de documents&nbsp;» est&nbsp;bien un <strong>fichier</strong>. Un fichier peut être représenté par un aperçu de son contenu, ou par une icône qui varie selon le type de fichier (texte, image, son, vidéo, etc.). Ici c’est un fichier de texte.&nbsp;"
+                          "diagnosis": " Eh non, «&nbsp;Demande infos&nbsp;» est bien un <strong>fichier</strong>. Un fichier peut être représenté par un aperçu de son contenu, ou par une icône qui varie selon le type de fichier (texte, image, son, vidéo, etc.). Ici c’est un fichier de texte."
                         }
                       }
                     }
@@ -265,7 +265,7 @@
                 "id": "b21eb58b-137f-444f-bfcf-e12e92e0adb5",
                 "type": "text",
                 "tag": " ",
-                "content": "Sur un ordinateur, il y a souvent beaucoup de <strong>fichiers </strong>différents&nbsp;: des photos de vacances à imprimer, des factures à conserver, des documents à finir d’écrire, des chansons à écouter, des vidéos à regarder, etc.&nbsp; <br><br>📂 Les<strong> dossiers servent à ranger</strong> les fichiers."
+                "content": "Sur un ordinateur, il y a souvent beaucoup de <strong>fichiers </strong>différents&nbsp;: des photos de vacances à imprimer, des factures à conserver, des documents à finir d’écrire, des chansons à écouter, des vidéos à regarder, etc.&nbsp; <br><br>📂 Les<strong> dossiers servent à ranger</strong> les fichiers. Plusieurs fichiers peuvent être regroupés dans un dossier."
               }
             }
           ]
@@ -318,7 +318,7 @@
               "element": {
                 "id": "01adf853-89e9-4d8e-bf07-6db4fab30203",
                 "type": "expand",
-                "title": "[ Warning relecteurs : le simulateur d’interface de bureau d’ordinateur ne valide pas encore l'action demandée]",
+                "title": "[ Warning relecteurs : le simulateur d’interface de bureau d’ordinateur ne valide pas encore l’action demandée]",
                 "content": "<p>Même bureau que dans les illustrations de début de module avec fichiers et dossiers.</p><ul><li>Actions attendues&nbsp;: <ul><li>clic droit → “Nouveau dossier” ou “dossier” → écrire un nom → appuyer sur Entrée</li></ul></li></ul>"
               }
             },
@@ -344,7 +344,16 @@
                 "id": "db1d3007-f6d7-4242-aff6-807aa1e1f5a0",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5><strong>Comment afficher le contenu d’un dossier ? </strong>📂</h5><p>Pour afficher le contenu d’un dossier, double-cliquez dessus. Une fenêtre s’ouvre et affiche le contenu du dossier.</p><p><br><strong>🤔 Bon à savoir</strong><br>Un dossier peut contenir des fichiers mais aussi d’autres dossiers.</p>"
+                "content": "<h5><strong>Comment afficher le contenu d’un dossier ? </strong>📂</h5><p>Pour afficher le contenu d’un dossier, double-cliquez dessus. Une fenêtre s’ouvre et affiche le contenu du dossier.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "7f24d1ef-a0fe-43f6-8f5d-5ba07e615e58",
+                "type": "text",
+                "tag": "further-information",
+                "content": "<p>Un dossier peut contenir des fichiers mais aussi d’autres dossiers.</p>"
               }
             }
           ]
@@ -397,8 +406,8 @@
               "element": {
                 "id": "b313eb92-ef26-4e1a-9b21-f3b669be720b",
                 "type": "expand",
-                "title": "[ Warning relecteurs : le simulateur d’interface de bureau d’ordinateur ne valide pas complètement l'action demandée, mais seulement que le document .jpg a été mis dans le dossier Photos ]",
-                "content": "<p>STEP 1 </p>\n<ul>\n    <li><strong>Donnez le nom «&nbsp;Portugal&nbsp;» à la photo «&nbsp;DCIM2115&nbsp;».</strong> </li>\n    <li>Actions&nbsp;: clic droit → Renommer → taper le nom </li>\n    <li><strong>Feedback step 1 </strong>: À tout moment, vous pouvez modifier le nom d’un fichier pour choisir un nom qui a du sens pour vous.&nbsp; </li><br>\n</ul>\n<p>STEP 2 </p>\n<ul>\n    <li> <strong>Rangez la photo «&nbsp;Portugal&nbsp;» dans le dossier «&nbsp;Photos&nbsp;»</strong> </li>\n    <li> Actions&nbsp;: clic droit → Couper sur le fichier puis clic droit → coller sur le dossier ] </li>\n    <li><strong>Feedback step 2&nbsp;</strong>: Vous pouvez déplacer un fichier d’un dossier à un autre pour ranger comme il vous convient.</li>\n</ul>"
+                "title": "[ Warning relecteurs : le simulateur d’interface de bureau d’ordinateur ne valide pas complètement l’action demandée, mais seulement que le document .jpg a été mis dans le dossier Photos ]",
+                "content": "<p>STEP 1 </p><ul>    <li><strong>Donnez le nom «&nbsp;Portugal&nbsp;» à la photo «&nbsp;DCIM2115&nbsp;».</strong> </li>    <li>Actions&nbsp;: clic droit → Renommer → taper le nom </li>    <li><strong>Feedback step 1 </strong>: À tout moment, vous pouvez modifier le nom d’un fichier pour choisir un nom qui a du sens pour vous.&nbsp; </li><br></ul><p>STEP 2 </p><ul>    <li> <strong>Rangez la photo «&nbsp;Portugal&nbsp;» dans le dossier «&nbsp;Photos&nbsp;»</strong> </li>    <li> Actions&nbsp;: clic droit → Couper sur le fichier puis clic droit → coller sur le dossier ] </li>    <li><strong>Feedback step 2&nbsp;</strong>: Vous pouvez déplacer un fichier d’un dossier à un autre pour ranger comme il vous convient.</li></ul>"
               }
             }
           ]
@@ -414,7 +423,25 @@
                 "id": "8c2acdd0-84cb-4c7f-9915-7a5f126796df",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Parfois, ce n’est pas vous qui choisissez le <strong>nom du fichier</strong>. Par exemple, une photo récupérée depuis votre appareil photo aura déjà un nom <strong>donné automatiquement</strong>.<br>De la même manière, parfois un fichier est <strong>placé automatiquement dans un dossier</strong>, le dossier téléchargement par exemple.</p><p><br>Vous pouvez <strong>renommer </strong>et <strong>déplacer </strong>vos fichiers selon votre préférence.</p><p><br><strong>🤔 Bon à savoir</strong><br>Un dossier peut contenir autant de fichiers que l’on souhaite. </p><p><br>💡 <strong>Astuce&nbsp;<br></strong>Si vous savez utiliser le glisser-déposer, vous pouvez l’utiliser pour déplacer des fichiers dans des dossiers.</p>"
+                "content": "<p>Parfois, ce n’est pas vous qui choisissez le <strong>nom du fichier</strong>. Par exemple, une photo récupérée depuis votre appareil photo aura déjà un nom <strong>donné automatiquement</strong>.<br>De la même manière, parfois un fichier est <strong>placé automatiquement dans un dossier</strong>, le dossier «&nbsp;Téléchargement&nbsp;» par exemple.</p><p><br>Vous pouvez <strong>renommer </strong>et <strong>déplacer </strong>vos fichiers selon votre préférence.</p><p></p><p></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "82f2fc04-878a-4eb9-80a3-54baf8b7d910",
+                "type": "text",
+                "tag": "did-you-know",
+                "content": "<p>Un dossier peut contenir autant de fichiers que l’on souhaite.  <br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "c4b38855-886a-4ae1-a6c5-135fe7701095",
+                "type": "text",
+                "tag": "tip",
+                "content": "<p>Si vous savez utiliser le glisser-déposer, vous pouvez l’utiliser pour déplacer des fichiers dans des dossiers.</p>"
               }
             }
           ]
@@ -446,7 +473,7 @@
                 "id": "2145a637-adf8-4142-af2a-178021994a0d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Maëva a supprimé par erreur le fichier «&nbsp;Liste des courses » de son bureau.</p>"
+                "content": "<p>Maëva a supprimé par erreur le fichier «&nbsp;Liste des courses&nbsp;» de son bureau.</p>"
               }
             },
             {
@@ -526,7 +553,7 @@
               "element": {
                 "id": "010cfae4-d3a2-4e3b-acb6-a1f6442b6533",
                 "type": "expand",
-                "title": "[Warning relecteurs : le simulateur d’interface de bureau d’ordinateur ne valide pas encore l'action demandée]",
+                "title": "[Warning relecteurs : le simulateur d’interface de bureau d’ordinateur ne valide pas encore l’action demandée]",
                 "content": "<ul><li> Actions&nbsp;: <ul><li>Ouvrir la corbeille → double clic sur l’icône de la corbeille</li><li>Récupérer&nbsp;: clic droit sur le fichier + clic sur restaurer ou remettre <br></li></ul></li></ul>"
               }
             },
@@ -552,7 +579,16 @@
                 "id": "aa2945b0-cec7-4b40-8ce7-82d97b37a451",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>Comment supprimer un fichier ou un dossier ?</h5><p>Pour supprimer un fichier ou un dossier inutile&nbsp;:&nbsp;</p><ol><li>Faites un clic droit dessus puis cliquez sur «&nbsp;<strong>Supprimer </strong>» (Windows) ou «&nbsp;<strong>Placer dans la corbeille </strong>» (Mac). Le fichier est alors <strong>déplacé dans la corbeille</strong>. 🗑️</li><li><strong>Videz la corbeille </strong>pour <strong>supprimer définitivement</strong> les fichiers et dossiers qui s’y trouvent.&nbsp;❌</li></ol><p>[ avec image ou short video  ]</p><p><br><strong>🤔 Bon à savoir<br></strong>Certaines corbeilles ne gardent les fichiers et dossiers que pendant 30 à 60 jours. Ils sont ensuite supprimés automatiquement.<br></p>"
+                "content": "<h5>Comment supprimer un fichier ou un dossier ?</h5><p>Pour supprimer un fichier ou un dossier inutile&nbsp;:&nbsp;</p><ol><li>Faites un clic droit dessus puis cliquez sur «&nbsp;<strong>Supprimer </strong>» (Windows) ou «&nbsp;<strong>Placer dans la corbeille </strong>» (Mac). Le fichier est alors <strong>déplacé dans la corbeille</strong>. 🗑️</li><li><strong>Videz la corbeille </strong>pour <strong>supprimer définitivement</strong> les fichiers et dossiers qui s’y trouvent.&nbsp;❌</li></ol><p>[ avec image ou short video  ]</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "4a441822-cd0b-44dc-b393-cbabb880e081",
+                "type": "text",
+                "tag": "further-information",
+                "content": "<p>Certaines corbeilles ne gardent les fichiers et dossiers que pendant 30 à 60 jours. Ils sont ensuite supprimés automatiquement.</p>"
               }
             }
           ]
@@ -744,7 +780,7 @@
                 "isCompletionRequired": true,
                 "title": "ex2 ",
                 "url": "https://epreuves-pr3080.review.pix.fr/ospix-clic-droit/ospix-clic-droit.html?mode=mdx_rangerfichiernov_ex2",
-                "instruction": "<p>Dans l’application ci-dessous&nbsp;:</p><ul><li> Supprimez le fichier&nbsp;«&nbsp;image4&nbsp;».</li><li>Créez un dossier «&nbsp;Images&nbsp;».</li><li>Déplacez les fichiers «&nbsp;image1», «&nbsp;image2&nbsp;» et&nbsp;«&nbsp;image3&nbsp;» dans le dossier «&nbsp;Images&nbsp;» que vous avez créé.</li></ul>",
+                "instruction": "<p>Dans l’interface ci-dessous&nbsp;:</p><ul><li> Supprimez le fichier&nbsp;«&nbsp;image4&nbsp;».</li><li>Créez un dossier «&nbsp;Images&nbsp;».</li><li>Déplacez les fichiers «&nbsp;image1», «&nbsp;image2&nbsp;» et&nbsp;«&nbsp;image3&nbsp;» dans le dossier «&nbsp;Images&nbsp;» que vous avez créé.</li></ul>",
                 "solution": "courgette",
                 "height": 500
               }
@@ -779,7 +815,7 @@
                 "isCompletionRequired": false,
                 "title": "defi",
                 "url": "https://epreuves.pix.fr/ospix-retrouver_fichier/ospix-retrouver_fichier.html#792a7771591f4b1659475d185945530659445547",
-                "instruction": "<p><strong>Récupérez le fichier « Liste des courses » dans l’application ci-dessous puis répondez à la question.</strong> </p>",
+                "instruction": "<p><strong>Récupérez le fichier « Liste des courses » dans l’interface ci-dessous puis répondez à la question.</strong> </p>",
                 "solution": "",
                 "height": 500
               }
@@ -792,12 +828,16 @@
                 "instruction": "<p>Quel est le seul objet qui est écrit sur la liste des courses de Tiago?</p>",
                 "proposals": [
                   {
+                    "type": "text",
+                    "content": "<p>Nom du fichier&nbsp;:<br></p>"
+                  },
+                  {
                     "input": "nom du fichier",
                     "type": "input",
                     "inputType": "text",
                     "size": 12,
                     "display": "inline",
-                    "placeholder": "Nom du fichier",
+                    "placeholder": "",
                     "ariaLabel": "Nom du fichier",
                     "tolerances": [
                       "t1",
@@ -816,7 +856,7 @@
                   },
                   "invalid": {
                     "state": "Mauvaise réponse.",
-                    "diagnosis": "<p>Pour trouver le nom du fichier, suivez ces deux étapes&nbsp;:</p>\n<ul>\n    <li>Récupérer le dossier «&nbsp;Liste des courses » depuis la corbeille.</li>\n    <li>Ouvrir le dossier «&nbsp;Listes de courses » depuis le bureau de l’ordinateur.</li>\n</ul>"
+                    "diagnosis": "<p>Pour trouver le nom du fichier, suivez ces deux étapes&nbsp;:</p><ul>    <li>Récupérer le dossier «&nbsp;Liste des courses&nbsp;» depuis la corbeille.</li>    <li>Ouvrir le dossier «&nbsp;Listes de courses&nbsp;» depuis le bureau de l’ordinateur.</li></ul>"
                   }
                 }
               }

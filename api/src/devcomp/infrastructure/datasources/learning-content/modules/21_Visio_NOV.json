@@ -52,13 +52,13 @@
                       "userName": "Sadie",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "J’ai décroché un entretien d’embauche mais on m’a proposé de le faire « en visio ». Je n’ai jamais fait ça, c’est quoi ?"
+                      "content": "J’ai décroché un entretien d’embauche mais on m’a proposé de le faire « en visio ». Je n’ai jamais fait ça, comment ça fonctionne ?"
                     },
                     {
                       "userName": "Juan",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Ah oui, ça veut dire en visioconférence. C’est assez simple, tu verras. Tu seras connectée en ligne avec le recruteur et vous pourrez vous parler et vous voir."
+                      "content": "Visio, ça veut dire visioconférence. C’est assez simple, tu verras. Tu seras connectée en ligne avec le recruteur et vous pourrez vous parler et vous voir."
                     }
                   ],
                   "animationSpeed": 0
@@ -133,28 +133,28 @@
                           "id": "1",
                           "content": "<p>Le bouton «&nbsp;Répondre&nbsp;»</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Ce bouton permet seulement de répondre au mail.&nbsp;</p><p>Quand vous êtes convié à une visioconférence vous recevez <strong>un mail avec un lien cliquable</strong>. Au moment du rendez-vous, <strong>cliquez sur ce lien pour accéder à la visioconférence</strong>. </p>"
+                            "diagnosis": "<p>Eh non. Ce bouton permet seulement de répondre au mail.&nbsp;</p><p>Quand vous êtes convié à une visioconférence vous recevez <strong>un mail avec un lien cliquable</strong>. Au moment du rendez-vous, vous devrez <strong>cliquer sur ce lien pour accéder à la visioconférence</strong>. </p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Le bouton «&nbsp;Transférer&nbsp;»</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Ce bouton permet seulement de transférer le mail à un nouveau destinataire.&nbsp;</p><p>Quand vous êtes convié à une visioconférence vous recevez <strong>un mail avec un lien cliquable</strong>. Au moment du rendez-vous, <strong>cliquez sur ce lien pour accéder à la visioconférence</strong>. </p>"
+                            "diagnosis": "<p>Eh non. Ce bouton permet seulement de transférer le mail à un nouveau destinataire.&nbsp;</p><p>Quand vous êtes convié à une visioconférence vous recevez <strong>un mail avec un lien cliquable</strong>. Au moment du rendez-vous, vous devrez <strong>cliquer sur ce lien pour accéder à la visioconférence</strong>. </p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Le lien&nbsp;:&nbsp;«&nbsp;https://outil.visio/gyf-kdop-dtxz&nbsp;»</p>",
                           "feedback": {
-                            "diagnosis": "<p>Exactement !</p><p>Quand vous êtes convié à une visioconférence vous recevez <strong>un mail avec un lien cliquable</strong>. Au moment du rendez-vous, <strong>cliquez sur ce lien pour accéder à la visioconférence</strong>. </p>"
+                            "diagnosis": "<p>Exactement !</p><p>Quand vous êtes convié à une visioconférence vous recevez <strong>un mail avec un lien cliquable</strong>. Au moment du rendez-vous, vous devrez <strong>cliquer sur ce lien pour accéder à la visioconférence</strong>. </p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Quand vous êtes convié à une visioconférence vous recevez <strong>un mail avec un lien cliquable</strong>. Au moment du rendez-vous, <strong>cliquez sur ce lien pour accéder à la visioconférence</strong>. </p>"
+                            "diagnosis": "<p>Quand vous êtes convié à une visioconférence vous recevez <strong>un mail avec un lien cliquable</strong>. Au moment du rendez-vous, vous devrez <strong>cliquer sur ce lien pour accéder à la visioconférence</strong>. </p>"
                           }
                         }
                       ],
@@ -174,7 +174,7 @@
                           "id": "1",
                           "content": "<p>Un logiciel de visioconférence s’installe sur l’ordinateur de Sadie.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Pas exactement.<br>Quand vous cliquez sur le lien, une <strong>page web</strong> s’ouvre <strong>dans votre navigateur</strong>. Dans la plupart des cas, vous n’avez pas besoin <strong>d’installer un logiciel</strong> pour rejoindre la visioconférence.</p>"
+                            "diagnosis": "<p>Pas toujours.<br>Quand vous cliquez sur le lien, une <strong>page web</strong> s’ouvre <strong>dans votre navigateur</strong>. Dans la plupart des cas, vous n’avez pas besoin <strong>d’installer un logiciel</strong> pour rejoindre la visioconférence.</p>"
                           }
                         },
                         {
@@ -188,7 +188,7 @@
                           "id": "3",
                           "content": "<p>La visioconférence démarre immédiatement.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Pas exactement.<br>Quand vous cliquez sur le lien, une <strong>page web</strong> s’ouvre <strong>dans votre navigateur</strong>. Dans la plupart des cas, vous n’avez pas besoin <strong>d’installer un logiciel</strong> pour rejoindre la visioconférence.</p>"
+                            "diagnosis": "<p>Pas immédiatement.<br>Quand vous cliquez sur le lien, une <strong>page web</strong> s’ouvre <strong>dans votre navigateur</strong> pour accéder à la visioconférence. Dans la plupart des cas, vous n’avez pas besoin <strong>d’installer un logiciel</strong> pour rejoindre la visioconférence.</p>"
                           }
                         },
                         {
@@ -324,7 +324,7 @@
                 "id": "37de7c8f-dd4f-4752-b421-cea0d969c401",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Dans certains cas, c’est l’organisateur qui autorise l’entrée des participants dans la visioconférence.<br>Quand vous vous connectez, vous êtes placé dans une <strong>salle d’attente virtuelle</strong> puis l’organisateur vous fait entrer lorsqu’il est prêt.</p>"
+                "content": "<p>Dans certains cas, c’est l’organisateur qui autorise l’entrée des participants dans la visioconférence.<br>Quand vous vous connectez, vous êtes placé dans une <strong>salle d’attente en ligne</strong> puis l’organisateur vous fait entrer lorsqu’il est prêt.</p>"
               }
             },
             {
@@ -333,7 +333,7 @@
                 "id": "f2b4fce6-9071-405c-b4af-5bc519f014bd",
                 "type": "text",
                 "tag": "tip",
-                "content": "<p>Pendant la visioconférence, quand votre caméra est ouverte, les autres participants vous voient et voient aussi ce qui se trouve derrière vous. Avant de rejoindre la visioconférence, pensez donc à <strong>vérifier ce qui est visible derrière vous</strong>.</p>"
+                "content": "<p>Pendant la visioconférence, quand votre caméra est ouverte, les autres participants vous voient et voient aussi ce qui se trouve derrière vous. Avant de rejoindre la visioconférence, installez-vous dans un endroit calme et pensez à <strong>vérifier ce qui est visible derrière vous</strong>.</p>"
               }
             },
             {
@@ -824,42 +824,42 @@
               "element": {
                 "id": "b03f7ff3-7d52-4f9e-8f3e-2642183733c8",
                 "type": "qcu-declarative",
-                "instruction": "<p>Selon vous, dans quel cas est-il possible d’utiliser une visioconférence ?</p>",
+                "instruction": "<p>Dans quel cas pourriez-vous utiliser une visioconférence dans les prochaines semaines ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Pour parler avec un proche qui habite loin</p>",
+                    "content": "<p>Pour parler avec un proche qui habite loin.</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est possible, vous pouvez aussi utiliser un appel vidéo sur votre téléphone pour échanger avec vos proches à distance.<br><strong>Dans toutes les situations évoquées ici, la visioconférence peut être utilisée.</strong> Elle permet de voir et d’entendre les autres sans se déplacer.</p>"
+                      "diagnosis": "<p>C’est possible, dans ce cas vous pourriez aussi utiliser un appel vidéo sur votre téléphone.<br><strong>Dans toutes les situations évoquées ici, la visioconférence peut être utilisée.</strong> Elle permet de voir et d’entendre les autres sans se déplacer.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Pour un rendez-vous médical</p>",
+                    "content": "<p>Pour un rendez-vous médical.</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est possible. Certains médecins généralistes proposent des rendez-vous en visioconférence.<br><strong>Dans toutes les situations évoquées ici, la visioconférence peut être utilisée.</strong> Elle permet de voir et d’entendre les autres sans se déplacer.</p>"
+                      "diagnosis": "<p>Effectivement. Certains médecins généralistes proposent des rendez-vous en visioconférence.<br><strong>Dans toutes les situations évoquées ici, la visioconférence peut être utilisée.</strong> Elle permet de voir et d’entendre les autres sans se déplacer.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Pour participer à une formation à distance</p>",
+                    "content": "<p>Pour participer à une formation à distance.</p>",
                     "feedback": {
                       "diagnosis": "<p>C’est tout à fait possible. Les formations et ateliers à distance sont courants.<br><strong>Dans toutes les situations évoquées ici, la visioconférence peut être utilisée.</strong> Elle permet de voir et d’entendre les autres sans se déplacer.</p>"
                     }
                   },
                   {
                     "id": "4",
-                    "content": "<p>Pour assister à une réunion professionnelle</p>",
+                    "content": "<p>Pour assister à une réunion professionnelle.</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est possible. Certains professionnels utilisent beaucoup la visioconférence pour les réunions.<br><strong>Dans toutes les situations évoquées ici, la visioconférence peut être utilisée. </strong>Elle permet de voir et d’entendre les autres sans se déplacer.</p>"
+                      "diagnosis": "<p>Effectivement. Certains professionnels utilisent beaucoup la visioconférence pour les réunions.<br><strong>Dans toutes les situations évoquées ici, la visioconférence peut être utilisée. </strong>Elle permet de voir et d’entendre les autres sans se déplacer.</p>"
                     }
                   },
                   {
                     "id": "5",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p><strong>Dans toutes les situations évoquées ici, la visioconférence peut être utilisée. </strong>Elle permet de voir et d’entendre les autres sans se déplacer.</p>"
+                      "diagnosis": "<p>Dans <strong>toutes les situations évoquées ici, la visioconférence peut être utilisée. </strong>Elle permet de voir et d’entendre les autres sans se déplacer. Même si vous n’avez pas prévu de l’utiliser pour le moment, vous pourriez y être confronté bientôt.</p>"
                     }
                   }
                 ]
