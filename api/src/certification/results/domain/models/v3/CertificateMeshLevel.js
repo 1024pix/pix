@@ -74,7 +74,7 @@ export class CertificateMeshLevel {
     const framework = this.certificationFramework.toLowerCase();
     const level = this.meshLevel.replace('LEVEL_', '').toLowerCase();
 
-    return `${config.assetsManager.url}/badges-certifies/v3/${framework}/${level}.svg`;
+    return `${config.assetsManager.url}/badges-certifies/v3/${framework}/${level}.png`;
   }
 
   #getLevelKey({ reachedMeshIndex, certificationFramework, eduV3ExternalJuryResult }) {

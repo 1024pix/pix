@@ -434,7 +434,7 @@ describe('Unit | Domain | Models | CertificateMeshLevel', function () {
         });
 
         // then
-        expect(meshLevel.badgeUrl).to.equal('https://super-assert-url.org/badges-certifies/v3/droit/advanced.svg');
+        expect(meshLevel.badgeUrl).to.equal('https://super-assert-url.org/badges-certifies/v3/droit/advanced.png');
       });
     });
 
@@ -452,7 +452,7 @@ describe('Unit | Domain | Models | CertificateMeshLevel', function () {
 
         // then
         expect(meshLevel.badgeUrl).to.equal(
-          'https://super-assert-url.org/badges-certifies/v3/edu_2nd_degre/advanced.svg',
+          'https://super-assert-url.org/badges-certifies/v3/edu_2nd_degre/advanced.png',
         );
       });
     });
