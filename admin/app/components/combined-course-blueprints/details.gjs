@@ -4,6 +4,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
 import { pageTitle } from 'ember-page-title';
+import { or } from 'ember-truth-helpers';
 import DownloadCombinedCourseBlueprint from 'pix-admin/components/combined-course-blueprints/download-combined-course-blueprint';
 import { DescriptionList } from 'pix-admin/components/ui/description-list';
 
@@ -58,11 +59,14 @@ export default class Details extends Component {
               </DescriptionList.Item>
 
               {{#if @model.description}}
-
                 <DescriptionList.Item @label={{t "components.combined-course-blueprints.labels.description"}}>
                   <SafeMarkdownToHtml @markdown={{@model.description}} />
                 </DescriptionList.Item>
               {{/if}}
+
+              <DescriptionList.Item @label={{t "components.combined-course-blueprints.labels.survey-link"}}>
+                {{or @model.surveyLink (t "components.combined-course-blueprints.survey-link.not-provided")}}
+              </DescriptionList.Item>
 
               {{#if @model.illustration}}
                 <DescriptionList.Item @label={{t "components.combined-course-blueprints.labels.illustration"}}>

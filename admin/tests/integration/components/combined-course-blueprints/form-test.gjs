@@ -63,6 +63,11 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
     await fillIn(screen.getByLabelText(t('components.combined-course-blueprints.labels.description')), 'description');
 
+    await fillIn(
+      screen.getByLabelText(t('components.combined-course-blueprints.labels.survey-link')),
+      'http://survey-link.fr',
+    );
+
     await click(
       screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
     );
@@ -84,6 +89,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
     ]);
     assert.strictEqual(blueprintStub.illustration, 'illustrations/hello.svg');
     assert.strictEqual(blueprintStub.description, 'description');
+    assert.strictEqual(blueprintStub.surveyLink, 'http://survey-link.fr');
     assert.strictEqual(blueprintStub.rewardId, 5);
     assert.strictEqual(blueprintStub.rewardType, 'ATTESTATION');
     assert.ok(

@@ -696,6 +696,7 @@
         "itemId": "Identifiant",
         "module": "Module",
         "name": "Nom externe",
+        "survey-link": "Url du questionnaire de fin de parcours",
         "target-profile": "Profil cible"
       },
       "list": {
@@ -713,6 +714,9 @@
       "organizations": {
         "detach-organization": "Etes-vous sûr de vouloir détacher l'organisation <strong>{organizationName}</strong> du schéma de parcours <strong>{name}</strong>",
         "detach-organization-success": "Le schéma de parcours n'est plus partagé avec l'organisation {name}."
+      },
+      "survey-link": {
+        "not-provided": "Aucun questionnaire paramétré"
       }
     },
     "layout": {

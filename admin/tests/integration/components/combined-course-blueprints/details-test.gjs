@@ -22,6 +22,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
       description: 'Mon super parcours apprenant',
       illustration: 'http://pix.fr/mon-illu.png',
       attestationLabel: '6ème',
+      surveyLink: 'http://pix-survey-test.fr',
       content: [
         { type: 'module', value: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a', shortId: 'abc-123' },
         { type: 'evaluation', value: 123 },
@@ -37,10 +38,25 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
     assert.ok(screen.getByText('Parcours apprenant'));
     assert.ok(screen.getByText('25/12/2025'));
     assert.ok(screen.getByText('6ème'));
+    assert.ok(screen.getByText('http://pix-survey-test.fr'));
     assert.ok(screen.getByText('Mon super parcours apprenant'));
     assert.ok(screen.getByText('Module - abc-123', { exact: false }));
     assert.ok(screen.getByText('Profil cible - 123', { exact: false }));
     assert.ok(screen.getByRole('link', { name: t('components.combined-course-blueprints.list.downloadButton') }));
+  });
+
+  test('it should not display survey link if not available', async function (assert) {
+    // given
+    const combinedCourseBlueprint = {
+      id: 123,
+      internalName: 'Modèle de parcours apprenant',
+    };
+
+    // when
+    const screen = await render(<template><Details @model={{combinedCourseBlueprint}} /></template>);
+
+    // then
+    assert.ok(screen.getByText(t('components.combined-course-blueprints.survey-link.not-provided')));
   });
 
   test('should hide description and illustration if not provided', async function (assert) {

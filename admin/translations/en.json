@@ -688,6 +688,7 @@
         "itemId": "Id",
         "module": "Module",
         "name": "External name",
+        "survey-link": "Survey link url",
         "target-profile": "Target profile"
       },
       "list": {
@@ -705,6 +706,9 @@
       "organizations": {
         "detach-organization": "Are you sure you want to detach <strong>{organizationName}</strong> from combined course blueprint <strong>{name}</strong>",
         "detach-organization-success": "Blueprint is not shared with organization {name} anymore."
+      },
+      "survey-link": {
+        "not-provided": "No survey link has been defined"
       }
     },
     "layout": {

@@ -251,6 +251,17 @@ export default class CombineCourseBluePrintForm extends Component {
           @onChange={{this.setAttestation}}
         />
 
+        <PixInput
+          @id="surveyLink"
+          @value={{this.surveyLink}}
+          {{on "change" (fn this.setData "surveyLink")}}
+          class="combined-course-page__input"
+          rows="10"
+        >
+          <:label>
+            {{t "components.combined-course-blueprints.labels.survey-link"}}
+          </:label>
+        </PixInput>
       </form>
 
       <div class="combined-course-page__items">
