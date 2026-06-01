@@ -4,8 +4,8 @@
  * @typedef {import ('./index.js').CertificationCenterRepository} CertificationCenterRepository
  */
 
-import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
-import { CenterHabilitationError } from '../../../shared/domain/errors.js';
+import { UserNotAuthorizedToCertifyError } from "../../../../shared/domain/errors.js";
+import { CenterHabilitationError } from "../../../shared/domain/errors.js";
 
 /**
  * @param {object} params
@@ -32,7 +32,7 @@ export const verifyCandidateReconciliationRequirements = async ({
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  if (candidate.hasNonCoreSubscription()) {
+  if (!candidate.hasCoreFrameworkSubscription()) {
     const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
     if (!certificationCenter.isHabilitated(candidate.subscription)) {

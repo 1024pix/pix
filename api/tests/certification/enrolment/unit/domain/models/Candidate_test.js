@@ -1,12 +1,16 @@
-import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
-import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
-import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { CertificationCandidatesError } from '../../../../../../src/shared/domain/errors.js';
-import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr, catchErrSync } from '../../../../../tooling/test-utils/error.js';
+import { Candidate } from "../../../../../../src/certification/enrolment/domain/models/Candidate.js";
+import {
+  CERTIFICATION_CANDIDATES_ERRORS
+} from "../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js";
+import {
+  CertificationCandidate
+} from "../../../../../../src/certification/shared/domain/models/CertificationCandidate.js";
+import { Frameworks } from "../../../../../../src/certification/shared/domain/models/Frameworks.js";
+import { CertificationCandidatesError } from "../../../../../../src/shared/domain/errors.js";
+import { getI18n } from "../../../../../../src/shared/infrastructure/i18n/i18n.js";
+import { expect } from "../../../../../test-helper.js";
+import { domainBuilder } from "../../../../../tooling/domain-builder/domain-builder.js";
+import { catchErr, catchErrSync } from "../../../../../tooling/test-utils/error.js";
 
 const FIRST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code;
 const LAST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code;
@@ -953,15 +957,31 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
-  describe('hasNonCoreSubscription', function () {
-    it('should return true when subscription is not CORE', function () {
+  describe('hasCoreFrameworkSubscription', function () {
+    it('should return false when subscription is not CORE', function () {
       const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CLEA });
-      expect(candidate.hasNonCoreSubscription()).to.be.true;
+      expect(candidate.hasCoreFrameworkSubscription()).to.be.false;
     });
 
-    it('should return false when subscription is CORE', function () {
+    it('should return true when subscription is CORE', function () {
       const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CORE });
-      expect(candidate.hasNonCoreSubscription()).to.be.false;
+      expect(candidate.hasCoreFrameworkSubscription()).to.be.true;
+    });
+  });
+
+  describe('hasCoreScopeSubscription', function () {
+    it('should return false when subscription is not CORE or CLEA', function () {
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.DROIT });
+      expect(candidate.hasCoreScopeSubscription()).to.be.false;
+    });
+
+    it('should return true when subscription is CORE', function () {
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CORE });
+      expect(candidate.hasCoreScopeSubscription()).to.be.true;
+    });
+    it('should return true when subscription is CLEA', function () {
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CLEA });
+      expect(candidate.hasCoreScopeSubscription()).to.be.true;
     });
   });
 

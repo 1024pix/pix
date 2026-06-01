@@ -1,9 +1,9 @@
 /**
  * @typedef {import ('../../domain/models/Candidate.js').Candidate} Candidate
  */
-import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { WrongDomainExtensionForPixPlusError } from '../../domain/errors.js';
-import { usecases } from '../../domain/usecases/index.js';
+import { withTransaction } from "../../../../shared/domain/DomainTransaction.js";
+import { WrongDomainExtensionForPixPlusError } from "../../domain/errors.js";
+import { usecases } from "../../domain/usecases/index.js";
 
 /**
  * Candidate entry to a certification is a multi step process
@@ -28,7 +28,7 @@ export const registerCandidateParticipation = withTransaction(
       normalizeStringFnc,
     });
 
-    if (candidate.hasNonCoreSubscription() && !isFrenchDomainExtension) {
+    if (!candidate.hasCoreScopeSubscription() && !isFrenchDomainExtension) {
       throw new WrongDomainExtensionForPixPlusError();
     }
 

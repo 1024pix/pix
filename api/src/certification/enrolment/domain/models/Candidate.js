@@ -1,10 +1,10 @@
 /**
  * @typedef {import ('./Subscription.js').Subscription} Subscription
  */
-import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
-import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
-import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
-import { validate } from '../validators/candidate-validator.js';
+import { CertificationCandidatesError } from "../../../../shared/domain/errors.js";
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from "../../../shared/domain/constants.js";
+import { Frameworks } from "../../../shared/domain/models/Frameworks.js";
+import { validate } from "../validators/candidate-validator.js";
 
 export class Candidate {
   /**
@@ -162,8 +162,12 @@ export class Candidate {
     return this.subscriptions.some((subscription) => subscription.isComplementary());
   }
 
-  hasNonCoreSubscription() {
-    return this.subscription !== Frameworks.CORE;
+  hasCoreFrameworkSubscription() {
+    return this.subscription === Frameworks.CORE;
+  }
+
+  hasCoreScopeSubscription() {
+    return this.subscription === Frameworks.CORE || this.subscription === Frameworks.CLEA;
   }
 
   getComplementarySubscription() {
