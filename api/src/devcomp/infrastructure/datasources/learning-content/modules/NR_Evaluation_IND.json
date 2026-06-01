@@ -52,13 +52,13 @@
                       "userName": "Fred",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": " J’essaie d’être plus écolo… Mais dès qu’on parle du numérique, je suis largué. On dit que ça pollue, mais je ne comprends pas vraiment comment."
+                      "content": "J’essaie d’être plus écolo… Mais dès qu’on parle du numérique, je suis largué. On dit que ça pollue, mais je ne comprends pas vraiment comment."
                     },
                     {
                       "userName": "Ombeline",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": " Je te rassure, moi non plus. Entre nos écrans, nos applis, nos appareils… Impossible de savoir ce qui a vraiment un impact."
+                      "content": "Je te rassure, moi non plus. Entre nos écrans, nos applis, nos appareils… Impossible de savoir ce qui a vraiment un impact."
                     },
                     {
                       "userName": "Fred",
@@ -116,7 +116,7 @@
             },
             {
               "type": "stepper",
-              "instruction": "<p>Pour chacun des éléments suivants, dites à quel famille il appartient&nbsp;: équipements des utilisateurs, réseaux ou centres de données.</p>",
+              "instruction": "<p>Pour chacun des éléments suivants, dites à quelle famille il appartient&nbsp;: équipements des utilisateurs, réseaux ou centres de données.</p>",
               "steps": [
                 {
                   "elements": [
@@ -305,6 +305,15 @@
                 "tag": " ",
                 "content": "<p>L’activité précédente a permis d’identifier les trois grandes composantes du numérique&nbsp;: <strong>les équipements des utilisateurs, les réseaux et les centres de données</strong>.</p><p>Quand une étude annonce un chiffre sur l’impact environnemental du numérique, ce chiffre dépend du <strong>périmètre étudié</strong>. Une étude peut inclure seulement les smartphones et les ordinateurs, tandis qu’une autre peut aussi prendre en compte les télévisions connectées, les réseaux ou les centres de données.</p><h5>🤔 Pourquoi faut-il connaître le périmètre d’une étude&nbsp;?</h5><p>Parce que deux études peuvent donner des résultats différents si elles ne mesurent pas exactement la même chose. Pour comprendre ou comparer un chiffre, il faut donc savoir <strong>ce qui est inclus</strong>, <strong>ce qui est exclu</strong> et <strong>quel indicateur environnemental est utilisé</strong>.</p>"
               }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "d2cebef2-8459-486a-ba35-fa7d7814c30b",
+                "type": "text",
+                "tag": "further-information",
+                "content": "<p>C’est d’autant plus important que le numérique est présent dans de nombreux objets et systèmes du quotidien, parfois sans être compté dans les études. Par exemple, le numérique embarqué dans les véhicules peut être exclu du périmètre étudié. Dans ce cas, l’empreinte environnementale du numérique risque d’être sous-estimée.</p>"
+              }
             }
           ]
         },
@@ -366,7 +375,7 @@
                     },
                     {
                       "title": "Deuxième étape : le transport",
-                      "description": "Le transport international des appareils et de leurs composants génère du CO2, mais reste limité par rapport à la phase de fabrication.",
+                      "description": "Le transport international des appareils et de leurs composants génère du CO2, mais cela reste limité par rapport à la phase de fabrication.",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/totem_acv_cycle-de-vie-02-1-600x524.png",
@@ -380,7 +389,7 @@
                     },
                     {
                       "title": "Troisième étape : L’utilisation ",
-                      "description": "Les émissions de CO2 sont liées à la consommation électrique des appareils et surtout à l’usage des réseaux et des centres de données nécessaires aux services numériques.",
+                      "description": "Les émissions de CO2 sont liées à la consommation électrique des appareils, des réseaux et des centres de données nécessaires aux services numériques. Elles dépendent aussi du mode de production de l’électricité utilisée, qui varie selon les pays ou les régions.",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/totem_acv_cycle-de-vie-02-1-600x524.png",
@@ -394,7 +403,7 @@
                     },
                     {
                       "title": "Quatrième étape : La fin de vie ",
-                      "description": "À l’heure actuelle, les scientifiques disposent de peu de données pour évaluer correctement l’impact environnemental de la fin de vie des appareils numériques.",
+                      "description": "À l’heure actuelle, les scientifiques disposent de peu de données pour évaluer correctement l’impact environnemental de la fin de vie des appareils numériques. Cette étape est donc parfois peu quantifiée dans les études. Certaines hypothèses, comme le recyclage d’une partie des équipements, peuvent aussi réduire l’impact estimé, même si elles ne reflètent pas toujours ce qui se passe réellement.",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/totem_acv_cycle-de-vie-02-1-600x524.png",
@@ -469,7 +478,7 @@
                 "id": "5523c5df-0559-42e0-a7c2-d8a695962c10",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Cette méthode d’analyse oblige à regarder toutes les étapes de la vie d’un appareil&nbsp;: fabrication, usage, transport, fin de vie… même si certaines sont peu documentées. Cette méthode est appelée l’<strong>Analyse du Cycle de Vie (ACV)</strong>.<br><br></p><h5>🤔 Pourquoi cette méthode est-elle importante ?</h5><p>Parce qu’elle s’appuie sur un <strong>cadre méthodologique reconnu</strong> pour étudier les impacts d’un produit tout au long de son cycle de vie.</p><p>Ce cadre aide à préciser <strong>les étapes prises en compte</strong> et à repérer celles qui contribuent le plus à l’impact environnemental.</p>"
+                "content": "<p>Cette méthode d’analyse oblige à regarder toutes les étapes de la vie d’un appareil&nbsp;: fabrication, usage, transport, fin de vie… même si certaines sont peu documentées. Cette méthode est appelée l’<strong>Analyse du Cycle de Vie (ACV)</strong>.<br><br></p><h5>🤔 Pourquoi cette méthode est-elle importante ?</h5><p>Parce qu’elle s’appuie sur un <strong>cadre méthodologique reconnu</strong> pour étudier les impacts d’un produit ou d’un service tout au long de son cycle de vie.</p><p>Ce cadre aide à préciser <strong>les étapes prises en compte</strong> et à repérer celles qui contribuent le plus à l’impact environnemental.</p>"
               }
             }
           ]
@@ -485,7 +494,7 @@
                 "id": "b4c10c8f-76f9-4e09-b64a-d049bef9c047",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’analyse du cycle de vie (ACV) est la méthode utilisée pour étudier un équipement de manière cohérente, à chaque étape de sa vie. Reste une question centrale&nbsp;: quels impacts mesurer ? Les indicateurs sont multiples&nbsp;: climat, ressources, santé… Ils ne renvoient pas aux mêmes effets sur l’environnement.</p>"
+                "content": "<p>L’analyse du cycle de vie (ACV) est la méthode utilisée pour étudier les impacts environnementaux d’un équipement de manière cohérente, à chaque étape de sa vie. Reste une question centrale&nbsp;: quels impacts mesurer ? Les indicateurs sont multiples&nbsp;: climat, ressources, santé… Ils ne renvoient pas aux mêmes effets sur l’environnement.</p>"
               }
             }
           ]
@@ -501,7 +510,7 @@
                 "id": "f12856b3-74b4-4e72-9079-1aceab56bc35",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Les trois graphiques ci-dessous montrent trois indicateurs environnementaux du numérique. Pour chaque indicateur, on observe la répartition des impacts selon les étapes du cycle de vie et la composante du numérique.</p>",
+                "instruction": "<p>Les trois graphiques ci-dessous montrent trois indicateurs environnementaux du numérique. Pour chaque indicateur, on observe la répartition des impacts mondiaux selon les étapes du cycle de vie et la composante du numérique.</p>",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
@@ -509,7 +518,7 @@
                   "slides": [
                     {
                       "title": "Émissions de gaz à effet de serre",
-                      "description": "Le graphique montre la répartition des émissions de gaz à effet de serre selon les étapes du cycle de vie et les composantes du numérique.",
+                      "description": "Le graphique montre la répartition des émissions de gaz à effet de serre selon les étapes du cycle de vie et les composantes du numérique. Source : GreenIT 2025 — périmètre mondial",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/chart-1.png",
@@ -523,7 +532,7 @@
                     },
                     {
                       "title": "Épuisement des ressources minérales et métalliques",
-                      "description": "Le graphique montre la répartition de l’épuisement des ressources minérales et métalliques selon les étapes du cycle de vie et les composantes du numérique.",
+                      "description": "Le graphique montre la répartition de l’épuisement des ressources minérales et métalliques selon les étapes du cycle de vie et les composantes du numérique. Source : GreenIT 2025 — périmètre mondial",
                       "displayWidth": 600,
                       "image": {
                         "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/chart-2.png",
@@ -537,10 +546,10 @@
                     },
                     {
                       "title": "Émissions de particules fines",
-                      "description": "Le graphique montre la répartition des émissions de particules fines selon les étapes du cycle de vie et les composantes du numérique.",
+                      "description": "Le graphique montre la répartition des émissions de particules fines selon les étapes du cycle de vie et les composantes du numérique. Source : GreenIT 2025 — périmètre mondial",
                       "displayWidth": 600,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/chart-1.png",
+                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/chart.png",
                         "alt": "aa"
                       },
                       "license": {
@@ -643,28 +652,28 @@
                           "id": "1",
                           "content": "<p>Les équipements des utilisateurs concentrent souvent la plus grande part des impacts.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Les graphiques montrent que les équipements des utilisateurs concentrent souvent la plus grande part des impacts, sans pour autant rendre négligeables les réseaux et les centres de données.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Les graphiques montrent que les équipements des utilisateurs concentrent souvent la plus grande part des impacts, notamment parce qu’ils sont très nombreux. Les réseaux et les centres de données représentent une part plus faible selon les indicateurs, mais ils restent nécessaires au fonctionnement des services numériques.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Les centres de données concentrent à eux seuls la majorité des impacts environnementaux du numérique.",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Les graphiques montrent que les équipements des utilisateurs concentrent souvent la plus grande part des impacts, sans pour autant rendre négligeables les réseaux et les centres de données.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Les graphiques montrent que les équipements des utilisateurs concentrent souvent la plus grande part des impacts, notamment parce qu’ils sont très nombreux. Les réseaux et les centres de données représentent une part plus faible selon les indicateurs, mais ils restent nécessaires au fonctionnement des services numériques.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Les réseaux ont un impact marginal par rapport aux autres composantes du numérique.</p>",
+                          "content": "<p>Les réseaux peuvent être ignorés dans l’évaluation des impacts du numérique.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Les graphiques montrent que les équipements des utilisateurs concentrent souvent la plus grande part des impacts, sans pour autant rendre négligeables les réseaux et les centres de données.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Les graphiques montrent que les équipements des utilisateurs concentrent souvent la plus grande part des impacts, notamment parce qu’ils sont très nombreux. Les réseaux et les centres de données représentent une part plus faible selon les indicateurs, mais ils restent nécessaires au fonctionnement des services numériques.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Les graphiques montrent que les équipements des utilisateurs concentrent souvent la plus grande part des impacts, sans pour autant rendre négligeables les réseaux et les centres de données.</p>"
+                            "diagnosis": "<p>Les graphiques montrent que les équipements des utilisateurs concentrent souvent la plus grande part des impacts, notamment parce qu’ils sont très nombreux. Les réseaux et les centres de données représentent une part plus faible selon les indicateurs, mais ils restent nécessaires au fonctionnement des services numériques.</p>"
                           }
                         }
                       ],
@@ -736,7 +745,7 @@
                 "id": "ed97ea10-9ed8-4c2d-ad35-35c528d3d08d",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>Le numérique s’appuie sur <strong>trois grandes familles du numérique</strong>&nbsp;: les équipements des utilisateurs, les réseaux et les centres de données. 🧩</li>    <li>Pour mesurer les impacts, on utilise l’<strong>Analyse du Cycle de Vie (ACV)</strong>, qui prend en compte <strong>la fabrication, le transport, l’utilisation et la fin de vie</strong>. 🔍</li>    <li>Pour comparer les impacts, il faut définir un <strong>périmètre</strong> clair et lire les résultats en précisant <strong>l’indicateur choisi</strong>, car chaque indicateur renvoie à un <strong>type d’impact</strong> (climat, ressources, santé…). 📏</li>    <li>La mesure de ces impacts varie selon l’indicateur, le périmètre et les usages&nbsp;: <strong>les équipements concentrent souvent la plus grande part des impacts</strong>, mais <strong>les réseaux et les centres de données</strong> comptent aussi (et peuvent être sous-estimés). 🔄</li>    </ul>"
+                "content": "<ul>    <li>Le numérique s’appuie sur <strong>trois grandes familles du numérique</strong>&nbsp;: les équipements des utilisateurs, les réseaux et les centres de données. 🧩</li>    <li>Pour mesurer les impacts, on utilise l’<strong>Analyse du Cycle de Vie (ACV)</strong>, qui prend en compte <strong>la fabrication, le transport, l’utilisation et la fin de vie</strong>. 🔍</li>    <li>Pour comparer les impacts, il faut définir un <strong>périmètre</strong> clair et lire les résultats en précisant <strong>les indicateurs choisis</strong>, car chaque indicateur renvoie à un <strong>type d’impact</strong> (climat, ressources, santé…). 📏</li>    <li>La mesure de ces impacts varie selon l’indicateur, le périmètre et les usages&nbsp;: <strong>les équipements concentrent souvent la plus grande part des impacts</strong>, mais <strong>les réseaux et les centres de données</strong> comptent, car ils rendent possibles de nouveaux services et usages numériques. 🔄</li>    </ul>"
               }
             }
           ]
@@ -839,7 +848,7 @@
               "element": {
                 "id": "e393cd8a-1a83-4533-a809-9b7c6bcd1e41",
                 "type": "qcm",
-                "instruction": "<p>Quels sont les deux autres informations à connaître pour interpréter correctement cette donnée ?&nbsp;</p>",
+                "instruction": "<p>Quelles sont les deux autres informations à connaître pour interpréter correctement cette donnée ?&nbsp;</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -1081,7 +1090,7 @@
                   "author": "Rédaction spécialisée",
                   "date": "2025",
                   "paragraphs": [
-                    "Les centres de données sont au cœur du développement du numérique, notamment avec le cloud et l’intelligence artificielle. Face aux enjeux environnementaux, le secteur met en avant son engagement vers la neutralité carbone, c’est-à-dire l’équilibre entre les gaz à effet de serre émis et ceux compensés..",
+                    "Les centres de données sont au cœur du développement du numérique, notamment avec le cloud et l’intelligence artificielle. Face aux enjeux environnementaux, le secteur met en avant son engagement vers la neutralité carbone, c’est-à-dire l’équilibre entre les gaz à effet de serre émis et ceux compensés.",
                     "L’utilisation d’énergies renouvelables, l’amélioration de l’efficacité énergétique et l’optimisation des systèmes de refroidissement permettent de limiter les émissions liées à leur fonctionnement. {{highlightedSentence}}, soutenues par des certifications environnementales et des stratégies ESG."
                   ],
                   "highlightedSentence": "Ces actions contribuent à réduire l’impact environnemental des infrastructures numériques",
