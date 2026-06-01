@@ -333,6 +333,20 @@ describe('Integration | Repository | Campaign-Report', function () {
       // then
       expect(error).to.be.instanceOf(NotFoundError);
     });
+
+    it('should throw a NotFoundError if campaign is deleted', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({
+        deletedAt: new Date(),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(campaignReportRepository.get)(campaign.id);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+    });
   });
 
   describe(findMasteryRates.name, function () {

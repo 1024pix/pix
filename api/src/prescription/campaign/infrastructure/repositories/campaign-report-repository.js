@@ -51,6 +51,7 @@ const get = async function (id) {
     .leftJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
     .leftJoin('stages', 'stages.targetProfileId', 'target-profiles.id')
     .where('campaigns.id', id)
+    .whereNull('deletedAt')
     .groupBy('campaigns.id', 'users.id', 'target-profiles.id')
     .first();
   if (!result) {
