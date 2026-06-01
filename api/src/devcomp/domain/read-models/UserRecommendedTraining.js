@@ -13,6 +13,7 @@ class UserRecommendedTraining {
     program,
     objectives,
     description,
+    isRelevant,
   } = {}) {
     this.id = id;
     this.title = title;
@@ -23,6 +24,7 @@ class UserRecommendedTraining {
     this.editorName = editorName;
     this.editorLogoUrl = editorLogoUrl;
     this.deliveryMode = deliveryMode;
+    this.isRelevant = isRelevant;
     this.registrationRequired = registrationRequired;
     this.program = program;
     this.objectives = objectives;
