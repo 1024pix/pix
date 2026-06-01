@@ -2,12 +2,12 @@ import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../db/migrations
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
 
-const save = function ({ userId, trainingId, campaignParticipationId }) {
+const save = function ({ userId, trainingId, campaignParticipationId, isRelevant }) {
   const knexConn = DomainTransaction.getConnection();
   return knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
-    .insert({ userId, trainingId, campaignParticipationId })
+    .insert({ userId, trainingId, campaignParticipationId, isRelevant, updatedAt: knexConn.fn.now() })
     .onConflict(['userId', 'trainingId', 'campaignParticipationId'])
-    .merge({ updatedAt: knexConn.fn.now() });
+    .merge(['isRelevant', 'updatedAt']);
 };
 
 const findByCampaignParticipationId = async function ({ campaignParticipationId, locale }) {

@@ -16,6 +16,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
         userId: databaseBuilder.factory.buildUser().id,
         trainingId: databaseBuilder.factory.buildTraining().id,
         campaignParticipationId: databaseBuilder.factory.buildCampaignParticipation().id,
+        isRelevant: true,
       };
       await databaseBuilder.commit();
 
@@ -30,7 +31,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
           campaignParticipationId: userRecommendedTraining.campaignParticipationId,
         })
         .first();
-      expect(_.omit(persistedUserRecommendedTraining, ['id', 'createdAt', 'updatedAt', 'isRelevant'])).to.deep.equal(
+      expect(_.omit(persistedUserRecommendedTraining, ['id', 'createdAt', 'updatedAt'])).to.deep.equal(
         userRecommendedTraining,
       );
     });
