@@ -9,7 +9,7 @@ import setupIntlRenderingTest, { t } from '../../../../../helpers/setup-intl-ren
 module('Integration | Component | Complementary certifications/Item/Framework | Framework history', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  let intl, store, pixToast, frameworkItem1, frameworkItem2, frameworkItem3;
+  let intl, store, pixToast, frameworkItem1, frameworkItem2, frameworkItem3, frameworkHistory;
 
   hooks.beforeEach(function () {
     intl = this.owner.lookup('service:intl');
@@ -41,16 +41,16 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
       status: 'DRAFT',
     };
 
-    sinon.stub(store, 'queryRecord').resolves(
-      store.createRecord('framework-history', {
-        history: [frameworkItem1, frameworkItem2, frameworkItem3],
-      }),
-    );
+    frameworkHistory = store.createRecord('framework-history', {
+      history: [frameworkItem1, frameworkItem2, frameworkItem3],
+    });
   });
 
   test('it should display the framework history', async function (assert) {
     // when
-    const screen = await render(<template><FrameworkHistory @frameworkKey="DROIT" /></template>);
+    const screen = await render(
+      <template><FrameworkHistory @frameworkKey="DROIT" @frameworkHistory={{frameworkHistory}} /></template>,
+    );
 
     // then
     assert
@@ -81,7 +81,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
     sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version'));
 
     // when
-    const screen = await render(<template><FrameworkHistory @frameworkKey="CORE" /></template>);
+    const screen = await render(
+      <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+    );
 
     await click(
       screen.getAllByRole('button', {
@@ -99,7 +101,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
     sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version'));
 
     // when
-    const screen = await render(<template><FrameworkHistory @frameworkKey="CORE" /></template>);
+    const screen = await render(
+      <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+    );
 
     await click(
       screen.getAllByRole('button', {
@@ -126,7 +130,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
     sinon.stub(store, 'findRecord').resolves(certificationVersion);
     sinon.stub(pixToast, 'sendSuccessNotification');
 
-    const screen = await render(<template><FrameworkHistory @frameworkKey="CORE" /></template>);
+    const screen = await render(
+      <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+    );
 
     await click(
       screen.getAllByRole('button', {
@@ -150,7 +156,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
     test('it should not be possible to delete an ACTIVE or ARCHIVED version', async function (assert) {
       // when
-      const screen = await render(<template><FrameworkHistory @frameworkKey="CORE" /></template>);
+      const screen = await render(
+        <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+      );
 
       // then
       assert.strictEqual(screen.getAllByRole('button', { name: deleteButtonName }).length, 3);
@@ -166,7 +174,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
       sinon.stub(store, 'findRecord').resolves(certificationVersion);
       sinon.stub(certificationVersion, 'destroyRecord').resolves();
 
-      const screen = await render(<template><FrameworkHistory @frameworkKey="CORE" /></template>);
+      const screen = await render(
+        <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+      );
 
       // when
       await click(screen.getAllByRole('button', { name: deleteButtonName })[2]);
@@ -184,7 +194,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
         sinon.stub(store, 'findRecord').resolves(certificationVersion);
         sinon.stub(certificationVersion, 'destroyRecord').resolves();
 
-        const screen = await render(<template><FrameworkHistory @frameworkKey="CORE" /></template>);
+        const screen = await render(
+          <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+        );
 
         // when
         await click(screen.getAllByRole('button', { name: deleteButtonName })[2]);
@@ -203,7 +215,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
         sinon.stub(store, 'findRecord').resolves(certificationVersion);
         sinon.stub(certificationVersion, 'destroyRecord').rejects();
 
-        const screen = await render(<template><FrameworkHistory @frameworkKey="CORE" /></template>);
+        const screen = await render(
+          <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+        );
 
         // when
         await click(screen.getAllByRole('button', { name: deleteButtonName })[2]);

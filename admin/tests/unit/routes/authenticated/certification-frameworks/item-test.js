@@ -13,6 +13,7 @@ module('Unit | Route | authenticated/certification-frameworks/item', function (h
     store = this.owner.lookup('service:store');
     store.peekAll = sinon.stub();
     store.findAll = sinon.stub();
+    store.queryRecord = sinon.stub();
   });
 
   module('model()', function () {
@@ -24,6 +25,7 @@ module('Unit | Route | authenticated/certification-frameworks/item', function (h
         store.peekAll.withArgs('certification-framework').returns([cleaFramework]);
         store.peekAll.withArgs('complementary-certification').returns([cleaComplementary]);
         store.findAll.withArgs('complementary-certification').resolves([cleaComplementary]);
+        store.queryRecord.withArgs('framework-history').resolves(null);
 
         // when
         const result = await route.model({ certification_framework_key: 'CLEA' });

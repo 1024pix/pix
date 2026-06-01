@@ -6,7 +6,6 @@ import FrameworkHistory from './framework/framework-history';
 import History from './target-profile/history';
 
 export default class CertificationFramework extends Component {
-  @service store;
   @tracked targetProfilesHistory;
   @tracked frameworkHistory;
 
@@ -26,7 +25,7 @@ export default class CertificationFramework extends Component {
   }
 
   <template>
-    <FrameworkHistory @frameworkKey={{@frameworkKey}} />
+    <FrameworkHistory @frameworkKey={{@frameworkKey}} @frameworkHistory={{@frameworkHistory}} />
 
     {{#if this.targetProfilesHistory}}
       <History @targetProfilesHistory={{this.targetProfilesHistory}} />

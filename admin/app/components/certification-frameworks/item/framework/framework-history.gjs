@@ -32,13 +32,11 @@ export default class FrameworkHistory extends Component {
 
   constructor() {
     super(...arguments);
-
-    this.#onMount();
+    this.frameworkHistory = this.args.frameworkHistory?.history ?? [];
   }
 
-  async #onMount() {
-    const frameworkHistory = await this.store.queryRecord('framework-history', this.args.frameworkKey);
-    this.frameworkHistory = frameworkHistory?.history;
+  get hasHistory() {
+    return this.frameworkHistory.length > 0;
   }
 
   @action
@@ -85,97 +83,97 @@ export default class FrameworkHistory extends Component {
   }
 
   <template>
-    {{#if this.frameworkHistory}}
-      <section class="framework-versions">
-        <PixTable
-          @variant="admin"
-          @caption={{t "components.certification-frameworks.item.framework.history.table.caption"}}
-          @data={{this.frameworkHistory}}
-        >
-          <:columns as |version context|>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t "components.certification-frameworks.item.framework.history.table.columns.version-id"}}
-              </:header>
-              <:cell>
-                {{version.id}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t
-                  "components.certification-frameworks.item.framework.history.table.columns.maximum-assessment-length"
-                }}
-              </:header>
-              <:cell>
-                {{version.maximumAssessmentLength}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                <PixIcon @name="time" @ariaHidden={{true}} />
-                {{t "components.certification-frameworks.item.framework.history.table.columns.assessment-duration"}}
-              </:header>
-              <:cell>
-                {{formatMinutes version.assessmentDuration}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                <PixIcon @name="calendar" @ariaHidden={{true}} />
-                {{t "components.certification-frameworks.item.framework.history.table.columns.start-date"}}
-              </:header>
-              <:cell>
-                <strong>{{if version.startDate (formatDate version.startDate) "-"}}</strong>
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                <PixIcon @name="calendar" @ariaHidden={{true}} />
-                {{t "components.certification-frameworks.item.framework.history.table.columns.expiration-date"}}
-              </:header>
-              <:cell>
-                <strong>{{if version.expirationDate (formatDate version.expirationDate) "-"}}</strong>
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t "components.certification-frameworks.item.framework.history.table.columns.status"}}
-              </:header>
-              <:cell>
-                <PixTag @color={{get STATUS_COLORS version.status}}>
-                  {{t (concat "components.certification-frameworks.item.framework.history.statuses." version.status)}}
-                </PixTag>
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t "components.certification-frameworks.item.framework.history.table.columns.actions"}}
-              </:header>
-              <:cell>
-                <PixIconButton
-                  @triggerAction={{fn this.viewVersion version.id version.status}}
-                  @ariaLabel={{t "components.certification-frameworks.item.framework.history.table.actions.view"}}
-                  @iconName="eye"
-                />
-                <PixIconButton
-                  @triggerAction={{this.editVersion}}
-                  @ariaLabel={{t "components.certification-frameworks.item.framework.history.table.actions.edit"}}
-                  @iconName="edit"
-                  @isDisabled={{not (eq version.status "DRAFT")}}
-                />
-                <PixIconButton
-                  @triggerAction={{fn this.showDeleteVersionModal version.id}}
-                  @ariaLabel={{t "components.certification-frameworks.item.framework.history.table.actions.delete"}}
-                  @iconName="delete"
-                  @isDisabled={{not (eq version.status "DRAFT")}}
-                />
-              </:cell>
-            </PixTableColumn>
-          </:columns>
-        </PixTable>
-      </section>
-    {{/if}}
+    <section class="framework-versions">
+      <PixTable
+        @variant="admin"
+        @caption={{t "components.certification-frameworks.item.framework.history.table.caption"}}
+        @data={{this.frameworkHistory}}
+      >
+        <:columns as |version context|>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              {{t "components.certification-frameworks.item.framework.history.table.columns.version-id"}}
+            </:header>
+            <:cell>
+              {{version.id}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              {{t "components.certification-frameworks.item.framework.history.table.columns.maximum-assessment-length"}}
+            </:header>
+            <:cell>
+              {{version.maximumAssessmentLength}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              <PixIcon @name="time" @ariaHidden={{true}} />
+              {{t "components.certification-frameworks.item.framework.history.table.columns.assessment-duration"}}
+            </:header>
+            <:cell>
+              {{formatMinutes version.assessmentDuration}}
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              <PixIcon @name="calendar" @ariaHidden={{true}} />
+              {{t "components.certification-frameworks.item.framework.history.table.columns.start-date"}}
+            </:header>
+            <:cell>
+              <strong>{{if version.startDate (formatDate version.startDate) "-"}}</strong>
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              <PixIcon @name="calendar" @ariaHidden={{true}} />
+              {{t "components.certification-frameworks.item.framework.history.table.columns.expiration-date"}}
+            </:header>
+            <:cell>
+              <strong>{{if version.expirationDate (formatDate version.expirationDate) "-"}}</strong>
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              {{t "components.certification-frameworks.item.framework.history.table.columns.status"}}
+            </:header>
+            <:cell>
+              <PixTag @color={{get STATUS_COLORS version.status}}>
+                {{t (concat "components.certification-frameworks.item.framework.history.statuses." version.status)}}
+              </PixTag>
+            </:cell>
+          </PixTableColumn>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              {{t "components.certification-frameworks.item.framework.history.table.columns.actions"}}
+            </:header>
+            <:cell>
+              <PixIconButton
+                @triggerAction={{fn this.viewVersion version.id version.status}}
+                @ariaLabel={{t "components.certification-frameworks.item.framework.history.table.actions.view"}}
+                @iconName="eye"
+              />
+              <PixIconButton
+                @triggerAction={{this.editVersion}}
+                @ariaLabel={{t "components.certification-frameworks.item.framework.history.table.actions.edit"}}
+                @iconName="edit"
+                @isDisabled={{not (eq version.status "DRAFT")}}
+              />
+              <PixIconButton
+                @triggerAction={{fn this.showDeleteVersionModal version.id}}
+                @ariaLabel={{t "components.certification-frameworks.item.framework.history.table.actions.delete"}}
+                @iconName="delete"
+                @isDisabled={{not (eq version.status "DRAFT")}}
+              />
+            </:cell>
+          </PixTableColumn>
+        </:columns>
+      </PixTable>
+
+      {{#unless this.hasHistory}}
+        <p>{{t "components.certification-frameworks.item.framework.history.table.empty"}}</p>
+      {{/unless}}
+    </section>
 
     {{#if this.selectedVersion}}
       <CertificationVersionDetailModal

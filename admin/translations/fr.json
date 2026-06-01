@@ -523,7 +523,8 @@
                 "start-date": "Date d'activation",
                 "status": "Statut",
                 "version-id": "ID de version"
-              }
+              },
+              "empty": "Cette certification n'a pas d'histoire"
             },
             "title": "Historique des versions du référentiel"
           },

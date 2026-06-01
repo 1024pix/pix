@@ -16,12 +16,16 @@ module('Integration | Component | certification-frameworks/item/framework', func
   });
 
   module('#frameworkHistory', function () {
-    test('it should display the framework history when there are existing framework versions', async function (assert) {
+    test('it should display the framework history', async function (assert) {
       // given
-      store.queryRecord = sinon.stub().resolves({ history: ['20250101080000', '20240101080000'] });
+      const frameworkHistory = store.createRecord('framework-history', {
+        history: [],
+      });
 
       // when
-      const screen = await render(<template><Framework @frameworkKey="DROIT" /></template>);
+      const screen = await render(
+        <template><Framework @frameworkKey="DROIT" @frameworkHistory={{frameworkHistory}} /></template>,
+      );
 
       // then
       assert
@@ -31,14 +35,24 @@ module('Integration | Component | certification-frameworks/item/framework', func
           }),
         )
         .exists();
+      assert
+        .dom(screen.getByText(t('components.certification-frameworks.item.framework.history.table.empty')))
+        .exists();
     });
   });
 
   module('when the framework is CORE', function () {
     test('it should not display target profiles history section', async function (assert) {
+      // given
+      const frameworkHistory = store.createRecord('framework-history', {
+        history: [],
+      });
+
       // when
       const screen = await render(
-        <template><Framework @frameworkKey="CORE" @hasTargetProfilesHistory={{false}} /></template>,
+        <template>
+          <Framework @frameworkKey="CORE" @hasTargetProfilesHistory={{false}} @frameworkHistory={{frameworkHistory}} />
+        </template>,
       );
 
       // then
@@ -60,6 +74,9 @@ module('Integration | Component | certification-frameworks/item/framework', func
         targetProfilesHistory: [{ id: 1, name: 'Profil A', attachedAt: new Date('2024-01-01'), detachedAt: null }],
         reload: sinon.stub().resolves(),
       };
+      const frameworkHistory = store.createRecord('framework-history', {
+        history: [],
+      });
 
       // when
       const screen = await render(
@@ -68,6 +85,7 @@ module('Integration | Component | certification-frameworks/item/framework', func
             @frameworkKey="DROIT"
             @certificationFramework={{certificationFramework}}
             @hasTargetProfilesHistory={{true}}
+            @frameworkHistory={{frameworkHistory}}
           />
         </template>,
       );
@@ -89,6 +107,9 @@ module('Integration | Component | certification-frameworks/item/framework', func
         targetProfilesHistory: [],
         reload: sinon.stub().resolves(),
       };
+      const frameworkHistory = store.createRecord('framework-history', {
+        history: [],
+      });
 
       // when
       await render(
@@ -97,6 +118,7 @@ module('Integration | Component | certification-frameworks/item/framework', func
             @frameworkKey="DROIT"
             @certificationFramework={{certificationFramework}}
             @hasTargetProfilesHistory={{true}}
+            @frameworkHistory={{frameworkHistory}}
           />
         </template>,
       );

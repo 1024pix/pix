@@ -515,7 +515,8 @@
                 "start-date": "Start date",
                 "status": "Status",
                 "version-id": "Version ID"
-              }
+              },
+              "empty": "This certification has no history"
             },
             "title": "Framework versions history"
           },

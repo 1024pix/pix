@@ -5,7 +5,10 @@ import Header from 'pix-admin/components/certification-frameworks/item/header';
   {{pageTitle "Référentiel " @model.frameworkKey " | Pix Admin" replace=true}}
 
   <div class="page">
-    <Header @certificationFramework={{@model.currentCertificationFramework}} />
+    <Header
+      @certificationFramework={{@model.currentCertificationFramework}}
+      @frameworkHistory={{@model.frameworkHistory}}
+    />
 
     <section class="page-body certification-framework">
       {{outlet}}

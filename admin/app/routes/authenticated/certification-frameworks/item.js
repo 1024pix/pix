@@ -21,7 +21,10 @@ export default class ItemRoute extends Route {
       );
     }
 
+    const frameworkHistory = await this.store.queryRecord('framework-history', this.certificationFrameworkKey);
+
     return {
+      frameworkHistory,
       frameworkKey: this.certificationFrameworkKey,
       currentCertificationFramework,
       currentComplementaryCertification,
