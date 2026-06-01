@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as sessionRepository from '../../../../../../src/certification/shared/infrastructure/repositories/session-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
@@ -39,30 +38,26 @@ describe('Certification | Shared | Integration | Infrastructure | Repository | S
     it('should return associated certification candidates ordered by lastname and firstname', async function () {
       // given
       const session = databaseBuilder.factory.buildSession();
-      const candidateA = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Jackson',
         firstName: 'Michael',
         sessionId: session.id,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
 
-      const candidateB = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Stardust',
         firstName: 'Ziggy',
         sessionId: session.id,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
 
-      const candidateC = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Jackson',
         firstName: 'Janet',
         sessionId: session.id,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateC.id });
 
       _.times(5, () => {
-        const candidate = databaseBuilder.factory.buildCertificationCandidate();
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+        databaseBuilder.factory.buildCertificationCandidate();
       });
       await databaseBuilder.commit();
 
@@ -90,81 +85,6 @@ describe('Certification | Shared | Integration | Infrastructure | Repository | S
 
       // then
       expect(actualSession.certificationCandidates).to.deep.equal([]);
-    });
-
-    it('should return candidates complementary certification', async function () {
-      // given
-      const session = databaseBuilder.factory.buildSession();
-
-      const pixPlusFoot = databaseBuilder.factory.buildComplementaryCertification({
-        label: 'Pix+ Foot',
-        key: ComplementaryCertificationKeys.CLEA,
-      });
-      const pixPlusRugby = databaseBuilder.factory.buildComplementaryCertification({
-        label: 'Pix+ Rugby',
-        key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-      });
-
-      const firstCandidate = databaseBuilder.factory.buildCertificationCandidate({
-        lastName: 'Jackson',
-        firstName: 'Michael',
-        sessionId: session.id,
-      });
-      const secondCandidate = databaseBuilder.factory.buildCertificationCandidate({
-        lastName: 'Stardust',
-        firstName: 'Ziggy',
-        sessionId: session.id,
-      });
-
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: firstCandidate.id,
-        complementaryCertificationId: pixPlusRugby.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: secondCandidate.id,
-        complementaryCertificationId: pixPlusFoot.id,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const actualSession = await sessionRepository.getWithCertificationCandidates({ id: session.id });
-
-      // then
-      const [firstCandidateFromSession, secondCandidateFromSession] = actualSession.certificationCandidates;
-      expect(firstCandidateFromSession.complementaryCertification).to.deep.equal(
-        domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification(pixPlusRugby),
-      );
-      expect(secondCandidateFromSession.complementaryCertification).to.deep.equal(
-        domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification(pixPlusFoot),
-      );
-    });
-
-    it('should return an empty candidates complementary certifications if there is no complementary certification', async function () {
-      // given
-      const session = databaseBuilder.factory.buildSession();
-      const candidateA = databaseBuilder.factory.buildCertificationCandidate({
-        lastName: 'Jackson',
-        firstName: 'Michael',
-        sessionId: session.id,
-      });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
-
-      const candidateB = databaseBuilder.factory.buildCertificationCandidate({
-        lastName: 'Stardust',
-        firstName: 'Ziggy',
-        sessionId: session.id,
-      });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
-      await databaseBuilder.commit();
-
-      // when
-      const actualSession = await sessionRepository.getWithCertificationCandidates({ id: session.id });
-
-      // then
-      const [firstCandidateFromSession, secondCandidateFromSession] = actualSession.certificationCandidates;
-      expect(firstCandidateFromSession.complementaryCertification).to.equal(null);
-      expect(secondCandidateFromSession.complementaryCertification).to.equal(null);
     });
 
     it('should return a Not found error when no session was found', async function () {

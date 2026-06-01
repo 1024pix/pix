@@ -2,7 +2,6 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionManagement } from '../../../session-management/domain/models/SessionManagement.js';
 import { CertificationCandidate } from '../../domain/models/CertificationCandidate.js';
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 
 const getWithCertificationCandidates = async function ({ id }) {
   const knexConn = DomainTransaction.getConnection();
@@ -15,22 +14,9 @@ const getWithCertificationCandidates = async function ({ id }) {
   const certificationCandidates = await knexConn
     .select({
       certificationCandidate: 'certification-candidates.*',
-      complementaryCertificationId: 'complementary-certifications.id',
-      complementaryCertificationKey: 'complementary-certifications.key',
-      complementaryCertificationLabel: 'complementary-certifications.label',
     })
     .from('certification-candidates')
-    .leftJoin('certification-subscriptions', (builder) =>
-      builder
-        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
-        .onNotNull('certification-subscriptions.complementaryCertificationId'),
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'complementary-certifications.id',
-      'certification-subscriptions.complementaryCertificationId',
-    )
-    .groupBy('certification-candidates.id', 'complementary-certifications.id')
+    .groupBy('certification-candidates.id')
     .where({ sessionId: id })
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
 
@@ -46,25 +32,11 @@ function _toDomain(results) {
       (candidateData) =>
         new CertificationCandidate({
           ...candidateData,
-          complementaryCertification: _buildComplementaryCertification({
-            id: candidateData.complementaryCertificationId,
-            key: candidateData.complementaryCertificationKey,
-            label: candidateData.complementaryCertificationLabel,
-          }),
         }),
     );
 
   return new SessionManagement({
     ...results,
     certificationCandidates: toDomainCertificationCandidates,
-  });
-}
-
-function _buildComplementaryCertification({ id, key, label }) {
-  if (!id) return null;
-  return new ComplementaryCertification({
-    id,
-    key,
-    label,
   });
 }
