@@ -102,13 +102,6 @@ export default {
     devDefaultValues: { test: true, reviewApp: false },
     tags: ['team-acces', 'audit-logger'],
   },
-  addEmailConnectionMethodEnabled: {
-    type: 'boolean',
-    description: 'Enable adding email connection method',
-    defaultValue: false,
-    devDefaultValues: { test: false, reviewApp: false },
-    tags: ['team-acces', 'pix-api', 'mon-pix', 'frontend', 'backend'],
-  },
   restrictedOidcProvidersForEmailCreation: {
     type: 'array',
     description:

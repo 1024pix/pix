@@ -13,7 +13,6 @@ const getUserAccountInfo = async ({
   const oidcAuthenticationMethods = await authenticationMethodRepository.findAllOidcAuthenticationMethodsByUser({
     userId,
   });
-  const addEmailConnectionMethodEnabled = await featureToggles.get('addEmailConnectionMethodEnabled');
   const restrictedOidcProvidersForEmailCreation = await featureToggles.get('restrictedOidcProvidersForEmailCreation');
 
   return new UserAccountInfo({
@@ -22,7 +21,6 @@ const getUserAccountInfo = async ({
     username: user.username,
     canSelfDeleteAccount,
     oidcAuthenticationMethods,
-    addEmailConnectionMethodEnabled,
     restrictedOidcProvidersForEmailCreation,
   });
 };

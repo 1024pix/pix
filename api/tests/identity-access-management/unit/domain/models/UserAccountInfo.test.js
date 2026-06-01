@@ -28,17 +28,16 @@ describe('Unit | Domain | Models | UserAccountInfo', function () {
   });
 
   describe('#canAddEmailConnectionMethod', function () {
-    context('when addEmailConnectionMethodEnabled feature toggle is false', function () {
+    context('when user already has an email', function () {
       it('canAddEmailConnectionMethod returns false', function () {
         // given
         const userAccountInfo = new UserAccountInfo({
           id: 123,
-          email: null,
+          email: 'user@example.net',
           username: 'user123',
           canSelfDeleteAccount: true,
-          addEmailConnectionMethodEnabled: false,
           restrictedOidcProvidersForEmailCreation,
-          oidcAuthenticationMethods: [{ identityProvider: 'OIDC_PARTNER' }],
+          oidcAuthenticationMethods: [{ identityProvider: 'AUTHORIZED_OIDC_PARTNER' }],
         });
 
         // when / then
@@ -46,18 +45,17 @@ describe('Unit | Domain | Models | UserAccountInfo', function () {
       });
     });
 
-    context('when addEmailConnectionMethodEnabled is true', function () {
-      context('when user already has an email', function () {
+    context('when user has no email', function () {
+      context('when oidcAuthenticationMethods is empty', function () {
         it('canAddEmailConnectionMethod returns false', function () {
           // given
           const userAccountInfo = new UserAccountInfo({
             id: 123,
-            email: 'user@example.net',
+            email: null,
             username: 'user123',
             canSelfDeleteAccount: true,
-            addEmailConnectionMethodEnabled: true,
             restrictedOidcProvidersForEmailCreation,
-            oidcAuthenticationMethods: [{ identityProvider: 'AUTHORIZED_OIDC_PARTNER' }],
+            oidcAuthenticationMethods: [],
           });
 
           // when / then
@@ -65,62 +63,40 @@ describe('Unit | Domain | Models | UserAccountInfo', function () {
         });
       });
 
-      context('when user has no email', function () {
-        context('when oidcAuthenticationMethods is empty', function () {
-          it('canAddEmailConnectionMethod returns false', function () {
-            // given
-            const userAccountInfo = new UserAccountInfo({
-              id: 123,
-              email: null,
-              username: 'user123',
-              canSelfDeleteAccount: true,
-              addEmailConnectionMethodEnabled: true,
-              restrictedOidcProvidersForEmailCreation,
-              oidcAuthenticationMethods: [],
-            });
-
-            // when / then
-            expect(userAccountInfo.canAddEmailConnectionMethod).to.be.false;
+      context('when user has one oidcAuthenticationMethod from a restricted provider', function () {
+        it('canAddEmailConnectionMethod returns false', function () {
+          // given
+          const userAccountInfo = new UserAccountInfo({
+            id: 123,
+            email: null,
+            username: 'user123',
+            canSelfDeleteAccount: true,
+            restrictedOidcProvidersForEmailCreation,
+            oidcAuthenticationMethods: [{ identityProvider: 'RESTRICTED_OIDC_PROVIDER_1' }],
           });
+
+          // when / then
+          expect(userAccountInfo.canAddEmailConnectionMethod).to.be.false;
         });
+      });
 
-        context('when user has one oidcAuthenticationMethod from a restricted provider', function () {
-          it('canAddEmailConnectionMethod returns false', function () {
-            // given
-            const userAccountInfo = new UserAccountInfo({
-              id: 123,
-              email: null,
-              username: 'user123',
-              canSelfDeleteAccount: true,
-              addEmailConnectionMethodEnabled: true,
-              restrictedOidcProvidersForEmailCreation,
-              oidcAuthenticationMethods: [{ identityProvider: 'RESTRICTED_OIDC_PROVIDER_1' }],
-            });
-
-            // when / then
-            expect(userAccountInfo.canAddEmailConnectionMethod).to.be.false;
+      context('when at least one oidcAuthenticationMethod is not a restricted SSO provider', function () {
+        it('canAddEmailConnectionMethod returns true', function () {
+          // given
+          const userAccountInfo = new UserAccountInfo({
+            id: 123,
+            email: null,
+            username: 'user123',
+            canSelfDeleteAccount: true,
+            restrictedOidcProvidersForEmailCreation,
+            oidcAuthenticationMethods: [
+              { identityProvider: 'OIDC_PARTNER' },
+              { identityProvider: 'RESTRICTED_OIDC_PARTNER_1' },
+            ],
           });
-        });
 
-        context('when at least one oidcAuthenticationMethod is not a restricted SSO provider', function () {
-          it('canAddEmailConnectionMethod returns true', function () {
-            // given
-            const userAccountInfo = new UserAccountInfo({
-              id: 123,
-              email: null,
-              username: 'user123',
-              canSelfDeleteAccount: true,
-              addEmailConnectionMethodEnabled: true,
-              restrictedOidcProvidersForEmailCreation,
-              oidcAuthenticationMethods: [
-                { identityProvider: 'OIDC_PARTNER' },
-                { identityProvider: 'RESTRICTED_OIDC_PARTNER_1' },
-              ],
-            });
-
-            // when / then
-            expect(userAccountInfo.canAddEmailConnectionMethod).to.be.true;
-          });
+          // when / then
+          expect(userAccountInfo.canAddEmailConnectionMethod).to.be.true;
         });
       });
     });

@@ -1,5 +1,4 @@
 export class UserAccountInfo {
-  #addEmailConnectionMethodEnabled;
   #oidcAuthenticationMethods;
   #restrictedOidcProvidersForEmailCreation;
 
@@ -9,7 +8,6 @@ export class UserAccountInfo {
     username,
     canSelfDeleteAccount,
     restrictedOidcProvidersForEmailCreation = [],
-    addEmailConnectionMethodEnabled = false,
     oidcAuthenticationMethods = [],
   }) {
     this.id = id;
@@ -17,14 +15,10 @@ export class UserAccountInfo {
     this.username = username;
     this.canSelfDeleteAccount = canSelfDeleteAccount;
     this.#restrictedOidcProvidersForEmailCreation = restrictedOidcProvidersForEmailCreation;
-    this.#addEmailConnectionMethodEnabled = addEmailConnectionMethodEnabled;
     this.#oidcAuthenticationMethods = oidcAuthenticationMethods;
   }
 
   get canAddEmailConnectionMethod() {
-    if (!this.#addEmailConnectionMethodEnabled) {
-      return false;
-    }
     if (this.email) {
       return false;
     }
