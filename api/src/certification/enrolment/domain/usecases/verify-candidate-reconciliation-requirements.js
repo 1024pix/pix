@@ -4,8 +4,8 @@
  * @typedef {import ('./index.js').CertificationCenterRepository} CertificationCenterRepository
  */
 
-import { UserNotAuthorizedToCertifyError } from "../../../../shared/domain/errors.js";
-import { CenterHabilitationError } from "../../../shared/domain/errors.js";
+import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
+import { CenterHabilitationError } from '../../../shared/domain/errors.js';
 
 /**
  * @param {object} params

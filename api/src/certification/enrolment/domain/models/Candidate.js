@@ -1,10 +1,10 @@
 /**
  * @typedef {import ('./Subscription.js').Subscription} Subscription
  */
-import { CertificationCandidatesError } from "../../../../shared/domain/errors.js";
-import { BILLING_MODES, SUBSCRIPTION_TYPES } from "../../../shared/domain/constants.js";
-import { Frameworks } from "../../../shared/domain/models/Frameworks.js";
-import { validate } from "../validators/candidate-validator.js";
+import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
+import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
+import { validate } from '../validators/candidate-validator.js';
 
 export class Candidate {
   /**
