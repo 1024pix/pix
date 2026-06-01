@@ -1,3 +1,4 @@
+import { service } from '@ember/service';
 import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class Training extends Model {
@@ -47,4 +48,35 @@ export default class Training extends Model {
   get hasDuration() {
     return this.duration.days || this.duration.hours || this.duration.minutes;
   }
+
+  get formattedDuration() {
+    const daysPart = this.formattedDays;
+    const timePart = this.formattedTime;
+
+    if (daysPart && timePart)
+      return `${daysPart} ${this.intl.t('pages.skill-review.recommended-engine.training-card.duration.and')} ${timePart}`;
+    return daysPart || timePart;
+  }
+
+  get formattedDays() {
+    const { days } = this.duration;
+
+    return days
+      ? `${days} ${this.intl.t('pages.skill-review.recommended-engine.training-card.duration.days', { count: days })}`
+      : '';
+  }
+
+  get formattedTime() {
+    const { hours, minutes } = this.duration;
+
+    const formattedHours = hours
+      ? `${hours}${this.intl.t('pages.skill-review.recommended-engine.training-card.duration.hours')}`
+      : '';
+    const formattedMinutes = minutes
+      ? `${minutes}${this.intl.t('pages.skill-review.recommended-engine.training-card.duration.minutes')}`
+      : '';
+    return [formattedHours, formattedMinutes].filter(Boolean).join('');
+  }
+
+  @service intl;
 }
