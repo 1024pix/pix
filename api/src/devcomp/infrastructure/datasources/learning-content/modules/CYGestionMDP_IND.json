@@ -688,7 +688,7 @@
                 "id": "fa4b70d9-296e-41bb-839e-9df229c35c53",
                 "type": "embed",
                 "isCompletionRequired": false,
-                "title": "",
+                "title": "Changer mdp",
                 "url": "https://epreuves.pix.fr/changer-mdp/changer-mdp.html?mode=modulix-gestionmdp_IND&lang=fr",
                 "instruction": "<p>Changez le mot de passe pour son compte Papotix avec l’aide du gestionnaire.</p>",
                 "solution": "",
