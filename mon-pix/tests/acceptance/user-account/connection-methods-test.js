@@ -155,8 +155,6 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
     module('when canAddEmailConnectionMethod conditions are true', function () {
       test('displays empty email label and add email button', async function (assert) {
         // given
-        server.create('feature-toggle', { id: '0', addEmailConnectionMethodEnabled: true });
-
         const userDetails = {
           email: 'only.sso@example.net',
         };
@@ -243,7 +241,6 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
   module('email adding', function () {
     test('is able to add the mail, enter the code received, and be successfully redirected to account page', async function (assert) {
       // given
-      server.create('feature-toggle', { id: '0', addEmailConnectionMethodEnabled: true });
       const user = server.create('user', 'withCanAddEmailConnectionMethod');
       server.create('authentication-method', 'withGenericOidcIdentityProvider', { user });
       await authenticate(user);

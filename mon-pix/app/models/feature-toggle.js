@@ -7,5 +7,4 @@ export default class FeatureToggle extends Model {
   @attr('boolean') areModuleShortIdUrlsEnabled;
   @attr('boolean') areCombinedCoursesEnabled;
   @attr('array') disabledLocalesInFrontend;
-  @attr('boolean') addEmailConnectionMethodEnabled;
 }

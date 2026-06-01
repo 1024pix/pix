@@ -140,13 +140,9 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
   });
 
   module('#canAddEmailConnectionMethod', function () {
-    module('when feature toggle is enabled and canAddEmailConnectionMethod is true', function () {
+    module('when canAddEmailConnectionMethod is true', function () {
       test('returns true', function (assert) {
         // given
-        class FeatureTogglesStub extends Service {
-          featureToggles = { addEmailConnectionMethodEnabled: true };
-        }
-        this.owner.register('service:featureToggles', FeatureTogglesStub);
         const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
         const model = {
           user: {},
@@ -162,13 +158,9 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
       });
     });
 
-    module('when feature toggle is enabled and canAddEmailConnectionMethod is false', function () {
+    module('when canAddEmailConnectionMethod is false', function () {
       test('returns false', function (assert) {
         // given
-        class FeatureTogglesStub extends Service {
-          featureToggles = { addEmailConnectionMethodEnabled: true };
-        }
-        this.owner.register('service:featureToggles', FeatureTogglesStub);
         const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
         const model = {
           user: {},
