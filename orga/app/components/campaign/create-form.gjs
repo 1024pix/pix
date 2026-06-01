@@ -162,10 +162,8 @@ export default class CreateForm extends Component {
 
   @action
   selectCombinedCourseBlueprint(blueprintId) {
-    // We call blueprint target profiles temporarily as we plan to create a parent domain model for the two
-    // Same for the combined courses and campaigns
-    const record = this.store.createRecord('target-profile', { id: blueprintId });
-    this.args.campaign.targetProfile = record;
+    const record = this.store.peekRecord('combined-course-blueprint', blueprintId);
+    this.args.campaign.combinedCourseBlueprint = record;
   }
 
   @action
@@ -426,7 +424,7 @@ export default class CreateForm extends Component {
               @options={{this.blueprintOwnerOptions}}
               @hideDefaultOption={{true}}
               @onChange={{this.selectCombinedCourseBlueprint}}
-              @value={{@campaign.targetProfile.id}}
+              @value={{@campaign.combinedCourseBlueprint.id}}
               @requiredLabel={{t "common.form.mandatory-fields-title"}}
               @errorMessage={{if @errors.blueprint (t "api-error-messages.campaign-creation.target-profile-required")}}
               @locale={{this.locale.currentLocale}}

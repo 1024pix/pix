@@ -35,6 +35,7 @@ export default class Campaign extends Model {
 
   @belongsTo('organization', { async: true, inverse: 'campaigns' }) organization;
   @belongsTo('target-profile', { async: true, inverse: null }) targetProfile;
+  @belongsTo('combined-course-blueprint', { async: true, inverse: null }) combinedCourseBlueprint;
 
   @belongsTo('campaign-collective-result', { async: true, inverse: null }) campaignCollectiveResult;
   @belongsTo('campaign-result-levels-per-tubes-and-competence', { async: true, inverse: null })

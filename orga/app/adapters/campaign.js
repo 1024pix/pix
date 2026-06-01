@@ -30,7 +30,9 @@ export default class CampaignAdapter extends ApplicationAdapter {
     const payload = this.serialize(snapshot);
 
     if (payload.data.attributes.type === 'COMBINED_COURSE') {
-      payload.data.relationships['combined-course-blueprint'] = { data: { id: snapshot.record.targetProfile.id } };
+      payload.data.relationships['combined-course-blueprint'] = {
+        data: { id: snapshot.record.combinedCourseBlueprint.id },
+      };
       const url = `${this.host}/${this.namespace}/combined-courses`;
 
       return this.ajax(url, 'POST', { data: payload });
