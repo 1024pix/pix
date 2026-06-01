@@ -21,6 +21,21 @@ const findByCampaignParticipationId = async function ({ campaignParticipationId,
   return trainings.map(_toDomain);
 };
 
+const findByCampaignParticipationIdAndTrainingIdAndUserId = async function ({
+  campaignParticipationId,
+  trainingId,
+  userId,
+}) {
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+    .select('trainings.*', 'isRelevant')
+    .innerJoin('trainings', 'trainings.id', `${USER_RECOMMENDED_TRAININGS_TABLE_NAME}.trainingId`)
+    .where({ campaignParticipationId, trainingId, userId, isDisabled: false })
+    .first();
+
+  return result ? _toDomain(result) : null;
+};
+
 const findModulesByCampaignParticipationIds = async function ({ campaignParticipationIds }) {
   const knexConn = DomainTransaction.getConnection();
   const moduleLinks = await knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
@@ -57,6 +72,7 @@ const deleteCampaignParticipationIds = async ({ campaignParticipationIds }) => {
 export {
   deleteCampaignParticipationIds,
   findByCampaignParticipationId,
+  findByCampaignParticipationIdAndTrainingIdAndUserId,
   findModulesByCampaignParticipationIds,
   hasRecommendedTrainings,
   save,

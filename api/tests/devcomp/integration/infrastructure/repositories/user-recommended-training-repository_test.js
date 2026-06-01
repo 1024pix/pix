@@ -160,6 +160,72 @@ describe('Integration | Repository | user-recommended-training-repository', func
       expect(result).to.have.lengthOf(0);
     });
   });
+  describe('#findByCampaignParticipationIdAndTrainingIdAndUserId', function () {
+    it('should return recommended training for given campaignParticipationId, trainingId and userId', async function () {
+      // given
+      const { id: campaignParticipationId, userId } = databaseBuilder.factory.buildCampaignParticipation();
+      const training = databaseBuilder.factory.buildTraining();
+      const userRecommendedTraining1 = {
+        userId,
+        trainingId: training.id,
+        campaignParticipationId,
+        isRelevant: true,
+      };
+      const userRecommendedTraining2 = {
+        userId,
+        trainingId: databaseBuilder.factory.buildTraining().id,
+        campaignParticipationId,
+        isRelevant: false,
+      };
+
+      databaseBuilder.factory.buildUserRecommendedTraining(userRecommendedTraining1);
+      databaseBuilder.factory.buildUserRecommendedTraining(userRecommendedTraining2);
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userRecommendedTrainingRepository.findByCampaignParticipationIdAndTrainingIdAndUserId({
+        campaignParticipationId,
+        trainingId: training.id,
+        userId,
+      });
+
+      // then
+      expect(result).to.be.instanceOf(UserRecommendedTraining);
+      expect(result).to.deep.equal(
+        new UserRecommendedTraining({ ...training, duration: { hours: 6 }, isRelevant: true }),
+      );
+    });
+
+    describe('when recommended training does not exist for given campaignParticipationId, trainingId and userId', function () {
+      it('should return null', async function () {
+        // given
+        const { id: campaignParticipationId, userId } = databaseBuilder.factory.buildCampaignParticipation();
+        const training = databaseBuilder.factory.buildTraining();
+        const userRecommendedTraining1 = {
+          userId,
+          trainingId: training.id,
+          campaignParticipationId,
+          isRelevant: true,
+        };
+        databaseBuilder.factory.buildUserRecommendedTraining(userRecommendedTraining1);
+
+        const otherUserId = databaseBuilder.factory.buildUser().id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await userRecommendedTrainingRepository.findByCampaignParticipationIdAndTrainingIdAndUserId({
+          campaignParticipationId,
+          trainingId: training.id,
+          userId: otherUserId,
+        });
+
+        // then
+        expect(result).to.be.null;
+      });
+    });
+  });
 
   describe('#findModulesByCampaignParticipationIds', function () {
     it('should return saved recommended modules for given campaignParticipationId', async function () {
