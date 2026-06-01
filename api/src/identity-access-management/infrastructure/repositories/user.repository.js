@@ -346,7 +346,12 @@ const acceptPixLastTermsOfService = async function (id) {
   const knexConn = DomainTransaction.getConnection();
   const [user] = await knexConn('users')
     .where({ id })
-    .update({ lastTermsOfServiceValidatedAt: new Date(), mustValidateTermsOfService: false, updatedAt: new Date() })
+    .update({
+      lastTermsOfServiceValidatedAt: new Date(),
+      mustValidateTermsOfService: false,
+      updatedAt: new Date(),
+      cgu: true,
+    })
     .returning('*');
 
   return new User(user);
