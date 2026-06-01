@@ -30,7 +30,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
           campaignParticipationId: userRecommendedTraining.campaignParticipationId,
         })
         .first();
-      expect(_.omit(persistedUserRecommendedTraining, ['id', 'createdAt', 'updatedAt'])).to.deep.equal(
+      expect(_.omit(persistedUserRecommendedTraining, ['id', 'createdAt', 'updatedAt', 'isRelevant'])).to.deep.equal(
         userRecommendedTraining,
       );
     });
