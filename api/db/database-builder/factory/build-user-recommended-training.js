@@ -7,6 +7,7 @@ const buildUserRecommendedTraining = function ({
   userId,
   trainingId,
   campaignParticipationId,
+  isRelevant,
   createdAt = new Date(),
   updatedAt = new Date(),
 } = {}) {
@@ -15,7 +16,7 @@ const buildUserRecommendedTraining = function ({
   }
   return databaseBuffer.pushInsertable({
     tableName: USER_RECOMMENDED_TRAININGS_TABLE_NAME,
-    values: { id, userId, trainingId, campaignParticipationId, createdAt, updatedAt },
+    values: { id, userId, trainingId, campaignParticipationId, isRelevant, createdAt, updatedAt },
   });
 };
 
