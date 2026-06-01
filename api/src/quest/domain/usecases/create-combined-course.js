@@ -1,4 +1,4 @@
-import { ForbiddenAccess } from '../../../shared/domain/errors.js';
+import { ForbiddenAccess, NotFoundError } from '../../../shared/domain/errors.js';
 import { Campaign } from '../models/Campaign.js';
 
 export const createCombinedCourse = async ({
@@ -17,6 +17,9 @@ export const createCombinedCourse = async ({
   const combinedCourseBlueprint = await combinedCourseBlueprintRepository.findById({
     id: combinedCourseForCreation.blueprintId,
   });
+  if (!combinedCourseBlueprint) {
+    throw new NotFoundError();
+  }
   if (!combinedCourseBlueprint.organizationIds.includes(combinedCourseForCreation.organizationId)) {
     throw new ForbiddenAccess();
   }

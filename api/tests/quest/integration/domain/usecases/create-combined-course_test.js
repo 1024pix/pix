@@ -2,7 +2,7 @@ import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseForCreation } from '../../../../../src/quest/domain/models/combined-course/CombinedCourseForCreation.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
-import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
+import { ForbiddenAccess, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -94,6 +94,31 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     expect(campaigns[1].customResultPageButtonText).to.equal('Continuer');
   });
 
+  it('should throw NotFoundError when blueprint is not found with the id in payload', async function () {
+    //given
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+    const { organizationId } = databaseBuilder.factory.buildCombinedCourseBlueprintShare({ combinedCourseBlueprintId });
+    const userId = databaseBuilder.factory.buildUser().id;
+
+    await databaseBuilder.commit();
+
+    const nameInput = 'Un parcours combiné';
+
+    const combinedCourseForCreation = new CombinedCourseForCreation({
+      blueprintId: 999,
+      organizationId,
+      name: nameInput,
+    });
+
+    // when
+    const error = await catchErr(usecases.createCombinedCourse)({
+      combinedCourseForCreation,
+      creatorId: userId,
+    });
+
+    //then
+    expect(error).to.be.instanceOf(NotFoundError);
+  });
   it('should throw ForbiddenAccess error when blueprint is not linked to the organization', async function () {
     // given
     const moduleId1 = 'eeeb4951-6f38-4467-a4ba-0c85ed71321a';
