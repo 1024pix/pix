@@ -1,5 +1,30 @@
 # Pix Changelog
 
+# [5.419.0](https://github.com/1024pix/pix/compare/v5.418.0...v5.419.0) (2026-06-01)
+
+### :rocket: Amélioration
+
+- [#16320](https://github.com/1024pix/pix/pull/16320) Créer une api interne pour remonter les stats de participation d'une organisation (PIX-22894) 
+- [#16314](https://github.com/1024pix/pix/pull/16314) Lire les données des CGU avec ou sans la nouvelle api (PIX-22580) 
+- [#16358](https://github.com/1024pix/pix/pull/16358) Modification de l'affichage des boutons d'actions de certification (PIX-22922). 
+
+### :bug: Correction
+
+- [#16349](https://github.com/1024pix/pix/pull/16349) Retourner null quand il n'y a plus d'épreuve disponible dans une activité 
+
+### :building_construction: Tech
+
+- [#16210](https://github.com/1024pix/pix/pull/16210) Dans OidcAuthenticationService gérer le cas de l’initialisation initializeClientConfig échouée (TypeError: "config" must be an instance of Configuration) + améliorer les logs OIDC (PIX-22662) 
+- [#16322](https://github.com/1024pix/pix/pull/16322) Déplacer AggregateImportError dans le contexte prescription 
+- [#16352](https://github.com/1024pix/pix/pull/16352) Déplacer LearningContentConversionService dans prescription/shared 
+- [#16327](https://github.com/1024pix/pix/pull/16327) Déplacer user-login repository dans le contexte IAM 
+- [#16357](https://github.com/1024pix/pix/pull/16357) Migration pour ajouter le liens des questionnaires aux blueprints (PIX-22938) 
+
+### :arrow_up: Montée de version
+
+- [#16311](https://github.com/1024pix/pix/pull/16311) Update dependency @1024pix/pix-ui to ^60.11.0 (certif) 
+- [#16363](https://github.com/1024pix/pix/pull/16363) Update dependency @1024pix/pix-ui to ^60.12.0 (admin)
+
 # [5.418.0](https://github.com/1024pix/pix/compare/v5.417.0...v5.418.0) (2026-05-29)
 
 ### :rocket: Amélioration
