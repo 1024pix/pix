@@ -10,6 +10,7 @@ const serialize = function (adminCombinedCourseBlueprintDetails) {
       'description',
       'illustration',
       'content',
+      'surveyLink',
       'createdAt',
       'updatedAt',
       'attestationLabel',

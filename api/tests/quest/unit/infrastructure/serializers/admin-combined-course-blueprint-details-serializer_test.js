@@ -18,6 +18,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
         { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: 123 },
       ],
       attestationLabel: '6ème',
+      surveyLink: 'survey-link-test',
       organizationIds: [],
       quest: new Quest({ eligibilityRequirements: [], successRequirements: [], rewardId: null, rewardType: null }),
     });
@@ -40,6 +41,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           'created-at': adminCombinedCourseBlueprintDetails.createdAt,
           'updated-at': adminCombinedCourseBlueprintDetails.updatedAt,
           'attestation-label': '6ème',
+          'survey-link': 'survey-link-test',
         },
         type: 'combined-course-blueprints',
         id: '1',

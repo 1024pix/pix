@@ -34,6 +34,7 @@ export async function save({ combinedCourseBlueprint }) {
     internalName: combinedCourseBlueprint.internalName,
     description: combinedCourseBlueprint.description,
     illustration: combinedCourseBlueprint.illustration,
+    surveyUrl: combinedCourseBlueprint.surveyLink,
     updatedAt: knexConn.fn.now(),
     questId,
   };
@@ -41,7 +42,7 @@ export async function save({ combinedCourseBlueprint }) {
   const createdBlueprint = await knexConn('combined_course_blueprints')
     .insert(blueprintToSave)
     .onConflict('id')
-    .merge(['updatedAt', 'name', 'internalName', 'description', 'illustration', 'questId'])
+    .merge(['updatedAt', 'name', 'internalName', 'description', 'illustration', 'surveyUrl', 'questId'])
     .returning('*');
 
   const doesCombinedCourseBlueprintExists = !!combinedCourseBlueprint.id;
@@ -148,6 +149,7 @@ function _toDomain(rawData, quest) {
     description: rawData.description,
     illustration: rawData.illustration,
     content: rawData.content,
+    surveyLink: rawData.surveyLink,
     createdAt: rawData.createdAt,
     updatedAt: rawData.updatedAt,
     organizationIds: rawData.organizationIds,
@@ -162,6 +164,7 @@ function _buildSelectFields(knexConn) {
     internalName: 'combined_course_blueprints.internalName',
     description: 'combined_course_blueprints.description',
     illustration: 'combined_course_blueprints.illustration',
+    surveyLink: 'combined_course_blueprints.surveyUrl',
     createdAt: 'combined_course_blueprints.createdAt',
     updatedAt: 'combined_course_blueprints.updatedAt',
     organizationIds: knexConn.raw(`array_remove(array_agg("combined_course_blueprint_shares"."organizationId"), NULL)`),

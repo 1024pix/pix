@@ -14,6 +14,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         internalName: 'internalName',
         description: 'description',
         illustration: 'illustration',
+        surveyLink: 'survey-link-test',
         createdAt: new Date('2024-01-25'),
         updatedAt: new Date('2024-01-26'),
         organizationIds: [],

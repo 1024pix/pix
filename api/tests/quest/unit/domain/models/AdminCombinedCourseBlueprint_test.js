@@ -20,6 +20,7 @@ describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprint ', funct
         attestationLabel: 'Parentalité',
         rewardId: 1,
         rewardType: 'attestations',
+        surveyLink: 'survey-link-test',
         quest,
         createdAt: new Date(),
         updatedAt: new Date(),

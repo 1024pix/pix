@@ -12,6 +12,7 @@ export class AdminCombinedCourseBlueprint {
     rewardId = null,
     rewardType = null,
     quest,
+    surveyLink = null,
     createdAt,
     updatedAt,
     organizationIds = [],
@@ -26,6 +27,7 @@ export class AdminCombinedCourseBlueprint {
     this.rewardId = rewardId;
     this.rewardType = rewardType;
     this.quest = quest;
+    this.surveyLink = surveyLink;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
 

@@ -26,6 +26,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           content: items,
           'created-at': date,
           'updated-at': date,
+          'survey-link': 'http://survey',
         },
         type: 'combined-course-blueprints',
         id: '1',
@@ -56,6 +57,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           rewardId: 5,
           rewardType: REWARD_TYPES.ATTESTATION,
         }),
+        surveyLink: 'http://survey',
       }),
     );
   });

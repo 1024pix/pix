@@ -10,6 +10,7 @@ export class CombinedCourseBlueprint {
     internalName,
     description,
     illustration,
+    surveyLink = null,
     createdAt,
     updatedAt,
     organizationIds = [],
@@ -20,6 +21,7 @@ export class CombinedCourseBlueprint {
     this.internalName = internalName;
     this.description = description;
     this.illustration = illustration;
+    this.surveyLink = surveyLink;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.organizationIds = organizationIds;
