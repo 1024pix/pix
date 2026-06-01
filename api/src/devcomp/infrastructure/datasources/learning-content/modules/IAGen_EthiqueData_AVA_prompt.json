@@ -286,9 +286,6 @@
               "instruction": "<p>Voici 3 situations. Lisez-les et dites si vous pensez que ces situations respectent le droit d’auteur.<br></p>",
               "steps": [
                 {
-                  "elements": []
-                },
-                {
                   "elements": [
                     {
                       "id": "0b8c2a5c-6118-42a7-8536-43fcff9ae64c",
