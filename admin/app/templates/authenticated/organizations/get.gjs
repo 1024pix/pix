@@ -76,6 +76,10 @@ import HeadInformation from 'pix-admin/components/organizations/head-information
           {{t "pages.organization.navbar.network" nbrOfChildren=@model.children.length}}
         </LinkTo>
       {{/if}}
+
+      <LinkTo @route="authenticated.organizations.get.statistics" @model={{@model}}>
+        {{t "pages.organization.navbar.statistics"}}
+      </LinkTo>
     </PixTabs>
 
     {{outlet}}

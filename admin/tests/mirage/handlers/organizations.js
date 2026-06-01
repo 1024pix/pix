@@ -20,6 +20,18 @@ function getOrganizationPlacesStatistics() {
   };
 }
 
+function getOrganizationStatistics() {
+  return {
+    data: {
+      id: '123_organization_statistics',
+      type: 'organization-statistics',
+      attributes: {
+        'total-participants-count': 44,
+      },
+    },
+  };
+}
+
 function getOrganizationInvitations(schema, request) {
   const organizationId = request.params.id;
   return schema.organizationInvitations.where({ organizationId });
@@ -100,4 +112,5 @@ export {
   getOrganizationInvitations,
   getOrganizationPlaces,
   getOrganizationPlacesStatistics,
+  getOrganizationStatistics,
 };

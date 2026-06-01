@@ -415,6 +415,37 @@ module('Acceptance | Organizations | Get', function (hooks) {
           });
         });
       });
+
+      module('Statistics tab', function () {
+        test('it should display Statistics tab', async function (assert) {
+          // when
+          const screen = await visit(`/organizations/${ORGANIZATION_ID}`);
+
+          // then
+          const navigationTabs = screen.getByRole('navigation', { name: t('pages.organization.navbar.aria-label') });
+          assert.ok(
+            within(navigationTabs).getByRole('link', {
+              name: t('pages.organization.navbar.statistics'),
+            }),
+          );
+        });
+
+        test('it should navigate to organization statistics page when clicking tab', async function (assert) {
+          // given
+          const screen = await visit(`/organizations/${ORGANIZATION_ID}`);
+
+          // when
+          const navigationTabs = screen.getByRole('navigation', { name: t('pages.organization.navbar.aria-label') });
+
+          const statisticsTab = within(navigationTabs).getByRole('link', {
+            name: t('pages.organization.navbar.statistics'),
+          });
+          await click(statisticsTab);
+
+          // then
+          assert.strictEqual(currentURL(), `/organizations/${ORGANIZATION_ID}/statistics`);
+        });
+      });
     });
   });
 

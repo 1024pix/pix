@@ -1097,6 +1097,12 @@
           }
         }
       },
+      "statistics": {
+        "total-participants-count": {
+          "info": "Nombre total de participants uniques de l'organisation ayant débuté au moins une participation à une campagne depuis la création de l'organisation (peu importe le statut des campagnes, des participations, ou des participants, supprimé ou non)",
+          "title": "Nombre total de participants"
+        }
+      },
       "target-profiles-section": {
         "table": {
           "caption": "Liste des profils cibles rattachés à l'organisation. Contient son identifiant et son nom interne. Une action permet de détacher le profil cible quand cela est possible."
@@ -1593,6 +1599,7 @@
         "invitations": "Invitations",
         "network": "Réseau {nbrOfChildren, plural, =0 {({nbrOfChildren} fille)} =1 {({nbrOfChildren} fille)} other {({nbrOfChildren} filles)}}",
         "places": "Places",
+        "statistics": "Statistiques",
         "tags": "Tags",
         "target-profiles": "Profils cibles",
         "team": "Équipe"

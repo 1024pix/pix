@@ -28,6 +28,7 @@ import {
   getOrganizationInvitations,
   getOrganizationPlaces,
   getOrganizationPlacesStatistics,
+  getOrganizationStatistics,
 } from './handlers/organizations';
 import { createStage } from './handlers/stages';
 import {
@@ -389,6 +390,7 @@ export default function routes() {
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
   this.get('/admin/organizations/:id/places', getOrganizationPlaces);
   this.get('/admin/organizations/:id/places-statistics', getOrganizationPlacesStatistics);
+  this.get('/admin/organizations/:id/statistics', getOrganizationStatistics);
   this.post('/admin/organizations/:id/archive', archiveOrganization);
 
   this.get('/admin/frameworks');
