@@ -1,5 +1,6 @@
 import ApplicationAdapter from './application';
 
+// TODO supprimer ce fichier + le modèle. On va faire du POST /api/admin/certification-versions
 export default class CertificationConsolidatedFrameworkAdapter extends ApplicationAdapter {
   namespace = 'api/admin';
 

@@ -9,7 +9,7 @@ import setupIntlRenderingTest, { t } from '../../../../../helpers/setup-intl-ren
 module('Integration | Component | Complementary certifications/Item/Framework | Framework history', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  let intl, store, pixToast, frameworkItem1, frameworkItem2, frameworkItem3, frameworkHistory;
+  let intl, store, pixToast, frameworkItem1, frameworkItem2, frameworkItem3;
 
   hooks.beforeEach(function () {
     intl = this.owner.lookup('service:intl');
@@ -40,13 +40,13 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
       maximumAssessmentLength: 32,
       status: 'DRAFT',
     };
-
-    frameworkHistory = store.createRecord('framework-history', {
-      history: [frameworkItem1, frameworkItem2, frameworkItem3],
-    });
   });
 
   test('it should display the framework history', async function (assert) {
+    const frameworkHistory = store.createRecord('framework-history', {
+      history: [frameworkItem1, frameworkItem2, frameworkItem3],
+    });
+
     // when
     const screen = await render(
       <template><FrameworkHistory @frameworkKey="DROIT" @frameworkHistory={{frameworkHistory}} /></template>,
@@ -79,6 +79,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
   test('it opens the detail modal when clicking the view button', async function (assert) {
     // given
     sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version'));
+    const frameworkHistory = store.createRecord('framework-history', {
+      history: [frameworkItem1, frameworkItem2, frameworkItem3],
+    });
 
     // when
     const screen = await render(
@@ -99,6 +102,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
   test('it displays the framework label as the modal title', async function (assert) {
     // given
     sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version'));
+    const frameworkHistory = store.createRecord('framework-history', {
+      history: [frameworkItem1, frameworkItem2, frameworkItem3],
+    });
 
     // when
     const screen = await render(
@@ -126,6 +132,10 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
       comments: '',
       areas: [],
     });
+    const frameworkHistory = store.createRecord('framework-history', {
+      history: [frameworkItem1, frameworkItem2, frameworkItem3],
+    });
+
     sinon.stub(certificationVersion, 'save').resolves();
     sinon.stub(store, 'findRecord').resolves(certificationVersion);
     sinon.stub(pixToast, 'sendSuccessNotification');
@@ -155,6 +165,10 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
     });
 
     test('it should not be possible to delete an ACTIVE or ARCHIVED version', async function (assert) {
+      const frameworkHistory = store.createRecord('framework-history', {
+        history: [frameworkItem1, frameworkItem2, frameworkItem3],
+      });
+
       // when
       const screen = await render(
         <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
@@ -173,6 +187,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
       const certificationVersion = store.createRecord('certification-version', { id: frameworkItem3.id });
       sinon.stub(store, 'findRecord').resolves(certificationVersion);
       sinon.stub(certificationVersion, 'destroyRecord').resolves();
+      const frameworkHistory = store.createRecord('framework-history', {
+        history: [frameworkItem1, frameworkItem2, frameworkItem3],
+      });
 
       const screen = await render(
         <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
@@ -193,6 +210,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
         const certificationVersion = store.createRecord('certification-version', { id: frameworkItem3.id });
         sinon.stub(store, 'findRecord').resolves(certificationVersion);
         sinon.stub(certificationVersion, 'destroyRecord').resolves();
+        const frameworkHistory = store.createRecord('framework-history', {
+          history: [frameworkItem1, frameworkItem2, frameworkItem3],
+        });
 
         const screen = await render(
           <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
@@ -210,6 +230,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
     module('when deletion is a error', function () {
       test('it should send a toast for feedback ', async function (assert) {
         sinon.stub(pixToast, 'sendErrorNotification');
+        const frameworkHistory = store.createRecord('framework-history', {
+          history: [frameworkItem1, frameworkItem2, frameworkItem3],
+        });
 
         const certificationVersion = store.createRecord('certification-version', { id: frameworkItem3.id });
         sinon.stub(store, 'findRecord').resolves(certificationVersion);

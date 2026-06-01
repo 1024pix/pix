@@ -16,6 +16,14 @@ export default class Header extends Component {
     return this.currentUser.adminMember.isSuperAdmin && this.args.certificationFramework?.name !== 'CLEA';
   }
 
+  get activeCertificationVersionId() {
+    return {
+      activeVersionId: this.args.frameworkHistory?.history.find(
+        (frameworkHistory) => frameworkHistory.status == 'ACTIVE',
+      )?.id,
+    };
+  }
+
   get links() {
     return [
       {
@@ -44,6 +52,7 @@ export default class Header extends Component {
         <PixButtonLink
           class="framework__creation-button"
           @route="authenticated.certification-frameworks.item.framework.new-version"
+          @query={{this.activeCertificationVersionId}}
           @iconBefore="add"
         >
           {{t "components.certification-frameworks.item.framework.create-button"}}

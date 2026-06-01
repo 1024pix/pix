@@ -101,7 +101,6 @@ module('Acceptance | Team | List', function (hooks) {
       await screen.findByRole('dialog');
 
       await clickByName('Confirmer');
-      // await this.pauseTest();
 
       // then
 

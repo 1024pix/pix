@@ -42,6 +42,35 @@ export default class NewVersionForm extends Component {
     }
   }
 
+  get checkedTubes() {
+    if (!this.args.activeVersion) return [];
+
+    const competences = [];
+    const thematics = [];
+    const tubes = [];
+
+    const areas = this.args.activeVersion.hasMany('areas').value();
+
+    for (const area of areas) {
+      competences.push(...area.hasMany('competences').value());
+    }
+
+    for (const competence of competences) {
+      thematics.push(...competence.hasMany('thematics').value());
+    }
+
+    for (const thematic of thematics) {
+      tubes.push(...thematic.hasMany('tubes').value());
+    }
+
+    return tubes.flat();
+  }
+
+  get checkedAreas() {
+    if (!this.args.activeVersion) return [];
+    return this.args.activeVersion.hasMany('areas').value();
+  }
+
   <template>
     <h2 class="framework-creation-form__title">
       {{t "components.certification-frameworks.item.framework.new-version-form.title"}}
@@ -53,10 +82,12 @@ export default class NewVersionForm extends Component {
           <TubesSelection
             @frameworks={{@frameworks}}
             @onChange={{this.onTubesSelectionChange}}
+            @initialAreas={{this.checkedAreas}}
+            @initialCappedTubes={{this.checkedTubes}}
             @displaySkillDifficultyAvailability={{true}}
             @displaySkillDifficultySelection={{false}}
             @displayDeviceCompatibility={{true}}
-            @displayJsonImportButton={{true}}
+            @displayJsonImportButton={{false}}
           />
           <ul class="framework-creation-form__buttons">
             <li>
