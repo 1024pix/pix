@@ -3,6 +3,7 @@ import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../src/certification/s
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
@@ -292,11 +293,18 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         versionId,
       });
 
-      const { assessment, assessmentResult } = await createSuccessfulCertificationCourse({
-        candidateId,
+      const assessment = databaseBuilder.factory.buildAssessment({
+        type: 'CERTIFICATION',
         userId,
-        certificationCourse,
+        certificationCourseId: certificationCourse.id,
       });
+      const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+        status: AssessmentResult.status.REJECTED,
+        assessmentId: assessment.id,
+        certificationCourseId: certificationCourse.id,
+      });
+
+      await databaseBuilder.commit();
 
       const server = await createServer();
 
@@ -426,6 +434,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         candidateId,
         versionId,
       });
+
       ({ certificationChallenges, assessmentResult } = await createSuccessfulCertificationCourse({
         candidateId,
         userId: superAdmin.id,

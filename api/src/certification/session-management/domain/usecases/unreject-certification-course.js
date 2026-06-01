@@ -1,23 +1,19 @@
-import { CertificationCourseUnrejected } from '../../../../shared/domain/events/CertificationCourseUnrejected.js';
-import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
-
 export const unrejectCertificationCourse = async ({
   certificationCourseId,
   juryId,
   certificationCourseRepository,
-  certificationEvaluationRepository,
+  assessmentResultRepository,
 }) => {
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   certificationCourse.unrejectForFraud();
   await certificationCourseRepository.update({ certificationCourse });
 
-  const event = new CertificationCourseUnrejected({ certificationCourseId, juryId });
+  const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
+  const newAssessmentResult = assessmentResult.clone();
+  newAssessmentResult.unreject({ juryId });
 
-  if (AlgorithmEngineVersion.isV3(certificationCourse.getVersion())) {
-    return certificationEvaluationRepository.rescoreV3Certification({ event });
-  }
-
-  if (AlgorithmEngineVersion.isV2(certificationCourse.getVersion())) {
-    return certificationEvaluationRepository.rescoreV2Certification({ event });
-  }
+  await assessmentResultRepository.save({
+    certificationCourseId,
+    assessmentResult: newAssessmentResult,
+  });
 };

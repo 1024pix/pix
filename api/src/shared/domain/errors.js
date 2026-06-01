@@ -50,6 +50,12 @@ class AssessmentResultNotCreatedError extends DomainError {
   }
 }
 
+class AssessmentResultNotRejectedError extends DomainError {
+  constructor(message = "L'assessment result ne peut être unrejected car son statut n'est pas rejected.") {
+    super(message);
+  }
+}
+
 class AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError extends DomainError {
   constructor() {
     super('Autonomous course requires a target profile with simplified access.');
@@ -1069,6 +1075,7 @@ export {
   AssessmentLackOfChallengesError,
   AssessmentNotCompletedError,
   AssessmentResultNotCreatedError,
+  AssessmentResultNotRejectedError,
   AuditLoggerApiError,
   AuthenticationMethodAlreadyExistsError,
   AuthenticationMethodNotFoundError,
