@@ -243,7 +243,7 @@
                 "id": "d8c78172-4027-44f7-abe4-c316d4da0925",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Yasmine utilise un logiciel d’IA&nbsp;: ChatPix 3.0.</p><p> Le<strong> prompt système</strong> est l’instruction  donnée au logiciel d’IA pour définir son comportement et les outils qu’il peut mobiliser. Il n’est pas visible des utilisateurs.</p><p><strong>Analysez&nbsp;le prompt système de ChatPix 3.0 ci-dessous puis répondez aux questions.</strong></p><blockquote><code>Tu es un assistant doté de plusieurs outils externes. <br>Tu disposes des outils suivants&nbsp;: <br>- l’application de musique&nbsp;: pour lancer ou arrêter une musique, <br>- la calculatrice&nbsp;: pour effectuer des calculs numériques.<br> <br> Règles d’utilisation&nbsp;: <br>1. Si l’utilisateur demande explicitement le&nbsp; lancement ou l’arrêt d’une musique, tu DOIS appeler l’outil `application de musique`.<br> <br>2. Si la demande peut être résolue par un calcul mathématique,&nbsp;tu DOIS appeler l’outil `calculatrice`. <br>3. Si aucun outil n’est approprié, réponds normalement en texte.<br> <br> Lorsque tu appelles un outil&nbsp;: <br>- Ne produis aucun texte explicatif <br>- Retourne uniquement l’appel d’outil au format JSON valid<br><br><br></code><br></blockquote>"
+                "content": "<p>Yasmine utilise un logiciel d’IA&nbsp;: ChatPix 3.0.</p><p> Le<strong> prompt système</strong> est l’instruction  donnée au logiciel d’IA pour définir son comportement et les outils qu’il peut mobiliser. Il n’est pas visible des utilisateurs.</p><p><strong>Analysez&nbsp;le prompt  de ChatPix 3.0 ci-dessous puis répondez aux questions.</strong></p><blockquote><code>Tu es un assistant doté de plusieurs outils externes. <br>Tu disposes des outils suivants&nbsp;: <br>- l’application de musique&nbsp;: pour lancer ou arrêter une musique, <br>- la calculatrice&nbsp;: pour effectuer des calculs numériques.<br> <br> Règles d’utilisation&nbsp;: <br>1. Si l’utilisateur demande explicitement le&nbsp; lancement ou l’arrêt d’une musique, tu DOIS appeler l’outil `application de musique`.<br> <br>2. Si la demande peut être résolue par un calcul mathématique,&nbsp;tu DOIS appeler l’outil `calculatrice`. <br>3. Si aucun outil n’est approprié, réponds normalement en texte.<br> <br> Lorsque tu appelles un outil&nbsp;: <br>- Ne produis aucun texte explicatif <br>- Retourne uniquement l’appel d’outil au format JSON valid<br><br><br></code><br></blockquote>"
               }
             },
             {
@@ -518,7 +518,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>et je veux refaire ma terasse.<br></p>",
+                          "content": "<p>et je veux refaire ma terrasse.<br></p>",
                           "feedback": {
                             "diagnosis": "<p><strong>Eh non !</strong></p><p>L’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>»&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p> Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
                           }
@@ -728,7 +728,7 @@
                           "id": "1",
                           "content": "condition&nbsp;: ensoleillé ; temperature&nbsp;: 30",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non , cette proposition n’est que l’information envoyée par l’outil Météo.</strong> </p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les données de l’outil Météo transmises au logiciel d’IA générative, celui-ci les utilise pour générer sa réponse. </p><p>Donc, la bonne réponse était&nbsp;:&nbsp; “Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp; Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.”</p>"
+                            "diagnosis": "<p><strong>Non, cette proposition n’est que l’information envoyée par l’outil Météo.</strong> </p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les données de l’outil Météo transmises au logiciel d’IA générative, celui-ci les utilise pour générer sa réponse. </p><p>Donc, la bonne réponse était&nbsp;:&nbsp; “Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp; Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.”</p>"
                           }
                         },
                         {
@@ -782,7 +782,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/IAGenFonction_AVA/schema_ia_outils_global.svg",
                 "alt": "Schéma des étapes de la génération d’une réponse d’un logiciel d’IA conversationnelle qui fait appel à un outil.",
-                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie l’outil.</p><p>Elle transmet la réponse à&nbsp; l’outil.</p><p>L’outil transmet la requête à l’outil.</p><p>L’IA générative intègre le réponse de l’outil dans le contexte du prompt.</p><p>L’IA générative génère la réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
+                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie l’outil.</p><p>Elle transmet la réponse à&nbsp; l’outil.</p><p>L’outil transmet la requête à l’outil.</p><p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p><p>L’IA générative génère la réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -863,7 +863,7 @@
                 "id": "8454a04e-e0aa-432f-97da-72c94c43e3e5",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>🤔À leur lancement, les logiciels IA générative conversationnelles grand public avaient beaucoup de <strong>limites </strong>: ils généraient principalement du texte, faisaient des erreurs dans les calculs, n’avaient pas d’accès aux informations en temps réel, etc.</li><li>🧰Pour dépasser ces limites, les développeurs ont mis en place des <strong>outils </strong>que les logiciels d’IA peuvent appeler pour faire davantage d’<strong>actions&nbsp;</strong>en interagissant avec d’autres logiciels&nbsp;: calculer, exécuter du <strong>code informatique</strong>, générer un support de <strong>présentation</strong>, etc.<br></li><li>⚙️Ce mécanisme, appelé<strong> appel d’outils</strong> (tool calling), repose sur une liste d’outils définis à l’avance par les développeurs.</li><li>🎯 Pour traiter une demande, le logiciel d’IA identifie les <strong>outils </strong> utiles, leur adresse des <strong>requêtes </strong>et intègre les résultats dans le prompt pour générer une réponse adaptée.</li></ul><br>"
+                "content": "<ul><li>🤔À leur lancement, les logiciels IA générative conversationnelle grand public avaient beaucoup de <strong>limites </strong>: ils généraient principalement du texte, faisaient des erreurs dans les calculs, n’avaient pas d’accès aux informations en temps réel, etc.</li><li>🧰Pour dépasser ces limites, les développeurs ont mis en place des <strong>outils </strong>que les logiciels d’IA peuvent appeler pour faire davantage d’<strong>actions&nbsp;</strong>en interagissant avec d’autres logiciels&nbsp;: calculer, exécuter du <strong>code informatique</strong>, générer un support de <strong>présentation</strong>, etc.<br></li><li>⚙️Ce mécanisme, appelé<strong> appel d’outils</strong> (tool calling), repose sur une liste d’outils définis à l’avance par les développeurs.</li><li>🎯 Pour traiter une demande, le logiciel d’IA identifie les <strong>outils </strong> utiles, leur adresse des <strong>requêtes </strong>et intègre les résultats dans le prompt pour générer une réponse adaptée.</li></ul><br>"
               }
             },
             {
