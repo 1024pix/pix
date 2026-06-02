@@ -274,6 +274,26 @@ module(
             .exists();
         });
       });
+
+      test('should display a feedback for the relevance of the training', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const training = store.createRecord('training', _buildTraining({}));
+
+        // when
+        const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+        await click(
+          screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.training-card.aria-label') }),
+        );
+
+        // then
+        const modal = await screen.findByRole('dialog');
+        assert.dom(within(modal).getByRole('button', { name: t('common.yes') })).exists();
+        assert.dom(within(modal).getByRole('button', { name: t('common.no') })).exists();
+        assert
+          .dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.feedback.question')))
+          .exists();
+      });
     });
 
     function _buildTraining({

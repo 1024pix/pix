@@ -2254,6 +2254,9 @@
           },
           "duration": "Duur",
           "editor-name": "Voorgesteld door : ",
+          "feedback": {
+            "question": "Is dit voorstel relevant?"
+          },
           "localisation": "Locatie",
           "objectives": "Doelstellingen",
           "program": "Programma"

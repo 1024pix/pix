@@ -2254,6 +2254,9 @@
           },
           "duration": "Durée",
           "editor-name": "Proposé par : ",
+          "feedback": {
+            "question": "Cette proposition est-elle pertinente ?"
+          },
           "localisation": "Localisation",
           "objectives": "Objectifs",
           "program": "Programme"
