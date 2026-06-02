@@ -1,5 +1,22 @@
 # Pix Changelog
 
+# [5.421.0](https://github.com/1024pix/pix/compare/v5.420.0...v5.421.0) (2026-06-02)
+
+### :rocket: Amélioration
+
+- [#16326](https://github.com/1024pix/pix/pull/16326) Ajouter une route permettant de récupérer un détail de profil cible (PIX-22674) 
+- [#16347](https://github.com/1024pix/pix/pull/16347) Update IAGenFonction_Ava.json - modif découverte 3 
+
+### :bug: Correction
+
+- [#16391](https://github.com/1024pix/pix/pull/16391) Corriger le crash de l'import SIECLE sur les gros fichiers 
+
+### :arrow_up: Montée de version
+
+- [#16387](https://github.com/1024pix/pix/pull/16387) Update dependency ember-cli to v7 (junior) 
+- [#16389](https://github.com/1024pix/pix/pull/16389) Update dependency ember-cli to v7 (mon-pix) 
+- [#16394](https://github.com/1024pix/pix/pull/16394) Update dependency ember-cli to v7 (orga)
+
 # [5.420.0](https://github.com/1024pix/pix/compare/v5.419.0...v5.420.0) (2026-06-02)
 
 ### :rocket: Amélioration

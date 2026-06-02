@@ -1,6 +1,6 @@
 {
   "name": "e2e-playwright",
-  "version": "1.305.0",
+  "version": "1.306.0",
   "type": "module",
   "private": true,
   "description": "Permet d'exécuter des tests de bout en bout sur la plateforme Pix",
