@@ -1,4 +1,7 @@
-import { AssessmentResultNotRejectedError } from '../../../../../src/shared/domain/errors.js';
+import {
+  AssessmentResultIsNotCancelledError,
+  AssessmentResultNotRejectedError,
+} from '../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { expect } from '../../../../test-helper.js';
@@ -91,6 +94,43 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
 
           // then
           expect(error).to.be.instanceOf(AssessmentResultNotRejectedError);
+          expect(assessmentResult.status).to.equal(assessmentResultStatus);
+          expect(assessmentResult.juryId).to.equal(456);
+        });
+      },
+    );
+  });
+
+  describe('#uncancel', function () {
+    it('should set status to validated and assign the jury id when status is cancelled', function () {
+      // given
+      const assessmentResult = domainBuilder.buildAssessmentResult({
+        status: AssessmentResult.status.CANCELLED,
+        juryId: 456,
+      });
+
+      // when
+      assessmentResult.uncancel({ juryId: 123 });
+
+      // then
+      expect(assessmentResult.status).to.equal(AssessmentResult.status.VALIDATED);
+      expect(assessmentResult.juryId).to.equal(123);
+    });
+
+    [AssessmentResult.status.VALIDATED, AssessmentResult.status.REJECTED, AssessmentResult.status.ERROR].forEach(
+      (assessmentResultStatus) => {
+        it(`should throw AssessmentResultNotRejectedError when status is ${assessmentResultStatus}`, function () {
+          // given
+          const assessmentResult = domainBuilder.buildAssessmentResult({
+            status: assessmentResultStatus,
+            juryId: 456,
+          });
+
+          // when
+          const error = catchErrSync(() => assessmentResult.uncancel({ juryId: 123 }))();
+
+          // then
+          expect(error).to.be.instanceOf(AssessmentResultIsNotCancelledError);
           expect(assessmentResult.status).to.equal(assessmentResultStatus);
           expect(assessmentResult.juryId).to.equal(456);
         });

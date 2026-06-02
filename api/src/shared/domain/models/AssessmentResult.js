@@ -2,7 +2,11 @@
  * @typedef {import('../../../certification/shared/domain/models/CompetenceMark.js').CompetenceMark} CompetenceMark
  * @typedef {import('../../../certification/shared/domain/models/JuryComment.js').JuryComment} JuryComment
  */
-import { AssessmentResultNotRejectedError, NotFinalizedSessionError } from '../errors.js';
+import {
+  AssessmentResultIsNotCancelledError,
+  AssessmentResultNotRejectedError,
+  NotFinalizedSessionError,
+} from '../errors.js';
 import { Assessment } from './Assessment.js';
 
 /**
@@ -114,6 +118,14 @@ class AssessmentResult {
       throw new NotFinalizedSessionError();
     }
     this.status = AssessmentResult.status.CANCELLED;
+  }
+
+  uncancel({ juryId }) {
+    if (this.status !== AssessmentResult.status.CANCELLED) {
+      throw new AssessmentResultIsNotCancelledError();
+    }
+    this.status = AssessmentResult.status.VALIDATED;
+    this.juryId = juryId;
   }
 }
 

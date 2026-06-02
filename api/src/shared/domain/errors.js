@@ -56,6 +56,12 @@ class AssessmentResultNotRejectedError extends DomainError {
   }
 }
 
+class AssessmentResultIsNotCancelledError extends DomainError {
+  constructor(message = "La certification ne peut être désannulée car son statut n'est pas annulé.") {
+    super(message);
+  }
+}
+
 class AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError extends DomainError {
   constructor() {
     super('Autonomous course requires a target profile with simplified access.');
@@ -1074,6 +1080,7 @@ export {
   AssessmentEndedError,
   AssessmentLackOfChallengesError,
   AssessmentNotCompletedError,
+  AssessmentResultIsNotCancelledError,
   AssessmentResultNotCreatedError,
   AssessmentResultNotRejectedError,
   AuditLoggerApiError,
