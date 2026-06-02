@@ -18,13 +18,17 @@ export class GetAnswersFromAssessments extends Script {
 
     const targetTypes = ['DEMO', 'COMPETENCE_EVALUATION', 'PLACEMENT', 'PREVIEW', 'CAMPAIGN'];
 
-    return knex
+    const answerToBeDeleted = await knex
       .select('answers.*')
       .from('answers')
       .join('assessments', 'answers.assessmentId', 'assessments.id')
       .whereIn('assessments.type', targetTypes)
       .where('assessments.state', 'completed')
       .whereRaw('DATE(assessments."updatedAt") = ?', [oneYearAgoString]);
+
+    const answerToBeDeletedIds = answerToBeDeleted.map(({ id }) => id);
+
+    await knex.delete().from('answers').whereIn('id', answerToBeDeletedIds);
   }
 }
 await ScriptRunner.execute(import.meta.url, GetAnswersFromAssessments);

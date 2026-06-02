@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { knex } from '../../../db/knex-database-connection.js';
 import { GetAnswersFromAssessments } from '../../../scripts/prod/get-answers-from-assessments.js';
 import { databaseBuilder } from '../../tooling/databases.js';
 
@@ -13,7 +14,7 @@ describe('GetAnswersFromAssessments', function () {
       state: 'completed',
       type: 'CAMPAIGN',
     });
-    const expectedAnswer = databaseBuilder.factory.buildAnswer({ assessmentId: validAssessment.id });
+    databaseBuilder.factory.buildAnswer({ assessmentId: validAssessment.id });
 
     const olderAssessment = databaseBuilder.factory.buildAssessment({
       updatedAt: new Date('2020-01-01'),
@@ -36,8 +37,9 @@ describe('GetAnswersFromAssessments', function () {
     await databaseBuilder.commit();
 
     const script = new GetAnswersFromAssessments();
-    const answers = await script.handle();
+    await script.handle();
 
-    expect(answers).to.deep.equal([expectedAnswer]);
+    const remainingAnswers = await knex('answers');
+    expect(remainingAnswers.length).to.equal(2);
   });
 });
