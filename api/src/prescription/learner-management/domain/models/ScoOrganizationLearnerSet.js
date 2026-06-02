@@ -35,6 +35,10 @@ class ScoOrganizationLearnerSet {
         ({ nationalStudentId }) => nationalStudentId === reconciledStudent.nationalStudentId,
       );
 
+      if (!studentToImport) {
+        return;
+      }
+
       if (this.#shouldBeReconciled(allOrganizationLearnersInSameOrganization, reconciledStudent, studentToImport)) {
         studentToImport.userId = reconciledStudent.account.userId;
       }

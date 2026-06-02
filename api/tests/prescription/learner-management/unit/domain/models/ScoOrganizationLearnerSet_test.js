@@ -76,6 +76,20 @@ describe('Unit | Models | ScoOrganizationLearnerSet', function () {
       expect(scoOrganizationLearnerSet.learners[0].userId).to.be.null;
     });
 
+    it('ignores reconciled students absent from the current chunk without throwing', function () {
+      // reconciledStudents is computed over the whole file while a set only holds one chunk,
+      // so a reconciled student may not have any matching learner in this chunk.
+      const learner = new OrganizationLearner({ nationalStudentId: 'INE1', organizationId: 1 });
+      const reconciledStudentInOtherChunk = new Student({
+        nationalStudentId: 'INE_FROM_OTHER_CHUNK',
+        account: { userId: 42, organizationId: 1, birthdate: '2000-01-01' },
+      });
+      const scoOrganizationLearnerSet = new ScoOrganizationLearnerSet([learner]);
+
+      expect(() => scoOrganizationLearnerSet.reconcile([reconciledStudentInOtherChunk], [])).to.not.throw();
+      expect(scoOrganizationLearnerSet.learners[0].userId).to.be.undefined;
+    });
+
     it('does not assign userId when the user has multiple national student IDs in reconciled students', function () {
       const learner1 = new OrganizationLearner({ nationalStudentId: 'INE1', organizationId: 1 });
       const learner2 = new OrganizationLearner({ nationalStudentId: 'INE2', organizationId: 1 });
