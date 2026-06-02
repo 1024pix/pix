@@ -35,7 +35,7 @@
   },
   "private": true,
   "engines": {
-    "node": "^24.15.0"
+    "node": "^24.16.0"
   },
   "type": "module",
   "devDependencies": {
