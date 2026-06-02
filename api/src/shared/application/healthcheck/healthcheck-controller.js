@@ -2,9 +2,9 @@ import Boom from '@hapi/boom';
 
 import { databaseConnections } from '../../../../db/database-connections.js';
 import packageJSON from '../../../../package.json' with { type: 'json' };
-import * as network from '../../../identity-access-management/infrastructure/utils/network.js';
 import { config } from '../../config.js';
 import { getBaseLocale } from '../../domain/services/locale-service.js';
+import * as network from '../../infrastructure/utils/network.js';
 import { redisMonitor } from '../../infrastructure/utils/redis-monitor.js';
 import { getChallengeLocale } from '../../infrastructure/utils/request-response-utils.js';
 

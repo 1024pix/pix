@@ -7,8 +7,8 @@ import {
   validateClientApplicationAccessToken,
   validateUserAccessToken,
 } from '../../../../src/identity-access-management/infrastructure/server-authentication.js';
-import { ForwardedOriginError } from '../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
+import { ForwardedOriginError } from '../../../../src/shared/infrastructure/utils/network.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Infrastructure | serverAuthentication', function () {

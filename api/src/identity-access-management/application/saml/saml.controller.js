@@ -3,9 +3,9 @@ import { randomUUID } from 'node:crypto';
 import { config } from '../../../../src/shared/config.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import { getForwardedOrigin, RequestedApplication } from '../../../shared/infrastructure/utils/network.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as saml from '../../infrastructure/saml.js';
-import { getForwardedOrigin, RequestedApplication } from '../../infrastructure/utils/network.js';
 
 const metadata = function (request, h) {
   return h.response(saml.getServiceProviderMetadata()).type('application/xml');

@@ -1,7 +1,7 @@
+import { getForwardedOrigin, RequestedApplication } from '../../../shared/infrastructure/utils/network.js';
 import { oidcAuthenticationServiceRegistry, usecases } from '../../domain/usecases/index.js';
 import { addOidcProviderValidator } from '../../domain/validators/add-oidc-provider.validator.js';
 import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
-import { getForwardedOrigin, RequestedApplication } from '../../infrastructure/utils/network.js';
 
 /**
  * @param request

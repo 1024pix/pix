@@ -11,12 +11,12 @@ import { PasswordExpirationToken } from '../../../../../src/identity-access-mana
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { UserReconciliationSamlIdToken } from '../../../../../src/identity-access-management/domain/models/UserReconciliationSamlIdToken.js';
 import { authenticateForSaml } from '../../../../../src/identity-access-management/domain/usecases/authenticate-for-saml.usecase.js';
-import { RequestedApplication } from '../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import {
   UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserNotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
+import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

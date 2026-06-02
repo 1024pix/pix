@@ -7,9 +7,9 @@ import {
   UserShouldChangePasswordError,
 } from '../../../../../src/identity-access-management/domain/errors.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { RequestedApplication } from '../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { config } from '../../../../../src/shared/config.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
+import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 

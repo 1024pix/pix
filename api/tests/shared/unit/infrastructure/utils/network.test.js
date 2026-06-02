@@ -2,10 +2,10 @@ import {
   ForwardedOriginError,
   getForwardedOrigin,
   RequestedApplication,
-} from '../../../../../src/identity-access-management/infrastructure/utils/network.js';
+} from '../../../../../src/shared/infrastructure/utils/network.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Identity Access Management | Infrastructure | Utils | network', function () {
+describe('Shared | Unit | Infrastructure | Utils | network', function () {
   describe('#getForwardedOrigin', function () {
     context('when port is HTTP standard port 80', function () {
       it('returns an HTTP URL', async function () {

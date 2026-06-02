@@ -1,6 +1,6 @@
 import { OidcAuthenticationServiceRegistry } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service-registry.js';
-import { RequestedApplication } from '../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { InvalidIdentityProviderError } from '../../../../../src/shared/domain/errors.js';
+import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Services | oidc-authentication-service-registry', function () {

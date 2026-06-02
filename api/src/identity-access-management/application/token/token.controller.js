@@ -1,7 +1,7 @@
+import { getForwardedOrigin, RequestedApplication } from '../../../shared/infrastructure/utils/network.js';
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { UserAccessToken } from '../../domain/models/UserAccessToken.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { getForwardedOrigin, RequestedApplication } from '../../infrastructure/utils/network.js';
 
 const authenticateAnonymousUser = async function (request, h) {
   const { campaign_code: campaignCode, lang } = request.payload;

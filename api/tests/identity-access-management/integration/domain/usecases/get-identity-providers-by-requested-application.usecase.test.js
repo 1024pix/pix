@@ -3,7 +3,7 @@ import {
   oidcAuthenticationServiceRegistry,
   usecases,
 } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { RequestedApplication } from '../../../../../src/identity-access-management/infrastructure/utils/network.js';
+import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 

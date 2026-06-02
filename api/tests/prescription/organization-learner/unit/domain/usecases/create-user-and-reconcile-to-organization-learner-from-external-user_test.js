@@ -3,8 +3,8 @@ import sinon from 'sinon';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { UserAccessToken } from '../../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { UserReconciliationSamlIdToken } from '../../../../../../src/identity-access-management/domain/models/UserReconciliationSamlIdToken.js';
-import { RequestedApplication } from '../../../../../../src/identity-access-management/infrastructure/utils/network.js';
 import { createUserAndReconcileToOrganizationLearnerFromExternalUser } from '../../../../../../src/prescription/organization-learner/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user.js';
+import { RequestedApplication } from '../../../../../../src/shared/infrastructure/utils/network.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

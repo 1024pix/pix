@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { EntityValidationError } from '../../../shared/domain/errors.js';
-import { VALID_APPLICATIONS } from '../../infrastructure/utils/network.js';
+import { VALID_APPLICATIONS } from '../../../shared/infrastructure/utils/network.js';
 const schema = Joi.object({
   accessTokenLifespan: Joi.string().optional().default('7d'),
   additionalRequiredProperties: Joi.object().optional(),

@@ -1,4 +1,4 @@
-import { HttpErrors } from '../../../shared/application/errors/http-errors.js';
+import { HttpErrors } from '../../application/errors/http-errors.js';
 
 const PIX_APP_APPLICATION_NAME = 'app';
 const PIX_ADMIN_APPLICATION_NAME = 'admin';

@@ -8,8 +8,8 @@ import {
   jwtUserAuthenticationStrategyName,
 } from '../../shared/infrastructure/authentication-strategy-names.js';
 import { logger } from '../../shared/infrastructure/utils/logger.js';
+import { getForwardedOrigin } from '../../shared/infrastructure/utils/network.js';
 import { revokedUserAccessRepository } from '../infrastructure/repositories/revoked-user-access.repository.js';
-import { getForwardedOrigin } from '../infrastructure/utils/network.js';
 
 const schemes = {
   jwt: {
