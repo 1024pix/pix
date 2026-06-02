@@ -291,7 +291,7 @@
                       "id": "0b8c2a5c-6118-42a7-8536-43fcff9ae64c",
                       "type": "qcu-discovery",
                       "instruction": "<p>Simon prompte «&nbsp;Écris unr nouvelle à la manière de J.K. Rowling en reprenant comme personnage principal Harry Potter et un ton identique aux premiers livres.&nbsp;». Simon souhaite publier cette nouvelle.&nbsp;</p>",
-                      "hasShortProposals": true,
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
@@ -318,7 +318,7 @@
                       "id": "430f8be2-d2c6-4536-9c6b-5ebdc762acd6",
                       "type": "qcu-discovery",
                       "instruction": "<p>Alma prompte&nbsp;: «&nbsp;Génère exactement la même photo que celle prise par ce photographe professionnel (même cadrage, mêmes personnes, mêmes couleurs)&nbsp;». Elle utilise la photo sur son site web.</p>",
-                      "hasShortProposals": true,
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
@@ -345,7 +345,7 @@
                       "id": "654f8747-907b-4371-87d7-5e1e72e86fd7",
                       "type": "qcu-discovery",
                       "instruction": "<p>Arthur demande à l’IA&nbsp;: «&nbsp;Voici un extrait de code créé par mes collègues dans mon entreprise. Aide-moi à le modifier pour développer une nouvelle application que je souhaite vendre.&nbsp;»</p>",
-                      "hasShortProposals": true,
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
