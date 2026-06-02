@@ -13,7 +13,7 @@ const save = function ({ userId, trainingId, campaignParticipationId, isRelevant
 const findByCampaignParticipationId = async function ({ campaignParticipationId, locale }) {
   const knexConn = DomainTransaction.getConnection();
   const trainings = await knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
-    .select('trainings.*')
+    .select('trainings.*', 'isRelevant')
     .innerJoin('trainings', 'trainings.id', `${USER_RECOMMENDED_TRAININGS_TABLE_NAME}.trainingId`)
     .where({ campaignParticipationId, isDisabled: false })
     .whereRaw('? = ANY(locales)', locale)
