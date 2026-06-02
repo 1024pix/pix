@@ -28,6 +28,7 @@ const buildAnswer = function ({
     updatedAt,
     timeout,
     resultDetails,
+    isFocusedOut,
     timeSpent,
   };
   return databaseBuffer.pushInsertable({
