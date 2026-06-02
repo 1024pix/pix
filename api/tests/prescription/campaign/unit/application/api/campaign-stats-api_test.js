@@ -8,6 +8,7 @@ import { expect } from '../../../../../test-helper.js';
 describe('Unit | API | CampaignStats', function () {
   describe('#getOrganizationParticipantsStatistics', function () {
     it('returns the statistics for the given organization', async function () {
+      // given
       const organizationId = 1;
       const expectedStats = { totalParticipantsCount: 42 };
       sinon
@@ -15,8 +16,10 @@ describe('Unit | API | CampaignStats', function () {
         .withArgs({ organizationId })
         .resolves(expectedStats);
 
+      // when
       const result = await campaignStatsApi.getOrganizationParticipantsStatistics(organizationId);
 
+      // then
       expect(result).to.be.an.instanceOf(OrganizationStatistics);
       expect(result).to.deep.equal(expectedStats);
     });
