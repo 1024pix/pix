@@ -782,7 +782,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/IAGenFonction_AVA/schema_ia_outils_global.svg",
                 "alt": "Schéma des étapes de la génération d’une réponse d’un logiciel d’IA conversationnelle qui fait appel à un outil.",
-                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie l’outil.</p><p>Elle transmet la réponse à&nbsp; l’outil.</p><p>L’outil transmet la requête à l’outil.</p><p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p><p>L’IA générative génère la réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
+                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie l’outil.</p><p>L'IA générative transmet la requête à&nbsp; l’outil.</p><p>L’outil envoie la réponse à l’IA générative.</p><p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p><p>L’IA générative génère la réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -874,7 +874,7 @@
                 "url": "https://assets.pix.org/modules/IAGenFonction_AVA/recap_outils_fond_jaune.svg",
                 "alt": "Schéma récapitulatif des outils intégrés dans les logiciels d’IA conversationnelle",
                 "alternativeText": "<p>L’IA générative peut générer du texte.&nbsp;</p><p>Elle peut aussi faire appel à des outils.</p><p>Parmi ces outils, des services tiers comme la calculatrice, la boîte mail, l’agenda, la génération d’image, la météo, la recherche sur internet, etc.</p>",
-                "legend": "Ceci est une image brouillon.",
+                "legend": "",
                 "licence": ""
               }
             }
