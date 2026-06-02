@@ -267,7 +267,7 @@
               "element": {
                 "id": "8356e03c-dddd-4d96-a1cf-6e3c14d582dd",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/21VisioNov/ecran-reglage-avant-visio.jpg",
+                "url": "https://assets.pix.org/draft/modules/21VisioNov/ecran-reglage-avant-visio2.jpg",
                 "alt": "",
                 "alternativeText": "",
                 "legend": "",
@@ -284,11 +284,11 @@
                 "proposals": [
                   {
                     "id": "0",
-                    "content": "<p>Ouvrir la caméra</p>"
+                    "content": "<p>Activer la caméra</p>"
                   },
                   {
                     "id": "1",
-                    "content": "<p>Ouvrir le micro</p>"
+                    "content": "<p>Activer le micro</p>"
                   },
                   {
                     "id": "2",
@@ -298,11 +298,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Exactement !<br></p>",
-                    "diagnosis": "<p>Avant de rejoindre une visioconférence, vous pouvez <strong>préparer votre entrée&nbsp;: ouvrir ou fermer votre micro et votre caméra</strong>.</p>"
+                    "diagnosis": "<p>Avant de rejoindre une visioconférence, vous pouvez <strong>préparer votre entrée&nbsp;: activer ou désactiver votre micro et votre caméra</strong>.</p>"
                   },
                   "invalid": {
                     "state": "<p>Eh non.<br></p>",
-                    "diagnosis": "<p>Pour passer son entretien d’embauche, Sadie a besoin d’être vue et entendue par les recruteurs.<br></p><p>Avant de rejoindre une visioconférence, vous pouvez <strong>préparer votre entrée&nbsp;: ouvrir ou fermer votre micro et votre caméra</strong>.</p>"
+                    "diagnosis": "<p>Pour passer son entretien d’embauche, Sadie a besoin d’être vue et entendue par les recruteurs.<br></p><p>Avant de rejoindre une visioconférence, vous pouvez <strong>préparer votre entrée&nbsp;: activer ou désactiver votre micro et votre caméra</strong>.</p>"
                   }
                 },
                 "solutions": [
@@ -333,7 +333,7 @@
                 "id": "f2b4fce6-9071-405c-b4af-5bc519f014bd",
                 "type": "text",
                 "tag": "tip",
-                "content": "<p>Pendant la visioconférence, quand votre caméra est ouverte, les autres participants vous voient et voient aussi ce qui se trouve derrière vous. Avant de rejoindre la visioconférence, installez-vous dans un endroit calme et pensez à <strong>vérifier ce qui est visible derrière vous</strong>.</p>"
+                "content": "<p>Pendant la visioconférence, quand votre caméra est activée, les autres participants vous voient et voient aussi ce qui se trouve derrière vous. Avant de rejoindre la visioconférence, installez-vous dans un endroit calme et pensez à <strong>vérifier ce qui est visible derrière vous</strong>.</p>"
               }
             },
             {
@@ -418,28 +418,28 @@
                           "id": "1",
                           "content": "<p>Diane</p>",
                           "feedback": {
-                            "diagnosis": "<p>Exactement !</p><p>Pendant une visioconférence, les participants sont visibles à l’écran. Souvent, un symbole ou un encadré <strong>indique qui est en train de parler</strong>&nbsp;:c’est utile quand leur caméra est fermée, et qu’on ne les voit pas.</p>"
+                            "diagnosis": "<p>Exactement !</p><p>Pendant une visioconférence, les participants sont visibles à l’écran. Souvent, un symbole ou un encadré <strong>indique qui est en train de parler</strong>&nbsp;: c’est utile quand leur caméra est désactivée, et qu’on ne les voit pas.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Ali</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non, c’est Diane.&nbsp;</p><p>Pendant une visioconférence, les participants sont visibles à l’écran. Souvent, un symbole ou un encadré <strong>indique qui est en train de parler</strong>&nbsp;:c’est utile quand leur caméra est fermée, et qu’on ne les voit pas.</p>"
+                            "diagnosis": "<p>Eh non, c’est Diane.&nbsp;</p><p>Pendant une visioconférence, les participants sont visibles à l’écran. Souvent, un symbole ou un encadré <strong>indique qui est en train de parler</strong>&nbsp;: c’est utile quand leur caméra est désactivée, et qu’on ne les voit pas.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Bruno<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non, c’est Diane.&nbsp;</p><p>Pendant une visioconférence, les participants sont visibles à l’écran. Souvent, un symbole ou un encadré <strong>indique qui est en train de parler</strong>&nbsp;:c’est utile quand leur caméra est fermée, et qu’on ne les voit pas.</p>"
+                            "diagnosis": "<p>Eh non, c’est Diane.&nbsp;</p><p>Pendant une visioconférence, les participants sont visibles à l’écran. Souvent, un symbole ou un encadré <strong>indique qui est en train de parler</strong>&nbsp;: c’est utile quand leur caméra est désactivée, et qu’on ne les voit pas.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>C’est Diane.&nbsp;</p><p>Pendant une visioconférence, les participants sont visibles à l’écran. Souvent, un symbole ou un encadré <strong>indique qui est en train de parler </strong>&nbsp;:c’est utile quand leur caméra est fermée, et qu’on ne les voit pas.</p>"
+                            "diagnosis": "<p>C’est Diane.&nbsp;</p><p>Pendant une visioconférence, les participants sont visibles à l’écran. Souvent, un symbole ou un encadré <strong>indique qui est en train de parler </strong>&nbsp;:c’est utile quand leur caméra est désactivée, et qu’on ne les voit pas.</p>"
                           }
                         }
                       ],
@@ -465,28 +465,28 @@
                           "id": "1",
                           "content": "<p>Ouvrir le micro.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non.</p><p>Si vous voulez prendre la parole, il est recommandé d’utiliser le bouton «&nbsp;lever la main&nbsp;». Il permet de signaler que vous souhaitez intervenir.&nbsp; ✋ <br>Ensuite, n’oubliez pas d’<strong>ouvrir votre micro</strong> avant de parler. 🎙️</p>"
+                            "diagnosis": "<p>Eh non.</p><p>Si vous voulez prendre la parole, il est recommandé d’utiliser le bouton «&nbsp;lever la main&nbsp;». Il permet de signaler que vous souhaitez intervenir.&nbsp; ✋ <br>Ensuite, n’oubliez pas d’<strong>activer votre micro</strong> avant de parler. 🎙️</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Lever la main.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Exactement&nbsp;!</p><p>Si vous voulez prendre la parole, il est recommandé d’utiliser le bouton «&nbsp;lever la main&nbsp;». Il permet de signaler que vous souhaitez intervenir.&nbsp; ✋ <br>Ensuite, n’oubliez pas d’<strong>ouvrir votre micro</strong> avant de parler. 🎙️</p>"
+                            "diagnosis": "<p>Exactement&nbsp;!</p><p>Si vous voulez prendre la parole, il est recommandé d’utiliser le bouton «&nbsp;lever la main&nbsp;». Il permet de signaler que vous souhaitez intervenir.&nbsp; ✋ <br>Ensuite, n’oubliez pas d’<strong>activer votre micro</strong> avant de parler. 🎙️</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Signaler.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non.</p><p>Si vous voulez prendre la parole, il est recommandé d’utiliser le bouton «&nbsp;lever la main&nbsp;». Il permet de signaler que vous souhaitez intervenir.&nbsp; ✋ <br>Ensuite, n’oubliez pas d’<strong>ouvrir votre micro</strong> avant de parler. 🎙️</p>"
+                            "diagnosis": "<p>Eh non.</p><p>Si vous voulez prendre la parole, il est recommandé d’utiliser le bouton «&nbsp;lever la main&nbsp;». Il permet de signaler que vous souhaitez intervenir.&nbsp; ✋ <br>Ensuite, n’oubliez pas d’<strong>activer votre micro</strong> avant de parler. 🎙️</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Si vous voulez prendre la parole, il est recommandé d’utiliser le bouton «&nbsp;lever la main&nbsp;». Il permet de signaler que vous souhaitez intervenir.&nbsp; ✋ <br>Ensuite, n’oubliez pas d’<strong>ouvrir votre micro</strong> avant de parler. 🎙️</p>"
+                            "diagnosis": "<p>Si vous voulez prendre la parole, il est recommandé d’utiliser le bouton «&nbsp;lever la main&nbsp;». Il permet de signaler que vous souhaitez intervenir.&nbsp; ✋ <br>Ensuite, n’oubliez pas d’<strong>activer votre micro</strong> avant de parler. 🎙️</p>"
                           }
                         }
                       ],
@@ -518,7 +518,7 @@
                     {
                       "id": "6a82198c-8ecc-4c0b-b90d-43bdac0710af",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/21VisioNov/boutons-visio.jpg",
+                      "url": "https://assets.pix.org/draft/modules/21VisioNov/boutons-visio2.jpg",
                       "alt": "",
                       "alternativeText": "",
                       "legend": "",
@@ -528,7 +528,7 @@
                       "id": "e348c101-e8f4-45a2-81c3-d563d83bd945",
                       "type": "text",
                       "tag": "did-you-know",
-                      "content": "<p><strong>Quand vous ne parlez pas</strong>, il est recommandé de <strong>fermer votre micro</strong>&nbsp;: les bruits autour de vous peuvent gêner les autres participants.</p>"
+                      "content": "<p><strong>Quand vous ne parlez pas</strong>, il est recommandé de <strong>désactiver votre micro</strong>&nbsp;: les bruits autour de vous peuvent gêner les autres participants.</p>"
                     }
                   ]
                 },
@@ -538,7 +538,7 @@
                       "id": "90f92ba8-173d-480f-8c05-8913ba7aba24",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>S’il y a «&nbsp;beaucoup&nbsp;» de participants lors d’une visioconférence, il ne sont pas forcément tous affichés sur l’écran central. Il faut alors ouvrir <strong>la liste des participants</strong> pour voir leurs noms.</p>"
+                      "content": "<p>S’il y a «&nbsp;beaucoup&nbsp;» de participants lors d’une visioconférence, il ne sont pas forcément tous affichés sur l’écran central. Il faut alors afficher <strong>la liste des participants</strong> pour voir leurs noms.</p>"
                     },
                     {
                       "id": "d5519a27-41d8-4c69-99b0-cbb0e026871b",
@@ -633,7 +633,7 @@
                 "id": "58c40d26-8729-46ba-8c2a-48a00351931a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>[En infographie]</p><ul><li><strong>Avant la visioconférence</strong>&nbsp;: <ul><li>Pour accéder à la visioconférence, cliquez sur le <strong>lien reçu</strong> par mail.</li><li><strong>Préparez votre entrée </strong>dans la visioconférence en ouvrant ou fermant votre micro et  votre caméra.</li></ul></li><li><strong>Pendant la visioconférence</strong>&nbsp;: <ul><li>Les participants peuvent être visibles à l’écran ou via <strong>une liste</strong>.</li><li>Pour <strong>prendre la parole</strong>&nbsp;: levez la main et ouvrez votre micro.</li></ul></li><li><strong>À la fin de la visioconférence</strong>&nbsp;: quittez la visioconférence en cliquant sur le bouton ou en fermant la fenêtre du navigateur.</li></ul>"
+                "content": "<p>[En infographie]</p><ul><li><strong>Avant la visioconférence</strong>&nbsp;: <ul><li>Pour accéder à la visioconférence, cliquez sur le <strong>lien reçu</strong> par mail.</li><li><strong>Préparez votre entrée </strong>dans la visioconférence en activant ou désactivant votre micro et  votre caméra.</li></ul></li><li><strong>Pendant la visioconférence</strong>&nbsp;: <ul><li>Les participants peuvent être visibles à l’écran ou via <strong>une liste</strong>.</li><li>Pour <strong>prendre la parole</strong>&nbsp;: levez la main et activez votre micro.</li></ul></li><li><strong>À la fin de la visioconférence</strong>&nbsp;: quittez la visioconférence en cliquant sur le bouton ou en fermant la fenêtre du navigateur.</li></ul>"
               }
             }
           ]
@@ -680,7 +680,7 @@
                   },
                   {
                     "id": "07291452-d8e8-4860-869a-e325d5ed4fee",
-                    "text": "À tout moment, chaque participant peut ouvrir ou fermer son micro et sa caméra.",
+                    "text": "À tout moment, chaque participant peut activer ou désactiver son micro et sa caméra.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -763,7 +763,7 @@
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse. </p>",
-                    "diagnosis": "<p>Tous les participants ne sont pas forcément visibles. Avez-vous regardé la liste des participants ?<br></p>"
+                    "diagnosis": "<p>Tous les participants ne sont pas forcément visibles. Avez-vous regardé la liste des participants ?</p>"
                   }
                 }
               }
@@ -792,7 +792,7 @@
                 "isCompletionRequired": true,
                 "title": "lever la main et unmute",
                 "url": "https://epreuves-pr3096.review.pix.fr/visio/visio.html?lang=fr&mode=modulix-Visionov-E3",
-                "instruction": "<p>Dans la visioconférence ci-dessous, signalez aux participants que vous voulez parler, puis ouvrez votre micro pour prendre la parole.</p>",
+                "instruction": "<p>Dans la visioconférence ci-dessous, signalez aux participants que vous voulez parler, puis activer votre micro pour prendre la parole.</p>",
                 "solution": "toto",
                 "height": 500
               }
