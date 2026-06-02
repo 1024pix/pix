@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import * as jose from 'jose';
 
 import { config } from '../../../../src/shared/config.js';
-import { PasswordNotMatching } from '../../../identity-access-management/domain/errors.js';
+import { PasswordNotMatching } from '../errors.js';
 
 const randomBytes = util.promisify(crypto.randomBytes);
 const scrypt = util.promisify(crypto.scrypt);

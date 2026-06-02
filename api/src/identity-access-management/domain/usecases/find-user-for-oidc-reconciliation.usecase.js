@@ -1,10 +1,9 @@
-import { UserNotFoundError } from '../../../shared/domain/errors.js';
+import { PasswordNotMatching, UserNotFoundError } from '../../../shared/domain/errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import {
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
-  PasswordNotMatching,
 } from '../errors.js';
 
 /**

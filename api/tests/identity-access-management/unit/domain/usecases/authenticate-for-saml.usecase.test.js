@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import {
   MissingOrInvalidCredentialsError,
-  PasswordNotMatching,
   UserShouldChangePasswordError,
 } from '../../../../../src/identity-access-management/domain/errors.js';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
@@ -12,6 +11,7 @@ import { UserAccessToken } from '../../../../../src/identity-access-management/d
 import { UserReconciliationSamlIdToken } from '../../../../../src/identity-access-management/domain/models/UserReconciliationSamlIdToken.js';
 import { authenticateForSaml } from '../../../../../src/identity-access-management/domain/usecases/authenticate-for-saml.usecase.js';
 import {
+  PasswordNotMatching,
   UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserNotFoundError,

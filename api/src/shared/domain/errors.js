@@ -1051,6 +1051,13 @@ class EmptyAnswerError extends DomainError {
   }
 }
 
+class PasswordNotMatching extends DomainError {
+  constructor(meta) {
+    super();
+    this.meta = meta;
+  }
+}
+
 export {
   AccountRecoveryDemandExpired,
   AccountRecoveryUserAlreadyConfirmEmail,
@@ -1156,6 +1163,7 @@ export {
   OrganizationNotFoundError,
   OrganizationTagNotFound,
   OrganizationWithoutEmailError,
+  PasswordNotMatching,
   S3UploadError,
   SendingEmailError,
   SendingEmailToInvalidDomainError,

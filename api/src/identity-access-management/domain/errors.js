@@ -70,13 +70,6 @@ class MissingUserAccountError extends DomainError {
   }
 }
 
-class PasswordNotMatching extends DomainError {
-  constructor(meta) {
-    super();
-    this.meta = meta;
-  }
-}
-
 class PasswordResetDemandNotFoundError extends DomainError {
   constructor(message = "La demande de réinitialisation de mot de passe n'existe pas.") {
     super(message);
@@ -140,7 +133,6 @@ export {
   MissingUserAccountError,
   OrganizationLearnerIdentityNotFoundError,
   OrganizationLearnerNotBelongToOrganizationIdentityError,
-  PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   PasswordResetTokenInvalidOrExpired,
   PixAdminLoginFromPasswordDisabledError,

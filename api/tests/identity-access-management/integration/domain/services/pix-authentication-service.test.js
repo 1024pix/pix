@@ -1,11 +1,15 @@
 import sinon from 'sinon';
 
-import { PasswordNotMatching } from '../../../../../src/identity-access-management/domain/errors.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { pixAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pix-authentication-service.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import * as userLoginRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user-login-repository.js';
-import { UserIsBlocked, UserIsTemporaryBlocked, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
+import {
+  PasswordNotMatching,
+  UserIsBlocked,
+  UserIsTemporaryBlocked,
+  UserNotFoundError,
+} from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

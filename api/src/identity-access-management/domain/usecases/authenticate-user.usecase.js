@@ -1,11 +1,10 @@
 import { config } from '../../../shared/config.js';
 import { PIX_ADMIN } from '../../../shared/domain/constants.js';
-import { ForbiddenAccess, UserNotFoundError } from '../../../shared/domain/errors.js';
+import { ForbiddenAccess, PasswordNotMatching, UserNotFoundError } from '../../../shared/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { createWarningConnectionEmail } from '../emails/create-warning-connection.email.js';
 import {
   MissingOrInvalidCredentialsError,
-  PasswordNotMatching,
   PixAdminLoginFromPasswordDisabledError,
   UserShouldChangePasswordError,
 } from '../errors.js';

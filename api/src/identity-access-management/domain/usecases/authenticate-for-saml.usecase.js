@@ -1,10 +1,11 @@
 import {
+  PasswordNotMatching,
   UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserNotFoundError,
 } from '../../../shared/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
-import { MissingOrInvalidCredentialsError, PasswordNotMatching, UserShouldChangePasswordError } from '../errors.js';
+import { MissingOrInvalidCredentialsError, UserShouldChangePasswordError } from '../errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 import { PasswordExpirationToken } from '../models/PasswordExpirationToken.js';
 import { UserAccessToken } from '../models/UserAccessToken.js';

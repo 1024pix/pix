@@ -1,7 +1,6 @@
-import { UserIsBlocked, UserIsTemporaryBlocked } from '../../../shared/domain/errors.js';
+import { PasswordNotMatching, UserIsBlocked, UserIsTemporaryBlocked } from '../../../shared/domain/errors.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
-import { PasswordNotMatching } from '../errors.js';
 
 /**
  * @typedef {function} getUserByUsernameAndPassword
