@@ -1,9 +1,9 @@
 import { stdSerializers } from 'pino';
 
-import { generateHash } from '../../../identity-access-management/infrastructure/utils/crypto.js';
 import { getForwardedOrigin } from '../../../identity-access-management/infrastructure/utils/network.js';
 import { config } from '../../config.js';
 import { getCorrelationInfo, getInContext, setInContext } from '../execution-context-manager.js';
+import { generateHash } from '../utils/crypto.js';
 import { loggerPino } from '../utils/logger.js';
 import { routeDomainToOwnerTeam } from '../utils/route-domain-to-owner-team.js';
 
