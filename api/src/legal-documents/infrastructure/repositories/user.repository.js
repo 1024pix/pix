@@ -1,3 +1,4 @@
+import * as userApi from '../../../identity-access-management/application/api/users-api.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserNotFoundError } from '../../../shared/domain/errors.js';
 
@@ -11,4 +12,8 @@ const getPixAppLegacyCguByUserId = async (userId) => {
   return user;
 };
 
-export { getPixAppLegacyCguByUserId };
+const acceptPixLastTermsOfService = async (userId) => {
+  return userApi.acceptPixLastTermsOfService(userId);
+};
+
+export { acceptPixLastTermsOfService, getPixAppLegacyCguByUserId };
