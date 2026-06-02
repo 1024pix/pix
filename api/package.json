@@ -186,7 +186,7 @@
     "nock": "^14.0.0",
     "nodemon": "^3.0.0",
     "npm-run-all2": "^8.0.0",
-    "oxfmt": "^0.51.0",
+    "oxfmt": "^0.52.0",
     "pdfjs-dist": "^5.0.0",
     "sinon": "^22.0.0",
     "sinon-chai": "^4.0.0"
