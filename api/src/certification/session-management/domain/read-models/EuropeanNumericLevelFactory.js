@@ -1,10 +1,6 @@
-import lodash from 'lodash';
-
-const { remove, uniqBy } = lodash;
-
 import { EuropeanNumericLevel } from './EuropeanNumericLevel.js';
 
-class EuropeanNumericLevelFactory {
+export class EuropeanNumericLevelFactory {
   static buildFromCompetenceMarks(competenceMarks) {
     const europeanNumericLevels = [];
     competenceMarks.forEach(({ competenceCode, level }) => {
@@ -65,10 +61,7 @@ class EuropeanNumericLevelFactory {
         new EuropeanNumericLevel({ domainCompetenceId: '5', competenceId: '3', level: averageGlobalScore }),
       );
     }
-
-    remove(europeanNumericLevels, ({ level }) => level < 1);
-
-    return europeanNumericLevels;
+    return europeanNumericLevels.filter(({ level }) => level >= 1);
   }
 }
 
@@ -93,7 +86,5 @@ function _buildEuropeanNumericLevelFromMergedCompetenceMarks({
 }
 
 function _areAtLeastOneCompetenceByDomain(competenceMarks) {
-  return uniqBy(competenceMarks, 'areaCode').length === 5;
+  return new Set(competenceMarks.map(({ areaCode }) => areaCode)).size === 5;
 }
-
-export { EuropeanNumericLevelFactory };

@@ -1,5 +1,4 @@
 import jsonapiSerializer from 'jsonapi-serializer';
-import _ from 'lodash';
 
 import isEmpty from '../../../../shared/infrastructure/utils/is-empty.js';
 import { SessionManagement } from '../../domain/models/SessionManagement.js';
@@ -53,7 +52,7 @@ export function deserialize(json) {
     version: attributes['version'],
   });
 
-  if (isEmpty(_.trim(result.examinerGlobalComment))) {
+  if (isEmpty(result.examinerGlobalComment?.trim())) {
     result.examinerGlobalComment = SessionManagement.NO_EXAMINER_GLOBAL_COMMENT;
   }
 

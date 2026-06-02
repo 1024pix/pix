@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FinalizedSession } from '../../domain/models/FinalizedSession.js';
@@ -70,12 +68,7 @@ function _toDomainObject({ date, time, ...finalizedSession }) {
 }
 
 function _toDTO(finalizedSession) {
-  return _.omit(
-    {
-      ...finalizedSession,
-      date: finalizedSession.sessionDate,
-      time: finalizedSession.sessionTime,
-    },
-    ['sessionDate', 'sessionTime'],
-  );
+  // eslint-disable-next-line no-unused-vars
+  const { sessionDate, sessionTime, ...filteredFinalizedSession } = finalizedSession;
+  return { ...filteredFinalizedSession, date: finalizedSession.sessionDate, time: finalizedSession.sessionTime };
 }

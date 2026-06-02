@@ -8,7 +8,6 @@
  * @property {Source} source
  */
 
-import { _ } from '../../../../shared/infrastructure/utils/lodash-utils.js';
 import { ChallengesReferential } from '../../../shared/domain/models/ChallengesReferential.js';
 
 class ComplementaryCertificationCourseWithResults {
@@ -27,10 +26,12 @@ class ComplementaryCertificationCourseWithResults {
   }
 
   isAcquiredExpectedLevelByPixSource() {
-    return _.some(this.results, {
-      source: ChallengesReferential.PIX,
-      acquired: true,
-      complementaryCertificationBadgeId: this.complementaryCertificationBadgeId,
+    return this.results?.some((r) => {
+      return (
+        r.source === ChallengesReferential.PIX &&
+        r.acquired === true &&
+        r.complementaryCertificationBadgeId === this.complementaryCertificationBadgeId
+      );
     });
   }
 
