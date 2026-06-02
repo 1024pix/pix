@@ -15,8 +15,24 @@ const findTrainings = async function (request, h, dependencies = { trainingSeria
   return dependencies.trainingSerializer.serialize(trainings);
 };
 
+const saveUserRelevanceFeedbackOnRecommendedTraining = async function (request, h) {
+  const { userId } = request.auth.credentials;
+  const { campaignParticipationId, trainingId } = request.params;
+  const isRelevant = request.payload.data.attributes['is-relevant'];
+
+  await devcompUsecases.saveUserRelevanceFeedbackOnRecommendedTraining({
+    userId,
+    trainingId,
+    campaignParticipationId,
+    isRelevant,
+  });
+
+  return h.response().code(204);
+};
+
 const campaignParticipationController = {
   findTrainings,
+  saveUserRelevanceFeedbackOnRecommendedTraining,
 };
 
 export { campaignParticipationController };

@@ -17,7 +17,35 @@ const register = async function (server) {
         handler: campaignParticipationController.findTrainings,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des formations de la campagne d‘un utilisateur',
+            "- Récupération des formations de la campagne d'un utilisateur",
+        ],
+        tags: ['api', 'campaign-participations', 'trainings'],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/campaign-participations/{campaignParticipationId}/trainings/{trainingId}',
+      config: {
+        validate: {
+          params: Joi.object({
+            campaignParticipationId: identifiersType.campaignParticipationId,
+            trainingId: identifiersType.trainingId,
+          }),
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                'is-relevant': Joi.boolean().required(),
+              }).required(),
+            }).required(),
+          }).required(),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: campaignParticipationController.saveUserRelevanceFeedbackOnRecommendedTraining,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Enregistrement de la pertinence d'un contenu formatif recommandé",
         ],
         tags: ['api', 'campaign-participations', 'trainings'],
       },
