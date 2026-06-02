@@ -15,6 +15,7 @@ module('Acceptance | Module | Routes | Preview Existing Module', function (hooks
     // given
     server.create('module', {
       id: 'existing-module',
+      shortId: 's0l31l',
       slug: 'existing-module',
       title: 'Existing Module',
       isBeta: true,
@@ -23,10 +24,10 @@ module('Acceptance | Module | Routes | Preview Existing Module', function (hooks
     });
 
     // when
-    const screen = await visit('/modules/preview/existing-module');
+    const screen = await visit('/modules/preview/s0l31l/existing-module');
 
     // then
-    assert.strictEqual(currentURL(), '/modules/preview/existing-module');
+    assert.strictEqual(currentURL(), '/modules/preview/s0l31l/existing-module');
     assert.dom(screen.getByRole('heading', { name: 'Existing Module' })).exists();
   });
 });

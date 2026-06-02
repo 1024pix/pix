@@ -112,7 +112,8 @@ Router.map(function () {
     this.route('process-custom-passages', { path: '/:code/chargement' });
   });
 
-  this.route('module-preview-existing', { path: '/modules/preview/:slug' });
+  // eslint-disable-next-line ember/routes-segments-snake-case
+  this.route('module-preview-existing', { path: '/modules/preview/:shortId/:slug' });
   this.route('module-preview', { path: '/modules/preview' });
 
   // eslint-disable-next-line ember/routes-segments-snake-case
