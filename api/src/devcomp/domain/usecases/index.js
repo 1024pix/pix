@@ -61,6 +61,7 @@ import { getUserModuleStatuses } from './get-user-module-statuses.js';
 import { handleTrainingRecommendation } from './handle-training-recommendation.js';
 import { promptToLLMChat } from './prompt-to-llm-chat.js';
 import { recordPassageEvents } from './record-passage-events.js';
+import { saveUserRelevanceFeedbackOnRecommendedTraining } from './save-user-relevance-feedback-on-recommended-training.js';
 import { startEmbedLlmChat } from './start-embed-llm-chat.js';
 import { terminatePassage } from './terminate-passage.js';
 import { updateTraining } from './update-training.js';
@@ -97,6 +98,7 @@ const usecasesWithoutInjectedDependencies = {
   handleTrainingRecommendation,
   promptToLLMChat,
   recordPassageEvents,
+  saveUserRelevanceFeedbackOnRecommendedTraining,
   startEmbedLlmChat,
   terminatePassage,
   updateTraining,
