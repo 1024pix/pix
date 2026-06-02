@@ -41,3 +41,14 @@ export const getActiveByUserIds = async ({ userIds }) => {
 
   return users.map((user) => new UserDTO(user));
 };
+
+/**
+ * @function
+ * @name acceptPixLastTermsOfService
+ *
+ * @param {string} userId
+ * @returns {Promise<Array<UserDTO>>}
+ */
+export const acceptPixLastTermsOfService = async (userId) => {
+  return usecases.acceptPixLastTermsOfService({ userId });
+};
