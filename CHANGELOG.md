@@ -1,5 +1,40 @@
 # Pix Changelog
 
+# [5.420.0](https://github.com/1024pix/pix/compare/v5.419.0...v5.420.0) (2026-06-02)
+
+### :rocket: Amélioration
+
+- [#16325](https://github.com/1024pix/pix/pull/16325) Affichage d'une modale pour les détails d'un contenu formatif recommandé (PIX-22730). 
+- [#16367](https://github.com/1024pix/pix/pull/16367) Ajout d'une pré-sélection de sujets lorsque l'on créé une nouvelle version de certification (PIX-22874) 
+- [#16354](https://github.com/1024pix/pix/pull/16354) Ajoute un encart sur les attestations sur la page de présentation du parcours combiné (PIX-22747) 
+- [#16361](https://github.com/1024pix/pix/pull/16361) Ajouter la colonne isRelevant dans la table user-recommended-trainings (PIX-22944) 
+- [#16362](https://github.com/1024pix/pix/pull/16362) Module GestionMPD_IND modifs POI et contenu 
+- [#16384](https://github.com/1024pix/pix/pull/16384) Permet aux admins d'ajouter un lien de questionnaire à la création d'un blueprint (PIX-22939) 
+- [#16360](https://github.com/1024pix/pix/pull/16360) Rendre l'externalId optionnel lors de la création d'organisations en masse (PIX-22931) 
+
+### :bug: Correction
+
+- [#16365](https://github.com/1024pix/pix/pull/16365) Ne pas renvoyer d'id de profil cible à la place d'id de blueprint quand on crée un parcours combiné sur PixOrga (PIX-22960) 
+
+### :building_construction: Tech
+
+- [#16344](https://github.com/1024pix/pix/pull/16344) Ne plus utiliser la table certification-subscriptions dans les services et usecases (PIX-22920) 
+- [#16323](https://github.com/1024pix/pix/pull/16323) Supprimer la route /modules/slug côté Pix App (PIX-22305) 
+
+### :arrow_up: Montée de version
+
+- [#16366](https://github.com/1024pix/pix/pull/16366) Update dependency @1024pix/pix-ui to ^60.12.0 (certif) 
+- [#16368](https://github.com/1024pix/pix/pull/16368) Update dependency @1024pix/pix-ui to ^60.12.0 (junior) 
+- [#16369](https://github.com/1024pix/pix/pull/16369) Update dependency @1024pix/pix-ui to ^60.12.0 (mon-pix) 
+- [#16370](https://github.com/1024pix/pix/pull/16370) Update dependency @1024pix/pix-ui to v60.12.0 (orga) 
+- [#16372](https://github.com/1024pix/pix/pull/16372) Update dependency @datadog/datadog-api-client to v1.58.0 (api) 
+- [#16379](https://github.com/1024pix/pix/pull/16379) Update dependency ember-cli to v7 (admin) 
+- [#16381](https://github.com/1024pix/pix/pull/16381) Update dependency ember-cli to v7 (certif) 
+- [#16373](https://github.com/1024pix/pix/pull/16373) Update dependency oxfmt to ^0.51.0 (api) 
+- [#16380](https://github.com/1024pix/pix/pull/16380) Update dependency oxfmt to ^0.52.0 (api) 
+- [#16376](https://github.com/1024pix/pix/pull/16376) Update dependency undici to v8.3.0 (api) 
+- [#16377](https://github.com/1024pix/pix/pull/16377) Update dependency webpack to v5.107.2 (junior)
+
 # [5.419.0](https://github.com/1024pix/pix/compare/v5.418.0...v5.419.0) (2026-06-01)
 
 ### :rocket: Amélioration
