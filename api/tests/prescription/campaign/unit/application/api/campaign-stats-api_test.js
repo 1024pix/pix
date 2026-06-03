@@ -10,7 +10,11 @@ describe('Unit | API | CampaignStats', function () {
     it('returns the statistics for the given organization', async function () {
       // given
       const organizationId = 1;
-      const expectedStats = { totalParticipantsCount: 42 };
+      const expectedStats = {
+        organizationId,
+        totalParticipantsCount: 42,
+        totalParticipantsCountByYear: [{ year: 2025, count: 42 }],
+      };
       sinon
         .stub(usecases, 'getOrganizationParticipantsStatistics')
         .withArgs({ organizationId })

@@ -14,5 +14,5 @@ import { OrganizationStatistics } from './models/OrganizationStatistics.js';
  */
 export const getOrganizationParticipantsStatistics = async (organizationId) => {
   const statistics = await usecases.getOrganizationParticipantsStatistics({ organizationId });
-  return new OrganizationStatistics(statistics);
+  return new OrganizationStatistics({ organizationId, ...statistics });
 };

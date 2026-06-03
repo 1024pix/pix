@@ -1,5 +1,7 @@
 export class OrganizationStatistics {
-  constructor({ totalParticipantsCount }) {
+  constructor({ organizationId, totalParticipantsCount, totalParticipantsCountByYear }) {
+    this.organizationId = organizationId;
     this.totalParticipantsCount = totalParticipantsCount;
+    this.totalParticipantsCountByYear = totalParticipantsCountByYear;
   }
 }
