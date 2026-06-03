@@ -158,7 +158,10 @@ export default class PixPlusCertificate extends Component {
         <PixBlock class="v3-pix-plus-certificate__results-infos-block">
           <img src="/images/illustrations/user-certifications/certificate-magnifier.png" alt="" />
           <div class="v3-pix-plus-certificate__results-infos-details">
-            <h3 class="v3-pix-plus-certificate__title">{{t "pages.certificate.results.title"}}</h3>
+            <h3 class="v3-pix-plus-certificate__title">
+              <span>{{t "pages.certificate.results.title"}}</span>
+              <PixTag class="mesh-level-tag" @color="yellow">{{this.reachedMeshLabel}}</PixTag>
+            </h3>
             <p><strong>{{@certificate.globalSummaryLabel}}</strong></p>
             {{@certificate.globalDescriptionLabel}}
           </div>

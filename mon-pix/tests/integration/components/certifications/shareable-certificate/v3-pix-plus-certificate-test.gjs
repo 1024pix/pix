@@ -164,7 +164,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
 
         // then
-        assert.dom(screen.getByRole('heading', { level: 3, name: t('pages.certificate.results.title') })).exists();
+        assert
+          .dom(screen.getByRole('heading', { level: 3, name: t('pages.certificate.results.title') + ' Expert' }))
+          .exists();
         assert.dom(screen.getByText('Summary label')).exists();
         assert.dom(screen.getByText('Description label')).exists();
       });
@@ -469,7 +471,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
 
       // then
-      assert.dom(screen.getByRole('heading', { level: 3, name: t('pages.certificate.results.title') })).exists();
+      assert
+        .dom(screen.getByRole('heading', { level: 3, name: t('pages.certificate.results.title') + ' Expert' }))
+        .exists();
       assert.dom(screen.getByText('Summary label')).exists();
       assert.dom(screen.getByText('Description label')).exists();
     });
