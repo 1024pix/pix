@@ -32,7 +32,6 @@ class CampaignParticipation {
     this.sharedAt = sharedAt;
     this.campaignId = campaignId;
     assert.ok(clientId, 'Client ID should be defined');
-    assert.ok(userId, 'User ID should be defined');
     this.participantId = crypto.hash('sha1', `${userId}_${clientId}`);
     this.masteryRate = masteryRate;
     this.tubes = tubes;
