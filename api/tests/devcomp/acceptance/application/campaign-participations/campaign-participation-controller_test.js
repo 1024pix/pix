@@ -47,6 +47,7 @@ describe('Acceptance | API | Campaign Participations', function () {
         'editor-logo-url': training.editorLogoUrl,
         'delivery-mode': Training.modes.HYBRID,
         'registration-required': false,
+        'is-relevant': null,
         program: 'Programme du contenu formatif',
         objectives: [],
         description: "<p>Voici la description d'un contenu formatif</p>",

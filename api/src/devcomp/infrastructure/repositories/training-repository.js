@@ -183,7 +183,7 @@ async function findPaginatedByUserId({ userId, locale, page }) {
   const knexConn = DomainTransaction.getConnection();
 
   const baseQuery = knexConn(TABLE_NAME)
-    .select('trainings.*')
+    .select('trainings.*', 'isRelevant')
     .distinct('trainings.id')
     .join(USER_RECOMMENDED_TRAININGS_TABLE_NAME, 'trainings.id', 'trainingId')
     .where({ userId, isDisabled: false })

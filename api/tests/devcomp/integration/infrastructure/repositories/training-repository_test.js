@@ -767,11 +767,13 @@ describe('Integration | Repository | training-repository', function () {
         userId,
         trainingId: training1.id,
         campaignParticipationId,
+        isRelevant: true,
       });
       databaseBuilder.factory.buildUserRecommendedTraining({
         userId,
         trainingId: training2.id,
         campaignParticipationId,
+        isRelevant: true,
       });
       databaseBuilder.factory.buildUserRecommendedTraining({
         userId,
@@ -793,8 +795,8 @@ describe('Integration | Repository | training-repository', function () {
       // then
       expect(userRecommendedTrainings).to.be.lengthOf(2);
       expect(userRecommendedTrainings).to.deep.equal([
-        new UserRecommendedTraining({ ...training1, duration: { hours: 6 } }),
-        new UserRecommendedTraining({ ...training2, duration: { hours: 6 } }),
+        new UserRecommendedTraining({ ...training1, duration: { hours: 6 }, isRelevant: true }),
+        new UserRecommendedTraining({ ...training2, duration: { hours: 6 }, isRelevant: true }),
       ]);
       expect(pagination).to.deep.equal({
         page: 1,

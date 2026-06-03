@@ -27,7 +27,12 @@ describe('Acceptance | Routes | UserTrainingsRoute', function () {
       //given
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ userId });
       const { id: trainingId } = databaseBuilder.factory.buildTraining();
-      databaseBuilder.factory.buildUserRecommendedTraining({ userId, trainingId, campaignParticipationId });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId,
+        trainingId,
+        campaignParticipationId,
+        isRelevant: false,
+      });
       await databaseBuilder.commit();
 
       // when
@@ -53,6 +58,7 @@ describe('Acceptance | Routes | UserTrainingsRoute', function () {
             'editor-logo-url':
               'https://assets.pix.org/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
             description: "<p>Voici la description d'un contenu formatif</p>",
+            'is-relevant': false,
           },
           relationships: {
             'target-profile-summaries': {
