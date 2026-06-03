@@ -1,6 +1,6 @@
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
-import { AdminCombinedCourseBlueprint } from '../../../../../src/quest/domain/models/AdminCombinedCourseBlueprint.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprintForCreation } from '../../../../../src/quest/domain/models/CombinedCourseBlueprintForCreation.js';
 import {
   CRITERION_COMPARISONS,
   REQUIREMENT_COMPARISONS,
@@ -22,7 +22,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         { type: 'module', value: '6282925d-4775-4bca-b513-4c3009ec5886', shortId: '6a68bf32' },
       ];
       const combinedCourseBlueprint = new CombinedCourseBlueprint({
-        ...new AdminCombinedCourseBlueprint({
+        ...new CombinedCourseBlueprintForCreation({
           name: 'Combined course IA',
           internalName: 'Ia combined course blueprint',
           description: "L'ia c'est magique",
@@ -138,7 +138,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
 
       const updatedContent = [{ type: 'module', value: '6282925d-4775-4bca-b513-4c3009ec5886', shortId: '6a68bf32' }];
       const combinedCourseBlueprintWithoutTargetProfile = new CombinedCourseBlueprint({
-        ...new AdminCombinedCourseBlueprint({
+        ...new CombinedCourseBlueprintForCreation({
           id: combinedCourseBlueprintInDb.id,
           name: 'Updated Combined course IA',
           internalName: 'Ia combined course blueprint',

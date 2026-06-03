@@ -1,6 +1,6 @@
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { AdminCombinedCourseBlueprint } from '../../../../../src/quest/domain/models/AdminCombinedCourseBlueprint.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprintForCreation } from '../../../../../src/quest/domain/models/CombinedCourseBlueprintForCreation.js';
 import { QuestInput } from '../../../../../src/quest/domain/models/QuestInput.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
@@ -25,7 +25,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       rewardId: attestation.id,
       rewardType: REWARD_TYPES.ATTESTATION,
     });
-    const adminCombinedCourseBlueprint = new AdminCombinedCourseBlueprint({
+    const combinedCourseBlueprintForCreation = new CombinedCourseBlueprintForCreation({
       name: 'Mon épure',
       internalName: 'Une épure pour tel niveau',
       illustration: 'illustrations/mon-epure.png',
@@ -34,17 +34,17 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       quest: questInput.toQuest(),
     });
 
-    const expectedQuest = adminCombinedCourseBlueprint.quest.toDTO();
+    const expectedQuest = combinedCourseBlueprintForCreation.quest.toDTO();
 
-    await usecases.createCombinedCourseBlueprint({ adminCombinedCourseBlueprint });
+    await usecases.createCombinedCourseBlueprint({ combinedCourseBlueprintForCreation });
 
     const combinedCourseBlueprints = await knex('combined_course_blueprints');
     const questLinkedToBlueprint = await knex('quests').where('id', combinedCourseBlueprints[0].questId).first();
     expect(combinedCourseBlueprints).lengthOf(1);
-    expect(combinedCourseBlueprints[0].name).to.equal(adminCombinedCourseBlueprint.name);
-    expect(combinedCourseBlueprints[0].internalName).to.equal(adminCombinedCourseBlueprint.internalName);
-    expect(combinedCourseBlueprints[0].illustration).to.equal(adminCombinedCourseBlueprint.illustration);
-    expect(combinedCourseBlueprints[0].description).to.equal(adminCombinedCourseBlueprint.description);
+    expect(combinedCourseBlueprints[0].name).to.equal(combinedCourseBlueprintForCreation.name);
+    expect(combinedCourseBlueprints[0].internalName).to.equal(combinedCourseBlueprintForCreation.internalName);
+    expect(combinedCourseBlueprints[0].illustration).to.equal(combinedCourseBlueprintForCreation.illustration);
+    expect(combinedCourseBlueprints[0].description).to.equal(combinedCourseBlueprintForCreation.description);
 
     expect(questLinkedToBlueprint.successRequirements).to.deep.equal(expectedQuest.successRequirements);
     expect(questLinkedToBlueprint.rewardId).to.deep.equal(expectedQuest.rewardId);
@@ -72,7 +72,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       { type: 'module', value: '6282925d-4775-4bca-b513-4c3009ec5886', shortId: '6a68bf32' },
       { type: 'evaluation', value: targetProfileId },
     ];
-    const adminCombinedCourseBlueprint = new AdminCombinedCourseBlueprint({
+    const combinedCourseBlueprintForCreation = new CombinedCourseBlueprintForCreation({
       name: 'Mon épure',
       internalName: 'Une épure pour tel niveau',
       illustration: 'illustrations/mon-epure.png',
@@ -81,7 +81,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       quest: new QuestInput({ items: content }).toQuest(),
     });
 
-    await usecases.createCombinedCourseBlueprint({ adminCombinedCourseBlueprint });
+    await usecases.createCombinedCourseBlueprint({ combinedCourseBlueprintForCreation });
 
     const combinedCourseBlueprints = await knex('combined_course_blueprints');
     expect(combinedCourseBlueprints).lengthOf(1);
@@ -107,7 +107,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       { type: 'evaluation', value: targetProfileId },
       { type: 'evaluation', value: 123 },
     ];
-    const adminCombinedCourseBlueprint = new AdminCombinedCourseBlueprint({
+    const combinedCourseBlueprintForCreation = new CombinedCourseBlueprintForCreation({
       name: 'Mon épure',
       internalName: 'Une épure pour tel niveau',
       illustration: 'illustrations/mon-epure.png',
@@ -116,7 +116,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       quest: new QuestInput({ items: content }).toQuest(),
     });
 
-    const error = await catchErr(usecases.createCombinedCourseBlueprint)({ adminCombinedCourseBlueprint });
+    const error = await catchErr(usecases.createCombinedCourseBlueprint)({ combinedCourseBlueprintForCreation });
     expect(error).to.be.instanceOf(NotFoundError);
   });
 });

@@ -1,7 +1,6 @@
-import { ObjectValidationError } from '../../../shared/domain/errors.js';
 import { REQUIREMENT_TYPES } from './Quest.js';
 
-export class AdminCombinedCourseBlueprint {
+export class CombinedCourseBlueprintForCreation {
   constructor({
     id,
     name,
@@ -30,17 +29,11 @@ export class AdminCombinedCourseBlueprint {
     this.surveyLink = surveyLink;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-
-    this.validate();
   }
 
   get targetProfileIds() {
     return this.quest.successRequirements
       .filter((item) => item.requirement_type === REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS)
       .map(({ data }) => parseInt(data.targetProfileId.data));
-  }
-
-  validate() {
-    if (!this.quest) throw new ObjectValidationError('Quest is required');
   }
 }

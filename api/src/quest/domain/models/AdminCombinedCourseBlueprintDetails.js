@@ -1,7 +1,7 @@
-import { AdminCombinedCourseBlueprint } from './AdminCombinedCourseBlueprint.js';
+import { CombinedCourseBlueprintForCreation } from './CombinedCourseBlueprintForCreation.js';
 import { QuestInput } from './QuestInput.js';
 
-export class AdminCombinedCourseBlueprintDetails extends AdminCombinedCourseBlueprint {
+export class AdminCombinedCourseBlueprintDetails extends CombinedCourseBlueprintForCreation {
   constructor({ content, ...rest }) {
     super(rest);
     this.content = content;

@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
 import { COMBINED_COURSE_ITEM_TYPES, REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { AdminCombinedCourseBlueprint } from '../../../../../src/quest/domain/models/AdminCombinedCourseBlueprint.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprintForCreation } from '../../../../../src/quest/domain/models/CombinedCourseBlueprintForCreation.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
@@ -45,13 +45,13 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprin
     await databaseBuilder.commit();
 
     //when
-    const adminCombinedCourseBlueprint = await usecases.getCombinedCourseBlueprintById({
+    const combinedCourseBlueprintForCreation = await usecases.getCombinedCourseBlueprintById({
       id: 1,
     });
 
     //then
-    expect(adminCombinedCourseBlueprint).to.be.instanceOf(AdminCombinedCourseBlueprint);
-    expect(adminCombinedCourseBlueprint).deep.contain({
+    expect(combinedCourseBlueprintForCreation).to.be.instanceOf(CombinedCourseBlueprintForCreation);
+    expect(combinedCourseBlueprintForCreation).deep.contain({
       id: 1,
       name: 'Mon parcours combiné',
       internalName: 'Mon schéma de parcours combiné',
@@ -62,7 +62,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprin
       organizationIds: [],
       attestationLabel,
     });
-    expect(adminCombinedCourseBlueprint.content).to.deep.equal([
+    expect(combinedCourseBlueprintForCreation.content).to.deep.equal([
       { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: targetProfileId },
       { type: COMBINED_COURSE_ITEM_TYPES.MODULE, value: '9beb922f-4d8e-495d-9c85-0e7265ca78d6', shortId: 'e074af34' },
     ]);

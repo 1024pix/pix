@@ -1,7 +1,7 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
 import { REWARD_TYPES } from '../../domain/constants.js';
-import { AdminCombinedCourseBlueprint } from '../../domain/models/AdminCombinedCourseBlueprint.js';
+import { CombinedCourseBlueprintForCreation } from '../../domain/models/CombinedCourseBlueprintForCreation.js';
 import { QuestInput } from '../../domain/models/QuestInput.js';
 
 const { Deserializer, Serializer } = jsonapiSerializer;
@@ -21,7 +21,7 @@ const deserialize = async function (payload) {
     rewardId: deserializedData.rewardId,
     rewardType: REWARD_TYPES[deserializedData.rewardType] ?? null,
   });
-  return new AdminCombinedCourseBlueprint({
+  return new CombinedCourseBlueprintForCreation({
     ...deserializedData,
     quest: questInput.toQuest(),
   });

@@ -1,13 +1,13 @@
 import { CombinedCourseBlueprint } from '../models/CombinedCourseBlueprint.js';
 
 export const createCombinedCourseBlueprint = async ({
-  adminCombinedCourseBlueprint,
+  combinedCourseBlueprintForCreation,
   combinedCourseBlueprintRepository,
   targetProfileRepository,
 }) => {
-  await targetProfileRepository.findByIds({ ids: adminCombinedCourseBlueprint.targetProfileIds });
+  await targetProfileRepository.findByIds({ ids: combinedCourseBlueprintForCreation.targetProfileIds });
 
   return combinedCourseBlueprintRepository.save({
-    combinedCourseBlueprint: new CombinedCourseBlueprint({ ...adminCombinedCourseBlueprint }),
+    combinedCourseBlueprint: new CombinedCourseBlueprint({ ...combinedCourseBlueprintForCreation }),
   });
 };

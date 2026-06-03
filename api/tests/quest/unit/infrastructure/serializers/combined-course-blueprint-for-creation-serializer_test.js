@@ -1,8 +1,8 @@
 import { COMBINED_COURSE_ITEM_TYPES, REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { AdminCombinedCourseBlueprint } from '../../../../../src/quest/domain/models/AdminCombinedCourseBlueprint.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprintForCreation } from '../../../../../src/quest/domain/models/CombinedCourseBlueprintForCreation.js';
 import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
-import * as adminCombinedCourseBlueprintSerializer from '../../../../../src/quest/infrastructure/serializers/admin-combined-course-blueprint-serializer.js';
+import * as combinedCourseBlueprintForCreationSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-for-creation-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-blueprint', function () {
@@ -34,11 +34,11 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
     };
 
     // when
-    const result = await adminCombinedCourseBlueprintSerializer.deserialize(serializedBlueprint);
+    const result = await combinedCourseBlueprintForCreationSerializer.deserialize(serializedBlueprint);
 
     // then
     expect(result).to.deep.equal(
-      new AdminCombinedCourseBlueprint({
+      new CombinedCourseBlueprintForCreation({
         id: '1',
         name: 'Mon parcours',
         internalName: 'Mon modèle de parcours',
