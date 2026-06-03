@@ -153,6 +153,7 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
             },
             badges: [
               {
+                message: badge.message,
                 altMessage: badge.altMessage,
                 id: badge.id,
                 imageUrl: badge.imageUrl,
@@ -175,6 +176,7 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
             tubes: [],
             badges: [
               {
+                message: badge.message,
                 altMessage: badge.altMessage,
                 id: badge.id,
                 imageUrl: badge.imageUrl,

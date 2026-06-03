@@ -84,6 +84,7 @@ const register = async function (server) {
                       .items(
                         Joi.object({
                           id: Joi.number().description('ID du badge'),
+                          message: Joi.string().description('Message du badge'),
                           altMessage: Joi.string().description('Message alternatif du badge'),
                           imageUrl: Joi.string().description("URL de l'image du badge"),
                           key: Joi.string().description('Clé unique du badge'),
