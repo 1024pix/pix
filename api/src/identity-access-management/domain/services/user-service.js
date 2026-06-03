@@ -1,5 +1,4 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 import { UserToCreate } from '../models/UserToCreate.js';
 
@@ -21,7 +20,10 @@ export async function createUserWithPassword({
   const userToAdd = UserToCreate.create({ ...user, locale });
   const savedUser = await userToCreateRepository.create({ user: userToAdd });
 
-  const authenticationMethod = _buildPasswordAuthenticationMethod({ userId: savedUser.id, hashedPassword });
+  const authenticationMethod = AuthenticationMethod.buildPixAuthenticationMethod({
+    userId: savedUser.id,
+    password: hashedPassword,
+  });
   await authenticationMethodRepository.create({ authenticationMethod });
 
   return savedUser;
@@ -73,47 +75,20 @@ export async function createUserWithGarOrPassword({
     const createdUser = await userToCreateRepository.create({ user: userToAdd });
 
     if (samlId) {
-      authenticationMethod = _buildGARAuthenticationMethod({ externalIdentifier: samlId, user: createdUser });
+      authenticationMethod = AuthenticationMethod.buildGARAuthenticationMethod({
+        userId: createdUser.id,
+        firstName: createdUser.firstName,
+        lastName: createdUser.lastName,
+        externalIdentifier: samlId,
+      });
     } else {
-      authenticationMethod = _buildPasswordAuthenticationMethod({ hashedPassword, userId: createdUser.id });
+      authenticationMethod = AuthenticationMethod.buildPixAuthenticationMethod({
+        userId: createdUser.id,
+        password: hashedPassword,
+      });
     }
     await authenticationMethodRepository.create({ authenticationMethod });
 
     return createdUser.id;
-  });
-}
-
-/**
- * @param userId
- * @param hashedPassword
- * @return {AuthenticationMethod}
- * @private
- */
-function _buildPasswordAuthenticationMethod({ userId, hashedPassword }) {
-  return new AuthenticationMethod({
-    userId,
-    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
-    authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
-      password: hashedPassword,
-      shouldChangePassword: false,
-    }),
-  });
-}
-
-/**
- * @param externalIdentifier
- * @param user
- * @return {AuthenticationMethod}
- * @private
- */
-function _buildGARAuthenticationMethod({ externalIdentifier, user }) {
-  return new AuthenticationMethod({
-    externalIdentifier,
-    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-    userId: user.id,
-    authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
-      firstName: user.firstName,
-      lastName: user.lastName,
-    }),
   });
 }

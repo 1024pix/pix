@@ -119,12 +119,35 @@ class AuthenticationMethod {
     const authenticationComplement = new PixAuthenticationComplement({ password, shouldChangePassword });
     return new AuthenticationMethod({
       id,
+      userId,
       identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       authenticationComplement,
       externalIdentifier: undefined,
       createdAt,
       updatedAt,
+      lastLoggedAt,
+    });
+  }
+
+  static buildGARAuthenticationMethod({
+    id,
+    userId,
+    externalIdentifier,
+    firstName,
+    lastName,
+    createdAt,
+    updatedAt,
+    lastLoggedAt,
+  }) {
+    const authenticationComplement = new GARAuthenticationComplement({ firstName, lastName });
+    return new AuthenticationMethod({
+      id,
       userId,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+      authenticationComplement,
+      externalIdentifier,
+      createdAt,
+      updatedAt,
       lastLoggedAt,
     });
   }

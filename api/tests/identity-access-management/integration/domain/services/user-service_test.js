@@ -149,11 +149,12 @@ describe('Identity Access Management | Integration | Domain | Services | user-se
         expect(foundUser.firstName).to.equal(user.firstName);
         expect(foundUser.lastName).to.equal(user.lastName);
 
-        const foundAuthenticationMethod = await knex('authentication-methods').where({
-          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
-          userId,
+        const foundAuthenticationMethod = await knex('authentication-methods').where({ userId }).first();
+        expect(foundAuthenticationMethod.identityProvider).to.equal('PIX');
+        expect(foundAuthenticationMethod.authenticationComplement).to.deep.equal({
+          password: 'Abcdef1234',
+          shouldChangePassword: false,
         });
-        expect(foundAuthenticationMethod).to.have.lengthOf(1);
       });
     });
 
@@ -172,12 +173,13 @@ describe('Identity Access Management | Integration | Domain | Services | user-se
         expect(foundUser.firstName).to.equal(user.firstName);
         expect(foundUser.lastName).to.equal(user.lastName);
 
-        const foundAuthenticationMethod = await knex('authentication-methods').where({
-          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-          userId,
+        const foundAuthenticationMethod = await knex('authentication-methods').where({ userId }).first();
+        expect(foundAuthenticationMethod.identityProvider).to.equal('GAR');
+        expect(foundAuthenticationMethod.externalIdentifier).to.equal('samlId');
+        expect(foundAuthenticationMethod.authenticationComplement).to.deep.equal({
+          firstName: user.firstName,
+          lastName: user.lastName,
         });
-        expect(foundAuthenticationMethod).to.have.lengthOf(1);
-        expect(foundAuthenticationMethod[0].externalIdentifier).to.equal('samlId');
       });
     });
   });

@@ -6,7 +6,7 @@ import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | AuthenticationMethod', function () {
   describe('buildPixAuthenticationMethod', function () {
-    it('should build PixAuthenticationMethod', function () {
+    it('builds PixAuthenticationMethod', function () {
       // given
       const id = 1;
       const userId = 1;
@@ -38,6 +38,50 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
         identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
         authenticationComplement,
         externalIdentifier: undefined,
+        userId,
+        createdAt,
+        updatedAt,
+        lastLoggedAt,
+      };
+      expect(result).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('buildGARAuthenticationMethod', function () {
+    it('builds GarAuthenticationMethod', function () {
+      // given
+      const id = 1;
+      const userId = 1;
+      const externalIdentifier = 'foo';
+      const firstName = 'John';
+      const lastName = 'Doe';
+      const createdAt = Date.now();
+      const updatedAt = Date.now();
+      const lastLoggedAt = Date.now();
+
+      // when
+      const result = AuthenticationMethod.buildGARAuthenticationMethod({
+        id,
+        externalIdentifier,
+        firstName,
+        lastName,
+        createdAt,
+        updatedAt,
+        userId,
+        lastLoggedAt,
+      });
+
+      // then
+      const authenticationComplement = new AuthenticationMethod.GARAuthenticationComplement({
+        firstName,
+        lastName,
+      });
+
+      const expectedResult = {
+        id,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+        authenticationComplement,
+        externalIdentifier,
         userId,
         createdAt,
         updatedAt,
