@@ -53,7 +53,7 @@
               "element": {
                 "id": "bb3d3f4e-81f8-4bd2-bf26-02992f1afda7",
                 "type": "qcu-discovery",
-                "instruction": "<p>À votre avis, peut-on dire que Romain est l’auteur de cette œuvre&nbsp; ?</p>",
+                "instruction": "<p>À votre avis, peut-on dire que Romain est l’auteur de cette œuvre&nbsp;?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -132,14 +132,14 @@
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Eh non, ici ce prompt est très simple, on ne peut pas  dire que Romain a fait preuve de créativité.&nbsp;</p>"
+                            "diagnosis": "<p>Eh non. Ici ce prompt est très simple, on ne peut pas  dire que Romain a fait preuve de créativité.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Non ",
                           "feedback": {
-                            "diagnosis": "<p>En effet !&nbsp;Ici ce prompt est très simple. Ici Romain n’a pas fait preuve de créativité.&nbsp;</p>"
+                            "diagnosis": "<p>En effet&nbsp;! Ici ce prompt est très simple, on ne peut pas  dire que Romain a fait preuve de créativité.</p>"
                           }
                         }
                       ],
@@ -290,7 +290,7 @@
                     {
                       "id": "0b8c2a5c-6118-42a7-8536-43fcff9ae64c",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Simon prompte «&nbsp;Écris unr nouvelle à la manière de J.K. Rowling en reprenant comme personnage principal Harry Potter et un ton identique aux premiers livres.&nbsp;». Simon souhaite publier cette nouvelle.&nbsp;</p>",
+                      "instruction": "<p>Simon prompte «&nbsp;Écris une nouvelle à la manière de J.K. Rowling en reprenant comme personnage principal Harry Potter et un ton identique aux premiers livres.&nbsp;». Simon souhaite publier cette nouvelle.&nbsp;</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
