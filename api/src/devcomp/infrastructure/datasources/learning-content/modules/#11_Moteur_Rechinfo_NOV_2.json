@@ -740,18 +740,18 @@
                 "id": "12fd500d-89e0-4a9d-8d4f-aa8df8a48c6c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous cherchez à vous renseigner sur comment les enfants vivaient au moyen-âge sur internet. Vous utilisez un moteur de recherche pour faire la recherche suivante&nbsp;:  «&nbsp;histoire enfants moyen âge&nbsp;». Voici la liste de résultats pour le recherche</p>"
+                "content": "<p>Vous cherchez des avis de personnes qui ont lu <em>Les Misérables</em> de Victor Hugo. Vous utilisez un moteur de recherche avec les mots-clés suivants&nbsp;: «&nbsp;avis les misérables&nbsp;».</p><p>Voici une liste de résultats obtenus.</p>"
               }
             },
             {
               "type": "element",
               "element": {
-                "id": "6b7ce646-4d3e-42aa-8fa8-41e0b669c5dd",
+                "id": "c6aef7b8-d2dc-4404-9b71-cafcaebee1b7",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/11_Moteur_Rechinfo_NOV_2/694eaaaf-a9cb-4326-8bb7-57cbc592624a.png",
-                "alt": "Page de résultats d’un moteur de recherche",
+                "url": "https://assets.pix.org/draft/modules/11_Moteur_Rechinfo_NOV_2/image-rechnov2.png",
+                "alt": "",
                 "alternativeText": "",
-                "legend": "Image provisoire",
+                "legend": "",
                 "licence": ""
               }
             },
@@ -760,35 +760,35 @@
               "element": {
                 "id": "c6aef7b8-d2dc-4404-9b71-cafcaebee1b7",
                 "type": "qcu-declarative",
-                "instruction": "<p>Sur quel résultat cliquez-vous ?&nbsp;</p>",
+                "instruction": "<p>Sur quel résultat cliquez-vous pour trouver des avis sur <em>Les Misérables</em>&nbsp;?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "0",
-                    "content": "<p>Je choisis le premier résultat, même si c’est une publicité, ce livre me fait envie&nbsp;!</p>",
+                    "content": "<p>Vous choisissez la page d’achat du livre. Même si c’est un lien sponsorisé, vous pouvez y trouver des avis d’acheteurs.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pourquoi pas&nbsp;: tout dépend de ce qui vous intéresse&nbsp;!</p><p>Rappelez-vous&nbsp;: il est toujours important de regarder attentivement les résultats pour faire son choix.</p>"
+                      "diagnosis": "<p>Une page d’achat peut contenir des avis de lecteurs.</p><p>Mais attention&nbsp;: un lien sponsorisé est mis en avant parce qu’il s’agit d’une publicité. Il faut en avoir conscience avant de cliquer !</p>"
                     }
                   },
                   {
                     "id": "1",
-                    "content": "<p>Je choisis le deuxième résultat car je veux en savoir plus sur la vie des enfants au Moyen Âge.</p>",
+                    "content": "<p>Vous choisissez une critique publiée en 2011. Même si l’avis date un peu, le livre est beaucoup plus ancien.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pourquoi pas&nbsp;: tout dépend de ce qui vous intéresse&nbsp;!</p><p>Rappelez-vous&nbsp;: il est toujours important de regarder attentivement les résultats pour faire son choix.</p>"
+                      "diagnosis": "<p>Pour un roman classique comme <em>Les Misérables</em>, la date d’un avis n’est pas forcément un problème !</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Je choisis le troisième résultat, même s’il est ancien, il a l’air intéressant&nbsp;!</p>",
+                    "content": "<p>Vous choisissez un résultat sur la comédie musicale <em>Les Misérables</em>, parce que vous découvrez qu’il existe aussi une adaptation musicale.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pourquoi pas&nbsp;: tout dépend de ce qui vous intéresse&nbsp;!</p><p>Rappelez-vous&nbsp;: il est toujours important de regarder attentivement les résultats pour faire son choix.</p>"
+                      "diagnosis": "<p>Tout dépend de ce qui vous intéresse !</p><p>Ce résultat ne répond pas directement à ce que vous aviez en tête mais ça reste intéressant !</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Aucun de ces liens, je vais changer mes mots clés pour avoir de meilleurs résultats.</p>",
+                    "content": "<p>Aucun de ces résultats ne vous convient vraiment. Vous changez vos mots clés, par exemple avec «&nbsp;avis lecteurs les misérables Victor Hugo&nbsp;».</p>",
                     "feedback": {
-                      "diagnosis": "<p>Tout dépend de ce qui vous intéresse&nbsp;!</p><p>Rappelez-vous&nbsp;: il est toujours important de regarder attentivement les résultats pour faire son choix.</p>"
+                      "diagnosis": "<p>C’est une bonne stratégie si les résultats ne correspondent pas assez à votre besoin.</p><p>Changer ou préciser ses mots-clés permet souvent d’obtenir des résultats plus adaptés.</p>"
                     }
                   }
                 ]
