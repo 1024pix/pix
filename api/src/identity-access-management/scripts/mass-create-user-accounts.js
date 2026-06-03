@@ -5,7 +5,7 @@ import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import { cryptoService } from '../../shared/domain/services/crypto-service.js';
-import * as userService from '../../shared/domain/services/user-service.js';
+import * as userService from '../domain/services/user-service.js';
 import * as authenticationMethodRepository from '../infrastructure/repositories/authentication-method.repository.js';
 import { userToCreateRepository } from '../infrastructure/repositories/user-to-create.repository.js';
 

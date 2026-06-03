@@ -5,11 +5,11 @@ const { omit } = lodash;
 
 import sinon from 'sinon';
 
+import * as userService from '../../../../../src/identity-access-management/domain/services/user-service.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import * as userService from '../../../../../src/shared/domain/services/user-service.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Shared | Domain | Service | user-service', function () {
+describe('Identity Access Management | Unit | Domain | Service | user-service', function () {
   const hashedPassword = 'ABCD1234';
 
   let user;
