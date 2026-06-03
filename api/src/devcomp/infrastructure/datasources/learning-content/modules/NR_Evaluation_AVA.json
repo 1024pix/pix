@@ -1309,7 +1309,7 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bonne réponse !</p>",
-                    "diagnosis": "<p>Effectivement, ces impacts ont bien été quantifiés dans cette étude. </p><p>D’autres ont été identifiés sans être quantifiés,&nbsp;ils pourraient l’être dans d’autres études.</p>"
+                    "diagnosis": "<p>Effectivement, ces impacts ont bien été quantifiés dans cette étude.</p><p>D’autres ont été identifiés sans être quantifiés,&nbsp;ils pourraient l’être dans d’autres études.</p>"
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.<br></p>",
