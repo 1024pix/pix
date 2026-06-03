@@ -14,6 +14,7 @@ const buildCombinedCourseBlueprint = function ({
   createdAt = new Date(),
   updatedAt,
   questId,
+  surveyUrl,
 } = {}) {
   const targetProfileId = buildTargetProfile().id;
   questId = _.isUndefined(questId)
@@ -38,6 +39,7 @@ const buildCombinedCourseBlueprint = function ({
     createdAt,
     updatedAt: updatedAt ?? createdAt,
     questId,
+    surveyUrl,
   };
 
   return databaseBuffer.pushInsertable({

@@ -1,4 +1,5 @@
 import { CampaignParticipationStatuses } from '../../../prescription/shared/domain/constants.js';
+import { ObjectValidationError } from '../../../shared/domain/errors.js';
 import { CombinedCourse } from './combined-course/CombinedCourse.js';
 import { CRITERION_COMPARISONS, Quest, REQUIREMENT_COMPARISONS, REQUIREMENT_TYPES } from './Quest.js';
 import { buildRequirement } from './Requirement.js';
@@ -8,13 +9,13 @@ export class CombinedCourseBlueprint {
     id,
     name,
     internalName,
-    description,
-    illustration,
+    description = null,
+    illustration = null,
     surveyLink = null,
-    createdAt,
-    updatedAt,
+    createdAt = null,
+    updatedAt = null,
     organizationIds = [],
-    quest = null,
+    quest,
   }) {
     this.id = id;
     this.name = name;
@@ -26,6 +27,8 @@ export class CombinedCourseBlueprint {
     this.updatedAt = updatedAt;
     this.organizationIds = organizationIds;
     this.quest = quest;
+
+    this.validate();
   }
 
   get targetProfileIds() {
@@ -135,5 +138,21 @@ export class CombinedCourseBlueprint {
 
     this.organizationIds.push(...attachedOrganizationIds);
     return { duplicatedOrganizationIds, attachedOrganizationIds };
+  }
+
+  update({ combinedCourseBlueprintForUpdate }) {
+    this.name = combinedCourseBlueprintForUpdate.name;
+    this.internalName = combinedCourseBlueprintForUpdate.internalName;
+    this.description = combinedCourseBlueprintForUpdate.description;
+    this.illustration = combinedCourseBlueprintForUpdate.illustration;
+    this.surveyLink = combinedCourseBlueprintForUpdate.surveyLink;
+
+    return this;
+  }
+
+  validate() {
+    if (!this.name) throw new ObjectValidationError('Name is required');
+    if (!this.internalName) throw new ObjectValidationError('InternalName is required');
+    if (!this.quest) throw new ObjectValidationError('Quest is required');
   }
 }

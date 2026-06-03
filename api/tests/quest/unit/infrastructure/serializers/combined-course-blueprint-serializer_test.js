@@ -1,10 +1,15 @@
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
 import * as combinedCourseBlueprintSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprint', function () {
   it('#serialize', function () {
     // given
+    const quest = new Quest({
+      eligibilityRequirements: [],
+      successRequirements: [],
+    });
     const combinedCourseBlueprint = new CombinedCourseBlueprint({
       id: 1,
       name: 'Mon parcours',
@@ -13,6 +18,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprin
       illustration: '/illustrations/image.svg',
       surveyLink: 'survey-link-test',
       organizationIds: [],
+      quest,
     });
 
     // when

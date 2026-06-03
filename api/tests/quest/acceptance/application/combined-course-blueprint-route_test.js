@@ -201,4 +201,44 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
       });
     });
   });
+
+  describe('PATCH /api/combined-course-blueprints/:id', function () {
+    context('when user is admin', function () {
+      let superAdmin;
+      let combinedCourseBlueprintId;
+
+      beforeEach(async function () {
+        combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+        superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return 204', async function () {
+        const payload = {
+          data: {
+            type: 'combined-course-blueprints',
+            attributes: {
+              name: 'Mon parcours combiné',
+              'internal-name': 'Mon schéma de parcours combiné',
+              description: 'La description combinix',
+              illustration: 'illustration.svg',
+            },
+          },
+        };
+        const options = {
+          method: 'PATCH',
+          url: `/api/admin/combined-course-blueprints/${combinedCourseBlueprintId}`,
+          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+          payload,
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+  });
 });

@@ -1,6 +1,7 @@
 import { usecases } from '../domain/usecases/index.js';
 import * as adminCombinedCourseBlueprintDetailsSerializer from '../infrastructure/serializers/admin-combined-course-blueprint-details-serializer.js';
 import * as combinedCourseBlueprintForCreationSerializer from '../infrastructure/serializers/combined-course-blueprint-for-creation-serializer.js';
+import * as combinedCourseBlueprintForUpdateSerializer from '../infrastructure/serializers/combined-course-blueprint-for-update-serializer.js';
 import * as combinedCourseBlueprintOrganizationSerializer from '../infrastructure/serializers/combined-course-blueprint-organization-serializer.js';
 import * as combinedCourseBlueprintSerializer from '../infrastructure/serializers/combined-course-blueprint-serializer.js';
 
@@ -18,6 +19,17 @@ const save = async (request, h, dependencies = { combinedCourseBlueprintForCreat
   return h
     .response(dependencies.combinedCourseBlueprintForCreationSerializer.serialize(combinedCourseBlueprint))
     .created();
+};
+
+const update = async (request, h, dependencies = { combinedCourseBlueprintForUpdateSerializer }) => {
+  const combinedCourseBlueprintForUpdate = await dependencies.combinedCourseBlueprintForUpdateSerializer.deserialize(
+    request.payload,
+  );
+  await usecases.updateCombinedCourseBlueprint({
+    combinedCourseBlueprintId: request.params.blueprintId,
+    combinedCourseBlueprintForUpdate,
+  });
+  return h.response().code(204);
 };
 
 const getById = async (request, _, dependencies = { adminCombinedCourseBlueprintDetailsSerializer }) => {
@@ -56,6 +68,7 @@ const findByOrganizationId = async (request, _, dependencies = { combinedCourseB
 const combinedCourseBlueprintController = {
   findAll,
   save,
+  update,
   getById,
   detachOrganization,
   attachOrganizations,

@@ -189,4 +189,46 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
       expect(securityPreHandlers.checkOrganizationAccess).to.have.been.called;
     });
   });
+  describe('PATCH /api/admin/combined-course-blueprints/{combinedCourseBlueprintId}', function () {
+    it('should call prehandler', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(combinedCourseBlueprintController, 'update').callsFake((_, h) => h.response());
+
+      const combinedCourseBlueprintId = '456';
+
+      const payload = {
+        data: {
+          type: 'combined-course-blueprints',
+          attributes: {
+            name: 'Mon parcours combiné',
+            'internal-name': 'Mon schéma de parcours combiné',
+            description: 'La description combinix',
+            illustration: 'illustration.svg',
+          },
+        },
+      };
+
+      const httpTestServer = new HttpTestServer();
+      httpTestServer.setupAuthentication();
+      await httpTestServer.register(combinedCourseBlueprintRoute);
+
+      // when
+      await httpTestServer.request(
+        'PATCH',
+        `/api/admin/combined-course-blueprints/${combinedCourseBlueprintId}`,
+        payload,
+        null,
+        generateAuthenticatedUserRequestHeaders({ userId: 123 }),
+      );
+
+      // then
+      expect(securityPreHandlers.hasAtLeastOneAccessOf).to.have.been.calledWithExactly([
+        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+        securityPreHandlers.checkAdminMemberHasRoleMetier,
+        securityPreHandlers.checkAdminMemberHasRoleSupport,
+        securityPreHandlers.checkAdminMemberHasRoleCertif,
+      ]);
+    });
+  });
 });

@@ -132,6 +132,11 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       });
       const combinedCourseBlueprintInDb = databaseBuilder.factory.buildCombinedCourseBlueprint({
         questId: quest.id,
+        name: 'Updated Combined course IA',
+        internalName: 'Ia combined course blueprint',
+        description: "L'ia c'est magique",
+        illustration: 'illustration/ia.svg',
+        surveyUrl: 'https://survey.com',
       });
 
       await databaseBuilder.commit();
@@ -141,9 +146,10 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         ...new CombinedCourseBlueprintForCreation({
           id: combinedCourseBlueprintInDb.id,
           name: 'Updated Combined course IA',
-          internalName: 'Ia combined course blueprint',
-          description: "L'ia c'est magique",
-          illustration: 'illustration/ia.svg',
+          internalName: 'Updated Ia combined course blueprint',
+          description: "Updated L'ia c'est magique",
+          illustration: 'updated-illustration/ia.svg',
+          surveyLink: 'https://updated-survey.com',
           content: updatedContent,
           organizationIds: [],
           quest: new QuestInput({ items: updatedContent }).toQuest(),
@@ -159,6 +165,10 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       const results = await combinedCourseBluePrintRepository.findAll();
       expect(results).lengthOf(1);
       expect(results[0].name).equal('Updated Combined course IA');
+      expect(results[0].internalName).equal('Updated Ia combined course blueprint');
+      expect(results[0].description).equal("Updated L'ia c'est magique");
+      expect(results[0].illustration).equal('updated-illustration/ia.svg');
+      expect(results[0].surveyLink).equal('https://updated-survey.com');
       expect(results[0].quest.toDTO().successRequirements).deep.equal([
         {
           comparison: REQUIREMENT_COMPARISONS.ALL,
@@ -234,6 +244,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       const expectedCombinedCourseBlueprint = domainBuilder.buildCombinedCourseBlueprint({
         ...combinedCourseBlueprint,
         organizationIds: [combinedCourseBlueprintShare.organizationId],
+        quest,
       });
 
       const result = await combinedCourseBluePrintRepository.findById({ id: expectedCombinedCourseBlueprint.id });
@@ -260,6 +271,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
 
       const expectedCombinedCourseBlueprint = domainBuilder.buildCombinedCourseBlueprint({
         ...combinedCourseBlueprint,
+        quest,
       });
 
       const result = await combinedCourseBluePrintRepository.findById({ id: expectedCombinedCourseBlueprint.id });

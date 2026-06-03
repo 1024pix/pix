@@ -56,6 +56,7 @@ const register = async function (server) {
                 'reward-type': Joi.string().allow(null),
                 content: Joi.array(),
                 createdAt: Joi.date(),
+                'survey-link': Joi.string().allow(null),
               },
             },
           }),
@@ -163,6 +164,44 @@ const register = async function (server) {
         ],
         handler: combinedCourseBlueprintController.findByOrganizationId,
         notes: ["- Récupère les schémas de parcours combinés partagés avec l'organisation"],
+        tags: ['api', 'combined-course'],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/admin/combined-course-blueprints/{blueprintId}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            blueprintId: identifiersType.combinedCourseBlueprintId,
+          }),
+          payload: Joi.object({
+            data: {
+              type: 'combined-course-blueprints',
+              attributes: {
+                name: Joi.string().required(),
+                'internal-name': Joi.string().required(),
+                illustration: Joi.string().allow(null),
+                description: Joi.string().allow(null),
+                'survey-link': Joi.string().allow(null),
+              },
+            },
+          }),
+        },
+        handler: combinedCourseBlueprintController.update,
+        notes: ['- Met à jour le schéma de parcours combiné'],
         tags: ['api', 'combined-course'],
       },
     },
