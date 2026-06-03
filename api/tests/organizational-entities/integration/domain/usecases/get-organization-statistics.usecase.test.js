@@ -10,10 +10,15 @@ describe('Integration | UseCases | get-organization-statistics', function () {
     const { organizationId, id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner();
     const { id: otherOrganizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
     const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-    databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId });
+    databaseBuilder.factory.buildCampaignParticipation({
+      organizationLearnerId,
+      campaignId,
+      createdAt: new Date('2020-01-01'),
+    });
     databaseBuilder.factory.buildCampaignParticipation({
       organizationLearnerId: otherOrganizationLearnerId,
       campaignId,
+      createdAt: new Date('2020-01-02'),
     });
 
     await databaseBuilder.commit();
@@ -22,7 +27,12 @@ describe('Integration | UseCases | get-organization-statistics', function () {
     const result = await usecases.getOrganizationStatistics({ organizationId });
 
     // then
-    expect(result).to.deep.equal({ totalParticipantsCount: 2, id: `${organizationId}_organization_statistics` });
+    expect(result).to.deep.equal({
+      organizationId,
+      totalParticipantsCount: 2,
+      id: `${organizationId}_organization_statistics`,
+      totalParticipantsCountByYear: [{ year: 2020, count: 2 }],
+    });
   });
 
   it('should throw an OrganizationNotFoundError when organization does not exist', async function () {

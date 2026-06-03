@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (statistics) {
   return new Serializer('organization-statistics', {
-    attributes: ['totalParticipantsCount'],
+    attributes: ['organizationId', 'totalParticipantsCount', 'totalParticipantsCountByYear'],
   }).serialize(statistics);
 };
 

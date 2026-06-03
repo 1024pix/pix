@@ -18,5 +18,5 @@ export async function getOrganizationStatistics({ organizationId, organizationFo
   }
 
   const statistics = await organizationForAdminRepository.getOrganizationParticipantsStatistics({ organizationId });
-  return { ...statistics, id: `${organizationId}_organization_statistics` };
+  return { ...statistics, id: `${statistics.organizationId}_organization_statistics` };
 }
