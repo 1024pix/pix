@@ -58,10 +58,12 @@ async function importLearnersFromSiecleFile({
     } finally {
       organizationImport.process({ errors });
       await organizationImportRepository.save(organizationImport);
-      try {
-        await importStorage.deleteFile({ filename: organizationImport.filename });
-      } catch (error) {
-        logger.error(error);
+      if (errors.length === 0) {
+        try {
+          await importStorage.deleteFile({ filename: organizationImport.filename });
+        } catch (error) {
+          logger.error(error);
+        }
       }
     }
   });

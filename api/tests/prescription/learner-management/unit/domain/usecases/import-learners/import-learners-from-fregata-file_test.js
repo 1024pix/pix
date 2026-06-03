@@ -168,7 +168,7 @@ describe('Unit | UseCase | importLearnersFromFregataFile', function () {
       expect(firstCallFirstArg.status).to.equal('IMPORT_ERROR');
     });
 
-    it('should delete file on s3', async function () {
+    it('should not delete file on s3 so the import can be retried', async function () {
       await catchErr(importLearnersFromFregataFile)({
         organizationImportId,
         i18n,
@@ -178,7 +178,7 @@ describe('Unit | UseCase | importLearnersFromFregataFile', function () {
         importStorage: importStorageStub,
       });
 
-      expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({ filename: organizationImport.filename });
+      expect(importStorageStub.deleteFile).to.have.been.not.called;
     });
   });
 });

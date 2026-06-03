@@ -32,7 +32,9 @@ const importLearnersFromSupFile = async function ({
   } finally {
     organizationImport.process({ errors });
     await organizationImportRepository.save(organizationImport);
-    await importStorage.deleteFile({ filename: organizationImport.filename });
+    if (errors.length === 0) {
+      await importStorage.deleteFile({ filename: organizationImport.filename });
+    }
   }
 };
 

@@ -144,8 +144,7 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
         organizationImportRepositoryStub.save.calledOnceWith(organizationImportStub),
         'orgnizationImportRepository.save',
       ).to.be.true;
-      expect(importStorageStub.deleteFile.calledOnceWithExactly({ filename: s3Filepath }), 'importStorage.deleteFile')
-        .to.be.true;
+      expect(importStorageStub.deleteFile.called, 'importStorage.deleteFile').to.be.false;
     });
 
     context('error list', function () {

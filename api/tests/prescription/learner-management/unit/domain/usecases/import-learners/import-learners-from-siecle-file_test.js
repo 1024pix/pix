@@ -104,6 +104,7 @@ describe('Unit | UseCase | importLearnersFromSiecleFile', function () {
     expect(organizationLearnerRepositoryStub.disableAllOrganizationLearnersInOrganization).to.have.been.not.called;
     expect(organizationImportStub.process).to.have.been.called;
     expect(organizationImportRepositoryStub.save).to.have.been.called;
+    expect(importStorageStub.deleteFile).to.have.been.not.called;
   });
 
   it('should save import state even if deleteFile crash but log error for tracking', async function () {

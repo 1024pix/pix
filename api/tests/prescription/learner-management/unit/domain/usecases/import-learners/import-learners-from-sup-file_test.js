@@ -167,6 +167,24 @@ describe('Unit | UseCase | importLearnersFromSupFile', function () {
         expect(firstCallFirstArg.errors).to.deep.equals([error]);
         expect(firstCallFirstArg.status).to.equal('IMPORT_ERROR');
       });
+
+      it('should not delete file on s3 so the import can be retried', async function () {
+        // given
+        const insertError = new Error('insert fail');
+        supOrganizationLearnerRepositoryStub.addStudents.rejects(insertError);
+
+        // when
+        await catchErr(importLearnersFromSupFile)({
+          organizationImportId,
+          i18n,
+          supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
+          organizationImportRepository: organizationImportRepositoryStub,
+          importStorage: importStorageStub,
+        });
+
+        // then
+        expect(importStorageStub.deleteFile).to.have.been.not.called;
+      });
     });
   });
 });
