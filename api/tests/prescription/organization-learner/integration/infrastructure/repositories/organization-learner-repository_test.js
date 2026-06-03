@@ -3,7 +3,7 @@ import { AttestationParticipantStatus } from '../../../../../../src/prescription
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
 import { repositories } from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/index.js';
 import { User } from '../../../../../../src/profile/domain/models/User.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { NotFoundError, OrganizationLearnerNotFound } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { mockAttestationStorage } from '../../../../../tooling/mocks/attestation-storage.mock.js';
@@ -1210,6 +1210,46 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         userId,
       });
       expect(result).to.equal(organizationLearnerId);
+    });
+  });
+
+  describe('#updateUserIdWhereNull', function () {
+    it('updates userId of a learner', async function () {
+      //given
+      const user = databaseBuilder.factory.buildUser();
+      const learner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        userId: null,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const updatedLeaner = await organizationLearnerRepository.updateUserIdWhereNull({
+        organizationLearnerId: learner.id,
+        userId: user.id,
+      });
+
+      // then
+      expect(updatedLeaner.userId).to.equal(user.id);
+    });
+
+    context('when learner is already linked to a user', function () {
+      it('throws OrganizationLearnerNotFound', async function () {
+        //given
+        const user = databaseBuilder.factory.buildUser();
+        const learner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          userId: user.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(organizationLearnerRepository.updateUserIdWhereNull)({
+          organizationLearnerId: learner.id,
+          userId: user.id,
+        });
+
+        // then
+        expect(error).to.be.instanceof(OrganizationLearnerNotFound);
+      });
     });
   });
 });
