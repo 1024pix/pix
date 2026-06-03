@@ -28,14 +28,14 @@ module('Unit | Route | modules | details', function (hooks) {
   });
 
   module('#redirect', function () {
-    test('should call replaceWith function with the right arguments', async function (assert) {
+    test('should call transitionTo function with the right arguments', async function (assert) {
       // given
       const model = {
         shortId: 'shortId',
         slug: 'slug',
       };
       const router = this.owner.lookup('service:router');
-      const replaceWithStub = sinon.stub(router, 'replaceWith');
+      const transitionToStub = sinon.stub(router, 'transitionTo');
 
       const route = this.owner.lookup('route:module.details');
 
@@ -43,7 +43,7 @@ module('Unit | Route | modules | details', function (hooks) {
       route.redirect(model);
 
       // then
-      sinon.assert.calledOnceWithExactly(replaceWithStub, 'module.details', model.shortId, model.slug);
+      sinon.assert.calledOnceWithExactly(transitionToStub, 'module.details', model.shortId, model.slug);
       assert.ok(true);
     });
   });

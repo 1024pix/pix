@@ -9,6 +9,6 @@ export default class ModuleDetailsRoute extends Route {
   }
 
   redirect(model) {
-    this.router.replaceWith('module.details', model.shortId, model.slug);
+    this.router.transitionTo('module.details', model.shortId, model.slug);
   }
 }
