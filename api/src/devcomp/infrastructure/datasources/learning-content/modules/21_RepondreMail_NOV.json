@@ -7,13 +7,13 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Il existe différents moyens pour communiquer rapidement au quotidien&nbsp;: messageries instantanées, SMS, réseaux sociaux, etc. Toutefois, pour ne pas passer à côté d’une information importante, il est également utile de consulter ses mails régulièrement.</p><p> Dans ce module, découvrez comment accéder à votre messagerie électronique pour consulter les mails que vous avez reçu et y répondre.</p>",
+    "description": "<p>Il existe différents moyens pour communiquer rapidement au quotidien&nbsp;: messageries instantanées, SMS, réseaux sociaux, etc. Mais, pour ne pas passer à côté d’une information importante, il est aussi utile de consulter ses mails régulièrement.</p><p> Dans ce module, découvrez comment accéder à votre messagerie électronique pour consulter les mails que vous avez reçus et pour y répondre.</p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
-      "<p>Consulter ses mails dans la messagerie électronique</p>",
-      "<p>Lire les informations principales d’un mail dans la boite de réception</p>",
-      "<p>Répondre à un mail</p>"
+      "<p>Consulter des mails dans la messagerie électronique</p>",
+      "<p>Lire les informations principales d’un mail dans la boîte de réception</p>",
+      "<p>Répondre à un mail dans la messagerie électronique</p>"
     ],
     "tabletSupport": "obstructed"
   },
@@ -33,7 +33,7 @@
                 "id": "c98b3261-a4a0-408b-9b6c-95248f95aed1",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous avez postulé pour un stage de «&nbsp;Responsable de vente&nbsp;» chez BioChoux 🥬. Quelques jours plus tard, le recruteur vous laisse un message vocal.</p><br><p><strong>Écoutez le message vocal.</strong></p>"
+                "content": "<p>Vous avez postulé pour un stage en «&nbsp;animation de vente&nbsp;» chez BioChoux. 🥬 Quelques jours plus tard, le recruteur vous laisse un message vocal.</p><br><p><strong>Écoutez le message vocal.</strong></p>"
               }
             },
             {
@@ -43,7 +43,7 @@
                 "type": "audio",
                 "title": "Message vocal du recruteur",
                 "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/bonjour-c-est-stefan.mp3",
-                "transcription": "<p>Bonjour, c’est Stefan de l’entreprise BioChoux, Je vous appelle pour vous dire que nous avons bien reçu votre candidature pour le stage de «&nbsp;Responsable de vente&nbsp;». Je viens de vous envoyer une réponse par mail. À très bientôt.</p>"
+                "transcription": "<p>Bonjour, c’est Stefan de l’entreprise BioChoux. Je vous appelle pour vous dire que nous avons bien reçu votre candidature pour le stage en «&nbsp;animation de vente&nbsp;». Je viens de vous envoyer une réponse par mail. À très bientôt.</p>"
               }
             }
           ]
@@ -59,7 +59,7 @@
                 "id": "d5ad77e1-6d87-4f3c-9856-b19fd9379430",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une réponse vous a été envoyée par <strong>mail</strong>.</p>"
+                "content": "<p>La réponse du recruteur vous a été envoyée par <strong>mail</strong>.</p>"
               }
             },
             {
@@ -72,7 +72,7 @@
                 "functionalInstruction": "",
                 "tagName": "image-quiz",
                 "props": {
-                  "name": "QCU image boite mail",
+                  "name": "QCU image boîte mail",
                   "multiple": false,
                   "context": "modulix",
                   "maxChoicesPerLine": 3,
@@ -109,7 +109,7 @@
                       "response": ""
                     },
                     {
-                      "name": "Paramètre",
+                      "name": "Paramètres",
                       "image": {
                         "src": "https://assets.pix.org/draft/modules/RepondreMail_NOV/parametre.png"
                       },
@@ -132,7 +132,7 @@
                 "id": "f522ab24-0d04-4548-9dc7-6b82acc5cf87",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>[Feedbacks du qcu image]</strong></p><ul><li>Bien vu ! Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe&nbsp;✉️</strong>. <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.<br><br></li><li>[WhatsApps] Eh non.  WhatsApp est une application de messagerie instantanée qui permet d’envoyer des messages rapidement (en ligne).&nbsp;<br>Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe</strong>&nbsp;✉️. <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.<br><br></li></ul>"
+                "content": "<p><strong>[Feedbacks du qcu image]</strong></p><ul><li>Bien vu ! Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe.&nbsp;✉️</strong> <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.<br><br></li><li>[Paramètres] Eh non. Cette application ne permet pas de consulter les mails.</li><li>[WhatsApps] Eh non.  WhatsApp est une application de messagerie instantanée qui permet d’envoyer des messages rapidement (en ligne).&nbsp;<br>Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe</strong>.&nbsp;✉️ <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.<br><br></li></ul>"
               }
             }
           ]
@@ -180,7 +180,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/decouverte1-v2.png",
                 "alt": "Capture d’écran d’une interface de messagerie électronique décrite dans l’alternative textuelle.",
-                "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol><li>Boite de réception (1)&nbsp;: sélectionnée</li><li>Messages envoyés</li><li>Corbeille</li></ol><br><p>Contenu de «&nbsp;Boite de réception (1)&nbsp;»</p><ol><li>Expéditeur&nbsp;: BioChoux</li><li>Objet&nbsp;: Réponse à votre candidature de stage</li><li>Date&nbsp;: 22 janvier</li></ol>",
+                "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol><li>Boîte de réception (1)&nbsp;: sélectionnée</li><li>Messages envoyés</li><li>Corbeille</li></ol><br><p>Contenu de «&nbsp;Boîte de réception (1)&nbsp;»</p><ol><li>Expéditeur&nbsp;: BioChoux</li><li>Objet&nbsp;: Réponse à votre candidature de stage</li><li>Date&nbsp;: 22 janvier</li></ol>",
                 "legend": "",
                 "licence": ""
               }
@@ -191,12 +191,12 @@
                 "id": "c7e48acc-7640-4c07-883a-2e976e0048df",
                 "type": "expand",
                 "title": "[Capture d’écran basée sur le nouveau simulateur Pixmail]",
-                "content": "<p><strong><br></strong></p><p><strong>Description&nbsp;:</strong></p><ul><li><em>en découverte 1 juste afficher&nbsp;: Boite de réception, Messages envoyés et Corbeille</em></li><li><em>dev&nbsp;: voir pour fixer la date dans simulations suivantes pour cohérence narration&nbsp;: 22 janvier 15:00 (juste l’année qui évolue ?)</em></li></ul>"
+                "content": "<p><strong><br></strong></p><p><strong>Description&nbsp;:</strong></p><ul><li><em>en découverte 1 juste afficher&nbsp;: Boîte de réception, Messages envoyés et Corbeille</em></li><li><em>dev&nbsp;: voir pour fixer la date dans simulations suivantes pour cohérence narration&nbsp;: 22 janvier 15:00 (juste l’année qui évolue ?)</em></li></ul>"
               }
             },
             {
               "type": "stepper",
-              "instruction": "<p><strong>D’après ce que vous observez, quelles informations pouvez vous déjà lire ?</strong></p>",
+              "instruction": "<p><strong>Dites si les phrases suivantes sont vraies ou fausses.</strong></p>",
               "steps": [
                 {
                   "elements": [
@@ -208,16 +208,16 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. L’<strong>expéditeur </strong>indique<strong> qui a envoyé le mail</strong>&nbsp;: ici, «&nbsp;Biochoux&nbsp;».</p>"
+                            "diagnosis": "<p>Eh oui. Le nom de la personne <strong>qui a envoyé le mail</strong> est affiché sans avoir besoin d’ouvrir le mail. Il s’agit de <strong>l’expéditeur</strong>.&nbsp;Ici, c'est «&nbsp;BioChoux&nbsp;».</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Eh si. Le nom de la personne<strong> qui a envoyé le mail</strong> est affiché sans avoir besoin d’ouvrir le mail. Il s’agit de l’<strong>expéditeur </strong>: ici, «&nbsp;Biochoux&nbsp;».</p>"
+                            "diagnosis": "<p>Eh si. Le nom de la personne<strong> qui a envoyé le mail</strong> est affiché sans avoir besoin d’ouvrir le mail. Il s’agit de l’<strong>expéditeur.</strong> Ici, c'est «&nbsp;BioChoux&nbsp;».</p>"
                           }
                         }
                       ],
@@ -235,16 +235,16 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. Le titre (objet) indique de <strong>quoi va parler le mail</strong>&nbsp;: ici, «&nbsp;Réponse à votre candidature de stage&nbsp;».</p>"
+                            "diagnosis": "<p>Eh oui. Le titre (objet) indique de <strong>quoi va parler le mail.</strong> Ici, c'est  «&nbsp;Réponse à votre candidature de stage&nbsp;».</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Eh si. Le titre (objet) du mail est affiché sans avoir besoin d’ouvrir le mail. Il indique de <strong>quoi va parler le mail</strong>&nbsp;: ici, «&nbsp;Réponse à votre candidature de stage&nbsp;».</p>"
+                            "diagnosis": "<p>Eh si. Le titre (objet) du mail est affiché sans avoir besoin d’ouvrir le mail. Il indique de <strong>quoi va parler le mail.</strong> Ici, c'est «&nbsp;Réponse à votre candidature de stage&nbsp;».</p>"
                           }
                         }
                       ],
@@ -262,16 +262,16 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Vrai",
                           "feedback": {
                             "diagnosis": "<p>Eh non. Il faut ouvrir le mail pour consulter son contenu complet avec la réponse de Biochoux.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement. Le contenu complet du mail n’apparaît pas encore. Il faut ouvrir le mail pour consulter son contenu complet avec la réponse de Biochoux.</p>"
+                            "diagnosis": "<p>Effectivement. Le contenu complet du mail n’apparaît pas encore. Il faut ouvrir le mail pour consulter son contenu complet avec la réponse de BioChoux.</p>"
                           }
                         }
                       ],
@@ -289,16 +289,16 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. La date de réception indique <strong>quand le mail a été reçu</strong>&nbsp;: ici, le 22 janvier.</p>"
+                            "diagnosis": "<p>Eh oui. La date de réception indique <strong>quand le mail a été reçu.</strong> Ici, c'est le 22 janvier.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Eh si. La date de réception du mail est affichée sans avoir besoin d’ouvrir le mail. Elle indique <strong>quand le mail a été reçu</strong>&nbsp;: ici, le 22 janvier.</p>"
+                            "diagnosis": "<p>Eh si. La date de réception du mail est affichée sans avoir besoin d’ouvrir le mail. Elle indique <strong>quand le mail a été reçu.</strong> Ici, c'est le 22 janvier.</p>"
                           }
                         }
                       ],
@@ -321,7 +321,7 @@
                 "id": "3a663ef0-b312-4ce8-928c-658ada1cb201",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand vous ouvrez votre messagerie électronique, vous arrivez directement dans la<strong> boite de réception</strong>. C’est dans cet endroit que s’affichent les mails reçus, avec leurs principales informations&nbsp;:&nbsp; </p><ol><li>le <strong>nom de l’expéditeur</strong>, c’est-à-dire la personne qui vous a envoyé le mail.</li><li>l’<strong>objet</strong>, c’est-à-dire le titre du mail.</li><li>la <strong>date de réception</strong> du mail.</li></ol>"
+                "content": "<p>Quand vous ouvrez votre messagerie électronique, vous arrivez directement dans la<strong> boîte de réception</strong>. C’est dans cet endroit que s’affichent les mails reçus, avec leurs principales informations&nbsp;:&nbsp; </p><ul><li>le <strong>nom de l’expéditeur</strong>&nbsp;est la personne qui  a envoyé le mail.</li><li>l’<strong>objet</strong> est le titre du mail.</li><li>la <strong>date de réception</strong> du mail est indiquée.</li></ul>"
               }
             },
             {
@@ -411,35 +411,35 @@
               "element": {
                 "id": "b591838a-dd91-4752-8084-0cb3f3ea7aea",
                 "type": "qcu-discovery",
-                "instruction": "<p>Quel est la date proposée pour l’entretien ?</p>",
+                "instruction": "<p>Quelle est la date proposée pour l’entretien ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>Le 22 janvier</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. La date proposée pour l’entretien est le 3 février.<br>Ouvrir un mail permet de <strong>lire l’ensemble de son contenu</strong>. Il est important de lire le texte du mail en entier pour connaitre toutes les informations qu’il contient.</p>"
+                      "diagnosis": "<p>Eh non. La date proposée pour l’entretien est le 3 février.<br>Ouvrir un mail permet de <strong>lire l’ensemble de son contenu</strong>. Il est important de lire le texte du mail en entier pour connaître toutes les informations qu’il contient.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Le 3 février</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bien vu ! La date proposée pour l’entretien est le 3 février.<br>Ouvrir un mail permet de <strong>lire l’ensemble de son contenu</strong>. Il est important de lire le texte du mail en entier pour connaitre toutes les informations qu’il contient.</p>"
+                      "diagnosis": "<p>Bien vu ! La date proposée pour l’entretien est le 3 février.<br>Ouvrir un mail permet de <strong>lire l’ensemble de son contenu</strong>. Il est important de lire le texte du mail en entier pour connaître toutes les informations qu’il contient.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Le 20 mars</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. La date proposée pour l’entretien est le 3 février.<br>Ouvrir un mail permet de<strong> lire l’ensemble de son contenu</strong>. Il est important de lire le texte du mail en entier pour connaitre toutes les informations qu’il contient.</p>"
+                      "diagnosis": "<p>Eh non. La date proposée pour l’entretien est le 3 février.<br>Ouvrir un mail permet de<strong> lire l’ensemble de son contenu</strong>. Il est important de lire le texte du mail en entier pour connaître toutes les informations qu’il contient.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>La date proposée pour l’entretien est le 3 février.<br>Ouvrir un mail permet de<strong> lire l’ensemble de son contenu</strong>. Il est important de lire le texte du mail en entier pour connaitre toutes les informations qu’il contient.</p>"
+                      "diagnosis": "<p>La date proposée pour l’entretien est le 3 février.<br>Ouvrir un mail permet de<strong> lire l’ensemble de son contenu</strong>. Il est important de lire le texte du mail en entier pour connaître toutes les informations qu’il contient.</p>"
                     }
                   }
                 ],
@@ -459,7 +459,7 @@
                 "id": "05113e75-4a2e-4207-aaff-f528da503ab9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand vous ouvrez un mail, l’objet du mail, la date et l’expéditeur sont encore affichés. De nouvelles informations s’affichent également&nbsp;:<br></p>    <ol><li>Le <strong>destinataire</strong> (À)&nbsp;: indique la personne qui reçoit le mail. Ici, c’est vous.</li><li>Le<strong> texte complet</strong> du mail.</li></ol><p>D’autres informations peuvent également être affichées selon la messagerie électronique utilisée.</p>"
+                "content": "<p>Quand vous ouvrez un mail, l’objet du mail, la date et l’expéditeur sont encore affichés. De nouvelles informations s’affichent également&nbsp;:<br></p>    <ul><li>Le <strong>destinataire</strong> (À)&nbsp;indique la personne qui reçoit le mail. Ici, c’est vous.</li><li>Le<strong> texte complet</strong> du mail.</li></ul><p>D’autres informations peuvent aussi être affichées selon la messagerie électronique utilisée.</p>"
               }
             },
             {
@@ -512,7 +512,7 @@
                 "id": "7ed9ce41-7f5c-4ba2-bdfa-1fb524bbad9c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Pour cela, suivez les instructions suivantes&nbsp;:&nbsp; </strong></p><ul>    <li><strong>cliquez sur le bouton qui permet de répondre au mail,&nbsp;</strong></li>    <li><strong>écrivez la réponse suivante&nbsp;:&nbsp;</strong></li></ul><blockquote><em>Bonjour,  <br>Je vous confirme ma présence à l’entretien. <br>Cordialement</em></blockquote><ul>    <li><strong>puis cliquez sur le bouton pour envoyer votre réponse.</strong></li></ul>"
+                "content": "<p><strong>Pour cela, suivez les instructions suivantes&nbsp;:&nbsp; </strong></p><ul>    <li><strong>Cliquez sur le bouton qui permet de répondre au mail.&nbsp;</strong></li>    <li><strong>Écrivez la réponse suivante&nbsp;:&nbsp;</strong></li></ul><blockquote><em>Bonjour,  <br>Je vous confirme ma présence à l’entretien. <br>Cordialement</em></blockquote><ul>    <li><strong>Puis cliquez sur le bouton pour envoyer votre réponse.</strong></li></ul>"
               }
             },
             {
@@ -542,7 +542,7 @@
                 "id": "75166d79-fb2f-4d10-9d24-8964a2f48305",
                 "type": "expand",
                 "title": "🗝️Indices",
-                "content": "<ul><li>Pour répondre au mail, cliquez sur le bouton «&nbsp;Répondre&nbsp;». Il est indiqué par le mot «&nbsp;Répondre&nbsp;» et/ou par une flèche vers la gauche.<br><br></li><li>Après avoir cliqué sur «&nbsp;Répondre&nbsp;», une zone vide pour saisir du texte apparaît. Vous pouvez copier-coller la réponse dans cette zone ou taper la réponse directement dedans.<br><br></li><li>Pour envoyer votre réponse, cliquez sur le bouton «&nbsp;Envoyer&nbsp;». Il est indiqué par le mot «&nbsp;Envoyer&nbsp;» et/ou une flèche.</li></ul>"
+                "content": "<ul>\n    <li>Pour répondre au mail, cliquez sur le bouton «&nbsp;Répondre&nbsp;». Il est indiqué par le mot «&nbsp;Répondre&nbsp;» et/ou par une flèche vers la gauche.&nbsp;↩️<br></li>\n    <li>Après avoir cliqué sur «&nbsp;Répondre&nbsp;», une zone vide pour saisir du texte apparaît. Vous pouvez copier-coller la réponse dans cette zone ou taper la réponse directement dedans.<br><br></li>\n    <li>Pour envoyer votre réponse, cliquez sur le bouton «&nbsp;Envoyer&nbsp;». Il est indiqué par le mot «&nbsp;Envoyer&nbsp;» et/ou une flèche.&nbsp;➡️</li>\n</ul>"
               }
             },
             {
@@ -551,7 +551,7 @@
                 "id": "0b89b707-67be-4a00-a9be-68abcda63164",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>[Feedback autovalid]</strong> </p><p>Bien joué ! Votre réponse a été envoyée. <br>Quand vous répondez à un mail, un nouveau mail est créé. Il est ensuite rangé dans les «&nbsp;Messages envoyés&nbsp;», juste en dessous de la «&nbsp;Boite de réception&nbsp;».</p>"
+                "content": "<p><strong>[Feedback autovalid]</strong> </p><p>Bien joué ! Votre réponse a été envoyée. <br>Quand vous répondez à un mail, un nouveau mail est créé. Il est ensuite rangé dans les «&nbsp;Messages envoyés&nbsp;», juste en dessous de la «&nbsp;Boîte de réception&nbsp;».</p>"
               }
             }
           ]
@@ -567,7 +567,7 @@
                 "id": "f2f8cb14-b6e9-4c82-80f5-eb6d2cc97aa5",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand vous répondez à un mail&nbsp;: </p><ol><li>Le <strong>destinataire</strong> et l’<strong>objet</strong> sont déjà <strong>remplis automatiquement</strong>.&nbsp;</li><li>Le <strong>mail auquel vous répondez reste affiché</strong>.</li><li>Il vous reste à <strong>écrire votre réponse juste au-dessus.</strong></li><li>Puis cliquer sur «&nbsp;<strong>Envoyer</strong>&nbsp;» pour envoyer votre réponse.</li></ol>"
+                "content": "<p>Quand vous répondez à un mail&nbsp;: </p><ul><li>Le <strong>destinataire</strong> et l’<strong>objet</strong> sont déjà <strong>remplis automatiquement</strong>.&nbsp;</li><li>Le <strong>mail auquel vous répondez reste affiché</strong>.</li><li>Il vous reste à <strong>écrire votre réponse juste au-dessus.</strong></li><li>Le bouton «&nbsp;<strong>Envoyer</strong>&nbsp;» permet d'envoyer votre réponse.</li></ul>"
               }
             },
             {
@@ -588,7 +588,7 @@
                 "id": "5685f6f3-363f-4750-a963-b0af0ac6b07f",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Le «&nbsp;Re&nbsp;:&nbsp;» (pour «&nbsp;Réponse&nbsp;:&nbsp;») qui précède l’objet, indique que c’est une réponse à mail. Il est ajouté automatiquement.</p>"
+                "content": "<p>Le «&nbsp;Re&nbsp;:&nbsp;» qui précède l’objet, indique que c’est une «&nbsp;Réponse&nbsp;» à un mail. Il est ajouté automatiquement.</p>"
               }
             }
           ]
@@ -604,7 +604,7 @@
                 "id": "6a16ac8d-e725-4777-b2e6-5bfa3f14be62",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous pouvez recevoir plusieurs mails dans votre boite de réception. </p><p>Découvrons ensemble comment ils s’affichent.</p>"
+                "content": "<p>Vous pouvez recevoir plusieurs mails dans votre boîte de réception. </p><p>Découvrons ensemble comment ils s’affichent.</p>"
               }
             }
           ]
@@ -620,7 +620,7 @@
                 "id": "28fc8aaa-b30a-4974-a983-e65c84cc4299",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Dans la messagerie électronique, les <strong>mails reçus</strong> s’affichent à l’écran sous forme de <strong>liste</strong>. <br><br><strong>Observez les mails que vous avez reçu dans la messagerie électronique ci-dessous puis répondez aux questions qui suivent.</strong></p>"
+                "content": "<p>Dans la messagerie électronique, les <strong>mails reçus</strong> s’affichent à l’écran sous forme de <strong>liste</strong>. <br><br><strong>Observez les mails que vous avez reçus dans la messagerie électronique ci-dessous puis répondez aux questions qui suivent.</strong></p>"
               }
             },
             {
@@ -630,7 +630,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/decouverte4-v3.png",
                 "alt": "Capture d’écran d’une interface de messagerie électronique décrite dans l’alternative textuelle",
-                "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol>    <li>Boite de réception (3)&nbsp;: sélectionnée</li>    <li>Messages envoyés</li>    <li>Brouillons</li>    <li>Spams</li>    <li>Corbeille</li></ol><p>Contenu de «&nbsp;Boite de réception (3)&nbsp;»</p><table> <thead>        </thead><tbody><tr>            <th scope=\"col\">Expéditeur</th>            <th scope=\"col\">Objet</th>            <th scope=\"col\">Date</th>        </tr>        </tbody><tbody>        <tr>            <th scope=\"row\">PromoSports<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Soldes d’hiver</td>            <td>6 mars</td>        </tr>        <tr>            <th scope=\"row\">BioChoux<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Bienvenue chez BioChoux</td>            <td>3 février</td>        </tr>        <tr>            <th scope=\"row\">École de danse<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Cours annulé</td>            <td>25 janvier</td>        </tr>        <tr>            <th scope=\"row\">BioChoux<span class=\"sr-only\"> (mail lu)</span></th>            <td>Réponse à votre candidature</td>            <td>22 janvier</td>        </tr>    </tbody></table>",
+                "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol>    <li>Boîte de réception (3)&nbsp;: sélectionnée</li>    <li>Messages envoyés</li>    <li>Brouillons</li>    <li>Spams</li>    <li>Corbeille</li></ol><p>Contenu de «&nbsp;Boîte de réception (3)&nbsp;»</p><table> <thead>        </thead><tbody><tr>            <th scope=\"col\">Expéditeur</th>            <th scope=\"col\">Objet</th>            <th scope=\"col\">Date</th>        </tr>        </tbody><tbody>        <tr>            <th scope=\"row\">PromoSports<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Soldes d’hiver</td>            <td>6 mars</td>        </tr>        <tr>            <th scope=\"row\">BioChoux<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Bienvenue chez BioChoux</td>            <td>3 février</td>        </tr>        <tr>            <th scope=\"row\">École de danse<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Cours annulé</td>            <td>25 janvier</td>        </tr>        <tr>            <th scope=\"row\">BioChoux<span class=\"sr-only\"> (mail lu)</span></th>            <td>Réponse à votre candidature</td>            <td>22 janvier</td>        </tr>    </tbody></table>",
                 "legend": "",
                 "licence": ""
               }
@@ -657,28 +657,28 @@
                           "id": "1",
                           "content": "<p>Un mail</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Trois mails n’ont pas encore été lus. Les mails qui n’ont <strong>pas encore été lus</strong> apparaissent en <strong>gras</strong>. <br>Dans le menu, le nombre affiché à côté de «&nbsp;Boite de réception&nbsp;» indique aussi le nombre de mails non lus.</p>"
+                            "diagnosis": "<p>Eh non. Trois mails n’ont pas encore été lus. Les mails qui n’ont <strong>pas encore été lus</strong> apparaissent en <strong>gras</strong>. <br>Dans le menu, le nombre affiché à côté de «&nbsp;Boîte de réception&nbsp;» indique aussi le nombre de mails non lus.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Deux mails</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Trois mails n’ont pas encore été lus. Les mails qui n’ont <strong>pas encore été lus</strong> apparaissent en <strong>gras</strong>. <br>Dans le menu, le nombre affiché à côté de «&nbsp;Boite de réception&nbsp;» indique aussi le nombre de mails non lus.</p>"
+                            "diagnosis": "<p>Eh non. Trois mails n’ont pas encore été lus. Les mails qui n’ont <strong>pas encore été lus</strong> apparaissent en <strong>gras</strong>. <br>Dans le menu, le nombre affiché à côté de «&nbsp;Boîte de réception&nbsp;» indique aussi le nombre de mails non lus.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Trois mails</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. Trois mails n’ont pas encore été lus. Les mails qui n’ont <strong>pas encore été lus</strong> apparaissent en <strong>gras</strong>. <br>Dans le menu, le nombre affiché à côté de «&nbsp;Boite de réception&nbsp;» indique aussi le nombre de mails non lus.</p>"
+                            "diagnosis": "<p>Eh oui. Trois mails n’ont pas encore été lus. Les mails qui n’ont <strong>pas encore été lus</strong> apparaissent en <strong>gras</strong>. <br>Dans le menu, le nombre affiché à côté de «&nbsp;Boîte de réception&nbsp;» indique aussi le nombre de mails non lus.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Trois mails n’ont pas encore été lus. Les mails qui n’ont <strong>pas encore été lus</strong> apparaissent en <strong>gras</strong>. <br>Dans le menu, le nombre affiché à côté de «&nbsp;Boite de réception&nbsp;» indique aussi le nombre de mails non lus.</p>"
+                            "diagnosis": "<p>Trois mails n’ont pas encore été lus. Les mails qui n’ont <strong>pas encore été lus</strong> apparaissent en <strong>gras</strong>. <br>Dans le menu, le nombre affiché à côté de «&nbsp;Boîte de réception&nbsp;» indique aussi le nombre de mails non lus.</p>"
                           }
                         }
                       ],
@@ -692,7 +692,7 @@
                       "id": "56941616-026a-4c55-930e-697a18da74e1",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Tous les mails n’ont pas été reçus à la même date.</p>"
+                      "content": "<p>Les mails ont été reçus à des dates différentes.</p>"
                     },
                     {
                       "id": "bc0416c8-1cdd-40d7-a4fc-607c2bfe4649",
@@ -702,30 +702,30 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Le mail envoyé par «&nbsp;École de danse&nbsp;».</p>",
+                          "content": "<p>Le mail envoyé par l'École de danse.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Le mail envoyé par «&nbsp;PromoSports&nbsp;» le 06 mars est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement. </p>"
+                            "diagnosis": "<p>Eh non. Le mail envoyé par PromoSports le 6 mars est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement. </p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Le mail envoyé par «&nbsp;PromoSports&nbsp;».</p>",
+                          "content": "<p>Le mail envoyé par PromoSports.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu ! Le mail envoyé par «&nbsp;PromoSports&nbsp;» le 06 mars  est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement.</p>"
+                            "diagnosis": "<p>Bien vu ! Le mail envoyé par PromoSports le 6 mars  est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Le mail envoyé par «&nbsp;Biochoux&nbsp;».</p>",
+                          "content": "<p>Le mail envoyé par BioChoux.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Le mail envoyé par «&nbsp;PromoSports&nbsp;» le 06 mars  est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement. </p>"
+                            "diagnosis": "<p>Eh non. Le mail envoyé par PromoSports le 6 mars  est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement. </p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Le mail envoyé par «&nbsp;PromoSports&nbsp;» le 06 mars est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement.</p>"
+                            "diagnosis": "<p>Le mail envoyé par PromoSports le 6 mars est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement.</p>"
                           }
                         }
                       ],
@@ -748,7 +748,7 @@
                 "id": "e122bb57-c302-476c-b15e-7c58d95bd953",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une fois ouverts, les mails ne sont plus en gras. Ils restent présents dans la boite de réception. <br>En général, les mails sont rangés du plus récent (en haut de la liste) au plus ancien (en bas de la liste).<br><br></p>"
+                "content": "<p>Une fois ouverts, les mails ne sont plus en gras. Ils restent présents dans la boîte de réception. <br>En général, les mails sont <strong>rangés du plus récent au plus ancien</strong>. Les nouveaux mails sont placés en haut de la liste. Les plus anciens mails sont placés en bas de la liste.<br><br></p>"
               }
             },
             {
@@ -757,7 +757,7 @@
                 "id": "4b80f552-3e58-4f87-ac55-e6d7902d0ba5",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Il existe de nombreux services de messagerie électronique. Leur apparence peut varier, mais l’organisation des mails reste la même dans la boite de réception.</p>"
+                "content": "<p>Il existe de nombreux services de messagerie électronique. Leur apparence peut varier, mais <strong>l’organisation des mails reste la même</strong> dans la boîte de réception.</p>"
               }
             }
           ]
@@ -779,7 +779,7 @@
                 "id": "d0b8befc-28cd-44a7-aba4-c110548386c0",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>[Infographie à venir]<br></p><ul><li>Pour consulter ses mails, il faut <strong>ouvrir sa messagerie électronique</strong>. <br>Les <strong>mails reçus</strong> se trouvent dans la <strong>boite de réception</strong> et s’affichent sous forme de<strong> liste</strong>.</li><li>Dans cette liste, des informations sont affichées pour chaque mail&nbsp;: le <strong>nom de l’expéditeur</strong>, l’<strong>objet</strong> et la <strong>date de réception</strong> du mail.</li><li>Les mails qui <strong>n’ont pas encore été lus</strong> apparaissent en <strong>gras</strong>. <br>En général, le mail<strong> le plus récent</strong> est placé <strong>en</strong><strong> haut de la liste</strong> automatiquement.</li><li>Lorsqu’on <strong>ouvre un mail</strong>, on peut lire <strong>son contenu</strong>.<br>Depuis un mail ouvert, on peut cliquer sur <strong>répondre</strong>, puis <strong>écrire</strong><strong> son message</strong> et l’<strong>envoyer</strong>.</li></ul>"
+                "content": "<p>[Infographie à venir]<br></p><ul><li>Pour consulter ses mails, il faut <strong>ouvrir sa messagerie électronique</strong>. <br>Les <strong>mails reçus</strong> se trouvent dans la <strong>boîte de réception</strong> et s’affichent sous forme de<strong> liste</strong>.</li><li>Dans cette liste, des informations sont affichées pour chaque mail&nbsp;: le <strong>nom de l’expéditeur</strong>, l’<strong>objet</strong> et la <strong>date de réception</strong> du mail.</li><li>Les mails qui <strong>n’ont pas encore été lus</strong> apparaissent en <strong>gras</strong>. <br>En général, le mail<strong> le plus récent</strong> est placé <strong>en</strong><strong> haut de la liste</strong> automatiquement.</li><li>Lorsqu’on <strong>ouvre un mail</strong>, on peut lire <strong>son contenu</strong>.<br>Depuis un mail ouvert, on peut cliquer sur <strong>répondre</strong>, puis <strong>écrire</strong><strong> son message</strong> et l’<strong>envoyer</strong>.</li></ul>"
               }
             }
           ]
@@ -811,7 +811,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/activite1-v3.png",
                 "alt": "Capture d’écran d’une interface de messagerie électronique décrite dans l’alternative textuelle",
-                "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol>    <li>        Boite de réception (2)&nbsp;: sélectionnée    </li>    <li> Messages envoyés    </li>    <li> Brouillons    </li>    <li> Spams    </li>    <li> Corbeille    </li></ol><br><p>Contenu de «&nbsp;Boite de réception (2)&nbsp;»</p><table>    <thead>        <tr>            <th scope=\"col\">Expéditeur</th>            <th scope=\"col\">Objet</th>            <th scope=\"col\">Date</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\">Sophie<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Projet annuel</td>            <td>15 février</td>        </tr>        <tr>            <th scope=\"row\">Espaces verts<span class=\"sr-only\"> (mail lu)</span></th>            <td>Lettre d’information</td>            <td>5 novembre</td>        </tr>        <tr>            <th scope=\"row\">Naïma<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Photos</td>            <td>5 novembre</td>        </tr>    </tbody></table><p>    &nbsp;&nbsp;<br></p>",
+                "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol>    <li>        Boîte de réception (2)&nbsp;: sélectionnée    </li>    <li> Messages envoyés    </li>    <li> Brouillons    </li>    <li> Spams    </li>    <li> Corbeille    </li></ol><br><p>Contenu de «&nbsp;Boîte de réception (2)&nbsp;»</p><table>    <thead>        <tr>            <th scope=\"col\">Expéditeur</th>            <th scope=\"col\">Objet</th>            <th scope=\"col\">Date</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\">Sophie<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Projet annuel</td>            <td>15 février</td>        </tr>        <tr>            <th scope=\"row\">Espaces verts<span class=\"sr-only\"> (mail lu)</span></th>            <td>Lettre d’information</td>            <td>5 novembre</td>        </tr>        <tr>            <th scope=\"row\">Naïma<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Photos</td>            <td>5 novembre</td>        </tr>    </tbody></table><p>    &nbsp;&nbsp;<br></p>",
                 "legend": "",
                 "licence": ""
               }
@@ -840,7 +840,7 @@
                           "id": "2",
                           "content": "<p>«&nbsp;Lettre d’information&nbsp;»</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse</p>",
+                            "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Observez la ligne correspondant au mail de Naïma.</p>"
                           }
                         },
@@ -848,7 +848,7 @@
                           "id": "3",
                           "content": "<p>«&nbsp;Projet 2027&nbsp;»</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse</p>",
+                            "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Observez la ligne correspondant au mail de Naïma.</p>"
                           }
                         }
@@ -870,7 +870,7 @@
                           "content": "Un mail",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
-                            "diagnosis": "<p>Observez attentivement les dates. Quels mails ont pour date, le 5 novembre ?</p>"
+                            "diagnosis": "<p>Observez attentivement les dates. Quels mails ont pour date le 5 novembre ?</p>"
                           }
                         },
                         {
@@ -878,7 +878,7 @@
                           "content": "Deux mails",
                           "feedback": {
                             "state": "<p>Bonne réponse ! 🎉</p>",
-                            "diagnosis": "<p>Deux mails ont été reçus le 5 novembre&nbsp;: celui de Naïma et celui de Espaces verts.</p>"
+                            "diagnosis": "<p>Deux mails ont été reçus le 5 novembre&nbsp;: celui de Naïma et celui envoyé par Espaces verts.</p>"
                           }
                         },
                         {
@@ -886,7 +886,7 @@
                           "content": "Trois mails",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Observez attentivement les dates. Quels mails ont pour date, le 5 novembre ?</p>"
+                            "diagnosis": "<p>Observez attentivement les dates. Quels mails ont pour date le 5 novembre ?</p>"
                           }
                         }
                       ],
@@ -914,7 +914,7 @@
                           "id": "2",
                           "content": "Deux mails",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse</p>",
+                            "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Avez-vous remarqué que certains mails sont en gras, et d’autres non&nbsp;?</p>"
                           }
                         },
@@ -922,7 +922,7 @@
                           "id": "3",
                           "content": "Trois mails",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse</p>",
+                            "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Avez-vous remarqué que certains mails sont en gras, et d’autres non&nbsp;?</p>"
                           }
                         }
@@ -946,7 +946,7 @@
                 "id": "daf204a6-660c-4d58-a9e3-a059e8b37890",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Claire Durand vous a envoyé un mail à propos de l’organisation du concours d’échec. <strong>Répondez lui par mail&nbsp;:</strong> </p><blockquote><em>Bonjour Madame Durand, <br>Je vous confirme ma présence à la réunion.<br><br>Cordialement</em></blockquote>"
+                "content": "<p>Claire Durand vous a envoyé un mail à propos de l’organisation d'un tournoi d’échecs. <strong>Répondez lui par mail en recopiant le message suivant :</strong> </p>\n<blockquote><em>Bonjour Madame Durand, <br>Je vous confirme ma présence à la réunion.<br><br>Cordialement</em></blockquote>"
               }
             },
             {
@@ -1007,7 +1007,7 @@
                       "tagName": "template-mail",
                       "props": {
                         "titleLevel": 0,
-                        "subject": "Re : Convocation à la réunion ",
+                        "subject": "Re : Convocation à la réunion d'information",
                         "mailAddress": "flora1024@pix.net",
                         "avatarColor": "",
                         "expeditor": "Flora",
@@ -1021,7 +1021,7 @@
                     {
                       "id": "afc4e202-48a7-45a1-970f-3978af70b845",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Cette réponse respecte-t-il les règles de politesse et de conduite sur internet ?</p>",
+                      "instruction": "<p>Selon vous, cette réponse respecte-t-elle les règles de politesse et de conduite sur internet ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -1054,7 +1054,7 @@
                       "tagName": "template-mail",
                       "props": {
                         "titleLevel": 0,
-                        "subject": "Re : Convocation à la réunion",
+                        "subject": "Re : Convocation à la réunion d'information",
                         "mailAddress": "flora1024@pix.net",
                         "avatarColor": "",
                         "expeditor": "Flora",
@@ -1068,7 +1068,7 @@
                     {
                       "id": "30df510a-1460-4b74-8270-c5030b6bee99",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Cette réponse respecte-t-il les règles de politesse et de conduite sur internet ?</p>",
+                      "instruction": "<p>Selon vous, cette réponse respecte-t-elle les règles de politesse et de conduite sur internet ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -1101,7 +1101,7 @@
                       "tagName": "template-mail",
                       "props": {
                         "titleLevel": 0,
-                        "subject": "Re : Convocation à la réunion",
+                        "subject": "Re : Convocation à la réunion d'information",
                         "mailAddress": "flora1024@pix.net",
                         "avatarColor": "",
                         "expeditor": "Flora",
@@ -1115,21 +1115,21 @@
                     {
                       "id": "7b5e2a1c-020b-4cf8-ad61-51b3a60fa587",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Cette réponse par mail respecte-t-il les règles de politesse et de conduite sur internet ?</p>",
+                      "instruction": "<p>Selon vous, cette réponse respecte-t-elle les règles de politesse et de conduite sur internet ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. Cette réponse par mail respecte les règles de politesse et de conduite sur internet&nbsp;:&nbsp;</p><ul><li>Elle <strong>commence et se termine par</strong> <strong>une formule de politesse</strong>.</li><li>Elle se termine aussi par un prénom en guise de <strong>signature</strong>.</li><li>Le<strong> ton est respectueux</strong> et il n’y a <strong>pas de fautes</strong> <strong>d’orthographes.</strong></li></ul>"
+                            "diagnosis": "<p>Eh oui. Cette réponse par mail respecte les règles de politesse et de conduite sur internet&nbsp;:&nbsp;</p><ul><li>Elle <strong>commence et se termine par</strong> <strong>une formule de politesse</strong>.</li><li>Elle se termine aussi par un prénom en guise de <strong>signature</strong>.</li><li>Le<strong> ton est respectueux</strong> et il n’y a <strong>pas de fautes</strong> <strong>d’orthographe.</strong></li></ul>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. Cette réponse par mail respecte les règles de politesse et de conduite sur internet&nbsp;:&nbsp;</p><ul>    <li>Elle <strong>commence et se termine par</strong> <strong>une formule de politesse</strong>.</li><li>Elle se termine aussi par un prénom en guise de <strong>signature</strong>.</li>    <li>Le<strong> ton est respectueux</strong> et il n’y a <strong>pas de fautes&nbsp;</strong><strong>d’orthographes.</strong></li>    </ul>"
+                            "diagnosis": "<p>Eh oui. Cette réponse par mail respecte les règles de politesse et de conduite sur internet&nbsp;:&nbsp;</p><ul>    <li>Elle <strong>commence et se termine par</strong> <strong>une formule de politesse</strong>.</li><li>Elle se termine aussi par un prénom en guise de <strong>signature</strong>.</li>    <li>Le<strong> ton est respectueux</strong> et il n’y a <strong>pas de fautes&nbsp;</strong><strong>d’orthographe.</strong></li>    </ul>"
                           }
                         }
                       ],
