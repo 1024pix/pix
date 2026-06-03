@@ -596,4 +596,142 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
       expect(result).to.equal(2);
     });
   });
+
+  describe('#countParticipantsByOrganizationIdGroupedByYear', function () {
+    it('returns an array with participants count grouped by year for a given organizationId', async function () {
+      // given
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId, multipleSendings: true });
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2021-05-29'),
+        isImproved: true,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2025-05-29'),
+      });
+      const { id: otherLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId: otherLearnerId,
+        createdAt: new Date('2021-05-29'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result =
+        await campaignParticipationsStatsRepository.countParticipantsByOrganizationIdGroupedByYear(organizationId);
+
+      // then
+      expect(result).to.deep.equal([
+        {
+          year: 2021,
+          count: 2,
+        },
+        {
+          year: 2025,
+          count: 1,
+        },
+      ]);
+    });
+
+    it('only counts one participant if participant has multiple participations in same year', async function () {
+      // given
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId, multipleSendings: true });
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2021-05-29'),
+        isImproved: true,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2021-05-29'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result =
+        await campaignParticipationsStatsRepository.countParticipantsByOrganizationIdGroupedByYear(organizationId);
+
+      // then
+      expect(result).to.deep.equal([
+        {
+          year: 2021,
+          count: 1,
+        },
+      ]);
+    });
+
+    it('orders counts by ascendant year (from oldest to latest)', async function () {
+      // given
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        createdAt: new Date('2021-01-01'),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2024-05-29'),
+      });
+
+      const { id: otherCampaignId } = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        createdAt: new Date('2022-01-01'),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: otherCampaignId,
+        organizationLearnerId,
+        createdAt: new Date('2022-01-02'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result =
+        await campaignParticipationsStatsRepository.countParticipantsByOrganizationIdGroupedByYear(organizationId);
+
+      // then
+      expect(result).to.deep.equal([
+        {
+          year: 2022,
+          count: 1,
+        },
+        {
+          year: 2024,
+          count: 1,
+        },
+      ]);
+    });
+
+    it('should return count only for given organizationId', async function () {
+      // given
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const organizationWithNoParticipants = databaseBuilder.factory.buildOrganization();
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignParticipationsStatsRepository.countParticipantsByOrganizationIdGroupedByYear(
+        organizationWithNoParticipants.id,
+      );
+
+      // then
+      expect(result).to.be.empty;
+    });
+  });
 });
