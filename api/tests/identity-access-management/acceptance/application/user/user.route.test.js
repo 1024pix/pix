@@ -146,7 +146,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     let userId;
     let anonymousToken;
-    let requestPayload;
+    let payload;
 
     beforeEach(async function () {
       const user = databaseBuilder.factory.buildUser.anonymous();
@@ -154,7 +154,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       anonymousToken = await anonymousUserTokenRepository.save(userId);
       await databaseBuilder.commit();
 
-      requestPayload = {
+      payload = {
         data: {
           type: 'users',
           id: userId,
@@ -176,7 +176,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         method: 'PATCH',
         url: `/api/users/${userId}`,
         headers: generateAuthenticatedUserRequestHeaders({ userId }),
-        payload: requestPayload,
+        payload,
       });
 
       // then
