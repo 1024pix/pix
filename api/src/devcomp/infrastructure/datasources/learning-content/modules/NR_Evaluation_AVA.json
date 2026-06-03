@@ -399,7 +399,7 @@
                     {
                       "id": "6ab4e662-9a2c-4564-9954-46d29b309563",
                       "type": "qcu-discovery",
-                      "instruction": "<p>À votre avis, quelle était la puissance électrique du premier ordinateur ?</p>",
+                      "instruction": "<p>À votre avis, quelle était la puissance électrique du premier ordinateur&nbsp;?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
