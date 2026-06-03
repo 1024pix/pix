@@ -5,6 +5,7 @@ import { parquetWriteBuffer } from 'hyparquet-writer';
 import { knex } from '../../db/knex-database-connection.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
+import { AnswersHistoryExportStorage } from "./answers-history-export-storage.js";
 
 export class GetAnswersFromAssessments extends Script {
   constructor() {
@@ -20,7 +21,7 @@ export class GetAnswersFromAssessments extends Script {
         outputFile: {
           type: 'string',
           describe: 'Path to the output parquet file',
-          default: './answers.parquet',
+          default: 'answers_history.parquet',
         },
       },
     });
@@ -50,9 +51,13 @@ export class GetAnswersFromAssessments extends Script {
       const buffer = writeBufferFromAnswers(answersToBeDeleted);
       await writeFile(outputFile, Buffer.from(buffer));
       logger.info(`Written ${answersToBeDeleted.length} answer ids to ${outputFile}`);
+      logger.info(`Upload ${outputFile} to bucket`);
+      const answerHistoryExportStorage = new AnswersHistoryExportStorage();
+      await answerHistoryExportStorage.sendFile({ filename:outputFile, filepath:"/answers"});
       const answerToBeDeletedIds = answersToBeDeleted.map(({ id }) => id);
       await knex.delete().from('answers').whereIn('id', answerToBeDeletedIds);
       logger.info(`Deleted ${answerToBeDeletedIds.length} answers`);
+
     }
   }
 }
