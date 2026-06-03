@@ -7,12 +7,15 @@ import { t } from 'ember-intl';
 export default class Header extends Component {
   @service intl;
   @service currentUser;
+  @service router;
 
   get frameworkLabel() {
     return this.intl.t(`components.certification-frameworks.labels.${this.args.certificationFramework.name}`);
   }
 
   get canCreateVersion() {
+    if (this.router.currentRouteName.startsWith('authenticated.certification-frameworks.item.framework.new-version'))
+      return false;
     return this.currentUser.adminMember.isSuperAdmin && this.args.certificationFramework?.name !== 'CLEA';
   }
 

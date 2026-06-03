@@ -1,4 +1,5 @@
 import { render, within } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import Header from 'pix-admin/components/certification-frameworks/item/header';
 import { module, test } from 'qunit';
 
@@ -11,6 +12,11 @@ module('Integration | Component | certification-frameworks/item/header', functio
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
+
+    class routerStub extends Service {
+      currentRouteName = 'super.route';
+    }
+    this.owner.register('service:router', routerStub);
   });
 
   test('it should display the framework label in breadcrumb and title', async function (assert) {
@@ -67,6 +73,25 @@ module('Integration | Component | certification-frameworks/item/header', functio
       // then
       assert
         .dom(screen.queryByText(t('components.certification-frameworks.item.framework.create-button')))
+        .doesNotExist();
+    });
+
+    test('it should not display the create button on new version page', async function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isSuperAdmin: true };
+      const serviceRouter = this.owner.lookup('service:router');
+      serviceRouter.currentRouteName = 'authenticated.certification-frameworks.item.framework.new-version';
+      const certificationFramework = store.createRecord('certification-framework', { id: 'DROIT', name: 'DROIT' });
+
+      // when
+      const screen = await render(<template><Header @certificationFramework={{certificationFramework}} /></template>);
+
+      // then
+      assert
+        .dom(
+          screen.queryByRole('button', { name: t('components.certification-frameworks.item.framework.create-button') }),
+        )
         .doesNotExist();
     });
   });
