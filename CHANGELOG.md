@@ -1,5 +1,26 @@
 # Pix Changelog
 
+# [5.422.0](https://github.com/1024pix/pix/compare/v5.421.0...v5.422.0) (2026-06-03)
+
+### :rocket: Amélioration
+
+- [#16385](https://github.com/1024pix/pix/pull/16385) Afficher le feedback dans la modale d'un contenu formatif (PIX-22948). 
+- [#16390](https://github.com/1024pix/pix/pull/16390) Afficher les statistiques d'une orga sur Pix Admin (PIX-22896) 
+- [#16319](https://github.com/1024pix/pix/pull/16319) Ajoute un bouton pour supprimer la campagne (PIX-22901) 
+- [#16350](https://github.com/1024pix/pix/pull/16350) Créer une route pour remonter les statistiques d'une organisation (PIX-22895) 
+- [#16364](https://github.com/1024pix/pix/pull/16364) Modifier les badges sur les affichages certificats pour avoir le même que sur le certificat PDF (PIX-22883) 
+- [#16355](https://github.com/1024pix/pix/pull/16355) retours experts sur les modules RangerFichier_NOV et Visio_NOV 
+- [#16303](https://github.com/1024pix/pix/pull/16303) Tmp eval ava relecturesinterne 
+
+### :building_construction: Tech
+
+- [#16330](https://github.com/1024pix/pix/pull/16330) Ajouter script migration filterable string->list (PIX-22837) 
+- [#16393](https://github.com/1024pix/pix/pull/16393) Déplacer certains fichiers de IAM vers Shared 
+
+### :coffee: Autre
+
+- [#16396](https://github.com/1024pix/pix/pull/16396) high level API Description
+
 # [5.421.0](https://github.com/1024pix/pix/compare/v5.420.0...v5.421.0) (2026-06-02)
 
 ### :rocket: Amélioration
