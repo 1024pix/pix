@@ -152,7 +152,7 @@
                         },
                         {
                           "id": "4",
-                          "content": "<p>Je ne sais pas.<br></p>",
+                          "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
                             "diagnosis": "<p>Quand vous êtes convié à une visioconférence vous recevez <strong>un mail avec un lien cliquable</strong>. Au moment du rendez-vous, vous devrez <strong>cliquer sur ce lien pour accéder à la visioconférence</strong>. </p>"
                           }
@@ -193,7 +193,7 @@
                         },
                         {
                           "id": "4",
-                          "content": "<p>Je ne sais pas.<br></p>",
+                          "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
                             "diagnosis": "<p>Quand vous cliquez sur le lien, une <strong>page web</strong> s’ouvre <strong>dans votre navigateur</strong>. Dans la plupart des cas, vous n’avez pas besoin <strong>d’installer un logiciel</strong> pour rejoindre la visioconférence.</p>"
                           }
@@ -297,11 +297,11 @@
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "<p>Exactement !<br></p>",
+                    "state": "<p>Exactement !</p>",
                     "diagnosis": "<p>Avant de rejoindre une visioconférence, vous pouvez <strong>préparer votre entrée&nbsp;: activer ou désactiver votre micro et votre caméra</strong>.</p>"
                   },
                   "invalid": {
-                    "state": "<p>Eh non.<br></p>",
+                    "state": "<p>Eh non.</p>",
                     "diagnosis": "<p>Pour passer son entretien d’embauche, Sadie a besoin d’être vue et entendue par les recruteurs.<br></p><p>Avant de rejoindre une visioconférence, vous pouvez <strong>préparer votre entrée&nbsp;: activer ou désactiver votre micro et votre caméra</strong>.</p>"
                   }
                 },
@@ -430,7 +430,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "<p>Bruno<br></p>",
+                          "content": "<p>Bruno</p>",
                           "feedback": {
                             "diagnosis": "<p>Eh non, c’est Diane.&nbsp;</p><p>Pendant une visioconférence, les participants sont visibles à l’écran. Souvent, un symbole ou un encadré <strong>indique qui est en train de parler</strong>&nbsp;: c’est utile quand leur caméra est désactivée, et qu’on ne les voit pas.</p>"
                           }
@@ -470,7 +470,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>Lever la main.<br></p>",
+                          "content": "<p>Lever la main.</p>",
                           "feedback": {
                             "diagnosis": "<p>Exactement&nbsp;!</p><p>Si vous voulez prendre la parole, il est recommandé d’utiliser le bouton «&nbsp;lever la main&nbsp;». Il permet de signaler que vous souhaitez intervenir.&nbsp; ✋ <br>Ensuite, n’oubliez pas d’<strong>activer votre micro</strong> avant de parler. 🎙️</p>"
                           }
@@ -484,7 +484,7 @@
                         },
                         {
                           "id": "4",
-                          "content": "<p>Je ne sais pas.<br></p>",
+                          "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
                             "diagnosis": "<p>Si vous voulez prendre la parole, il est recommandé d’utiliser le bouton «&nbsp;lever la main&nbsp;». Il permet de signaler que vous souhaitez intervenir.&nbsp; ✋ <br>Ensuite, n’oubliez pas d’<strong>activer votre micro</strong> avant de parler. 🎙️</p>"
                           }
@@ -759,7 +759,7 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bonne réponse ! </p>",
-                    "diagnosis": "<p>Il y a bien 6 participants à cette visionconférence.<br></p>"
+                    "diagnosis": "<p>Il y a bien 6 participants à cette visionconférence.</p>"
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse. </p>",
