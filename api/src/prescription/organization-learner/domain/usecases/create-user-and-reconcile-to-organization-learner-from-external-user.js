@@ -69,14 +69,18 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
         lastName,
         cgu: false,
       });
-      userId = await userService.createAndReconcileUserToOrganizationLearner({
-        user: domainUser,
-        organizationLearnerId: matchedOrganizationLearner.id,
-        samlId,
-        locale,
-        authenticationMethodRepository,
-        organizationLearnerRepository: libOrganizationLearnerRepository,
-        userToCreateRepository,
+      await DomainTransaction.execute(async () => {
+        userId = await userService.createUserWithGarOrPassword({
+          user: domainUser,
+          samlId,
+          locale,
+          authenticationMethodRepository,
+          userToCreateRepository,
+        });
+        await libOrganizationLearnerRepository.updateUserIdWhereNull({
+          organizationLearnerId: matchedOrganizationLearner.id,
+          userId,
+        });
       });
     }
   } catch (error) {

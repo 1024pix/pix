@@ -4,6 +4,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-acce
 import { UserAccessToken } from '../../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { UserReconciliationSamlIdToken } from '../../../../../../src/identity-access-management/domain/models/UserReconciliationSamlIdToken.js';
 import { createUserAndReconcileToOrganizationLearnerFromExternalUser } from '../../../../../../src/prescription/organization-learner/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { RequestedApplication } from '../../../../../../src/shared/infrastructure/utils/network.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -16,13 +17,16 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
   let authenticationMethodRepository;
   let userRepository;
   let userLoginRepository;
-  let organizationLearnerRepository;
+  let libOrganizationLearnerRepository;
   let studentRepository;
   let lastUserApplicationConnectionsRepository;
   const audience = 'https://app.pix.fr';
   const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
 
   beforeEach(function () {
+    sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+      return callback();
+    });
     userReconciliationService = {
       findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo: sinon.stub(),
       assertStudentHasAnAlreadyReconciledAccount: sinon.stub(),
@@ -34,15 +38,16 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       updateLastLoggedAt: sinon.stub(),
     };
     userService = {
-      createAndReconcileUserToOrganizationLearner: sinon.stub(),
+      createUserWithGarOrPassword: sinon.stub(),
     };
-
     authenticationMethodRepository = {
       updateLastLoggedAtByIdentityProvider: sinon.stub(),
     };
-
     lastUserApplicationConnectionsRepository = {
       upsert: sinon.stub(),
+    };
+    libOrganizationLearnerRepository = {
+      updateUserIdWhereNull: sinon.stub(),
     };
   });
 
@@ -71,7 +76,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         userRepository,
         userLoginRepository,
-        organizationLearnerRepository,
+        libOrganizationLearnerRepository,
         studentRepository,
         lastUserApplicationConnectionsRepository,
         requestedApplication,
@@ -120,7 +125,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         userRepository,
         userLoginRepository,
-        organizationLearnerRepository,
+        libOrganizationLearnerRepository,
         studentRepository,
         lastUserApplicationConnectionsRepository,
         requestedApplication,
@@ -143,7 +148,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         organizationLearner,
       );
       userRepository.getBySamlId.resolves(null);
-      userService.createAndReconcileUserToOrganizationLearner.resolves(user.id);
+      userService.createUserWithGarOrPassword.resolves(user.id);
 
       // when
       await createUserAndReconcileToOrganizationLearnerFromExternalUser({
@@ -156,7 +161,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         userRepository,
         userLoginRepository,
-        organizationLearnerRepository,
+        libOrganizationLearnerRepository,
         studentRepository,
         lastUserApplicationConnectionsRepository,
         requestedApplication,
@@ -178,7 +183,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         organizationLearner,
       );
       userRepository.getBySamlId.resolves(null);
-      userService.createAndReconcileUserToOrganizationLearner.resolves(user.id);
+      userService.createUserWithGarOrPassword.resolves(user.id);
 
       sinon
         .stub(UserAccessToken, 'generateSamlUserToken')
@@ -197,7 +202,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         userRepository,
         userLoginRepository,
-        organizationLearnerRepository,
+        libOrganizationLearnerRepository,
         studentRepository,
         lastUserApplicationConnectionsRepository,
         requestedApplication,

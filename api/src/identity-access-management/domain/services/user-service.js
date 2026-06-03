@@ -21,14 +21,8 @@ export async function createUserWithPassword({
   const userToAdd = UserToCreate.create({ ...user, locale });
   const savedUser = await userToCreateRepository.create({ user: userToAdd });
 
-  const authenticationMethod = _buildPasswordAuthenticationMethod({
-    userId: savedUser.id,
-    hashedPassword,
-  });
-
-  await authenticationMethodRepository.create({
-    authenticationMethod,
-  });
+  const authenticationMethod = _buildPasswordAuthenticationMethod({ userId: savedUser.id, hashedPassword });
+  await authenticationMethodRepository.create({ authenticationMethod });
 
   return savedUser;
 }
@@ -50,32 +44,25 @@ export async function updateUsernameAndAddPassword({
 }) {
   return DomainTransaction.execute(async () => {
     await userRepository.updateUsername({ id: userId, username });
-    return authenticationMethodRepository.createPasswordThatShouldBeChanged({
-      userId,
-      hashedPassword,
-    });
+    return authenticationMethodRepository.createPasswordThatShouldBeChanged({ userId, hashedPassword });
   });
 }
 
 /**
- * @param hashedPassword
- * @param samlId
- * @param organizationLearnerId
  * @param user
+ * @param samlId
+ * @param hashedPassword
  * @param locale
  * @param authenticationMethodRepository
- * @param organizationLearnerRepository
  * @param userToCreateRepository
  * @return {Promise<*|Promise<unknown>>}
  */
-export async function createAndReconcileUserToOrganizationLearner({
-  hashedPassword,
-  samlId,
-  organizationLearnerId,
+export async function createUserWithGarOrPassword({
   user,
+  samlId,
+  hashedPassword,
   locale,
   authenticationMethodRepository,
-  organizationLearnerRepository,
   userToCreateRepository,
 }) {
   const userToAdd = UserToCreate.create({ ...user, locale });
@@ -83,30 +70,14 @@ export async function createAndReconcileUserToOrganizationLearner({
   return DomainTransaction.execute(async () => {
     let authenticationMethod;
 
-    const createdUser = await userToCreateRepository.create({
-      user: userToAdd,
-    });
+    const createdUser = await userToCreateRepository.create({ user: userToAdd });
 
     if (samlId) {
-      authenticationMethod = _buildGARAuthenticationMethod({
-        externalIdentifier: samlId,
-        user: createdUser,
-      });
+      authenticationMethod = _buildGARAuthenticationMethod({ externalIdentifier: samlId, user: createdUser });
     } else {
-      authenticationMethod = _buildPasswordAuthenticationMethod({
-        hashedPassword,
-        userId: createdUser.id,
-      });
+      authenticationMethod = _buildPasswordAuthenticationMethod({ hashedPassword, userId: createdUser.id });
     }
-
-    await authenticationMethodRepository.create({
-      authenticationMethod,
-    });
-
-    await organizationLearnerRepository.updateUserIdWhereNull({
-      organizationLearnerId,
-      userId: createdUser.id,
-    });
+    await authenticationMethodRepository.create({ authenticationMethod });
 
     return createdUser.id;
   });

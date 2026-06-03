@@ -26,7 +26,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
   let authenticationMethodRepository;
   let emailRepository;
   let emailValidationDemandRepository;
-  let organizationLearnerRepository;
+  let libOrganizationLearnerRepository;
   let userRepository;
 
   let cryptoService;
@@ -48,7 +48,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
     authenticationMethodRepository = {};
     emailRepository = { sendEmailAsync: sinon.stub() };
     emailValidationDemandRepository = { save: sinon.stub().resolves(token) };
-    organizationLearnerRepository = {};
+    libOrganizationLearnerRepository = { updateUserIdWhereNull: sinon.stub() };
     userRepository = {
       create: sinon.stub(),
       checkIfEmailIsAvailable: sinon.stub(),
@@ -60,7 +60,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
     userReconciliationService = {
       findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo: sinon.stub(),
     };
-    userService = { createAndReconcileUserToOrganizationLearner: sinon.stub() };
+    userService = { createUserWithGarOrPassword: sinon.stub() };
 
     passwordValidator = { validate: sinon.stub() };
     userValidator = { validate: sinon.stub() };
@@ -89,7 +89,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         userAttributes,
         authenticationMethodRepository,
         emailValidationDemandRepository,
-        organizationLearnerRepository,
+        libOrganizationLearnerRepository,
         userRepository,
         cryptoService,
         emailRepository,
@@ -118,7 +118,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
       );
       cryptoService.hashPassword.resolves(encryptedPassword);
 
-      userService.createAndReconcileUserToOrganizationLearner.resolves(createdUser.id);
+      userService.createUserWithGarOrPassword.resolves(createdUser.id);
       userRepository.get.withArgs(createdUser.id).resolves(createdUser);
     });
 
@@ -163,7 +163,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             emailValidationDemandRepository,
-            organizationLearnerRepository,
+            libOrganizationLearnerRepository,
             userRepository,
             cryptoService,
             emailRepository,
@@ -194,7 +194,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             emailValidationDemandRepository,
-            organizationLearnerRepository,
+            libOrganizationLearnerRepository,
             userRepository,
             cryptoService,
             emailRepository,
@@ -225,7 +225,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             emailValidationDemandRepository,
-            organizationLearnerRepository,
+            libOrganizationLearnerRepository,
             userRepository,
             cryptoService,
             emailRepository,
@@ -259,7 +259,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             emailValidationDemandRepository,
-            organizationLearnerRepository,
+            libOrganizationLearnerRepository,
             userRepository,
             cryptoService,
             emailRepository,
@@ -278,9 +278,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         context('But association is already done', function () {
           it('should nor create nor associate organizationLearner', async function () {
             // given
-            userService.createAndReconcileUserToOrganizationLearner.throws(
-              new OrganizationLearnerAlreadyLinkedToUserError(),
-            );
+            userService.createUserWithGarOrPassword.throws(new OrganizationLearnerAlreadyLinkedToUserError());
 
             // when
             const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
@@ -291,7 +289,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
               userAttributes,
               authenticationMethodRepository,
               emailValidationDemandRepository,
-              organizationLearnerRepository,
+              libOrganizationLearnerRepository,
               userRepository,
               cryptoService,
               emailRepository,
@@ -329,7 +327,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             emailValidationDemandRepository,
-            organizationLearnerRepository,
+            libOrganizationLearnerRepository,
             userRepository,
             cryptoService,
             emailRepository,
@@ -356,7 +354,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             emailValidationDemandRepository,
-            organizationLearnerRepository,
+            libOrganizationLearnerRepository,
             userRepository,
             cryptoService,
             emailRepository,
@@ -374,9 +372,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         context('But association is already done', function () {
           it('should nor create nor associate organizationLearner', async function () {
             // given
-            userService.createAndReconcileUserToOrganizationLearner.throws(
-              new OrganizationLearnerAlreadyLinkedToUserError(),
-            );
+            userService.createUserWithGarOrPassword.throws(new OrganizationLearnerAlreadyLinkedToUserError());
 
             // when
             const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
@@ -387,7 +383,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
               userAttributes,
               authenticationMethodRepository,
               emailValidationDemandRepository,
-              organizationLearnerRepository,
+              libOrganizationLearnerRepository,
               userRepository,
               cryptoService,
               emailRepository,

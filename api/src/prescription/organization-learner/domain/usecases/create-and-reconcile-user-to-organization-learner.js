@@ -61,14 +61,16 @@ export async function createAndReconcileUserToOrganizationLearner({
   const hashedPassword = await _encryptPassword(password, cryptoService);
   const domainUser = _createDomainUser(cleanedUserAttributes);
 
-  const userId = await userService.createAndReconcileUserToOrganizationLearner({
-    hashedPassword,
-    organizationLearnerId: matchedOrganizationLearner.id,
+  const userId = await userService.createUserWithGarOrPassword({
     user: domainUser,
+    hashedPassword,
     locale,
     authenticationMethodRepository,
-    organizationLearnerRepository: libOrganizationLearnerRepository,
     userToCreateRepository,
+  });
+  await libOrganizationLearnerRepository.updateUserIdWhereNull({
+    organizationLearnerId: matchedOrganizationLearner.id,
+    userId,
   });
 
   const createdUser = await userRepository.get(userId);
