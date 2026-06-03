@@ -1,4 +1,4 @@
-import { ComplementaryCertificationHabilitation } from '../../../../src/organizational-entities/domain/model/ComplementaryCertificationHabilitation.js';
+import { ComplementaryCertificationHabilitation } from '../../../../src/organizational-entities/domain/models/ComplementaryCertificationHabilitation.js';
 
 const buildComplementaryCertificationHabilitation = function ({
   id = 123,
