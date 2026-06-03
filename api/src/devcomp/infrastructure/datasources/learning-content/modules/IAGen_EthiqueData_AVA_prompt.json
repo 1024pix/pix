@@ -94,7 +94,7 @@
                 "id": "037553cd-861e-4707-913a-d6b52d04e38d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Avec les logiciels d’intelligence artificielle, il devient facile de créer du contenu (photo, vidéo, etc.). C’est une situation inédite qui interroge la notion d’œuvre de l’esprit et le droit d’auteur. Voyons pourquoi.</p>"
+                "content": "<p>Avec les logiciels d’intelligence artificielle, il devient facile de créer du contenu (image, vidéo, etc.). C’est une situation inédite qui interroge la notion d’œuvre de l’esprit et le droit d’auteur. Voyons pourquoi.</p>"
               }
             }
           ]
@@ -232,17 +232,7 @@
                       "id": "56d6de2c-b52e-4fa2-b524-6586883c87fa",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Dans le droit européen, une œuvre de l’esprit est une création produite par un <strong>humain</strong> et <strong>originale</strong> (c’est-à-dire marquée par des choix de l’auteur).<br><br>Pour savoir si un contenu produit avec une IA est une œuvre, on va chercher à savoir quelle est <strong>la part d’effort créatif de l’humain</strong> dans la création. Cela peut être par exemple&nbsp;:&nbsp;</p><ul><li>Un travail de <strong>réécriture </strong>(en modifiant le style, en ajoutant des éléments originaux par exemple). </li><li>Un travail de <strong>retouche</strong> sur le contenu généré, à condition qu’il soit conséquent, en y apportant ses propres idées.</li><li>Un choix de point de vue, une <strong>contrainte stylistique</strong>, une <strong>orientation esthétique </strong>ou <strong>intellectuelle</strong> au sein du prompt. </li></ul>"
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "fcee8b02-ef1a-46f9-b387-22e6bb0295e0",
-                      "type": "text",
-                      "tag": "further-information",
-                      "content": "<p>Pour être protégée par le droit d’auteur, une création doit être <strong>originale</strong>. Cela signifie qu’elle doit <strong>refléter les choix personnels</strong> et la <strong>créativité</strong> de son auteur.</p>"
+                      "content": "<p>Dans le droit européen, une œuvre de l’esprit est une création produite par un <strong>humain</strong> et <strong>originale</strong> (c’est-à-dire marquée par des choix de l’auteur). Seules les créations originales sont protégées par le droit d'auteur.<br><br>Pour savoir si un contenu produit avec une IA est une œuvre, on va chercher à savoir quelle est <strong>la part d’effort créatif de l’humain</strong> dans la création. Cela peut être par exemple&nbsp;:&nbsp;</p><ul><li>Un travail de <strong>réécriture </strong>(en modifiant le style, en ajoutant des éléments originaux par exemple). </li><li>Un travail de <strong>retouche</strong> sur le contenu généré, à condition qu’il soit conséquent, en y apportant ses propres idées.</li><li>Un choix de point de vue, une <strong>contrainte stylistique</strong>, une <strong>orientation esthétique </strong>ou <strong>intellectuelle</strong> au sein du prompt. </li></ul>"
                     }
                   ]
                 },
@@ -414,7 +404,7 @@
                 "id": "15989c5a-f3bb-4db0-b20b-c7c21fffcb5e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Respecter le droit d’auteur est essentiel lors de la création d’un contenu avec un logiciel d’IA. Lorsqu’on diffuse une création, une autre question se pose&nbsp;: faut-il indiquer que cette création (texte, photo, vidéo, etc.) a été réalisée avec l’aide d’une IA ?</p>"
+                "content": "<p>Respecter le droit d’auteur est essentiel lors de la création d’un contenu avec un logiciel d’IA. Lorsqu’on diffuse une création, une autre question se pose&nbsp;: faut-il indiquer que cette création (texte, image, vidéo, etc.) a été réalisée avec l’aide d’une IA ?</p>"
               }
             }
           ]
