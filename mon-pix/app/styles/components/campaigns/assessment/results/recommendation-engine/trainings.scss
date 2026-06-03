@@ -20,7 +20,7 @@
     display: flex;
     gap: var(--pix-spacing-8x);
     margin-top: var(--pix-spacing-4x);
-    padding : 3px 5px 7px;
+    padding: 3px 5px 7px;
     overflow-y: auto;
     scrollbar-width: none;
     scroll-behavior: smooth;
@@ -28,28 +28,28 @@
 }
 
 .results-recommendation-engine-training-card {
-    @extend %pix-shadow-default;
+  @extend %pix-shadow-default;
 
-    display: flex;
-    flex-direction: column;
-    gap: var(--pix-spacing-4x);
-    justify-content: space-between;
-    width: 329px;
-    height: 315px;
-    padding: var(--pix-spacing-3x);
-    padding-bottom: var(--pix-spacing-6x);
-    background-color: var(--pix-neutral-0);
-    border-radius: 16px 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+  justify-content: space-between;
+  width: 329px;
+  height: 315px;
+  padding: var(--pix-spacing-3x);
+  padding-bottom: var(--pix-spacing-6x);
+  background-color: var(--pix-neutral-0);
+  border-radius: 16px 0 16px 16px;
 
   @include breakpoints.device-is('mobile') {
     min-width: 280px;
   }
 
-    &__tag {
-      @extend %pix-body-xs;
+  &__tag {
+    @extend %pix-body-xs;
 
-      width: fit-content;
-    }
+    width: fit-content;
+  }
 
   &__tag-icon {
     width: 1rem;
@@ -218,6 +218,13 @@
     gap: var(--pix-spacing-2x);
     align-items: center;
 
+    .selected {
+      color: var(--pix-neutral-0);
+      background-color: var(--pix-neutral-800);
+      outline: 1px solid var(--pix-neutral-0);
+      outline-offset: -3px;
+    }
+
     legend {
       @extend %pix-body-m;
 
@@ -228,6 +235,7 @@
   &__action-buttons {
     display: flex;
     gap: var(--pix-spacing-2x);
+    align-items: center;
     justify-content: flex-end;
 
     @include breakpoints.device-is('mobile') {

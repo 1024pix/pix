@@ -1,7 +1,8 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { currentURL } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -63,6 +64,55 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
 
       // then
       assert.dom('.evaluation-results:not(.evaluation-results-recommendation-engine)').doesNotExist();
+    });
+
+    module('when campaign has trainings', function (hooks) {
+      hooks.beforeEach(function () {
+        server.create('training', {
+          campaignParticipation,
+          title: 'Formation test',
+          link: 'https://example.net/',
+          type: 'webinaire',
+          duration: { hours: 2, days: 1, minutes: 0 },
+          deliveryMode: 'remote',
+          editorName: 'Éditeur test',
+          editorLogoUrl: 'https://example.net/logo.svg',
+          objectives: ['Objectif 1'],
+          program: 'Programme test',
+          description: 'Description test',
+          registrationRequired: false,
+          isRelevant: null,
+        });
+      });
+
+      test('in the card modal, saves the user feedback when thumb is clicked', async function (assert) {
+        // given
+        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+        const trainingCardButton = screen.getByRole('button', {
+          name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
+        });
+        await click(trainingCardButton);
+        const modal = await screen.findByRole('dialog');
+
+        // when
+        const thumbsUpButton = within(modal).getByRole('button', { name: t('common.yes') });
+        const thumbsDownButton = within(modal).getByRole('button', { name: t('common.no') });
+        assert.dom(thumbsUpButton).doesNotHaveClass('selected');
+        assert.dom(thumbsDownButton).doesNotHaveClass('selected');
+
+        // then
+        await click(thumbsDownButton);
+        assert.dom(thumbsUpButton).doesNotHaveClass('selected');
+        assert.dom(thumbsDownButton).hasClass('selected');
+
+        const actionButtons = within(modal).getByRole('list');
+        await click(within(actionButtons).getByRole('button', { name: t('common.actions.close') }));
+        await click(trainingCardButton);
+
+        const reopenedModal = await screen.findByRole('dialog');
+        assert.dom(within(reopenedModal).getByRole('button', { name: t('common.yes') })).doesNotHaveClass('selected');
+        assert.dom(within(reopenedModal).getByRole('button', { name: t('common.no') })).hasClass('selected');
+      });
     });
 
     module('when device is mobile', function () {

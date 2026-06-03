@@ -19,6 +19,19 @@ export default class CardModal extends Component {
 
   @tracked isTrainingRecommendationRelevant = null;
 
+  constructor(...args) {
+    super(...args);
+    this.isTrainingRecommendationRelevant = this.args.training.isRelevant ?? null;
+  }
+
+  get isPositiveFeedback() {
+    return this.isTrainingRecommendationRelevant === true;
+  }
+
+  get isNegativeFeedback() {
+    return this.isTrainingRecommendationRelevant === false;
+  }
+
   @action
   async submitFeedback(feedbackResponse) {
     this.isTrainingRecommendationRelevant = feedbackResponse;
@@ -106,12 +119,14 @@ export default class CardModal extends Component {
                 @iconName="thumbUp"
                 @triggerAction={{fn this.submitFeedback true}}
                 @size="small"
+                class={{if this.isPositiveFeedback "selected"}}
               />
               <PixIconButton
                 @ariaLabel={{t "common.no"}}
                 @iconName="dislike"
                 @triggerAction={{fn this.submitFeedback false}}
                 @size="small"
+                class={{if this.isNegativeFeedback "selected"}}
               />
             </fieldset>
           </form>

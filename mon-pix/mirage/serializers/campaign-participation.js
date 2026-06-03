@@ -8,6 +8,9 @@ export default ApplicationSerializer.extend({
       assessment: {
         related: `/api/assessments/${campaignParticipation.assessmentId}`,
       },
+      trainings: {
+        related: `/api/campaign-participations/${campaignParticipation.id}/trainings`,
+      },
     };
   },
 });

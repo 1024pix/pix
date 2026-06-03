@@ -1,5 +1,6 @@
 import getCampaignParticipationTrainings from './get-campaign-participation-trainings';
 import postCampaignParticipation from './post-campaign-participation';
+import saveTrainingRelevance from './save-training-relevance';
 import shareCampaignParticipation from './share-campaign-participation';
 
 export default function index(config) {
@@ -8,4 +9,6 @@ export default function index(config) {
   config.patch('/campaign-participations/:id', shareCampaignParticipation);
 
   config.get('/campaign-participations/:id/trainings', getCampaignParticipationTrainings);
+
+  config.patch('/campaign-participations/:id/trainings/:trainingId', saveTrainingRelevance);
 }
