@@ -788,7 +788,7 @@
       "buttons": {
         "continuous": {
           "aria-label": "Doorgaan naar het volgende scherm",
-          "label": "Ga verder met",
+          "label": "Ga verder",
           "last-page": {
             "aria-label": "Ga door naar de invoerpagina voor certificaten"
           }
@@ -900,7 +900,7 @@
       "first-title": "Deelnemen aan een sessie",
       "form": {
         "actions": {
-          "submit": "Ga verder met"
+          "submit": "Ga verder"
         },
         "fields": {
           "birth-date": "Geboortedatum",
@@ -1008,7 +1008,7 @@
     },
     "challenge": {
       "actions": {
-        "continue": "Ga verder naar",
+        "continue": "Ga verder",
         "continue-go-to-next": "Ik ga door naar de volgende vraag",
         "skip": "Overslaan",
         "skip-go-to-next": "Ik ga door naar de volgende vraag",
@@ -1245,7 +1245,7 @@
     "checkpoint": {
       "actions": {
         "next-page": {
-          "continue": "Ga verder met",
+          "continue": "Ga verder",
           "results": "Zie mijn resultaten"
         }
       },
@@ -1456,7 +1456,7 @@
     "dashboard": {
       "campaigns": {
         "resume": {
-          "action": "Ga verder met",
+          "action": "Ga verder",
           "text": "<h2>Vergeet niet het indienen van je profiel te voltooien!</h2>"
         },
         "subtitle": "Ga door met uw huidige tests of stuur uw resultaten op",
@@ -1534,7 +1534,7 @@
       "label": "Voer je code in om te beginnen.",
       "mediacentre-start-campaign-modal": {
         "actions": {
-          "continue": "Ga verder met",
+          "continue": "Ga verder",
           "quit": "Terug"
         },
         "message": "Om toegang te krijgen tot de cursus :",
@@ -1565,7 +1565,7 @@
       "announcement": "De organisator heeft de volgende informatie nodig om je te kunnen begeleiden:",
       "buttons": {
         "cancel": "Annuleer",
-        "continue": "Ga verder met"
+        "continue": "Ga verder"
       },
       "errors": {
         "invalid-external-id": "{ externalIdLabel } De jouwe is ongeldig.",
@@ -1674,7 +1674,7 @@
           "start": "Start"
         },
         "grain": {
-          "continue": "Ga verder met",
+          "continue": "Ga verder",
           "skip": "Overslaan",
           "skipActivity": "Overslaan activiteit",
           "terminate": "Afwerking"
@@ -1917,7 +1917,7 @@
     },
     "oidc-reconciliation": {
       "authentication-method-to-add": "Verbinding toegevoegd :",
-      "confirm": "Ga verder met",
+      "confirm": "Ga verder",
       "current-authentication-methods": "Mijn huidige verbindingsmethoden:",
       "email": "E-mailadres",
       "external-connection": "Externe aansluiting",
@@ -1991,7 +1991,7 @@
           "share": "Deel de resultaten van je reis"
         },
         "actions": {
-          "continue": "Ga verder met",
+          "continue": "Ga verder",
           "resume": "Verder gaan"
         },
         "reminder-continue-campaign": "Je hebt je cursus niet afgerond",
@@ -2375,7 +2375,7 @@
       "next-title": "Volgende stap tonen",
       "pages": {
         "page0": {
-          "explanation": "Als je het antwoord niet weet, vind je het vast wel op\n.",
+          "explanation": "Als je het antwoord niet weet, vind je het vast wel op internet\n.",
           "title": "Je kunt op internet zoeken ..."
         },
         "page1": {
