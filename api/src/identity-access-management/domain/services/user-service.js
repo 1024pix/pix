@@ -11,7 +11,7 @@ import { UserToCreate } from '../models/UserToCreate.js';
  * @param authenticationMethodRepository
  * @return {Promise<*>}
  */
-async function createUserWithPassword({
+export async function createUserWithPassword({
   user,
   locale,
   hashedPassword,
@@ -41,7 +41,7 @@ async function createUserWithPassword({
  * @param userRepository
  * @return {Promise<*|Promise<unknown>>}
  */
-async function updateUsernameAndAddPassword({
+export async function updateUsernameAndAddPassword({
   userId,
   username,
   hashedPassword,
@@ -68,7 +68,7 @@ async function updateUsernameAndAddPassword({
  * @param userToCreateRepository
  * @return {Promise<*|Promise<unknown>>}
  */
-async function createAndReconcileUserToOrganizationLearner({
+export async function createAndReconcileUserToOrganizationLearner({
   hashedPassword,
   samlId,
   organizationLearnerId,
@@ -111,15 +111,6 @@ async function createAndReconcileUserToOrganizationLearner({
     return createdUser.id;
   });
 }
-
-/**
- * @typedef {Object} UserService
- * @property {function} createAndReconcileUserToOrganizationLearner
- * @property {function} createUserWithPassword
- * @property {function} updateUsernameAndAddPassword
- */
-
-export { createAndReconcileUserToOrganizationLearner, createUserWithPassword, updateUsernameAndAddPassword };
 
 /**
  * @param userId
