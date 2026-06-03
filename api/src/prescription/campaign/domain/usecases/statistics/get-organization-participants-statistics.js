@@ -3,7 +3,7 @@
  * @param {Object} params
  * @param {Number} params.organizationId
  * @param {CampaignParticipationsStatsRepository} params.campaignParticipationsStatsRepository
- * @returns {Promise<{totalParticipantsCount: Number}>}
+ * @returns {Promise<{totalParticipantsCount: Number, totalParticipantsCountByYear: Array<{year: Number, count: Number}> | []}>}
  */
 
 const getOrganizationParticipantsStatistics = async function ({
@@ -12,7 +12,11 @@ const getOrganizationParticipantsStatistics = async function ({
 }) {
   const totalParticipantsCount =
     await campaignParticipationsStatsRepository.countParticipantsByOrganizationId(organizationId);
-  return { totalParticipantsCount };
+
+  const totalParticipantsCountByYear =
+    await campaignParticipationsStatsRepository.countParticipantsByOrganizationIdGroupedByYear(organizationId);
+
+  return { totalParticipantsCount, totalParticipantsCountByYear };
 };
 
 export { getOrganizationParticipantsStatistics };
