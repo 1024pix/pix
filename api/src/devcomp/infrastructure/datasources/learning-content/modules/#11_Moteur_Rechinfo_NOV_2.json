@@ -740,13 +740,13 @@
                 "id": "12fd500d-89e0-4a9d-8d4f-aa8df8a48c6c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous cherchez des avis de personnes qui ont lu <em>Les Misérables</em> de Victor Hugo. Vous utilisez un moteur de recherche avec les mots-clés suivants&nbsp;: «&nbsp;avis les misérables&nbsp;».</p><p>Voici une liste de résultats obtenus.</p>"
+                "content": "<p>Vous cherchez des avis de personnes qui ont lu <em>Les Misérables</em> de Victor Hugo. Vous utilisez un moteur de recherche avec les mots-clés suivants&nbsp;: <strong>«&nbsp;avis les misérables&nbsp;»</strong>.</p><p>Voici une liste de résultats obtenus.</p>"
               }
             },
             {
               "type": "element",
               "element": {
-                "id": "c6aef7b8-d2dc-4404-9b71-cafcaebee1b7",
+                "id": "afd50f1a-062d-4c83-a95b-e7dd152c9b25",
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/11_Moteur_Rechinfo_NOV_2/image-rechnov2.png",
                 "alt": "",
@@ -786,7 +786,7 @@
                   },
                   {
                     "id": "3",
-                    "content": "<p>Aucun de ces résultats ne vous convient vraiment. Vous changez vos mots clés, par exemple avec «&nbsp;avis lecteurs les misérables Victor Hugo&nbsp;».</p>",
+                    "content": "<p>Aucun de ces résultats ne vous convient vraiment. Vous changez vos mots clés pour avoir de meilleurs résultats.</p>",
                     "feedback": {
                       "diagnosis": "<p>C’est une bonne stratégie si les résultats ne correspondent pas assez à votre besoin.</p><p>Changer ou préciser ses mots-clés permet souvent d’obtenir des résultats plus adaptés.</p>"
                     }
