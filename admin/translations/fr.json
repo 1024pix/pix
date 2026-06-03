@@ -678,14 +678,15 @@
           "addItemError": "Oups. Une erreur est survenue lors de l'ajout de la ressource.",
           "error": "Oups. Une erreur est survenue lors de la création du schéma de parcours.",
           "moduleNotFound": "Il n'existe pas de module avec l'identifiant saisi",
-          "success": "Création du schéma de parcours réussi !",
+          "success": "Création du schéma de parcours réussie !",
           "targetProfileNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi"
         },
         "title": "Créer un schéma de parcours"
       },
       "items": {
         "module": "Module",
-        "targetProfile": "Profil Cible"
+        "targetProfile": "Profil Cible",
+        "title": "Contenu du parcours"
       },
       "labels": {
         "attestation": "Attestation",
@@ -717,6 +718,14 @@
       },
       "survey-link": {
         "not-provided": "Aucun questionnaire paramétré"
+      },
+      "update": {
+        "notifications": {
+          "error": "Oups. Une erreur est survenue lors de la mise à jour du schéma de parcours.",
+          "success": "Mise à jour du schéma de parcours réussie !"
+        },
+        "title": "Mettre à jour un schéma de parcours",
+        "updateButton": "Mettre à jour le schéma de parcours"
       }
     },
     "layout": {

@@ -192,6 +192,7 @@ Router.map(function () {
       this.route('combined-course-blueprint', { path: '/:combined_course_blueprint_id' }, function () {
         this.route('organizations');
       });
+      this.route('edit', { path: '/:combined_course_blueprint_id/edit' });
     });
 
     this.route('announcements', function () {

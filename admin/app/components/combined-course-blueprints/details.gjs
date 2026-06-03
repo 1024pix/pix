@@ -1,4 +1,5 @@
 import PixBreadcrumb from '@1024pix/pix-ui/components/pix-breadcrumb';
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
@@ -75,6 +76,16 @@ export default class Details extends Component {
               {{/if}}
 
             </DescriptionList>
+            <PixButtonLink
+              @route="authenticated.combined-course-blueprints.edit"
+              @model={{@model.id}}
+              @size="small"
+              @variant="primary"
+              class="combined-course-blueprint__button"
+            >
+              {{t "common.actions.edit"}}
+            </PixButtonLink>
+            <h2 class="page-section__title">{{t "components.combined-course-blueprints.items.title"}}</h2>
             <div class="combined-course-blueprint__content">
               {{#each @model.content as |requirement|}}
                 <RequirementTag @requirement={{requirement}} />

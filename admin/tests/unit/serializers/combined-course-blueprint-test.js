@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 module('Unit | Serializer | combined-course-blueprint', function (hooks) {
   setupTest(hooks);
 
-  test('it serializes records', function (assert) {
+  test('it serializes records for creation', function (assert) {
     const store = this.owner.lookup('service:store');
     const record = store.createRecord('combined-course-blueprint', {
       name: 'parcours',
@@ -49,5 +49,39 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       },
       serializedRecord,
     );
+  });
+  test('it serializes records for update', function (assert) {
+    const store = this.owner.lookup('service:store');
+    const record = store.createRecord('combined-course-blueprint', {
+      id: '1',
+      name: 'parcours',
+      internalName: 'Nom interne',
+      content: [
+        {
+          type: 'evaluation',
+          value: 1,
+          label: 'Profil cilble 1',
+        },
+      ],
+      attestationLabel: 'Label attestation',
+      rewardId: 5,
+      rewardType: 'ATTESTATION',
+      surveyLink: 'http://survey-link-test.fr',
+    });
+
+    const serializedRecord = record.serialize();
+
+    assert.deepEqual(serializedRecord, {
+      data: {
+        type: 'combined-course-blueprints',
+        attributes: {
+          name: 'parcours',
+          'internal-name': 'Nom interne',
+          illustration: null,
+          description: null,
+          'survey-link': 'http://survey-link-test.fr',
+        },
+      },
+    });
   });
 });

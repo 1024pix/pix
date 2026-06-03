@@ -677,11 +677,12 @@
       },
       "items": {
         "module": "Module",
-        "targetProfile": "Target profile"
+        "targetProfile": "Target profile",
+        "title": "Course content"
       },
       "labels": {
         "attestation": "Attestation",
-        "created-at": "Date de création",
+        "created-at": "Creation date",
         "description": " Description",
         "illustration": "Illustration",
         "internal-name": "Internal name",
@@ -709,6 +710,14 @@
       },
       "survey-link": {
         "not-provided": "No survey link has been defined"
+      },
+      "update": {
+        "notifications": {
+          "error": "Oops. Something went wrong. Please try again.",
+          "success": "Combined course blueprint updated successfully!"
+        },
+        "title": "Update a combined course blueprint",
+        "updateButton": "Update combined course blueprint"
       }
     },
     "layout": {

@@ -68,6 +68,7 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     assert.strictEqual(screen.getAllByRole('row').length, 2);
     assert.ok(screen.getByRole('cell', { name: /internalName/ }));
   });
+
   test('it should unload record when the user does not submit the data', async function (assert) {
     //given
     const screen = await visit('/combined-course-blueprints/new');

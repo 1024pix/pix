@@ -16,7 +16,7 @@ import PixFieldset from 'pix-admin/components/ui/pix-fieldset';
 import RequirementTag from '../common/combined-courses/requirement-tag';
 import SelectAttestation from './select-attestation';
 
-export default class CombineCourseBluePrintForm extends Component {
+export default class CombinedCourseBlueprintForm extends Component {
   @service pixToast;
   @service store;
   @service intl;
@@ -27,7 +27,7 @@ export default class CombineCourseBluePrintForm extends Component {
 
   constructor() {
     super(...arguments);
-    this.blueprint = this.store.createRecord('combined-course-blueprint');
+    this.blueprint = this.args.model ?? this.store.createRecord('combined-course-blueprint');
     this.router.on('routeWillChange', () => {
       if (this.blueprint.hasDirtyAttributes && !this.blueprint.isSaving) {
         this.blueprint.unloadRecord();
@@ -95,13 +95,17 @@ export default class CombineCourseBluePrintForm extends Component {
     try {
       await this.blueprint.save();
       this.pixToast.sendSuccessNotification({
-        message: this.intl.t('components.combined-course-blueprints.create.notifications.success'),
+        message: this.args.updateMode
+          ? this.intl.t('components.combined-course-blueprints.update.notifications.success')
+          : this.intl.t('components.combined-course-blueprints.create.notifications.success'),
       });
       this.router.transitionTo('authenticated.combined-course-blueprints.list');
     } catch (responseError) {
       if (!responseError.errors) {
         return this.pixToast.sendErrorNotification({
-          message: this.intl.t('components.combined-course-blueprints.create.notifications.error'),
+          message: this.args.updateMode
+            ? this.intl.t('components.combined-course-blueprints.update.notifications.error')
+            : this.intl.t('components.combined-course-blueprints.create.notifications.error'),
         });
       }
       return responseError.errors
@@ -148,57 +152,64 @@ export default class CombineCourseBluePrintForm extends Component {
     <PixBlock @variant="admin" class="combined-course-page">
 
       <form class="combined-course-page__form">
-        <h1 class="combined-course-page__title"> {{t "components.combined-course-blueprints.create.title"}}</h1>
+        <h1 class="combined-course-page__title">
+          {{if
+            @updateMode
+            (t "components.combined-course-blueprints.update.title")
+            (t "components.combined-course-blueprints.create.title")
+          }}</h1>
 
-        <PixFieldset>
-          <:title>
-            {{t "components.combined-course-blueprints.create.fieldsetElement"}}
-          </:title>
-          <:content>
-            <div class="combined-course-page__fieldset">
-              <PixRadioButton
-                name="itemType"
-                @value="targetProfile"
-                checked={{if (eq this.itemType "targetProfile") "checked"}}
-                {{on "change" this.setItemType}}
-              >
-                <:label>{{t "components.combined-course-blueprints.labels.target-profile"}}</:label>
-              </PixRadioButton>
-              <PixRadioButton
-                name="itemType"
-                checked={{if (eq this.itemType "module") "checked"}}
-                @value="module"
-                {{on "change" this.setItemType}}
-              >
-                <:label>{{t "components.combined-course-blueprints.labels.module"}}</:label>
-              </PixRadioButton>
-            </div>
-          </:content>
-        </PixFieldset>
+        {{#unless @updateMode}}
+          <PixFieldset>
+            <:title>
+              {{t "components.combined-course-blueprints.create.fieldsetElement"}}
+            </:title>
+            <:content>
+              <div class="combined-course-page__fieldset">
+                <PixRadioButton
+                  name="itemType"
+                  @value="targetProfile"
+                  checked={{if (eq this.itemType "targetProfile") "checked"}}
+                  {{on "change" this.setItemType}}
+                >
+                  <:label>{{t "components.combined-course-blueprints.labels.target-profile"}}</:label>
+                </PixRadioButton>
+                <PixRadioButton
+                  name="itemType"
+                  checked={{if (eq this.itemType "module") "checked"}}
+                  @value="module"
+                  {{on "change" this.setItemType}}
+                >
+                  <:label>{{t "components.combined-course-blueprints.labels.module"}}</:label>
+                </PixRadioButton>
+              </div>
+            </:content>
+          </PixFieldset>
 
-        <div class="combined-course-page__form-addItem">
-          <PixInput
-            @id="itemId"
-            @value={{this.itemValue}}
-            @requiredLabel="Champ obligatoire"
-            {{on "change" this.setItemValue}}
-            {{on "keyup" this.handleKeyPress}}
-            class="combined-course-page__input"
-          >
-            <:label>
-              {{t "components.combined-course-blueprints.labels.itemId"}}
-            </:label>
-          </PixInput>
+          <div class="combined-course-page__form-addItem">
+            <PixInput
+              @id="itemId"
+              @value={{this.itemValue}}
+              @requiredLabel="Champ obligatoire"
+              {{on "change" this.setItemValue}}
+              {{on "keyup" this.handleKeyPress}}
+              class="combined-course-page__input"
+            >
+              <:label>
+                {{t "components.combined-course-blueprints.labels.itemId"}}
+              </:label>
+            </PixInput>
 
-          <PixButton @triggerAction={{this.addItem}} class="combined-course-page__button">{{t
-              "components.combined-course-blueprints.create.addItemButton"
-            }}</PixButton>
-        </div>
-        <hr class="combined-course-page__separator" />
+            <PixButton @triggerAction={{this.addItem}} class="combined-course-page__button">{{t
+                "components.combined-course-blueprints.create.addItemButton"
+              }}</PixButton>
+          </div>
+          <hr class="combined-course-page__separator" />
+        {{/unless}}
 
         <PixInput
           @id="internalName"
-          @value={{this.internalName}}
+          @value={{this.blueprint.internalName}}
           @requiredLabel="Champ obligatoire"
           {{on "change" (fn this.setData "internalName")}}
           class="combined-course-page__input"
@@ -210,7 +221,7 @@ export default class CombineCourseBluePrintForm extends Component {
 
         <PixInput
           @id="name"
-          @value={{this.name}}
+          @value={{this.blueprint.name}}
           @requiredLabel="Champ obligatoire"
           {{on "change" (fn this.setData "name")}}
           class="combined-course-page__input"
@@ -222,7 +233,7 @@ export default class CombineCourseBluePrintForm extends Component {
 
         <PixInput
           @id="illustration"
-          @value={{this.illustration}}
+          @value={{this.blueprint.illustration}}
           {{on "change" (fn this.setData "illustration")}}
           class="combined-course-page__input"
         >
@@ -234,7 +245,7 @@ export default class CombineCourseBluePrintForm extends Component {
 
         <PixTextarea
           @id="description"
-          @value={{this.description}}
+          @value={{this.blueprint.description}}
           {{on "change" (fn this.setData "description")}}
           class="combined-course-page__input"
           rows="10"
@@ -245,15 +256,17 @@ export default class CombineCourseBluePrintForm extends Component {
           </:label>
         </PixTextarea>
 
-        <SelectAttestation
-          @attestations={{@attestations}}
-          @value={{this.blueprint.rewardId}}
-          @onChange={{this.setAttestation}}
-        />
+        {{#unless @updateMode}}
+          <SelectAttestation
+            @attestations={{@attestations}}
+            @value={{this.blueprint.rewardId}}
+            @onChange={{this.setAttestation}}
+          />
+        {{/unless}}
 
         <PixInput
           @id="surveyLink"
-          @value={{this.surveyLink}}
+          @value={{this.blueprint.surveyLink}}
           {{on "change" (fn this.setData "surveyLink")}}
           class="combined-course-page__input"
           rows="10"
@@ -272,7 +285,7 @@ export default class CombineCourseBluePrintForm extends Component {
           <ul class="combined-course-page__list">
             {{#each this.blueprint.content as |item|}}
               <li>
-                <RequirementTag @requirement={{item}} @onRemove={{this.removeRequirement}} />
+                <RequirementTag @requirement={{item}} @onRemove={{unless @updateMode this.removeRequirement}} />
               </li>
             {{/each}}
           </ul>
@@ -280,8 +293,10 @@ export default class CombineCourseBluePrintForm extends Component {
           <p> {{t "components.combined-course-blueprints.create.contentFeedback"}}</p>
         {{/if}}
 
-        <PixButton class="combined-course-page__button" @triggerAction={{this.save}} @variant="success">{{t
-            "components.combined-course-blueprints.create.createButton"
+        <PixButton class="combined-course-page__button" @triggerAction={{this.save}} @variant="success">{{if
+            @updateMode
+            (t "components.combined-course-blueprints.update.updateButton")
+            (t "components.combined-course-blueprints.create.createButton")
           }}</PixButton>
       </div>
     </PixBlock>

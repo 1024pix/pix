@@ -762,6 +762,7 @@ export default function routes() {
     '/admin/combined-course-blueprints/:combinedCourseBlueprintId/organizations',
     attachCombinedCourseBlueprintToOrganizations,
   );
+  this.patch('/admin/combined-course-blueprints/:id');
 
   this.get('/admin/modules-metadata', () => {
     return {

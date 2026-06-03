@@ -31,4 +31,8 @@
   &__breadcrumb {
     margin-bottom: var(--pix-spacing-8x);
   }
+
+  &__button {
+    width: fit-content;
+  }
 }
