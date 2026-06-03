@@ -6,6 +6,7 @@ import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -14,12 +15,20 @@ import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
 import RegistrationCardTag from './registration-card-tag';
 
 export default class CardModal extends Component {
+  @service store;
+
   @tracked isTrainingRecommendationRelevant = null;
 
   @action
-  submitFeedback(feedbackResponse) {
+  async submitFeedback(feedbackResponse) {
     this.isTrainingRecommendationRelevant = feedbackResponse;
-    //TODO call API to submit feedback
+    const campaignParticipationId = this.args.training.belongsTo('campaignParticipation').id();
+    const adapter = this.store.adapterFor('training');
+    await adapter.updateRelevance({
+      campaignParticipationId,
+      trainingId: this.args.training.id,
+      isRelevant: feedbackResponse,
+    });
   }
 
   <template>

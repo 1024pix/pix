@@ -9,4 +9,17 @@ export default class Training extends ApplicationAdapter {
     }
     return super.urlForQuery(query, ...args);
   }
+
+  updateRelevance({ campaignParticipationId, trainingId, isRelevant }) {
+    const url = `${this.host}/${this.namespace}/campaign-participations/${campaignParticipationId}/trainings/${trainingId}`;
+    return this.ajax(url, 'PATCH', {
+      data: {
+        data: {
+          attributes: {
+            'is-relevant': isRelevant,
+          },
+        },
+      },
+    });
+  }
 }

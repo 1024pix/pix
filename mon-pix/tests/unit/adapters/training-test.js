@@ -37,4 +37,33 @@ module('Unit | Adapters | Training', function (hooks) {
       assert.true(url.endsWith('/api/trainings'));
     });
   });
+
+  module('#updateRelevance', function (hooks) {
+    let adapter;
+
+    hooks.beforeEach(function () {
+      adapter = this.owner.lookup('adapter:training');
+      adapter.ajax = sinon.stub().resolves();
+    });
+
+    test('should call PATCH on the correct url with the right payload', async function (assert) {
+      // given
+      const campaignParticipationId = 1;
+      const trainingId = 2;
+
+      // when
+      await adapter.updateRelevance({
+        campaignParticipationId,
+        trainingId,
+        isRelevant: true,
+      });
+
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(sinon.match('/api/campaign-participations/1/trainings/2'), 'PATCH', {
+          data: { data: { attributes: { 'is-relevant': true } } },
+        }),
+      );
+    });
+  });
 });
