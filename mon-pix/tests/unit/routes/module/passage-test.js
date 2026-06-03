@@ -116,7 +116,7 @@ module('Unit | Route | modules | passage', function (hooks) {
   });
 
   module('#redirect', function () {
-    test('should call replaceWith function with the right arguments', async function (assert) {
+    test('should call transitionTo function with the right arguments', async function (assert) {
       // given
       const module = {
         shortId: 'shortId',
