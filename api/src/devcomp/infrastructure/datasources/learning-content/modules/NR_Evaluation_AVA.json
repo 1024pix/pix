@@ -411,7 +411,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>6 kW, soit environ 100 fois plus qu’un PC actuel.</p>",
+                          "content": "<p>6&nbsp;kW, soit environ 100 fois plus qu’un PC actuel.</p>",
                           "feedback": {
                             "diagnosis": "<p>Eh non !</p><p>Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p><p>Impressionnant, non ?</p>"
                           }
