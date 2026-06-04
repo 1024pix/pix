@@ -49,6 +49,9 @@ export default class OrganizationNetworkComponent extends Component {
             { childOrganizationId },
           );
           break;
+        case 'INVALID_CHILD_ORGANIZATION_IDS':
+          message = this.intl.t('components.organizations.network.attach-child-form.invalid-ids-error');
+          break;
         default:
           message = this.intl.t('common.notifications.generic-error');
       }

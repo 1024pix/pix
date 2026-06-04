@@ -1,6 +1,6 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import Network from 'pix-admin/components/organizations/network';
 import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
@@ -140,6 +140,12 @@ module('Integration | Component | organizations/network', function (hooks) {
 
           const screen = await render(<template><Network @organization={{parentOrganization}} /></template>);
 
+          const input = screen.getByLabelText(t('components.organizations.network.attach-child-form.input-label'), {
+            exact: false,
+          });
+
+          await fillIn(input, 1);
+
           // when
           await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
@@ -178,6 +184,11 @@ module('Integration | Component | organizations/network', function (hooks) {
           });
 
           const screen = await render(<template><Network @organization={{parentOrganization}} /></template>);
+          const input = screen.getByLabelText(t('components.organizations.network.attach-child-form.input-label'), {
+            exact: false,
+          });
+
+          await fillIn(input, alreadyAttachedChildOrganizationId);
 
           // when
           await click(screen.getByRole('button', { name: t('common.actions.add') }));
@@ -189,6 +200,40 @@ module('Integration | Component | organizations/network', function (hooks) {
                 'pages.organization-network.notifications.error.unable-to-attach-already-attached-child-organization',
                 { childOrganizationId: `${alreadyAttachedChildOrganizationId}` },
               ),
+            }),
+          );
+        });
+
+        test('it should display correct error notification for INVALID_CHILD_ORGANIZATION_IDS error code', async function (assert) {
+          // given
+          const parentOrganization = store.createRecord('organization', {
+            id: 1,
+            name: 'Parent Organization Name',
+            features: { PLACES_MANAGEMENT: { active: true } },
+            network,
+            hasMany: sinon.stub(),
+          });
+
+          const adapter = store.adapterFor('organization');
+          const attachChildOrganizationStub = sinon.stub(adapter, 'attachChildOrganization');
+          attachChildOrganizationStub.rejects({
+            errors: [{ code: 'INVALID_CHILD_ORGANIZATION_IDS' }],
+          });
+
+          const screen = await render(<template><Network @organization={{parentOrganization}} /></template>);
+          const input = screen.getByLabelText(t('components.organizations.network.attach-child-form.input-label'), {
+            exact: false,
+          });
+
+          await fillIn(input, 1847474);
+
+          // when
+          await click(screen.getByRole('button', { name: t('common.actions.add') }));
+
+          // then
+          assert.true(
+            notificationErrorStub.calledOnceWithExactly({
+              message: t('components.organizations.network.attach-child-form.invalid-ids-error'),
             }),
           );
         });
@@ -214,6 +259,11 @@ module('Integration | Component | organizations/network', function (hooks) {
           });
 
           const screen = await render(<template><Network @organization={{parentOrganization}} /></template>);
+          const input = screen.getByLabelText(t('components.organizations.network.attach-child-form.input-label'), {
+            exact: false,
+          });
+
+          await fillIn(input, 1);
 
           // when
           await click(screen.getByRole('button', { name: t('common.actions.add') }));
