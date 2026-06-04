@@ -205,6 +205,32 @@ describe('Integration | Repository | user-recommended-training-repository', func
       );
     });
 
+    it('should not return recommended training for disabled training', async function () {
+      // given
+      const { id: campaignParticipationId, userId } = databaseBuilder.factory.buildCampaignParticipation();
+      const training = databaseBuilder.factory.buildTraining({ isDisabled: true });
+      const userRecommendedTraining1 = {
+        userId,
+        trainingId: training.id,
+        campaignParticipationId,
+        isRelevant: true,
+      };
+
+      databaseBuilder.factory.buildUserRecommendedTraining(userRecommendedTraining1);
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userRecommendedTrainingRepository.findByCampaignParticipationIdAndTrainingIdAndUserId({
+        campaignParticipationId,
+        trainingId: training.id,
+        userId,
+      });
+
+      // then
+      expect(result).to.be.null;
+    });
+
     describe('when recommended training does not exist for given campaignParticipationId, trainingId and userId', function () {
       it('should return null', async function () {
         // given
