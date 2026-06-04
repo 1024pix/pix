@@ -3,7 +3,7 @@ import { CandidateEnrolledEvent } from '../../domain/models/events/CandidateEnro
 import * as eventRepository from '../../infrastructure/repositories/event-repository.js';
 
 /**
- * @typedef {Object} CandidateEnrolledParams
+ * @typedef {Object} DtoCandidate
  * @property {number} id
  * @property {string} firstName
  * @property {string} lastName
@@ -29,29 +29,29 @@ import * as eventRepository from '../../infrastructure/repositories/event-reposi
 /**
  * @function
  * @name pushCandidateEnrolledEvent
- * @param {CandidateEnrolledParams} candidateParams
+ * @param {DtoCandidate} dtoCandidate
  * @returns {Promise<void>}
  */
-export async function pushCandidateEnrolledEvent(candidateParams) {
-  await _pushCandidateEnrolledEvents([candidateParams]);
+export async function pushCandidateEnrolledEvent(dtoCandidate) {
+  await _pushCandidateEnrolledEvents([dtoCandidate]);
 }
 
 /**
  * @function
  * @name pushCandidateEnrolledEvent
- * @param {CandidateEnrolledParams[]} manyCandidatesParams
+ * @param {DtoCAndidate[]} dtoCandidates
  * @returns {Promise<void>}
  */
-export async function pushMultipleCandidatesEnrolledEvent(manyCandidatesParams) {
-  await _pushCandidateEnrolledEvents(manyCandidatesParams);
+export async function pushMultipleCandidatesEnrolledEvent(dtoCandidates) {
+  await _pushCandidateEnrolledEvents(dtoCandidates);
 }
 
-async function _pushCandidateEnrolledEvents(candidateEnrolledParamsArray) {
+async function _pushCandidateEnrolledEvents(dtoEnrolledCandidates) {
   const events = [];
-  for (const candidateEnrolledParams of candidateEnrolledParamsArray) {
+  for (const dtoEnrolledCandidate of dtoEnrolledCandidates) {
     const event = new CandidateEnrolledEvent({
-      candidateId: candidateEnrolledParams.id,
-      metadata: candidateEnrolledParams,
+      candidateId: dtoEnrolledCandidate.id,
+      metadata: dtoEnrolledCandidate,
     });
     events.push(event);
   }
