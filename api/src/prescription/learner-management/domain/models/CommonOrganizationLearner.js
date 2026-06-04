@@ -31,5 +31,16 @@ class CommonOrganizationLearner {
     }
     this.userId = userId;
   }
+  isEqual(learner) {
+    const hasSameAttribute = Object.keys(learner.attributes).every(
+      (key) => learner.attributes[key] === this.attributes[key],
+    );
+    return (
+      this.lastName === learner.lastName &&
+      this.firstName === learner.firstName &&
+      this.organizationId === learner.organizationId &&
+      hasSameAttribute
+    );
+  }
 }
 export { CommonOrganizationLearner };

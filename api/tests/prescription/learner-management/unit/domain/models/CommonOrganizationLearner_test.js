@@ -91,4 +91,42 @@ describe('Unit | Models | CommonOrganizationLearner', function () {
       expect(learner.userId).to.be.equal(userId);
     });
   });
+
+  describe('#isEqual', function () {
+    const learnerAttributes = {
+      firstName: 'Kimberley',
+      lastName: 'Tartine',
+      organizationId: 3,
+      email: 'test@example.net',
+    };
+    context('same learner', function () {
+      it('returns true if learners are equals', function () {
+        const learnerA = new CommonOrganizationLearner(learnerAttributes);
+        const learnerB = new CommonOrganizationLearner({ ...learnerAttributes });
+        expect(learnerA.isEqual(learnerB)).true;
+      });
+    });
+    context('different learners', function () {
+      it('returns false if firstName is different', function () {
+        const learnerA = new CommonOrganizationLearner(learnerAttributes);
+        const learnerB = new CommonOrganizationLearner({ ...learnerAttributes, firstName: 'firstName' });
+        expect(learnerA.isEqual(learnerB)).false;
+      });
+      it('returns false if lastName is different', function () {
+        const learnerA = new CommonOrganizationLearner(learnerAttributes);
+        const learnerB = new CommonOrganizationLearner({ ...learnerAttributes, lastName: 'lastName' });
+        expect(learnerA.isEqual(learnerB)).false;
+      });
+      it('returns false if organizationId is different', function () {
+        const learnerA = new CommonOrganizationLearner(learnerAttributes);
+        const learnerB = new CommonOrganizationLearner({ ...learnerAttributes, organizationId: 1 });
+        expect(learnerA.isEqual(learnerB)).false;
+      });
+      it('returns false if attributes are different', function () {
+        const learnerA = new CommonOrganizationLearner(learnerAttributes);
+        const learnerB = new CommonOrganizationLearner({ ...learnerAttributes, email: 'email@example.net' });
+        expect(learnerA.isEqual(learnerB)).false;
+      });
+    });
+  });
 });
