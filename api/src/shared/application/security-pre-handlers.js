@@ -10,7 +10,6 @@ import * as checkCampaignParticipationBelongsToUserUsecase from '../../prescript
 import * as checkAuthorizationToAccessCombinedCourseUsecase from '../../quest/application/usecases/check-authorization-to-access-combined-course.js';
 import * as checkParticipationBelongsToCombinedCourseUsecase from '../../quest/application/usecases/check-participation-belongs-to-combined-course.js';
 import * as checkUserCanManageCombinedCourseUsecase from '../../quest/application/usecases/check-user-can-manage-combined-course.js';
-import * as isSchoolSessionActive from '../../school/application/usecases/is-school-session-active.js';
 import { PIX_ADMIN } from '../../shared/domain/constants.js';
 import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
 import { featureToggles } from '../infrastructure/feature-toggles/index.js';
@@ -179,13 +178,6 @@ function checkRequestedUserIsAuthenticatedUser(request, h) {
   const requestedUserId = request.params.userId || parseInt(request.params.id);
 
   return authenticatedUserId === requestedUserId ? h.response(true) : _replyForbiddenError(h);
-}
-
-async function checkSchoolSessionIsActive(request, h, dependencies = { isSchoolSessionActive }) {
-  if (await dependencies.isSchoolSessionActive.execute({ schoolCode: request.query.code })) {
-    return h.response(true);
-  }
-  return _replyNotFoundError(h);
 }
 
 function checkUserIsAdminInOrganization(request, h, dependencies = { checkUserIsAdminInOrganizationUseCase }) {
@@ -935,7 +927,6 @@ export const securityPreHandlers = {
   checkCertificationCenterIsNotScoManagingStudents,
   checkOrganizationHasFeature,
   checkRequestedUserIsAuthenticatedUser,
-  checkSchoolSessionIsActive,
   checkUserBelongsToLearnersOrganization,
   checkUserBelongsToOrganization,
   checkCampaignParticipationBelongsToUser,

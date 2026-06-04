@@ -42,6 +42,7 @@ import { getNextChallenge } from './get-next-challenge.js';
 import { getOrganizationLearnerWithMissionIdsByState } from './get-organization-learner-with-completed-mission-ids.js';
 import { getSchoolByCode } from './get-school-by-code.js';
 import { handleActivityAnswer } from './handle-activity-answer.js';
+import { isSchoolSessionActive } from './is-school-session-active.js';
 import { playMission } from './play-mission.js';
 
 const usecasesWithoutInjectedDependencies = {
@@ -60,6 +61,7 @@ const usecasesWithoutInjectedDependencies = {
   getOrganizationLearnerWithMissionIdsByState,
   getSchoolByCode,
   handleActivityAnswer,
+  isSchoolSessionActive,
   playMission,
 };
 

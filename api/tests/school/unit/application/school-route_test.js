@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { schoolController } from '../../../../src/school/application/school-controller.js';
 import * as moduleUnderTest from '../../../../src/school/application/school-route.js';
+import schoolSecurityPreHandlers from '../../../../src/school/application/security-pre-handlers.js';
 import { Division } from '../../../../src/school/domain/models/Division.js';
 import { usecases } from '../../../../src/school/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
@@ -14,7 +15,7 @@ describe('Unit | Router | school-router', function () {
       // given
       sinon.stub(schoolController, 'getSchool').callsFake((request, h) => h.response('ok'));
 
-      sinon.stub(securityPreHandlers, 'checkSchoolSessionIsActive').callsFake((request, h) => h.response());
+      sinon.stub(schoolSecurityPreHandlers, 'checkSchoolSessionIsActive').callsFake((request, h) => h.response());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -23,7 +24,7 @@ describe('Unit | Router | school-router', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(securityPreHandlers.checkSchoolSessionIsActive).to.have.been.called;
+      expect(schoolSecurityPreHandlers.checkSchoolSessionIsActive).to.have.been.called;
     });
   });
 

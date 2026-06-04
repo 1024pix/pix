@@ -3,6 +3,7 @@ import Joi from 'joi';
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { schoolController } from './school-controller.js';
+import schoolSecurityPreHandlers from './security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -10,7 +11,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/pix1d/schools',
       config: {
-        pre: [{ method: securityPreHandlers.checkSchoolSessionIsActive }],
+        pre: [{ method: schoolSecurityPreHandlers.checkSchoolSessionIsActive }],
         auth: false,
         validate: {
           query: Joi.object({
