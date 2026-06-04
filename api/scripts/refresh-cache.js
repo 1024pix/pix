@@ -25,8 +25,9 @@ export class RefreshCache extends Script {
     try {
       await usecases.refreshLearningContent();
       logger.info('Learning Content refreshed');
-    } catch {
-      logger.error('Error while reloading cache');
+    } catch (err) {
+      logger.error(`Error while reloading cache : ${err}`);
+      throw err;
     }
   }
 }
