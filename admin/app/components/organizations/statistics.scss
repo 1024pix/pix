@@ -1,3 +1,9 @@
 .organization-statistics__card {
   width: 500px;
 }
+
+.organization-statistics-page-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+}

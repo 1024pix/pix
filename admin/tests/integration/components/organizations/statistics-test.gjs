@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 import Statistics from 'pix-admin/components/organizations/statistics';
 import { module, test } from 'qunit';
@@ -32,5 +32,36 @@ module('Integration | Component | Organizations | Statistics', function (hooks) 
     assert.ok(
       screen.getByText(t('components.organizations.statistics.total-participants-count.info'), { hidden: true }),
     );
+  });
+
+  test('displays total participants count by year in table', async function (assert) {
+    // given
+    const statistics = store.createRecord('organization-statistic', {
+      totalParticipantsCountByYear: [{ year: 2023, count: 1234 }],
+    });
+
+    // when
+    const screen = await render(<template><Statistics @statistics={{statistics}} /></template>);
+
+    // then
+    const table = screen.getByRole('table', {
+      name: t('components.organizations.statistics.total-participants-count-by-year.caption'),
+    });
+
+    assert.ok(
+      within(table).getByRole('columnheader', {
+        name: t('components.organizations.statistics.total-participants-count-by-year.headers.count'),
+      }),
+    );
+    assert.ok(
+      within(table).getByRole('columnheader', {
+        name: t('components.organizations.statistics.total-participants-count-by-year.headers.year'),
+      }),
+    );
+    assert
+      .dom(within(table).getByRole('tooltip', { hidden: true }))
+      .hasText(t('components.organizations.statistics.total-participants-count-by-year.headers.count-tooltip'));
+    assert.ok(within(table).getByRole('cell', { name: '2023' }));
+    assert.ok(within(table).getByRole('cell', { name: '1234' }));
   });
 });
