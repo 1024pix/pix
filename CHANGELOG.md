@@ -1,5 +1,22 @@
 # Pix Changelog
 
+# [5.423.0](https://github.com/1024pix/pix/compare/v5.422.0...v5.423.0) (2026-06-04)
+
+### :rocket: Amélioration
+
+- [#16400](https://github.com/1024pix/pix/pull/16400) improve Dutch translations 
+- [#16371](https://github.com/1024pix/pix/pull/16371) Maddo - Permettre d'ordonner les participations d'une autre manière (PIX-22906) 
+
+### :bug: Correction
+
+- [#16401](https://github.com/1024pix/pix/pull/16401) Ne plus supprimer les fichiers d'import en cas d'échec pour permettre les retry 
+- [#16402](https://github.com/1024pix/pix/pull/16402) Supporte les participations anonymisées (PIX-22905) 
+
+### :building_construction: Tech
+
+- [#16359](https://github.com/1024pix/pix/pull/16359) Supprimer le FT addEmailConnectionMethodEnabled (PIX-22578) 
+- [#16404](https://github.com/1024pix/pix/pull/16404) Supprimer le repository assessment de certif (PIX-23006).
+
 # [5.422.0](https://github.com/1024pix/pix/compare/v5.421.0...v5.422.0) (2026-06-03)
 
 ### :rocket: Amélioration
