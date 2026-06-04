@@ -11,6 +11,8 @@ const attachChildOrganizationToOrganizationUsecase = withTransaction(
 
     const childOrganizationIdsArray = childOrganizationIds.split(',').map(Number);
 
+    _assertChildOrganizationIdsAreNumbers(childOrganizationIdsArray);
+
     for (const childOrganizationId of childOrganizationIdsArray) {
       _assertChildAndParentOrganizationIdsAreDifferent({
         childOrganizationId,
@@ -32,6 +34,15 @@ const attachChildOrganizationToOrganizationUsecase = withTransaction(
 );
 
 export { attachChildOrganizationToOrganizationUsecase };
+
+function _assertChildOrganizationIdsAreNumbers(ids) {
+  if (ids.some(isNaN)) {
+    throw new UnableToAttachChildOrganizationToParentOrganizationError({
+      code: 'INVALID_CHILD_ORGANIZATION_IDS',
+      message: 'Child organization IDs must be numbers',
+    });
+  }
+}
 
 function _assertChildAndParentOrganizationIdsAreDifferent({ childOrganizationId, parentOrganizationId }) {
   if (childOrganizationId === parentOrganizationId) {

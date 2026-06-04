@@ -146,6 +146,32 @@ describe('Integration | Organizational Entities | Domain | UseCase | attach-chil
       });
     });
 
+    context('when at least one of children organization ids is not a number', function () {
+      it('throws an UnableToAttachChildOrganizationToParentOrganizationError', async function () {
+        // given
+        const { organization: parentOrganization } = databaseBuilder.factory.buildNetworkAndHeadOrganization({
+          headOrganization: { id: 123 },
+        });
+        await databaseBuilder.commit();
+
+        const childOrganizationIds = 'abc,456';
+
+        // when
+        const error = await catchErr(usecases.attachChildOrganizationToOrganization)({
+          parentOrganizationId: parentOrganization.id,
+          childOrganizationIds,
+        });
+
+        // then
+        expect(error).to.deepEqualInstance(
+          new UnableToAttachChildOrganizationToParentOrganizationError({
+            code: 'INVALID_CHILD_ORGANIZATION_IDS',
+            message: 'Child organization IDs must be numbers',
+          }),
+        );
+      });
+    });
+
     context('when at least one of children organization ids is equal to parent organization id', function () {
       it('throws an error', async function () {
         // given
