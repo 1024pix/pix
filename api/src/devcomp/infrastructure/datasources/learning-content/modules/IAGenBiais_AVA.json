@@ -202,7 +202,7 @@
                       "id": "29976fc9-4ad7-486e-ae45-b958459a57cd",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>Les IA génératives sont entraînées sur de vastes ensembles de contenus, parfois biaisés ou problématiques.</strong> Elles risquent donc de produire des conseils <strong>dangereux</strong>, des réponses <strong>discriminatoires </strong>ou faire l’apologie de la <strong>violence </strong>et d’actes illégaux.</p>"
+                      "content": "<p><strong>Les IA génératives sont entraînées sur de vastes ensembles de contenus, parfois biaisés ou problématiques.</strong> Elles risquent donc de produire des conseils <strong>dangereux</strong>, des réponses <strong>discriminatoires </strong>ou de faire l’apologie de la <strong>violence </strong>et d’actes illégaux.</p>"
                     }
                   ]
                 },
@@ -436,7 +436,7 @@
                       "id": "7aeafcd3-3290-47b7-a037-c38d8c96563b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Et est-ce que l’utilisateur peut, lui aussi donner ses préférences à l’IA ?</h5><p> Oui, l’utilisateur peut par exemple utiliser le <strong>pré-prompt</strong>. Le pré-prompt est une consigne comme le prompt système mais écrite par l’utilisateur. Cette consigne peux modifier le ton et la posture de l’IA. Il agit seulement pour la session en cours et ne modifie pas le prompt système du modèle.</p>"
+                      "content": "<h5>Et est-ce que l’utilisateur peut, lui aussi, donner ses préférences à l’IA ?</h5><p> Oui, l’utilisateur peut par exemple utiliser le <strong>pré-prompt</strong>. Le pré-prompt est une consigne comme le prompt système mais écrite par l’utilisateur. Cette consigne peut modifier le ton et la posture de l’IA. Il agit seulement pour la session en cours et ne modifie pas le prompt système du modèle.</p>"
                     }
                   ]
                 }
@@ -583,7 +583,7 @@
                 "id": "cf315382-c3f4-4a21-bb31-57226246a345",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées  pour réduire la circulation dans sa ville.</p><p>Il se créé un compte et demande des idées à deux IA génératives différentes.</p>"
+                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées  pour réduire la circulation dans sa ville.</p><p>Il se crée un compte et demande des idées à deux IA génératives différentes.</p>"
               }
             },
             {
@@ -662,14 +662,14 @@
                     "id": "3",
                     "content": "<p>La réponse donnée par un modèle est toujours différente.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p><strong>C’est vrai, mais l’alignement joue aussi un rôle !</strong></p><p>Même si les réponses sont toujours un peu différentes certaines propositions n’arriveront jamais dans un modèle et seront fréquentes dans un autre.</p><p><strong>Les valeurs et préférences de l’IA reflètent celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p><strong>C’est vrai, mais l’alignement joue aussi un rôle !</strong></p><p>Même si les réponses sont toujours un peu différentes, certaines propositions n’arriveront jamais dans un modèle et seront fréquentes dans un autre.</p><p><strong>Les valeurs et préférences de l’IA reflètent celles définies par ses concepteurs.</strong></p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Même si les réponses sont toujours un peu différentes certaines propositions n’arriveront jamais dans un modèle et seront fréquentes dans un autre. </p><p><strong>Les valeurs et préférences de l’IA reflètent celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p>Même si les réponses sont toujours un peu différentes, certaines propositions n’arriveront jamais dans un modèle et seront fréquentes dans un autre. </p><p><strong>Les valeurs et préférences de l’IA reflètent celles définies par ses concepteurs.</strong></p>"
                     }
                   }
                 ],
@@ -689,7 +689,7 @@
                 "id": "c0782230-c4d9-4f63-bcce-49091b1bff42",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>🤔Qui décide des règles suivies par une IA générative&nbsp;?</h5><p>Ce sont <strong>les éditeurs de logiciels d’IA</strong> qui <strong>définissent les règles internes</strong> et les méthodes d’alignement des IA. Ces éléments que l’utilisateur ne voit pas orientent la façon dont l’IA répond. 🔒</p><h5><br>🤔Pourquoi est-ce important&nbsp;?</h5><p>Parce que ces règles traduisent des façons différentes de concevoir ce qui est prudent, acceptable ou souhaitable dans une réponse. <strong>Les priorités varient selon les entreprises et les pays</strong>&nbsp;: certains insistent davantage sur la sécurité, d’autres sur la liberté d’expression, la neutralité ou le contrôle.</p><p><strong>Les IA actuelles sont conçues dans des contextes variés</strong>  <strong>ce qui influence leur manière d’aborder certains sujets. </strong>🌍</p>"
+                "content": "<h5>🤔 Qui décide des règles suivies par une IA générative&nbsp;?</h5><p>Ce sont <strong>les éditeurs de logiciels d’IA</strong> qui <strong>définissent les règles internes</strong> et les méthodes d’alignement des IA. Ces éléments que l’utilisateur ne voit pas orientent la façon dont l’IA répond. 🔒</p><h5><br>🤔 Pourquoi est-ce important&nbsp;?</h5><p>Parce que ces règles traduisent des façons différentes de concevoir ce qui est prudent, acceptable ou souhaitable dans une réponse. <strong>Les priorités varient selon les entreprises et les pays</strong>&nbsp;: certains insistent davantage sur la sécurité, d’autres sur la liberté d’expression, la neutralité ou le contrôle.</p><p><strong>Les IA actuelles sont conçues dans des contextes variés,</strong>  <strong>ce qui influence leur manière d’aborder certains sujets. </strong>🌍</p>"
               }
             }
           ]
@@ -711,7 +711,7 @@
                 "id": "cb07c8fc-1cd8-4bb9-988c-0cf2bb7a855a",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>Des <strong>méthodes d’alignements</strong> des IA sont utilisées pour éviter que les IA ne proposent des réponses stéréotypées ou dangereuses. 💣</li>    <li>Ce tableau présentante les principales&nbsp;<strong>méthodes d’alignement</strong>&nbsp;des logiciels d’IA générative&nbsp;:<br></li></ul> <table>    <caption class=\"\\&quot;sr-only\\&quot;\"></caption>    <thead>        <tr>            <th scope=\"\\&quot;col\\&quot;\"><br></th>            <th scope=\"\\&quot;col\\&quot;\">Prompt système</th>            <th scope=\"\\&quot;col\\&quot;\">Apprentissage par renforcement à partir de retours humains<br></th>        </tr>    </thead><colgroup>  <col style=\"width: 15%;\">  <col>  <col></colgroup>    <tbody>        <tr>            <th scope=\"\\&quot;row\\&quot;\">C’est quoi ?</th>            <td>Règle interne définie par l’éditeur&nbsp;: fixe le comportement par défaut dans toutes les réponses de l’IA.</td>            <td>Des personnes évaluent les réponses données par le logiciel d’intelligence artificielle. Leurs jugements permettent à l’IA d’ajuster son comportement.</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Qui le fait ?</th>            <td>Éditeurs de logiciels d’IA</td>            <td>Évaluateurs humains (souvent sur demande de l’éditeur)</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Visible par l’utilisateur ?</th>            <td>Non</td>            <td>Non</td>        </tr>    </tbody></table><ul>    <li><strong>Cet alignement n’est pas parfait&nbsp;:</strong> lorsqu’un prompt système entre en conflit avec la demande de l’utilisateur ou avec ce que l’IA a appris, cela peut provoquer des <strong>erreurs</strong>, des <strong>hallucinations</strong> ou des <strong>réponses incohérentes</strong>.&nbsp;⚠️</li>    <li><strong>Les choix derrière ces règles ne sont pas neutres&nbsp;:</strong> ils reflètent les priorités d’entreprises ou d’institutions avec des<strong>&nbsp;visions du monde différentes</strong>.🌍</li></ul>"
+                "content": "<ul>    <li>Des <strong>méthodes d’alignement&nbsp;</strong>des IA sont utilisées pour éviter que les IA ne proposent des réponses stéréotypées ou dangereuses. 💣</li>    <li>Ce tableau présente les principales&nbsp;<strong>méthodes d’alignement</strong>&nbsp;des logiciels d’IA générative&nbsp;:<br></li></ul> <table>    <caption class=\"\\&quot;sr-only\\&quot;\"></caption>    <thead>        <tr>            <th scope=\"\\&quot;col\\&quot;\"><br></th>            <th scope=\"\\&quot;col\\&quot;\">Prompt système</th>            <th scope=\"\\&quot;col\\&quot;\">Apprentissage par renforcement à partir de retours humains<br></th>        </tr>    </thead><colgroup>  <col style=\"width: 15%;\">  <col>  <col></colgroup>    <tbody>        <tr>            <th scope=\"\\&quot;row\\&quot;\">C’est quoi ?</th>            <td>Règle interne définie par l’éditeur&nbsp;: fixe le comportement par défaut dans toutes les réponses de l’IA.</td>            <td>Des personnes évaluent les réponses données par le logiciel d’intelligence artificielle. Leurs jugements permettent à l’IA d’ajuster son comportement.</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Qui le fait ?</th>            <td>Éditeurs de logiciels d’IA</td>            <td>Évaluateurs humains (souvent sur demande de l’éditeur)</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Visible par l’utilisateur ?</th>            <td>Non</td>            <td>Non</td>        </tr>    </tbody></table><ul>    <li><strong>Cet alignement n’est pas parfait&nbsp;:</strong> lorsqu’un prompt système entre en conflit avec la demande de l’utilisateur ou avec ce que l’IA a appris, cela peut provoquer des <strong>erreurs</strong>, des <strong>hallucinations</strong> ou des <strong>réponses incohérentes</strong>.&nbsp;⚠️</li>    <li><strong>Les choix derrière ces règles ne sont pas neutres&nbsp;:</strong> ils reflètent les priorités d’entreprises ou d’institutions avec des<strong>&nbsp;visions du monde différentes</strong>.🌍</li></ul>"
               }
             }
           ]
@@ -732,7 +732,7 @@
               "element": {
                 "id": "bfa513c1-1cde-4f49-8cda-4cf9cb8b16e9",
                 "type": "qab",
-                "instruction": "<p><strong>Vrai ou Faux&nbsp;:&nbsp;</strong>Pour chaque affirmation dites si celle-ci est vraie ou fausse.&nbsp;</p>",
+                "instruction": "<p><strong>Vrai ou Faux&nbsp;:&nbsp;</strong>Pour chaque affirmation, dites si celle-ci est vraie ou fausse.&nbsp;</p>",
                 "cards": [
                   {
                     "id": "b8ef8a17-9e49-4a3f-bb04-4030cf7399b1",
