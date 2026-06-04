@@ -92,7 +92,7 @@ test(
           Prénom: certifiableUserData.firstName,
           Nom: certifiableUserData.lastName,
           Statut: 'Terminée par le surveillant',
-          Résultats: 'Expert 1 (862 Pix)',
+          Résultats: 'Expert 1 (861 Pix)',
           'Signalements impactants non résolus': '',
           'Certification passée': 'Pix Cœur',
         });
@@ -103,11 +103,11 @@ test(
         const certificationGeneralInfo = await certificationInformationPage.getGeneralInfo();
         expect(certificationGeneralInfo.sessionNumber).toBe(sessionNumber);
         expect(certificationGeneralInfo.status).toBe('Validée');
-        expect(certificationGeneralInfo.result).toBe('Expert 1 (862 Pix)');
+        expect(certificationGeneralInfo.result).toBe('Expert 1 (861 Pix)');
 
         const certificationDetails = await certificationInformationPage.getDetails();
         expect(certificationDetails.status).toBe('Validée');
-        expect(certificationDetails.result).toBe('Expert 1 (862 Pix)');
+        expect(certificationDetails.result).toBe('Expert 1 (861 Pix)');
         expect(certificationDetails.nbAnsweredQuestionsOverTotal).toBe('24/32');
         expect(certificationDetails.nbQuestionsOK).toBe(24);
         expect(certificationDetails.nbQuestionsKO).toBe(0);
@@ -134,12 +134,12 @@ test(
       expect(detailsFramework).toBe(null);
       expect(certificationCenter).toBe('Centre de certification : ' + certificationCenterName);
       expect(examDate).toBe('Date de passage : ' + getNowAsDDMMYYYY());
-      expect(result).toBe('862 PIX');
+      expect(result).toBe('861 PIX');
       expect(hasBadge).toBe(false);
       expect(comment).toBe(null);
       const certificationResultPage = await certificateListPage.goToCertificateDetails(certificationNumber);
       const { pixScoreObtained, pixLevelReached } = await certificationResultPage.getResultInfo();
-      expect(pixScoreObtained).toEqual('PIX 862 CERTIFIÉS');
+      expect(pixScoreObtained).toEqual('PIX 861 CERTIFIÉS');
       expect(pixLevelReached).toEqual('Vous avez atteint le niveau Expert 1 de la Certification Pix !');
       const certificatePdfBuffer = await certificationResultPage.downloadCertificate();
 
