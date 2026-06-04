@@ -39,7 +39,7 @@ class ImportOrganizationLearnerSet {
     this.#learners = [];
     this.#existingLearners = [];
 
-    this.#unicityKeys = [];
+    this.#unicityKeys = new Map();
     this.#errors = [];
     this.#constructorValidation();
 
@@ -210,16 +210,18 @@ class ImportOrganizationLearnerSet {
   }
 
   #checkUnicityRule(learner) {
-    const learnerUnicityObject = this.#getLearnerUnicityObject(learner);
-    const aggregateUnicityKeys = Object.values(learnerUnicityObject).join('-');
-
-    if (!this.#unicityKeys.includes(aggregateUnicityKeys)) {
-      this.#unicityKeys.push(aggregateUnicityKeys);
+    const unicityLearnerValue = this.#getUnicityValue(learner);
+    if (!this.#unicityKeys.has(unicityLearnerValue)) {
+      this.#unicityKeys.set(unicityLearnerValue, learner);
       return null;
     } else {
-      return ModelValidationError.unicityError({
-        key: this.#unicityColumns.join('-'),
-      });
+      const duplicateLearner = this.#unicityKeys.get(unicityLearnerValue);
+      if (!this.#areLearnersEqual(duplicateLearner, learner)) {
+        return ModelValidationError.unicityError({
+          key: this.#unicityColumns.join('-'),
+        });
+      }
+      return null;
     }
   }
 
@@ -253,6 +255,20 @@ class ImportOrganizationLearnerSet {
     }
   }
 
+  #getUnicityValue(learner) {
+    const learnerUnicityObject = this.#getLearnerUnicityObject(learner);
+    return Object.values(learnerUnicityObject).join('-');
+  }
+
+  #areLearnersEqual(learner1, learner2) {
+    for (const column of this.#columnMapping) {
+      if (learner1[column.name] !== learner2[column.name]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   get filtersAvailableValues() {
     return this.#columnMapping
       .filter((header) => header.config?.displayable?.filterable?.type === 'list')
@@ -281,6 +297,10 @@ class ImportOrganizationLearnerSet {
     };
 
     this.#learners.forEach((learner) => {
+      const learnerAlreadyExist = learners.list.find((existingLearner) => learner.isEqual(existingLearner));
+      if (learnerAlreadyExist) {
+        return;
+      }
       learner.updateLearner({
         learnerList: this.#existingLearners,
         unicityKey: Object.values(this.#unicityColumnMapping),

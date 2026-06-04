@@ -69,6 +69,27 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         ]);
       });
 
+      it('should add a learner once if there is duplicate lines', async function () {
+        // given
+        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+
+        // when
+        learnerSet.addLearners([learnerAttributes, learnerAttributes]);
+
+        //then
+        expect(learnerSet.learners.list).lengthOf(1);
+        expect(learnerSet.learners.list[0]).to.be.an.instanceOf(CommonOrganizationLearner);
+        expect(learnerSet.learners.list).to.deep.equal([
+          new CommonOrganizationLearner({
+            firstName: 'Tomie',
+            lastName: 'Katana',
+            organizationId,
+            "nom d'usage": 'Yolo',
+            group: 'Solo',
+          }),
+        ]);
+      });
+
       it('should add a learner with previous configuration', function () {
         const importFormat = {
           config: {
@@ -406,28 +427,17 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           expect(errors[0].code).equal(VALIDATION_ERRORS.UNICITY_COLUMNS_REQUIRED);
         });
 
-        it('should throw unicity errors on one attribute', async function () {
+        it('should throw unicity errors if learner has same unicity value but different attributes', async function () {
           const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
-          const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes, learnerAttributes]);
+          const errors = await catchErr(
+            learnerSet.addLearners,
+            learnerSet,
+          )([learnerAttributes, { ...learnerAttributes, nom: 'Katnis' }]);
 
           expect(errors).lengthOf(1);
           expect(errors[0]).instanceOf(CsvImportError);
           expect(errors[0].meta.field).to.equal('prénom');
-          expect(errors[0].meta.line).to.equal(3);
-          expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
-        });
-
-        it('should throw unicity errors on multiple attributes', async function () {
-          importFormat.config.unicityColumns = ['prénom', 'group'];
-
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
-
-          const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes, learnerAttributes]);
-
-          expect(errors).lengthOf(1);
-          expect(errors[0]).instanceOf(CsvImportError);
-          expect(errors[0].meta.field).to.equal('prénom-group');
           expect(errors[0].meta.line).to.equal(3);
           expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
         });
