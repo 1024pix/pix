@@ -1,10 +1,12 @@
+import { randomUUID } from 'node:crypto';
+
 import { parquetWriteBuffer } from 'hyparquet-writer';
 
 import { knex } from '../../db/knex-database-connection.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
+import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
 import { AnswersHistoryExportStorage } from './answers-history-export-storage.js';
-import { randomUUID } from "node:crypto";
 
 const ASSESSMENT_ID_RANGE_SIZE = 1000;
 
@@ -31,128 +33,125 @@ export class GetAnswersFromAssessments extends Script {
       .toISOString()
       .split('T')[0];
 
-    const targetTypes = ['DEMO', 'COMPETENCE_EVALUATION', 'PLACEMENT', 'PREVIEW', 'CAMPAIGN'];
-
-    const answersToBeDeleted = await knex
-      .select('answers.*')
-      .from('assessments')
-      .innerJoin('answers', 'answers.assessmentId', 'assessments.id')
-      .whereIn('assessments.type', targetTypes)
-      .where('assessments.state', 'completed')
-      .whereRaw('DATE(assessments."updatedAt") = ?', ['2020-01-02']);
+    const answersToBeDeleted = await getAnswersToBeDeleted();
 
     if (dryRun) {
       logger.info(`${answersToBeDeleted.length} answers would be written to parquet file and deleted`);
     } else {
       const answerHistoryExportStorage = new AnswersHistoryExportStorage();
-      const uploadedFiles = [];
 
-      try {
-        for (const [rangeStart, batchAnswersToBeDeleted] of partitionByAssessmentIdRange(answersToBeDeleted)) {
-          const rangeEnd = rangeStart + ASSESSMENT_ID_RANGE_SIZE - 1;
-          const partitionFile = `answers/${rangeStart}_${rangeEnd}/${randomUUID()}.parquet`;
-          logger.info(`Upload ${partitionFile} to bucket`);
-          const fileContent = writeBufferFromAnswers(batchAnswersToBeDeleted);
+      for (const [rangeStart, batchAnswersToBeDeleted] of partitionByAssessmentIdRange(answersToBeDeleted)) {
+        logger.info(`Creating parquet file.`);
+        const { partitionFile, fileContent } = writeParquetFile(rangeStart, batchAnswersToBeDeleted);
+        logger.info(`Successfully created ${partitionFile} file.`);
+        try {
+          logger.info(`Writing ${batchAnswersToBeDeleted.length} answers to ${partitionFile}.`);
           await answerHistoryExportStorage.sendFile({ filename: partitionFile, fileContent });
-          uploadedFiles.push(partitionFile);
-          logger.info(`Written ${batchAnswersToBeDeleted.length} answers to ${partitionFile}`);
-        }
-      } catch (error) {
-        logger.error(`File upload failed, rolling back ${uploadedFiles.length} uploaded files`);
-        for (const file of uploadedFiles) {
-          await answerHistoryExportStorage.deleteFile({ filename: file });
-        }
-        throw error;
-      }
+          logger.info(`Successfully written ${batchAnswersToBeDeleted.length} answers to ${partitionFile}.`);
 
-      try {
-        const answerToBeDeletedIds = answersToBeDeleted.map(({ id }) => id);
-        logger.info(`Delete ${answerToBeDeletedIds.length} answers`);
-        await knex.delete().from('answers').whereIn('id', answerToBeDeletedIds);
-        logger.info(`Deleted ${answerToBeDeletedIds.length} answers`);
-      } catch (error) {
-        logger.error(`Database deletion failed, rolling back: deleting ${uploadedFiles.length} files from bucket`);
-        for (const file of uploadedFiles) {
-          await answerHistoryExportStorage.deleteFile({ filename: file });
+          logger.info(`Deleting ${batchAnswersToBeDeleted.length} answers.`);
+          await deleteBatchAnswers(batchAnswersToBeDeleted);
+          logger.info(`Successfully deleted ${batchAnswersToBeDeleted.length} answers.`);
+        } catch {
+          logger.error(`File upload failed, rolling back uploaded file ${partitionFile} and deleting it from bucket`);
+          await answerHistoryExportStorage.deleteFile({ filename: partitionFile });
+          throw Error('An error occurred during the process');
         }
-        throw error;
       }
     }
   }
 }
 
+// TODO Industrialiser
+// Mise à jour des tests auto (quid des appels réseaux vers le S3 ?)
+
+export async function getAnswersToBeDeleted() {
+  const targetTypes = ['DEMO', 'COMPETENCE_EVALUATION', 'PLACEMENT', 'PREVIEW', 'CAMPAIGN'];
+  return knex
+    .select('answers.*')
+    .from('assessments')
+    .innerJoin('answers', 'answers.assessmentId', 'assessments.id')
+    .whereIn('assessments.type', targetTypes)
+    .where('assessments.state', 'completed')
+    .whereRaw('DATE(assessments."updatedAt") = ?', ['2020-01-02']);
+}
+
+export function writeParquetFile(rangeStart, batchAnswersToBeDeleted) {
+  const rangeEnd = rangeStart + ASSESSMENT_ID_RANGE_SIZE - 1;
+  const partitionFile = `answers/${rangeStart}_${rangeEnd}/${randomUUID()}.parquet`;
+  const fileContent = writeBufferFromAnswers(batchAnswersToBeDeleted);
+  return { partitionFile, fileContent };
+}
+
+export async function deleteBatchAnswers(answersToBeDeleted) {
+  const batchAnswersToBeDeletedIds = answersToBeDeleted.map(({ id }) => id);
+  await knex('answers').delete().whereIn('id', batchAnswersToBeDeletedIds);
+}
+
 export function writeBufferFromAnswers(answersToBeDeleted) {
   return parquetWriteBuffer({
     rowGroupSize: 5,
-    kvMetadata: [
-      { key: "extract_date", value: new Date().toISOString().slice(0, 10) },
-    ],
+    kvMetadata: [{ key: 'extract_date', value: new Date().toISOString().slice(0, 10) }],
     columnData: [
       {
-        name: "id",
+        name: 'id',
         data: answersToBeDeleted.map(({ id }) => BigInt(id)),
-        type: "INT64",
+        type: 'INT64',
       },
       {
-        name: "value",
-        data: answersToBeDeleted.map(({ value }) => value ?? ""),
-        type: "STRING",
+        name: 'value',
+        data: answersToBeDeleted.map(({ value }) => value ?? ''),
+        type: 'STRING',
       },
       {
-        name: "result",
-        data: answersToBeDeleted.map(({ result }) => result ?? ""),
-        type: "STRING",
+        name: 'result',
+        data: answersToBeDeleted.map(({ result }) => result ?? ''),
+        type: 'STRING',
       },
       {
-        name: "assessmentId",
+        name: 'assessmentId',
         data: answersToBeDeleted.map(({ assessmentId }) => assessmentId),
-        type: "INT32",
+        type: 'INT32',
       },
       {
-        name: "challengeId",
-        data: answersToBeDeleted.map(({ challengeId }) => challengeId ?? ""),
-        type: "STRING",
+        name: 'challengeId',
+        data: answersToBeDeleted.map(({ challengeId }) => challengeId ?? ''),
+        type: 'STRING',
       },
       {
-        name: "createdAt",
+        name: 'createdAt',
         data: answersToBeDeleted.map(({ createdAt }) => createdAt),
-        type: "TIMESTAMP",
+        type: 'TIMESTAMP',
       },
       {
-        name: "updatedAt",
+        name: 'updatedAt',
         data: answersToBeDeleted.map(({ updatedAt }) => updatedAt),
-        type: "TIMESTAMP",
+        type: 'TIMESTAMP',
       },
       {
-        name: "timeout",
+        name: 'timeout',
         data: answersToBeDeleted.map(({ timeout }) => timeout ?? null),
-        type: "INT32",
+        type: 'INT32',
       },
       {
-        name: "resultDetails",
-        data: answersToBeDeleted.map(
-          ({ resultDetails }) => resultDetails ?? null,
-        ),
-        type: "STRING",
+        name: 'resultDetails',
+        data: answersToBeDeleted.map(({ resultDetails }) => resultDetails ?? null),
+        type: 'STRING',
       },
       {
-        name: "timeSpent",
+        name: 'timeSpent',
         data: answersToBeDeleted.map(({ timeSpent }) => timeSpent ?? 0),
-        type: "INT32",
+        type: 'INT32',
       },
       {
-        name: "isFocusedOut",
-        data: answersToBeDeleted.map(
-          ({ isFocusedOut }) => isFocusedOut ?? false,
-        ),
-        type: "BOOLEAN",
+        name: 'isFocusedOut',
+        data: answersToBeDeleted.map(({ isFocusedOut }) => isFocusedOut ?? false),
+        type: 'BOOLEAN',
       },
       {
-        name: "extractedAt",
-        data: new Array(answersToBeDeleted.length).fill(
-          new Date().toISOString().slice(0, 10),
-        ),
-        type: "STRING",
+        name: 'extractedAt',
+        data: new Array(answersToBeDeleted.length).fill(new Date().toISOString().slice(0, 10)),
+        type: 'STRING',
       },
     ],
   });
