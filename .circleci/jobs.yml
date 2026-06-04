@@ -1173,7 +1173,7 @@ jobs:
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
             AUTH_SECRET: 'secret'
-            LCMS_API_RELEASE_ID: '2360?forCI'
+            LCMS_API_RELEASE_ID: '2462?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           command: npm run db:prepare
       - run:
@@ -1190,7 +1190,7 @@ jobs:
             START_JOB_IN_WEB_PROCESS: 'true'
             MAILING_ENABLED: 'false'
             AUTH_SECRET: 'secret'
-            LCMS_API_RELEASE_ID: '2360?forCI'
+            LCMS_API_RELEASE_ID: '2462?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
             PIX_ASSETS_MANAGER_URL: 'https://assets.pix.org'
       - run:
@@ -1212,7 +1212,7 @@ jobs:
           name: Refresh cache
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            LCMS_API_RELEASE_ID: '2360?forCI'
+            LCMS_API_RELEASE_ID: '2462?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           working_directory: ~/pix/api
           command: npm run cache:refresh
@@ -1281,7 +1281,7 @@ jobs:
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
             AUTH_SECRET: 'secret'
-            LCMS_API_RELEASE_ID: '2360?forCI'
+            LCMS_API_RELEASE_ID: '2462?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           command: npm run db:prepare
       - run:
@@ -1298,7 +1298,7 @@ jobs:
             START_JOB_IN_WEB_PROCESS: 'true'
             MAILING_ENABLED: 'false'
             AUTH_SECRET: 'secret'
-            LCMS_API_RELEASE_ID: '2360?forCI'
+            LCMS_API_RELEASE_ID: '2462?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
             PIX_ADMIN_LOGIN_FROM_PASSWORD_ENABLED: 'true'
             PIX_ASSETS_MANAGER_URL: 'https://assets.pix.org'
@@ -1321,7 +1321,7 @@ jobs:
           name: Refresh cache
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            LCMS_API_RELEASE_ID: '2360?forCI'
+            LCMS_API_RELEASE_ID: '2462?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           working_directory: ~/pix/api
           command: npm run cache:refresh
