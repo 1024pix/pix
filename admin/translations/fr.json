@@ -1102,6 +1102,14 @@
         "total-participants-count": {
           "info": "Nombre total de participants uniques de l'organisation ayant débuté au moins une participation à une campagne depuis la création de l'organisation (peu importe le statut des campagnes, des participations, ou des participants, supprimé ou non)",
           "title": "Nombre total de participants"
+        },
+        "total-participants-count-by-year": {
+          "caption": "Nombre de participants uniques par année",
+          "headers": {
+            "count": "Nombre de participants",
+            "count-tooltip": "Nombre de participants de l'organisation ayant débuté au moins une participation à une campagne, par année (peu importe le statut des campagnes, des participations, ou des participants, supprimé ou non).",
+            "year": "Année"
+          }
         }
       },
       "target-profiles-section": {
