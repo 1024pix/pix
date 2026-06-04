@@ -132,7 +132,7 @@
                 "id": "f522ab24-0d04-4548-9dc7-6b82acc5cf87",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>[Feedbacks du qcu image]</strong></p><ul><li>Bien vu ! Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe.&nbsp;✉️</strong> <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.<br><br></li><li>[Paramètres] Eh non. Cette application ne permet pas de consulter les mails.</li><li>[WhatsApps] Eh non.  WhatsApp est une application de messagerie instantanée qui permet d’envoyer des messages rapidement (en ligne).&nbsp;<br>Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe</strong>.&nbsp;✉️ <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.</li></ul>"
+                "content": "<p><strong>[Feedbacks du qcu image]</strong></p><ul><li>Bien vu ! Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe.&nbsp;✉️</strong> <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.<br><br></li><li>[Paramètres] Eh non. Cette application ne permet pas de consulter les mails.</li><li>[WhatsApp] Eh non.  WhatsApp est une application de messagerie instantanée qui permet d’envoyer des messages rapidement (en ligne).&nbsp;<br>Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe</strong>.&nbsp;✉️ <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.</li></ul>"
               }
             }
           ]
@@ -210,14 +210,14 @@
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. Le nom de la personne <strong>qui a envoyé le mail</strong> est affiché sans avoir besoin d’ouvrir le mail. Il s’agit de <strong>l’expéditeur</strong>.&nbsp;Ici, c'est «&nbsp;BioChoux&nbsp;».</p>"
+                            "diagnosis": "<p>Eh oui. Le nom de la personne <strong>qui a envoyé le mail</strong> est affiché sans avoir besoin d’ouvrir le mail. Il s’agit de <strong>l’expéditeur</strong>.&nbsp;Ici, c’est «&nbsp;BioChoux&nbsp;».</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Eh si. Le nom de la personne<strong> qui a envoyé le mail</strong> est affiché sans avoir besoin d’ouvrir le mail. Il s’agit de l’<strong>expéditeur.</strong> Ici, c'est «&nbsp;BioChoux&nbsp;».</p>"
+                            "diagnosis": "<p>Eh si. Le nom de la personne<strong> qui a envoyé le mail</strong> est affiché sans avoir besoin d’ouvrir le mail. Il s’agit de l’<strong>expéditeur.</strong> Ici, c’est «&nbsp;BioChoux&nbsp;».</p>"
                           }
                         }
                       ],
@@ -237,14 +237,14 @@
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. Le titre (objet) indique de <strong>quoi va parler le mail.</strong> Ici, c'est  «&nbsp;Réponse à votre candidature de stage&nbsp;».</p>"
+                            "diagnosis": "<p>Eh oui. Le titre (objet) indique de <strong>quoi va parler le mail.</strong> Ici, c’est  «&nbsp;Réponse à votre candidature de stage&nbsp;».</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Eh si. Le titre (objet) du mail est affiché sans avoir besoin d’ouvrir le mail. Il indique de <strong>quoi va parler le mail.</strong> Ici, c'est «&nbsp;Réponse à votre candidature de stage&nbsp;».</p>"
+                            "diagnosis": "<p>Eh si. Le titre (objet) du mail est affiché sans avoir besoin d’ouvrir le mail. Il indique de <strong>quoi va parler le mail.</strong> Ici, c’est «&nbsp;Réponse à votre candidature de stage&nbsp;».</p>"
                           }
                         }
                       ],
@@ -264,7 +264,7 @@
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Il faut ouvrir le mail pour consulter son contenu complet avec la réponse de Biochoux.</p>"
+                            "diagnosis": "<p>Eh non. Il faut ouvrir le mail pour consulter son contenu complet avec la réponse de BioChoux.</p>"
                           }
                         },
                         {
@@ -291,14 +291,14 @@
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. La date de réception indique <strong>quand le mail a été reçu.</strong> Ici, c'est le 22 janvier.</p>"
+                            "diagnosis": "<p>Eh oui. La date de réception indique <strong>quand le mail a été reçu.</strong> Ici, c’est le 22 janvier.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Eh si. La date de réception du mail est affichée sans avoir besoin d’ouvrir le mail. Elle indique <strong>quand le mail a été reçu.</strong> Ici, c'est le 22 janvier.</p>"
+                            "diagnosis": "<p>Eh si. La date de réception du mail est affichée sans avoir besoin d’ouvrir le mail. Elle indique <strong>quand le mail a été reçu.</strong> Ici, c’est le 22 janvier.</p>"
                           }
                         }
                       ],
@@ -321,7 +321,7 @@
                 "id": "3a663ef0-b312-4ce8-928c-658ada1cb201",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand vous ouvrez votre messagerie électronique, vous arrivez directement dans la<strong> boîte de réception</strong>. C’est dans cet endroit que s’affichent les mails reçus, avec leurs principales informations&nbsp;:&nbsp; </p><ul><li>le <strong>nom de l’expéditeur</strong>&nbsp;est la personne qui  a envoyé le mail.</li><li>l’<strong>objet</strong> est le titre du mail.</li><li>la <strong>date de réception</strong> du mail est indiquée.</li></ul>"
+                "content": "<p>Quand vous ouvrez votre messagerie électronique, vous arrivez directement dans la<strong> boîte de réception</strong>. C’est dans cet endroit que s’affichent les mails reçus, avec leurs principales informations&nbsp;:&nbsp; </p><ul><li>le <strong>nom de l’expéditeur</strong>&nbsp;est la personne qui a envoyé le mail.</li><li>l’<strong>objet</strong> est le titre du mail.</li><li>la <strong>date de réception</strong> du mail est indiquée.</li></ul>"
               }
             },
             {
@@ -512,7 +512,7 @@
                 "id": "7ed9ce41-7f5c-4ba2-bdfa-1fb524bbad9c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Pour cela, suivez les instructions suivantes&nbsp;:&nbsp; </strong></p><ul>    <li><strong>Cliquez sur le bouton qui permet de répondre au mail.&nbsp;</strong></li>    <li><strong>Écrivez la réponse suivante&nbsp;:&nbsp;</strong></li></ul><blockquote><em>Bonjour,  <br>Je vous confirme ma présence à l’entretien. <br>Cordialement</em></blockquote><ul>    <li><strong>Puis cliquez sur le bouton pour envoyer votre réponse.</strong></li></ul>"
+                "content": "<p><strong>Pour cela, suivez les instructions suivantes&nbsp;:&nbsp; </strong></p><ul>    <li><strong>Cliquez sur le bouton qui permet de répondre au mail.&nbsp;</strong></li>    <li><strong>Écrivez la réponse suivante&nbsp;:&nbsp;</strong></li></ul><blockquote><em>Bonjour,<br>Je vous confirme ma présence à l’entretien. <br>Cordialement</em></blockquote><ul>    <li><strong>Puis cliquez sur le bouton pour envoyer votre réponse.</strong></li></ul>"
               }
             },
             {
@@ -567,7 +567,7 @@
                 "id": "f2f8cb14-b6e9-4c82-80f5-eb6d2cc97aa5",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand vous répondez à un mail&nbsp;: </p><ul><li>Le <strong>destinataire</strong> et l’<strong>objet</strong> sont déjà <strong>remplis automatiquement</strong>.&nbsp;</li><li>Le <strong>mail auquel vous répondez reste affiché</strong>.</li><li>Il vous reste à <strong>écrire votre réponse juste au-dessus.</strong></li><li>Le bouton «&nbsp;<strong>Envoyer</strong>&nbsp;» permet d'envoyer votre réponse.</li></ul>"
+                "content": "<p>Quand vous répondez à un mail&nbsp;: </p><ul><li>Le <strong>destinataire</strong> et l’<strong>objet</strong> sont déjà <strong>remplis automatiquement</strong>.&nbsp;</li><li>Le <strong>mail auquel vous répondez reste affiché</strong>.</li><li>Il vous reste à <strong>écrire votre réponse juste au-dessus.</strong></li><li>Le bouton «&nbsp;<strong>Envoyer</strong>&nbsp;» permet d’envoyer votre réponse.</li></ul>"
               }
             },
             {
@@ -711,14 +711,14 @@
                           "id": "2",
                           "content": "<p>Le mail envoyé par PromoSports.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu ! Le mail envoyé par PromoSports le 6 mars  est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement.</p>"
+                            "diagnosis": "<p>Bien vu ! Le mail envoyé par PromoSports le 6 mars est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Le mail envoyé par BioChoux.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Le mail envoyé par PromoSports le 6 mars  est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement. </p>"
+                            "diagnosis": "<p>Eh non. Le mail envoyé par PromoSports le 6 mars est le dernier mail que vous avez reçu.<br>Quand <strong>un nouveau mail</strong> arrive, il est placé <strong>en haut de la liste</strong> automatiquement. </p>"
                           }
                         },
                         {
@@ -869,7 +869,7 @@
                           "id": "1",
                           "content": "Un mail",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse</p>",
+                            "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Observez attentivement les dates. Quels mails ont pour date le 5 novembre ?</p>"
                           }
                         },
@@ -946,7 +946,7 @@
                 "id": "daf204a6-660c-4d58-a9e3-a059e8b37890",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Claire Durand vous a envoyé un mail à propos de l’organisation d'un tournoi d’échecs. <strong>Répondez lui par mail en recopiant le message suivant :</strong> </p>\n<blockquote><em>Bonjour Madame Durand, <br>Je vous confirme ma présence à la réunion.<br><br>Cordialement</em></blockquote>"
+                "content": "<p>Claire Durand vous a envoyé un mail à propos de l’organisation d’un tournoi d’échecs. <strong>Répondez lui par mail en recopiant le message suivant :</strong> </p>\n<blockquote><em>Bonjour Madame Durand, <br>Je vous confirme ma présence à la réunion.<br><br>Cordialement</em></blockquote>"
               }
             },
             {
@@ -989,7 +989,7 @@
                 "id": "56fe3307-eaa6-483f-a181-6e310af5b2b1",
                 "type": "text",
                 "tag": " ",
-                "content": "<p> Pour rédiger un mail, il est recommandé de respecter quelques règles de politesse et de conduite sur internet. C’est ce qu’on appelle la <strong>netiquette</strong>.</p>"
+                "content": "<p>Pour rédiger un mail, il est recommandé de respecter quelques règles de politesse et de conduite sur internet. C’est ce qu’on appelle la <strong>netiquette</strong>.</p>"
               }
             },
             {
@@ -1122,7 +1122,7 @@
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. Cette réponse par mail respecte les règles de politesse et de conduite sur internet&nbsp;:&nbsp;</p><ul><li>Elle <strong>commence et se termine par</strong> <strong>une formule de politesse</strong>.</li><li>Elle se termine aussi par un prénom en guise de <strong>signature</strong>.</li><li>Le<strong> ton est respectueux</strong> et il n’y a <strong>pas de fautes</strong> <strong>d’orthographe.</strong></li></ul>"
+                            "diagnosis": "<p>Eh oui. Cette réponse par mail respecte les règles de politesse et de conduite sur internet&nbsp;:&nbsp;</p><ul><li>Elle <strong>commence et se termine par</strong> <strong>une formule de politesse</strong>.</li><li>Elle se termine aussi par un prénom en guise de <strong>signature</strong>.</li><li>Le<strong> ton est respectueux</strong> et il n’y a <strong>pas de fautes d’orthographe</strong>.</li></ul>"
                           }
                         },
                         {
