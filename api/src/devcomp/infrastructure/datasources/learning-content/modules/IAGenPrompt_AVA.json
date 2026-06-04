@@ -532,7 +532,7 @@
                 "id": "eb52f337-184a-4422-ad7b-5c9b04f930b9",
                 "type": "text",
                 "tag": "did-you-know",
-                "content": "<p>Vous pouvez fournir des exemples à l’IA de deux façons :\n    soit en joignant un document à votre demande, soit en les intégrant directement dans votre prompt.\n    Dans ce cas, placez-les entre guillemets ou entre des balises comme &lt; exemple &gt;, pour que l’IA les identifie clairement comme des exemples.\n</p>"
+                "content": "<p>Vous pouvez fournir des exemples à l’IA de deux façons :\n    soit en joignant un document à votre demande, soit en les intégrant directement dans votre prompt.\n    Dans ce cas, placez-les entre guillemets ou entre chevrons comme &lt; exemple &gt;, pour que l’IA les identifie clairement comme des exemples.</p>"
               }
             }
           ]
