@@ -1,12 +1,12 @@
 import sinon from 'sinon';
 
-import * as checkUserCanManageCombinedCourse from '../../../../../src/quest/application/usecases/check-user-can-manage-combined-course.js';
+import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Integration | Application | Usecases | checkUserCanManageCombinedCourse', function () {
+describe('Quest | Integration | Application | Usecases | canManageCombinedCourse', function () {
   let clock;
   const now = new Date('2003-04-05T03:04:05Z');
 
@@ -28,7 +28,7 @@ describe('Integration | Application | Usecases | checkUserCanManageCombinedCours
       await databaseBuilder.commit();
 
       // when
-      const canManage = await checkUserCanManageCombinedCourse.execute({ userId, combinedCourseId });
+      const canManage = await usecases.canManageCombinedCourse({ userId, combinedCourseId });
 
       // then
       expect(canManage).to.be.true;
@@ -44,7 +44,7 @@ describe('Integration | Application | Usecases | checkUserCanManageCombinedCours
       await databaseBuilder.commit();
 
       // when
-      const canManage = await checkUserCanManageCombinedCourse.execute({ userId, combinedCourseId });
+      const canManage = await usecases.canManageCombinedCourse({ userId, combinedCourseId });
 
       // then
       expect(canManage).to.be.false;
@@ -59,7 +59,7 @@ describe('Integration | Application | Usecases | checkUserCanManageCombinedCours
       await databaseBuilder.commit();
 
       // when / then
-      const error = await catchErr(checkUserCanManageCombinedCourse.execute)({ userId, combinedCourseId: 12 });
+      const error = await catchErr(usecases.canManageCombinedCourse)({ userId, combinedCourseId: 12 });
       expect(error).to.be.instanceOf(NotFoundError);
     });
   });
@@ -74,7 +74,7 @@ describe('Integration | Application | Usecases | checkUserCanManageCombinedCours
       await databaseBuilder.commit();
 
       // when
-      const canManage = await checkUserCanManageCombinedCourse.execute({ userId, combinedCourseId });
+      const canManage = await usecases.canManageCombinedCourse({ userId, combinedCourseId });
 
       // then
       expect(canManage).to.be.false;

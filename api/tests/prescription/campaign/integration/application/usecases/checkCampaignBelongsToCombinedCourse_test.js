@@ -1,4 +1,4 @@
-import * as checkAuthorizationToAccessCombinedCourse from '../../../../../../src/prescription/campaign/application/usecases/checkCampaignBelongsToCombinedCourse.js';
+import * as checkCampaignBelongsToCombinedCourse from '../../../../../../src/prescription/campaign/application/usecases/checkCampaignBelongsToCombinedCourse.js';
 import { CampaignBelongsToCombinedCourseError } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
 import { expect } from '../../../../../test-helper.js';
@@ -29,7 +29,7 @@ describe('Integration | Campaign | Application | Usecases | checkCampaignBelongs
     await databaseBuilder.commit();
 
     // when
-    const error = await catchErr(checkAuthorizationToAccessCombinedCourse.execute)({ campaignId });
+    const error = await catchErr(checkCampaignBelongsToCombinedCourse.execute)({ campaignId });
 
     // then
     expect(error).instanceOf(CampaignBelongsToCombinedCourseError);
@@ -51,6 +51,6 @@ describe('Integration | Campaign | Application | Usecases | checkCampaignBelongs
     });
     await databaseBuilder.commit();
 
-    await expect(checkAuthorizationToAccessCombinedCourse.execute({ campaignId })).fulfilled;
+    await expect(checkCampaignBelongsToCombinedCourse.execute({ campaignId })).fulfilled;
   });
 });

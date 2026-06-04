@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { combinedCourseController } from '../../../../src/quest/application/combined-course-controller.js';
 import * as combinedCourseRoute from '../../../../src/quest/application/combined-course-route.js';
+import questSecurityPreHandlers from '../../../../src/quest/application/security-pre-handlers.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../test-helper.js';
@@ -12,7 +13,7 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
   describe('GET /api/combined-courses/{combinedCourseId}', function () {
     it('should call prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserCanManageCombinedCourse').returns(() => true);
+      sinon.stub(questSecurityPreHandlers, 'checkUserCanManageCombinedCourse').returns(() => true);
       sinon.stub(combinedCourseController, 'getById').callsFake((_, h) => h.response());
 
       const httpTestServer = new HttpTestServer();
@@ -29,14 +30,14 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
       );
 
       // then
-      expect(securityPreHandlers.checkUserCanManageCombinedCourse).to.have.been.called;
+      expect(questSecurityPreHandlers.checkUserCanManageCombinedCourse).to.have.been.called;
     });
   });
 
   describe('GET /api/combined-courses/{combinedCourseId}/statistics', function () {
     it('should call prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserCanManageCombinedCourse').returns(() => true);
+      sinon.stub(questSecurityPreHandlers, 'checkUserCanManageCombinedCourse').returns(() => true);
       sinon.stub(combinedCourseController, 'getStatistics').callsFake((_, h) => h.response());
 
       const httpTestServer = new HttpTestServer();
@@ -53,14 +54,14 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
       );
 
       // then
-      expect(securityPreHandlers.checkUserCanManageCombinedCourse).to.have.been.called;
+      expect(questSecurityPreHandlers.checkUserCanManageCombinedCourse).to.have.been.called;
     });
   });
 
   describe('GET /api/combined-courses/{combinedCourseId}/participations', function () {
     it('should call prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserCanManageCombinedCourse').returns(() => true);
+      sinon.stub(questSecurityPreHandlers, 'checkUserCanManageCombinedCourse').returns(() => true);
       sinon.stub(combinedCourseController, 'findParticipations').callsFake((_, h) => h.response());
 
       const httpTestServer = new HttpTestServer();
@@ -83,15 +84,15 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
       );
 
       // then
-      expect(securityPreHandlers.checkUserCanManageCombinedCourse).to.have.been.called;
+      expect(questSecurityPreHandlers.checkUserCanManageCombinedCourse).to.have.been.called;
     });
   });
 
   describe('GET /api/combined-courses/{combinedCourseId}/participations/{participationId}', function () {
     it('should call prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserCanManageCombinedCourse').returns(() => true);
-      sinon.stub(securityPreHandlers, 'checkParticipationBelongsToCombinedCourse').returns(() => true);
+      sinon.stub(questSecurityPreHandlers, 'checkUserCanManageCombinedCourse').returns(() => true);
+      sinon.stub(questSecurityPreHandlers, 'checkParticipationBelongsToCombinedCourse').returns(() => true);
       sinon.stub(combinedCourseController, 'getCombinedCourseParticipationById').callsFake((_, h) => h.response());
 
       const httpTestServer = new HttpTestServer();
@@ -108,15 +109,15 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
       );
 
       // then
-      expect(securityPreHandlers.checkUserCanManageCombinedCourse).to.have.been.called;
-      expect(securityPreHandlers.checkParticipationBelongsToCombinedCourse).to.have.been.called;
+      expect(questSecurityPreHandlers.checkUserCanManageCombinedCourse).to.have.been.called;
+      expect(questSecurityPreHandlers.checkParticipationBelongsToCombinedCourse).to.have.been.called;
     });
   });
 
   describe('PUT /api/combined-courses/{code}/start', function () {
     it('should call prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkAuthorizationToAccessCombinedCourse').returns(() => true);
+      sinon.stub(questSecurityPreHandlers, 'checkAuthorizationToAccessCombinedCourse').returns(() => true);
       sinon.stub(securityPreHandlers, 'checkCombinedCoursesFeatureIsEnabled').returns(() => true);
       sinon.stub(combinedCourseController, 'start').callsFake((_, h) => h.response());
 
@@ -134,7 +135,7 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
       );
 
       // then
-      expect(securityPreHandlers.checkAuthorizationToAccessCombinedCourse).to.have.been.called;
+      expect(questSecurityPreHandlers.checkAuthorizationToAccessCombinedCourse).to.have.been.called;
       expect(securityPreHandlers.checkCombinedCoursesFeatureIsEnabled).to.have.been.called;
     });
   });
@@ -142,7 +143,7 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
   describe('PATCH /api/combined-courses/{code}/reassess-status', function () {
     it('should call prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkAuthorizationToAccessCombinedCourse').returns(() => true);
+      sinon.stub(questSecurityPreHandlers, 'checkAuthorizationToAccessCombinedCourse').returns(() => true);
       sinon.stub(securityPreHandlers, 'checkCombinedCoursesFeatureIsEnabled').returns(() => true);
       sinon.stub(combinedCourseController, 'reassessStatus').callsFake((_, h) => h.response());
 
@@ -160,7 +161,7 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
       );
 
       // then
-      expect(securityPreHandlers.checkAuthorizationToAccessCombinedCourse).to.have.been.called;
+      expect(questSecurityPreHandlers.checkAuthorizationToAccessCombinedCourse).to.have.been.called;
       expect(securityPreHandlers.checkCombinedCoursesFeatureIsEnabled).to.have.been.called;
     });
   });

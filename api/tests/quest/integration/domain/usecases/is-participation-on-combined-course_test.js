@@ -1,12 +1,12 @@
-import * as checkParticipationBelongsToCombinedCourse from '../../../../../src/quest/application/usecases/check-participation-belongs-to-combined-course.js';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
-describe('Integration | Application | Usecases | checkParticipationBelongsToCombinedCourse', function () {
+describe('Quest | Integration | Application | Usecases | isParticipationOnCombinedCourse', function () {
   it('should return true when participation is in combined course', async function () {
     // given
     const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse();
@@ -18,7 +18,7 @@ describe('Integration | Application | Usecases | checkParticipationBelongsToComb
     await databaseBuilder.commit();
 
     // when
-    const authorized = await checkParticipationBelongsToCombinedCourse.execute({ combinedCourseId, participationId });
+    const authorized = await usecases.isParticipationOnCombinedCourse({ combinedCourseId, participationId });
 
     // then
     expect(authorized).true;
@@ -34,7 +34,7 @@ describe('Integration | Application | Usecases | checkParticipationBelongsToComb
     await databaseBuilder.commit();
 
     // when
-    const authorized = await checkParticipationBelongsToCombinedCourse.execute({ combinedCourseId, participationId });
+    const authorized = await usecases.isParticipationOnCombinedCourse({ combinedCourseId, participationId });
 
     // then
     expect(authorized).false;

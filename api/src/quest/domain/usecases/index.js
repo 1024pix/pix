@@ -1,5 +1,7 @@
 import * as organizationLearnerPrescriptionRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as codeGenerator from '../../../shared/domain/services/code-generator.js';
+import * as membershipRepository from '../../../shared/infrastructure/repositories/membership-repository.js';
+import * as organizationFeatureRepository from '../../../shared/infrastructure/repositories/organization-feature-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import * as combinedCourseBlueprintRepository from '../../infrastructure/repositories/combined-course-blueprint-repository.js';
@@ -30,6 +32,7 @@ const dependencies = {
   combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
   combinedCourseParticipantRepository: repositories.combinedCourseParticipantRepository,
   combinedCourseRepository: repositories.combinedCourseRepository,
+  membershipRepository,
   moduleRepository: repositories.moduleRepository,
   recommendedModuleRepository: repositories.recommendedModuleRepository,
   campaignRepository: repositories.campaignRepository,
@@ -37,6 +40,7 @@ const dependencies = {
   targetProfileRepository: repositories.targetProfileRepository,
   organizationLearnerParticipationRepository: repositories.organizationLearnerParticipationRepository,
   combinedCourseDetailsService: injectedCombinedCourseDetailsService,
+  organizationFeatureRepository,
   organizationLearnerRepository,
   organizationLearnerPrescriptionRepository,
   combinedCourseBlueprintRepository,
@@ -48,6 +52,7 @@ const dependencies = {
 };
 
 import { attachOrganizationsToCombinedCourseBlueprint } from './attach-organizations-to-combined-course-blueprint.js';
+import { canManageCombinedCourse } from './can-manage-combined-course.js';
 import { checkUserQuest } from './check-user-quest-success.js';
 import { createAttestation } from './create-attestation.js';
 import { createCombinedCourse } from './create-combined-course.js';
@@ -72,6 +77,8 @@ import { getCourseByOrganizationId } from './get-course-by-organization-id.js';
 import { getOrganizationAttestations } from './get-organization-attestations.js';
 import { getQuestResultsForCampaignParticipation } from './get-quest-results-for-campaign-participation.js';
 import { getVerifiedCode } from './get-verified-code.js';
+import { hasAccessToCombinedCourse } from './has-access-to-combined-course.js';
+import { isParticipationOnCombinedCourse } from './is-participation-on-combined-course.js';
 import { rewardUser } from './reward-user.js';
 import { startCombinedCourse } from './start-combined-course.js';
 import { updateCombinedCourseBlueprint } from './update-combined-course-blueprint.js';
@@ -80,6 +87,7 @@ import { updateCombinedCourses } from './update-combined-courses.js';
 
 const usecasesWithoutInjectedDependencies = {
   attachOrganizationsToCombinedCourseBlueprint,
+  canManageCombinedCourse,
   checkUserQuest,
   createOrUpdateQuestsInBatch,
   detachOrganizationFromCombinedCourseBlueprint,
@@ -96,6 +104,7 @@ const usecasesWithoutInjectedDependencies = {
   getCombinedCourseBlueprintById,
   getQuestResultsForCampaignParticipation,
   getVerifiedCode,
+  hasAccessToCombinedCourse,
   rewardUser,
   startCombinedCourse,
   updateCombinedCourseProgress,
@@ -109,6 +118,7 @@ const usecasesWithoutInjectedDependencies = {
   updateCombinedCourses,
   getOrganizationAttestations,
   getCourseByOrganizationId,
+  isParticipationOnCombinedCourse,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);

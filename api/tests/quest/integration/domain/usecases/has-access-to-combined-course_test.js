@@ -1,11 +1,11 @@
 import sinon from 'sinon';
 
-import * as checkAuthorizationToAccessCombinedCourse from '../../../../../src/quest/application/usecases/check-authorization-to-access-combined-course.js';
+import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
-describe('Integration | Application | Usecases | checkAuthorizationToAccessCombinedCourse', function () {
+describe('Quest | Integration | Application | Usecases | hasAccessToCombinedCourse', function () {
   let clock;
   const now = new Date('2003-04-05T03:04:05Z');
 
@@ -28,7 +28,7 @@ describe('Integration | Application | Usecases | checkAuthorizationToAccessCombi
       await databaseBuilder.commit();
 
       // when
-      const authorized = await checkAuthorizationToAccessCombinedCourse.execute({ code, userId });
+      const authorized = await usecases.hasAccessToCombinedCourse({ code, userId });
 
       // then
       expect(authorized).to.be.true;
@@ -45,7 +45,7 @@ describe('Integration | Application | Usecases | checkAuthorizationToAccessCombi
       await databaseBuilder.commit();
 
       // when
-      const authorized = await checkAuthorizationToAccessCombinedCourse.execute({ code, userId });
+      const authorized = await usecases.hasAccessToCombinedCourse({ code, userId });
 
       // then
       expect(authorized).to.be.true;
@@ -59,7 +59,7 @@ describe('Integration | Application | Usecases | checkAuthorizationToAccessCombi
       await databaseBuilder.commit();
 
       // when
-      const authorized = await checkAuthorizationToAccessCombinedCourse.execute({ code, userId });
+      const authorized = await usecases.hasAccessToCombinedCourse({ code, userId });
 
       // then
       expect(authorized).to.be.false;
@@ -78,7 +78,7 @@ describe('Integration | Application | Usecases | checkAuthorizationToAccessCombi
       await databaseBuilder.commit();
 
       // when
-      const authorized = await checkAuthorizationToAccessCombinedCourse.execute({ code, userId });
+      const authorized = await usecases.hasAccessToCombinedCourse({ code, userId });
 
       // then
       expect(authorized).to.be.false;

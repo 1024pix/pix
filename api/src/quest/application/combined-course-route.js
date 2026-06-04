@@ -12,6 +12,7 @@ import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { jwtOptionalUserAuthenticationStrategyName } from '../../shared/infrastructure/authentication-strategy-names.js';
 import { combinedCourseController } from './combined-course-controller.js';
 import { checkDisplayCatalogueIsEnabled } from './pre-handlers/display-catalogue.js';
+import questSecurityPreHandlers from './security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -85,11 +86,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/combined-courses/{combinedCourseId}',
       config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserCanManageCombinedCourse,
-          },
-        ],
+        pre: [{ method: questSecurityPreHandlers.checkUserCanManageCombinedCourse }],
         handler: combinedCourseController.getById,
         validate: {
           params: Joi.object({
@@ -107,11 +104,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/combined-courses/{combinedCourseId}/statistics',
       config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserCanManageCombinedCourse,
-          },
-        ],
+        pre: [{ method: questSecurityPreHandlers.checkUserCanManageCombinedCourse }],
         handler: combinedCourseController.getStatistics,
         validate: {
           params: Joi.object({
@@ -129,11 +122,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/combined-courses/{combinedCourseId}/participations',
       config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserCanManageCombinedCourse,
-          },
-        ],
+        pre: [{ method: questSecurityPreHandlers.checkUserCanManageCombinedCourse }],
         handler: combinedCourseController.findParticipations,
         validate: {
           params: Joi.object({
@@ -171,12 +160,8 @@ const register = async function (server) {
       path: '/api/combined-courses/{combinedCourseId}/participations/{participationId}',
       config: {
         pre: [
-          {
-            method: securityPreHandlers.checkUserCanManageCombinedCourse,
-          },
-          {
-            method: securityPreHandlers.checkParticipationBelongsToCombinedCourse,
-          },
+          { method: questSecurityPreHandlers.checkUserCanManageCombinedCourse },
+          { method: questSecurityPreHandlers.checkParticipationBelongsToCombinedCourse },
         ],
         handler: combinedCourseController.getCombinedCourseParticipationById,
         validate: {
@@ -197,12 +182,8 @@ const register = async function (server) {
       path: '/api/combined-courses/{code}/start',
       config: {
         pre: [
-          {
-            method: securityPreHandlers.checkCombinedCoursesFeatureIsEnabled,
-          },
-          {
-            method: securityPreHandlers.checkAuthorizationToAccessCombinedCourse,
-          },
+          { method: securityPreHandlers.checkCombinedCoursesFeatureIsEnabled },
+          { method: questSecurityPreHandlers.checkAuthorizationToAccessCombinedCourse },
         ],
         validate: {
           params: Joi.object({
@@ -219,12 +200,8 @@ const register = async function (server) {
       path: '/api/combined-courses/{code}/reassess-status',
       config: {
         pre: [
-          {
-            method: securityPreHandlers.checkCombinedCoursesFeatureIsEnabled,
-          },
-          {
-            method: securityPreHandlers.checkAuthorizationToAccessCombinedCourse,
-          },
+          { method: securityPreHandlers.checkCombinedCoursesFeatureIsEnabled },
+          { method: questSecurityPreHandlers.checkAuthorizationToAccessCombinedCourse },
         ],
         validate: {
           params: Joi.object({
