@@ -46,14 +46,14 @@ export class GetAnswersFromAssessments extends Script {
       const uploadedFiles = [];
 
       try {
-        for (const [rangeStart, answers] of partitionByAssessmentIdRange(answersToBeDeleted)) {
+        for (const [rangeStart, batchAnswersToBeDeleted] of partitionByAssessmentIdRange(answersToBeDeleted)) {
           const rangeEnd = rangeStart + ASSESSMENT_ID_RANGE_SIZE - 1;
           const partitionFile = `answers/${rangeStart}_${rangeEnd}/${randomUUID()}.parquet`;
           logger.info(`Upload ${partitionFile} to bucket`);
-          const fileContent = writeBufferFromAnswers(answers);
+          const fileContent = writeBufferFromAnswers(batchAnswersToBeDeleted);
           await answerHistoryExportStorage.sendFile({ filename: partitionFile, fileContent });
           uploadedFiles.push(partitionFile);
-          logger.info(`Written ${answers.length} answers to ${partitionFile}`);
+          logger.info(`Written ${batchAnswersToBeDeleted.length} answers to ${partitionFile}`);
         }
       } catch (error) {
         logger.error(`File upload failed, rolling back ${uploadedFiles.length} uploaded files`);
