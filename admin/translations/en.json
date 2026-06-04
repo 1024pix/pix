@@ -1045,6 +1045,7 @@
         "attach-child-form": {
           "input-information": "ID of organisation(s) to add",
           "input-label": "Add one or more child organisations",
+          "invalid-ids-error": "Identifiers must be integers, separated by commas.",
           "name": "Add child organisation(s) form"
         },
         "children-list": {

@@ -1053,6 +1053,7 @@
         "attach-child-form": {
           "input-information": "ID d'organisation(s) à ajouter",
           "input-label": "Ajouter une ou plusieurs organisations filles",
+          "invalid-ids-error": "Les identifiants doivent être des nombres entiers, séparés par des virgules.",
           "name": "Formulaire d'ajout d'organisation(s) fille(s)"
         },
         "children-list": {
