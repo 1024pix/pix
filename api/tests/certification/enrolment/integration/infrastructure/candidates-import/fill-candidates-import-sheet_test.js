@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { usecases } from '../../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../../../../../../src/certification/enrolment/infrastructure/candidates-import/fill-candidates-import-sheet.js';
 import * as readOdsUtils from '../../../../../../src/certification/enrolment/infrastructure/utils/ods/read-ods-utils.js';
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect } from '../../../../../test-helper.js';
@@ -129,10 +129,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
           },
         ],
         (candidate) => {
-          const aCandidate = databaseBuilder.factory.buildCertificationCandidate(candidate);
-          databaseBuilder.factory.buildCoreSubscription({
-            certificationCandidateId: aCandidate.id,
-          });
+          databaseBuilder.factory.buildCertificationCandidate(candidate);
         },
       );
 
@@ -163,7 +160,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       actualOdsFilePath = `${__dirname}/candidates_import_template-with-one-complementary-certification-sco.tmp.ods`;
 
       const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({
-        key: ComplementaryCertificationKeys.CLEA,
+        key: Frameworks.CLEA,
         label: 'CléA Numérique',
       });
 
@@ -197,7 +194,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         description: 'La super description',
       }).id;
 
-      const cleaNumeriqueCandidate = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Only',
         firstName: 'CléA',
         sex: 'M',
@@ -211,17 +208,10 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: 'GHI789',
         extraTimePercentage: 1.5,
-        complementaryCertification: null,
-      });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: cleaNumeriqueCandidate.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: cleaNumeriqueCandidate.id,
-        complementaryCertificationId: cleaNumerique.id,
+        subscription: Frameworks.CLEA,
       });
 
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'No',
         firstName: 'Complementary certifications',
         sex: 'M',
@@ -235,10 +225,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: null,
         extraTimePercentage: 0.15,
-        complementaryCertification: null,
-      });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: candidate.id,
+        subscription: Frameworks.CORE,
       });
 
       await databaseBuilder.commit();
@@ -274,19 +261,19 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       actualOdsFilePath = `${__dirname}/candidates_import_template-with-all-complementary-certifications-sco.tmp.ods`;
 
       const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({
-        key: ComplementaryCertificationKeys.CLEA,
+        key: Frameworks.CLEA,
         label: 'CléA Numérique',
       });
       const pixPlusDroit = databaseBuilder.factory.buildComplementaryCertification({
-        key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
+        key: Frameworks.DROIT,
         label: 'Pix+ Droit',
       });
       const pixPlusEdu1erDegre = databaseBuilder.factory.buildComplementaryCertification({
-        key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
+        key: Frameworks.EDU_1ER_DEGRE,
         label: 'Pix+ Édu 1er degré',
       });
       const pixPlusEdu2ndDegre = databaseBuilder.factory.buildComplementaryCertification({
-        key: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
+        key: Frameworks.EDU_2ND_DEGRE,
         label: 'Pix+ Édu 2nd degré',
       });
 
@@ -332,7 +319,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         description: 'La super description',
       }).id;
 
-      const onlyPixPlusEdu2ndDegreCandidate = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'All',
         firstName: 'By Myself',
         sex: 'M',
@@ -346,17 +333,10 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: 'ABC123',
         extraTimePercentage: 0.6,
-        complementaryCertification: pixPlusEdu2ndDegre,
-      });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: onlyPixPlusEdu2ndDegreCandidate.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: onlyPixPlusEdu2ndDegreCandidate.id,
-        complementaryCertificationId: pixPlusEdu2ndDegre.id,
+        subscription: Frameworks.EDU_2ND_DEGRE,
       });
 
-      const onlyPixPlusDroitCandidate = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Only',
         firstName: 'Droit',
         sex: 'F',
@@ -370,17 +350,10 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: 'DEF456',
         extraTimePercentage: null,
-        complementaryCertification: pixPlusDroit,
-      });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: onlyPixPlusDroitCandidate.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: onlyPixPlusDroitCandidate.id,
-        complementaryCertificationId: pixPlusDroit.id,
+        subscription: Frameworks.DROIT,
       });
 
-      const onlyCleaNumeriqueCandidate = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Only',
         firstName: 'CléA',
         sex: 'M',
@@ -394,17 +367,10 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: 'GHI789',
         extraTimePercentage: 1.5,
-        complementaryCertification: cleaNumerique,
-      });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: onlyCleaNumeriqueCandidate.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: onlyCleaNumeriqueCandidate.id,
-        complementaryCertificationId: cleaNumerique.id,
+        subscription: Frameworks.CLEA,
       });
 
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'No',
         firstName: 'Complementary certifications',
         sex: 'M',
@@ -418,10 +384,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: null,
         extraTimePercentage: 0.15,
-        complementaryCertification: null,
-      });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: candidate.id,
+        subscription: Frameworks.CORE,
       });
 
       await databaseBuilder.commit();
@@ -456,7 +419,6 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       // given
       expectedOdsFilePath = `${__dirname}/candidates_import_template-with-billing-columns.ods`;
       actualOdsFilePath = `${__dirname}/candidates_import_template-with-billing-columns.tmp.ods`;
-
       const certificationCenterName = 'Centre de certification';
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         name: certificationCenterName,
@@ -482,48 +444,36 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         description: 'La super description',
       }).id;
 
-      const candidateA = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Certif',
         lastName: 'Gratos',
         billingMode: 'FREE',
         prepaymentCode: null,
         sessionId,
       });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: candidateA.id,
-      });
 
-      const candidateB = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Candidat',
         lastName: 'Qui Raque',
         billingMode: 'PAID',
         prepaymentCode: null,
         sessionId,
       });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: candidateB.id,
-      });
 
-      const candidateC = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'A Man',
         lastName: 'With A Code',
         billingMode: 'PREPAID',
         prepaymentCode: 'CODECODECODEC',
         sessionId,
       });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: candidateC.id,
-      });
 
-      const candidateD = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Yo',
         lastName: 'Lo',
         billingMode: null,
         prepaymentCode: null,
         sessionId,
-      });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: candidateD.id,
       });
 
       await databaseBuilder.commit();
@@ -554,7 +504,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         actualOdsFilePath = `${__dirname}/candidates_import_template-with-billing-columns-complementary.tmp.ods`;
 
         const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({
-          key: ComplementaryCertificationKeys.CLEA,
+          key: Frameworks.CLEA,
           label: 'CléA Numérique',
         });
 
@@ -588,19 +538,13 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
           description: 'La super description',
         }).id;
 
-        const cleaNumeriqueCandidate = databaseBuilder.factory.buildCertificationCandidate({
+        databaseBuilder.factory.buildCertificationCandidate({
           firstName: 'Yo',
           lastName: 'Lo',
           billingMode: null,
           prepaymentCode: null,
           sessionId,
-        });
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: cleaNumeriqueCandidate.id,
-        });
-        databaseBuilder.factory.buildComplementaryCertificationSubscription({
-          certificationCandidateId: cleaNumeriqueCandidate.id,
-          complementaryCertificationId: cleaNumerique.id,
+          subscription: Frameworks.CLEA,
         });
 
         await databaseBuilder.commit();

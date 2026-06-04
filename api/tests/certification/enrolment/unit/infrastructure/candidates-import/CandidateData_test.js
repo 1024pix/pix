@@ -17,13 +17,13 @@ describe('Unit | infrastructure | candidates-import | CandidateData', function (
     Object.keys(Frameworks).forEach((key) => {
       describe(`.${key}`, function () {
         it(`returns 'YES' when framework key is ${key}`, function () {
-          const complementaryCertification = { key };
-          const candidateData = new CandidateData({ i18n, complementaryCertification });
+          const subscription = key;
+          const candidateData = new CandidateData({ i18n, subscription });
           expect(candidateData[key]).to.be.equal('YES');
         });
         it(`returns empty string if complementaryCertification key is NOT $(key)`, function () {
-          const complementaryCertification = { key: 'OTHER_KEY' };
-          const candidateData = new CandidateData({ i18n, complementaryCertification });
+          const subscription = { key: 'OTHER_KEY' };
+          const candidateData = new CandidateData({ i18n, subscription });
           expect(candidateData[key]).to.be.equal('');
         });
       });

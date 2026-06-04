@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../../../shared/domain/models/ComplementaryCertification.js').ComplementaryCertification} ComplementaryCertification
+ * @typedef {import('../../../../shared/domain/models/Frameworks.js').Frameworks} Frameworks
  * @typedef {import('../../../domain/read-models/EnrolledCandidate.js').EnrolledCandidate} EnrolledCandidate
  * @typedef {import('i18n')} i18n
  */
@@ -13,7 +13,6 @@ const FRANCE_COUNTRY_CODE = '99100';
 export class CandidateData {
   /**
    * @param {object} params
-   * @param {ComplementaryCertification|null} params.complementaryCertification
    */
   constructor({
     id = null,
@@ -35,7 +34,7 @@ export class CandidateData {
     userId = null,
     organizationLearnerId = null,
     number = null,
-    complementaryCertification = null,
+    subscription = null,
     billingMode = null,
     prepaymentCode = null,
     i18n = null,
@@ -62,17 +61,16 @@ export class CandidateData {
     this.prepaymentCode = prepaymentCode || '';
     this.count = number;
     this.#setBirthCityAndPostalCode(birthCity, birthCountry, birthINSEECode, birthPostalCode);
-    this.#setKindOfCertificationAttributes(complementaryCertification);
+    this.#setKindOfCertificationAttributes(subscription);
     this.#setBirthINSEECode(birthINSEECode, birthCountry);
     this.#setExtraTimePercentage(extraTimePercentage);
   }
 
-  #setKindOfCertificationAttributes(complementaryCertification) {
-    const currentKey = complementaryCertification?.key;
+  #setKindOfCertificationAttributes(subscription) {
     const yes = this.translate('candidate-list-template.yes');
 
     Object.keys(Frameworks).forEach((key) => {
-      this[key] = currentKey === key ? yes : '';
+      this[key] = subscription === key ? yes : '';
     });
   }
 
@@ -96,42 +94,6 @@ export class CandidateData {
     } else {
       this.extraTimePercentage = '';
     }
-  }
-
-  /**
-   * @param {object} params
-   * @param {EnrolledCandidate} params.enrolledCandidate
-   * @param {Array<Habilitation>} params.certificationCenterHabilitations
-   * @param {number} params.number
-   * @param {i18n} params.i18n
-   */
-  static fromEnrolledCandidateAndCandidateNumber({
-    enrolledCandidate,
-    certificationCenterHabilitations = [],
-    number,
-    i18n,
-  }) {
-    const candidateComplementarySubscription = enrolledCandidate.findComplementarySubscriptionInfo();
-    if (!candidateComplementarySubscription) {
-      return new CandidateData({
-        ...enrolledCandidate,
-        complementaryCertification: null,
-        number,
-        i18n,
-      });
-    }
-
-    const complementaryCertification =
-      certificationCenterHabilitations.find(
-        ({ key }) => key === candidateComplementarySubscription.complementaryCertificationKey,
-      ) || null;
-
-    return new CandidateData({
-      ...enrolledCandidate,
-      complementaryCertification,
-      number,
-      i18n,
-    });
   }
 
   static empty({ number, i18n }) {

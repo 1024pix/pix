@@ -180,11 +180,10 @@ function _getCandidatesImportTemplatePath() {
   return __dirname + '/candidates_import_template.ods';
 }
 
-function _certificationCandidatesToCandidatesData({ enrolledCandidates, certificationCenterHabilitations, i18n }) {
+function _certificationCandidatesToCandidatesData({ enrolledCandidates, i18n }) {
   return enrolledCandidates.map((enrolledCandidate, index) => {
-    return CandidateData.fromEnrolledCandidateAndCandidateNumber({
-      enrolledCandidate,
-      certificationCenterHabilitations,
+    return new CandidateData({
+      ...enrolledCandidate,
       number: index + 1,
       i18n,
     });
