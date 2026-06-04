@@ -7,11 +7,11 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/IAGenBiais_AVA/picto-IAGenBiais_AVA.svg",
-    "description": "<p>Les IA génératives peuvent fournir des réponses utiles, mais leurs réponses peuvent aussi poser problème. Leur entraînement repose sur d’immenses ensembles de textes sélectionnés par des humains, ce qui influence profondément ce que le logiciel d’intelligence artificielle peut répondre ou non dans certaines situations. Les choix faits lors de l’entraînement reflètent des valeurs, des préférences ou des visions du monde variées. </p><p>Ce module vous aide à comprendre d’où viennent les comportements des IA et comment est programmée la «&nbsp;morale&nbsp;» suivie par l’IA.</p>",
+    "description": "<p>Les IA génératives peuvent fournir des réponses utiles, mais leurs réponses peuvent aussi poser problème. Leur entraînement repose sur d’immenses ensembles de textes sélectionnés par des humains, ce qui influence profondément ce que le logiciel d’intelligence artificielle peut répondre ou non dans certaines situations. Les choix faits lors de l’entraînement reflètent des valeurs, des préférences ou des visions du monde variées. </p><p>Ce module vous aide à comprendre d’où viennent les comportements des IA et comment est programmée les valeurs  suivies par l’IA.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
-      "<p>Expliquer pourquoi les IA génératives sont contraintes à respecter des valeurs morales</p>",
+      "<p>Expliquer pourquoi les IA génératives sont contraintes à respecter des valeurs </p>",
       "<p>Savoir décrire des méthodes d’alignement des IA génératives</p>",
       "<p>Identifier les enjeux politiques et sociaux de l’alignement des IA génératives</p>"
     ],
@@ -222,7 +222,7 @@
                       "id": "0533f8c1-899a-4eca-832a-218784310fc3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Quelles sont les méthodes d’alignement ? </h5><p>Une des méthodes principales d’alignement a lieu pendant l’entraînement&nbsp;: <strong>des évaluateurs humains notent les réponses de l’IA</strong>. L’IA ajuste au fur et à mesure son comportement pour avoir une meilleure note. On appelle ce système le<strong> RLHF pour Reinforcement Learning from Human Feedback</strong></p>"
+                      "content": "<h5>Quelles sont les méthodes d’alignement ? </h5><p>Une des méthodes principales d’alignement a lieu pendant l’entraînement&nbsp;: <strong>des évaluateurs humains notent les réponses de l’IA</strong>. L’IA ajuste au fur et à mesure son comportement pour avoir une meilleure note. On appelle ce système «&nbsp;Apprentissage par renforcement à partir de retours humains&nbsp;» ou en anglais,&nbsp;<strong> RLHF pour Reinforcement Learning from Human Feedback.</strong></p>"
                     }
                   ]
                 }
@@ -855,7 +855,7 @@
                     "id": "1",
                     "content": "<p>Un alignement avec des notes données par des évaluateurs humains (RLHF)</p>",
                     "feedback": {
-                      "state": "<p>C’est peu probable.<br></p>",
+                      "state": "<p>C’est possible mais très peu probable.<br></p>",
                       "diagnosis": "<p>Une IA entraînée avec&nbsp; des évaluateurs d’un pays pourrait le mettre en valeur, mais pas aussi systématiquement sur tous les sujets.</p>"
                     }
                   },
