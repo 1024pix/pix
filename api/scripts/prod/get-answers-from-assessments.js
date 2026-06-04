@@ -6,6 +6,8 @@ import { ScriptRunner } from '../../src/shared/application/scripts/script-runner
 import { AnswersHistoryExportStorage } from './answers-history-export-storage.js';
 import { randomUUID } from "node:crypto";
 
+const ASSESSMENT_ID_RANGE_SIZE = 1000;
+
 export class GetAnswersFromAssessments extends Script {
   constructor() {
     super({
@@ -155,8 +157,6 @@ export function writeBufferFromAnswers(answersToBeDeleted) {
     ],
   });
 }
-
-const ASSESSMENT_ID_RANGE_SIZE = 5;
 
 export function partitionByAssessmentIdRange(answers) {
   const groups = new Map();
