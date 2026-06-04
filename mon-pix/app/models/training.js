@@ -18,7 +18,7 @@ export default class Training extends Model {
   @attr('string') program;
   @attr('boolean') registrationRequired;
   @attr('string') description;
-  @attr('boolean') isRelevant;
+  @attr('boolean', { allowNull: true }) isRelevant;
 
   @belongsTo('campaign-participation', { async: true, inverse: 'trainings' }) campaignParticipation;
 

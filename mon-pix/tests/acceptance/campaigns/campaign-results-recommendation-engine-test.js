@@ -95,6 +95,9 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         const modal = await screen.findByRole('dialog');
 
         // when
+        assert.dom(within(modal).getByRole('button', { name: t('common.no') })).doesNotHaveClass('selected');
+        assert.dom(within(modal).getByRole('button', { name: t('common.yes') })).doesNotHaveClass('selected');
+
         const thumbsUpButton = within(modal).getByRole('button', { name: t('common.yes') });
         const thumbsDownButton = within(modal).getByRole('button', { name: t('common.no') });
         assert.dom(thumbsUpButton).doesNotHaveClass('selected');
