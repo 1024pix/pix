@@ -34,7 +34,7 @@ export class GetAnswersFromAssessments extends Script {
     const answersToBeDeleted = await knex
       .select('answers.*')
       .from('assessments')
-      .join('answers', 'answers.assessmentId', 'assessments.id')
+      .innerJoin('answers', 'answers.assessmentId', 'assessments.id')
       .whereIn('assessments.type', targetTypes)
       .where('assessments.state', 'completed')
       .whereRaw('DATE(assessments."updatedAt") = ?', ['2020-01-02']);
