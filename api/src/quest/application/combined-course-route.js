@@ -182,7 +182,7 @@ const register = async function (server) {
       path: '/api/combined-courses/{code}/start',
       config: {
         pre: [
-          { method: securityPreHandlers.checkCombinedCoursesFeatureIsEnabled },
+          { method: questSecurityPreHandlers.checkCombinedCoursesFeatureIsEnabled },
           { method: questSecurityPreHandlers.checkAuthorizationToAccessCombinedCourse },
         ],
         validate: {
@@ -200,7 +200,7 @@ const register = async function (server) {
       path: '/api/combined-courses/{code}/reassess-status',
       config: {
         pre: [
-          { method: securityPreHandlers.checkCombinedCoursesFeatureIsEnabled },
+          { method: questSecurityPreHandlers.checkCombinedCoursesFeatureIsEnabled },
           { method: questSecurityPreHandlers.checkAuthorizationToAccessCombinedCourse },
         ],
         validate: {

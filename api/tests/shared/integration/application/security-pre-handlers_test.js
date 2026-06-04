@@ -1,7 +1,6 @@
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { PIX_ADMIN } from '../../../../src/shared/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
-import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
@@ -727,70 +726,6 @@ describe('Integration | Application | SecurityPreHandlers', function () {
       const response = await httpServerTest.requestObject(options);
 
       expect(response.statusCode).to.equal(403);
-    });
-  });
-
-  describe('#checkCombinedCoursesFeatureIsEnabled', function () {
-    let httpServerTest;
-
-    beforeEach(async function () {
-      const moduleUnderTest = {
-        name: 'feature-test',
-        register: async function (server) {
-          server.route([
-            {
-              method: 'GET',
-              path: '/api/test-route',
-              handler: (r, h) => h.response().code(200),
-              config: {
-                pre: [
-                  {
-                    method: securityPreHandlers.checkCombinedCoursesFeatureIsEnabled,
-                  },
-                ],
-              },
-            },
-          ]);
-        },
-      };
-      httpServerTest = new HttpTestServer();
-      await httpServerTest.register(moduleUnderTest);
-      httpServerTest.setupAuthentication();
-    });
-
-    it('returns 200 when combined courses feature is enabled', async function () {
-      featureToggles.set('areCombinedCoursesEnabled', true);
-
-      const { id: userId } = databaseBuilder.factory.buildUser();
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'GET',
-        url: `/api/test-route`,
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-
-      const response = await httpServerTest.requestObject(options);
-
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('returns error when combined courses feature is disabled', async function () {
-      featureToggles.set('areCombinedCoursesEnabled', false);
-
-      const { id: userId } = databaseBuilder.factory.buildUser();
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'GET',
-        url: `/api/test-route`,
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-
-      const response = await httpServerTest.requestObject(options);
-
-      expect(response.statusCode).to.equal(422);
-      expect(response.payload).to.equal('Combined courses feature is disabled');
     });
   });
 });

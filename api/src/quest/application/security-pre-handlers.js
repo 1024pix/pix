@@ -1,6 +1,7 @@
 import JSONApi from 'jsonapi-serializer';
 
 import { NotFoundError } from '../../shared/domain/errors.js';
+import { featureToggles } from '../../shared/infrastructure/feature-toggles/index.js';
 import { usecases } from '../domain/usecases/index.js';
 
 export async function checkAuthorizationToAccessCombinedCourse(request, h) {
@@ -63,8 +64,17 @@ function _replyForbiddenError(h) {
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
 }
 
+export async function checkCombinedCoursesFeatureIsEnabled(request, h) {
+  const areCombinedCoursesEnabled = await featureToggles.get('areCombinedCoursesEnabled');
+  if (!areCombinedCoursesEnabled) {
+    return h.response('Combined courses feature is disabled').code(422).takeover();
+  }
+  return h.response(true);
+}
+
 export default {
   checkAuthorizationToAccessCombinedCourse,
   checkUserCanManageCombinedCourse,
   checkParticipationBelongsToCombinedCourse,
+  checkCombinedCoursesFeatureIsEnabled,
 };

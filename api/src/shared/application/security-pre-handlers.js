@@ -9,7 +9,6 @@ import * as checkCampaignBelongsToCombinedCourseUsecase from '../../prescription
 import * as checkCampaignParticipationBelongsToUserUsecase from '../../prescription/campaign/application/usecases/checkCampaignParticipationBelongsToUser.js';
 import { PIX_ADMIN } from '../../shared/domain/constants.js';
 import { ForbiddenAccess } from '../domain/errors.js';
-import { featureToggles } from '../infrastructure/feature-toggles/index.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
 import { PromiseUtils } from '../infrastructure/utils/promise-utils.js';
 import * as checkOrganizationAccessUseCase from './usecases/check-organization-access.js';
@@ -633,14 +632,6 @@ async function checkAuthorizationToAccessCampaign(
   return _replyForbiddenError(h);
 }
 
-async function checkCombinedCoursesFeatureIsEnabled(request, h) {
-  const areCombinedCoursesEnabled = await featureToggles.get('areCombinedCoursesEnabled');
-  if (!areCombinedCoursesEnabled) {
-    return h.response('Combined courses feature is disabled').code(422).takeover();
-  }
-  return h.response(true);
-}
-
 function hasAtLeastOneAccessOf(securityChecks) {
   return async (request, h) => {
     const responses = await PromiseUtils.map(securityChecks, (securityCheck) => securityCheck(request, h));
@@ -881,5 +872,4 @@ export const securityPreHandlers = {
   checkUserOwnsCertificationCourse,
   makeCheckOrganizationHasFeature,
   checkOrganizationAccess,
-  checkCombinedCoursesFeatureIsEnabled,
 };

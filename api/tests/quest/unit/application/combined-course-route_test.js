@@ -118,7 +118,7 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
     it('should call prehandler', async function () {
       // given
       sinon.stub(questSecurityPreHandlers, 'checkAuthorizationToAccessCombinedCourse').returns(() => true);
-      sinon.stub(securityPreHandlers, 'checkCombinedCoursesFeatureIsEnabled').returns(() => true);
+      sinon.stub(questSecurityPreHandlers, 'checkCombinedCoursesFeatureIsEnabled').returns(() => true);
       sinon.stub(combinedCourseController, 'start').callsFake((_, h) => h.response());
 
       const httpTestServer = new HttpTestServer();
@@ -136,7 +136,7 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
 
       // then
       expect(questSecurityPreHandlers.checkAuthorizationToAccessCombinedCourse).to.have.been.called;
-      expect(securityPreHandlers.checkCombinedCoursesFeatureIsEnabled).to.have.been.called;
+      expect(questSecurityPreHandlers.checkCombinedCoursesFeatureIsEnabled).to.have.been.called;
     });
   });
 
@@ -144,7 +144,7 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
     it('should call prehandler', async function () {
       // given
       sinon.stub(questSecurityPreHandlers, 'checkAuthorizationToAccessCombinedCourse').returns(() => true);
-      sinon.stub(securityPreHandlers, 'checkCombinedCoursesFeatureIsEnabled').returns(() => true);
+      sinon.stub(questSecurityPreHandlers, 'checkCombinedCoursesFeatureIsEnabled').returns(() => true);
       sinon.stub(combinedCourseController, 'reassessStatus').callsFake((_, h) => h.response());
 
       const httpTestServer = new HttpTestServer();
@@ -162,7 +162,7 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
 
       // then
       expect(questSecurityPreHandlers.checkAuthorizationToAccessCombinedCourse).to.have.been.called;
-      expect(securityPreHandlers.checkCombinedCoursesFeatureIsEnabled).to.have.been.called;
+      expect(questSecurityPreHandlers.checkCombinedCoursesFeatureIsEnabled).to.have.been.called;
     });
   });
 
