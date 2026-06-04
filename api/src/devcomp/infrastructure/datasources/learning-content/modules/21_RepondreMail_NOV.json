@@ -132,7 +132,7 @@
                 "id": "f522ab24-0d04-4548-9dc7-6b82acc5cf87",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>[Feedbacks du qcu image]</strong></p><ul><li>Bien vu ! Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe.&nbsp;✉️</strong> <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.<br><br></li><li>[Paramètres] Eh non. Cette application ne permet pas de consulter les mails.</li><li>[WhatsApps] Eh non.  WhatsApp est une application de messagerie instantanée qui permet d’envoyer des messages rapidement (en ligne).&nbsp;<br>Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe</strong>.&nbsp;✉️ <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.<br><br></li></ul>"
+                "content": "<p><strong>[Feedbacks du qcu image]</strong></p><ul><li>Bien vu ! Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe.&nbsp;✉️</strong> <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.<br><br></li><li>[Paramètres] Eh non. Cette application ne permet pas de consulter les mails.</li><li>[WhatsApps] Eh non.  WhatsApp est une application de messagerie instantanée qui permet d’envoyer des messages rapidement (en ligne).&nbsp;<br>Pour consulter ses mails, il faut d’abord <strong>ouvrir sa messagerie électronique</strong>. Elle est souvent représentée par <strong>une icône en forme d’enveloppe</strong>.&nbsp;✉️ <br>Il en existe plusieurs, par exemple&nbsp;: Gmail, Outlook, Mail, Proton Mail, etc.</li></ul>"
               }
             }
           ]
@@ -542,7 +542,7 @@
                 "id": "75166d79-fb2f-4d10-9d24-8964a2f48305",
                 "type": "expand",
                 "title": "🗝️Indices",
-                "content": "<ul>\n    <li>Pour répondre au mail, cliquez sur le bouton «&nbsp;Répondre&nbsp;». Il est indiqué par le mot «&nbsp;Répondre&nbsp;» et/ou par une flèche vers la gauche.&nbsp;↩️<br></li>\n    <li>Après avoir cliqué sur «&nbsp;Répondre&nbsp;», une zone vide pour saisir du texte apparaît. Vous pouvez copier-coller la réponse dans cette zone ou taper la réponse directement dedans.<br><br></li>\n    <li>Pour envoyer votre réponse, cliquez sur le bouton «&nbsp;Envoyer&nbsp;». Il est indiqué par le mot «&nbsp;Envoyer&nbsp;» et/ou une flèche.&nbsp;➡️</li>\n</ul>"
+                "content": "<ul>\n    <li>Pour répondre au mail, cliquez sur le bouton «&nbsp;Répondre&nbsp;». Il est indiqué par le mot «&nbsp;Répondre&nbsp;» et/ou par une flèche vers la gauche.&nbsp;↩️<br></li>\n    <li>Après avoir cliqué sur «&nbsp;Répondre&nbsp;», une zone vide pour saisir du texte apparaît. Vous pouvez copier-coller la réponse dans cette zone ou taper la réponse directement dedans.<br><br></li>\n    <li>Pour envoyer votre réponse, cliquez sur le bouton «&nbsp;Envoyer&nbsp;». Il est indiqué par le mot «&nbsp;Envoyer&nbsp;» et/ou une flèche.&nbsp;➡️</li></ul>"
               }
             },
             {
@@ -748,7 +748,7 @@
                 "id": "e122bb57-c302-476c-b15e-7c58d95bd953",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une fois ouverts, les mails ne sont plus en gras. Ils restent présents dans la boîte de réception. <br>En général, les mails sont <strong>rangés du plus récent au plus ancien</strong>. Les nouveaux mails sont placés en haut de la liste. Les plus anciens mails sont placés en bas de la liste.<br><br></p>"
+                "content": "<p>Une fois ouverts, les mails ne sont plus en gras. Ils restent présents dans la boîte de réception. <br>En général, les mails sont <strong>rangés du plus récent au plus ancien</strong>. Les nouveaux mails sont placés en haut de la liste. Les plus anciens mails sont placés en bas de la liste.</p>"
               }
             },
             {
@@ -811,7 +811,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/activite1-v3.png",
                 "alt": "Capture d’écran d’une interface de messagerie électronique décrite dans l’alternative textuelle",
-                "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol>    <li>        Boîte de réception (2)&nbsp;: sélectionnée    </li>    <li> Messages envoyés    </li>    <li> Brouillons    </li>    <li> Spams    </li>    <li> Corbeille    </li></ol><br><p>Contenu de «&nbsp;Boîte de réception (2)&nbsp;»</p><table>    <thead>        <tr>            <th scope=\"col\">Expéditeur</th>            <th scope=\"col\">Objet</th>            <th scope=\"col\">Date</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\">Sophie<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Projet annuel</td>            <td>15 février</td>        </tr>        <tr>            <th scope=\"row\">Espaces verts<span class=\"sr-only\"> (mail lu)</span></th>            <td>Lettre d’information</td>            <td>5 novembre</td>        </tr>        <tr>            <th scope=\"row\">Naïma<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Photos</td>            <td>5 novembre</td>        </tr>    </tbody></table><p>    &nbsp;&nbsp;<br></p>",
+                "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol>    <li>        Boîte de réception (2)&nbsp;: sélectionnée    </li>    <li> Messages envoyés    </li>    <li> Brouillons    </li>    <li> Spams    </li>    <li> Corbeille    </li></ol><br><p>Contenu de «&nbsp;Boîte de réception (2)&nbsp;»</p><table>    <thead>        <tr>            <th scope=\"col\">Expéditeur</th>            <th scope=\"col\">Objet</th>            <th scope=\"col\">Date</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\">Sophie<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Projet annuel</td>            <td>15 février</td>        </tr>        <tr>            <th scope=\"row\">Espaces verts<span class=\"sr-only\"> (mail lu)</span></th>            <td>Lettre d’information</td>            <td>5 novembre</td>        </tr>        <tr>            <th scope=\"row\">Naïma<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Photos</td>            <td>5 novembre</td>        </tr>    </tbody></table><p>    &nbsp;&nbsp;</p>",
                 "legend": "",
                 "licence": ""
               }
