@@ -1211,7 +1211,7 @@
               "element": {
                 "id": "0af3aa8d-4e6e-47eb-9892-ac43febde2bb",
                 "type": "qcm",
-                "instruction": "<p>Parmi ces publicités, lesquelles font de l’éco-blanchiment ou greenwashing ?<br></p>",
+                "instruction": "<p>Parmi ces publicités, lesquelles font de l’éco-blanchiment ou greenwashing&nbsp;?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
