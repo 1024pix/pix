@@ -435,7 +435,7 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Les deux études n’ont pas le même <strong>périmètre</strong>&nbsp;: elles ne prennent pas en compte les mêmes étapes du cycle de vie.</p>",
+                    "content": "<p>Les deux études n’ont pas le même périmètre&nbsp;: elles ne prennent pas en compte les mêmes étapes du cycle de vie.</p>",
                     "feedback": {
                       "diagnosis": "<p>Bien vu&nbsp;!</p><p>Les deux études portent sur le même objet, mais elles ne mesurent pas exactement la même chose.</p><p>L’étude A observe plusieurs étapes du <strong>cycle de vie</strong>, tandis que l’étude B se limite à la phase d’utilisation. Leur <strong>périmètre</strong> est donc différent, ce qui peut expliquer des résultats différents.</p>"
                     }
