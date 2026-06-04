@@ -16,9 +16,12 @@ const TABLE_NAME = 'learningcontent.tutorials';
 export async function findByRecordIdsForCurrentUser({ ids, userId, locale }) {
   let tutorialDtos = await getInstance().getMany(ids);
   tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto);
+
   if (locale) {
-    const lang = getBaseLocale(locale);
-    tutorialDtos = tutorialDtos.filter((tutorialDto) => getBaseLocale(tutorialDto.locale) === lang);
+    const hasUserLocale = tutorialDtos.some((tutorial) => tutorial.locale === locale);
+    const tutorialLocale = hasUserLocale ? locale : getBaseLocale(locale);
+
+    tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto.locale === tutorialLocale);
   }
   tutorialDtos.sort(byId);
   const tutorials = tutorialDtos.map(toDomain);

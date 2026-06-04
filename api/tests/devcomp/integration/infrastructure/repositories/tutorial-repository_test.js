@@ -211,6 +211,97 @@ describe('Integration | Repository | tutorial-repository', function () {
       expect(tutorials2).to.deep.equal([]);
       expect(tutorials3).to.deep.equal([]);
     });
+
+    describe('locale', function () {
+      beforeEach(async function () {
+        const tutorialsList = [
+          {
+            duration: '00:00:54',
+            format: 'video',
+            link: 'https://tuto.fr',
+            source: 'tuto.fr',
+            title: 'tuto0',
+            id: 'recTutorial0',
+            skillId: undefined,
+            locale: 'fr-FR',
+          },
+          {
+            duration: '00:01:54',
+            format: 'page',
+            link: 'https://tuto.com',
+            source: 'tuto.com',
+            title: 'tuto1',
+            id: 'recTutorial1',
+            skillId: undefined,
+            locale: 'fr',
+          },
+          {
+            duration: '00:01:54',
+            format: 'page',
+            link: 'https://tuto.com',
+            source: 'tuto.com',
+            title: 'tuto2',
+            id: 'recTutorial2',
+            skillId: undefined,
+            locale: 'en',
+          },
+        ];
+
+        databaseBuilder.factory.learningContent.build({
+          tutorials: tutorialsList,
+        });
+        await databaseBuilder.commit();
+      });
+      describe('When tutorials matching user locale', function () {
+        it('returns tutorials matching user locale', async function () {
+          // when
+          const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
+            ids: ['recTutorial0', 'recTutorial1', 'recTutorial2'],
+            userId: null,
+            locale: 'fr-FR',
+          });
+
+          // then
+          expect(tutorials).lengthOf(1);
+          expect(tutorials[0]).deep.equal({
+            duration: '00:00:54',
+            format: 'video',
+            link: 'https://tuto.fr',
+            source: 'tuto.fr',
+            title: 'tuto0',
+            id: 'recTutorial0',
+            skillId: undefined,
+            tutorialEvaluation: undefined,
+            userSavedTutorial: undefined,
+          });
+        });
+      });
+
+      describe('When tutorials not matching user locale', function () {
+        it('returns tutorials matching language', async function () {
+          // when
+          const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
+            ids: ['recTutorial1', 'recTutorial2'],
+            userId: null,
+            locale: 'fr-FR',
+          });
+
+          // then
+          expect(tutorials).lengthOf(1);
+          expect(tutorials[0]).deep.equal({
+            duration: '00:01:54',
+            format: 'page',
+            link: 'https://tuto.com',
+            source: 'tuto.com',
+            title: 'tuto1',
+            id: 'recTutorial1',
+            skillId: undefined,
+            tutorialEvaluation: undefined,
+            userSavedTutorial: undefined,
+          });
+        });
+      });
+    });
   });
 
   describe('#findPaginatedFilteredForCurrentUser', function () {
