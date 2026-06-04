@@ -52,17 +52,14 @@ describe('Acceptance | Controller | session-controller', function () {
           lastName: 'A',
           sessionId,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidateA.id });
 
         const certificationCandidateB = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'B',
           sessionId,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidateB.id });
 
         _.times(5, () => {
-          const candidate = databaseBuilder.factory.buildCertificationCandidate();
-          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+          databaseBuilder.factory.buildCertificationCandidate();
         });
         expectedCertificationCandidateAAttributes = {
           'first-name': certificationCandidateA.firstName,
@@ -82,9 +79,9 @@ describe('Acceptance | Controller | session-controller', function () {
           sex: certificationCandidateA.sex,
           'birth-insee-code': certificationCandidateA.birthINSEECode,
           'birth-postal-code': certificationCandidateA.birthPostalCode,
-          'complementary-certification': null,
           'has-seen-certification-instructions': false,
           'accessibility-adjustment-needed': false,
+          subscription: certificationCandidateA.subscription,
         };
         expectedCertificationCandidateBAttributes = {
           'first-name': certificationCandidateB.firstName,
@@ -104,9 +101,9 @@ describe('Acceptance | Controller | session-controller', function () {
           sex: certificationCandidateB.sex,
           'birth-insee-code': certificationCandidateB.birthINSEECode,
           'birth-postal-code': certificationCandidateB.birthPostalCode,
-          'complementary-certification': null,
           'has-seen-certification-instructions': false,
           'accessibility-adjustment-needed': false,
+          subscription: certificationCandidateB.subscription,
         };
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });

@@ -4,7 +4,6 @@ import * as url from 'node:url';
 import sinon from 'sinon';
 
 import { createServer } from '../../../../../server.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
@@ -145,29 +144,9 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
                 'result-recipient-email': null,
                 'organization-learner-id': organizationLearner.id,
                 sex: 'M',
-                'complementary-certification': null,
+                subscription: Frameworks.CORE,
                 'has-seen-certification-instructions': false,
                 'accessibility-adjustment-needed': false,
-              },
-              relationships: {
-                subscriptions: {
-                  data: [
-                    {
-                      type: 'subscriptions',
-                      id: sinon.match.string,
-                    },
-                  ],
-                },
-              },
-            },
-          ],
-          included: [
-            {
-              type: 'subscriptions',
-              id: sinon.match.string,
-              attributes: {
-                type: SUBSCRIPTION_TYPES.CORE,
-                'complementary-certification-key': null,
               },
             },
           ],

@@ -6,7 +6,7 @@ import { CandidateNotCertifiableEvent } from '../../../../../src/certification/e
 import { CandidateReconciledEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateReconciledEvent.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
 import { CertificationCandidate } from '../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
-import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -38,11 +38,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
         certificationCenterId,
       });
       const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        id: 10000006,
-        key: ComplementaryCertificationKeys.CLEA,
-        label: 'CléA Numérique',
-      });
+      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification.clea();
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: cleaComplementaryCertification.id,
@@ -88,7 +84,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
                 },
                 {
                   type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-                  complementaryCertificationKey: ComplementaryCertificationKeys.CLEA,
+                  complementaryCertificationKey: Frameworks.CLEA,
                 },
               ],
             },
@@ -126,24 +122,15 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
       });
       const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
       const candidateUserId = databaseBuilder.factory.buildUser({}).id;
-      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         id: 1001,
         sessionId,
         userId: candidateUserId,
         billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
       }).id;
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateId });
-      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        id: 10000006,
-        key: ComplementaryCertificationKeys.CLEA,
-        label: 'CléA Numérique',
-      });
+      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification.clea();
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
-        complementaryCertificationId: cleaComplementaryCertification.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: candidateId,
         complementaryCertificationId: cleaComplementaryCertification.id,
       });
       await databaseBuilder.commit();
@@ -162,7 +149,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.payload).to.equal(
-        '{"data":[{"type":"certification-candidates","id":"1001","attributes":{"first-name":"first-name","last-name":"last-name","birthdate":"2000-01-04","birth-province-code":null,"birth-city":"PARIS 1","birth-country":"France","email":"somemail@example.net","result-recipient-email":"somerecipientmail@example.net","external-id":"externalId","extra-time-percentage":0.3,"is-linked":true,"organization-learner-id":null,"sex":"M","birth-insee-code":"75101","birth-postal-code":null,"complementary-certification":{"key":"CLEA"},"billing-mode":"PREPAID","prepayment-code":null,"has-seen-certification-instructions":false,"accessibility-adjustment-needed":false},"relationships":{"subscriptions":{"data":[{"type":"subscriptions","id":"1001-CORE"},{"type":"subscriptions","id":"1001-CLEA"}]}}}],"included":[{"type":"subscriptions","id":"1001-CORE","attributes":{"complementary-certification-key":null,"type":"CORE"}},{"type":"subscriptions","id":"1001-CLEA","attributes":{"complementary-certification-key":"CLEA","type":"COMPLEMENTARY"}}]}',
+        '{"data":[{"type":"certification-candidates","id":"1001","attributes":{"first-name":"first-name","last-name":"last-name","birthdate":"2000-01-04","birth-province-code":null,"birth-city":"PARIS 1","birth-country":"France","email":"somemail@example.net","result-recipient-email":"somerecipientmail@example.net","external-id":"externalId","extra-time-percentage":0.3,"is-linked":true,"organization-learner-id":null,"sex":"M","birth-insee-code":"75101","birth-postal-code":null,"subscription":"CORE","billing-mode":"PREPAID","prepayment-code":null,"has-seen-certification-instructions":false,"accessibility-adjustment-needed":false}}]}',
       );
     });
   });
@@ -185,24 +172,15 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
       });
       const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
       const candidateUserId = databaseBuilder.factory.buildUser({}).id;
-      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         id: 1001,
         sessionId,
         userId: candidateUserId,
         billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
       }).id;
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateId });
-      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        id: 10000006,
-        key: ComplementaryCertificationKeys.CLEA,
-        label: 'CléA Numérique',
-      });
+      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification.clea();
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
-        complementaryCertificationId: cleaComplementaryCertification.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: candidateId,
         complementaryCertificationId: cleaComplementaryCertification.id,
       });
       await databaseBuilder.commit();
@@ -221,7 +199,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.payload).to.equal(
-        '{"data":[{"type":"certification-candidates","id":"1001","attributes":{"first-name":"first-name","last-name":"last-name","birthdate":"2000-01-04"},"relationships":{"subscriptions":{"data":[{"type":"subscriptions","id":"1001-CORE"},{"type":"subscriptions","id":"1001-CLEA"}]}}}],"included":[{"type":"subscriptions","id":"1001-CORE","attributes":{"complementary-certification-key":null,"type":"CORE"}},{"type":"subscriptions","id":"1001-CLEA","attributes":{"complementary-certification-key":"CLEA","type":"COMPLEMENTARY"}}]}',
+        '{"data":[{"type":"certification-candidates","id":"1001","attributes":{"first-name":"first-name","last-name":"last-name","birthdate":"2000-01-04","subscription":"CORE"}}]}',
       );
     });
   });
@@ -351,17 +329,9 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
         billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
         accessibilityAdjustmentNeeded: false,
       }).id;
-      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        id: 10000006,
-        key: ComplementaryCertificationKeys.CLEA,
-        label: 'CléA Numérique',
-      });
+      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification.clea();
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
-        complementaryCertificationId: cleaComplementaryCertification.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: candidateId,
         complementaryCertificationId: cleaComplementaryCertification.id,
       });
 
@@ -414,17 +384,9 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
         userId: null,
         billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
       }).id;
-      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        id: 10000006,
-        key: ComplementaryCertificationKeys.CLEA,
-        label: 'CléA Numérique',
-      });
+      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification.clea();
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
-        complementaryCertificationId: cleaComplementaryCertification.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: candidateId,
         complementaryCertificationId: cleaComplementaryCertification.id,
       });
 

@@ -1,7 +1,6 @@
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/session-candidate-serializer.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -29,15 +28,7 @@ describe('Certification | Enrolment | Unit | Serializer | session-candidate-seri
         billingMode: CertificationCandidate.BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
         hasSeenCertificationInstructions: true,
-        subscriptions: [
-          domainBuilder.certification.enrolment.buildCoreSubscription({
-            certificationCandidateId: 123,
-          }),
-          domainBuilder.certification.enrolment.buildComplementarySubscription({
-            certificationCandidateId: 123,
-            complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_EDU_CPE,
-          }),
-        ],
+        subscription: Frameworks.DROIT,
         accessibilityAdjustmentNeeded: true,
       });
       const expectedJsonApiData = {
@@ -48,40 +39,9 @@ describe('Certification | Enrolment | Unit | Serializer | session-candidate-seri
             'first-name': sessionCandidate.firstName,
             'last-name': sessionCandidate.lastName,
             birthdate: sessionCandidate.birthdate,
-          },
-          relationships: {
-            subscriptions: {
-              data: [
-                {
-                  type: 'subscriptions',
-                  id: `${sessionCandidate.id}-CORE`,
-                },
-                {
-                  type: 'subscriptions',
-                  id: `${sessionCandidate.id}-${ComplementaryCertificationKeys.PIX_PLUS_EDU_CPE}`,
-                },
-              ],
-            },
+            subscription: sessionCandidate.subscription,
           },
         },
-        included: [
-          {
-            type: 'subscriptions',
-            id: `${sessionCandidate.id}-CORE`,
-            attributes: {
-              'complementary-certification-key': null,
-              type: SUBSCRIPTION_TYPES.CORE,
-            },
-          },
-          {
-            type: 'subscriptions',
-            id: `${sessionCandidate.id}-${ComplementaryCertificationKeys.PIX_PLUS_EDU_CPE}`,
-            attributes: {
-              'complementary-certification-key': ComplementaryCertificationKeys.PIX_PLUS_EDU_CPE,
-              type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-            },
-          },
-        ],
       };
 
       // when
