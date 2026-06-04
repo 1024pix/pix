@@ -404,21 +404,21 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>160 kW, soit environ 2 500 fois plus qu’un PC portable actuel</p>",
+                          "content": "<p>160 kilowatts (kW), soit environ 2 500 fois plus qu’un PC portable actuel</p>",
                           "feedback": {
                             "diagnosis": "<p>C’est exact !&nbsp;</p><p>Impressionnant, non ?</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>6&nbsp;kW, soit environ 100 fois plus qu’un PC actuel.</p>",
+                          "content": "<p>6&nbsp;kilowatts (kW), soit environ 100 fois plus qu’un PC actuel.</p>",
                           "feedback": {
                             "diagnosis": "<p>Eh non !</p><p>Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p><p>Impressionnant, non ?</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>60 W, soit environ autant qu’un PC actuel</p>",
+                          "content": "<p>60 watts (W), soit environ autant qu’un PC actuel</p>",
                           "feedback": {
                             "diagnosis": "<p>Eh non ! Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p><p>Impressionnant, non ?</p>"
                           }
@@ -847,7 +847,7 @@
                 "id": "8f7d6c5f-a651-4800-82ff-1f5943d291f8",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>🤨Le numérique a des effets directs sur l’environnement, mais aussi des <strong>effets indirects</strong> provoqués par l’usage du numérique dans la société. Ces effets indirects peuvent être positifs ou négatifs pour l’environnement. </li>    <li>🏀L’amélioration de l’efficience énergétique d’une technologie amène parfois une <strong>augmentation de son usage</strong>, ce qui peut annuler les bénéfices pour l’environnement. C’est l’<strong>effet rebond</strong>. </li>    <li> 🌼Certains industriels communiquent uniquement sur les effets positifs de leurs produits pour se donner une bonne image et passent sous silence les effets négatifs sur l’environnement&nbsp;: c’est du <strong>greenwashing</strong>. </li>    <li> 🔎Il faut donc garder un <strong>regard critique</strong> sur les technologies et leurs améliorations, et s’appuyer sur des <strong>études scientifiques qui prennent en compte les effets indirects</strong>&nbsp;négatifs pour pouvoir les limiter. </li>    <li> ↘️Adopter une démarche de <strong>sobriété</strong>, en réduisant les usages du numérique, permet de réduire efficacement les effets négatifs sur l’environnement. </li></ul>"
+                "content": "<ul>    <li>Le numérique a des effets directs sur l’environnement, mais aussi des <strong>effets indirects</strong> provoqués par l’usage du numérique dans la société. Ces effets indirects peuvent être positifs ou négatifs pour l’environnement.&nbsp;🤨</li>    <li>L’amélioration de l’efficience énergétique d’une technologie amène parfois une <strong>augmentation de son usage</strong>, ce qui peut annuler les bénéfices pour l’environnement. C’est l’<strong>effet rebond</strong>.&nbsp;🏀</li>    <li> Certains industriels communiquent uniquement sur les effets positifs de leurs produits pour se donner une bonne image et passent sous silence les effets négatifs sur l’environnement&nbsp;: c’est du <strong>greenwashing</strong>.&nbsp;🌼</li>    <li> Il faut donc garder un <strong>regard critique</strong> sur les améliorations technologiques et s’appuyer sur des <strong>études scientifiques qui prennent en compte les effets indirects</strong>&nbsp;négatifs pour pouvoir les limiter.&nbsp;🔍</li>    <li> Adopter une démarche de <strong>sobriété</strong>, en réduisant les usages du numérique, permet de réduire efficacement les effets négatifs sur l’environnement.&nbsp;↘️</li></ul>"
               }
             }
           ]
@@ -910,7 +910,7 @@
                   },
                   {
                     "id": "ae24ed0e-6901-4e27-a814-d6694e65bf81",
-                    "text": "Les centres de données consomment de l’eau douce pour refroidir les serveurs",
+                    "text": "Les centres de données consomment de l’eau douce pour refroidir les serveurs.",
                     "image": {
                       "url": "",
                       "altText": ""
