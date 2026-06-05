@@ -1,5 +1,41 @@
 # Pix Changelog
 
+# [5.424.0](https://github.com/1024pix/pix/compare/v5.423.0...v5.424.0) (2026-06-05)
+
+### :rocket: Amélioration
+
+- [#16411](https://github.com/1024pix/pix/pull/16411) 21_RepondreMail_NOV modifications après relecture ortho-typo 
+- [#16407](https://github.com/1024pix/pix/pull/16407) Ajoute le champ message dans les badges dans maddo (PIX-22992) 
+- [#16412](https://github.com/1024pix/pix/pull/16412) Ajouter le nombre de participants par année à l'api interne de stats d'une orga (PIX-22994) 
+- [#16408](https://github.com/1024pix/pix/pull/16408) Ajouter le tag du niveau dans la page de certificat Pix+  (PIX-23007). 
+- [#16382](https://github.com/1024pix/pix/pull/16382) Ajouter une API pour enregistrer l'avis d'un utilisateur sur une recommandation de CF (PIX-22946)(PIX-22933) 
+- [#16403](https://github.com/1024pix/pix/pull/16403) Cacher le bouton de création de version (PIX-22993) 
+- [#16374](https://github.com/1024pix/pix/pull/16374) IA-droitAuteur-post-relectures 
+- [#16313](https://github.com/1024pix/pix/pull/16313) MDX-138 IAGenPrompt_AVA retours PYO 
+- [#16351](https://github.com/1024pix/pix/pull/16351) MDX-142 IA_Infox_IND Corrections Lexix 
+- [#16318](https://github.com/1024pix/pix/pull/16318) MDX-232 MoteurRech_NOV2 Corrections suite à la relecture équipe 
+- [#16413](https://github.com/1024pix/pix/pull/16413) MDX-32 amelioration du novice dans NR_Datacenter_NOV 
+- [#16375](https://github.com/1024pix/pix/pull/16375) MDX-57 retours experts NR_Evaluation_IND 
+- [#16415](https://github.com/1024pix/pix/pull/16415) Tmp eval ava coquilles 
+- [#16419](https://github.com/1024pix/pix/pull/16419) Tmp retours ia gen biais ava last pyo 
+- [#16424](https://github.com/1024pix/pix/pull/16424) Vérifier que les ids des organisations sont bien des nombres avant l'insertion en BDD (PIX-23023) 
+
+### :building_construction: Tech
+
+- [#16397](https://github.com/1024pix/pix/pull/16397) :broom: Réduction de l'utilisation de la librairie Lodash 
+- [#16422](https://github.com/1024pix/pix/pull/16422) Déplacer des pre-handlers de shared dans school 
+- [#16399](https://github.com/1024pix/pix/pull/16399) Déplacer UserService dans le contexte IAM 
+- [#16416](https://github.com/1024pix/pix/pull/16416) Faire jouer les tests E2E sur une release qui ne va pas être archivée dans quelques mois 
+- [#16388](https://github.com/1024pix/pix/pull/16388) Migrer la vue Preview vers la nouvelle route API (PIX-22401) 
+- [#16082](https://github.com/1024pix/pix/pull/16082) Supprimer l’anonymousUserTokenRepository qui est inutile (PIX-23004) 
+- [#16410](https://github.com/1024pix/pix/pull/16410) Supprimer la dépendance au context IAM dans organization-entities 
+
+### :arrow_up: Montée de version
+
+- [#16426](https://github.com/1024pix/pix/pull/16426) Update pix-ui to ^60.13.1 (certif) 
+- [#16427](https://github.com/1024pix/pix/pull/16427) Update pix-ui to ^60.13.1 (junior) 
+- [#16428](https://github.com/1024pix/pix/pull/16428) Update pix-ui to ^60.13.1 (mon-pix)
+
 # [5.423.0](https://github.com/1024pix/pix/compare/v5.422.0...v5.423.0) (2026-06-04)
 
 ### :rocket: Amélioration
