@@ -88,7 +88,7 @@
     "globals": "^17.6.0",
     "loader.js": "^4.7.0",
     "lodash": "^4.18.1",
-    "npm-run-all2": "^8.0.4",
+    "npm-run-all2": "^9.0.0",
     "prettier": "^3.8.3",
     "prettier-plugin-ember-template-tag": "^2.1.6",
     "qunit": "^2.25.0",
