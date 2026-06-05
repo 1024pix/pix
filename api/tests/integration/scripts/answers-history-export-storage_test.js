@@ -77,6 +77,24 @@ describe('Unit | Storage | AnswerHistoryExportsStorage', function () {
       })
     });
   });
+
+  describe('deleteFile', function () {
+    it('should delete a file', async function() {
+      // given
+      const providerStub = sinon.createStubInstance(S3ObjectStorageProvider);
+      sinon.stub(S3ObjectStorageProvider, 'createClient').returns(providerStub);
+      const answersHistoryExportStorage = new AnswersHistoryExportStorage();
+      providerStub.deleteFile.resolves();
+
+      // when
+      await answersHistoryExportStorage.deleteFile({
+        filename: 'delete-me.parquet',
+      });
+
+      // then
+      expect(providerStub.deleteFile).to.have.been.calledWith({ key: 'delete-me.parquet' });
+    })
+  });
 });
 
 async function _compareReadableStreamToFileContent(readableStream, fileContent) {
