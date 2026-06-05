@@ -9,28 +9,10 @@ import * as knowledgeElementRepository from '../../../shared/infrastructure/repo
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as tubeRepository from '../../../shared/infrastructure/repositories/tube-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as moduleIssueReportRepository from '../../infrastructure/repositories/module-issue-report-repository.js';
 import * as targetProfileTrainingRepository from '../../infrastructure/repositories/target-profile-training-repository.js';
-
-const dependencies = {
-  ...repositories,
-  campaignRepository,
-  campaignParticipationRepository,
-  knowledgeElementRepository,
-  moduleIssueReportRepository,
-  targetProfileRepository,
-  targetProfileSummaryForAdminRepository,
-  tubeRepository,
-  targetProfileTrainingRepository,
-  updateCombinedCourseJobRepository,
-  skillRepository,
-  userRepository,
-  llmApi,
-  logger,
-};
-
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { addTutorialEvaluation } from './add-tutorial-evaluation.js';
 import { addTutorialToUser } from './add-tutorial-to-user.js';
 import { attachTargetProfilesToTraining } from './attach-target-profiles-to-training.js';
@@ -50,7 +32,6 @@ import { findRecommendableModulesByTargetProfileIds } from './find-recommendable
 import { findRecommendedModulesByCampaignParticipationIds } from './find-recommended-modules-by-campaign-participation-ids.js';
 import { findTargetProfileSummariesForTraining } from './find-target-profile-summaries-for-training.js';
 import { findTutorials } from './find-tutorials.js';
-import { getModule } from './get-module.js';
 import { getModuleByShortId } from './get-module-by-short-id.js';
 import { getModuleJsonSchema } from './get-module-json-schema.js';
 import { getModuleMetadataList } from './get-module-metadata-list.js';
@@ -66,6 +47,23 @@ import { startEmbedLlmChat } from './start-embed-llm-chat.js';
 import { terminatePassage } from './terminate-passage.js';
 import { updateTraining } from './update-training.js';
 import { verifyAndSaveAnswer } from './verify-and-save-answer.js';
+
+const dependencies = {
+  ...repositories,
+  campaignRepository,
+  campaignParticipationRepository,
+  knowledgeElementRepository,
+  moduleIssueReportRepository,
+  targetProfileRepository,
+  targetProfileSummaryForAdminRepository,
+  tubeRepository,
+  targetProfileTrainingRepository,
+  updateCombinedCourseJobRepository,
+  skillRepository,
+  userRepository,
+  llmApi,
+  logger,
+};
 
 const usecasesWithoutInjectedDependencies = {
   addTutorialEvaluation,
@@ -90,7 +88,6 @@ const usecasesWithoutInjectedDependencies = {
   getModuleMetadataList,
   getModuleMetadataListByIds,
   getModuleMetadataListByShortIds,
-  getModule,
   getModuleByShortId,
   getModuleJsonSchema,
   getTraining,
