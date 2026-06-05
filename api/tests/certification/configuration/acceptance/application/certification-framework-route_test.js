@@ -270,21 +270,23 @@ describe('Acceptance | Application | Certification | Configuration | certificati
       // when
       const response = await server.inject(options);
 
+      const certificationVersions = await knex('certification_versions')
+        .where({ scope: SCOPES.CORE })
+        .orderBy('startDate', 'desc');
+
+      const [createdVersions] = certificationVersions;
+
       // then
       expect(response.statusCode).to.equal(201);
       expect(response.result).to.deep.equal({
         data: {
-          id: SCOPES.CORE,
-          type: 'certification-consolidated-framework',
+          id: createdVersions?.id,
+          type: 'certification-version',
         },
       });
 
-      const certificationVersion = await knex('certification_versions')
-        .where({ scope: SCOPES.CORE })
-        .orderBy('startDate', 'desc')
-        .first();
-
-      expect(certificationVersion).to.deep.include({
+      expect(certificationVersions.length).to.equal(1);
+      expect(createdVersions).to.deep.include({
         scope: SCOPES.CORE,
         startDate: now,
         expirationDate: null,
@@ -302,13 +304,14 @@ describe('Acceptance | Application | Certification | Configuration | certificati
 
       const consolidatedFramework = await knex('certification-frameworks-challenges')
         .select('discriminant', 'difficulty', 'challengeId', 'versionId')
-        .where({ versionId: certificationVersion.id });
+        .where({ versionId: createdVersions?.id });
+
       expect(consolidatedFramework).to.deep.equal([
         {
           discriminant: null,
           difficulty: null,
           challengeId: challenge.id,
-          versionId: certificationVersion.id,
+          versionId: createdVersions?.id,
         },
       ]);
     });
@@ -354,20 +357,13 @@ describe('Acceptance | Application | Certification | Configuration | certificati
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(201);
-      expect(response.result).to.deep.equal({
-        data: {
-          id: SCOPES.CORE,
-          type: 'certification-consolidated-framework',
-        },
-      });
-
       const versions = await knex('certification_versions').where({ scope: SCOPES.CORE }).orderBy('startDate', 'asc');
+      const [oldVersion, newVersion] = versions;
 
       expect(versions).to.have.lengthOf(2);
 
-      const [oldVersion, newVersion] = versions;
-
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.data.id).to.be.equal(newVersion.id);
       expect(oldVersion).to.deep.include({
         id: existingVersion.id,
         startDate: existingVersionStartDate,

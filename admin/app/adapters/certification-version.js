@@ -9,4 +9,16 @@ export default class CertificationVersionAdapter extends ApplicationAdapter {
     const data = this.serialize(snapshot, { includeId: true });
     return this.ajax(url, 'PATCH', { data });
   }
+
+  createDraft({ scope, tubeIds }) {
+    const url = `${this.host}/${this.namespace}/frameworks/${scope}/version`;
+    const data = {
+      data: {
+        attributes: {
+          tubeIds,
+        },
+      },
+    };
+    return this.ajax(url, 'POST', { data });
+  }
 }
