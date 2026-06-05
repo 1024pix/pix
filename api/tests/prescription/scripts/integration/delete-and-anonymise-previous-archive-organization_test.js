@@ -919,6 +919,7 @@ describe('DeleteAndAnonymisePreviousOrganizationScript', function () {
               const deletedProfileRewardId = databaseBuilder.factory.buildProfileReward({
                 userId: archivedOrganizationBeforeDate.activeLearner.userId,
                 rewardType: 'POUET',
+                rewardId: 10,
               }).id;
               databaseBuilder.factory.buildOrganizationsProfileRewards({
                 organizationId: archivedOrganizationBeforeDate.organization.id,
@@ -929,6 +930,7 @@ describe('DeleteAndAnonymisePreviousOrganizationScript', function () {
               activeProfileRewardId = databaseBuilder.factory.buildProfileReward({
                 userId: archivedOrganizationAtDate.activeLearner.userId,
                 rewardType: 'POUAT',
+                rewardId: 11,
               }).id;
               databaseBuilder.factory.buildOrganizationsProfileRewards({
                 organizationId: archivedOrganizationAtDate.organization.id,

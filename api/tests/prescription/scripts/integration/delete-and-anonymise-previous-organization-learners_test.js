@@ -58,8 +58,9 @@ describe('DeleteAndAnonymisePreviousOrganizationLearnersScript', function () {
       now = new Date(startArchiveDate);
       clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
-      userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildUser({ id: ENGINEERING_USER_ID });
+      userId = databaseBuilder.factory.buildUser({
+        id: ENGINEERING_USER_ID,
+      }).id;
 
       archivedOrganizationBeforeDate.organization = databaseBuilder.factory.buildOrganization({
         createdAt: new Date('2020-01-01'),
@@ -573,6 +574,7 @@ describe('DeleteAndAnonymisePreviousOrganizationLearnersScript', function () {
             archivedOrganizationProfileRewardId = databaseBuilder.factory.buildProfileReward({
               userId: archivedOrganizationBeforeDate.deletedLearner.userId,
               rewardType: 'POUET',
+              rewardId: 12,
             }).id;
             databaseBuilder.factory.buildOrganizationsProfileRewards({
               organizationId: archivedOrganizationBeforeDate.organization.id,
@@ -583,6 +585,7 @@ describe('DeleteAndAnonymisePreviousOrganizationLearnersScript', function () {
             const archvivedOrganizationAtDateProfileRewardId = databaseBuilder.factory.buildProfileReward({
               userId: archivedOrganizationAtDate.deletedLearner.userId,
               rewardType: 'POUOT',
+              rewardId: 13,
             }).id;
             databaseBuilder.factory.buildOrganizationsProfileRewards({
               organizationId: archivedOrganizationAtDate.organization.id,
@@ -593,6 +596,7 @@ describe('DeleteAndAnonymisePreviousOrganizationLearnersScript', function () {
             activeProfileRewardIdFromActiveLearnerActiveOrganization = databaseBuilder.factory.buildProfileReward({
               userId: activeOrganization.activeLearner.userId,
               rewardType: 'POUAT',
+              rewardId: 14,
             }).id;
             databaseBuilder.factory.buildOrganizationsProfileRewards({
               organizationId: activeOrganization.organization.id,
@@ -602,6 +606,7 @@ describe('DeleteAndAnonymisePreviousOrganizationLearnersScript', function () {
             const deletedProfileRewardId = databaseBuilder.factory.buildProfileReward({
               userId: activeOrganization.deletedLearner.userId,
               rewardType: 'POUIT',
+              rewardId: 15,
             }).id;
             databaseBuilder.factory.buildOrganizationsProfileRewards({
               organizationId: activeOrganization.organization.id,
@@ -649,7 +654,9 @@ describe('DeleteAndAnonymisePreviousOrganizationLearnersScript', function () {
             expect(attachedProfileReward).length(2);
             expect(attachedProfileReward).deep.members([
               { profileRewardId: null },
-              { profileRewardId: activeProfileRewardIdFromActiveLearnerActiveOrganization },
+              {
+                profileRewardId: activeProfileRewardIdFromActiveLearnerActiveOrganization,
+              },
             ]);
           });
         });
@@ -823,9 +830,18 @@ describe('DeleteAndAnonymisePreviousOrganizationLearnersScript', function () {
               // then
               expect(assessmentResults).lengthOf(3);
               expect(assessmentResults).deep.members([
-                { id: assessment1.id, userId: archivedOrganizationAtDate.deletedLearner.userId },
-                { id: assessment2.id, userId: activeOrganization.deletedLearner.userId },
-                { id: assessment3.id, userId: activeOrganization.deletedLearner.userId },
+                {
+                  id: assessment1.id,
+                  userId: archivedOrganizationAtDate.deletedLearner.userId,
+                },
+                {
+                  id: assessment2.id,
+                  userId: activeOrganization.deletedLearner.userId,
+                },
+                {
+                  id: assessment3.id,
+                  userId: activeOrganization.deletedLearner.userId,
+                },
               ]);
             });
           });
