@@ -527,7 +527,7 @@
             "title": "Framework versions history"
           },
           "new-version-form": {
-            "submit-button": "Submit the new version of the certification framework ",
+            "next-button": "Next",
             "success-notification": "The new version of the certification framework  has been successfully created.",
             "title": "Creating a new version of the certification framework for {frameworkLabel}"
           },

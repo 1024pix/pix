@@ -22,7 +22,7 @@ module('Integration | Component | complementary-certifications/item/framework/ne
     assert
       .dom(
         screen.getByRole('button', {
-          name: t('components.certification-frameworks.item.framework.new-version-form.submit-button'),
+          name: t('components.certification-frameworks.item.framework.new-version-form.next-button'),
         }),
       )
       .hasAttribute('aria-disabled');
@@ -41,7 +41,7 @@ module('Integration | Component | complementary-certifications/item/framework/ne
     assert
       .dom(
         screen.getByRole('button', {
-          name: t('components.certification-frameworks.item.framework.new-version-form.submit-button'),
+          name: t('components.certification-frameworks.item.framework.new-version-form.next-button'),
         }),
       )
       .doesNotHaveAttribute('aria-disabled');

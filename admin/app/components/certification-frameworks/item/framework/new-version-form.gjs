@@ -23,20 +23,17 @@ export default class NewVersionForm extends Component {
 
   @action
   async onSubmit() {
-    const consolidatedFramework = this.store.createRecord('certification-consolidated-framework', {
-      scope: this.args.scope,
-      tubes: this.selectedTubes,
-    });
-
+    const adapter = this.store.adapterFor('certification-version');
     try {
-      await consolidatedFramework.save();
-
-      this.router.transitionTo('authenticated.certification-frameworks.item.framework');
-      this.pixToast.sendSuccessNotification({
-        message: this.intl.t(
-          'components.certification-frameworks.item.framework.new-version-form.success-notification',
-        ),
+      const certificationVersion = await adapter.createDraft({
+        scope: this.args.scope,
+        tubeIds: this.selectedTubes.map((tube) => tube.id),
       });
+
+      this.router.transitionTo(
+        'authenticated.certification-frameworks.item.framework.new-version.configuration',
+        certificationVersion?.data?.id,
+      );
     } catch (error) {
       this.pixToast.sendErrorNotification({ message: error.errors?.[0].detail });
     }
@@ -50,7 +47,6 @@ export default class NewVersionForm extends Component {
     const tubes = [];
 
     const areas = this.args.activeVersion.hasMany('areas').value();
-
     for (const area of areas) {
       competences.push(...area.hasMany('competences').value());
     }
@@ -91,14 +87,14 @@ export default class NewVersionForm extends Component {
           />
           <ul class="framework-creation-form__buttons">
             <li>
-              <PixButton @triggerAction={{this.onSubmit}} @isDisabled={{if this.selectedTubes.length false true}}>
-                {{t "components.certification-frameworks.item.framework.new-version-form.submit-button"}}
-              </PixButton>
-            </li>
-            <li>
               <PixButtonLink @route="authenticated.certification-frameworks.item.framework" @variant="secondary">
                 {{t "common.actions.cancel"}}
               </PixButtonLink>
+            </li>
+            <li>
+              <PixButton @triggerAction={{this.onSubmit}} @isDisabled={{if this.selectedTubes.length false true}}>
+                {{t "components.certification-frameworks.item.framework.new-version-form.next-button"}}
+              </PixButton>
             </li>
           </ul>
         {{/if}}
