@@ -134,6 +134,49 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
         expect(profileRewards[0].rewardId).to.equal(reward.id);
       });
     });
+
+    context('when combined course contains no reward', function () {
+      it('should not reward the user', async function () {
+        /// given
+        const code = 'SOMETHING';
+        const moduleId = '6282925d-4775-4bca-b513-4c3009ec5886';
+        const {
+          id: organizationLearnerId,
+          userId,
+          organizationId,
+        } = databaseBuilder.factory.buildOrganizationLearner();
+        const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({});
+        const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
+          code,
+          organizationId,
+          questId,
+        });
+
+        // build terminated passages and started OrganizationLearnerParticipation Passages to validate right synchronization
+        databaseBuilder.factory.buildPassage({ userId, moduleId, terminatedAt: new Date() });
+        databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypePassage({
+          organizationLearnerId,
+          moduleId,
+          status: OrganizationLearnerParticipationStatuses.STARTED,
+        });
+
+        databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
+          organizationLearnerId,
+          combinedCourseId,
+          createdAt: new Date('2022-01-01'),
+          updatedAt: new Date('2022-01-01'),
+          status: OrganizationLearnerParticipationStatuses.STARTED,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await usecases.updateCombinedCourseProgress({ userId, code });
+
+        // then
+        const profileRewards = await repositories.rewardRepository.getByUserId({ userId });
+        expect(profileRewards).to.be.empty;
+      });
+    });
   });
 
   it('should update organization learner participations when passage is on a recommended module', async function () {

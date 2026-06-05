@@ -49,11 +49,11 @@ export async function updateCombinedCourseProgress({
       updatedCombinedCourseDetails.participation,
     );
     await combinedCourseParticipationRepository.update(organizationLearnerParticipation.fieldsForUpdate);
-    if (updatedCombinedCourseDetails.isSuccessful()) {
+
+    if (updatedCombinedCourseDetails.isSuccessful() && combinedCourse.quest.rewardId) {
       await rewardRepository.reward({
         userId,
         rewardId: combinedCourse.quest.rewardId,
-        rewardType: combinedCourse.quest.rewardType,
       });
     }
   }
