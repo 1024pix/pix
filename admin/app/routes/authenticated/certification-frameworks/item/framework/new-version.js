@@ -8,7 +8,11 @@ export default class FrameworkRoute extends Route {
   };
   @service store;
   @service router;
+  @service accessControl;
 
+  beforeModel() {
+    this.accessControl.restrictAccessTo(['isSuperAdmin'], 'authenticated.certification-frameworks.item.framework');
+  }
   async model(params) {
     let activeVersion;
     const frameworks = await this.store.findAll('framework');
