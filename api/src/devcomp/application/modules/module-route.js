@@ -7,22 +7,6 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/modules/{slug}',
-      config: {
-        auth: false,
-        handler: handlerWithDependencies(modulesController.getBySlug),
-        validate: {
-          params: Joi.object({ slug: Joi.string().required() }),
-          query: Joi.object({
-            encryptedRedirectionUrl: Joi.string(),
-          }),
-        },
-        notes: ['- Permet de récupérer un module grâce à son titre slugifié'],
-        tags: ['api', 'modules'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/modules/v2/{shortId}',
       config: {
         auth: false,

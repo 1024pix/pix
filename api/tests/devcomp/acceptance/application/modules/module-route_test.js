@@ -12,51 +12,6 @@ describe('Acceptance | Controller | Modules | Route', function () {
     server = await createServer();
   });
 
-  describe('GET /api/modules/:slug', function () {
-    context('when module exists', function () {
-      it('should return module', async function () {
-        nock('https://assets.pix.org').persist().head(/^.+$/).reply(200, {});
-        const options = {
-          method: 'GET',
-          url: `/api/modules/bien-ecrire-son-adresse-mail`,
-        };
-
-        const response = await server.inject(options);
-
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data.type).to.equal('modules');
-      });
-
-      it('should return module with redirectionUrl', async function () {
-        nock('https://assets.pix.org').persist().head(/^.+$/).reply(200, {});
-        const expectedUrl = 'https://app.pix.fr/parcours/COMBINIX1';
-        const encryptedRedirectionUrl = await cryptoService.encrypt(expectedUrl, config.module.secret);
-        const options = {
-          method: 'GET',
-          url: `/api/modules/bien-ecrire-son-adresse-mail?encryptedRedirectionUrl=${encodeURIComponent(encryptedRedirectionUrl)}`,
-        };
-
-        const response = await server.inject(options);
-
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data.attributes['redirection-url']).to.equal(expectedUrl);
-      });
-    });
-
-    context('when module does not exist', function () {
-      it('should return 404', async function () {
-        const options = {
-          method: 'GET',
-          url: `/api/modules/dresser-des-pokemons`,
-        };
-
-        const response = await server.inject(options);
-
-        expect(response.statusCode).to.equal(404);
-      });
-    });
-  });
-
   describe('GET /api/modules/v2/:shortId', function () {
     context('when a module with given shortId exist', function () {
       it('should return modules data', async function () {
