@@ -89,7 +89,7 @@
     "demo-epreuves:update": "./scripts/update-demo-epreuves.sh"
   },
   "dependencies": {
-    "npm-run-all2": "^8.0.0"
+    "npm-run-all2": "^9.0.0"
   },
   "devDependencies": {
     "@1024pix/eslint-plugin": "^2.1.19",
