@@ -1,6 +1,6 @@
 import { CertificationResult } from '../../../../../../../src/certification/results/domain/read-models/parcoursup/CertificationResult.js';
 
-const buildCertificationResult = function ({
+export function buildCertificationResult({
   ine,
   organizationUai,
   lastName,
@@ -24,6 +24,4 @@ const buildCertificationResult = function ({
     competences,
     maxReachableLevel,
   });
-};
-
-export { buildCertificationResult };
+}

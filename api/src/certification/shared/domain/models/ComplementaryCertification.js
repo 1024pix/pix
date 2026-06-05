@@ -1,3 +1,4 @@
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 /**
  * @typedef {import ('./ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  */
@@ -13,5 +14,6 @@ export class ComplementaryCertification {
     this.id = id;
     this.label = label;
     this.key = key;
+    this.hasComplementaryReferential = key !== ComplementaryCertificationKeys.CLEA;
   }
 }

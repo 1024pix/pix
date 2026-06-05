@@ -206,17 +206,17 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
         };
         datamartBuilder.factory.buildCertificationResult({
           ...certificationResultData,
-          competenceCode: '1.1',
-          competenceName: "Mener une recherche et une veille d'information",
-          areaName: 'Informations et données',
-          competenceLevel: 3,
-        });
-        datamartBuilder.factory.buildCertificationResult({
-          ...certificationResultData,
           competenceCode: '1.2',
           competenceName: 'Gérer des données',
           areaName: 'Informations et données',
           competenceLevel: 5,
+        });
+        datamartBuilder.factory.buildCertificationResult({
+          ...certificationResultData,
+          competenceCode: '1.1',
+          competenceName: "Mener une recherche et une veille d'information",
+          areaName: 'Informations et données',
+          competenceLevel: 3,
         });
         await datamartBuilder.commit();
 
@@ -240,16 +240,16 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
           certificationDate: new Date('2024-11-22T09:39:54Z'),
           competences: [
             domainBuilder.certification.results.parcoursup.buildCompetence({
-              code: '1.1',
-              name: "Mener une recherche et une veille d'information",
-              areaName: 'Informations et données',
-              level: 3,
-            }),
-            domainBuilder.certification.results.parcoursup.buildCompetence({
               code: '1.2',
               name: 'Gérer des données',
               areaName: 'Informations et données',
               level: 5,
+            }),
+            domainBuilder.certification.results.parcoursup.buildCompetence({
+              code: '1.1',
+              name: "Mener une recherche et une veille d'information",
+              areaName: 'Informations et données',
+              level: 3,
             }),
           ],
           maxReachableLevel: 7,

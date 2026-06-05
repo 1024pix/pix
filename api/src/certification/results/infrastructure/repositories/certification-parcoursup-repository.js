@@ -5,22 +5,22 @@ import { CORE_MESH_CONFIGURATION } from '../../../shared/domain/constants/mesh-c
 import { CertificationResult } from '../../domain/read-models/parcoursup/CertificationResult.js';
 import { Competence } from '../../domain/read-models/parcoursup/Competence.js';
 
-const getByINE = async ({ ine }) => {
+export async function getByINE({ ine }) {
   return _getBySearchParams({
     national_student_id: ine,
   });
-};
+}
 
-const getByOrganizationUAI = async ({ organizationUai, lastName, firstName, birthdate }) => {
+export async function getByOrganizationUAI({ organizationUai, lastName, firstName, birthdate }) {
   return _getBySearchParams({
     organization_uai: organizationUai,
     last_name: lastName,
     first_name: firstName,
     birthdate,
   });
-};
+}
 
-const _getBySearchParams = async (searchParams) => {
+async function _getBySearchParams(searchParams) {
   const certificationResultDto = await datamartKnex('sco_certification_results')
     .select({
       national_student_id: 'national_student_id',
@@ -59,9 +59,9 @@ const _getBySearchParams = async (searchParams) => {
   }
 
   return _toDomain(certificationResultDto);
-};
+}
 
-const getByVerificationCode = async ({ verificationCode }) => {
+export async function getByVerificationCode({ verificationCode }) {
   const certificationResultDto = await datamartKnex('certification_results')
     .select({
       last_name: 'last_name',
@@ -90,12 +90,12 @@ const getByVerificationCode = async ({ verificationCode }) => {
   }
 
   return _toDomain(certificationResultDto);
-};
+}
 
 /**
  * @returns {Array<CertificationResult>}
  */
-const _toDomain = (certificationResultDto) => {
+function _toDomain(certificationResultDto) {
   return certificationResultDto.map((certificationResult) => {
     const uniqCompetences = new Map();
     for (const competence of certificationResult.competences) {
@@ -126,9 +126,9 @@ const _toDomain = (certificationResultDto) => {
       ),
     });
   });
-};
+}
 
-const _getMaxReachableLevel = (scoringConfiguration, ine) => {
+function _getMaxReachableLevel(scoringConfiguration, ine) {
   if (!scoringConfiguration) {
     logger.trace(
       { ine },
@@ -138,6 +138,4 @@ const _getMaxReachableLevel = (scoringConfiguration, ine) => {
     return lastMesh.coefficient;
   }
   return scoringConfiguration.length - 1;
-};
-
-export { getByINE, getByOrganizationUAI, getByVerificationCode };
+}

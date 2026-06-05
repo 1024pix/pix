@@ -31,6 +31,7 @@ describe('Certification | Configuration | Unit | Serializer | complementary-cert
             attributes: {
               label: 'Pix+Edu',
               key: 'EDU',
+              'has-complementary-referential': true,
             },
           },
           {
@@ -39,6 +40,7 @@ describe('Certification | Configuration | Unit | Serializer | complementary-cert
             attributes: {
               label: 'Cléa Numérique',
               key: 'CLEA',
+              'has-complementary-referential': false,
             },
           },
         ],

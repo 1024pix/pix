@@ -1,7 +1,7 @@
-import { ComplementaryCertification } from '../../../../../../src/certification/configuration/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
-const buildComplementaryCertification = function ({
+export function buildComplementaryCertification({
   id = 1,
   label = 'Complementary certification name',
   key = ComplementaryCertificationKeys.PIX_PLUS_DROIT,
@@ -11,6 +11,4 @@ const buildComplementaryCertification = function ({
     label,
     key,
   });
-};
-
-export { buildComplementaryCertification };
+}

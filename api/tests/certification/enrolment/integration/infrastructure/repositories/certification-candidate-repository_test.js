@@ -205,6 +205,7 @@ describe('Certification | Shared | Integration | Repository | CertificationCandi
             id: complementaryCertification.id,
             key: 'DROIT',
             label: 'UneSuperCertifComplémentaire',
+            hasComplementaryReferential: true,
           },
           createdAt,
           email: 'somemail@example.net',
