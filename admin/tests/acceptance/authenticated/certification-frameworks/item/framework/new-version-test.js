@@ -80,4 +80,12 @@ module('Acceptance | Certification Framework | item | Framework | new-version', 
       );
     });
   });
+
+  module('when admin member doesn\'t have the role "SUPER ADMIN"', function () {
+    test('should be redirected to the framework-history list ', async function (assert) {
+      await authenticateAdminMemberWithRole()(server);
+      await visit(`/certification-frameworks/DROIT/framework/new-version?activeVersionId=12`);
+      assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/framework');
+    });
+  });
 });
