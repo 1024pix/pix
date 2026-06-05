@@ -7,6 +7,7 @@ export default class FrameworkRoute extends Route {
     activeVersionId: { refreshModel: true },
   };
   @service store;
+  @service router;
 
   async model(params) {
     let activeVersion;
@@ -20,5 +21,12 @@ export default class FrameworkRoute extends Route {
       scope: item.frameworkKey,
       activeVersion,
     });
+  }
+
+  afterModel() {
+    //todo faire des vérifs de présente d'une draft existante avec un paramId
+    // si présente on par direct coté config
+    //  si non présente on par sur les tubes
+    this.router.transitionTo('authenticated.certification-frameworks.item.framework.new-version.tubes');
   }
 }
