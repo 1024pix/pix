@@ -4,6 +4,7 @@ import sinon from 'sinon';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import {
+  deleteBatchAnswers,
   GetAnswersFromAssessments,
   writeBufferFromAnswers,
 } from '../../../scripts/prod/get-answers-from-assessments.js';
@@ -58,7 +59,7 @@ describe('GetAnswersFromAssessments', function () {
       });
     });
 
-    describe.only('when not running in dryRun mode', function () {
+    describe('when not running in dryRun mode', function () {
       it('delete answers from a list of assessments', async function () {
         const logger = {
           info: sinon.stub(),
@@ -67,9 +68,9 @@ describe('GetAnswersFromAssessments', function () {
         const oneYearAgo = new Date(todayDate.getFullYear() - 1, todayDate.getMonth(), todayDate.getDate());
 
         const validAssessment = databaseBuilder.factory.buildAssessment({
-          updatedAt: new Date("2020-01-03"),
-          state: "completed",
-          type: "CAMPAIGN",
+          updatedAt: new Date('2020-01-03'),
+          state: 'completed',
+          type: 'CAMPAIGN',
         });
         databaseBuilder.factory.buildAnswer({ assessmentId: validAssessment.id });
 
@@ -175,6 +176,108 @@ describe('GetAnswersFromAssessments', function () {
         timeSpent: 50,
         isFocusedOut: true,
         extractedAt: today,
+      });
+    });
+  });
+
+  describe('deleteBatchAnswers', function () {
+    it('deletes a batch of answers', async function () {
+      // given
+      const assessmentId = databaseBuilder.factory.buildAssessment().id;
+      const firstAnswer = databaseBuilder.factory.buildAnswer({
+        assessmentId,
+        value: 'value for first answer',
+        result: 'result for first answer',
+        challengeId: 'rec123ABC',
+        createdAt: new Date('2020-01-01'),
+        updatedAt: new Date('2020-01-02'),
+        timeout: null,
+        resultDetails: 'result details for first answer.',
+        isFocusedOut: false,
+        timeSpent: 30,
+      });
+
+      const secondAnswer = databaseBuilder.factory.buildAnswer({
+        assessmentId,
+        value: 'value for second answer',
+        result: 'result for second answer',
+        challengeId: 'rec123DEF',
+        createdAt: new Date('2020-01-03'),
+        updatedAt: new Date('2020-01-04'),
+        timeout: 10,
+        resultDetails: 'result details for second answer.',
+        isFocusedOut: true,
+        timeSpent: 50,
+      });
+
+      const answersToBeDeleted = [firstAnswer, secondAnswer];
+
+      await databaseBuilder.commit();
+
+      // when
+      await deleteBatchAnswers(answersToBeDeleted);
+
+      // then
+      const remainingAnswers = await knex('answers');
+      expect(remainingAnswers).to.be.empty;
+    });
+
+    describe('when an error occurs while deleting', function () {
+      describe('when a answer is corrupted', function () {
+        it('does not delete any answer', async function () {
+          // given
+          const assessmentId = databaseBuilder.factory.buildAssessment().id;
+          const firstAnswer = databaseBuilder.factory.buildAnswer({
+            assessmentId,
+            value: 'value for first answer',
+            result: 'result for first answer',
+            challengeId: 'rec123ABC',
+            createdAt: new Date('2020-01-01'),
+            updatedAt: new Date('2020-01-02'),
+            timeout: null,
+            resultDetails: 'result details for first answer.',
+            isFocusedOut: false,
+            timeSpent: 30,
+          });
+
+          const secondAnswer = databaseBuilder.factory.buildAnswer({
+            assessmentId,
+            value: 'value for second answer',
+            result: 'result for second answer',
+            challengeId: 'rec123DEF',
+            createdAt: new Date('2020-01-03'),
+            updatedAt: new Date('2020-01-04'),
+            timeout: 10,
+            resultDetails: 'result details for second answer.',
+            isFocusedOut: true,
+            timeSpent: 50,
+          });
+
+          const thirdAnswer = databaseBuilder.factory.buildAnswer({
+            assessmentId,
+            value: 'value for third answer',
+            result: 'result for third answer',
+            challengeId: 'rec123DEF',
+            createdAt: new Date('2020-01-03'),
+            updatedAt: new Date('2020-01-04'),
+            timeout: 10,
+            resultDetails: 'result details for third answer.',
+            isFocusedOut: true,
+            timeSpent: 50,
+          });
+
+          await databaseBuilder.commit();
+
+          secondAnswer.id = 'aString';
+          const answersToBeDeleted = [firstAnswer, secondAnswer, thirdAnswer];
+
+          // when
+          await expect(deleteBatchAnswers(answersToBeDeleted)).to.be.rejectedWith(Error);
+
+          // then
+          const remainingAnswers = await knex('answers');
+          expect(remainingAnswers).to.have.length(3);
+        });
       });
     });
   });

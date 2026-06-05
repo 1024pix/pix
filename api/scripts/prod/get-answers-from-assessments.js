@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
 import { parquetWriteBuffer } from 'hyparquet-writer';
+import { getLogger } from 'nodemailer/lib/shared/index.js';
 
 import { knex } from '../../db/knex-database-connection.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
@@ -50,7 +51,7 @@ export class GetAnswersFromAssessments extends Script {
           logger.info(`Successfully written ${batchAnswersToBeDeleted.length} answers to ${partitionFile}.`);
 
           logger.info(`Deleting ${batchAnswersToBeDeleted.length} answers.`);
-          await deleteBatchAnswers(batchAnswersToBeDeleted);
+          await deleteBatchAnswers(batchAnswersToBeDeleted, logger);
           logger.info(`Successfully deleted ${batchAnswersToBeDeleted.length} answers.`);
         } catch {
           logger.error(`File upload failed, rolling back uploaded file ${partitionFile} and deleting it from bucket`);
@@ -83,9 +84,14 @@ export function writeParquetFile(rangeStart, batchAnswersToBeDeleted) {
   return { partitionFile, fileContent };
 }
 
-export async function deleteBatchAnswers(answersToBeDeleted) {
+export async function deleteBatchAnswers(answersToBeDeleted, logger, connection = DomainTransaction.getConnection()) {
   const batchAnswersToBeDeletedIds = answersToBeDeleted.map(({ id }) => id);
-  await knex('answers').delete().whereIn('id', batchAnswersToBeDeletedIds);
+  try {
+    await connection('answers').delete().whereIn('id', batchAnswersToBeDeletedIds);
+  } catch {
+    logger.error('Could not delete answers from DB');
+    throw Error('An error occurred during the answers deletion in DB');
+  }
 }
 
 export function writeBufferFromAnswers(answersToBeDeleted) {
