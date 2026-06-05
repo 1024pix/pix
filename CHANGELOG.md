@@ -1,5 +1,28 @@
 # Pix Changelog
 
+# [5.425.0](https://github.com/1024pix/pix/compare/v5.424.0...v5.425.0) (2026-06-05)
+
+### :rocket: Amélioration
+
+- [#16420](https://github.com/1024pix/pix/pull/16420) Afficher le nombre de participants par année dans l'onglet statistiques d'une orga (PIX-22756) 
+- [#16414](https://github.com/1024pix/pix/pull/16414) Permettre aux admins d'éditer certaines données d'un schéma de parcours combiné (PIX-22989) 
+
+### :bug: Correction
+
+- [#16431](https://github.com/1024pix/pix/pull/16431) Ne pas créer de récompense pour le passage d'un parcours combiné dont la quest n'a pas de récompense (PIX-23038) 
+
+### :arrow_up: Montée de version
+
+- [#16430](https://github.com/1024pix/pix/pull/16430) Update dependency html-validate to v11 (api) 
+- [#16432](https://github.com/1024pix/pix/pull/16432) Update dependency npm-run-all2 to v9 (admin) 
+- [#16433](https://github.com/1024pix/pix/pull/16433) Update dependency npm-run-all2 to v9 (api) 
+- [#16435](https://github.com/1024pix/pix/pull/16435) Update dependency npm-run-all2 to v9 (e2e) 
+- [#16436](https://github.com/1024pix/pix/pull/16436) Update dependency npm-run-all2 to v9 (junior) 
+- [#16437](https://github.com/1024pix/pix/pull/16437) Update dependency npm-run-all2 to v9 (mon-pix) 
+- [#16438](https://github.com/1024pix/pix/pull/16438) Update dependency npm-run-all2 to v9 (orga) 
+- [#16425](https://github.com/1024pix/pix/pull/16425) Update pix-ui to ^60.13.1 (admin) 
+- [#16429](https://github.com/1024pix/pix/pull/16429) Update pix-ui to v60.13.1 (orga)
+
 # [5.424.0](https://github.com/1024pix/pix/compare/v5.423.0...v5.424.0) (2026-06-05)
 
 ### :rocket: Amélioration
