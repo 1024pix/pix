@@ -122,7 +122,7 @@
     "file-type": "^22.0.0",
     "hapi-swagger": "^17.3.2",
     "hash-int": "^1.0.0",
-    "html-validate": "^10.0.0",
+    "html-validate": "^11.0.0",
     "i18n": "^0.15.0",
     "iconv-lite": "^0.7.0",
     "ioredis": "5.8.0",
