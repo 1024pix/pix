@@ -45,6 +45,7 @@ export default class CertificationCandidateAdapter extends ApplicationAdapter {
         type,
         complementaryCertificationKey,
       }));
+      delete payload.data.attributes.subscription;
       const url = this.urlForCreateRecord('certification-candidate', { adapterOptions: snapshot.adapterOptions });
 
       return this.ajax(url, 'POST', { data: payload });

@@ -23,6 +23,7 @@ export default class CertificationCandidate extends Model {
   @attr('string') billingMode;
   @attr('string') prepaymentCode;
   @attr('boolean') accessibilityAdjustmentNeeded;
+  @attr('string') subscription;
 
   @hasMany('subscription', { async: false, inverse: null }) subscriptions;
 
@@ -63,6 +64,7 @@ export default class CertificationCandidate extends Model {
   }
 
   hasDualCertificationSubscriptionCoreClea(centerHabilitations) {
+    if (this.subscription) return this.subscription === 'CLEA';
     const hasCoreSubscription = this.subscriptions.some((sub) => sub.isCore);
     const hasCleaSubscription = this.subscriptions.some((sub) => sub.isClea(centerHabilitations));
     return hasCoreSubscription && hasCleaSubscription;

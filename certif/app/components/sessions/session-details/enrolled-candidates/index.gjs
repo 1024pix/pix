@@ -295,23 +295,29 @@ export default class EnrolledCandidates extends Component {
 
   computeSubscriptionsText = (candidate) => {
     const complementaryCertificationList = this.args.complementaryCertifications ?? [];
-    const subscriptionLabels = [];
 
     if (candidate.hasDualCertificationSubscriptionCoreClea(complementaryCertificationList)) {
-      subscriptionLabels.push(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.dual-core-clea`));
-    } else {
-      for (const subscription of candidate.subscriptions) {
-        if (subscription.isCore) subscriptionLabels.unshift(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`));
-        else {
-          const candidateComplementaryCertification = complementaryCertificationList.find(
-            (complementaryCertification) =>
-              complementaryCertification.key === subscription.complementaryCertificationKey,
-          );
-          subscriptionLabels.push(candidateComplementaryCertification?.label || '-');
-        }
-      }
+      return this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.dual-core-clea`);
     }
 
+    if (candidate.subscription) {
+      if (candidate.subscription === 'CORE') {
+        return this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`);
+      }
+      const complementaryCertification = complementaryCertificationList.find((c) => c.key === candidate.subscription);
+      return complementaryCertification?.label || '-';
+    }
+
+    const subscriptionLabels = [];
+    for (const subscription of candidate.subscriptions) {
+      if (subscription.isCore) subscriptionLabels.unshift(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`));
+      else {
+        const candidateComplementaryCertification = complementaryCertificationList.find(
+          (c) => c.key === subscription.complementaryCertificationKey,
+        );
+        subscriptionLabels.push(candidateComplementaryCertification?.label || '-');
+      }
+    }
     return subscriptionLabels.join(', ');
   };
 
