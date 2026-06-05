@@ -62,7 +62,7 @@
     "@embroider/util": "^1.13.5",
     "@embroider/webpack": "^4.1.2",
     "@formatjs/intl": "^4.1.11",
-    "@glimmer/component": "^1.1.2",
+    "@glimmer/component": "^2.0.0",
     "@sentry/ember": "^10.53.1",
     "@testing-library/user-event": "^14.6.1",
     "buffer": "^6.0.3",
