@@ -1,7 +1,6 @@
 import { randomUUID } from 'node:crypto';
 
 import { parquetWriteBuffer } from 'hyparquet-writer';
-import { getLogger } from 'nodemailer/lib/shared/index.js';
 
 import { knex } from '../../db/knex-database-connection.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
@@ -43,7 +42,11 @@ export class GetAnswersFromAssessments extends Script {
 
       for (const [rangeStart, batchAnswersToBeDeleted] of partitionByAssessmentIdRange(answersToBeDeleted)) {
         logger.info(`Creating parquet file.`);
-        const { partitionFile, fileContent } = writeParquetFile(rangeStart, batchAnswersToBeDeleted);
+        const { partitionFile, fileContent } = createParquetArrayBuffer(
+          rangeStart,
+          batchAnswersToBeDeleted,
+          ASSESSMENT_ID_RANGE_SIZE,
+        );
         logger.info(`Successfully created ${partitionFile} file.`);
         try {
           logger.info(`Writing ${batchAnswersToBeDeleted.length} answers to ${partitionFile}.`);
@@ -63,9 +66,6 @@ export class GetAnswersFromAssessments extends Script {
   }
 }
 
-// TODO Industrialiser
-// Mise à jour des tests auto (quid des appels réseaux vers le S3 ?)
-
 export async function getAnswersToBeDeleted() {
   const targetTypes = ['DEMO', 'COMPETENCE_EVALUATION', 'PLACEMENT', 'PREVIEW', 'CAMPAIGN'];
   return knex
@@ -77,11 +77,16 @@ export async function getAnswersToBeDeleted() {
     .whereRaw('DATE(assessments."updatedAt") = ?', ['2020-01-02']);
 }
 
-export function writeParquetFile(rangeStart, batchAnswersToBeDeleted) {
-  const rangeEnd = rangeStart + ASSESSMENT_ID_RANGE_SIZE - 1;
+export function createParquetArrayBuffer(rangeStart, batchAnswersToBeDeleted, assessmentRangeSize, logger) {
+  const rangeEnd = rangeStart + assessmentRangeSize - 1;
   const partitionFile = `answers/${rangeStart}_${rangeEnd}/${randomUUID()}.parquet`;
-  const fileContent = writeBufferFromAnswers(batchAnswersToBeDeleted);
-  return { partitionFile, fileContent };
+  try {
+    const fileContent = _createArrayBufferFromAnswers(batchAnswersToBeDeleted);
+    return { partitionFile, fileContent };
+  } catch {
+    logger.error('Could not create parquet from batched answers');
+    throw Error('An error occurred while creating the parquet from batched answers');
+  }
 }
 
 export async function deleteBatchAnswers(answersToBeDeleted, logger, connection = DomainTransaction.getConnection()) {
@@ -94,10 +99,9 @@ export async function deleteBatchAnswers(answersToBeDeleted, logger, connection 
   }
 }
 
-export function writeBufferFromAnswers(answersToBeDeleted) {
+function _createArrayBufferFromAnswers(answersToBeDeleted) {
   return parquetWriteBuffer({
     rowGroupSize: 5,
-    kvMetadata: [{ key: 'extract_date', value: new Date().toISOString().slice(0, 10) }],
     columnData: [
       {
         name: 'id',

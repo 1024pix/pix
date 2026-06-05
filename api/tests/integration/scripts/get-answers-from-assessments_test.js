@@ -1,14 +1,14 @@
 import { expect } from 'chai';
-import { parquetReadObjects } from 'hyparquet';
 import sinon from 'sinon';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import {
+  createParquetArrayBuffer,
   deleteBatchAnswers,
   GetAnswersFromAssessments,
-  writeBufferFromAnswers,
 } from '../../../scripts/prod/get-answers-from-assessments.js';
 import { databaseBuilder } from '../../tooling/databases.js';
+import { catchErrSync } from '../../tooling/test-utils/error.js';
 
 describe('GetAnswersFromAssessments', function () {
   describe('handle', function () {
@@ -106,8 +106,8 @@ describe('GetAnswersFromAssessments', function () {
     });
   });
 
-  describe('writeBufferFromAnswers', function () {
-    it('writes answers to a buffer', async function () {
+  describe('createParquetArrayBuffer', function () {
+    it('creates a array buffer for parquet file', async function () {
       const assessmentId = databaseBuilder.factory.buildAssessment().id;
       const firstAnswer = databaseBuilder.factory.buildAnswer({
         assessmentId,
@@ -136,47 +136,83 @@ describe('GetAnswersFromAssessments', function () {
       });
 
       const answersToBeDeleted = [firstAnswer, secondAnswer];
+      const rangeStart = 0;
+      const assessmentRangeSize = 1000;
 
       await databaseBuilder.commit();
 
-      const buffer = writeBufferFromAnswers(answersToBeDeleted);
+      const { partitionFile, fileContent } = createParquetArrayBuffer(
+        rangeStart,
+        answersToBeDeleted,
+        assessmentRangeSize,
+      );
 
-      const asyncBuffer = {
-        byteLength: buffer.byteLength,
-        slice: (start, end) => buffer.slice(start, end),
+      expect(partitionFile)
+        .to.be.a('string')
+        .and.to.include(`answers/0_${assessmentRangeSize - 1}/`);
+
+      const buffer = Buffer.from(fileContent);
+      const expectedBufferLength = 1642;
+      expect(buffer).to.have.length(expectedBufferLength);
+
+      // Presence of both Parquet Magic Bytes indicates that the resulting parquet file is both complete and not truncated
+      const parquetMagicBytes = 'PAR1';
+      expect(buffer.slice(0, 4).toString()).to.equal(parquetMagicBytes);
+      expect(buffer.slice(-4).toString()).to.equal(parquetMagicBytes);
+    });
+
+    it('fails to create an  array buffer for parquet file', async function () {
+      const logger = {
+        error: sinon.stub(),
       };
-      const rows = await parquetReadObjects({ file: asyncBuffer });
 
-      const today = new Date().toISOString().slice(0, 10);
-      expect(rows).to.have.length(2);
-      expect(rows[0]).to.deep.equal({
-        id: BigInt(firstAnswer.id),
+      const assessmentId = databaseBuilder.factory.buildAssessment().id;
+      const firstAnswer = databaseBuilder.factory.buildAnswer({
+        assessmentId,
         value: 'value for first answer',
         result: 'result for first answer',
-        assessmentId,
         challengeId: 'rec123ABC',
         createdAt: new Date('2020-01-01'),
         updatedAt: new Date('2020-01-02'),
         timeout: null,
         resultDetails: 'result details for first answer.',
-        timeSpent: 30,
         isFocusedOut: false,
-        extractedAt: today,
+        timeSpent: 30,
       });
-      expect(rows[1]).to.deep.equal({
-        id: BigInt(secondAnswer.id),
+
+      const secondAnswer = databaseBuilder.factory.buildAnswer({
+        assessmentId,
         value: 'value for second answer',
         result: 'result for second answer',
+        challengeId: 'rec123DEF',
+        createdAt: 'toDay',
+        updatedAt: new Date('2020-01-04'),
+        timeout: 10,
+        resultDetails: 'result details for second answer.',
+        isFocusedOut: true,
+        timeSpent: 50,
+      });
+
+      const thirdAnswer = databaseBuilder.factory.buildAnswer({
         assessmentId,
+        value: 'value for third answer',
+        result: 'result for third answer',
         challengeId: 'rec123DEF',
         createdAt: new Date('2020-01-03'),
         updatedAt: new Date('2020-01-04'),
         timeout: 10,
-        resultDetails: 'result details for second answer.',
-        timeSpent: 50,
+        resultDetails: 'result details for third answer.',
         isFocusedOut: true,
-        extractedAt: today,
+        timeSpent: 50,
       });
+
+      secondAnswer.id = 'aString';
+      const answersToBeDeleted = [firstAnswer, secondAnswer, thirdAnswer];
+      const rangeStart = 0;
+      const assessmentRangeSize = 1000;
+
+      const error = catchErrSync(createParquetArrayBuffer)(rangeStart, answersToBeDeleted, assessmentRangeSize, logger);
+      expect(error).to.deep.equal(Error('An error occurred while creating the parquet from batched answers'));
     });
   });
 
