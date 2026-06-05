@@ -9,14 +9,6 @@ const getByShortId = async function (request, h, { moduleSerializer }) {
   return moduleSerializer.serialize(module);
 };
 
-const getBySlug = async function (request, h, { moduleSerializer }) {
-  const { slug } = request.params;
-  const encryptedRedirectionUrl = request.query.encryptedRedirectionUrl;
-  const module = await usecases.getModule({ slug, encryptedRedirectionUrl });
-
-  return moduleSerializer.serialize(module);
-};
-
 const getJsonSchema = async function (_request, h) {
   const { jsonSchema, jsonSchemaChecksum } = usecases.getModuleJsonSchema();
 
@@ -28,6 +20,6 @@ const getJsonSchema = async function (_request, h) {
     .etag(jsonSchemaChecksum);
 };
 
-const modulesController = { getByShortId, getBySlug, getJsonSchema };
+const modulesController = { getByShortId, getJsonSchema };
 
 export { modulesController };

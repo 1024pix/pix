@@ -5,25 +5,30 @@ import { usecases } from '../../../../../src/devcomp/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Application | Modules | Module Controller', function () {
-  describe('#getBySlug', function () {
-    it('should call getModule use-case and return serialized modules', async function () {
-      const slug = 'slug';
+  describe('#getByShortId', function () {
+    it('should call getModuleByShortId use-case and return serialized modules', async function () {
+      const shortId = 's0l3il';
       const encryptedRedirectionUrl = 'encryptedRedirectionUrl';
       const serializedModule = Symbol('serialized modules');
       const module = Symbol('modules');
-      sinon.stub(usecases, 'getModule');
-      usecases.getModule.withArgs({ slug, encryptedRedirectionUrl }).returns(module);
+      const getModuleByShortIdStub = sinon.stub(usecases, 'getModuleByShortId');
+      usecases.getModuleByShortId.withArgs({ shortId, encryptedRedirectionUrl }).returns(module);
       const moduleSerializer = {
         serialize: sinon.stub(),
       };
       moduleSerializer.serialize.withArgs(module).returns(serializedModule);
 
-      const result = await modulesController.getBySlug({ params: { slug }, query: { encryptedRedirectionUrl } }, null, {
-        moduleSerializer,
-        usecases,
-      });
+      const result = await modulesController.getByShortId(
+        { params: { shortId }, query: { encryptedRedirectionUrl } },
+        null,
+        {
+          moduleSerializer,
+          usecases,
+        },
+      );
 
       expect(result).to.equal(serializedModule);
+      expect(getModuleByShortIdStub).to.have.been.calledOnceWithExactly({ shortId, encryptedRedirectionUrl });
     });
   });
 });
