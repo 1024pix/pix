@@ -95,7 +95,7 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.17.21",
     "miragejs": "^0.1.48",
-    "npm-run-all2": "^8.0.4",
+    "npm-run-all2": "^9.0.0",
     "p-queue": "^9.0.1",
     "pako": "^2.1.0",
     "prettier": "^3.7.4",
