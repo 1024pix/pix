@@ -70,8 +70,11 @@ class S3ObjectStorageProvider {
     return upload.done();
   }
 
-  async listFiles() {
-    return this.#s3Client.send(new this.#dependencies.clientS3.ListObjectsV2Command({ Bucket: this.#bucket }));
+  async listFiles({ prefix, continuationToken } = {}) {
+    const params = { Bucket: this.#bucket };
+    if (prefix) params.Prefix = prefix;
+    if (continuationToken) params.ContinuationToken = continuationToken;
+    return this.#s3Client.send(new this.#dependencies.clientS3.ListObjectsV2Command(params));
   }
 
   async preSignFile({ key, expiresIn }) {

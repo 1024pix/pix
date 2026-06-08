@@ -84,7 +84,7 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
   });
 
   context('#listFiles', function () {
-    it('should return a listing files client', async function () {
+    it('should list files without options', async function () {
       // given
       const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
       S3ClientStubbedInstance.send.resolves({ Contents: [{ Key: 'hyperdimension_galaxy' }] });
@@ -106,6 +106,53 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
       });
       expect(S3ClientStubbedInstance.send).to.have.been.calledWithExactly(ListObjectsV2CommandStubbedInstance);
       expect(listFilesResult).to.deep.equal({ Contents: [{ Key: 'hyperdimension_galaxy' }] });
+    });
+
+    it('should filter by prefix when provided', async function () {
+      // given
+      const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
+      S3ClientStubbedInstance.send.resolves({ Contents: [{ Key: 'answers/1001_2000/uuid.parquet' }] });
+      const ListObjectsV2CommandStubbedInstance = sinon.createStubInstance(ListObjectsV2Command);
+      const constructorStub = sinon.stub(clientS3, 'ListObjectsV2Command').returns(ListObjectsV2CommandStubbedInstance);
+      sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
+
+      const s3ObjectStorageProvider = S3ObjectStorageProvider.createClient({
+        ...S3_CONFIG,
+        dependencies: { clientS3, libStorage },
+      });
+
+      // when
+      await s3ObjectStorageProvider.listFiles({ prefix: 'answers/1001_2000/' });
+
+      // then
+      expect(constructorStub).to.have.been.calledWithExactly({
+        Bucket: 'pix-dev',
+        Prefix: 'answers/1001_2000/',
+      });
+    });
+
+    it('should pass continuation token for paginated listing', async function () {
+      // given
+      const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
+      S3ClientStubbedInstance.send.resolves({ Contents: [{ Key: 'answers/1001_2000/uuid.parquet' }] });
+      const ListObjectsV2CommandStubbedInstance = sinon.createStubInstance(ListObjectsV2Command);
+      const constructorStub = sinon.stub(clientS3, 'ListObjectsV2Command').returns(ListObjectsV2CommandStubbedInstance);
+      sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
+
+      const s3ObjectStorageProvider = S3ObjectStorageProvider.createClient({
+        ...S3_CONFIG,
+        dependencies: { clientS3, libStorage },
+      });
+
+      // when
+      await s3ObjectStorageProvider.listFiles({ prefix: 'answers/1001_2000/', continuationToken: 'token-abc' });
+
+      // then
+      expect(constructorStub).to.have.been.calledWithExactly({
+        Bucket: 'pix-dev',
+        Prefix: 'answers/1001_2000/',
+        ContinuationToken: 'token-abc',
+      });
     });
   });
 
