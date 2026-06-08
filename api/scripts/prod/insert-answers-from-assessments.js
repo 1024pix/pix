@@ -1,3 +1,5 @@
+import { parquetReadObjects } from 'hyparquet';
+
 import { knex } from '../../db/knex-database-connection.js';
 import { commaSeparatedNumberParser } from '../../src/shared/application/scripts/parsers.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
@@ -62,14 +64,19 @@ export class ReInsertDeletedAnswersFromAssessments extends Script {
 
       const answersToReinsert = [];
       for (const parquetFile of parquetsToReInsertAnswers) {
-        const library = {};
-        const parquetFileData = await library.read(parquetFile);
-        answersToReinsert.push(parquetFileData);
+        const fileBuffer = await answerHistoryStorage.downloadFile({ filename: parquetFile });
+        const arrayBuffer = fileBuffer.buffer.slice(fileBuffer.byteOffset, fileBuffer.byteOffset + fileBuffer.byteLength);
+        const asyncBuffer = {
+          byteLength: arrayBuffer.byteLength,
+          slice: (start, end) => Promise.resolve(arrayBuffer.slice(start, end)),
+        };
+        const rows = await parquetReadObjects({ file: asyncBuffer });
+        answersToReinsert.push(...rows.map(({ extractedAt: _extractedAt, ...answer }) => answer));
       }
 
       const chunkSize = 30;
       await knex.batchInsert('answers', answersToReinsert, chunkSize);
-      logger.info(`Successfully reinserted answers in database.`);
+      logger.info(`Successfully reinserted ${answersToReinsert.length} answers in database.`);
 
       for (const parquetFile of parquetsToReInsertAnswers) {
         await answerHistoryStorage.deleteFile({ filename: parquetFile });

@@ -39,6 +39,15 @@ export class AnswersHistoryExportStorage {
     return this.#client.deleteFile({ key: filename });
   }
 
+  async downloadFile({ filename }) {
+    const response = await this.#client.readFile({ key: filename });
+    const chunks = [];
+    for await (const chunk of response.Body) {
+      chunks.push(chunk);
+    }
+    return Buffer.concat(chunks);
+  }
+
   async findParquetWithAssessmentsIds(assessmentIds) {
     const rangeStart = Math.floor((assessmentIds[0] - 1) / ASSESSMENT_ID_RANGE_SIZE) * ASSESSMENT_ID_RANGE_SIZE + 1;
     const rangeEnd = rangeStart + ASSESSMENT_ID_RANGE_SIZE - 1;
