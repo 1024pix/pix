@@ -115,7 +115,8 @@
   "overrides": {
     "flatted": ">=3.4.2",
     "@xmldom/xmldom": ">=0.8.13",
-    "braces": ">=3.0.3"
+    "braces": ">=3.0.3",
+    "postcss": "8.5.10"
   },
   "exports": {
     "./tests/*": "./tests/*",

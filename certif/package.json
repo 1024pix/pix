@@ -48,7 +48,8 @@
     },
     "flatted": ">=3.4.2",
     "handlebars": ">=4.7.9",
-    "braces": ">=3.0.3"
+    "braces": ">=3.0.3",
+    "postcss": "8.5.10"
   },
   "devDependencies": {
     "@1024pix/ember-api-actions": "^1.1.0",
