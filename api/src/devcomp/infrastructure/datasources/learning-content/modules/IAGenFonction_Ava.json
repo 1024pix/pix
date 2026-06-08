@@ -6,7 +6,7 @@
   "isBeta": true,
   "visibility": "public",
   "details": {
-    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "image": "https://assets.pix.org/modules/IAGenFonction_AVA/picto_iagenfonction_ava.svg",
     "description": "<p>À leurs débuts, les IA génératives ne savaient que générer du texte.&nbsp;Elles peuvent maintenant calculer, produire des graphiques, du code ou encore interagir avec d’autres logiciels !</p><br><p>Dans ce module, vous allez découvrir le secret qui se cache derrière ces nouvelles capacités&nbsp;: ces logiciels d’IA font appel à des outils.</p>",
     "duration": 10,
     "level": "advanced",
