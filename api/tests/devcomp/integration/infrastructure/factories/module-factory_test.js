@@ -1190,6 +1190,76 @@ describe('Integration | Devcomp | Infrastructure | Factories | Module ', functio
         expect(module.sections[0].grains[0].components[0].element).to.be.an.instanceOf(QCM);
       });
 
+      it('should instantiate a Module with a ComponentElement which contains a QCMDeclarative Element', async function () {
+        // given
+        const moduleData = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          shortId: 's0le1l',
+          slug: 'title',
+          title: 'title',
+          isBeta: true,
+          visibility: 'public',
+          details: {
+            image: 'https://assets.pix.org/modules/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'novice',
+            tabletSupport: 'comfortable',
+            objectives: ['Objective 1'],
+          },
+          sections: [
+            {
+              id: '5bf1c672-3746-4480-b9ac-1f0af9c7c509',
+              type: 'practise',
+              grains: [
+                {
+                  id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+                  type: 'activity',
+                  title: 'title',
+                  components: [
+                    {
+                      type: 'element',
+                      element: {
+                        hasShortProposals: false,
+                        id: '6a6944be-a8a3-4138-b5dc-af664cf40b07',
+                        type: 'qcm-declarative',
+                        instruction: '<p>Parmi ces desserts, lesquels sont tes favoris ?</p>',
+                        proposals: [
+                          {
+                            id: '1',
+                            content: 'Tarte citron meringuée',
+                          },
+                          {
+                            id: '2',
+                            content: 'Crêpes',
+                          },
+                          {
+                            id: '3',
+                            content: 'Tiramisu',
+                          },
+                          {
+                            id: '3',
+                            content: 'Cannelés',
+                          },
+                        ],
+                        feedback: '<p>Petit·e gourmand·e va</p>',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          glossary: [],
+        };
+
+        // when
+        const module = await ModuleFactory.build(moduleData);
+
+        // then
+        expect(module.sections[0].grains[0].components[0].element).to.be.an.instanceOf(QCUDeclarative);
+      });
+
       it('should instantiate a Module with a ComponentElement which contains a QROCM Element', async function () {
         // given
         const moduleData = {

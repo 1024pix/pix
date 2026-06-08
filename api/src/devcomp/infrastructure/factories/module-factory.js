@@ -20,6 +20,7 @@ import { Image } from '../../domain/models/element/Image.js';
 import { QAB } from '../../domain/models/element/qab/QAB.js';
 import { QABCard } from '../../domain/models/element/qab/QABCard.js';
 import { QCM } from '../../domain/models/element/QCM.js';
+import { QCMDeclarative } from '../../domain/models/element/QCM-declarative.js';
 import { QCU } from '../../domain/models/element/QCU.js';
 import { QCUDeclarative } from '../../domain/models/element/QCU-declarative.js';
 import { QCUDiscovery } from '../../domain/models/element/QCU-discovery.js';
@@ -303,6 +304,21 @@ export class ModuleFactory {
       }),
       feedbacks: element.feedbacks,
       solutions: element.solutions,
+    });
+  }
+
+  static #buildQCMDeclarative(element) {
+    return new QCMDeclarative({
+      hasShortProposals: element.hasShortProposals,
+      id: element.id,
+      instruction: element.instruction,
+      proposals: element.proposals.map((proposal) => {
+        return new QcmProposal({
+          id: proposal.id,
+          content: proposal.content,
+        });
+      }),
+      feedback: element.feedback,
     });
   }
 
