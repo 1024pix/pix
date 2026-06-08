@@ -1,4 +1,5 @@
 import { Challenge as ChallengeProxy } from '../../../learning-content/domain/models/Challenge.js';
+import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Challenge } from '../../domain/models/Challenge.js';
 import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
@@ -111,6 +112,20 @@ export async function findValidatedBySkills(skills, locale) {
   const challengeDtos = await getInstance().find(cacheKey, findOperativeByLocaleBySkillIdsCallback);
   const challengesDtosWithSkills = await loadChallengeDtosSkills(challengeDtos);
   return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
+}
+
+export function findValidatedIdsByTubeIdsAndLocales(tubeIds, locales) {
+  const knexConn = DomainTransaction.getConnection();
+
+  return knexConn
+    .pluck('challenges.id')
+    .from({ challenges: 'learningcontent.challenges' })
+    .join({ skills: 'learningcontent.skills' }, 'skills.id', 'challenges.skillId')
+    .whereIn('skills.tubeId', tubeIds)
+    .whereRaw('?? && ?', ['challenges.locales', locales])
+    .where('skills.status', 'actif')
+    .where('challenges.status', VALIDATED_STATUS)
+    .orderBy('challenges.id');
 }
 
 export function clearCache(id) {
