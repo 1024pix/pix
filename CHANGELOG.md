@@ -1,5 +1,28 @@
 # Pix Changelog
 
+# [5.426.0](https://github.com/1024pix/pix/compare/v5.425.0...v5.426.0) (2026-06-08)
+
+### :rocket: Amélioration
+
+- [#16417](https://github.com/1024pix/pix/pull/16417) Ajouter un fallback vers la langue quand le tuto dans la locale n'existe pas (PIX-23001). 
+- [#16423](https://github.com/1024pix/pix/pull/16423) Ignore les doublons dans l'import générique (PIX-21914) 
+- [#16441](https://github.com/1024pix/pix/pull/16441) Rend certaines colonnes de la table profile-rewards non nullable 
+
+### :bug: Correction
+
+- [#16447](https://github.com/1024pix/pix/pull/16447) Ajoute des rewardId manquants dans les tests 
+
+### :building_construction: Tech
+
+- [#16439](https://github.com/1024pix/pix/pull/16439) :broom: Suppression d'un modèle dupliqué `ComplementaryCertification` (PIX-23042) 
+- [#16418](https://github.com/1024pix/pix/pull/16418) Déplacer les pre-handlers de shared dans quest 
+- [#16356](https://github.com/1024pix/pix/pull/16356) Ne plus lire depuis la table certification-subscriptions (PIX-22955) 
+- [#16444](https://github.com/1024pix/pix/pull/16444) Supprimer l'ancienne route :slug de récupération des modules (PIX-23005)(PIX-20391) 
+
+### :arrow_up: Montée de version
+
+- [#16434](https://github.com/1024pix/pix/pull/16434) Update dependency npm-run-all2 to v9 (dossier racine)
+
 # [5.425.0](https://github.com/1024pix/pix/compare/v5.424.0...v5.425.0) (2026-06-05)
 
 ### :rocket: Amélioration
