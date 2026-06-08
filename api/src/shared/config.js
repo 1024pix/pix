@@ -189,6 +189,18 @@ const schema = Joi.object({
 
 const configuration = (function () {
   const config = {
+    answersHistoryExport: {
+      storage: {
+        client: {
+          accessKeyId: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID,
+          secretAccessKey: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY,
+          endpoint: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT,
+          region: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_REGION,
+          bucket: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME,
+          forcePathStyle: true,
+        },
+      },
+    },
     import: {
       storage: {
         client: {
@@ -709,6 +721,19 @@ const configuration = (function () {
           endpoint: process.env.TEST_IMPORT_STORAGE_ENDPOINT,
           region: 'nothing',
           bucket: process.env.TEST_IMPORT_STORAGE_BUCKET_NAME,
+          forcePathStyle: true,
+        },
+      },
+    };
+
+    config.answersHistoryExport = {
+      storage: {
+        client: {
+          accessKeyId: 'nothing',
+          secretAccessKey: 'nothing',
+          endpoint: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT,
+          region: 'nothing',
+          bucket: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME,
           forcePathStyle: true,
         },
       },

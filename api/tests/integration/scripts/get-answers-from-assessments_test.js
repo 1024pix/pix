@@ -1,3 +1,4 @@
+import { CreateBucketCommand, S3Client } from '@aws-sdk/client-s3';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -7,6 +8,7 @@ import {
   deleteBatchAnswers,
   GetAnswersFromAssessments,
 } from '../../../scripts/prod/get-answers-from-assessments.js';
+import { S3ObjectStorageProvider } from '../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { databaseBuilder } from '../../tooling/databases.js';
 import { catchErrSync } from '../../tooling/test-utils/error.js';
 
@@ -60,36 +62,155 @@ describe('GetAnswersFromAssessments', function () {
     });
 
     describe('when not running in dryRun mode', function () {
-      it('delete answers from a list of assessments', async function () {
+      let s3Client;
+      const S3_TEST_CONFIG = {
+        accessKeyId: 'test',
+        secretAccessKey: 'test',
+        endpoint: 'http://localhost:9090',
+        region: 'pix',
+        bucket: 'pix-answers-history-export-test',
+        forcePathStyle: true,
+      };
+      const savedEnv = {};
+
+      beforeEach(async function () {
+        for (const [key, value] of Object.entries({
+          ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: S3_TEST_CONFIG.accessKeyId,
+          ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: S3_TEST_CONFIG.secretAccessKey,
+          ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: S3_TEST_CONFIG.endpoint,
+          ANSWERS_HISTORY_EXPORT_STORAGE_REGION: S3_TEST_CONFIG.region,
+          ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME: S3_TEST_CONFIG.bucket,
+        })) {
+          savedEnv[key] = process.env[key];
+          process.env[key] = value;
+        }
+
+        const rawS3 = new S3Client({
+          credentials: { accessKeyId: S3_TEST_CONFIG.accessKeyId, secretAccessKey: S3_TEST_CONFIG.secretAccessKey },
+          endpoint: S3_TEST_CONFIG.endpoint,
+          region: S3_TEST_CONFIG.region,
+          forcePathStyle: true,
+        });
+        try {
+          await rawS3.send(new CreateBucketCommand({ Bucket: S3_TEST_CONFIG.bucket }));
+        } catch {
+          // bucket already exists
+        }
+
+        s3Client = S3ObjectStorageProvider.createClient(S3_TEST_CONFIG);
+      });
+
+      afterEach(async function () {
+        const { Contents: files } = await s3Client.listFiles();
+        for (const file of files ?? []) {
+          await s3Client.deleteFile({ key: file.Key });
+        }
+
+        for (const [key, originalValue] of Object.entries(savedEnv)) {
+          if (originalValue === undefined) {
+            delete process.env[key];
+          } else {
+            process.env[key] = originalValue;
+          }
+        }
+      });
+
+      it('deletes answers from a list of assessments and uploads a parquet file to S3', async function () {
         const logger = {
           info: sinon.stub(),
+          error: sinon.stub(),
         };
         const todayDate = new Date();
         const oneYearAgo = new Date(todayDate.getFullYear() - 1, todayDate.getMonth(), todayDate.getDate());
 
-        const validAssessment = databaseBuilder.factory.buildAssessment({
-          updatedAt: new Date('2020-01-03'),
+        const assessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
+          updatedAt: new Date('2020-01-02'),
           state: 'completed',
           type: 'CAMPAIGN',
         });
-        databaseBuilder.factory.buildAnswer({ assessmentId: validAssessment.id });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId: assessmentWithAnswerToDelete.id,
+        });
 
-        const olderAssessment = databaseBuilder.factory.buildAssessment({
+        const olderCampaignAssessment = databaseBuilder.factory.buildAssessment({
           updatedAt: new Date('2020-01-01'),
           state: 'completed',
           type: 'CAMPAIGN',
         });
         databaseBuilder.factory.buildAnswer({
-          assessmentId: olderAssessment.id,
+          assessmentId: olderCampaignAssessment.id,
         });
 
-        const certificationAssessment = databaseBuilder.factory.buildAssessment({
-          updatedAt: oneYearAgo,
+        const demoAssessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
+          updatedAt: new Date('2020-01-02'),
           state: 'completed',
-          type: 'CERTIFICATION',
+          type: 'DEMO',
         });
         databaseBuilder.factory.buildAnswer({
-          assessmentId: certificationAssessment.id,
+          assessmentId: demoAssessmentWithAnswerToDelete.id,
+        });
+
+        const olderDemoAssessment = databaseBuilder.factory.buildAssessment({
+          updatedAt: new Date('2020-01-01'),
+          state: 'completed',
+          type: 'DEMO',
+        });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId: olderDemoAssessment.id,
+        });
+
+        const evaluationAssessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
+          updatedAt: new Date('2020-01-02'),
+          state: 'completed',
+          type: 'COMPETENCE_EVALUATION',
+        });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId: evaluationAssessmentWithAnswerToDelete.id,
+        });
+
+        const olderEvaluationAssessment = databaseBuilder.factory.buildAssessment({
+          updatedAt: new Date('2020-01-01'),
+          state: 'completed',
+          type: 'DEMO',
+        });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId: olderEvaluationAssessment.id,
+        });
+
+        const placementAssessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
+          updatedAt: new Date('2020-01-02'),
+          state: 'completed',
+          type: 'PLACEMENT',
+        });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId: placementAssessmentWithAnswerToDelete.id,
+        });
+
+        const olderPlacementAssessment = databaseBuilder.factory.buildAssessment({
+          updatedAt: new Date('2020-01-01'),
+          state: 'completed',
+          type: 'PLACEMENT',
+        });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId: olderPlacementAssessment.id,
+        });
+
+        const previewAssessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
+          updatedAt: new Date('2020-01-02'),
+          state: 'completed',
+          type: 'PREVIEW',
+        });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId: previewAssessmentWithAnswerToDelete.id,
+        });
+
+        const olderPreviewAssessment = databaseBuilder.factory.buildAssessment({
+          updatedAt: new Date('2020-01-01'),
+          state: 'completed',
+          type: 'PREVIEW',
+        });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId: olderPreviewAssessment.id,
         });
 
         await databaseBuilder.commit();
@@ -97,11 +218,17 @@ describe('GetAnswersFromAssessments', function () {
         const script = new GetAnswersFromAssessments();
         await script.handle({
           logger,
-          options: { dryRun: false, outputFile: '/tmp/answers.parquet' },
+          options: { dryRun: false },
         });
 
         const remainingAnswers = await knex('answers');
-        expect(remainingAnswers.length).to.equal(2);
+        expect(remainingAnswers.length).to.equal(5);
+
+        const { Contents: uploadedFiles } = await s3Client.listFiles();
+        // We expect 2 different files as assessmentIds created by the databaseBuilder
+        // overlap the ASSESSMENT_ID_RANGE_SIZE given in the production code file
+        expect(uploadedFiles).to.have.length(2);
+        expect(uploadedFiles[0].Key).to.match(/^answers\//);
       });
     });
   });
