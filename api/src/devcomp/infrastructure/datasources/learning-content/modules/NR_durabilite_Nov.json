@@ -116,7 +116,7 @@
               "type": "element",
               "element": {
                 "id": "742aed22-b878-4e9f-806e-76e03acfd5b4",
-                "type": "qcu",
+                "type": "qcu-discovery",
                 "instruction": "<p>D’après vous, combien de matériaux différents y a-t-il dans un smartphone ?</p>",
                 "hasShortProposals": true,
                 "proposals": [
@@ -124,31 +124,27 @@
                     "id": "0",
                     "content": "Moins de dix",
                     "feedback": {
-                      "state": "<p>Eh non !</p>",
-                      "diagnosis": "<p>Il y en a beaucoup plus !&nbsp;Un smartphone contient plusieurs dizaines de matériaux différents.</p>"
+                      "diagnosis": "<p>Eh non&nbsp;!Il y en a beaucoup plus ! Un smartphone contient plusieurs dizaines de matériaux différents.</p>"
                     }
                   },
                   {
                     "id": "1",
                     "content": "Plusieurs dizaines",
                     "feedback": {
-                      "state": "<p>Eh oui&nbsp;!</p>",
-                      "diagnosis": "<p>Un smartphone contient effectivement plusieurs dizaines de matériaux différents.</p>"
+                      "diagnosis": "<p>Eh oui&nbsp;! Un smartphone contient effectivement plusieurs dizaines de matériaux différents.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "Une centaine",
                     "feedback": {
-                      "state": "<p>Presque !</p>",
-                      "diagnosis": "<p>Un smartphone contient plusieurs dizaines de matériaux différents.</p>"
+                      "diagnosis": "<p>Eh non&nbsp;! Un smartphone contient plusieurs dizaines de matériaux différents.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "Je ne sais pas.",
                     "feedback": {
-                      "state": "",
                       "diagnosis": "<p>Un smartphone contient plusieurs dizaines de matériaux différents.</p>"
                     }
                   }
