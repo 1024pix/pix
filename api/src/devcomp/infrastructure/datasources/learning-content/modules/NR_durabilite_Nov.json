@@ -774,7 +774,7 @@
                       "id": "da5b7905-7192-43d5-a7e5-7a196ea69a48",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Parfois, vous devez changer de smartphone car il ne permet plus de faire ce que vous voulez, ou qu’il est cassé mais impossible à réparer. Dans ce cas, 2 possibilités : <ul><li>Si votre ancien smartphone <strong>fonctionne encore</strong>, il pourait servir à quelqu'un d'autre. Pensez donc à <strong>le donner</strong> ou <strong>le vendre</strong>, ne le gardez pas dans un tiroir</li><li>Si votre ancien smartphone <strong>ne fonctionne plus</strong>, alors ne le jetez pas dans n'importe quelle poubelle&nbsp;!</li></ul></p>"
+                      "content": "<p>Parfois, vous devez changer de smartphone car il ne permet plus de faire ce que vous voulez, ou qu’il est cassé mais impossible à réparer. Dans ce cas, 2 possibilités : </p><ul><li>Si votre ancien smartphone <strong>fonctionne encore</strong>, il pourait servir à quelqu'un d'autre. Pensez donc à <strong>le donner</strong> ou <strong>le vendre</strong>, ne le gardez pas dans un tiroir</li><li>Si votre ancien smartphone <strong>ne fonctionne plus</strong>, alors ne le jetez pas dans n'importe quelle poubelle&nbsp;!</li></ul><p></p>"
                     }
                   ]
                 },
@@ -905,124 +905,126 @@
           "title": "Connaître les gestes pour prolonger la durée de vie d’un smartphone",
           "components": [
             {
-              "type": "element",
-              "element": {
-                "id": "0c545fdd-6027-4bf3-9533-2fc337ff570e",
-                "type": "qrocm",
-                "instruction": "Les phrases suivantes expliquent comment limiter l’impact environnemental des smartphones. Complétez les phrases avec les bonnes propositions.",
-                "proposals": [
-                  {
-                    "type": "text",
-                    "content": "<p>Pour limiter l’impact environnemental des smartphones il faut </p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "input1",
-                    "display": "inline",
-                    "placeholder": "-Sélectionner-",
-                    "ariaLabel": "Sélectionner une option",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "essayer de les conserver le plus longtemps possible."
-                      },
-                      {
-                        "id": "2",
-                        "content": "en changer tous les 2 ans, car les nouveaux smartphones consomment moins d’éléctricité."
-                      }
-                    ],
-                    "solutions": [
-                      "1"
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<br><p>Pour cela, il faut les </p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "input2",
-                    "display": "block",
-                    "placeholder": "Sélectionner une option",
-                    "ariaLabel": "Sélectionner une option",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "3",
-                        "content": "jeter les smartphones dès qu’ils ont un problème."
-                      },
-                      {
-                        "id": "4",
-                        "content": "les protéger et réparer."
-                      }
-                    ],
-                    "solutions": [
-                      "4"
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<p>Et si on doit vraiment changer de smartphone, il vaut mieux </p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "input3",
-                    "display": "inline",
-                    "placeholder": "-Sélectionner-",
-                    "ariaLabel": "-Sélectionner-",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "5",
-                        "content": "le vendre ou le donner."
-                      },
-                      {
-                        "id": "6",
-                        "content": "le garder dans un tiroir."
-                      }
-                    ],
-                    "solutions": [
-                      "5"
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<p>Et s’il ne fonctionne plus et n’est pas réparable, alors il faut </p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "input4",
-                    "display": "inline",
-                    "placeholder": "-Sélectionner-",
-                    "ariaLabel": "-Sélectionner-",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "7",
-                        "content": "le déposer dans un point de collecte spécialisé pour le faire recycler."
-                      },
-                      {
-                        "id": "8",
-                        "content": "le jeter à la poubelle."
-                      }
-                    ],
-                    "solutions": [
-                      "7"
-                    ]
-                  }
-                ],
-                "feedbacks": {
-                  "valid": {
-                    "state": "Bonne réponse !",
-                    "diagnosis": "<p>Pour limiter l’impact environnemental des smartphones, il faut <strong>essayer de les conserver le plus longtemps possible</strong>. Pour cela, il faut <strong>les protéger et les réparer</strong>.</p><p>Et si on doit vraiment changer de smartphone, il vaut mieux <strong>le vendre ou le donner</strong>.</p><p>Et s’il ne fonctionne plus et n’est pas réparable, alors il faut <strong>le déposer dans un point de collecte spécialisé pour le faire recyler</strong>.</p>"
-                  },
-                  "invalid": {
-                    "state": "Mauvaise réponse !",
-                    "diagnosis": "<p>Pour limiter l’impact environnemental des smartphones, il faut <strong>essayer de les conserver le plus longtemps possible</strong>. Pour cela, il faut <strong>les protéger et les réparer</strong>.</p><p>Et si on doit vraiment changer de smartphone, il vaut mieux <strong>le vendre ou le donner</strong>.</p><p>Et s’il ne fonctionne plus et n’est pas réparable, alors il faut <strong>le déposer dans un point de collecte spécialisé pour le faire recyler</strong>.</p>"
-                  }
+              "type": "stepper",
+              "instruction": "<p>Pour chacune des questions suivantes, sélectionnez la bonne réponse.</p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "ee3e0c91-b63f-440f-8e5b-297d56c9971d",
+                      "type": "qcu",
+                      "instruction": "<p>Pour limiter l’impact environnemental d’un smartphone, que faut-il faire ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "0",
+                          "content": "<p>Essayer de le conserver le plus longtemps possible.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !</p>",
+                            "diagnosis": "<p>Pour limiter l'impact environnemental d'un smartphone il faut essayer de le conserver le plus longtemps possible.</p>"
+                          }
+                        },
+                        {
+                          "id": "1",
+                          "content": "<p>En changer tous les deux ans, car les smartphones plus récents consomment moins d'électricité.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse !</p>",
+                            "diagnosis": "<p>Pour limiter l'impact environnemental d'un smartphone il faut essayer de le conserver le plus longtemps possible.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "0"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "8d8a801d-fc60-463e-ad58-7070469f52d8",
+                      "type": "qcu",
+                      "instruction": "<p>Pour conserver son smartphone le plus longtemps possible, que&nbsp;faut-il faire ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "0",
+                          "content": "<p>Le jeter dès qu’il a un problème.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse !<br></p>",
+                            "diagnosis": "<p>Pour conserver son smartphone le plus longtemps possible, il faut le protéger et le réparer.</p><p><br></p>"
+                          }
+                        },
+                        {
+                          "id": "1",
+                          "content": "<p>Le protéger et le réparer.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !</p>",
+                            "diagnosis": "<p>Pour conserver son smartphone le plus longtemps possible, il faut le protéger et le réparer.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "62dd637c-cd9c-4ab9-ab68-54cc909d5254",
+                      "type": "qcu",
+                      "instruction": "<p>Si on doit vraiment changer de smartphone, que faut-il faire ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "0",
+                          "content": "<p>Le vendre ou le donner.<br></p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !<br></p>",
+                            "diagnosis": "<p>Si on doit vraiment changer de smartphone, il faut le vendre ou le donner.</p>"
+                          }
+                        },
+                        {
+                          "id": "1",
+                          "content": "<p>Le garder dans un tiroir.<br></p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse !<br></p>",
+                            "diagnosis": "<p>Si on doit vraiment changer de smartphone, il faut le vendre ou le donner.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "0"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "9b904943-5e92-49fa-be72-fc28e657a350",
+                      "type": "qcu",
+                      "instruction": "<p>Et si le smartphone ne fonctionne plus et n’est pas réparable, que faut-il faire ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "0",
+                          "content": "<p>Le déposer dans un point de collecte pour le faire recycler.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !<br></p>",
+                            "diagnosis": "<p>Si le smartphone ne fonctionne plus et n’est pas réparable il faut le déposer dans un point de collecte spécialisé.</p>"
+                          }
+                        },
+                        {
+                          "id": "1",
+                          "content": "<p>Le jeter à la poubelle.<br></p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse !<br></p>",
+                            "diagnosis": "<p>Si le smartphone ne fonctionne plus et n’est pas réparable il faut le déposer dans un point de collecte spécialisé.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "0"
+                    }
+                  ]
                 }
-              }
+              ]
             }
           ]
         }
