@@ -400,7 +400,7 @@
                 "id": "5fc90905-6385-40f4-880f-5c836fd721bb",
                 "type": "custom",
                 "title": "",
-                "instruction": "Parcourez les différentes étapes de fabrication d’un smartphone.",
+                "instruction": "Parcourez les différentes étapes de fabrication d’un smartphone puis répondez à la question ci-dessous.",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
@@ -421,7 +421,7 @@
                       }
                     },
                     {
-                      "title": "Étape 2 : extraction et transformation des matières premières",
+                      "title": "Étape 2 : extraction et transformation des matériaux",
                       "description": "L’extraction des matières premières a lieu sur plusieurs continents : l’Amérique du Sud, l’Afrique, l’Océanie et l’Asie.",
                       "displayWidth": 0,
                       "image": {
@@ -491,53 +491,32 @@
               "element": {
                 "id": "e9aa0bd3-a7f4-4945-9c5d-80f11588a5a1",
                 "type": "qcu-discovery",
-                "instruction": "<p>À votre avis, combien de tours du monde a parcouru un smartphone depuis sa conception jusqu’à sa distribution&nbsp;?</p>",
+                "instruction": "<p>Vrai ou faux&nbsp;: la fabrication des principaux composants d'un smartphone a lieu en Europe.</p>",
                 "hasShortProposals": true,
                 "proposals": [
                   {
                     "id": "0",
-                    "content": "1",
+                    "content": "Vrai",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
+                      "diagnosis": "<p>Eh non ! La fabrication des principaux composants d'un smartphone a lieu en <strong>Asie<strong>.</p>"
                     }
                   },
                   {
                     "id": "1",
-                    "content": "2",
+                    "content": "Faux",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
+                      "diagnosis": "<p>Eh oui ! La fabrication des principaux composants d'un smartphone a lieu en <strong>Asie<strong>.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "3",
+                    "content": "Je ne sais pas.",
                     "feedback": {
-                      "diagnosis": "<p>Presque ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
-                    }
-                  },
-                  {
-                    "id": "3",
-                    "content": "4",
-                    "feedback": {
-                      "diagnosis": "<p>Exact ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
-                    }
-                  },
-                  {
-                    "id": "4",
-                    "content": "5",
-                    "feedback": {
-                      "diagnosis": "<p>Presque ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
-                    }
-                  },
-                  {
-                    "id": "5",
-                    "content": "6",
-                    "feedback": {
-                      "diagnosis": "<p>Eh non ! On estime qu’un smartphone a parcouru environ 4 tours du monde entre sa conception et sa distribution.</p>"
+                      "diagnosis": "<p>La fabrication des principaux composants d'un smartphone a lieu en <strong>Asie<strong>.</p>"
                     }
                   }
                 ],
-                "solution": "3"
+                "solution": "1"
               }
             }
           ]
