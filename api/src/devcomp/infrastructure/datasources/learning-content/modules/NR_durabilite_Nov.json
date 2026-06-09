@@ -845,7 +845,7 @@
               "element": {
                 "id": "01e1b924-19ad-4264-a36e-40ac9e0e7fc9",
                 "type": "qab",
-                "instruction": "<p>Les affirmations suivantes sont-elles vraies ou fausses ?</p>",
+                "instruction": "<p>Pour chacune des affirmations suivantes, indiquez si elle est vraie ou fausse.</p>",
                 "cards": [
                   {
                     "id": "3899e12e-e58c-43d8-84ed-7697c60a118d",
@@ -882,7 +882,7 @@
                   },
                   {
                     "id": "26d3ecb9-fa4d-4344-9c6b-8ca38e58bd81",
-                    "text": "Les personnes qui travaillent dans les mines pour extraire les métaux pour fabriquer les smartphones travaillent dans de bonnes conditions.",
+                    "text": "Les personnes qui travaillent dans les mines pour extraire les métaux pour fabriquer les smartphones travaillent toujours dans de bonnes conditions.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -893,7 +893,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<ul><li>Un smartphone est constitué d’au moins <strong>70 matériaux différents</strong>.</li><li>Les différentes étapes de fabrication ont lieu dans des <strong>pays</strong> et même des <strong>continents différents</strong> !</li><li>Un smartphone <strong>contient plusieurs métaux précieux</strong>, comme l’or et l’argent.</li><li>Certaines mines sont situées dans des pays où <strong>les travailleurs sont très peu protégés</strong>, et <strong>des enfants y sont parfois employés</strong>.</li></ul>"
+                  "diagnosis": "<ul><li>Un smartphone est constitué d’au moins <strong>70 matériaux différents</strong>.</li><li>Les différentes étapes de fabrication ont lieu dans des <strong>pays</strong> et même des <strong>continents différents</strong> !</li><li>Un smartphone <strong>contient plusieurs métaux précieux</strong>, comme l’or et l’argent.</li><li>Dans certaines mines les <strong>conditions de travail sont parfois très mauvaises</strong>.</li></ul>"
                 }
               }
             }
