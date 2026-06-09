@@ -12,11 +12,6 @@ describe('Unit | Controller | User-tutorials', function () {
       const tutorialId = 'tutorialId';
       const userId = 'userId';
       sinon.stub(usecases, 'addTutorialToUser').returns({ id: 'userTutorialId' });
-      const userSavedTutorialSerializer = {
-        deserialize: sinon.stub(),
-        serialize: sinon.stub(),
-      };
-      userSavedTutorialSerializer.deserialize.returns({});
 
       const request = {
         auth: { credentials: { userId } },
@@ -24,9 +19,7 @@ describe('Unit | Controller | User-tutorials', function () {
       };
 
       // when
-      await userTutorialsController.add(request, hFake, {
-        userSavedTutorialSerializer,
-      });
+      await userTutorialsController.add(request, hFake);
 
       // then
       const addTutorialToUserArgs = usecases.addTutorialToUser.firstCall.args[0];
@@ -41,11 +34,6 @@ describe('Unit | Controller | User-tutorials', function () {
         const tutorialId = 'tutorialId';
         const userId = 'userId';
         sinon.stub(usecases, 'addTutorialToUser').returns({ id: 'userTutorialId' });
-        const userSavedTutorialSerializer = {
-          deserialize: sinon.stub(),
-          serialize: sinon.stub(),
-        };
-        userSavedTutorialSerializer.deserialize.returns({ skillId });
 
         const request = {
           auth: { credentials: { userId } },
@@ -54,16 +42,14 @@ describe('Unit | Controller | User-tutorials', function () {
         };
 
         // when
-        await userTutorialsController.add(request, hFake, {
-          userSavedTutorialSerializer,
-        });
+        const result = await userTutorialsController.add(request, hFake);
 
         // then
         const addTutorialToUserArgs = usecases.addTutorialToUser.firstCall.args[0];
         expect(addTutorialToUserArgs).to.have.property('userId', userId);
         expect(addTutorialToUserArgs).to.have.property('tutorialId', tutorialId);
         expect(addTutorialToUserArgs).to.have.property('skillId', skillId);
-        expect(userSavedTutorialSerializer.deserialize).to.have.been.calledWithExactly(request.payload);
+        expect(result.source.data).to.deep.equal({ id: 'userTutorialId', type: 'user-saved-tutorials' });
       });
     });
   });
@@ -90,32 +76,31 @@ describe('Unit | Controller | User-tutorials', function () {
 
       const expectedFilters = request.query.filter;
       const expectedPage = request.query.page;
-      const expectedTutorials = Symbol('tutorials');
 
-      const returnedTutorials = Symbol('returned-tutorials');
-      const returnedMeta = Symbol('returned-meta');
+      const returnedTutorials = [{ id: 'tuto 1' }, { id: 'tuto 2' }];
+      const returnedMeta = { page: 1 };
       sinon.stub(usecases, 'findPaginatedFilteredTutorials').resolves({
         tutorials: returnedTutorials,
         meta: returnedMeta,
       });
-      const tutorialSerializer = {
-        deserialize: sinon.stub(),
-        serialize: sinon.stub(),
-      };
-      tutorialSerializer.serialize.returns(expectedTutorials);
 
       // when
-      const result = await userTutorialsController.find(request, hFake, { tutorialSerializer });
+      const result = await userTutorialsController.find(request, hFake);
 
       // then
-      expect(tutorialSerializer.serialize).to.have.been.calledWithExactly(returnedTutorials, returnedMeta);
       expect(usecases.findPaginatedFilteredTutorials).to.have.been.calledWithExactly({
         userId,
         filters: expectedFilters,
         page: expectedPage,
         lang: 'fr',
       });
-      expect(result).to.equal(expectedTutorials);
+      expect(result).to.deep.equal({
+        data: [
+          { id: 'tuto 1', type: 'tutorials' },
+          { id: 'tuto 2', type: 'tutorials' },
+        ],
+        meta: { page: 1 },
+      });
     });
   });
 

@@ -1,7 +1,8 @@
 import { config } from '../../../shared/config.js';
 import { usecases } from '../../domain/usecases/index.js';
+import * as moduleSerializer from '../../infrastructure/serializers/jsonapi/module-serializer.js';
 
-const getByShortId = async function (request, h, { moduleSerializer }) {
+const getByShortId = async function (request) {
   const { shortId } = request.params;
   const encryptedRedirectionUrl = request.query.encryptedRedirectionUrl;
   const module = await usecases.getModuleByShortId({ shortId, encryptedRedirectionUrl });
@@ -20,6 +21,4 @@ const getJsonSchema = async function (_request, h) {
     .etag(jsonSchemaChecksum);
 };
 
-const modulesController = { getByShortId, getJsonSchema };
-
-export { modulesController };
+export const modulesController = { getByShortId, getJsonSchema };

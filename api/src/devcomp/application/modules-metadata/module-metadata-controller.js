@@ -7,8 +7,6 @@ async function getAllModulesMetadata() {
   return moduleMetadataSerializer.serialize(modulesMetadata);
 }
 
-const moduleMetadataController = {
+export const moduleMetadataController = {
   getAllModulesMetadata,
 };
-
-export { moduleMetadataController };

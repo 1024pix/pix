@@ -1,8 +1,9 @@
 import { BadRequestError } from '../../../shared/application/errors/http-errors.js';
 import { DomainError } from '../../../shared/domain/errors.js';
 import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
+import * as passageEventSerializer from '../../infrastructure/serializers/jsonapi/passage-event-serializer.js';
 
-const create = async function (request, h, { usecases, passageEventSerializer }) {
+const create = async function (request, h, { usecases }) {
   try {
     const passageEvents = await passageEventSerializer.deserialize(request.payload);
     await usecases.recordPassageEvents({
@@ -20,6 +21,4 @@ const create = async function (request, h, { usecases, passageEventSerializer })
   }
 };
 
-const passageEventsController = { create };
-
-export { passageEventsController };
+export const passageEventsController = { create };

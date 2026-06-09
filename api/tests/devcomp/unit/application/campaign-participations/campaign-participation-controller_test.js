@@ -6,16 +6,8 @@ import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Application | Controller | Campaign-Participation', function () {
   describe('#findTrainings', function () {
-    let dependencies;
-
     beforeEach(function () {
       sinon.stub(devcompUsecases, 'findCampaignParticipationTrainings');
-      const trainingSerializer = {
-        serialize: sinon.stub(),
-      };
-      dependencies = {
-        trainingSerializer,
-      };
     });
 
     it('should call usecase and serializer with expected parameters', async function () {
@@ -23,24 +15,22 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const campaignParticipationId = 123;
       const userId = 456;
       const locale = 'fr-fr';
-      const trainings = Symbol('trainings');
-      const expectedResults = Symbol('results');
+      const trainings = { id: 1, duration: {} };
       devcompUsecases.findCampaignParticipationTrainings
         .withArgs({ userId, campaignParticipationId, locale })
         .resolves(trainings);
-      dependencies.trainingSerializer.serialize.withArgs(trainings).returns(expectedResults);
 
       const request = {
         auth: { credentials: { userId } },
         params: { id: campaignParticipationId },
       };
-      const h = Symbol('h');
 
       // when
-      const response = await campaignParticipationController.findTrainings(request, h, dependencies);
+      const response = await campaignParticipationController.findTrainings(request);
 
       // then
-      expect(response).to.equal(expectedResults);
+      expect(response.data.id).to.equal('1');
+      expect(response.data.type).to.equal('trainings');
     });
   });
 });

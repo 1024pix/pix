@@ -2,7 +2,7 @@ import { getChallengeLocale } from '../../../shared/infrastructure/utils/request
 import { usecases as devcompUsecases } from '../../domain/usecases/index.js';
 import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
 
-const findTrainings = async function (request, h, dependencies = { trainingSerializer }) {
+const findTrainings = async function (request) {
   const { userId } = request.auth.credentials;
   const { id: campaignParticipationId } = request.params;
   const locale = getChallengeLocale(request);
@@ -12,7 +12,7 @@ const findTrainings = async function (request, h, dependencies = { trainingSeria
     campaignParticipationId,
     locale,
   });
-  return dependencies.trainingSerializer.serialize(trainings);
+  return trainingSerializer.serialize(trainings);
 };
 
 const saveUserRelevanceFeedbackOnRecommendedTraining = async function (request, h) {
@@ -30,9 +30,7 @@ const saveUserRelevanceFeedbackOnRecommendedTraining = async function (request, 
   return h.response().code(204);
 };
 
-const campaignParticipationController = {
+export const campaignParticipationController = {
   findTrainings,
   saveUserRelevanceFeedbackOnRecommendedTraining,
 };
-
-export { campaignParticipationController };

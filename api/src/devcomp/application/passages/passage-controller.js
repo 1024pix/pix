@@ -1,7 +1,9 @@
 import * as llmChatSerializer from '../../../shared/infrastructure/serializers/llm-chat-serializer.js';
 import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
+import * as elementAnswerSerializer from '../../infrastructure/serializers/jsonapi/element-answer-serializer.js';
+import * as passageSerializer from '../../infrastructure/serializers/jsonapi/passage-serializer.js';
 
-const create = async function (request, h, { usecases, passageSerializer }) {
+const create = async function (request, h, { usecases }) {
   const {
     'module-id': moduleId,
     'module-version': moduleVersion,
@@ -28,7 +30,7 @@ const create = async function (request, h, { usecases, passageSerializer }) {
   return h.response(serializedPassage).created();
 };
 
-const verifyAndSaveAnswer = async function (request, h, { usecases, elementAnswerSerializer }) {
+const verifyAndSaveAnswer = async function (request, h, { usecases }) {
   const { passageId } = request.params;
   const { 'element-id': elementId, 'user-response': userResponse } = request.payload.data.attributes;
   const elementAnswer = await usecases.verifyAndSaveAnswer({ passageId, elementId, userResponse });
@@ -62,6 +64,4 @@ const promptToLLMChat = async function (request, h, { usecases }) {
   return h.response(llmResponse).type('text/event-stream').code(201);
 };
 
-const passageController = { create, verifyAndSaveAnswer, terminate, startEmbedLlmChat, promptToLLMChat };
-
-export { passageController };
+export const passageController = { create, verifyAndSaveAnswer, terminate, startEmbedLlmChat, promptToLLMChat };

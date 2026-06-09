@@ -4,68 +4,41 @@ import { passageEventsController } from '../../../../../src/devcomp/application/
 import { BadRequestError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { DomainError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
+import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Unit | Devcomp | Application | Passage-Events | Controller', function () {
+  const payload = { data: { attributes: { events: [] } } };
+
   describe('#create', function () {
     it('should call recordPassageEvents use-case', async function () {
       // given
-      const serializedPayload = Symbol();
-      const deserializedPayload = Symbol();
-      const passageEventSerializer = {
-        deserialize: sinon.stub().returns(deserializedPayload),
-      };
-      const usecases = {
-        recordPassageEvents: sinon.stub(),
-      };
+      const usecases = { recordPassageEvents: sinon.stub() };
       usecases.recordPassageEvents.resolves();
-      const code = sinon.stub();
       const userId = 123;
-      const hStub = {
-        response: () => ({ code }),
-      };
 
       const request = {
-        payload: serializedPayload,
+        payload,
         headers: generateAuthenticatedUserRequestHeaders({ userId }),
       };
 
       // when
-      await passageEventsController.create(request, hStub, {
-        usecases,
-        passageEventSerializer,
-      });
+      await passageEventsController.create(request, hFake, { usecases });
 
       // then
-      expect(passageEventSerializer.deserialize).to.have.been.calledOnceWithExactly(serializedPayload);
-      expect(usecases.recordPassageEvents).to.have.been.calledWithExactly({
-        events: deserializedPayload,
-        userId,
-      });
-      expect(code).to.have.been.calledOnce;
+      expect(usecases.recordPassageEvents).to.have.been.calledWithExactly({ events: [], userId });
     });
 
     context('when recordPassageEvents usecase throws domain error', function () {
       it('should throw a "BadRequestError"', async function () {
         // given
-        const serializedPayload = Symbol();
-        const deserializedPayload = Symbol();
-        const passageEventSerializer = {
-          deserialize: sinon.stub().returns(deserializedPayload),
-        };
-
-        const hStub = {};
-
         const usecases = {
           recordPassageEvents: sinon.stub(),
         };
         usecases.recordPassageEvents.rejects(new DomainError('domainError'));
 
         // when
-        const promise = passageEventsController.create({ payload: serializedPayload }, hStub, {
-          usecases,
-          passageEventSerializer,
-        });
+        const promise = passageEventsController.create({ payload }, hFake, { usecases });
 
         // then
         await expect(promise).to.be.rejectedWith(BadRequestError, 'domainError');

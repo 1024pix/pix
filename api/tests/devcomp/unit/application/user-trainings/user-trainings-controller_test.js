@@ -16,17 +16,13 @@ describe('Unit | Controller | user-trainings-controller', function () {
         state: { locale },
         query: { page },
       };
-      const expectedResult = Symbol('serialized-trainings');
-      const userRecommendedTrainings = Symbol('userRecommendedTrainings');
-      const meta = Symbol('meta');
+      const userRecommendedTrainings = [{ id: 1, duration: {} }];
+      const meta = { page: 1 };
       sinon.stub(devcompUsecases, 'findPaginatedUserRecommendedTrainings').resolves({ userRecommendedTrainings, meta });
-      const trainingSerializer = { serialize: sinon.stub() };
-      trainingSerializer.serialize.returns(expectedResult);
 
       // when
       const response = await userTrainingsController.findPaginatedUserRecommendedTrainings(request, hFake, {
         devcompUsecases,
-        trainingSerializer,
       });
 
       // then
@@ -36,8 +32,8 @@ describe('Unit | Controller | user-trainings-controller', function () {
         locale,
         page,
       });
-      expect(trainingSerializer.serialize).to.have.been.calledWithExactly(userRecommendedTrainings, meta);
-      expect(response).to.equal(expectedResult);
+      expect(response.data[0]).to.includes({ id: '1', type: 'trainings' });
+      expect(response.meta).to.deep.equal({ page: 1 });
     });
   });
 });

@@ -2,31 +2,20 @@ import sinon from 'sinon';
 
 import { passageController } from '../../../../../src/devcomp/application/passages/passage-controller.js';
 import { expect } from '../../../../test-helper.js';
+import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Unit | Devcomp | Application | Passages | Controller', function () {
   describe('#create', function () {
     it('should call createPassage and recordPassageEvents use-cases and return serialized passage', async function () {
       // given
-      const serializedPassage = Symbol('serialized modules');
       const moduleId = Symbol('module-id');
       const moduleVersion = Symbol('module-version');
       const occurredAtDate = new Date('2025-04-29');
       const occurredAt = occurredAtDate.getTime();
       const sequenceNumber = Symbol('sequence-number');
-      const passage = {
-        id: Symbol('passageId'),
-      };
+      const passage = { id: 456 };
       const userId = 123;
-      const passageSerializer = {
-        serialize: sinon.stub(),
-      };
-      passageSerializer.serialize.withArgs(passage).returns(serializedPassage);
-      const hStub = {
-        response: sinon.stub(),
-      };
-      const created = sinon.stub();
-      hStub.response.withArgs(serializedPassage).returns({ created });
 
       const request = {
         headers: generateAuthenticatedUserRequestHeaders({ userId }),
@@ -57,14 +46,12 @@ describe('Unit | Devcomp | Application | Passages | Controller', function () {
       usecases.createPassage.withArgs({ moduleId, userId }).returns(passage);
 
       // when
-      await passageController.create(request, hStub, {
-        passageSerializer,
-        usecases,
-      });
+      const result = await passageController.create(request, hFake, { usecases });
 
       // then
-      expect(created).to.have.been.called;
       expect(usecases.recordPassageEvents).to.have.been.calledOnceWith({ events: [passageStartedEvent] });
+      expect(result.source.data.id).to.equal('456');
+      expect(result.source.data.type).to.equal('passages');
     });
   });
 
@@ -76,26 +63,11 @@ describe('Unit | Devcomp | Application | Passages | Controller', function () {
       const userResponse = Symbol('user-response');
       const uselessField = Symbol('useless-field');
 
-      const createdElementAnswer = Symbol('created element-answer');
-      const usecases = {
-        verifyAndSaveAnswer: sinon.stub(),
-      };
-      usecases.verifyAndSaveAnswer.withArgs({ passageId, elementId, userResponse }).resolves(createdElementAnswer);
-
-      const hStub = {
-        response: sinon.stub(),
-      };
-
-      const serializedElementAnswer = Symbol('serialized element-answer');
-
-      const elementAnswerSerializer = {
-        serialize: sinon.stub(),
-      };
-      elementAnswerSerializer.serialize.withArgs(createdElementAnswer).returns(serializedElementAnswer);
-
-      const createdStub = sinon.stub();
-      hStub.response.withArgs(serializedElementAnswer).returns({ created: createdStub });
-      createdStub.returns(serializedElementAnswer);
+      const usecases = { verifyAndSaveAnswer: sinon.stub() };
+      usecases.verifyAndSaveAnswer.withArgs({ passageId, elementId, userResponse }).resolves({
+        id: 1,
+        correction: { status: {} },
+      });
 
       // when
       const result = await passageController.verifyAndSaveAnswer(
@@ -103,15 +75,13 @@ describe('Unit | Devcomp | Application | Passages | Controller', function () {
           params: { passageId },
           payload: { data: { attributes: { 'element-id': elementId, 'user-response': userResponse, uselessField } } },
         },
-        hStub,
-        {
-          usecases,
-          elementAnswerSerializer,
-        },
+        hFake,
+        { usecases },
       );
 
       // then
-      expect(result).to.equal(serializedElementAnswer);
+      expect(result.source.data.id).to.equal('1');
+      expect(result.source.data.type).to.equal('element-answers');
     });
   });
 

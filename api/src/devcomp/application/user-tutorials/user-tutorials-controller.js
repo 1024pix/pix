@@ -5,17 +5,17 @@ import * as userSavedTutorialRepository from '../../infrastructure/repositories/
 import * as tutorialSerializer from '../../infrastructure/serializers/jsonapi/tutorial-serializer.js';
 import * as userSavedTutorialSerializer from '../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
 
-const add = async function (request, h, dependencies = { userSavedTutorialSerializer }) {
+const add = async function (request, h) {
   const { userId } = request.auth.credentials;
   const { tutorialId } = request.params;
-  const userSavedTutorial = dependencies.userSavedTutorialSerializer.deserialize(request.payload);
+  const userSavedTutorial = userSavedTutorialSerializer.deserialize(request.payload);
 
   const createdUserSavedTutorial = await usecases.addTutorialToUser({ ...userSavedTutorial, userId, tutorialId });
 
-  return h.response(dependencies.userSavedTutorialSerializer.serialize(createdUserSavedTutorial)).created();
+  return h.response(userSavedTutorialSerializer.serialize(createdUserSavedTutorial)).created();
 };
 
-const find = async function (request, h, dependencies = { tutorialSerializer }) {
+const find = async function (request) {
   const { userId } = request.auth.credentials;
   const { page, filter: filters } = request.query;
   const locale = getUserLocale(request);
@@ -26,7 +26,7 @@ const find = async function (request, h, dependencies = { tutorialSerializer }) 
     page,
     lang,
   });
-  return dependencies.tutorialSerializer.serialize(tutorials, meta);
+  return tutorialSerializer.serialize(tutorials, meta);
 };
 
 const removeFromUser = async function (request, h, dependencies = { userSavedTutorialRepository }) {
@@ -38,5 +38,4 @@ const removeFromUser = async function (request, h, dependencies = { userSavedTut
   return h.response().code(204);
 };
 
-const userTutorialsController = { add, find, removeFromUser };
-export { userTutorialsController };
+export const userTutorialsController = { add, find, removeFromUser };

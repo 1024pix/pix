@@ -11,18 +11,14 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
   describe('#findPaginatedTrainingSummaries', function () {
     it('should call the training findPaginatedTrainingSummaries use-case', async function () {
       // given
-      const expectedResult = Symbol('serialized-training-summaries');
-      const trainingSummaries = Symbol('trainingSummary');
-      const meta = Symbol('meta');
+      const trainingSummaries = [{ id: 1 }];
+      const meta = { page: 1 };
       const useCaseParameters = {
         filter: { id: 1 },
         page: { size: 2, number: 1 },
       };
 
       sinon.stub(usecases, 'findPaginatedTrainingSummaries').resolves({ trainings: trainingSummaries, meta });
-
-      const trainingSummarySerializer = { serialize: sinon.stub() };
-      trainingSummarySerializer.serialize.returns(expectedResult);
 
       // when
       const response = await trainingController.findPaginatedTrainingSummaries(
@@ -33,234 +29,111 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
           },
         },
         hFake,
-        { trainingSummarySerializer },
       );
 
       // then
       expect(usecases.findPaginatedTrainingSummaries).to.have.been.calledWithExactly(useCaseParameters);
-      expect(trainingSummarySerializer.serialize).to.have.been.calledOnce;
-      expect(response).to.deep.equal(expectedResult);
+      expect(response).to.deep.equal({
+        data: [{ id: '1', type: 'training-summaries' }],
+        meta: { page: 1 },
+      });
     });
   });
 
   describe('#getById', function () {
     it('should get training by id', async function () {
       // given
-      const expectedResult = Symbol('serialized-trainings');
-      const training = Symbol('training');
       const trainingId = 1;
-
-      sinon.stub(usecases, 'getTraining').resolves(training);
-      const trainingSerializer = { serializeForAdmin: sinon.stub() };
-      trainingSerializer.serializeForAdmin.returns(expectedResult);
+      sinon.stub(usecases, 'getTraining').resolves({ id: trainingId, duration: {} });
 
       // when
-      const response = await trainingController.getById(
-        {
-          params: {
-            trainingId,
-          },
-        },
-        hFake,
-        { trainingSerializer },
-      );
+      const response = await trainingController.getById({ params: { trainingId } }, hFake);
 
       // then
       expect(usecases.getTraining).to.have.been.calledWithExactly({ trainingId });
-      expect(trainingSerializer.serializeForAdmin).to.have.been.calledOnce;
-      expect(response).to.deep.equal(expectedResult);
+      expect(response.data.id).to.equal('1');
+      expect(response.data.type).to.equal('trainings');
     });
   });
 
   describe('#create', function () {
-    const deserializedTraining = {
-      title: 'Training title',
-      internalTitle: 'Training internal title',
-      duration: '2d2h2m',
-    };
-    const createdTraining = {
-      title: 'Training title',
-      internalTitle: 'Training internal title',
-      duration: {
-        days: 2,
-        hours: 2,
-        minutes: 2,
-      },
-    };
-    let trainingSerializer;
-
-    beforeEach(function () {
-      trainingSerializer = {
-        deserialize: sinon.stub(),
-        serialize: sinon.stub(),
-      };
-      trainingSerializer.deserialize.returns(deserializedTraining);
-      sinon.stub(usecases, 'createTraining').resolves(createdTraining);
-    });
-
     it('should call the training create use-case', async function () {
       // given
-      const payload = {
-        data: {
-          attributes: {
-            title: 'A new training',
-            internalTitle: 'A new internal training title',
-            locales: ['fr'],
-            duration: {
-              days: 2,
-              hours: 2,
-              minutes: 2,
-            },
-          },
-        },
-      };
-
-      // when
-      await trainingController.create({ payload }, hFake, { trainingSerializer });
-
-      // then
-      expect(trainingSerializer.deserialize).to.have.been.calledWithExactly(payload);
-      expect(usecases.createTraining).to.have.been.calledOnceWithExactly({ training: deserializedTraining });
-    });
-
-    it('should return a serialized training', async function () {
-      // given
-      const expectedSerializedTraining = {
+      const createdTraining = {
         title: 'A new training',
         internalTitle: 'A new internal training title',
+        locales: ['fr'],
         duration: {
-          hours: 5,
+          days: 2,
+          hours: 2,
+          minutes: 2,
         },
       };
-
-      trainingSerializer.serialize.returns(expectedSerializedTraining);
+      sinon.stub(usecases, 'createTraining').resolves(createdTraining);
+      const payload = { data: { attributes: createdTraining } };
 
       // when
-      const response = await trainingController.create(
-        {
-          data: {
-            attributes: {
-              title: 'A new training',
-              internalTitle: 'A new internal training title',
-              duration: {
-                hours: 5,
-              },
-            },
-          },
-        },
-        hFake,
-        { trainingSerializer },
-      );
+      const result = await trainingController.create({ payload }, hFake);
 
       // then
-      expect(trainingSerializer.serialize).to.have.been.calledWithExactly(createdTraining);
-      expect(response.source).to.deep.equal(expectedSerializedTraining);
+      expect(usecases.createTraining).to.have.been.calledOnceWithExactly({
+        training: {
+          title: 'A new training',
+          internalTitle: 'A new internal training title',
+          locales: ['fr'],
+          duration: '2d2h2m',
+        },
+      });
+      expect(result.source.data.type).to.equal('trainings');
+      expect(result.source.data.attributes.title).to.equal(createdTraining.title);
     });
   });
 
   describe('#duplicate', function () {
-    const createdTraining = {
-      id: 124,
-      title: 'Training title',
-      internalTitle: '[Copie] Training internal title',
-      duration: {
-        days: 2,
-        hours: 2,
-        minutes: 2,
-      },
-    };
-
     it('should call the duplicateTraining use-case', async function () {
       // given
+      const createdTraining = {
+        id: 124,
+        title: 'Training title',
+        internalTitle: '[Copie] Training internal title',
+        duration: {
+          days: 2,
+          hours: 2,
+          minutes: 2,
+        },
+      };
       sinon.stub(usecases, 'duplicateTraining').resolves(createdTraining);
       const trainingId = 123;
       const request = { params: { trainingId } };
-      const expectedSerializedTraining = { trainingId: createdTraining.id };
 
       // when
       const response = await trainingController.duplicate(request, hFake);
 
       // then
       expect(usecases.duplicateTraining).to.have.been.calledOnceWithExactly({ trainingId });
-      expect(response.source).to.deep.equal(expectedSerializedTraining);
+      expect(response.source).to.deep.equal({ trainingId: createdTraining.id });
     });
   });
 
   describe('#update', function () {
-    const deserializedTraining = { title: 'new title' };
-    const updatedTraining = { title: 'new title' };
-
-    let trainingSerializer;
-
-    beforeEach(function () {
-      trainingSerializer = {
-        serializeForAdmin: sinon.stub(),
-        deserialize: sinon.stub(),
-      };
-      trainingSerializer.deserialize.returns(deserializedTraining);
-      sinon.stub(usecases, 'updateTraining').resolves(updatedTraining);
-    });
-
     describe('when request is valid', function () {
       it('should call the training update use-case', async function () {
         // given
-        const useCaseParameters = {
-          training: { ...deserializedTraining, id: 134 },
-        };
-        const payload = {
-          data: {
-            attributes: {
-              title: 'New title',
-              link: 'https://example.net/new-link',
-            },
-          },
-        };
+        const trainingId = 123;
+        const training = { title: 'new title', link: 'https://example.net/new-link' };
+        sinon.stub(usecases, 'updateTraining').resolves({ id: trainingId, ...training, duration: {} });
+        const payload = { data: { attributes: training } };
 
         // when
-        await trainingController.update(
-          {
-            params: {
-              trainingId: 134,
-            },
-            payload,
-          },
-          hFake,
-          { trainingSerializer },
-        );
+        const result = await trainingController.update({ params: { trainingId }, payload }, hFake);
 
         // then
-        expect(trainingSerializer.deserialize).to.have.been.calledWithExactly(payload);
-        expect(usecases.updateTraining).to.have.been.calledWithExactly(useCaseParameters);
-      });
-
-      it('should return a serialized training', async function () {
-        // given
-        const payload = {
-          data: {
-            attributes: {
-              title: 'New title',
-              link: 'https://example.net/new-link',
-            },
-          },
-        };
-        const expectedSerializedUser = { message: 'serialized user' };
-        trainingSerializer.serializeForAdmin.returns(expectedSerializedUser);
-
-        // when
-        const response = await trainingController.update(
-          {
-            params: {
-              trainingId: 134,
-            },
-            payload,
-          },
-          hFake,
-          { trainingSerializer },
-        );
-
-        // then
-        expect(trainingSerializer.serializeForAdmin).to.have.been.calledWithExactly(updatedTraining);
-        expect(response).to.deep.equal(expectedSerializedUser);
+        expect(usecases.updateTraining).to.have.been.calledWithExactly({
+          training: { id: trainingId, ...training },
+        });
+        expect(result.data.id).to.equal(String(trainingId));
+        expect(result.data.type).to.equal('trainings');
+        expect(result.data.attributes.title).to.equal(training.title);
       });
     });
   });
@@ -273,69 +146,34 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
           attributes: {
             type: TrainingTrigger.types.PREREQUISITE,
             threshold: 45,
-          },
-          relationships: {
-            tubes: {
-              data: [
-                {
-                  id: 'recTube123',
-                  type: 'tubes',
-                },
-              ],
-            },
+            tubes: [{ id: 'recTube123', level: 2 }],
           },
         },
-        included: [
-          {
-            attributes: {
-              id: 'recTube123',
-              level: 2,
-            },
-            id: 'recTube123',
-            type: 'tubes',
-          },
-        ],
-      };
-
-      const deserializedTrigger = {
-        trainingId: Symbol('trainingId'),
-        threshold: Symbol('threshold'),
-        type: Symbol('type'),
-        tubes: Symbol('tubes'),
       };
 
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
 
-      const createdTrigger = Symbol('createdTrigger');
-      const serializedTrigger = Symbol('serializedTrigger');
-      sinon.stub(usecases, 'createOrUpdateTrainingTrigger').resolves(createdTrigger);
-      const trainingTriggerSerializer = {
-        deserialize: sinon.stub(),
-        serialize: sinon.stub(),
-      };
-      trainingTriggerSerializer.deserialize.withArgs(payload).returns(deserializedTrigger);
-      trainingTriggerSerializer.serialize.withArgs(createdTrigger).returns(serializedTrigger);
+      sinon.stub(usecases, 'createOrUpdateTrainingTrigger').resolves({
+        id: 145,
+        type: TrainingTrigger.types.PREREQUISITE,
+        threshold: 45,
+        tubes: [{ id: 'recTube123', level: 2 }],
+      });
 
       // when
-      const result = await trainingController.createOrUpdateTrigger(
-        {
-          params: { trainingId: 145 },
-          payload,
-        },
-        hFake,
-        { trainingTriggerSerializer: trainingTriggerSerializer },
-      );
+      const result = await trainingController.createOrUpdateTrigger({ params: { trainingId: 145 }, payload }, hFake);
 
       // then
       expect(usecases.createOrUpdateTrainingTrigger).to.have.been.calledWithExactly({
         trainingId: 145,
-        threshold: deserializedTrigger.threshold,
-        type: deserializedTrigger.type,
-        tubes: deserializedTrigger.tubes,
+        threshold: 45,
+        type: TrainingTrigger.types.PREREQUISITE,
+        tubes: [{ id: 'recTube123', level: 2 }],
       });
-      expect(result).to.be.equal(serializedTrigger);
+      expect(result.data.id).to.equal('145');
+      expect(result.data.type).to.equal('training-triggers');
     });
   });
 
@@ -343,25 +181,14 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
     it('should call the findTargetProfileSummaries use-case', async function () {
       // given
       const trainingId = 145;
-      const targetProfileSummaries = Symbol('targetProfileSummaries');
-      const serializedTargetProfileSummaries = Symbol('serializedTargetProfileSummaries');
-      sinon.stub(usecases, 'findTargetProfileSummariesForTraining').resolves(targetProfileSummaries);
-
-      const targetProfileSummaryForAdminSerializer = {
-        serialize: sinon.stub(),
-      };
-      targetProfileSummaryForAdminSerializer.serialize
-        .withArgs(targetProfileSummaries)
-        .returns(serializedTargetProfileSummaries);
+      sinon.stub(usecases, 'findTargetProfileSummariesForTraining').resolves([{ id: 1 }]);
 
       // when
-      const result = await trainingController.findTargetProfileSummaries({ params: { trainingId } }, hFake, {
-        targetProfileSummaryForAdminSerializer: targetProfileSummaryForAdminSerializer,
-      });
+      const result = await trainingController.findTargetProfileSummaries({ params: { trainingId } }, hFake);
 
       // then
       expect(usecases.findTargetProfileSummariesForTraining).to.have.been.calledWithExactly({ trainingId });
-      expect(result).to.be.equal(serializedTargetProfileSummaries);
+      expect(result.data).to.deep.equal([{ id: '1', type: 'target-profile-summaries' }]);
     });
   });
 
@@ -391,23 +218,15 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
     it('should return trainings summaries', async function () {
       // given
       const targetProfileId = 123;
-      const expectedResult = Symbol('serialized-training-summaries');
-      const trainingSummaries = Symbol('trainingSummaries');
-      const meta = Symbol('meta');
       const useCaseParameters = {
         targetProfileId,
         page: { size: 2, number: 1 },
       };
 
       sinon.stub(usecases, 'findPaginatedTargetProfileTrainingSummaries').resolves({
-        trainings: trainingSummaries,
-        meta,
+        trainings: [{ id: 1 }],
+        meta: { page: 1 },
       });
-
-      const trainingSummarySerializer = {
-        serialize: sinon.stub(),
-      };
-      trainingSummarySerializer.serialize.withArgs(trainingSummaries, meta).returns(expectedResult);
 
       // when
       const response = await trainingController.findPaginatedTrainingsSummariesByTargetProfileId(
@@ -420,12 +239,12 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
           },
         },
         hFake,
-        { trainingSummarySerializer },
       );
 
       // then
       expect(usecases.findPaginatedTargetProfileTrainingSummaries).to.have.been.calledWithExactly(useCaseParameters);
-      expect(response).to.deep.equal(expectedResult);
+      expect(response.data).to.deep.equal([{ id: '1', type: 'training-summaries' }]);
+      expect(response.meta).to.deep.equal({ page: 1 });
     });
   });
 

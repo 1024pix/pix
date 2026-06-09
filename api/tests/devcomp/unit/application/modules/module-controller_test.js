@@ -9,26 +9,19 @@ describe('Unit | Devcomp | Application | Modules | Module Controller', function 
     it('should call getModuleByShortId use-case and return serialized modules', async function () {
       const shortId = 's0l3il';
       const encryptedRedirectionUrl = 'encryptedRedirectionUrl';
-      const serializedModule = Symbol('serialized modules');
-      const module = Symbol('modules');
+      const module = { id: 1, glossary: [], sections: [] };
       const getModuleByShortIdStub = sinon.stub(usecases, 'getModuleByShortId');
       usecases.getModuleByShortId.withArgs({ shortId, encryptedRedirectionUrl }).returns(module);
-      const moduleSerializer = {
-        serialize: sinon.stub(),
-      };
-      moduleSerializer.serialize.withArgs(module).returns(serializedModule);
 
       const result = await modulesController.getByShortId(
         { params: { shortId }, query: { encryptedRedirectionUrl } },
         null,
-        {
-          moduleSerializer,
-          usecases,
-        },
+        { usecases },
       );
 
-      expect(result).to.equal(serializedModule);
       expect(getModuleByShortIdStub).to.have.been.calledOnceWithExactly({ shortId, encryptedRedirectionUrl });
+      expect(result.data.id).to.equal('1');
+      expect(result.data.type).to.equal('modules');
     });
   });
 });

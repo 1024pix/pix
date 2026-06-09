@@ -5,33 +5,29 @@ import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/tr
 import * as trainingSummarySerializer from '../../infrastructure/serializers/jsonapi/training-summary-serializer.js';
 import * as trainingTriggerSerializer from '../../infrastructure/serializers/jsonapi/training-trigger-serializer.js';
 
-const findPaginatedTrainingSummaries = async function (request, h, dependencies = { trainingSummarySerializer }) {
+const findPaginatedTrainingSummaries = async function (request) {
   const { filter, page } = request.query;
 
   const { trainings, meta } = await usecases.findPaginatedTrainingSummaries({ filter, page });
-  return dependencies.trainingSummarySerializer.serialize(trainings, meta);
+  return trainingSummarySerializer.serialize(trainings, meta);
 };
 
-const findTargetProfileSummaries = async function (
-  request,
-  h,
-  dependencies = { targetProfileSummaryForAdminSerializer },
-) {
+const findTargetProfileSummaries = async function (request) {
   const { trainingId } = request.params;
   const targetProfileSummaries = await usecases.findTargetProfileSummariesForTraining({ trainingId });
-  return dependencies.targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
+  return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
 };
 
-const getById = async function (request, h, dependencies = { trainingSerializer }) {
+const getById = async function (request) {
   const { trainingId } = request.params;
   const training = await usecases.getTraining({ trainingId });
-  return dependencies.trainingSerializer.serializeForAdmin(training);
+  return trainingSerializer.serializeForAdmin(training);
 };
 
-const create = async function (request, h, dependencies = { trainingSerializer }) {
-  const deserializedTraining = await dependencies.trainingSerializer.deserialize(request.payload);
+const create = async function (request, h) {
+  const deserializedTraining = await trainingSerializer.deserialize(request.payload);
   const createdTraining = await usecases.createTraining({ training: deserializedTraining });
-  return h.response(dependencies.trainingSerializer.serialize(createdTraining)).created();
+  return h.response(trainingSerializer.serialize(createdTraining)).created();
 };
 
 const duplicate = async function (request, h) {
@@ -40,11 +36,11 @@ const duplicate = async function (request, h) {
   return h.response({ trainingId: createdTraining.id }).created();
 };
 
-const update = async function (request, h, dependencies = { trainingSerializer }) {
+const update = async function (request) {
   const { trainingId } = request.params;
-  const training = await dependencies.trainingSerializer.deserialize(request.payload);
+  const training = await trainingSerializer.deserialize(request.payload);
   const updatedTraining = await usecases.updateTraining({ training: { ...training, id: trainingId } });
-  return dependencies.trainingSerializer.serializeForAdmin(updatedTraining);
+  return trainingSerializer.serializeForAdmin(updatedTraining);
 };
 
 const deleteTrainingTrigger = async function (request, h) {
@@ -53,9 +49,9 @@ const deleteTrainingTrigger = async function (request, h) {
   return h.response({}).code(204);
 };
 
-const createOrUpdateTrigger = async function (request, h, dependencies = { trainingTriggerSerializer }) {
+const createOrUpdateTrigger = async function (request) {
   const { trainingId } = request.params;
-  const { threshold, tubes, type } = await dependencies.trainingTriggerSerializer.deserialize(request.payload);
+  const { threshold, tubes, type } = await trainingTriggerSerializer.deserialize(request.payload);
 
   const createdOrUpdatedTrainingTrigger = await DomainTransaction.execute(async () => {
     return usecases.createOrUpdateTrainingTrigger({
@@ -66,7 +62,7 @@ const createOrUpdateTrigger = async function (request, h, dependencies = { train
     });
   });
 
-  return dependencies.trainingTriggerSerializer.serialize(createdOrUpdatedTrainingTrigger);
+  return trainingTriggerSerializer.serialize(createdOrUpdatedTrainingTrigger);
 };
 
 const attachTargetProfiles = async function (request, h) {
@@ -103,7 +99,7 @@ const findPaginatedTrainingsSummariesByTargetProfileId = async function (
   return dependencies.trainingSummarySerializer.serialize(trainings, meta);
 };
 
-const trainingController = {
+export const trainingController = {
   findPaginatedTrainingSummaries,
   findPaginatedTrainingsSummariesByTargetProfileId,
   findTargetProfileSummaries,
@@ -116,5 +112,3 @@ const trainingController = {
   attachTargetProfiles,
   detachTargetProfile,
 };
-
-export { trainingController };

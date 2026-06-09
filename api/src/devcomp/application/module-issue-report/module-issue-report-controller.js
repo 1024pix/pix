@@ -25,6 +25,4 @@ const createModuleIssueReport = async function (request, h) {
     .created();
 };
 
-const moduleIssueReportController = { createModuleIssueReport };
-
-export { moduleIssueReportController };
+export const moduleIssueReportController = { createModuleIssueReport };
