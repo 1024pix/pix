@@ -13,14 +13,10 @@ describe('Unit | Pre-handler | User Verification', function () {
       },
     };
     let userRepository;
-    let errorSerializer;
 
     beforeEach(function () {
       userRepository = {
         get: sinon.stub(),
-      };
-      errorSerializer = {
-        serialize: sinon.stub(),
       };
     });
 
@@ -31,7 +27,7 @@ describe('Unit | Pre-handler | User Verification', function () {
         userRepository.get.resolves(userCount);
 
         // when
-        const response = await userVerification.verifyById(request, hFake, { userRepository, errorSerializer });
+        const response = await userVerification.verifyById(request, hFake, { userRepository });
 
         // then
         sinon.assert.calledOnce(userRepository.get);
@@ -44,14 +40,12 @@ describe('Unit | Pre-handler | User Verification', function () {
       it('should reply 404 status with a serialized error and takeOver the request', async function () {
         // given
         userRepository.get.rejects(new UserNotFoundError());
-        const serializedError = { serialized: 'error' };
-        errorSerializer.serialize.returns(serializedError);
 
         // when
-        const response = await userVerification.verifyById(request, hFake, { userRepository, errorSerializer });
+        const response = await userVerification.verifyById(request, hFake, { userRepository });
 
         // then
-        expect(response.source).to.deep.equal(serializedError);
+        expect(response.source.errors.length).to.equal(1);
         expect(response.isTakeOver).to.be.true;
         expect(response.statusCode).to.equal(404);
       });

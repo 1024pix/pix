@@ -7,12 +7,6 @@ import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Application | Controller | sco-organization-learner', function () {
   describe('#checkScoAccountRecovery', function () {
-    const userId = 2;
-    let request = {
-      auth: { credentials: { userId } },
-      payload: { data: { attributes: {} } },
-    };
-
     beforeEach(function () {
       sinon.stub(usecases, 'checkScoAccountRecovery');
       usecases.checkScoAccountRecovery.resolves();
@@ -20,46 +14,50 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
 
     it('should return student account information serialized', async function () {
       // given
-      const studentInformationForAccountRecoverySerializer = {
-        serialize: sinon.stub(),
-        deserialize: sinon.stub(),
-      };
-      hFake.request = { path: {} };
       const studentInformation = {
         ineIna: '1234567890A',
         firstName: 'Bob',
         lastName: 'Camond',
         birthdate: '2001-12-08',
       };
-      request = {
-        payload: {
-          data: {
-            type: 'student-information',
-            attributes: {
-              'ine-ina': studentInformation.ineIna,
-              'first-name': studentInformation.firstName,
-              'last-name': studentInformation.lastName,
-              birthdate: studentInformation.birthdate,
+
+      usecases.checkScoAccountRecovery.withArgs({ studentInformation }).resolves({
+        firstName: studentInformation.firstName,
+        lastName: studentInformation.lastName,
+        username: 'bcamond',
+        latestOrganizationName: 'foo',
+      });
+
+      // when
+      const response = await scoOrganizationLearnerController.checkScoAccountRecovery(
+        {
+          payload: {
+            data: {
+              type: 'student-information',
+              attributes: {
+                'ine-ina': studentInformation.ineIna,
+                'first-name': studentInformation.firstName,
+                'last-name': studentInformation.lastName,
+                birthdate: studentInformation.birthdate,
+              },
             },
           },
         },
-      };
-      const studentInformationForAccountRecovery = Symbol();
-      const studentInformationForAccountRecoveryJSONAPI = Symbol();
-
-      studentInformationForAccountRecoverySerializer.deserialize.withArgs(request.payload).resolves(studentInformation);
-      usecases.checkScoAccountRecovery.withArgs({ studentInformation }).resolves(studentInformationForAccountRecovery);
-      studentInformationForAccountRecoverySerializer.serialize
-        .withArgs(studentInformationForAccountRecovery)
-        .returns(studentInformationForAccountRecoveryJSONAPI);
-
-      // when
-      const response = await scoOrganizationLearnerController.checkScoAccountRecovery(request, hFake, {
-        studentInformationForAccountRecoverySerializer,
-      });
+        hFake,
+      );
 
       // then
-      expect(response.source).to.deep.equal(studentInformationForAccountRecoveryJSONAPI);
+      expect(response.source).to.deep.equal({
+        data: {
+          type: 'student-information-for-account-recoveries',
+          attributes: {
+            'first-name': 'Bob',
+            'last-name': 'Camond',
+            'latest-organization-name': 'foo',
+            username: 'bcamond',
+          },
+        },
+      });
     });
   });
 });

@@ -73,6 +73,4 @@ const authenticateForSaml = async function (request, h) {
     .code(200);
 };
 
-const samlController = { metadata, login, assert, authenticateForSaml };
-
-export { samlController };
+export const samlController = { metadata, login, assert, authenticateForSaml };

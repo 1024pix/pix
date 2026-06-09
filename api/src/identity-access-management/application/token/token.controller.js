@@ -17,14 +17,6 @@ const authenticateAnonymousUser = async function (request, h) {
   return h.response(response).code(200);
 };
 
-/**
- * @param request
- * @param h
- * @param {{
- *   tokenService: TokenService
- * }} dependencies
- * @return {Promise<*>}
- */
 const createToken = async function (request, h) {
   let accessToken, refreshToken;
   let expirationDelaySeconds;

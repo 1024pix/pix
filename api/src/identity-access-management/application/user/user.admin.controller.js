@@ -9,69 +9,60 @@ import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/u
  *
  * @param request
  * @param h
- * @param {object} dependencies
- * @param {UserForAdminSerializer} dependencies.userForAdminSerializer
  * @returns {Promise<*>}
  */
-const findPaginatedFilteredUsers = async function (request, h, dependencies = { userForAdminSerializer }) {
+const findPaginatedFilteredUsers = async function (request) {
   const { filter, page, queryType } = request.query;
 
   const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({ filter, page, queryType });
-  return dependencies.userForAdminSerializer.serialize(users, pagination);
+  return userForAdminSerializer.serialize(users, pagination);
 };
 
 /**
  * @param request
  * @param h
- * @param {object} dependencies
- * @param {UserLoginSerializer} dependencies.userLoginSerializer
  * @return {Promise<*>}
  */
-const unblockUserAccount = async function (request, h, dependencies = { userLoginSerializer }) {
+const unblockUserAccount = async function (request, h) {
   const userId = request.params.id;
   const userLogin = await usecases.unblockUserAccount({ userId });
-  return h.response(dependencies.userLoginSerializer.serialize(userLogin)).code(200);
+  return h.response(userLoginSerializer.serialize(userLogin)).code(200);
 };
 
 /**
  * @param request
  * @param h
  * @param {object} dependencies
- * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
  * @return {Promise<*>}
  */
-const updateUserDetailsByAdmin = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
+const updateUserDetailsByAdmin = async function (request) {
   const updatedByAdminId = request.auth.credentials.userId;
   const userId = request.params.id;
-  const userDetailsToUpdate = dependencies.userDetailsForAdminSerializer.deserialize(request.payload);
+  const userDetailsToUpdate = userDetailsForAdminSerializer.deserialize(request.payload);
 
   const updatedUser = await usecases.updateUserDetailsByAdmin({ userId, userDetailsToUpdate, updatedByAdminId });
 
-  return dependencies.userDetailsForAdminSerializer.serializeForUpdate(updatedUser);
+  return userDetailsForAdminSerializer.serializeForUpdate(updatedUser);
 };
 
 /**
  *
  * @param request
  * @param h
- * @param dependencies
- * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
  * @returns {Promise<*>}
  */
-const getUserDetails = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
+const getUserDetails = async function (request) {
   const userId = request.params.id;
   const userDetailsForAdmin = await usecases.getUserDetailsForAdmin({ userId });
-  return dependencies.userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
+  return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
 };
 
 /**
  * @param request
  * @param h
- * @param dependencies
- * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
  * @returns {Promise<*>}
  */
-const anonymizeUser = async function (request, h, dependencies = { userAnonymizedDetailsForAdminSerializer }) {
+const anonymizeUser = async function (request, h) {
   const userToAnonymizeId = request.params.id;
   const adminMemberId = request.auth.credentials.userId;
 
@@ -85,27 +76,24 @@ const anonymizeUser = async function (request, h, dependencies = { userAnonymize
 
   const anonymizedUser = await usecases.getUserDetailsForAdmin({ userId: userToAnonymizeId });
 
-  return h.response(dependencies.userAnonymizedDetailsForAdminSerializer.serialize(anonymizedUser)).code(200);
+  return h.response(userAnonymizedDetailsForAdminSerializer.serialize(anonymizedUser)).code(200);
 };
 
 /**
  * @param request
  * @param h
- * @param dependencies
- * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
  * @returns {Promise<*>}
  */
-const addPixAuthenticationMethod = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
+const addPixAuthenticationMethod = async function (request, h) {
   const userId = request.params.id;
   const email = request.payload.data.attributes.email.trim().toLowerCase();
   const userUpdated = await usecases.addPixAuthenticationMethod({ userId, email });
-  return h.response(dependencies.userDetailsForAdminSerializer.serialize(userUpdated)).created();
+  return h.response(userDetailsForAdminSerializer.serialize(userUpdated)).created();
 };
 
 /**
  * @param request
  * @param h
- * @param dependencies
  * @returns {Promise<*>}
  */
 const removeAuthenticationMethod = async function (request, h) {
@@ -118,7 +106,6 @@ const removeAuthenticationMethod = async function (request, h) {
 /**
  * @param request
  * @param h
- * @param dependencies
  * @returns {Promise<void>}
  */
 const reassignAuthenticationMethod = async function (request, h) {
@@ -144,7 +131,7 @@ const reassignAuthenticationMethod = async function (request, h) {
  * @property {function} unblockUserAccount
  * @property {function} updateUserDetailsByAdmin
  */
-const userAdminController = {
+export const userAdminController = {
   addPixAuthenticationMethod,
   anonymizeUser,
   findPaginatedFilteredUsers,
@@ -154,5 +141,3 @@ const userAdminController = {
   unblockUserAccount,
   updateUserDetailsByAdmin,
 };
-
-export { userAdminController };

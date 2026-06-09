@@ -1,4 +1,3 @@
-import * as localeService from '../../../shared/domain/services/locale-service.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -23,27 +22,21 @@ const acceptPixCertifTermsOfService = async function (request, h) {
 /**
  * @param request
  * @param h
- * @param {{
- *   userSerializer: UserSerializer
- * }} dependencies
  * @return {Promise<*>}
  */
-const acceptPixLastTermsOfService = async function (request, h, dependencies = { userSerializer }) {
+const acceptPixLastTermsOfService = async function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
 
   const updatedUser = await usecases.acceptPixLastTermsOfService({
     userId: authenticatedUserId,
   });
 
-  return dependencies.userSerializer.serialize(updatedUser);
+  return userSerializer.serialize(updatedUser);
 };
 
 /**
  * @param request
  * @param h
- * @param {{
- *   userSerializer: UserSerializer
- * }} dependencies
  * @return {Promise<*>}
  */
 const acceptPixOrgaTermsOfService = async function (request, h) {
@@ -59,82 +52,67 @@ const acceptPixOrgaTermsOfService = async function (request, h) {
 /**
  * @param request
  * @param h
- * @param {{
- *   userSerializer: UserSerializer
- * }} dependencies
  * @return {Promise<*>}
  */
-const changeUserLocale = async function (request, h, dependencies = { userSerializer }) {
+const changeUserLocale = async function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
   const locale = getUserLocale(request);
 
   const updatedUser = await usecases.changeUserLocale({ userId: authenticatedUserId, locale });
 
-  return dependencies.userSerializer.serialize(updatedUser);
+  return userSerializer.serialize(updatedUser);
 };
 
 /**
  * @param request
  * @param h
- * @param {{
- *   userWithActivitySerializer: UserWithActivitySerializer
- * }} dependencies
  * @return {Promise<*>}
  */
-const getCurrentUser = async function (request, h, dependencies = { userWithActivitySerializer }) {
+const getCurrentUser = async function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
 
   const result = await usecases.getCurrentUser({ authenticatedUserId });
 
-  return dependencies.userWithActivitySerializer.serialize(result);
+  return userWithActivitySerializer.serialize(result);
 };
 
 /**
  * @param request
  * @param h
- * @param {{
- *   userAccountInfoSerializer: UserAccountInfoSerializer
- * }} dependencies
  * @return {Promise<*>}
  */
-const getCurrentUserAccountInfo = async function (request, h, dependencies = { userAccountInfoSerializer }) {
+const getCurrentUserAccountInfo = async function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
 
   const userAccountInfo = await usecases.getUserAccountInfo({ userId: authenticatedUserId });
 
-  return dependencies.userAccountInfoSerializer.serialize(userAccountInfo);
+  return userAccountInfoSerializer.serialize(userAccountInfo);
 };
 
 /**
  * @param request
  * @param h
- * @param {{
- *   authenticationMethodsSerializer: AuthenticationMethodsSerializer
- * }} dependencies
  * @return {Promise<*>}
  */
-const getUserAuthenticationMethods = async function (request, h, dependencies = { authenticationMethodsSerializer }) {
+const getUserAuthenticationMethods = async function (request) {
   const userId = request.params.id;
 
   const authenticationMethods = await usecases.findUserAuthenticationMethods({ userId });
 
-  return dependencies.authenticationMethodsSerializer.serialize(authenticationMethods);
+  return authenticationMethodsSerializer.serialize(authenticationMethods);
 };
 
 /**
  * @param request
  * @param h
- * @param {Object} dependencies
- * @param {LocaleService} dependencies.localeService
- * @param {UserSerializer} dependencies.userSerializer
  * @return {Promise<*>}
  */
-const createUser = async function (request, h, dependencies = { userSerializer, localeService }) {
+const createUser = async function (request, h) {
   const locale = getUserLocale(request);
   const i18n = getI18nFromRequest(request);
 
   const redirectionUrl = request.payload.meta ? request.payload.meta['redirection-url'] : null;
-  const user = dependencies.userSerializer.deserialize(request.payload);
+  const user = userSerializer.deserialize(request.payload);
 
   const password = request.payload.data.attributes.password;
 
@@ -146,7 +124,7 @@ const createUser = async function (request, h, dependencies = { userSerializer, 
     i18n,
   });
 
-  return h.response(dependencies.userSerializer.serialize(savedUser)).created();
+  return h.response(userSerializer.serialize(savedUser)).created();
 };
 
 /**
@@ -167,7 +145,7 @@ const updatePassword = async function (request, h) {
   return h.response().code(204);
 };
 
-const updateUserEmailWithValidation = async function (request, h, dependencies = { updateEmailSerializer }) {
+const updateUserEmailWithValidation = async function (request) {
   const userId = request.params.id;
   const code = request.payload.data.attributes.code;
 
@@ -176,10 +154,10 @@ const updateUserEmailWithValidation = async function (request, h, dependencies =
     code,
   });
 
-  return dependencies.updateEmailSerializer.serialize(updatedUserAttributes);
+  return updateEmailSerializer.serialize(updatedUserAttributes);
 };
 
-const addUserEmailWithValidation = async function (request, h, dependencies = { updateEmailSerializer }) {
+const addUserEmailWithValidation = async function (request) {
   const userId = request.params.id;
   const code = request.payload.data.attributes.code;
 
@@ -188,28 +166,21 @@ const addUserEmailWithValidation = async function (request, h, dependencies = { 
     code,
   });
 
-  return dependencies.updateEmailSerializer.serialize(updatedUserAttributes);
+  return updateEmailSerializer.serialize(updatedUserAttributes);
 };
 
 /**
  * @param request
  * @param h
- * @param {{
- *   userSerializer: UserSerializer
- * }} dependencies
  * @return {Promise<*>}
  */
-const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
-  request,
-  h,
-  dependencies = { userSerializer },
-) {
+const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
 
   const updatedUser = await usecases.rememberUserHasSeenLastDataProtectionPolicyInformation({
     userId: authenticatedUserId,
   });
-  return dependencies.userSerializer.serialize(updatedUser);
+  return userSerializer.serialize(updatedUser);
 };
 
 const selfDeleteUserAccount = async function (request, h) {
@@ -221,11 +192,11 @@ const selfDeleteUserAccount = async function (request, h) {
   return h.response().code(204);
 };
 
-const sendVerificationCode = async function (request, h, dependencies = { emailVerificationSerializer }) {
+const sendVerificationCode = async function (request, h) {
   const locale = getUserLocale(request);
 
   const userId = request.auth.credentials.userId;
-  const { action, newEmail, password } = await dependencies.emailVerificationSerializer.deserialize(request.payload);
+  const { action, newEmail, password } = await emailVerificationSerializer.deserialize(request.payload);
 
   await usecases.sendVerificationCode({ locale, action, newEmail, password, userId });
   return h.response().code(204);
@@ -245,7 +216,7 @@ const getCertificationPointOfContact = async function (request) {
   return certificationPointOfContactSerializer.serialize(certificationPointOfContact);
 };
 
-const rememberUserHasSeenChallengeTooltip = async function (request, h, dependencies = { userSerializer }) {
+const rememberUserHasSeenChallengeTooltip = async function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
   const challengeType = request.params.challengeType;
 
@@ -253,18 +224,15 @@ const rememberUserHasSeenChallengeTooltip = async function (request, h, dependen
     userId: authenticatedUserId,
     challengeType,
   });
-  return dependencies.userSerializer.serialize(updatedUser);
+  return userSerializer.serialize(updatedUser);
 };
 
 /**
  * @param request
  * @param h
- * @param {Object} dependencies
- * @param {LocaleService} dependencies.localeService
- * @param {UserSerializer} dependencies.userSerializer
  * @return {Promise<*>}
  */
-const upgradeToRealUser = async function (request, h, dependencies = { userSerializer, localeService }) {
+const upgradeToRealUser = async function (request, h) {
   const userId = request.auth.credentials.userId;
   const locale = getUserLocale(request);
 
@@ -284,7 +252,7 @@ const upgradeToRealUser = async function (request, h, dependencies = { userSeria
     password,
     locale,
   });
-  return h.response(dependencies.userSerializer.serialize(realUser));
+  return h.response(userSerializer.serialize(realUser));
 };
 
 export const userController = {

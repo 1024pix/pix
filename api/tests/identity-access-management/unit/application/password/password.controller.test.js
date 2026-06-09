@@ -17,22 +17,16 @@ describe('Unit | Identity Access Management | Application | Controller | passwor
 
     beforeEach(function () {
       sinon.stub(usecases, 'getUserByResetPasswordDemand');
-      const userSerializerStub = {
-        serialize: sinon.stub(),
-      };
-      dependencies = {
-        userSerializer: userSerializerStub,
-      };
       usecases.getUserByResetPasswordDemand.resolves({ email });
     });
 
     it('returns serialized user', async function () {
       // when
-      await passwordController.checkResetDemand(request, hFake, dependencies);
+      const result = await passwordController.checkResetDemand(request, hFake, dependencies);
 
       // then
       expect(usecases.getUserByResetPasswordDemand).to.have.been.calledWithExactly({ temporaryKey });
-      expect(dependencies.userSerializer.serialize).to.have.been.calledWithExactly({ email });
+      expect(result.data.attributes.email).to.equal(email);
     });
   });
 

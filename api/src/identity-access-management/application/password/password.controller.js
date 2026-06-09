@@ -2,10 +2,10 @@ import { getUserLocale } from '../../../shared/infrastructure/utils/request-resp
 import { usecases } from '../../domain/usecases/index.js';
 import * as userSerializer from '../../infrastructure/serializers/jsonapi/user-serializer.js';
 
-const checkResetDemand = async function (request, h, dependencies = { userSerializer }) {
+const checkResetDemand = async function (request) {
   const temporaryKey = request.params.temporaryKey;
   const user = await usecases.getUserByResetPasswordDemand({ temporaryKey });
-  return dependencies.userSerializer.serialize(user);
+  return userSerializer.serialize(user);
 };
 
 const createResetPasswordDemand = async function (request, h) {

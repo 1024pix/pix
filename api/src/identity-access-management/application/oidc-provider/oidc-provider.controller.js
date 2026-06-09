@@ -80,7 +80,6 @@ async function createUser(request, h) {
 /**
  * @param request
  * @param h
- * @param dependencies
  * @return {Promise<*>}
  */
 async function findUserForReconciliation(request, h) {
