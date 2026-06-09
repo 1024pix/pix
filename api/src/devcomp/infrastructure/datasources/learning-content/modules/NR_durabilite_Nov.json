@@ -197,9 +197,15 @@
                       "licence": "Photo : The International Institue of Environment and Development - CC by 2.5"
                     },
                     {
+                      "id": "9a270c4a-8f4f-4e1a-8d03-4d90c7ed3d22",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Ce métal est principalement extrait en République Démocratique du Congo, souvent dans de mauvaises conditions de travail, et parfois par des enfants.</p>"
+                    },
+                    {
                       "id": "4fb251cd-751f-43da-b1ba-0b2b2320062f",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Ce métal est principalement extrait en République Démocratique du Congo, souvent dans de mauvaises conditions de travail, et parfois par des enfants.</p>",
+                      "instruction": "<p>Quel est ce métal ?&nbsp;</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -225,7 +231,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "Je ne sais pas",
+                          "content": "Je ne sais pas.",
                           "feedback": {
                             "diagnosis": "<p>Il s’agit du <strong>cobalt</strong>.</p>"
                           }
@@ -247,9 +253,15 @@
                       "licence": ""
                     },
                     {
+                      "id": "9a270c4a-8f4f-4e1a-8d03-4d90c7ed3d22",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Ce métal est très présent dans les batteries. Son extraction pollue beaucoup les sols et les eaux à proximité.</p>"
+                    },
+                    {
                       "id": "2dde8880-120d-4ba9-a6d2-1013874cfb4c",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Ce métal est très présent dans les batteries. Son extraction pollue beaucoup les sols et les eaux à proximité.</p>",
+                      "instruction": "<p>Quel est ce métal&nbsp;?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -270,12 +282,12 @@
                           "id": "2",
                           "content": "L’or",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! Il s’agit du lithium.</p>"
+                            "diagnosis": "<p>Eh non ! Il s’agit du <strong>lithium</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Je ne sais pas",
+                          "content": "Je ne sais pas.",
                           "feedback": {
                             "diagnosis": "<p>Il s’agit du <strong>lithium</strong>.</p>"
                           }
@@ -297,35 +309,41 @@
                       "licence": "Photo : James St. John - CC by 2.0"
                     },
                     {
+                      "id": "9a270c4a-8f4f-4e1a-8d03-4d90c7ed3d22",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Ce métal est précieux. Il est utilisé pour ses capacités à conduire l’électricité.</p>"
+                    },
+                    {
                       "id": "45948196-92cf-4ffd-a2c8-a6a228b4cd34",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Ce métal est précieux. Il est utilisé pour ses capacités à conduire l’électricité.</p>",
+                      "instruction": "<p>Quel est ce métal&nbsp;?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "0",
                           "content": "Le cobalt",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! Il s’agit de l’<strong>or</strong> ou de l’<strong>argent</strong>.</p>"
+                            "diagnosis": "<p>Eh non ! Il s’agit de l’<strong>or</strong>.</p>"
                           }
                         },
                         {
                           "id": "1",
                           "content": "L’or",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui ! Il s’agit effectivement de l’or.</p>"
+                            "diagnosis": "<p>Eh oui ! Il s’agit effectivement de <strong>l’or</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Le cobalt",
+                          "content": "L'aluminium",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! Il s’agit de l’or.</p>"
+                            "diagnosis": "<p>Eh non ! Il s’agit de <strong>l’or</strong>.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "Je ne sais pas",
+                          "content": "Je ne sais pas.",
                           "feedback": {
                             "diagnosis": "<p>Il s’agit de l’<strong>or</strong>.</p>"
                           }
