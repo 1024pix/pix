@@ -774,7 +774,7 @@
                       "id": "da5b7905-7192-43d5-a7e5-7a196ea69a48",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Parfois, vous devez changer de smartphone car il ne permet plus de faire ce que vous voulez, ou qu’il est cassé mais impossible à réparer.</p>"
+                      "content": "<p>Parfois, vous devez changer de smartphone car il ne permet plus de faire ce que vous voulez, ou qu’il est cassé mais impossible à réparer. Dans ce cas, 2 possibilités : <ul><li>Si votre ancien smartphone <strong>fonctionne encore</strong>, il pourait servir à quelqu'un d'autre. Pensez donc à <strong>le donner</strong> ou <strong>le vendre</strong>, ne le gardez pas dans un tiroir</li><li>Si votre ancien smartphone <strong>ne fonctionne plus</strong>, alors ne le jetez pas dans n'importe quelle poubelle&nbsp;!</li></ul></p>"
                     }
                   ]
                 },
@@ -784,23 +784,7 @@
                       "id": "2cb2eb55-f652-4003-9706-5a79cb427db0",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Si votre ancien smartphone fonctionne encore, il pourrait servir à quelqu’un d’autre. Pensez donc à <strong>le donner</strong> ou <strong>le vendre</strong>, ne le gardez pas dans un tiroir !</p>"
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "d96098f4-08a5-4317-b1f4-7b79fd1b45a0",
-                      "type": "text",
-                      "tag": " ",
-                      "content": "Si votre ancien smartphone ne <strong>fonctionne plus</strong>, alors ne le jetez pas dans n’importe quelle poubelle&nbsp;!"
-                    },
-                    {
-                      "id": "f1b636f3-4a9a-41df-adb4-7d3120b7fdb7",
-                      "type": "text",
-                      "tag": " ",
-                      "content": "Sur les smartphones, et la plupart des appareils électroniques, on trouve <strong>le logo suivant</strong>&nbsp;:"
+                      "content": "Sur les smartphones, et la plupart des appareils électroniques, on trouve un <strong>logo</strong> qui indique que les appareils électroniques <strong>ne doivent pas être jetés dans une poubelle classique</strong>."
                     },
                     {
                       "id": "ab421b9d-b6f1-4648-a481-26e05a5fe17f",
@@ -810,22 +794,12 @@
                       "alternativeText": "",
                       "legend": "",
                       "licence": ""
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "697ffc30-66c1-4169-ae5b-305e1a26109e",
-                      "type": "text",
-                      "tag": " ",
-                      "content": "Ce logo indique que les appareils électroniques ne doivent <strong>pas être jetés dans une poubelle classique</strong>. En effet, dans ces appareils, certains composants dégagent des fumées toxiques s’ils sont incinérés de la même manière que les déchets classiques."
                     },
                     {
-                      "id": "46925f16-03eb-4911-93f4-7ddc7e6af4ee",
+                      "id": "fd8a4f31-9ef9-4695-93b3-ffb9ecaf27a0",
                       "type": "text",
                       "tag": " ",
-                      "content": "La bonne chose à faire est donc de <strong>déposer votre smartphone dans un point de collecte spécialisé</strong> pour que les composants soient récupérés ou recyclés. Vous pouvez trouver des points de collecte spécialisé dans les magasins d’électroménager, par exemple."
+                      "content": "<p>En effet, certains composants des appareils électroniques dégagent des fumées toxiques s'ils sont incinérés de la même manière que les déchets classiques.<br>La bonne chose à faire est donc de <strong>déposer votre smartphone dans un point de collecte spécialisé</strong> pour que les composants soient récupérés ou recyclés. Vous pouvez trouver des points de collecte dans les magasins d'électroménager, par exemple.</p>"
                     }
                   ]
                 }
