@@ -9,8 +9,6 @@ const getInformationBanner = async function (request) {
   return informationBannerSerializer.serialize(informationBanner);
 };
 
-const bannerController = {
+export const bannerController = {
   getInformationBanner,
 };
-
-export { bannerController };
