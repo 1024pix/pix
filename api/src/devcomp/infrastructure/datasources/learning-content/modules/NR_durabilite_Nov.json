@@ -743,9 +743,9 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>Le déposer dans un point de collecte.</p>",
+                          "content": "<p>Le déposer dans un point de collecte spécialisé.</p>",
                           "feedback": {
-                            "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés et de provoquer des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collecte.</p>"
+                            "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés et de provoquer des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collectespécialisé.</p>"
                           }
                         }
                       ],
@@ -823,7 +823,7 @@
                       "id": "46925f16-03eb-4911-93f4-7ddc7e6af4ee",
                       "type": "text",
                       "tag": " ",
-                      "content": "La bonne chose à faire est donc de <strong>déposer votre smartphone dans un point de collecte spécialisé</strong> pour que les composants soient récupérés ou recyclés. Vous pouvez trouver des points de collecte dans les magasins d’électroménager, par exemple."
+                      "content": "La bonne chose à faire est donc de <strong>déposer votre smartphone dans un point de collecte spécialisé</strong> pour que les composants soient récupérés ou recyclés. Vous pouvez trouver des points de collecte spécialisé dans les magasins d’électroménager, par exemple."
                     }
                   ]
                 }
@@ -1024,7 +1024,7 @@
                     "options": [
                       {
                         "id": "7",
-                        "content": "le déposer dans un point de collecte pour le faire recycler."
+                        "content": "le déposer dans un point de collecte spécialisé pour le faire recycler."
                       },
                       {
                         "id": "8",
@@ -1039,11 +1039,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "Bonne réponse !",
-                    "diagnosis": "<p>Pour limiter l’impact environnemental des smartphones, il faut <strong>essayer de les conserver le plus longtemps possible</strong>. Pour cela, il faut <strong>les protéger et les réparer</strong>.</p><p>Et si on doit vraiment changer de smartphone, il vaut mieux <strong>le vendre ou le donner</strong>.</p><p>Et s’il ne fonctionne plus et n’est pas réparable, alors il faut <strong>le déposer dans un point de collecte pour le faire recyler</strong>.</p>"
+                    "diagnosis": "<p>Pour limiter l’impact environnemental des smartphones, il faut <strong>essayer de les conserver le plus longtemps possible</strong>. Pour cela, il faut <strong>les protéger et les réparer</strong>.</p><p>Et si on doit vraiment changer de smartphone, il vaut mieux <strong>le vendre ou le donner</strong>.</p><p>Et s’il ne fonctionne plus et n’est pas réparable, alors il faut <strong>le déposer dans un point de collecte spécialisé pour le faire recyler</strong>.</p>"
                   },
                   "invalid": {
                     "state": "Mauvaise réponse !",
-                    "diagnosis": "<p>Pour limiter l’impact environnemental des smartphones, il faut <strong>essayer de les conserver le plus longtemps possible</strong>. Pour cela, il faut <strong>les protéger et les réparer</strong>.</p><p>Et si on doit vraiment changer de smartphone, il vaut mieux <strong>le vendre ou le donner</strong>.</p><p>Et s’il ne fonctionne plus et n’est pas réparable, alors il faut <strong>le déposer dans un point de collecte pour le faire recyler</strong>.</p>"
+                    "diagnosis": "<p>Pour limiter l’impact environnemental des smartphones, il faut <strong>essayer de les conserver le plus longtemps possible</strong>. Pour cela, il faut <strong>les protéger et les réparer</strong>.</p><p>Et si on doit vraiment changer de smartphone, il vaut mieux <strong>le vendre ou le donner</strong>.</p><p>Et s’il ne fonctionne plus et n’est pas réparable, alors il faut <strong>le déposer dans un point de collecte spécialisé pour le faire recyler</strong>.</p>"
                   }
                 }
               }
