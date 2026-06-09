@@ -3,14 +3,10 @@ import { sharedUsecases } from '../../domain/usecases/index.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import { extractUserIdFromRequest, getChallengeLocale } from '../../infrastructure/utils/request-response-utils.js';
 
-const getAssessmentWithNextChallenge = async function (
-  request,
-  h,
-  dependencies = { assessmentSerializer, extractUserIdFromRequest },
-) {
+const getAssessmentWithNextChallenge = async function (request) {
   const assessmentId = request.params.id;
   const locale = getChallengeLocale(request);
-  const userId = dependencies.extractUserIdFromRequest(request);
+  const userId = extractUserIdFromRequest(request);
 
   const { assessment, globalProgression } = await sharedUsecases.updateAssessmentWithNextChallenge({
     assessmentId,
@@ -19,11 +15,9 @@ const getAssessmentWithNextChallenge = async function (
   });
 
   const assessmentDto = AssessmentDtoFactory.toDto(assessment, globalProgression);
-  return dependencies.assessmentSerializer.serialize(assessmentDto);
+  return assessmentSerializer.serialize(assessmentDto);
 };
 
-const assessmentController = {
+export const assessmentController = {
   getAssessmentWithNextChallenge,
 };
-
-export { assessmentController };

@@ -7,6 +7,4 @@ const getActiveFeatures = async function () {
   return serializer.serialize(featureTogglesList);
 };
 
-const featureToggleController = { getActiveFeatures };
-
-export { featureToggleController };
+export const featureToggleController = { getActiveFeatures };

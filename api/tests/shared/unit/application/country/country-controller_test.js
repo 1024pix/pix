@@ -16,31 +16,10 @@ describe('Unit | Shared | Application | Controller | country-controller', functi
         domainBuilder.buildCountry({ code: '99324', name: 'Espagne' }),
       ];
 
-      const serializedCountries = [
-        {
-          id: '99345',
-          type: 'countries',
-          attributes: {
-            code: '99345',
-            name: 'Pologne',
-          },
-        },
-        {
-          id: '99324',
-          type: 'countries',
-          attributes: {
-            code: '99324',
-            name: 'Espagne',
-          },
-        },
-      ];
-
       const userId = 42;
-      const countrySerializerStub = { serialize: sinon.stub() };
       sinon.stub(sharedUsecases, 'findCountries');
 
       sharedUsecases.findCountries.resolves(countries);
-      countrySerializerStub.serialize.withArgs(countries).resolves(serializedCountries);
 
       const request = {
         params: { id: 'course_id' },
@@ -49,14 +28,30 @@ describe('Unit | Shared | Application | Controller | country-controller', functi
       };
 
       // when
-      const response = await countryController.findCountries(request, hFake, {
-        countrySerializer: countrySerializerStub,
-      });
+      const response = await countryController.findCountries(request, hFake);
 
       // then
       expect(sharedUsecases.findCountries).to.have.been.called;
-      expect(countrySerializerStub.serialize).to.have.been.calledWithExactly(countries);
-      expect(response).to.deep.equal(serializedCountries);
+      expect(response).to.deep.equal({
+        data: [
+          {
+            id: '99345_EGLNOOP',
+            type: 'countries',
+            attributes: {
+              code: '99345',
+              name: 'Pologne',
+            },
+          },
+          {
+            id: '99324_AEEGNPS',
+            type: 'countries',
+            attributes: {
+              code: '99324',
+              name: 'Espagne',
+            },
+          },
+        ],
+      });
     });
   });
 });

@@ -55,6 +55,4 @@ const checkForwardedOriginStatus = async function (request, h) {
   return h.response(forwardedOrigin).code(200);
 };
 
-const healthcheckController = { get, checkDbStatus, checkRedisStatus, checkForwardedOriginStatus };
-
-export { healthcheckController };
+export const healthcheckController = { get, checkDbStatus, checkRedisStatus, checkForwardedOriginStatus };
