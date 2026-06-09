@@ -564,7 +564,7 @@
                 "id": "f5ea370f-a936-4228-9ffd-f0b2e541f719",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Guillaume s’est acheté un Smartphone Univers 12 et il veut le protéger pour le faire durer longtemps.</p>"
+                "content": "<p>Guillaume s’est acheté un smartphone Univers 12 et il veut le protéger pour le faire durer longtemps.</p>"
               }
             },
             {
@@ -699,7 +699,7 @@
             },
             {
               "type": "stepper",
-              "instruction": "Jane a le même téléphone depuis 5&nbsp;ans. Elle décide d’acheter le nouveau smartphone Univers 13. Que doit-elle&nbsp;faire avec son ancien smartphone ?",
+              "instruction": "Jane a le même téléphone depuis 5&nbsp;ans. Elle décide d’acheter le nouveau smartphone Univers 13. Elle se demande ce qu'elle doit faire de son ancien smartphone.",
               "steps": [
                 {
                   "elements": [
@@ -740,14 +740,14 @@
                           "id": "1",
                           "content": "<p>Le jeter à la poubelle.</p>",
                           "feedback": {
-                            "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés et cela provoquerait des fumées polluantes. Il&nbsp; faut donc déposer un vieux smartphone dans un point de collecte spécialisé.</p>"
+                            "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés, ce qui provoquerait des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collecte spécialisé.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Le déposer dans un point de collecte spécialisé.</p>",
                           "feedback": {
-                            "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés et de provoquer des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collectespécialisé.</p>"
+                            "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés, ce qui provoquerait des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collecte spécialisé.</p>"
                           }
                         }
                       ],
