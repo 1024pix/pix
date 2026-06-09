@@ -4,7 +4,7 @@ import { SCOPES } from '../../../../../../src/certification/shared/domain/models
 import { buildFlashAlgorithmConfiguration } from '../../build-flash-algorithm-configuration.js';
 
 export const buildVersion = ({
-  id = 1,
+  id,
   scope = SCOPES.CORE,
   startDate = new Date(),
   expirationDate,

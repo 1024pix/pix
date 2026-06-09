@@ -58,7 +58,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         getCapacityAndErrorRate: sinon.stub(),
       };
       assessmentId = 777;
-      version = domainBuilder.certification.configuration.buildVersion();
+      version = domainBuilder.certification.configuration.buildVersion({ id: 42 });
 
       assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
         certificationCourseId: 123,
@@ -537,6 +537,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         };
 
         version = domainBuilder.certification.configuration.buildVersion({
+          id: 42,
           challengesConfiguration: { maximumAssessmentLength: 1 },
         });
         versionApi.getById.withArgs({ id: version.id }).resolves(version);
@@ -603,6 +604,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             const nextCalibratedChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge();
 
             version = domainBuilder.certification.configuration.buildVersion({
+              id: 42,
               challengesConfiguration: flashConfiguration,
             });
             versionApi.getById.withArgs({ id: version.id }).resolves(version);
@@ -693,7 +695,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           .withArgs(assessmentSheet.certificationCourseId, [])
           .resolves(null);
 
-        version = domainBuilder.certification.configuration.buildVersion({ scope: Frameworks.EDU_CPE });
+        version = domainBuilder.certification.configuration.buildVersion({ id: 42, scope: Frameworks.EDU_CPE });
         versionApi.getById.withArgs({ id: assessmentSheet.versionId }).resolves(version);
 
         calibratedChallengeRepository.findActiveFlashCompatible.resolves([]);

@@ -149,7 +149,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               .withArgs({ sessionId: 1, userId: 2 })
               .resolves(candidateNotAuthorizedToStart);
 
-            const version = domainBuilder.certification.configuration.buildVersion();
+            const version = domainBuilder.certification.configuration.buildVersion({ id: 42 });
             versionApi.getByFrameworkAndDate.resolves(version);
 
             // when
@@ -190,7 +190,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               .withArgs({ userId: 2, sessionId: 1 })
               .resolves(existingCertificationCourse);
 
-            const version = domainBuilder.certification.configuration.buildVersion();
+            const version = domainBuilder.certification.configuration.buildVersion({ id: 42 });
             versionApi.getByFrameworkAndDate.resolves(version);
 
             // when
@@ -277,6 +277,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               .resolves(existingCertificationCourse);
 
             const version = domainBuilder.certification.configuration.buildVersion({
+              id: 42,
               challengesConfiguration: { maximumAssessmentLength: 25, defaultCandidateCapacity: -3 },
             });
             versionApi.getByFrameworkAndDate.resolves(version);
@@ -335,6 +336,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               .resolves(existingCertificationCourse);
 
             const version = domainBuilder.certification.configuration.buildVersion({
+              id: 42,
               challengesConfiguration: { maximumAssessmentLength: 25, defaultCandidateCapacity: -3 },
             });
             versionApi.getByFrameworkAndDate.resolves(version);
@@ -398,7 +400,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 .onCall(1)
                 .resolves(certificationCourseCreatedMeanwhile);
 
-              const version = domainBuilder.certification.configuration.buildVersion();
+              const version = domainBuilder.certification.configuration.buildVersion({ id: 42 });
               versionApi.getByFrameworkAndDate.resolves(version);
 
               // when
@@ -428,6 +430,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               user = domainBuilder.buildUser({ id: 2, lang: FRENCH_SPOKEN });
 
               version = domainBuilder.certification.configuration.buildVersion({
+                id: 42,
                 challengesConfiguration: { maximumAssessmentLength: 32, defaultCandidateCapacity: -3 },
               });
               versionApi.getByFrameworkAndDate.resolves(version);
@@ -440,7 +443,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 accessCode: 'accessCode',
               });
               sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
-              const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+              const certificationVersion = domainBuilder.certification.configuration.buildVersion({ id: 42 });
 
               const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                 userId: user.id,
@@ -519,7 +522,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 time: '12:00:00',
               });
               sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
-              const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+              const certificationVersion = domainBuilder.certification.configuration.buildVersion({ id: 42 });
 
               const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                 userId: user.id,
@@ -651,7 +654,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   version: 3,
                 });
                 sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-                const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+                const certificationVersion = domainBuilder.certification.configuration.buildVersion({ id: 42 });
 
                 const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                   userId,
@@ -740,7 +743,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   accessCode: 'accessCode',
                 });
                 sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-                const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+                const certificationVersion = domainBuilder.certification.configuration.buildVersion({ id: 42 });
 
                 const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                   userId: 2,
@@ -818,7 +821,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
                     },
                   );
-                  const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+                  const certificationVersion = domainBuilder.certification.configuration.buildVersion({ id: 42 });
 
                   const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
                     id: 1,
@@ -949,7 +952,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const cleaCertification = domainBuilder.certification.shared.buildComplementaryCertification({
                       key: ComplementaryCertificationKeys.CLEA,
                     });
-                    const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+                    const certificationVersion = domainBuilder.certification.configuration.buildVersion({ id: 42 });
 
                     const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
                       badgeKey: 'CLEA_BADGE_1',
@@ -1052,7 +1055,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       const cleaCertification = domainBuilder.certification.shared.buildComplementaryCertification({
                         key: ComplementaryCertificationKeys.CLEA,
                       });
-                      const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+                      const certificationVersion = domainBuilder.certification.configuration.buildVersion({ id: 42 });
 
                       const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
                         id: 1,

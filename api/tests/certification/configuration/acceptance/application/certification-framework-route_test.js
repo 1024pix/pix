@@ -304,22 +304,23 @@ describe('Acceptance | Application | Certification | Configuration | certificati
 
       const consolidatedFramework = await knex('certification-frameworks-challenges')
         .select('discriminant', 'difficulty', 'challengeId', 'versionId')
-        .where({ versionId: createdVersions?.id });
+        .where({ versionId: createdVersion?.id });
 
       expect(consolidatedFramework).to.deep.equal([
         {
           discriminant: null,
           difficulty: null,
           challengeId: challenge.id,
-          versionId: createdVersions?.id,
+          versionId: createdVersion?.id,
         },
       ]);
     });
 
-    it('should create a new version and expire the previous one when a version already exists', async function () {
+    it('should create a new version as a draft and link his challenge', async function () {
       // given
       const existingVersionStartDate = new Date('2024-01-01');
       const existingVersion = databaseBuilder.factory.buildCertificationVersion({
+        id:42,
         scope: SCOPES.CORE,
         startDate: existingVersionStartDate,
         expirationDate: null,

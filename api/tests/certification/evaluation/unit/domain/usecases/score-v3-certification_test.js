@@ -148,7 +148,7 @@ function stubVersionApi() {
   const versionApi = {
     getById: sinon.stub(),
   };
-  const version = domainBuilder.certification.configuration.buildVersion();
+  const version = domainBuilder.certification.configuration.buildVersion({ id: 42 });
   versionApi.getById.resolves(version);
 
   return versionApi;

@@ -19,6 +19,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultCandidateCapacity: -8,
       };
       const version = domainBuilder.certification.configuration.buildVersion({
+        id: 42,
         scope: SCOPES.PIX_PLUS_DROIT,
         startDate: new Date('2025-06-01'),
         expirationDate: new Date('2025-12-31'),

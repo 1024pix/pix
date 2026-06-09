@@ -215,6 +215,7 @@ import { buildJuryCertification } from './certification/session-management/build
 import { builders as sessionManagementBuilders } from './certification/session-management/index.js';
 import { buildCompetenceForScoring } from './certification/shared/build-competence-for-scoring.js';
 import { buildComplementaryCertification as buildSharedComplementaryCertification } from './certification/shared/build-complementary-certification.js';
+import { buildFlashAssessmentAlgorithmConfiguration } from './certification/shared/build-flash-assessment-algorithm-configuration.js';
 import { buildEvent } from './certification/shared/build-event.js';
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 import { buildV3CertificationScoring } from './certification/shared/build-v3-certification-scoring.js';
@@ -304,6 +305,7 @@ const certification = {
     buildCertificationCompanionLiveAlert,
     buildJuryComment,
     buildComplementaryCertification: buildSharedComplementaryCertification,
+    buildFlashAssessmentAlgorithmConfiguration,
     buildEvent,
   },
   results: {
