@@ -501,7 +501,11 @@
                         }
                       ],
                       "solution": "1"
-                    },
+                    }
+                  ]
+                },
+                {
+                  "elements": [                    
                     {
                       "id": "6af8d4e6-07ff-472d-90f3-c77b84a6906f",
                       "type": "qcu-discovery",
