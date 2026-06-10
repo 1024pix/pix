@@ -38,6 +38,7 @@ export default class ModuleGrain extends Component {
     'qcu-declarative',
     'qcu-discovery',
     'qcm',
+    'qcm-declarative',
     'qrocm',
     'separator',
     'text',
@@ -54,7 +55,7 @@ export default class ModuleGrain extends Component {
     'transition',
   ];
 
-  static LOCALLY_ANSWERABLE_ELEMENTS = ['qab', 'qcu-declarative', 'qcu-discovery', 'flashcards'];
+  static LOCALLY_ANSWERABLE_ELEMENTS = ['qab', 'qcm-declarative', 'qcu-declarative', 'qcu-discovery', 'flashcards'];
 
   @tracked isStepperFinished = this.hasStepper === false;
 
