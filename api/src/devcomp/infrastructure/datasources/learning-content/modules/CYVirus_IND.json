@@ -448,7 +448,7 @@
             },
             {
               "type": "stepper",
-              "instruction": "<p>À partir de ce que vous venez d’observer, pour chacunes des affirmations suivantes, dites si elle et vraie ou fausse.</p>",
+              "instruction": "<p>À partir de ce que vous venez d’observer, indiquez pour chaque affirmation si elle est vraie ou fausse.</p>",
               "steps": [
                 {
                   "elements": [
