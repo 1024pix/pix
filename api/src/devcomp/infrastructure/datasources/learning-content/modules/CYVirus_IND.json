@@ -58,14 +58,14 @@
                     "id": "2",
                     "content": "<p>Votre appareil devient vulnérable.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement&nbsp;! Une mise à jour ne sert pas uniquement à ajouter de nouvelles fonctionnalités. Elle peut aussi permettre de <strong>protéger votre appareil</strong>. <br>Si vous ignorez ou repoussez l’installation des mises à jour disponibles,<strong> votre appareil devient vulnérable</strong>.</p>"
+                      "diagnosis": "<p>Effectivement. Une mise à jour ne sert pas uniquement à ajouter de nouvelles fonctionnalités. Elle peut aussi permettre de <strong>protéger votre appareil</strong>. <br>Si vous ignorez ou repoussez l’installation des mises à jour disponibles,<strong> votre appareil devient vulnérable</strong>.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Vous n’avez juste pas accès aux nouvelles fonctionnalités.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp; Une mise à jour peut aussi permettre de <strong>protéger votre appareil</strong>. <br>Si vous ignorez ou repoussez l’installation des mises à jour disponibles, <strong>votre appareil devient vulnérable</strong>.</p>"
+                      "diagnosis": "<p>Eh non. Une mise à jour peut aussi permettre de <strong>protéger votre appareil</strong>. <br>Si vous ignorez ou repoussez l’installation des mises à jour disponibles, <strong>votre appareil devient vulnérable</strong>.</p>"
                     }
                   },
                   {
@@ -119,7 +119,7 @@
             },
             {
               "type": "stepper",
-              "instruction": "",
+              "instruction": "Pour chaque situation, dites si l'application de Ruben est vulnérable ou non",
               "steps": [
                 {
                   "elements": [
@@ -139,21 +139,21 @@
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Pas exactement. L’espace de stockage est une<strong> limite</strong> de l’application Photos, mais cela ne constitue pas une vulnérabilité.</p>"
+                            "diagnosis": "<p>Pas exactement. L’espace de stockage est une<strong> limite</strong> de l’application photos, mais cela ne constitue pas une vulnérabilité.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. L’espace de stockage est une <strong>limite</strong> de l’application Photos, mais cela ne constitue pas une vulnérabilité.</p>"
+                            "diagnosis": "<p>Effectivement. L’espace de stockage est une <strong>limite</strong> de l’application photos, mais cela ne constitue pas une vulnérabilité.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "L’espace de stockage est une <strong>limite</strong> de l’application Photos, mais cela ne constitue pas une vulnérabilité.<p></p>"
+                            "diagnosis": "L’espace de stockage est une <strong>limite</strong> de l’application photos, mais cela ne constitue pas une vulnérabilité.<p></p>"
                           }
                         }
                       ],
@@ -186,7 +186,7 @@
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. Ici, c’est une<strong> erreur humaine</strong> qui a permis aux escrocs de voler de l’argent, pas une vulnérabilité de l’application bancaire.</p>"
+                            "diagnosis": "<p>Effectivement. Ici, c’est une<strong> erreur humaine</strong> qui a permis aux escrocs de voler de l’argent, pas une vulnérabilité de l’application bancaire.</p>"
                           }
                         },
                         {
