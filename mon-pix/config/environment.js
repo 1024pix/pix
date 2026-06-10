@@ -135,15 +135,8 @@ module.exports = function (environment) {
       AUTHENTICATED_SOURCE_FROM_GAR: 'external',
       COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
       AUTONOMOUS_COURSES_ORGANIZATION_ID: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10),
-      FRANCE_TRAVAIL_ORGANIZATION_ID: parseInt(process.env.FRANCE_TRAVAIL_ORGANIZATION_ID, 10) ?? 1006,
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
       AUTO_SHARE_AFTER_DATE: process.env.AUTO_SHARE_AFTER_DATE || '2025-07-18',
-      COMBINIX_SURVEY_LINK:
-        process.env.COMBINIX_SURVEY_LINK ||
-        'https://app-eu.123formbuilder.com/index.php?p=login&pactionafter=edit_fields%26id%3D86361%26startup_panel%3Deditor%26click_from%3Dyour_forms',
-      COMBINIX_FRANCE_TRAVAIL_SURVEY_LINK:
-        process.env.COMBINIX_FRANCE_TRAVAIL_SURVEY_LINK || 'https://tally.so/r/rj27xp',
-      ORGANIZATIONS_COMBINIX_SURVEY_EXCLUSION_LIST: process.env.ORGANIZATIONS_COMBINIX_SURVEY_EXCLUSION_LIST || '1005',
       MODULIX_VERIFICATION_RESPONSE_DELAY: 500,
     },
 
@@ -226,11 +219,7 @@ module.exports = function (environment) {
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
     ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID = 999;
-    ENV.APP.FRANCE_TRAVAIL_ORGANIZATION_ID = 456;
     ENV.APP.AUTO_SHARE_AFTER_DATE = '2025-07-18';
-    ENV.APP.COMBINIX_SURVEY_LINK = 'combinix.survey.link';
-    ENV.APP.COMBINIX_FRANCE_TRAVAIL_SURVEY_LINK = 'combinix.france-travail.survey.link';
-    ENV.APP.ORGANIZATIONS_COMBINIX_SURVEY_EXCLUSION_LIST = '1005';
 
     ENV.companion.disabled = true;
 

@@ -9,7 +9,6 @@ import { and, eq } from 'ember-truth-helpers';
 import Attestation from 'mon-pix/components/combined-course/attestation';
 import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
-import ENV from 'mon-pix/config/environment';
 import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 
 const CompletedText = <template>
@@ -50,7 +49,7 @@ const Header = <template>
         <PixTooltip @id="tooltip-satisfaction-survey" @position="right" @isInline={{true}}>
           <:triggerElement>
             <PixButtonLink
-              @href={{@surveyLink}}
+              @href={{@combinedCourse.surveyUrl}}
               target="_blank"
               rel="noopener noreferrer"
               @size="large"
@@ -86,7 +85,6 @@ export default class CombinedCoursePresentation extends Component {
         @startQuestParticipation={{this.startQuestParticipation}}
         @goToNextItem={{this.goToNextItem}}
         @isSurveyEnabled={{this.isSurveyEnabled}}
-        @surveyLink={{this.surveyLink}}
       />
       {{#if (eq @combinedCourse.reward.type "attestations")}}
         <Attestation @attestation={{@combinedCourse.reward}} />
@@ -137,17 +135,7 @@ export default class CombinedCoursePresentation extends Component {
     });
   }
 
-  get surveyLink() {
-    return this.args.combinedCourse.organizationId === ENV.APP.FRANCE_TRAVAIL_ORGANIZATION_ID
-      ? ENV.APP.COMBINIX_FRANCE_TRAVAIL_SURVEY_LINK
-      : this.args.combinedCourse.surveyUrl;
-  }
-
   get isSurveyEnabled() {
-    if (this.args.combinedCourse.organizationId === ENV.APP.FRANCE_TRAVAIL_ORGANIZATION_ID) {
-      return true;
-    }
-
     return this.featureToggles.featureToggles?.isSurveyEnabledForCombinedCourses && this.args.combinedCourse.surveyUrl;
   }
 
