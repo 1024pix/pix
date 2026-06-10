@@ -1,8 +1,10 @@
 import PixBreadcrumb from '@1024pix/pix-ui/components/pix-breadcrumb';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import { not } from 'ember-truth-helpers';
 
 export default class Header extends Component {
   @service intl;
@@ -17,6 +19,10 @@ export default class Header extends Component {
     if (this.router.currentRouteName.startsWith('authenticated.certification-frameworks.item.framework.new-version'))
       return false;
     return this.currentUser.adminMember.isSuperAdmin && this.args.certificationFramework?.name !== 'CLEA';
+  }
+
+  get isPossibleToCreate() {
+    return this.args.frameworkHistory?.history.some((frameworkHistory) => frameworkHistory.status === 'DRAFT');
   }
 
   get activeCertificationVersionId() {
@@ -52,14 +58,23 @@ export default class Header extends Component {
       </h1>
 
       {{#if this.canCreateVersion}}
-        <PixButtonLink
-          class="framework__creation-button"
-          @route="authenticated.certification-frameworks.item.framework.new-version"
-          @query={{this.activeCertificationVersionId}}
-          @iconBefore="add"
-        >
-          {{t "components.certification-frameworks.item.framework.create-button"}}
-        </PixButtonLink>
+        <PixTooltip @hide={{not this.isPossibleToCreate}} @position="bottom" @isWide={{true}}>
+          <:triggerElement>
+            <PixButtonLink
+              class="framework__creation-button"
+              @route="authenticated.certification-frameworks.item.framework.new-version"
+              @query={{this.activeCertificationVersionId}}
+              @iconBefore="add"
+              @isDisabled={{this.isPossibleToCreate}}
+            >
+              {{t "components.certification-frameworks.item.framework.create-button"}}
+            </PixButtonLink>
+          </:triggerElement>
+
+          <:tooltip>
+            {{t "components.certification-frameworks.item.framework.create-button-cancel-tooltip"}}
+          </:tooltip>
+        </PixTooltip>
       {{/if}}
     </div>
   </template>

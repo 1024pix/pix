@@ -503,6 +503,7 @@
         "certification-framework": "Référentiel de certification",
         "framework": {
           "create-button": "Créer une nouvelle version du référentiel",
+          "create-button-cancel-tooltip": "Il est impossible de créer une nouvelle version pour de scope si une version DRAFT est déjà présente",
           "details": {
             "empty-current-framework": "Le référentiel de certification actuel est vide.",
             "title": "Détails du référentiel de certification actuel"
