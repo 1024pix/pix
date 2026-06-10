@@ -1649,6 +1649,7 @@
       "buttons": {
         "activity": {
           "retry": "Réessayer",
+          "submit": "Soumettre ma sélection",
           "verify": "Vérifier ma réponse"
         },
         "element": {
