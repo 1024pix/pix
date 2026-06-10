@@ -1,7 +1,12 @@
 import sinon from 'sinon';
 
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { Quest } from '../../../../../src/quest/domain/models/Quest.js';
+import {
+  CRITERION_COMPARISONS,
+  Quest,
+  REQUIREMENT_COMPARISONS,
+  REQUIREMENT_TYPES,
+} from '../../../../../src/quest/domain/models/Quest.js';
 import * as questRepository from '../../../../../src/quest/infrastructure/repositories/quest-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -220,6 +225,38 @@ describe('Quest | Integration | Repository | quest', function () {
       // then
       expect(quests).to.have.lengthOf(1);
       expect(quests[0].id).to.equal(2);
+    });
+  });
+
+  describe('#findByCampaignId', function () {
+    it('should return quests with the given campaign id in the success requirements', async function () {
+      //given
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign();
+      databaseBuilder.factory.buildQuest({
+        id: 3,
+        rewardType: REWARD_TYPES.ATTESTATION,
+        rewardId: 2,
+        eligibilityRequirements: [],
+        successRequirements: [
+          {
+            requirement_type: REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
+            data: {
+              campaignId: {
+                data: campaignId,
+                comparison: CRITERION_COMPARISONS.EQUAL,
+              },
+            },
+            comparison: REQUIREMENT_COMPARISONS.ALL,
+          },
+        ],
+      });
+      await databaseBuilder.commit();
+
+      //when
+      const result = await questRepository.findByCampaignId({ campaignId });
+
+      //then
+      expect(result[0]).to.be.an.instanceOf(Quest);
     });
   });
 });
