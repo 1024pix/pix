@@ -1,6 +1,3 @@
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { ComplementaryCertification } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertification.js';
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as certificationCandidateRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-candidate-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
@@ -56,84 +53,6 @@ describe('Certification | Shared | Integration | Repository | CertificationCandi
       });
     });
 
-    context('when some returned candidates have complementary certification subscription', function () {
-      it('return ordered candidates with associated subscription', async function () {
-        // given
-        const sessionId = databaseBuilder.factory.buildSession().id;
-        const rockCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'Pix+Rock',
-          key: ComplementaryCertificationKeys.CLEA,
-        });
-        const ottoMate = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Mate',
-          firstName: 'Otto',
-          sessionId,
-        });
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: ottoMate.id,
-        });
-        const patAttrak = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Attrak',
-          firstName: 'Pat',
-          sessionId,
-        });
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: patAttrak.id,
-        });
-        const evyDamant = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Damant',
-          firstName: 'Evy',
-          sessionId,
-        });
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: evyDamant.id,
-        });
-
-        databaseBuilder.factory.buildComplementaryCertificationSubscription({
-          complementaryCertificationId: rockCertification.id,
-          certificationCandidateId: ottoMate.id,
-        });
-        databaseBuilder.factory.buildComplementaryCertificationSubscription({
-          complementaryCertificationId: rockCertification.id,
-          certificationCandidateId: patAttrak.id,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const candidates = await certificationCandidateRepository.findBySessionId(sessionId);
-
-        // then
-        expect(candidates).to.have.lengthOf(3);
-        const firstCandidate = candidates[0];
-        const secondCandidate = candidates[1];
-        const thirdCandidate = candidates[2];
-
-        expect(firstCandidate.firstName).to.equal('Pat');
-        expect(firstCandidate.lastName).to.equal('Attrak');
-        expect(firstCandidate.complementaryCertification).to.deepEqualInstance(
-          new ComplementaryCertification({
-            id: rockCertification.id,
-            label: 'Pix+Rock',
-            key: ComplementaryCertificationKeys.CLEA,
-          }),
-        );
-
-        expect(secondCandidate.firstName).to.equal('Evy');
-        expect(secondCandidate.lastName).to.equal('Damant');
-        expect(secondCandidate.complementaryCertification).to.equal(null);
-
-        expect(thirdCandidate.firstName).to.equal('Otto');
-        expect(thirdCandidate.lastName).to.equal('Mate');
-        expect(thirdCandidate.complementaryCertification).to.deepEqualInstance(
-          new ComplementaryCertification({
-            id: rockCertification.id,
-            label: 'Pix+Rock',
-            key: ComplementaryCertificationKeys.CLEA,
-          }),
-        );
-      });
-    });
 
     context('when there is no certification candidates with the given session ID', function () {
       it('should return an empty array', async function () {
@@ -188,53 +107,11 @@ describe('Certification | Shared | Integration | Repository | CertificationCandi
         });
 
         // then
-        // eslint-disable-next-line no-unused-vars
-        const { subscriptions, ...actualCandidate } = result;
-
-        expect(actualCandidate).to.deep.equal({
-          accessibilityAdjustmentNeeded: false,
-          authorizedToStart: false,
-          billingMode: null,
-          birthCity: 'PARIS 1',
-          birthCountry: 'France',
-          birthINSEECode: '75101',
-          birthPostalCode: null,
-          birthProvinceCode: null,
-          birthdate: '2000-01-04',
-          complementaryCertification: {
-            id: complementaryCertification.id,
-            key: 'DROIT',
-            label: 'UneSuperCertifComplémentaire',
-            hasComplementaryReferential: true,
-          },
-          createdAt,
-          email: 'somemail@example.net',
-          externalId: 'externalId',
-          extraTimePercentage: 0.3,
-          firstName: 'first-name',
-          hasSeenCertificationInstructions: false,
-          id: certificationCandidateId,
-          lastName: 'last-name',
-          organizationLearnerId: null,
-          prepaymentCode: null,
-          reconciledAt,
-          resultRecipientEmail: 'somerecipientmail@example.net',
-          sessionId,
-          sex: 'M',
-          userId: userId,
-        });
-        expect(result.subscriptions).to.deep.have.members([
-          {
-            certificationCandidateId,
-            complementaryCertificationKey: null,
-            type: SUBSCRIPTION_TYPES.CORE,
-          },
-          {
-            certificationCandidateId,
-            complementaryCertificationKey: complementaryCertification.key,
-            type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-          },
-        ]);
+        expect(result.id).to.equal(certificationCandidateId);
+        expect(result.firstName).to.equal('first-name');
+        expect(result.lastName).to.equal('last-name');
+        expect(result.sessionId).to.equal(sessionId);
+        expect(result.userId).to.equal(userId);
       });
     });
 
@@ -343,21 +220,16 @@ describe('Certification | Shared | Integration | Repository | CertificationCandi
     });
   });
 
-  describe('#getWithComplementaryCertification', function () {
+  describe('#getCandidate', function () {
     context('when certification candidate is not found', function () {
       it('should throw NotFound error', async function () {
         // given
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({
-          id: 1,
-        });
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: candidate.id,
-        });
-        const wrongCandidateId = 99;
+        const candidate = databaseBuilder.factory.buildCertificationCandidate();
+        const wrongCandidateId = candidate.id + 999;
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(certificationCandidateRepository.getWithComplementaryCertification)({
+        const error = await catchErr(certificationCandidateRepository.getCandidate)({
           id: wrongCandidateId,
         });
 
@@ -366,139 +238,19 @@ describe('Certification | Shared | Integration | Repository | CertificationCandi
       });
     });
 
-    context('when the candidate has no complementary certification subscription', function () {
-      it('should return the candidate with empty complementary certification', async function () {
+    context('when certification candidate is found', function () {
+      it('should return the candidate', async function () {
         // given
         const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: certificationCandidate.id,
-        });
         await databaseBuilder.commit();
 
         // when
-        const certificationCandidateWithComplementaryCertifications =
-          await certificationCandidateRepository.getWithComplementaryCertification({ id: certificationCandidate.id });
+        const result = await certificationCandidateRepository.getCandidate({ id: certificationCandidate.id });
 
         // then
-        expect(certificationCandidateWithComplementaryCertifications).to.deep.equal(
-          domainBuilder.buildCertificationCandidate({
-            ...certificationCandidate,
-            complementaryCertification: null,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription({
-                certificationCandidateId: certificationCandidate.id,
-              }),
-            ],
-          }),
-        );
-      });
-    });
-
-    context('when the candidate has only complementary certification subscription', function () {
-      it('should return the candidate with his complementary certification', async function () {
-        // given
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
-        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'Complementary certification 2',
-        });
-        databaseBuilder.factory.buildComplementaryCertificationSubscription({
-          complementaryCertificationId: complementaryCertification.id,
-          certificationCandidateId: certificationCandidate.id,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const certificationCandidateWithComplementaryCertification =
-          await certificationCandidateRepository.getWithComplementaryCertification({ id: certificationCandidate.id });
-
-        // then
-        expect(certificationCandidateWithComplementaryCertification).to.deep.equal(
-          domainBuilder.buildCertificationCandidate({
-            ...certificationCandidate,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId: certificationCandidate.id,
-                complementaryCertificationId: complementaryCertification.id,
-              }),
-            ],
-            complementaryCertification:
-              domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification(
-                complementaryCertification,
-              ),
-          }),
-        );
-      });
-    });
-
-    context('when the candidate has core and complementary certification subscriptions', function () {
-      it('should return the candidate with his complementary certification', async function () {
-        // given
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: certificationCandidate.id,
-        });
-        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'Complementary certification 2',
-        });
-        databaseBuilder.factory.buildComplementaryCertificationSubscription({
-          complementaryCertificationId: complementaryCertification.id,
-          certificationCandidateId: certificationCandidate.id,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const result = await certificationCandidateRepository.getWithComplementaryCertification({
-          id: certificationCandidate.id,
-        });
-
-        // then
-
-        const {
-          // eslint-disable-next-line no-unused-vars
-          subscriptions,
-          ...certificationCandidateWithComplementaryCertification
-        } = result;
-
-        expect(certificationCandidateWithComplementaryCertification).to.deep.equal({
-          accessibilityAdjustmentNeeded: certificationCandidate.accessibilityAdjustmentNeeded,
-          authorizedToStart: certificationCandidate.authorizedToStart,
-          billingMode: certificationCandidate.billingMode,
-          birthCity: certificationCandidate.birthCity,
-          birthCountry: certificationCandidate.birthCountry,
-          birthINSEECode: certificationCandidate.birthINSEECode,
-          birthPostalCode: certificationCandidate.birthPostalCode,
-          birthProvinceCode: certificationCandidate.birthProvinceCode,
-          birthdate: certificationCandidate.birthdate,
-          createdAt: certificationCandidate.createdAt,
-          email: certificationCandidate.email,
-          externalId: certificationCandidate.externalId,
-          extraTimePercentage: certificationCandidate.extraTimePercentage,
-          firstName: certificationCandidate.firstName,
-          hasSeenCertificationInstructions: certificationCandidate.hasSeenCertificationInstructions,
-          id: certificationCandidate.id,
-          lastName: certificationCandidate.lastName,
-          organizationLearnerId: certificationCandidate.organizationLearnerId,
-          prepaymentCode: certificationCandidate.prepaymentCode,
-          reconciledAt: certificationCandidate.reconciledAt,
-          resultRecipientEmail: certificationCandidate.resultRecipientEmail,
-          sessionId: certificationCandidate.sessionId,
-          sex: certificationCandidate.sex,
-          userId: certificationCandidate.userId,
-          complementaryCertification:
-            domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification(
-              complementaryCertification,
-            ),
-        });
-        expect(result.subscriptions).to.deep.have.members([
-          domainBuilder.certification.enrolment.buildCoreSubscription({
-            certificationCandidateId: certificationCandidate.id,
-          }),
-          domainBuilder.certification.enrolment.buildComplementarySubscription({
-            complementaryCertificationId: complementaryCertification.id,
-            certificationCandidateId: certificationCandidate.id,
-          }),
-        ]);
+        expect(result.id).to.equal(certificationCandidate.id);
+        expect(result.firstName).to.equal(certificationCandidate.firstName);
+        expect(result.lastName).to.equal(certificationCandidate.lastName);
       });
     });
   });
