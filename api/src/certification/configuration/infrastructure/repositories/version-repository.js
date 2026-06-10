@@ -8,7 +8,6 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { Version } from '../../domain/models/Version.js';
 import { FrameworkHistoryEntry } from '../../domain/read-models/FrameworkHistoryEntry.js';
-
 /**
  * @returns {Promise<Version[]>}
  */
@@ -63,13 +62,12 @@ export async function findActiveByScope({ scope }) {
 /**
  * @param {object} params
  * @param {Version} params.version
- * @param {Array<Challenge>} params.challenges
- * @returns {Promise<number>} versionId
+ * @param {Array<Challenge>} params.challengeIds
+ * @returns {Promise<Version>} version
  */
-export async function create({ version, challenges }) {
+export async function create({ version }) {
   const knexConn = DomainTransaction.getConnection();
-
-  const [{ id }] = await knexConn('certification_versions')
+  const [insertedRow] = await knexConn('certification_versions')
     .insert({
       scope: version.scope,
       startDate: version.startDate,
@@ -82,20 +80,11 @@ export async function create({ version, challenges }) {
       competencesScoringConfiguration: version.competencesScoringConfiguration
         ? JSON.stringify(version.competencesScoringConfiguration)
         : null,
-      challengesConfiguration: JSON.stringify(version.challengesConfiguration),
+      challengesConfiguration: version.challengesConfiguration ? JSON.stringify(version.challengesConfiguration) : null,
     })
-    .returning('id');
+    .returning('*');
 
-  const challengesDTO = challenges.map((challenge) => ({
-    challengeId: challenge.id,
-    versionId: id,
-  }));
-
-  await knexConn
-    .batchInsert('certification-frameworks-challenges', challengesDTO)
-    .transacting(knexConn.isTransaction ? knexConn : null);
-
-  return id;
+  return _toDomain(insertedRow);
 }
 
 /**

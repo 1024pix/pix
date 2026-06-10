@@ -18,3 +18,9 @@ export class CertificationVersionForbiddenDeletionError extends DomainError {
     super('Il est interdit de supprimer une version de référentiel de certification qui a déjà été activée.');
   }
 }
+
+export class CertificationVersionDraftAlreadyExistError extends DomainError {
+  constructor() {
+    super('Il est interdit de créer une nouvelle version en mode draft si une exist existe déjà');
+  }
+}

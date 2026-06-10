@@ -4,6 +4,7 @@ import { CertificationVersionDraftAlreadyExistError } from '../../../../../../sr
 import { createDraft } from '../../../../../../src/certification/configuration/domain/usecases/create-draft.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import {
   ENGLISH_SPOKEN,
   FRENCH_FRANCE,
@@ -12,6 +13,7 @@ import {
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
+
 describe('Certification | Configuration | Unit | UseCase | create-certification-version', function () {
   let challengeRepository, versionRepository, frameworkChallengesRepository;
 
@@ -27,6 +29,10 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
       findAll: sinon.stub(),
       create: sinon.stub(),
     };
+
+    sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+      return callback();
+    });
   });
 
   context('when there is no draft version in the same scope', function () {
@@ -61,7 +67,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
 
       versionRepository.findAll.resolves([santeVersion, coreVersion]);
       challengeRepository.findValidatedIdsByTubeIdsAndLocales.resolves(challengeIds);
-      versionRepository.create.resolves(domainBuilder.certification.configuration.buildVersion({ id: 42 }));
+      versionRepository.create.resolves({ id: 42 });
 
       // when
       await createDraft({

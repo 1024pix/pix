@@ -1,7 +1,5 @@
 import * as mailService from '../../../../../src/certification/shared/domain/services/mail-service.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
-import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
-import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import * as activeCalibratedChallengeRepository from '../../infrastructure/repositories/active-calibrated-challenge-repository.js';
@@ -17,7 +15,7 @@ import * as ScoBlockedAccessDatesRepository from '../../infrastructure/repositor
 import * as versionRepository from '../../infrastructure/repositories/version-repository.js';
 import { attachBadges } from './attach-badges.js';
 import { calibrateFrameworkVersion } from './calibrate-framework-version.js';
-import { createCertificationVersion } from './create-certification-version.js';
+import { createDraft } from './create-draft.js';
 import { deleteCertificationVersion } from './delete-certification-version.js';
 import { exportScoWhitelist } from './export-sco-whitelist.js';
 import { findCertificationFrameworks } from './find-certification-frameworks.js';
@@ -49,8 +47,6 @@ import { updateVersion } from './update-version.js';
  * @typedef {learningContentRepository} LearningContentRepository
  * @typedef {mailService} MailService
  * @typedef {organizationRepository} OrganizationRepository
- * @typedef {skillRepository} SkillRepository
- * @typedef {tubeRepository} TubeRepository
  * @typedef {ScoBlockedAccessDatesRepository} ScoBlockedAccessDatesRepository
  * @typedef {versionRepository} VersionRepository
  **/
@@ -67,16 +63,14 @@ const dependencies = {
   learningContentRepository,
   mailService,
   organizationRepository,
-  skillRepository,
   targetProfileHistoryRepository,
-  tubeRepository,
   versionRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
   attachBadges,
   calibrateFrameworkVersion,
-  createCertificationVersion,
+  createDraft,
   deleteCertificationVersion,
   exportScoWhitelist,
   findCertificationFrameworks,

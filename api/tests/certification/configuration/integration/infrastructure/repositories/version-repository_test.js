@@ -13,11 +13,6 @@ describe('Certification | Configuration | Integration | Repository | Version', f
   describe('#create', function () {
     it('should create a certification version and link challenges', async function () {
       // given
-      const challengesConfiguration = {
-        maximumAssessmentLength: 32,
-        limitToOneQuestionPerTube: true,
-        defaultCandidateCapacity: -8,
-      };
       const version = domainBuilder.certification.configuration.buildVersion({
         id: 42,
         scope: SCOPES.PIX_PLUS_DROIT,
@@ -31,17 +26,12 @@ describe('Certification | Configuration | Integration | Repository | Version', f
             values: [{ bounds: { max: -2, min: -10 }, competenceLevel: 0 }],
           },
         ],
-        challengesConfiguration,
       });
-
-      databaseBuilder.factory.buildComplementaryCertification({ key: version.scope });
-      const challenge1 = databaseBuilder.factory.learningContent.buildChallenge({ id: 'challenge1' });
-      const challenge2 = databaseBuilder.factory.learningContent.buildChallenge({ id: 'challenge2' });
 
       await databaseBuilder.commit();
 
       // when
-      const versionId = await versionRepository.create({ version, challenges: [challenge1, challenge2] });
+      const createdVersion = await versionRepository.create({ version });
 
       // then
       const results = await knex('certification_versions')
@@ -59,7 +49,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         .first();
 
       expect(results).to.deep.equal({
-        id: versionId,
+        id: createdVersion.id,
         scope: version.scope,
         startDate: version.startDate,
         expirationDate: version.expirationDate,
@@ -67,20 +57,6 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         globalScoringConfiguration: version.globalScoringConfiguration,
         competencesScoringConfiguration: version.competencesScoringConfiguration,
         challengesConfiguration: version.challengesConfiguration,
-      });
-
-      const linkedChallenges = await knex('certification-frameworks-challenges')
-        .where({ versionId })
-        .orderBy('challengeId');
-
-      expect(linkedChallenges).to.have.lengthOf(2);
-      expect(linkedChallenges[0]).to.include({
-        challengeId: challenge1.id,
-        versionId,
-      });
-      expect(linkedChallenges[1]).to.include({
-        challengeId: challenge2.id,
-        versionId,
       });
     });
   });

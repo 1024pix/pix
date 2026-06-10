@@ -274,21 +274,28 @@ describe('Acceptance | Application | Certification | Configuration | certificati
         .where({ scope: SCOPES.CORE })
         .orderBy('startDate', 'desc');
 
-      const [createdVersions] = certificationVersions;
-
+      const [createdVersion] = certificationVersions;
       // then
       expect(response.statusCode).to.equal(201);
       expect(response.result).to.deep.equal({
         data: {
-          id: createdVersions?.id,
-          type: 'certification-version',
+          id: String(createdVersion.id),
+          type: 'certification-versions',
+          attributes: {
+            'assessment-duration': createdVersion.assessmentDuration,
+            'maximum-assessment-length': createdVersion.challengesConfiguration.maximumAssessmentLength,
+            'minimum-answers-required-for-validation': createdVersion.minimumAnswersRequiredToValidateACertification,
+            'expiration-date': createdVersion.expirationDate,
+            'start-date': null,
+            comments: createdVersion.comments,
+          },
         },
       });
 
       expect(certificationVersions.length).to.equal(1);
-      expect(createdVersions).to.deep.include({
+      expect(createdVersion).to.deep.include({
         scope: SCOPES.CORE,
-        startDate: now,
+        startDate: null,
         expirationDate: null,
         assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
         challengesConfiguration: {
@@ -320,7 +327,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
       // given
       const existingVersionStartDate = new Date('2024-01-01');
       const existingVersion = databaseBuilder.factory.buildCertificationVersion({
-        id:42,
+        id: 42,
         scope: SCOPES.CORE,
         startDate: existingVersionStartDate,
         expirationDate: null,
@@ -362,17 +369,29 @@ describe('Acceptance | Application | Certification | Configuration | certificati
       const [oldVersion, newVersion] = versions;
 
       expect(versions).to.have.lengthOf(2);
-
       expect(response.statusCode).to.equal(201);
-      expect(response.result.data.id).to.be.equal(newVersion.id);
+      expect(response.result).to.deep.equal({
+        data: {
+          id: String(newVersion.id),
+          type: 'certification-versions',
+          attributes: {
+            'assessment-duration': newVersion.assessmentDuration,
+            'maximum-assessment-length': newVersion.challengesConfiguration.maximumAssessmentLength,
+            'minimum-answers-required-for-validation': newVersion.minimumAnswersRequiredToValidateACertification,
+            'expiration-date': newVersion.expirationDate,
+            'start-date': null,
+            comments: newVersion.comments,
+          },
+        },
+      });
       expect(oldVersion).to.deep.include({
         id: existingVersion.id,
         startDate: existingVersionStartDate,
-        expirationDate: now,
+        expirationDate: null,
       });
 
       expect(newVersion).to.deep.include({
-        startDate: now,
+        startDate: null,
         expirationDate: null,
       });
 

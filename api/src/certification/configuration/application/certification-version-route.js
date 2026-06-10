@@ -138,11 +138,11 @@ const register = async function (server) {
             },
           }),
         },
-        handler: certificationVersionController.createCertificationVersion,
+        handler: certificationVersionController.createDraft,
         tags: ['api', 'admin'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
-          'Elle permet de créer une nouvelle version de référentiel de certification',
+          "Elle permet de créer un nouveau millésime draft d'un référentiel de certification",
         ],
       },
     },

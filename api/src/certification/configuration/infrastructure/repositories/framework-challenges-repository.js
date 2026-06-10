@@ -5,6 +5,26 @@ import { CertificationFrameworksChallenge } from '../../domain/models/Certificat
 
 /**
  * @param {object} params
+ * @returns {Promise<Array<string>>}
+ * @throws {NotFoundError}
+ */
+export async function createFromChallengeIds({ versionId, challengeIds = [] }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const certificationFrameworksChallenge = challengeIds.map((challengeId) => {
+    return {
+      versionId,
+      challengeId,
+    };
+  });
+
+  return await knexConn
+    .batchInsert('certification-frameworks-challenges', certificationFrameworksChallenge)
+    .returning('id');
+}
+
+/**
+ * @param {object} params
  * @param {number} params.versionId
  * @returns {Promise<Array<CertificationFrameworksChallenge>>}
  * @throws {NotFoundError}

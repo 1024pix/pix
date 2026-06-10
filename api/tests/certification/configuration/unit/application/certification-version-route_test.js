@@ -203,7 +203,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         sinon
           .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
           .returns((request, h) => h.response().code(403).takeover());
-        sinon.stub(certificationVersionController, 'createCertificationVersion').returns('ok');
+        sinon.stub(certificationVersionController, 'createDraft').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -214,7 +214,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(certificationVersionController.createCertificationVersion);
+        sinon.assert.notCalled(certificationVersionController.createDraft);
       });
     });
 
@@ -222,7 +222,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
       it('should return 400 HTTP status code', async function () {
         // given
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').callsFake(() => () => true);
-        sinon.stub(certificationVersionController, 'createCertificationVersion').returns('ok');
+        sinon.stub(certificationVersionController, 'createDraft').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -233,7 +233,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
 
         // then
         expect(response.statusCode).to.equal(400);
-        sinon.assert.notCalled(certificationVersionController.createCertificationVersion);
+        sinon.assert.notCalled(certificationVersionController.createDraft);
       });
     });
   });

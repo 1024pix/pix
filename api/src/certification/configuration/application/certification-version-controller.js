@@ -1,5 +1,6 @@
 import { usecases } from '../domain/usecases/index.js';
 import * as certificationVersionDetailSerializer from '../infrastructure/serializers/certification-version-detail-serializer.js';
+import * as certificationVersionSerializer from '../infrastructure/serializers/certification-version-serializer.js';
 
 const getVersionById = async function (request) {
   const certificationVersionId = request.params.certificationVersionId;
@@ -31,17 +32,17 @@ const deleteCertificationVersion = async function (request, h) {
   return h.response().code(204);
 };
 
-const createCertificationVersion = async function (request, h) {
+const createDraft = async function (request, h) {
   const { scope } = request.params;
   const { tubeIds } = request.payload.data.attributes;
 
-  const createdCertificationId = await usecases.createCertificationVersion({ scope, tubeIds });
+  const certificationVersion = await usecases.createDraft({ scope, tubeIds });
 
-  return h.response({ data: { id: createdCertificationId, type: 'certification-version' } }).code(201);
+  return h.response(certificationVersionSerializer.serialize(certificationVersion)).code(201);
 };
 
 const certificationVersionController = {
-  createCertificationVersion,
+  createDraft,
   getVersionById,
   deleteCertificationVersion,
   update,
