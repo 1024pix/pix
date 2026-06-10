@@ -1649,6 +1649,7 @@
       "buttons": {
         "activity": {
           "retry": "Volver a intentarlo",
+          "submit": "Enviar mi selección",
           "verify": "Comprobar mi respuesta"
         },
         "element": {
@@ -1868,6 +1869,10 @@
       },
       "qcm": {
         "direction": "Selecciona varias respuestas."
+      },
+      "qcmDeclarative": {
+        "complementaryInstruction": "Seleccione la propuesta o propuestas que desee.",
+        "direction": "Seleccione la propuesta o propuestas que desee."
       },
       "qcu": {
         "direction": "Selecciona una sola respuesta."

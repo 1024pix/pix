@@ -1649,6 +1649,7 @@
       "buttons": {
         "activity": {
           "retry": "Probeer het opnieuw",
+          "submit": "Mijn selectie indienen",
           "verify": "Controleer mijn antwoord"
         },
         "element": {
@@ -1868,6 +1869,10 @@
       },
       "qcm": {
         "direction": "Kies meerdere antwoorden."
+      },
+      "qcmDeclarative": {
+        "complementaryInstruction": "Selecteer het voorstel of de voorstellen van uw keuze.",
+        "direction": "Selecteer het voorstel of de voorstellen van uw keuze."
       },
       "qcu": {
         "direction": "Kies één antwoord"
