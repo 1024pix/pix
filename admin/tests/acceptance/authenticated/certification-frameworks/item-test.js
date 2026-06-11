@@ -1,5 +1,6 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
@@ -60,5 +61,18 @@ module('Acceptance | Complementary certifications | Complementary certification 
 
     // then
     assert.strictEqual(currentURL(), '/certification-frameworks/CLEA/target-profile');
+  });
+
+  test('it should display the create button on new version page', async function (assert) {
+    // given
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+    server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
+    // when
+    const screen = await visit('/certification-frameworks/DROIT/');
+
+    // then
+    assert
+      .dom(screen.queryByRole('link', { name: t('components.certification-frameworks.item.framework.create-button') }))
+      .exists();
   });
 });

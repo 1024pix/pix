@@ -15,12 +15,6 @@ export default class Header extends Component {
     return this.intl.t(`components.certification-frameworks.labels.${this.args.certificationFramework.name}`);
   }
 
-  get canCreateVersion() {
-    if (this.router.currentRouteName.startsWith('authenticated.certification-frameworks.item.framework.new-version'))
-      return false;
-    return this.currentUser.adminMember.isSuperAdmin && this.args.certificationFramework?.name !== 'CLEA';
-  }
-
   get isPossibleToCreate() {
     return this.args.frameworkHistory?.history.some((frameworkHistory) => frameworkHistory.status === 'DRAFT');
   }
@@ -57,7 +51,7 @@ export default class Header extends Component {
         </span>
       </h1>
 
-      {{#if this.canCreateVersion}}
+      {{#if @showCreationVersionButton}}
         <PixTooltip @hide={{not this.isPossibleToCreate}} @position="bottom" @isWide={{true}}>
           <:triggerElement>
             <PixButtonLink
