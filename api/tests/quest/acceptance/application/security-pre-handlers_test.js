@@ -212,7 +212,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
 
       server.route({
         method: 'GET',
-        path: '/api/organization/{organizationId}/combined-course-blueprint/{combinedCourseBlueprintId}',
+        path: '/api/organization/{organizationId}/combined-course-blueprint/{blueprintId}',
         handler: (r, h) => h.response({}).code(200),
         config: {
           auth: false,
