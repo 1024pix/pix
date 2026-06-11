@@ -199,6 +199,7 @@ const configuration = (function () {
           bucket: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME,
           forcePathStyle: true,
         },
+        assessmentIdRange: parseInt(process.env.ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
       },
     },
     import: {
@@ -742,6 +743,7 @@ const configuration = (function () {
           bucket: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME,
           forcePathStyle: true,
         },
+        assessmentIdRange: parseInt(process.env.TEST_ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
       },
     };
 

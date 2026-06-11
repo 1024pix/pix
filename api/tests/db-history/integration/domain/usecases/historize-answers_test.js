@@ -1,5 +1,4 @@
 import { CreateBucketCommand, S3Client } from '@aws-sdk/client-s3';
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
@@ -12,6 +11,7 @@ import { usecases } from '../../../../../src/db-history/domain/usecases/index.js
 import * as answersRepository from '../../../../../src/db-history/infrastructure/repositories/answers-repository.js';
 import { config } from '../../../../../src/shared/config.js';
 import { S3ObjectStorageProvider } from '../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
+import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr, catchErrSync } from '../../../../tooling/test-utils/error.js';
 
@@ -51,6 +51,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     const targetDate = new Date('2020-01-02');
 
     const assessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
+      id: 50001,
       updatedAt: new Date('2020-01-02'),
       state: 'completed',
       type: 'CAMPAIGN',
@@ -69,6 +70,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     });
 
     const demoAssessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
+      id: 50002,
       updatedAt: new Date('2020-01-02'),
       state: 'completed',
       type: 'DEMO',
@@ -87,6 +89,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     });
 
     const evaluationAssessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
+      id: 50003,
       updatedAt: new Date('2020-01-02'),
       state: 'completed',
       type: 'COMPETENCE_EVALUATION',
@@ -105,6 +108,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     });
 
     const placementAssessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
+      id: 51001,
       updatedAt: new Date('2020-01-02'),
       state: 'completed',
       type: 'PLACEMENT',
@@ -123,6 +127,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     });
 
     const previewAssessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
+      id: 51002,
       updatedAt: new Date('2020-01-02'),
       state: 'completed',
       type: 'PREVIEW',
@@ -147,8 +152,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     expect(remainingAnswers.length).to.equal(5);
 
     const { Contents: uploadedFiles } = await s3Client.listFiles();
-    // We expect 2 different files as assessmentIds created by the databaseBuilder
-    // overlap the ASSESSMENT_ID_RANGE_SIZE given in the production code file
+    // IDs 50001-50003 → range [50001, 51000], IDs 51001-51002 → range [51001, 52000] with range=1000
     expect(uploadedFiles).to.have.length(2);
     expect(uploadedFiles[0].Key).to.match(/^answers\//);
   });
@@ -218,7 +222,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       const answersToBeDeleted = [firstAnswer, secondAnswer, thirdAnswer];
 
       // when
-      await expect(deleteBatchAnswers(answersToBeDeleted, logger, answersRepository)).to.be.rejectedWith(Error);
+      await expect(deleteBatchAnswers(answersRepository, answersToBeDeleted, logger)).to.be.rejectedWith(Error);
 
       // then
       const remainingAnswers = await knex('answers');
@@ -377,7 +381,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
         timeSpent: 50,
       });
       const answers = [firstAnswer, secondAnswer, thirdAnswer];
-      const groups = getAnswersGroupedByAssessmentId(answers);
+      const groups = getAnswersGroupedByAssessmentId(answers, 1000);
       expect(groups).to.have.length(2);
       expect(groups.get(99001)).to.deep.equal([firstAnswer]);
       expect(groups.get(100001)).to.deep.equal([secondAnswer, thirdAnswer]);
@@ -423,7 +427,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
         timeSpent: 50,
       });
       const answers = [firstAnswer, secondAnswer, thirdAnswer];
-      const groups = getAnswersGroupedByAssessmentId(answers);
+      const groups = getAnswersGroupedByAssessmentId(answers, 1000);
       expect(groups).to.have.length(2);
       expect(groups.get(100001)).to.be.undefined;
     });

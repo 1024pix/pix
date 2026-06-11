@@ -2,9 +2,10 @@ import { randomUUID } from 'node:crypto';
 
 import { parquetWriteBuffer } from 'hyparquet-writer';
 
+import { config } from '../../../shared/config.js';
 import { logger as defaultLogger } from '../../../shared/infrastructure/utils/logger.js';
 import { AnswersHistoryRepository } from '../../infrastructure/repositories/answers-history-repository.js';
-import { ASSESSMENT_ID_RANGE_SIZE, TARGET_STATE, TARGET_TYPES } from '../constants.js';
+import { TARGET_STATE, TARGET_TYPES } from '../constants.js';
 
 export async function historizeAnswers({ answersRepository, targetDate, logger = defaultLogger }) {
   const now = new Date();
@@ -25,12 +26,17 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
 
   const answersHistoryRepository = AnswersHistoryRepository.createClient();
 
-  for (const [rangeStart, batchAnswersToBeDeleted] of getAnswersGroupedByAssessmentId(answersToBeDeleted)) {
+  const assessmentIdRange = config.answersHistoryExport.storage.assessmentIdRange;
+
+  for (const [rangeStart, batchAnswersToBeDeleted] of getAnswersGroupedByAssessmentId(
+    answersToBeDeleted,
+    assessmentIdRange,
+  )) {
     logger.info(`Creating parquet file starting for range from ${rangeStart}`);
     const { partitionFile, fileContent } = createParquetArrayBuffer(
       rangeStart,
       batchAnswersToBeDeleted,
-      ASSESSMENT_ID_RANGE_SIZE,
+      assessmentIdRange,
     );
     logger.info(`Successfully created ${partitionFile} file.`);
     try {
@@ -52,10 +58,11 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
   }
 }
 
-export function getAnswersGroupedByAssessmentId(answers) {
+export function getAnswersGroupedByAssessmentId(answers, assessmentIdRange) {
   const answerGroups = new Map();
   for (const answer of answers) {
-    const firstAssessmentIdInGroup = Math.floor((answer.assessmentId - 1) / ASSESSMENT_ID_RANGE_SIZE) * ASSESSMENT_ID_RANGE_SIZE + 1;
+    const groupIndex = Math.floor((answer.assessmentId - 1) / assessmentIdRange);
+    const firstAssessmentIdInGroup = groupIndex * assessmentIdRange + 1;
     const groupExists = answerGroups.has(firstAssessmentIdInGroup);
     if (!groupExists) answerGroups.set(firstAssessmentIdInGroup, []);
     answerGroups.get(firstAssessmentIdInGroup).push(answer);
