@@ -17,7 +17,7 @@ services:
     image: adobe/s3mock:5.0.0
     container_name: pix-api-s3
     environment:
-      - COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS=pix-import-dev, pix-import-test, pix-attestations-dev, pix-attestations-test
+      - COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS=pix-import-dev, pix-import-test, pix-attestations-dev, pix-attestations-test, pix-answers-history-export-test
     ports:
       - '${PIX_S3_PORT:-9090}:9090'
 
