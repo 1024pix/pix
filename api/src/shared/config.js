@@ -189,6 +189,18 @@ const schema = Joi.object({
 
 const configuration = (function () {
   const config = {
+    answersHistoryExport: {
+      storage: {
+        client: {
+          accessKeyId: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID,
+          secretAccessKey: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY,
+          endpoint: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT,
+          region: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_REGION,
+          bucket: process.env.ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME,
+          forcePathStyle: true,
+        },
+      },
+    },
     import: {
       storage: {
         client: {
@@ -330,6 +342,12 @@ const configuration = (function () {
       },
       scoAccountRecoveryKeyLifetimeMinutes: process.env.SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES,
       organizationPlacesManagementThreshold: parseFloat(process.env.ORGANIZATION_PLACES_MANAGEMENT_THRESHOLD ?? '0.1'),
+      databaseHistory: {
+        scheduleHistorizeAnswers: {
+          cron: process.env.SCHEDULE_HISTORIZE_ANSWERS_JOB_CRON || '0 0 29 2 *',
+          chunkSize: process.env.SCHEDULE_HISTORIZE_ANSWERS_CHUNK_SIZE || 1000,
+        },
+      },
     },
     featureToggles: {
       deprecatePoleEmploiPushNotification: toBoolean(process.env.DEPRECATE_PE_PUSH_NOTIFICATION),
@@ -709,6 +727,19 @@ const configuration = (function () {
           endpoint: process.env.TEST_IMPORT_STORAGE_ENDPOINT,
           region: 'nothing',
           bucket: process.env.TEST_IMPORT_STORAGE_BUCKET_NAME,
+          forcePathStyle: true,
+        },
+      },
+    };
+
+    config.answersHistoryExport = {
+      storage: {
+        client: {
+          accessKeyId: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID,
+          secretAccessKey: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY,
+          endpoint: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT,
+          region: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_REGION,
+          bucket: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME,
           forcePathStyle: true,
         },
       },
