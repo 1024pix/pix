@@ -22,7 +22,7 @@ describe('Certification | Shared | Integration | Repository | Event', function (
           metadata: { foo: 'bar' },
         });
 
-        await eventRepository.push(event);
+        await eventRepository.push([event]);
 
         const events = await knex('certification_events').select();
         sinon.assert.match(events, [
@@ -32,6 +32,45 @@ describe('Certification | Shared | Integration | Repository | Event', function (
             candidateId: 123,
             createdAt: new Date('2021-01-01T00:00:00Z'),
             metadata: { foo: 'bar' },
+          },
+        ]);
+      });
+
+      it('allows to push multiple events in db', async function () {
+        await featureToggles.set('isEventSourcingCertificationEnabled', true);
+        await setImmediate();
+        const event1 = domainBuilder.certification.shared.buildEvent({
+          id: null,
+          name: 'SomeEvent1',
+          candidateId: 123,
+          createdAt: new Date('2021-01-01T00:00:00Z'),
+          metadata: { foo: 'bar' },
+        });
+        const event2 = domainBuilder.certification.shared.buildEvent({
+          id: null,
+          name: 'SomeEvent2',
+          candidateId: 456,
+          createdAt: new Date('2022-02-02T02:02:02Z'),
+          metadata: { foo: 'bar2' },
+        });
+
+        await eventRepository.push([event1, event2]);
+
+        const events = await knex('certification_events').select();
+        sinon.assert.match(events, [
+          {
+            id: sinon.match.number,
+            eventName: 'SomeEvent1',
+            candidateId: 123,
+            createdAt: new Date('2021-01-01T00:00:00Z'),
+            metadata: { foo: 'bar' },
+          },
+          {
+            id: sinon.match.number,
+            eventName: 'SomeEvent2',
+            candidateId: 456,
+            createdAt: new Date('2022-02-02T02:02:02Z'),
+            metadata: { foo: 'bar2' },
           },
         ]);
       });
@@ -49,7 +88,7 @@ describe('Certification | Shared | Integration | Repository | Event', function (
           metadata: { foo: 'bar' },
         });
 
-        await eventRepository.push(event);
+        await eventRepository.push([event]);
 
         // then
         const events = await knex('certification_events').select();
