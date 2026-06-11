@@ -21,7 +21,7 @@ class TubeResultForKnowledgeElementSnapshots {
     this.competenceName = competence.name;
     this.title = tube.practicalTitle;
     this.description = tube.practicalDescription;
-    this.maxLevel = tube.getHardestSkill().difficulty;
+    this.maxLevel = tube.maxLevel;
   }
 
   addKnowledgeElementSnapshots(knowledgeElementSnapshots) {

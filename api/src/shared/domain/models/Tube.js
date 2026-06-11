@@ -50,6 +50,10 @@ class Tube {
     return _.maxBy(this.skills, 'difficulty');
   }
 
+  get maxLevel() {
+    return this.getHardestSkill()?.difficulty ?? null;
+  }
+
   hasSkill(skillId) {
     return this.skills.some((skill) => skill.id === skillId);
   }

@@ -34,7 +34,14 @@ const serialize = function (targetProfiles) {
             tubes: {
               include: true,
               ref: 'id',
-              attributes: ['name', 'practicalTitle', 'practicalDescription', 'isMobileCompliant', 'isTabletCompliant'],
+              attributes: [
+                'name',
+                'practicalTitle',
+                'practicalDescription',
+                'isMobileCompliant',
+                'isTabletCompliant',
+                'maxLevel',
+              ],
             },
           },
         },

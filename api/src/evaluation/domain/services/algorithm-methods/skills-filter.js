@@ -35,8 +35,7 @@ const getPrioritySkills = (tubes) => {
   return getSkillsFromTubes(easyTubes);
 };
 
-const getEasyTubes = (tubes) =>
-  tubes?.filter((tube) => tube.getHardestSkill().difficulty <= MAX_LEVEL_TO_BE_AN_EASY_TUBE);
+const getEasyTubes = (tubes) => tubes?.filter((tube) => tube.maxLevel <= MAX_LEVEL_TO_BE_AN_EASY_TUBE);
 const getSkillsFromTubes = (tubes) => (tubes ? tubes.flatMap(({ skills }) => skills) : []);
 
 const remapDifficulty = (difficulty) =>

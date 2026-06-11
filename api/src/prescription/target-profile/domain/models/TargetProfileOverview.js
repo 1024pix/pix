@@ -29,7 +29,7 @@ class TargetProfileOverview {
       const competences = areas.flatMap((area) => area.competences ?? []);
       const tubes = competences.flatMap((competence) => competence.tubes ?? []);
 
-      const maxTubes = tubes.map((tube) => tube.getHardestSkill()?.difficulty ?? 0);
+      const maxTubes = tubes.map((tube) => tube.maxLevel ?? 0);
       if (maxTubes.length === 0) {
         return 0;
       }
