@@ -1,0 +1,4 @@
+export const ASSESSMENT_ID_RANGE_SIZE = 10000;
+
+export const TARGET_TYPES = ['DEMO', 'COMPETENCE_EVALUATION', 'PLACEMENT', 'PREVIEW', 'CAMPAIGN'];
+export const TARGET_STATE = 'completed';
