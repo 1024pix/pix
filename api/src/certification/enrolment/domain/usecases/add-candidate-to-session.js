@@ -114,5 +114,6 @@ export async function addCandidateToSession({
     }
   }
 
-  return candidateRepository.insert(candidate);
+  const [savedCandidate] = await candidateRepository.save({ candidates: [candidate] });
+  return savedCandidate.id;
 }

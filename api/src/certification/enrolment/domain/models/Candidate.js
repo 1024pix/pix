@@ -39,7 +39,7 @@ export class Candidate {
     subscriptions = [],
     accessibilityAdjustmentNeeded,
     hasStartedTest = false,
-  } = {}) {
+  }) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
