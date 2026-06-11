@@ -7,17 +7,22 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 
+export const TARGET_PROFILE_OVERVIEW = 'target-profile-overview';
+export const TARGET_PROFILE = 'targetProfile';
+export const BLUEPRINT = 'blueprint';
+export const COMBINED_COURSE_BLUEPRINT = 'combined-course-blueprint';
+
 export function getCourseInfo(courseType) {
   switch (courseType) {
-    case 'targetProfile':
-    case 'target-profile-overview':
+    case TARGET_PROFILE:
+    case TARGET_PROFILE_OVERVIEW:
       return {
         color: 'blue',
         label: 'pages.catalogue.card.tag.target-profile',
         image: 'https://assets.pix.org/sites/orga/target-profile.png',
       };
-    case 'blueprint':
-    case 'combined-course-blueprint':
+    case BLUEPRINT:
+    case COMBINED_COURSE_BLUEPRINT:
       return {
         color: 'yellow',
         label: 'pages.catalogue.card.tag.blueprint',
