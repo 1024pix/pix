@@ -164,6 +164,7 @@ Router.map(function () {
           this.route('edit');
         });
         this.route('target-profiles');
+        this.route('details');
       });
     });
 

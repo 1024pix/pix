@@ -122,7 +122,7 @@ module('Acceptance | Trainings | List', function (hooks) {
         await clickByName('Formation 1');
 
         // then
-        assert.strictEqual(currentURL(), '/trainings/1/triggers');
+        assert.strictEqual(currentURL(), '/trainings/1/details');
         assert.dom(screen.getByText('Formation 1')).exists();
       });
     });
