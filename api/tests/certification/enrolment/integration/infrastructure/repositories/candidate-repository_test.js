@@ -309,6 +309,7 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
       const sessionId = databaseBuilder.factory.buildSession({}).id;
       await databaseBuilder.commit();
       const candidateA = domainBuilder.certification.enrolment.buildCandidate({
+        id: null,
         firstName: 'Lolo',
         lastName: 'Lapraline',
         accessibilityAdjustmentNeeded: true,
@@ -398,6 +399,9 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
         },
         ['createdAt'],
       );
+
+      expect(candidateA.id).to.equal(null);
+      expect(savedCandidateAData.id).to.not.equal(null);
 
       // Candidate B
       const savedCandidateBData = await knex('certification-candidates')

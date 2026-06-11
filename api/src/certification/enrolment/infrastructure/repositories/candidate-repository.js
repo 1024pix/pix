@@ -93,6 +93,7 @@ export async function update(candidate) {
  * @returns {Promise<Candidate[]>}
  */
 export async function save(candidates) {
+  const savedCandidates = [...candidates];
   const knexConn = DomainTransaction.getConnection();
   const candidatesData = candidates.map(adaptModelToDb);
 
@@ -103,17 +104,23 @@ export async function save(candidates) {
   const subscriptionsData = [];
   const complementaryCertificationsData = await knexConn('complementary-certifications').select('id', 'key');
   for (const candidate of candidates) {
-    candidate.id = insertedCandidatesData.find(
+    const savedCandidate = insertedCandidatesData.find(
       (insertedCandidateData) =>
         insertedCandidateData.firstName === candidate.firstName &&
         insertedCandidateData.lastName === candidate.lastName &&
         dayjs(insertedCandidateData.birthdate).format('YYYY-MM-DD') === dayjs(candidate.birthdate).format('YYYY-MM-DD'),
-    ).id;
-    subscriptionsData.push(..._buildLegacySubscriptions(candidate, complementaryCertificationsData));
+    );
+    savedCandidates.push(savedCandidate);
+    subscriptionsData.push(
+      ..._buildLegacySubscriptions(
+        { ...savedCandidate, subscription: candidate.subscription },
+        complementaryCertificationsData,
+      ),
+    );
   }
   await knexConn('certification-subscriptions').insert(subscriptionsData);
 
-  return candidates;
+  return savedCandidates;
 }
 
 /**
