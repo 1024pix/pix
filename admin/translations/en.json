@@ -1884,6 +1884,7 @@
             "disabled": "Non-triggerable",
             "enabled": "Triggerable"
           },
+          "tab": "Details",
           "title": "Public title"
         },
         "duplicate": {

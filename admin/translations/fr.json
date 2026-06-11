@@ -1894,6 +1894,7 @@
             "disabled": "Non déclenchable",
             "enabled": "Déclenchable"
           },
+          "tab": "Détails",
           "title": "Titre public"
         },
         "duplicate": {
