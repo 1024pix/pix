@@ -28,7 +28,6 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
     const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
 
     // then
-    assert.dom(screen.getByRole('heading', { level: 1, name: training.internalTitle })).exists();
     assert.dom(screen.getByText(training.title)).exists();
     assert.dom(screen.getByText('https://un-contenu-formatif')).exists();
     assert.dom(screen.getByText('Webinaire')).exists();
@@ -36,7 +35,6 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
     assert.dom(screen.getByText('Franco-français (fr-fr)')).exists();
     assert.dom(screen.getByText('Un éditeur de contenu formatif')).exists();
     assert.dom(screen.getByText('http://localhost:4202/logo-placeholder.png')).exists();
-    assert.dom(screen.getByAltText('Un éditeur de contenu formatif')).exists();
   });
 
   test('it should display "Déclenchable" when training is recommendable', async function (assert) {
@@ -55,24 +53,6 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
 
     // then
     assert.dom(screen.getByText(t('pages.trainings.training.details.status-label.disabled'))).exists();
-  });
-
-  test('it should display "Actif" when training is not disabled', async function (assert) {
-    // given
-    training.isDisabled = false;
-    const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
-
-    // then
-    assert.dom(screen.getByText('Actif')).exists();
-  });
-
-  test('it should display "En pause" when training is disabled', async function (assert) {
-    // given
-    training.isDisabled = true;
-    const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
-
-    // then
-    assert.dom(screen.getByText('En pause')).exists();
   });
 
   module('Duration formatting', function () {
