@@ -10,6 +10,12 @@
       vertical-align: -0.05em;
     }
   }
+
+  &__actions {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    padding-bottom: var(--pix-spacing-6x);
+  }
 }
 
 .trigger-card {

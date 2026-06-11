@@ -32,7 +32,7 @@ export default class TrainingEditTriggersController extends Controller {
 
   @action
   goBackToTraining() {
-    this.router.transitionTo('authenticated.trainings.training');
+    this.router.transitionTo('authenticated.trainings.training.triggers');
   }
 
   @action
