@@ -5,6 +5,7 @@
  * @typedef {import ('./index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import ('./index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import ('./index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import ('./index.js').EventApi} EventApi
  */
 
 import {
@@ -15,6 +16,7 @@ import {
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
+import { EVENT_NAMES } from '../../../shared/domain/constants/event-names.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 
 /**
@@ -25,6 +27,7 @@ import { ComplementaryCertificationKeys } from '../../../shared/domain/models/Co
  * @param {CertificationCpfCountryRepository} params.certificationCpfCountryRepository
  * @param {CertificationCpfCityRepository} params.certificationCpfCityRepository
  * @param {ComplementaryCertificationRepository} params.complementaryCertificationRepository
+ * @param {EventApi} params.eventApi
  */
 export async function addCandidateToSession({
   sessionId,
@@ -37,6 +40,7 @@ export async function addCandidateToSession({
   complementaryCertificationRepository,
   mailCheck = mailCheckImplementation,
   normalizeStringFnc,
+  eventApi,
 }) {
   candidate.sessionId = sessionId;
   const session = await sessionRepository.get({ id: sessionId });
@@ -115,5 +119,11 @@ export async function addCandidateToSession({
   }
 
   const [savedCandidate] = await candidateRepository.save({ candidates: [candidate] });
+  await eventApi.pushEvent({
+    name: EVENT_NAMES.CANDIDATE_ENROLLED,
+    candidateId: savedCandidate.id,
+    createdAt: savedCandidate.createdAt,
+    metadata: savedCandidate.toDTO(),
+  });
   return savedCandidate.id;
 }

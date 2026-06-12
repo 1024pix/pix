@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { addCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-candidate-to-session.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
+import { EVENT_NAMES } from '../../../../../../src/certification/shared/domain/constants/event-names.js';
 import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
@@ -23,6 +24,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
   let certificationCpfCountryRepository;
   let certificationCpfCityRepository;
   let complementaryCertificationRepository;
+  let eventApi;
   let mailCheck;
   let normalizeStringFnc;
   let candidateToEnroll;
@@ -43,6 +45,9 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     };
     certificationCpfService = {
       getBirthInformation: sinon.stub(),
+    };
+    eventApi = {
+      pushEvent: sinon.stub(),
     };
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
@@ -69,6 +74,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       certificationCpfCountryRepository,
       certificationCpfCityRepository,
       complementaryCertificationRepository,
+      eventApi,
       mailCheck,
       normalizeStringFnc,
     };
@@ -95,6 +101,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       expect(error).to.be.an.instanceOf(CertificationCandidateOnFinalizedSessionError);
       expect(error.message).to.equal("Cette session a déjà été finalisée, l'ajout de candidat n'est pas autorisé");
       expect(candidateRepository.save).not.to.have.been.called;
+      expect(eventApi.pushEvent).not.to.have.been.called;
     });
   });
 
@@ -134,6 +141,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
           }),
         );
         expect(candidateRepository.save).not.to.have.been.called;
+        expect(eventApi.pushEvent).not.to.have.been.called;
       });
     });
 
@@ -175,6 +183,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
           // then
           expect(error).to.be.instanceof(CertificationCandidateByPersonalInfoTooManyMatchesError);
           expect(candidateRepository.save).not.to.have.been.called;
+          expect(eventApi.pushEvent).not.to.have.been.called;
         });
       });
 
@@ -209,6 +218,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             expect(error).to.be.an.instanceOf(CertificationCandidatesError);
             expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED.code);
             expect(candidateRepository.save).not.to.have.been.called;
+            expect(eventApi.pushEvent).not.to.have.been.called;
           });
         });
 
@@ -250,6 +260,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
                 });
                 expect(error).to.deepEqualInstance(certificationCandidatesError);
                 expect(candidateRepository.save).not.to.have.been.called;
+                expect(eventApi.pushEvent).not.to.have.been.called;
               });
             });
 
@@ -279,6 +290,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
 
                 expect(error).to.deepEqualInstance(certificationCandidatesError);
                 expect(candidateRepository.save).not.to.have.been.called;
+                expect(eventApi.pushEvent).not.to.have.been.called;
               });
             });
           });
@@ -312,6 +324,12 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
                 candidates: [correctedCandidateToEnroll],
               });
               expect(id).to.equal(correctedCandidateToEnroll.id);
+              expect(eventApi.pushEvent).to.to.have.been.calledWithExactly({
+                name: EVENT_NAMES.CANDIDATE_ENROLLED,
+                candidateId: correctedCandidateToEnroll.id,
+                createdAt: correctedCandidateToEnroll.createdAt,
+                metadata: correctedCandidateToEnroll.toDTO(),
+              });
             });
           });
         });
