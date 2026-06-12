@@ -21,6 +21,8 @@ export default class User extends Model {
   @attr('boolean') isAnonymous;
   @attr('boolean') shouldSeeDataProtectionPolicyInformationBanner;
   @attr('boolean') emailConfirmed;
+  @attr('string') pixAppTermsOfServiceStatus;
+  @attr('string') pixAppTermsOfServiceDocumentPath;
   // eslint-disable-next-line ember/no-empty-attrs
   @attr() lastDataProtectionPolicySeenAt;
 
