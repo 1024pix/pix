@@ -23,20 +23,24 @@ export default class NewVersionForm extends Component {
 
   @action
   async onSubmit() {
-    const adapter = this.store.adapterFor('certification-version');
+    const version = this.store.createRecord('certification-version');
     try {
-      const certificationVersion = await adapter.createDraft({
-        scope: this.args.scope,
-        tubeIds: this.selectedTubes.map((tube) => tube.id),
+      await version.save({
+        adapterOptions: {
+          scope: this.args.scope,
+          tubeIds: this.selectedTubes.map((tube) => tube.id),
+        },
       });
-
-      this.router.transitionTo(
-        'authenticated.certification-frameworks.item.framework.new-version.configuration',
-        certificationVersion?.data?.id,
-      );
     } catch (error) {
+      version.deleteRecord();
       this.pixToast.sendErrorNotification({ message: error.errors?.[0].detail });
+      return;
     }
+
+    this.router.transitionTo(
+      'authenticated.certification-frameworks.item.framework.new-version.configuration',
+      version.id,
+    );
   }
 
   get checkedTubes() {

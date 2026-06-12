@@ -10,12 +10,16 @@ export default class CertificationVersionAdapter extends ApplicationAdapter {
     return this.ajax(url, 'PATCH', { data });
   }
 
-  createDraft({ scope, tubeIds }) {
-    const url = `${this.host}/${this.namespace}/frameworks/${scope}/version`;
+  createRecord(store, type, snapshot) {
+    if (!snapshot.adapterOptions.scope) {
+      return super.createRecord(...arguments);
+    }
+    const url = `${this.host}/${this.namespace}/frameworks/${snapshot.adapterOptions.scope}/version`;
+
     const data = {
       data: {
         attributes: {
-          tubeIds,
+          tubeIds: snapshot.adapterOptions.tubeIds,
         },
       },
     };
