@@ -102,6 +102,14 @@ describe('Certification | Shared | Integration | Application | API | Event', fun
       ]);
     });
 
+    it('does nothing when no events given', async function () {
+      await pushEvents([]);
+
+      // then
+      const events = await knex('certification_events').select();
+      sinon.assert.match(events, []);
+    });
+
     it('logs a warn when something goes wrong, without throwing', async function () {
       const dtoEvent1 = {
         candidateId: 123,

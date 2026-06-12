@@ -45,6 +45,9 @@ async function _pushEvents(dtoEvents) {
     });
     events.push(event);
   }
+  if (events.length === 0) {
+    return;
+  }
   try {
     await eventRepository.push(events);
   } catch (error) {

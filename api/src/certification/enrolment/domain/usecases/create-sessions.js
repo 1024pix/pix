@@ -4,6 +4,7 @@
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { EVENT_NAMES } from '../../../shared/domain/constants/event-names.js';
 import { Candidate } from '../models/Candidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 
@@ -11,13 +12,15 @@ import { SessionEnrolment } from '../models/SessionEnrolment.js';
  * @param {object} params
  * @param {deps["candidateRepository"]} params.candidateRepository
  * @param {deps["sessionRepository"]} params.sessionRepository
+ * @param {deps["eventApi"]} params.eventApi
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
-const createSessions = async function ({
+export async function createSessions({
   userId,
   cachedValidatedSessionsKey,
   candidateRepository,
   sessionRepository,
+  eventApi,
   temporarySessionsStorageForMassImportService,
 }) {
   const temporaryCachedSessions = await temporarySessionsStorageForMassImportService.getByKeyAndUserId({
@@ -29,6 +32,7 @@ const createSessions = async function ({
     throw new NotFoundError();
   }
 
+  const dtoEvents = [];
   await DomainTransaction.execute(async () => {
     for (const sessionDTO of temporaryCachedSessions) {
       let { id: sessionId } = sessionDTO;
@@ -44,26 +48,28 @@ const createSessions = async function ({
         sessionId = id;
       }
 
-      if (_hasCandidates(candidates)) {
-        await _saveCandidates({
+      if (candidates.length > 0) {
+        const savedCandidates = await _saveCandidates({
           candidates,
           sessionId,
           candidateRepository,
         });
+        const dtoEventsForThisSession = savedCandidates.map((savedCandidate) => ({
+          name: EVENT_NAMES.CANDIDATE_ENROLLED,
+          candidateId: savedCandidate.id,
+          createdAt: savedCandidate.createdAt,
+          metadata: savedCandidate.toDTO(),
+        }));
+        dtoEvents.push(...dtoEventsForThisSession);
       }
     }
   });
 
+  await eventApi.pushEvents(dtoEvents);
   await temporarySessionsStorageForMassImportService.remove({
     cachedValidatedSessionsKey,
     userId,
   });
-};
-
-export { createSessions };
-
-function _hasCandidates(candidates) {
-  return candidates.length > 0;
 }
 
 async function _saveNewSessionReturningId({ sessionRepository, sessionDTO }) {
@@ -79,5 +85,5 @@ async function _saveCandidates({ candidates, sessionId, candidateRepository }) {
   const candidatesToSave = candidates.map((candidate) => {
     return new Candidate({ ...candidate, sessionId });
   });
-  await candidateRepository.save({ candidates: candidatesToSave });
+  return candidateRepository.save({ candidates: candidatesToSave });
 }
