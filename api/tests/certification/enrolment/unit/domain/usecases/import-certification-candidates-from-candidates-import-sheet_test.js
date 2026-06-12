@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 
 import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../../../src/certification/enrolment/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
+import { EVENT_NAMES } from '../../../../../../src/certification/shared/domain/constants/event-names.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { CandidateAlreadyLinkedToUserError } from '../../../../../../src/shared/domain/errors.js';
@@ -19,6 +20,8 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let certificationCpfCountryRepository;
   let centerRepository;
   let sessionRepository;
+  let eventApi;
+  let dependencies;
 
   beforeEach(function () {
     candidateRepository = {
@@ -35,12 +38,26 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     certificationCpfService = {
       getBirthInformation: sinon.stub(),
     };
+    eventApi = {
+      pushEvents: sinon.stub(),
+    };
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
     centerRepository = Symbol('centerRepository');
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
       return lambda();
     });
+
+    dependencies = {
+      certificationCandidatesOdsService,
+      candidateRepository,
+      certificationCpfService,
+      certificationCpfCountryRepository,
+      certificationCpfCityRepository,
+      centerRepository,
+      sessionRepository,
+      eventApi,
+    };
   });
 
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
@@ -63,17 +80,13 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           i18n,
           sessionId,
           odsBuffer,
-          certificationCandidatesOdsService,
-          candidateRepository,
-          certificationCpfService,
-          certificationCpfCountryRepository,
-          certificationCpfCityRepository,
-          centerRepository,
-          sessionRepository,
+          ...dependencies,
         });
 
         // then
         expect(result).to.be.an.instanceOf(CandidateAlreadyLinkedToUserError);
+        expect(candidateRepository.save).not.to.have.been.called;
+        expect(eventApi.pushEvents).not.to.have.been.called;
       });
     });
 
@@ -117,19 +130,14 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
               centerRepository,
             })
             .resolves(candidates);
+          candidateRepository.save.resolves(candidates);
 
           // when
           await importCertificationCandidatesFromCandidatesImportSheet({
             sessionId,
             odsBuffer,
             i18n,
-            certificationCandidatesOdsService,
-            candidateRepository,
-            certificationCpfService,
-            certificationCpfCountryRepository,
-            certificationCpfCityRepository,
-            centerRepository,
-            sessionRepository,
+            ...dependencies,
           });
 
           // then
@@ -138,6 +146,14 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           });
           expect(candidateRepository.save).to.have.been.calledWithExactly({ candidates });
           expect(candidateRepository.deleteBySessionId.calledBefore(candidateRepository.save)).to.be.true;
+          expect(eventApi.pushEvents).to.to.have.been.calledWithExactly([
+            {
+              name: EVENT_NAMES.CANDIDATE_ENROLLED,
+              candidateId: candidate.id,
+              createdAt: candidate.createdAt,
+              metadata: candidate.toDTO(),
+            },
+          ]);
         });
       });
     });
