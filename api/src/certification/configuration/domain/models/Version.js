@@ -95,14 +95,14 @@ export class Version {
         version?.minimumAnswersRequiredToValidateACertification ??
         DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
       challengesConfiguration: new FlashAssessmentAlgorithmConfiguration({
-        challengesBetweenSameCompetence: version?.challengesConfiguration.challengesBetweenSameCompetence ?? 0,
-        maximumAssessmentLength: version?.challengesConfiguration.maximumAssessmentLength ?? 32,
-        variationPercent: version?.challengesConfiguration.variationPercent ?? 1,
-        defaultCandidateCapacity: version?.challengesConfiguration.defaultCandidateCapacity ?? 0,
+        challengesBetweenSameCompetence: version?.challengesConfiguration?.challengesBetweenSameCompetence ?? 0,
+        maximumAssessmentLength: version?.challengesConfiguration?.maximumAssessmentLength ?? 32,
+        variationPercent: version?.challengesConfiguration?.variationPercent ?? 1,
+        defaultCandidateCapacity: version?.challengesConfiguration?.defaultCandidateCapacity ?? 0,
         defaultProbabilityToPickChallenge:
-          version?.challengesConfiguration.defaultProbabilityToPickChallenge ?? DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
-        limitToOneQuestionPerTube: version?.challengesConfiguration.limitToOneQuestionPerTube ?? true,
-        enablePassageByAllCompetences: version?.challengesConfiguration.enablePassageByAllCompetences ?? true,
+          version?.challengesConfiguration?.defaultProbabilityToPickChallenge ?? DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
+        limitToOneQuestionPerTube: version?.challengesConfiguration?.limitToOneQuestionPerTube ?? true,
+        enablePassageByAllCompetences: version?.challengesConfiguration?.enablePassageByAllCompetences ?? true,
       }),
       globalScoringConfiguration: [],
       competencesScoringConfiguration: [],
