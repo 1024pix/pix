@@ -8,6 +8,7 @@
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
+import { EVENT_NAMES } from '../../../shared/domain/constants/event-names.js';
 import { UnknownCountryForStudentEnrolmentError } from '../errors.js';
 import { Candidate } from '../models/Candidate.js';
 
@@ -20,6 +21,7 @@ const INSEE_PREFIX_CODE = '99';
  * @param {CenterRepository} params.centerRepository
  * @param {CountryRepository} params.countryRepository
  * @param {SessionRepository} params.sessionRepository
+ * @param {EventApi} params.eventApi
  */
 export async function enrolStudentsToSession({
   sessionId,
@@ -32,6 +34,7 @@ export async function enrolStudentsToSession({
   certificationCpfCityRepository,
   certificationCpfCountryRepository,
   certificationCpfService,
+  eventApi,
 }) {
   if (studentIds.length === 0) {
     return;
@@ -92,5 +95,12 @@ export async function enrolStudentsToSession({
     });
   });
 
-  await candidateRepository.save({ candidates: scoCertificationCandidates });
+  const savedCandidates = await candidateRepository.save({ candidates: scoCertificationCandidates });
+  const dtoEvents = savedCandidates.map((savedCandidate) => ({
+    name: EVENT_NAMES.CANDIDATE_ENROLLED,
+    candidateId: savedCandidate.id,
+    createdAt: savedCandidate.createdAt,
+    metadata: savedCandidate.toDTO(),
+  }));
+  await eventApi.pushEvents(dtoEvents);
 }
