@@ -5,8 +5,9 @@ import { CampaignParticipationStatuses } from '../../../../../src/prescription/s
 import { CombinedCourseDetails } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js';
 import { CombinedCourseReward } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
 import {
-  COMBINED_COURSE_ITEM_TYPES,
-  CombinedCourseItem,
+  CampaignCombinedCourseItem,
+  ModuleCombinedCourseItem,
+  TrainingCombinedCourseItem,
 } from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
@@ -83,55 +84,46 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           id: campaign.id,
           reference: campaign.code,
           title: campaign.title,
-          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
-          masteryRate: null,
           redirection: undefined,
           participationStatus: CampaignParticipationStatuses.STARTED,
           isCompleted: false,
           isLocked: false,
           duration: undefined,
           image: undefined,
-          validatedStagesCount: null,
+          masteryRate: null,
           totalStagesCount: null,
+          validatedStagesCount: null,
         },
         {
           id: moduleId1,
           reference: 'bac-a-sable',
           title: 'Bac à sable',
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
-          masteryRate: null,
           redirection: 'encryptedUrl',
           participationStatus: undefined,
           isCompleted: false,
           isLocked: true,
           duration: 5,
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
-          validatedStagesCount: null,
-          totalStagesCount: null,
           shortId: '6a68bf32',
         },
         {
           id: moduleId2,
           reference: 'bases-clavier-1',
           title: 'Les bases du clavier sur ordinateur 1/2',
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
-          masteryRate: null,
           redirection: 'encryptedUrl',
           participationStatus: undefined,
           isCompleted: false,
           isLocked: true,
           duration: 30,
           image: 'https://assets.pix.org/modules/1emarche-clavier1/picto-1eremarche_clavier1.svg',
-          validatedStagesCount: null,
-          totalStagesCount: null,
           shortId: '740d5aa9',
         },
       ]);
       expect(result.id).to.equal(combinedCourseId);
       expect(result.status).to.equal(OrganizationLearnerParticipationStatuses.STARTED);
-      expect(result.items[0]).instanceOf(CombinedCourseItem);
-      expect(result.items[1]).instanceOf(CombinedCourseItem);
-      expect(result.items[2]).instanceOf(CombinedCourseItem);
+      expect(result.items[0]).instanceOf(CampaignCombinedCourseItem);
+      expect(result.items[1]).instanceOf(ModuleCombinedCourseItem);
+      expect(result.items[2]).instanceOf(ModuleCombinedCourseItem);
     });
 
     it('should return started combined course for given userId', async function () {
@@ -208,7 +200,6 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           id: campaign.id,
           reference: campaign.code,
           title: campaign.title,
-          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
           masteryRate: 0.5,
           validatedStagesCount: 0,
           totalStagesCount: 0,
@@ -223,10 +214,6 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           id: moduleId1,
           reference: 'bac-a-sable',
           title: 'Bac à sable',
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
-          masteryRate: null,
-          validatedStagesCount: null,
-          totalStagesCount: null,
           redirection: 'encryptedUrl',
           participationStatus: OrganizationLearnerParticipationStatuses.COMPLETED,
           isCompleted: true,
@@ -239,10 +226,6 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           id: moduleId3,
           reference: 'bien-ecrire-son-adresse-mail',
           title: 'Bien écrire une adresse mail',
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
-          masteryRate: null,
-          validatedStagesCount: null,
-          totalStagesCount: null,
           redirection: 'encryptedUrl',
           participationStatus: OrganizationLearnerParticipationStatuses.NOT_STARTED,
           isCompleted: false,
@@ -255,9 +238,9 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       expect(result).to.be.instanceOf(CombinedCourse);
       expect(result.id).to.equal(combinedCourseId);
       expect(result.status).to.equal(OrganizationLearnerParticipationStatuses.STARTED);
-      expect(result.items[0]).instanceOf(CombinedCourseItem);
-      expect(result.items[1]).instanceOf(CombinedCourseItem);
-      expect(result.items[2]).instanceOf(CombinedCourseItem);
+      expect(result.items[0]).instanceOf(CampaignCombinedCourseItem);
+      expect(result.items[1]).instanceOf(ModuleCombinedCourseItem);
+      expect(result.items[2]).instanceOf(ModuleCombinedCourseItem);
     });
   });
   describe('when there is no organization learner yet', function () {
@@ -307,9 +290,9 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       expect(result).to.be.instanceOf(CombinedCourse);
       expect(result.id).to.equal(combinedCourseId);
       expect(result.status).to.equal(OrganizationLearnerParticipationStatuses.NOT_STARTED);
-      expect(result.items[0]).instanceOf(CombinedCourseItem);
-      expect(result.items[1]).instanceOf(CombinedCourseItem);
-      expect(result.items[2]).instanceOf(CombinedCourseItem);
+      expect(result.items[0]).instanceOf(CampaignCombinedCourseItem);
+      expect(result.items[1]).instanceOf(TrainingCombinedCourseItem);
+      expect(result.items[2]).instanceOf(ModuleCombinedCourseItem);
     });
   });
 
