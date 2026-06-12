@@ -393,9 +393,7 @@ export default function routes() {
   this.get('/admin/organizations/:id/statistics', getOrganizationStatistics);
   this.post('/admin/organizations/:id/archive', archiveOrganization);
 
-  this.get('/admin/frameworks', function (schema) {
-    return schema.frameworks.all();
-  });
+  this.get('/admin/frameworks');
   this.get('/admin/frameworks/:id/areas', findFrameworkAreas);
   this.post('/admin/frameworks/:scope/version', function (schema) {
     return schema.certificationVersions.create();

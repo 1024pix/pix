@@ -71,6 +71,10 @@ export default class NewVersionForm extends Component {
     return this.args.activeVersion.hasMany('areas').value();
   }
 
+  get isNextButtonDisabled() {
+    return this.selectedTubes?.length === 0;
+  }
+
   <template>
     <h2 class="framework-creation-form__title">
       {{t "components.certification-frameworks.item.framework.new-version-form.title"}}
@@ -96,7 +100,7 @@ export default class NewVersionForm extends Component {
               </PixButtonLink>
             </li>
             <li>
-              <PixButton @triggerAction={{this.onSubmit}} @isDisabled={{if this.selectedTubes.length false true}}>
+              <PixButton @triggerAction={{this.onSubmit}} @isDisabled={{this.isNextButtonDisabled}}>
                 {{t "components.certification-frameworks.item.framework.new-version-form.next-button"}}
               </PixButton>
             </li>

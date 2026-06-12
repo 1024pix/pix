@@ -15,8 +15,8 @@ export default class Header extends Component {
     return this.intl.t(`components.certification-frameworks.labels.${this.args.certificationFramework.name}`);
   }
 
-  get isPossibleToCreate() {
-    return this.args.frameworkHistory?.history.some((frameworkHistory) => frameworkHistory.status === 'DRAFT');
+  get canCreateVersion() {
+    return this.args.frameworkHistory?.history.some((history) => history.status === 'DRAFT');
   }
 
   get activeCertificationVersionId() {
@@ -52,14 +52,14 @@ export default class Header extends Component {
       </h1>
 
       {{#if @showCreationVersionButton}}
-        <PixTooltip @hide={{not this.isPossibleToCreate}} @position="bottom" @isWide={{true}}>
+        <PixTooltip @hide={{not this.canCreateVersion}} @position="bottom" @isWide={{true}}>
           <:triggerElement>
             <PixButtonLink
               class="framework__creation-button"
               @route="authenticated.certification-frameworks.item.framework.new-version"
               @query={{this.activeCertificationVersionId}}
               @iconBefore="add"
-              @isDisabled={{this.isPossibleToCreate}}
+              @isDisabled={{this.canCreateVersion}}
             >
               {{t "components.certification-frameworks.item.framework.create-button"}}
             </PixButtonLink>

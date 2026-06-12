@@ -7,11 +7,12 @@ export default class CertificationFrameworkItem extends Controller {
 
   get showCreationVersionButton() {
     if (
-      !this.currentUser.adminMember.isSuperAdmin ||
-      this.model.certificationFramework?.name === 'CLEA' ||
-      this.router.currentRouteName !== 'authenticated.certification-frameworks.item.framework.index'
-    )
-      return false;
-    return true;
+      this.currentUser.adminMember.isSuperAdmin &&
+      this.router.currentRouteName === 'authenticated.certification-frameworks.item.framework.index' &&
+      this.model.certificationFramework?.name !== 'CLEA'
+    ) {
+      return true;
+    }
+    return false;
   }
 }

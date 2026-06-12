@@ -21,6 +21,6 @@ export class CertificationVersionForbiddenDeletionError extends DomainError {
 
 export class CertificationVersionDraftAlreadyExistError extends DomainError {
   constructor() {
-    super('Il est interdit de créer une nouvelle version en mode draft si une exist existe déjà');
+    super("Il est interdit de créer une nouvelle version lorsqu'il y en a déjà une en cours d'édition");
   }
 }
