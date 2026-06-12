@@ -178,7 +178,7 @@ export class CleaV3Seed {
       firstName: pixAppUser.firstName,
       lastName: pixAppUser.lastName,
       sex: 'F',
-      birthdate: new Date(candidateBirthdate),
+      birthdate: candidateBirthdate,
       birthCountry: 'France',
       birthINSEECode: '75115',
       email: pixAppUser.email,
