@@ -6,17 +6,21 @@ import { service } from '@ember/service';
 import { recordIdentifierFor } from '@ember-data/store';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
-import { gt } from 'ember-truth-helpers';
+import { eq, gt } from 'ember-truth-helpers';
 
 import Badges from '../campaign/badges';
-import { getCourseInfo } from './course-card.gjs';
+import { COMBINED_COURSE_BLUEPRINT, getCourseInfo, TARGET_PROFILE_OVERVIEW } from './course-card.gjs';
+import TargetProfileContent from './course-modal/target-profile-content.gjs';
 
 export default class CourseModal extends Component {
   @service currentUser;
 
   get courseTypeInfo() {
-    const type = recordIdentifierFor(this.args.currentCourse).type;
-    return getCourseInfo(type);
+    return getCourseInfo(this.courseType);
+  }
+
+  get courseType() {
+    return recordIdentifierFor(this.args.currentCourse).type;
   }
 
   get hasReachedPlacesLimit() {
@@ -56,7 +60,13 @@ export default class CourseModal extends Component {
         aria-describedby="modal-content--{{this.id}}"
         aria-modal="true"
       >
-        <div class="course-modal__course-content"></div>
+        <div class="course-modal__course-content">
+          {{#if (eq this.courseType TARGET_PROFILE_OVERVIEW)}}
+            <TargetProfileContent @currentCourse={{@currentCourse}} />
+          {{else if (eq this.courseType COMBINED_COURSE_BLUEPRINT)}}
+            {{! TODO BlueprintContent Component }}
+          {{/if}}
+        </div>
         <div class="course-modal__course-details">
           <div class="course-modal__header">
             <PixButton

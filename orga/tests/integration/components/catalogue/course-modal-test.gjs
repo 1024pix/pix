@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 import CourseModal from 'pix-orga/components/catalogue/course-modal';
 import { module, test } from 'qunit';
@@ -68,6 +68,112 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       assert.dom(screen.getByText(currentCourse.name)).exists();
       assert.dom(screen.getByText(currentCourse.description)).exists();
       assert.dom(screen.getByText(t('pages.catalogue.card.tag.target-profile'))).exists();
+    });
+
+    test('it shows the target profile tubes', async function (assert) {
+      const tubesPix = [
+        await store.createRecord('tube', {
+          id: 'tubeId1Pix',
+          practicalTitle: 'Titre 1 Tube Pix',
+          practicalDescription: 'Description 1',
+          maxLevel: 4,
+        }),
+        await store.createRecord('tube', {
+          id: 'tubeId2Pix',
+          practicalTitle: 'Titre 2 Tube Pix',
+          practicalDescription: 'Description 2',
+          maxLevel: 2,
+        }),
+      ];
+      const thematicsPix = [
+        await store.createRecord('thematic', {
+          id: 'thematicId1',
+          name: 'thematic1',
+          tubes: tubesPix,
+        }),
+      ];
+      const competencesPix = [
+        await store.createRecord('competence', {
+          id: 'competencePix1',
+          index: '1.1',
+          name: 'Competence 1',
+          thematics: thematicsPix,
+        }),
+      ];
+      const areasPix = [
+        await store.createRecord('area', {
+          id: 'area-pix1',
+          title: 'Titre domaine Pix',
+          code: 1,
+          competences: competencesPix,
+        }),
+      ];
+
+      const tubesEdu = [
+        await store.createRecord('tube', {
+          id: 'tubeIdEdu1',
+          practicalTitle: 'Titre 1 Tube Edu',
+          practicalDescription: 'Description 1 Tube Edu',
+          maxLevel: 3,
+        }),
+      ];
+      const thematicsEdu = [
+        await store.createRecord('thematic', {
+          id: 'thematicIdEdu',
+          name: 'thematic1',
+          tubes: tubesEdu,
+        }),
+      ];
+      const competencesEdu = [
+        await store.createRecord('competence', {
+          id: 'competenceEdu1',
+          thematics: thematicsEdu,
+        }),
+      ];
+      const areasEdu = [
+        await store.createRecord('area', {
+          id: 'area-edu',
+          title: 'Titre domaine Edu',
+          code: 1,
+          competences: competencesEdu,
+        }),
+      ];
+
+      const pixFramework = await store.createRecord('framework', {
+        id: 'fmkId1',
+        name: 'Pix',
+        areas: areasPix,
+      });
+      const eduFramework = await store.createRecord('framework', {
+        id: 'fmkId2',
+        name: 'Edu+',
+        areas: areasEdu,
+      });
+
+      const currentCourse = await store.createRecord('target-profile-overview', {
+        name: 'Ma super formation',
+        description: 'description',
+        frameworks: [pixFramework, eduFramework],
+      });
+
+      //when
+      const screen = await render(
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(screen.getByRole('heading', { name: `${competencesPix[0].index} - ${competencesPix[0].name}` }))
+        .exists();
+
+      const firstCompetence = screen.getByRole('table', {
+        name: `${competencesPix[0].index} - ${competencesPix[0].name}`,
+      });
+      assert.dom(within(firstCompetence).getByText(tubesPix[0].practicalTitle)).exists();
+      assert.dom(within(firstCompetence).getByText(tubesPix[0].practicalDescription)).exists();
+      assert.dom(within(firstCompetence).getByText(tubesPix[0].maxLevel)).exists();
     });
   });
 

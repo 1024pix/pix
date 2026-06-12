@@ -16,6 +16,45 @@
 
   &__course-content {
     flex: 1;
+    overflow-y: scroll;
+    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+  }
+  &__competence {
+    padding-bottom: var(--pix-spacing-2x);
+
+    & > h2 {
+      @extend %pix-title-xxs;
+      margin-top: var(--pix-spacing-2x);
+      margin-bottom: var(--pix-spacing-2x);
+    }
+
+    &__description {
+      &__column {
+        width: 75%;
+      }
+      &__title {
+        display: block;
+        margin-bottom: var(--pix-spacing-2x);
+        font-weight: var(--pix-font-bold);
+      }
+      &__text {
+        display: block;
+      }
+    }
+    &__level {
+      &__column {
+        width: 25%;
+
+        & .pix-table-header-container {
+          justify-content: center;
+        }
+      }
+      &__data {
+        display: block;
+        width: 100%;
+        text-align: center;
+      }
+    }
   }
 
   &__course-details {
