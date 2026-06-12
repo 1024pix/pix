@@ -3,8 +3,9 @@ import sinon from 'sinon';
 import { CombinedCourseStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import {
-  COMBINED_COURSE_ITEM_TYPES,
-  CombinedCourseItem,
+  CampaignCombinedCourseItem,
+  ModuleCombinedCourseItem,
+  TrainingCombinedCourseItem,
 } from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
@@ -105,7 +106,6 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           id: campaign.id,
           reference: campaign.code,
           title: campaign.title,
-          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
           masteryRate: null,
           redirection: undefined,
           participationStatus: undefined,
@@ -120,40 +120,32 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           id: moduleId1,
           reference: 'bac-a-sable',
           title: 'Bac à sable',
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
-          masteryRate: null,
           redirection: 'encryptedUrl',
           participationStatus: undefined,
           isCompleted: false,
           isLocked: true,
           duration: 5,
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
-          totalStagesCount: null,
-          validatedStagesCount: null,
           shortId: '6a68bf32',
         },
         {
           id: moduleId2,
           reference: 'bases-clavier-1',
           title: 'Les bases du clavier sur ordinateur 1/2',
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
-          masteryRate: null,
           redirection: 'encryptedUrl',
           participationStatus: undefined,
           isCompleted: false,
           isLocked: true,
           duration: 30,
           image: 'https://assets.pix.org/modules/1emarche-clavier1/picto-1eremarche_clavier1.svg',
-          totalStagesCount: null,
-          validatedStagesCount: null,
           shortId: '740d5aa9',
         },
       ]);
       expect(result.id).to.equal(combinedCourseId);
       expect(result.status).to.equal(CombinedCourseStatuses.NOT_STARTED);
-      expect(result.items[0]).instanceOf(CombinedCourseItem);
-      expect(result.items[1]).instanceOf(CombinedCourseItem);
-      expect(result.items[2]).instanceOf(CombinedCourseItem);
+      expect(result.items[0]).instanceOf(CampaignCombinedCourseItem);
+      expect(result.items[1]).instanceOf(ModuleCombinedCourseItem);
+      expect(result.items[2]).instanceOf(ModuleCombinedCourseItem);
     });
 
     it('should return started combined course', async function () {
@@ -233,7 +225,6 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           id: campaign.id,
           reference: campaign.code,
           title: campaign.title,
-          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
           masteryRate: 0.5,
           redirection: undefined,
           participationStatus: CampaignParticipationStatuses.SHARED,
@@ -248,41 +239,33 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           id: moduleId1,
           reference: 'bac-a-sable',
           title: 'Bac à sable',
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
-          masteryRate: null,
           redirection: 'encryptedUrl',
           participationStatus: OrganizationLearnerParticipationStatuses.COMPLETED,
           isCompleted: true,
           isLocked: false,
           duration: 5,
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
-          totalStagesCount: null,
-          validatedStagesCount: null,
           shortId: '6a68bf32',
         },
         {
           id: moduleId3,
           reference: 'bien-ecrire-son-adresse-mail',
           title: 'Bien écrire une adresse mail',
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
-          masteryRate: null,
           redirection: 'encryptedUrl',
           participationStatus: undefined,
           isCompleted: false,
           isLocked: false,
           duration: 10,
           image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
-          totalStagesCount: null,
-          validatedStagesCount: null,
           shortId: '9d4dcab8',
         },
       ]);
 
       expect(result.id).to.equal(combinedCourseId);
       expect(result.status).to.equal(CombinedCourseStatuses.STARTED);
-      expect(result.items[0]).instanceOf(CombinedCourseItem);
-      expect(result.items[1]).instanceOf(CombinedCourseItem);
-      expect(result.items[2]).instanceOf(CombinedCourseItem);
+      expect(result.items[0]).instanceOf(CampaignCombinedCourseItem);
+      expect(result.items[1]).instanceOf(ModuleCombinedCourseItem);
+      expect(result.items[2]).instanceOf(ModuleCombinedCourseItem);
       expect(result.surveyLink).to.equal();
     });
 
@@ -414,9 +397,9 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       // then
       expect(result.id).to.equal(combinedCourseId);
       expect(result.status).to.equal(CombinedCourseStatuses.NOT_STARTED);
-      expect(result.items[0]).instanceOf(CombinedCourseItem);
-      expect(result.items[1]).instanceOf(CombinedCourseItem);
-      expect(result.items[2]).instanceOf(CombinedCourseItem);
+      expect(result.items[0]).instanceOf(CampaignCombinedCourseItem);
+      expect(result.items[1]).instanceOf(TrainingCombinedCourseItem);
+      expect(result.items[2]).instanceOf(ModuleCombinedCourseItem);
     });
   });
 });
