@@ -1,5 +1,3 @@
-import capitalize from 'lodash/capitalize.js';
-
 export class User {
   id;
   #firstName;
@@ -12,11 +10,11 @@ export class User {
   }
 
   get firstName() {
-    return capitalize(this.#firstName.toLowerCase());
+    return this.#firstName.toUpperCase().trim();
   }
 
   get lastName() {
-    return this.#lastName.toUpperCase();
+    return this.#lastName.toUpperCase().trim();
   }
 
   toForm(createdAt, locale, transformStringForFileName) {

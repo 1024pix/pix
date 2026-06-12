@@ -62,7 +62,7 @@ describe('Profile | Integration | Domain | get-shared-attestations-for-organizat
         firstUser.toForm(firstProfileReward.createdAt, locale, normalizeAndRemoveAccents),
       ]);
       expect(results.template).to.be.not.null;
-      expect(results.data[0].get('firstName')).to.equal('Alex');
+      expect(results.data[0].get('firstName')).to.equal('ALEX');
       expect(results.data[0].get('lastName')).to.equal('TERIEUR');
     });
 
@@ -112,9 +112,9 @@ describe('Profile | Integration | Domain | get-shared-attestations-for-organizat
         locale,
       });
 
-      expect(results.data[0].get('firstName')).to.equal('Bob');
-      expect(results.data[1].get('firstName')).to.equal('Zoe');
-      expect(results.data[2].get('firstName')).to.equal('Alice');
+      expect(results.data[0].get('firstName')).to.equal('BOB');
+      expect(results.data[1].get('firstName')).to.equal('ZOE');
+      expect(results.data[2].get('firstName')).to.equal('ALICE');
     });
 
     it('should not return profile rewards for anonymous userIds', async function () {

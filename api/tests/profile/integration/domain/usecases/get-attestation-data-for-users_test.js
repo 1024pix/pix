@@ -53,9 +53,9 @@ describe('Profile | Integration | Domain | get-attestation-data-for-users', func
         secondUser.toForm(secondCreatedAt, locale, normalizeAndRemoveAccents),
       ]);
       expect(results.template).to.be.not.null;
-      expect(results.data[0].get('firstName')).to.equal('Alex');
+      expect(results.data[0].get('firstName')).to.equal('ALEX');
       expect(results.data[0].get('lastName')).to.equal('TERIEUR');
-      expect(results.data[1].get('firstName')).to.equal('Theo');
+      expect(results.data[1].get('firstName')).to.equal('THEO');
       expect(results.data[1].get('lastName')).to.equal('COURANT');
     });
 
