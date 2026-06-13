@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSessions } from '../../../../../../src/certification/enrolment/domain/usecases/create-sessions.js';
-import { EVENT_NAMES } from '../../../../../../src/certification/shared/domain/constants/event-names.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
@@ -14,7 +13,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   let centerRepository;
   let candidateRepository;
   let sessionRepository;
-  let eventApi;
+  let eventAdapter;
   let dependencies;
   let temporarySessionsStorageForMassImportService;
   let candidateData;
@@ -23,7 +22,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
     centerRepository = { getById: sinon.stub() };
     candidateRepository = { deleteBySessionId: sinon.stub(), save: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
-    eventApi = { pushEvents: sinon.stub() };
+    eventAdapter = { onCandidatesEnrolledWithMassSessionsImport: sinon.stub() };
     temporarySessionsStorageForMassImportService = {
       getByKeyAndUserId: sinon.stub(),
       remove: sinon.stub(),
@@ -33,7 +32,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       centerRepository,
       candidateRepository,
       sessionRepository,
-      eventApi,
+      eventAdapter,
       temporarySessionsStorageForMassImportService,
     };
 
@@ -60,7 +59,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(candidateRepository.save).not.to.have.been.called;
-      expect(eventApi.pushEvents).not.to.have.been.called;
+      expect(eventAdapter.onCandidatesEnrolledWithMassSessionsImport).not.to.have.been.called;
     });
   });
 
@@ -105,7 +104,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
           expect(candidateRepository.save).not.to.have.been.called;
-          expect(eventApi.pushEvents).to.have.been.calledOnceWith([]);
+          expect(eventAdapter.onCandidatesEnrolledWithMassSessionsImport).not.to.have.been.called;
         });
       });
 
@@ -158,14 +157,9 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           expect(candidateRepository.save).to.have.been.calledOnceWith({
             candidates: [savedCandidate],
           });
-          expect(eventApi.pushEvents).to.to.have.been.calledWithExactly([
-            {
-              name: EVENT_NAMES.CANDIDATE_ENROLLED_CSV,
-              candidateId: savedCandidate.id,
-              createdAt: savedCandidate.createdAt,
-              metadata: savedCandidate.toDTO(),
-            },
-          ]);
+          expect(eventAdapter.onCandidatesEnrolledWithMassSessionsImport).to.to.have.been.calledWithExactly({
+            candidates: [savedCandidate],
+          });
         });
       });
     });
@@ -208,14 +202,9 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         expect(candidateRepository.save).to.have.been.calledOnceWith({
           candidates: [savedCandidate],
         });
-        expect(eventApi.pushEvents).to.to.have.been.calledWithExactly([
-          {
-            name: EVENT_NAMES.CANDIDATE_ENROLLED_CSV,
-            candidateId: savedCandidate.id,
-            createdAt: savedCandidate.createdAt,
-            metadata: savedCandidate.toDTO(),
-          },
-        ]);
+        expect(eventAdapter.onCandidatesEnrolledWithMassSessionsImport).to.to.have.been.calledWithExactly({
+          candidates: [savedCandidate],
+        });
       });
     });
 

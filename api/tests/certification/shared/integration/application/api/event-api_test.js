@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { pushEvent, pushEvents } from '../../../../../../src/certification/shared/application/api/event-api.js';
+import { pushEvents } from '../../../../../../src/certification/shared/application/api/event-api.js';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
 import { knex } from '../../../../../tooling/databases.js';
 
@@ -17,52 +17,6 @@ describe('Certification | Shared | Integration | Application | API | Event', fun
     clock.restore();
     sinon.restore();
     return knex('certification_events').truncate();
-  });
-
-  describe('#pushEvent', function () {
-    it('persists an event', async function () {
-      const dtoEvent = {
-        candidateId: 123,
-        name: 'SomeEvent',
-        createdAt: new Date('2021-01-01T00:00:00Z'),
-        metadata: { foo: 'bar' },
-      };
-
-      await pushEvent(dtoEvent);
-
-      const events = await knex('certification_events').select();
-      sinon.assert.match(events, [
-        {
-          id: sinon.match.number,
-          eventName: 'SomeEvent',
-          candidateId: 123,
-          createdAt: new Date('2021-01-01T00:00:00Z'),
-          metadata: { foo: 'bar' },
-        },
-      ]);
-    });
-
-    it('logs a warn when something goes wrong, without throwing', async function () {
-      const dtoEvent = {
-        candidateId: 'ILLEGAL_VALUE',
-        name: 'SomeEvent',
-        createdAt: new Date('2021-01-01T00:00:00Z'),
-        metadata: { foo: 'bar' },
-      };
-
-      await pushEvent(dtoEvent);
-
-      const events = await knex('certification_events').select();
-      sinon.assert.match(events, []);
-      sinon.assert.calledWith(
-        warnSpy,
-        {
-          event: 'certification-events-push',
-          error: sinon.match.instanceOf(Error),
-        },
-        'Error while pushing certification events SomeEvent:ILLEGAL_VALUE',
-      );
-    });
   });
 
   describe('#pushEvents', function () {

@@ -4,7 +4,6 @@
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { EVENT_NAMES } from '../../../shared/domain/constants/event-names.js';
 import { Candidate } from '../models/Candidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 
@@ -12,7 +11,7 @@ import { SessionEnrolment } from '../models/SessionEnrolment.js';
  * @param {object} params
  * @param {deps["candidateRepository"]} params.candidateRepository
  * @param {deps["sessionRepository"]} params.sessionRepository
- * @param {deps["eventApi"]} params.eventApi
+ * @param {deps["eventAdapter"]} params.eventAdapter
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
 export async function createSessions({
@@ -20,7 +19,7 @@ export async function createSessions({
   cachedValidatedSessionsKey,
   candidateRepository,
   sessionRepository,
-  eventApi,
+  eventAdapter,
   temporarySessionsStorageForMassImportService,
 }) {
   const temporaryCachedSessions = await temporarySessionsStorageForMassImportService.getByKeyAndUserId({
@@ -32,7 +31,6 @@ export async function createSessions({
     throw new NotFoundError();
   }
 
-  const dtoEvents = [];
   await DomainTransaction.execute(async () => {
     for (const sessionDTO of temporaryCachedSessions) {
       let { id: sessionId } = sessionDTO;
@@ -54,18 +52,11 @@ export async function createSessions({
           sessionId,
           candidateRepository,
         });
-        const dtoEventsForThisSession = savedCandidates.map((savedCandidate) => ({
-          name: EVENT_NAMES.CANDIDATE_ENROLLED_CSV,
-          candidateId: savedCandidate.id,
-          createdAt: savedCandidate.createdAt,
-          metadata: savedCandidate.toDTO(),
-        }));
-        dtoEvents.push(...dtoEventsForThisSession);
+        await eventAdapter.onCandidatesEnrolledWithMassSessionsImport({ candidates: savedCandidates });
       }
     }
   });
 
-  await eventApi.pushEvents(dtoEvents);
   await temporarySessionsStorageForMassImportService.remove({
     cachedValidatedSessionsKey,
     userId,

@@ -189,36 +189,4 @@ export class Candidate {
   isRegisteredToDoubleCertification() {
     return this.subscription === Frameworks.CLEA;
   }
-
-  toDTO() {
-    return {
-      id: this.id,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      birthCity: this.birthCity,
-      birthProvinceCode: this.birthProvinceCode,
-      birthCountry: this.birthCountry,
-      birthPostalCode: this.birthPostalCode,
-      birthINSEECode: this.birthINSEECode,
-      sex: this.sex,
-      email: this.email,
-      resultRecipientEmail: this.resultRecipientEmail,
-      externalId: this.externalId,
-      birthdate: this.birthdate,
-      extraTimePercentage: this.extraTimePercentage,
-      createdAt: this.createdAt,
-      authorizedToStart: this.authorizedToStart,
-      sessionId: this.sessionId,
-      userId: this.userId,
-      organizationLearnerId: this.organizationLearnerId,
-      billingMode: this.billingMode,
-      prepaymentCode: this.prepaymentCode,
-      hasSeenCertificationInstructions: this.hasSeenCertificationInstructions,
-      subscription: this.subscription,
-      accessibilityAdjustmentNeeded: this.accessibilityAdjustmentNeeded,
-      reconciledAt: this.reconciledAt,
-      hasStartedTest: this.hasStartedTest,
-      isLinked: this.isLinked,
-    };
-  }
 }

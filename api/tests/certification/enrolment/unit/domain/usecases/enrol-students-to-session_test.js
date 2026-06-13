@@ -4,7 +4,6 @@ import { UnknownCountryForStudentEnrolmentError } from '../../../../../../src/ce
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { enrolStudentsToSession } from '../../../../../../src/certification/enrolment/domain/usecases/enrol-students-to-session.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { EVENT_NAMES } from '../../../../../../src/certification/shared/domain/constants/event-names.js';
 import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -19,7 +18,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
   const certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
   const certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
   let certificationCpfService;
-  let eventApi;
+  let eventAdapter;
   let dependencies;
   const sessionId = 123,
     certificationCenterId = 456,
@@ -65,7 +64,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
     certificationCpfService = {
       getBirthInformation: sinon.stub(),
     };
-    eventApi = { pushEvents: sinon.stub() };
+    eventAdapter = { onCandidatesEnrolledSco: sinon.stub() };
 
     sessionRepository.get
       .withArgs({ id: sessionId })
@@ -92,7 +91,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       certificationCpfCityRepository,
       certificationCpfCountryRepository,
       certificationCpfService,
-      eventApi,
+      eventAdapter,
     };
   });
 
@@ -106,7 +105,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
 
       // then
       expect(candidateRepository.save).to.not.have.been.called;
-      expect(eventApi.pushEvents).to.not.have.been.called;
+      expect(eventAdapter.onCandidatesEnrolledSco).to.not.have.been.called;
     });
 
     it('enrols students to the session', async function () {
@@ -188,20 +187,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
           }),
         ],
       });
-      expect(eventApi.pushEvents).to.have.been.calledWithExactly([
-        {
-          name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
-          candidateId: 1,
-          createdAt: savedCandidates[0].createdAt,
-          metadata: savedCandidates[0].toDTO(),
-        },
-        {
-          name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
-          candidateId: 2,
-          createdAt: savedCandidates[1].createdAt,
-          metadata: savedCandidates[1].toDTO(),
-        },
-      ]);
+      expect(eventAdapter.onCandidatesEnrolledSco).to.have.been.calledWithExactly({ candidates: savedCandidates });
     });
 
     it('prevents from enrolling twice the same student if a student is already enrolled', async function () {
@@ -260,14 +246,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
           }),
         ],
       });
-      expect(eventApi.pushEvents).to.have.been.calledWithExactly([
-        {
-          name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
-          candidateId: 1,
-          createdAt: savedCandidates[0].createdAt,
-          metadata: savedCandidates[0].toDTO(),
-        },
-      ]);
+      expect(eventAdapter.onCandidatesEnrolledSco).to.have.been.calledWithExactly({ candidates: savedCandidates });
     });
   });
 
@@ -300,7 +279,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       // then
       expect(error).to.be.instanceof(ForbiddenAccess);
       expect(candidateRepository.save).to.not.have.been.called;
-      expect(eventApi.pushEvents).to.not.have.been.called;
+      expect(eventAdapter.onCandidatesEnrolledSco).to.not.have.been.called;
     });
   });
 
@@ -340,7 +319,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
           "L'élève Jeannette Leto a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix",
         );
         expect(candidateRepository.save).to.not.have.been.called;
-        expect(eventApi.pushEvents).to.not.have.been.called;
+        expect(eventAdapter.onCandidatesEnrolledSco).to.not.have.been.called;
       });
     });
 
@@ -441,20 +420,9 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
             }),
           ],
         });
-        expect(eventApi.pushEvents).to.have.been.calledWithExactly([
-          {
-            name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
-            candidateId: 1,
-            createdAt: savedCandidates[0].createdAt,
-            metadata: savedCandidates[0].toDTO(),
-          },
-          {
-            name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
-            candidateId: 2,
-            createdAt: savedCandidates[1].createdAt,
-            metadata: savedCandidates[1].toDTO(),
-          },
-        ]);
+        expect(eventAdapter.onCandidatesEnrolledSco).to.have.been.calledWithExactly({
+          candidates: savedCandidates,
+        });
       });
     });
   });

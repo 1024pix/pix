@@ -12,31 +12,11 @@ import * as eventRepository from '../../infrastructure/repositories/event-reposi
 
 /**
  * @function
- * @name pushEvent
- * @param {DTOEvent} dtoEvent
- * @returns {Promise<void>}
- */
-export async function pushEvent(dtoEvent) {
-  await _pushEvents([dtoEvent]);
-}
-
-/**
- * @function
  * @name pushEvents
  * @param {DTOEvent[]} dtoEvents
  * @returns {Promise<void>}
  */
 export async function pushEvents(dtoEvents) {
-  await _pushEvents(dtoEvents);
-}
-
-/**
- * @function
- * @name _pushEvents
- * @param {DTOEvent[]} dtoEvents
- * @returns {Promise<void>}
- */
-async function _pushEvents(dtoEvents) {
   const events = [];
   for (const dtoEvent of dtoEvents) {
     const event = new Event({
