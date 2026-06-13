@@ -55,7 +55,7 @@ export async function createSessions({
           candidateRepository,
         });
         const dtoEventsForThisSession = savedCandidates.map((savedCandidate) => ({
-          name: EVENT_NAMES.CANDIDATE_ENROLLED,
+          name: EVENT_NAMES.CANDIDATE_ENROLLED_CSV,
           candidateId: savedCandidate.id,
           createdAt: savedCandidate.createdAt,
           metadata: savedCandidate.toDTO(),

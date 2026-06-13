@@ -50,7 +50,7 @@ export async function importCertificationCandidatesFromCandidatesImportSheet({
     return candidateRepository.save({ candidates });
   });
   const dtoEvents = savedCandidates.map((savedCandidate) => ({
-    name: EVENT_NAMES.CANDIDATE_ENROLLED,
+    name: EVENT_NAMES.CANDIDATE_ENROLLED_ODS,
     candidateId: savedCandidate.id,
     createdAt: savedCandidate.createdAt,
     metadata: savedCandidate.toDTO(),

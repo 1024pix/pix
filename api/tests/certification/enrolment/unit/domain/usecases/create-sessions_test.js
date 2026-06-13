@@ -160,7 +160,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           });
           expect(eventApi.pushEvents).to.to.have.been.calledWithExactly([
             {
-              name: EVENT_NAMES.CANDIDATE_ENROLLED,
+              name: EVENT_NAMES.CANDIDATE_ENROLLED_CSV,
               candidateId: savedCandidate.id,
               createdAt: savedCandidate.createdAt,
               metadata: savedCandidate.toDTO(),
@@ -210,7 +210,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         });
         expect(eventApi.pushEvents).to.to.have.been.calledWithExactly([
           {
-            name: EVENT_NAMES.CANDIDATE_ENROLLED,
+            name: EVENT_NAMES.CANDIDATE_ENROLLED_CSV,
             candidateId: savedCandidate.id,
             createdAt: savedCandidate.createdAt,
             metadata: savedCandidate.toDTO(),

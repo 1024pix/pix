@@ -97,7 +97,7 @@ export async function enrolStudentsToSession({
 
   const savedCandidates = await candidateRepository.save({ candidates: scoCertificationCandidates });
   const dtoEvents = savedCandidates.map((savedCandidate) => ({
-    name: EVENT_NAMES.CANDIDATE_ENROLLED,
+    name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
     candidateId: savedCandidate.id,
     createdAt: savedCandidate.createdAt,
     metadata: savedCandidate.toDTO(),

@@ -325,7 +325,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
               });
               expect(id).to.equal(correctedCandidateToEnroll.id);
               expect(eventApi.pushEvent).to.to.have.been.calledWithExactly({
-                name: EVENT_NAMES.CANDIDATE_ENROLLED,
+                name: EVENT_NAMES.CANDIDATE_ENROLLED_INDIVIDUAL,
                 candidateId: correctedCandidateToEnroll.id,
                 createdAt: correctedCandidateToEnroll.createdAt,
                 metadata: correctedCandidateToEnroll.toDTO(),

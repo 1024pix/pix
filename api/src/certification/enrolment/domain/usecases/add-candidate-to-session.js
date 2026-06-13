@@ -120,7 +120,7 @@ export async function addCandidateToSession({
 
   const [savedCandidate] = await candidateRepository.save({ candidates: [candidate] });
   await eventApi.pushEvent({
-    name: EVENT_NAMES.CANDIDATE_ENROLLED,
+    name: EVENT_NAMES.CANDIDATE_ENROLLED_INDIVIDUAL,
     candidateId: savedCandidate.id,
     createdAt: savedCandidate.createdAt,
     metadata: savedCandidate.toDTO(),

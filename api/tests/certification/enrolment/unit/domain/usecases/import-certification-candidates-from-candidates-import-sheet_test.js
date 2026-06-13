@@ -148,7 +148,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           expect(candidateRepository.deleteBySessionId.calledBefore(candidateRepository.save)).to.be.true;
           expect(eventApi.pushEvents).to.to.have.been.calledWithExactly([
             {
-              name: EVENT_NAMES.CANDIDATE_ENROLLED,
+              name: EVENT_NAMES.CANDIDATE_ENROLLED_ODS,
               candidateId: candidate.id,
               createdAt: candidate.createdAt,
               metadata: candidate.toDTO(),

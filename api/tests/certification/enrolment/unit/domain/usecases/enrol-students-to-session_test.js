@@ -190,13 +190,13 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       });
       expect(eventApi.pushEvents).to.have.been.calledWithExactly([
         {
-          name: EVENT_NAMES.CANDIDATE_ENROLLED,
+          name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
           candidateId: 1,
           createdAt: savedCandidates[0].createdAt,
           metadata: savedCandidates[0].toDTO(),
         },
         {
-          name: EVENT_NAMES.CANDIDATE_ENROLLED,
+          name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
           candidateId: 2,
           createdAt: savedCandidates[1].createdAt,
           metadata: savedCandidates[1].toDTO(),
@@ -262,7 +262,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       });
       expect(eventApi.pushEvents).to.have.been.calledWithExactly([
         {
-          name: EVENT_NAMES.CANDIDATE_ENROLLED,
+          name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
           candidateId: 1,
           createdAt: savedCandidates[0].createdAt,
           metadata: savedCandidates[0].toDTO(),
@@ -443,13 +443,13 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
         });
         expect(eventApi.pushEvents).to.have.been.calledWithExactly([
           {
-            name: EVENT_NAMES.CANDIDATE_ENROLLED,
+            name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
             candidateId: 1,
             createdAt: savedCandidates[0].createdAt,
             metadata: savedCandidates[0].toDTO(),
           },
           {
-            name: EVENT_NAMES.CANDIDATE_ENROLLED,
+            name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
             candidateId: 2,
             createdAt: savedCandidates[1].createdAt,
             metadata: savedCandidates[1].toDTO(),
