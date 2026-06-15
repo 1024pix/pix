@@ -172,6 +172,11 @@ async function update({ id, attributesToUpdate }) {
     'editorName',
     'editorLogoUrl',
     'isDisabled',
+    'deliveryMode',
+    'registrationRequired',
+    'program',
+    'objectives',
+    'description',
   ]);
   const knexConn = DomainTransaction.getConnection();
   const [updatedTraining] = await knexConn(TABLE_NAME)
