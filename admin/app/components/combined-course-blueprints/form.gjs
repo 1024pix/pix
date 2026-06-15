@@ -149,6 +149,14 @@ export default class CombinedCourseBlueprintForm extends Component {
     this.blueprint.content = this.blueprint.content.filter((item) => item.value !== value || item.type !== type);
   }
 
+  @action
+  updateTubes(tubes) {
+    this.selectedTubes = tubes.map(({ id, level }) => ({
+      id,
+      level,
+    }));
+  }
+
   <template>
     <PixBlock @variant="admin" class="combined-course-page">
 
@@ -263,9 +271,9 @@ export default class CombinedCourseBlueprintForm extends Component {
             @value={{this.blueprint.rewardId}}
             @onChange={{this.setAttestation}}
           />
-        {{/unless}}
 
-        <TubesSelection @frameworks={{@model.frameworks}} />
+          <TubesSelection @frameworks={{@model.frameworks}} @onChange={{this.updateTubes}} />
+        {{/unless}}
 
         <PixInput
           @id="surveyLink"

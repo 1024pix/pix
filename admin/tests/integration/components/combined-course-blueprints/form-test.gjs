@@ -23,17 +23,24 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
       const findRecordStub = sinon.stub(store, 'findRecord');
-      const attestations = [
-        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
-        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
-      ];
       findRecordStub
         .withArgs('module', 'module-123')
         .resolves({ id: 'full-id-module-123', shortId: 'module-123', title: 'module 123' });
       findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
 
+      const attestations = [
+        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
+      ];
+      const frameworks = [{
+        id: 123,
+        name: 'Pix',
+        areas: [],
+      }];
+      const model = { attestations, frameworks };
+
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm @attestations={{attestations}} /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
@@ -198,8 +205,17 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
 
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        }
+      ]
+      const model = { frameworks };
+
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
 
@@ -226,8 +242,17 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
 
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        }
+      ]
+      const model = { frameworks };
+
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
 
