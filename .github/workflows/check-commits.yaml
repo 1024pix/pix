@@ -2,8 +2,6 @@ name: commits check
 
 on:
   pull_request:
-  merge_group:
-    types: [checks_requested]
 
 jobs:
   block-autosquash-commits:
