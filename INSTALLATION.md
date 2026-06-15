@@ -67,7 +67,7 @@ Le script d'installation effectue les tâches suivantes :
 - installer les librairies communes à tous les projets
 
 Il prend moins de 5 minutes.
-Exécutez-le avec  `npm run configure`
+Exécutez-le avec `npm run configure`
 
 Vérifiez que le script s'est bien terminé : le message "🎉 Congratulations! Your environment has been set up." doit être
 affiché. Si ce n'est pas le cas, contactez les équipes de développement en
@@ -118,12 +118,11 @@ Se connecter à la base de données :
 - de test manuel : `docker exec -it pix-api-postgres psql -U postgres pix`;
 - de test automatique : `docker exec -it pix-api-postgres psql -U postgres pix_test`.
 
-Se connecter au cache :  `docker exec -it pix-api-redis redis-cli`
+Se connecter au cache : `docker exec -it pix-api-redis redis-cli`
 
 #### Configuration
 
-Pix s'appuie sur la bibliothèque [Dotenv](https://github.com/motdotla/dotenv) pour gérer les variables d'environnement
-en local.
+Pix s'appuie sur des fichiers `.env` pour gérer les variables d'environnement en local.
 
 Le script `scripts/configure.sh` génère un fichier [.env](api/.env) standard.
 
@@ -202,14 +201,14 @@ ci-dessous.
    ```
 
 2. Définir la variable d’environnement `OIDC_PROVIDERS` avec le contenu du
-fichier `OIDC_PROVIDERS.json` :
+   fichier `OIDC_PROVIDERS.json` :
 
    ```shell
    export OIDC_PROVIDERS=$(cat OIDC_PROVIDERS.json)
    ```
 
 3. Exécuter le chargement des seeds avec du debug pour constater le bon
-chargement des SSO OIDC :
+   chargement des SSO OIDC :
 
    ```shell
    export DEBUG="pix:oidc-providers:*"
@@ -230,7 +229,7 @@ MAILING_ENABLED=true
 MAILING_PROVIDER=mailpit
 ```
 
-Mailpit est inclus dans les images du fichier docker-compose.yml et sera donc lancé automatiquement.  
+Mailpit est inclus dans les images du fichier docker-compose.yml et sera donc lancé automatiquement.
 
 On peut accéder à l'interface web Mailpit à l'adresse http://localhost:8025.
 
@@ -244,4 +243,3 @@ export DEBUG="pix:mailer:email"
 ```
 
 Cette variable d'environnement peut également être alimentée dans le fichier [.env](api/.env).
-
