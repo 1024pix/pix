@@ -32,11 +32,13 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
         { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
       ];
-      const frameworks = [{
-        id: 123,
-        name: 'Pix',
-        areas: [],
-      }];
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        },
+      ];
       const model = { attestations, frameworks };
 
       //when
@@ -210,8 +212,8 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           id: 123,
           name: 'Pix',
           areas: [],
-        }
-      ]
+        },
+      ];
       const model = { frameworks };
 
       //when
@@ -247,8 +249,8 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           id: 123,
           name: 'Pix',
           areas: [],
-        }
-      ]
+        },
+      ];
       const model = { frameworks };
 
       //when

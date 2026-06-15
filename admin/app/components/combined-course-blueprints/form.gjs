@@ -28,7 +28,7 @@ export default class CombinedCourseBlueprintForm extends Component {
 
   constructor() {
     super(...arguments);
-    this.blueprint = this.args.model ?? this.store.createRecord('combined-course-blueprint');
+    this.blueprint = this.args.model.blueprint ?? this.store.createRecord('combined-course-blueprint');
     this.router.on('routeWillChange', () => {
       if (this.blueprint.hasDirtyAttributes && !this.blueprint.isSaving) {
         this.blueprint.unloadRecord();
@@ -102,6 +102,7 @@ export default class CombinedCourseBlueprintForm extends Component {
       });
       this.router.transitionTo('authenticated.combined-course-blueprints.list');
     } catch (responseError) {
+      console.log(responseError);
       if (!responseError.errors) {
         return this.pixToast.sendErrorNotification({
           message: this.args.updateMode
