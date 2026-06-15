@@ -20,17 +20,27 @@ export default class FrameworkRoute extends Route {
     if (params?.activeVersionId) {
       activeVersion = await this.store.findRecord('certification-version', params.activeVersionId);
     }
+
+    const draftVersion = item.frameworkHistory.history?.find(
+      (frameweworkHistory) => frameweworkHistory.status === 'DRAFT',
+    );
+
     return RSVP.hash({
       frameworks,
       scope: item.frameworkKey,
       activeVersion,
+      draftVersion,
     });
   }
 
-  afterModel() {
-    //todo faire des vérifs de présente d'une draft existante avec un paramId
-    // si présente on par direct coté config
-    //  si non présente on par sur les tubes
-    this.router.transitionTo('authenticated.certification-frameworks.item.framework.new-version.tubes');
+  async afterModel(model) {
+    if (model.draftVersion?.id) {
+      this.router.transitionTo(
+        'authenticated.certification-frameworks.item.framework.new-version.configuration',
+        model.draftVersion?.id,
+      );
+    } else {
+      this.router.transitionTo('authenticated.certification-frameworks.item.framework.new-version.tubes');
+    }
   }
 }

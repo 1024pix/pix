@@ -607,16 +607,8 @@ export default function routes() {
     };
   });
 
-  this.get('admin/certification-frameworks/:scope/framework-history', (_, request) => {
-    return {
-      data: {
-        id: request.params.scope,
-        type: 'framework-histories',
-        attributes: {
-          history: [],
-        },
-      },
-    };
+  this.get('admin/certification-frameworks/:scope/framework-history', (schema) => {
+    return schema.frameworkHistories.first();
   });
 
   this.put('/admin/sessions/:id/comment', (schema, request) => {

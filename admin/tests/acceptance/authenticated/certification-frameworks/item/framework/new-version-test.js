@@ -8,11 +8,41 @@ import { module, test } from 'qunit';
 module('Acceptance | Certification Framework | item | Framework | new-version', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-
+  let coreFrameworkHistory, droitFrameworkHistory;
   hooks.beforeEach(function () {
-    server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
-    server.create('framework', { id: 'Pix', name: 'Pix' });
-    server.create('framework-history', { id: 'DROIT' });
+    coreFrameworkHistory = server.create('framework-history', {
+      history: [
+        {
+          id: 13,
+          startDate: new Date('2023-10-10'),
+          expirationDate: null,
+          assessmentDuration: 90,
+          maximumAssessmentLength: 32,
+          status: 'ACTIVE',
+        },
+        {
+          id: 14,
+          startDate: null,
+          expirationDate: null,
+          assessmentDuration: 90,
+          maximumAssessmentLength: 32,
+          status: 'DRAFT',
+        },
+      ],
+    });
+    droitFrameworkHistory = server.create('framework-history', {
+      history: [
+        {
+          id: 12,
+          startDate: new Date('2023-10-10'),
+          expirationDate: null,
+          assessmentDuration: 90,
+          maximumAssessmentLength: 32,
+          status: 'ACTIVE',
+        },
+      ],
+    });
+
     const tube = server.create('tube', {
       id: 'tubeId2',
       name: '@tubeName2',
@@ -35,56 +65,119 @@ module('Acceptance | Certification Framework | item | Framework | new-version', 
         title: 'Titre domaine',
         code: 1,
         competences,
-        frameworkId: 'frameworkId',
+        frameworkId: 'Pix+',
       }),
     ];
-    server.create('framework', { id: 'frameworkId', name: 'DROIT', areas });
+    const areas2 = [
+      server.create('area', {
+        id: 'areaId2',
+        title: 'Titre domaine',
+        code: 2,
+        competences,
+        frameworkId: 'Pix',
+      }),
+    ];
+    server.create('framework', { id: 'Pix+', name: 'DROIT', areas });
+    server.create('framework', { id: 'Pix', name: 'Pix', areas: areas2 });
 
-    server.create('certification-version', { id: 12, startDate: new Date(), expirationDate: null, areas });
+    server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
+    server.create('certification-framework', { id: 'Pix', name: 'CORE' });
+
+    server.create('certification-version', {
+      id: 12,
+      startDate: new Date(),
+      scope: 'DROIT',
+      expirationDate: null,
+      areas,
+    });
+    server.create('certification-version', {
+      id: 13,
+      startDate: new Date(),
+      scope: 'CORE',
+      expirationDate: null,
+      areas: areas2,
+    });
+    server.create('certification-version', {
+      id: 14,
+      startDate: null,
+      scope: 'CORE',
+      expirationDate: null,
+      areas: areas2,
+    });
   });
 
   module('when admin member has role "SUPER ADMIN"', function () {
-    test('should be redirected to the tube selection route with preselected tubes ', async function (assert) {
-      // given
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+    module('when there is already a draftVersion in scope', function () {
+      test('should be redirected to the configuration route', async function (assert) {
+        // given
+        server.get('admin/certification-frameworks/:scope/framework-history', () => {
+          return coreFrameworkHistory;
+        });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-      // when
-      const screen = await visit(`/certification-frameworks/DROIT/framework/new-version?activeVersionId=12`);
+        // when
+        const screen = await visit(`/certification-frameworks/CORE/framework/new-version?activeVersionId=13`);
 
-      // then
-      assert.strictEqual(
-        currentURL(),
-        '/certification-frameworks/DROIT/framework/new-version/tubes?activeVersionId=12',
-      );
+        // then
+        assert.strictEqual(
+          currentURL(),
+          '/certification-frameworks/CORE/framework/new-version/14/configuration?activeVersionId=13',
+        );
 
-      assert.dom(screen.getByRole('button', { name: 'Référentiels :' })).exists();
-      await click(screen.getByRole('button', { name: 'Référentiels :' }));
-      assert.dom(await screen.findByRole('checkbox', { name: 'DROIT' })).isChecked();
-      assert.dom(screen.getByText('1/1 sujet(s) sélectionné(s)'));
+        assert.dom(await screen.findByText('configuration wow !')).exists();
+      });
     });
 
-    test('should redirect to the configuration page when click on next', async function (assert) {
-      // given
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+    module('when the is no draftversion in scope', function () {
+      test('should be redirected to the tube selection route with preselected tubes ', async function (assert) {
+        // given
+        server.get('admin/certification-frameworks/:scope/framework-history', () => {
+          return droitFrameworkHistory;
+        });
 
-      const screen = await visit(`/certification-frameworks/DROIT/framework/new-version/tubes?activeVersionId=12`);
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-      await click(screen.getByRole('button', { name: 'Suivant' }));
+        // when
+        const screen = await visit(`/certification-frameworks/DROIT/framework/new-version?activeVersionId=12`);
 
-      assert.dom(await screen.findByText('configuration wow !')).exists();
+        // then
+        assert.strictEqual(
+          currentURL(),
+          '/certification-frameworks/DROIT/framework/new-version/tubes?activeVersionId=12',
+        );
 
-      // then
-      assert.strictEqual(
-        currentURL(),
-        '/certification-frameworks/DROIT/framework/new-version/13/configuration?activeVersionId=12',
-      );
+        assert.dom(screen.getByRole('button', { name: 'Référentiels :' })).exists();
+        await click(screen.getByRole('button', { name: 'Référentiels :' }));
+        assert.dom(await screen.findByRole('checkbox', { name: 'DROIT' })).isChecked();
+        assert.dom(screen.getByText('1/1 sujet(s) sélectionné(s)'));
+      });
+
+      test('should redirect to the configuration page when click on next', async function (assert) {
+        // given
+        server.get('admin/certification-frameworks/:scope/framework-history', () => {
+          return droitFrameworkHistory;
+        });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        const screen = await visit(`/certification-frameworks/DROIT/framework/new-version/tubes?activeVersionId=12`);
+
+        await click(screen.getByRole('button', { name: 'Suivant' }));
+
+        assert.dom(await screen.findByText('configuration wow !')).exists();
+
+        // then
+        assert.strictEqual(
+          currentURL(),
+          '/certification-frameworks/DROIT/framework/new-version/15/configuration?activeVersionId=12',
+        );
+      });
     });
   });
 
   module('when admin member doesn\'t have the role "SUPER ADMIN"', function () {
     test('should be redirected to the framework-history list ', async function (assert) {
-      await authenticateAdminMemberWithRole()(server);
-      await visit(`/certification-frameworks/DROIT/framework/new-version?activeVersionId=12`);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: false })(server);
+      await visit(`/certification-frameworks/DROIT/framework/new-version`);
       assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/framework');
     });
   });
