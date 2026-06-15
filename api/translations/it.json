@@ -123,7 +123,7 @@
       "candidates-list": "Elenco dei candidati",
       "date": "Data",
       "email-convocation": "Invito via e-mail",
-      "email-results": "Indirizzo e-mail del destinatario dei risultati (formatore, insegnante, ecc.)",
+      "email-results": "E-mail del prescrittore (insegnante, formatore), per la ricezione dei risultati",
       "externalid": "Identificatore locale",
       "extra-time": "Tempo di bonus?",
       "firstname": "* Nome",
@@ -147,7 +147,7 @@
     "tooltips": {
       "date-format": "Utilizzare il formato data gg/mm/aaaa",
       "email-format": "L'e-mail deve contenere una '@' e un '. ,\n Esempio: nom@exemple.fr Questo campo è facoltativo,\n viene utilizzato per facilitare l'invito dei candidati.",
-      "email-results": "Indirizzo e-mail del destinatario dei risultati (formatore, insegnante, ecc.),\n Se il campo non viene compilato, i risultati non verranno inviati via e-mail ai candidati interessati,\n I risultati del candidato saranno visualizzati direttamente sul suo account Pix.",
+      "email-results": "E-mail del prescrittore (insegnante, formatore), per la ricezione dei risultati.\n I candidati visualizzeranno i loro risultati direttamente sul loro account Pix. In questo campo, si prega di indicare l'e-mail del prescrittore qualora desideri anch'egli avere accesso ai risultati.",
       "extra-time": "Campo obbligatorio se il candidato ha diritto a un tempo supplementare per completare la certificazione.\n È previsto un numero intero compreso tra 1 e 99% espresso in percentuale (ad es. 33%).",
       "gender-format": "M=Maschio F=Femmina"
     },

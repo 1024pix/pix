@@ -123,7 +123,7 @@
       "candidates-list": "Liste der Kandidaten",
       "date": "Datum",
       "email-convocation": "E-Mail mit der Einladung",
-      "email-results": "E-Mail des Empfängers der Ergebnisse (Trainer, Lehrer...)",
+      "email-results": "E-Mail des Verschreibers (Lehrer, Ausbilder), für den Empfang der Ergebnisse",
       "externalid": "Lokale Kennung",
       "extra-time": "Zeitzuschlag?",
       "firstname": "* Vorname",
@@ -147,7 +147,7 @@
     "tooltips": {
       "date-format": "Verwenden Sie das Datumsformat tt/mm/jjjj",
       "email-format": "Ihre E-Mail muss ein '@' und ein '. ,\n Beispiel: nom@exemple.fr Dieses Feld ist optional,\n es dient dazu, die Einberufung der Bewerber zu erleichtern.",
-      "email-results": "E-Mail des Empfängers der Ergebnisse (Ausbilder, Lehrer...),\n Wenn das Feld nicht ausgefüllt ist, werden die Ergebnisse für den/die betreffenden Kandidaten nicht per E-Mail übermittelt..,\n Dem Kandidaten werden die Ergebnisse direkt in seinem Pix-Konto angezeigt.",
+      "email-results": "E-Mail des Verschreibers (Lehrer, Ausbilder), für den Empfang der Ergebnisse.\n Die Kandidaten werden ihre Ergebnisse direkt in ihrem Pix-Konto angezeigt bekommen. Bitte geben Sie in diesem Feld die E-Mail-Adresse des Verschreibers an, falls dieser ebenfalls Zugang zu den Ergebnissen wünscht.",
       "extra-time": "Dieses Feld ist erforderlich, wenn dem Kandidaten für die Zertifizierung ein Zeitzuschlag gewährt wird.\n Es wird eine ganze Zahl zwischen 1 und 99 % erwartet, ausgedrückt als Prozentsatz (z. B. 33 %).",
       "gender-format": "M=Mann F=Frau"
     },

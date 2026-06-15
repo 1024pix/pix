@@ -69,7 +69,7 @@ const register = async function (server) {
         tags: ['api', 'sessions', 'results'],
         notes: [
           "Cette route est accessible via un token envoyé par email lors de l'envoi automatique des résultats de certification",
-          "Elle retourne les résultats de certifications d'une session agrégés par email de destinataire des résultats, sous format CSV",
+          "Elle retourne les résultats de certifications d'une session agrégés par email du prescripteur, sous format CSV",
         ],
       },
     },

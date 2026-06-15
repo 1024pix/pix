@@ -123,7 +123,7 @@
       "candidates-list": "Lista de candidatos",
       "date": "Fecha",
       "email-convocation": "Invitación por correo electrónico",
-      "email-results": "Dirección de correo electrónico del destinatario de los resultados (formador, profesor, etc.)",
+      "email-results": "Correo electrónico del prescriptor (profesor, formador), para la recepción de los resultados",
       "externalid": "Identificador local",
       "extra-time": "¿Tiempo extra?",
       "firstname": "* Nombre",
@@ -147,7 +147,7 @@
     "tooltips": {
       "date-format": "Utilice el formato de fecha dd/mm/aaaa",
       "email-format": "Su correo electrónico debe contener una \"@\" y un \".\nEjemplo: nom@exemple.fr Este campo es opcional,\nse utiliza para facilitar la invitación de candidatos.",
-      "email-results": "Correo electrónico del destinatario de los resultados (formador, profesor, etc.),\nSi no se rellena el campo, los resultados no se enviarán por correo electrónico al candidato o candidatos en cuestión,\nEl candidato verá sus resultados directamente en su cuenta Pix.",
+      "email-results": "Correo electrónico del prescriptor (profesor, formador), para la recepción de los resultados.\n Los candidatos verán sus resultados directamente en su cuenta Pix. En este campo, por favor indique el correo electrónico del prescriptor si este también desea tener acceso al resultado.",
       "extra-time": "Este campo es obligatorio si el candidato tiene derecho a tiempo adicional para completar la certificación.\nSe espera un número entero entre 1 y 99% expresado como porcentaje (por ejemplo, 33%).",
       "gender-format": "M=Hombre F=Mujer"
     },

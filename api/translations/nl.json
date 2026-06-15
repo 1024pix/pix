@@ -123,7 +123,7 @@
       "candidates-list": "Kandidatenlijst",
       "date": "Datum",
       "email-convocation": "E-mail uitnodiging",
-      "email-results": "E-mailadres van de ontvanger van de resultaten (trainer, docent, etc.)",
+      "email-results": "E-mail van de voorschrijver (docent, trainer), voor de ontvangst van de resultaten",
       "externalid": "Lokaal identificatiesymbool",
       "extra-time": "Bonus tijd?",
       "firstname": "* Voornaam",
@@ -147,7 +147,7 @@
     "tooltips": {
       "date-format": "Gebruik de datumnotatie dd/mm/jjjj",
       "email-format": "Je e-mailadres moet een '@' en een ' bevatten.\nVoorbeeld: nom@exemple.fr Dit veld is optioneel,\nhet wordt gebruikt om het uitnodigen van kandidaten te vergemakkelijken.",
-      "email-results": "E-mail van de ontvanger van de resultaten (trainer, docent, etc.),\nAls het veld niet wordt ingevuld, worden de resultaten niet per e-mail naar de betreffende kandidaat of kandidaten gestuurd,\nDe kandidaat ziet zijn/haar resultaten direct op zijn/haar Pix-account.",
+      "email-results": "E-mail van de voorschrijver (docent, trainer), voor de ontvangst van de resultaten.\n De kandidaten zien hun resultaten rechtstreeks op hun Pix-account. Vermeld in dit veld het e-mailadres van de voorschrijver, indien deze ook toegang wil tot het resultaat.",
       "extra-time": "Dit veld is vereist als de kandidaat recht heeft op extra tijd om de certificering af te ronden.\nEr wordt een heel getal tussen 1 en 99% verwacht, uitgedrukt als percentage (bijv. 33%).",
       "gender-format": "M=Mannelijk F=Vrouwelijk"
     },
