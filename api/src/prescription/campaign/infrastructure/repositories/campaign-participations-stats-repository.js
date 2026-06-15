@@ -1,8 +1,11 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import { getLatestParticipationSharedForOneLearner } from './helpers/get-latest-participation-shared-for-one-learner.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
+
+const TIMEOUT = 3000;
 
 const getParticipationsActivityByDate = async function (campaignId) {
   const knexConn = DomainTransaction.getConnection();
@@ -83,10 +86,23 @@ const countParticipationsByStatus = async (campaignId) => {
 const countParticipantsByOrganizationId = async (organizationId) => {
   const knexConn = DomainTransaction.getConnection();
 
-  const [{ count }] = await knexConn('campaign-participations')
-    .countDistinct('campaign-participations.organizationLearnerId as count')
-    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .where('campaigns.organizationId', organizationId);
+  let count = null;
+
+  try {
+    const result = await knexConn('campaign-participations')
+      .countDistinct('campaign-participations.organizationLearnerId as count')
+      .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+      .where('campaigns.organizationId', organizationId)
+      .first()
+      .timeout(TIMEOUT, { cancel: true });
+
+    count = result?.count;
+  } catch {
+    logger.error({
+      event: 'organization_participants_count_timeout',
+      message: `Request regarding organization ${organizationId} participants count has timed out. Exceeded ${TIMEOUT / 1000}s response time.`,
+    });
+  }
 
   return count;
 };
@@ -94,13 +110,23 @@ const countParticipantsByOrganizationId = async (organizationId) => {
 const countParticipantsByOrganizationIdGroupedByYear = async (organizationId) => {
   const knexConn = DomainTransaction.getConnection();
 
-  const result = await knexConn('campaign-participations')
-    .select(knexConn.raw('EXTRACT(YEAR FROM "campaign-participations"."createdAt")::int AS year'))
-    .countDistinct('campaign-participations.organizationLearnerId AS count')
-    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .where('campaigns.organizationId', organizationId)
-    .groupBy('year')
-    .orderBy('year', 'asc');
+  let result = null;
+
+  try {
+    result = await knexConn('campaign-participations')
+      .select(knexConn.raw('EXTRACT(YEAR FROM "campaign-participations"."createdAt")::int AS year'))
+      .countDistinct('campaign-participations.organizationLearnerId AS count')
+      .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+      .where('campaigns.organizationId', organizationId)
+      .groupBy('year')
+      .orderBy('year', 'asc')
+      .timeout(TIMEOUT, { cancel: true });
+  } catch {
+    logger.error({
+      event: 'organization_participants_count_timeout',
+      message: `Request regarding organization ${organizationId} participants count grouped by year has timed out. Exceeded ${TIMEOUT / 1000}s response time.`,
+    });
+  }
 
   return result;
 };
