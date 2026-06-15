@@ -14,6 +14,7 @@ import { eq, gt } from 'ember-truth-helpers';
 import PixFieldset from 'pix-admin/components/ui/pix-fieldset';
 
 import RequirementTag from '../common/combined-courses/requirement-tag';
+import TubesSelection from '../common/tubes-selection';
 import SelectAttestation from './select-attestation';
 
 export default class CombinedCourseBlueprintForm extends Component {
@@ -258,11 +259,13 @@ export default class CombinedCourseBlueprintForm extends Component {
 
         {{#unless @updateMode}}
           <SelectAttestation
-            @attestations={{@attestations}}
+            @attestations={{@model.attestations}}
             @value={{this.blueprint.rewardId}}
             @onChange={{this.setAttestation}}
           />
         {{/unless}}
+
+        <TubesSelection @frameworks={{@model.frameworks}} />
 
         <PixInput
           @id="surveyLink"
