@@ -131,7 +131,8 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       },
       {
         error: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID',
-        expectedMessage: 'Donnée du champ "E-mail du destinataire des résultats (formateur, enseignant…)" invalide',
+        expectedMessage:
+          'Donnée du champ "E-mail du prescripteur (enseignant, formateur), pour la réception des résultats" invalide',
       },
       { error: 'SESSION_ADDRESS_REQUIRED', expectedMessage: 'Champ obligatoire "Nom du site" manquant' },
       { error: 'SESSION_ROOM_REQUIRED', expectedMessage: 'Champ obligatoire "Nom de la salle" manquant' },

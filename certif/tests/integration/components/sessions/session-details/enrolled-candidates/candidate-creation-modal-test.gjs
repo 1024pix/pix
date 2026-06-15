@@ -78,12 +78,16 @@ module(
       assert.dom(screen.getByRole('textbox', { name: 'Identifiant externe' })).exists();
       assert.dom(screen.getByRole('textbox', { name: 'Temps majoré (%)' })).exists();
       assert
-        .dom(screen.getByRole('textbox', { name: 'E-mail du destinataire des résultats (formateur, enseignant...)' }))
+        .dom(
+          screen.getByRole('textbox', {
+            name: 'E-mail du prescripteur (enseignant, formateur), pour la réception des résultats',
+          }),
+        )
         .exists();
       assert
         .dom(
           screen.getByText(
-            'Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés.Le candidat verra ses résultats affichés directement sur son compte Pix.',
+            "Les candidats verront leurs résultats affichés directement sur leur compte Pix. Dans ce champ, merci d'indiquer le mail du prescripteur, si celui-ci souhaite avoir accès au résultat également.",
           ),
         )
         .exists();
@@ -188,7 +192,7 @@ module(
         await fillIn(screen.getByLabelText('Code INSEE de naissance *'), candidateData.birthInseeCode);
         await fillIn(screen.getByLabelText('Temps majoré (%)'), candidateData.extraTimePercentage);
         await fillIn(
-          screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
+          screen.getByLabelText('E-mail du prescripteur (enseignant, formateur), pour la réception des résultats'),
           candidateData.resultRecipientEmail,
         );
         await fillIn(screen.getByLabelText('E-mail de convocation'), candidateData.email);

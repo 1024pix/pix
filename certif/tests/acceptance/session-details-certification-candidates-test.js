@@ -460,7 +460,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           );
           await fillIn(screen.getByLabelText('Code de prépaiement'), '12345');
           await fillIn(
-            screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
+            screen.getByLabelText('E-mail du prescripteur (enseignant, formateur), pour la réception des résultats'),
             'guybrush.threepwood@example.net',
           );
           await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
@@ -481,7 +481,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           assert.strictEqual(screen.getByLabelText('Tarification part Pix *').value, '');
           assert.dom(screen.queryByLabelText('Code de prépaiement')).doesNotExist();
           assert.strictEqual(
-            screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)').value,
+            screen.getByLabelText('E-mail du prescripteur (enseignant, formateur), pour la réception des résultats')
+              .value,
             '',
           );
           assert.strictEqual(screen.getByLabelText('E-mail de convocation').value, '');
@@ -680,7 +681,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     });
     await click(paymentOption);
     await fillIn(
-      screen.getByRole('textbox', { name: 'E-mail du destinataire des résultats (formateur, enseignant...)' }),
+      screen.getByRole('textbox', {
+        name: 'E-mail du prescripteur (enseignant, formateur), pour la réception des résultats',
+      }),
       'email.destinataire@example.net',
     );
     await fillIn(screen.getByRole('textbox', { name: 'E-mail de convocation' }), 'email.convocation@example.net');

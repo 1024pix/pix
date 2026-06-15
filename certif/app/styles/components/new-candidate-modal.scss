@@ -34,6 +34,10 @@
     width: 100%;
     margin: 12px 0;
 
+    label {
+      text-wrap: pretty;
+    }
+
     .pix-input__container, button {
       width: 248px;
     }
