@@ -156,7 +156,7 @@
     "sax": "^1.2.4",
     "saxpath": "^0.6.5",
     "schemalint": "^2.0.0",
-    "undici": "8.4.0",
+    "undici": "8.4.1",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "xml-buffer-tostring": "^0.2.0",
     "xml2js": "^0.6.0",
