@@ -23,7 +23,8 @@ const findLearningContentsByOrganizationId = async function (
 
 const getTargetProfileOverview = async function (request, _, dependencies = { targetProfileOverviewSerializer }) {
   const targetProfileId = request.params.targetProfileId;
-  const targetProfile = await usecases.getTargetProfileOverview({ targetProfileId });
+  const locale = getChallengeLocale(request);
+  const targetProfile = await usecases.getTargetProfileOverview({ targetProfileId, locale });
   return dependencies.targetProfileOverviewSerializer.serialize(targetProfile);
 };
 
