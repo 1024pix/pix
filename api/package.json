@@ -15,8 +15,8 @@
   "scripts": {
     "clean": "rm -rf node_modules",
     "cache:refresh": "node --env-file-if-exists=.env scripts/refresh-cache.js",
-    "banner:add": "node --env-file-if-exists=.env banner/scripts/add.js",
-    "banner:remove": "node --env-file-if-exists=.env banner/scripts/remove.js",
+    "banner:add": "node --env-file-if-exists=.env src/banner/application/scripts/add.js",
+    "banner:remove": "node --env-file-if-exists=.env src/banner/application/scripts/remove.js",
     "datamart:create": "node --env-file-if-exists=.env scripts/database/create-database --name datamart",
     "datamart:delete": "node --env-file-if-exists=.env scripts/database/drop-database --name datamart",
     "datamart:new-migration": "npx knex --knexfile datamart/knexfile.js migrate:make --stub $PWD/db/template.js $migrationname",
