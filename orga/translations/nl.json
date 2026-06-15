@@ -1052,8 +1052,11 @@
       },
       "modal": {
         "associated-badges": "Gerelateerde badges",
-        "open-modal": "Bekijk de details van het cursus",
-        "select-course": "Deze cursus selecteren"
+        "max-level": "Max. niveau",
+        "open-modal": "Bekijk de details van het traject",
+        "select-course": "Deze cursus selecteren",
+        "tube-name-and-description": "Naam en beschrijving van het onderwerp",
+        "tube-unavailable": "Onderwerp niet beschikbaar"
       },
       "tab-filters": {
         "all": "Alle",

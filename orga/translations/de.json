@@ -1055,8 +1055,11 @@
       },
       "modal": {
         "associated-badges": "Zugehörige Abzeichen",
+        "max-level": "Max. Stufe",
         "open-modal": "Details zum Kurs anzeigen",
-        "select-course": "Diesen Kurs auswählen"
+        "select-course": "Diesen Kurs auswählen",
+        "tube-name-and-description": "Name und Beschreibung des Themas",
+        "tube-unavailable": "Thema nicht verfügbar"
       },
       "tab-filters": {
         "all": "Alle",

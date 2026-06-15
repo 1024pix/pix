@@ -1056,8 +1056,11 @@
       },
       "modal": {
         "associated-badges": "Badge associati",
-        "open-modal": "Visualizza i dettagli del corso",
-        "select-course": "Seleziona questo corso"
+        "max-level": "Livello max.",
+        "open-modal": "Visualizza i dettagli del percorso",
+        "select-course": "Seleziona questo corso",
+        "tube-name-and-description": "Nome e descrizione dell'argomento",
+        "tube-unavailable": "Argomento non disponibile"
       },
       "tab-filters": {
         "all": "Tutti",

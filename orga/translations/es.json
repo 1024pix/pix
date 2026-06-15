@@ -1059,8 +1059,11 @@
       },
       "modal": {
         "associated-badges": "Insignias relacionadas",
+        "max-level": "Nivel máx.",
         "open-modal": "Ver detalles del cursos",
-        "select-course": "Seleccionar este curso"
+        "select-course": "Seleccionar este curso",
+        "tube-name-and-description": "Nombre y descripción del tema",
+        "tube-unavailable": "Tema no disponible"
       },
       "tab-filters": {
         "all": "Todos",

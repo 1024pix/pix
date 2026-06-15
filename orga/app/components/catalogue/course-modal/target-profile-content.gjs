@@ -1,6 +1,7 @@
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 const getTableName = (index, name) => `${index} - ${name}`;
 
@@ -32,8 +33,7 @@ export default class TargetProfileContent extends Component {
           <:columns as |tube context|>
             <PixTableColumn @context={{context}} class="course-modal__competence__description__column">
               <:header>
-                {{! TODO Trad }}
-                Nom et descriptif du sujet
+                {{t "pages.catalogue.modal.tube-name-and-description"}}
               </:header>
               <:cell>
                 <span class="course-modal__competence__description__title">
@@ -46,16 +46,14 @@ export default class TargetProfileContent extends Component {
             </PixTableColumn>
             <PixTableColumn @context={{context}} class="course-modal__competence__level__column">
               <:header>
-                {{! TODO Trad }}
-                Niveau max.
+                {{t "pages.catalogue.modal.max-level"}}
               </:header>
               <:cell>
                 <span class="course-modal__competence__level__data">
                   {{#if tube.maxLevel}}
                     {{tube.maxLevel}}
                   {{else}}
-                    {{! TODO Trad }}
-                    Sujet indisponible
+                    {{t "pages.catalogue.modal.tube-unavailable"}}
                   {{/if}}
                 </span>
               </:cell>
