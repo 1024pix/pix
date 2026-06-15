@@ -14,9 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     # Triggered when :
-    # The opened PR is not draft or is on "dev" branch
-    # And doesn't have the label 'Development in progress' or the label 'Development in progress' label is removed
-    if: ((!github.event.pull_request.draft && github.event.pull_request.state == 'open') || github.ref == 'refs/heads/dev') && ((github.event.action == 'unlabeled' && github.event.label.name == 'Development in progress') || (github.event.action != 'unlabeled' && !contains(github.event.pull_request.labels.*.name, 'Development in progress')))
+    # A merge group OR
+    #  The opened PR is not draft or is on "dev" branch
+    #  And doesn't have the label 'Development in progress' or the label 'Development in progress' label is removed
+    if: github.event_name == 'merge_group' || (((!github.event.pull_request.draft && github.event.pull_request.state == 'open') || github.ref == 'refs/heads/dev') && ((github.event.action == 'unlabeled' && github.event.label.name == 'Development in progress') || (github.event.action != 'unlabeled' && !contains(github.event.pull_request.labels.*.name, 'Development in progress'))))
 
     steps:
       - name: Extract branch name
