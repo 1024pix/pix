@@ -458,7 +458,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
             'delivery-mode': Training.modes.REMOTE,
             program: 'Programme',
             'registration-required': false,
-            objectives: 'Objectif 1          ;  Objectif 2',
+            objectives: 'Objectif 1          ;\n;;;  Objectif 2 ; Objectif 3',
           },
         },
       };
@@ -479,8 +479,44 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
         deliveryMode: Training.modes.REMOTE,
         registrationRequired: false,
         program: 'Programme',
-        objectives: ['Objectif 1', 'Objectif 2'],
+        objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
       });
+    });
+
+    it('should filter empty objectives caused by trailing semicolon', async function () {
+      // given
+      const jsonTraining = {
+        data: {
+          type: 'training',
+          attributes: {
+            objectives: 'Objectif 1;Objectif 2;',
+          },
+        },
+      };
+
+      // when
+      const training = await serializer.deserialize(jsonTraining);
+
+      // then
+      expect(training.objectives).to.deep.equal(['Objectif 1', 'Objectif 2']);
+    });
+
+    it('should filter empty objectives caused by multiple consecutive semicolons', async function () {
+      // given
+      const jsonTraining = {
+        data: {
+          type: 'training',
+          attributes: {
+            objectives: 'Objectif 1;\n;\n;;;;Objectif 2;;;Objectif 3;\n;;',
+          },
+        },
+      };
+
+      // when
+      const training = await serializer.deserialize(jsonTraining);
+
+      // then
+      expect(training.objectives).to.deep.equal(['Objectif 1', 'Objectif 2', 'Objectif 3']);
     });
 
     [
