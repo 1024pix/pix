@@ -1,4 +1,4 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit, within } from "@1024pix/ember-testing-library";
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -14,6 +14,9 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
   setupIntl(hooks);
 
   hooks.beforeEach(async function () {
+    const store = this.owner.lookup('service:store');
+    _createFramework(store);
+
     server.create('country', { code: '99100', name: 'France' });
     server.create('attestation', {
       templateName: 'parentalite',
@@ -56,10 +59,13 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     await click(
       screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
     );
-
     await screen.findByRole('listbox');
-
     await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+    await clickByName('1 · Titre domaine');
+    await clickByName('1 Titre competence');
+    await clickByName(/Sélection du niveau du sujet suivant : Tube/);
+    await click(within(await screen.findByRole('listbox')).getByRole('option', { name: '4' }));
 
     await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
 
@@ -82,4 +88,38 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     //then
     assert.ok(screen.getByText(t('common.tables.empty-result')));
   });
+
+  function _createFramework(store) {
+    const tubes = [
+      store.createRecord('tube', {
+        id: 'tubeId1',
+        name: '@tubeName1',
+        practicalTitle: 'Tube 1',
+        skills: [],
+        level: 8,
+      }),
+    ];
+
+    const thematic = [store.createRecord('thematic', { id: 'thematicId', name: 'Thématique', tubes: tubes })];
+
+    const competence = [
+      store.createRecord('competence', {
+        id: 'competenceId',
+        index: '1',
+        name: 'Titre competence',
+        thematic,
+      }),
+    ];
+
+    const areas = [
+      store.createRecord('area', {
+        id: 'areaId',
+        title: 'Titre domaine',
+        code: 1,
+        competence,
+      }),
+    ];
+
+    return store.createRecord('framework', { id: 'frameworkId', name: 'Pix', areas });
+  }
 });
