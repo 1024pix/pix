@@ -23,6 +23,14 @@ export const localeCategories = {
 
 export const optionsLocaleList = formatList(localeCategories);
 
+export const deliveryModeCategories = {
+  hybrid: 'Hybride',
+  remote: 'À distance',
+  onSite: 'En présentiel',
+};
+
+export const optionsModeList = formatList(deliveryModeCategories);
+
 export default class Training extends Model {
   @attr('string') title;
   @attr('string') internalTitle;
@@ -33,6 +41,11 @@ export default class Training extends Model {
   @attr('string') editorLogoUrl;
   @attr('boolean') isRecommendable;
   @attr('boolean') isDisabled;
+  @attr('string') deliveryMode;
+  @attr('boolean') registrationRequired;
+  @attr('string') description;
+  @attr('string') objectives;
+  @attr('string') program;
   @attr({
     defaultValue: () => ({
       days: 0,
