@@ -111,7 +111,7 @@
                 "id": "b4adfe84-0c6c-4699-b1e3-5e1bbd27b5a4",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une équipe de concepteurs entraîne un modèle d’IA générative.</p><p>Ils comparent deux réponses fournie par l’IA pour une même question.</p>"
+                "content": "<p>Une équipe de concepteurs entraîne un modèle d’IA générative.</p><p>Ils comparent deux réponses fournies par l’IA pour une même question.</p>"
               }
             },
             {
@@ -420,7 +420,7 @@
                       "id": "1d1ec7cb-4bb2-4a08-8754-c21fb4d1326d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Vous venez de voir est ce qu’on appelle l’<strong>alignement par prompt système&nbsp;</strong>: l’éditeur ajoute des consignes que l’IA doit suivre dans toutes ses réponses.</p>"
+                      "content": "<p>Vous venez de voir ce qu’on appelle l’<strong>alignement par prompt système&nbsp;</strong>: l’éditeur ajoute des consignes que l’IA doit suivre dans toutes ses réponses.</p>"
                     }
                   ]
                 },
@@ -430,7 +430,7 @@
                       "id": "b4f4846d-fdab-4710-8772-a779ae33628d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Les éditeurs d’IA veulent donc protéger les utilisateurs ?&nbsp; </h5><p>C’est dans leur intérêt, ces règles protègent les utilisateurs et évitent aux éditeurs de logiciels d’intelligence artificielle d’éventuels problèmes juridiques. Mais certaines IA peuvent aussi être configurées pour être très permissives&nbsp;: tout dépend des choix faits par les éditeurs d’IA..<br></p>"
+                      "content": "<h5>Les éditeurs d’IA veulent donc protéger les utilisateurs ?&nbsp; </h5><p>C’est dans leur intérêt, ces règles protègent les utilisateurs et évitent aux éditeurs de logiciels d’intelligence artificielle d’éventuels problèmes juridiques. Mais certaines IA peuvent aussi être configurées pour être très permissives&nbsp;: tout dépend des choix faits par les éditeurs d’IA.<br></p>"
                     },
                     {
                       "id": "7aeafcd3-3290-47b7-a037-c38d8c96563b",
@@ -510,7 +510,7 @@
               "element": {
                 "id": "b68a8473-3556-4500-8f0d-a4a94fc114e1",
                 "type": "qcu-discovery",
-                "instruction": "<p><strong>À votre avis, le l’IA va-t-elle obéir à son prompt système ou à la demande de Fabrice ?</strong></p>",
+                "instruction": "<p><strong>À votre avis, l’IA va-t-elle obéir à son prompt système ou à la demande de Fabrice ?</strong></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -648,7 +648,7 @@
                     "id": "1",
                     "content": "<p>L’alignement des deux modèles a été réalisé de façon différente.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bien vu !&nbsp;</p><p>Les<strong> valeurs et préférences de l’IA </strong>reflètent celles définies par<strong> ses concepteurs </strong>lors de la l’alignement<strong>.</strong></p>"
+                      "diagnosis": "<p>Bien vu !&nbsp;</p><p>Les<strong> valeurs et préférences de l’IA </strong>reflètent celles définies par<strong> ses concepteurs </strong>lors de l’alignement<strong>.</strong></p>"
                     }
                   },
                   {
@@ -689,7 +689,7 @@
                 "id": "c0782230-c4d9-4f63-bcce-49091b1bff42",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>Qui décide des règles suivies par une IA générative&nbsp;?</h5><p>Ce sont <strong>les éditeurs de logiciels d’IA</strong> qui <strong>définissent les règles internes</strong> et les méthodes d’alignement des IA. Ces éléments que l’utilisateur ne voit pas orientent la façon dont le logiciel répond. 🔒</p><h5><br>Pourquoi est-ce important&nbsp;?</h5><p>Ces règles traduisent des façons différentes de concevoir ce qui est prudent, acceptable ou souhaitable dans une réponse. <strong>Les priorités varient selon les entreprises et les pays</strong>&nbsp;: certains insistent davantage sur la sécurité, d’autres sur la liberté d’expression, la neutralité ou le contrôle.</p><p><strong>Les logiciel d’IA actuels sont conçus dans des contextes variés,</strong>  <strong>ce qui influence leur manière d’aborder certains sujets. </strong>🌍</p>"
+                "content": "<h5>Qui décide des règles suivies par une IA générative&nbsp;?</h5><p>Ce sont <strong>les éditeurs de logiciels d’IA</strong> qui <strong>définissent les règles internes</strong> et les méthodes d’alignement des IA. Ces éléments que l’utilisateur ne voit pas orientent la façon dont le logiciel répond. 🔒</p><h5><br>Pourquoi est-ce important&nbsp;?</h5><p>Ces règles traduisent des façons différentes de concevoir ce qui est prudent, acceptable ou souhaitable dans une réponse. <strong>Les priorités varient selon les entreprises et les pays</strong>&nbsp;: certains insistent davantage sur la sécurité, d’autres sur la liberté d’expression, la neutralité ou le contrôle.</p><p><strong>Les logiciels d’IA actuels sont conçus dans des contextes variés,</strong>  <strong>ce qui influence leur manière d’aborder certains sujets. </strong>🌍</p>"
               }
             }
           ]
@@ -809,7 +809,7 @@
               "element": {
                 "id": "8679d715-971f-419c-9c2f-a225712771ce",
                 "type": "qrocm",
-                "instruction": "<p>Les réponses données par ce logiciel d’IA sont biaisées. Elle mettent en avant un pays. D’après vous, de quel pays s’agit-il ?</p>",
+                "instruction": "<p>Les réponses données par ce logiciel d’IA sont biaisées. Elles mettent en avant un pays. D’après vous, de quel pays s’agit-il ?</p>",
                 "proposals": [
                   {
                     "input": "Le nom du pays est ",
