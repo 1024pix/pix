@@ -329,6 +329,17 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       // then
       expect(json).to.deep.equal(expectedSerializedTraining);
     });
+
+    it('should serialize objectives as null when objectives is null', function () {
+      // given
+      const training = domainBuilder.buildTrainingForAdmin({ objectives: null });
+
+      // when
+      const json = serializer.serializeForAdmin(training);
+
+      // then
+      expect(json.data.attributes.objectives).to.be.null;
+    });
   });
 
   describe('#serialize', function () {

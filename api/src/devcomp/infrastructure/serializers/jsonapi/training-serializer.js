@@ -11,7 +11,7 @@ const serializeForAdmin = function (training = {}, meta) {
       duration.minutes = duration.minutes || 0;
       return structuredClone({
         ...record,
-        objectives: record.objectives.join(';'),
+        objectives: record.objectives?.join(';') ?? null,
         isRecommendable: record.isRecommendable,
       });
     },
