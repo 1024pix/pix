@@ -112,6 +112,36 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       );
       sinon.assert.calledWithExactly(router.transitionTo, 'authenticated.combined-course-blueprints.list');
     });
+    test('it should display tubes selection component only if the user selects an attestation', async function (assert) {
+      //given
+      const attestations = [
+        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
+      ];
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        },
+      ];
+      const model = { attestations, frameworks };
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+      //then
+      assert.notOk(await screen.queryByRole('heading', { name: 'Sélection des sujets' }));
+
+      //when
+      await click(
+        screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+      );
+      await screen.findByRole('listbox');
+
+      await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+      //then
+      assert.ok(screen.getByRole('heading', { name: 'Sélection des sujets' }));
+    });
   });
 
   module('edition mode', function () {

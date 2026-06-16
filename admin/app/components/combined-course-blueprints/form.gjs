@@ -272,7 +272,9 @@ export default class CombinedCourseBlueprintForm extends Component {
             @onChange={{this.setAttestation}}
           />
 
-          <TubesSelection @frameworks={{@model.frameworks}} @onChange={{this.updateTubes}} />
+          {{#if this.blueprint.rewardId}}
+            <TubesSelection @frameworks={{@model.frameworks}} @onChange={{this.updateTubes}} />
+          {{/if}}
         {{/unless}}
 
         <PixInput
