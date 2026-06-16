@@ -674,7 +674,7 @@
                       "id": "39c2b0c2-659e-4830-b5b3-13908c90ea6f",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h4>Vous avez encore un doute&nbsp;?&nbsp;🕵️ </h4>\n<ul><li>Demandez de l’aide à un proche ou un professionnel en qui vous avez confiance.</li><li>tilisez un autre canal pour contacter l’auteur (téléphonez ou allez sur le site officiel).</li><li>Allez sur un site de confiance comme cybermalveillance.gouv.fr/diagnostic pour obtenir une assistance en ligne. </li></ul>"
+                      "content": "<h4>Vous avez encore un doute&nbsp;?&nbsp;🕵️ </h4>\n<ul><li>Demandez de l’aide à un proche ou un professionnel en qui vous avez confiance.</li><li>Utilisez un autre canal pour contacter l’auteur (téléphonez ou allez sur le site officiel).</li><li>Allez sur un site de confiance comme cybermalveillance.gouv.fr/diagnostic pour obtenir une assistance en ligne. </li></ul>"
                     }
                   ]
                 }
@@ -878,10 +878,6 @@
                     "solutions": [
                       "hameçonnage"
                     ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<span>.</span>"
                   }
                 ],
                 "feedbacks": {
@@ -944,11 +940,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bonne réponse&nbsp;!</p>",
-                    "diagnosis": "<p>Dans l’adresse mail d’un expéditeur, la partie avant et la partie après l’arobase (@) comptent pour vérifier s’il est digne de confiance.</p>"
+                    "diagnosis": "<p>Dans l’adresse mail d’un expéditeur, la partie avant et la partie après l’arobase&nbsp;(@) comptent pour vérifier s’il est digne de confiance.</p>"
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.</p>",
-                    "diagnosis": "<p>Pour vérifier si des adresses mail sont dignes de confiance, regardez bien des deux côtés de l’arobase (@). Vous pouvez réessayer.</p>"
+                    "diagnosis": "<p>Pour vérifier si des adresses mail sont dignes de confiance, regardez bien des deux côtés de l’arobase&nbsp;(@). Vous pouvez réessayer.</p>"
                   }
                 },
                 "solutions": [
