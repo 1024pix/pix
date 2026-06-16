@@ -14,6 +14,7 @@ import {
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+
 describe('Unit | Domain | Models | CertificationSummary', function () {
   context('#static buildFrom', function () {
     const baseData = {
@@ -35,6 +36,7 @@ describe('Unit | Domain | Models | CertificationSummary', function () {
           AssessmentResult.status.REJECTED,
           AssessmentResult.status.VALIDATED,
           AssessmentResult.status.CANCELLED,
+          AssessmentResult.status.CANCELLED_BY_JURY,
         ].forEach((assessmentResultStatus) => {
           it(`should set the status of the certificate as WAIT_FOR_RESULTS and reachedMeshLevel to null when assessment result status is ${assessmentResultStatus}`, function () {
             const actualCertificateSummary = CertificateSummary.buildFrom({
@@ -80,6 +82,12 @@ describe('Unit | Domain | Models | CertificationSummary', function () {
             assessmentResultStatus: AssessmentResult.status.VALIDATED,
             status: CERTIFICATE_STATUSES.VALIDATED,
             extraStatus: EXTRA_CERTIFICATE_STATUSES.ACQUIRED,
+            expectedReachedMeshLevel: 'LEVEL_BEGINNER_1',
+          },
+          {
+            assessmentResultStatus: AssessmentResult.status.CANCELLED_BY_JURY,
+            status: CERTIFICATE_STATUSES.CANCELLED_BY_JURY,
+            extraStatus: null,
             expectedReachedMeshLevel: 'LEVEL_BEGINNER_1',
           },
         ].forEach(({ assessmentResultStatus, status, extraStatus, expectedReachedMeshLevel }) => {

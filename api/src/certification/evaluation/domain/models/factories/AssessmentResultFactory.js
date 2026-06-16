@@ -122,6 +122,30 @@ export class AssessmentResultFactory {
     });
   }
 
+  static buildCancelledByJuryAssessmentResult({
+    pixScore,
+    reproducibilityRate,
+    assessmentId,
+    juryId,
+    competenceMarks,
+    capacity,
+    reachedMeshIndex,
+    versionId,
+  }) {
+    return this.#buildWithAutoJuryComment({
+      autoJuryCommentKey: AutoJuryCommentKeys.CANCELLED_BY_JURY,
+      status: AssessmentResult.status.CANCELLED_BY_JURY,
+      pixScore,
+      reproducibilityRate,
+      assessmentId,
+      juryId,
+      competenceMarks,
+      capacity,
+      reachedMeshIndex,
+      versionId,
+    });
+  }
+
   static buildFraud({
     pixScore,
     reproducibilityRate,

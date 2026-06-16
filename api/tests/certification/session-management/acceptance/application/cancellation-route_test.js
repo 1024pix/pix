@@ -256,7 +256,7 @@ describe('Certification | Session-management | Acceptance | Application | Routes
         const cancelledAssessmentResult = await knex('assessment-results')
           .where({
             assessmentId: assessment.id,
-            status: AssessmentResult.status.CANCELLED,
+            status: AssessmentResult.status.CANCELLED_BY_JURY,
             juryId: juryMember.id,
           })
           .first();

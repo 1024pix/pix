@@ -18,7 +18,7 @@ export function createV3AssessmentResult({
   certificationFramework,
 }) {
   if (toBeCancelled) {
-    return AssessmentResultFactory.buildCancelledAssessmentResult({
+    return AssessmentResultFactory.buildCancelledByJuryAssessmentResult({
       juryId,
       pixScore: null,
       assessmentId,

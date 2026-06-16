@@ -11,6 +11,7 @@ import { Assessment } from './Assessment.js';
  */
 const status = Object.freeze({
   CANCELLED: 'cancelled',
+  CANCELLED_BY_JURY: 'cancelled_by_jury',
   REJECTED: 'rejected',
   VALIDATED: 'validated',
   ERROR: 'error',

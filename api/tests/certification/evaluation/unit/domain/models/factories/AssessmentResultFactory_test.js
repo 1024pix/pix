@@ -113,6 +113,51 @@ describe('Certification | Evaluation | Unit | Domain | Factories | AssessmentRes
     });
   });
 
+  describe('#buildCancelledByJuryAssessmentResult', function () {
+    it('should return a cancelled by jury AssessmentResult', function () {
+      // given
+      const competenceMarks = [domainBuilder.buildCompetenceMark()];
+
+      // when
+      const actualAssessmentResult = AssessmentResultFactory.buildCancelledByJuryAssessmentResult({
+        pixScore: 55,
+        reproducibilityRate: 50.25,
+        assessmentId: 123,
+        juryId: 456,
+        competenceMarks,
+        capacity: 0.84,
+        reachedMeshIndex: 4,
+        versionId: 10,
+      });
+
+      // then
+      const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
+        assessmentId: 123,
+        juryId: 456,
+        status: AssessmentResult.status.CANCELLED_BY_JURY,
+        pixScore: 55,
+        reproducibilityRate: 50.25,
+        competenceMarks,
+        capacity: 0.84,
+        reachedMeshIndex: 4,
+        versionId: 10,
+        commentForCandidate: {
+          commentByAutoJury: 'CANCELLED_BY_JURY',
+          context: 'candidate',
+          fallbackComment: undefined,
+        },
+        commentForOrganization: {
+          commentByAutoJury: 'CANCELLED_BY_JURY',
+          context: 'organization',
+          fallbackComment: undefined,
+        },
+      });
+      expectedAssessmentResult.id = undefined;
+      expectedAssessmentResult.createdAt = undefined;
+      expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
+    });
+  });
+
   describe('#buildNotTrustableAssessmentResult', function () {
     it('should return a not trustable AssessmentResult', function () {
       // given

@@ -7,6 +7,7 @@ export const CERTIFICATE_STATUSES = {
   WAITING_FOR_RESULTS: 'WAITING_FOR_RESULTS',
   REJECTED: 'REJECTED',
   CANCELLED: 'CANCELLED',
+  CANCELLED_BY_JURY: 'CANCELLED_BY_JURY',
   VALIDATED: 'VALIDATED',
 };
 
@@ -75,6 +76,7 @@ export class CertificateSummary {
   }) {
     const mappingAssessmentResultStatuses = {
       [AssessmentResult.status.CANCELLED]: CERTIFICATE_STATUSES.CANCELLED,
+      [AssessmentResult.status.CANCELLED_BY_JURY]: CERTIFICATE_STATUSES.CANCELLED_BY_JURY,
       [AssessmentResult.status.VALIDATED]: CERTIFICATE_STATUSES.VALIDATED,
       [AssessmentResult.status.REJECTED]: CERTIFICATE_STATUSES.REJECTED,
     };
@@ -86,7 +88,6 @@ export class CertificateSummary {
     };
 
     const isWaitingForResult = !isPublished;
-    const isCancelled = assessmentResultStatus === AssessmentResult.status.CANCELLED;
     const isRejectedV3 =
       AlgorithmEngineVersion.isV3(algorithmVersion) && assessmentResultStatus === AssessmentResult.status.REJECTED;
 
@@ -96,6 +97,7 @@ export class CertificateSummary {
       extraCertificationStatus = null;
     } else {
       status = mappingAssessmentResultStatuses[assessmentResultStatus];
+      const isCancelled = CertificateSummary._isCancelled(assessmentResultStatus);
       extraCertificationStatus = isCancelled ? null : mappingExtraCertificationStatus[isExtraCertificationAcquired];
     }
 
@@ -128,5 +130,11 @@ export class CertificateSummary {
       reachedMeshLevel: certificateMeshLevel?.meshLevel ?? null,
       certificateMeshLevel,
     });
+  }
+
+  static _isCancelled(assessmentResultStatus) {
+    return [AssessmentResult.status.CANCELLED_BY_JURY, AssessmentResult.status.CANCELLED].includes(
+      assessmentResultStatus,
+    );
   }
 }

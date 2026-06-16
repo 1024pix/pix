@@ -27,7 +27,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
           capacity,
           reachedMeshIndex,
           versionId,
-          status: AssessmentResult.status.CANCELLED,
           competenceMarks,
           isRejectedForFraud: false,
           isAbortReasonTechnical: false,
@@ -36,7 +35,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
         });
 
         //then
-        expect(assessmentResult.status).to.equal(AssessmentResult.status.CANCELLED);
+        expect(assessmentResult.status).to.equal(AssessmentResult.status.CANCELLED_BY_JURY);
         expect(assessmentResult.pixScore).to.be.null;
         expect(assessmentResult.competenceMarks).to.deep.equal([]);
         expect(assessmentResult.capacity).to.be.null;
