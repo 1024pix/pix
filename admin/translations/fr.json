@@ -1109,6 +1109,10 @@
         }
       },
       "statistics": {
+        "missing-data": {
+          "content": "Une erreur est survenue lors du calcul des statistiques, merci de ne pas réessayer. L'équipe en charge a déjà reçu une notification.",
+          "title": "Pas de statistiques disponibles"
+        },
         "total-participants-count": {
           "info": "Nombre total de participants uniques de l'organisation ayant débuté au moins une participation à une campagne depuis la création de l'organisation (peu importe le statut des campagnes, des participations, ou des participants, supprimé ou non)",
           "title": "Nombre total de participants"

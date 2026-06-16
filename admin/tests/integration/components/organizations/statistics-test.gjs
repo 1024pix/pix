@@ -64,4 +64,47 @@ module('Integration | Component | Organizations | Statistics', function (hooks) 
     assert.ok(within(table).getByRole('cell', { name: '2023' }));
     assert.ok(within(table).getByRole('cell', { name: '1234' }));
   });
+
+  module('when at least one statistic is unavailable', function () {
+    test('should display no data message title', async function (assert) {
+      // given
+      const statistics = store.createRecord('organization-statistic', {
+        totalParticipantsCount: 2,
+        totalParticipantsCountByYear: null,
+      });
+
+      // when
+      const screen = await render(<template><Statistics @statistics={{statistics}} /></template>);
+
+      // then
+      assert.ok(screen.getByText(t('components.organizations.statistics.missing-data.title')));
+    });
+    test('should display no data message when totalParticipantsCountByYear is null', async function (assert) {
+      // given
+      const statistics = store.createRecord('organization-statistic', {
+        totalParticipantsCount: 2,
+        totalParticipantsCountByYear: null,
+      });
+
+      // when
+      const screen = await render(<template><Statistics @statistics={{statistics}} /></template>);
+
+      // then
+      assert.ok(screen.getByText(t('components.organizations.statistics.missing-data.content')));
+    });
+
+    test('should display no data message when totalParticipantsCount is null', async function (assert) {
+      // given
+      const statistics = store.createRecord('organization-statistic', {
+        totalParticipantsCount: null,
+        totalParticipantsCountByYear: [{ year: 2023, count: 1234 }],
+      });
+
+      // when
+      const screen = await render(<template><Statistics @statistics={{statistics}} /></template>);
+
+      // then
+      assert.ok(screen.getByText(t('components.organizations.statistics.missing-data.content')));
+    });
+  });
 });
