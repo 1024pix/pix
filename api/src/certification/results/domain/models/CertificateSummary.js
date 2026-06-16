@@ -73,8 +73,6 @@ export class CertificateSummary {
     reachedMeshIndex,
     eduV3ExternalJuryResult,
   }) {
-    let status, extraCertificationStatus;
-
     const mappingAssessmentResultStatuses = {
       [AssessmentResult.status.CANCELLED]: CERTIFICATE_STATUSES.CANCELLED,
       [AssessmentResult.status.VALIDATED]: CERTIFICATE_STATUSES.VALIDATED,
@@ -89,7 +87,10 @@ export class CertificateSummary {
 
     const isWaitingForResult = !isPublished;
     const isCancelled = assessmentResultStatus === AssessmentResult.status.CANCELLED;
+    const isRejectedV3 =
+      AlgorithmEngineVersion.isV3(algorithmVersion) && assessmentResultStatus === AssessmentResult.status.REJECTED;
 
+    let status, extraCertificationStatus;
     if (isWaitingForResult) {
       status = CERTIFICATE_STATUSES.WAITING_FOR_RESULTS;
       extraCertificationStatus = null;
@@ -108,12 +109,10 @@ export class CertificateSummary {
       ? CERTIFICATE_TYPES.CERTIFICATE
       : CERTIFICATE_TYPES.ATTESTATION;
 
-    const isRejectedV3 =
-      AlgorithmEngineVersion.isV3(algorithmVersion) && assessmentResultStatus === AssessmentResult.status.REJECTED;
-
-    const certificateMeshLevel = isRejectedV3
-      ? null
-      : new CertificateMeshLevel({ reachedMeshIndex, certificationFramework, eduV3ExternalJuryResult });
+    const certificateMeshLevel =
+      isRejectedV3 || isWaitingForResult
+        ? null
+        : new CertificateMeshLevel({ reachedMeshIndex, certificationFramework, eduV3ExternalJuryResult });
 
     return new CertificateSummary({
       id,

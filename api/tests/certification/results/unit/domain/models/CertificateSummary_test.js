@@ -32,20 +32,11 @@ describe('Unit | Domain | Models | CertificationSummary', function () {
     context('status computation', function () {
       context('when certification is not published', function () {
         [
-          {
-            assessmentResultStatus: AssessmentResult.status.REJECTED,
-            expectedReachedMeshLevel: null,
-          },
-          {
-            assessmentResultStatus: AssessmentResult.status.VALIDATED,
-            expectedReachedMeshLevel: 'LEVEL_BEGINNER_1',
-          },
-          {
-            assessmentResultStatus: AssessmentResult.status.CANCELLED,
-            expectedReachedMeshLevel: 'LEVEL_BEGINNER_1',
-          },
-        ].forEach(({ assessmentResultStatus, expectedReachedMeshLevel }) => {
-          it(`should set the status of the certificate as WAIT_FOR_RESULTS when assessment result status is ${assessmentResultStatus}`, function () {
+          AssessmentResult.status.REJECTED,
+          AssessmentResult.status.VALIDATED,
+          AssessmentResult.status.CANCELLED,
+        ].forEach((assessmentResultStatus) => {
+          it(`should set the status of the certificate as WAIT_FOR_RESULTS and reachedMeshLevel to null when assessment result status is ${assessmentResultStatus}`, function () {
             const actualCertificateSummary = CertificateSummary.buildFrom({
               ...baseData,
               assessmentResultStatus,
@@ -63,7 +54,7 @@ describe('Unit | Domain | Models | CertificationSummary', function () {
               status: CERTIFICATE_STATUSES.WAITING_FOR_RESULTS,
               extraCertificationStatus: null,
               certificateType: CERTIFICATE_TYPES.CERTIFICATE,
-              reachedMeshLevel: expectedReachedMeshLevel,
+              reachedMeshLevel: null,
             });
 
             expect(actualCertificateSummary).to.deepEqualInstance(expectedCertificateSummary);
@@ -140,7 +131,7 @@ describe('Unit | Domain | Models | CertificationSummary', function () {
               status: CERTIFICATE_STATUSES.WAITING_FOR_RESULTS,
               extraCertificationStatus: null,
               certificateType: CERTIFICATE_TYPES.CERTIFICATE,
-              reachedMeshLevel: 'LEVEL_BEGINNER_1',
+              reachedMeshLevel: null,
             });
 
             expect(actualCertificateSummary).to.deepEqualInstance(expectedCertificateSummary);
@@ -239,6 +230,26 @@ describe('Unit | Domain | Models | CertificationSummary', function () {
 
           // then
           expect(actualCertificateSummary.reachedMeshLevel).to.equal('LEVEL_INDEPENDENT_3');
+        });
+      });
+
+      context('when certification is Pix+ EDU and not published', function () {
+        it('should set reachedMeshLevel to null and status to WAITING_FOR_RESULTS regardless of the external jury result', function () {
+          // when
+          const actualCertificateSummary = CertificateSummary.buildFrom({
+            ...baseData,
+            certificationFramework: Frameworks.EDU_2ND_DEGRE,
+            algorithmVersion: AlgorithmEngineVersion.V3,
+            assessmentResultStatus: AssessmentResult.status.VALIDATED,
+            isPublished: false,
+            isExtraCertificationAcquired: true,
+            reachedMeshIndex: 0,
+            eduV3ExternalJuryResult: PIX_PLUS_EDU_EXTERNAL_LEVELS.ADVANCED,
+          });
+
+          // then
+          expect(actualCertificateSummary.reachedMeshLevel).to.be.null;
+          expect(actualCertificateSummary.status).to.equal(CERTIFICATE_STATUSES.WAITING_FOR_RESULTS);
         });
       });
 
