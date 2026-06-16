@@ -35,12 +35,7 @@ export default class FrameworkRoute extends Route {
 
   async afterModel(model) {
     if (model.draftVersion?.id) {
-      this.router.transitionTo(
-        'authenticated.certification-frameworks.item.framework.new-version.configuration',
-        model.draftVersion?.id,
-      );
-    } else {
-      this.router.transitionTo('authenticated.certification-frameworks.item.framework.new-version.tubes');
+      this.router.transitionTo('authenticated.certification-frameworks.item.framework.edit', model.draftVersion?.id);
     }
   }
 }

@@ -37,10 +37,7 @@ export default class NewVersionForm extends Component {
       return;
     }
 
-    this.router.transitionTo(
-      'authenticated.certification-frameworks.item.framework.new-version.configuration',
-      version.id,
-    );
+    this.router.transitionTo('authenticated.certification-frameworks.item.framework.edit', version.id);
   }
 
   get checkedTubes() {

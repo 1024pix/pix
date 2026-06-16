@@ -16,7 +16,7 @@ export default class ItemRoute extends Route {
     let currentComplementaryCertification;
     if (params.certification_framework_key === 'CLEA') {
       const complementaryCertifications = await this.store.findAll('complementary-certification');
-      currentComplementaryCertification = complementaryCertifications.find(
+      currentComplementaryCertification = complementaryCertifications?.find(
         (cc) => cc.key === params.certification_framework_key,
       );
     }

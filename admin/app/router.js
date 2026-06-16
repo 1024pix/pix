@@ -123,10 +123,8 @@ Router.map(function () {
     this.route('certification-frameworks', function () {
       this.route('item', { path: '/:certification_framework_key' }, function () {
         this.route('framework', function () {
-          this.route('new-version', function () {
-            this.route('tubes');
-            this.route('configuration', { path: '/:version_id/configuration' });
-          });
+          this.route('new-version');
+          this.route('edit', { path: '/:version_id/edit' });
         });
         this.route('target-profile', function () {
           this.route('update', { path: '/:target_profile_id' });

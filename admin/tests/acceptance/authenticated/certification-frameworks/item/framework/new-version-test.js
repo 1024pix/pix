@@ -119,57 +119,28 @@ module('Acceptance | Certification Framework | item | Framework | new-version', 
         const screen = await visit(`/certification-frameworks/CORE/framework/new-version?activeVersionId=13`);
 
         // then
-        assert.strictEqual(
-          currentURL(),
-          '/certification-frameworks/CORE/framework/new-version/14/configuration?activeVersionId=13',
-        );
+        assert.strictEqual(currentURL(), '/certification-frameworks/CORE/framework/14/edit');
 
         assert.dom(await screen.findByText('configuration wow !')).exists();
       });
     });
 
     module('when the is no draftversion in scope', function () {
-      test('should be redirected to the tube selection route with preselected tubes ', async function (assert) {
+      test('should redirect to the edit page when click on next', async function (assert) {
         // given
         server.get('admin/certification-frameworks/:scope/framework-history', () => {
           return droitFrameworkHistory;
         });
-
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-        // when
         const screen = await visit(`/certification-frameworks/DROIT/framework/new-version?activeVersionId=12`);
-
-        // then
-        assert.strictEqual(
-          currentURL(),
-          '/certification-frameworks/DROIT/framework/new-version/tubes?activeVersionId=12',
-        );
-
-        assert.dom(screen.getByRole('button', { name: 'Référentiels :' })).exists();
-        await click(screen.getByRole('button', { name: 'Référentiels :' }));
-        assert.dom(await screen.findByRole('checkbox', { name: 'DROIT' })).isChecked();
-        assert.dom(screen.getByText('1/1 sujet(s) sélectionné(s)'));
-      });
-
-      test('should redirect to the configuration page when click on next', async function (assert) {
-        // given
-        server.get('admin/certification-frameworks/:scope/framework-history', () => {
-          return droitFrameworkHistory;
-        });
-        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-
-        const screen = await visit(`/certification-frameworks/DROIT/framework/new-version/tubes?activeVersionId=12`);
 
         await click(screen.getByRole('button', { name: 'Suivant' }));
 
         assert.dom(await screen.findByText('configuration wow !')).exists();
 
         // then
-        assert.strictEqual(
-          currentURL(),
-          '/certification-frameworks/DROIT/framework/new-version/15/configuration?activeVersionId=12',
-        );
+        assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/framework/15/edit');
       });
     });
   });

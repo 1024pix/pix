@@ -16,12 +16,12 @@ export default class Header extends Component {
   }
 
   get canCreateVersion() {
-    return this.args.frameworkHistory?.history.some((history) => history.status === 'DRAFT');
+    return this.args.frameworkHistory?.history?.some((history) => history.status === 'DRAFT');
   }
 
   get activeCertificationVersionId() {
     return {
-      activeVersionId: this.args.frameworkHistory?.history.find(
+      activeVersionId: this.args.frameworkHistory?.history?.find(
         (frameworkHistory) => frameworkHistory.status == 'ACTIVE',
       )?.id,
     };
