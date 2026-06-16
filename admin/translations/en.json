@@ -1915,6 +1915,28 @@
           "locales": {
             "label": "Locales",
             "placeholder": "-- Select one or more locales --"
+          },
+          "recommendation-engine": {
+            "card-title": "Recommendation engine specific data",
+            "delivery-mode": {
+              "label": "Delivery mode",
+              "placeholder": "-- Select a delivery mode --"
+            },
+            "description": {
+              "label": "Description"
+            },
+            "objectives": {
+              "label": "Objectives",
+              "sub-label": "Separate each objective with a semicolon (;)"
+            },
+            "program": {
+              "label": "Program"
+            },
+            "registration-required": {
+              "label": "Registration required",
+              "no": "No",
+              "yes": "Yes"
+            }
           }
         },
         "list": {

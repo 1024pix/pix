@@ -2,7 +2,7 @@ import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CreateOrUpdateTrainingForm from 'pix-admin/components/trainings/create-or-update-training-form';
-import { localeCategories, typeCategories } from 'pix-admin/models/training';
+import { deliveryModeCategories, localeCategories, typeCategories } from 'pix-admin/models/training';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -62,6 +62,35 @@ module('Integration | Component | trainings | CreateOrUpdateTrainingForm', funct
     assert
       .dom(screen.getByRole('link', { name: 'Voir la liste des logos éditeur' }))
       .hasAttribute('href', 'https://example-assets.net/list/contenu-formatif/editeur');
+    assert
+      .dom(screen.getByLabelText(t('pages.trainings.training.form.recommendation-engine.delivery-mode.label')))
+      .exists();
+    assert
+      .dom(
+        screen.getByRole('radiogroup', {
+          name: t('pages.trainings.training.form.recommendation-engine.registration-required.label'),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        screen.getByRole('textbox', {
+          name: t('pages.trainings.training.form.recommendation-engine.description.label'),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        screen.getByRole('textbox', {
+          name: new RegExp(t('pages.trainings.training.form.recommendation-engine.objectives.label')),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        screen.getByRole('textbox', { name: t('pages.trainings.training.form.recommendation-engine.program.label') }),
+      )
+      .exists();
   });
 
   test('it should call onSubmit when form is valid', async function (assert) {
@@ -97,6 +126,11 @@ module('Integration | Component | trainings | CreateOrUpdateTrainingForm', funct
         editorLogoUrl: `http://localhost:4202/logo-placeholder.png`,
         duration: { days: 0, hours: 0, minutes: 0 },
         isDisabled: false,
+        deliveryMode: 'hybrid',
+        registrationRequired: false,
+        description: 'Une description',
+        objectives: 'Objectif 1;Objectif 2',
+        program: 'Un programme détaillé',
       };
 
       // when
@@ -135,6 +169,29 @@ module('Integration | Component | trainings | CreateOrUpdateTrainingForm', funct
         .exists();
       assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       assert.dom(screen.getByRole('button', { name: 'Modifier le contenu formatif' })).exists();
+      assert.strictEqual(
+        screen.getByLabelText(t('pages.trainings.training.form.recommendation-engine.delivery-mode.label')).innerText,
+        deliveryModeCategories[model.deliveryMode],
+      );
+      assert
+        .dom(
+          screen.getByRole('textbox', {
+            name: t('pages.trainings.training.form.recommendation-engine.description.label'),
+          }),
+        )
+        .hasValue(model.description);
+      assert
+        .dom(
+          screen.getByRole('textbox', {
+            name: new RegExp(t('pages.trainings.training.form.recommendation-engine.objectives.label')),
+          }),
+        )
+        .hasValue('Objectif 1;\nObjectif 2');
+      assert
+        .dom(
+          screen.getByRole('textbox', { name: t('pages.trainings.training.form.recommendation-engine.program.label') }),
+        )
+        .hasValue(model.program);
     });
   });
 
@@ -176,6 +233,43 @@ module('Integration | Component | trainings | CreateOrUpdateTrainingForm', funct
       assert.ok(onSubmitStub.called);
       const submittedData = onSubmitStub.getCall(0).firstArg;
       assert.strictEqual(submittedData.editorLogoUrl, 'https://assets.pix.org/contenu-formatif/editeur/new-logo.svg');
+    });
+
+    test('should save description on form submission', async function (assert) {
+      // given
+      const onSubmitStub = sinon.stub();
+      const screen = await render(
+        <template><CreateOrUpdateTrainingForm @onSubmit={{onSubmitStub}} @onCancel={{onCancel}} /></template>,
+      );
+
+      // when
+      await fillIn(
+        screen.getByRole('textbox', {
+          name: t('pages.trainings.training.form.recommendation-engine.description.label'),
+        }),
+        'Ma description',
+      );
+      await triggerEvent('form', 'submit');
+
+      // then
+      sinon.assert.calledOnceWith(onSubmitStub, sinon.match({ description: 'Ma description' }));
+      assert.ok(true);
+    });
+
+    test('should toggle registrationRequired when segmented control is clicked', async function (assert) {
+      // given
+      const onSubmitStub = sinon.stub();
+      await render(
+        <template><CreateOrUpdateTrainingForm @onSubmit={{onSubmitStub}} @onCancel={{onCancel}} /></template>,
+      );
+
+      // when
+      await clickByName(t('common.words.yes'));
+      await triggerEvent('form', 'submit');
+
+      // then
+      sinon.assert.calledOnceWith(onSubmitStub, sinon.match({ registrationRequired: true }));
+      assert.ok(true);
     });
 
     test('should toggle isDisabled field when checkbox is clicked', async function (assert) {

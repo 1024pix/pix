@@ -1925,6 +1925,28 @@
           "locales": {
             "label": "Locales",
             "placeholder": "-- Sélectionnez une ou plusieurs locales --"
+          },
+          "recommendation-engine": {
+            "card-title": "Données spécifiques au moteur de recommandation",
+            "delivery-mode": {
+              "label": "Modalité",
+              "placeholder": "-- Sélectionnez une modalité --"
+            },
+            "description": {
+              "label": "Description"
+            },
+            "objectives": {
+              "label": "Objectifs",
+              "sub-label": "Séparer chaque objectif par un point virgule (;)"
+            },
+            "program": {
+              "label": "Programme"
+            },
+            "registration-required": {
+              "label": "Inscription requise",
+              "no": "Non",
+              "yes": "Oui"
+            }
           }
         },
         "list": {
