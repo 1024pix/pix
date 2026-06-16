@@ -1912,6 +1912,7 @@
       },
       "verification-precondition-failed-alert": {
         "qcm": "Selecteer ten minste twee antwoorden om te bevestigen.",
+        "qcm-declarative": "Selecteer ten minste één antwoord om te verzenden.",
         "qcu": "Selecteer een antwoord om te bevestigen.",
         "qrocm": "Vul alle antwoordvelden in om te bevestigen."
       }

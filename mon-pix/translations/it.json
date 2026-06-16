@@ -1912,6 +1912,7 @@
       },
       "verification-precondition-failed-alert": {
         "qcm": "Per confermare, seleziona almeno due risposte.",
+        "qcm-declarative": "Per inviare, seleziona almeno una risposta.",
         "qcu": "Per confermare, seleziona una risposta.",
         "qrocm": "Per convalidare, compila tutti i campi di risposta."
       }

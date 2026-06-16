@@ -1912,6 +1912,7 @@
       },
       "verification-precondition-failed-alert": {
         "qcm": "Wähle zum Bestätigen mindestens zwei Antworten aus.",
+        "qcm-declarative": "Wähle zum Absenden mindestens eine Antwort aus.",
         "qcu": "Zum Bestätigen wähle eine Antwort aus.",
         "qrocm": "Fülle zum Bestätigen bitte alle Antwortfelder aus."
       }

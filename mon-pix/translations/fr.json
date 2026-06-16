@@ -1912,6 +1912,7 @@
       },
       "verification-precondition-failed-alert": {
         "qcm": "Pour valider, sélectionnez au moins deux réponses.",
+        "qcm-declarative": "Pour soumettre, sélectionnez au moins une réponse.",
         "qcu": "Pour valider, sélectionnez une réponse.",
         "qrocm": "Pour valider, veuillez remplir tous les champs réponse."
       }
