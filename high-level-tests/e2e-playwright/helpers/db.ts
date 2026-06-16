@@ -495,6 +495,35 @@ export async function createTargetProfileInDB(name: string) {
   return id;
 }
 
+export async function createCombinedCourseBlueprintInDB(name: string) {
+  const someDate = new Date();
+  const [{ id: questId }] = await knex('quests')
+    .insert({
+      rewardType: null,
+      rewardId: null,
+      eligibilityRequirements: [],
+      successRequirements: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .returning('id');
+
+  const [{ id }] = await knex('combined_course_blueprints')
+    .insert({
+      name,
+      internalName: name,
+      description: null,
+      illustration: null,
+      createdAt: someDate,
+      updatedAt: someDate,
+      surveyUrl: null,
+      questId,
+    })
+    .returning('id');
+
+  return id;
+}
+
 export async function createTargetProfileTubesInDB(targetProfileId: number, level: number, tubeIds: string[]) {
   const dataToInsert = tubeIds.map((tubeId) => ({
     targetProfileId,

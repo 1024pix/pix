@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
 import { expect, test } from '../../fixtures/index.ts';
-import { buildFreshPixOrgaUser, knex } from '../../helpers/db.ts';
+import { buildFreshPixOrgaUser, createCombinedCourseBlueprintInDB, knex } from '../../helpers/db.ts';
 import { LoginPage } from '../../pages/pix-app/LoginPage.ts';
 import { PixOrgaPage } from '../../pages/pix-orga/PixOrgaPage.ts';
 
@@ -11,7 +11,7 @@ test.slow();
 
 test.beforeEach(async () => {
   uid = randomUUID().slice(-8);
-  createDataForCombinedCourse(uid);
+  await createDataForCombinedCourse(uid);
 });
 
 test('Combined courses', async ({ page }) => {
@@ -188,10 +188,13 @@ async function createDataForCombinedCourse(uid: string) {
     })
     .returning('id');
 
+  const combinedCourseBlueprintId = await createCombinedCourseBlueprintInDB('combinedCourseBlueprint');
+
   await knex('combined_courses').insert({
     name: 'Mon parcours combiné',
     code: `C${uid.toUpperCase()}`,
     organizationId,
+    combinedCourseBlueprintId,
     questId,
   });
 }

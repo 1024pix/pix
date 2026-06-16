@@ -1,5 +1,11 @@
 import { expect, test } from '../../fixtures/index.ts';
-import { buildFreshPixAppUser, createOrganizationInDB, createTargetProfileInDB, knex } from '../../helpers/db.js';
+import {
+  buildFreshPixAppUser,
+  createCombinedCourseBlueprintInDB,
+  createOrganizationInDB,
+  createTargetProfileInDB,
+  knex,
+} from '../../helpers/db.js';
 import { ReconciliationLoginPage } from '../../pages/pix-app/ReconciliationLoginPage.js';
 import { ReconciliationPage } from '../../pages/pix-app/ReconciliationPage.js';
 
@@ -61,6 +67,7 @@ async function createDataForCombinedCourse() {
   const organizationId = await createOrganizationInDB({ type: 'SCO', externalId: '123', isManagingStudents: true });
   await knex('organization-learners').insert({ firstName, lastName, birthdate, organizationId });
   const targetProfileId = await createTargetProfileInDB('targetProfile');
+  const combinedCourseBlueprintId = await createCombinedCourseBlueprintInDB('combinedCourseBlueprint');
   const [{ id: campaignId }] = await knex('campaigns')
     .insert({
       targetProfileId,
@@ -139,6 +146,7 @@ async function createDataForCombinedCourse() {
     name: 'Mon parcours combiné',
     code: 'COMBINIX1',
     organizationId,
+    combinedCourseBlueprintId,
     questId,
   });
 }
