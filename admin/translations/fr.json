@@ -151,6 +151,7 @@
       "send-new-confirm": "Un email a bien été renvoyé à {invitationEmail}",
       "send-new-label": "Renvoyer l'invitation à {invitationEmail}"
     },
+    "loading": "Chargement en cours",
     "not-specified": "Non spécifié",
     "notifications": {
       "close-button": {

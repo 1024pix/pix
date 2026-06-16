@@ -1,0 +1,12 @@
+// move this component to Pix UI Later
+import { t } from 'ember-intl';
+
+<template>
+  <div class="app-loader">
+    {{! template-lint-disable no-redundant-role }}
+    <img src="/images/interwind.gif" alt="" role="presentation" />
+    <p class="app-loader__text">
+      {{t "common.loading"}}
+    </p>
+  </div>
+</template>

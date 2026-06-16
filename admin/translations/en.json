@@ -144,6 +144,7 @@
       "send-new-confirm": "An email has been sent to {invitationEmail}",
       "send-new-label": "Resend the invitation to {invitationEmail}"
     },
+    "loading": "Loading...",
     "not-specified": "Not specified",
     "notifications": {
       "close-button": {
