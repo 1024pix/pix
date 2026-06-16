@@ -156,8 +156,8 @@
                           "type": "select",
                           "input": "demande infos",
                           "display": "inline",
-                          "placeholder": "- Sélectionnez -",
-                          "ariaLabel": "Sélectionnez",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "Sélectionner",
                           "tolerances": [],
                           "options": [
                             {
@@ -206,8 +206,8 @@
                           "type": "select",
                           "input": "janvier",
                           "display": "inline",
-                          "placeholder": "- Sélectionnez -",
-                          "ariaLabel": "Sélectionnez",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "Sélectionner",
                           "tolerances": [],
                           "options": [
                             {
@@ -472,7 +472,7 @@
               "element": {
                 "id": "99528f9d-32b9-4388-ade2-46c05929846d",
                 "type": "qcu-discovery",
-                "instruction": "À votre avis, Maëva peut-elle récupérer son fichier supprimé ?",
+                "instruction": "À votre avis, Maëva peut-elle récupérer son fichier supprimé&nbsp;?",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -804,7 +804,7 @@
               "element": {
                 "id": "95be29bf-828d-4cb5-aa14-a6cbfbd90392",
                 "type": "qrocm",
-                "instruction": "<p>Quel est le nom de l’objet qui est écrit sur la liste des courses de Tiago?</p>",
+                "instruction": "<p>Quel est le nom de l’objet qui est écrit sur la liste des courses de Tiago&nbsp;?</p>",
                 "proposals": [
                   {
                     "type": "text",
