@@ -1,5 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -30,8 +31,12 @@ export default class ModuleQcmDeclarative extends ModuleElement {
     return this.isSubmitted || this.isAnswering;
   }
 
+  get userResponse() {
+    return [...this.selectedProposalIds];
+  }
+
   get canValidateElement() {
-    return false;
+    return this.selectedProposalIds.size > 0;
   }
 
   @action
@@ -46,11 +51,17 @@ export default class ModuleQcmDeclarative extends ModuleElement {
   @action
   async onAnswer(event) {
     event.preventDefault();
-    this.isAnswering = true;
-    const answer = [...this.selectedProposalIds];
     super.onAnswer(event);
 
+    if (this.shouldDisplayRequiredMessage === true) {
+      return;
+    }
+
+    this.isAnswering = true;
+    const answer = [...this.selectedProposalIds];
+
     await this.waitFor(VERIFY_RESPONSE_DELAY);
+
     await this.args.onAnswer({ element: this.element });
     this.reportInfo = {
       answer: answer.join(', '),
@@ -63,7 +74,7 @@ export default class ModuleQcmDeclarative extends ModuleElement {
       type: 'QCM_DECLARATIVE_ANSWERED',
       data: {
         elementId: this.element.id,
-        answer,
+        answer: answer.join(', '),
       },
     });
   }
@@ -103,6 +114,13 @@ export default class ModuleQcmDeclarative extends ModuleElement {
             </div>
           {{/if}}
         </div>
+        {{#if this.shouldDisplayRequiredMessage}}
+          <div class="element-qcm-declarative__required-field-missing">
+            <PixNotificationAlert role="alert" @type="error" @withIcon={{true}}>
+              {{t "pages.modulix.verification-precondition-failed-alert.qcm-declarative"}}
+            </PixNotificationAlert>
+          </div>
+        {{/if}}
         {{#unless this.isSubmitted}}
           <PixButton class="element-qcm-declarative--submit" @triggerAction={{this.onAnswer}}>{{t
               "pages.modulix.buttons.activity.submit"

@@ -44,7 +44,7 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
     assert.dom(submitButton).exists();
   });
 
-  module('when user clicks on several propositions', function () {
+  module('when user clicks on several propositions and submit', function () {
     test('should disable interaction, call action, send an event when submit button is clicked, then display feedback and hide submit button', async function (assert) {
       // given
       const onAnswerStub = sinon.stub();
@@ -89,12 +89,15 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
       const onAnswerStub = sinon.stub();
 
       const qcmDeclarativeElement = _getQcmDeclarativeElement();
+      const { proposals } = qcmDeclarativeElement;
 
       // when
       const screen = await render(
         <template><ModuleQcmDeclarative @element={{qcmDeclarativeElement}} @onAnswer={{onAnswerStub}} /></template>,
       );
       const submitButton = screen.getByRole('button', { name: 'Soumettre ma sélection' });
+      const proposal1Element = screen.getByLabelText(proposals[0].content);
+      await click(proposal1Element);
       await submitButton.click();
       await clock.tickAsync(VERIFY_RESPONSE_DELAY + 10);
 
@@ -106,10 +109,31 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
         type: 'QCM_DECLARATIVE_ANSWERED',
         data: {
           elementId: qcmDeclarativeElement.id,
-          answer: [],
+          answer: '1',
         },
       });
       assert.ok(true);
+    });
+  });
+
+  module('when no proposal is selected', function () {
+    test('should display an error message when submit button is clicked', async function (assert) {
+      // given
+      const onAnswerStub = sinon.stub();
+      const qcmDeclarativeElement = _getQcmDeclarativeElement();
+
+      const screen = await render(
+        <template><ModuleQcmDeclarative @element={{qcmDeclarativeElement}} @onAnswer={{onAnswerStub}} /></template>,
+      );
+
+      // when
+      const submitButton = screen.getByRole('button', { name: 'Soumettre ma sélection' });
+      await click(submitButton);
+      await clock.tickAsync(VERIFY_RESPONSE_DELAY);
+
+      // then
+      assert.dom(screen.getByRole('alert')).exists();
+      sinon.assert.notCalled(onAnswerStub);
     });
   });
 
@@ -151,6 +175,7 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
 });
 
 function _getQcmDeclarativeElement(hasShortProposals = false) {
+  const id = '0db62236-a758-4fbb-bbca-16d63d92ad6e';
   const instruction = '<p>Lesquels de ces oiseaux croisez-vous près de chez vous ?</p>';
   const complementaryInstruction = 'Sélectionnez la ou les réponses de votre choix.';
 
@@ -176,5 +201,5 @@ function _getQcmDeclarativeElement(hasShortProposals = false) {
     diagnosis: 'Vous en avez de la chance !',
   };
 
-  return { instruction, hasShortProposals, complementaryInstruction, proposals, feedback };
+  return { id, instruction, hasShortProposals, complementaryInstruction, proposals, feedback };
 }
