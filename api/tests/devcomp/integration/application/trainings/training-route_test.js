@@ -1141,6 +1141,72 @@ describe('Integration | Devcomp | Application | Trainings | Router | training-ro
         });
       });
 
+      describe('when optional reco engine fields are null', function () {
+        it('should return 200 and accept null values', async function () {
+          // given
+          sinon.stub(trainingController, 'update').returns('ok');
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const payload = {
+            data: {
+              attributes: {
+                'editor-logo-url': 'https://assets.pix.org/contenu-formatif/editeur/pix-logo.svg',
+                description: null,
+                objectives: null,
+                program: null,
+                'delivery-mode': null,
+                'registration-required': null,
+              },
+            },
+          };
+
+          // when
+          const result = await httpTestServer.request('PATCH', '/api/admin/trainings/12344', payload);
+
+          // then
+          expect(result.statusCode).to.equal(200);
+          sinon.assert.calledOnce(trainingController.update);
+        });
+      });
+
+      describe('when optional reco engine fields are empty strings', function () {
+        it('should return 200 and accept empty string values', async function () {
+          // given
+          sinon.stub(trainingController, 'update').returns('ok');
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const payload = {
+            data: {
+              attributes: {
+                'editor-logo-url': 'https://assets.pix.org/contenu-formatif/editeur/pix-logo.svg',
+                description: '',
+                objectives: '',
+                program: '',
+              },
+            },
+          };
+
+          // when
+          const result = await httpTestServer.request('PATCH', '/api/admin/trainings/12344', payload);
+
+          // then
+          expect(result.statusCode).to.equal(200);
+          sinon.assert.calledOnce(trainingController.update);
+        });
+      });
+
       describe('when editorLogoUrl is not a valid url', function () {
         it('should return 400', async function () {
           // given

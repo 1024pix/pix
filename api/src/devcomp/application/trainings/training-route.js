@@ -156,11 +156,12 @@ const register = async function (server) {
                 'editor-logo-url': Joi.string().regex(editorLogoUrlValidation).required(),
                 'delivery-mode': Joi.string()
                   .valid(...Object.values(Training.modes))
+                  .allow(null)
                   .optional(),
-                description: Joi.string().optional(),
-                program: Joi.string().optional(),
-                'registration-required': Joi.boolean().optional(),
-                objectives: Joi.string().optional(),
+                description: Joi.string().allow(null, '').optional(),
+                program: Joi.string().allow(null, '').optional(),
+                'registration-required': Joi.boolean().allow(null).optional(),
+                objectives: Joi.string().allow(null, '').optional(),
               }),
               type: Joi.string().valid('trainings'),
             }).required(),
@@ -241,11 +242,12 @@ const register = async function (server) {
                 'editor-logo-url': Joi.string().regex(editorLogoUrlValidation).required(),
                 'delivery-mode': Joi.string()
                   .valid(...Object.values(Training.modes))
+                  .allow(null)
                   .optional(),
-                description: Joi.string().optional(),
-                program: Joi.string().optional(),
-                'registration-required': Joi.boolean().optional(),
-                objectives: Joi.string().optional(),
+                description: Joi.string().allow(null, '').optional(),
+                program: Joi.string().allow(null, '').optional(),
+                'registration-required': Joi.boolean().allow(null).optional(),
+                objectives: Joi.string().allow(null, '').optional(),
               }),
               type: Joi.string().valid('trainings'),
             }).required(),
