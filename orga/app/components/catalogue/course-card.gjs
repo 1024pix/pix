@@ -39,12 +39,13 @@ export default class CourseCard extends Component {
   }
 
   <template>
-    <div class="course-card__wrapper">
+    <div class="course-card">
       <PixCard
         @variant="orga"
         @title={{@course.name}}
         @subtitle={{if @course.category (t (concat "pages.campaign-creation.tags." @course.category))}}
         @image={{this.courseInfo.image}}
+        class="course-card"
       >
         <:tag>
           <PixTag @color={{this.courseInfo.color}} class="course-card__tag">{{t this.courseInfo.label}}</PixTag>

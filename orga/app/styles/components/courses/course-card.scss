@@ -1,37 +1,22 @@
+@use 'pix-design-tokens/typography';
+
 .course-card {
-  &__wrapper {
-    position: relative;
-    transition: 0.2s ease;
+  position: relative;
+  transition: 0.2s ease;
 
-    &:hover {
-      transform: translateY(-5px);
-    }
-
-    .pix-card-wrapper {
-      height: 100%;
-    }
-
-    > a {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
+  &:hover {
+    transform: translateY(-5px);
   }
 
-  &__tag {
-    margin: var(--pix-spacing-3x) var(--pix-spacing-3x) var(--pix-spacing-3x) 0;
+  .pix-card-wrapper {
+    height: 100%;
   }
 
-  &__footer::before {
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    margin: auto 4px auto 4px;
-    vertical-align: middle;
-    background-color: var(--pix-neutral-500);
-    border-radius: 100%;
-    content: '';
+  > a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 }
