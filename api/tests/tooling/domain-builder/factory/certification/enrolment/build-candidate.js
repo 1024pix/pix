@@ -1,5 +1,5 @@
-import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
-import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { Candidate } from "../../../../../../src/certification/enrolment/domain/models/Candidate.js";
+import { Frameworks } from "../../../../../../src/certification/shared/domain/models/Frameworks.js";
 
 const buildCandidate = function ({
   id = 123,
@@ -29,6 +29,7 @@ const buildCandidate = function ({
   accessibilityAdjustmentNeeded,
   subscription = Frameworks.CORE,
   hasStartedTest = false,
+  doubleCertificationEligibility = false,
 } = {}) {
   return new Candidate({
     id,
@@ -58,6 +59,7 @@ const buildCandidate = function ({
     accessibilityAdjustmentNeeded,
     subscription,
     hasStartedTest,
+    doubleCertificationEligibility,
   });
 };
 

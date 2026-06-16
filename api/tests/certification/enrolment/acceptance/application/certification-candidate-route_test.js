@@ -237,6 +237,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
           attributes: {
             birthdate: '2000-01-04',
             subscription: 'CORE',
+            'double-certification-eligibility': false,
             'first-name': 'first-name',
             'has-seen-certification-instructions': true,
             'has-started-test': false,
@@ -286,6 +287,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
           attributes: {
             birthdate: '1945-12-24',
             subscription: 'CORE',
+            'double-certification-eligibility': false,
             'first-name': 'Lemmy',
             'has-seen-certification-instructions': true,
             'has-started-test': false,

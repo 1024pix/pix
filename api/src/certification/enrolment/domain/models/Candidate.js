@@ -39,7 +39,8 @@ export class Candidate {
     subscriptions = [],
     accessibilityAdjustmentNeeded,
     hasStartedTest = false,
-  }) {
+    doubleCertificationEligibility = false,
+  } = {}) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -67,6 +68,7 @@ export class Candidate {
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
     this.reconciledAt = reconciledAt;
     this.hasStartedTest = hasStartedTest;
+    this.doubleCertificationEligibility = doubleCertificationEligibility;
     this.isLinked = Boolean(userId);
   }
 

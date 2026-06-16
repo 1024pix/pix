@@ -47,6 +47,7 @@ export const serializeForParticipation = function (candidate) {
       'hasSeenCertificationInstructions',
       'subscription',
       'hasStartedTest',
+      'doubleCertificationEligibility',
     ],
   }).serialize(candidate);
 };

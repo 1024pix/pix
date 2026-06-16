@@ -161,6 +161,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
             'session-id': candidate.sessionId,
             'has-started-test': false,
             subscription: candidate.subscription,
+            'double-certification-eligibility': false,
           },
         },
       };
