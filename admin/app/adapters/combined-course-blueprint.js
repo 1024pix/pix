@@ -16,7 +16,6 @@ export default class CombinedCourseBlueprintAdapter extends ApplicationAdapter {
   }
 
   createRecord(store, type, snapshot) {
-    console.log(type);
     const { adapterOptions } = snapshot;
 
     if (adapterOptions && adapterOptions.tubes) {
