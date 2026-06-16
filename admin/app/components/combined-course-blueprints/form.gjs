@@ -94,7 +94,7 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   async save() {
     try {
-      await this.blueprint.save();
+      await this.blueprint.save({ adapterOptions: { tubes: this.selectedTubes } });
       this.pixToast.sendSuccessNotification({
         message: this.args.updateMode
           ? this.intl.t('components.combined-course-blueprints.update.notifications.success')
