@@ -166,6 +166,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         rewardId: 5,
         rewardType: 'ATTESTATION',
       });
+      const model = { blueprint };
 
       sinon.stub(blueprint, 'save');
       blueprint.save.resolves();
@@ -174,7 +175,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       //when
       const screen = await render(
-        <template><CombinedCourseBlueprintForm @updateMode={{true}} @model={{blueprint}} /></template>,
+        <template><CombinedCourseBlueprintForm @updateMode={{true}} @model={{ model }} /></template>,
       );
 
       await fillIn(
