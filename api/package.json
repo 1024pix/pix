@@ -171,7 +171,7 @@
     "chai": "^6.0.0",
     "chai-as-promised": "^8.0.0",
     "dependency-cruiser": "^17.4.0",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.0",
     "eslint-plugin-chai-expect": "^4.0.0",
     "eslint-plugin-i18n-json": "^4.0.1",
     "eslint-plugin-knex": "v0.2.2",
