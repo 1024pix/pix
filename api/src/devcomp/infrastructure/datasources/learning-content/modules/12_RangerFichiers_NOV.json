@@ -735,7 +735,7 @@
                 "feedbacks": {
                   "valid": {
                     "state": "Bonne réponse !&nbsp;",
-                    "diagnosis": "Sur ce bureau, il y a quatre dossiers, trois fichiers sons et trois fichiers textes."
+                    "diagnosis": "Sur ce bureau, il y a quatre dossiers et six fichiers (un fichier image, deux fichiers sons et trois fichiers textes)."
                   },
                   "invalid": {
                     "state": "Mauvaise réponse.",
