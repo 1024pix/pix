@@ -89,7 +89,7 @@
                 "id": "d1d4724c-aadc-4409-a0f5-fd8392e909e8",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>La plupart des logiciels d’intelligence artificielle appliquent des règles de sécurité qui peuvent bloquer certaines réponses. Mais ces règles ne sont pas les seules à influencer la manière dont les intelligences artificielles répondent. Voyons ensemble quelles directives les intelligences artificielles suivent et qui les définit.</p>"
+                "content": "<p>La plupart des logiciels d’IA générative appliquent des règles de sécurité qui peuvent bloquer certaines réponses. Mais ces règles ne sont pas les seules à influencer leur manière de répondre. Voyons ensemble quelles règles les IA génératives suivent et qui les définit.</p>"
               }
             }
           ]
@@ -212,7 +212,7 @@
                       "id": "058bc776-1994-4191-9b89-60729a52306d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5> Comment réduire ces risques ?</h5><p> Pour limiter ces risques, les éditeurs encadrent le comportement de l’IA grâce à différentes méthodes dites d’<strong>alignement</strong>. On parle d’ «&nbsp;alignement&nbsp;» parce qu’il s’agit d’<strong>ajuster l’IA pour que son comportement corresponde aux valeurs et attentes des concepteurs.</strong></p>"
+                      "content": "<h5> Comment réduire ces risques ?</h5><p> Pour limiter ces risques, les éditeurs de logiciels d’IA, c’est-à-dire les organisations qui conçoivent ou diffusent ces outils, encadrent le comportement de l’IA grâce à différentes méthodes dites d’alignement. On parle d’ «&nbsp;<strong>alignement&nbsp;</strong>» parce qu’il s’agit d’<strong>ajuster l’IA pour que son comportement corresponde aux valeurs et attentes des concepteurs.</strong></p>"
                     }
                   ]
                 },
@@ -222,7 +222,7 @@
                       "id": "0533f8c1-899a-4eca-832a-218784310fc3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Quelles sont les méthodes d’alignement ? </h5><p>Une des méthodes principales d’alignement a lieu pendant l’entraînement&nbsp;: <strong>des évaluateurs humains notent les réponses de l’IA</strong>. L’IA ajuste au fur et à mesure son comportement pour avoir une meilleure note. On appelle ce système «&nbsp;Apprentissage par renforcement à partir de retours humains&nbsp;» ou en anglais,&nbsp;<strong>RLHF </strong>pour<strong> Reinforcement Learning from Human Feedback.</strong></p>"
+                      "content": "<h5>Quelles sont les méthodes d’alignement ? </h5><p>Une des méthodes principales d’alignement a lieu pendant l’entraînement&nbsp;: <strong>des évaluateurs humains notent les réponses de l’IA</strong>. L’IA ajuste au fur et à mesure son comportement pour avoir une meilleure note. On appelle ce système «&nbsp;<strong>Apprentissage par renforcement à partir de retours humains</strong>&nbsp;» ou en anglais,&nbsp;<strong>RLHF </strong>pour<strong> Reinforcement Learning from Human Feedback.</strong></p>"
                     }
                   ]
                 }
@@ -430,13 +430,13 @@
                       "id": "b4f4846d-fdab-4710-8772-a779ae33628d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Les éditeurs d’IA veulent donc protéger les utilisateurs ?&nbsp; </h5><p>C’est dans leur intérêt, ces règles protègent les utilisateurs et évitent aux éditeurs de logiciels d’intelligence artificielle d’éventuels problèmes juridiques. Mais certaines IA peuvent aussi être configurées pour être très permissives&nbsp;: tout dépend des choix faits par les éditeurs d’IA.<br></p>"
+                      "content": "<h5>Les éditeurs d’IA veulent donc protéger les utilisateurs ?&nbsp; </h5><p><strong>C’est dans leur intérêt</strong>, ces règles protègent les utilisateurs et évitent aux éditeurs de logiciels d’intelligence artificielle d’éventuels problèmes juridiques. Mais certaines IA peuvent aussi être configurées pour être très permissives&nbsp;: <strong>tout dépend des choix faits par les éditeurs d’IA</strong>.<br></p>"
                     },
                     {
                       "id": "7aeafcd3-3290-47b7-a037-c38d8c96563b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Et est-ce que l’utilisateur peut, lui aussi, donner ses préférences à l’IA ?</h5><p> Oui, l’utilisateur peut par exemple utiliser un&nbsp;<strong>pré-prompt</strong>. Le pré-prompt est une consigne comme le prompt système mais écrite par l’utilisateur. Cette consigne peut modifier le ton et la posture de l’IA. Il agit seulement pour la session en cours et ne modifie pas le prompt système du modèle d’IA.</p>"
+                      "content": "<h5>Et est-ce que l’utilisateur peut, lui aussi, donner ses préférences à l’IA ?</h5>\n<p>Oui, l’utilisateur peut par exemple utiliser un&nbsp;<strong>pré-prompt</strong>. Le pré-prompt est une consigne comme le prompt système mais écrite par l’utilisateur. Cette consigne peut <strong>modifier le ton et la posture de l’IA</strong>. Le pré-prompt agit seulement pour la session en cours&nbsp;: il ne modifie pas le prompt système du modèle d’IA.</p>"
                     }
                   ]
                 }
@@ -583,7 +583,7 @@
                 "id": "cf315382-c3f4-4a21-bb31-57226246a345",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées  pour réduire la circulation dans sa ville.</p><p>Il se crée un compte et demande des idées à deux logiciels d’IA générative différents&nbsp;: Grok 4 et ChatGPT 5.5.</p>"
+                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées pour réduire la circulation dans sa ville.</p><p>Il se crée un compte et demande des idées à deux logiciels d’IA générative différents&nbsp;: Grok 4 et ChatGPT 5.5.</p>"
               }
             },
             {
@@ -689,7 +689,7 @@
                 "id": "c0782230-c4d9-4f63-bcce-49091b1bff42",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>Qui décide des règles suivies par une IA générative&nbsp;?</h5><p>Ce sont <strong>les éditeurs de logiciels d’IA</strong> qui <strong>définissent les règles internes</strong> et les méthodes d’alignement des IA. Ces éléments que l’utilisateur ne voit pas orientent la façon dont le logiciel répond. 🔒</p><h5><br>Pourquoi est-ce important&nbsp;?</h5><p>Ces règles traduisent des façons différentes de concevoir ce qui est prudent, acceptable ou souhaitable dans une réponse. <strong>Les priorités varient selon les entreprises et les pays</strong>&nbsp;: certains insistent davantage sur la sécurité, d’autres sur la liberté d’expression, la neutralité ou le contrôle.</p><p><strong>Les logiciels d’IA actuels sont conçus dans des contextes variés,</strong>  <strong>ce qui influence leur manière d’aborder certains sujets. </strong>🌍</p>"
+                "content": "<h5>Qui décide des règles suivies par une IA générative&nbsp;?</h5><p>Ce sont <strong>les éditeurs de logiciels d’IA</strong> qui <strong>définissent les règles internes</strong> et les méthodes d’alignement des IA. Ces éléments que l’utilisateur ne voit pas orientent la façon dont le logiciel répond. 🔒</p><h5><br>Pourquoi est-ce important&nbsp;?</h5><p>Ces règles traduisent des façons différentes de concevoir ce qui est prudent, acceptable ou souhaitable dans une réponse. <strong>Les priorités varient selon les entreprises, les institutions ou les pays</strong>&nbsp;: certains insistent davantage sur la sécurité, d’autres sur la liberté d’expression, la neutralité ou le contrôle.</p><p><strong>Les logiciels d’IA sont conçus dans des contextes politiques, économiques et culturels variés. Cela peut influencer leur manière d’aborder certains sujets</strong>. 🌍</p>"
               }
             }
           ]
@@ -732,7 +732,7 @@
               "element": {
                 "id": "bfa513c1-1cde-4f49-8cda-4cf9cb8b16e9",
                 "type": "qab",
-                "instruction": "<p><strong>Vrai ou faux&nbsp;:&nbsp;</strong>pour chaque affirmation, dites si celle-ci est vraie ou fausse.&nbsp;</p>",
+                "instruction": "<p><strong>Vrai ou faux</strong>&nbsp;:&nbsp;pour chaque affirmation, dites si celle-ci est vraie ou fausse.&nbsp;</p>",
                 "cards": [
                   {
                     "id": "b8ef8a17-9e49-4a3f-bb04-4030cf7399b1",
@@ -855,8 +855,8 @@
                     "id": "1",
                     "content": "<p>Un alignement avec des notes données par des évaluateurs humains (RLHF)</p>",
                     "feedback": {
-                      "state": "<p>C’est possible mais très peu probable.&nbsp;&nbsp;<br></p>",
-                      "diagnosis": "<p>Une IA entraînée par des évaluateurs d’un pays pourrait le mettre en valeur, mais pas aussi systématiquement sur tous les sujets.&nbsp;</p>"
+                      "state": "<p>Ce n’est pas l’explication la plus probable.</p>",
+                      "diagnosis": "<p>Des évaluations humaines peuvent influencer le comportement d’une IA, mais ici le biais apparaît de façon trop systématique&nbsp;: le prompt système explique mieux cette orientation vers la Grèce.</p>"
                     }
                   },
                   {
@@ -1046,7 +1046,7 @@
                           "content": "<p>Cette IA privilégie le soutien et la valorisation de l’utilisateur.</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !&nbsp;</p>",
-                            "diagnosis": "<p>Dans cet exemple, l’orientation est très visible.<br>    Dans la réalité, ce type de biais peut être plus subtil et se manifester de manière progressive.</p>"
+                            "diagnosis": "<p>Dans cet exemple, l’orientation est très visible.<br>Dans la réalité, ce type de biais peut être plus subtil et se manifester de manière progressive.</p>"
                           }
                         },
                         {
@@ -1154,7 +1154,7 @@
                 "id": "716b7f23-a6ef-4b67-b186-bd94a0233f4f",
                 "type": "expand",
                 "title": "Indice 1",
-                "content": "<table style=\"border-collapse: collapse; width: 100%;\">    <caption class=\"sr-only\">Répartition des IA par zone géographique</caption>    <thead>        <tr>            <th scope=\"col\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Zone</th>            <th scope=\"col\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">IA concernées</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Union européenne</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">Mistral</td>        </tr>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">États-Unis</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">Claude, Gemini, ChatGPT, Grok</td>        </tr>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Chine</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">Deepseek, Qwen</td>        </tr>    </tbody></table>"
+                "content": "<table style=\"border-collapse: collapse; width: 100%;\">    <caption class=\"sr-only\">Répartition des IA par zone géographique</caption>    <thead>        <tr>            <th scope=\"col\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Zone</th>            <th scope=\"col\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">IA concernées</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Union européenne</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">Mistral</td>        </tr>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">États-Unis</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">Claude, Gemini, ChatGPT, Grok</td>        </tr>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Chine</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">DeepSeek, Qwen</td>        </tr>    </tbody></table>"
               }
             },
             {
