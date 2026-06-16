@@ -3,6 +3,6 @@
   "extends": ["github>1024pix/renovate-config:default"],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
-  "addLabels": ["aggressive", ":rocket: Ready to Merge"],
+  "addLabels": ["aggressive"],
   "automerge": true
 }

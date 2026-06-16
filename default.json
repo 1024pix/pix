@@ -26,7 +26,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["lockFileMaintenance"],
-      "addLabels": ["auto-bump", ":rocket: Ready to Merge"],
+      "addLabels": ["auto-bump"],
       "automerge": true
     },
     {
@@ -35,7 +35,7 @@
         "/^(node|cimg/node)$/"
       ],
       "matchUpdateTypes": ["minor", "patch"],
-      "addLabels": ["auto-bump", ":rocket: Ready to Merge"],
+      "addLabels": ["auto-bump"],
       "automerge": true
     }
   ]

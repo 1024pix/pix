@@ -4,7 +4,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["patch"],
-      "addLabels": ["auto-patch", ":rocket: Ready to Merge"],
+      "addLabels": ["auto-patch"],
       "automerge": true
     }
   ]

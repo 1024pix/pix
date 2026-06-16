@@ -16,8 +16,7 @@ Here are the available `presets`:
   - wait 7 days after a version is published on npm to select it;
   - create at most 5 pull request per week;
   - approves its own PR using Github App Renovate Approve;
-  - adds label ":rocket: Ready to Merge" to the PR if update type is a minor or a patch;
-  - Jean Pierre rebases and merges the PR if required status checks are ok (ex: Actions, CircleCi, Deploy ...).
+  - automerge PR
 - `no-auto`:
   - runs hourly every weekday;
   - wait 7 days after a version is published on npm to select it;
@@ -28,15 +27,13 @@ Here are the available `presets`:
   - wait 7 days after a version is published on npm to select it;
   - create at most 5 pull request per week;
   - approves its own PR using Github App Renovate Approve;
-  - adds label ":rocket: Ready to Merge" to the PR if update type is a patch;
-  - Jean Pierre rebases and merges the PR if required status checks are ok (ex: Actions, CircleCi, Deploy ...).
+  - automerge PR
 - `aggressive`:
   - runs hourly every weekday;
   - wait 7 days after a version is published on npm to select it;
   - create as many pull request as necessary;
   - approves its own PR using Github App Renovate Approve;
-  - adds label ":rocket: Ready to Merge" to the PR;
-  - Jean Pierre rebases and merges the PR if required status checks are ok (ex: Actions, CircleCi, Deploy ...).
+  - approves its own PR using Github App Renovate Approve;
 
 `auto-minor` is a deprecated config and should be replaced by the `default` config.
 
