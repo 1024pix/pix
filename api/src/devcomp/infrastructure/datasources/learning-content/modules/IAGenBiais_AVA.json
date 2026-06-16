@@ -655,14 +655,14 @@
                     "id": "2",
                     "content": "<p>Les deux&nbsp;modèles interprètent différemment le profil de l’utilisateur.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !</p><p>L’IA ne tire pas cette orientation du profil de l’utilisateur (Fabrice vient de se créer un compte) mais de la façon dont l’IA a été alignée.</p><p>Les<strong> valeurs et préférences de l’IA </strong>reflètent celles définies par<strong> ses concepteurs </strong>lors de la l’alignement<strong>.</strong></p>"
+                      "diagnosis": "<p>Eh non !</p><p>L’IA ne tire pas cette orientation du profil de l’utilisateur (Fabrice vient de se créer un compte) mais de la façon dont l’IA a été alignée.</p><p>Les<strong> valeurs et préférences de l’IA </strong>reflètent celles définies par<strong> ses concepteurs </strong>lors de l’alignement<strong>.</strong></p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>La réponse donnée par un modèle d’IA est toujours différente de celle d’un autre modèle.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est vrai, mais <strong>l’alignement joue aussi un rôle !</strong></p><p>Même si les réponses sont toujours un peu différentes, certaines propositions n’arriveront jamais dans un modèle et seront fréquentes dans un autre.</p><p>Les<strong> valeurs et préférences de l’IA </strong>reflètent celles définies par<strong> ses concepteurs </strong>lors de la l’alignement<strong>.</strong></p>"
+                      "diagnosis": "<p>C’est vrai, mais <strong>l’alignement joue aussi un rôle !</strong></p><p>Même si les réponses sont toujours un peu différentes, certaines propositions n’arriveront jamais dans un modèle et seront fréquentes dans un autre.</p><p>Les<strong> valeurs et préférences de l’IA </strong>reflètent celles définies par<strong> ses concepteurs </strong>lors de l’alignement<strong>.</strong></p>"
                     }
                   },
                   {
