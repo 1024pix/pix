@@ -102,7 +102,6 @@ export default class CombinedCourseBlueprintForm extends Component {
       });
       this.router.transitionTo('authenticated.combined-course-blueprints.list');
     } catch (responseError) {
-      console.log(responseError);
       if (!responseError.errors) {
         return this.pixToast.sendErrorNotification({
           message: this.args.updateMode

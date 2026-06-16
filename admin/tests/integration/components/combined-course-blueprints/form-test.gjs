@@ -197,6 +197,15 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
   });
 
   module('error cases', function () {
+    const frameworks = [
+      {
+        id: 123,
+        name: 'Pix',
+        areas: [],
+      },
+    ];
+    const model = { frameworks };
+
     test('it should display a generic error message', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -206,15 +215,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       const pixToastErrorStub = sinon.stub(pixToast, 'sendErrorNotification');
 
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
-
-      const frameworks = [
-        {
-          id: 123,
-          name: 'Pix',
-          areas: [],
-        },
-      ];
-      const model = { frameworks };
 
       //when
       const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
@@ -243,15 +243,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       const pixToastErrorStub = sinon.stub(pixToast, 'sendErrorNotification');
 
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
-
-      const frameworks = [
-        {
-          id: 123,
-          name: 'Pix',
-          areas: [],
-        },
-      ];
-      const model = { frameworks };
 
       //when
       const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
@@ -288,7 +279,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
 
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
 
@@ -326,7 +317,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         .rejects({ errors: [{ status: '404', detail: 'Le profil cible est introuvable' }] });
 
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
@@ -356,7 +347,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       findRecordStub.withArgs('module').rejects({ errors: [{ status: '404', detail: 'Le module est introuvable' }] });
 
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await click(screen.getByLabelText(t('components.combined-course-blueprints.labels.module')));
       await fillIn(
@@ -387,7 +378,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       findRecordStub.withArgs('target-profile').rejects();
 
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
@@ -415,8 +406,18 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         .withArgs('module', 'module123')
         .resolves({ id: 'full-id-module123', shortId: 'module123', title: 'module 123' });
       findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
+
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        },
+      ];
+      const model = { frameworks };
+
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
@@ -444,9 +445,19 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       const findRecordStub = sinon.stub(store, 'findRecord');
 
       findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
+
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        },
+      ];
+      const model = { frameworks };
+
       //when
 
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
