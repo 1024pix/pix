@@ -9,6 +9,11 @@ export default class TrainingTriggers extends Component {
   @service pixToast;
   @service accessControl;
   @service intl;
+  @service router;
+
+  get showTriggersEditForm() {
+    return this.router.currentRoute.localName.includes('edit');
+  }
 
   get canCreateTriggers() {
     return this.accessControl.hasAccessToTrainingsActionsScope;
@@ -31,14 +36,14 @@ export default class TrainingTriggers extends Component {
   }
 
   <template>
-    {{#if @controller.showTriggersEditForm}}
+    {{#if this.showTriggersEditForm}}
       {{outlet}}
     {{else if this.canCreateTriggers}}
       <div class="training-trigger__actions">
         <DeleteTrainingTrigger @training={{@model}} @onSubmit={{this.deleteTrainingTrigger}} />
       </div>
 
-      <CreateTrainingTriggers @training={{@controller.model}} />
+      <CreateTrainingTriggers @training={{@model}} />
     {{/if}}
   </template>
 }

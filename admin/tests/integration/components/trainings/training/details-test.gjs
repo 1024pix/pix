@@ -1,4 +1,3 @@
-/* eslint-disable ember/template-no-let-reference */
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
@@ -12,40 +11,35 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Component | Trainings | Training | Details', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  let model, notificationErrorStub;
-
-  hooks.beforeEach(function () {
-    class AccessControlStub extends Service {
-      hasAccessToTrainingsActionsScope = true;
-    }
-    this.owner.register('service:access-control', AccessControlStub);
-    notificationErrorStub = sinon.stub();
-    class NotificationsStub extends Service {
-      sendErrorNotification = notificationErrorStub;
-    }
-    this.owner.register('service:pixToast', NotificationsStub);
-
-    const store = this.owner.lookup('service:store');
-
-    model = store.createRecord('training', {
-      id: '12',
-      title: 'title',
-      internalTitle: 'internalTitle',
-      link: 'my-training-link',
-      type: 'webinaire',
-      locales: ['fr-fr'],
-      editorName: 'Albert',
-      editorLogoUrl: 'http://localhost:4202/logo-placeholder.png',
-      isRecommendable: true,
-      isDisabled: false,
-    });
-    store.createRecord('module-metadata', { title: 'Bac à sable', link: '/modules/bac-a-sable' });
-  });
-
   module('error cases', function () {
     module('when editorLogoURl format is incorrect', function () {
       test('should display an error', async function (assert) {
         // given
+        class AccessControlStub extends Service {
+          hasAccessToTrainingsActionsScope = true;
+        }
+        this.owner.register('service:access-control', AccessControlStub);
+        const notificationErrorStub = sinon.stub();
+        class NotificationsStub extends Service {
+          sendErrorNotification = notificationErrorStub;
+        }
+        this.owner.register('service:pixToast', NotificationsStub);
+
+        const store = this.owner.lookup('service:store');
+
+        const model = store.createRecord('training', {
+          id: '12',
+          title: 'title',
+          internalTitle: 'internalTitle',
+          link: 'my-training-link',
+          type: 'webinaire',
+          locales: ['fr-fr'],
+          editorName: 'Albert',
+          editorLogoUrl: 'http://localhost:4202/logo-placeholder.png',
+          isRecommendable: true,
+          isDisabled: false,
+        });
+        store.createRecord('module-metadata', { title: 'Bac à sable', link: '/modules/bac-a-sable' });
         sinon.stub(model, 'save').rejects({ errors: [{ status: '400', detail: 'data.attributes.editor-logo-url' }] });
 
         // when
@@ -71,6 +65,31 @@ module('Integration | Component | Trainings | Training | Details', function (hoo
     module('for other errors', function () {
       test('should display a default error', async function (assert) {
         // given
+        class AccessControlStub extends Service {
+          hasAccessToTrainingsActionsScope = true;
+        }
+        this.owner.register('service:access-control', AccessControlStub);
+        const notificationErrorStub = sinon.stub();
+        class NotificationsStub extends Service {
+          sendErrorNotification = notificationErrorStub;
+        }
+        this.owner.register('service:pixToast', NotificationsStub);
+
+        const store = this.owner.lookup('service:store');
+
+        const model = store.createRecord('training', {
+          id: '12',
+          title: 'title',
+          internalTitle: 'internalTitle',
+          link: 'my-training-link',
+          type: 'webinaire',
+          locales: ['fr-fr'],
+          editorName: 'Albert',
+          editorLogoUrl: 'http://localhost:4202/logo-placeholder.png',
+          isRecommendable: true,
+          isDisabled: false,
+        });
+        store.createRecord('module-metadata', { title: 'Bac à sable', link: '/modules/bac-a-sable' });
         sinon.stub(model, 'save').rejects();
 
         // when
@@ -93,4 +112,3 @@ module('Integration | Component | Trainings | Training | Details', function (hoo
     });
   });
 });
-/* eslint-enable ember/template-no-let-reference */

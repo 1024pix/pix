@@ -31,20 +31,15 @@ export default class TrainingDetailsCard extends Component {
 
   <template>
     <section class="admin-form__content">
-      <Card
-        class="admin-form__card organization-information-section__card organization-information-section__card--general"
-        @title={{t "components.organizations.creation.general-information"}}
-      >
-        <div class="organization-information-section__left-block">
-          <div class="organization-information-section__field">
-            <span class="organization-information-section__label">{{t "pages.trainings.training.details.title"}}</span>
-            <span class="organization-information-section__value">{{@training.title}}</span>
+      <Card class="admin-form__card training-details__card" @title={{t "common.cards.titles.general-information"}}>
+        <div class="training-details__block">
+          <div class="training-details__field">
+            <span class="training-details__label">{{t "pages.trainings.training.details.title"}}</span>
+            <span class="training-details__value">{{@training.title}}</span>
           </div>
-          <div class="organization-information-section__field">
-            <span class="organization-information-section__label">{{t
-                "pages.trainings.training.details.publishedOn"
-              }}</span>
-            <span class="organization-information-section__value">
+          <div class="training-details__field">
+            <span class="training-details__label">{{t "pages.trainings.training.details.publishedOn"}}</span>
+            <span class="training-details__value">
               <a
                 href={{this.trainingLink}}
                 target="_blank"
@@ -55,37 +50,31 @@ export default class TrainingDetailsCard extends Component {
               </a>
             </span>
           </div>
-          <div class="organization-information-section__field">
-            <span class="organization-information-section__label">{{t
-                "pages.trainings.training.details.contentType"
-              }}</span>
-            <span class="organization-information-section__value"> {{this.typeLabel}}</span>
+          <div class="training-details__field">
+            <span class="training-details__label">{{t "pages.trainings.training.details.contentType"}}</span>
+            <span class="training-details__value"> {{this.typeLabel}}</span>
           </div>
-          <div class="organization-information-section__field">
-            <span class="organization-information-section__label">
+          <div class="training-details__field">
+            <span class="training-details__label">
               {{t "pages.trainings.training.details.duration"}}
             </span>
-            <span class="organization-information-section__value">{{this.formattedDuration}}</span>
+            <span class="training-details__value">{{this.formattedDuration}}</span>
           </div>
         </div>
-        <div class="organization-information-section__right-block">
-          <div class="organization-information-section__field">
-            <span class="organization-information-section__label">
+        <div class="training-details__block">
+          <div class="training-details__field">
+            <span class="training-details__label">
               {{t "pages.trainings.training.details.locales" count=@training.locales.length}}
             </span>
-            <span class="organization-information-section__value">{{this.formattedLocales}}</span>
+            <span class="training-details__value">{{this.formattedLocales}}</span>
           </div>
-          <div class="organization-information-section__field">
-            <span class="organization-information-section__label">{{t
-                "pages.trainings.training.details.editorName"
-              }}</span>
-            <span class="organization-information-section__value">{{@training.editorName}}</span>
+          <div class="training-details__field">
+            <span class="training-details__label">{{t "pages.trainings.training.details.editorName"}}</span>
+            <span class="training-details__value">{{@training.editorName}}</span>
           </div>
-          <div class="organization-information-section__field">
-            <span class="organization-information-section__label">{{t
-                "pages.trainings.training.details.editorLogo"
-              }}</span>
-            <span class="organization-information-section__value"><a
+          <div class="training-details__field">
+            <span class="training-details__label">{{t "pages.trainings.training.details.editorLogo"}}</span>
+            <span class="training-details__value"><a
                 href={{@training.editorLogoUrl}}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -94,9 +83,9 @@ export default class TrainingDetailsCard extends Component {
                 {{@training.editorLogoUrl}}
               </a></span>
           </div>
-          <div class="organization-information-section__field">
-            <span class="organization-information-section__label">{{t "pages.trainings.training.details.status"}}</span>
-            <span class="organization-information-section__value">{{if
+          <div class="training-details__field">
+            <span class="training-details__label">{{t "pages.trainings.training.details.status"}}</span>
+            <span class="training-details__value">{{if
                 @training.isRecommendable
                 (t "pages.trainings.training.details.status-label.enabled")
                 (t "pages.trainings.training.details.status-label.disabled")

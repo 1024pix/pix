@@ -4,7 +4,6 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import pageTitle from 'ember-page-title/helpers/page-title';
 import TrainingCreateOrUpdateTrainingForm from 'pix-admin/components/trainings/create-or-update-training-form';
 import DuplicateTraining from 'pix-admin/components/trainings/duplicate-training';
 import TrainingDetailsCard from 'pix-admin/components/trainings/training-details-card';
@@ -70,7 +69,6 @@ export default class TrainingDetails extends Component {
   }
 
   <template>
-    {{pageTitle "Orga " @model.id " | Détails"}}
     {{#if this.isEditMode}}
       <TrainingCreateOrUpdateTrainingForm
         @model={{@model}}

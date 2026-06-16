@@ -26,6 +26,11 @@
       "organization-not-found-error": "L’organisation \"{organizationId}\" n’existe pas.",
       "pix-admin-login-from-password-disabled-error": "La connexion par email et mot de passe est désactivée. Utilisez un SSO pour vous connecter."
     },
+    "cards": {
+      "titles": {
+        "general-information": "Informations générales"
+      }
+    },
     "certification": {
       "meshLevels": {
         "CLEA": {
@@ -904,7 +909,6 @@
           "placeholder": "Spécifier l'UAI, le SIRET etc"
         },
         "features": "Fonctionnalités",
-        "general-information": "Informations générales",
         "name": {
           "label": "Nom de l'organisation",
           "placeholder": "Ma nouvelle organisation"

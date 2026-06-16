@@ -26,6 +26,11 @@
       "organization-not-found-error": "The organization \"{organizationId}\" does not exist.",
       "pix-admin-login-from-password-disabled-error": "Email and password login is disabled. Please use SSO to log in."
     },
+    "cards": {
+      "titles": {
+        "general-information": "General information"
+      }
+    },
     "certification": {
       "meshLevels": {
         "CLEA": {
@@ -896,7 +901,6 @@
           "placeholder": "Specify the UAI, SIRET etc"
         },
         "features": "Features",
-        "general-information": "General information",
         "name": {
           "label": "Name of the organization",
           "placeholder": "My new organization"

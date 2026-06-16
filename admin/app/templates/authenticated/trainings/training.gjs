@@ -10,8 +10,7 @@ import StateTag from 'pix-admin/components/trainings/state-tag';
 <template>
   {{pageTitle "Détail du contenu formatif " @model.id}}
 
-  {{! template-lint-disable no-redundant-role }}
-  <header class="page-header" role="banner">
+  <header class="page-header">
     <TrainingBreadCrumb @currentPageLabel={{@model.id}} />
 
     <div class="page-actions">
@@ -28,8 +27,7 @@ import StateTag from 'pix-admin/components/trainings/state-tag';
     </div>
   </header>
 
-  {{! template-lint-disable no-redundant-role }}
-  <main class="page-body" role="main">
+  <main class="page-body">
 
     <PixBlock @variant="admin" class="training-header-information">
       <div class="training-header-information__editor-logo">
