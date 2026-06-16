@@ -977,7 +977,7 @@
                 "isCompletionRequired": false,
                 "title": "Sélectionner et marquer un message malveillant comme indésirable.",
                 "url": "https://epreuves.pix.fr/fr/pixmail-spam/modulix-phishing.html",
-                "instruction": "<p>Identifiez le mail malveillant et signalez-le comme spam.</p>",
+                "instruction": "<p>Trouvez le mail malveillant et signalez-le comme spam.</p>",
                 "solution": "",
                 "height": 500
               }
