@@ -219,39 +219,4 @@ describe('Certification | Shared | Integration | Repository | CertificationCandi
       });
     });
   });
-
-  describe('#getCandidate', function () {
-    context('when certification candidate is not found', function () {
-      it('should throw NotFound error', async function () {
-        // given
-        const candidate = databaseBuilder.factory.buildCertificationCandidate();
-        const wrongCandidateId = candidate.id + 999;
-        await databaseBuilder.commit();
-
-        // when
-        const error = await catchErr(certificationCandidateRepository.getCandidate)({
-          id: wrongCandidateId,
-        });
-
-        // then
-        expect(error).to.be.an.instanceOf(NotFoundError);
-      });
-    });
-
-    context('when certification candidate is found', function () {
-      it('should return the candidate', async function () {
-        // given
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
-        await databaseBuilder.commit();
-
-        // when
-        const result = await certificationCandidateRepository.getCandidate({ id: certificationCandidate.id });
-
-        // then
-        expect(result.id).to.equal(certificationCandidate.id);
-        expect(result.firstName).to.equal(certificationCandidate.firstName);
-        expect(result.lastName).to.equal(certificationCandidate.lastName);
-      });
-    });
-  });
 });

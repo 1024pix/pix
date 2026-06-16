@@ -40,7 +40,6 @@ import { buildCertificationAttestation } from './build-certification-attestation
 import { buildCertificationCandidate } from './build-certification-candidate.js';
 import { buildCertificationCandidateForAttendanceSheet } from './build-certification-candidate-for-attendance-sheet.js';
 import { buildCertificationCandidateForSupervising } from './build-certification-candidate-for-supervising.js';
-import { buildCertificationCandidateSubscription } from './build-certification-candidate-subscription.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterInvitation } from './build-certification-center-invitation.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
@@ -407,7 +406,6 @@ export {
   buildCertificationCandidate,
   buildCertificationCandidateForAttendanceSheet,
   buildCertificationCandidateForSupervising,
-  buildCertificationCandidateSubscription,
   buildCertificationCenter,
   buildCertificationCenterInvitation,
   buildCertificationCenterMembership,

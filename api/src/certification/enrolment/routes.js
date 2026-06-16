@@ -5,7 +5,6 @@ import { certificationCentersGetDivisionsRoute } from './application/certificati
 import { enrolmentRoute } from './application/enrolment-route.js';
 import { sessionMassImportRoute } from './application/session-mass-import-route.js';
 import { sessionRoute } from './application/session-route.js';
-import { subscriptionRoute } from './application/subscription-route.js';
 import { userRoute } from './application/user-route.js';
 
 const certificationEnrolmentRoutes = [
@@ -16,7 +15,6 @@ const certificationEnrolmentRoutes = [
   sessionMassImportRoute,
   certificationCenterRoute,
   certificationCentersGetDivisionsRoute,
-  subscriptionRoute,
   userRoute,
 ];
 
