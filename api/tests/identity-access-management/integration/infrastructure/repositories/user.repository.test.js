@@ -1133,12 +1133,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(userDetailsForAdmin.firstName).to.equal('Henri');
         expect(userDetailsForAdmin.lastName).to.equal('Cochet');
         expect(userDetailsForAdmin.email).to.equal('henri-cochet@example.net');
-        expect(userDetailsForAdmin.cgu).to.be.true;
         expect(userDetailsForAdmin.createdAt).to.deep.equal(createdAt);
         expect(userDetailsForAdmin.updatedAt).to.deep.equal(createdAt);
         expect(userDetailsForAdmin.lang).to.equal('en');
         expect(userDetailsForAdmin.locale).to.equal('en');
-        expect(userDetailsForAdmin.lastTermsOfServiceValidatedAt).to.deep.equal(lastTermsOfServiceValidatedAt);
         expect(userDetailsForAdmin.pixOrgaTermsOfServiceAccepted).equals(true);
         expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(
           documentVersionUserAcceptance.acceptedAt,

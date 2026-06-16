@@ -3,7 +3,6 @@ import { getNearestSupportedLocale } from '../../../shared/domain/services/local
 class UserDetailsForAdmin {
   constructor({
     id,
-    cgu,
     username,
     firstName,
     lastName,
@@ -16,7 +15,6 @@ class UserDetailsForAdmin {
     updatedAt,
     lang,
     locale,
-    lastTermsOfServiceValidatedAt,
     lastPixOrgaTermsOfServiceValidatedAt,
     lastPixCertifTermsOfServiceValidatedAt,
     lastLoggedAt,
@@ -30,7 +28,6 @@ class UserDetailsForAdmin {
     lastApplicationConnections,
   } = {}) {
     this.id = id;
-    this.cgu = cgu;
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
@@ -42,7 +39,6 @@ class UserDetailsForAdmin {
     this.createdAt = createdAt;
     this.lang = lang;
     this.locale = getNearestSupportedLocale(locale);
-    this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.lastPixOrgaTermsOfServiceValidatedAt = lastPixOrgaTermsOfServiceValidatedAt;
     this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
     this.lastLoggedAt = lastLoggedAt;
