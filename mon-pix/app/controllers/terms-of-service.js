@@ -16,21 +16,24 @@ export default class TermsOfServiceController extends Controller {
     return this.url.showcase;
   }
 
+  get legalDocumentUrl() {
+    return this.url.getLegalDocumentUrl(this.currentUser.user.pixAppTermsOfServiceDocumentPath);
+  }
+
+  get isUpdateRequested() {
+    return this.currentUser.user.pixAppTermsOfServiceStatus === 'update-requested';
+  }
+
   @action
   async submit() {
-    if (this.isTermsOfServiceValidated) {
-      this.showErrorTermsOfServiceNotSelected = false;
-      await this.currentUser.user.save({ adapterOptions: { acceptPixTermsOfService: true } });
-      this.currentUser.user.mustValidateTermsOfService = false;
-      this.currentUser.user.cgu = true;
+    await this.currentUser.user.save({ adapterOptions: { acceptPixTermsOfService: true } });
+    this.currentUser.user.mustValidateTermsOfService = false;
+    this.currentUser.user.cgu = true;
 
-      if (this.session.attemptedTransition) {
-        this.session.attemptedTransition.retry();
-      } else {
-        this.router.transitionTo('');
-      }
+    if (this.session.attemptedTransition) {
+      this.session.attemptedTransition.retry();
     } else {
-      this.showErrorTermsOfServiceNotSelected = true;
+      this.router.transitionTo('');
     }
   }
 

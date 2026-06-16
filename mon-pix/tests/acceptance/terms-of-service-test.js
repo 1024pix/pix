@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click, currentURL } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -57,8 +57,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       await authenticateByEmail(user);
 
       // when
-      await click('#pix-cgu');
-      await clickByLabel(t('pages.terms-of-service.form.button'));
+      await clickByLabel(t('pages.terms-of-service.actions.accept'));
 
       // then
       assert.strictEqual(currentURL(), '/accueil');

@@ -213,8 +213,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await click(screen.getByRole('button', { name: 'Se connecter' }));
 
               // when
-              await click(screen.getByRole('checkbox', { name: "J'accepte les conditions d'utilisation de Pix" }));
-              await click(screen.getByRole('button', { name: 'Je continue' }));
+              await click(screen.getByRole('button', { name: 'Accepter et continuer' }));
 
               // then
               assert.strictEqual(currentURL(), `/organisations/${campaign.code}/prescrit/eleve`);
