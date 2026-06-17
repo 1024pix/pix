@@ -7,9 +7,11 @@ on:
   merge_group:
     types: [checks_requested]
   pull_request:
-    types: [opened, reopened, synchronize, ready_for_review]
-  issue_comment:
-    types: [created]
+    types: [opened, reopened, synchronize, ready_for_review, labeled]
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   trigger-ci:
@@ -20,7 +22,7 @@ jobs:
       github.event_name == 'push' ||
       github.event_name == 'merge_group' ||
       (github.event_name == 'pull_request' && !github.event.pull_request.draft) ||
-      (github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '/run-ci'))
+      (github.event_name == 'pull_request' && github.event.action == 'labeled' && contains(github.event.label.name, 'Run CI'))
 
     steps:
       - name: Extract branch name
@@ -34,3 +36,9 @@ jobs:
           target-branch: ${{ steps.extract_branch.outputs.branch }}
         env:
           CCI_TOKEN: ${{ secrets.PIX_SERVICE_CIRCLE_CI_TOKEN }}
+
+      - name: Remove "Run CI" label
+        if: github.event_name == 'pull_request' && github.event.action == 'labeled' && contains(github.event.label.name, 'Run CI')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr edit ${{ github.event.pull_request.number }} --remove-label "${{ github.event.label.name }}" --repo ${{ github.repository }}
