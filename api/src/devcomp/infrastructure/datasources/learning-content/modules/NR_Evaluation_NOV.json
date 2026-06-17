@@ -120,7 +120,7 @@
                 "id": "c0568f59-0071-4d9b-b928-f02f9aa219c5",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>🏗&nbsp;Image temporaire en attendant le POI final&nbsp;🏗</strong></p><p><strong>Fonctionnement du POI</strong>&nbsp;: Lorsque l’on sélectionne une activité dans la partie gauche, la partie droite affiche le(s) gaz à effet de serre émis par cette activité, et la balance est plus ou moins remplie selon l’impact carbone de l’activité (pas à l’échelle, juste de façon indicative).</p><p><strong>Contenu du POI&nbsp;:</strong></p><ul><li>Parcourir 100km en voiture<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><li>Produire 100kg de carottes<ul><li>Gaz émis&nbsp;: Méthane et Protoxyde d’azote</li></ul></li><li>Produire 100kWh d’électricité en France<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><li>Produire 100g de viande boeuf<ul><li>Gaz émis&nbsp;: Méthane et Dioxyde de carbone (CO₂)</li></ul></li><li>Envoyer 100 emails<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><li>Chauffer un appartement de 50m2 en hiver<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><br></ul>"
+                "content": "<p><strong>🏗&nbsp;Image temporaire en attendant le POI final&nbsp;🏗</strong></p><p><strong>Fonctionnement du POI</strong>&nbsp;: Lorsqu’on sélectionne une activité dans la partie gauche, la partie droite affiche le(s) gaz à effet de serre émis par cette activité, et la balance est plus ou moins remplie selon l’impact carbone de l’activité (pas à l’échelle, juste de façon indicative).</p><p><strong>Contenu du POI&nbsp;:</strong></p><ul><li>Parcourir 100km en voiture<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><li>Produire 100kg de carottes<ul><li>Gaz émis&nbsp;: Méthane et Protoxyde d’azote</li></ul></li><li>Produire 100kWh d’électricité en France<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><li>Produire 100g de viande boeuf<ul><li>Gaz émis&nbsp;: Méthane et Dioxyde de carbone (CO₂)</li></ul></li><li>Envoyer 100 emails<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><li>Chauffer un appartement de 50m2 en hiver<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><br></ul>"
               }
             },
             {
@@ -131,32 +131,32 @@
                   "elements": [
                     {
                       "id": "379fa180-f9e6-4e92-bb6e-65a60917c9c2",
-                      "type": "qcu",
+                      "type": "qcu-discovery",
                       "instruction": "<p>Quel gaz à effet de serre est émis lorsque l’on parcourt un trajet en voiture ? Sélectionnez la bonne réponse.</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>Dioxyde de carbone (CO₂)</p>",
+                          "content": "<p>dioxyde de carbone (CO₂)</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse ! </p>",
-                            "diagnosis": "<p>Parcourir un trajet en voiture émet du Dioxyde de carbone (CO₂).</p>"
+                            "diagnosis": "<p>Parcourir un trajet en voiture émet du dioxyde de carbone (CO₂).</p>"
                           }
                         },
                         {
                           "id": "1",
-                          "content": "<p>Oxygène</p>",
+                          "content": "<p>oxygène</p>",
                           "feedback": {
                             "state": "<p>Eh non !<br></p>",
-                            "diagnosis": "<p>Parcourir un trajet en voiture émet du Dioxyde de carbone (CO₂).</p>"
+                            "diagnosis": "<p>Parcourir un trajet en voiture émet du dioxyde de carbone (CO₂).</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Méthane</p>",
+                          "content": "<p>méthane</p>",
                           "feedback": {
                             "state": "<p>Eh non !<br></p>",
-                            "diagnosis": "<p>Parcourir un trajet en voiture émet du Dioxyde de carbone (CO₂).</p>"
+                            "diagnosis": "<p>Parcourir un trajet en voiture émet du dioxyde de carbone (CO₂).</p>"
                           }
                         }
                       ],
@@ -168,13 +168,13 @@
                   "elements": [
                     {
                       "id": "8941912c-a237-4b28-887c-a361b01102bc",
-                      "type": "qcu",
+                      "type": "qcu-discovery",
                       "instruction": "<p>Quels gaz à effet de serre sont émis par la production de viande de bœuf ?&nbsp;Sélectionnez la bonne réponse.</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>Dioxyde de carbone et protoxyde d’azote</p>",
+                          "content": "<p>dioxyde de carbone et protoxyde d’azote</p>",
                           "feedback": {
                             "state": "<p>Eh non !</p>",
                             "diagnosis": "<p>Produire de la viande de bœuf émet du méthane et du dioxyde de carbone.</p>"
@@ -182,7 +182,7 @@
                         },
                         {
                           "id": "1",
-                          "content": "<p>Oxygène et Dioxyde de carbone</p>",
+                          "content": "<p>oxygène et dioxyde de carbone</p>",
                           "feedback": {
                             "state": "<p>Eh non !</p>",
                             "diagnosis": "<p>Produire de la viande de bœuf émet du méthane et du dioxyde de carbone.</p>"
@@ -190,7 +190,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>Méthane et Dioxyde de carbone</p>",
+                          "content": "<p>méthane et dioxyde de carbone</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>Produire de la viande de bœuf émet du méthane et du dioxyde de carbone.</p>"
