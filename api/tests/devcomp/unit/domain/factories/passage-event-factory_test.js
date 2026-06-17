@@ -7,6 +7,7 @@ import {
   EmbedAnsweredEvent,
   EmbedRetriedEvent,
   QCMAnsweredEvent,
+  QCMDeclarativeAnsweredEvent,
   QCMRetriedEvent,
   QCUAnsweredEvent,
   QCUDeclarativeAnsweredEvent,
@@ -450,6 +451,25 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
 
         // then
         expect(builtEvent).to.be.instanceOf(QCMAnsweredEvent);
+      });
+    });
+
+    describe('when given a QCM_DECLARATIVE_ANSWERED event', function () {
+      it('should return a QCMDeclarativeAnsweredEvent instance', function () {
+        // given
+        const rawEvent = {
+          occurredAt: new Date(),
+          passageId: 2,
+          sequenceNumber: 3,
+          elementId: 'c505e7c9-327e-4be5-9c62-ce4627b85f98',
+          type: 'QCM_DECLARATIVE_ANSWERED',
+          answer: '1,3',
+        };
+        // when
+        const builtEvent = PassageEventFactory.build(rawEvent);
+
+        // then
+        expect(builtEvent).to.be.instanceOf(QCMDeclarativeAnsweredEvent);
       });
     });
 
