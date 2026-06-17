@@ -183,12 +183,30 @@ class QROCMRetriedEvent extends PassageEventWithElement {
   }
 }
 
+class QCMDeclarativeAnsweredEvent extends PassageEventWithElement {
+  constructor({ id, occurredAt, createdAt, passageId, sequenceNumber, elementId, answer }) {
+    super({
+      type: 'QCM_DECLARATIVE_ANSWERED',
+      id,
+      occurredAt,
+      createdAt,
+      passageId,
+      sequenceNumber,
+      elementId,
+      data: { answer },
+    });
+
+    assertNotNullOrUndefined(answer, 'The answer is required for a QCMDeclarativeAnsweredEvent');
+  }
+}
+
 export {
   CustomDraftRetriedEvent,
   CustomRetriedEvent,
   EmbedAnsweredEvent,
   EmbedRetriedEvent,
   QCMAnsweredEvent,
+  QCMDeclarativeAnsweredEvent,
   QCMRetriedEvent,
   QCUAnsweredEvent,
   QCUDeclarativeAnsweredEvent,
