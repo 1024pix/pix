@@ -1,6 +1,6 @@
 import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixSidebar from '@1024pix/pix-ui/components/pix-sidebar';
+import PixSidePanel from '@1024pix/pix-ui/components/pix-side-panel';
 import { A } from '@ember/array';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
@@ -16,9 +16,9 @@ class Filters {
 
 export default class Sidebar extends Component {
   <template>
-    <PixSidebar
+    <PixSidePanel
       @title={{t "pages.user-tutorials.filter"}}
-      @showSidebar={{@isVisible}}
+      @showSidePanel={{@isVisible}}
       @onClose={{@onClose}}
       class="tutorials-filters"
     >
@@ -63,7 +63,7 @@ export default class Sidebar extends Component {
           </li>
         </ul>
       </:footer>
-    </PixSidebar>
+    </PixSidePanel>
   </template>
   @tracked filters = new Filters();
 

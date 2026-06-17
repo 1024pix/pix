@@ -109,7 +109,7 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
       this.set('onClose', () => {});
 
       // when
-      await render(
+      const screen = await render(
         hbs`<UserTutorials::Filters::Sidebar
   @isVisible={{this.isVisible}}
   @onSubmit={{this.onSubmit}}
@@ -119,7 +119,7 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
       );
 
       // then
-      assert.dom('.pix-sidebar--hidden').exists();
+      assert.dom(screen.queryByRole('dialog', { name: 'Filtrer' })).doesNotExist();
     });
   });
 });
