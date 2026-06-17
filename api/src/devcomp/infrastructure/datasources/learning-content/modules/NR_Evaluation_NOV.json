@@ -2,17 +2,17 @@
   "id": "6f79bd86-a169-41f4-8c98-6d20963cc3cd",
   "shortId": "32444579",
   "slug": "nr-evaluation-nov",
-  "title": "Empreinte carbone du numérique : de quoi s’agit-il ?",
+  "title": "Empreinte carbone du numérique : c'est quoi ?",
   "isBeta": true,
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/nr_durabilite-nov/picto_nr_durabilite_nov.svg",
-    "description": "<p>On parle souvent d’empreinte carbone pour évaluer l’impact des activités humaines (transport, alimentation, logement…) sur le dérèglement climatique. Les activités numériques ont aussi une empreinte carbone. Dans ce module vous allez découvrir l’empreinte carbone du numérique&nbsp;: ce que c’est, comment elle est évaluée, ainsi que ses avantages et inconvénients.</p>",
+    "description": "<p>On parle souvent d’empreinte carbone pour évaluer l’impact des activités humaines (transport, alimentation, logement, etc.) sur le dérèglement climatique. Les activités numériques ont aussi une empreinte carbone. Dans ce module, vous allez découvrir l’empreinte carbone du numérique&nbsp;: ce que c’est, comment elle est évaluée, ses avantages et inconvénients.</p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
       "<p>Comprendre ce qu’est l’empreinte carbone</p>",
-      "<p>Comprendre comment le activités numériques émettent des gaz à effet de serre</p>",
+      "<p>Comprendre comment les activités numériques émettent des gaz à effet de serre</p>",
       "<p>Connaître les intérêts et les limites de l’empreinte carbone</p>"
     ],
     "tabletSupport": "comfortable"
