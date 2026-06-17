@@ -1,0 +1,29 @@
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
+
+const serialize = function (combinedCourseBlueprint) {
+  return new Serializer('combined-course-blueprint-overview', {
+    attributes: [
+      'name',
+      'internalName',
+      'description',
+      'illustration',
+      'surveyLink',
+      'createdAt',
+      'updatedAt',
+      'items',
+    ],
+    items: {
+      ref: 'id',
+      included: true,
+      attributes: ['name', 'duration', 'image', 'isRecommendable'],
+    },
+    typeForAttribute: (attribute) => {
+      if (attribute === 'items') return 'combined-course-blueprint-items';
+      else return attribute;
+    },
+  }).serialize(combinedCourseBlueprint);
+};
+
+export { serialize };
