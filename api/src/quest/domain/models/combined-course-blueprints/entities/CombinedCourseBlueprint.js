@@ -1,8 +1,8 @@
-import { CampaignParticipationStatuses } from '../../../prescription/shared/domain/constants.js';
-import { ObjectValidationError } from '../../../shared/domain/errors.js';
-import { CombinedCourse } from './combined-courses/entities/CombinedCourse.js';
-import { CRITERION_COMPARISONS, Quest, REQUIREMENT_COMPARISONS, REQUIREMENT_TYPES } from './quests/entities/Quest.js';
-import { buildRequirement } from './quests/value-objects/Requirement.js';
+import { CampaignParticipationStatuses } from '../../../../../prescription/shared/domain/constants.js';
+import { ObjectValidationError } from '../../../../../shared/domain/errors.js';
+import { CombinedCourse } from '../../combined-courses/entities/CombinedCourse.js';
+import { CRITERION_COMPARISONS, Quest, REQUIREMENT_COMPARISONS, REQUIREMENT_TYPES } from '../../quests/entities/Quest.js';
+import { buildRequirement } from '../../quests/value-objects/Requirement.js';
 
 export class CombinedCourseBlueprint {
   constructor({

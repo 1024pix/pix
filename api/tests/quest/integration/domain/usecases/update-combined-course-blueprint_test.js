@@ -1,4 +1,4 @@
-import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/CombinedCourseBlueprintForUpdate.js';
+import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';

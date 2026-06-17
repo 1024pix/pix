@@ -1,4 +1,4 @@
-import { CombinedCourseBlueprint } from '../models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 
 export const createCombinedCourseBlueprint = async ({
   combinedCourseBlueprintForCreation,

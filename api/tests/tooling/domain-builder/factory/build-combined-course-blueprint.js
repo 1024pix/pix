@@ -1,4 +1,4 @@
-import { CombinedCourseBlueprint } from '../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 
 function buildCombinedCourseBlueprint({
   id = 1,

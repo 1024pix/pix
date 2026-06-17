@@ -1,4 +1,4 @@
-import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/CombinedCourseBlueprintForUpdate.js';
+import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
 import * as combinedCourseforUpdateSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-for-update-serializer.js';
 import { expect } from '../../../../test-helper.js';
 

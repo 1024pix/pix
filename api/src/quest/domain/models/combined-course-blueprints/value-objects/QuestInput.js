@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
-import { EntityValidationError } from '../../../shared/domain/errors.js';
-import { COMBINED_COURSE_ITEM_TYPES } from '../constants.js';
-import { CombinedCourseBlueprint } from './CombinedCourseBlueprint.js';
-import { Quest, REQUIREMENT_TYPES } from './quests/entities/Quest.js';
+import { EntityValidationError } from '../../../../../shared/domain/errors.js';
+import { COMBINED_COURSE_ITEM_TYPES } from '../../../constants.js';
+import { Quest, REQUIREMENT_TYPES } from '../../quests/entities/Quest.js';
+import { CombinedCourseBlueprint } from '../entities/CombinedCourseBlueprint.js';
 
 const itemsSchema = Joi.array()
   .items(

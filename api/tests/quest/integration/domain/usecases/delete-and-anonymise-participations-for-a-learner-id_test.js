@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { CampaignParticipation } from '../../../../../src/prescription/campaign-participation/application/api/read-models/CampaignParticipation.js';
-import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,

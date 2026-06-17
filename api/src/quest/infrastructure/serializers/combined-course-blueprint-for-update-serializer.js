@@ -1,6 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import { CombinedCourseBlueprintForUpdate } from '../../domain/models/CombinedCourseBlueprintForUpdate.js';
+import { CombinedCourseBlueprintForUpdate } from '../../domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
 
 const { Deserializer } = jsonapiSerializer;
 

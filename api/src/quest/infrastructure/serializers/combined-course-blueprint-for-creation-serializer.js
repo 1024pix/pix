@@ -1,8 +1,8 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
 import { REWARD_TYPES } from '../../domain/constants.js';
-import { CombinedCourseBlueprintForCreation } from '../../domain/models/CombinedCourseBlueprintForCreation.js';
-import { QuestInput } from '../../domain/models/QuestInput.js';
+import { CombinedCourseBlueprintForCreation } from '../../domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForCreation.js';
+import { QuestInput } from '../../domain/models/combined-course-blueprints/value-objects/QuestInput.js';
 
 const { Deserializer, Serializer } = jsonapiSerializer;
 

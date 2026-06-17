@@ -2,14 +2,14 @@ import sinon from 'sinon';
 
 import { CombinedCourseStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import {
   CampaignCombinedCourseItem,
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
 } from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
-import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
-import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
 import combinedCourseDetailsService from '../../../../../src/quest/domain/services/combined-course-details-service.js';
 import { repositories } from '../../../../../src/quest/infrastructure/repositories/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
