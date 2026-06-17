@@ -33,23 +33,23 @@
                 "id": "7ca08b2c-534e-4e33-96aa-5a8b9ec85e4a",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Benoit et Alice s’interrogent sur l’impact environnemental de leurs actions.</p>",
+                "instruction": "<p>Benoît et Alice s’interrogent sur l’impact de leurs actions sur l'environnement.</p>",
                 "functionalInstruction": "",
                 "tagName": "message-conversation",
                 "props": {
-                  "conversationTitle": "Benoit et Alice s’interrogent sur l’impact environnemental de leurs actions.",
+                  "conversationTitle": "Benoît et Alice s’interrogent sur l’impact environnemental de leurs actions.",
                   "messages": [
                     {
                       "userName": "Benoît",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Tu savais que manger, se déplacer, se chauffer … Toutes nos actions ont un impact sur le réchauffement climatique ? 😱"
+                      "content": "Tu savais que manger, se déplacer, se chauffer … Toutes nos actions ont un impact sur le dérèglement climatique ? 😱"
                     },
                     {
                       "userName": "Alice",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Bien sûr ! Même quand tu achètes un nouvel ordinateur portable, quand tu envoie un mail ou quand tu utilises l’IA…"
+                      "content": "Bien sûr ! Même quand on achète un nouvel ordinateur portable, quand on envoie un mail ou quand on utilise l’IA…"
                     },
                     {
                       "userName": "Benoît",
@@ -61,13 +61,13 @@
                       "userName": "Alice",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Tes actions numériques émettent aussi des gaz à effet de serre. Mais certaines beaucoup plus que d’autres …"
+                      "content": "Nos actions numériques émettent aussi des gaz à effet de serre. Mais certaines beaucoup plus que d’autres…"
                     },
                     {
                       "userName": "Benoît",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Mais comment savoir ce qui émet le plus ?"
+                      "content": "Mais comment savoir quelles actions émettent le plus de gaz à effet de serre ?"
                     },
                     {
                       "userName": "Alice",
