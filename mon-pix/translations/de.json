@@ -980,7 +980,7 @@
         }
       },
       "link-to-user-certification": "Meine Zertifizierungen ansehen",
-      "non-eligible-subscription": "Du bist nicht für {complementarySubscriptionLabel} qualifiziert. Du aknnst dennoch deine Pix-Zertifizierung ablegen.",
+      "non-eligible-subscription": "Du bist nicht für {subscriptionLabel} qualifiziert. Du aknnst dennoch deine Pix-Zertifizierung ablegen.",
       "title": "An einer Zertifizierungstestung teilnehmen"
     },
     "certifications-list": {

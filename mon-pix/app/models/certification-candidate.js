@@ -8,7 +8,16 @@ export default class CertificationCandidate extends Model {
   @attr('boolean') hasSeenCertificationInstructions;
   @attr('string') subscription;
   @attr('boolean') hasStartedTest;
+  @attr('boolean') doubleCertificationEligibility;
 
   // references
   @attr('number') sessionId;
+
+  get isRegisteredToDoubleCertification() {
+    return this.subscription === 'CLEA';
+  }
+
+  get isEligibleToDoubleCertification() {
+    return this.isRegisteredToDoubleCertification && this.doubleCertificationEligibility;
+  }
 }

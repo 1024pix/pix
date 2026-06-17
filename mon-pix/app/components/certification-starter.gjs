@@ -79,14 +79,12 @@ export default class CertificationStarter extends Component {
     ];
   }
 
-  get complementarySubscriptionLabel() {
-    return this.args.model.certificationCandidateSubscription.enrolledDoubleCertificationLabel;
+  get subscriptionLabel() {
+    return this.intl.t(`pages.certification-frameworks.${this.args.model.certificationCandidate.subscription}`);
   }
 
   get eligibilityState() {
-    return this.args.model.certificationCandidateSubscription.isEligibleToDoubleCertification
-      ? 'eligible'
-      : 'non-eligible';
+    return this.args.model.certificationCandidate.isEligibleToDoubleCertification ? 'eligible' : 'non-eligible';
   }
 
   @action
@@ -130,7 +128,7 @@ export default class CertificationStarter extends Component {
 
     const newCertificationCourse = this.store.createRecord('certification-course', {
       accessCode: this.accessCode,
-      sessionId: this.args.model.certificationCandidateSubscription.sessionId,
+      sessionId: this.args.model.certificationCandidate.sessionId,
       locale: this.selectedLanguage,
     });
     try {
@@ -177,7 +175,7 @@ export default class CertificationStarter extends Component {
     <section class="certification-starter">
       <h1 class="certification-start-page__title">{{t "pages.certification-start.first-title"}}</h1>
 
-      {{#if @model.certificationCandidateSubscription.displaySubscriptionInformation}}
+      {{#if @model.certificationCandidate.isRegisteredToDoubleCertification}}
         <div class="certification-starter-subscriptions">
           <div class="certification-starter-subscriptions-container">
             <p class="certification-starter-subscriptions-container-title">
@@ -190,15 +188,12 @@ export default class CertificationStarter extends Component {
                 @ariaHidden={{true}}
                 class="certification-starter-subscriptions-container-items__{{this.eligibilityState}}-icon"
               />
-              {{this.complementarySubscriptionLabel}}
+              {{this.subscriptionLabel}}
             </span>
           </div>
-          {{#unless @model.certificationCandidateSubscription.isEligibleToDoubleCertification}}
+          {{#unless @model.certificationCandidate.isEligibleToDoubleCertification}}
             <PixNotificationAlert @type="warning" @withIcon={{true}}>
-              {{t
-                "pages.certification-start.non-eligible-subscription"
-                complementarySubscriptionLabel=this.complementarySubscriptionLabel
-              }}
+              {{t "pages.certification-start.non-eligible-subscription" subscriptionLabel=this.subscriptionLabel}}
             </PixNotificationAlert>
           {{/unless}}
         </div>

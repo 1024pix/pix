@@ -980,7 +980,7 @@
         }
       },
       "link-to-user-certification": "Bekijk mijn certificaten",
-      "non-eligible-subscription": "Je komt niet in aanmerking voor {complementarySubscriptionLabel}. Je kunt echter wel je Pix-certificering behalen.",
+      "non-eligible-subscription": "Je komt niet in aanmerking voor {subscriptionLabel}. Je kunt echter wel je Pix-certificering behalen.",
       "title": "Doe mee aan een certificeringssessie"
     },
     "certifications-list": {

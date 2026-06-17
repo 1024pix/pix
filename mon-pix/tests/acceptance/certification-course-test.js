@@ -170,10 +170,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               birthdate: '1990-01-04',
               hasSeenCertificationInstructions: true,
             });
-            this.server.create('certification-candidate-subscription', {
-              id: '1',
-              sessionId: 1,
-            });
 
             // when
             await fillCertificationJoiner({
@@ -195,10 +191,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           test('should redirect to certification start route', async function (assert) {
             // given
             await visit('/certifications');
-            this.server.create('certification-candidate-subscription', {
-              id: '2',
-              sessionId: 1,
-            });
 
             // when
             await fillCertificationJoiner({
@@ -235,11 +227,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             });
             assessment = certificationCourse.assessment;
             assessment.update({ nextChallenge: challenges[NB_CHALLENGES - 1] });
-
-            this.server.create('certification-candidate-subscription', {
-              id: '2',
-              sessionId: 1,
-            });
           });
 
           module('when user enter a correct code session', function () {
@@ -363,10 +350,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           lastName: 'Bravo',
         });
         certificationCourse.assessment.update({ nextChallenge: challenges[NB_CHALLENGES - 1] });
-        this.server.create('certification-candidate-subscription', {
-          id: '2',
-          sessionId: 1,
-        });
 
         await authenticate(user);
         const screen = await visit('/certifications');
@@ -437,13 +420,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               type: 'CERTIFICATION',
               state: assessmentStates.STARTED,
               nextChallenge: challenge,
-            });
-            server.create('certification-candidate-subscription', {
-              id: '2',
-              sessionId: 1,
-              //
-              eligibleSubscriptions: null,
-              nonEligibleSubscription: null,
             });
 
             await authenticate(user);
@@ -522,11 +498,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             assessment,
           });
 
-          this.server.create('certification-candidate-subscription', {
-            id: '2',
-            sessionId: 1,
-          });
-
           await authenticate(user);
           const screen = await visit('/certifications');
           await fillCertificationJoiner({
@@ -567,11 +538,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               lastName: 'Bravo',
               version: 3,
               assessment,
-            });
-
-            this.server.create('certification-candidate-subscription', {
-              id: '2',
-              sessionId: 1,
             });
 
             const screen = await visit('/certifications');

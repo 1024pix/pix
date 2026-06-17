@@ -17,14 +17,8 @@ module('Unit | Route | Certification | Start', function (hooks) {
         });
         const params = { certification_candidate_id: certificationCandidate.id };
 
-        const certificationCandidateSubscription = store.createRecord('certification-candidate-subscription', {
-          id: certificationCandidate.id,
-          sessionId: 1234,
-        });
-
-        const findRecordStub = sinon.stub().returns(certificationCandidateSubscription);
-        const peekRecordStub = sinon.stub().returns(certificationCandidate);
-        const storeStub = Service.create({ findRecord: findRecordStub, peekRecord: peekRecordStub });
+        const findRecordStub = sinon.stub().returns(certificationCandidate);
+        const storeStub = Service.create({ findRecord: findRecordStub });
 
         const route = this.owner.lookup('route:authenticated/certifications.start');
         route.set('store', storeStub);
@@ -53,24 +47,12 @@ module('Unit | Route | Certification | Start', function (hooks) {
         });
         const params = { certification_candidate_id: certificationCandidate.id };
 
-        const certificationCandidateSubscription = store.createRecord('certification-candidate-subscription', {
-          id: certificationCandidate.id,
-          sessionId: 1234,
-        });
-
-        const findRecordStub = sinon
-          .stub()
-          .withArgs('certification-candidate-subscription', certificationCandidate.id)
-          .returns(certificationCandidateSubscription)
-          .withArgs('certification-candidate', certificationCandidate.id)
-          .returns(certificationCandidate);
-
+        const findRecordStub = sinon.stub().returns(certificationCandidate);
         const storeStub = Service.create({ findRecord: findRecordStub });
 
         const route = this.owner.lookup('route:authenticated/certifications.start');
         route.set('store', storeStub);
         route.router = { replaceWith: sinon.stub() };
-        route.hasSeenCertificationInstructions = true;
 
         // when
         await route.model(params);

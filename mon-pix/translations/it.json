@@ -980,7 +980,7 @@
         }
       },
       "link-to-user-certification": "Vedi le mie certificazioni",
-      "non-eligible-subscription": "Non si ha diritto a {complementarySubscriptionLabel}. È tuttavia possibile ottenere la certificazione Pix.",
+      "non-eligible-subscription": "Non si ha diritto a {subscriptionLabel}. È tuttavia possibile ottenere la certificazione Pix.",
       "title": "Partecipa a una sessione di certificazione"
     },
     "certifications-list": {

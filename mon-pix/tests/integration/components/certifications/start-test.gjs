@@ -13,7 +13,6 @@ module('Integration | Component | Certifications | start', function (hooks) {
   test('it displays certification starter page when extension is enabled', async function (assert) {
     // given
     const model = {
-      certificationCandidateSubscription: {},
       certificationCandidate: {},
     };
 
@@ -38,7 +37,6 @@ module('Integration | Component | Certifications | start', function (hooks) {
     this.owner.register('service:pix-companion', PixCompanionStub);
 
     const model = {
-      certificationCandidateSubscription: {},
       certificationCandidate: {},
     };
 

@@ -15,7 +15,6 @@ import getCampaigns from './routes/get-campaigns';
 import getCertificateSummaries from './routes/get-certificate-summaries';
 import getCertification from './routes/get-certification';
 import getCertificationCandidate from './routes/get-certification-candidate';
-import getCertificationCandidatesSubscriptions from './routes/get-certification-candidates-subscriptions';
 import getCertifications from './routes/get-certifications';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
@@ -123,7 +122,6 @@ function routes() {
   this.post('/shared-certifications', postSharedCertifications);
 
   this.get('/certification-candidates/:id', getCertificationCandidate);
-  this.get('/certification-candidates/:id/subscriptions', getCertificationCandidatesSubscriptions);
 
   this.get('/certification-courses/:id');
 

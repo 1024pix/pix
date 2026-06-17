@@ -28,12 +28,6 @@ module('Acceptance | Certifications | Information', function (hooks) {
         sessionId: 123,
         subscription: 'CORE',
       });
-      server.create('certification-candidate-subscription', {
-        id: '2',
-        sessionId: 123,
-        enrolledDoubleCertificationLabel: null,
-        doubleCertificationEligibility: false,
-      });
 
       await authenticateByEmail(user);
 
@@ -62,13 +56,6 @@ module('Acceptance | Certifications | Information', function (hooks) {
     module('when user validates instructions', function () {
       test('should validate checkbox and redirect to the certification start page', async function (assert) {
         // given
-        server.create('certification-candidate-subscription', {
-          id: '2',
-          sessionId: 123,
-          enrolledDoubleCertificationLabel: null,
-          doubleCertificationEligibility: false,
-        });
-
         await authenticateByEmail(user);
 
         const screen = await visit('/certifications');
@@ -102,13 +89,6 @@ module('Acceptance | Certifications | Information', function (hooks) {
     module('when user has already validated instructions', function () {
       test('should redirect to the certification start page', async function (assert) {
         // given
-        server.create('certification-candidate-subscription', {
-          id: '2',
-          sessionId: 123,
-          enrolledDoubleCertificationLabel: null,
-          doubleCertificationEligibility: false,
-        });
-
         const candidateLastName = 'hasSeenCertificationInstructions';
 
         await authenticateByEmail(user);
@@ -134,12 +114,6 @@ module('Acceptance | Certifications | Information', function (hooks) {
     module('when user validates instructions and redirect to the certification start page', function () {
       test('should not display the menu', async function (assert) {
         // given
-        server.create('certification-candidate-subscription', {
-          id: '2',
-          sessionId: 123,
-          enrolledDoubleCertificationLabel: null,
-          doubleCertificationEligibility: false,
-        });
         await authenticateByEmail(user);
         const screen = await visit('/certifications');
 

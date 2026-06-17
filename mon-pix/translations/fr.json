@@ -980,7 +980,7 @@
         }
       },
       "link-to-user-certification": "Voir mes certifications",
-      "non-eligible-subscription": "Vous n'êtes pas éligible à {complementarySubscriptionLabel}. Vous pouvez néanmoins passer votre certification Pix.",
+      "non-eligible-subscription": "Vous n'êtes pas éligible à {subscriptionLabel}. Vous pouvez néanmoins passer votre certification Pix.",
       "title": "Rejoindre une session de certification"
     },
     "certifications-list": {
