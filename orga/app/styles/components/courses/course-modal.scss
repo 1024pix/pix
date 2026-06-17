@@ -18,6 +18,11 @@
     flex: 1;
     overflow-y: scroll;
     padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+    }
   }
   &__competence {
     padding-bottom: var(--pix-spacing-2x);
