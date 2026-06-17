@@ -669,10 +669,31 @@
             {
               "type": "element",
               "element": {
+                "id": "2c1e7f93-ef02-43a0-94b3-585e987ac1fd",
+                "type": "text",
+                "tag": " ",
+                "content": "<p><strong>Lisez l’article ci-dessous, puis répondez aux questions qui suivent.</strong></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "95a9e346-c33b-42d1-8a3a-20db06b1e492",
+                "type": "video",
+                "title": "",
+                "url": "https://assets.pix.org/draft/modules/IA_Infox_IND/lapins.mp4",
+                "poster": "",
+                "subtitles": "",
+                "transcription": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
                 "id": "3e08fbf2-8b06-4ce1-b783-0cb6a2a5c6d5",
                 "type": "custom",
                 "title": "Article",
-                "instruction": "<p>Lisez l’article ci-dessous, puis répondez aux questions qui suivent.</p>",
+                "instruction": "",
                 "functionalInstruction": "",
                 "tagName": "pix-article",
                 "props": {
