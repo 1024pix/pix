@@ -21,7 +21,7 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
           minimumAnswersRequiredToValidateACertification: 11,
           globalScoringConfiguration: ['some ignored value'],
           competencesScoringConfiguration: ['some ignored value'],
-          challengesConfiguration: domainBuilder.certification.shared.buildFlashAssessmentAlgorithmConfiguration({
+          challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({
             maximumAssessmentLength: 11,
             challengesBetweenSameCompetence: 11,
             limitToOneQuestionPerTube: false,
@@ -45,7 +45,7 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
             minimumAnswersRequiredToValidateACertification: 11,
             globalScoringConfiguration: [],
             competencesScoringConfiguration: [],
-            challengesConfiguration: domainBuilder.certification.shared.buildFlashAssessmentAlgorithmConfiguration({
+            challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({
               maximumAssessmentLength: 11,
               challengesBetweenSameCompetence: 11,
               limitToOneQuestionPerTube: false,
@@ -74,7 +74,7 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
               DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
             globalScoringConfiguration: [],
             competencesScoringConfiguration: [],
-            challengesConfiguration: domainBuilder.certification.shared.buildFlashAssessmentAlgorithmConfiguration({
+            challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({
               maximumAssessmentLength: 32,
               challengesBetweenSameCompetence: 0,
               limitToOneQuestionPerTube: true,
