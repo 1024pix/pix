@@ -13,6 +13,7 @@ import FlashcardsElement from 'mon-pix/components/module/element/flashcards/flas
 import ImageElement from 'mon-pix/components/module/element/image';
 import QabElement from 'mon-pix/components/module/element/qab/qab';
 import QcmElement from 'mon-pix/components/module/element/qcm';
+import QcmDeclarativeElement from 'mon-pix/components/module/element/qcm-declarative';
 import QcuElement from 'mon-pix/components/module/element/qcu';
 import QcuDeclarativeElement from 'mon-pix/components/module/element/qcu-declarative';
 import QcuDiscoveryElement from 'mon-pix/components/module/element/qcu-discovery';
@@ -84,6 +85,8 @@ export default class ModulixElement extends Component {
         @correction={{this.getLastCorrectionForElement @element}}
         @updateSkipButton={{@updateSkipButton}}
       />
+    {{else if (eq @element.type "qcm-declarative")}}
+      <QcmDeclarativeElement @element={{@element}} @onAnswer={{@onElementAnswer}} />
     {{else if (eq @element.type "qrocm")}}
       <QrocmElement
         @element={{@element}}

@@ -84,7 +84,9 @@ describe('Quest | Integration | Repository | combined-course', function () {
 
       // then
       expect(combinedCourseResult).to.be.an.instanceof(CombinedCourse);
-      expect(combinedCourseResult).to.deep.equal(new CombinedCourse(combinedCourse));
+      expect(combinedCourseResult).to.deep.equal(
+        new CombinedCourse({ ...combinedCourse, blueprintId: combinedCourse.combinedCourseBlueprintId }),
+      );
     });
 
     it('should throw NotFoundError if combined course does not exist', async function () {
@@ -143,8 +145,12 @@ describe('Quest | Integration | Repository | combined-course', function () {
       expect(result.combinedCourses).to.have.lengthOf(2);
       expect(result.combinedCourses[0]).to.be.an.instanceof(CombinedCourse);
       expect(result.combinedCourses[1]).to.be.an.instanceof(CombinedCourse);
-      expect(result.combinedCourses[0]).to.deep.equal(new CombinedCourse(combinedCourse2));
-      expect(result.combinedCourses[1]).to.deep.equal(new CombinedCourse(combinedCourse1));
+      expect(result.combinedCourses[0]).to.deep.equal(
+        new CombinedCourse({ ...combinedCourse2, blueprintId: combinedCourse2.combinedCourseBlueprintId }),
+      );
+      expect(result.combinedCourses[1]).to.deep.equal(
+        new CombinedCourse({ ...combinedCourse1, blueprintId: combinedCourse1.combinedCourseBlueprintId }),
+      );
       expect(result.meta).to.deep.include({
         page: 1,
         pageSize: 10,
@@ -262,7 +268,9 @@ describe('Quest | Integration | Repository | combined-course', function () {
       // then
       expect(combinedCourseResult).lengthOf(1);
       expect(combinedCourseResult[0]).instanceof(CombinedCourse);
-      expect(combinedCourseResult[0]).deep.equal(new CombinedCourse(combinedCourse));
+      expect(combinedCourseResult[0]).deep.equal(
+        new CombinedCourse({ ...combinedCourse, blueprintId: combinedCourse.combinedCourseBlueprintId }),
+      );
     });
 
     it('should return empty array if no combined course match campaignId', async function () {
@@ -640,7 +648,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
           illustration: combinedCourseWithModule.illustration,
           participations: [],
           questId: combinedCourseWithModule.questId,
-          blueprintId: null,
+          blueprintId: combinedCourseWithModule.combinedCourseBlueprintId,
           baseSurveyUrl: null,
           deletedAt: null,
           deletedBy: null,
@@ -654,7 +662,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
           illustration: otherCombinedCourseWithModule.illustration,
           participations: [],
           questId: otherCombinedCourseWithModule.questId,
-          blueprintId: null,
+          blueprintId: otherCombinedCourseWithModule.combinedCourseBlueprintId,
           baseSurveyUrl: null,
           deletedAt: null,
           deletedBy: null,
@@ -683,7 +691,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
           illustration: combinedCourseWithModule.illustration,
           participations: [],
           questId: combinedCourseWithModule.questId,
-          blueprintId: null,
+          blueprintId: combinedCourseWithModule.combinedCourseBlueprintId,
           baseSurveyUrl: null,
           deletedAt: null,
           deletedBy: null,
@@ -697,7 +705,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
           illustration: combinedCourseWithModuleAndOtherOrga.illustration,
           participations: [],
           questId: combinedCourseWithModuleAndOtherOrga.questId,
-          blueprintId: null,
+          blueprintId: combinedCourseWithModuleAndOtherOrga.combinedCourseBlueprintId,
           deletedAt: null,
           baseSurveyUrl: null,
           deletedBy: null,

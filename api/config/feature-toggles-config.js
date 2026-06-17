@@ -130,4 +130,11 @@ export default {
     devDefaultValues: { test: false, reviewApp: false },
     tags: ['team-acces', 'frontend', 'backend', 'pix-api', 'mon-pix', 'pix-orga', 'pix-certif', 'pix-admin'],
   },
+  isEventSourcingCertificationEnabled: {
+    type: 'boolean',
+    description: 'Enable event sourcing for certification related events',
+    defaultValue: false,
+    devDefaultValues: { test: true, reviewApp: true },
+    tags: ['team-certif', 'pix-api', 'backend'],
+  },
 };

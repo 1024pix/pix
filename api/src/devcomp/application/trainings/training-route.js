@@ -239,6 +239,13 @@ const register = async function (server) {
                 locales: Joi.array().items(Joi.string().valid(...lowerCaseSupportedLocales)),
                 'editor-name': Joi.string().allow(null),
                 'editor-logo-url': Joi.string().regex(editorLogoUrlValidation).required(),
+                'delivery-mode': Joi.string()
+                  .valid(...Object.values(Training.modes))
+                  .optional(),
+                description: Joi.string().optional(),
+                program: Joi.string().optional(),
+                'registration-required': Joi.boolean().optional(),
+                objectives: Joi.string().optional(),
               }),
               type: Joi.string().valid('trainings'),
             }).required(),

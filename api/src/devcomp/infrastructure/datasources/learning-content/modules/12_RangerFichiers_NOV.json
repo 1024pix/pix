@@ -2,12 +2,12 @@
   "id": "c89e0ac4-e989-45e7-924d-3e28f417e03d",
   "shortId": "06ab78b4",
   "slug": "essentiel-ranger-fichiers",
-  "title": "Fichiers et dossiers : l’essentiel sur un ordinateur",
+  "title": "Fichiers et dossiers : Les bases des fichiers et dossiers sur ordinateur",
   "isBeta": true,
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Photos, documents écrits, musiques… de nombreux éléments sont stockés sur votre ordinateur.<br>Ce module vous aide à manipuler les fichiers, les dossiers et la corbeille pour organiser votre ordinateur simplement.</p>",
+    "description": "<p>Photos, documents, musiques… de nombreux éléments sont stockés sur votre ordinateur.<br>Ce module vous aide à manipuler les fichiers, les dossiers et la corbeille pour organiser votre ordinateur simplement.</p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
@@ -33,7 +33,7 @@
                 "id": "a508b3f1-51f2-4af6-a71f-4cdb5694d78a",
                 "type": "text",
                 "tag": " ",
-                "content": "Voici le bureau de l’ordinateur de Maëva."
+                "content": "Maëva a beaucoup d’éléments différents sur le bureau de son ordinateur."
               }
             },
             {
@@ -46,15 +46,6 @@
                 "alternativeText": "",
                 "legend": "",
                 "licence": ""
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "03b884f7-1d7a-4eb2-8ee2-164f5973484e",
-                "type": "text",
-                "tag": " ",
-                "content": "Il y a beaucoup d’éléments différents sur son bureau."
               }
             },
             {
@@ -90,7 +81,7 @@
                     "id": "4",
                     "content": "Je ne sais pas.",
                     "feedback": {
-                      "diagnosis": "<p>Il existe des moyens simples pour mieux s’organiser sur un ordinateur&nbsp;: donner des noms noms plus clairs, regrouper des éléments ensemble ou encore supprimer ce qui ne sert plus.</p>"
+                      "diagnosis": "<p>Il existe des moyens simples pour mieux s’organiser sur un ordinateur&nbsp;: donner des noms plus clairs, regrouper des éléments ensemble ou encore supprimer ce qui ne sert plus.</p>"
                     }
                   }
                 ]
@@ -131,7 +122,7 @@
                 "id": "d0de1b6e-0408-4276-903d-7538af8efcfc",
                 "type": "text",
                 "tag": " ",
-                "content": "Observez le bureau de Maëva et essayez de catégoriser les éléments ci-dessous."
+                "content": "Observez le bureau de l’ordinateur de Maëva et essayez de catégoriser les éléments ci-dessous."
               }
             },
             {
@@ -165,8 +156,8 @@
                           "type": "select",
                           "input": "demande infos",
                           "display": "inline",
-                          "placeholder": "Sélectionnez",
-                          "ariaLabel": "Sélectionnez",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "Sélectionner",
                           "tolerances": [],
                           "options": [
                             {
@@ -215,8 +206,8 @@
                           "type": "select",
                           "input": "janvier",
                           "display": "inline",
-                          "placeholder": "Sélectionnez",
-                          "ariaLabel": "Sélectionnez",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "Sélectionner",
                           "tolerances": [],
                           "options": [
                             {
@@ -308,7 +299,7 @@
                 "isCompletionRequired": false,
                 "title": "nouveaudossier",
                 "url": "https://epreuves-pr3082.review.pix.fr/ospix-clic-droit/ospix-clic-droit.html?mode=mdx-rangerfochier_nov_D2",
-                "instruction": "<p>Dans l’interface ci-dessous&nbsp;:&nbsp; </p><ul><li>Créez un nouveau dossier sur le bureau de Maëva.&nbsp;</li><li>Nommez-le «&nbsp;Photos&nbsp;».</li></ul>",
+                "instruction": "<p>Dans le bureau ci-dessous&nbsp;:&nbsp; </p><ul><li>Créez un nouveau dossier sur le bureau de Maëva.&nbsp;</li><li>Nommez-le «&nbsp;Photos&nbsp;».</li></ul>",
                 "solution": "",
                 "height": 500
               }
@@ -320,15 +311,6 @@
                 "type": "expand",
                 "title": "[ Warning relecteurs : le simulateur d’interface de bureau d’ordinateur ne valide pas encore l’action demandée]",
                 "content": "<p>Même bureau que dans les illustrations de début de module avec fichiers et dossiers.</p><ul><li>Actions attendues&nbsp;: <ul><li>clic droit → “Nouveau dossier” ou “dossier” → écrire un nom → appuyer sur Entrée</li></ul></li></ul>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "e1b19308-d5d9-414f-b2fc-b8a13e6f8bb9",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Feedback:&nbsp;Lors de la<strong> création d’un dossier</strong>, il est possible de lui<strong> donner un nom</strong>. Un nom court et clair peut aider à <strong>mieux s’organiser</strong>, par exemple un dossier «&nbsp;Photos&nbsp;» pour ranger ses photos.<br>Si vous ne lui donnez pas de nom, un nom automatique lui est donné comme «&nbsp;Nouveau dossier&nbsp;».</p>"
               }
             }
           ]
@@ -344,7 +326,7 @@
                 "id": "db1d3007-f6d7-4242-aff6-807aa1e1f5a0",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5><strong>Comment afficher le contenu d’un dossier ? </strong>📂</h5><p>Pour afficher le contenu d’un dossier, double-cliquez dessus. Une fenêtre s’ouvre et affiche le contenu du dossier.</p>"
+                "content": "<p>Lors de la <strong>création d’un dossier</strong>, vous pouvez lui <strong>donner un nom</strong>. Un nom court et clair peut vous aider à <strong>mieux vous organiser</strong>, par exemple un dossier « Photos » pour ranger les photos. </p><p>Si vous ne lui donnez pas de nom, un nom automatique lui est donné comme « Nouveau dossier ».<br></p><h5><strong>Comment afficher le contenu d’un dossier ? </strong>📂</h5><p>Pour afficher le contenu d’un dossier, double-cliquez dessus. Une fenêtre s’ouvre et affiche le contenu du dossier.</p>"
               }
             },
             {
@@ -385,7 +367,7 @@
                 "id": "7aee6701-cb39-46e9-8069-09984704661f",
                 "type": "text",
                 "tag": " ",
-                "content": "Maëva a rangé ses fichiers photos dans son dossier «&nbsp;Photos&nbsp;». Sauf la photo nommée «&nbsp;DCIM2115&nbsp;». <br>Elle veut d’abord changer le nom de la photo. Puis la déplacer dans le dossier «&nbsp;Photos&nbsp;»."
+                "content": "Maëva a rangé ses fichiers photos dans son dossier «&nbsp;Photos&nbsp;», sauf la photo nommée «&nbsp;DCIM2115&nbsp;». <br>Maëva veut d’abord changer le nom de la photo, puis la déplacer dans le dossier «&nbsp;Photos&nbsp;»."
               }
             },
             {
@@ -396,7 +378,7 @@
                 "isCompletionRequired": true,
                 "title": "D3 ranger photos",
                 "url": "https://epreuves-pr3081.review.pix.fr/ospix-clic-droit/ospix-clic-droit.html?mode=mdx-rangerfichier_nov_D3",
-                "instruction": "<p>Dans l’interface ci-dessous&nbsp;:&nbsp;</p><ul><li> Renommez la photo «&nbsp;DCIM2115&nbsp;» avec le nom «&nbsp;Portugal&nbsp;».</li><li>Rangez la photo «&nbsp;Portugal&nbsp;» dans le dossier «&nbsp;Photos&nbsp;».</li></ul>",
+                "instruction": "<p>Dans le bureau ci-dessous&nbsp;:&nbsp;</p><ul><li> Renommez la photo «&nbsp;DCIM2115&nbsp;» avec le nom «&nbsp;Portugal&nbsp;».</li><li>Rangez la photo «&nbsp;Portugal&nbsp;» dans le dossier «&nbsp;Photos&nbsp;».</li></ul>",
                 "solution": "courgette",
                 "height": 500
               }
@@ -480,12 +462,9 @@
               "type": "element",
               "element": {
                 "id": "3af37878-e41f-45d5-8041-ca8fa337662f",
-                "type": "video",
+                "type": "short-video",
                 "title": "supprimer liste de course",
-                "url": "https://assets.pix.org/draft/modules/12RangerFichiersNov/supprimer-liste-de-course.mp4",
-                "poster": "https://assets.pix.org/draft/modules/12RangerFichiersNov/vignette.jpg",
-                "subtitles": "",
-                "transcription": ""
+                "url": "https://assets.pix.org/draft/modules/12RangerFichiersNov/supprimer-liste-de-course.mp4"
               }
             },
             {
@@ -493,35 +472,35 @@
               "element": {
                 "id": "99528f9d-32b9-4388-ade2-46c05929846d",
                 "type": "qcu-discovery",
-                "instruction": "À votre avis, Maëva peut-elle récupérer son fichier ?",
+                "instruction": "À votre avis, Maëva peut-elle récupérer son fichier supprimé&nbsp;?",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "Non, il est supprimé définitivement de l’ordinateur.",
                     "feedback": {
-                      "diagnosis": "<p>Eh non, quand un fichier est supprimé, il est déplacé dans <strong>la corbeille</strong>.<br>Pour l’instant, le fichier n’est <strong>pas effacé</strong> de l’ordinateur, vous pouvez encore le <strong>récupérer</strong>.</p>"
+                      "diagnosis": "<p>Eh non, quand un fichier est supprimé, il est déplacé dans <strong>la corbeille</strong>.<br>Pour l’instant, le fichier n’est <strong>pas effacé</strong> de l’ordinateur, Maëva peut encore le <strong>récupérer</strong>.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "Oui, mais uniquement dans les 5 minutes qui suivent la suppression.",
                     "feedback": {
-                      "diagnosis": "<p> Eh non, quand un fichier est supprimé, il est déplacé dans <strong>la corbeille</strong>.<br>Pour l’instant, le fichier n’est <strong>pas effacé</strong> de l’ordinateur, vous pouvez encore le <strong>récupérer</strong>.</p>"
+                      "diagnosis": "<p> Eh non, quand un fichier est supprimé, il est déplacé dans <strong>la corbeille</strong>.<br>Pour l’instant, le fichier n’est <strong>pas effacé</strong> de l’ordinateur, Maëva peut encore le <strong>récupérer</strong>.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "Oui, les fichiers supprimés sont dans la corbeille de l’ordinateur.",
                     "feedback": {
-                      "diagnosis": "<p> Effectivement, quand un fichier est supprimé, il est déplacé dans <strong>la corbeille</strong>.<br>Pour l’instant, le fichier n’est <strong>pas effacé</strong> de l’ordinateur, vous pouvez encore le <strong>récupérer</strong>.</p>"
+                      "diagnosis": "<p> Effectivement, quand un fichier est supprimé, il est déplacé dans <strong>la corbeille</strong>.<br>Pour l’instant, le fichier n’est <strong>pas effacé</strong> de l’ordinateur, Maëva peut encore le <strong>récupérer</strong>.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "Je ne sais pas.",
                     "feedback": {
-                      "diagnosis": "<p> Quand un fichier est supprimé, il est déplacé dans <strong>la corbeille</strong>.<br>Pour l’instant, le fichier n’est <strong>pas effacé</strong> de l’ordinateur, vous pouvez encore le <strong>récupérer</strong>.</p>"
+                      "diagnosis": "<p> Quand un fichier est supprimé, il est déplacé dans <strong>la corbeille</strong>.<br>Pour l’instant, le fichier n’est <strong>pas effacé</strong> de l’ordinateur, Maëva peut encore le <strong>récupérer</strong>.</p>"
                     }
                   }
                 ],
@@ -610,7 +589,7 @@
                 "id": "f9e7d7b2-b97e-4e43-a43b-32c592be79e9",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>Sur un ordinateur, il y a des <strong>fichiers </strong>(images, documents, vidéos, musiques, etc.) et des <strong>dossiers pour ranger les fichiers</strong>. </li><li>Pour vous y retrouver, vous pouvez facilement <strong>renommer </strong>vos fichiers et les <strong>placer dans des dossiers</strong>. </li><li>Vous pouvez créer autant de dossiers que nécessaire et les nommer comme vous le souhaitez. 📂 </li><li>Quand des fichiers ou des dossiers sont supprimés, ils sont <strong>mis dans la corbeille</strong>. Vous pouvez <strong>récupérer </strong>ceux qui se trouvent dans la corbeille. 🗑️</li></ul>"
+                "content": "<ul><li>Sur un ordinateur, il y a des <strong>fichiers </strong>(images, documents, vidéos, musiques, etc.) et des <strong>dossiers pour ranger les fichiers</strong>. </li><li>Pour vous y retrouver, vous pouvez facilement <strong>renommer </strong>vos fichiers et les <strong>placer dans des dossiers</strong>. </li><li>Vous pouvez créer autant de dossiers que nécessaire et les nommer comme vous le souhaitez. 📂 </li><li>Quand des fichiers ou des dossiers sont supprimés, ils sont <strong>mis dans la corbeille</strong>. Vous pouvez les <strong>récupérer </strong>tant qu’ils se trouvent dans la corbeille. 🗑️</li></ul>"
               }
             }
           ]
@@ -704,7 +683,7 @@
               "element": {
                 "id": "9a1344e6-886a-49df-9a7e-c3b62d21601c",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/12RangerFichiersNov/bureaua2.png",
+                "url": "https://assets.pix.org/draft/modules/12RangerFichiersNov/bureau-activite-2.jpg",
                 "alt": "",
                 "alternativeText": "",
                 "legend": "",
@@ -726,10 +705,10 @@
                     "input": "dossiers",
                     "type": "input",
                     "inputType": "number",
-                    "size": 2,
+                    "size": 10,
                     "display": "inline",
-                    "placeholder": "Tapez un chiffre",
-                    "ariaLabel": "Tapez un chiffre",
+                    "placeholder": " ",
+                    "ariaLabel": " ",
                     "tolerances": [],
                     "solutions": [
                       4
@@ -743,10 +722,10 @@
                     "input": "fichiers",
                     "type": "input",
                     "inputType": "number",
-                    "size": 2,
+                    "size": 10,
                     "display": "inline",
-                    "placeholder": "Tapez un chiffre",
-                    "ariaLabel": "Tapez un chiffre",
+                    "placeholder": " ",
+                    "ariaLabel": " ",
                     "tolerances": [],
                     "solutions": [
                       6
@@ -756,7 +735,7 @@
                 "feedbacks": {
                   "valid": {
                     "state": "Bonne réponse !&nbsp;",
-                    "diagnosis": "Sur ce bureau, il y a quatre dossiers, trois fichiers sons et trois fichiers textes."
+                    "diagnosis": "Sur ce bureau, il y a quatre dossiers et six fichiers (un fichier image, deux fichiers sons et trois fichiers textes)."
                   },
                   "invalid": {
                     "state": "Mauvaise réponse.",
@@ -815,7 +794,7 @@
                 "isCompletionRequired": false,
                 "title": "defi",
                 "url": "https://epreuves.pix.fr/ospix-retrouver_fichier/ospix-retrouver_fichier.html#792a7771591f4b1659475d185945530659445547",
-                "instruction": "<p><strong>Récupérez le fichier « Liste des courses » dans l’interface ci-dessous puis répondez à la question.</strong> </p>",
+                "instruction": "<p><strong>Récupérez le fichier « Liste des courses » dans le bureau ci-dessous puis répondez à la question.</strong> </p>",
                 "solution": "",
                 "height": 500
               }
@@ -825,20 +804,20 @@
               "element": {
                 "id": "95be29bf-828d-4cb5-aa14-a6cbfbd90392",
                 "type": "qrocm",
-                "instruction": "<p>Quel est le seul objet qui est écrit sur la liste des courses de Tiago?</p>",
+                "instruction": "<p>Quel est le nom de l’objet qui est écrit sur la liste des courses de Tiago&nbsp;?</p>",
                 "proposals": [
                   {
                     "type": "text",
-                    "content": "<p>Nom du fichier&nbsp;:<br></p>"
+                    "content": "<p>Nom de l’objet&nbsp;:<br></p>"
                   },
                   {
-                    "input": "nom du fichier",
+                    "input": "Nom de l’objet",
                     "type": "input",
                     "inputType": "text",
                     "size": 12,
                     "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "Nom du fichier",
+                    "placeholder": " ",
+                    "ariaLabel": " ",
                     "tolerances": [
                       "t1",
                       "t2",
@@ -852,11 +831,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "Bonne réponse ! ",
-                    "diagnosis": "<p>Vous avez bien récupéré le dossier «&nbsp;Liste des courses&nbsp;» depuis la Corbeille.</p>"
+                    "diagnosis": "<p>Vous avez bien récupéré le dossier «&nbsp;Liste des courses&nbsp;» depuis la corbeille.</p>"
                   },
                   "invalid": {
                     "state": "Mauvaise réponse.",
-                    "diagnosis": "<p>Pour trouver le nom du fichier, suivez ces deux étapes&nbsp;:</p><ul>    <li>Récupérer le dossier «&nbsp;Liste des courses&nbsp;» depuis la corbeille.</li>    <li>Ouvrir le dossier «&nbsp;Listes de courses&nbsp;» depuis le bureau de l’ordinateur.</li></ul>"
+                    "diagnosis": "<p>Pour trouver le nom de l’objet, suivez ces deux étapes&nbsp;:</p><ul>    <li>Récupérez le fichier «&nbsp;Liste des courses&nbsp;» depuis la corbeille.</li>    <li>Ouvrez le fichier «&nbsp;Listes de courses&nbsp;» depuis le bureau de l’ordinateur.</li></ul>"
                   }
                 }
               }

@@ -589,7 +589,7 @@ module('Integration | Component | organizations/information-section-edit', funct
       const screen = await render(<template><InformationSectionEdit @organization={{organization}} /></template>);
 
       // then
-      assert.dom(screen.getByText(t('components.organizations.creation.general-information'))).exists();
+      assert.dom(screen.getByText(t('common.cards.titles.general-information'))).exists();
       assert.dom(screen.getByText(t('components.organizations.creation.configuration'))).exists();
       assert
         .dom(

@@ -177,7 +177,7 @@ export class ScoManagingStudent {
       firstName: organizationLearner.firstName,
       lastName: organizationLearner.lastName,
       sex: 'F',
-      birthdate: new Date(organizationLearner.birthdate),
+      birthdate: organizationLearner.birthdate,
       birthCountry: 'France',
       birthINSEECode: '75115',
       email: organizationLearner.email,

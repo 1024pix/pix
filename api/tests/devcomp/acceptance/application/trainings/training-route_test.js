@@ -104,7 +104,7 @@ describe('Acceptance | Controller | training-controller', function () {
           'registration-required': false,
           program: 'Programme du contenu formatif',
           description: "<p>Voici la description d'un contenu formatif</p>",
-          objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
+          objectives: 'Objectif 1;Objectif 2;Objectif 3',
         },
       };
 
@@ -243,7 +243,13 @@ describe('Acceptance | Controller | training-controller', function () {
       it('should update training and response with a 200', async function () {
         // given
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-        const training = databaseBuilder.factory.buildTraining();
+        const training = databaseBuilder.factory.buildTraining({
+          deliveryMode: Training.modes.HYBRID,
+          registrationRequired: false,
+          program: 'Programme du contenu formatif à mettre à jour',
+          objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3 à mettre à jour'],
+          description: 'Une description à mettre à jour',
+        });
         await databaseBuilder.commit();
         const locales = ['fr', 'fr-fr'];
         const updatedTraining = {
@@ -257,6 +263,11 @@ describe('Acceptance | Controller | training-controller', function () {
             minutes: 2,
           },
           locales,
+          deliveryMode: Training.modes.REMOTE,
+          registrationRequired: true,
+          program: 'Programme du contenu formatif mis à jour',
+          objectives: 'Objectif 1;Objectif 2;Objectif 3 mis à jour',
+          description: 'Une description mis à jour',
         };
 
         options = {
@@ -278,6 +289,11 @@ describe('Acceptance | Controller | training-controller', function () {
                 },
                 'is-disabled': true,
                 locales,
+                'delivery-mode': updatedTraining.deliveryMode,
+                'registration-required': updatedTraining.registrationRequired,
+                program: updatedTraining.program,
+                objectives: updatedTraining.objectives,
+                description: updatedTraining.description,
               },
             },
           },
@@ -296,6 +312,11 @@ describe('Acceptance | Controller | training-controller', function () {
               editorName: updatedTraining.editorName,
               editorLogoUrl: updatedTraining.editorLogoUrl,
               isDisabled: updatedTraining.isDisabled,
+              deliveryMode: updatedTraining.deliveryMode,
+              registrationRequired: updatedTraining.registrationRequired,
+              program: updatedTraining.program,
+              objectives: updatedTraining.objectives,
+              description: updatedTraining.description,
             },
           },
         };
@@ -320,6 +341,11 @@ describe('Acceptance | Controller | training-controller', function () {
         );
         expect(response.result.data.attributes['is-disabled']).to.be.true;
         expect(response.result.data.attributes['locales']).to.deep.equal(locales);
+        expect(response.result.data.attributes['delivery-mode']).to.equal(Training.modes.REMOTE);
+        expect(response.result.data.attributes['registration-required']).to.equal(true);
+        expect(response.result.data.attributes.program).to.deep.equal(expectedResponse.data.attributes.program);
+        expect(response.result.data.attributes.objectives).to.deep.equal(expectedResponse.data.attributes.objectives);
+        expect(response.result.data.attributes.description).to.deep.equal(expectedResponse.data.attributes.description);
       });
     });
   });

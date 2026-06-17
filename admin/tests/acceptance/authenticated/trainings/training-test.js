@@ -89,7 +89,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
           await click(screen.getByRole('button', { name: 'Créer le contenu formatif' }));
 
           // then
-          assert.strictEqual(currentURL(), `/trainings/3/triggers`);
+          assert.strictEqual(currentURL(), `/trainings/3/details`);
           assert
             .dom(
               screen.getByRole('link', {
@@ -112,7 +112,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
           await click(screen.getByRole('button', { name: 'Créer le contenu formatif' }));
 
           // then
-          assert.strictEqual(currentURL(), `/trainings/3/triggers`);
+          assert.strictEqual(currentURL(), `/trainings/3/details`);
         });
       });
 
@@ -152,6 +152,11 @@ module('Acceptance | Trainings | Training', function (hooks) {
     test('triggers should be accessible for an authenticated user', async function (assert) {
       // when
       await visit(`/trainings/${trainingId}/`);
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.trainings.training.triggers.tabName'),
+        }),
+      );
 
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers`);
@@ -209,7 +214,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
           level: 1,
         });
         assert.dom(title).exists();
-        assert.strictEqual(currentURL(), '/trainings/3/triggers');
+        assert.strictEqual(currentURL(), '/trainings/3/details');
       });
     });
 

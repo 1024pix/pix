@@ -4,6 +4,7 @@
  * @typedef {import('./index.js').CandidateRepository} CandidateRepository
  * @typedef {import('./index.js').CountryRepository} CountryRepository
  * @typedef {import('./index.js').SessionRepository} SessionRepository
+ * @typedef {import('./index.js').EventAdapter} EventAdapter
  */
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
@@ -20,6 +21,7 @@ const INSEE_PREFIX_CODE = '99';
  * @param {CenterRepository} params.centerRepository
  * @param {CountryRepository} params.countryRepository
  * @param {SessionRepository} params.sessionRepository
+ * @param {EventAdapter} params.eventAdapter
  */
 export async function enrolStudentsToSession({
   sessionId,
@@ -32,6 +34,7 @@ export async function enrolStudentsToSession({
   certificationCpfCityRepository,
   certificationCpfCountryRepository,
   certificationCpfService,
+  eventAdapter,
 }) {
   if (studentIds.length === 0) {
     return;
@@ -92,5 +95,6 @@ export async function enrolStudentsToSession({
     });
   });
 
-  await candidateRepository.save({ candidates: scoCertificationCandidates });
+  const savedCandidates = await candidateRepository.save({ candidates: scoCertificationCandidates });
+  await eventAdapter.onCandidatesEnrolledSco({ candidates: savedCandidates });
 }

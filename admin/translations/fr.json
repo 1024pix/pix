@@ -26,6 +26,11 @@
       "organization-not-found-error": "L’organisation \"{organizationId}\" n’existe pas.",
       "pix-admin-login-from-password-disabled-error": "La connexion par email et mot de passe est désactivée. Utilisez un SSO pour vous connecter."
     },
+    "cards": {
+      "titles": {
+        "general-information": "Informations générales"
+      }
+    },
     "certification": {
       "meshLevels": {
         "CLEA": {
@@ -151,6 +156,7 @@
       "send-new-confirm": "Un email a bien été renvoyé à {invitationEmail}",
       "send-new-label": "Renvoyer l'invitation à {invitationEmail}"
     },
+    "loading": "Chargement en cours",
     "not-specified": "Non spécifié",
     "notifications": {
       "close-button": {
@@ -904,7 +910,6 @@
           "placeholder": "Spécifier l'UAI, le SIRET etc"
         },
         "features": "Fonctionnalités",
-        "general-information": "Informations générales",
         "name": {
           "label": "Nom de l'organisation",
           "placeholder": "Ma nouvelle organisation"
@@ -1108,6 +1113,10 @@
         }
       },
       "statistics": {
+        "missing-data": {
+          "content": "Une erreur est survenue lors du calcul des statistiques, merci de ne pas réessayer. L'équipe en charge a déjà reçu une notification.",
+          "title": "Pas de statistiques disponibles"
+        },
         "total-participants-count": {
           "info": "Nombre total de participants uniques de l'organisation ayant débuté au moins une participation à une campagne depuis la création de l'organisation (peu importe le statut des campagnes, des participations, ou des participants, supprimé ou non)",
           "title": "Nombre total de participants"
@@ -1894,6 +1903,7 @@
             "disabled": "Non déclenchable",
             "enabled": "Déclenchable"
           },
+          "tab": "Détails",
           "title": "Titre public"
         },
         "duplicate": {

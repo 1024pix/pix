@@ -1,6 +1,7 @@
 /**
  * @typedef {import('./index.js').CandidateRepository} CandidateRepository
  * @typedef {import('./index.js').SessionRepository} SessionRepository
+ * @typedef {import('./index.js').EventAdapter} EventAdapter
  */
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
@@ -10,8 +11,9 @@ import { CandidateAlreadyLinkedToUserError } from '../../../../shared/domain/err
  * @param {object} params
  * @param {CandidateRepository} params.candidateRepository
  * @param {SessionRepository} params.sessionRepository
+ * @param {EventAdapter} params.eventAdapter
  */
-const importCertificationCandidatesFromCandidatesImportSheet = async function ({
+export async function importCertificationCandidatesFromCandidatesImportSheet({
   sessionId,
   odsBuffer,
   i18n,
@@ -20,6 +22,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   certificationCpfCityRepository,
   centerRepository,
   sessionRepository,
+  eventAdapter,
   certificationCandidatesOdsService,
   certificationCpfService,
 }) {
@@ -41,10 +44,9 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
     centerRepository,
   });
 
-  await DomainTransaction.execute(async () => {
+  const savedCandidates = await DomainTransaction.execute(async () => {
     await candidateRepository.deleteBySessionId({ sessionId });
-    await candidateRepository.save({ candidates });
+    return candidateRepository.save({ candidates });
   });
-};
-
-export { importCertificationCandidatesFromCandidatesImportSheet };
+  await eventAdapter.onCandidatesEnrolledWithImportSheet({ candidates: savedCandidates });
+}

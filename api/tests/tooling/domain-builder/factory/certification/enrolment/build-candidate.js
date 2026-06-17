@@ -28,6 +28,7 @@ const buildCandidate = function ({
   subscriptions = [],
   accessibilityAdjustmentNeeded,
   subscription = Frameworks.CORE,
+  hasStartedTest = false,
 } = {}) {
   return new Candidate({
     id,
@@ -56,6 +57,7 @@ const buildCandidate = function ({
     subscriptions,
     accessibilityAdjustmentNeeded,
     subscription,
+    hasStartedTest,
   });
 };
 

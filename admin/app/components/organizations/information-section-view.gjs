@@ -67,7 +67,7 @@ class OrganizationDescription extends Component {
     <section class="admin-form__content">
       <Card
         class="admin-form__card organization-information-section__card organization-information-section__card--general"
-        @title={{t "components.organizations.creation.general-information"}}
+        @title={{t "common.cards.titles.general-information"}}
       >
         <div class="organization-information-section__left-block">
           <div class="organization-information-section__field">

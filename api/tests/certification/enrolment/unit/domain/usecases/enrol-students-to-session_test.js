@@ -18,6 +18,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
   const certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
   const certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
   let certificationCpfService;
+  let eventAdapter;
   let dependencies;
   const sessionId = 123,
     certificationCenterId = 456,
@@ -63,6 +64,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
     certificationCpfService = {
       getBirthInformation: sinon.stub(),
     };
+    eventAdapter = { onCandidatesEnrolledSco: sinon.stub() };
 
     sessionRepository.get
       .withArgs({ id: sessionId })
@@ -89,6 +91,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       certificationCpfCityRepository,
       certificationCpfCountryRepository,
       certificationCpfService,
+      eventAdapter,
     };
   });
 
@@ -102,6 +105,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
 
       // then
       expect(candidateRepository.save).to.not.have.been.called;
+      expect(eventAdapter.onCandidatesEnrolledSco).to.not.have.been.called;
     });
 
     it('enrols students to the session', async function () {
@@ -117,6 +121,35 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
         }),
       );
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
+      const savedCandidates = [
+        new Candidate({
+          id: 1,
+          firstName: 'Michel',
+          lastName: 'Jacques',
+          birthdate: '1990-01-04',
+          sex: 'M',
+          birthINSEECode: 'CITYCODEMICHEL',
+          birthCity: 'Michelopolis',
+          birthCountry: 'FRANCE',
+          sessionId,
+          organizationLearnerId: 1,
+          subscription: SUBSCRIPTION_TYPES.CORE,
+        }),
+        new Candidate({
+          id: 2,
+          firstName: 'Jeannette',
+          lastName: 'Leto',
+          birthdate: '1989-02-18',
+          sex: 'F',
+          birthINSEECode: 'CITYCODEJEANNETTE',
+          birthCity: 'Jeanettopolis',
+          birthCountry: 'FRANCE',
+          sessionId,
+          organizationLearnerId: 2,
+          subscription: SUBSCRIPTION_TYPES.CORE,
+        }),
+      ];
+      candidateRepository.save.resolves(savedCandidates);
 
       // when
       await enrolStudentsToSession({
@@ -154,6 +187,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
           }),
         ],
       });
+      expect(eventAdapter.onCandidatesEnrolledSco).to.have.been.calledWithExactly({ candidates: savedCandidates });
     });
 
     it('prevents from enrolling twice the same student if a student is already enrolled', async function () {
@@ -171,6 +205,22 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
         }),
       });
       organizationLearnerRepository.findByIds.withArgs({ ids: [2] }).resolves([jeanetteLearner]);
+      const savedCandidates = [
+        new Candidate({
+          id: 1,
+          firstName: 'Jeannette',
+          lastName: 'Leto',
+          birthdate: '1989-02-18',
+          sex: 'F',
+          birthINSEECode: 'CITYCODEJEANNETTE',
+          birthCity: 'Jeanettopolis',
+          birthCountry: 'FRANCE',
+          sessionId,
+          organizationLearnerId: 2,
+          subscription: SUBSCRIPTION_TYPES.CORE,
+        }),
+      ];
+      candidateRepository.save.resolves(savedCandidates);
 
       // when
       await enrolStudentsToSession({
@@ -196,6 +246,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
           }),
         ],
       });
+      expect(eventAdapter.onCandidatesEnrolledSco).to.have.been.calledWithExactly({ candidates: savedCandidates });
     });
   });
 
@@ -228,6 +279,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       // then
       expect(error).to.be.instanceof(ForbiddenAccess);
       expect(candidateRepository.save).to.not.have.been.called;
+      expect(eventAdapter.onCandidatesEnrolledSco).to.not.have.been.called;
     });
   });
 
@@ -267,6 +319,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
           "L'élève Jeannette Leto a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix",
         );
         expect(candidateRepository.save).to.not.have.been.called;
+        expect(eventAdapter.onCandidatesEnrolledSco).to.not.have.been.called;
       });
     });
 
@@ -301,6 +354,35 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
             certificationCpfCityRepository,
           })
           .resolves({ birthCity: 'Computed City' });
+        const savedCandidates = [
+          new Candidate({
+            id: 1,
+            firstName: 'Michel',
+            lastName: 'Jacques',
+            birthdate: '1990-01-04',
+            sex: 'M',
+            birthINSEECode: 'CITYCODEMICHEL',
+            birthCity: 'Michelopolis',
+            birthCountry: 'FRANCE',
+            sessionId,
+            organizationLearnerId: 1,
+            subscription: SUBSCRIPTION_TYPES.CORE,
+          }),
+          new Candidate({
+            id: 2,
+            firstName: 'Jeannette',
+            lastName: 'Leto',
+            birthdate: '1989-02-18',
+            sex: 'F',
+            birthINSEECode: 'CITYCODEJEANNETTE',
+            birthCity: 'Computed City',
+            birthCountry: 'FRANCE',
+            sessionId,
+            organizationLearnerId: 2,
+            subscription: SUBSCRIPTION_TYPES.CORE,
+          }),
+        ];
+        candidateRepository.save.resolves(savedCandidates);
 
         // when
         await enrolStudentsToSession({
@@ -337,6 +419,9 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
               subscription: SUBSCRIPTION_TYPES.CORE,
             }),
           ],
+        });
+        expect(eventAdapter.onCandidatesEnrolledSco).to.have.been.calledWithExactly({
+          candidates: savedCandidates,
         });
       });
     });

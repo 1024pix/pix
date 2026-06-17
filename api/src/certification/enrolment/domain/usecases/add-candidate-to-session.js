@@ -5,6 +5,7 @@
  * @typedef {import ('./index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import ('./index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import ('./index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import ('./index.js').EventAdapter} EventAdapter
  */
 
 import {
@@ -25,6 +26,7 @@ import { ComplementaryCertificationKeys } from '../../../shared/domain/models/Co
  * @param {CertificationCpfCountryRepository} params.certificationCpfCountryRepository
  * @param {CertificationCpfCityRepository} params.certificationCpfCityRepository
  * @param {ComplementaryCertificationRepository} params.complementaryCertificationRepository
+ * @param {EventAdapter} params.eventAdapter
  */
 export async function addCandidateToSession({
   sessionId,
@@ -37,6 +39,7 @@ export async function addCandidateToSession({
   complementaryCertificationRepository,
   mailCheck = mailCheckImplementation,
   normalizeStringFnc,
+  eventAdapter,
 }) {
   candidate.sessionId = sessionId;
   const session = await sessionRepository.get({ id: sessionId });
@@ -114,5 +117,7 @@ export async function addCandidateToSession({
     }
   }
 
-  return candidateRepository.insert(candidate);
+  const [savedCandidate] = await candidateRepository.save({ candidates: [candidate] });
+  await eventAdapter.onCandidateEnrolledIndividually({ candidate: savedCandidate });
+  return savedCandidate.id;
 }

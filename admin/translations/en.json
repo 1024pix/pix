@@ -26,6 +26,11 @@
       "organization-not-found-error": "The organization \"{organizationId}\" does not exist.",
       "pix-admin-login-from-password-disabled-error": "Email and password login is disabled. Please use SSO to log in."
     },
+    "cards": {
+      "titles": {
+        "general-information": "General information"
+      }
+    },
     "certification": {
       "meshLevels": {
         "CLEA": {
@@ -144,6 +149,7 @@
       "send-new-confirm": "An email has been sent to {invitationEmail}",
       "send-new-label": "Resend the invitation to {invitationEmail}"
     },
+    "loading": "Loading...",
     "not-specified": "Not specified",
     "notifications": {
       "close-button": {
@@ -896,7 +902,6 @@
           "placeholder": "Specify the UAI, SIRET etc"
         },
         "features": "Features",
-        "general-information": "General information",
         "name": {
           "label": "Name of the organization",
           "placeholder": "My new organization"
@@ -1100,6 +1105,10 @@
         }
       },
       "statistics": {
+        "missing-data": {
+          "content": "An error has occurred whilst calculating the statistics; please do not try again. The team responsible has already been notified.",
+          "title": "No statistics available"
+        },
         "total-participants-count": {
           "info": "The total number of unique participants from the organisation who have started at least one campaign participation since the organisation was created (regardless of the status of the campaigns, participations or participants, whether deleted or not)",
           "title": "Total number of participants"
@@ -1884,6 +1893,7 @@
             "disabled": "Non-triggerable",
             "enabled": "Triggerable"
           },
+          "tab": "Details",
           "title": "Public title"
         },
         "duplicate": {

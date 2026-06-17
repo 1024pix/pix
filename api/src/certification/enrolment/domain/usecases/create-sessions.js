@@ -11,13 +11,15 @@ import { SessionEnrolment } from '../models/SessionEnrolment.js';
  * @param {object} params
  * @param {deps["candidateRepository"]} params.candidateRepository
  * @param {deps["sessionRepository"]} params.sessionRepository
+ * @param {deps["eventAdapter"]} params.eventAdapter
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
-const createSessions = async function ({
+export async function createSessions({
   userId,
   cachedValidatedSessionsKey,
   candidateRepository,
   sessionRepository,
+  eventAdapter,
   temporarySessionsStorageForMassImportService,
 }) {
   const temporaryCachedSessions = await temporarySessionsStorageForMassImportService.getByKeyAndUserId({
@@ -44,12 +46,13 @@ const createSessions = async function ({
         sessionId = id;
       }
 
-      if (_hasCandidates(candidates)) {
-        await _saveCandidates({
+      if (candidates.length > 0) {
+        const savedCandidates = await _saveCandidates({
           candidates,
           sessionId,
           candidateRepository,
         });
+        await eventAdapter.onCandidatesEnrolledWithMassSessionsImport({ candidates: savedCandidates });
       }
     }
   });
@@ -58,12 +61,6 @@ const createSessions = async function ({
     cachedValidatedSessionsKey,
     userId,
   });
-};
-
-export { createSessions };
-
-function _hasCandidates(candidates) {
-  return candidates.length > 0;
 }
 
 async function _saveNewSessionReturningId({ sessionRepository, sessionDTO }) {
@@ -79,5 +76,5 @@ async function _saveCandidates({ candidates, sessionId, candidateRepository }) {
   const candidatesToSave = candidates.map((candidate) => {
     return new Candidate({ ...candidate, sessionId });
   });
-  await candidateRepository.save({ candidates: candidatesToSave });
+  return candidateRepository.save({ candidates: candidatesToSave });
 }

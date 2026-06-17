@@ -13,6 +13,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   let centerRepository;
   let candidateRepository;
   let sessionRepository;
+  let eventAdapter;
   let dependencies;
   let temporarySessionsStorageForMassImportService;
   let candidateData;
@@ -21,6 +22,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
     centerRepository = { getById: sinon.stub() };
     candidateRepository = { deleteBySessionId: sinon.stub(), save: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
+    eventAdapter = { onCandidatesEnrolledWithMassSessionsImport: sinon.stub() };
     temporarySessionsStorageForMassImportService = {
       getByKeyAndUserId: sinon.stub(),
       remove: sinon.stub(),
@@ -30,6 +32,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       centerRepository,
       candidateRepository,
       sessionRepository,
+      eventAdapter,
       temporarySessionsStorageForMassImportService,
     };
 
@@ -55,6 +58,8 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
+      expect(candidateRepository.save).not.to.have.been.called;
+      expect(eventAdapter.onCandidatesEnrolledWithMassSessionsImport).not.to.have.been.called;
     });
   });
 
@@ -98,7 +103,8 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // then
           const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
-          expect(candidateRepository.save).to.not.have.been.called;
+          expect(candidateRepository.save).not.to.have.been.called;
+          expect(eventAdapter.onCandidatesEnrolledWithMassSessionsImport).not.to.have.been.called;
         });
       });
 
@@ -130,6 +136,12 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           const cachedValidatedSessionsKey = 'uuid';
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
           sessionRepository.save.resolves({ id: 1234 });
+          const savedCandidate = domainBuilder.certification.enrolment.buildCandidate({
+            ...candidate,
+            sessionId: 1234,
+            subscription: Frameworks.DROIT,
+          });
+          candidateRepository.save.resolves([savedCandidate]);
 
           // when
           await createSessions({
@@ -143,13 +155,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
           expect(candidateRepository.save).to.have.been.calledOnceWith({
-            candidates: [
-              domainBuilder.certification.enrolment.buildCandidate({
-                ...candidate,
-                sessionId: 1234,
-                subscription: Frameworks.DROIT,
-              }),
-            ],
+            candidates: [savedCandidate],
+          });
+          expect(eventAdapter.onCandidatesEnrolledWithMassSessionsImport).to.to.have.been.calledWithExactly({
+            candidates: [savedCandidate],
           });
         });
       });
@@ -171,6 +180,12 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         const sessionCreatorId = 1234;
         const cachedValidatedSessionsKey = 'uuid';
         sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
+        const savedCandidate = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidate,
+          sessionId: 1234,
+          subscription: Frameworks.DROIT,
+        });
+        candidateRepository.save.resolves([savedCandidate]);
 
         // when
         await createSessions({
@@ -185,13 +200,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           sessionId: 1234,
         });
         expect(candidateRepository.save).to.have.been.calledOnceWith({
-          candidates: [
-            domainBuilder.certification.enrolment.buildCandidate({
-              ...candidate,
-              sessionId: 1234,
-              subscription: Frameworks.DROIT,
-            }),
-          ],
+          candidates: [savedCandidate],
+        });
+        expect(eventAdapter.onCandidatesEnrolledWithMassSessionsImport).to.to.have.been.calledWithExactly({
+          candidates: [savedCandidate],
         });
       });
     });
@@ -211,6 +223,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       const sessionCreatorId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
+      candidateRepository.save.resolves([]);
 
       // when
       await createSessions({

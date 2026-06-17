@@ -1,44 +1,81 @@
 @use 'pix-design-tokens/typography';
-@use 'pix-design-tokens/breakpoints';
 
-.training-details-card {
-  margin-bottom: var(--pix-spacing-6x);
+.training-header-information {
+  display: flex;
+  gap: var(--pix-spacing-4x);
+  margin-bottom: var(--pix-spacing-4x);
 
   &__title {
-    @extend %pix-title-xs;
+    @extend %pix-title-s;
+
+    margin-bottom: var(--pix-spacing-2x);
   }
 
   &__editor-logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: auto;
-    margin-bottom: var(--pix-spacing-3x);
-    padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
+    width: 100px;
+    height: 100px;
+    padding: var(--pix-spacing-2x);
     background-color: var(--pix-neutral-0);
     border: 1px var(--pix-primary-100) solid;
     border-radius: var(--pix-spacing-2x);
 
-    @include breakpoints.device-is('tablet') {
-      height: 300px;
-      margin-bottom: 0;
-    }
-  }
-
-  &__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-
-    @include breakpoints.device-is('tablet') {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 2rem;
+    img {
+      width: 100%;
     }
   }
 }
+
+.training-details {
+  &__actions {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    margin-bottom: var(--pix-spacing-4x);
+  }
+
+  &__card {
+    .card__content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--pix-spacing-6x);
+    }
+
+    .card__content > * + * {
+      margin-top: 0;
+    }
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-4x);
+  }
+
+  &__field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+      padding-bottom: var(--pix-spacing-3x);
+      border-bottom: 1px solid var(--pix-neutral-100);
+    }
+  }
+
+  &__label {
+    color: var(--pix-neutral-900);
+    font-weight: bold;
+  }
+
+  &__value {
+    color: var(--pix-neutral-700);
+
+    a {
+      color: var(--pix-primary-500);
+      text-decoration: underline;
+    }
+  }
+}
+

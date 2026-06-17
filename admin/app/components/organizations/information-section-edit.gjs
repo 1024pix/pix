@@ -182,7 +182,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
       <section class="admin-form__content organization-creation-form">
         <Card
           class="admin-form__card organization-creation-form__card"
-          @title={{t "components.organizations.creation.general-information"}}
+          @title={{t "common.cards.titles.general-information"}}
         >
           <div class="organization-creation-form__input--full">
             <PixInput

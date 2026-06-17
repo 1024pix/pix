@@ -97,7 +97,7 @@ module('Acceptance | Target Profile Training Summaries', function (hooks) {
         await clickByName('My training');
 
         // then
-        assert.deepEqual(currentURL(), '/trainings/456/triggers');
+        assert.deepEqual(currentURL(), '/trainings/456/details');
       });
     });
   });

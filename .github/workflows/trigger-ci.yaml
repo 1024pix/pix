@@ -1,22 +1,28 @@
 name: Trigger CircleCI
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize, ready_for_review, unlabeled]
   push:
     branches:
       - dev
   merge_group:
     types: [checks_requested]
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, labeled]
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   trigger-ci:
     runs-on: ubuntu-latest
 
-    # Triggered when :
-    # The opened PR is not draft or is on "dev" branch
-    # And doesn't have the label 'Development in progress' or the label 'Development in progress' label is removed
-    if: ((!github.event.pull_request.draft && github.event.pull_request.state == 'open') || github.ref == 'refs/heads/dev') && ((github.event.action == 'unlabeled' && github.event.label.name == 'Development in progress') || (github.event.action != 'unlabeled' && !contains(github.event.pull_request.labels.*.name, 'Development in progress')))
+    # Triggered when : on "dev" branch OR in the merge queue OR not a draft PR OR commented with '/run-ci'
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'merge_group' ||
+      (github.event_name == 'pull_request' && !github.event.pull_request.draft) ||
+      (github.event_name == 'pull_request' && github.event.action == 'labeled' && contains(github.event.label.name, 'Run CI'))
 
     steps:
       - name: Extract branch name
@@ -30,3 +36,9 @@ jobs:
           target-branch: ${{ steps.extract_branch.outputs.branch }}
         env:
           CCI_TOKEN: ${{ secrets.PIX_SERVICE_CIRCLE_CI_TOKEN }}
+
+      - name: Remove "Run CI" label
+        if: github.event_name == 'pull_request' && github.event.action == 'labeled' && contains(github.event.label.name, 'Run CI')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr edit ${{ github.event.pull_request.number }} --remove-label "${{ github.event.label.name }}" --repo ${{ github.repository }}

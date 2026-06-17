@@ -25,7 +25,7 @@ export default class DuplicateTraining extends Component {
   }
 
   <template>
-    <PixButton @size="small" @variant="primary" @triggerAction={{this.openModal}}>{{t
+    <PixButton @size="small" @variant="secondary" @triggerAction={{this.openModal}}>{{t
         "pages.trainings.training.duplicate.button.label"
       }}
     </PixButton>

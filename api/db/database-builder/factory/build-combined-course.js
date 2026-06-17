@@ -1,4 +1,5 @@
 import { databaseBuffer } from '../database-buffer.js';
+import { buildCombinedCourseBlueprint } from './build-combined-course-blueprint.js';
 import { buildOrganization } from './build-organization.js';
 import { buildQuestForCombinedCourse } from './build-quest.js';
 
@@ -18,6 +19,7 @@ const buildCombinedCourse = function ({
 } = {}) {
   organizationId = organizationId ?? buildOrganization().id;
   questId = questId ?? buildQuestForCombinedCourse().id;
+  combinedCourseBlueprintId = combinedCourseBlueprintId ?? buildCombinedCourseBlueprint().id;
 
   const values = {
     id,

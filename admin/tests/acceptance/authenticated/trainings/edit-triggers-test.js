@@ -46,10 +46,17 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
 
   module('When admin member is logged in', function () {
     test('it should be accessible by an authenticated user : prerequisite edit', async function (assert) {
+      // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-      // when
       const screen = await visit(`/trainings/${trainingId}/`);
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.trainings.training.triggers.tabName'),
+        }),
+      );
+
+      // when
       await click(
         screen.getByRole('link', {
           name: t('pages.trainings.training.triggers.prerequisite.alternative-title'),
@@ -61,10 +68,17 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
     });
 
     test('it should be accessible by an authenticated user : goal edit', async function (assert) {
+      // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-      // when
       const screen = await visit(`/trainings/${trainingId}/`);
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.trainings.training.triggers.tabName'),
+        }),
+      );
+
+      // when
       await click(screen.getByRole('link', { name: t('pages.trainings.training.triggers.goal.alternative-title') }));
 
       // then
@@ -72,6 +86,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
     });
 
     test('it should be able to cancel the edit form', async function (assert) {
+      // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
       // when
@@ -83,10 +98,17 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
     });
 
     test('it should be able to save a new trigger', async function (assert) {
+      // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-      // when
       const screen = await visit(`/trainings/${trainingId}/`);
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.trainings.training.triggers.tabName'),
+        }),
+      );
+
+      // when
       await click(
         screen.getByRole('link', {
           name: t('pages.trainings.training.triggers.prerequisite.alternative-title'),

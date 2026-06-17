@@ -158,9 +158,9 @@
                     {
                       "id": "46c75561-e9b8-4aaa-84cb-212a128bf4cb",
                       "type": "image",
-                      "url": "https://assets.pix.org/modules/CYPhishingInd/phishing-qcu-exemple-2.svg",
+                      "url": "https://assets.pix.org/modules/CYPhishingInd/phishing-qcu-exemple-2-v2.svg",
                       "alt": "Mail détaillé dans l’alternative textuelle",
-                      "alternativeText": "<h5>Boite de réception</h5><p><strong>Date de réception&nbsp;:</strong> mar 9 fev. 2025 - 09h12</p><p><strong>Objet du mail&nbsp;:&nbsp;</strong> [FELICITATIONS] Vous avez gagné un Monsieur Cuisine Boîte de réception</p><p><strong>Expéditeur&nbsp;: </strong>Darty-marie-tarte@unknow.po.org</p><p><strong>Corps du mail&nbsp;:</strong></p><p>Logo&nbsp;: Darty</p><p>Félicitations ! Vous avez été choisi pour recevoir le tout nouveau Monsieur Cuisine Connect. Remplissez vite le formulaire pour le recevoir dès demain&nbsp;:<br>Bouton&nbsp;: CLIQUER ICI<br>Photographie d’un appareil électromenager Monsieur Cuisine.</p>",
+                      "alternativeText": "<h5>Boite de réception</h5><p><strong>Date de réception&nbsp;:</strong> mar 9 fev. 2025 - 09h12</p><p><strong>Objet du mail&nbsp;:&nbsp;</strong> [FELICITATIONS] Vous avez gagné une PS5</p><p><strong>Expéditeur&nbsp;: </strong>Darty-marie-tarte@unknow.po.org</p><p><strong>Corps du mail&nbsp;:</strong></p><p>Logo&nbsp;: Darty</p><p>Félicitations ! Vous avez été choisi pour recevoir la console de jeux vidéo PS5. Remplissez vite le formulaire pour la recevoir dès demain&nbsp;:<br>Bouton&nbsp;: CLIQUER ICI<br>Photographie d’une PS5.</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -352,7 +352,7 @@
                           "type": "paragraph",
                           "content": [
                             "Votre avis d’imposition est désormais en ligne.",
-                            "Pour consulter rapidement,",
+                            "Pour le consulter,",
                             "merci de vous connecter à votre espace particulier avec le lien ci-dessous."
                           ]
                         },
@@ -381,10 +381,10 @@
                       "incorrectFeedback": "Observez bien l’orthographe du nom et de l’adresse de l’expéditeur. Retentez votre chance !"
                     },
                     {
-                      "subject": "Notification de facture impayée — EDF",
+                      "subject": "Notification de facture impayée — Netflix",
                       "from": {
-                        "name": "EDF Service Client",
-                        "address": "support.edf-client@yxztbnc85de.ru"
+                        "name": "Netflix Service Client",
+                        "address": "support.netflix@yxztbnc85de.ru"
                       },
                       "body": [
                         {
@@ -397,8 +397,8 @@
                           "type": "paragraph",
                           "content": [
                             "Nous n’avons pas reçu le règlement de votre dernière facture.",
-                            "Veuillez consulter le détail et effectuer le paiement sécurisé",
-                            "dans les 48 h pour éviter la suspension de votre abonnement."
+                            "Veuillez consulter le détail ",
+                            "et effectuer le paiement sécurisé."
                           ]
                         },
                         {
@@ -414,14 +414,14 @@
                         {
                           "type": "paragraph",
                           "content": [
-                            "EDF — Service Client"
+                            "Netflix — Service Client"
                           ]
                         }
                       ],
                       "answers": [
                         "from.address"
                       ],
-                      "correctFeedback": "La partie après l’arobase (@) de l’adresse mail « yxztbnc85de.ru » n’a aucun lien avec EDF ou la demande, et n’est même pas compréhensible. C’est un indicateur d’hameçonnage.",
+                      "correctFeedback": "La partie après l’arobase (@) de l’adresse mail « yxztbnc85de.ru » n’a aucun lien avec Netflix ou la demande, et n’est même pas compréhensible. C’est un indicateur d’hameçonnage.",
                       "incorrectFeedback": "Concentrez-vous sur l’adresse mail de l’expéditeur. Retentez votre chance !"
                     },
                     {
@@ -442,9 +442,7 @@
                           "content": [
                             "Nous vous informons que vous avez un retard de paiement d’une amende de 85 € auprès de l’Agence de Traitement Automatisé des Infractions (ANTAI).",
                             "Référence de dossier : ML854YD9.",
-                            "Veuillez noter que si vous ne payez pas cette amende dans les prochaines 24 h,",
-                            "vous devrez payer une majoration à hauteur de 250 €.",
-                            "Veuillez régulariser votre situation dans les plus brefs délais."
+                            "Veuillez régulariser votre situation en cliquant sur le lien ci-dessous."
                           ]
                         },
                         {
@@ -676,7 +674,7 @@
                       "id": "39c2b0c2-659e-4830-b5b3-13908c90ea6f",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h4>Vous avez encore un doute&nbsp;?&nbsp;🕵️ </h4>\n<p>N’hésitez pas à demander de l’aide à un proche ou un professionnel en qui vous avez confiance.</p>"
+                      "content": "<h4>Vous avez encore un doute&nbsp;?&nbsp;🕵️ </h4>\n<ul><li>Demandez de l’aide à un proche ou un professionnel en qui vous avez confiance.</li><li>Utilisez un autre canal pour contacter l’auteur (téléphonez ou allez sur le site officiel).</li><li>Allez sur un site de confiance comme cybermalveillance.gouv.fr/diagnostic pour obtenir une assistance en ligne. </li></ul>"
                     }
                   ]
                 }
@@ -864,12 +862,8 @@
               "element": {
                 "id": "5133b388-4a10-482f-8874-dbe8a9ec0932",
                 "type": "qrocm",
-                "instruction": "<p>Complétez la phrase suivante avec le mot approprié&nbsp;:</p>",
+                "instruction": "<p>Quel est le mot français pour le phishing, cette technique d’arnaque par diffusion massive de messages trompeurs ?</p>",
                 "proposals": [
-                  {
-                    "type": "text",
-                    "content": "<span>En français, la technique d’arnaque par diffusion massive de messages trompeurs s’appelle le</span>"
-                  },
                   {
                     "input": "nom-arnaque",
                     "type": "input",
@@ -879,15 +873,11 @@
                     "placeholder": "en un mot",
                     "ariaLabel": "en un mot",
                     "tolerances": [
-                      "t1"
+                      "t3"
                     ],
                     "solutions": [
                       "hameçonnage"
                     ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<span>.</span>"
                   }
                 ],
                 "feedbacks": {
@@ -950,11 +940,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bonne réponse&nbsp;!</p>",
-                    "diagnosis": "<p>Dans l’adresse mail d’un expéditeur, la partie avant et la partie après l’arobase (@) comptent pour vérifier s’il est digne de confiance.</p>"
+                    "diagnosis": "<p>Dans l’adresse mail d’un expéditeur, la partie avant et la partie après l’arobase&nbsp;(@) comptent pour vérifier s’il est digne de confiance.</p>"
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.</p>",
-                    "diagnosis": "<p>Pour vérifier si des adresses mail sont dignes de confiance, regardez bien des deux côtés de l’arobase (@). Vous pouvez réessayer.</p>"
+                    "diagnosis": "<p>Pour vérifier si des adresses mail sont dignes de confiance, regardez bien des deux côtés de l’arobase&nbsp;(@). Vous pouvez réessayer.</p>"
                   }
                 },
                 "solutions": [
@@ -987,7 +977,7 @@
                 "isCompletionRequired": false,
                 "title": "Sélectionner et marquer un message malveillant comme indésirable.",
                 "url": "https://epreuves.pix.fr/fr/pixmail-spam/modulix-phishing.html",
-                "instruction": "<p>Identifiez le mail malveillant et signalez-le comme spam.</p>",
+                "instruction": "<p>Trouvez le mail malveillant et signalez-le comme spam.</p>",
                 "solution": "",
                 "height": 500
               }
@@ -1026,35 +1016,35 @@
                     "id": "1",
                     "content": "<p>Je clique sur le lien pour poser mes questions dans le formulaire.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Mauvais réflexe&nbsp;!</p>\n<p>Vous risquez de tomber dans le piège de l’escroc. Il est préférable d’utiliser un autre canal de contact, par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>.</p>"
+                      "diagnosis": "<p>Mauvais réflexe&nbsp;!</p>\n<p>Vous risquez de tomber dans le piège de l’escroc. Il est préférable d’utiliser un autre canal de contact, par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>J’appelle le numéro du service après-vente sur le site.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement c’est une très bonne idée. </p><p>Vous pouvez aussi <strong>vérifier sur votre compte client</strong> si un problème existe dans le suivi de votre commande.</p>"
+                      "diagnosis": "<p>Effectivement c’est une très bonne idée. </p><p>Vous pouvez aussi <strong>vérifier sur votre compte client</strong> si un problème existe dans le suivi de votre commande.Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Je vérifie le suivi de ma commande sur mon compte client.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement c’est une très bonne idée. Vous pouvez aussi <strong>contacter le service après-vente</strong>.</p>"
+                      "diagnosis": "<p>Effectivement c’est une très bonne idée. Vous pouvez aussi <strong>contacter le service après-vente</strong>. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je réponds au mail pour poser mes questions.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Vous risquez de tomber dans le piège de l’escroc.</p><p>Il est préférable d’utiliser un autre canal de contact, par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>.</p>"
+                      "diagnosis": "<p>Vous risquez de tomber dans le piège de l’escroc.</p><p>Il est préférable d’utiliser un autre canal de contact, par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
                     }
                   },
                   {
                     "id": "5",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est normal, il n’est pas toujours simple de savoir où trouver la bonne information.</p><p>Dans un cas comme celui-ci, il est préférable d’utiliser un autre canal de contact pour vérifier l’information. Vous pouvez par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>.</p>"
+                      "diagnosis": "<p>C’est normal, il n’est pas toujours simple de savoir où trouver la bonne information.</p><p>Dans un cas comme celui-ci, il est préférable d’utiliser un autre canal de contact pour vérifier l’information. Vous pouvez par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
                     }
                   }
                 ],

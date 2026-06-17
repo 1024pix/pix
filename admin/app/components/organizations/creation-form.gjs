@@ -128,7 +128,7 @@ export default class OrganizationCreationForm extends Component {
       <section class="admin-form__content organization-creation-form">
         <Card
           class="admin-form__card organization-creation-form__card"
-          @title={{t "components.organizations.creation.general-information"}}
+          @title={{t "common.cards.titles.general-information"}}
         >
           {{#if @parentOrganization}}
             <h2 class="admin-form__content title organization-creation-form__parent-name--full">

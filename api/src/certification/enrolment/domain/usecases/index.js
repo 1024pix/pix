@@ -12,6 +12,7 @@ import * as sessionValidator from '../../../shared/domain/validators/session-val
 import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as eventAdapter from '../../infrastructure/adapters/event-adapter.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as eligibilityService from '../services/eligibility-service.js';
@@ -44,6 +45,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../../shared/infrastructure/repositories/certification-candidate-repository.js')} certificationCandidateRepository
  * @typedef {import('../../../../prescription/campaign/infrastructure/repositories/division-repository.js')} divisionRepository
  * @typedef {import('../../../shared/infrastructure/repositories/certification-center-repository.js')} CertificationCenterRepository
+ * @typedef {import('../../infrastructure/adapters/event-adapter.js')} EventAdapter
  **/
 
 /**
@@ -76,6 +78,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {divisionRepository} DivisionRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
+ * @typedef {eventAdapter} EventAdapter
  *
  **/
 const dependencies = {
@@ -97,6 +100,7 @@ const dependencies = {
   certificationCourseRepository,
   certificationCenterRepository,
   countryRepository,
+  eventAdapter,
 };
 
 import { addCandidateToSession } from './add-candidate-to-session.js';

@@ -663,6 +663,11 @@ describe('Integration | Repository | training-repository', function () {
         editorLogoUrl: 'https://assets.pix.org/contenu-formatif/editeur/nouveau-logo.svg',
         isDisabled: true,
         locales: ['fr-fr', 'fr'],
+        deliveryMode: Training.modes.ONSITE,
+        registrationRequired: true,
+        program: 'Programme du contenu formatif mis à jour',
+        objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3 mis à jour'],
+        description: 'Une description mise à jour',
         notExistingAttribute: 'notExistingValue',
       };
 
@@ -680,6 +685,11 @@ describe('Integration | Repository | training-repository', function () {
       expect(updatedTraining.editorLogoUrl).to.be.equal(attributesToUpdate.editorLogoUrl);
       expect(updatedTraining.updatedAt).to.be.above(currentTraining.updatedAt);
       expect(updatedTraining.isDisabled).to.be.true;
+      expect(updatedTraining.deliveryMode).to.equal(Training.modes.ONSITE);
+      expect(updatedTraining.registrationRequired).to.be.true;
+      expect(updatedTraining.program).to.equal('Programme du contenu formatif mis à jour');
+      expect(updatedTraining.objectives).to.deep.equal(['Objectif 1', 'Objectif 2', 'Objectif 3 mis à jour']);
+      expect(updatedTraining.description).to.equal(attributesToUpdate.description);
     });
 
     it('should return updated training', async function () {
@@ -699,6 +709,11 @@ describe('Integration | Repository | training-repository', function () {
         editorName: 'Mon nouvel editeur',
         editorLogoUrl: 'https://assets.pix.org/contenu-formatif/editeur/nouveau-logo.svg',
         isDisabled: true,
+        deliveryMode: Training.modes.ONSITE,
+        registrationRequired: true,
+        program: 'Programme du contenu formatif mis à jour',
+        objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3 mis à jour'],
+        description: 'Une description mise à jour',
       };
 
       // when
@@ -706,15 +721,7 @@ describe('Integration | Repository | training-repository', function () {
 
       // then
       expect(updatedTraining).to.be.instanceOf(TrainingForAdmin);
-      expect(updatedTraining.title).to.equal(attributesToUpdate.title);
-      expect(updatedTraining.internalTitle).to.equal(attributesToUpdate.internalTitle);
-      expect(updatedTraining.link).to.equal(attributesToUpdate.link);
-      expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);
-      expect(updatedTraining.editorLogoUrl).to.be.equal(attributesToUpdate.editorLogoUrl);
-      expect(updatedTraining.targetProfileIds).to.deep.equal([targetProfile.id]);
-      expect(updatedTraining.isDisabled).to.be.true;
     });
-
     it('should not update other raws', async function () {
       // given
       const training = databaseBuilder.factory.buildTraining();

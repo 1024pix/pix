@@ -1,5 +1,18 @@
 # Pix Changelog
 
+# [5.432.0](https://github.com/1024pix/pix/compare/v5.431.0...v5.432.0) (2026-06-16)
+
+### :building_construction: Tech
+
+- [#16507](https://github.com/1024pix/pix/pull/16507) Ajout d'un script pour faire la resynchronisation des dates de session avec leur première certification (PIX-23164) 
+
+### :arrow_up: Montée de version
+
+- [#16513](https://github.com/1024pix/pix/pull/16513) Update dependency axios to v1.17.0 (api) 
+- [#16514](https://github.com/1024pix/pix/pull/16514) Update dependency oxfmt to ^0.53.0 (api) 
+- [#16515](https://github.com/1024pix/pix/pull/16515) Update dependency pdfkit to ^0.19.0 (api) 
+- [#16516](https://github.com/1024pix/pix/pull/16516) Update dependency undici to v8.4.0 (api)
+
 # [5.431.0](https://github.com/1024pix/pix/compare/v5.430.0...v5.431.0) (2026-06-15)
 
 ### :rocket: Amélioration

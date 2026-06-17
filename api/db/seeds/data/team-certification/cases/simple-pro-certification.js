@@ -151,7 +151,7 @@ export class ProSeed {
       firstName: pixAppUser.firstName,
       lastName: pixAppUser.lastName,
       sex: 'F',
-      birthdate: new Date(candidateBirthdate),
+      birthdate: candidateBirthdate,
       birthCountry: 'France',
       birthINSEECode: '75115',
       email: pixAppUser.email,
