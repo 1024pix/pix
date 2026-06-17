@@ -472,7 +472,7 @@
                 "id": "bf20c6a4-b455-4fca-b853-13c5911ae09b",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Benoît veut maintenant calculer l’empreinte carbone de l’ensemble de son matériel informatique. Voyons cela.</p>"
+                "content": "<p>Benoît veut maintenant calculer l’empreinte carbone de l’ensemble de son matériel informatique.</p>"
               }
             }
           ]
@@ -488,7 +488,7 @@
                 "id": "0d19d441-4265-4f1f-b516-76dbe5b69829",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour cela, il a listé tous les équipements informatiques qu’il possède pour les saisir dans un logiciel de calcul d’empreinte carbone. Observez les résultats fournis par le logiciel pour répondre aux questions suivantes.</p>"
+                "content": "<p>Pour cela, il liste tous les équipements informatiques qu’il possède et saisit la liste dans un logiciel de calcul d’empreinte carbone. Observez les résultats fournis par le logiciel pour répondre aux questions ci-dessous.</p>"
               }
             },
             {
@@ -498,14 +498,14 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/nr-evaluation-nov/draft_po-idataselect_impacts-carbone-activites.png",
                 "alt": "",
-                "alternativeText": "<p>Extraits du logiciel de calcul d’empreinte carbone.</p><p>Empreintes carbone des équipements numériques&nbsp;:</p><ul><li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li><li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li><li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li></ul><p>Empreintes carbone d’activités de référence&nbsp;:</p><ul><li>4 aller-retours Paris-Berlin en TGV&nbsp;: 29,3kg&nbsp;CO₂eq</li><li>100kg de bananes&nbsp;: 90,9kg&nbsp;CO₂eq</li><li>Fabrication de&nbsp;10 jeans&nbsp;: 251kg&nbsp;CO₂eq</li></ul>",
+                "alternativeText": "<p>Extraits du logiciel de calcul d’empreinte carbone.</p><p>Empreintes carbone des équipements numériques&nbsp;:</p><ul><li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li><li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li><li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li></ul><p>Empreintes carbone d’activités de référence&nbsp;:</p><ul><li>4 allers-retours Paris-Berlin en TGV&nbsp;: 29,3kg&nbsp;CO₂eq</li><li>100kg de bananes&nbsp;: 90,9kg&nbsp;CO₂eq</li><li>Fabrication de&nbsp;10 jeans&nbsp;: 251kg&nbsp;CO₂eq</li></ul>",
                 "legend": "",
                 "licence": ""
               }
             },
             {
               "type": "stepper",
-              "instruction": "<p>Observez les résultats du logiciels de calcul d’empreinte carbone et répondez aux questions suivantes.<br></p>",
+              "instruction": "<p>Répondez aux questions suivantes.<br></p>",
               "steps": [
                 {
                   "elements": [
@@ -517,7 +517,7 @@
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>Sa fabrication</p>",
+                          "content": "<p>sa fabrication</p>",
                           "feedback": {
                             "state": "<p>Bien vu !</p>",
                             "diagnosis": "<p>La fabrication d’un smartphone émet beaucoup plus de gaz à effet de serre que son utilisation.</p>"
@@ -525,7 +525,7 @@
                         },
                         {
                           "id": "1",
-                          "content": "<p>Son utilisation<br></p>",
+                          "content": "<p>son utilisation<br></p>",
                           "feedback": {
                             "state": "<p>Eh non !<br></p>",
                             "diagnosis": "<p>La fabrication d’un smartphone émet beaucoup plus de gaz à effet de serre que son utilisation.</p>"
@@ -546,7 +546,7 @@
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>Un smartphone</p>",
+                          "content": "<p>un smartphone</p>",
                           "feedback": {
                             "state": "<p>Eh non !</p>",
                             "diagnosis": "<p>L’empreinte carbone d’une télévision est bien plus importante que celle d’un smartphone.</p>"
@@ -554,7 +554,7 @@
                         },
                         {
                           "id": "1",
-                          "content": "<p>Une télévision<br></p>",
+                          "content": "<p>une télévision<br></p>",
                           "feedback": {
                             "state": "<p>Bien vu !</p>",
                             "diagnosis": "<p>L’empreinte carbone d’une télévision est bien plus importante que celle d’un smartphone.</p>"
@@ -575,7 +575,7 @@
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>La fabrication d’un smartphone</p>",
+                          "content": "<p>la fabrication d’un smartphone</p>",
                           "feedback": {
                             "state": "<p>Bien vu !<br></p>",
                             "diagnosis": "<p>La fabrication d’un smartphone émet beaucoup plus de gaz à effet de serre que celle d’un jean.</p>"
@@ -583,7 +583,7 @@
                         },
                         {
                           "id": "1",
-                          "content": "<p>La fabrication d’un jean<br></p>",
+                          "content": "<p>la fabrication d’un jean<br></p>",
                           "feedback": {
                             "state": "<p>Eh non !</p>",
                             "diagnosis": "<p>La fabrication d’un smartphone émet beaucoup plus de gaz à effet de serre que celle d’un jean.</p>"
