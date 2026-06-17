@@ -433,7 +433,7 @@
                       "id": "7d5bb9a0-4bdb-4353-a92a-0330028022ef",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>L’empreinte carbone est l’addition de tous les gaz à effet de serre émis lors d’une activité.</strong></p>"
+                      "content": "<p>L’empreinte carbone est <strong>l’addition de tous les gaz à effet de serre émis lors d’une activité.</strong></p>"
                     }
                   ]
                 },
@@ -443,7 +443,7 @@
                       "id": "fefda88b-c863-4cb5-9b78-b2b0b9500e23",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Ce calcul est complexe et dépend de <strong>nombreux facteurs</strong>. Il est donc important, lorsque l’on parle d’empreinte carbone, de vérifier à quelles <strong>activités</strong> et à quelle <strong>période</strong> elle correspond. 👀</p>"
+                      "content": "<p>Le calcul de l'empreinte carbone est complexe et dépend de <strong>nombreux facteurs</strong>. Il est donc important de vérifier quelles <strong>activités</strong> et quelle <strong>période</strong> sont prises en compte dans ce calcul. 👀</p>"
                     }
                   ]
                 },
