@@ -1,9 +1,14 @@
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-
 export default class ItemRoute extends Route {
   @service store;
   @service router;
+
+  @action
+  refreshModel() {
+    this.refresh();
+  }
 
   async model(params) {
     this.certificationFrameworkKey = params.certification_framework_key;

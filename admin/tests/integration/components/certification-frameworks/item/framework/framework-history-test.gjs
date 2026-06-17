@@ -43,13 +43,16 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
   });
 
   test('it should display the framework history', async function (assert) {
+    const refresh = sinon.stub();
     const frameworkHistory = store.createRecord('framework-history', {
       history: [frameworkItem1, frameworkItem2, frameworkItem3],
     });
 
     // when
     const screen = await render(
-      <template><FrameworkHistory @frameworkKey="DROIT" @frameworkHistory={{frameworkHistory}} /></template>,
+      <template>
+        <FrameworkHistory @frameworkKey="DROIT" @frameworkHistory={{frameworkHistory}} @refresh={{refresh}} />
+      </template>,
     );
 
     // then
@@ -78,6 +81,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
   test('it opens the detail modal when clicking the view button', async function (assert) {
     // given
+    const refresh = sinon.stub();
     sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version'));
     const frameworkHistory = store.createRecord('framework-history', {
       history: [frameworkItem1, frameworkItem2, frameworkItem3],
@@ -85,7 +89,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
     // when
     const screen = await render(
-      <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+      <template>
+        <FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} @refresh={{refresh}} />
+      </template>,
     );
 
     await click(
@@ -101,6 +107,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
   test('it displays the framework label as the modal title', async function (assert) {
     // given
+    const refresh = sinon.stub();
     sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version'));
     const frameworkHistory = store.createRecord('framework-history', {
       history: [frameworkItem1, frameworkItem2, frameworkItem3],
@@ -108,7 +115,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
     // when
     const screen = await render(
-      <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+      <template>
+        <FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} @refresh={{refresh}} />
+      </template>,
     );
 
     await click(
@@ -123,6 +132,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
   test('it leaves detail modal opened after saving comments successfully', async function (assert) {
     // given
+    const refresh = sinon.stub();
     const certificationVersion = store.createRecord('certification-version', {
       id: '456',
       startDate: new Date('2023-10-10'),
@@ -141,7 +151,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
     sinon.stub(pixToast, 'sendSuccessNotification');
 
     const screen = await render(
-      <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+      <template>
+        <FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} @refresh={{refresh}} />
+      </template>,
     );
 
     await click(
@@ -165,18 +177,22 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
     });
 
     test('it should not be possible to delete an ACTIVE or ARCHIVED version', async function (assert) {
+      const refresh = sinon.stub();
       const frameworkHistory = store.createRecord('framework-history', {
         history: [frameworkItem1, frameworkItem2, frameworkItem3],
       });
 
       // when
       const screen = await render(
-        <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+        <template>
+          <FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} @refresh={{refresh}} />
+        </template>,
       );
 
       // then
       assert.strictEqual(screen.getAllByRole('button', { name: deleteButtonName }).length, 3);
 
+      assert.false(refresh.called);
       assert.dom(screen.getAllByRole('button', { name: deleteButtonName })[0]).hasAttribute('aria-disabled');
       assert.dom(screen.getAllByRole('button', { name: deleteButtonName })[1]).hasAttribute('aria-disabled');
       assert.dom(screen.getAllByRole('button', { name: deleteButtonName })[2]).doesNotHaveAttribute('aria-disabled');
@@ -184,6 +200,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
     test('it should be possible to delete a DRAFT version', async function (assert) {
       // given
+      const refresh = sinon.stub();
       const certificationVersion = store.createRecord('certification-version', { id: frameworkItem3.id });
       sinon.stub(store, 'findRecord').resolves(certificationVersion);
       sinon.stub(certificationVersion, 'destroyRecord').resolves();
@@ -192,7 +209,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
       });
 
       const screen = await render(
-        <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+        <template>
+          <FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} @refresh={{refresh}} />
+        </template>,
       );
 
       // when
@@ -200,12 +219,14 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
       await click(screen.getByText('Confirmer la suppression'));
 
       // then
+      assert.ok(refresh.calledOnce);
       assert.strictEqual(screen.getAllByRole('row').length, 3);
       assert.dom(screen.queryByRole('cell', { name: `${frameworkItem3.id}` })).doesNotExist();
     });
 
     module('when deletion is a success', function () {
       test('it should send a toast for feedback ', async function (assert) {
+        const refresh = sinon.stub();
         sinon.stub(pixToast, 'sendSuccessNotification');
         const certificationVersion = store.createRecord('certification-version', { id: frameworkItem3.id });
         sinon.stub(store, 'findRecord').resolves(certificationVersion);
@@ -215,7 +236,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
         });
 
         const screen = await render(
-          <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+          <template>
+            <FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} @refresh={{refresh}} />
+          </template>,
         );
 
         // when
@@ -223,12 +246,14 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
         await click(screen.getByText('Confirmer la suppression'));
 
         // then
+        assert.ok(refresh.calledOnce);
         assert.ok(pixToast.sendSuccessNotification.called);
       });
     });
 
     module('when deletion is a error', function () {
       test('it should send a toast for feedback ', async function (assert) {
+        const refresh = sinon.stub();
         sinon.stub(pixToast, 'sendErrorNotification');
         const frameworkHistory = store.createRecord('framework-history', {
           history: [frameworkItem1, frameworkItem2, frameworkItem3],
@@ -239,7 +264,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
         sinon.stub(certificationVersion, 'destroyRecord').rejects();
 
         const screen = await render(
-          <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+          <template>
+            <FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} @refresh={{refresh}} />
+          </template>,
         );
 
         // when
@@ -247,6 +274,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
         await click(screen.getByText('Confirmer la suppression'));
 
         // then
+        assert.ok(refresh.calledOnce);
         assert.ok(pixToast.sendErrorNotification.called);
       });
     });

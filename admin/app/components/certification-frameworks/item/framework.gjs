@@ -24,7 +24,7 @@ export default class CertificationFramework extends Component {
   }
 
   <template>
-    <FrameworkHistory @frameworkKey={{@frameworkKey}} @frameworkHistory={{@frameworkHistory}} />
+    <FrameworkHistory @frameworkKey={{@frameworkKey}} @frameworkHistory={{@frameworkHistory}} @refresh={{@refresh}} />
 
     {{#if this.targetProfilesHistory}}
       <History @targetProfilesHistory={{this.targetProfilesHistory}} />

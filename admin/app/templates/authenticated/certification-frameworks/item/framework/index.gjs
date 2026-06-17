@@ -6,5 +6,6 @@ import Framework from 'pix-admin/components/certification-frameworks/item/framew
     @certificationFramework={{@model.currentCertificationFramework}}
     @hasTargetProfilesHistory={{@model.hasTargetProfilesHistory}}
     @frameworkHistory={{@model.frameworkHistory}}
+    @refresh={{@controller.refresh}}
   />
 </template>
