@@ -949,7 +949,7 @@
                           "id": "0",
                           "content": "<p>Le jeter dès qu’il a un problème.</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse !<br></p>",
+                            "state": "<p>Mauvaise réponse !</p>",
                             "diagnosis": "<p>Pour conserver son smartphone le plus longtemps possible, il faut le protéger et le réparer.</p>"
                           }
                         },
@@ -976,17 +976,17 @@
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>Le vendre ou le donner.<br></p>",
+                          "content": "<p>Le vendre ou le donner.</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !<br></p>",
+                            "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>Si on doit vraiment changer de smartphone, il faut le vendre ou le donner.</p>"
                           }
                         },
                         {
                           "id": "1",
-                          "content": "<p>Le garder dans un tiroir.<br></p>",
+                          "content": "<p>Le garder dans un tiroir.</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse !<br></p>",
+                            "state": "<p>Mauvaise réponse !</p>",
                             "diagnosis": "<p>Si on doit vraiment changer de smartphone, il faut le vendre ou le donner.</p>"
                           }
                         }
@@ -1007,15 +1007,15 @@
                           "id": "0",
                           "content": "<p>Le déposer dans un point de collecte pour le faire recycler.</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !<br></p>",
+                            "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>Si le smartphone ne fonctionne plus et n’est pas réparable il faut le déposer dans un point de collecte spécialisé.</p>"
                           }
                         },
                         {
                           "id": "1",
-                          "content": "<p>Le jeter à la poubelle.<br></p>",
+                          "content": "<p>Le jeter à la poubelle.</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse !<br></p>",
+                            "state": "<p>Mauvaise réponse !</p>",
                             "diagnosis": "<p>Si le smartphone ne fonctionne plus et n’est pas réparable il faut le déposer dans un point de collecte spécialisé.</p>"
                           }
                         }
