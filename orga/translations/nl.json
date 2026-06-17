@@ -1052,7 +1052,8 @@
       },
       "modal": {
         "associated-badges": "Gerelateerde badges",
-        "open-modal": "Bekijk de details van het traject"
+        "open-modal": "Bekijk de details van het cursus",
+        "select-course": "Deze cursus selecteren"
       },
       "tab-filters": {
         "all": "Alle",

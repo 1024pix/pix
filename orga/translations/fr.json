@@ -1053,7 +1053,8 @@
       },
       "modal": {
         "associated-badges": "Badges associés",
-        "open-modal": "Voir le détail du parcours"
+        "open-modal": "Voir le détail du parcours",
+        "select-course": "Sélectionner ce parcours"
       },
       "tab-filters": {
         "all": "Tous",

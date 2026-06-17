@@ -1065,7 +1065,8 @@
       },
       "modal": {
         "associated-badges": "Related badges",
-        "open-modal": "View course details"
+        "open-modal": "View course details",
+        "select-course": "Select course"
       },
       "tab-filters": {
         "all": "All",

@@ -1056,7 +1056,8 @@
       },
       "modal": {
         "associated-badges": "Badge associati",
-        "open-modal": "Visualizza i dettagli del percorso"
+        "open-modal": "Visualizza i dettagli del corso",
+        "select-course": "Seleziona questo corso"
       },
       "tab-filters": {
         "all": "Tutti",

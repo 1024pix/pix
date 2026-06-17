@@ -251,7 +251,7 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       const screen = await render(
         <template><CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} /></template>,
       );
-      const submitButton = await screen.getByText(t('pages.campaign-creation.target-profiles-label'));
+      const submitButton = await screen.getByText(t('pages.catalogue.modal.select-course'));
 
       // // then
       assert.dom(submitButton).hasAttribute('aria-disabled', 'false');
@@ -266,7 +266,7 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       const screen = await render(
         <template><CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} /></template>,
       );
-      const submitButton = await screen.getByText(t('pages.campaign-creation.target-profiles-label'));
+      const submitButton = await screen.getByText(t('pages.catalogue.modal.select-course'));
 
       // then
       assert.dom(submitButton).hasAttribute('aria-disabled', 'true');

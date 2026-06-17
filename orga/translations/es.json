@@ -1059,7 +1059,8 @@
       },
       "modal": {
         "associated-badges": "Insignias relacionadas",
-        "open-modal": "Ver detalles del cursos"
+        "open-modal": "Ver detalles del cursos",
+        "select-course": "Seleccionar este curso"
       },
       "tab-filters": {
         "all": "Todos",

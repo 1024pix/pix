@@ -1055,7 +1055,8 @@
       },
       "modal": {
         "associated-badges": "Zugehörige Abzeichen",
-        "open-modal": "Details zum Kurs anzeigen"
+        "open-modal": "Details zum Kurs anzeigen",
+        "select-course": "Diesen Kurs auswählen"
       },
       "tab-filters": {
         "all": "Alle",

@@ -107,7 +107,7 @@ export default class CourseModal extends Component {
               @size="small"
               class="course-modal__body__form-link"
             >
-              {{t "pages.campaign-creation.target-profiles-label"}}
+              {{t "pages.catalogue.modal.select-course"}}
             </PixButtonLink>
           </div>
           <div class="course-modal__footer">
