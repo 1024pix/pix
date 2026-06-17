@@ -3,6 +3,7 @@ import Joi from 'joi';
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { combinedCourseBlueprintController } from './combined-course-blueprint-controller.js';
+import questSecurityPreHandlers from './security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -202,6 +203,31 @@ const register = async function (server) {
         },
         handler: combinedCourseBlueprintController.update,
         notes: ['- Met à jour le schéma de parcours combiné'],
+        tags: ['api', 'combined-course'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{organizationId}/combined-course-blueprints/{blueprintId}',
+      config: {
+        validate: {
+          params: Joi.object({
+            organizationId: identifiersType.organizationId,
+            blueprintId: identifiersType.combinedCourseBlueprintId,
+          }),
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToOrganization,
+            assign: 'checkUserBelongsToOrganization',
+          },
+          {
+            method: questSecurityPreHandlers.checkCombinedCourseBlueprintBelongsToOrganization,
+            assign: 'checkCombinedCourseBlueprintBelongsToOrganization',
+          },
+        ],
+        handler: combinedCourseBlueprintController.findOverviewById,
+        notes: ["- Récupère un schéma de parcours combinés partagés avec l'organisation"],
         tags: ['api', 'combined-course'],
       },
     },
