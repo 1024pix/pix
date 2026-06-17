@@ -317,7 +317,7 @@
                         "x": 8,
                         "y": 58
                       },
-                      "info": "L’ordinateur de Benoît a d’abord été fabriqué dans une usine. Cela a nécessité beaucoup d’énergie et de matières premières, ce qui a émis des gaz à effet de serre (dioxyde de carbone).",
+                      "info": "L’ordinateur de Benoît est d’abord fabriqué dans une usine. Cela nécessite beaucoup d’énergie et de matières premières, ce qui émet des gaz à effet de serre (dioxyde de carbone).",
                       "tooltipPosition": "bottom"
                     },
                     {
@@ -331,7 +331,7 @@
                         "x": -50,
                         "y": -40
                       },
-                      "info": "Une fois fabriqué, l’ordinateur de Benoît a été transporté jusque chez lui, en bateau puis en camion. Ces transports ont également émis des gaz à effet de serre.",
+                      "info": "Une fois fabriqué, l’ordinateur de Benoît est transporté jusque chez lui, en bateau puis en camion. Ces transports émettent également des gaz à effet de serre.",
                       "tooltipPosition": "bottom"
                     },
                     {
@@ -345,7 +345,7 @@
                         "x": 28,
                         "y": -25
                       },
-                      "info": "Maintenant, Benoît doit recharger régulièrement la batterie de son ordinateur. Cela consomme de l’électricité, qui est produite dans une centrale électrique qui émet généralement des gaz à effet de serre.",
+                      "info": "Benoît doit recharger régulièrement la batterie de son ordinateur. Cela consomme de l’électricité, produite dans une centrale électrique qui émet généralement des gaz à effet de serre.",
                       "tooltipPosition": "bottom"
                     }
                   ]
@@ -361,7 +361,7 @@
                     {
                       "id": "7da14819-5686-4f3d-ae00-7e15e460e9d0",
                       "type": "qcu",
-                      "instruction": "<p>Vrai ou faux&nbsp;: toutes les émissions de gaz à effet de serre liées à un ordinateur portable ont lieu après qu’il ait été acheté.</p>",
+                      "instruction": "<p>Vrai ou faux&nbsp;? toutes les émissions de gaz à effet de serre liées à un ordinateur portable ont lieu après qu’il ait été acheté.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -390,7 +390,7 @@
                     {
                       "id": "804b3d9c-474e-4734-b9bd-f512ef9df19a",
                       "type": "qcu",
-                      "instruction": "<p>Vrai ou faux&nbsp;: Pour calculer l’empreinte carbone totale d’un ordinateur, il faut prendre en compte uniquement les émissions de gaz à effet de serre de sa fabrication et son transport.</p>",
+                      "instruction": "<p>Vrai ou faux&nbsp;? Pour calculer l’empreinte carbone totale d’un ordinateur, il faut prendre en compte uniquement les émissions de gaz à effet de serre de sa fabrication et son transport.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -398,7 +398,7 @@
                           "content": "Vrai",
                           "feedback": {
                             "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Pour calculer l’empreinte carbone d’un objet, il faut prendre toutes les émissions de gaz à effet de serre qui lui sont associées, de sa fabrication.</p>"
+                            "diagnosis": "<p>Pour calculer l’empreinte carbone d’un objet, il faut prendre en compte toutes les émissions de gaz à effet de serre qui lui sont associées, de sa fabrication à sa fin de vie.</p>"
                           }
                         },
                         {
@@ -406,7 +406,7 @@
                           "content": "Faux",
                           "feedback": {
                             "state": "<p>Bien joué !<br></p>",
-                            "diagnosis": "<p>Pour calculer l’empreinte carbone d’un objet, il faut prendre toutes les émissions de gaz à effet de serre qui lui sont associées, de sa fabrication.</p>"
+                            "diagnosis": "<p>Pour calculer l’empreinte carbone d’un objet, il faut prendre en compte toutes les émissions de gaz à effet de serre qui lui sont associées, de sa fabrication à sa fin de vie.</p>"
                           }
                         }
                       ],
