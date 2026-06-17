@@ -313,7 +313,7 @@
                     {
                       "id": "42feb874-5fd5-4c9f-aa47-7f63ce3bf284",
                       "type": "text",
-                      "tag": "further-information",
+                      "tag": " ",
                       "content": "<p>Des personnes utilisent des <strong>faux comptes</strong>, parfois automatisés, pour <strong>approuver, commenter et partager massivement</strong> certains contenus afin de les rendre viraux.</p>"
                     }
                   ]
@@ -557,24 +557,20 @@
                   },
                   {
                     "id": "1",
-                    "content": "<p>Il va privilégier les contenus les plus utiles pour vous.</p>"
-                  },
-                  {
-                    "id": "2",
                     "content": "<p>Il va vous proposer davantage de contenus liés aux animaux ou à l’éducation canine.</p>"
                   },
                   {
-                    "id": "3",
+                    "id": "2",
                     "content": "<p>Il va sélectionner les vidéos d’éducation canine les plus fiables pour vous les montrer.</p>"
                   },
                   {
-                    "id": "4",
+                    "id": "3",
                     "content": "<p>Il va recommander uniquement des contenus créés par des humains.</p>"
                   }
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "<p>Bonne réponse ! 🎉 <br></p>",
+                    "state": "<p>Bonne réponse ! 🎉</p>",
                     "diagnosis": "<p>L’algorithme de recommandation analyse les contenus que vous consultez ainsi que vos réactions pour proposer des contenus susceptibles de capter votre attention.</p>"
                   },
                   "invalid": {
@@ -584,7 +580,7 @@
                 },
                 "solutions": [
                   "0",
-                  "2"
+                  "1"
                 ]
               }
             }
@@ -637,7 +633,7 @@
                   },
                   {
                     "id": "6e039fc0-ba7a-4eaf-a96b-ce469aa6e8f3",
-                    "text": "Plus vous consultez un type de contenu, plus vous risquez d’en voir souvent.",
+                    "text": "Plus vous consultez de contenus sur un sujet, plus vous avez de chances de voir des contenus sur ce sujet.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -648,7 +644,7 @@
                   },
                   {
                     "id": "a714dc7d-cdae-4ceb-9587-3f1fe96b4766",
-                    "text": "Les algorithmes de recommandation détectent automatiquement les faux comptes et ignorent leurs réactions.",
+                    "text": "Les algorithmes de recommandation détectent tous les faux comptes et ignorent leurs réactions.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -772,7 +768,7 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bonne réponse !&nbsp;🎉</p>",
-                          "diagnosis": "<p>Les utilisateurs ne sont pas toujours avertis qu’un contenu a été généré avec l’IA. Le réalisme de ces images fictives peut faire douter des images bien réelles enregistrées par des caméras de surveillance.</p>"
+                          "diagnosis": "<p>Les utilisateurs ne sont pas toujours avertis qu’un contenu a été généré avec l’IA. Le réalisme de ces images fictives peut faire douter des images bien réelles, comme par exemple celles des caméras de surveillance.</p>"
                         },
                         "invalid": {
                           "state": "<p>Mauvaise réponse.</p>",
@@ -818,7 +814,7 @@
                   },
                   {
                     "id": "1",
-                    "content": "<p>J’essaye de regarder des contenus différents pour ne pas me laisser enfermer.</p>",
+                    "content": "<p>J’essaye de regarder des contenus sur des sujets variés.</p>",
                     "feedback": {
                       "diagnosis": "<p>C’est une bonne idée !<br>Diversifier les contenus que l’on consulte est une bonne idée pour ne pas se laisser enfermer.</p>"
                     }
