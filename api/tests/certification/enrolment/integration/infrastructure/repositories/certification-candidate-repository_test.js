@@ -53,7 +53,6 @@ describe('Certification | Shared | Integration | Repository | CertificationCandi
       });
     });
 
-
     context('when there is no certification candidates with the given session ID', function () {
       it('should return an empty array', async function () {
         // when

@@ -40,7 +40,7 @@ export class Candidate {
     accessibilityAdjustmentNeeded,
     hasStartedTest = false,
     doubleCertificationEligibility = false,
-  } = {}) {
+  }) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -165,10 +165,6 @@ export class Candidate {
 
   convertExtraTimePercentageToDecimal() {
     this.extraTimePercentage = this.extraTimePercentage / 100;
-  }
-
-  hasComplementarySubscription() {
-    return this.subscriptions.some((subscription) => subscription.isComplementary());
   }
 
   hasCoreFrameworkSubscription() {

@@ -1,6 +1,6 @@
-import { DomainTransaction } from "../../../../shared/domain/DomainTransaction.js";
-import { NotFoundError } from "../../../../shared/domain/errors.js";
-import { CertificationCandidate } from "../../domain/models/CertificationCandidate.js";
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { CertificationCandidate } from '../../domain/models/CertificationCandidate.js';
 
 /**
  * @param {object} params
