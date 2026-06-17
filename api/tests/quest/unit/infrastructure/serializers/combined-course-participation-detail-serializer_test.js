@@ -1,6 +1,6 @@
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
-import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
 import { serialize } from '../../../../../src/quest/infrastructure/serializers/combined-course-participation-detail-serializer.js';
 import { expect } from '../../../../test-helper.js';
 

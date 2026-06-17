@@ -10,16 +10,16 @@ import { CombinedCourseDetails } from '../../../../../../src/quest/domain/models
 import { CombinedCourseReward } from '../../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
 import { CombinedCourseParticipation } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 import {
+  OrganizationLearnerParticipation,
+  OrganizationLearnerParticipationStatuses,
+  OrganizationLearnerParticipationTypes,
+} from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import {
   CampaignCombinedCourseItem,
   COMBINED_COURSE_ITEM_TYPES,
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
 } from '../../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
-import {
-  OrganizationLearnerParticipation,
-  OrganizationLearnerParticipationStatuses,
-  OrganizationLearnerParticipationTypes,
-} from '../../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

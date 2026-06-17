@@ -6,7 +6,7 @@ import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../domain/models/OrganizationLearnerParticipation.js';
+} from '../../domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 
 export const save = async function ({ organizationLearnerId, combinedCourseId }) {
   const knexConnection = DomainTransaction.getConnection();

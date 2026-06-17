@@ -1,4 +1,4 @@
-import { StatusesEnumValues } from '../../../devcomp/domain/models/module/UserModuleStatus.js';
+import { StatusesEnumValues } from '../../../../../devcomp/domain/models/module/UserModuleStatus.js';
 
 export const OrganizationLearnerParticipationTypes = {
   PASSAGE: 'PASSAGE',

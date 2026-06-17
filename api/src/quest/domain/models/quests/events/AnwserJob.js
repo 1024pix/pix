@@ -1,4 +1,4 @@
-import { ObjectValidationError } from '../../../shared/domain/errors.js';
+import { ObjectValidationError } from '../../../../../shared/domain/errors.js';
 
 export class AnswerJob {
   constructor({ userId } = {}) {

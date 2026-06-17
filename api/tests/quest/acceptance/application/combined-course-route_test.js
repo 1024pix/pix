@@ -4,7 +4,7 @@ import { createServer } from '../../../../server.js';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+} from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { PIX_ADMIN } from '../../../../src/shared/domain/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';

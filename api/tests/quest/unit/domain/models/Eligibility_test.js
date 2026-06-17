@@ -1,4 +1,4 @@
-import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
 import { expect } from '../../../../test-helper.js';
 

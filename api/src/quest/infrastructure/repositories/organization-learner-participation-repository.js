@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationTypes,
-} from '../../domain/models/OrganizationLearnerParticipation.js';
+} from '../../domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 
 export const findByOrganizationLearnerIdAndModuleIds = async ({ organizationLearnerId, moduleIds }) => {
   const participationById = await findByOrganizationLearnerIdsAndModuleIds({

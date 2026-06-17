@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { PRO_ORGANIZATION_ID } from '../../common/constants.js';
 
 export const COMBINED_COURSE_WITHOUT_CAMPAIGN = {

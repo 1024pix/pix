@@ -1,4 +1,4 @@
-import { QuestResult } from '../../domain/models/QuestResult.js';
+import { QuestResult } from '../../domain/models/quests/value-objects/QuestResult.js';
 
 export const reward = async ({ userId, rewardId, profileRewardApi }) => {
   return profileRewardApi.save(userId, rewardId);

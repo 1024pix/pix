@@ -1,4 +1,4 @@
-import { AnswerJob } from '../../../quest/domain/models/AnwserJob.js';
+import { AnswerJob } from '../../../quest/domain/models/quests/events/AnwserJob.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ChallengeAlreadyAnsweredError, EmptyAnswerError, ForbiddenAccess } from '../../../shared/domain/errors.js';
 import { ChallengeNotAskedError } from '../../../shared/domain/errors.js';

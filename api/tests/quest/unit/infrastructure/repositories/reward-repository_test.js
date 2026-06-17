@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { QuestResult } from '../../../../../src/quest/domain/models/QuestResult.js';
+import { QuestResult } from '../../../../../src/quest/domain/models/quests/value-objects/QuestResult.js';
 import {
   getByAttestationKey,
   getByQuestAndUserId,

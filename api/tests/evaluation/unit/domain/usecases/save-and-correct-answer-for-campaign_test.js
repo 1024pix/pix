@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import * as correctionService from '../../../../../src/evaluation/domain/services/correction-service.js';
 import { saveAndCorrectAnswerForCampaign } from '../../../../../src/evaluation/domain/usecases/save-and-correct-answer-for-campaign.js';
-import { AnswerJob } from '../../../../../src/quest/domain/models/AnwserJob.js';
+import { AnswerJob } from '../../../../../src/quest/domain/models/quests/events/AnwserJob.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import {
   ChallengeAlreadyAnsweredError,

@@ -1,4 +1,4 @@
-import { CombinedCourseStatistics } from '../../../../../src/quest/domain/models/CombinedCourseStatistics.js';
+import { CombinedCourseStatistics } from '../../../../../src/quest/domain/models/combined-courses/value-objects/CombinedCourseStatistics.js';
 import { serialize } from '../../../../../src/quest/infrastructure/serializers/combined-course-statistics-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
