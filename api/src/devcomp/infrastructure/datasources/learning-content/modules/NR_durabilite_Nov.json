@@ -713,14 +713,14 @@
                           "id": "1",
                           "content": "<p>Le garder dans un tiroir au cas où elle en aurait besoin.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Multiplier les appareils multiplie aussi les pollutions. Quelqu’un d’autre pourrait avoir besoin d’un smartphone de seconde main.</p>"
+                            "diagnosis": "<p>Eh non&nbsp! Multiplier les appareils multiplie aussi les pollutions. Quelqu’un d’autre pourrait avoir besoin d’un smartphone de seconde main.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Le donner ou le vendre.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Multiplier les appareils multiplie aussi les pollutions. Quelqu’un d’autre pourrait avoir besoin d’un smartphone de seconde main.</p>"
+                            "diagnosis": "<p>Bien vu&nbsp;Multiplier les appareils multiplie aussi les pollutions. Quelqu’un d’autre pourrait avoir besoin d’un smartphone de seconde main.</p>"
                           }
                         }
                       ],
@@ -740,14 +740,14 @@
                           "id": "1",
                           "content": "<p>Le jeter à la poubelle.</p>",
                           "feedback": {
-                            "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés, ce qui provoquerait des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collecte spécialisé.</p>"
+                            "diagnosis": "<p>Eh non&nbsp;! La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés, ce qui provoquerait des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collecte spécialisé.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Le déposer dans un point de collecte spécialisé.</p>",
                           "feedback": {
-                            "diagnosis": "<p>La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés, ce qui provoquerait des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collecte spécialisé.</p>"
+                            "diagnosis": "<p>Bien vu&nbsp;! La plupart des appareils électroniques ne se jettent pas avec les autres déchets. Ils&nbsp;risquent d’être brûlés, ce qui provoquerait des fumées polluantes. Il faut donc déposer un vieux smartphone dans un point de collecte spécialisé.</p>"
                           }
                         }
                       ],
@@ -1056,14 +1056,14 @@
                   },
                   {
                     "id": "2",
-                    "content": "La prochaine fois que mon smartphone aura un problème, j’essaierai de le réparer plutôt qu’en acheter un nouveau.",
+                    "content": "Si mon smartphone a un problème, j’essaierai de le réparer plutôt qu’en acheter un nouveau.",
                     "feedback": {
                       "diagnosis": "Très bien&nbsp;! Réparer un smartphone défecteux est le meilleur moyen de prolonger sa durée de vie."
                     }
                   },
                   {
                     "id": "3",
-                    "content": "Si jamais je dois changer de smartphone, je choisirais un smartphone d’occasion plutôt qu’un neuf.",
+                    "content": "Si jamais je dois changer de smartphone, je choisirai un smartphone d’occasion plutôt qu’un neuf.",
                     "feedback": {
                       "diagnosis": "Bien vu&nbsp;! Si vous êtes obligés de changer de smartphone, en acheter un d’occasion est la solution qui a le moins d’impact négatif sur l’environnement."
                     }
