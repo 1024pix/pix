@@ -23,26 +23,9 @@ export async function createVersion({ databaseBuilder, status = 'DRAFT', scope =
     version.expirationDate = new Date('2019-01-01');
   }
 
-  delete version.status;
   delete version.id;
 
-  const [createdVersion] = await databaseBuilder
-    .knex('public.certification_versions')
-    .insert({
-      scope: version.scope,
-      startDate: version.startDate,
-      expirationDate: version.expirationDate,
-      assessmentDuration: version.assessmentDuration,
-      minimumAnswersRequiredToValidateACertification: version.minimumAnswersRequiredToValidateACertification,
-      globalScoringConfiguration: version.globalScoringConfiguration
-        ? JSON.stringify(version.globalScoringConfiguration)
-        : null,
-      competencesScoringConfiguration: version.competencesScoringConfiguration
-        ? JSON.stringify(version.competencesScoringConfiguration)
-        : null,
-      challengesConfiguration: version.challengesConfiguration ? JSON.stringify(version.challengesConfiguration) : null,
-    })
-    .returning('*');
+  const createdVersion = databaseBuilder.factory.buildCertificationVersion(version);
 
   await databaseBuilder.commit();
 
