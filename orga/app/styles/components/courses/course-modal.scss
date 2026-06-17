@@ -16,19 +16,21 @@
 
   &__course-content {
     flex: 1;
-    overflow-y: scroll;
     padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+    overflow-y: scroll;
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
       -webkit-appearance: none;
     }
   }
+
   &__competence {
     padding-bottom: var(--pix-spacing-2x);
 
     & > h2 {
       @extend %pix-title-xxs;
+
       margin-top: var(--pix-spacing-2x);
       margin-bottom: var(--pix-spacing-2x);
     }
@@ -37,15 +39,18 @@
       &__column {
         width: 75%;
       }
+
       &__title {
         display: block;
         margin-bottom: var(--pix-spacing-2x);
         font-weight: var(--pix-font-bold);
       }
+
       &__text {
         display: block;
       }
     }
+
     &__level {
       &__column {
         width: 25%;
@@ -54,6 +59,7 @@
           justify-content: center;
         }
       }
+
       &__data {
         display: block;
         width: 100%;
