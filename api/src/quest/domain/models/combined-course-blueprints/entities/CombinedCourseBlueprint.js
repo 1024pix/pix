@@ -7,7 +7,8 @@ import {
   REQUIREMENT_COMPARISONS,
   REQUIREMENT_TYPES,
 } from '../../quests/entities/Quest.js';
-import { buildRequirement } from '../../quests/value-objects/Requirement.js';
+import { buildRequirement, TYPES } from '../../quests/value-objects/Requirement.js';
+import { CombinedCourseBlueprintItem } from './CombinedCourseBlueprintItem.js';
 
 export class CombinedCourseBlueprint {
   constructor({
@@ -159,5 +160,28 @@ export class CombinedCourseBlueprint {
     if (!this.name) throw new ObjectValidationError('Name is required');
     if (!this.internalName) throw new ObjectValidationError('InternalName is required');
     if (!this.quest) throw new ObjectValidationError('Quest is required');
+  }
+
+  generateItems({ targetProfiles, modules, recommendableModules }) {
+    this.items = this.quest.successRequirements.map((requirement) => {
+      if (requirement.requirement_type === TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS) {
+        const targetProfile = targetProfiles.find(
+          (targetProfile) => targetProfile.id === parseInt(requirement.data.targetProfileId.data),
+        );
+        return new CombinedCourseBlueprintItem({ id: targetProfile.id, name: targetProfile.name });
+      }
+      if (requirement.requirement_type === TYPES.OBJECT.PASSAGES) {
+        const module = modules.find((module) => module.id === requirement.data.moduleId.data);
+        const recommendableModule = recommendableModules.find(({ moduleId }) => moduleId === module.id);
+
+        return new CombinedCourseBlueprintItem({
+          id: module.id,
+          name: module.title,
+          duration: module.duration,
+          image: module.image,
+          isRecommendable: Boolean(recommendableModule),
+        });
+      }
+    });
   }
 }

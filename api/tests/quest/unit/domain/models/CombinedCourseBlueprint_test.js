@@ -1,5 +1,6 @@
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprintItem } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprintItem.js';
 import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import { Quest } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
@@ -83,9 +84,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
       values.quest = new Quest({
         eligibilityRequirements: [],
         successRequirements: [
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: 'moduleId-555' }),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: 'moduleId-777' }),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: firstTargetProfileId }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId: 'moduleId-555',
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId: 'moduleId-777',
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: firstTargetProfileId,
+          }),
         ],
       });
 
@@ -103,7 +110,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
       values.quest = new Quest({
         eligibilityRequirements: [],
         successRequirements: [
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: firstTargetProfileId }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: firstTargetProfileId,
+          }),
         ],
       });
 
@@ -121,8 +130,12 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
       values.quest = new Quest({
         eligibilityRequirements: [],
         successRequirements: [
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: 1 }),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: 8 }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: 1,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: 8,
+          }),
         ],
       });
 
@@ -184,9 +197,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         rewardType,
         eligibilityRequirements: [],
         successRequirements: [
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: firstTargetProfileId }),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: secondTargetProfileId }),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: firstTargetProfileId,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: secondTargetProfileId,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId,
+          }),
         ],
       });
 
@@ -204,9 +223,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         rewardType,
         eligibilityRequirements: [],
         successRequirements: [
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: firstTargetProfileId }),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: secondTargetProfileId }),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: firstTargetProfileId,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: secondTargetProfileId,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId,
+          }),
         ],
       });
 
@@ -323,6 +348,126 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
 
       //then
       expect(combinedCourseBlueprint).to.deep.equal(expectedUpdatedBlueprint);
+    });
+  });
+
+  describe('#generateItems', function () {
+    it('should generate a list of step containing blueprint detailed content', function () {
+      // given
+      const firstTargetProfileId = 1;
+      const secondTargetProfileId = 2;
+      const thirdTargetProfileId = 3;
+
+      const module1Id = 'step1-module1';
+      const module2Id = 'step1-module2';
+      const module3Id = 'step2-module1';
+
+      values.quest = new Quest({
+        rewardId: null,
+        rewardType: null,
+        eligibilityRequirements: [],
+        successRequirements: [
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: firstTargetProfileId,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId: module1Id,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId: module2Id,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: secondTargetProfileId,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: thirdTargetProfileId,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId: module3Id,
+          }),
+        ],
+      });
+      const targetProfiles = [
+        {
+          id: firstTargetProfileId,
+          name: 'Step1 Diag1',
+        },
+        {
+          id: secondTargetProfileId,
+          name: 'Step2 Diag1',
+        },
+        {
+          id: thirdTargetProfileId,
+          name: 'Step2 Diag2',
+        },
+      ];
+      const modules = [
+        {
+          id: 'step1-module1',
+          title: 'Module 1',
+          image: 'illustration.svg',
+          duration: 5,
+        },
+        {
+          id: 'step1-module2',
+          title: 'Module 2',
+          image: 'illustration.svg',
+          duration: 4,
+        },
+        {
+          id: 'step2-module1',
+          title: 'Module 3',
+          image: 'illustration.svg',
+          duration: 3,
+        },
+      ];
+      const recommendableModules = [
+        {
+          moduleId: 'step1-module2',
+          targetProfileIds: [firstTargetProfileId],
+        },
+      ];
+
+      // when
+      const combinedCourseBlueprint = new CombinedCourseBlueprint(values);
+      combinedCourseBlueprint.generateItems({ targetProfiles, modules, recommendableModules });
+
+      // then
+      expect(combinedCourseBlueprint.items).deep.equal([
+        new CombinedCourseBlueprintItem({
+          id: firstTargetProfileId,
+          name: 'Step1 Diag1',
+        }),
+        new CombinedCourseBlueprintItem({
+          id: module1Id,
+          name: 'Module 1',
+          duration: 5,
+          image: 'illustration.svg',
+          isRecommendable: false,
+        }),
+        new CombinedCourseBlueprintItem({
+          id: module2Id,
+          name: 'Module 2',
+          duration: 4,
+          image: 'illustration.svg',
+          isRecommendable: true,
+        }),
+        new CombinedCourseBlueprintItem({
+          id: secondTargetProfileId,
+          name: 'Step2 Diag1',
+        }),
+        new CombinedCourseBlueprintItem({
+          id: thirdTargetProfileId,
+          name: 'Step2 Diag2',
+        }),
+        new CombinedCourseBlueprintItem({
+          id: module3Id,
+          name: 'Module 3',
+          duration: 3,
+          image: 'illustration.svg',
+          isRecommendable: false,
+        }),
+      ]);
     });
   });
 });
