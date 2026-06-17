@@ -94,7 +94,9 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   async save() {
     try {
-      await this.blueprint.save({ adapterOptions: { tubes: this.selectedTubes } });
+      await this.blueprint.save({
+        adapterOptions: { cappedTubeRequirements: [{ tubes: this.selectedTubes, threshold: this.threshold }] },
+      });
       this.pixToast.sendSuccessNotification({
         message: this.args.updateMode
           ? this.intl.t('components.combined-course-blueprints.update.notifications.success')
@@ -155,6 +157,11 @@ export default class CombinedCourseBlueprintForm extends Component {
       id,
       level,
     }));
+  }
+
+  @action
+  onThresholdChange(e) {
+    this.threshold = e.target.value;
   }
 
   <template>
@@ -274,6 +281,17 @@ export default class CombinedCourseBlueprintForm extends Component {
 
           {{#if this.blueprint.rewardId}}
             <TubesSelection @frameworks={{@model.frameworks}} @onChange={{this.updateTubes}} />
+            <PixInput
+              @id="blueprintThreshold"
+              class="combined-course-page__threshold"
+              type="number"
+              min="0"
+              max="100"
+              @requiredLabel={{t "common.forms.mandatory"}}
+              {{on "change" @onThresholdChange}}
+            >
+              <:label>Taux de réussite requis</:label>
+            </PixInput>
           {{/if}}
         {{/unless}}
 

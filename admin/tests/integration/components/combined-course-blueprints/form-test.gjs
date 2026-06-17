@@ -175,7 +175,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       //when
       const screen = await render(
-        <template><CombinedCourseBlueprintForm @updateMode={{true}} @model={{ model }} /></template>,
+        <template><CombinedCourseBlueprintForm @updateMode={{true}} @model={{model}} /></template>,
       );
 
       await fillIn(
