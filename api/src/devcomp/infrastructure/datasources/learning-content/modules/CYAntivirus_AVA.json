@@ -281,6 +281,13 @@
                           "feedback": {
                             "diagnosis": "<p>Eh non ! L’ordinateur numéro 2 est est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p>"
                           }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>L’ordinateur numéro 2 est est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p>"
+                          }
                         }
                       ],
                       "solution": "2"
