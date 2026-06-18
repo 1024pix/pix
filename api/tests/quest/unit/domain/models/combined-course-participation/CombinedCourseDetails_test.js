@@ -1090,6 +1090,30 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         // then
         expect(combinedCourseDetails.surveyUrl).to.deep.equal('https://link.to/survey?participationId=1');
       });
+
+      it('should return surveyUrl only if baseSurveyUrl is defined', async function () {
+        // given & when
+        const combinedCourseParticipation = {
+          status: CombinedCourseParticipationStatuses.COMPLETED,
+          id: 1,
+        };
+        const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
+          name,
+          code,
+          organizationId,
+          questId,
+          combinedCourseItems: [{ campaignId: 3, targetProfileId: 999 }, { moduleId: 'abcde1' }],
+          cryptoService,
+          baseSurveyUrl: null,
+        });
+
+        await combinedCourseDetails.setEncryptedUrl();
+
+        combinedCourseDetails.setDataAndGenerateItems({ participation: combinedCourseParticipation });
+
+        // then
+        expect(combinedCourseDetails.surveyUrl).to.be.null;
+      });
     });
   });
 

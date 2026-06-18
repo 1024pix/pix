@@ -298,6 +298,14 @@ export class CombinedCourseDetails extends CombinedCourse {
   }
 
   get surveyUrl() {
-    return this.#participation ? `${this.baseSurveyUrl}?participationId=${this.#participation.id}` : this.baseSurveyUrl;
+    if (!this.baseSurveyUrl) {
+      return null;
+    }
+
+    if (this.#participation) {
+      return `${this.baseSurveyUrl}?participationId=${this.#participation.id}`;
+    }
+
+    return this.baseSurveyUrl;
   }
 }
