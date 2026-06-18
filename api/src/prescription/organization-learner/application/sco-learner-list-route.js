@@ -51,6 +51,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'sco-learner-list-api';
-
-export { name, register };
+export const scoLearnerListRoute = { name: 'sco-learner-list-api', register };

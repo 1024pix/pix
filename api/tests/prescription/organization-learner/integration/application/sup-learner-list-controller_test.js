@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import * as moduleUnderTest from '../../../../../src/prescription/organization-learner/application/sup-learner-list-route.js';
+import { supLearnerListRoute as moduleUnderTest } from '../../../../../src/prescription/organization-learner/application/sup-learner-list-route.js';
 import { SupOrganizationParticipant } from '../../../../../src/prescription/organization-learner/domain/read-models/SupOrganizationParticipant.js';
 import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';

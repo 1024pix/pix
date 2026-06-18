@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { supOrganizationManagementController } from '../../../../../src/prescription/learner-management/application/sup-organization-management-controller.js';
-import * as moduleUnderTest from '../../../../../src/prescription/learner-management/application/sup-organization-management-route.js';
+import { supOrganizationManagementRoute as moduleUnderTest } from '../../../../../src/prescription/learner-management/application/sup-organization-management-route.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

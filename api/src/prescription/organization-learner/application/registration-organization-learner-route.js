@@ -27,6 +27,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'prescription/organization-learner/registration-organization-learner-api';
-
-export { name, register };
+export const registrationOrganizationLearnerRoute = {
+  name: 'prescription/organization-learner/registration-organization-learner-api',
+  register,
+};

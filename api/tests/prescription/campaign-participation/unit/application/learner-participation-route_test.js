@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { learnerParticipationController } from '../../../../..//src/prescription/campaign-participation/application/learner-participation-controller.js';
-import * as moduleUnderTest from '../../../../../src/prescription/campaign-participation/application/learner-participation-route.js';
+import { learnerParticipationRoute as moduleUnderTest } from '../../../../../src/prescription/campaign-participation/application/learner-participation-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

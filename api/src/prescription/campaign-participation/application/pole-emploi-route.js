@@ -60,5 +60,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'prescription/campaign-participation/pole-emploi-api';
-export { name, register };
+export const poleEmploiRoute = { name: 'prescription/campaign-participation/pole-emploi-api', register };

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-administration-controller.js';
-import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-administration-route.js';
+import { campaignAdministrationRoute as moduleUnderTest } from '../../../../../src/prescription/campaign/application/campaign-administration-route.js';
 import {
   CampaignCodeFormatError,
   CampaignUniqueCodeError,

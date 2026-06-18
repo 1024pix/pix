@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { scoOrganizationLearnerController } from '../../../../../src/prescription/organization-learner/application/sco-organization-learner-controller.js';
-import * as moduleUnderTest from '../../../../../src/prescription/organization-learner/application/sco-organization-learner-route.js';
+import { scoOrganizationLearnerRoute as moduleUnderTest } from '../../../../../src/prescription/organization-learner/application/sco-organization-learner-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';

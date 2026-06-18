@@ -78,5 +78,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'prescription/campaign-participation/learner-participation-api';
-export { name, register };
+export const learnerParticipationRoute = {
+  name: 'prescription/campaign-participation/learner-participation-api',
+  register,
+};

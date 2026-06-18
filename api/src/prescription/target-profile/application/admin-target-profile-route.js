@@ -488,5 +488,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'prescription/target-profile/admin-target-profiles-api';
-export { name, register };
+export const adminTargetProfileRoute = { name: 'prescription/target-profile/admin-target-profiles-api', register };

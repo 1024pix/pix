@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { campaignResultsController } from '../../../../../src/prescription/campaign/application/campaign-results-controller.js';
-import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-results-route.js';
+import { campaignResultsRoute as moduleUnderTest } from '../../../../../src/prescription/campaign/application/campaign-results-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

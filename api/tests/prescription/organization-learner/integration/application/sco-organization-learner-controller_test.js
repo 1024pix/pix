@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import * as moduleUnderTest from '../../../../../src/prescription/organization-learner/application/sco-organization-learner-route.js';
+import { scoOrganizationLearnerRoute as moduleUnderTest } from '../../../../../src/prescription/organization-learner/application/sco-organization-learner-route.js';
 import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { NotFoundError, UserNotAuthorizedToUpdatePasswordError } from '../../../../../src/shared/domain/errors.js';
