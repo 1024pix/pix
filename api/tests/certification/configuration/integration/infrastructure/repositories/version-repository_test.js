@@ -11,7 +11,7 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Configuration | Integration | Repository | Version', function () {
   describe('#create', function () {
-    it('should create a certification version and link challenges', async function () {
+    it('should create a certification version', async function () {
       // given
       const challengesConfiguration = {
         maximumAssessmentLength: 32,
@@ -34,13 +34,10 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       });
 
       databaseBuilder.factory.buildComplementaryCertification({ key: version.scope });
-      const challenge1 = databaseBuilder.factory.learningContent.buildChallenge({ id: 'challenge1' });
-      const challenge2 = databaseBuilder.factory.learningContent.buildChallenge({ id: 'challenge2' });
-
       await databaseBuilder.commit();
 
       // when
-      const versionId = await versionRepository.create({ version, challenges: [challenge1, challenge2] });
+      const versionId = await versionRepository.create(version);
 
       // then
       const results = await knex('certification_versions')
@@ -66,20 +63,6 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         globalScoringConfiguration: version.globalScoringConfiguration,
         competencesScoringConfiguration: version.competencesScoringConfiguration,
         challengesConfiguration: version.challengesConfiguration,
-      });
-
-      const linkedChallenges = await knex('certification-frameworks-challenges')
-        .where({ versionId })
-        .orderBy('challengeId');
-
-      expect(linkedChallenges).to.have.lengthOf(2);
-      expect(linkedChallenges[0]).to.include({
-        challengeId: challenge1.id,
-        versionId,
-      });
-      expect(linkedChallenges[1]).to.include({
-        challengeId: challenge2.id,
-        versionId,
       });
     });
   });

@@ -138,4 +138,54 @@ describe('Certification | Configuration | Integration | Repository | framework-c
       expect(updatedChallenges[1].difficulty).to.equal(3.0);
     });
   });
+
+  describe('#create', function () {
+    it('persists the certification challenges', async function () {
+      // given
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
+      const versionId = databaseBuilder.factory.buildCertificationVersion({
+        scope: complementaryCertification.key,
+      }).id;
+      await databaseBuilder.commit();
+
+      const challenges = [
+        domainBuilder.certification.configuration.buildCertificationFrameworksChallenge({
+          versionId,
+          challengeId: 'rec123',
+          discriminant: 1.5,
+          difficulty: 2.0,
+        }),
+        domainBuilder.certification.configuration.buildCertificationFrameworksChallenge({
+          versionId,
+          challengeId: 'rec456',
+          discriminant: 2.5,
+          difficulty: 3.0,
+        }),
+      ];
+
+      // when
+      await frameworkChallengesRepository.create(challenges);
+
+      // then
+      const createdChallenges = await knex('certification-frameworks-challenges')
+        .select(['versionId', 'challengeId', 'discriminant', 'difficulty'])
+        .where({ versionId })
+        .orderBy('challengeId');
+
+      expect(createdChallenges).to.deepEqualArray([
+        {
+          versionId,
+          challengeId: 'rec123',
+          discriminant: 1.5,
+          difficulty: 2.0,
+        },
+        {
+          versionId,
+          challengeId: 'rec456',
+          discriminant: 2.5,
+          difficulty: 3.0,
+        },
+      ]);
+    });
+  });
 });

@@ -45,6 +45,23 @@ export async function update(challenges) {
   }
 }
 
+/**
+ * @param {CertificationFrameworksChallenge[]} certificationChallenges
+ * @returns {Promise<Array<string>>}
+ * @throws {NotFoundError}
+ */
+export async function create(certificationChallenges) {
+  const knexConn = DomainTransaction.getConnection();
+  const certificationChallengesData = certificationChallenges.map((certificationChallenge) => ({
+    versionId: certificationChallenge.versionId,
+    challengeId: certificationChallenge.challengeId,
+    discriminant: certificationChallenge.discriminant,
+    difficulty: certificationChallenge.difficulty,
+  }));
+
+  await knexConn.batchInsert('certification-frameworks-challenges', certificationChallengesData);
+}
+
 function _toDomain({ certificationFrameworksChallengesDTO }) {
   return certificationFrameworksChallengesDTO.map(
     ({ versionId, challengeId, discriminant, difficulty }) =>

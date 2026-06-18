@@ -52,12 +52,10 @@ export async function findAllByScope({ scope }) {
 }
 
 /**
- * @param {object} params
- * @param {Version} params.version
- * @param {Array<Challenge>} params.challenges
+ * @param {Version} version
  * @returns {Promise<number>} versionId
  */
-export async function create({ version, challenges }) {
+export async function create(version) {
   const knexConn = DomainTransaction.getConnection();
 
   const [{ id }] = await knexConn('certification_versions')
@@ -76,15 +74,6 @@ export async function create({ version, challenges }) {
       challengesConfiguration: JSON.stringify(version.challengesConfiguration),
     })
     .returning('id');
-
-  const challengesDTO = challenges.map((challenge) => ({
-    challengeId: challenge.id,
-    versionId: id,
-  }));
-
-  await knexConn
-    .batchInsert('certification-frameworks-challenges', challengesDTO)
-    .transacting(knexConn.isTransaction ? knexConn : null);
 
   return id;
 }
