@@ -130,7 +130,7 @@
                 "id": "df327be0-6c6c-40e2-b746-01dcd06addaa",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’entreprise BCHX dispose de plus de 50 ordinateurs connectés à son réseau informatique.</p><br><p><strong>Observez l’activité des trois ordinateurs ci-dessous puis répondez aux questions qui suivent.</strong></p><br><p><em>[NDC] POI exploratoire qui permettrait de cliquer sur les différents PC (comme une fenêtre qui affiche les différentes machines en réseau) et de voir les activités de chaque poste. Les images sont actuellements générées par IA, elles seront moins chargées dans la version définitive (+ le code couleur ne sera pas autant prononcé/indicatif).<br>⚠️Il ne s’agit pas de montrer une interface de l’EDR mais de se mettre à la place de ce que surveille l’EDR.</em></p>"
+                "content": "<p>L’entreprise BCHX dispose de plus de 50 ordinateurs connectés à son réseau informatique.</p><br><p><em>[NDC] POI exploratoire qui permettrait de cliquer sur les différents PC (comme une fenêtre qui affiche les différentes machines en réseau) et de voir les activités de chaque poste. Les images sont actuellements générées par IA, elles seront moins chargées dans la version définitive (+ le code couleur ne sera pas autant prononcé/indicatif).<br>⚠️Il ne s’agit pas de montrer une interface de l’EDR mais de se mettre à la place de ce que surveille l’EDR.</em></p>"
               }
             },
             {
@@ -139,7 +139,7 @@
                 "id": "bb7d106e-2c29-4855-b4ab-109b893522fb",
                 "type": "custom",
                 "title": "Vu des activités des PC de BioChoux",
-                "instruction": "<p>Étudiez attentivement l’activité de chacun puis répondez aux questions qui suivent.</p>",
+                "instruction": "<p>Observez l’activité des trois ordinateurs ci-dessous puis répondez aux questions qui suivent.</p>",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
