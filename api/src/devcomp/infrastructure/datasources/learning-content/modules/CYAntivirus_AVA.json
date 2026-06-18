@@ -33,7 +33,7 @@
                 "id": "004c2e3c-83d6-4ffe-a8c1-b0355d2fa004",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une entreprise d’une centaine d’employés a subi une attaque par logiciel malveillant. Un des postes de travail a été compromis.</p><p> Pourtant, rien n’a été détecté au niveau de la base de signature virale par l’antivirus du poste de travail&nbsp;: “Notifs antivirus “Aucune menace détectée” <br><br></p>"
+                "content": "<p>Une entreprise d’une centaine d’employés a subi une attaque par logiciel malveillant. Un des postes de travail a été compromis.</p><p> Pourtant, rien n’a été détecté au niveau de la base de signature virale par l’antivirus du poste de travail&nbsp;: “Notifs antivirus “Aucune menace détectée”</p>"
               }
             },
             {
@@ -52,7 +52,7 @@
               "type": "element",
               "element": {
                 "id": "0eb947b5-4ee7-47fa-8f27-ad845919dc66",
-                "type": "qcu",
+                "type": "qcu-discovery",
                 "instruction": "<p><a href=\"https://assets.pix.org/draft/modules/CY_Antivirus_AVA/unnamed-3.png\">https://assets.pix.org/draft/modules/CY_Antivirus_AVA/unnamed-3.png</a></p>",
                 "hasShortProposals": false,
                 "proposals": [
@@ -60,40 +60,35 @@
                     "id": "1",
                     "content": "<p>L’antivirus surveille uniquement les fichiers téléchargés sur Internet.</p>",
                     "feedback": {
-                      "state": "<p>Eh non.<br></p>",
-                      "diagnosis": "<p>Un antivirus surveille les fichiers et les programmes de l’ordinateur (téléchargés, exécutés, etc.). Cependant, certains antivirus détectent les menaces en s’appuyant sur des signatures virales, c’est-à-dire des signatures de logiciels malveillants déjà connus. Mais cette méthode ne suffit pas toujours.</p><p>Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
+                      "diagnosis": "<p>Eh non. Un antivirus surveille les fichiers et les programmes de l’ordinateur (téléchargés, exécutés, etc.). Cependant, certains antivirus détectent les menaces en s’appuyant sur des signatures de logiciels malveillants déjà connus : mais cette méthode ne suffit pas toujours.</p><p>Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Le logiciel malveillant n’était pas encore connu de l’antivirus.</p>",
                     "feedback": {
-                      "state": "<p>Bien vu !&nbsp;<br></p>",
-                      "diagnosis": "<p>Effectivement. Certains antivirus détectent les menaces en s’appuyant sur des signatures virales, c’est-à-dire des signatures de logiciels malveillants déjà connus. </p><p>Mais cette méthode ne suffit pas toujours.&nbsp;Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.<br></p>"
+                      "diagnosis": "<p>Effectivement. Certains antivirus détectent les menaces en s’appuyant sur des signatures de logiciels malveillants déjà connus : mais cette méthode ne suffit pas toujours.</p><p>Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Le poste de travail n’était pas connecté à Internet.</p>",
                     "feedback": {
-                      "state": "<p>Eh non.<br></p>",
-                      "diagnosis": "<p>Même sans connexion Internet, un antivirus peut fonctionner. Cependant, certains antivirus détectent les menaces en s’appuyant sur des signatures virales, c’est-à-dire des signatures de logiciels malveillants déjà connus.</p><p>Mais cette méthode ne suffit pas toujours.&nbsp;Certaines attaques peuvent passer inaperçues.Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
+                      "diagnosis": "<p>Eh non. Même sans connexion Internet, un antivirus peut fonctionner. Cependant, certains antivirus détectent les menaces en s’appuyant sur des signatures de logiciels malveillants déjà connus : mais cette méthode ne suffit pas toujours.</p><p>Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>L’employé n’a pas laissé ouvert son antivirus.</p>",
                     "feedback": {
-                      "state": "<p>Eh non.&nbsp;</p>            ",
-                      "diagnosis": "<p>Un antivirus fonctionne généralement en arrière-plan et n’a pas besoin d’être ouvert pour fonctionner. Cependant, certains antivirus détectent les menaces en s’appuyant sur des signatures virales, c’est-à-dire des signatures de logiciels malveillants déjà connus. </p><p>Mais cette méthode ne suffit pas toujours.&nbsp;Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
+                      "diagnosis": "<p>Eh non. Un antivirus fonctionne généralement en arrière-plan et n’a pas besoin d’être ouvert pour fonctionner. Cependant, certains antivirus détectent les menaces en s’appuyant sur des signatures de logiciels malveillants déjà connus : mais cette méthode ne suffit pas toujours.</p><p>Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
                     }
                   },
                   {
                     "id": "5",
-                    "content": "<p>Je ne sais pas.<br></p>",
+                    "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "state": "<p>Certaines attaques peuvent passer inaperçues.</p>",
-                      "diagnosis": "<p> Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
+                      "diagnosis": "<p> Certains antivirus détectent les menaces en s’appuyant sur des signatures de logiciels malveillants déjà connus : mais cette méthode ne suffit pas toujours.</p><p>Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
                     }
                   }
                 ],
