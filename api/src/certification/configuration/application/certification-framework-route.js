@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { SCOPES } from '../../shared/domain/models/Scopes.js';
+import { Frameworks } from '../../shared/domain/models/Frameworks.js';
 import { certificationFrameworkController } from './certification-framework-controller.js';
 
 const register = async function (server) {
@@ -32,7 +32,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/certification-frameworks/{scope}/framework-history',
+      path: '/api/admin/certification-frameworks/{framework}/framework-history',
       config: {
         pre: [
           {
@@ -48,9 +48,9 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            scope: Joi.string()
+            framework: Joi.string()
               .required()
-              .valid(...Object.values(SCOPES)),
+              .valid(...Object.values(Frameworks)),
           }),
         },
         handler: certificationFrameworkController.getFrameworkHistory,
@@ -63,7 +63,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/certification-frameworks/{scope}/target-profiles',
+      path: '/api/admin/certification-frameworks/{framework}/target-profiles',
       config: {
         pre: [
           {
@@ -79,9 +79,9 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            scope: Joi.string()
+            framework: Joi.string()
               .required()
-              .valid(...Object.values(SCOPES).filter((s) => s !== SCOPES.CORE)),
+              .valid(...Object.values(Frameworks).filter((f) => ![Frameworks.CORE, Frameworks.CLEA].includes(f))),
           }),
         },
         handler: certificationFrameworkController.getTargetProfileHistory,

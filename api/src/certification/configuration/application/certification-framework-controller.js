@@ -8,19 +8,19 @@ const findCertificationFrameworks = async function () {
 };
 
 const getFrameworkHistory = async function (request) {
-  const scope = request.params.scope;
+  const framework = request.params.framework;
 
   const frameworkHistory = await usecases.getFrameworkHistory({
-    scope,
+    framework,
   });
 
-  return frameworkHistorySerializer.serialize({ scope, frameworkHistory });
+  return frameworkHistorySerializer.serialize({ scope: framework, frameworkHistory });
 };
 
 const getTargetProfileHistory = async function (request) {
-  const scope = request.params.scope;
+  const framework = request.params.framework;
   const certificationFramework = await usecases.getComplementaryCertificationTargetProfileHistory({
-    complementaryCertificationKey: scope,
+    complementaryCertificationKey: framework,
   });
   return certificationFrameworkSerializer.serializeWithTargetProfilesHistory(certificationFramework);
 };

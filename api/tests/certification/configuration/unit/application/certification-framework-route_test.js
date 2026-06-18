@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { certificationFrameworkController } from '../../../../../src/certification/configuration/application/certification-framework-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/configuration/application/certification-framework-route.js';
-import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
+import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -59,8 +59,8 @@ describe('Unit | Certification | Configuration | Application | Router | certific
     });
   });
 
-  describe('GET /api/admin/certification-frameworks/{scope}/framework-history', function () {
-    describe('when the user authenticated has no role', function () {
+  describe('GET /api/admin/certification-frameworks/{framework}/framework-history', function () {
+    context('when the user authenticated has no role', function () {
       it('should return 403 HTTP status code', async function () {
         // given
         sinon
@@ -73,7 +73,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         // when
         const response = await httpTestServer.request(
           'GET',
-          `/api/admin/certification-frameworks/${SCOPES.CORE}/framework-history`,
+          `/api/admin/certification-frameworks/${Frameworks.CORE}/framework-history`,
         );
 
         // then
@@ -96,7 +96,51 @@ describe('Unit | Certification | Configuration | Application | Router | certific
           // when
           const response = await httpTestServer.request(
             'GET',
-            `/api/admin/certification-frameworks/${SCOPES.PIX_PLUS_DROIT}/framework-history`,
+            `/api/admin/certification-frameworks/${Frameworks.DROIT}/framework-history`,
+          );
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          sinon.assert.calledOnce(certificationFrameworkController.getFrameworkHistory);
+        });
+      });
+    });
+
+    context('when framework param is invalid', function () {
+      it('should return 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, `checkAdminMemberHasRoleSuperAdmin`).returns(true);
+        sinon.stub(certificationFrameworkController, 'getFrameworkHistory').returns('ok');
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          `/api/admin/certification-frameworks/BOUBOU/framework-history`,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        sinon.assert.notCalled(certificationFrameworkController.getFrameworkHistory);
+      });
+    });
+
+    context('when framework param is valid', function () {
+      Object.values(Frameworks).forEach((framework) => {
+        it('should return 200 HTTP status code', async function () {
+          // given
+          sinon.stub(securityPreHandlers, `checkAdminMemberHasRoleSuperAdmin`).returns(true);
+          sinon.stub(certificationFrameworkController, 'getFrameworkHistory').returns('ok');
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const response = await httpTestServer.request(
+            'GET',
+            `/api/admin/certification-frameworks/${framework}/framework-history`,
           );
 
           // then
@@ -107,7 +151,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
     });
   });
 
-  describe('GET /api/admin/certification-frameworks/{scope}/target-profiles', function () {
+  describe('GET /api/admin/certification-frameworks/{framework}/target-profiles', function () {
     describe('when the user authenticated has no role', function () {
       it('should return 403 HTTP status code', async function () {
         // given
@@ -121,7 +165,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         // when
         const response = await httpTestServer.request(
           'GET',
-          `/api/admin/certification-frameworks/${SCOPES.PIX_PLUS_DROIT}/target-profiles`,
+          `/api/admin/certification-frameworks/${Frameworks.DROIT}/target-profiles`,
         );
 
         // then
@@ -144,7 +188,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
           // when
           const response = await httpTestServer.request(
             'GET',
-            `/api/admin/certification-frameworks/${SCOPES.PIX_PLUS_DROIT}/target-profiles`,
+            `/api/admin/certification-frameworks/${Frameworks.DROIT}/target-profiles`,
           );
 
           // then
@@ -153,5 +197,49 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         });
       });
     });
+
+    [Frameworks.CORE, Frameworks.CLEA].forEach((framework) => {
+      it(`should return 400 HTTP status code when framework is ${framework}`, async function () {
+        // given
+        sinon.stub(securityPreHandlers, `checkAdminMemberHasRoleSuperAdmin`).returns(true);
+        sinon.stub(certificationFrameworkController, 'getTargetProfileHistory').returns('ok');
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          `/api/admin/certification-frameworks/${framework}/target-profiles`,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        sinon.assert.notCalled(certificationFrameworkController.getTargetProfileHistory);
+      });
+    });
+
+    Object.values(Frameworks)
+      .filter((f) => ![Frameworks.CLEA, Frameworks.CORE].includes(f))
+      .forEach((framework) => {
+        it(`should return 200 HTTP status code for framework ${framework}`, async function () {
+          // given
+          sinon.stub(securityPreHandlers, `checkAdminMemberHasRoleSuperAdmin`).returns(true);
+          sinon.stub(certificationFrameworkController, 'getTargetProfileHistory').returns('ok');
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const response = await httpTestServer.request(
+            'GET',
+            `/api/admin/certification-frameworks/${framework}/target-profiles`,
+          );
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          sinon.assert.calledOnce(certificationFrameworkController.getTargetProfileHistory);
+        });
+      });
   });
 });

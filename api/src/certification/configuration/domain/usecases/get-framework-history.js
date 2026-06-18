@@ -2,12 +2,16 @@
  * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  * @typedef {import ('./index.js').VersionRepository} VersionRepository
  */
+import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 
 /**
  * @param {object} params
- * @param {Scope} params.scope
+ * @param {Framework} params.framework
  * @param {VersionRepository} params.versionRepository
  */
-export const getFrameworkHistory = async ({ scope, versionRepository }) => {
-  return versionRepository.getFrameworkHistory({ scope });
-};
+export async function getFrameworkHistory({ framework, versionRepository }) {
+  if (framework === Frameworks.CLEA) {
+    return [];
+  }
+  return versionRepository.getFrameworkHistory({ scope: framework });
+}
