@@ -44,12 +44,6 @@ class AssessmentLackOfChallengesError extends AssessmentEndedError {
   }
 }
 
-class AssessmentResultNotCreatedError extends DomainError {
-  constructor(message = "L'assessment result n'a pas pu être généré.") {
-    super(message);
-  }
-}
-
 class AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError extends DomainError {
   constructor() {
     super('Autonomous course requires a target profile with simplified access.');
@@ -162,15 +156,6 @@ class CertificationCenterMembershipCreationError extends DomainError {
 class CertificationCenterMembershipDisableError extends DomainError {
   constructor(message = 'Erreur lors de la mise à jour du membership de centre de certification.') {
     super(message);
-  }
-}
-
-class CertificationAlgorithmVersionError extends DomainError {
-  constructor(
-    message = 'La version de la certification ne permet pas de réaliser cette opération',
-    code = 'CERTIFICATION_USING_INCORRECT_ALGORITHM_VERSION',
-  ) {
-    super(message, code);
   }
 }
 
@@ -1075,7 +1060,6 @@ export {
   AssessmentEndedError,
   AssessmentLackOfChallengesError,
   AssessmentNotCompletedError,
-  AssessmentResultNotCreatedError,
   AuditLoggerApiError,
   AuthenticationMethodAlreadyExistsError,
   AuthenticationMethodNotFoundError,
@@ -1088,7 +1072,6 @@ export {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   CertificateVerificationCodeGenerationTooManyTrials,
-  CertificationAlgorithmVersionError,
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
