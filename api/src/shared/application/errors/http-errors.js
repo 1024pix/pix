@@ -203,22 +203,17 @@ const HttpErrors = {
 };
 
 export {
-  BadGatewayError,
   BadRequestError,
   BaseHttpError,
   ConflictError,
   ForbiddenError,
   HttpErrors,
-  LockedError,
   MissingQueryParamError,
   NotFoundError,
-  PasswordShouldChangeError,
   PayloadTooLargeError,
   PreconditionFailedError,
   sendJsonApiError,
-  ServiceUnavailableError,
   SessionPublicationBatchError,
-  TooManyRequestsError,
   UnauthorizedError,
   UnprocessableEntityError,
 };
