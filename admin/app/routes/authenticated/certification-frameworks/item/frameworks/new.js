@@ -7,6 +7,12 @@ export default class FrameworkNewRoute extends Route {
     activeVersionId: { refreshModel: true },
   };
   @service store;
+  @service router;
+  @service accessControl;
+
+  beforeModel() {
+    this.accessControl.restrictAccessTo(['isSuperAdmin'], 'authenticated.certification-frameworks.item.framework');
+  }
 
   async model(params) {
     let activeVersion;
