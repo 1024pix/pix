@@ -3,15 +3,8 @@ import { databaseConnections } from '../db/database-connections.js';
 import { config } from '../src/shared/config.js';
 import knexConfigs from './knexfile.js';
 
-const { environment } = config;
-
-const databaseConnection = new DatabaseConnection(knexConfigs[environment]);
-const knex = databaseConnection.knex;
+const databaseConnection = new DatabaseConnection(knexConfigs[config.environment]);
 
 databaseConnections.addConnection(databaseConnection);
 
-async function disconnect() {
-  await databaseConnections.disconnect();
-}
-
-export { databaseConnection, disconnect, knex };
+export const knex = databaseConnection.knex;
