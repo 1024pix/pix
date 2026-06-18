@@ -45,4 +45,4 @@ function applyTreatments(string, enabledTreatments) {
   return result;
 }
 
-export { applyPreTreatments, applyTreatments, normalizeAndRemoveAccents, removeSpecialCharacters, treatments };
+export { applyPreTreatments, applyTreatments, normalizeAndRemoveAccents, removeSpecialCharacters };
