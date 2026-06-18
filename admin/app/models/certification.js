@@ -11,6 +11,7 @@ export const assessmentStates = {
 
 export const assessmentResultStatus = {
   CANCELLED: 'cancelled',
+  CANCELLED_BY_JURY: 'cancelled_by_jury',
   ERROR: 'error',
   VALIDATED: 'validated',
   REJECTED: 'rejected',
@@ -18,6 +19,7 @@ export const assessmentResultStatus = {
 
 export const certificationStatuses = [
   { value: assessmentResultStatus.CANCELLED, label: 'Annulée' },
+  { value: assessmentResultStatus.CANCELLED_BY_JURY, label: 'Annulée par le jury' },
   { value: assessmentStates.STARTED, label: 'Démarrée' },
   { value: assessmentResultStatus.ERROR, label: 'En erreur' },
   { value: assessmentResultStatus.VALIDATED, label: 'Validée' },
@@ -84,7 +86,7 @@ export default class Certification extends Model {
   }
 
   get isCertificationCancelled() {
-    return this.status === assessmentResultStatus.CANCELLED;
+    return this.status === assessmentResultStatus.CANCELLED || this.status === assessmentResultStatus.CANCELLED_BY_JURY;
   }
 
   get indexedCompetences() {

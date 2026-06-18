@@ -1457,6 +1457,7 @@
             },
             "assessment-result-status": {
               "cancelled": "Cancelled",
+              "cancelled_by_jury": "Cancelled",
               "error": "Error",
               "fraud": "Rejected for fraud",
               "rejected": "Rejected",
