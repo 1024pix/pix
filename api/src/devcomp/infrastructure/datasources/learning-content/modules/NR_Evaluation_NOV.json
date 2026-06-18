@@ -124,84 +124,13 @@
               }
             },
             {
-              "type": "stepper",
-              "instruction": "",
-              "steps": [
-                {
-                  "elements": [
-                    {
-                      "id": "379fa180-f9e6-4e92-bb6e-65a60917c9c2",
-                      "type": "qcu-discovery",
-                      "instruction": "<p>Quel gaz à effet de serre est émis lorsque l’on parcourt un trajet en voiture ?</p>",
-                      "hasShortProposals": false,
-                      "proposals": [
-                        {
-                          "id": "0",
-                          "content": "<p>dioxyde de carbone (CO₂)</p>",
-                          "feedback": {
-                            "state": "<p>Bien vu ! </p>",
-                            "diagnosis": "<p>Parcourir un trajet en voiture émet du dioxyde de carbone (CO₂).</p>"
-                          }
-                        },
-                        {
-                          "id": "1",
-                          "content": "<p>oxygène</p>",
-                          "feedback": {
-                            "state": "<p>Eh non !<br></p>",
-                            "diagnosis": "<p>Parcourir un trajet en voiture émet du dioxyde de carbone (CO₂).</p>"
-                          }
-                        },
-                        {
-                          "id": "2",
-                          "content": "<p>méthane</p>",
-                          "feedback": {
-                            "state": "<p>Eh non !<br></p>",
-                            "diagnosis": "<p>Parcourir un trajet en voiture émet du dioxyde de carbone (CO₂).</p>"
-                          }
-                        }
-                      ],
-                      "solution": "0"
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "8941912c-a237-4b28-887c-a361b01102bc",
-                      "type": "qcu-discovery",
-                      "instruction": "<p>Quels gaz à effet de serre sont émis par la production de viande de bœuf ?&nbsp;Sélectionnez la bonne réponse.</p>",
-                      "hasShortProposals": false,
-                      "proposals": [
-                        {
-                          "id": "0",
-                          "content": "<p>dioxyde de carbone et protoxyde d’azote</p>",
-                          "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Produire de la viande de bœuf émet du méthane et du dioxyde de carbone.</p>"
-                          }
-                        },
-                        {
-                          "id": "1",
-                          "content": "<p>oxygène et dioxyde de carbone</p>",
-                          "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Produire de la viande de bœuf émet du méthane et du dioxyde de carbone.</p>"
-                          }
-                        },
-                        {
-                          "id": "2",
-                          "content": "<p>méthane et dioxyde de carbone</p>",
-                          "feedback": {
-                            "state": "<p>Bien vu !</p>",
-                            "diagnosis": "<p>Produire de la viande de bœuf émet du méthane et du dioxyde de carbone.</p>"
-                          }
-                        }
-                      ],
-                      "solution": "2"
-                    }
-                  ]
-                }
-              ]
+              "type": "element",
+              "element": {
+                "id": "05ac6d37-8dc1-4155-b1f9-df14c0d907b4",
+                "type": "text",
+                "tag": " ",
+                "content": ""
+              }
             }
           ]
         },
@@ -353,68 +282,50 @@
               }
             },
             {
-              "type": "stepper",
-              "instruction": "<p>Pour chacune des affirmations suivantes, sélectionnez la bonne réponse.</p>",
-              "steps": [
-                {
-                  "elements": [
-                    {
-                      "id": "7da14819-5686-4f3d-ae00-7e15e460e9d0",
-                      "type": "qcu",
-                      "instruction": "<p>Vrai ou faux&nbsp;? toutes les émissions de gaz à effet de serre liées à un ordinateur portable ont lieu après qu’il ait été acheté.</p>",
-                      "hasShortProposals": true,
-                      "proposals": [
-                        {
-                          "id": "0",
-                          "content": "Vrai",
-                          "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p> La fabrication et le transport de l’ordinateur, par exemple, émettent aussi des gaz à effet de serre.</p>"
-                          }
-                        },
-                        {
-                          "id": "1",
-                          "content": "Faux",
-                          "feedback": {
-                            "state": "<p>Bien joué !</p>",
-                            "diagnosis": "<p>La fabrication et le transport de l’ordinateur, par exemple, émettent aussi des gaz à effet de serre.</p>"
-                          }
-                        }
-                      ],
-                      "solution": "1"
-                    }
-                  ]
+              "type": "element",
+              "element": {
+                "id": "15aafc5f-d0bf-4cfb-8e59-e779654a82af",
+                "type": "qcm",
+                "instruction": "<p>D'après vous, quelles étapes de la vie de l'ordinateur de Benoît émettent des gaz à effet de serre ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "0",
+                    "content": "<p>la fabrication<br></p>"
+                  },
+                  {
+                    "id": "1",
+                    "content": "<p>le transport<br></p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>le rechargement de la batterie</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>aucune</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Je ne sais pas.</p>"
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Bien vu !<br></p>",
+                    "diagnosis": "<p><strong>Toutes les étapes</strong> de la vie de l'ordinateur de Benoît <strong>émettent des&nbsp;gaz à effet de serre</strong>.</p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Eh non !<br></p>",
+                    "diagnosis": "<p>Toutes les étapes de la vie de l'ordinateur de Benoît émettent des&nbsp;gaz à effet de serre.</p>"
+                  }
                 },
-                {
-                  "elements": [
-                    {
-                      "id": "804b3d9c-474e-4734-b9bd-f512ef9df19a",
-                      "type": "qcu",
-                      "instruction": "<p>Vrai ou faux&nbsp;? Pour calculer l’empreinte carbone totale d’un ordinateur, il faut prendre en compte uniquement les émissions de gaz à effet de serre de sa fabrication et son transport.</p>",
-                      "hasShortProposals": true,
-                      "proposals": [
-                        {
-                          "id": "0",
-                          "content": "Vrai",
-                          "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Pour calculer l’empreinte carbone d’un objet, il faut prendre en compte toutes les émissions de gaz à effet de serre qui lui sont associées, de sa fabrication à sa fin de vie.</p>"
-                          }
-                        },
-                        {
-                          "id": "1",
-                          "content": "Faux",
-                          "feedback": {
-                            "state": "<p>Bien joué !<br></p>",
-                            "diagnosis": "<p>Pour calculer l’empreinte carbone d’un objet, il faut prendre en compte toutes les émissions de gaz à effet de serre qui lui sont associées, de sa fabrication à sa fin de vie.</p>"
-                          }
-                        }
-                      ],
-                      "solution": "1"
-                    }
-                  ]
-                }
-              ]
+                "solutions": [
+                  "0",
+                  "1",
+                  "2"
+                ]
+              }
             }
           ]
         },
@@ -738,100 +649,13 @@
               }
             },
             {
-              "type": "stepper",
-              "instruction": "<p>À partir des informations indiqués dans le tableau, répondez aux questions suivantes.</p>",
-              "steps": [
-                {
-                  "elements": [
-                    {
-                      "id": "3dd45ded-001a-40aa-80c7-9f351f72deb1",
-                      "type": "qcu-discovery",
-                      "instruction": "<p>Quel matériel informatique de BTPix a l’empreinte carbone la plus élevée ?</p>",
-                      "hasShortProposals": false,
-                      "proposals": [
-                        {
-                          "id": "0",
-                          "content": "<p>les ordinateurs portables</p>",
-                          "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
-                          }
-                        },
-                        {
-                          "id": "1",
-                          "content": "<p>les écrans d’ordinateur</p>",
-                          "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
-                          }
-                        },
-                        {
-                          "id": "2",
-                          "content": "<p>les smartphones</p>",
-                          "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
-                          }
-                        },
-                        {
-                          "id": "3",
-                          "content": "<p>les ordinateurs fixes</p>",
-                          "feedback": {
-                            "state": "<p>Bien vu !<br></p>",
-                            "diagnosis": "<p>Ce sont effectivement les ordinateurs fixes qui représentent la plus grande empreinte carbone du matériel informatique de BTPix.<br></p>"
-                          }
-                        }
-                      ],
-                      "solution": "3"
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "5bae62fb-8a20-4d40-b43c-45f366c33a37",
-                      "type": "qcu-discovery",
-                      "instruction": "<p>Sur quelle durée est calculée l’empreinte carbone des services numériques de BTPix ?</p>",
-                      "hasShortProposals": false,
-                      "proposals": [
-                        {
-                          "id": "0",
-                          "content": "<p>deux semaines</p>",
-                          "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
-                          }
-                        },
-                        {
-                          "id": "1",
-                          "content": "<p>un mois</p>",
-                          "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
-                          }
-                        },
-                        {
-                          "id": "2",
-                          "content": "<p>une semaine<br></p>",
-                          "feedback": {
-                            "state": "<p>Bien vu !</p>",
-                            "diagnosis": "<p>L’empreinte carbone des services numériques de BTPix a effectivement été calculée sur une semaine.<br></p>"
-                          }
-                        },
-                        {
-                          "id": "3",
-                          "content": "<p>une journée<br></p>",
-                          "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
-                          }
-                        }
-                      ],
-                      "solution": "2"
-                    }
-                  ]
-                }
-              ]
+              "type": "element",
+              "element": {
+                "id": "c872a6c5-ba72-4646-94e2-2cd3c041d4f9",
+                "type": "text",
+                "tag": " ",
+                "content": ""
+              }
             }
           ]
         },
