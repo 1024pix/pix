@@ -6,7 +6,7 @@ import { CampaignParticipationStatuses } from '../../../shared/domain/constants.
 import { CampaignParticipantActivity } from '../../domain/read-models/CampaignParticipantActivity.js';
 
 // TODO move to its own model
-export class ParticipantActivityFilters {
+class ParticipantActivityFilters {
   /** @type string */
   #status;
   /** @type string[] */
