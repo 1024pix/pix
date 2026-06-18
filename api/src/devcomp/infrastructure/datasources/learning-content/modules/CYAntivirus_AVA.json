@@ -1,0 +1,1161 @@
+{
+  "id": "eb09fe65-bf3e-4da8-816e-fa48e9fe3393",
+  "shortId": "dba845e8",
+  "slug": "cybersecurite-edr",
+  "title": "Les EDR : renforcer la détection et la réponse face aux cyberattaques",
+  "isBeta": true,
+  "visibility": "public",
+  "details": {
+    "image": "https://assets.pix.org/test/placeholder-image.svg",
+    "description": "<p>Les terminaux d’une organisation (ordinateurs, serveurs, etc.) sont souvent la cible de cyberattaques. Pour renforcer leur protection et mieux détecter les menaces, un antivirus ne suffit pas toujours. </p><p> Dans ce module, découvrez comment les solutions/outils de sécurité de détection et de réponse intégrées sur les terminaux (EDR) aident les organisations à surveiller leurs appareils pour détecter les comportements suspects et réagir vite face aux menaces.<br><br></p>",
+    "duration": 10,
+    "level": "advanced",
+    "objectives": [
+      "<p>Comprendre qu’un EDR détecte une menace grâce à l’analyse comportementale</p>",
+      "<p>Connaître les actions de remédiation qu’un EDR peut déclencher face à une menace</p>",
+      "<p>Comprendre comment les traces enregistrées par l’EDR aident les équipes de sécurité à renforcer la protection des terminauxpi</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "sections": [
+    {
+      "id": "db601a66-c385-4433-8678-56fc67d91b2e",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "36c60400-bb0b-4e8b-8b4b-fa9278f05976",
+          "type": "discovery",
+          "title": "Accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "004c2e3c-83d6-4ffe-a8c1-b0355d2fa004",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Une entreprise d’une centaine d’employés a subi une attaque par logiciel malveillant. Un des postes de travail a été compromis.</p><p> Pourtant, rien n’a été détecté au niveau de la base de signature virale par l’antivirus du poste de travail&nbsp;: “Notifs antivirus “Aucune menace détectée” <br><br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "d2369681-8364-4d06-8df2-a3bfc4970c66",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/CY_Antivirus_AVA/unnamed-3.png",
+                "alt": "Image d’illustration",
+                "alternativeText": "",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "0eb947b5-4ee7-47fa-8f27-ad845919dc66",
+                "type": "qcu",
+                "instruction": "<p><a href=\"https://assets.pix.org/draft/modules/CY_Antivirus_AVA/unnamed-3.png\">https://assets.pix.org/draft/modules/CY_Antivirus_AVA/unnamed-3.png</a></p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>L’antivirus surveille uniquement les fichiers téléchargés sur Internet.</p>",
+                    "feedback": {
+                      "state": "<p>Eh non.<br></p>",
+                      "diagnosis": "<p>Un antivirus surveille les fichiers et les programmes de l’ordinateur (téléchargés, exécutés, etc.). Cependant, certains antivirus détectent les menaces en s’appuyant sur des signatures virales, c’est-à-dire des signatures de logiciels malveillants déjà connus. Mais cette méthode ne suffit pas toujours.</p><p>Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Le logiciel malveillant n’était pas encore connu de l’antivirus.</p>",
+                    "feedback": {
+                      "state": "<p>Bien vu !&nbsp;<br></p>",
+                      "diagnosis": "<p>Effectivement. Certains antivirus détectent les menaces en s’appuyant sur des signatures virales, c’est-à-dire des signatures de logiciels malveillants déjà connus. </p><p>Mais cette méthode ne suffit pas toujours.&nbsp;Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.<br></p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Le poste de travail n’était pas connecté à Internet.</p>",
+                    "feedback": {
+                      "state": "<p>Eh non.<br></p>",
+                      "diagnosis": "<p>Même sans connexion Internet, un antivirus peut fonctionner. Cependant, certains antivirus détectent les menaces en s’appuyant sur des signatures virales, c’est-à-dire des signatures de logiciels malveillants déjà connus.</p><p>Mais cette méthode ne suffit pas toujours.&nbsp;Certaines attaques peuvent passer inaperçues.Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>L’employé n’a pas laissé ouvert son antivirus.</p>",
+                    "feedback": {
+                      "state": "<p>Eh non.&nbsp;</p>            ",
+                      "diagnosis": "<p>Un antivirus fonctionne généralement en arrière-plan et n’a pas besoin d’être ouvert pour fonctionner. Cependant, certains antivirus détectent les menaces en s’appuyant sur des signatures virales, c’est-à-dire des signatures de logiciels malveillants déjà connus. </p><p>Mais cette méthode ne suffit pas toujours.&nbsp;Certaines attaques peuvent passer inaperçues. Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
+                    }
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>Je ne sais pas.<br></p>",
+                    "feedback": {
+                      "state": "<p>Certaines attaques peuvent passer inaperçues.</p>",
+                      "diagnosis": "<p> Par exemple, lorsqu’elles utilisent un logiciel malveillant nouveau ou modifié, ou encore des vulnérabilités logicielles inconnues.</p>"
+                    }
+                  }
+                ],
+                "solution": "2"
+              }
+            }
+          ]
+        },
+        {
+          "id": "f296a38a-27c8-4dde-af4d-31f52279614e",
+          "type": "transition",
+          "title": "Transition 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "293c0729-b550-481a-b8f8-62c371cbe976",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Depuis, d’autres méthodes de détection ont été inventées. Les organisations utilisent alors différents outils de sécurité, comme les EDR pour mieux détecter les menaces. </p><p> Découvrons ensemble comment ils fonctionnent.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "60dd6e97-e862-4ed1-8a75-9768e776744c",
+      "type": "explore-to-understand",
+      "grains": [
+        {
+          "id": "ba4f8aad-e9f8-4f64-be48-2c160bbb27c6",
+          "type": "discovery",
+          "title": "Découverte 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "df327be0-6c6c-40e2-b746-01dcd06addaa",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Ci-dessous, vous pouvez observer l’activité des trois ordinateurs de l’entreprise BioChoux. </p><p><em>[NDC] Ici on voit un POI exploratoire qui permettrait de cliquer sur les différents PC (comme une fenêtre qui affiche les différentes machines en réseau) et de voir les activités et constantes de chaque poste. Les images sont actuellements générées par IA, elles seront moins chargées dans la version définitive.&nbsp;</em></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "bb7d106e-2c29-4855-b4ab-109b893522fb",
+                "type": "custom",
+                "title": "Vu des activités des PC de BioChoux",
+                "instruction": "<p>Étudiez attentivement l’activité de chacun puis répondez aux questions qui suivent.</p>",
+                "functionalInstruction": "",
+                "tagName": "pix-carousel",
+                "props": {
+                  "type": "image",
+                  "slides": [
+                    {
+                      "title": "Ordinateur numéro 1",
+                      "description": "",
+                      "displayWidth": 1000,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/CY_Antivirus_AVA/chat-gpt-image-10-juin-2026-17_53_27.png",
+                        "alt": "aa"
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Ordinateur numéro 2",
+                      "description": "",
+                      "displayWidth": 1000,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/CY_Antivirus_AVA/chat-gpt-image-10-juin-2026-17_49_18.png",
+                        "alt": "aaa"
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Ordinateur numéro 3",
+                      "description": "",
+                      "displayWidth": 1000,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/CY_Antivirus_AVA/chat-gpt-image-10-juin-2026-17_53_56.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    }
+                  ],
+                  "randomSlides": false,
+                  "titleLevel": 0,
+                  "disableAnimation": false,
+                  "disableStyleAroundImage": false,
+                  "enableLoop": false,
+                  "imageTextDisplay": ""
+                }
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "26175999-932e-4778-b90b-b902784833cb",
+                      "type": "qcm",
+                      "instruction": "<p>[Futur QCM découverte]&nbsp;Parmi ces éléments, lesquels peuvent permettre de dire qu’un appareil a un comportement suspect ?&nbsp;<br></p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Le poste utilise beaucoup de processeur et presque toute sa mémoire"
+                        },
+                        {
+                          "id": "2",
+                          "content": "Une tentative d’accès à des données protégées est détectée"
+                        },
+                        {
+                          "id": "3",
+                          "content": "Un très grand nombre de fichiers a été modifié très rapidement"
+                        },
+                        {
+                          "id": "4",
+                          "content": "Le poste établit des connexions réseau inhabituelles"
+                        },
+                        {
+                          "id": "5",
+                          "content": "Une application récemment installée se lance automatiquement au démarrage"
+                        },
+                        {
+                          "id": "6",
+                          "content": "L’appareil affiche une baisse de performance après une mise à jour système"
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "Bien vu !",
+                          "diagnosis": "<p>Un comportement suspect se repère rarement avec un seul indice. Il faut croiser plusieurs signes&nbsp;: <strong>processeur très sollicité</strong>, <strong>mémoire saturée</strong>, modifications rapides de fichiers ou connexions réseau inhabituelles, etc. </p><p><strong>Un EDR suit cette même logique</strong>&nbsp;: il analyse l’activité des appareils pour repérer ce qui sort de l’ordinaire.</p>"
+                        },
+                        "invalid": {
+                          "state": "Eh non !",
+                          "diagnosis": "<p>Un comportement suspect se repère rarement avec un seul indice. Il faut croiser plusieurs signes&nbsp;: <strong>processeur très sollicité</strong>, <strong>mémoire saturée</strong>, modifications rapides de fichiers ou connexions réseau inhabituelles, etc. </p><p><strong>Un EDR suit cette même logique</strong>&nbsp;: il analyse l’activité des appareils pour repérer ce qui sort de l’ordinaire.</p>"
+                        }
+                      },
+                      "solutions": [
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "13a84111-c3fd-4065-a975-65e9f47b8e34",
+                      "type": "qcu",
+                      "instruction": "<p>En observant l’activité des trois ordinateurs, lequel présente un comportement suspect ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>L’ordinateur numéro 1<br></p>",
+                          "feedback": {
+                            "state": "<p>Eh non !<br></p>",
+                            "diagnosis": "<p>L’ordinateur numéro 2 est en effet probablement à risque. Il cumule plusieurs signaux suspects&nbsp;: <strong>forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</strong></p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>L’ordinateur numéro 2</p>",
+                          "feedback": {
+                            "state": "<p>Bien vu !<br></p>",
+                            "diagnosis": "<p>L’ordinateur numéro 2 est en effet probablement à risque. Il cumule plusieurs signaux suspects&nbsp;: <strong>forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</strong></p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>L’ordinateur numéro 3</p>",
+                          "feedback": {
+                            "state": "<p>Eh non !<br></p>",
+                            "diagnosis": "<p>L’ordinateur numéro 2 est en effet probablement à risque. Il cumule plusieurs signaux suspects&nbsp;: <strong>forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</strong></p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "de9ef2a6-f03a-4e01-a0e5-2f51b9d93a39",
+          "type": "short-lesson",
+          "title": "Leçon 1",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "c818de36-8776-44da-8e26-03d52aa4b12b",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Un <strong>EDR</strong> (Endpoint Detection and Response) <strong>surveille en temps réel les terminaux </strong>(endpoint) d’une organisation&nbsp;: ordinateurs, serveurs ou autres appareils connectés au réseau informatique.<br><br></p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "6861f8ce-5b28-41d2-bd44-fbb2454b3350",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<h5>Comment un EDR détecte-t-il une menace ?🔎</h5><p> Pour cela, un programme est installé sur chaque terminal. <strong>Il collecte en continu les données d’activité d’un terminal</strong> puis les transmet à une console centrale.&nbsp; La console centrale de l’EDR analyse et enregistre ensuite ces données pour <strong>repérer des comportements inhabituels ou suspects</strong> sur les terminaux. Cette méthode de détection s’appelle l’<strong>analyse comportementale</strong>. </p><p><em>[NDC] +schéma simplifié de l’EDR</em></p>"
+                    },
+                    {
+                      "id": "fb2bb6ea-c22f-4174-bf25-ab160118b9b7",
+                      "type": "text",
+                      "tag": "further-information",
+                      "content": "<p>Les équipes de sécurité <strong>paramètrent la sensibilité de l’EDR</strong> pour trouver un équilibre entre la détection des menaces et les fausses alertes.</p>"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5924e94-f0d1-4dca-ae68-60cf6020c20f",
+          "type": "transition",
+          "title": "Transition 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "98892c27-896c-4e03-82c8-3141b9f98c81",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Détecter une menace est une première étape. Voyons maintenant comment un EDR peut réagir face à une menace.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c6a1965a-b3c6-456c-b762-04da9157e95d",
+          "type": "discovery",
+          "title": "Découverte 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "a74b7f3c-61f2-442d-95e5-573fa11c2eff",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voici quelques paramètres d’un EDR. Observez-les puis répondez aux questions qui suivent.</p><table><thead><tr><th>Condition détectée</th><th>Action</th></tr></thead><tbody><tr><td><strong>SI</strong> un fichier malveillant connu est détecté</td><td><strong>ALORS</strong> supprimer le fichier ou le mettre en quarantaine</td></tr><tr><td><strong>S</strong><strong>I</strong> un programme inconnu tente d’accéder à des données sensibles</td><td><strong>ALORS</strong> mettre fin au processus sur le point de terminaison</td></tr><tr><td><strong>SI </strong>plusieurs comportements suspects sont détectés simultanément sur le même terminal</td><td><strong>ALORS</strong> déconnecter l’appareil du réseau</td></tr><tr><td><strong>SI </strong>une activité suspecte est détectée sur un compte utilisateur</td><td><strong>ALORS </strong>bloquer temporairement l’accès de l’utilisateur concerné</td></tr><tr><td><strong>SI </strong>une connexion inhabituelle est détectée sur un appareil</td><td><strong>ALORS </strong>envoyer une alerte</td></tr></tbody></table>"
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "<p>À partir de ces informations, pour chaque affirmation, dites si elle est vraie ou fausse.<br></p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "7ec9c501-f1ac-4b1c-8f3e-6e4a259564c3",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>L’EDR agit toujours de la même façon quelle que soit la situation détectée.</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Vrai",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non. Selon la <strong>situation détectée</strong>, l’EDR peut déclencher différentes <strong>actions de remédiation</strong>. Par exemple, il peut bloquer un programme, isoler un terminal du réseau ou envoyer une alerte.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Faux",
+                          "feedback": {
+                            "diagnosis": "<p>Exact. Selon la <strong>situation détectée</strong>, l’EDR peut déclencher différentes <strong>actions de remédiation</strong>. Par exemple, il peut bloquer un programme, isoler un terminal du réseau ou envoyer une alerte.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "74a36734-9ccc-40d3-a949-e3dde1e08188",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Les actions de l’EDR peuvent limiter la propagation d’une menace.</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Vrai",
+                          "feedback": {
+                            "diagnosis": "<p>Effectivement. Certaines actions visent à <strong>contenir l’incident</strong>, c’est-à-dire à empêcher l’activité suspecte de se poursuivre, de se propager à d’autres terminaux ou de causer davantage de dommages à l’organisation.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Faux",
+                          "feedback": {
+                            "diagnosis": "<p>Ce n’est pas ça. Certaines actions visent justement à <strong>contenir l’incident</strong>, c’est-à-dire à empêcher l’activité suspecte de se poursuivre, de se propager à d’autres terminaux ou de causer davantage de dommages à l’organisation.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "90c217d6-8863-48a3-b26e-649e0ea6bdb3",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Les actions de l’EDR sont paramétrées par l’équipe de sécurité.</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Vrai",
+                          "feedback": {
+                            "diagnosis": "<p>Exactement. L’équipe de sécurité <strong>paramètre à l’avance</strong> les règles qui déterminent comment l’EDR doit réagir face à certaines situations.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Faux",
+                          "feedback": {
+                            "diagnosis": "<p>Ce n’est pas ça. Les règles de réaction de l’EDR sont <strong>paramétrées à l’avance</strong> par l’équipe de sécurité.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "0498d0d5-98ca-49d1-b5dc-72889a4dd70c",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>L’EDR permet de supprimer ou d’empêcher automatiquement toutes les menaces.</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Vrai",
+                          "feedback": {
+                            "diagnosis": "<p>Pas toujours. Certaines actions peuvent être <strong>automatiques</strong>, tandis que d’autres nécessitent une <strong>validation</strong> ou une intervention humaine. Parfois, l’EDR envoie simplement une alerte pour signaler l’incident à l’équipe de sécurité.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Faux",
+                          "feedback": {
+                            "diagnosis": "<p>Exact. Certaines actions peuvent être <strong>automatiques</strong>, tandis que d’autres nécessitent une <strong>validation</strong> ou une intervention humaine. Parfois, l’EDR envoie simplement une alerte pour signaler l’incident à l’équipe de sécurité.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ac86dd7c-f11d-477e-a33d-f46501cef4aa",
+          "type": "short-lesson",
+          "title": "Leçon 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "8c6cbf13-0d7b-4f90-8d8a-f637fa8f8279",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Lorsqu’un EDR détecte un incident (comportement suspect, logiciel malveillant, etc.), il peut déclencher <strong>des actions de remédiation rapides et ciblées</strong>. </p><p>Par exemple, il peut&nbsp;: </p><ul><li>Bloquer un programme ou un fichier suspect.&nbsp;</li><li>Mettre un fichier en quarantaine.</li><li>Isoler un terminal du réseau.&nbsp;</li><li>Envoyer une alerte à l’équipe de sécurité.</li></ul>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "17d9dbe6-b2ad-4bbb-9c7a-f4d255ab6fa5",
+                "type": "text",
+                "tag": "further-information",
+                "content": "<p>⚠️Pour être efficace, un EDR doit être <strong>installé sur tous les terminaux d’une organisation</strong>. Un seul terminal oublié peut devenir une porte d’entrée pour des attaquants et mettre en danger l’ensemble du réseau de l’organisation.<br><br></p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "f8599ccf-020e-47c3-8bcc-8e76ae42188f",
+          "type": "transition",
+          "title": "Transition 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "ff93401e-a3d6-46c3-b6f0-5275f21bd1bc",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>L’EDR peut contenir une menace, mais son rôle ne s’arrête pas là. Il aide aussi les équipes de sécurité à analyser un incident et à identifier les mesures de protection à renforcer.<br></p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "38e522fb-be97-4313-9374-351dcae2446a",
+          "type": "discovery",
+          "title": "Découverte 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "03e15a1b-70ef-4a4d-9089-f38be3c203e9",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Contexte&nbsp;: L’EDR de BioChoux a bloqué une menace. L’équipe de sécurité consulte maintenant les informations enregistrées par l’EDR dans un rapport d’incident pour comprendre ce qu’il s’est passé. </p><p>Lisez attentivement le rapport d’incident de l’EDR puis répondez à la question qui suit.</p><p><a href=\"https://docs.google.com/document/d/1VTtgXci4PaBA1PnNk8hNXwnKu-av7Z3eoOSZjtpmpZ8/edit?tab=t.n41sjpdxyvh9\" target=\"_blank\">Rapport d’incident</a></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "6b25844d-8c3a-4b59-bf45-5e867790c586",
+                "type": "qrocm",
+                "instruction": "<p>Complétez la phrase suivante à partir des informations du document.</p>",
+                "proposals": [
+                  {
+                    "type": "text",
+                    "content": "<p>Le fichier à l’origine de l’alerte s’appelle&nbsp;</p>"
+                  },
+                  {
+                    "type": "select",
+                    "input": "aaa",
+                    "display": "inline",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "Nom du fichier à l’origine de l’alerte",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "Vente_Choux.exe"
+                      },
+                      {
+                        "id": "2",
+                        "content": "Facture_Juin.exe"
+                      },
+                      {
+                        "id": "3",
+                        "content": "Pix_Editor.md"
+                      }
+                    ],
+                    "solutions": [
+                      "2"
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<p>Il est arrivé sur le poste concerné par&nbsp;</p>"
+                  },
+                  {
+                    "type": "select",
+                    "input": "aa",
+                    "display": "inline",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "Mode d’arrivée du fichier sur le poste",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "une pièce jointe de mail"
+                      },
+                      {
+                        "id": "2",
+                        "content": "un fichier présent sur une clé USB"
+                      },
+                      {
+                        "id": "3",
+                        "content": "un message sur la messagerie interne"
+                      }
+                    ],
+                    "solutions": [
+                      "1"
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<p>Le fichier suspect a&nbsp;</p>"
+                  },
+                  {
+                    "type": "select",
+                    "input": "a",
+                    "display": "inline",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "Conséquence de l’action du fichier suspect",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "infecté d’autres ordinateurs"
+                      },
+                      {
+                        "id": "2",
+                        "content": "été identifié et contenu avant d’avoir eu le temps d’agir"
+                      },
+                      {
+                        "id": "3",
+                        "content": "été contenu par l’EDR, après avoir déclenché plusieurs activités suspectes"
+                      }
+                    ],
+                    "solutions": [
+                      "3"
+                    ]
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Bien vu !</p>",
+                    "diagnosis": "<p>Ce que vous venez de faire ressemble, de façon très simplifiée, au travail mené après une <strong>alerte de cybersécurité</strong>.</p><p>À partir des <strong>traces enregistrées par l’EDR</strong>, les équipes cherchent à comprendre ce qu’il s’est passé, à identifier les <strong>conséquences possibles</strong> de l’incident et à déterminer les <strong>mesures à prendre</strong> pour éviter qu’il ne se reproduise.</p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Ce n’est pas encore ça.</p>",
+                    "diagnosis": "<p>L’exercice demandé ressemble, de façon très simplifiée, au travail mené après une <strong>alerte de cybersécurité</strong>.</p><p>À partir des <strong>traces enregistrées par l’EDR</strong>, les équipes cherchent à comprendre ce qu’il s’est passé, à identifier les <strong>conséquences possibles</strong> de l’incident et à déterminer les <strong>mesures à prendre</strong> pour éviter qu’il ne se reproduise.</p>"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "6e42b1b2-3b0a-4787-bb6a-52dd2f26194c",
+          "type": "short-lesson",
+          "title": "Leçon 3",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "badc5f3e-c00e-4489-8047-10f291b8e6ee",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p><strong>L’EDR est un outil au service de l’équipe de sécurité informatique.</strong></p><p>Grâce aux traces techniques collectées sur les terminaux — processus lancés, connexions réseau, fichiers modifiés ou commandes exécutées — l’équipe peut analyser un incident pour comprendre ce qu’il s’est passé.</p><p>L’équipe de sécurité peut ensuite décider d’autres actions pour <strong>renforcer la protection de l’organisation face à de futures attaques</strong>&nbsp;: ajuster les règles de détection ou de remédiation, ou encore sensibiliser les employés aux pratiques qui exposent l’organisation à un risque.</p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "bb8704f9-5643-4ed1-afe4-ad6928f95e2b",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<h5>Attends... on me surveille ? 🕵️‍♂</h5><p>Un EDR est un outil de cybersécurité au service de la politique de sécurité de l’organisation. Il n’est pas conçu pour juger la productivité des utilisateurs ni pour surveiller leurs habitudes de travail. Les données collectées servent à détecter les menaces et à protéger l’organisation.</p>"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8889b49c-20cb-43d4-9d83-ac988000a5c4",
+      "type": "retain-the-essentials",
+      "grains": [
+        {
+          "id": "ffcfdbfa-169a-421f-8d6d-b9007ca91e2a",
+          "type": "short-lesson",
+          "title": "",
+          "components": []
+        },
+        {
+          "id": "78c04165-1aa8-4851-88e1-52e5af2414dd",
+          "type": "summary",
+          "title": "",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "e0ca7811-bd38-419b-8ab9-0b710ee4e742",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>L’EDR est un outil de supervision au service de l’équipe de sécurité d’une organisation. Il permet de&nbsp;:</p><ul>  <li><strong>Surveiller</strong>&nbsp;: il surveille en continu les ordinateurs, serveurs et autres terminaux connectés au réseau de l’organisation. 🖥️</li>  <li><strong>Détecter</strong>&nbsp;: il repère et enregistre les comportements inhabituels ou suspects grâce à l’<strong>analyse comportementale</strong>. 🧐</li>  <li><strong>Réagir</strong>&nbsp;: il peut bloquer un programme, isoler un terminal ou encore envoyer une alerte à l’équipe sécurité. 🚨</li>  <li><strong>Piloter</strong>&nbsp;: l’équipe de sécurité analyse les traces collectées par l’EDR pour ajuster les règles de détection et de remédiation. Cela permet de <strong>renforcer la protection de l’organisation</strong>. 🛡️</li></ul>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f04ea8b6-77e6-4302-a45e-ecfe13ecae7d",
+      "type": "practise",
+      "grains": [
+        {
+          "id": "1ae49692-847d-4b0b-ad43-f0928a9056e4",
+          "type": "activity",
+          "title": "",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "d8daddec-2ec2-46d1-ac68-73ec8adeb3a9",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voyons si vous avez retenu l’essentiel !<br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "aec349ca-af7e-439d-a574-251b67aa18b2",
+                "type": "qab",
+                "instruction": "<p>Pour chaque action, indiquez si elle correspond au rôle d’un EDR.</p>",
+                "cards": [
+                  {
+                    "id": "f3420e6c-74d3-4a0f-94ef-e534f5e5f598",
+                    "text": "Bloquer l’exécution d’un programme suspect",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "7f7ef433-f0ff-4713-af80-353795e623e8",
+                    "text": "Envoyer une alerte à l’équipe de sécurité lorsqu’une activité suspecte est détectée",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "4b38e29c-ba58-4ab2-ba84-a215b0cf5595",
+                    "text": "Détecter une forte utilisation de la mémoire vive d’un appareil",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "0ee83f5b-a654-43ed-84b6-0e8837200f38",
+                    "text": "Contrôler le temps de travail d’un employé",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "d149a835-03ec-4014-bd4a-508816fcb0a8",
+                    "text": "Supprimer automatiquement un fichier inconnu",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "3fd9383b-0428-4e97-b8a3-8b8794ba6cd2",
+                    "text": "Vérifier les sites consultés par un collaborateur",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "B"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": ""
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8f5e57c1-5e0d-4846-a3bb-9f7b5445d0dc",
+          "type": "activity",
+          "title": "Activité 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "0d256734-1867-495a-8df2-a4749ea93e54",
+                "type": "custom",
+                "title": "",
+                "instruction": "<p>Un collaborateur ouvre une pièce jointe malveillante. Quelques secondes plus tard, un programme inconnu tente d’accéder à des données. L’EDR détecte cette activité et un incident est enregistré.</p><p><em>[NDC] MVP a modifier quand le POI classement sera généralisé</em></p><p><em>Feedbacks&nbsp;:&nbsp; </em></p><ul><li><em>Bonne réponse ! Vous avez réussi à reconstituer les étapes de gestion de cet incident.</em></li><li><em>Mauvaise réponse. Essayez de reconstituer le déroulement complet d’un incident, depuis sa détection, en passant par la réponse de l’EDR jusqu’à l’amélioration des mesures de protection.</em></li></ul>",
+                "functionalInstruction": "<p>Remettez dans l’ordre les différentes étapes de traitement de cet incident.</p>",
+                "tagName": "mdp-classement",
+                "props": {
+                  "passwords": [
+                    "Une activité suspecte est détectée sur un terminal.",
+                    "  L’EDR compare la situation détectée avec les règles définies par l’équipe de sécurité.",
+                    "L’EDR applique automatiquement l’action prévue par la règle (blocage, isolement, quarantaine, etc.).",
+                    "L’équipe de sécurité analyse les informations enregistrées et décide d’éventuels ajustements.",
+                    "Les règles de détection et de réponse sont ajustées pour réduire le risque d’incidents similaires."
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b9d859b8-6ce7-43d4-a10b-33c118af3004",
+          "type": "activity",
+          "title": "Activité 3",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "<p>Pour chaque action, indiquez si elle relève&nbsp;: </p><ul><li>de la Détection</li><li>de la Réponse</li><li>de l’Équipe sécurité.</li></ul>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "6dbe12bd-4086-40a3-9fbf-fcdaaba368cb",
+                      "type": "qcu",
+                      "instruction": "<p>Déterminer l’origine probable d’une attaque</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Détection",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Réponse",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Équipe sécurité",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !</p>",
+                            "diagnosis": "<p>L’équipe sécurité analyse les traces disponibles pour reconstituer le scénario et identifier l’origine probable de l’attaque.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "89b6afde-6767-40a1-ab44-0c9cd2934009",
+                      "type": "qcu",
+                      "instruction": "<p>Isoler un terminal du réseau après la détection d’une menace</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Détection",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Réponse",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !</p>",
+                            "diagnosis": "<p>Isoler un terminal est une action de réponse&nbsp;: elle sert à contenir la menace et limiter sa propagation.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Équipe sécurité",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "a4940bbb-41b7-46c2-983f-9c6e5529eb81",
+                      "type": "qcu",
+                      "instruction": "<p>Ajuster une règle de détection après un incident</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Détection",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Réponse",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Équipe sécurité",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !</p>",
+                            "diagnosis": "<p>L’équipe sécurité ajuste les règles pour améliorer la détection et renforcer la protection lors de futurs incidents.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "2d2f5034-cf84-4374-a51c-bef543b5d52c",
+                      "type": "qcu",
+                      "instruction": "<p>Repérer une connexion réseau inhabituelle sur un terminal</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Détection",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !</p>",
+                            "diagnosis": "<p>L’EDR repère les comportements inhabituels sur les terminaux, comme une connexion réseau qui sort de l’ordinaire.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Réponse",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Équipe sécurité",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "06a9646e-90ff-4f6f-b02e-ff82475819f9",
+                      "type": "qcu",
+                      "instruction": "<p>Analyser les informations enregistrées lors d’un incident</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Détection",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Réponse",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Équipe sécurité",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !</p>",
+                            "diagnosis": "<p>L’équipe sécurité analyse les traces enregistrées pour comprendre l’incident et choisir les suites à donner.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "75b617ba-bf0c-40dc-bfd6-6477675c31ce",
+                      "type": "qcu",
+                      "instruction": "<p>Mettre un fichier en quarantaine</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Détection",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Réponse",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !</p>",
+                            "diagnosis": "<p>La quarantaine est une action de réponse&nbsp;: elle empêche le fichier suspect de continuer à agir.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Équipe sécurité",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "6180a9a6-9b6c-4600-9f63-6e8267514b1a",
+                      "type": "qcu",
+                      "instruction": "<p>Sensibiliser les collaborateurs à une pratique à risque identifiée</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Détection",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Réponse",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse</p>",
+                            "diagnosis": "<p>Réessayez.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Équipe sécurité",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !</p>",
+                            "diagnosis": "<p>L’équipe sécurité peut sensibiliser les collaborateurs quand un incident révèle une pratique qui expose l’organisation à un risque.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cac87714-5a9e-43c4-9146-895a1aed5327",
+      "type": "go-further",
+      "grains": [
+        {
+          "id": "31758d58-7016-44dc-a668-9b5a549d2c0a",
+          "type": "challenge",
+          "title": "",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "eb57065a-2cdc-4a4b-a2d2-ae32fd6bbd53",
+                "type": "qcu-declarative",
+                "instruction": "<p>Selon vous, qu’est-ce qui protège le mieux une organisation contre les virus et autres menaces informatiques ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "Des outils de sécurité comme l’EDR",
+                    "feedback": {
+                      "diagnosis": "<p>Oui, les outils comme l’EDR sont précieux : ils permettent de <strong>surveiller</strong>, <strong>détecter</strong> et parfois <strong>réagir automatiquement</strong>. Mais même les meilleurs outils ne remplacent pas les bons réflexes du quotidien.</p><p>Après avoir vu l’EDR, la détection et les actions de réponse, on comprend que la cybersécurité repose aussi sur <strong>la vigilance de chacun</strong>.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "Une équipe cybersécurité capable d’analyser les incidents",
+                    "feedback": {
+                      "diagnosis": "<p>Oui, l’équipe cybersécurité est essentielle : elle analyse les alertes, comprend les incidents et décide des <strong>mesures à prendre</strong>. Elle transforme les traces techniques en décisions utiles.</p><p>Mais elle ne peut pas tout voir ni tout éviter seule. La protection commence aussi avec des gestes simples : <strong>signaler un doute</strong>, éviter un lien suspect ou ne pas ouvrir une pièce jointe étrange.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "La vigilance de chacun au quotidien",
+                    "feedback": {
+                      "diagnosis": "<p>Exactement. Les outils de sécurité et les équipes spécialisées sont indispensables, mais la cybersécurité fonctionne mieux quand chacun adopte les bons réflexes.</p><p>Un clic évité, une alerte signalée ou un doute partagé peuvent empêcher une menace d’entrer dans l’organisation. La cybersécurité, c’est aussi <strong>une affaire de comportements quotidiens</strong>.</p>"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "glossary": []
+}
