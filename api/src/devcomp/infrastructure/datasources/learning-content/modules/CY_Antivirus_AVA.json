@@ -555,7 +555,7 @@
                     "input": "aaa",
                     "display": "inline",
                     "placeholder": "- Sélectionner -",
-                    "ariaLabel": ""Nom du fichier à l’origine de l’alerte",
+                    "ariaLabel": "Nom du fichier à l’origine de l’alerte",
                     "tolerances": [],
                     "options": [
                       {
