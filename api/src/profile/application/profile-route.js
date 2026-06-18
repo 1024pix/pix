@@ -65,5 +65,4 @@ const register = async function (server) {
   server.route([...adminRoutes, ...userRoutes]);
 };
 
-const name = 'profile/profile-api';
-export { name, register };
+export const profileRoute = { name: 'profile/profile-api', register };

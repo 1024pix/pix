@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { profileController } from '../../../../src/profile/application/profile-controller.js';
-import * as moduleUnderTest from '../../../../src/profile/application/profile-route.js';
+import { profileRoute as moduleUnderTest } from '../../../../src/profile/application/profile-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
