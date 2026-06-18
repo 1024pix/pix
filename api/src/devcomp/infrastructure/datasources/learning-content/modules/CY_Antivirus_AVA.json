@@ -555,7 +555,7 @@
                     "input": "aaa",
                     "display": "inline",
                     "placeholder": "- Sélectionner -",
-                    "ariaLabel": "",
+                    "ariaLabel": ""Nom du fichier à l’origine de l’alerte",
                     "tolerances": [],
                     "options": [
                       {
@@ -584,7 +584,7 @@
                     "input": "aa",
                     "display": "inline",
                     "placeholder": "- Sélectionner -",
-                    "ariaLabel": "",
+                    "ariaLabel": "Mode d’arrivée du fichier sur le poste",
                     "tolerances": [],
                     "options": [
                       {
@@ -613,7 +613,7 @@
                     "input": "a",
                     "display": "inline",
                     "placeholder": "- Sélectionner -",
-                    "ariaLabel": "",
+                    "ariaLabel": "Conséquence de l’action du fichier suspect",
                     "tolerances": [],
                     "options": [
                       {
