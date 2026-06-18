@@ -739,7 +739,7 @@
             },
             {
               "type": "stepper",
-              "instruction": "<p>Pour les questions suivantes, sélectionnez la bonne réponse.<br></p>",
+              "instruction": "<p>À partir des informations indiqués dans le tableau, répondez aux questions suivantes.</p>",
               "steps": [
                 {
                   "elements": [
@@ -751,7 +751,7 @@
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>Les ordinateurs portables</p>",
+                          "content": "<p>les ordinateurs portables</p>",
                           "feedback": {
                             "state": "<p>Mauvaise&nbsp;réponse !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
@@ -759,7 +759,7 @@
                         },
                         {
                           "id": "1",
-                          "content": "<p>Les écrans d’ordinateur</p>",
+                          "content": "<p>les écrans d’ordinateur</p>",
                           "feedback": {
                             "state": "<p>Mauvaise&nbsp;réponse !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
@@ -767,7 +767,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>Les smartphones</p>",
+                          "content": "<p>les smartphones</p>",
                           "feedback": {
                             "state": "<p>Mauvaise&nbsp;réponse !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
@@ -775,7 +775,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "<p>Les ordinateurs fixes</p>",
+                          "content": "<p>les ordinateurs fixes</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !<br></p>",
                             "diagnosis": "<p>Ce sont effectivement les ordinateurs fixes qui représentent la plus grande empreinte carbone du matériel informatique de BTPix.<br></p>"
@@ -791,12 +791,12 @@
                     {
                       "id": "5bae62fb-8a20-4d40-b43c-45f366c33a37",
                       "type": "qcu",
-                      "instruction": "<p>Sur quelle durée a été calculée l’empreinte carbone des services numériques de BTPix ?</p>",
+                      "instruction": "<p>Sur quelle durée est calculée l’empreinte carbone des services numériques de BTPix ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>Deux semaine</p>",
+                          "content": "<p>deux semaines</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse !<br></p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
@@ -804,7 +804,7 @@
                         },
                         {
                           "id": "1",
-                          "content": "<p>Un mois</p>",
+                          "content": "<p>un mois</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
@@ -812,7 +812,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>Une semaine<br></p>",
+                          "content": "<p>une semaine<br></p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !<br></p>",
                             "diagnosis": "<p>L’empreinte carbone des services numériques de BTPix a effectivement été calculée sur une semaine.<br></p>"
@@ -820,7 +820,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "<p>Une journée<br></p>",
+                          "content": "<p>une journée<br></p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
@@ -904,7 +904,7 @@
               "element": {
                 "id": "cacdf097-ad3a-4953-a176-60ea61459f45",
                 "type": "qcu-declarative",
-                "instruction": "<p>Maintenant que vous en savez un peu plus sur l’empreinte carbone du numérique, que pourriez-vous faire pour réduire votre empreinte carbone ?</p>",
+                "instruction": "<p>Maintenant que vous en savez plus sur l’empreinte carbone du numérique, que pouvez-vous faire pour réduire votre empreinte carbone ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -925,7 +925,7 @@
                     "id": "2",
                     "content": "<p>Éviter d’acheter un nouvel ordinateur si je n’en ai pas vraiment besoin.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Très bonne idée ! Comme nous avons pu le voir, fabriquer un ordinateur émet des gaz à effet de serre. On peut éviter ces émissions en n’achetant pas de nouvel ordinateur.</p>"
+                      "diagnosis": "<p>Très bonne idée ! Comme nous avons pu le voir, fabriquer un ordinateur émet des gaz à effet de serre. On peut éviter ces émissions en n’achetant pas de nouvel ordinateur.<br>Par ailleurs, vous pouvez aussi utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation.</p>"
                     }
                   }
                 ]
