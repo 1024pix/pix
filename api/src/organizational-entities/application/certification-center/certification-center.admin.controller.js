@@ -7,6 +7,7 @@ import {
 } from '../../infrastructure/serializers/csv/certification-center-archive-csv-serializer.js';
 import * as certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center/certification-center.serializer.js';
 import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center/certification-center-for-admin.serializer.js';
+import { attachedOrganizationSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/attached-organization.serializer.js';
 
 const archiveCertificationCenter = async function (request, h) {
   const certificationCenterId = request.params.certificationCenterId;
@@ -97,12 +98,21 @@ const update = async function (request) {
   return certificationCenterForAdminSerializer.serialize(updatedCertificationCenter);
 };
 
+const findAttachedOrganizationsForAdmin = async function (request) {
+  const certificationCenterId = request.params.certificationCenterId;
+
+  const organizations = await usecases.findAttachedOrganizationsForAdmin({ certificationCenterId });
+
+  return attachedOrganizationSerializer.serialize(organizations);
+};
+
 const certificationCenterAdminController = {
   archiveCertificationCenter,
   getTemplateForArchiveInBatch,
   archiveInBatch,
   create,
   findPaginatedFilteredCertificationCenters,
+  findAttachedOrganizationsForAdmin,
   getCertificationCenterDetails,
   update,
 };
