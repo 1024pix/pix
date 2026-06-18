@@ -1,5 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import { action } from '@ember/object';
+import { trackedArray, trackedMap } from '@ember/reactive/collections';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -7,7 +8,6 @@ import QabProposalButton from 'mon-pix/components/module/element/qab/proposal-bu
 import QabCard from 'mon-pix/components/module/element/qab/qab-card';
 import QabScoreCard from 'mon-pix/components/module/element/qab/qab-score-card';
 import ModulixFeedback from 'mon-pix/components/module/feedback';
-import { TrackedArray, TrackedMap } from 'tracked-built-ins';
 
 import { htmlUnsafe } from '../../../../helpers/html-unsafe';
 import ModuleElement from '../module-element';
@@ -23,15 +23,15 @@ export default class ModuleQab extends ModuleElement {
   @tracked currentCardIndex = 0;
   @tracked score = 0;
   @tracked displayedCards;
-  @tracked cardStatuses = new TrackedMap();
-  @tracked removedCards = new TrackedMap();
+  @tracked cardStatuses = trackedMap();
+  @tracked removedCards = trackedMap();
   @tracked reportInfo = {};
 
   @service passageEvents;
 
   constructor() {
     super(...arguments);
-    this.displayedCards = new TrackedArray(this.element.cards);
+    this.displayedCards = trackedArray(this.element.cards);
   }
 
   get numberOfCards() {
@@ -118,7 +118,7 @@ export default class ModuleQab extends ModuleElement {
     this.currentStep = 'cards';
     this.removedCards.clear();
     this.cardStatuses.clear();
-    this.displayedCards = new TrackedArray(this.element.cards);
+    this.displayedCards = trackedArray(this.element.cards);
     this.score = 0;
 
     this.passageEvents.record({

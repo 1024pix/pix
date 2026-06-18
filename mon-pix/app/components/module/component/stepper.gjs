@@ -3,6 +3,7 @@ import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { concat } from '@ember/helper';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
+import { trackedSet } from '@ember/reactive/collections';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -12,7 +13,6 @@ import Step from 'mon-pix/components/module/component/step';
 import ModuleGrain from 'mon-pix/components/module/grain/grain';
 import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
 import { inc } from 'mon-pix/helpers/inc';
-import { TrackedSet } from 'tracked-built-ins';
 import { localCopy } from 'tracked-toolbox';
 
 import didInsert from '../../../modifiers/modifier-did-insert';
@@ -21,7 +21,7 @@ import { VERIFY_RESPONSE_DELAY } from './element';
 export const NEXT_STEP_BUTTON_DELAY = VERIFY_RESPONSE_DELAY;
 
 export default class ModulixStepper extends Component {
-  @tracked locallyAnsweredElements = new TrackedSet();
+  @tracked locallyAnsweredElements = trackedSet();
 
   @service modulixAutoScroll;
   @service modulixPreviewMode;
