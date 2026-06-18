@@ -909,7 +909,7 @@
                     "id": "1",
                     "content": "<p>Oui</p>",
                     "feedback": {
-                      "diagnosis": "<p>Le RAG peut être très utile pour obtenir des réponses plus précises, surtout quand vous travaillez avec des documents récents, internes ou spécialisés.</p><p>Pour aller plus loin, vous pouvez consulter des tutoriels sur des outils comme <strong>NotebookLM</strong>, <strong>ChatGPT</strong>, <strong>Gemini</strong> ou <strong>Le Chat de Mistral</strong>.</p><p><strong>Attention&nbsp;:</strong> n’ajoutez pas de données personnelles, confidentielles ou secrètes dans un outil d’IA en ligne si vous n’êtes pas certain du cadre d’usage.</p>"
+                      "diagnosis": "<p>Le RAG peut être très utile pour obtenir des réponses plus précises, surtout quand vous travaillez avec des documents récents, internes ou spécialisés.</p><p>Pour aller plus loin, vous pouvez consulter des tutoriels sur des outils comme <strong>NotebookLM</strong>, <strong>ChatGPT</strong>, <strong>Gemini</strong> ou <strong>Le Chat de Mistral</strong>.</p>"
                     }
                   },
                   {
