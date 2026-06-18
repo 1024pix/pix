@@ -4,6 +4,7 @@ import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-al
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { trackedSet } from '@ember/reactive/collections';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -17,7 +18,7 @@ export default class ModuleQcmDeclarative extends ModuleElement {
   @service modulixPreviewMode;
   @service passageEvents;
 
-  @tracked selectedProposalIds = new Set();
+  selectedProposalIds = trackedSet();
   @tracked shouldDisplayFeedback = false;
   @tracked reportInfo = {};
   @tracked isAnswering = false;
@@ -79,6 +80,14 @@ export default class ModuleQcmDeclarative extends ModuleElement {
     });
   }
 
+  @action
+  getProposalState(proposalId) {
+    if (this.selectedProposalIds.has(proposalId)) {
+      return 'declarative-selected';
+    }
+    return 'declarative';
+  }
+
   waitFor(duration) {
     return new Promise((resolve) => setTimeout(resolve, duration));
   }
@@ -98,9 +107,10 @@ export default class ModuleQcmDeclarative extends ModuleElement {
         <div role="region" class="element-qcm-declarative__{{this.proposalsStyle}}">
           {{#each this.element.proposals as |proposal|}}
             <PixCheckbox
-              name={{this.proposal.id}}
+              name={{proposal.id}}
               @isDisabled={{this.disableInput}}
               @variant="modulix"
+              @state={{this.getProposalState proposal.id}}
               {{on "click" (fn this.checkboxSelected proposal.id)}}
             >
               <:label>{{htmlUnsafe proposal.content}}</:label>
