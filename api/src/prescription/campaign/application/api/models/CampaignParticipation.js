@@ -1,4 +1,4 @@
-class CampaignParticipation {
+export class CampaignParticipation {
   /**
    * @typedef {Object} CampaignParticipationArgs
    * @property {string} participantFirstName
@@ -53,7 +53,7 @@ class CampaignParticipation {
 /**
  * @class
  */
-class AssessmentCampaignParticipation extends CampaignParticipation {
+export class AssessmentCampaignParticipation extends CampaignParticipation {
   /**
    * @param {AssessmentCampaignParticipationArgs} args
    */
@@ -72,7 +72,7 @@ class AssessmentCampaignParticipation extends CampaignParticipation {
  * @property {number} pixScore
  */
 
-class ProfilesCollectionCampaignParticipation extends CampaignParticipation {
+export class ProfilesCollectionCampaignParticipation extends CampaignParticipation {
   /**
    * @param {ProfilesCollectionCampaignParticipationArgs} args
    */
@@ -107,10 +107,3 @@ class TubeCoverage {
     this.reachedLevel = reachedLevel;
   }
 }
-
-export {
-  AssessmentCampaignParticipation,
-  CampaignParticipation,
-  ProfilesCollectionCampaignParticipation,
-  TubeCoverage,
-};

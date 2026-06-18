@@ -1,6 +1,6 @@
 import { CERTIFICATION_CENTER_TYPES } from '../../../shared/domain/constants.js';
 
-class CertificationCenter {
+export class CertificationCenter {
   constructor({ id, name, externalId, type, createdAt, updatedAt, habilitations = [], archivedAt, archivedBy } = {}) {
     this.id = id;
     this.name = name;
@@ -12,8 +12,6 @@ class CertificationCenter {
     this.archivedAt = archivedAt;
     this.archivedBy = archivedBy;
   }
+
+  static types = CERTIFICATION_CENTER_TYPES;
 }
-
-CertificationCenter.types = CERTIFICATION_CENTER_TYPES;
-
-export { CertificationCenter, CERTIFICATION_CENTER_TYPES as types };
