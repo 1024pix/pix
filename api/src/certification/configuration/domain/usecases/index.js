@@ -17,7 +17,7 @@ import * as ScoBlockedAccessDatesRepository from '../../infrastructure/repositor
 import * as versionRepository from '../../infrastructure/repositories/version-repository.js';
 import { attachBadges } from './attach-badges.js';
 import { calibrateFrameworkVersion } from './calibrate-framework-version.js';
-import { createCertificationVersion } from './create-certification-version.js';
+import { createDraft } from './create-draft.js';
 import { deleteCertificationVersion } from './delete-certification-version.js';
 import { exportScoWhitelist } from './export-sco-whitelist.js';
 import { findCertificationFrameworks } from './find-certification-frameworks.js';
@@ -76,7 +76,7 @@ const dependencies = {
 const usecasesWithoutInjectedDependencies = {
   attachBadges,
   calibrateFrameworkVersion,
-  createCertificationVersion,
+  createDraft,
   deleteCertificationVersion,
   exportScoWhitelist,
   findCertificationFrameworks,

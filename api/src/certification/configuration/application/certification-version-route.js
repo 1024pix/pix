@@ -112,7 +112,7 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/frameworks/{scope}/version',
+      path: '/api/admin/certification-versions',
       config: {
         pre: [
           {
@@ -125,24 +125,22 @@ const register = async function (server) {
           },
         ],
         validate: {
-          params: Joi.object({
-            scope: Joi.string()
-              .required()
-              .valid(...Object.values(SCOPES)),
-          }),
           payload: Joi.object({
             data: {
               attributes: {
                 tubeIds: Joi.array().items(identifiersType.tubeId).min(1).unique().required(),
+                scope: Joi.string()
+                  .required()
+                  .valid(...Object.values(SCOPES)),
               },
             },
           }),
         },
-        handler: certificationVersionController.createCertificationVersion,
+        handler: certificationVersionController.createDraft,
         tags: ['api', 'admin'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
-          'Elle permet de créer une nouvelle version de référentiel de certification',
+          "Elle permet de créer un nouveau millésime draft d'un référentiel de certification",
         ],
       },
     },

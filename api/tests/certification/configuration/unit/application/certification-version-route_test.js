@@ -196,44 +196,63 @@ describe('Unit | Certification | Configuration | Application | Router | certific
     });
   });
 
-  describe('POST /api/admin/frameworks/{scope}/version', function () {
-    describe('when the user authenticated has no role', function () {
+  describe('POST /api/admin/certification-versions', function () {
+    context('when the user authenticated has no role', function () {
       it('should return 403 HTTP status code', async function () {
         // given
         sinon
           .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
           .returns((request, h) => h.response().code(403).takeover());
-        sinon.stub(certificationVersionController, 'createCertificationVersion').returns('ok');
+        sinon.stub(certificationVersionController, 'createDraft').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request('POST', `/api/admin/frameworks/${SCOPES.CORE}/version`, {
-          data: { attributes: { tubeIds: ['tubeId'] } },
+        const response = await httpTestServer.request('POST', `/api/admin/certification-versions`, {
+          data: { attributes: { tubeIds: ['tubeId'], scope: SCOPES.CORE } },
         });
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(certificationVersionController.createCertificationVersion);
+        sinon.assert.notCalled(certificationVersionController.createDraft);
       });
     });
 
-    describe('when the scope is invalid', function () {
+    context('when trying to create a draft for CLEA', function () {
       it('should return 400 HTTP status code', async function () {
         // given
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').callsFake(() => () => true);
-        sinon.stub(certificationVersionController, 'createCertificationVersion').returns('ok');
+        sinon.stub(certificationVersionController, 'createDraft').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request('POST', '/api/admin/frameworks/INVALID_SCOPE/version', {
-          data: { attributes: { tubeIds: ['tubeId'] } },
+        const response = await httpTestServer.request('POST', `/api/admin/certification-versions`, {
+          data: { attributes: { tubeIds: ['tubeId'], scope: 'CLEA' } },
         });
 
         // then
         expect(response.statusCode).to.equal(400);
-        sinon.assert.notCalled(certificationVersionController.createCertificationVersion);
+        sinon.assert.notCalled(certificationVersionController.createDraft);
+      });
+    });
+
+    Object.values(SCOPES).forEach((scope) => {
+      it(`should return OK HTTP status code with framework ${scope}`, async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').callsFake(() => () => true);
+        sinon.stub(certificationVersionController, 'createDraft').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('POST', `/api/admin/certification-versions`, {
+          data: { attributes: { tubeIds: ['tubeId'], scope } },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        sinon.assert.calledOnce(certificationVersionController.createDraft);
       });
     });
   });

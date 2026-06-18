@@ -1,7 +1,7 @@
 import { usecases } from '../domain/usecases/index.js';
 import * as certificationVersionDetailSerializer from '../infrastructure/serializers/certification-version-detail-serializer.js';
 
-const getVersionById = async function (request) {
+async function getVersionById(request) {
   const certificationVersionId = request.params.certificationVersionId;
 
   const certificationVersion = await usecases.getVersionById({
@@ -9,9 +9,9 @@ const getVersionById = async function (request) {
   });
 
   return certificationVersionDetailSerializer.serialize(certificationVersion);
-};
+}
 
-const update = async function (request, h) {
+async function update(request, h) {
   const certificationVersionId = request.params.certificationVersionId;
   const comments = request.payload.data.attributes.comments;
 
@@ -21,34 +21,30 @@ const update = async function (request, h) {
   });
 
   return h.response().code(204);
-};
+}
 
-const deleteCertificationVersion = async function (request, h) {
+async function deleteCertificationVersion(request, h) {
   const certificationVersionId = request.params.certificationVersionId;
 
   await usecases.deleteCertificationVersion({ certificationVersionId });
 
   return h.response().code(204);
-};
+}
 
-const createCertificationVersion = async function (request, h) {
-  const { scope } = request.params;
-  const { tubeIds } = request.payload.data.attributes;
+async function createDraft(request, h) {
+  const { tubeIds, scope } = request.payload.data.attributes;
 
-  await usecases.createCertificationVersion({ scope, tubeIds });
+  const id = await usecases.createDraft({ scope, tubeIds });
 
-  return h
-    .response({
-      data: {
-        id: scope,
-        type: 'certification-consolidated-framework',
-      },
-    })
-    .code(201);
-};
+  const certificationVersion = await usecases.getVersionById({
+    id,
+  });
+
+  return h.response(certificationVersionDetailSerializer.serialize(certificationVersion)).code(201);
+}
 
 const certificationVersionController = {
-  createCertificationVersion,
+  createDraft,
   getVersionById,
   deleteCertificationVersion,
   update,
