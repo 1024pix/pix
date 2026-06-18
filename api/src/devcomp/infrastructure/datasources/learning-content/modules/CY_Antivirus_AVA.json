@@ -801,17 +801,6 @@
                     "proposalA": "Oui",
                     "proposalB": "Non",
                     "solution": "B"
-                  },
-                  {
-                    "id": "503d3092-75df-426c-9796-2dc1f08fae89",
-                    "text": "Déclencher des actions de blocage après chaque incident ou menace détectée",
-                    "image": {
-                      "url": "",
-                      "altText": ""
-                    },
-                    "proposalA": "Oui",
-                    "proposalB": "Non",
-                    "solution": "B"
                   }
                 ],
                 "feedback": {
