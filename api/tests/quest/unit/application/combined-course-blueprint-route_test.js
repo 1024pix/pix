@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { combinedCourseBlueprintController } from '../../../../src/quest/application/combined-course-blueprint-controller.js';
-import * as combinedCourseBlueprintRoute from '../../../../src/quest/application/combined-course-blueprint-route.js';
+import { combinedCourseBlueprintRoute } from '../../../../src/quest/application/combined-course-blueprint-route.js';
 import questSecurityPreHandlers from '../../../../src/quest/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../test-helper.js';

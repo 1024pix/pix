@@ -23,5 +23,4 @@ const register = async function (server) {
     },
   ]);
 };
-const name = 'quest/verified-codes-api';
-export { name, register };
+export const verifiedCodeRoute = { name: 'quest/verified-codes-api', register };

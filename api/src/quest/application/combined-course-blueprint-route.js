@@ -234,5 +234,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'quest/combined-course-blueprints-api';
-export { name, register };
+export const combinedCourseBlueprintRoute = { name: 'quest/combined-course-blueprints-api', register };

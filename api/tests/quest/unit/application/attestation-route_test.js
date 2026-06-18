@@ -2,7 +2,7 @@ import FormData from 'form-data';
 import sinon from 'sinon';
 
 import { attestationController } from '../../../../src/quest/application/attestation-controller.js';
-import * as attestationRoute from '../../../../src/quest/application/attestation-route.js';
+import { attestationRoute } from '../../../../src/quest/application/attestation-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { expect } from '../../../test-helper.js';

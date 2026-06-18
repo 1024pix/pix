@@ -262,5 +262,4 @@ const register = async function (server) {
     },
   ]);
 };
-const name = 'quest/combined-courses-api';
-export { name, register };
+export const combinedCourseRoute = { name: 'quest/combined-courses-api', register };

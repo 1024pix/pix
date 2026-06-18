@@ -70,5 +70,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'quest/attestations-api';
-export { name, register };
+export const attestationRoute = { name: 'quest/attestations-api', register };

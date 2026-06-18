@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { combinedCourseController } from '../../../../src/quest/application/combined-course-controller.js';
-import * as combinedCourseRoute from '../../../../src/quest/application/combined-course-route.js';
+import { combinedCourseRoute } from '../../../../src/quest/application/combined-course-route.js';
 import questSecurityPreHandlers from '../../../../src/quest/application/security-pre-handlers.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { questController } from '../../../../src/quest/application/quest-controller.js';
-import * as moduleUnderTest from '../../../../src/quest/application/quest-route.js';
+import { questRoute as moduleUnderTest } from '../../../../src/quest/application/quest-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
