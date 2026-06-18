@@ -61,7 +61,7 @@
                       "userName": "Alice",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Nos actions numériques émettent aussi des gaz à effet de serre. Mais certaines beaucoup plus que d’autres…"
+                      "content": "Nos activités numériques émettent aussi des gaz à effet de serre. Mais certaines beaucoup plus que d’autres…"
                     },
                     {
                       "userName": "Benoît",
@@ -71,7 +71,7 @@
                     },
                     {
                       "userName": "Alice",
-                      "direction": "incoming",
+                      "direction": "outgoing",
                       "type": "Texte",
                       "content": "Eh bien une manière de savoir est de regarder son empreinte carbone. 💡"
                     }
@@ -132,14 +132,14 @@
                     {
                       "id": "379fa180-f9e6-4e92-bb6e-65a60917c9c2",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Quel gaz à effet de serre est émis lorsque l’on parcourt un trajet en voiture ? Sélectionnez la bonne réponse.</p>",
+                      "instruction": "<p>Quel gaz à effet de serre est émis lorsque l’on parcourt un trajet en voiture ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "0",
                           "content": "<p>dioxyde de carbone (CO₂)</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse ! </p>",
+                            "state": "<p>Bien vu ! </p>",
                             "diagnosis": "<p>Parcourir un trajet en voiture émet du dioxyde de carbone (CO₂).</p>"
                           }
                         },
@@ -192,7 +192,7 @@
                           "id": "2",
                           "content": "<p>méthane et dioxyde de carbone</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
+                            "state": "<p>Bien vu !</p>",
                             "diagnosis": "<p>Produire de la viande de bœuf émet du méthane et du dioxyde de carbone.</p>"
                           }
                         }
@@ -230,7 +230,7 @@
                       "id": "b6c741e0-c479-4595-be35-34e2eeaba573",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>🤔 C’est quoi l’empreinte carbone ?</strong></p><p>💡Le but de l’empreinte carbone est de <strong>calculer la quantité de gaz à effet de serre émise</strong> par une activité, en <strong>prenant en compte tous les gaz à effet de serre</strong> qui sont émis. L'empreinte carbone est exprimée en \"équivalent CO₂\", noté \"CO₂eq\".</p>"
+                      "content": "<p><strong>🤔 C’est quoi l’empreinte carbone ?</strong></p><p>💡Le but de l’empreinte carbone est de <strong>calculer la quantité de gaz à effet de serre émise directement</strong> par une activité, en <strong>prenant en compte tous les gaz à effet de serre</strong> qui sont émis. L'empreinte carbone est exprimée en \"équivalent CO₂\", noté \"CO₂eq\".</p>"
                     }
                   ]
                 },
@@ -745,7 +745,7 @@
                   "elements": [
                     {
                       "id": "3dd45ded-001a-40aa-80c7-9f351f72deb1",
-                      "type": "qcu",
+                      "type": "qcu-discovery",
                       "instruction": "<p>Quel matériel informatique de BTPix a l’empreinte carbone la plus élevée ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
@@ -753,7 +753,7 @@
                           "id": "0",
                           "content": "<p>les ordinateurs portables</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise&nbsp;réponse !</p>",
+                            "state": "<p>Eh non !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
                           }
                         },
@@ -761,7 +761,7 @@
                           "id": "1",
                           "content": "<p>les écrans d’ordinateur</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise&nbsp;réponse !</p>",
+                            "state": "<p>Eh non !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
                           }
                         },
@@ -769,7 +769,7 @@
                           "id": "2",
                           "content": "<p>les smartphones</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise&nbsp;réponse !</p>",
+                            "state": "<p>Eh non !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
                           }
                         },
@@ -777,7 +777,7 @@
                           "id": "3",
                           "content": "<p>les ordinateurs fixes</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !<br></p>",
+                            "state": "<p>Bien vu !<br></p>",
                             "diagnosis": "<p>Ce sont effectivement les ordinateurs fixes qui représentent la plus grande empreinte carbone du matériel informatique de BTPix.<br></p>"
                           }
                         }
@@ -790,7 +790,7 @@
                   "elements": [
                     {
                       "id": "5bae62fb-8a20-4d40-b43c-45f366c33a37",
-                      "type": "qcu",
+                      "type": "qcu-discovery",
                       "instruction": "<p>Sur quelle durée est calculée l’empreinte carbone des services numériques de BTPix ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
@@ -798,7 +798,7 @@
                           "id": "0",
                           "content": "<p>deux semaines</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse !<br></p>",
+                            "state": "<p>Eh non !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
                           }
                         },
@@ -806,7 +806,7 @@
                           "id": "1",
                           "content": "<p>un mois</p>",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse !</p>",
+                            "state": "<p>Eh non !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
                           }
                         },
@@ -814,7 +814,7 @@
                           "id": "2",
                           "content": "<p>une semaine<br></p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !<br></p>",
+                            "state": "<p>Bien vu !</p>",
                             "diagnosis": "<p>L’empreinte carbone des services numériques de BTPix a effectivement été calculée sur une semaine.<br></p>"
                           }
                         },
@@ -822,7 +822,7 @@
                           "id": "3",
                           "content": "<p>une journée<br></p>",
                           "feedback": {
-                            "state": "<p>Mauvaise réponse !</p>",
+                            "state": "<p>Eh non !</p>",
                             "diagnosis": "<p>Consultez les tableaux précédents pour trouver la réponse.</p>"
                           }
                         }
