@@ -163,6 +163,20 @@ export class Candidate {
     }
   }
 
+  static translateBillingMode({ billingMode, translate }) {
+    switch (billingMode) {
+      case 'FREE':
+        return translate('candidate-list-template.billing-mode.free');
+      case 'PAID':
+        return translate('candidate-list-template.billing-mode.paid');
+      case 'PREPAID':
+        return translate('candidate-list-template.billing-mode.prepaid');
+      case null:
+      default:
+        return '';
+    }
+  }
+
   convertExtraTimePercentageToDecimal() {
     this.extraTimePercentage = this.extraTimePercentage / 100;
   }

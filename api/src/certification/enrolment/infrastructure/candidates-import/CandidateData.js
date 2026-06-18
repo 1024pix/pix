@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { CertificationCandidate } from '../../../shared/domain/models/CertificationCandidate.js';
+import { Candidate } from '../../../enrolment/domain/models/Candidate.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 
 const FRANCE_COUNTRY_CODE = '99100';
@@ -49,7 +49,7 @@ export class CandidateData {
     this.sessionId = sessionId || '';
     this.userId = userId || '';
     this.organizationLearnerId = organizationLearnerId || '';
-    this.billingMode = CertificationCandidate.translateBillingMode({
+    this.billingMode = Candidate.translateBillingMode({
       billingMode,
       translate: this.translate,
     });
