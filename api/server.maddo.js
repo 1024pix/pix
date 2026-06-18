@@ -9,11 +9,11 @@ import { livretScolaireRoute } from './src/certification/results/application/liv
 import { parcoursupRoute } from './src/certification/results/application/parcoursup-route.js';
 import { identityAccessManagementRoutes } from './src/identity-access-management/application/routes.js';
 import * as serverAuthentication from './src/identity-access-management/infrastructure/server-authentication.js';
-import * as campaignsRoutes from './src/maddo/application/campaigns-routes.js';
-import * as organizationsRoutes from './src/maddo/application/organizations-routes.js';
-import * as replicationsRoutes from './src/maddo/application/replications-routes.js';
+import { campaignsRoute } from './src/maddo/application/campaigns-routes.js';
+import { organizationsRoute } from './src/maddo/application/organizations-routes.js';
+import { replicationsRoute } from './src/maddo/application/replications-routes.js';
 import { poleEmploiRoute } from './src/prescription/campaign-participation/application/pole-emploi-route.js';
-import * as healthcheckRoutes from './src/shared/application/healthcheck/index.js';
+import { healthcheckRoute } from './src/shared/application/healthcheck/index.js';
 import { config } from './src/shared/config.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
 import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metrics.js';
@@ -181,10 +181,10 @@ const setupAuthentication = function (server) {
 const setupRoutesAndPlugins = async function (server) {
   const routes = [
     ...identityAccessManagementRoutes,
-    campaignsRoutes,
-    healthcheckRoutes,
-    organizationsRoutes,
-    replicationsRoutes,
+    campaignsRoute,
+    healthcheckRoute,
+    organizationsRoute,
+    replicationsRoute,
     parcoursupRoute,
     poleEmploiRoute,
     livretScolaireRoute,

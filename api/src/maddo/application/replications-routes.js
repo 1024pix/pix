@@ -29,5 +29,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'maddo/maddo-replications-api';
-export { name, register };
+export const replicationsRoute = { name: 'maddo/maddo-replications-api', register };

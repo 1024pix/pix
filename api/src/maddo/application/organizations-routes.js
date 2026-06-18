@@ -116,5 +116,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'maddo/maddo-meta-api';
-export { name, register };
+export const organizationsRoute = { name: 'maddo/maddo-meta-api', register };
