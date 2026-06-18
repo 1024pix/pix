@@ -98,6 +98,7 @@ import { findAllAdministrationTeams } from './find-all-administration-teams.usec
 import { findAllOrganizationLearnerTypes } from './find-all-organization-learner-types.refactor.js';
 import { findAllTags } from './find-all-tags.usecase.js';
 import { findAttachedCertificationCenterForAdmin } from './find-attached-certification-center-for-admin.usecase.js';
+import { findAttachedOrganizationsForAdmin } from './find-attached-organizations-for-admin.usecase.js';
 import { findChildrenOrganizations } from './find-children-organizations.usecase.js';
 import { findOrganizationFeatures } from './find-organization-features.js';
 import { findPaginatedFilteredCertificationCenters } from './find-paginated-filtered-certification-centers.usecase.js';
@@ -133,6 +134,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredNetworks,
   findAllTags,
   findAttachedCertificationCenterForAdmin,
+  findAttachedOrganizationsForAdmin,
   findChildrenOrganizations,
   findOrganizationFeatures,
   findPaginatedFilteredCertificationCenters,
@@ -160,6 +162,8 @@ const usecasesWithoutInjectedDependencies = {
  * @property {createTag} createTag
  * @property {detachParentOrganizationFromOrganization} detachParentOrganizationFromOrganization
  * @property {findPaginatedFilteredCertificationCenters} findPaginatedFilteredCertificationCenters
+ * @property {findAttachedOrganizationsForAdmin} findAttachedOrganizationsForAdmin
+ * @property {findAttachedCertificationCenterForAdmin} findAttachedCertificationCenterForAdmin
  * @property {getOrganizationDetails} getOrganizationDetails
  * @property {getOrganizationStatistics} getOrganizationStatistics
  * @property {getNetworkDetails} getNetworkDetails
