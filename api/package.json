@@ -60,7 +60,6 @@
     "postdeploy": "DEBUG=knex:query npm run db:migrate",
     "postdeploy:datamart": "DEBUG=knex:query npm run datamart:create && DEBUG=knex:query npm run datamart:migrate",
     "postdeploy:maddo": "node scripts/wait-for-api-deployment && npm run datamart:migrate",
-    "preinstall": "npx check-engine",
     "scalingo-postbuild": "node scripts/generate-cron > cron.json && node scripts/generate-procfile",
     "dev": "nodemon --env-file-if-exists=.env index.js",
     "dev:maddo": "MADDO=true nodemon --env-file-if-exists=.env index.maddo.js",
