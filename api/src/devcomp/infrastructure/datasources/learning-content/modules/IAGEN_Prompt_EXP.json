@@ -539,7 +539,7 @@
       "grains": [
         {
           "id": "5c40197e-1a8c-4374-b3a9-312c25d7cd9a",
-          "type": "short-lesson",
+          "type": "activity",
           "title": "Activité 1",
           "components": [
             {
