@@ -53,5 +53,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'devcomp/old-campaign-participations-api';
-export { name, register };
+export const campaignParticipationRoute = { name: 'devcomp/old-campaign-participations-api', register };

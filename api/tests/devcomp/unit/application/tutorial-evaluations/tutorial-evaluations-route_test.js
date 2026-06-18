@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { tutorialEvaluationsController } from '../../../../../src/devcomp/application/tutorial-evaluations/tutorial-evaluations-controller.js';
-import * as moduleUnderTest from '../../../../../src/devcomp/application/tutorial-evaluations/tutorial-evaluations-route.js';
+import { tutorialEvaluationsRoute as moduleUnderTest } from '../../../../../src/devcomp/application/tutorial-evaluations/tutorial-evaluations-route.js';
 import { TutorialEvaluation } from '../../../../../src/devcomp/domain/models/TutorialEvaluation.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

@@ -37,5 +37,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'devcomp/tutorial-evaluations-api';
-export { name, register };
+export const tutorialEvaluationsRoute = { name: 'devcomp/tutorial-evaluations-api', register };

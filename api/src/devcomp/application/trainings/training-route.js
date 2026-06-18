@@ -427,5 +427,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'devcomp/trainings-api';
-export { name, register };
+export const trainingRoute = { name: 'devcomp/trainings-api', register };

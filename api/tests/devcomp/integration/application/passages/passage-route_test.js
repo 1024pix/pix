@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { passageController } from '../../../../../src/devcomp/application/passages/passage-controller.js';
-import * as moduleUnderTest from '../../../../../src/devcomp/application/passages/passage-route.js';
+import { passageRoute as moduleUnderTest } from '../../../../../src/devcomp/application/passages/passage-route.js';
 import {
   ModuleDoesNotExistError,
   PassageDoesNotExistError,

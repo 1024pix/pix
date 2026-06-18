@@ -1,4 +1,4 @@
-import * as moduleUnderTest from '../../../../../src/devcomp/application/modules-metadata/module-metadata-route.js';
+import { moduleMetadataRoute as moduleUnderTest } from '../../../../../src/devcomp/application/modules-metadata/module-metadata-route.js';
 import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';

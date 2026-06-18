@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { campaignParticipationController } from '../../../../../src/devcomp/application/campaign-participations/campaign-participation-controller.js';
-import * as moduleUnderTest from '../../../../../src/devcomp/application/campaign-participations/campaign-participation-route.js';
+import { campaignParticipationRoute as moduleUnderTest } from '../../../../../src/devcomp/application/campaign-participations/campaign-participation-route.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

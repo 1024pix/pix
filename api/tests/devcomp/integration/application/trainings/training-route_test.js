@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { trainingController } from '../../../../../src/devcomp/application/trainings/training-controller.js';
-import * as moduleUnderTest from '../../../../../src/devcomp/application/trainings/training-route.js';
+import { trainingRoute as moduleUnderTest } from '../../../../../src/devcomp/application/trainings/training-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
