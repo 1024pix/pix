@@ -146,7 +146,7 @@
                   "type": "image",
                   "slides": [
                     {
-                      "title": "Ordinateur numéro 1",
+                      "title": "Ordinateur 1",
                       "description": "",
                       "displayWidth": 1000,
                       "image": {
@@ -160,7 +160,7 @@
                       }
                     },
                     {
-                      "title": "Ordinateur numéro 2",
+                      "title": "Ordinateur 2",
                       "description": "",
                       "displayWidth": 1000,
                       "image": {
@@ -174,7 +174,7 @@
                       }
                     },
                     {
-                      "title": "Ordinateur numéro 3",
+                      "title": "Ordinateur 3",
                       "description": "",
                       "displayWidth": 1000,
                       "image": {
@@ -206,49 +206,49 @@
                     {
                       "id": "26175999-932e-4778-b90b-b902784833cb",
                       "type": "qcm",
-                      "instruction": "<p>[Futur QCM découverte]&nbsp;Parmi ces éléments, lesquels peuvent permettre de dire qu’un appareil a un comportement suspect ?&nbsp;<br></p>",
+                      "instruction": "<p>[Futur QCM découverte] Parmi les éléments suivants, lesquels indiquent une activité inhabituelle  sur un ordinateur ? </p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Le poste utilise beaucoup de processeur et presque toute sa mémoire"
+                          "content": "Une application récemment installée se lance automatiquement au démarrage."
                         },
                         {
                           "id": "2",
-                          "content": "Une tentative d’accès à des données protégées est détectée"
+                          "content": "Une baisse de performance après une mise à jour système."
                         },
                         {
                           "id": "3",
-                          "content": "Un très grand nombre de fichiers a été modifié très rapidement"
+                          "content": "Un très grand nombre de fichiers modifiés très rapidement."
                         },
                         {
                           "id": "4",
-                          "content": "Le poste établit des connexions réseau inhabituelles"
+                          "content": "Une forte utilisation du processeur et de la mémoire vive."
                         },
                         {
                           "id": "5",
-                          "content": "Une application récemment installée se lance automatiquement au démarrage"
+                          "content": "Une tentative d’accès à des données protégées."
                         },
                         {
                           "id": "6",
-                          "content": "L’appareil affiche une baisse de performance après une mise à jour système"
+                          "content": "Des connexions réseau inhabituelles."
                         }
                       ],
                       "feedbacks": {
                         "valid": {
                           "state": "Bien vu !",
-                          "diagnosis": "<p>Un comportement suspect se repère rarement avec un seul indice. Il faut croiser plusieurs signes&nbsp;: <strong>processeur très sollicité</strong>, <strong>mémoire saturée</strong>, modifications rapides de fichiers ou connexions réseau inhabituelles, etc. </p><p><strong>Un EDR suit cette même logique</strong>&nbsp;: il analyse l’activité des appareils pour repérer ce qui sort de l’ordinaire.</p>"
+                          "diagnosis": "<p>Certaines activités peuvent attirer l’attention car elles sortent du fonctionnement habituel d’un ordinateur : processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers ou connexions réseau inhabituelles, etc.</p><p>Un <strong>comportement suspect</strong> se repère rarement avec un seul indice : il faut <strong>croiser plusieurs signaux</strong>. Un EDR suit cette même logique&nbsp;: il <strong>surveille l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire.</p>"
                         },
                         "invalid": {
                           "state": "Eh non !",
-                          "diagnosis": "<p>Un comportement suspect se repère rarement avec un seul indice. Il faut croiser plusieurs signes&nbsp;: <strong>processeur très sollicité</strong>, <strong>mémoire saturée</strong>, modifications rapides de fichiers ou connexions réseau inhabituelles, etc. </p><p><strong>Un EDR suit cette même logique</strong>&nbsp;: il analyse l’activité des appareils pour repérer ce qui sort de l’ordinaire.</p>"
+                          "diagnosis": "<p>Certaines activités peuvent attirer l’attention car elles sortent du fonctionnement habituel d’un ordinateur : processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers ou connexions réseau inhabituelles, etc.</p><p>Un <strong>comportement suspect</strong> se repère rarement avec un seul indice : il faut <strong>croiser plusieurs signaux</strong>. Un EDR suit cette même logique&nbsp;: il <strong>surveille l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire.</p>"
                         }
                       },
                       "solutions": [
-                        "1",
-                        "2",
                         "3",
-                        "4"
+                        "4",
+                        "5",
+                        "6"
                       ]
                     }
                   ]
@@ -257,32 +257,29 @@
                   "elements": [
                     {
                       "id": "13a84111-c3fd-4065-a975-65e9f47b8e34",
-                      "type": "qcu",
-                      "instruction": "<p>En observant l’activité des trois ordinateurs, lequel présente un comportement suspect ?</p>",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>En comparant l’activité des trois ordinateurs, lequel présente un comportement suspect ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>L’ordinateur numéro 1<br></p>",
+                          "content": "<p>L’ordinateur 1</p>",
                           "feedback": {
-                            "state": "<p>Eh non !<br></p>",
-                            "diagnosis": "<p>L’ordinateur numéro 2 est en effet probablement à risque. Il cumule plusieurs signaux suspects&nbsp;: <strong>forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</strong></p>"
+                            "diagnosis": "<p>Eh non ! L’ordinateur numéro 2 est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>L’ordinateur numéro 2</p>",
+                          "content": "<p>L’ordinateur 2</p>",
                           "feedback": {
-                            "state": "<p>Bien vu !<br></p>",
-                            "diagnosis": "<p>L’ordinateur numéro 2 est en effet probablement à risque. Il cumule plusieurs signaux suspects&nbsp;: <strong>forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</strong></p>"
+                            "diagnosis": "<p>Bien vu ! L’ordinateur numéro 2 est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>L’ordinateur numéro 3</p>",
+                          "content": "<p>L’ordinateur 3</p>",
                           "feedback": {
-                            "state": "<p>Eh non !<br></p>",
-                            "diagnosis": "<p>L’ordinateur numéro 2 est en effet probablement à risque. Il cumule plusieurs signaux suspects&nbsp;: <strong>forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</strong></p>"
+                            "diagnosis": "<p>Eh non ! L’ordinateur numéro 2 est est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p>"
                           }
                         }
                       ],
