@@ -1,126 +1,107 @@
-import { Version } from '../../../../../../../src/certification/configuration/application/api/models/Version.js';
-import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { FRAMEWORK_HISTORY_STATUSES } from '../../../../../../../src/certification/configuration/domain/read-models/FrameworkHistoryEntry.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | Application | Api | Models | Version', function () {
-  let baseVersion, proxyVersion;
+  describe('#constructor', function () {
+    context('when the version has an expiration date', function () {
+      it('builds an archived version', function () {
+        const version = domainBuilder.certification.configuration.buildVersion({
+          expirationDate: new Date('2025-02-02'),
+        });
 
-  beforeEach(function () {
-    baseVersion = domainBuilder.certification.configuration.buildVersion({
-      id: 4,
-      scope: Frameworks.CORE,
-      startDate: new Date('2025-02-02'),
-      expirationDate: new Date('2025-12-01'),
-      assessmentDuration: 4,
-      minimumAnswersRequiredToValidateACertification: 4,
-      globalScoringConfiguration: [{ config: 'core2025' }],
-      competencesScoringConfiguration: [{ config: 'core2025' }],
-      challengesConfiguration: {
-        maximumAssessmentLength: 4,
-        challengesBetweenSameCompetence: 4,
-        limitToOneQuestionPerTube: false,
-        enablePassageByAllCompetences: true,
-        variationPercent: 0.4,
-        defaultCandidateCapacity: 4,
-        defaultProbabilityToPickChallenge: 4,
-      },
+        expect(version.status).to.equal(FRAMEWORK_HISTORY_STATUSES.ARCHIVED);
+      });
     });
-    proxyVersion = new Version(baseVersion);
-  });
 
-  describe('#get id', function () {
-    it('returns id and prevent from altering the base version', function () {
-      expect(proxyVersion.id).to.equal(baseVersion.id);
-      expect(() => {
-        proxyVersion.id = 99;
-      }).to.throw(TypeError, /Cannot set property id/);
+    context('when the version has no expiration date but only a start date', function () {
+      it('builds an active version', function () {
+        const version = domainBuilder.certification.configuration.buildVersion({
+          startDate: new Date('2025-02-02'),
+          expirationDate: null,
+        });
+
+        expect(version.status).to.equal(FRAMEWORK_HISTORY_STATUSES.ACTIVE);
+      });
     });
-  });
 
-  describe('#get scope', function () {
-    it('returns scope and prevent from altering the base version', function () {
-      expect(proxyVersion.scope).to.equal(baseVersion.scope);
-      expect(() => {
-        proxyVersion.scope = 'COUCOU';
-      }).to.throw(TypeError, /Cannot set property scope/);
+    context('when the version has no expiration date nor start date', function () {
+      it('builds a draft version', function () {
+        const version = domainBuilder.certification.configuration.buildVersion({
+          startDate: null,
+          expirationDate: null,
+        });
+
+        expect(version.status).to.equal(FRAMEWORK_HISTORY_STATUSES.DRAFT);
+      });
     });
   });
 
-  describe('#get startDate', function () {
-    it('returns startDate and prevent from altering the base version', function () {
-      expect(proxyVersion.startDate).to.deep.equal(baseVersion.startDate);
-      expect(() => {
-        proxyVersion.startDate = new Date();
-      }).to.throw(TypeError, /Cannot set property startDate/);
+  describe('#isDraft', function () {
+    context('when the version is archived', function () {
+      it('return false', function () {
+        const version = domainBuilder.certification.configuration.buildVersion({
+          expirationDate: new Date('2025-02-02'),
+        });
+
+        expect(version.isDraft).to.be.false;
+      });
     });
 
-    it('returns null when base version start date is null', function () {
-      baseVersion.startDate = null;
-      expect(proxyVersion.startDate).to.be.null;
-      expect(proxyVersion.startDate).to.deep.equal(baseVersion.startDate);
-    });
-  });
+    context('when the version is active', function () {
+      it('return false', function () {
+        const version = domainBuilder.certification.configuration.buildVersion({
+          startDate: new Date('2025-02-02'),
+          expirationDate: null,
+        });
 
-  describe('#get expirationDate', function () {
-    it('returns expirationDate and prevent from altering the base version', function () {
-      expect(proxyVersion.expirationDate).to.deep.equal(baseVersion.expirationDate);
-      expect(() => {
-        proxyVersion.expirationDate = new Date();
-      }).to.throw(TypeError, /Cannot set property expirationDate/);
+        expect(version.isDraft).to.be.false;
+      });
     });
 
-    it('returns null when base version expirationDate is null', function () {
-      baseVersion.expirationDate = null;
-      expect(proxyVersion.expirationDate).to.be.null;
-      expect(proxyVersion.expirationDate).to.deep.equal(baseVersion.expirationDate);
-    });
-  });
+    context('when the version is draft', function () {
+      it('return true', function () {
+        const version = domainBuilder.certification.configuration.buildVersion({
+          startDate: null,
+          expirationDate: null,
+        });
 
-  describe('#get assessmentDuration', function () {
-    it('returns assessmentDuration and prevent from altering the base version', function () {
-      expect(proxyVersion.assessmentDuration).to.deep.equal(baseVersion.assessmentDuration);
-      expect(() => {
-        proxyVersion.assessmentDuration = 999999;
-      }).to.throw(TypeError, /Cannot set property assessmentDuration/);
+        expect(version.isDraft).to.be.true;
+      });
     });
   });
 
-  describe('#get minimumAnswersRequiredToValidateACertification', function () {
-    it('returns minimumAnswersRequiredToValidateACertification and prevent from altering the base version', function () {
-      expect(proxyVersion.minimumAnswersRequiredToValidateACertification).to.deep.equal(
-        baseVersion.minimumAnswersRequiredToValidateACertification,
-      );
-      expect(() => {
-        proxyVersion.minimumAnswersRequiredToValidateACertification = 999999;
-      }).to.throw(TypeError, /Cannot set property minimumAnswersRequiredToValidateACertification/);
-    });
-  });
+  describe('#isActive', function () {
+    context('when the version is archived', function () {
+      it('return false', function () {
+        const version = domainBuilder.certification.configuration.buildVersion({
+          expirationDate: new Date('2025-02-02'),
+        });
 
-  describe('#get globalScoringConfiguration', function () {
-    it('returns globalScoringConfiguration and prevent from altering the base version', function () {
-      expect(proxyVersion.globalScoringConfiguration).to.deep.equal(baseVersion.globalScoringConfiguration);
-      expect(() => {
-        proxyVersion.globalScoringConfiguration = { foo: 'bar' };
-      }).to.throw(TypeError, /Cannot set property globalScoringConfiguration/);
+        expect(version.isActive).to.be.false;
+      });
     });
-  });
 
-  describe('#get competencesScoringConfiguration', function () {
-    it('returns competencesScoringConfiguration and prevent from altering the base version', function () {
-      expect(proxyVersion.competencesScoringConfiguration).to.deep.equal(baseVersion.competencesScoringConfiguration);
-      expect(() => {
-        proxyVersion.competencesScoringConfiguration = { foo: 'bar' };
-      }).to.throw(TypeError, /Cannot set property competencesScoringConfiguration/);
+    context('when the version is active', function () {
+      it('return true', function () {
+        const version = domainBuilder.certification.configuration.buildVersion({
+          startDate: new Date('2025-02-02'),
+          expirationDate: null,
+        });
+
+        expect(version.isActive).to.be.true;
+      });
     });
-  });
 
-  describe('#get challengesConfiguration', function () {
-    it('returns challengesConfiguration and prevent from altering the base version', function () {
-      expect(proxyVersion.challengesConfiguration).to.deep.equal(baseVersion.challengesConfiguration);
-      expect(() => {
-        proxyVersion.challengesConfiguration = { foo: 'bar' };
-      }).to.throw(TypeError, /Cannot set property challengesConfiguration/);
+    context('when the version is draft', function () {
+      it('return false', function () {
+        const version = domainBuilder.certification.configuration.buildVersion({
+          startDate: null,
+          expirationDate: null,
+        });
+
+        expect(version.isActive).to.be.false;
+      });
     });
   });
 });
