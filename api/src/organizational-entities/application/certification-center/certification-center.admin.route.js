@@ -212,5 +212,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'organizational-entities/certification-center-admin';
-export { name, register };
+export const certificationCenterAdminRoute = { name: 'organizational-entities/certification-center-admin', register };

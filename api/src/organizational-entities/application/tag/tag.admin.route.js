@@ -92,6 +92,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'organizational-entities/tag-admin-api';
-
-export { name, register };
+export const tagAdminRoute = { name: 'organizational-entities/tag-admin-api', register };

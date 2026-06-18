@@ -29,6 +29,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'organizational-entities/organization-learner-type-admin-api';
-
-export { name, register };
+export const organizationLearnerTypeAdminRoute = {
+  name: 'organizational-entities/organization-learner-type-admin-api',
+  register,
+};

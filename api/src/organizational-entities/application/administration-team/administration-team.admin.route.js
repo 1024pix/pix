@@ -30,6 +30,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'organizational-entities/administration-team-admin-api';
-
-export { name, register };
+export const administrationTeamAdminRoute = { name: 'organizational-entities/administration-team-admin-api', register };

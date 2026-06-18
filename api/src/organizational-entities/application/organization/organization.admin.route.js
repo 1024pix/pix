@@ -588,6 +588,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'organizational-entities/organization-admin-api';
-
-export { name, register };
+export const organizationAdminRoute = { name: 'organizational-entities/organization-admin-api', register };
