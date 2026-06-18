@@ -1,4 +1,4 @@
-import { PENDING, VALIDATED } from './CertificateStatus.js';
+import { status as CertificateStatus } from './CertificateStatus.js';
 
 class Certificate {
   constructor({
@@ -52,7 +52,7 @@ class Certificate {
   } = {}) {
     const isValidated = _isValidated(status);
     const displayScore = _displayScore({ isPublished, isValidated });
-    const updatedStatus = isPublished ? status : PENDING;
+    const updatedStatus = isPublished ? status : CertificateStatus.PENDING;
     const updatedScore = displayScore ? pixScore : 0;
     const updatedCompetenceResults = displayScore ? competenceResults : [];
 
@@ -79,7 +79,7 @@ class Certificate {
 export { Certificate };
 
 function _isValidated(status) {
-  return status === VALIDATED;
+  return status === CertificateStatus.VALIDATED;
 }
 
 function _displayScore({ isPublished, isValidated }) {
