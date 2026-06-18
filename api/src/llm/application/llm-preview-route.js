@@ -5,7 +5,7 @@ import { jwtApplicationAuthenticationStrategyName } from '../../shared/infrastru
 import { llmPreviewController } from './llm-preview-controller.js';
 import { checkLLMChatIsEnabled } from './pre-handlers/index.js';
 
-export async function register(server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -89,4 +89,5 @@ export async function register(server) {
   ]);
 }
 
-export const name = 'llm/llm-preview-api';
+const name = 'llm/llm-preview-api';
+export const llmPreviewRoute = { name, register };

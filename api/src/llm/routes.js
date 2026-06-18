@@ -1,3 +1,3 @@
-import * as llmPreviewRoute from './application/llm-preview-route.js';
+import { llmPreviewRoute } from './application/llm-preview-route.js';
 
 export const llmRoutes = [llmPreviewRoute];
