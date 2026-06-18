@@ -8,14 +8,14 @@ import { FontManager } from '../manager/font-manager.js';
 import { PositionManager } from '../manager/position-manager.js';
 import * as tubeBuilder from './tube-builder.js';
 
-const build = function (positionY, page, thematic, dryRun) {
+export function build(positionY, page, thematic, dryRun) {
   if (!dryRun) {
-    this._drawThematicBackground(positionY, page, thematic);
+    _drawThematicBackground(positionY, page, thematic);
   }
-  return this._drawContent(positionY, page, thematic, dryRun);
-};
+  return _drawContent(positionY, page, thematic, dryRun);
+}
 
-const _drawContent = function (positionY, page, thematic, dryRun) {
+function _drawContent(positionY, page, thematic, dryRun) {
   let positionYAfterTubes = positionY;
   let pair = false;
   for (const tube of sortBy(thematic.tubes, 'practicalTitle')) {
@@ -26,10 +26,10 @@ const _drawContent = function (positionY, page, thematic, dryRun) {
   const nextYThematic = thematicText.draw(page, dryRun);
 
   return Math.min(positionYAfterTubes, nextYThematic);
-};
+}
 
-const _drawThematicBackground = function (positionY, page, thematic) {
-  const nextPositionY = this._drawContent(positionY, page, thematic, true);
+function _drawThematicBackground(positionY, page, thematic) {
+  const nextPositionY = _drawContent(positionY, page, thematic, true);
   page.drawRectangle({
     x: PositionManager.margin,
     y: nextPositionY + FontManager.thematicFontHeight,
@@ -39,6 +39,4 @@ const _drawThematicBackground = function (positionY, page, thematic) {
     opacity: 0.5,
     borderWidth: 0,
   });
-};
-
-export { _drawContent, _drawThematicBackground, build };
+}
