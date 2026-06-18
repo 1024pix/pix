@@ -4,7 +4,7 @@ export const COMBINED_COURSE_ITEM_TYPES = {
   FORMATION: 'FORMATION',
 };
 
-export class CombinedCourseItem {
+class CombinedCourseItem {
   constructor({
     id,
     title,
