@@ -1,7 +1,7 @@
 import { status } from '../../../../shared/domain/models/AssessmentResult.js';
 import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } from '../../../shared/domain/constants.js';
 
-class CertificationAssessmentScore {
+export class CertificationAssessmentScore {
   constructor({
     competenceMarks = [],
     percentageCorrectAnswers = 0,
@@ -35,7 +35,3 @@ class CertificationAssessmentScore {
     return this.percentageCorrectAnswers < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED;
   }
 }
-
-CertificationAssessmentScore.statuses = status;
-
-export { CertificationAssessmentScore, status as statuses };

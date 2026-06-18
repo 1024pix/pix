@@ -1,4 +1,4 @@
-import { CertificationAssessmentScore } from '../../../../../../src/certification/evaluation/domain/models/CertificationAssessmentScore.js';
+import { status as AssessmentResultStatus } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -53,7 +53,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | CertificationAss
         const status = certificationAssessmentScore.status;
 
         // then
-        expect(status).to.equal(CertificationAssessmentScore.statuses.REJECTED);
+        expect(status).to.equal(AssessmentResultStatus.REJECTED);
       });
     });
 
@@ -71,7 +71,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | CertificationAss
         const actualStatus = certificationAssessmentScore.status;
 
         // then
-        expect(actualStatus).to.equal(CertificationAssessmentScore.statuses.VALIDATED);
+        expect(actualStatus).to.equal(AssessmentResultStatus.VALIDATED);
       });
     });
   });
