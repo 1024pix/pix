@@ -593,14 +593,14 @@
                   },
                   {
                     "id": "d2f4a9c3-7c5e-4c2d-8b8f-21a9d6f0b814",
-                    "text": "Dans un système RAG, l’IA reçoit uniquement les passages jugés pertinents, et non toute la base documentaire.",
+                    "text": "Avec un système RAG, l’IA consulte toute la base documentaire avant de répondre.",
                     "image": {
                       "url": "",
                       "altText": ""
                     },
                     "proposalA": "Vrai",
                     "proposalB": "Faux",
-                    "solution": "A"
+                    "solution": "B"
                   },
                   {
                     "id": "e9c7b4a2-3f6e-4b9a-a1d8-74c5e2f0a639",
