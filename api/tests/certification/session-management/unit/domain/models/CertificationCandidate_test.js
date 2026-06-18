@@ -8,13 +8,17 @@ describe('Certification | Session Management | Unit | Domain | Models | Certific
       // given
       const date = new Date();
       const rawData = {
+        id: 2,
         userId: 2,
         reconciledAt: date,
+        resultRecipientEmail: 'somerecipientmail@example.net',
       };
 
       const expectedData = {
+        id: 2,
         userId: 2,
         reconciledAt: date,
+        resultRecipientEmail: 'somerecipientmail@example.net',
       };
 
       // when

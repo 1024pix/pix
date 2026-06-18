@@ -32,7 +32,13 @@ const get = async function ({ id }) {
   if (!foundSession) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
-  return new SessionManagement({ ...foundSession });
+  const certificationCandidates = await knexConn
+    .select('id', 'userId', 'reconciledAt', 'resultRecipientEmail')
+    .from('certification-candidates')
+    .groupBy('certification-candidates.id')
+    .where({ sessionId: id })
+    .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
+  return new SessionManagement({ ...foundSession, certificationCandidates });
 };
 
 const isFinalized = async function ({ id }) {

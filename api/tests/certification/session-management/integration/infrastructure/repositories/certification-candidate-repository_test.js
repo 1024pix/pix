@@ -9,13 +9,15 @@ describe('Certification | Session Management | Integration | Infrastructure | Re
     it('should return a candidate', async function () {
       // given
       const reconciledAt = new Date('2024-01-02');
+      const resultRecipientEmail = 'result.recipient@email.net';
       const userId = databaseBuilder.factory.buildUser().id;
       const sessionId = databaseBuilder.factory.buildSession().id;
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId }).id;
-      databaseBuilder.factory.buildCertificationCandidate({
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
         userId,
         reconciledAt,
+        resultRecipientEmail,
       }).id;
 
       await databaseBuilder.commit();
@@ -25,8 +27,10 @@ describe('Certification | Session Management | Integration | Infrastructure | Re
 
       // then
       expect(candidate).to.deep.equal({
-        reconciledAt,
+        id: certificationCandidateId,
         userId,
+        reconciledAt,
+        resultRecipientEmail,
       });
     });
 

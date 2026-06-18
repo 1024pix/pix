@@ -74,7 +74,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
           data: [enrolledStudent, ...enrolableStudents],
           pagination: { page: 1, pageSize: 10, rowCount: 5, pageCount: 1 },
         });
-      candidateRepository.findBySessionId.withArgs(sessionId).resolves(candidates);
+      candidateRepository.findBySessionId.withArgs({ sessionId }).resolves(candidates);
 
       // when
       const studentsFounds = await findStudentsForEnrolment({

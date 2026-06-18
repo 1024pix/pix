@@ -20,7 +20,7 @@ const findStudentsForEnrolment = async function ({
     filter,
     organizationId,
   });
-  const candidates = await candidateRepository.findBySessionId(sessionId);
+  const candidates = await candidateRepository.findBySessionId({ sessionId });
   return {
     data: _buildStudentsForEnrolment({ students: paginatedStudents.data, candidates }),
     pagination: paginatedStudents.pagination,

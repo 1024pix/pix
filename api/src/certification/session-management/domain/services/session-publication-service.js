@@ -9,8 +9,8 @@ import {
   CertificationCourseNotPublishableError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
+  SessionAlreadyPublishedError,
 } from '../errors.js';
-import { SessionAlreadyPublishedError } from '../errors.js';
 import { mailService } from './mail-service.js';
 
 /**
@@ -18,7 +18,6 @@ import { mailService } from './mail-service.js';
  * @param {CertificationRepository} params.certificationRepository
  * @param {FinalizedSessionRepository} params.finalizedSessionRepository
  * @param {SessionManagementRepository} params.sessionManagementRepository
- * @param {SharedSessionRepository} params.sharedSessionRepository
  */
 async function publishSession({
   publishedAt = new Date(),
@@ -26,9 +25,8 @@ async function publishSession({
   certificationRepository,
   finalizedSessionRepository,
   sessionManagementRepository,
-  sharedSessionRepository,
 }) {
-  const session = await sharedSessionRepository.getWithCertificationCandidates({ id: sessionId });
+  const session = await sessionManagementRepository.get({ id: sessionId });
   if (session.isPublished()) {
     throw new SessionAlreadyPublishedError();
   }

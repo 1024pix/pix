@@ -5,7 +5,12 @@ import { CertificationCandidate } from '../../domain/models/CertificationCandida
 export const getByCertificationCourseId = async ({ certificationCourseId }) => {
   const knexConn = DomainTransaction.getConnection();
   const certificationCandidate = await knexConn('certification-courses')
-    .select('certification-candidates.userId', 'certification-candidates.reconciledAt')
+    .select(
+      'certification-candidates.id',
+      'certification-candidates.userId',
+      'certification-candidates.reconciledAt',
+      'certification-candidates.resultRecipientEmail',
+    )
     .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
     .innerJoin('certification-candidates', 'sessions.id', 'certification-candidates.sessionId')
     .where('certification-courses.id', '=', certificationCourseId)
@@ -19,5 +24,10 @@ export const getByCertificationCourseId = async ({ certificationCourseId }) => {
 };
 
 const _toDomain = (candidateData) => {
-  return new CertificationCandidate({ userId: candidateData.userId, reconciledAt: candidateData.reconciledAt });
+  return new CertificationCandidate({
+    id: candidateData.id,
+    userId: candidateData.userId,
+    reconciledAt: candidateData.reconciledAt,
+    resultRecipientEmail: candidateData.resultRecipientEmail,
+  });
 };

@@ -8,7 +8,6 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 describe('Certification | Session-Management | Unit | Domain | Use Cases | unpublish-session', function () {
   let certificationRepository;
   let sessionManagementRepository;
-  let sharedSessionRepository;
   let finalizedSessionRepository;
 
   beforeEach(function () {
@@ -16,10 +15,8 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
       unpublishCertificationCoursesBySessionId: sinon.stub(),
     };
     sessionManagementRepository = {
+      get: sinon.stub(),
       updatePublishedAt: sinon.stub(),
-    };
-    sharedSessionRepository = {
-      getWithCertificationCandidates: sinon.stub(),
     };
     finalizedSessionRepository = {
       get: sinon.stub(),
@@ -35,7 +32,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
       id: sessionId,
       publishedAt: new Date('2020-01-01'),
     });
-    sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(expectedSession);
+    sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(expectedSession);
     const finalizedSession = new FinalizedSession({ sessionId, publishSession: new Date('2020-01-01') });
     finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
 
@@ -44,7 +41,6 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
       sessionId,
       certificationRepository,
       sessionManagementRepository,
-      sharedSessionRepository,
       finalizedSessionRepository,
     });
 

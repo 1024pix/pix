@@ -11,7 +11,6 @@ const publishSessionsInBatch = async function ({
   certificationRepository,
   finalizedSessionRepository,
   sessionManagementRepository,
-  sharedSessionRepository,
   sessionPublicationService,
 }) {
   const result = new SessionPublicationBatchResult(batchId);
@@ -23,7 +22,6 @@ const publishSessionsInBatch = async function ({
           publishedAt,
           certificationRepository,
           finalizedSessionRepository,
-          sharedSessionRepository,
           sessionManagementRepository,
         });
 
