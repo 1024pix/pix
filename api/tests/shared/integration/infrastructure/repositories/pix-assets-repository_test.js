@@ -1,10 +1,7 @@
 import nock from 'nock';
 
 import { PixAssetImageInfos } from '../../../../../src/shared/domain/models/PixAssetImageInfos.js';
-import {
-  getAssetInfos,
-  getValidHostname,
-} from '../../../../../src/shared/infrastructure/repositories/pix-assets-repository.js';
+import { getAssetInfos } from '../../../../../src/shared/infrastructure/repositories/pix-assets-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -32,16 +29,6 @@ describe('Integration | Infrastructure | Repository | PixAssets', function () {
     'cache-control': 'public, max-age=172800',
     'strict-transport-security': 'max-age=31536000',
   };
-
-  describe('#getValidHostname', function () {
-    it('should return only valid hostname', function () {
-      // when
-      const validHostname = getValidHostname();
-
-      // then
-      expect(validHostname).to.equal('assets.pix.org');
-    });
-  });
 
   describe('#getAssetInfos', function () {
     context('when not from assets.pix.org', function () {

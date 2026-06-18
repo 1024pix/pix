@@ -128,7 +128,7 @@ describe('Unit | Certification | session-management | Serializer | session-seria
         const result = serializer.deserialize(jsonApiSession);
 
         // then
-        expect(result.examinerGlobalComment).to.deep.equal(SessionManagement.NO_EXAMINER_GLOBAL_COMMENT);
+        expect(result.examinerGlobalComment).to.be.null;
       });
     });
   });

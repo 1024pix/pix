@@ -1,9 +1,8 @@
+import isEmpty from '../../../../shared/infrastructure/utils/is-empty.js';
 import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 
-const NO_EXAMINER_GLOBAL_COMMENT = null;
-
-class SessionManagement {
+export class SessionManagement {
   constructor({
     id,
     accessCode,
@@ -35,7 +34,7 @@ class SessionManagement {
     this.examiner = examiner;
     this.room = room;
     this.time = time;
-    this.examinerGlobalComment = examinerGlobalComment;
+    this.examinerGlobalComment = isEmpty(examinerGlobalComment?.trim()) ? null : examinerGlobalComment;
     this.hasIncident = hasIncident;
     this.hasJoiningIssue = hasJoiningIssue;
     this.finalizedAt = finalizedAt;
@@ -69,5 +68,3 @@ class SessionManagement {
     return this.publishedAt !== null;
   }
 }
-
-export { NO_EXAMINER_GLOBAL_COMMENT, SessionManagement };

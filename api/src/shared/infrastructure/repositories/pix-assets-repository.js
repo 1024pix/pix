@@ -2,11 +2,7 @@ import { PixAssetImageInfos } from '../../domain/models/PixAssetImageInfos.js';
 import { fetchAssetsMetadata } from '../datasources/pix-assets/pix-assets-client.js';
 import { logger } from '../utils/logger.js';
 
-export const VALID_HOSTNAME = 'assets.pix.org';
-
-export function getValidHostname() {
-  return VALID_HOSTNAME;
-}
+const VALID_HOSTNAME = 'assets.pix.org';
 
 const knownAssetsInfos = new Map();
 

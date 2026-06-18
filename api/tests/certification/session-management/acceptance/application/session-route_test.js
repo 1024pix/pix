@@ -268,7 +268,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
           },
           attributes: {
             status: 'created',
-            'examiner-global-comment': '',
+            'examiner-global-comment': null,
             'has-incident': false,
             'has-joining-issue': false,
             'finalized-at': null,
