@@ -71,5 +71,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'school/mission-api';
-export { name, register };
+export const missionRoute = { name: 'school/mission-api', register };

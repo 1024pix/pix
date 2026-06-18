@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { organizationLearnerController } from '../../../../src/school/application/organization-learner-controller.js';
-import * as moduleUnderTest from '../../../../src/school/application/organization-learner-route.js';
+import { organizationLearnerRoute as moduleUnderTest } from '../../../../src/school/application/organization-learner-route.js';
 import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
