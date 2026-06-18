@@ -422,4 +422,47 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       ]);
     });
   });
+
+  describe('#findUniqByUserIdsAndSkillIds', function () {
+    let userId1;
+    let userId2;
+
+    beforeEach(function () {
+      userId1 = databaseBuilder.factory.buildUser().id;
+      userId2 = databaseBuilder.factory.buildUser().id;
+      return databaseBuilder.commit();
+    });
+
+    it('should only return knowledge elements matching the given skillIds', async function () {
+      // given
+      const user1knowledgeElementOnTargetedSkill = databaseBuilder.factory.buildKnowledgeElement({
+        userId: userId1,
+        createdAt: new Date('2020-01-01'),
+        skillId: 'rec1',
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        userId: userId1,
+        createdAt: new Date('2020-01-02'),
+        skillId: 'recOutOfScope',
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        userId: userId2,
+        createdAt: new Date('2019-01-01'),
+        skillId: 'recOutOfScope',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserId = await repositories.knowledgeElementRepository.findUniqByUserIdsAndSkillIds({
+        userIds: [userId1, userId2],
+        skillIds: ['rec1'],
+      });
+
+      // then
+      expect(knowledgeElementsByUserId[0].knowledgeElements).to.have.deep.members([
+        user1knowledgeElementOnTargetedSkill,
+      ]);
+      expect(knowledgeElementsByUserId[1].knowledgeElements).to.be.empty;
+    });
+  });
 });
