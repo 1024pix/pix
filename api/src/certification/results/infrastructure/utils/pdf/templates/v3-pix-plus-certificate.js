@@ -43,13 +43,13 @@ export default async function generateV3PixPlusCertificateTemplate({ pdf, data, 
   // Main content
   pdf
     .font('Nunito-Bold')
-    .fontSize(32)
+    .fontSize(29)
     .fillColor('#253858')
     .text(translate('certification.certificate.v3.main-content.title-pix-plus'), 82, 150, { width: 380 })
     .moveUp(0.1);
   pdf
     .font('Nunito-Bold')
-    .fontSize(32)
+    .fontSize(29)
     .fillColor('#253858')
     .text(_formatText(translate(`certification.certificate.v3.pix-plus-labels.${data.certificationFramework}`)), {
       width: 380,
@@ -69,15 +69,14 @@ export default async function generateV3PixPlusCertificateTemplate({ pdf, data, 
         lineGap: 2,
       },
     )
-    .moveDown(2);
+    .moveDown(1.25);
   pdf
     .font('Roboto-Regular')
     .fontSize(11)
-    .text(translate('certification.certificate.v3.main-content.delivered-at.label'))
-    .moveDown(0.5);
+    .text(translate('certification.certificate.v3.main-content.delivered-at.label'));
   pdf
     .font('Nunito-Bold')
-    .fontSize(25)
+    .fontSize(22)
     .text(`${data.firstName} ${data.lastName.toUpperCase()}`, { width: 380, lineGap: -7 })
     .moveDown(0.25);
 
