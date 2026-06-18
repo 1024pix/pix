@@ -863,6 +863,17 @@
       "all-tags": {
         "recently-used-tags": "List of tags recently used with {tagName}"
       },
+      "attached-certification-center": {
+        "empty": "No certification center attached.",
+        "table": {
+          "caption": "Certification center attached to the organisation.",
+          "headers": {
+            "external-id": "External ID",
+            "id": "ID",
+            "name": "Name"
+          }
+        }
+      },
       "creation": {
         "actions": {
           "add-child-organization": "Add child organization"
