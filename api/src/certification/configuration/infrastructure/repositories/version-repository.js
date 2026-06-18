@@ -41,23 +41,14 @@ export async function getById({ id }) {
 /**
  * @param {object} params
  * @param {SCOPES} params.scope
- * @returns {Promise<Version|null>}
+ * @returns {Promise<Version[]>}
  */
-export async function findActiveByScope({ scope }) {
+export async function findAllByScope({ scope }) {
   const knexConn = DomainTransaction.getConnection();
 
-  const versionData = await knexConn('certification_versions')
-    .select('*')
-    .where({ scope })
-    .whereNull('expirationDate')
-    .whereNotNull('startDate')
-    .first();
+  const dtosVersion = await knexConn('certification_versions').select('*').where({ scope }).orderBy('id');
 
-  if (!versionData) {
-    return null;
-  }
-
-  return _toDomain(versionData);
+  return dtosVersion.map(_toDomain);
 }
 
 /**

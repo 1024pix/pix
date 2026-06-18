@@ -6,19 +6,26 @@ import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
  * @returns {Promise<Array<{id: string, name: string, versionStartDate: Date|null}>>}
  */
 const findCertificationFrameworks = async function ({ versionRepository }) {
-  const frameworkNames = Object.values(Frameworks);
+  const frameworksWithVersions = [];
+  for (const framework of Object.values(Frameworks)) {
+    if (framework === Frameworks.CLEA) {
+      frameworksWithVersions.push({
+        id: framework,
+        name: framework,
+        activeVersionStartDate: null,
+      });
+      continue;
+    }
 
-  const frameworksWithVersions = await Promise.all(
-    frameworkNames.map(async (name) => {
-      const activeVersion = await versionRepository.findActiveByScope({ scope: name });
+    const versions = await versionRepository.findAllByScope({ scope: framework });
+    const activeVersion = versions.find((version) => version.isActive);
 
-      return {
-        id: name,
-        name,
-        activeVersionStartDate: activeVersion?.startDate ?? null,
-      };
-    }),
-  );
+    frameworksWithVersions.push({
+      id: framework,
+      name: framework,
+      activeVersionStartDate: activeVersion?.startDate ?? null,
+    });
+  }
 
   return frameworksWithVersions;
 };

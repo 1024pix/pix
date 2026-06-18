@@ -166,8 +166,8 @@ describe('Certification | Configuration | Integration | Repository | Version', f
     });
   });
 
-  describe('#findActiveByScope', function () {
-    it('should return the current active version for the given scope', async function () {
+  describe('#findAllByScope', function () {
+    it('returns all the versions of a given scope', async function () {
       // given
       const scope = SCOPES.PIX_PLUS_DROIT;
 
@@ -181,6 +181,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultProbabilityToPickChallenge: 10,
       };
       databaseBuilder.factory.buildCertificationVersion({
+        id: 1000,
         scope,
         startDate: new Date('2025-01-01'),
         expirationDate: new Date('2025-05-31'),
@@ -200,6 +201,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultProbabilityToPickChallenge: 20,
       };
       databaseBuilder.factory.buildCertificationVersion({
+        id: 10000,
         scope,
         startDate: new Date('2025-03-01'),
         expirationDate: new Date('2025-08-31'),
@@ -209,7 +211,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         challengesConfiguration: middleConfig,
       });
 
-      const expectedConfig = {
+      const activeConfig = {
         maximumAssessmentLength: 30,
         challengesBetweenSameCompetence: 2,
         limitToOneQuestionPerTube: false,
@@ -220,24 +222,15 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       };
 
       databaseBuilder.factory.buildCertificationVersion({
-        scope,
-        startDate: null,
-        expirationDate: null,
-        assessmentDuration: 120,
-        globalScoringConfiguration: [{ config: 'latest' }],
-        competencesScoringConfiguration: [{ config: 'latest' }],
-        challengesConfiguration: expectedConfig,
-      });
-
-      const expectedVersionId = databaseBuilder.factory.buildCertificationVersion({
+        id: 100,
         scope,
         startDate: new Date('2025-06-01'),
         expirationDate: null,
         assessmentDuration: 120,
         globalScoringConfiguration: [{ config: 'latest' }],
         competencesScoringConfiguration: [{ config: 'latest' }],
-        challengesConfiguration: expectedConfig,
-      }).id;
+        challengesConfiguration: activeConfig,
+      });
 
       const aWeDoNotCareConfig = {
         maximumAssessmentLength: 29,
@@ -250,6 +243,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       };
       const aScopeWeAreNotInterestedIn = SCOPES.CORE;
       databaseBuilder.factory.buildCertificationVersion({
+        id: 2,
         scope: aScopeWeAreNotInterestedIn,
         startDate: new Date('2025-10-01'),
         expirationDate: null,
@@ -262,22 +256,45 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       await databaseBuilder.commit();
 
       // when
-      const result = await versionRepository.findActiveByScope({ scope });
+      const versions = await versionRepository.findAllByScope({ scope });
 
       // then
-      expect(result).to.be.instanceOf(Version);
-      expect(result.id).to.equal(expectedVersionId);
-      expect(result.scope).to.equal(scope);
-      expect(result.startDate).to.deep.equal(new Date('2025-06-01'));
-      expect(result.expirationDate).to.be.null;
-      expect(result.assessmentDuration).to.equal(120);
-      expect(result.globalScoringConfiguration).to.deep.equal([{ config: 'latest' }]);
-      expect(result.competencesScoringConfiguration).to.deep.equal([{ config: 'latest' }]);
-      expect(result.challengesConfiguration).to.deep.equal(expectedConfig);
+      expect(versions).to.deepEqualArray([
+        domainBuilder.certification.configuration.buildVersion({
+          id: 100,
+          scope,
+          startDate: new Date('2025-06-01'),
+          expirationDate: null,
+          assessmentDuration: 120,
+          globalScoringConfiguration: [{ config: 'latest' }],
+          competencesScoringConfiguration: [{ config: 'latest' }],
+          challengesConfiguration: activeConfig,
+        }),
+        domainBuilder.certification.configuration.buildVersion({
+          id: 1000,
+          scope,
+          startDate: new Date('2025-01-01'),
+          expirationDate: new Date('2025-05-31'),
+          assessmentDuration: 90,
+          globalScoringConfiguration: [{ config: 'old' }],
+          competencesScoringConfiguration: [{ config: 'old' }],
+          challengesConfiguration: oldConfig,
+        }),
+        domainBuilder.certification.configuration.buildVersion({
+          id: 10000,
+          scope,
+          startDate: new Date('2025-03-01'),
+          expirationDate: new Date('2025-08-31'),
+          assessmentDuration: 100,
+          globalScoringConfiguration: [{ config: 'middle' }],
+          competencesScoringConfiguration: [{ config: 'middle' }],
+          challengesConfiguration: middleConfig,
+        }),
+      ]);
     });
 
     context('when no version exists for the scope', function () {
-      it('should return null', async function () {
+      it('return an empty array', async function () {
         // given
         const scope = SCOPES.PIX_PLUS_EDU_CPE;
 
@@ -294,10 +311,10 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         await databaseBuilder.commit();
 
         // when
-        const result = await versionRepository.findActiveByScope({ scope });
+        const versions = await versionRepository.findAllByScope({ scope });
 
         // then
-        expect(result).to.be.null;
+        expect(versions).to.deepEqualArray([]);
       });
     });
   });
