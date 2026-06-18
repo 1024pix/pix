@@ -19,7 +19,7 @@ const ConfigSchema = Joi.object().pattern(
   }),
 );
 
-export class FeatureToggleNotFoundError extends Error {
+class FeatureToggleNotFoundError extends Error {
   constructor(key) {
     super(`Feature toggle with key "${key}" not found in the configuration`);
     this.name = 'FeatureToggleNotFoundError';
