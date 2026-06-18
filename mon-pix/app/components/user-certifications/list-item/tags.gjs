@@ -49,6 +49,11 @@ export default class CertificationTags extends Component {
         content: this.intl.t('pages.certifications-list.statuses.cancelled'),
         displayFramework: false,
       },
+      [CERTIFICATE_STATUSES.CANCELLED_BY_JURY]: {
+        color: 'error',
+        content: this.intl.t('pages.certifications-list.statuses.cancelled'),
+        displayFramework: true,
+      },
       [CERTIFICATE_STATUSES.WAITING_FOR_RESULTS]: {
         color: 'primary',
         content: this.intl.t('pages.certifications-list.statuses.not-published'),

@@ -65,6 +65,23 @@ module('Integration | Component | User certifications | List item | Tags', funct
       assert.dom(mainTag).doesNotContainText(t('pages.certification-frameworks.CORE'));
     });
 
+    test('displays cancelled_by_jury status with framework name', async function (assert) {
+      // given
+      const status = CERTIFICATE_STATUSES.CANCELLED_BY_JURY;
+      const framework = 'CORE';
+      const extraStatus = EXTRA_CERTIFICATE_STATUSES.NOT_APPLICABLE;
+
+      // when
+      const screen = await render(
+        <template><Tags @status={{status}} @framework={{framework}} @extraStatus={{extraStatus}} /></template>,
+      );
+
+      // then
+      const mainTag = screen.getByTestId('pw-certification-card-main-status');
+      assert.dom(mainTag).containsText(t('pages.certifications-list.statuses.cancelled'));
+      assert.dom(mainTag).containsText(t('pages.certification-frameworks.CORE'));
+    });
+
     test('displays waiting for results status without framework name', async function (assert) {
       // given
       const status = CERTIFICATE_STATUSES.WAITING_FOR_RESULTS;
