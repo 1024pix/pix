@@ -114,7 +114,7 @@
             },
             {
               "type": "stepper",
-              "instruction": "<p>Pour chaque situation, indiquez si une IA <strong>sans ajout de contexte supplémentaire</strong> peut répondre avec justesse.</p>",
+              "instruction": "<p>Pour chaque situation, indiquez si une IA <strong>sans ajout de contexte supplémentaire</strong> peut répondre de façon pertinente.</p>",
               "steps": [
                 {
                   "elements": [
@@ -212,7 +212,7 @@
                 "id": "69792f59-037b-49ad-a528-8d77841ae282",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour produire une réponse, un logiciel d’IA générative s’appuie principalement sur deux éléments&nbsp;:</p><ul>  <li>les <strong>connaissances apprises pendant son entraînement</strong>&nbsp;;</li>  <li>les <strong>informations données par l’utilisateur</strong> dans la discussion.</li></ul><p>Par défaut, le logiciel d’IA générative n’a donc pas accès aux informations qui ne lui ont pas été fournies. C’est le cas, par exemple, des <strong>documents internes</strong>, des <strong>procédures propres à une organisation</strong>, des <strong>connaissances métiers spécifiques</strong>, des <strong>données confidentielles</strong>, ou encore des <strong>informations très récentes ou peu diffusées</strong>.</p><p>C’est pourquoi un logiciel d’IA générative peut produire une réponse <strong>claire et convaincante</strong>, mais malgré tout <strong>incomplète</strong>, <strong>obsolète</strong> ou <strong>déconnectée du contexte réel</strong>.</p>"
+                "content": "<p>Pour produire une réponse, un logiciel d’IA générative s’appuie principalement sur deux éléments&nbsp;:</p><ul>  <li>les <strong>les informations intégrées au modèle lors de son entraînement</strong>&nbsp;;</li>  <li>les <strong>informations données par l’utilisateur</strong> dans la discussion.</li></ul><p>Par défaut, le logiciel d’IA générative n’a donc pas accès aux informations qui ne lui ont pas été fournies. C’est le cas, par exemple, des <strong>documents internes</strong>, des <strong>procédures propres à une organisation</strong>, des <strong>connaissances métiers spécifiques</strong>, des <strong>données confidentielles</strong>, ou encore des <strong>informations très récentes ou peu diffusées</strong>.</p><p>C’est pourquoi un logiciel d’IA générative peut produire une réponse <strong>claire et convaincante</strong>, mais malgré tout <strong>incomplète</strong>, <strong>obsolète</strong> ou <strong>déconnectée du contexte réel</strong>.</p>"
               }
             },
             {
