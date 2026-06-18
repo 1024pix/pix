@@ -117,7 +117,7 @@ export default class CreateOrUpdateTrainingForm extends Component {
 
   @action
   toggleRegistrationRequired() {
-    set(this.form, 'registrationRequired', !this.form.registrationRequired);
+    this.form.registrationRequired = !this.form.registrationRequired;
   }
 
   @action
