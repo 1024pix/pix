@@ -1,7 +1,6 @@
 /**
  * @typedef {import('../../../session-management/domain/models/SessionManagement.js').SessionManagement} SessionManagement
  * @typedef {import('../../domain/models/Candidate.js').Candidate} Candidate
- * @typedef {import('../../../shared/domain/models/ComplementaryCertification.js').ComplementaryCertification} ComplementaryCertification
  */
 
 import * as url from 'node:url';
@@ -9,7 +8,7 @@ import * as url from 'node:url';
 import _ from 'lodash';
 
 import isEmpty from '../../../../shared/infrastructure/utils/is-empty.js';
-import { CertificationCandidate } from '../../../shared/domain/models/CertificationCandidate.js';
+import { BILLING_MODES } from '../../../shared/domain/constants.js';
 import * as readOdsUtils from '../utils/ods/read-ods-utils.js';
 import { OdsUtilsBuilder } from '../utils/ods/write-ods-utils.js';
 import { CandidateData } from './CandidateData.js';
@@ -32,7 +31,6 @@ const CANDIDATE_TABLE_FIRST_ROW = 12;
  * @param {object} params
  * @param {SessionManagement} params.session
  * @param {Array<Candidate>} params.enrolledCandidates
- * @param {Array<ComplementaryCertification>} params.certificationCenterHabilitations
  * @param {Boolean} params.isScoCertificationCenter
  * @param params.i18n
  * @returns {Promise<*>}
@@ -80,7 +78,7 @@ function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertif
   if (!isScoCertificationCenter) {
     const title = translate('candidate-list-template.headers.candidates-list');
 
-    const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES).map((value) =>
+    const billingValidatorList = Object.values(BILLING_MODES).map((value) =>
       translate(`candidate-list-template.billing-mode.${value.toLowerCase()}`),
     );
 
@@ -123,12 +121,12 @@ function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertif
         tableFirstRow: CANDIDATE_TABLE_FIRST_ROW,
       });
   }
-  odsBuilder = _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations, translate });
+  odsBuilder = _addSubscriptionColumns({ odsBuilder, certificationCenterHabilitations, translate });
 
   return odsBuilder;
 }
 
-function _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations, translate }) {
+function _addSubscriptionColumns({ odsBuilder, certificationCenterHabilitations, translate }) {
   if (!isEmpty(certificationCenterHabilitations)) {
     const habilitationColumns = certificationCenterHabilitations.map(({ key, label }) => ({
       headerLabel: [label, translate('candidate-list-template.yes-or-empty')],
