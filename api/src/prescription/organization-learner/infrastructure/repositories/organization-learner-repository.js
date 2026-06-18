@@ -92,7 +92,7 @@ async function get({ organizationLearnerId }) {
   throw new NotFoundError(`Student not found for ID ${organizationLearnerId}`);
 }
 
-async function findPaginatedLearners({ organizationId, page, filter }) {
+async function findPaginatedLearnersByOrganizationId({ organizationId, page, filter }) {
   const knexConn = DomainTransaction.getConnection();
 
   const query = knexConn
@@ -515,7 +515,7 @@ export {
   findByUserId,
   findIdByUserIdAndOrganizationId,
   findPaginatedAttestationStatusForOrganizationLearnersAndKey,
-  findPaginatedLearners,
+  findPaginatedLearnersByOrganizationId,
   findUserIdsFromFilters,
   get,
   getAttestationsForOrganizationLearnersAndKey,

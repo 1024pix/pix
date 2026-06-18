@@ -495,7 +495,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
     });
   });
 
-  describe('#findPaginatedLearners', function () {
+  describe('#findPaginatedLearnersByOrganizationId', function () {
     let organizationId;
 
     beforeEach(async function () {
@@ -518,7 +518,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+      const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({ organizationId });
 
       expect(result.learners).lengthOf(1);
       expect(result.learners[0]).instanceOf(OrganizationLearner);
@@ -540,7 +540,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+      const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({ organizationId });
 
       expect(result.learners).lengthOf(0);
     });
@@ -554,7 +554,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+      const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({ organizationId });
 
       expect(result.learners).lengthOf(0);
     });
@@ -572,7 +572,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+      const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({ organizationId });
 
       expect(result.learners).lengthOf(2);
     });
@@ -604,7 +604,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
         await databaseBuilder.commit();
 
-        const result = await organizationLearnerRepository.findPaginatedLearners({
+        const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({
           organizationId,
         });
 
@@ -629,7 +629,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
         await databaseBuilder.commit();
 
-        const result = await organizationLearnerRepository.findPaginatedLearners({
+        const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({
           organizationId,
         });
 
@@ -653,7 +653,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
         await databaseBuilder.commit();
 
-        const result = await organizationLearnerRepository.findPaginatedLearners({
+        const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({
           organizationId,
           page: {
             size: 1,
@@ -690,7 +690,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
           await databaseBuilder.commit();
 
-          const result = await organizationLearnerRepository.findPaginatedLearners({
+          const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({
             organizationId,
             page: {
               size: 1,
