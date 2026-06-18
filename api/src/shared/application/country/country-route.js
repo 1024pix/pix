@@ -17,5 +17,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'shared/certification-cpf-countries-api';
-export { name, register };
+export const countryRoute = { name: 'shared/certification-cpf-countries-api', register };
