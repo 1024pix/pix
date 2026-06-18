@@ -48,5 +48,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/session-management/complementary-certification-course-results-api';
-export { name, register };
+export const complementaryCertificationCourseResultsRoute = {
+  name: 'certification/session-management/complementary-certification-course-results-api',
+  register,
+};

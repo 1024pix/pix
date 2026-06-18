@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { scoringAndCapacitySimulatorController } from '../../../../../src/certification/evaluation/application/scoring-and-capacity-simulator-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/evaluation/application/scoring-and-capacity-simulator-route.js';
+import { scoringAndCapacitySimulatorRoute as moduleUnderTest } from '../../../../../src/certification/evaluation/application/scoring-and-capacity-simulator-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

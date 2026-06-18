@@ -65,5 +65,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/session-management/certification-issue-reports-api';
-export { name, register };
+export const certificationIssueReportRoute = {
+  name: 'certification/session-management/certification-issue-reports-api',
+  register,
+};

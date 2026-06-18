@@ -95,5 +95,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/configuration/certification-frameworks-api';
-export { name, register };
+export const certificationFrameworkRoute = {
+  name: 'certification/configuration/certification-frameworks-api',
+  register,
+};

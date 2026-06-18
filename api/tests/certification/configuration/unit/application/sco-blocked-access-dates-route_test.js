@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { scoBlockedAccessDatesController } from '../../../../../src/certification/configuration/application/sco-blocked-access-dates-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/configuration/application/sco-blocked-access-dates-route.js';
+import { scoBlockedAccessDatesRoute as moduleUnderTest } from '../../../../../src/certification/configuration/application/sco-blocked-access-dates-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

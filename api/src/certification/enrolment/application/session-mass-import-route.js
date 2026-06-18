@@ -95,5 +95,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/enrolment/session-mass-import-api';
-export { name, register };
+export const sessionMassImportRoute = { name: 'certification/enrolment/session-mass-import-api', register };

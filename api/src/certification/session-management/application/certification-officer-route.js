@@ -39,6 +39,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/session-management/session-certification-officer-api';
-
-export { name, register };
+export const certificationOfficerRoute = {
+  name: 'certification/session-management/session-certification-officer-api',
+  register,
+};

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { invigilatorKitController } from '../../../../../src/certification/session-management/application/invigilator-kit-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/session-management/application/invigilator-kit-route.js';
+import { invigilatorKitRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/invigilator-kit-route.js';
 import { authorization } from '../../../../../src/certification/session-management/application/pre-handlers/authorization.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';

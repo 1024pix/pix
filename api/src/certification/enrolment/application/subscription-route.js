@@ -25,5 +25,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/enrolment/subscription-api';
-export { name, register };
+export const subscriptionRoute = { name: 'certification/enrolment/subscription-api', register };

@@ -60,5 +60,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/configuration/sco-whitelist-api';
-export { name, register };
+export const scoWhitelistRoute = { name: 'certification/configuration/sco-whitelist-api', register };

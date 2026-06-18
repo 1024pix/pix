@@ -37,5 +37,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/session-management/invigilator-kit-api';
-export { name, register };
+export const invigilatorKitRoute = { name: 'certification/session-management/invigilator-kit-api', register };

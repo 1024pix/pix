@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { complementaryCertificationController } from '../../../../../src/certification/configuration/application/complementary-certification-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/configuration/application/complementary-certification-route.js';
+import { complementaryCertificationRoute as moduleUnderTest } from '../../../../../src/certification/configuration/application/complementary-certification-route.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';

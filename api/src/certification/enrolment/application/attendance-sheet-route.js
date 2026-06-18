@@ -32,5 +32,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/enrolment/attendance-sheet-api';
-export { name, register };
+export const attendanceSheetRoute = { name: 'certification/enrolment/attendance-sheet-api', register };

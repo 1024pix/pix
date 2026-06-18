@@ -66,5 +66,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/configuration/sco-blocked-access-dates-api';
-export { name, register };
+export const scoBlockedAccessDatesRoute = {
+  name: 'certification/configuration/sco-blocked-access-dates-api',
+  register,
+};

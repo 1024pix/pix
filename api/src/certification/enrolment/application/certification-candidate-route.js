@@ -259,5 +259,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/enrolment/certification-candidate-api';
-export { name, register };
+export const certificationCandidateRoute = { name: 'certification/enrolment/certification-candidate-api', register };

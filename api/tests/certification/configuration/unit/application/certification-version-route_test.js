@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { certificationVersionController } from '../../../../../src/certification/configuration/application/certification-version-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/configuration/application/certification-version-route.js';
+import { certificationVersionRoute as moduleUnderTest } from '../../../../../src/certification/configuration/application/certification-version-route.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';

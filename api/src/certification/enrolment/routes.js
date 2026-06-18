@@ -1,23 +1,23 @@
-import * as attendanceSheet from './application/attendance-sheet-route.js';
-import * as certificationCandidate from './application/certification-candidate-route.js';
-import * as certificationCenter from './application/certification-center-route.js';
-import * as certificationCentersGetDivisions from './application/certification-centers-get-divisions-route.js';
-import * as enrolment from './application/enrolment-route.js';
-import * as sessionMassImport from './application/session-mass-import-route.js';
-import * as session from './application/session-route.js';
-import * as subscription from './application/subscription-route.js';
-import * as user from './application/user-route.js';
+import { attendanceSheetRoute } from './application/attendance-sheet-route.js';
+import { certificationCandidateRoute } from './application/certification-candidate-route.js';
+import { certificationCenterRoute } from './application/certification-center-route.js';
+import { certificationCentersGetDivisionsRoute } from './application/certification-centers-get-divisions-route.js';
+import { enrolmentRoute } from './application/enrolment-route.js';
+import { sessionMassImportRoute } from './application/session-mass-import-route.js';
+import { sessionRoute } from './application/session-route.js';
+import { subscriptionRoute } from './application/subscription-route.js';
+import { userRoute } from './application/user-route.js';
 
 const certificationEnrolmentRoutes = [
-  attendanceSheet,
-  certificationCandidate,
-  enrolment,
-  session,
-  sessionMassImport,
-  certificationCenter,
-  certificationCentersGetDivisions,
-  subscription,
-  user,
+  attendanceSheetRoute,
+  certificationCandidateRoute,
+  enrolmentRoute,
+  sessionRoute,
+  sessionMassImportRoute,
+  certificationCenterRoute,
+  certificationCentersGetDivisionsRoute,
+  subscriptionRoute,
+  userRoute,
 ];
 
 export { certificationEnrolmentRoutes };

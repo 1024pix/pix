@@ -57,5 +57,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/session-management/cancellation-api';
-export { name, register };
+export const cancellationRoute = { name: 'certification/session-management/cancellation-api', register };

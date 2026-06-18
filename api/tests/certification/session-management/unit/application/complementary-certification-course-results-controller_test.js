@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import * as moduleUnderTest from '../../../../../src/certification/session-management/application/complementary-certification-course-results-route.js';
+import { complementaryCertificationCourseResultsRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/complementary-certification-course-results-route.js';
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { InvalidJuryLevelError } from '../../../../../src/shared/domain/errors.js';

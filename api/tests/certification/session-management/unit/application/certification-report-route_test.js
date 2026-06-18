@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { certificationReportController } from '../../../../../src/certification/session-management/application/certification-report-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/session-management/application/certification-report-route.js';
+import { certificationReportRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/certification-report-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import { NotFoundError } from '../../../../../src/shared/application/errors/http-errors.js';

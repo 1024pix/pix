@@ -128,5 +128,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/results/certification-results-api';
-export { name, register };
+export const certificationResultsRoute = { name: 'certification/results/certification-results-api', register };

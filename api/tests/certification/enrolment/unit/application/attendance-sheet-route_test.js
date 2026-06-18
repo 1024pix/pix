@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { attendanceSheetController } from '../../../../../src/certification/enrolment/application/attendance-sheet-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/enrolment/application/attendance-sheet-route.js';
+import { attendanceSheetRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/attendance-sheet-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';

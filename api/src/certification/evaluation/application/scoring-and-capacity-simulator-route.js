@@ -35,6 +35,7 @@ const register = async (server) => {
   ]);
 };
 
-const name = 'certification/evaluation/scoring-and-capacity-simulator-api';
-
-export { name, register };
+export const scoringAndCapacitySimulatorRoute = {
+  name: 'certification/evaluation/scoring-and-capacity-simulator-api',
+  register,
+};

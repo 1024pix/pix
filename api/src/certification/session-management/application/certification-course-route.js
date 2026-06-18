@@ -184,5 +184,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/session-management/certification-course-api';
-export { name, register };
+export const certificationCourseRoute = { name: 'certification/session-management/certification-course-api', register };

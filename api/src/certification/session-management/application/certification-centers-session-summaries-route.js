@@ -36,5 +36,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/session-management/session-summaries-api';
-export { name, register };
+export const certificationCentersSessionSummariesRoute = {
+  name: 'certification/session-management/session-summaries-api',
+  register,
+};

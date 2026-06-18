@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import * as moduleUnderTest from '../../../../../src/certification/session-management/application/jury-certification-summaries-route.js';
+import { juryCertificationSummariesRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/jury-certification-summaries-route.js';
 import { sessionController } from '../../../../../src/certification/session-management/application/session-controller.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { NotFoundError } from '../../../../../src/shared/application/errors/http-errors.js';

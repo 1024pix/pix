@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { certificationCourseController } from '../../../../../src/certification/session-management/application/certification-course-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/session-management/application/certification-course-route.js';
+import { certificationCourseRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/certification-course-route.js';
 import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';

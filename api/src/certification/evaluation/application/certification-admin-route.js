@@ -67,5 +67,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/evaluation/evaluation-certification-api';
-export { name, register };
+export const certificationAdminRoute = { name: 'certification/evaluation/evaluation-certification-api', register };

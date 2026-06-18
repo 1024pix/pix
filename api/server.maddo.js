@@ -5,14 +5,14 @@ import { parse } from 'neoqs';
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 import { databaseConnections } from './db/database-connections.js';
 import { knex } from './db/knex-database-connection.js';
-import * as livretScolaireRoutes from './src/certification/results/application/livret-scolaire-route.js';
-import * as parcoursupRoutes from './src/certification/results/application/parcoursup-route.js';
+import { livretScolaireRoute } from './src/certification/results/application/livret-scolaire-route.js';
+import { parcoursupRoute } from './src/certification/results/application/parcoursup-route.js';
 import { identityAccessManagementRoutes } from './src/identity-access-management/application/routes.js';
 import * as serverAuthentication from './src/identity-access-management/infrastructure/server-authentication.js';
 import * as campaignsRoutes from './src/maddo/application/campaigns-routes.js';
 import * as organizationsRoutes from './src/maddo/application/organizations-routes.js';
 import * as replicationsRoutes from './src/maddo/application/replications-routes.js';
-import * as franceTravailRoutes from './src/prescription/campaign-participation/application/pole-emploi-route.js';
+import { poleEmploiRoute } from './src/prescription/campaign-participation/application/pole-emploi-route.js';
 import * as healthcheckRoutes from './src/shared/application/healthcheck/index.js';
 import { config } from './src/shared/config.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
@@ -185,9 +185,9 @@ const setupRoutesAndPlugins = async function (server) {
     healthcheckRoutes,
     organizationsRoutes,
     replicationsRoutes,
-    parcoursupRoutes,
-    franceTravailRoutes,
-    livretScolaireRoutes,
+    parcoursupRoute,
+    poleEmploiRoute,
+    livretScolaireRoute,
   ];
   const routesWithOptions = routes.map((route) => ({
     plugin: route,

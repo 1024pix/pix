@@ -134,5 +134,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/enrolment/certification-enrollment-api';
-export { name, register };
+export const sessionRoute = { name: 'certification/enrolment/certification-enrollment-api', register };

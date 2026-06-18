@@ -93,5 +93,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/configuration/complementary-certifications-api';
-export { name, register };
+export const complementaryCertificationRoute = {
+  name: 'certification/configuration/complementary-certifications-api',
+  register,
+};

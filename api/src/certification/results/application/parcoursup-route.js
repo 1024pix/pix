@@ -91,5 +91,4 @@ const register = async function (server) {
     },
   ]);
 };
-const name = 'certification/results/parcoursup-api';
-export { name, register };
+export const parcoursupRoute = { name: 'certification/results/parcoursup-api', register };

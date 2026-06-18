@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { juryCertificationController } from '../../../../../src/certification/session-management/application/jury-certification-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/session-management/application/jury-certification-route.js';
+import { juryCertificationRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/jury-certification-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

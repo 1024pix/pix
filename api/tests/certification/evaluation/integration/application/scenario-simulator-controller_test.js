@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import * as moduleUnderTest from '../../../../../src/certification/evaluation/application/scenario-simulator-route.js';
+import { scenarioSimulatorRoute as moduleUnderTest } from '../../../../../src/certification/evaluation/application/scenario-simulator-route.js';
 import pickChallengeService from '../../../../../src/certification/evaluation/domain/services/pick-challenge-service.js';
 import { usecases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { pickAnswerStatusService } from '../../../../../src/certification/shared/domain/services/pick-answer-status-service.js';
