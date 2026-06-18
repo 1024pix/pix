@@ -1076,6 +1076,58 @@ describe('Integration | Prescription | Shared | Service | KnowledgeElementForPar
           },
         ]);
       });
+
+      it('should only return knowledge element matching the given skillIds', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT }).id;
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+        }).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ campaignParticipationId }).id;
+        const answerId = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
+        const otherAnswerId = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
+        const domainKEOnTargetedSkill = domainBuilder.buildKnowledgeElement({
+          id: 1,
+          userId,
+          skillId: 'acquisABC123',
+          answerId,
+          assessmentId,
+          createdAt: new Date('2021-01-01'),
+        });
+        const domainKEOnOtherSkill = domainBuilder.buildKnowledgeElement({
+          id: 2,
+          userId,
+          skillId: 'acquisDEF456',
+          answerId: otherAnswerId,
+          assessmentId,
+          createdAt: new Date('2022-01-01'),
+        });
+
+        databaseBuilder.factory.buildKnowledgeElement(domainKEOnTargetedSkill);
+        databaseBuilder.factory.buildKnowledgeElement(domainKEOnOtherSkill);
+
+        await databaseBuilder.commit();
+
+        const res = await knowledgeElementForParticipationService.findUniqByUsersOrCampaignParticipationIds({
+          participationInfos: [
+            {
+              userId,
+              campaignParticipationId,
+            },
+          ],
+          fetchFromSnapshot: false,
+          skillIds: ['acquisABC123'],
+        });
+
+        // then
+        expect(res).to.deep.equal([
+          {
+            userId,
+            knowledgeElements: [domainKEOnTargetedSkill],
+          },
+        ]);
+      });
     });
   });
 });

@@ -22,7 +22,7 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
         badges: [],
       };
       stageCollection = {};
-      learningContent = { skillNames: [], competences: [], areas: [] };
+      learningContent = { skills: [], skillNames: [], competences: [], areas: [] };
       campaign = domainBuilder.prescription.campaign.buildCampaign.ofTypeAssessment({ externalIdLabel: null });
 
       const listSkills1 = domainBuilder.buildSkillCollection({ name: '@web', minLevel: 1, maxLevel: 5 });
