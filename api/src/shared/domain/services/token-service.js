@@ -55,16 +55,10 @@ function extractUserId(token) {
   return decoded.user_id || null;
 }
 
-const tokenService = {
+export const tokenService = {
   decodeIfValid,
   getDecodedToken,
   encodeToken,
   extractTokenFromAuthChain,
   extractUserId,
 };
-
-/**
- * @typedef TokenService
- */
-
-export { decodeIfValid, extractTokenFromAuthChain, extractUserId, getDecodedToken, tokenService };
