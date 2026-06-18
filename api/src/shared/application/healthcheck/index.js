@@ -42,5 +42,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'shared/healthcheck-api';
-export { name, register };
+export const healthcheckRoute = { name: 'shared/healthcheck-api', register };

@@ -17,5 +17,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'evaluation/progressions-api';
-export { name, register };
+export const progressionsRoute = { name: 'evaluation/progressions-api', register };

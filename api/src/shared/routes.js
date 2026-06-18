@@ -1,8 +1,8 @@
-import * as assessmentsRoutes from './application/assessments/index.js';
+import { assessmentsRoute } from './application/assessments/index.js';
 import { countryRoute } from './application/country/country-route.js';
-import * as featureToggles from './application/feature-toggles/index.js';
-import * as healthcheck from './application/healthcheck/index.js';
+import { featureTogglesRoute } from './application/feature-toggles/index.js';
+import { healthcheckRoute } from './application/healthcheck/index.js';
 
-const sharedRoutes = [healthcheck, assessmentsRoutes, featureToggles, countryRoute];
+const sharedRoutes = [healthcheckRoute, assessmentsRoute, featureTogglesRoute, countryRoute];
 
 export { sharedRoutes };

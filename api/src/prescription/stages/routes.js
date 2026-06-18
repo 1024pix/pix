@@ -1,6 +1,6 @@
-import * as stageCollectionRoutes from './application/stage-collections/index.js';
-import * as stagesRoutes from './application/stages/index.js';
+import { stageCollectionsRoute } from './application/stage-collections/index.js';
+import { stagesRoute } from './application/stages/index.js';
 
-const stagesModuleRoutes = [stagesRoutes, stageCollectionRoutes];
+const stagesModuleRoutes = [stagesRoute, stageCollectionsRoute];
 
 export { stagesModuleRoutes };

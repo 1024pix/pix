@@ -61,5 +61,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'evaluation/scorecards-api';
-export { name, register };
+export const scorecardsRoute = { name: 'evaluation/scorecards-api', register };

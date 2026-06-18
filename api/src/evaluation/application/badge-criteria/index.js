@@ -65,5 +65,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'evaluation/badge-criteria-api';
-export { name, register };
+export const badgeCriteriaRoute = { name: 'evaluation/badge-criteria-api', register };

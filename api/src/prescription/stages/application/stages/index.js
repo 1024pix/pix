@@ -52,5 +52,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'stages/stage-api';
-export { name, register };
+export const stagesRoute = { name: 'stages/stage-api', register };

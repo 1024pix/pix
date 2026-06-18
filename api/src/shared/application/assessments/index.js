@@ -31,5 +31,4 @@ const register = async function (server) {
   server.route(routes);
 };
 
-const name = 'shared/assessments-api';
-export { name, register };
+export const assessmentsRoute = { name: 'shared/assessments-api', register };

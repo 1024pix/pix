@@ -127,5 +127,4 @@ const register = async function (server) {
   server.route([getNextChallengeRoute, getCampaignParametersRoute]);
 };
 
-const name = 'evaluation/smart-random-simulator-api';
-export { name, register };
+export const smartRandomSimulatorRoute = { name: 'evaluation/smart-random-simulator-api', register };

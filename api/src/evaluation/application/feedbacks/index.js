@@ -49,5 +49,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'evaluation/feedbacks-api';
-export { name, register };
+export const feedbacksRoute = { name: 'evaluation/feedbacks-api', register };

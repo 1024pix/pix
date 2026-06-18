@@ -22,5 +22,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'evaluation/challenges-api';
-export { name, register };
+export const challengesRoute = { name: 'evaluation/challenges-api', register };

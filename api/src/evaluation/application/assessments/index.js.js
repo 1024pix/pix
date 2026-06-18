@@ -193,5 +193,4 @@ const register = async function (server) {
   server.route(routes);
 };
 
-const name = 'evaluation/evaluation-assessments-api';
-export { name, register };
+export const assessmentsRoute = { name: 'evaluation/evaluation-assessments-api', register };
