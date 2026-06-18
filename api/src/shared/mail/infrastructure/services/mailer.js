@@ -6,7 +6,7 @@ import { EmailingAttempt } from '../../domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from '../../domain/models/MailingProviderInvalidEmailError.js';
 import { BrevoProvider } from '../providers/BrevoProvider.js';
 import { MailpitProvider } from '../providers/MailpitProvider.js';
-import * as mailCheck from '../services/mail-check.js';
+import { mailCheck } from '../services/mail-check.js';
 
 const { mailing } = config;
 const debugEmail = Debug('pix:mailer:email');
