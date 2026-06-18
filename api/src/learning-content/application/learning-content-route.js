@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 import { learningContentController } from './learning-content-controller.js';
 
-export async function register(server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -83,4 +83,5 @@ export async function register(server) {
   ]);
 }
 
-export const name = 'learning-content/lcms-api';
+const name = 'learning-content/lcms-api';
+export const learningContentRoute = { name, register };

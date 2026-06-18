@@ -74,5 +74,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'learning-content/frameworks-api';
-export { name, register };
+export const frameworksRoute = { name: 'learning-content/frameworks-api', register };
