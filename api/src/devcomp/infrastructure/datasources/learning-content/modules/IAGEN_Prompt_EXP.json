@@ -289,7 +289,7 @@
                 "id": "c92ea957-e391-4848-a552-c1bde9b16627",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Seulement, dans le document de la mairie, il est indiqué&nbsp;: \"<em>la mairie ne traite pas les demandes de passeport ; elles se font uniquement dans les mairies équipéesd’un dispositif de recueil. Joliville peut orienter les usagers vers les communes voisines habilitées.</em>\"</p>"
+                "content": "<p>Seulement, dans le document de la mairie, il est indiqué&nbsp;: «&nbsp;<em>la mairie ne traite pas les demandes de passeport ; elles se font uniquement dans les mairies équipéesd’un dispositif de recueil. Joliville peut orienter les usagers vers les communes voisines habilitées.&nbsp;»</em></p>"
               }
             },
             {
@@ -775,7 +775,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p>Pour chacune des situations suivantes, dites si le logiciel d'IA générative a utilisé une technique de RAG ou non. <br></p>",
+              "instruction": "<p>Pour chacune des situations suivantes, dites si le logiciel d’IA générative a utilisé une technique de RAG ou non. <br></p>",
               "steps": [
                 {
                   "elements": [
@@ -783,12 +783,12 @@
                       "id": "cdc59359-d642-4aac-a664-58a3e7986169",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Yanis joint à son prompt une citation longue d'un document.</p>"
+                      "content": "<p>Yanis joint à son prompt une citation longue d’un document.</p>"
                     },
                     {
                       "id": "4e67f7fc-aa7f-440e-b895-ad855820b3cd",
                       "type": "qcu",
-                      "instruction": "<p>A votre avis, le logiciel d’IA générative utilise-t-elle le RAG ici ?</p>",
+                      "instruction": "<p>À votre avis, le logiciel d’IA générative utilise-t-il le RAG ici ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -823,7 +823,7 @@
                     {
                       "id": "7a98876b-cc8a-4874-8178-9966f1997589",
                       "type": "qcu",
-                      "instruction": "<p>A votre avis, le logiciel d’IA générative utilise-t-elle le RAG ici ?<br></p>",
+                      "instruction": "<p>À votre avis, le logiciel d’IA générative utilise-t-il le RAG ici ?<br></p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -858,7 +858,7 @@
                     {
                       "id": "f9b78fc5-bb83-4921-9a44-81c2ca781f2f",
                       "type": "qcu",
-                      "instruction": "<p>A votre avis, le logiciel d’IA générative utilise-t-elle le RAG ici ?</p>",
+                      "instruction": "<p>À votre avis, le logiciel d’IA générative utilise-t-il le RAG ici ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
