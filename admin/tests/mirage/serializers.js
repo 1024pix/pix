@@ -1,5 +1,6 @@
 import application from './serializers/application';
 import area from './serializers/area';
+import attachedCertificationCenter from './serializers/attached-certification-center';
 import autonomousCourseListItem from './serializers/autonomous-course-list-item';
 import badge from './serializers/badge';
 import campaign from './serializers/campaign';
@@ -29,6 +30,7 @@ import user from './serializers/user';
 
 export default {
   application,
+  attachedCertificationCenter,
   area,
   autonomousCourseListItem,
   badge,

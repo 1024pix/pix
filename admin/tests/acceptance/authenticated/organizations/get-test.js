@@ -446,6 +446,37 @@ module('Acceptance | Organizations | Get', function (hooks) {
           assert.strictEqual(currentURL(), `/organizations/${ORGANIZATION_ID}/statistics`);
         });
       });
+
+      module('Attached certification center tab', function () {
+        test('it should display the attached certification center tab', async function (assert) {
+          // when
+          const screen = await visit(`/organizations/${ORGANIZATION_ID}`);
+
+          // then
+          const navigationTabs = screen.getByRole('navigation', { name: t('pages.organization.navbar.aria-label') });
+          assert.ok(
+            within(navigationTabs).getByRole('link', {
+              name: t('pages.organization.navbar.attached-certification-center'),
+            }),
+          );
+        });
+
+        test('it should navigate to attached certification center page when clicking tab', async function (assert) {
+          // given
+          const screen = await visit(`/organizations/${ORGANIZATION_ID}`);
+
+          // when
+          const navigationTabs = screen.getByRole('navigation', { name: t('pages.organization.navbar.aria-label') });
+
+          const tab = within(navigationTabs).getByRole('link', {
+            name: t('pages.organization.navbar.attached-certification-center'),
+          });
+          await click(tab);
+
+          // then
+          assert.strictEqual(currentURL(), `/organizations/${ORGANIZATION_ID}/attached-certification-centers`);
+        });
+      });
     });
   });
 

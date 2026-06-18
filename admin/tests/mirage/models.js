@@ -4,6 +4,7 @@ import adminMember from './models/admin-member';
 import administrationTeam from './models/administration-team';
 import area from './models/area';
 import attachableTargetProfile from './models/attachable-target-profile';
+import attachedCertificationCenter from './models/attached-certification-center';
 import attestation from './models/attestation.js';
 import authenticationMethod from './models/authentication-method';
 import autonomousCourse from './models/autonomous-course';
@@ -79,6 +80,7 @@ export default {
   administrationTeam,
   area,
   attachableTargetProfile,
+  attachedCertificationCenter,
   attestation,
   authenticationMethod,
   autonomousCourse,

@@ -25,6 +25,7 @@ import {
   findOrganizationCampaigns,
   findPaginatedFilteredOrganizations,
   findPaginatedOrganizationMemberships,
+  getOrganizationAttachedCertificationCenters,
   getOrganizationInvitations,
   getOrganizationPlaces,
   getOrganizationPlacesStatistics,
@@ -402,6 +403,7 @@ export default function routes() {
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
   this.get('/admin/organizations/:id/places', getOrganizationPlaces);
   this.get('/admin/organizations/:id/places-statistics', getOrganizationPlacesStatistics);
+  this.get('/admin/organizations/:id/certification-centers', getOrganizationAttachedCertificationCenters);
   this.get('/admin/organizations/:id/statistics', getOrganizationStatistics);
   this.post('/admin/organizations/:id/archive', archiveOrganization);
 
