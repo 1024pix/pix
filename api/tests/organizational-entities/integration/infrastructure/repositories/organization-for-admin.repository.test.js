@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import sinon from 'sinon';
 
+import { AttachedOrganization } from '../../../../../src/organizational-entities/domain/models/AttachedOrganization.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../../../../src/organizational-entities/domain/models/OrganizationLearnerType.js';
 import { repositories } from '../../../../../src/organizational-entities/infrastructure/repositories/index.js';
@@ -1952,6 +1953,74 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
       // then
       expect(foundOrganizationIds).to.deep.equal([]);
+    });
+  });
+
+  describe('#findAttachedByCertificationCenterId', function () {
+    describe('when a certification center is linked to an organization', function () {
+      it('returns organization linked to a given certification center', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+
+        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
+          certificationCenterId: certificationCenterId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const foundOrganization = await repositories.organizationForAdminRepository.findAttachedByCertificationCenterId(
+          { certificationCenterId },
+        );
+
+        // then
+        expect(foundOrganization).to.have.lengthOf(1);
+        expect(foundOrganization[0].id).to.equal(organization.id);
+        expect(foundOrganization[0]).to.be.instanceOf(AttachedOrganization);
+      });
+
+      it('does not return organization linked to another certification center', async function () {
+        // given
+        const firstCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const { organization: firstOrganization } = databaseBuilder.factory.buildOrganizationWithStructure({
+          certificationCenterId: firstCertificationCenter.id,
+        });
+
+        const secondCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        databaseBuilder.factory.buildOrganizationWithStructure({
+          certificationCenterId: secondCertificationCenter.id,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const foundOrganization = await repositories.organizationForAdminRepository.findAttachedByCertificationCenterId(
+          {
+            certificationCenterId: firstCertificationCenter.id,
+          },
+        );
+
+        // then
+        expect(foundOrganization[0].id).to.equal(firstOrganization.id);
+      });
+    });
+
+    describe('when a given certification center has no linked organization', function () {
+      it('returns an empty array', async function () {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        await databaseBuilder.commit();
+
+        // when
+        const foundOrganization = await repositories.organizationForAdminRepository.findAttachedByCertificationCenterId(
+          {
+            certificationCenterId: certificationCenter.id,
+          },
+        );
+
+        // then
+        expect(foundOrganization).to.be.an('array').that.is.empty;
+      });
     });
   });
 });

@@ -4,6 +4,7 @@ import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { MissingAttributesError, NotFoundError } from '../../../shared/domain/errors.js';
 import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
+import { AttachedOrganization } from '../../domain/models/AttachedOrganization.js';
 import { OrganizationForAdmin } from '../../domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../domain/models/OrganizationLearnerType.js';
 import { Tag } from '../../domain/models/Tag.js';
@@ -386,6 +387,32 @@ const getOrganizationParticipantsStatistics = async ({ campaignStatsApi, organiz
   return campaignStatsApi.getOrganizationParticipantsStatistics(organizationId);
 };
 
+/**
+ * @type {function}
+ * @param {number} certificationCenterId
+ * @returns {Promise<AttachedOrganization[]>}
+ */
+const findAttachedByCertificationCenterId = async ({ certificationCenterId }) => {
+  const knexConn = DomainTransaction.getConnection();
+  const organizations = await knexConn('fct_structures')
+    .select({
+      id: 'organizations.id',
+      name: 'organizations.name',
+      externalId: 'organizations.externalId',
+    })
+    .rightJoin('organizations', 'organizations.id', 'fct_structures.organization_id')
+    .where({ certification_center_id: certificationCenterId });
+
+  return organizations.map(
+    (organization) =>
+      new AttachedOrganization({
+        id: organization.id,
+        name: organization.name,
+        externalId: organization.externalId,
+      }),
+  );
+};
+
 async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
   await knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME)
     .insert(dataProtectionOfficer)
@@ -565,6 +592,7 @@ export const organizationForAdminRepository = {
   archive,
   createProOrganizationInvitation,
   exist,
+  findAttachedByCertificationCenterId,
   findExistingIds,
   findPaginatedFiltered,
   findChildrenByParentOrganizationId,
