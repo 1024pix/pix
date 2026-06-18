@@ -42,6 +42,7 @@ import { getTargetProfile } from './get-target-profile.js';
 import { getTargetProfileContentAsJson } from './get-target-profile-content-as-json.js';
 import { getTargetProfileForAdmin } from './get-target-profile-for-admin.js';
 import { getTargetProfileOverview } from './get-target-profile-overview.js';
+import { getTargetProfiles } from './get-target-profiles.js';
 import { markTargetProfileAsSimplifiedAccess } from './mark-target-profile-as-simplified-access.js';
 import { outdateTargetProfile } from './outdate-target-profile.js';
 import { updateTargetProfile } from './update-target-profile.js';
@@ -63,6 +64,7 @@ const usecasesWithoutInjectedDependencies = {
   getTargetProfileContentAsJson,
   getTargetProfileForAdmin,
   getTargetProfile,
+  getTargetProfiles,
   getTargetProfileOverview,
   markTargetProfileAsSimplifiedAccess,
   outdateTargetProfile,

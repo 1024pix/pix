@@ -16,7 +16,6 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprin
       internalName: 'Mon modèle de parcours',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       illustration: '/illustrations/image.svg',
-      surveyLink: 'survey-link-test',
       quest,
     });
     combinedCourseBlueprint.items = [
@@ -49,7 +48,6 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprin
           'internal-name': 'Mon modèle de parcours',
           illustration: '/illustrations/image.svg',
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          'survey-link': 'survey-link-test',
           'created-at': combinedCourseBlueprint.createdAt,
           'updated-at': combinedCourseBlueprint.updatedAt,
         },

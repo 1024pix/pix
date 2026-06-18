@@ -1,11 +1,7 @@
 import { TargetProfile } from '../../domain/models/TargetProfile.js';
 
 export const findByIds = async function ({ ids, targetProfilesApi }) {
-  const targetProfiles = [];
-  for (const targetProfileId of ids) {
-    const targetProfile = await targetProfilesApi.getById(targetProfileId);
-    targetProfiles.push(targetProfile);
-  }
+  const targetProfiles = await targetProfilesApi.getByIds(ids);
   return targetProfiles.map(toDomain);
 };
 

@@ -120,4 +120,49 @@ describe('Unit | API | TargetProfile', function () {
       expect(result[0].difficulty).equals(18);
     });
   });
+
+  describe('#getByIds', function () {
+    it('should return an array of TargetProfile', async function () {
+      // given
+      const expectedTargetProfiles = [
+        new TargetProfile({
+          id: 1,
+          name: 'TargetProfile1',
+          internalName: 'InternalName1',
+          category: 'OTHER',
+          isSimplifiedAccess: true,
+        }),
+        new TargetProfile({
+          id: 2,
+          name: 'TargetProfile2',
+          internalName: 'InternalName2',
+          category: 'OTHER',
+          isSimplifiedAccess: false,
+        }),
+        new TargetProfile({
+          id: 3,
+          name: 'TargetProfile3',
+          internalName: 'InternalName3',
+          category: 'OTHER',
+          isSimplifiedAccess: true,
+        }),
+      ];
+
+      const findSkillsByTargetProfileIdsStub = sinon.stub(usecases, 'getTargetProfiles');
+      findSkillsByTargetProfileIdsStub
+        .withArgs({ targetProfileIds: [1, 2, 3] })
+        .resolves(
+          expectedTargetProfiles.map((expectedTargetProfile) =>
+            domainBuilder.buildTargetProfile(expectedTargetProfile),
+          ),
+        );
+
+      // when
+      const result = await targetProfileApi.getByIds([1, 2, 3]);
+
+      // then
+      expect(result).to.have.lengthOf(3);
+      expect(result).to.deep.equal(expectedTargetProfiles);
+    });
+  });
 });

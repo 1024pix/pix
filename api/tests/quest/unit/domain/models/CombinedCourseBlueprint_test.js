@@ -352,7 +352,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
   });
 
   describe('#generateItems', function () {
-    it('should generate a list of step containing blueprint detailed content', function () {
+    it('should generate a list of combined course blueprint item', function () {
       // given
       const firstTargetProfileId = 1;
       const secondTargetProfileId = 2;
@@ -430,7 +430,11 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
 
       // when
       const combinedCourseBlueprint = new CombinedCourseBlueprint(values);
-      combinedCourseBlueprint.generateItems({ targetProfiles, modules, recommendableModules });
+      combinedCourseBlueprint.generateItems({
+        targetProfiles,
+        modules,
+        recommendableModules,
+      });
 
       // then
       expect(combinedCourseBlueprint.items).deep.equal([
