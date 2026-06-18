@@ -139,7 +139,6 @@ export {
   answerRepository,
   assessmentRepository,
   assessmentResultRepository,
-  certificationCenterAccessRepository,
   certificationChallengeRepository,
   certificationIssueReportRepository,
   certificationRepository,
@@ -147,7 +146,6 @@ export {
   competenceMarkRepository,
   cpfExportRepository,
   repositories,
-  sessionRepository,
   sessionSummaryRepository,
   sharedCompetenceMarkRepository,
 };
