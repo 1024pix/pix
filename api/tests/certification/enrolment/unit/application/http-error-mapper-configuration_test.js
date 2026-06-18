@@ -9,7 +9,7 @@ import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Enrolment | Application | HttpErrorMapperConfiguration', function () {
   context('when mapping "CertificationCandidateForbiddenDeletionError"', function () {
-    it('returns an CertificationCandidateForbiddenDeletionError Http Error', function () {
+    it('returns an ForbiddenError Http Error', function () {
       //given
       const httpErrorMapper = enrolmentDomainErrorMappingConfiguration.find(
         (httpErrorMapper) => httpErrorMapper.name === CertificationCandidateForbiddenDeletionError.name,
@@ -27,7 +27,7 @@ describe('Unit | Certification | Enrolment | Application | HttpErrorMapperConfig
   });
 
   context('when mapping "SessionStartedDeletionError"', function () {
-    it('returns an SessionStartedDeletionError Http Error', function () {
+    it('returns an ConflictError Http Error', function () {
       //given
       const httpErrorMapper = enrolmentDomainErrorMappingConfiguration.find(
         (httpErrorMapper) => httpErrorMapper.name === SessionStartedDeletionError.name,
