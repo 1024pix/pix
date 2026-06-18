@@ -43,7 +43,7 @@ module('Integration | Component | certification-frameworks/item/header', functio
       const screen = await render(<template><Header @certificationFramework={{certificationFramework}} /></template>);
 
       // then
-      assert.dom(screen.getByText(t('components.certification-frameworks.item.framework.create-button'))).exists();
+      assert.dom(screen.getByText(t('components.certification-frameworks.item.frameworks.create-button'))).exists();
     });
 
     test('it should not display the create button when user is not super admin', async function (assert) {
@@ -57,7 +57,7 @@ module('Integration | Component | certification-frameworks/item/header', functio
 
       // then
       assert
-        .dom(screen.queryByText(t('components.certification-frameworks.item.framework.create-button')))
+        .dom(screen.queryByText(t('components.certification-frameworks.item.frameworks.create-button')))
         .doesNotExist();
     });
 
@@ -72,7 +72,7 @@ module('Integration | Component | certification-frameworks/item/header', functio
 
       // then
       assert
-        .dom(screen.queryByText(t('components.certification-frameworks.item.framework.create-button')))
+        .dom(screen.queryByText(t('components.certification-frameworks.item.frameworks.create-button')))
         .doesNotExist();
     });
 
@@ -81,7 +81,7 @@ module('Integration | Component | certification-frameworks/item/header', functio
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.adminMember = { isSuperAdmin: true };
       const serviceRouter = this.owner.lookup('service:router');
-      serviceRouter.currentRouteName = 'authenticated.certification-frameworks.item.framework.new-version';
+      serviceRouter.currentRouteName = 'authenticated.certification-frameworks.item.frameworks.new';
       const certificationFramework = store.createRecord('certification-framework', { id: 'DROIT', name: 'DROIT' });
 
       // when
@@ -90,7 +90,7 @@ module('Integration | Component | certification-frameworks/item/header', functio
       // then
       assert
         .dom(
-          screen.queryByRole('button', { name: t('components.certification-frameworks.item.framework.create-button') }),
+          screen.queryByRole('button', { name: t('components.certification-frameworks.item.frameworks.create-button') }),
         )
         .doesNotExist();
     });

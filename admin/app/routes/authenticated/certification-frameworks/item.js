@@ -35,7 +35,7 @@ export default class ItemRoute extends Route {
   redirect(model, transition) {
     if (transition.to.name === 'authenticated.certification-frameworks.item.index') {
       if (this.certificationFrameworkKey !== 'CLEA') {
-        this.router.transitionTo('authenticated.certification-frameworks.item.framework');
+        this.router.transitionTo('authenticated.certification-frameworks.item.frameworks');
       } else {
         this.router.transitionTo('authenticated.certification-frameworks.item.target-profile');
       }

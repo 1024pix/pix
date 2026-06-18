@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import RSVP from 'rsvp';
 
-export default class FrameworkRoute extends Route {
+export default class FrameworkNewRoute extends Route {
   queryParams = {
     activeVersionId: { refreshModel: true },
   };

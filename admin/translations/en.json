@@ -494,7 +494,7 @@
       },
       "item": {
         "certification-framework": "Certification framework",
-        "framework": {
+        "frameworks": {
           "create-button": "Create a new version of the certification framework",
           "details": {
             "title": "Current certification framework details"

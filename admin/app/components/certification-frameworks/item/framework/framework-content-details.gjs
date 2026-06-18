@@ -58,7 +58,7 @@ export default class FrameworkContentDetails extends Component {
 
   <template>
     <h2 class="certification-version-detail-modal__subtitle">{{t
-        "components.certification-frameworks.item.framework.version-detail-modal.content"
+        "components.certification-frameworks.item.frameworks.version-detail-modal.content"
       }}</h2>
     <PixBlock class="certification-version-detail-modal__content">
       {{#each this.areas as |area|}}

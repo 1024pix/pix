@@ -86,13 +86,13 @@ export default class FrameworkHistory extends Component {
     <section class="framework-versions">
       <PixTable
         @variant="admin"
-        @caption={{t "components.certification-frameworks.item.framework.history.table.caption"}}
+        @caption={{t "components.certification-frameworks.item.frameworks.history.table.caption"}}
         @data={{this.frameworkHistory}}
       >
         <:columns as |version context|>
           <PixTableColumn @context={{context}}>
             <:header>
-              {{t "components.certification-frameworks.item.framework.history.table.columns.version-id"}}
+              {{t "components.certification-frameworks.item.frameworks.history.table.columns.version-id"}}
             </:header>
             <:cell>
               {{version.id}}
@@ -100,7 +100,7 @@ export default class FrameworkHistory extends Component {
           </PixTableColumn>
           <PixTableColumn @context={{context}}>
             <:header>
-              {{t "components.certification-frameworks.item.framework.history.table.columns.maximum-assessment-length"}}
+              {{t "components.certification-frameworks.item.frameworks.history.table.columns.maximum-assessment-length"}}
             </:header>
             <:cell>
               {{version.maximumAssessmentLength}}
@@ -109,7 +109,7 @@ export default class FrameworkHistory extends Component {
           <PixTableColumn @context={{context}}>
             <:header>
               <PixIcon @name="time" @ariaHidden={{true}} />
-              {{t "components.certification-frameworks.item.framework.history.table.columns.assessment-duration"}}
+              {{t "components.certification-frameworks.item.frameworks.history.table.columns.assessment-duration"}}
             </:header>
             <:cell>
               {{formatMinutes version.assessmentDuration}}
@@ -118,7 +118,7 @@ export default class FrameworkHistory extends Component {
           <PixTableColumn @context={{context}}>
             <:header>
               <PixIcon @name="calendar" @ariaHidden={{true}} />
-              {{t "components.certification-frameworks.item.framework.history.table.columns.start-date"}}
+              {{t "components.certification-frameworks.item.frameworks.history.table.columns.start-date"}}
             </:header>
             <:cell>
               <strong>{{if version.startDate (formatDate version.startDate) "-"}}</strong>
@@ -127,7 +127,7 @@ export default class FrameworkHistory extends Component {
           <PixTableColumn @context={{context}}>
             <:header>
               <PixIcon @name="calendar" @ariaHidden={{true}} />
-              {{t "components.certification-frameworks.item.framework.history.table.columns.expiration-date"}}
+              {{t "components.certification-frameworks.item.frameworks.history.table.columns.expiration-date"}}
             </:header>
             <:cell>
               <strong>{{if version.expirationDate (formatDate version.expirationDate) "-"}}</strong>
@@ -135,33 +135,33 @@ export default class FrameworkHistory extends Component {
           </PixTableColumn>
           <PixTableColumn @context={{context}}>
             <:header>
-              {{t "components.certification-frameworks.item.framework.history.table.columns.status"}}
+              {{t "components.certification-frameworks.item.frameworks.history.table.columns.status"}}
             </:header>
             <:cell>
               <PixTag @color={{get STATUS_COLORS version.status}}>
-                {{t (concat "components.certification-frameworks.item.framework.history.statuses." version.status)}}
+                {{t (concat "components.certification-frameworks.item.frameworks.history.statuses." version.status)}}
               </PixTag>
             </:cell>
           </PixTableColumn>
           <PixTableColumn @context={{context}}>
             <:header>
-              {{t "components.certification-frameworks.item.framework.history.table.columns.actions"}}
+              {{t "components.certification-frameworks.item.frameworks.history.table.columns.actions"}}
             </:header>
             <:cell>
               <PixIconButton
                 @triggerAction={{fn this.viewVersion version.id version.status}}
-                @ariaLabel={{t "components.certification-frameworks.item.framework.history.table.actions.view"}}
+                @ariaLabel={{t "components.certification-frameworks.item.frameworks.history.table.actions.view"}}
                 @iconName="eye"
               />
               <PixIconButton
                 @triggerAction={{this.editVersion}}
-                @ariaLabel={{t "components.certification-frameworks.item.framework.history.table.actions.edit"}}
+                @ariaLabel={{t "components.certification-frameworks.item.frameworks.history.table.actions.edit"}}
                 @iconName="edit"
                 @isDisabled={{not (eq version.status "DRAFT")}}
               />
               <PixIconButton
                 @triggerAction={{fn this.showDeleteVersionModal version.id}}
-                @ariaLabel={{t "components.certification-frameworks.item.framework.history.table.actions.delete"}}
+                @ariaLabel={{t "components.certification-frameworks.item.frameworks.history.table.actions.delete"}}
                 @iconName="delete"
                 @isDisabled={{not (eq version.status "DRAFT")}}
               />
@@ -171,7 +171,7 @@ export default class FrameworkHistory extends Component {
       </PixTable>
 
       {{#unless this.hasHistory}}
-        <p>{{t "components.certification-frameworks.item.framework.history.table.empty"}}</p>
+        <p>{{t "components.certification-frameworks.item.frameworks.history.table.empty"}}</p>
       {{/unless}}
     </section>
 

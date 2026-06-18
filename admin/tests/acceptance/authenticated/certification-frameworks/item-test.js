@@ -27,7 +27,7 @@ module('Acceptance | Complementary certifications | Complementary certification 
     await visit('/certification-frameworks/KEY');
 
     // then
-    assert.strictEqual(currentURL(), '/certification-frameworks/KEY/framework');
+    assert.strictEqual(currentURL(), '/certification-frameworks/KEY/frameworks');
   });
 
   test('it should render target profile page when the framework is CLEA', async function (assert) {

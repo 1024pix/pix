@@ -31,12 +31,12 @@ module('Integration | Component | certification-frameworks/item/framework', func
       assert
         .dom(
           screen.getByRole('table', {
-            name: t('components.certification-frameworks.item.framework.history.table.caption'),
+            name: t('components.certification-frameworks.item.frameworks.history.table.caption'),
           }),
         )
         .exists();
       assert
-        .dom(screen.getByText(t('components.certification-frameworks.item.framework.history.table.empty')))
+        .dom(screen.getByText(t('components.certification-frameworks.item.frameworks.history.table.empty')))
         .exists();
     });
   });

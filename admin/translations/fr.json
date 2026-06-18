@@ -501,7 +501,7 @@
       },
       "item": {
         "certification-framework": "Référentiel de certification",
-        "framework": {
+        "frameworks": {
           "create-button": "Créer une nouvelle version du référentiel",
           "details": {
             "empty-current-framework": "Le référentiel de certification actuel est vide.",

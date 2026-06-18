@@ -31,10 +31,10 @@ export default class NewVersionForm extends Component {
     try {
       await consolidatedFramework.save();
 
-      this.router.transitionTo('authenticated.certification-frameworks.item.framework');
+      this.router.transitionTo('frameworks.js');
       this.pixToast.sendSuccessNotification({
         message: this.intl.t(
-          'components.certification-frameworks.item.framework.new-version-form.success-notification',
+          'components.certification-frameworks.item.frameworks.new-version-form.success-notification',
         ),
       });
     } catch (error) {
@@ -73,7 +73,7 @@ export default class NewVersionForm extends Component {
 
   <template>
     <h2 class="framework-creation-form__title">
-      {{t "components.certification-frameworks.item.framework.new-version-form.title"}}
+      {{t "components.certification-frameworks.item.frameworks.new-version-form.title"}}
     </h2>
 
     <form>
@@ -92,11 +92,11 @@ export default class NewVersionForm extends Component {
           <ul class="framework-creation-form__buttons">
             <li>
               <PixButton @triggerAction={{this.onSubmit}} @isDisabled={{if this.selectedTubes.length false true}}>
-                {{t "components.certification-frameworks.item.framework.new-version-form.submit-button"}}
+                {{t "components.certification-frameworks.item.frameworks.new-version-form.submit-button"}}
               </PixButton>
             </li>
             <li>
-              <PixButtonLink @route="authenticated.certification-frameworks.item.framework" @variant="secondary">
+              <PixButtonLink @route="authenticated.certification-frameworks.item.frameworks" @variant="secondary">
                 {{t "common.actions.cancel"}}
               </PixButtonLink>
             </li>

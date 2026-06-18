@@ -70,7 +70,7 @@ module('Acceptance | Certification frameworks | list', function (hooks) {
       await click(screen.getByRole('link', { name: t('components.certification-frameworks.labels.CORE') }));
 
       // then
-      assert.strictEqual(currentURL(), '/certification-frameworks/CORE/framework');
+      assert.strictEqual(currentURL(), '/certification-frameworks/CORE/frameworks');
     });
   });
 });

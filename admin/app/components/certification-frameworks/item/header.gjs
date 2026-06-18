@@ -14,7 +14,7 @@ export default class Header extends Component {
   }
 
   get canCreateVersion() {
-    if (this.router.currentRouteName.startsWith('authenticated.certification-frameworks.item.framework.new-version'))
+    if (this.router.currentRouteName.startsWith('authenticated.certification-frameworks.item.frameworks.new'))
       return false;
     return this.currentUser.adminMember.isSuperAdmin && this.args.certificationFramework?.name !== 'CLEA';
   }
@@ -54,11 +54,11 @@ export default class Header extends Component {
       {{#if this.canCreateVersion}}
         <PixButtonLink
           class="framework__creation-button"
-          @route="authenticated.certification-frameworks.item.framework.new-version"
+          @route="authenticated.certification-frameworks.item.frameworks.new"
           @query={{this.activeCertificationVersionId}}
           @iconBefore="add"
         >
-          {{t "components.certification-frameworks.item.framework.create-button"}}
+          {{t "components.certification-frameworks.item.frameworks.create-button"}}
         </PixButtonLink>
       {{/if}}
     </div>
