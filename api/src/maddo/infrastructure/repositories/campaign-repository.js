@@ -5,7 +5,7 @@ import { Campaign } from '../../domain/models/Campaign.js';
 export async function findByOrganizationId(organizationId, page, locale) {
   const campaigns = await campaignAPI.findAllForOrganization({
     organizationId,
-    withCoverRate: true,
+    withCoverRate: false,
     page,
     locale,
   });

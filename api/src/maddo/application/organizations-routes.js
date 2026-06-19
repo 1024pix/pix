@@ -83,21 +83,6 @@ const register = async function (server) {
                     code: Joi.string().description('Code campagne'),
                     createdAt: Joi.date().description('Date de création de la campagne'),
                     archivedAt: Joi.date().description("Date d'archivage de la campagne"),
-                    tubes: Joi.array()
-                      .items(
-                        Joi.object({
-                          competenceId: Joi.string().description('ID de la compétence auquel appartient le sujet'),
-                          id: Joi.string().description('ID du sujet'),
-                          maxLevel: Joi.number().description('Niveau maximum atteignable dans cette campagne'),
-                          meanLevel: Joi.number().description('Niveau moyen obtenu dans cette campagne'),
-                          practicalDescription: Joi.string().description('Description du sujet'),
-                          practicalTitle: Joi.string().description('Titre du sujet'),
-                        }).label('CampaignTube'),
-                      )
-                      .label('CampaignTubes')
-                      .description(
-                        'Sujets évalués dans la campagne, null si le type de la campagne est `PROFILES_COLLECTION`',
-                      ),
                   }).label('Campaign'),
                 )
                 .label('Campaigns'),
