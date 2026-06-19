@@ -6,7 +6,7 @@
   "isBeta": true,
   "visibility": "public",
   "details": {
-    "image": "https://assets.pix.org/test/placeholder-image.svg",
+    "image": "https://assets.pix.org/modules/placeholder-details.svg",
     "description": "<p>Les terminaux d’une organisation (ordinateurs, serveurs, etc.) sont souvent la cible de cyberattaques. Pour renforcer leur protection et mieux détecter les menaces, un antivirus ne suffit pas toujours. </p><p> Dans ce module, découvrez comment les solutions/outils de sécurité de détection et de réponse intégrées sur les terminaux (EDR) aident les organisations à surveiller leurs appareils pour détecter les comportements suspects et réagir vite face aux menaces.</p>",
     "duration": 10,
     "level": "advanced",
