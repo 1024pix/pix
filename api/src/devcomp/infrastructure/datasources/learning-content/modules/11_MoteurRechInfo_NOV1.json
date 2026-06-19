@@ -312,7 +312,7 @@
                 "id": "f6ab76a6-1710-4db8-bf1f-a07a1df0d270",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour faire une recherche sur internet, il faut <strong>choisir quelques mots importants</strong>&nbsp;: ce sont les <strong>mots clés</strong>.</p><p>Certains de ces mots clés influencent la <strong>nature des résultats</strong>, c’est-à-dire le type de sites internet, proposés par le moteur de recherche.</p><p> Le tableau suivant montre quelques exemples.</p><table>    <thead>        <tr>            <th scope=\"\\&quot;col\\&quot;\">mot clé recherché</th>            <th scope=\"\\&quot;col\\&quot;\">nature des résultats</th>        </tr>    </thead>    <tbody>        <tr>            <td scope=\"\\&quot;row\\&quot;\">avis</td>            <td>sites de témoignages d’utilisateurs</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">comparatif</td>            <td>sites de tests de produits</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">tutoriel</td>            <td>sites d’entraide</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">recette</td>            <td>sites spécialisés dans la cuisine</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">histoire</td>            <td>sites encyclopédiques</td>        </tr>    </tbody></table>"
+                "content": "<p>Pour faire une recherche sur internet, il faut <strong>choisir quelques mots importants</strong>&nbsp;: ce sont les <strong>mots clés</strong>.</p><p>Certains de ces mots clés influencent la <strong>nature des résultats</strong>, c’est-à-dire le type de sites internet, proposés par le moteur de recherche.</p><br><p>Le tableau suivant montre quelques exemples.</p><br><table>    <thead>        <tr>            <th scope=\"\\&quot;col\\&quot;\">mot clé recherché</th>            <th scope=\"\\&quot;col\\&quot;\">nature des résultats</th>        </tr>    </thead>    <tbody>        <tr>            <td scope=\"\\&quot;row\\&quot;\">avis</td>            <td>sites de témoignages d’utilisateurs</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">comparatif</td>            <td>sites de tests de produits</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">tutoriel</td>            <td>sites d’entraide</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">recette</td>            <td>sites spécialisés dans la cuisine</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">histoire</td>            <td>sites encyclopédiques</td>        </tr>    </tbody></table>"
               }
             }
           ]
@@ -357,7 +357,7 @@
                       "id": "ef193287-8deb-4d5a-b3e3-b604f8dba5d3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Voici la recherche faite par Alex&nbsp;: <strong>choisir avocat</strong></p>"
+                      "content": "<p>Observez la recherche faite par Alex puis répondez à la question qui suit.</p>"
                     },
                     {
                       "id": "b2d5d35f-7109-4cbd-b2cc-122b4dbd91ff",
@@ -440,7 +440,7 @@
                       "id": "93573391-f5ee-4a83-9453-128e8ab2f0c0",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Voici la nouvelle recherche faite par Alex&nbsp;: <strong>choisir avocat guacamole&nbsp;</strong></p>"
+                      "content": "<p>Observez la nouvelle recherche faite par Alex puis répondez à la question qui suit.</p>"
                     },
                     {
                       "id": "874c4f7c-4a29-4601-9409-aa012e69bf37",
