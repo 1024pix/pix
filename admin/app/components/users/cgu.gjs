@@ -8,7 +8,10 @@ export default class Cgu extends Component {
   @service intl;
 
   get userHasValidatePixAppTermsOfService() {
-    return this._formatValidatedTermsOfServiceText(this.args.lastTermsOfServiceValidatedAt, this.args.cgu);
+    return this._formatValidatedTermsOfServiceText(
+      this.args.lastPixAppTermsOfServiceValidatedAt,
+      this.args.pixAppTermsOfServiceAccepted,
+    );
   }
 
   get userHasValidatePixOrgaTermsOfService() {

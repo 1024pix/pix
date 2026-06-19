@@ -4,10 +4,10 @@ export default class UserCguRoute extends Route {
   async model() {
     const user = this.modelFor('authenticated.users.get');
     return {
-      cgu: user.cgu,
+      pixAppTermsOfServiceAccepted: user.pixAppTermsOfServiceAccepted,
       pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
       pixCertifTermsOfServiceAccepted: user.pixCertifTermsOfServiceAccepted,
-      lastTermsOfServiceValidatedAt: user.lastTermsOfServiceValidatedAt,
+      lastPixAppTermsOfServiceValidatedAt: user.lastPixAppTermsOfServiceValidatedAt,
       lastPixOrgaTermsOfServiceValidatedAt: user.lastPixOrgaTermsOfServiceValidatedAt,
       lastPixCertifTermsOfServiceValidatedAt: user.lastPixCertifTermsOfServiceValidatedAt,
     };
