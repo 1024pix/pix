@@ -218,6 +218,9 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
         });
 
         const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+        const button = screen.getByRole('button', {
+          name: 'Publier toutes les sessions',
+        });
         await clickByName('Publier toutes les sessions');
 
         await screen.findByRole('dialog');
@@ -227,7 +230,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
 
         // then
 
-        await waitForElementToBeRemoved(() => screen.queryByRole('button', { name: 'Publier toutes les sessions' }));
+        await waitForElementToBeRemoved(button);
         assert.dom(await screen.findByText('Aucun résultat')).exists();
       });
     });
