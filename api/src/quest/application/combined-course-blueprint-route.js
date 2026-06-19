@@ -54,10 +54,11 @@ const register = async function (server) {
                 description: Joi.string().allow(null),
                 'reward-id': Joi.number().integer().allow(null),
                 'reward-type': Joi.string().allow(null),
+                'attestation-label': Joi.string().allow(null),
                 content: Joi.array(),
                 createdAt: Joi.date(),
                 'survey-link': Joi.string().allow(null),
-                'capped-tubes-requirements': Joi.array()
+                'capped-tube-requirements': Joi.array()
                   .items(
                     Joi.object({
                       tubes: Joi.array().items(Joi.object({ id: Joi.string(), level: Joi.number().integer() })),
@@ -68,9 +69,6 @@ const register = async function (server) {
               },
             },
           }),
-          options: {
-            allowUnknown: true,
-          },
         },
         handler: combinedCourseBlueprintController.save,
         notes: ["- Creation d'un schéma de parcours combiné"],

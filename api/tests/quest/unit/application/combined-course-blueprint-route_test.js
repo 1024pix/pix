@@ -52,8 +52,9 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
             'internal-name': 'Mon schéma de parcours combiné',
             description: 'La description combinix',
             illustration: 'illustration.svg',
-            'attestation-key': ATTESTATIONS.SIXTH_GRADE,
+            'attestation-label': '6ème',
             content: [{ type: 'module', value: 'e67ec5d0', shortId: 'short-e67ec5d0' }],
+            'capped-tube-requirements': [{ threshold: '20', tubes: [{ id: 'tube1', level: 5 }] }],
           },
         },
       };
