@@ -90,7 +90,9 @@ module('Integration | Component | certification-frameworks/item/header', functio
       // then
       assert
         .dom(
-          screen.queryByRole('button', { name: t('components.certification-frameworks.item.frameworks.create-button') }),
+          screen.queryByRole('button', {
+            name: t('components.certification-frameworks.item.frameworks.create-button'),
+          }),
         )
         .doesNotExist();
     });

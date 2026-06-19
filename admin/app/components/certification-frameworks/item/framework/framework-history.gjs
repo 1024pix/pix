@@ -100,7 +100,9 @@ export default class FrameworkHistory extends Component {
           </PixTableColumn>
           <PixTableColumn @context={{context}}>
             <:header>
-              {{t "components.certification-frameworks.item.frameworks.history.table.columns.maximum-assessment-length"}}
+              {{t
+                "components.certification-frameworks.item.frameworks.history.table.columns.maximum-assessment-length"
+              }}
             </:header>
             <:cell>
               {{version.maximumAssessmentLength}}

@@ -11,7 +11,7 @@ export default class FrameworkNewRoute extends Route {
   @service accessControl;
 
   beforeModel() {
-    this.accessControl.restrictAccessTo(['isSuperAdmin'], 'authenticated.certification-frameworks.item.framework');
+    this.accessControl.restrictAccessTo(['isSuperAdmin'], 'authenticated.certification-frameworks.item.frameworks');
   }
 
   async model(params) {

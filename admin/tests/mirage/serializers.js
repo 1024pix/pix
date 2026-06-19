@@ -1,5 +1,3 @@
-// This file imports and exports all serializers for explicit registration in config.js
-
 import application from './serializers/application';
 import area from './serializers/area';
 import autonomousCourseListItem from './serializers/autonomous-course-list-item';
@@ -10,6 +8,7 @@ import certification from './serializers/certification';
 import certificationCandidate from './serializers/certification-candidate';
 import certificationCenter from './serializers/certification-center';
 import certificationCenterMembership from './serializers/certification-center-membership';
+import certificationVersion from './serializers/certification-version';
 import certifiedProfile from './serializers/certified-profile';
 import competence from './serializers/competence';
 import framework from './serializers/framework';
@@ -40,6 +39,7 @@ export default {
   certificationCenterMembership,
   certification,
   certifiedProfile,
+  certificationVersion,
   competence,
   framework,
   juryCertificationSummary,

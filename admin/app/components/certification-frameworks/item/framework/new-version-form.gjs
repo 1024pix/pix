@@ -21,25 +21,27 @@ export default class NewVersionForm extends Component {
     this.selectedTubes = selectedTubes.map((tube) => this.store.peekRecord('tube', tube.id));
   }
 
+  get hasNoTubeSelected() {
+    return this.selectedTubes.length === 0;
+  }
+
   @action
   async onSubmit() {
-    const consolidatedFramework = this.store.createRecord('certification-consolidated-framework', {
-      scope: this.args.scope,
-      tubes: this.selectedTubes,
-    });
-
+    const version = this.store.createRecord('certification-version');
     try {
-      await consolidatedFramework.save();
-
-      this.router.transitionTo('frameworks.js');
-      this.pixToast.sendSuccessNotification({
-        message: this.intl.t(
-          'components.certification-frameworks.item.frameworks.new-version-form.success-notification',
-        ),
+      await version.save({
+        adapterOptions: {
+          scope: this.args.scope,
+          tubeIds: this.selectedTubes.map((tube) => tube.id),
+        },
       });
     } catch (error) {
+      version.deleteRecord();
       this.pixToast.sendErrorNotification({ message: error.errors?.[0].detail });
+      return;
     }
+
+    this.router.transitionTo('authenticated.certification-frameworks.item.frameworks');
   }
 
   get checkedTubes() {
@@ -91,7 +93,7 @@ export default class NewVersionForm extends Component {
           />
           <ul class="framework-creation-form__buttons">
             <li>
-              <PixButton @triggerAction={{this.onSubmit}} @isDisabled={{if this.selectedTubes.length false true}}>
+              <PixButton @triggerAction={{this.onSubmit}} @isDisabled={{this.hasNoTubeSelected}}>
                 {{t "components.certification-frameworks.item.frameworks.new-version-form.submit-button"}}
               </PixButton>
             </li>

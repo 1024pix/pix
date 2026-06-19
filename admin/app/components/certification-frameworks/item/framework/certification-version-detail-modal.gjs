@@ -76,7 +76,9 @@ export default class CertificationVersionDetailModal extends Component {
             </dd>
 
             <PixIcon @name="time" @ariaHidden={{true}} />
-            <dt>{{t "components.certification-frameworks.item.frameworks.version-detail-modal.assessment-duration"}}</dt>
+            <dt>{{t
+                "components.certification-frameworks.item.frameworks.version-detail-modal.assessment-duration"
+              }}</dt>
             <dd>{{formatMinutes @version.assessmentDuration}}</dd>
 
             <PixIcon @name="helpSimple" @ariaHidden={{true}} />
