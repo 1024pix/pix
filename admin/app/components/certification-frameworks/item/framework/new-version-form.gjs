@@ -41,6 +41,7 @@ export default class NewVersionForm extends Component {
       return;
     }
 
+    await this.store.queryRecord('framework-history', this.args.scope);
     this.router.transitionTo('authenticated.certification-frameworks.item.frameworks');
   }
 

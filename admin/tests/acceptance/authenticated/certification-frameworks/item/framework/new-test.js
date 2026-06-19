@@ -1,4 +1,4 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
@@ -148,13 +148,32 @@ module('Acceptance | Certification Framework | item | Framework | new', function
     });
 
     module('when the is no draft version in scope', function () {
-      test('should redirect to the versions list (draft not visible, TODO fix later PR)', async function (assert) {
+      test('should redirect to the versions list and see draft in list', async function (assert) {
         // given
         server.get('admin/certification-frameworks/:scope/framework-history', () => {
           return droitFrameworkHistory;
         });
         server.post('/admin/certification-versions', function (schema) {
-          return schema.create('certification-version');
+          droitFrameworkHistory.update({
+            history: [
+              ...droitFrameworkHistory.history,
+              {
+                id: 77,
+                startDate: null,
+                expirationDate: null,
+                assessmentDuration: 10,
+                maximumAssessmentLength: 30,
+                status: 'DRAFT',
+              },
+            ],
+          });
+          return schema.create('certification-version', {
+            id: 77,
+            startDate: null,
+            expirationDate: null,
+            assessmentDuration: 10,
+            maximumAssessmentLength: 30,
+          });
         });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
@@ -163,6 +182,12 @@ module('Acceptance | Certification Framework | item | Framework | new', function
 
         // then
         assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/frameworks');
+        const [, row1, row2] = await screen.findAllByRole('row');
+        assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/frameworks');
+        assert.dom(within(row1).getByRole('cell', { name: '77' })).exists();
+        assert.dom(within(row1).getByRole('cell', { name: "En cours d'édition" })).exists();
+        assert.dom(within(row2).getByRole('cell', { name: '12' })).exists();
+        assert.dom(within(row2).getByRole('cell', { name: 'Actif' })).exists();
       });
     });
   });
