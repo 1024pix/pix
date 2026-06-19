@@ -1053,26 +1053,26 @@
               "element": {
                 "id": "eb57065a-2cdc-4a4b-a2d2-ae32fd6bbd53",
                 "type": "qcu-declarative",
-                "instruction": "<p>Selon vous, qu’est-ce qui protège le mieux une organisation contre les virus et autres menaces informatiques ?</p>",
+                "instruction": "<p>Selon vous, qu’est-ce qui protège le mieux une organisation contre les logiciels malveillants et autres cybermenaces ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "Des outils de sécurité comme l’EDR",
+                    "content": "Des outils de sécurité comme l’EDR.",
                     "feedback": {
-                      "diagnosis": "<p>Oui, les outils comme l’EDR sont précieux : ils permettent de <strong>surveiller</strong>, <strong>détecter</strong> et parfois <strong>réagir automatiquement</strong>. Mais même les meilleurs outils ne remplacent pas les bons réflexes du quotidien.</p><p>Après avoir vu l’EDR, la détection et les actions de réponse, on comprend que la cybersécurité repose aussi sur <strong>la vigilance de chacun</strong>.</p>"
+                      "diagnosis": "<p>Oui, les outils comme l’EDR sont précieux : ils permettent de <strong>surveiller</strong>, <strong>détecter</strong> et parfois <strong>réagir automatiquement</strong>. Mais même les meilleurs outils ne remplacent pas les bons réflexes du quotidien.</p><p>Après avoir vu l’EDR, la détection et les actions de réponse, on comprend que la cybersécurité repose aussi sur <strong>la vigilance de chacun</strong>.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "Une équipe cybersécurité capable d’analyser les incidents",
+                    "content": "Une équipe cybersécurité capable d’analyser les incidents.",
                     "feedback": {
-                      "diagnosis": "<p>Oui, l’équipe cybersécurité est essentielle : elle analyse les alertes, comprend les incidents et décide des <strong>mesures à prendre</strong>. Elle transforme les traces techniques en décisions utiles.</p><p>Mais elle ne peut pas tout voir ni tout éviter seule. La protection commence aussi avec des gestes simples : <strong>signaler un doute</strong>, éviter un lien suspect ou ne pas ouvrir une pièce jointe étrange.</p>"
+                      "diagnosis": "<p>Oui, l’équipe cybersécurité est essentielle : elle analyse les alertes, comprend les incidents et décide des <strong>mesures à prendre</strong>. Elle transforme les traces techniques en décisions utiles.</p><p>Mais elle ne peut pas tout voir ni tout éviter seule. La protection commence aussi avec des gestes simples : <strong>signaler un doute</strong>, éviter un lien suspect ou ne pas ouvrir une pièce jointe malveillante.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "La vigilance de chacun au quotidien",
+                    "content": "La vigilance de chacun au quotidien.",
                     "feedback": {
                       "diagnosis": "<p>Exactement. Les outils de sécurité et les équipes spécialisées sont indispensables, mais la cybersécurité fonctionne mieux quand chacun adopte les bons réflexes.</p><p>Un clic évité, une alerte signalée ou un doute partagé peuvent empêcher une menace d’entrer dans l’organisation. La cybersécurité, c’est aussi <strong>une affaire de comportements quotidiens</strong>.</p>"
                     }
