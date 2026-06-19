@@ -7,13 +7,13 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/test/placeholder-image.svg",
-    "description": "<p>Les terminaux d’une organisation (ordinateurs, serveurs, etc.) sont souvent la cible de cyberattaques. Pour renforcer leur protection et mieux détecter les menaces, un antivirus ne suffit pas toujours. </p><p> Dans ce module, découvrez comment les solutions/outils de sécurité de détection et de réponse intégrées sur les terminaux (EDR) aident les organisations à surveiller leurs appareils pour détecter les comportements suspects et réagir vite face aux menaces.<br><br></p>",
+    "description": "<p>Les terminaux d’une organisation (ordinateurs, serveurs, etc.) sont souvent la cible de cyberattaques. Pour renforcer leur protection et mieux détecter les menaces, un antivirus ne suffit pas toujours. </p><p> Dans ce module, découvrez comment les solutions/outils de sécurité de détection et de réponse intégrées sur les terminaux (EDR) aident les organisations à surveiller leurs appareils pour détecter les comportements suspects et réagir vite face aux menaces.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
       "<p>Comprendre qu’un EDR détecte une menace grâce à l’analyse comportementale</p>",
       "<p>Connaître les actions de remédiation qu’un EDR peut déclencher face à une menace</p>",
-      "<p>Comprendre comment les traces enregistrées par l’EDR aident les équipes de sécurité à renforcer la protection des terminauxpi</p>"
+      "<p>Comprendre comment les traces enregistrées par l’EDR aident les équipes de sécurité à renforcer la protection des terminaux</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -33,7 +33,7 @@
                 "id": "004c2e3c-83d6-4ffe-a8c1-b0355d2fa004",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une entreprise d’une centaine d’employés a subi une attaque par logiciel malveillant. Un des postes de travail a été compromis.</p><p> Pourtant, rien n’a été détecté au niveau de la base de signature virale par l’antivirus du poste de travail&nbsp;: “Notifs antivirus “Aucune menace détectée”</p>"
+                "content": "<p>Une entreprise d’une centaine d’employés a subi une attaque par logiciel malveillant. Un des postes de travail a été compromis.</p><p> Pourtant, rien n’a été détecté au niveau de la base de signature virale par l’antivirus du poste de travail.</p>"
               }
             },
             {
@@ -43,7 +43,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/CY_Antivirus_AVA/unnamed-3.png",
                 "alt": "Image d’illustration",
-                "alternativeText": "",
+                "alternativeText": " Notifs antivirus “Aucune menace détectée",
                 "legend": "",
                 "licence": ""
               }
@@ -313,7 +313,7 @@
                       "id": "c818de36-8776-44da-8e26-03d52aa4b12b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Un <strong>EDR</strong> (Endpoint Detection and Response) <strong>surveille en temps réel les terminaux </strong>(endpoint) d’une organisation&nbsp;: ordinateurs, serveurs ou autres appareils connectés au réseau informatique.<br><br></p>"
+                      "content": "<p>Un <strong>EDR</strong> (<em>Endpoint Detection and Response</em>) <strong>surveille en temps réel les terminaux </strong>(<em>endpoint</em>) d’une organisation&nbsp;: ordinateurs, serveurs ou autres appareils connectés au réseau informatique.</p>"
                     }
                   ]
                 },
