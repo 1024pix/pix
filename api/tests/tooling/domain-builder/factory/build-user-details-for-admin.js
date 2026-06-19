@@ -1,4 +1,5 @@
 import { UserDetailsForAdmin } from '../../../../src/identity-access-management/domain/models/UserDetailsForAdmin.js';
+import { STATUS } from '../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 
 const buildUserDetailsForAdmin = function ({
   id = 123,
@@ -24,8 +25,9 @@ const buildUserDetailsForAdmin = function ({
   hasBeenAnonymisedBy = null,
   isPixAgent = false,
   lastApplicationConnections,
+  pixAppTosStatus = { status: STATUS.ACCEPTED, acceptedAt: null },
 } = {}) {
-  return new UserDetailsForAdmin({
+  const userDetailsForAdmin = new UserDetailsForAdmin({
     id,
     firstName,
     lastName,
@@ -50,6 +52,8 @@ const buildUserDetailsForAdmin = function ({
     isPixAgent,
     lastApplicationConnections,
   });
+  userDetailsForAdmin.tosStatus = { pixAppTosStatus };
+  return userDetailsForAdmin;
 };
 
 export { buildUserDetailsForAdmin };

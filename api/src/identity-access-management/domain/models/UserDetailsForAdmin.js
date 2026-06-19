@@ -1,3 +1,4 @@
+import { STATUS } from '../../../legal-documents/domain/models/LegalDocumentStatus.js';
 import { getNearestSupportedLocale } from '../../../shared/domain/services/locale-service.js';
 
 class UserDetailsForAdmin {
@@ -57,6 +58,12 @@ class UserDetailsForAdmin {
     return this.anonymisedByFirstName && this.anonymisedByLastName
       ? `${this.anonymisedByFirstName} ${this.anonymisedByLastName}`
       : null;
+  }
+
+  set tosStatus({ pixAppTosStatus }) {
+    this.cgu = pixAppTosStatus.status === STATUS.ACCEPTED || pixAppTosStatus.status === STATUS.UPDATE_REQUESTED;
+    this.lastPixAppTermsOfServiceValidatedAt = pixAppTosStatus.acceptedAt;
+    this.pixAppTermsOfServiceAccepted = pixAppTosStatus.status === STATUS.ACCEPTED;
   }
 }
 
