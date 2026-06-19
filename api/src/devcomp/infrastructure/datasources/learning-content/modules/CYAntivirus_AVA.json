@@ -846,14 +846,14 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p>Pour chaque action, indiquez si elle relève&nbsp;: </p><ul><li>de la Détection</li><li>de la Réponse</li><li>de l’Équipe sécurité.</li></ul>",
+              "instruction": "<p>Pour chaque action, indiquez si elle relève&nbsp;: </p><ul><li>de la Détection,</li><li>de la Réponse,</li><li>ou de l’Équipe sécurité.</li></ul>",
               "steps": [
                 {
                   "elements": [
                     {
                       "id": "6dbe12bd-4086-40a3-9fbf-fcdaaba368cb",
                       "type": "qcu",
-                      "instruction": "<p>Déterminer l’origine probable d’une attaque</p>",
+                      "instruction": "<p>Déterminer l’origine probable d’une attaque.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -877,7 +877,7 @@
                           "content": "Équipe sécurité",
                           "feedback": {
                             "state": "<p>Bonne réponse !</p>",
-                            "diagnosis": "<p>L’équipe sécurité analyse les traces disponibles pour reconstituer le scénario et identifier l’origine probable de l’attaque.</p>"
+                            "diagnosis": "<p>L’équipe sécurité analyse les traces enregistrées par l’EDR pour reconstituer le scénario et identifier l’origine probable de l’attaque.</p>"
                           }
                         }
                       ],
@@ -890,7 +890,7 @@
                     {
                       "id": "89b6afde-6767-40a1-ab44-0c9cd2934009",
                       "type": "qcu",
-                      "instruction": "<p>Isoler un terminal du réseau après la détection d’une menace</p>",
+                      "instruction": "<p>Isoler un terminal du réseau après la détection d’une menace.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -906,7 +906,7 @@
                           "content": "Réponse",
                           "feedback": {
                             "state": "<p>Bonne réponse !</p>",
-                            "diagnosis": "<p>Isoler un terminal est une action de réponse&nbsp;: elle sert à contenir la menace et limiter sa propagation.</p>"
+                            "diagnosis": "<p>Isoler un terminal est une action de rémédiation de l’EDR&nbsp;: elle sert à contenir la menace et limiter sa propagation.</p>"
                           }
                         },
                         {
@@ -927,7 +927,7 @@
                     {
                       "id": "a4940bbb-41b7-46c2-983f-9c6e5529eb81",
                       "type": "qcu",
-                      "instruction": "<p>Ajuster une règle de détection après un incident</p>",
+                      "instruction": "<p>Ajuster une règle de détection après un incident.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -951,7 +951,7 @@
                           "content": "Équipe sécurité",
                           "feedback": {
                             "state": "<p>Bonne réponse !</p>",
-                            "diagnosis": "<p>L’équipe sécurité ajuste les règles pour améliorer la détection et renforcer la protection lors de futurs incidents.</p>"
+                            "diagnosis": "<p>L’équipe sécurité ajuste les paramètres de l’EDR pour améliorer la détection d’une menace et renforcer la protection lors de futurs incidents.</p>"
                           }
                         }
                       ],
@@ -964,7 +964,7 @@
                     {
                       "id": "2d2f5034-cf84-4374-a51c-bef543b5d52c",
                       "type": "qcu",
-                      "instruction": "<p>Repérer une connexion réseau inhabituelle sur un terminal</p>",
+                      "instruction": "<p>Repérer une connexion réseau inhabituelle sur un terminal.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
