@@ -535,7 +535,7 @@
                 "id": "03e15a1b-70ef-4a4d-9089-f38be3c203e9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Contexte&nbsp;: L’EDR de BioChoux a bloqué une menace. L’équipe de sécurité consulte maintenant les informations enregistrées par l’EDR dans un rapport d’incident pour comprendre ce qu’il s’est passé. </p><p>Lisez attentivement le rapport d’incident de l’EDR puis répondez à la question qui suit.</p><p><a href=\"https://docs.google.com/document/d/1VTtgXci4PaBA1PnNk8hNXwnKu-av7Z3eoOSZjtpmpZ8/edit?tab=t.n41sjpdxyvh9\" target=\"_blank\">Rapport d’incident</a></p>"
+                "content": "<p>L’EDR de BCHX a bloqué une menace. Suite à une alerte, l’équipe de sécurité consulte maintenant les informations enregistrées par l’EDR dans un rapport d’incident pour comprendre ce qu’il s’est passé. </p><p><strong>Ouvrez et lisez le rapport d’incident de l’EDR puis complétez le texte qui suit.</strong></p><p><a href=\"https://docs.google.com/document/d/1VTtgXci4PaBA1PnNk8hNXwnKu-av7Z3eoOSZjtpmpZ8/edit?tab=t.n41sjpdxyvh9\" target=\"_blank\">Rapport d’incident</a></p>"
               }
             },
             {
@@ -543,7 +543,7 @@
               "element": {
                 "id": "6b25844d-8c3a-4b59-bf45-5e867790c586",
                 "type": "qrocm",
-                "instruction": "<p>Complétez la phrase suivante à partir des informations du document.</p>",
+                "instruction": "<p>Complétez le texte suivant à partir des informations du document.</p>",
                 "proposals": [
                   {
                     "type": "text",
@@ -636,11 +636,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bien vu !</p>",
-                    "diagnosis": "<p>Ce que vous venez de faire ressemble, de façon très simplifiée, au travail mené après une <strong>alerte de cybersécurité</strong>.</p><p>À partir des <strong>traces enregistrées par l’EDR</strong>, les équipes cherchent à comprendre ce qu’il s’est passé, à identifier les <strong>conséquences possibles</strong> de l’incident et à déterminer les <strong>mesures à prendre</strong> pour éviter qu’il ne se reproduise.</p>"
+                    "diagnosis": "<p>Ce que vous venez de faire ressemble, de façon très simplifiée, au travail d’analyse mené après une <strong>alerte de cybersécurité</strong>.</p><p>À partir des <strong>traces enregistrées par l’EDR</strong>, les équipes cherchent à comprendre ce qu’il s’est passé, à identifier les <strong>conséquences possibles</strong> de l’incident et à déterminer les <strong>mesures à prendre</strong> pour éviter qu’il ne se reproduise.</p>"
                   },
                   "invalid": {
                     "state": "<p>Ce n’est pas encore ça.</p>",
-                    "diagnosis": "<p>L’exercice demandé ressemble, de façon très simplifiée, au travail mené après une <strong>alerte de cybersécurité</strong>.</p><p>À partir des <strong>traces enregistrées par l’EDR</strong>, les équipes cherchent à comprendre ce qu’il s’est passé, à identifier les <strong>conséquences possibles</strong> de l’incident et à déterminer les <strong>mesures à prendre</strong> pour éviter qu’il ne se reproduise.</p>"
+                    "diagnosis": "<p>L’exercice demandé ressemble, de façon très simplifiée, au travail d’analyse mené après une <strong>alerte de cybersécurité</strong>.</p><p>À partir des <strong>traces enregistrées par l’EDR</strong>, les équipes cherchent à comprendre ce qu’il s’est passé, à identifier les <strong>conséquences possibles</strong> de l’incident et à déterminer les <strong>mesures à prendre</strong> pour éviter qu’il ne se reproduise.</p>"
                   }
                 }
               }
