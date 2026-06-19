@@ -53,7 +53,7 @@
               "element": {
                 "id": "0eb947b5-4ee7-47fa-8f27-ad845919dc66",
                 "type": "qcu-discovery",
-                "instruction": "<p><a href=\"https://assets.pix.org/draft/modules/CY_Antivirus_AVA/unnamed-3.png\">https://assets.pix.org/draft/modules/CY_Antivirus_AVA/unnamed-3.png</a></p>",
+                "instruction": "<p>À votre avis, pourquoi l’antivirus n’a-t-il rien détecté ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
