@@ -65,7 +65,11 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName(/Sélection du niveau du sujet suivant : Tube/);
-    await click(within(await screen.findByRole('listbox')).getByRole('option', { name: '4' }));
+    const tubesListbox = await within(
+      screen.getByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ }),
+    ).findByRole('listbox');
+
+    await click(within(tubesListbox).getByRole('option', { name: '4' }));
 
     await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
 
