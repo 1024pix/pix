@@ -88,7 +88,7 @@ module('Integration | Component | comparison-window', function (hooks) {
       // given
       correction.setProperties({
         learningMoreTutorials: [
-          { titre: 'Ceci est un tuto', link: 'https://example.net', duration: '20:00:00', type: 'video' },
+          { titre: 'Ceci est un tuto', link: 'https://example.net', duration: '20:00:00', format: 'video' },
         ],
       });
 
@@ -144,7 +144,7 @@ module('Integration | Component | comparison-window', function (hooks) {
         // given
         correction.setProperties({
           learningMoreTutorials: [
-            { titre: 'Ceci est un tuto', link: 'https://example.net', duration: '20:00:00', type: 'video' },
+            { titre: 'Ceci est un tuto', link: 'https://example.net', duration: '20:00:00', format: 'video' },
           ],
         });
 

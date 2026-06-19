@@ -2407,6 +2407,18 @@
       "title": "Tutorial della campagna"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "audio",
+        "frise": "linea del tempo",
+        "image": "immagine",
+        "jeu": "gioco",
+        "outil": "strumento",
+        "page": "pagina",
+        "pdf": "pdf",
+        "site": "sito web",
+        "slide": "presentazione",
+        "video": "video"
+      },
       "info": "Questi link alle esercitazioni sono stati suggeriti dagli utenti di Pix.",
       "title": "Per avere successo la prossima volta"
     },

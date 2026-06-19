@@ -1,12 +1,15 @@
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
+import { concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import dayjsDurationHumanize from 'ember-dayjs/helpers/dayjs-duration-humanize';
+import t from 'ember-intl/helpers/t';
 import ActionChip from 'mon-pix/components/action-chip';
 import buttonStatusTypes from 'mon-pix/utils/button-status-types';
+import { normalizeAndRemoveAccents } from 'mon-pix/utils/tolerances-validation';
 
 export default class Card extends Component {
   <template>
@@ -27,7 +30,7 @@ export default class Card extends Component {
           <p class="tutorial-card-content__details">
             {{@tutorial.source}}
             •
-            {{@tutorial.format}}
+            {{t (concat "pages.tutorial-panel.format." (normalizeAndRemoveAccents @tutorial.format))}}
             •
             {{dayjsDurationHumanize @tutorial.duration "seconds"}}
           </p>

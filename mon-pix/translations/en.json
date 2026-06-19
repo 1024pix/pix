@@ -2407,6 +2407,18 @@
       "title": "Campaign tutorial"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "audio",
+        "frise": "timeline",
+        "image": "image",
+        "jeu": "game",
+        "outil": "tool",
+        "page": "page",
+        "pdf": "pdf",
+        "site": "website",
+        "slide": "slideshow",
+        "video": "video"
+      },
       "info": "These tutorial links have been suggested by Pix users.",
       "title": "For better results next time"
     },

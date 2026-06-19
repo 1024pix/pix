@@ -2407,6 +2407,18 @@
       "title": "Campagne handleiding"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "audio",
+        "frise": "tijdlijn",
+        "image": "afbeelding",
+        "jeu": "spel",
+        "outil": "tool",
+        "page": "pagina",
+        "pdf": "pdf",
+        "site": "website",
+        "slide": "diavoorstelling",
+        "video": "video"
+      },
       "info": "Deze links naar tutorials zijn voorgesteld door Pix-gebruikers.",
       "title": "Om de volgende keer te slagen"
     },

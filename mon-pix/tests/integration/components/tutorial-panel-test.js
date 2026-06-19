@@ -34,13 +34,16 @@ module('Integration | Component | Tutorial Panel', function (hooks) {
 
     module('and a tutorial is present', function (hooks) {
       hooks.beforeEach(function () {
+        const store = this.owner.lookup('service:store');
+
         this.set('hint', 'Ceci est un indice');
         this.set('tutorials', [
-          {
+          store.createRecord('tutorial', {
             title: 'Ceci est un tuto',
             duration: '20:00:00',
             link: 'https://example.com',
-          },
+            format: 'page',
+          }),
         ]);
       });
 

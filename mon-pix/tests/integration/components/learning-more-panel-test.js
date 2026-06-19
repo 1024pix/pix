@@ -20,7 +20,7 @@ module('Integration | Component | learning-more-panel', function (hooks) {
           link: 'https://example.net/1',
           titre: 'Ceci est un tuto',
           duration: '20:00:00',
-          type: 'video',
+          format: 'video',
         },
       ]);
 
@@ -42,6 +42,7 @@ module('Integration | Component | learning-more-panel', function (hooks) {
           tubeName: '@first_tube',
           tubePracticalTitle: 'Practical Title',
           duration: '00:15:10',
+          format: 'page',
         });
 
         const tutorials = A([tuto1]);

@@ -2407,6 +2407,18 @@
       "title": "Didacticiel de la campagne"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "audio",
+        "frise": "frise",
+        "image": "image",
+        "jeu": "jeu",
+        "outil": "outil",
+        "page": "page",
+        "pdf": "pdf",
+        "site": "site",
+        "slide": "diaporama",
+        "video": "vidéo"
+      },
       "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix.",
       "title": "Pour réussir la prochaine fois"
     },

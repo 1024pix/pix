@@ -2407,6 +2407,18 @@
       "title": "Tutorial zur Kampagne"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "Audio",
+        "frise": "Zeitstrahl",
+        "image": "Bild",
+        "jeu": "Spiel",
+        "outil": "Tool",
+        "page": "Seite",
+        "pdf": "PDF",
+        "site": "Website",
+        "slide": "Diashow",
+        "video": "Video"
+      },
       "info": "Diese Links zu den Tutorials wurden von Pix-Nutzern vorgeschlagen.",
       "title": "Damit es beim nächsten Mal klappt"
     },
