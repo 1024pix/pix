@@ -1,5 +1,6 @@
 import { LastUserApplicationConnection } from '../../../../../../src/identity-access-management/domain/models/LastUserApplicationConnection.js';
 import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
+import { STATUS } from '../../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -13,7 +14,6 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
         createdAt: now,
         lang: 'fr',
         locale: 'fr-FR',
-        lastTermsOfServiceValidatedAt: now,
         lastPixOrgaTermsOfServiceValidatedAt: now,
         lastPixCertifTermsOfServiceValidatedAt: now,
         lastLoggedAt: now,
@@ -39,6 +39,9 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
           }),
         ],
       });
+      const acceptedAt = new Date('2024-03-01');
+      const pixAppTosStatus = { status: STATUS.ACCEPTED, documentPath: '/tos/v2.pdf', acceptedAt: acceptedAt };
+      userDetailsForAdmin.tosStatus = { pixAppTosStatus };
 
       // when
       const json = serializer.serialize(userDetailsForAdmin);
@@ -54,10 +57,11 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'created-at': userDetailsForAdmin.createdAt,
             cgu: userDetailsForAdmin.cgu,
             'pix-orga-terms-of-service-accepted': userDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
+            'pix-app-terms-of-service-accepted': userDetailsForAdmin.pixAppTermsOfServiceAccepted,
             'pix-certif-terms-of-service-accepted': userDetailsForAdmin.pixCertifTermsOfServiceAccepted,
             lang: 'fr',
             locale: 'fr-FR',
-            'last-terms-of-service-validated-at': now,
+            'last-pix-app-terms-of-service-validated-at': acceptedAt,
             'last-pix-orga-terms-of-service-validated-at': now,
             'last-pix-certif-terms-of-service-validated-at': now,
             'last-logged-at': now,
