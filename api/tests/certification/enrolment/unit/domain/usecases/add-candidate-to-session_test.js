@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
 import { addCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-candidate-to-session.js';
+import { BILLING_MODES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
-import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
@@ -151,7 +151,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
         subscription = domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null });
         candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
           subscriptions: [subscription],
-          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          billingMode: BILLING_MODES.FREE,
         });
       });
 

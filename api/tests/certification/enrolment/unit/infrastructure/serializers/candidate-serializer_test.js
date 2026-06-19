@@ -1,6 +1,5 @@
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../../test-helper.js';
@@ -51,7 +50,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         organizationLearnerId: 999,
         authorizedToStart: false,
         complementaryCertificationId: null,
-        billingMode: CertificationCandidate.BILLING_MODES.FREE,
+        billingMode: BILLING_MODES.FREE,
         prepaymentCode: null,
         hasSeenCertificationInstructions: false,
         subscriptions: [],
@@ -142,7 +141,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         extraTimePercentage: null,
         userId: null,
         organizationLearnerId: null,
-        billingMode: CertificationCandidate.BILLING_MODES.PAID,
+        billingMode: BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
         subscriptions: [],
         subscription: Frameworks.PRO_SANTE,
@@ -193,7 +192,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         extraTimePercentage: null,
         userId: null,
         organizationLearnerId: null,
-        billingMode: CertificationCandidate.BILLING_MODES.PAID,
+        billingMode: BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
         subscription: Frameworks.PRO_SANTE,
         hasSeenCertificationInstructions: true,
@@ -256,7 +255,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         extraTimePercentage: null,
         userId: 159,
         organizationLearnerId: null,
-        billingMode: CertificationCandidate.BILLING_MODES.PAID,
+        billingMode: BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
         hasSeenCertificationInstructions: true,
         subscription: Frameworks.DROIT,

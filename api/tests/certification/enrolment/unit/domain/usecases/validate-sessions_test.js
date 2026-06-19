@@ -3,10 +3,9 @@ import sinon from 'sinon';
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { SessionMassImportReport } from '../../../../../../src/certification/enrolment/domain/models/SessionMassImportReport.js';
 import { validateSessions } from '../../../../../../src/certification/enrolment/domain/usecases/validate-sessions.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../../src/certification/shared/domain/constants/sessions-errors.js';
-import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
@@ -133,7 +132,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         createdAt: null,
         userId: null,
         reconciledAt: null,
-        billingMode: CertificationCandidate.BILLING_MODES.FREE,
+        billingMode: BILLING_MODES.FREE,
         subscriptions: [],
       });
       const session1 = { ...firstSession, candidates: [candidateData1] };
@@ -143,7 +142,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         createdAt: null,
         userId: null,
         reconciledAt: null,
-        billingMode: CertificationCandidate.BILLING_MODES.FREE,
+        billingMode: BILLING_MODES.FREE,
         subscriptions: [],
       });
       const session2 = { ...secondSession, candidates: [candidateData2] };
@@ -237,7 +236,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           createdAt: null,
           userId: null,
           reconciledAt: null,
-          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          billingMode: BILLING_MODES.FREE,
           subscriptions: [],
         });
         const session1 = { ...firstSession, candidates: [candidateData1] };
@@ -247,7 +246,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           createdAt: null,
           userId: null,
           reconciledAt: null,
-          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          billingMode: BILLING_MODES.FREE,
           subscriptions: [],
         });
         const candidateData3 = { ...candidateData2, lastName: 'Brun', firstName: 'Petit Ours' };
@@ -257,7 +256,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           createdAt: null,
           userId: null,
           reconciledAt: null,
-          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          billingMode: BILLING_MODES.FREE,
           subscriptions: [],
         });
         const session2 = { sessionId: 2, candidates: [candidateData2, candidateData3] };
@@ -440,7 +439,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           id: null,
           createdAt: null,
           userId: null,
-          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          billingMode: BILLING_MODES.FREE,
           subscriptions: [],
         });
         const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
@@ -448,7 +447,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           id: null,
           createdAt: null,
           userId: null,
-          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          billingMode: BILLING_MODES.FREE,
           subscriptions: [],
         });
         const sessionsData = [

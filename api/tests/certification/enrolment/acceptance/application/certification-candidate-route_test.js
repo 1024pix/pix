@@ -4,8 +4,7 @@ import { createServer } from '../../../../../server.js';
 import { CandidateCreatedEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateCreatedEvent.js';
 import { CandidateNotCertifiableEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateNotCertifiableEvent.js';
 import { CandidateReconciledEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateReconciledEvent.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
-import { CertificationCandidate } from '../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
@@ -71,7 +70,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
               'result-recipient-email': null,
               'external-id': null,
               'extra-time-percentage': null,
-              'billing-mode': CertificationCandidate.BILLING_MODES.FREE,
+              'billing-mode': BILLING_MODES.FREE,
               'prepayment-code': null,
               sex: 'M',
               email: null,
@@ -126,7 +125,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
         id: 1001,
         sessionId,
         userId: candidateUserId,
-        billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
+        billingMode: BILLING_MODES.PREPAID,
       }).id;
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification.clea();
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
@@ -176,7 +175,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
         id: 1001,
         sessionId,
         userId: candidateUserId,
-        billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
+        billingMode: BILLING_MODES.PREPAID,
       }).id;
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification.clea();
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
@@ -322,7 +321,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
         id: 1001,
         sessionId,
         userId: null,
-        billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
+        billingMode: BILLING_MODES.PREPAID,
         accessibilityAdjustmentNeeded: false,
       }).id;
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification.clea();
@@ -378,7 +377,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
         id: 1001,
         sessionId,
         userId: null,
-        billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
+        billingMode: BILLING_MODES.PREPAID,
       }).id;
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification.clea();
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({

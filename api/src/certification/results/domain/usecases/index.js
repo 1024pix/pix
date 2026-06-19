@@ -13,6 +13,7 @@ import * as competenceTreeRepository from '../../infrastructure/repositories/com
 import * as resultRecipientRepository from '../../infrastructure/repositories/result-recipient-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as sessionForResultsCsvRepository from '../../infrastructure/repositories/session-for-results-csv-repository.js';
+import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { findCertificatesForDivision } from './find-certificates-for-division.js';
 import { findCertificationAttestationsForDivision } from './find-certification-attestations-for-division.js';
 import { findUserCertificateSummaries } from './find-user-certificate-summaries.js';
@@ -28,7 +29,6 @@ import { getPrivateCertificate } from './get-private-certificate.js';
 import { getScoCertificationResultsByDivision } from './get-sco-certification-results-by-division.js';
 import { getSessionCertificationReports } from './get-session-certification-reports.js';
 import { getSessionResults } from './get-session-results.js';
-import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { getSessionResultsByResultRecipientEmail } from './get-session-results-by-result-recipient-email.js';
 import { getShareableCertificate } from './get-shareable-certificate.js';
 

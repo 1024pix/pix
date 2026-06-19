@@ -7,13 +7,12 @@
  * @typedef {import('./index.js').VersionApi} VersionApi
  * @typedef {import('./index.js').CertificationBadgesService} CertificationBadgesService
  * @typedef {import('./index.js').VerifyCertificateCodeService} VerifyCertificateCodeService
- * @typedef {import('../../../shared/domain/models/CertificationCandidate.js').CertificationCandidate} CertificationCandidate
  */
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { LanguageNotSupportedError } from '../../../../shared/domain/errors.js';
 import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
+  LanguageNotSupportedError,
   NotFoundError,
   UnexpectedUserAccountError,
 } from '../../../../shared/domain/errors.js';
