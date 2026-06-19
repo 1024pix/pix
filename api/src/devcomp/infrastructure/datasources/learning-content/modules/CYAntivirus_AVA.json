@@ -364,12 +364,12 @@
                 "id": "a74b7f3c-61f2-442d-95e5-573fa11c2eff",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voici quelques paramètres d’un EDR. Observez-les puis répondez aux questions qui suivent.</p><table><thead><tr><th>Condition détectée</th><th>Action</th></tr></thead><tbody><tr><td><strong>SI</strong> un fichier malveillant connu est détecté</td><td><strong>ALORS</strong> supprimer le fichier ou le mettre en quarantaine</td></tr><tr><td><strong>S</strong><strong>I</strong> un programme inconnu tente d’accéder à des données sensibles</td><td><strong>ALORS</strong> mettre fin au processus sur le point de terminaison</td></tr><tr><td><strong>SI </strong>plusieurs comportements suspects sont détectés simultanément sur le même terminal</td><td><strong>ALORS</strong> déconnecter l’appareil du réseau</td></tr><tr><td><strong>SI </strong>une activité suspecte est détectée sur un compte utilisateur</td><td><strong>ALORS </strong>bloquer temporairement l’accès de l’utilisateur concerné</td></tr><tr><td><strong>SI </strong>une connexion inhabituelle est détectée sur un appareil</td><td><strong>ALORS </strong>envoyer une alerte</td></tr></tbody></table>"
+                "content": "<p>Voici quelques paramètres d’un EDR.</p><p><strong>Observez-les puis répondez aux questions qui suivent.</strong></p><table><thead><tr><th>Condition détectée</th><th>Action</th></tr></thead><tbody><tr><td><strong>SI</strong> un fichier malveillant connu est détecté</td><td><strong>ALORS</strong> supprimer le fichier ou le mettre en quarantaine</td></tr><tr><td><strong>S</strong><strong>I</strong> un programme inconnu tente d’accéder à des données sensibles</td><td><strong>ALORS</strong> mettre fin au processus sur le point de terminaison</td></tr><tr><td><strong>SI </strong>plusieurs comportements suspects sont détectés simultanément sur le même terminal</td><td><strong>ALORS</strong> déconnecter l’appareil du réseau</td></tr><tr><td><strong>SI </strong>une activité suspecte est détectée sur un compte utilisateur</td><td><strong>ALORS </strong>bloquer temporairement l’accès de l’utilisateur concerné</td></tr><tr><td><strong>SI </strong>une connexion inhabituelle est détectée sur un appareil</td><td><strong>ALORS </strong>envoyer une alerte</td></tr></tbody></table>"
               }
             },
             {
               "type": "stepper",
-              "instruction": "<p>À partir de ces informations, pour chaque affirmation, dites si elle est vraie ou fausse.<br></p>",
+              "instruction": "<p>À partir de ces informations, pour chaque affirmation, dites si elle est vraie ou fausse.</p>",
               "steps": [
                 {
                   "elements": [
