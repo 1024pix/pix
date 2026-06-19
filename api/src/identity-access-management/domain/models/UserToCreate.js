@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as localeService from '../../../shared/domain/services/locale-service.js';
+import { getNearestSupportedLocale } from '../../../shared/domain/services/locale-service.js';
 
 class UserToCreate {
   constructor({
@@ -20,7 +20,6 @@ class UserToCreate {
     hasSeenOtherChallengesTooltip = false,
     createdAt,
     updatedAt,
-    dependencies = { localeService },
   } = {}) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -31,7 +30,7 @@ class UserToCreate {
     this.mustValidateTermsOfService = mustValidateTermsOfService;
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.lang = lang;
-    this.locale = dependencies.localeService.getNearestSupportedLocale(locale);
+    this.locale = getNearestSupportedLocale(locale);
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
     this.isAnonymous = isAnonymous;
     this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;

@@ -4,7 +4,7 @@ import XRegExp from 'xregexp';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { config } from '../../../shared/config.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
-import * as localeService from '../../../shared/domain/services/locale-service.js';
+import { getSupportedLanguages, getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { userController } from './user.controller.js';
 import { userVerification } from './user-existence-verification-pre-handler.js';
@@ -58,9 +58,9 @@ export const userRoutes = [
             attributes: Joi.object({
               'first-name': Joi.string().required(),
               'last-name': Joi.string().required(),
-              lang: Joi.string().valid(...localeService.getSupportedLanguages()),
+              lang: Joi.string().valid(...getSupportedLanguages()),
               locale: Joi.string()
-                .valid(...localeService.getSupportedLocales())
+                .valid(...getSupportedLocales())
                 .allow(null),
               email: Joi.string().allow(null),
               username: Joi.string().allow(null),
@@ -176,9 +176,9 @@ export const userRoutes = [
               'anonymous-user-token': Joi.string().optional(), // TODO: Remove 2 weeks after the fronts have been updated in production
               // TODO: attributes bellow should not be sent, they are not used.
               username: Joi.string().allow(null),
-              lang: Joi.string().valid(...localeService.getSupportedLanguages()),
+              lang: Joi.string().valid(...getSupportedLanguages()),
               locale: Joi.string()
-                .valid(...localeService.getSupportedLocales())
+                .valid(...getSupportedLocales())
                 .allow(null),
               'is-anonymous': Joi.boolean().allow(null),
               'must-validate-terms-of-service': Joi.boolean().allow(null),
@@ -325,7 +325,7 @@ export const userRoutes = [
       validate: {
         params: Joi.object({
           id: identifiersType.userId,
-          lang: Joi.string().valid(...localeService.getSupportedLocales()),
+          lang: Joi.string().valid(...getSupportedLocales()),
         }),
       },
       pre: [

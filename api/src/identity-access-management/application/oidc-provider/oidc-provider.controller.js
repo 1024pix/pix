@@ -1,5 +1,5 @@
 import { BadRequestError, UnauthorizedError } from '../../../shared/application/errors/http-errors.js';
-import * as localeService from '../../../shared/domain/services/locale-service.js';
+import { getBaseLocale } from '../../../shared/domain/services/locale-service.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin, RequestedApplication } from '../../../shared/infrastructure/utils/network.js';
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
@@ -60,7 +60,7 @@ async function createUser(request, h) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
 
   const locale = getUserLocale(request);
-  const language = localeService.getBaseLocale(locale);
+  const language = getBaseLocale(locale);
 
   const origin = getForwardedOrigin(request.headers);
   const requestedApplication = RequestedApplication.fromOrigin(origin);

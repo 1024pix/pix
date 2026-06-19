@@ -1,37 +1,34 @@
-import * as localeService from '../../../shared/domain/services/locale-service.js';
+import { getNearestSupportedLocale } from '../../../shared/domain/services/locale-service.js';
 
 class UserDetailsForAdmin {
-  constructor(
-    {
-      id,
-      cgu,
-      username,
-      firstName,
-      lastName,
-      email,
-      pixOrgaTermsOfServiceAccepted,
-      pixCertifTermsOfServiceAccepted,
-      organizationLearners,
-      authenticationMethods,
-      createdAt,
-      updatedAt,
-      lang,
-      locale,
-      lastTermsOfServiceValidatedAt,
-      lastPixOrgaTermsOfServiceValidatedAt,
-      lastPixCertifTermsOfServiceValidatedAt,
-      lastLoggedAt,
-      emailConfirmedAt,
-      userLogin,
-      hasBeenAnonymised,
-      hasBeenAnonymisedBy,
-      anonymisedByFirstName,
-      anonymisedByLastName,
-      isPixAgent,
-      lastApplicationConnections,
-    } = {},
-    dependencies = { localeService },
-  ) {
+  constructor({
+    id,
+    cgu,
+    username,
+    firstName,
+    lastName,
+    email,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    organizationLearners,
+    authenticationMethods,
+    createdAt,
+    updatedAt,
+    lang,
+    locale,
+    lastTermsOfServiceValidatedAt,
+    lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt,
+    lastLoggedAt,
+    emailConfirmedAt,
+    userLogin,
+    hasBeenAnonymised,
+    hasBeenAnonymisedBy,
+    anonymisedByFirstName,
+    anonymisedByLastName,
+    isPixAgent,
+    lastApplicationConnections,
+  } = {}) {
     this.id = id;
     this.cgu = cgu;
     this.firstName = firstName;
@@ -44,7 +41,7 @@ class UserDetailsForAdmin {
     this.authenticationMethods = authenticationMethods;
     this.createdAt = createdAt;
     this.lang = lang;
-    this.locale = dependencies.localeService.getNearestSupportedLocale(locale);
+    this.locale = getNearestSupportedLocale(locale);
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.lastPixOrgaTermsOfServiceValidatedAt = lastPixOrgaTermsOfServiceValidatedAt;
     this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
