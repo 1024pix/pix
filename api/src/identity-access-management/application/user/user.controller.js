@@ -1,4 +1,3 @@
-import * as localeService from '../../../shared/domain/services/locale-service.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -119,11 +118,10 @@ const getUserAuthenticationMethods = async function (request, h, dependencies = 
  * @param request
  * @param h
  * @param {Object} dependencies
- * @param {LocaleService} dependencies.localeService
  * @param {UserSerializer} dependencies.userSerializer
  * @return {Promise<*>}
  */
-const createUser = async function (request, h, dependencies = { userSerializer, localeService }) {
+const createUser = async function (request, h, dependencies = { userSerializer }) {
   const locale = getUserLocale(request);
   const i18n = getI18nFromRequest(request);
 
@@ -254,11 +252,10 @@ const rememberUserHasSeenChallengeTooltip = async function (request, h, dependen
  * @param request
  * @param h
  * @param {Object} dependencies
- * @param {LocaleService} dependencies.localeService
  * @param {UserSerializer} dependencies.userSerializer
  * @return {Promise<*>}
  */
-const upgradeToRealUser = async function (request, h, dependencies = { userSerializer, localeService }) {
+const upgradeToRealUser = async function (request, h, dependencies = { userSerializer }) {
   const userId = request.auth.credentials.userId;
   const locale = getUserLocale(request);
 
