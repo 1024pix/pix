@@ -62,38 +62,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'PATCH',
-      path: '/api/admin/complementary-certifications/consolidated-framework',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
-                request,
-                h,
-              ),
-            assign: 'hasRoleSuperAdmin',
-          },
-        ],
-        validate: {
-          payload: Joi.object({
-            data: {
-              attributes: {
-                versionId: Joi.number().integer().required(),
-                calibrationId: Joi.number().required(),
-              },
-            },
-          }),
-        },
-        handler: complementaryCertificationController.calibrateFrameworkVersion,
-        tags: ['api', 'admin'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
-          'Elle déclenche la synchronisation entre une calibration (contenu formatif) et son référentiel cadre (Pix)',
-        ],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/admin/complementary-certifications/{complementaryCertificationKey}/target-profiles',
       config: {

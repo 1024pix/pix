@@ -81,32 +81,7 @@ describe('Certification | Configuration | Unit | Application | Router | compleme
     });
   });
 
-  describe('PATCH /api/admin/complementary-certifications/consolidated-framework', function () {
-    describe('when the user authenticated has no role', function () {
-      it('should return 403 HTTP status code', async function () {
-        // given
-        sinon
-          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
-          .returns((request, h) => h.response().code(403).takeover());
-        sinon.stub(complementaryCertificationController, 'calibrateFrameworkVersion').returns('ok');
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const response = await httpTestServer.request(
-          'PATCH',
-          '/api/admin/complementary-certifications/consolidated-framework',
-          { data: { attributes: { versionId: 123, calibrationId: 1234 } } },
-        );
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(complementaryCertificationController.calibrateFrameworkVersion);
-      });
-    });
-  });
-
-  describe('/api/admin/complementary-certifications/{complementaryCertificationKey}/target-profiles', function () {
+  describe('GET /api/admin/complementary-certifications/{complementaryCertificationKey}/target-profiles', function () {
     context('when user is an admin member', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given

@@ -586,10 +586,6 @@ export default function routes() {
     return new Response(204);
   });
 
-  this.get('admin/certification-frameworks/:scope/active-consolidated-framework', (schema, request) => {
-    return schema.certificationConsolidatedFrameworks.find(request.params.scope);
-  });
-
   this.get('admin/certification-frameworks/:scope/target-profiles', (schema, request) => {
     const framework = schema.certificationFrameworks.findBy({ name: request.params.scope });
     return {

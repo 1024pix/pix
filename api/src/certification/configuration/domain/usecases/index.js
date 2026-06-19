@@ -4,7 +4,6 @@ import * as skillRepository from '../../../../shared/infrastructure/repositories
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
-import * as activeCalibratedChallengeRepository from '../../infrastructure/repositories/active-calibrated-challenge-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../infrastructure/repositories/complementary-certification-badge-repository.js';
@@ -16,7 +15,6 @@ import * as organizationRepository from '../../infrastructure/repositories/organ
 import * as ScoBlockedAccessDatesRepository from '../../infrastructure/repositories/sco-blocked-access-dates-repository.js';
 import * as versionRepository from '../../infrastructure/repositories/version-repository.js';
 import { attachBadges } from './attach-badges.js';
-import { calibrateFrameworkVersion } from './calibrate-framework-version.js';
 import { createDraft } from './create-draft.js';
 import { deleteCertificationVersion } from './delete-certification-version.js';
 import { exportScoWhitelist } from './export-sco-whitelist.js';
@@ -37,7 +35,6 @@ import { updateVersion } from './update-version.js';
  *
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
- * @typedef {activeCalibratedChallengeRepository} ActiveCalibratedChallengeRepository
  * @typedef {attachableTargetProfileRepository} AttachableTargetProfileRepository
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {centerRepository} CenterRepository
@@ -55,7 +52,6 @@ import { updateVersion } from './update-version.js';
  * @typedef {versionRepository} VersionRepository
  **/
 const dependencies = {
-  activeCalibratedChallengeRepository,
   attachableTargetProfileRepository,
   centerRepository,
   ScoBlockedAccessDatesRepository,
@@ -75,7 +71,6 @@ const dependencies = {
 
 const usecasesWithoutInjectedDependencies = {
   attachBadges,
-  calibrateFrameworkVersion,
   createDraft,
   deleteCertificationVersion,
   exportScoWhitelist,

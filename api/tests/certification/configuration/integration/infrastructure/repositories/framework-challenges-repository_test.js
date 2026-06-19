@@ -80,65 +80,6 @@ describe('Certification | Configuration | Integration | Repository | framework-c
     });
   });
 
-  describe('#update', function () {
-    it('should update framework challenges with calibration data', async function () {
-      // given
-      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-      const version = databaseBuilder.factory.buildCertificationVersion({
-        scope: complementaryCertification.key,
-      });
-
-      databaseBuilder.factory.buildCertificationFrameworksChallenge({
-        versionId: version.id,
-        challengeId: 'rec123',
-        discriminant: null,
-        difficulty: null,
-        complementaryCertificationKey: complementaryCertification.key,
-      });
-
-      databaseBuilder.factory.buildCertificationFrameworksChallenge({
-        versionId: version.id,
-        challengeId: 'rec456',
-        discriminant: null,
-        difficulty: null,
-        complementaryCertificationKey: complementaryCertification.key,
-      });
-
-      await databaseBuilder.commit();
-
-      const challenges = [
-        domainBuilder.certification.configuration.buildCertificationFrameworksChallenge({
-          versionId: version.id,
-          challengeId: 'rec123',
-          discriminant: 1.5,
-          difficulty: 2.0,
-        }),
-        domainBuilder.certification.configuration.buildCertificationFrameworksChallenge({
-          versionId: version.id,
-          challengeId: 'rec456',
-          discriminant: 2.5,
-          difficulty: 3.0,
-        }),
-      ];
-
-      // when
-      await frameworkChallengesRepository.update(challenges);
-
-      // then
-      const updatedChallenges = await knex('certification-frameworks-challenges')
-        .where({ versionId: version.id })
-        .orderBy('challengeId');
-
-      expect(updatedChallenges).to.have.lengthOf(2);
-      expect(updatedChallenges[0].challengeId).to.equal('rec123');
-      expect(updatedChallenges[0].discriminant).to.equal(1.5);
-      expect(updatedChallenges[0].difficulty).to.equal(2.0);
-      expect(updatedChallenges[1].challengeId).to.equal('rec456');
-      expect(updatedChallenges[1].discriminant).to.equal(2.5);
-      expect(updatedChallenges[1].difficulty).to.equal(3.0);
-    });
-  });
-
   describe('#create', function () {
     it('persists the certification challenges', async function () {
       // given

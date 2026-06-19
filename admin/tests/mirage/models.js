@@ -20,7 +20,6 @@ import certificationCenter from './models/certification-center';
 import certificationCenterInvitation from './models/certification-center-invitation';
 import certificationCenterMembership from './models/certification-center-membership';
 import certificationChallengesForAdministration from './models/certification-challenges-for-administration';
-import certificationConsolidatedFramework from './models/certification-consolidated-framework';
 import certificationDetails from './models/certification-details';
 import certificationFramework from './models/certification-framework';
 import certificationIssueReport from './models/certification-issue-report';
@@ -96,7 +95,6 @@ export default {
   certificationCenterInvitation,
   certificationCenterMembership,
   certificationChallengesForAdministration,
-  certificationConsolidatedFramework,
   certificationDetails,
   certificationFramework,
   certificationIssueReport,
