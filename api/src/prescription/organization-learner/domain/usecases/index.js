@@ -93,6 +93,7 @@ import { findAssociationBetweenUserAndOrganizationLearner } from './find-associa
 import { findDivisionsByOrganization } from './find-divisions-by-organization.js';
 import { findGroupsByOrganization } from './find-groups-by-organization.js';
 import { findOrganizationLearnersByUserId } from './find-organization-learners-by-user-id.js';
+import { findOrganizationLearnersForAdmin } from './find-organization-learners-for-admin.js';
 import { findOrganizationLearnersWithOrganizationByUserId } from './find-organization-learners-with-organization.js';
 import { findPaginatedFilteredAttestationParticipantsStatus } from './find-paginated-filtered-attestation-participants-status.js';
 import { findPaginatedFilteredParticipants } from './find-paginated-filtered-participants.js';
@@ -124,6 +125,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredScoParticipants,
   findPaginatedFilteredSupParticipants,
   findPaginatedOrganizationLearners,
+  findOrganizationLearnersForAdmin,
   generateOrganizationLearnersUsernameAndTemporaryPassword,
   generateResetOrganizationLearnersPasswordCsvContent,
   generateUsername,
