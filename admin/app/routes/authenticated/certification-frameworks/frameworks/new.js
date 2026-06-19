@@ -11,19 +11,18 @@ export default class FrameworkNewRoute extends Route {
   @service accessControl;
 
   beforeModel() {
-    this.accessControl.restrictAccessTo(['isSuperAdmin'], 'authenticated.certification-frameworks.item.frameworks');
+    this.accessControl.restrictAccessTo(['isSuperAdmin'], 'authenticated.certification-frameworks.frameworks');
   }
 
   async model(params) {
     let activeVersion;
     const frameworks = await this.store.findAll('framework');
-    const item = await this.modelFor('authenticated.certification-frameworks.item');
     if (params?.activeVersionId) {
       activeVersion = await this.store.findRecord('certification-version', params.activeVersionId);
     }
     return RSVP.hash({
       frameworks,
-      scope: item.frameworkKey,
+      scope: params.frameworkKey,
       activeVersion,
     });
   }

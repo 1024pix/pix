@@ -71,7 +71,7 @@ module(
 
       // then
       assert
-        .dom(screen.getByText(t('components.certification-frameworks.item.frameworks.history.statuses.ACTIVE')))
+        .dom(screen.getByText(t('components.certification-frameworks.frameworks.history.statuses.ACTIVE')))
         .exists();
     });
 
@@ -95,7 +95,7 @@ module(
 
       // then
       assert
-        .dom(screen.getByText(t('components.certification-frameworks.item.frameworks.version-detail-modal.start-date')))
+        .dom(screen.getByText(t('components.certification-frameworks.frameworks.version-detail-modal.start-date')))
         .exists();
     });
 

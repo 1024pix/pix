@@ -41,7 +41,7 @@ export default class NewVersionForm extends Component {
       return;
     }
 
-    this.router.transitionTo('authenticated.certification-frameworks.item.frameworks');
+    this.router.transitionTo('authenticated.certification-frameworks.frameworks');
   }
 
   get checkedTubes() {
@@ -75,7 +75,7 @@ export default class NewVersionForm extends Component {
 
   <template>
     <h2 class="framework-creation-form__title">
-      {{t "components.certification-frameworks.item.frameworks.new-version-form.title"}}
+      {{t "components.certification-frameworks.frameworks.new-version-form.title"}}
     </h2>
 
     <form>
@@ -94,11 +94,11 @@ export default class NewVersionForm extends Component {
           <ul class="framework-creation-form__buttons">
             <li>
               <PixButton @triggerAction={{this.onSubmit}} @isDisabled={{this.hasNoTubeSelected}}>
-                {{t "components.certification-frameworks.item.frameworks.new-version-form.submit-button"}}
+                {{t "components.certification-frameworks.frameworks.new-version-form.submit-button"}}
               </PixButton>
             </li>
             <li>
-              <PixButtonLink @route="authenticated.certification-frameworks.item.frameworks" @variant="secondary">
+              <PixButtonLink @route="authenticated.certification-frameworks.frameworks" @variant="secondary">
                 {{t "common.actions.cancel"}}
               </PixButtonLink>
             </li>

@@ -102,7 +102,7 @@ module('Acceptance | Complementary certifications | Complementary certification 
 
     // then
     assert
-      .dom(screen.queryByRole('link', { name: t('components.certification-frameworks.item.frameworks.create-button') }))
+      .dom(screen.queryByRole('link', { name: t('components.certification-frameworks.frameworks.create-button') }))
       .exists();
   });
 });

@@ -499,83 +499,61 @@
         "success-message": "La version à bien été supprimée",
         "title": "Confirmation de suppression d'une version"
       },
-      "item": {
-        "certification-framework": "Référentiel de certification",
-        "frameworks": {
-          "create-button": "Créer une nouvelle version du référentiel",
-          "details": {
-            "empty-current-framework": "Le référentiel de certification actuel est vide.",
-            "title": "Détails du référentiel de certification actuel"
-          },
-          "history": {
-            "label": "Versions",
-            "statuses": {
-              "ACTIVE": "Actif",
-              "ARCHIVED": "Archivé",
-              "DRAFT": "En cours d'édition"
-            },
-            "table": {
-              "actions": {
-                "delete": "Supprimer la version",
-                "edit": "Éditer la version",
-                "view": "Voir les détails de la version"
-              },
-              "caption": "Liste des versions par ordre décroissant",
-              "columns": {
-                "actions": "Actions",
-                "assessment-duration": "Durée (min)",
-                "expiration-date": "Date d'expiration",
-                "maximum-assessment-length": "Nombre de questions",
-                "start-date": "Date d'activation",
-                "status": "Statut",
-                "version-id": "ID de version"
-              },
-              "empty": "Cette certification n'a pas d'histoire"
-            },
-            "title": "Historique des versions du référentiel"
-          },
-          "new-version-form": {
-            "submit-button": "Créer la nouvelle version du référentiel de certification",
-            "success-notification": "La nouvelle version du référentiel de certification a été créé avec succès",
-            "title": "Création d'une nouvelle version du référentiel de certification"
-          },
-          "no-current-framework": "Aucun référentiel de certification n'est utilisé actuellement.",
-          "tab": "Référentiel de certification",
-          "version-detail-modal": {
-            "assessment-duration": "Durée (min) :",
-            "comment": "Commentaire :",
-            "comment-save-error": "Une erreur est survenue lors de la sauvegarde du commentaire.",
-            "comment-save-success": "Le commentaire a bien été sauvegardé.",
-            "content": "Contenu du référentiel :",
-            "expiration-date": "Date d'expiration :",
-            "locales": "Locale :",
-            "maximum-assessment-length": "Nombre max de questions :",
-            "minimum-answers-required": "Nombre min de réponses :",
-            "parameters": "Paramètres du référentiel :",
-            "start-date": "Date d'activation :",
-            "status": "Statut :"
-          }
+      "frameworks": {
+        "create-button": "Créer une nouvelle version du référentiel",
+        "details": {
+          "empty-current-framework": "Le référentiel de certification actuel est vide.",
+          "title": "Détails du référentiel de certification actuel"
         },
-        "navigation": {
-          "aria-label": "Navigation de la section certification complémentaire"
+        "history": {
+          "label": "Versions",
+          "statuses": {
+            "ACTIVE": "Actif",
+            "ARCHIVED": "Archivé",
+            "DRAFT": "En cours d'édition"
+          },
+          "table": {
+            "actions": {
+              "delete": "Supprimer la version",
+              "edit": "Éditer la version",
+              "view": "Voir les détails de la version"
+            },
+            "caption": "Liste des versions par ordre décroissant",
+            "columns": {
+              "actions": "Actions",
+              "assessment-duration": "Durée (min)",
+              "expiration-date": "Date d'expiration",
+              "maximum-assessment-length": "Nombre de questions",
+              "start-date": "Date d'activation",
+              "status": "Statut",
+              "version-id": "ID de version"
+            },
+            "empty": "Cette certification n'a pas d'histoire"
+          },
+          "title": "Historique des versions du référentiel"
         },
-        "target-profile": "Profil cible"
+        "new-version-form": {
+          "submit-button": "Créer la nouvelle version du référentiel de certification",
+          "success-notification": "La nouvelle version du référentiel de certification a été créé avec succès",
+          "title": "Création d'une nouvelle version du référentiel de certification"
+        },
+        "no-current-framework": "Aucun référentiel de certification n'est utilisé actuellement.",
+        "tab": "Référentiel de certification",
+        "version-detail-modal": {
+          "assessment-duration": "Durée (min) :",
+          "comment": "Commentaire :",
+          "comment-save-error": "Une erreur est survenue lors de la sauvegarde du commentaire.",
+          "comment-save-success": "Le commentaire a bien été sauvegardé.",
+          "content": "Contenu du référentiel :",
+          "expiration-date": "Date d'expiration :",
+          "locales": "Locale :",
+          "maximum-assessment-length": "Nombre max de questions :",
+          "minimum-answers-required": "Nombre min de réponses :",
+          "parameters": "Paramètres du référentiel :",
+          "start-date": "Date d'activation :",
+          "status": "Statut :"
+        }
       },
-      "labels": {
-        "CLEA": "CléA Numérique",
-        "CORE": "Pix Cœur (transverse)",
-        "DROIT": "Pix+ Droit",
-        "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
-        "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
-        "EDU_CPE": "Pix+ Édu CPE",
-        "PRO_SANTE": "Pix+ Pro Santé"
-      },
-      "list": {
-        "active-version-start-date": "Date de début de la version active",
-        "caption": "Liste des référentiels de certification, comprenant le nom et la date de début de la dernière version active",
-        "name": "Nom"
-      },
-      "page-title": "Référentiels de certification",
       "target-profiles": {
         "badges-list": {
           "caption": "Liste des badges certifiants liés au profil cible, comprenant l'identifiant unique, l'image associée, le niveau, le nombre de pix minimum pour l'obtenir et le nom du badge.",
@@ -602,6 +580,28 @@
           "title": "Historique des profils cibles"
         }
       },
+      "item": {
+        "certification-framework": "Référentiel de certification",
+        "navigation": {
+          "aria-label": "Navigation de la section certification complémentaire"
+        },
+        "target-profile": "Profil cible"
+      },
+      "labels": {
+        "CLEA": "CléA Numérique",
+        "CORE": "Pix Cœur (transverse)",
+        "DROIT": "Pix+ Droit",
+        "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
+        "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
+        "EDU_CPE": "Pix+ Édu CPE",
+        "PRO_SANTE": "Pix+ Pro Santé"
+      },
+      "list": {
+        "active-version-start-date": "Date de début de la version active",
+        "caption": "Liste des référentiels de certification, comprenant le nom et la date de début de la dernière version active",
+        "name": "Nom"
+      },
+      "page-title": "Référentiels de certification",
       "title": "Tous les référentiels de certification"
     },
     "certifications": {
