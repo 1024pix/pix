@@ -687,12 +687,6 @@
       "type": "retain-the-essentials",
       "grains": [
         {
-          "id": "ffcfdbfa-169a-421f-8d6d-b9007ca91e2a",
-          "type": "short-lesson",
-          "title": "",
-          "components": []
-        },
-        {
           "id": "78c04165-1aa8-4851-88e1-52e5af2414dd",
           "type": "summary",
           "title": "",
