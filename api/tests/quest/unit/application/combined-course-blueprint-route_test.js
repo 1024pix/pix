@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { combinedCourseBlueprintController } from '../../../../src/quest/application/combined-course-blueprint-controller.js';
 import * as combinedCourseBlueprintRoute from '../../../../src/quest/application/combined-course-blueprint-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
@@ -54,7 +53,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
             illustration: 'illustration.svg',
             'attestation-label': '6ème',
             content: [{ type: 'module', value: 'e67ec5d0', shortId: 'short-e67ec5d0' }],
-            'capped-tube-requirements': [{ threshold: '20', tubes: [{ id: 'tube1', level: 5 }] }],
+            'capped-tube-requirements': [{ threshold: '20', tubes: [{ tubeId: 'tube1', level: 5 }] }],
           },
         },
       };

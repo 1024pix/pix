@@ -61,7 +61,7 @@ const register = async function (server) {
                 'capped-tube-requirements': Joi.array()
                   .items(
                     Joi.object({
-                      tubes: Joi.array().items(Joi.object({ id: Joi.string(), level: Joi.number().integer() })),
+                      tubes: Joi.array().items(Joi.object({ tubeId: Joi.string(), level: Joi.number().integer() })),
                       threshold: Joi.string(),
                     }),
                   )

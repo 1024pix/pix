@@ -154,7 +154,7 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   updateTubes(tubes) {
     this.selectedTubes = tubes.map(({ id, level }) => ({
-      id,
+      tubeId: id,
       level,
     }));
   }

@@ -55,7 +55,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
               'reward-id': attestation.id,
               'reward-type': 'ATTESTATION',
               content: [{ type: 'module', value: 'e67ec5d0', shortId: 'short-e67ec5d0' }],
-              'capped-tube-requirements': [{ threshold: '20', tubes: [{ id: 'tube1', level: 5 }] }],
+              'capped-tube-requirements': [{ threshold: '20', tubes: [{ tubeId: 'tube1', level: 5 }] }],
             },
           },
         };

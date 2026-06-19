@@ -4,7 +4,7 @@ import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { COMBINED_COURSE_ITEM_TYPES } from '../constants.js';
 import { CombinedCourseBlueprint } from './CombinedCourseBlueprint.js';
 import { Quest, REQUIREMENT_TYPES } from './quests/entities/Quest.js';
-import cappedTubeRequirements from 'lodash';
+import { buildRequirement } from './quests/value-objects/Requirement.js';
 
 const itemsSchema = Joi.array()
   .items(
@@ -31,7 +31,7 @@ const itemsSchema = Joi.array()
   .strict();
 
 export class QuestInput {
-  constructor({ items, rewardId, rewardType, cappedTubeRequirements } = {}) {
+  constructor({ items, rewardId, rewardType, cappedTubeRequirements = [] } = {}) {
     this.items = items;
     this.rewardId = rewardId;
     this.rewardType = rewardType;
@@ -55,15 +55,16 @@ export class QuestInput {
     });
 
     const cappedTubes = this.cappedTubeRequirements.map((requirement) => {
-      return {
+      return buildRequirement({
         requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
         data: {
           threshold: requirement.threshold,
           cappedTubes: requirement.tubes,
         },
-      };
+      });
     });
-    successRequirements.push(cappedTubes);
+
+    successRequirements.push(...cappedTubes);
 
     return new Quest({
       eligibilityRequirements: [],
