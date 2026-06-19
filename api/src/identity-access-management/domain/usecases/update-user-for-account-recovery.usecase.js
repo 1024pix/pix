@@ -9,6 +9,7 @@ import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
  *   accountRecoveryDemandRepository: AccountRecoveryDemandRepository,
  *   cryptoService: CryptoService,
  *   authenticationMethodRepository: AuthenticationMethodRepository,
+ *   legalDocumentApiRepository, LegalDocumentApiRepository,
  *   userRepository: UserRepository,
  * }} params
  * @return {Promise<void>}
@@ -20,6 +21,7 @@ export const updateUserForAccountRecovery = async function ({
   accountRecoveryDemandRepository,
   cryptoService,
   authenticationMethodRepository,
+  legalDocumentApiRepository,
   userRepository,
 }) {
   const { userId, newEmail } = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
@@ -55,15 +57,14 @@ export const updateUserForAccountRecovery = async function ({
     identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
   });
 
-  const now = new Date();
+  await legalDocumentApiRepository.acceptPixAppTos({ userId });
+
   await userRepository.updateWithEmailConfirmed({
     id: userId,
     userAttributes: {
       username: null,
-      cgu: true,
       email: newEmail,
-      emailConfirmedAt: now,
-      lastTermsOfServiceValidatedAt: now,
+      emailConfirmedAt: new Date(),
     },
   });
 
