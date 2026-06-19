@@ -21,7 +21,7 @@ export default class Header extends Component {
 
   get activeCertificationVersionId() {
     return {
-      activeVersionId: this.args.frameworkHistory?.history.find(
+      activeVersionId: this.args.frameworkHistory?.history?.find(
         (frameworkHistory) => frameworkHistory.status == 'ACTIVE',
       )?.id,
     };

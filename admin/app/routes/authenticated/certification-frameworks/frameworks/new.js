@@ -22,7 +22,7 @@ export default class FrameworkNewRoute extends Route {
     }
     return RSVP.hash({
       frameworks,
-      scope: params.frameworkKey,
+      scope: params.certification_framework_key,
       activeVersion,
     });
   }

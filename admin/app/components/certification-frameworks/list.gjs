@@ -14,6 +14,7 @@ export default class List extends Component {
         label: `components.certification-frameworks.labels.${framework.id}`,
         activeVersionStartDate: framework.activeVersionStartDate,
         frameworkKey: framework.id,
+        urlToRedirect: framework.name === 'CLEA' ? 'authenticated.certification-frameworks.target-profile' : 'authenticated.certification-frameworks.frameworks'
       };
     });
   }
@@ -30,7 +31,7 @@ export default class List extends Component {
             {{t "components.certification-frameworks.list.name"}}
           </:header>
           <:cell>
-            <LinkTo @route="authenticated.certification-frameworks.frameworks" @model={{framework.frameworkKey}}>
+            <LinkTo @route={{framework.urlToRedirect}} @model={{framework.frameworkKey}}>
               {{t framework.label}}
             </LinkTo>
           </:cell>
