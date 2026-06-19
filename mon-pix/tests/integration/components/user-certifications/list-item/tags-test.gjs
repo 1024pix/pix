@@ -48,7 +48,7 @@ module('Integration | Component | User certifications | List item | Tags', funct
       assert.dom(mainTag).containsText(t('pages.certifications-list.statuses.rejected'));
     });
 
-    test('displays cancelled status without framework name', async function (assert) {
+    test('displays cancelled status with framework name', async function (assert) {
       // given
       const status = CERTIFICATE_STATUSES.CANCELLED;
       const framework = 'CORE';
@@ -62,7 +62,7 @@ module('Integration | Component | User certifications | List item | Tags', funct
       // then
       const mainTag = screen.getByTestId('pw-certification-card-main-status');
       assert.dom(mainTag).containsText(t('pages.certifications-list.statuses.cancelled'));
-      assert.dom(mainTag).doesNotContainText(t('pages.certification-frameworks.CORE'));
+      assert.dom(mainTag).containsText(t('pages.certification-frameworks.CORE'));
     });
 
     test('displays cancelled_by_jury status with framework name', async function (assert) {

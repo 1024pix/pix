@@ -218,7 +218,7 @@ module('Integration | Component | User certifications | List item', function (ho
 
       // then
       assert.ok(screen.getByText(t('pages.certifications-list.statuses.cancelled')));
-      assert.ok(screen.getByText(t('pages.certification-frameworks.CORE')));
+      assert.ok(screen.getByText(t('pages.certification-frameworks.CORE'), { exact: false }));
       assert.ok(screen.getByText(t('pages.certifications-list.comment'), { exact: false }));
       assert.dom(screen.queryByText(t('pages.certificate.verification-code.title'), { exact: false })).doesNotExist();
       assert.dom(screen.queryByText(t('pages.certifications-list.buttons.details'))).doesNotExist();
