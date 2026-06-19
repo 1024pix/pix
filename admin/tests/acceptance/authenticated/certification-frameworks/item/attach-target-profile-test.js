@@ -16,6 +16,10 @@ module('Acceptance | Complementary certifications | item | attach-target-profile
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
+          server.create('framework-history', {
+            id: 'CLEA',
+            history: [],
+          });
           server.create('complementary-certification', {
             id: 1,
             key: 'CLEA',
@@ -44,6 +48,10 @@ module('Acceptance | Complementary certifications | item | attach-target-profile
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
+            server.create('framework-history', {
+              id: 'CLEA',
+              history: [],
+            });
             server.create('complementary-certification', {
               id: 1,
               key: 'CLEA',
@@ -72,6 +80,10 @@ module('Acceptance | Complementary certifications | item | attach-target-profile
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
+          server.create('framework-history', {
+            id: 'CLEA',
+            history: [],
+          });
           server.create('complementary-certification', {
             id: 1,
             key: 'CLEA',
@@ -97,6 +109,10 @@ module('Acceptance | Complementary certifications | item | attach-target-profile
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
+          server.create('framework-history', {
+            id: 'CLEA',
+            history: [],
+          });
           server.create('complementary-certification', {
             id: 1,
             key: 'CLEA',
@@ -132,6 +148,10 @@ module('Acceptance | Complementary certifications | item | attach-target-profile
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
+            server.create('framework-history', {
+              id: 'CLEA',
+              history: [],
+            });
             server.create('complementary-certification', {
               id: 1,
               key: 'CLEA',
@@ -177,6 +197,10 @@ module('Acceptance | Complementary certifications | item | attach-target-profile
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
+            server.create('framework-history', {
+              id: 'CLEA',
+              history: [],
+            });
             server.create('complementary-certification', {
               id: 1,
               key: 'CLEA',
@@ -223,6 +247,10 @@ module('Acceptance | Complementary certifications | item | attach-target-profile
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
+          server.create('framework-history', {
+            id: 'CLEA',
+            history: [],
+          });
           server.create('complementary-certification', {
             id: 1,
             key: 'CLEA',
@@ -300,6 +328,10 @@ module('Acceptance | Complementary certifications | item | attach-target-profile
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
+          server.create('framework-history', {
+            id: 'CLEA',
+            history: [],
+          });
           server.create('complementary-certification', {
             id: 1,
             key: 'CLEA',
@@ -367,6 +399,10 @@ module('Acceptance | Complementary certifications | item | attach-target-profile
         // given
         await authenticateAdminMemberWithRole({ [role]: hasAccess })(server);
         server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
+        server.create('framework-history', {
+          id: 'CLEA',
+          history: [],
+        });
         server.create('complementary-certification', {
           id: 1,
           key: 'CLEA',

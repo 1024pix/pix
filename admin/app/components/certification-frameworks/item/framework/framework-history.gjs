@@ -32,7 +32,7 @@ export default class FrameworkHistory extends Component {
 
   constructor() {
     super(...arguments);
-    this.frameworkHistory = this.args.frameworkHistory?.history ?? [];
+    this.frameworkHistory = this.args.frameworkHistory?.history.sort(sortByStartDateNullFirst) ?? [];
   }
 
   get hasHistory() {
@@ -204,4 +204,18 @@ export default class FrameworkHistory extends Component {
       </:footer>
     </PixModal>
   </template>
+}
+
+function sortByStartDateNullFirst(historyItemA, historyItemB) {
+  if (historyItemA.startDate === null) {
+    return historyItemB.startDate === null ? historyItemA.id - historyItemB.id : -1;
+  }
+  if (historyItemB.startDate === null) {
+    return 1;
+  }
+
+  if (historyItemA.startDate > historyItemB.startDate) {
+    return -1;
+  }
+  return 1;
 }

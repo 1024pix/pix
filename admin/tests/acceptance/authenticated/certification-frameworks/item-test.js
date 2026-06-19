@@ -15,7 +15,7 @@ module('Acceptance | Complementary certifications | Complementary certification 
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
     server.create('framework-history', {
-      id: 'CLEA',
+      id: 'DROIT',
       history: [
         {
           id: 456,
@@ -50,12 +50,12 @@ module('Acceptance | Complementary certifications | Complementary certification 
     // then
     const [, row1, row2, row3] = await screen.findAllByRole('row');
     assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/frameworks');
-    assert.dom(within(row1).getByRole('cell', { name: '456' })).exists();
-    assert.dom(within(row1).getByRole('cell', { name: 'Actif' })).exists();
-    assert.dom(within(row2).getByRole('cell', { name: '123' })).exists();
-    assert.dom(within(row2).getByRole('cell', { name: 'Archivé' })).exists();
-    assert.dom(within(row3).getByRole('cell', { name: '789' })).exists();
-    assert.dom(within(row3).getByRole('cell', { name: "En cours d'édition" })).exists();
+    assert.dom(within(row1).getByRole('cell', { name: '789' })).exists();
+    assert.dom(within(row1).getByRole('cell', { name: "En cours d'édition" })).exists();
+    assert.dom(within(row2).getByRole('cell', { name: '456' })).exists();
+    assert.dom(within(row2).getByRole('cell', { name: 'Actif' })).exists();
+    assert.dom(within(row3).getByRole('cell', { name: '123' })).exists();
+    assert.dom(within(row3).getByRole('cell', { name: 'Archivé' })).exists();
   });
 
   test('it should render target profile page when the framework is CLEA', async function (assert) {
