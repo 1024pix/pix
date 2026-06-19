@@ -288,7 +288,7 @@ export default class CombinedCourseBlueprintForm extends Component {
               min="0"
               max="100"
               @requiredLabel={{t "common.forms.mandatory"}}
-              {{on "change" @onThresholdChange}}
+              {{on "change" this.onThresholdChange}}
             >
               <:label>Taux de réussite requis</:label>
             </PixInput>
