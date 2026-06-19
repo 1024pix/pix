@@ -20,6 +20,7 @@ const deserialize = async function (payload) {
     items: deserializedData.content ?? [],
     rewardId: deserializedData.rewardId,
     rewardType: REWARD_TYPES[deserializedData.rewardType] ?? null,
+    cappedTubeRequirements: deserializedData.cappedTubeRequirements ?? [],
   });
   return new CombinedCourseBlueprintForCreation({
     ...deserializedData,

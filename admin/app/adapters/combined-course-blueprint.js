@@ -14,4 +14,19 @@ export default class CombinedCourseBlueprintAdapter extends ApplicationAdapter {
     });
     return result;
   }
+
+  createRecord(store, type, snapshot) {
+    const { adapterOptions } = snapshot;
+    if (adapterOptions && adapterOptions.cappedTubeRequirements) {
+      const { cappedTubeRequirements } = adapterOptions;
+      const payload = this.serialize(snapshot);
+      payload.data.attributes['capped-tube-requirements'] = cappedTubeRequirements;
+
+      const url = this.urlForCreateRecord(type.modelName, snapshot);
+
+      return this.ajax(url, 'POST', { data: payload });
+    }
+
+    return super.createRecord(...arguments);
+  }
 }

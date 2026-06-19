@@ -64,13 +64,22 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
       ]);
     });
 
-    it('should build a quest from mixed items', function () {
+    it('should build a quest from mixed items and capped tubes requirements', function () {
       const moduleId = 'eeeb4951-6f38-4467-a4ba-0c85ed71321a';
       const targetProfileId = 42;
       const questInput = new QuestInput({
         items: [
           { type: 'module', value: moduleId },
           { type: 'evaluation', value: targetProfileId },
+        ],
+        cappedTubeRequirements: [
+          {
+            threshold: 20,
+            tubes: [
+              { tubeId: 'tube1', level: 5 },
+              { tubeId: 'tube2', level: 3 },
+            ],
+          },
         ],
       });
 
@@ -91,6 +100,16 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
           data: {
             targetProfileId: { data: targetProfileId, comparison: CRITERION_COMPARISONS.EQUAL },
             status: { data: CampaignParticipationStatuses.SHARED, comparison: CRITERION_COMPARISONS.EQUAL },
+          },
+        },
+        {
+          requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+          data: {
+            threshold: 20,
+            cappedTubes: [
+              { tubeId: 'tube1', level: 5 },
+              { tubeId: 'tube2', level: 3 },
+            ],
           },
         },
       ]);
@@ -125,6 +144,7 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
           { type: 'module', value: moduleId, shortId },
           { type: 'evaluation', value: targetProfileId },
         ],
+        cappedTubeRequirements: [{ tubes: [{ level: 1, tubeId: 'abc' }], threshold: 20 }],
       }).toQuest();
       const modulesById = { [moduleId]: [{ shortId }] };
 

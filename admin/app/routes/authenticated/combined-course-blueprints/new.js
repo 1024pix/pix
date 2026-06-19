@@ -4,7 +4,10 @@ import { inject as service } from '@ember/service';
 export default class NewRoute extends Route {
   @service store;
 
-  model() {
-    return this.store.findAll('attestation');
+  async model() {
+    const attestations = await this.store.findAll('attestation');
+    const frameworks = await this.store.findAll('framework');
+
+    return { attestations, frameworks };
   }
 }

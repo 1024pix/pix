@@ -10,9 +10,9 @@ export default class EditCombinedCourseBlueprint extends Component {
   <template>
     <div>
       <PixBreadcrumb @links={{this.links}} class="combined-course-blueprint__breadcrumb" />
-      <h1>{{@model.internalName}}</h1>
+      <h1>{{@model.blueprint.internalName}}</h1>
     </div>
-    {{pageTitle "Modification du schéma de parcours combiné : " @model.internalName}}
+    {{pageTitle "Modification du schéma de parcours combiné : " @model.blueprint.internalName}}
 
     <main class="main-admin-form">
       <CombinedCourseBlueprintForm @model={{@model}} @updateMode={{true}} />
@@ -26,7 +26,7 @@ export default class EditCombinedCourseBlueprint extends Component {
         label: this.intl.t('components.combined-course-blueprints.list.title'),
       },
       {
-        label: this.args.model.internalName,
+        label: this.args.model.blueprint.internalName,
       },
     ];
   }

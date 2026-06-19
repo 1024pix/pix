@@ -224,6 +224,7 @@ export class CappedTubesRequirement extends BaseRequirement {
 
   #validate(args) {
     const { error } = cappedTubesRequirementSchema.validate(args);
+
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: this.toDTO() });
     }
