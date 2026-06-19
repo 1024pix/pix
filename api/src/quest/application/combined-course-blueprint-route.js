@@ -57,6 +57,14 @@ const register = async function (server) {
                 content: Joi.array(),
                 createdAt: Joi.date(),
                 'survey-link': Joi.string().allow(null),
+                'capped-tubes-requirements': Joi.array()
+                  .items(
+                    Joi.object({
+                      tubes: Joi.array().items(Joi.object({ id: Joi.string(), level: Joi.number().integer() })),
+                      threshold: Joi.string(),
+                    }),
+                  )
+                  .allow(null),
               },
             },
           }),
