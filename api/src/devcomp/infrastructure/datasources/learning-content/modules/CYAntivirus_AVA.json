@@ -323,7 +323,7 @@
                       "id": "6861f8ce-5b28-41d2-bd44-fbb2454b3350",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Comment un EDR détecte-t-il une menace ?🔎</h5><p> Pour cela, un programme est installé sur chaque terminal. <strong>Il collecte en continu les données d’activité d’un terminal</strong> puis les transmet à une console centrale.&nbsp; La console centrale de l’EDR analyse et enregistre ensuite ces données pour <strong>repérer des comportements inhabituels ou suspects</strong> sur les terminaux. Cette méthode de détection s’appelle l’<strong>analyse comportementale</strong>. </p><p><em>[NDC] +schéma simplifié de l’EDR</em></p>"
+                      "content": "<h5>Comment un EDR détecte-t-il une menace ?🔎</h5><ul><li>Pour cela, un programme est installé sur chaque terminal. <strong>Il collecte en continu les données d’activité d’un terminal</strong> puis les transmet à une console centrale.&nbsp; </li><li>La console centrale de l’EDR analyse et enregistre ensuite ces données pour <strong>repérer des comportements inhabituels ou suspects</strong> sur les terminaux.</li></ul><p><br></p><p>Cette méthode de détection s’appuie sur l’<strong>analyse comportementale</strong>. <em>[NDC] +schéma simplifié de l’EDR</em></p>"
                     },
                     {
                       "id": "fb2bb6ea-c22f-4174-bf25-ab160118b9b7",
