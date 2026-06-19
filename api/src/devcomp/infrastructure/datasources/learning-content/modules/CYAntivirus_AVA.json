@@ -811,16 +811,25 @@
             {
               "type": "element",
               "element": {
+                "id": "7262aa22-aff3-4313-ab3d-6de697f4064f",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Un employé ouvre une pièce jointe malveillante. Plus tard, un programme inconnu tente d’accéder à ses données. L’EDR détecte cette activité et un incident est enregistré.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
                 "id": "0d256734-1867-495a-8df2-a4749ea93e54",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Un collaborateur ouvre une pièce jointe malveillante. Quelques secondes plus tard, un programme inconnu tente d’accéder à des données. L’EDR détecte cette activité et un incident est enregistré.</p><p><em>[NDC] MVP a modifier quand le POI classement sera généralisé</em></p><p><em>Feedbacks&nbsp;:&nbsp; </em></p><ul><li><em>Bonne réponse ! Vous avez réussi à reconstituer les étapes de gestion de cet incident.</em></li><li><em>Mauvaise réponse. Essayez de reconstituer le déroulement complet d’un incident, depuis sa détection, en passant par la réponse de l’EDR jusqu’à l’amélioration des mesures de protection.</em></li></ul>",
-                "functionalInstruction": "<p>Remettez dans l’ordre les différentes étapes de traitement de cet incident.</p>",
+                "instruction": "<p>Remettez dans l’ordre chronologique les différentes étapes de traitement de cet incident.</p>",
+                "functionalInstruction": "<p><em>[NDC] MVP a modifier quand le POI classement sera généralisé</em></p>\n<p><em>Feedbacks&nbsp;:&nbsp; </em></p>\n<ul>\n    <li><em>Bonne réponse ! Vous avez réussi à reconstituer les étapes de gestion de cet incident.</em></li>\n    <li><em>Mauvaise réponse. Essayez de reconstituer le déroulement complet d’un incident, depuis sa détection, en passant par la réponse de l’EDR jusqu’à l’amélioration des mesures de protection.</em></li>\n</ul>",
                 "tagName": "mdp-classement",
                 "props": {
                   "passwords": [
                     "Une activité suspecte est détectée sur un terminal.",
-                    "  L’EDR compare la situation détectée avec les règles définies par l’équipe de sécurité.",
+                    "L’EDR compare la situation détectée avec les règles définies par l’équipe de sécurité.",
                     "L’EDR applique automatiquement l’action prévue par la règle (blocage, isolement, quarantaine, etc.).",
                     "L’équipe de sécurité analyse les informations enregistrées et décide d’éventuels ajustements.",
                     "Les règles de détection et de réponse sont ajustées pour réduire le risque d’incidents similaires."
