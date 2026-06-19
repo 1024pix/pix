@@ -136,9 +136,9 @@ test(
         hasBadge: hasBadgeInList,
         badgeSrc: badgeSrcInList,
       } = await certificateListPage.getCertificateData(certificationNumber);
-      expect(mainStatus).toBe('Annulée');
+      expect(mainStatus).toBe('Certification Pix : Annulée');
       expect(extraStatus).toBe(null);
-      expect(detailsFramework).toBe('Certification Pix');
+      expect(detailsFramework).toBe(null);
       expect(certificationCenter).toBe('Centre de certification : ' + certificationCenterName);
       expect(examDate).toBe('Date de passage : ' + getNowAsDDMMYYYY());
       expect(comment).toBe(
