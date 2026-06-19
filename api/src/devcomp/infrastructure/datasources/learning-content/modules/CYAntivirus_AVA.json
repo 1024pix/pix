@@ -719,7 +719,7 @@
                 "id": "d8daddec-2ec2-46d1-ac68-73ec8adeb3a9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voyons si vous avez retenu l’essentiel !<br></p>"
+                "content": "<p>Voyons si vous avez retenu l’essentiel.</p>"
               }
             },
             {
@@ -742,7 +742,7 @@
                   },
                   {
                     "id": "7f7ef433-f0ff-4713-af80-353795e623e8",
-                    "text": "Envoyer une alerte à l’équipe de sécurité lorsqu’une activité suspecte est détectée",
+                    "text": "Envoyer une alerte à l’équipe de sécurité lorsqu’une activité suspecte est détectée.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -753,7 +753,7 @@
                   },
                   {
                     "id": "4b38e29c-ba58-4ab2-ba84-a215b0cf5595",
-                    "text": "Détecter une forte utilisation de la mémoire vive d’un appareil",
+                    "text": "Détecter une forte utilisation de la mémoire vive d’un appareil.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -764,7 +764,7 @@
                   },
                   {
                     "id": "0ee83f5b-a654-43ed-84b6-0e8837200f38",
-                    "text": "Contrôler le temps de travail d’un employé",
+                    "text": "Contrôler le temps de travail d’un employé.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -775,7 +775,7 @@
                   },
                   {
                     "id": "d149a835-03ec-4014-bd4a-508816fcb0a8",
-                    "text": "Supprimer automatiquement un fichier inconnu",
+                    "text": "Supprimer automatiquement un fichier inconnu.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -786,14 +786,14 @@
                   },
                   {
                     "id": "3fd9383b-0428-4e97-b8a3-8b8794ba6cd2",
-                    "text": "Vérifier les sites consultés par un collaborateur",
+                    "text": "Collecter des informations utiles à l'analyse d'un incident.",
                     "image": {
                       "url": "",
                       "altText": ""
                     },
                     "proposalA": "Oui",
                     "proposalB": "Non",
-                    "solution": "B"
+                    "solution": "A"
                   }
                 ],
                 "feedback": {
