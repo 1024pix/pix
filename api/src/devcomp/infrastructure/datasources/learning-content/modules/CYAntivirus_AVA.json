@@ -999,83 +999,9 @@
                 {
                   "elements": [
                     {
-                      "id": "06a9646e-90ff-4f6f-b02e-ff82475819f9",
-                      "type": "qcu",
-                      "instruction": "<p>Analyser les informations enregistrées lors d’un incident</p>",
-                      "hasShortProposals": true,
-                      "proposals": [
-                        {
-                          "id": "1",
-                          "content": "Détection",
-                          "feedback": {
-                            "state": "<p>Mauvaise réponse</p>",
-                            "diagnosis": "<p>Réessayez.</p>"
-                          }
-                        },
-                        {
-                          "id": "2",
-                          "content": "Réponse",
-                          "feedback": {
-                            "state": "<p>Mauvaise réponse</p>",
-                            "diagnosis": "<p>Réessayez.</p>"
-                          }
-                        },
-                        {
-                          "id": "3",
-                          "content": "Équipe sécurité",
-                          "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
-                            "diagnosis": "<p>L’équipe sécurité analyse les traces enregistrées pour comprendre l’incident et choisir les suites à donner.</p>"
-                          }
-                        }
-                      ],
-                      "solution": "3"
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "75b617ba-bf0c-40dc-bfd6-6477675c31ce",
-                      "type": "qcu",
-                      "instruction": "<p>Mettre un fichier en quarantaine</p>",
-                      "hasShortProposals": true,
-                      "proposals": [
-                        {
-                          "id": "1",
-                          "content": "Détection",
-                          "feedback": {
-                            "state": "<p>Mauvaise réponse</p>",
-                            "diagnosis": "<p>Réessayez.</p>"
-                          }
-                        },
-                        {
-                          "id": "2",
-                          "content": "Réponse",
-                          "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
-                            "diagnosis": "<p>La quarantaine est une action de réponse&nbsp;: elle empêche le fichier suspect de continuer à agir.</p>"
-                          }
-                        },
-                        {
-                          "id": "3",
-                          "content": "Équipe sécurité",
-                          "feedback": {
-                            "state": "<p>Mauvaise réponse</p>",
-                            "diagnosis": "<p>Réessayez.</p>"
-                          }
-                        }
-                      ],
-                      "solution": "2"
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
                       "id": "6180a9a6-9b6c-4600-9f63-6e8267514b1a",
                       "type": "qcu",
-                      "instruction": "<p>Sensibiliser les collaborateurs à une pratique à risque identifiée</p>",
+                      "instruction": "<p>Sensibiliser les collaborateurs à une pratique à risque identifiée.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
