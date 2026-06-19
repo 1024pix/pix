@@ -1,13 +1,10 @@
-import dayjs from 'dayjs';
 import _ from 'lodash';
 
-import { usecases as configurationUsecases } from '../../../../../src/certification/configuration/domain/usecases/index.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
-import { usecases as learningContentUsecases } from '../../../../../src/learning-content/domain/usecases/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
+import { createVersion, linkChallengesAndVersionFromTubeIds } from '../tools/certification-version.js';
 import { UnseedableError } from './UnseedableError.js';
-
 /**
  * @property {{ expiredVersionId: string, currentVersionId: string }} coreVersion
  * @property {{ currentVersionId: string }} pixPlusDroitVersion
@@ -67,33 +64,28 @@ export class CommonCertificationVersions {
 
         const pixPlusDroitFrameworkName = 'Droit';
 
-        const tubeIds = await this.#getTubeIdsByFramework({ frameworkName: pixPlusDroitFrameworkName });
-        const currentVersionId = await configurationUsecases.createCertificationVersion({
-          scope: SCOPES.PIX_PLUS_DROIT,
-          tubeIds,
+        const challengeIds = await this.#getChallengeIdsByFramework({
+          databaseBuilder,
+          frameworkName: pixPlusDroitFrameworkName,
         });
 
-        await databaseBuilder
-          .knex('certification_versions')
-          .where('id', currentVersionId)
-          .update({
-            challengesConfiguration: JSON.stringify(CHALLENGES_CONFIGURATION),
-            globalScoringConfiguration: JSON.stringify([
-              { bounds: { max: 0, min: -2.33 }, meshLevel: 0 },
-              { bounds: { max: 2.33, min: 0 }, meshLevel: 1 },
-              { bounds: { max: 4.67, min: 2.33 }, meshLevel: 2 },
-              { bounds: { max: 8, min: 4.67 }, meshLevel: 3 },
-            ]),
-            competencesScoringConfiguration: null,
-            minimumAnswersRequiredToValidateACertification: MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
-          });
-        await databaseBuilder.commit();
+        const currentVersion = await createVersion({
+          databaseBuilder,
+          status: 'ACTIVE',
+          scope: SCOPES.PIX_PLUS_DROIT,
+          challengesConfiguration: CHALLENGES_CONFIGURATION,
+          globalScoringConfiguration: [
+            { bounds: { max: 0, min: -2.33 }, meshLevel: 0 },
+            { bounds: { max: 2.33, min: 0 }, meshLevel: 1 },
+            { bounds: { max: 4.67, min: 2.33 }, meshLevel: 2 },
+            { bounds: { max: 8, min: 4.67 }, meshLevel: 3 },
+          ],
+          competencesScoringConfiguration: null,
+        });
+        await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds, versionId: currentVersion.id });
 
-        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersionId });
-
-        await databaseBuilder.commit();
-
-        this.pixPlusDroitVersion.currentVersionId = currentVersionId;
+        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
+        this.pixPlusDroitVersion.currentVersionId = currentVersion.id;
       }
     } catch (error) {
       if (error instanceof NotFoundError) {
@@ -116,28 +108,25 @@ export class CommonCertificationVersions {
 
         const pixPlusEdu1erDegreFrameworkName = 'Edu';
 
-        const tubeIds = await this.#getTubeIdsByFramework({ frameworkName: pixPlusEdu1erDegreFrameworkName });
-        const currentVersionId = await configurationUsecases.createCertificationVersion({
-          scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
-          tubeIds,
+        const challengeIds = await this.#getChallengeIdsByFramework({
+          databaseBuilder,
+          frameworkName: pixPlusEdu1erDegreFrameworkName,
         });
 
-        await databaseBuilder
-          .knex('certification_versions')
-          .where('id', currentVersionId)
-          .update({
-            challengesConfiguration: JSON.stringify(CHALLENGES_CONFIGURATION),
-            globalScoringConfiguration: JSON.stringify([{ bounds: { max: 8, min: 1 }, meshLevel: 0 }]),
-            competencesScoringConfiguration: null,
-            minimumAnswersRequiredToValidateACertification: MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
-          });
-        await databaseBuilder.commit();
+        const currentVersion = await createVersion({
+          databaseBuilder,
+          status: 'ACTIVE',
+          scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
+          challengesConfiguration: CHALLENGES_CONFIGURATION,
+          globalScoringConfiguration: [{ bounds: { max: 8, min: 1 }, meshLevel: 0 }],
+          competencesScoringConfiguration: null,
+        });
 
-        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersionId });
+        await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds, versionId: currentVersion.id });
 
-        await databaseBuilder.commit();
+        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
 
-        this.pixPlusEdu1erDegreVersion.currentVersionId = currentVersionId;
+        this.pixPlusEdu1erDegreVersion.currentVersionId = currentVersion.id;
       }
     } catch (error) {
       if (error instanceof NotFoundError) {
@@ -159,28 +148,25 @@ export class CommonCertificationVersions {
         this.pixPlusEdu2ndDegreVersion = {};
 
         const pixPlusEdu2ndDegreFrameworkName = 'Edu';
-        const tubeIds = await this.#getTubeIdsByFramework({ frameworkName: pixPlusEdu2ndDegreFrameworkName });
-        const currentVersionId = await configurationUsecases.createCertificationVersion({
-          scope: SCOPES.PIX_PLUS_EDU_2ND_DEGRE,
-          tubeIds,
+        const challengeIds = await this.#getChallengeIdsByFramework({
+          databaseBuilder,
+          frameworkName: pixPlusEdu2ndDegreFrameworkName,
         });
 
-        await databaseBuilder
-          .knex('certification_versions')
-          .where('id', currentVersionId)
-          .update({
-            challengesConfiguration: JSON.stringify(CHALLENGES_CONFIGURATION),
-            globalScoringConfiguration: JSON.stringify([{ bounds: { max: 8, min: 1 }, meshLevel: 0 }]),
-            competencesScoringConfiguration: null,
-            minimumAnswersRequiredToValidateACertification: MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
-          });
-        await databaseBuilder.commit();
+        const currentVersion = await createVersion({
+          databaseBuilder,
+          status: 'ACTIVE',
+          scope: SCOPES.PIX_PLUS_EDU_2ND_DEGRE,
+          challengesConfiguration: CHALLENGES_CONFIGURATION,
+          globalScoringConfiguration: [{ bounds: { max: 8, min: 1 }, meshLevel: 0 }],
+          competencesScoringConfiguration: null,
+        });
 
-        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersionId });
+        await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds, versionId: currentVersion.id });
 
-        await databaseBuilder.commit();
+        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
 
-        this.pixPlusEdu2ndDegreVersion.currentVersionId = currentVersionId;
+        this.pixPlusEdu2ndDegreVersion.currentVersionId = currentVersion.id;
       }
     } catch (error) {
       if (error instanceof NotFoundError) {
@@ -194,40 +180,22 @@ export class CommonCertificationVersions {
   /**
    * @param {Object} params
    * @param {string} params.frameworkName
-   * @returns {Promise<Array<number>>}
+   * @returns {Promise<Array<string>>}
    */
-  static async #getTubeIdsByFramework({ frameworkName }) {
-    const areas = await learningContentUsecases.getFrameworkAreas({
-      frameworkName,
-      locale: FRENCH_SPOKEN,
-    });
-
-    const allTubeIds = areas.flatMap((area) =>
-      area.competences.flatMap((competence) =>
-        competence.thematics.flatMap((thematic) => thematic.tubes.map((tube) => tube.id)),
-      ),
-    );
-
-    return _.sampleSize(allTubeIds, CommonCertificationVersions.#NUMBER_OF_CHALLENGES_PER_VERSION);
-  }
-
-  /**
-   * @param {Object} params
-   * @param {Knex} params.databaseBuilder
-   * @param {number} params.versionId
-   * @returns {Promise<void>}
-   */
-  static async #forceConfigurations({ databaseBuilder, versionId }) {
-    await databaseBuilder
-      .knex('certification_versions')
-      .where('id', versionId)
-      .update({
-        challengesConfiguration: JSON.stringify(CHALLENGES_CONFIGURATION),
-        globalScoringConfiguration: JSON.stringify(GLOBAL_SCORING_CONFIGURATION),
-        competencesScoringConfiguration: JSON.stringify(COMPETENCES_SCORING_CONFIGURATION),
-        minimumAnswersRequiredToValidateACertification: MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
-      });
+  static async #getChallengeIdsByFramework({ databaseBuilder, frameworkName }) {
     await databaseBuilder.commit();
+    const challengeIds = await databaseBuilder
+      .knex({ frameworks: 'learningcontent.frameworks' })
+      .pluck('challenges.id')
+      .join({ areas: 'learningcontent.areas' }, 'areas.frameworkId', 'frameworks.id')
+      .join({ competences: 'learningcontent.competences' }, 'competences.areaId', 'areas.id')
+      .join({ skills: 'learningcontent.skills' }, 'skills.competenceId', 'competences.id')
+      .join({ challenges: 'learningcontent.challenges' }, 'challenges.skillId', 'skills.id')
+      .where('frameworks.name', frameworkName === SCOPES.CORE ? 'Pix' : frameworkName)
+      .whereRaw('?=ANY(??)', [FRENCH_SPOKEN, 'challenges.locales']);
+
+    const result = _.sampleSize(challengeIds, CommonCertificationVersions.#NUMBER_OF_CHALLENGES_PER_VERSION);
+    return result;
   }
 
   /**
@@ -235,6 +203,7 @@ export class CommonCertificationVersions {
    * That would make it very hard to use for seeding
    */
   static async #simulateCalibration({ databaseBuilder, versionId }) {
+    await databaseBuilder.commit();
     const algoConfiguration = await databaseBuilder
       .knex('certification_versions')
       .select('challengesConfiguration', 'globalScoringConfiguration')
@@ -275,22 +244,19 @@ export class CommonCertificationVersions {
    * @returns {Promise<number>}
    */
   static async #createExpiredCoreVersion({ databaseBuilder }) {
-    const expiredVersionId = await configurationUsecases.createCertificationVersion({
+    const expiredVersion = await createVersion({
+      databaseBuilder,
+      status: 'ARCHIVED',
       scope: SCOPES.CORE,
-      tubeIds: [],
+      challengesConfiguration: CHALLENGES_CONFIGURATION,
+      globalScoringConfiguration: [{ bounds: { max: 8, min: 1 }, meshLevel: 0 }],
+      competencesScoringConfiguration: null,
     });
-
-    // Allows for an easier identification during tests, and represents a "more real" versioning
-    await databaseBuilder
-      .knex('certification_versions')
-      .where('id', expiredVersionId)
-      .update({
-        startDate: dayjs().subtract(1, 'year').toDate(),
-      });
+    await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds: [], versionId: expiredVersion.id });
 
     await databaseBuilder.commit();
 
-    return expiredVersionId;
+    return expiredVersion.id;
   }
 
   /**
@@ -298,36 +264,29 @@ export class CommonCertificationVersions {
    * @param {Knex} params.databaseBuilder
    * @param {string} params.fromLcmsFrameworkName
    * @param {SCOPES} params.toFrameworkScope
-   * @param {number} [params.minimumAnswersRequiredToValidateACertification]
    * @returns {Promise<number>}
    */
-  static async #createActiveFrameworkVersion({
-    databaseBuilder,
-    fromLcmsFrameworkName,
-    toFrameworkScope,
-    minimumAnswersRequiredToValidateACertification,
-  }) {
-    const tubeIds = await this.#getTubeIdsByFramework({ frameworkName: fromLcmsFrameworkName });
-    const currentVersionId = await configurationUsecases.createCertificationVersion({
-      scope: toFrameworkScope,
-      tubeIds,
-      minimumAnswersRequiredToValidateACertification,
-    });
-
-    await this.#forceConfigurations({
+  static async #createActiveFrameworkVersion({ databaseBuilder, fromLcmsFrameworkName, toFrameworkScope }) {
+    const challengeIds = await this.#getChallengeIdsByFramework({
       databaseBuilder,
-      versionId: currentVersionId,
+      frameworkName: fromLcmsFrameworkName,
     });
 
-    await this.#simulateCalibration({ databaseBuilder, versionId: currentVersionId });
+    const currentVersion = await createVersion({
+      databaseBuilder,
+      status: 'ACTIVE',
+      scope: toFrameworkScope,
+      challengesConfiguration: CHALLENGES_CONFIGURATION,
+      globalScoringConfiguration: GLOBAL_SCORING_CONFIGURATION,
+      competencesScoringConfiguration: COMPETENCES_SCORING_CONFIGURATION,
+    });
+    await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds, versionId: currentVersion.id });
 
-    await databaseBuilder.commit();
+    await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
 
-    return currentVersionId;
+    return currentVersion.id;
   }
 }
-
-const MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION = 20;
 
 const CHALLENGES_CONFIGURATION = {
   maximumAssessmentLength: 32,
