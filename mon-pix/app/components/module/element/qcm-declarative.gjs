@@ -42,6 +42,7 @@ export default class ModuleQcmDeclarative extends ModuleElement {
 
   @action
   checkboxSelected(proposalId) {
+    if (this.disableInput) return;
     if (this.selectedProposalIds.has(proposalId)) {
       this.selectedProposalIds.delete(proposalId);
     } else {

@@ -109,6 +109,34 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
       await clock.tickAsync(VERIFY_RESPONSE_DELAY);
     });
 
+    test('should not change proposal state when clicking a checkbox after submission', async function (assert) {
+      // given
+      const onAnswerStub = sinon.stub();
+      const passageEventService = this.owner.lookup('service:passageEvents');
+      sinon.stub(passageEventService, 'record');
+      const qcmDeclarativeElement = _getQcmDeclarativeElement();
+      const { proposals } = qcmDeclarativeElement;
+
+      const screen = await render(
+        <template><ModuleQcmDeclarative @element={{qcmDeclarativeElement}} @onAnswer={{onAnswerStub}} /></template>,
+      );
+
+      const proposal1Element = screen.getByLabelText(proposals[0].content);
+      const proposal2Element = screen.getByLabelText(proposals[1].content);
+      await click(proposal1Element);
+      const submitButton = screen.getByRole('button', { name: 'Soumettre ma sélection' });
+      await click(submitButton);
+      await clock.tickAsync(VERIFY_RESPONSE_DELAY);
+
+      // when - clicking after submission
+      await click(proposal1Element);
+      await click(proposal2Element);
+
+      // then - states must not have changed
+      assert.dom(proposal1Element.closest('label')).hasClass('pix-label-wrapped--state-modulix-declarative-selected');
+      assert.dom(proposal2Element.closest('label')).hasClass('pix-label-wrapped--state-modulix-declarative');
+    });
+
     test('it should record a passage-event', async function (assert) {
       // given
       const passageEventService = this.owner.lookup('service:passageEvents');
