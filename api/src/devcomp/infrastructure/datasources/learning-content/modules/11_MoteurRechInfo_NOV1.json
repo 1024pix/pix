@@ -12,7 +12,7 @@
     "level": "novice",
     "objectives": [
       "<p>Comprendre à quoi sert un moteur de recherche</p>",
-      "<p>Choisir des mots clés pour faire une recherche web</p>",
+      "<p>Choisir des mots clés pour faire une recherche web</p>",f
       "<p>Modifier sa recherche en fonction des résultats obtenus</p>"
     ],
     "tabletSupport": "comfortable"
@@ -571,7 +571,7 @@
                     "id": "3",
                     "content": "Ecosia",
                     "feedback": {
-                      "diagnosis": "<p>Tous ces moteurs de recherche fonctionnent de la même manière.</p>"
+                      "diagnosis": "<p>Tous ces moteurs de recherche fonctionnent de la même manière mais ne donnent pas forcément les mêmes résultats.</p>"
                     }
                   },
                   {
