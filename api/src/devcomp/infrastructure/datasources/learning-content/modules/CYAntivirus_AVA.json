@@ -237,11 +237,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "Bien vu !",
-                          "diagnosis": "<p>Certaines activités peuvent attirer l’attention car elles sortent du fonctionnement habituel d’un ordinateur : processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers ou connexions réseau inhabituelles, etc.</p><p>Un <strong>comportement suspect</strong> se repère rarement avec un seul indice : il faut <strong>croiser plusieurs signaux</strong>. Un EDR suit cette même logique&nbsp;: il <strong>surveille l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire.</p>"
+                          "diagnosis": "<p>Certaines activités peuvent attirer l’attention car elles sortent du fonctionnement habituel d’un ordinateur : processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers ou connexions réseau inhabituelles, etc.</p><p>Un EDR <strong>surveille en continu l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire.</p>"
                         },
                         "invalid": {
                           "state": "Eh non !",
-                          "diagnosis": "<p>Certaines activités peuvent attirer l’attention car elles sortent du fonctionnement habituel d’un ordinateur : processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers ou connexions réseau inhabituelles, etc.</p><p>Un <strong>comportement suspect</strong> se repère rarement avec un seul indice : il faut <strong>croiser plusieurs signaux</strong>. Un EDR suit cette même logique&nbsp;: il <strong>surveille l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire.</p>"
+                          "diagnosis": "<p>Certaines activités peuvent attirer l’attention car elles sortent du fonctionnement habituel d’un ordinateur : processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers ou connexions réseau inhabituelles, etc.</p><p>Un EDR <strong>surveille en continu l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire.</p>"
                         }
                       },
                       "solutions": [
@@ -265,28 +265,28 @@
                           "id": "1",
                           "content": "<p>L’ordinateur 1</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! L’ordinateur numéro 2 est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p>"
+                            "diagnosis": "<p>Eh non ! L’ordinateur numéro 2 est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p><p>Un <strong>comportement suspect</strong> se repère rarement avec un seul indice. Pour détecter certaines menaces, un EDR utilise l’<strong>analyse comportementale</strong> en croisant plusieurs signaux.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>L’ordinateur 2</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu ! L’ordinateur numéro 2 est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p>"
+                            "diagnosis": "<p>Bien vu ! L’ordinateur numéro 2 est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p><p>Un <strong>comportement suspect</strong> se repère rarement avec un seul indice. Pour détecter certaines menaces, un EDR utilise l’<strong>analyse comportementale</strong> en croisant plusieurs signaux.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>L’ordinateur 3</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! L’ordinateur numéro 2 est est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p>"
+                            "diagnosis": "<p>Eh non ! L’ordinateur numéro 2 est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p><p>Un <strong>comportement suspect</strong> se repère rarement avec un seul indice. Pour détecter certaines menaces, un EDR utilise l’<strong>analyse comportementale</strong> en croisant plusieurs signaux.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>L’ordinateur numéro 2 est est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p>"
+                            "diagnosis": "<p>L’ordinateur numéro 2 est probablement <strong>le plus à risque</strong>. Il cumule <strong>plusieurs signaux suspects</strong>&nbsp;: forte activité, mémoire très sollicitée, modifications inhabituelles de fichiers et connexions réseau anormales.</p><p>Un <strong>comportement suspect</strong> se repère rarement avec un seul indice. Pour détecter certaines menaces, un EDR utilise l’<strong>analyse comportementale</strong> en croisant plusieurs signaux.</p>"
                           }
                         }
                       ],
