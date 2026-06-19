@@ -911,7 +911,7 @@
                 "id": "d509aa1a-97ac-4aa0-bf6c-bdff1e630990",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Vous organisez un week-end à Rome pour le mois de mai. Vous voulez visiter le Colisée avec vos amis. 🇮🇹 </p><p>Problème&nbsp;: vous avez entendu dire qu’il faut réserver des mois à l’avance. Vous cherchez les bonnes informations pour ne pas vous faire avoir par des sites de revente hors de prix. 💶</p>"
+                "content": "<p>Cindy part vivre quelques mois en Angleterre. Yann veut lui acheter un livre qui donne des informations sur la culture anglaise.  🇬🇧</p>"
               }
             },
             {
@@ -919,35 +919,35 @@
               "element": {
                 "id": "9f7a0561-61f7-46e6-88ca-999f5267fc5d",
                 "type": "qcu",
-                "instruction": "<p>Parmi les propositions suivantes, choisissez l’ensemble de mots clés à saisir dans un moteur de recherche pour obtenir une réponse pertinente.<br></p>",
+                "instruction": "<p>Parmi les propositions suivantes, choisissez les&nbsp;mots clés que Yann doit saisir dans un moteur de recherche pour obtenir  des résultats intéressants.</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Rome mai réserver</p>",
+                    "content": "<p>livre angleterre informations</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Choisissez précisément le lieu et essayez d’éviter les arnaques. Vous pouvez réessayer.</p>"
+                      "diagnosis": "<p>Cette recherche va permettre d’obtenir des informations sur la monnaie anglaise (la livre).</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Colisée informations prix</p>",
+                    "content": "<p>livre culture anglaise</p>",
                     "feedback": {
-                      "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Choisissez précisément le lieu et essayez d’éviter les arnaques. Vous pouvez réessayer.</p>"
+                      "state": "<p>Bonne réponse ! 🎉</p>",
+                      "diagnosis": "<p>Avec cette recherche, Yann devrait trouver le cadeau idéal.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Site officiel colisée</p>",
+                    "content": "<p>acheter culture informations</p>",
                     "feedback": {
-                      "state": "<p>Bonne réponse !</p>",
-                      "diagnosis": "<p>Le site officiel est https://colosseo.it/ et devrait sortir en tête de liste sur la plupart des moteurs de recherche. </p>"
+                      "state": "<p>Mauvaise réponse.</p>",
+                      "diagnosis": "<p>Cette recherche n’est pas assez précise.</p>"
                     }
                   }
                 ],
-                "solution": "3"
+                "solution": "2"
               }
             }
           ]
