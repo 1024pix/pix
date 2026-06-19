@@ -33,7 +33,7 @@
                 "id": "a205446e-9b8c-4dc2-b06e-d4176fc18a18",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Esther va rendre visite à son oncle à Montréal. Esther fait une recherche sur internet pour trouver un restaurant. Elle obtient les <strong>résultats</strong> suivants.</p><p>Observez ces résultats et répondez à la question qui suit.</p>"
+                "content": "<p>Esther va rendre visite à son oncle à Montréal. Elle fait une recherche sur internet pour trouver un restaurant. Elle obtient des résultats qui ne lui conviennent pas.</p><p><br></p><p><strong>Observez les résultats d’Esther puis répondez à la question qui suit.</strong></p>"
               }
             },
             {
@@ -835,73 +835,62 @@
               "element": {
                 "id": "3d85cd86-ba37-4278-a817-6733273116a6",
                 "type": "qab",
-                "instruction": "<p>Pour chaque élément suivant, indiquez s’il s’agit d’un <strong>navigateur web</strong> ou d’un <strong>moteur de recherche.</strong></p>",
+                "instruction": "<p>Pour chacune des affirmations suivantes à propos des moteurs de recherche, indiquez si elle est vraie ou fausse.</p>",
                 "cards": [
                   {
                     "id": "3e3a1f8b-d373-42ca-ad50-aa7c7b762a56",
-                    "text": "Chrome",
+                    "text": "Les résultats de recherche dépendent des mots clés.",
                     "image": {
-                      "url": "https://assets.pix.org/draft/modules/11_MoteurRechInfo_NOV1/google_chrome_icon_-february_2022-svg.png",
+                      "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Navigateur web",
-                    "proposalB": "Moteur de recherche",
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
                     "solution": "A"
                   },
                   {
                     "id": "828a3449-be37-49aa-a919-451dcc37e11c",
-                    "text": "DuckDuckGo",
+                    "text": "Un moteur de recherche propose toujours plusieurs résultats.",
                     "image": {
-                      "url": "https://assets.pix.org/draft/modules/11_MoteurRechInfo_NOV1/duckduckgo.svg",
+                      "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Navigateur web",
-                    "proposalB": "Moteur de recherche",
-                    "solution": "B"
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
                   },
                   {
                     "id": "9792a577-c30b-44f7-97e5-c09c202b452c",
-                    "text": "Google",
+                    "text": "Un moteur de recherche répond par des phrases complètes.",
                     "image": {
-                      "url": "https://assets.pix.org/draft/modules/11_MoteurRechInfo_NOV1/google_2015_logo-svg.png",
+                      "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Navigateur web",
-                    "proposalB": "Moteur de recherche",
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
                     "solution": "B"
                   },
                   {
                     "id": "f88ee518-f08d-402d-bae1-1e840722a542",
-                    "text": "Firefox",
+                    "text": "Rédiger une phrase complète est utile pour obtenir des résultats intéressants.",
                     "image": {
-                      "url": "https://assets.pix.org/draft/modules/11_MoteurRechInfo_NOV1/firefox_logo-_2019-svg.png",
+                      "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Navigateur web",
-                    "proposalB": "Moteur de recherche",
-                    "solution": "A"
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
                   },
                   {
                     "id": "23476527-c8d6-44e6-b17f-0fc8eab8dab3",
-                    "text": "Qwant",
+                    "text": "Modifier les mots clés permet d’obtenir d’autres résultats.",
                     "image": {
-                      "url": "https://assets.pix.org/draft/modules/11_MoteurRechInfo_NOV1/qwant_new_logo_2018-svg.png",
+                      "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Navigateur web",
-                    "proposalB": "Moteur de recherche",
-                    "solution": "B"
-                  },
-                  {
-                    "id": "4ad3eb6a-336e-4b35-a8ab-6c85ca4607f6",
-                    "text": "Bing",
-                    "image": {
-                      "url": "https://assets.pix.org/draft/modules/11_MoteurRechInfo_NOV1/1280px-microsoft_bing_logo-svg.png",
-                      "altText": ""
-                    },
-                    "proposalA": "Navigateur web",
-                    "proposalB": "Moteur de recherche",
-                    "solution": "B"
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
                   }
                 ],
                 "feedback": {
