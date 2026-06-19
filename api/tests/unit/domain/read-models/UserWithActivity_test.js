@@ -13,8 +13,8 @@ describe('Unit | Domain | Read-Models | UserWithActivity', function () {
       it('returns the user with accepted TOS status', async function () {
         // given
         const user = domainBuilder.buildUser({
-          cgu: false, //irrelevant data to enlighten the fact that values come from toStatus
-          mustValidateTermsOfService: true, //irrelevant data to enlighten the fact that values come from toStatus
+          cgu: false, //irrelevant data to enlighten the fact that values come from tosStatus
+          mustValidateTermsOfService: true, //irrelevant data to enlighten the fact that values come from tosStatus
           lastTermsOfServiceValidatedAt: null,
         });
 
