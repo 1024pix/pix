@@ -376,14 +376,14 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Oui.",
                           "feedback": {
                             "diagnosis": "<p>Eh non. Les résultats portent sur le métier d’avocat&nbsp;: ce n’est pas ce qui intéresse Alex.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "Non.",
                           "feedback": {
                             "diagnosis": "<p>Effectivement. Les résultats portent sur le métier d’avocat&nbsp;: ce n’est pas ce qui intéresse Alex.</p>"
                           }
