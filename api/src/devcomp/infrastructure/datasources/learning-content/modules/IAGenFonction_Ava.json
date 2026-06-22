@@ -188,7 +188,7 @@
                       "id": "e7fcc562-2f50-4e49-8c20-9297175e15e3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>En faisant <strong>appel à des outils</strong>, autrement dit des <strong>logiciels externes</strong>, les logiciels d’IA étendent leurs capacités au-delà de leur propre environnement et peuvent réaliser d’<strong>autres actions</strong> sur l’ordinateur ou dans le monde réel.</p><p> En anglais, on appelle cette capacité le «&nbsp;tool calling » ou «&nbsp;fonction calling&nbsp;».<br></p>"
+                      "content": "<p>En faisant <strong>appel à des outils</strong>, autrement dit des <strong>logiciels externes</strong>, les logiciels d’IA génératives étendent leurs capacités au-delà de leur propre environnement et peuvent réaliser d’<strong>autres actions</strong>.</p><p> En anglais, on appelle cette capacité le «&nbsp;tool calling » ou «&nbsp;fonction calling&nbsp;».<br></p>"
                     }
                   ]
                 },
@@ -198,7 +198,7 @@
                       "id": "7df2eef2-779e-4dca-a954-c4ca258994da",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Quelles tâches peuvent maintenant faire les IA conversationnelles grâce à ces outils ?</h5><br><p> Par exemple, elles peuvent&nbsp;: </p><ul><li>chercher sur internet, 🌐&nbsp;</li><li>réaliser des calculs exacts, 🔢</li><li>produire  un support de présentation, 🖼️    <br></li><li>générer et exécuter du code informatique, 🧑‍💻    <br></li><li>envoyer des mails, 📧    <br></li><li>ajouter un événement à un agenda 📅</li><li>faire une réservation  ou une commande sur internet …&nbsp;🛒</li></ul>"
+                      "content": "<h5>Quelles tâches peuvent maintenant faire les IA génératives grâce à ces outils ?</h5><br><p>Ces IA génératives peuvent par exemple&nbsp;: </p><ul><li>chercher sur internet, 🌐&nbsp;</li><li>réaliser des calculs exacts, 🔢</li><li>produire  un support de présentation, 🖼️    <br></li><li>générer et exécuter du code informatique, 🧑‍💻    <br></li><li>envoyer des mails, 📧    <br></li><li>ajouter un événement à un agenda, 📅</li><li>faire une réservation  ou une commande sur internet, etc.&nbsp;🛒</li></ul>"
                     }
                   ]
                 },
@@ -208,7 +208,7 @@
                       "id": "564e660c-e65c-43d0-a77c-fffdd39106ec",
                       "type": "text",
                       "tag": "did-you-know",
-                      "content": "<p>En plus de réaliser de nouvelles tâches dans le monde numérique, dans certains cas, les logiciels d’IA conversationnelle peuvent être connectés à des systèmes du monde physique. 🔌 <br> Ainsi, le logiciel d’IA peut devenir une interface pour allumer une lumière, mettre en route le chauffage, actionner un bras robotisé, etc. 🦾</p>"
+                      "content": "<p>En plus de réaliser de nouvelles tâches dans le monde numérique, dans certains cas, les logiciels d’IA conversationnelle peuvent être connectés à des systèmes du monde physique. 🔌 <br> Ainsi, un logiciel d’IA peut devenir une interface pour allumer une lumière, mettre en route le chauffage, actionner un bras robotisé, etc. 🦾</p>"
                     }
                   ]
                 }
