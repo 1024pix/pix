@@ -12,7 +12,7 @@ import * as cleaCertifiedCandidateRepository from '../../infrastructure/reposito
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
 import * as resultRecipientRepository from '../../infrastructure/repositories/result-recipient-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
-import * as sessionForResultsCsvRepository from '../../infrastructure/repositories/session-for-results-csv-repository.js';
+import * as sessionForResultsSharingRepository from '../../infrastructure/repositories/session-for-results-sharing-repository.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { findCertificatesForDivision } from './find-certificates-for-division.js';
 import { findCertificationAttestationsForDivision } from './find-certification-attestations-for-division.js';
@@ -61,7 +61,7 @@ const dependencies = {
   cleaCertifiedCandidateRepository,
   sessionEnrolmentRepository,
   resultRecipientRepository,
-  sessionForResultsCsvRepository,
+  sessionForResultsSharingRepository,
   competenceTreeRepository,
   certificationLivretScolaireRepository,
   certificateSummaryRepository,

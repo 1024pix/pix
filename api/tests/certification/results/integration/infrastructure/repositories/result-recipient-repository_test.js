@@ -1,7 +1,7 @@
-import { ResultRecipient } from '../../../../../../src/certification/results/domain/read-models/ResultRecipient.js';
 import * as resultRecipientRepository from '../../../../../../src/certification/results/infrastructure/repositories/result-recipient-repository.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Results | Integration | Infrastructure | Repository | ResultRecipient', function () {
   describe('#get', function () {
@@ -29,10 +29,13 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       });
 
       // then
-      expect(result).to.be.instanceOf(ResultRecipient);
-      expect(result.sessionId).to.equal(sessionId);
-      expect(result.resultRecipientEmail).to.equal('recipient@example.net');
-      expect(result.candidateIds).to.have.members([candidate1.id, candidate2.id]);
+      expect(result).to.deepEqualInstance(
+        domainBuilder.certification.results.buildResultRecipient({
+          sessionId,
+          resultRecipientEmail: 'recipient@example.net',
+          candidateIds: [candidate1.id, candidate2.id],
+        }),
+      );
     });
 
     it('should return an empty candidateIds array when no candidate matches', async function () {
@@ -47,7 +50,13 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       });
 
       // then
-      expect(result.candidateIds).to.be.empty;
+      expect(result).to.deepEqualInstance(
+        domainBuilder.certification.results.buildResultRecipient({
+          sessionId,
+          resultRecipientEmail: 'nobody@example.net',
+          candidateIds: [],
+        }),
+      );
     });
   });
 });

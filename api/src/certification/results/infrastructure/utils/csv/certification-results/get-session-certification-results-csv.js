@@ -7,9 +7,9 @@ export async function getSessionCertificationResultsCsv({
   sessionId,
   certificationResults,
   i18n,
-  sessionForResultsCsvRepository,
+  sessionForResultsSharingRepository,
 }) {
-  const session = await sessionForResultsCsvRepository.get(sessionId);
+  const session = await sessionForResultsSharingRepository.get(sessionId);
   const certificationResultsCsvBuilder = new SessionCertificationResultsCsvBuilder({
     session,
     certificationResults,

@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { SessionForResultsCsv } from '../../../../../../../../src/certification/results/domain/read-models/SessionForResultsCsv.js';
+import { SessionForResultsSharing } from '../../../../../../../../src/certification/results/domain/read-models/SessionForResultsSharing.js';
 import { getSessionCertificationResultsCsv } from '../../../../../../../../src/certification/results/infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { AlgorithmEngineVersion } from '../../../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -13,10 +13,10 @@ const i18n = getI18n();
 const translate = i18n.__;
 
 describe('Certification | Results | Integration | Infrastructure | Utils | certification-results | get-session-certification-results-csv', function () {
-  let sessionForResultsCsvRepository;
+  let sessionForResultsSharingRepository;
 
   beforeEach(function () {
-    sessionForResultsCsvRepository = { get: sinon.stub() };
+    sessionForResultsSharingRepository = { get: sinon.stub() };
   });
 
   context('#getSessionCertificationResultsCsv', function () {
@@ -56,8 +56,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           const certificationResults = [certifResult];
 
           // when
-          sessionForResultsCsvRepository.get.withArgs(sessionData.id).resolves(
-            new SessionForResultsCsv({
+          sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+            new SessionForResultsSharing({
               id: sessionData.id,
               date: sessionData.date,
               time: sessionData.time,
@@ -68,7 +68,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             sessionId: sessionData.id,
             certificationResults,
             i18n,
-            sessionForResultsCsvRepository,
+            sessionForResultsSharingRepository,
           });
 
           // then
@@ -113,8 +113,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
               const certificationResults = [certificationResult];
 
               // when
-              sessionForResultsCsvRepository.get.withArgs(sessionData.id).resolves(
-                new SessionForResultsCsv({
+              sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+                new SessionForResultsSharing({
                   id: sessionData.id,
                   date: sessionData.date,
                   time: sessionData.time,
@@ -125,7 +125,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
                 sessionId: sessionData.id,
                 certificationResults,
                 i18n,
-                sessionForResultsCsvRepository,
+                sessionForResultsSharingRepository,
               });
 
               // then
@@ -171,8 +171,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             const certificationResults = [automaticallyRejectedCertificationResult];
 
             // when
-            sessionForResultsCsvRepository.get.withArgs(sessionData.id).resolves(
-              new SessionForResultsCsv({
+            sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+              new SessionForResultsSharing({
                 id: sessionData.id,
                 date: sessionData.date,
                 time: sessionData.time,
@@ -183,7 +183,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
               sessionId: sessionData.id,
               certificationResults,
               i18n,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
             });
 
             // then
@@ -229,8 +229,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           const certificationResults = [certifResult];
 
           // when
-          sessionForResultsCsvRepository.get.withArgs(sessionData.id).resolves(
-            new SessionForResultsCsv({
+          sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+            new SessionForResultsSharing({
               id: sessionData.id,
               date: sessionData.date,
               time: sessionData.time,
@@ -241,7 +241,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             sessionId: sessionData.id,
             certificationResults,
             i18n,
-            sessionForResultsCsvRepository,
+            sessionForResultsSharingRepository,
           });
 
           // then
@@ -285,8 +285,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           const certificationResults = [certifResult];
 
           // when
-          sessionForResultsCsvRepository.get.withArgs(sessionData.id).resolves(
-            new SessionForResultsCsv({
+          sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+            new SessionForResultsSharing({
               id: sessionData.id,
               date: sessionData.date,
               time: sessionData.time,
@@ -297,7 +297,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             sessionId: sessionData.id,
             certificationResults,
             i18n,
-            sessionForResultsCsvRepository,
+            sessionForResultsSharingRepository,
           });
 
           // then
@@ -352,8 +352,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           const certificationResults = [certifResult];
 
           // when
-          sessionForResultsCsvRepository.get.withArgs(sessionData.id).resolves(
-            new SessionForResultsCsv({
+          sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+            new SessionForResultsSharing({
               id: sessionData.id,
               date: sessionData.date,
               time: sessionData.time,
@@ -364,7 +364,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             sessionId: sessionData.id,
             certificationResults,
             i18n,
-            sessionForResultsCsvRepository,
+            sessionForResultsSharingRepository,
           });
 
           // then
@@ -388,8 +388,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           time: '15:00:00',
           certificationCenter: 'Université des Pixous',
         });
-        sessionForResultsCsvRepository.get.withArgs(session.id).resolves(
-          new SessionForResultsCsv({
+        sessionForResultsSharingRepository.get.withArgs(session.id).resolves(
+          new SessionForResultsSharing({
             id: session.id,
             date: session.date,
             time: session.time,
@@ -437,7 +437,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -466,7 +466,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -495,7 +495,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -535,7 +535,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
               // when
               const result = await getSessionCertificationResultsCsv({
                 sessionId: session.id,
-                sessionForResultsCsvRepository,
+                sessionForResultsSharingRepository,
                 certificationResults: [certificationResult],
                 i18n,
               });
@@ -576,7 +576,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -605,7 +605,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -637,7 +637,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -677,7 +677,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
               // when
               const result = await getSessionCertificationResultsCsv({
                 sessionId: session.id,
-                sessionForResultsCsvRepository,
+                sessionForResultsSharingRepository,
                 certificationResults: [certificationResult],
                 i18n,
               });
@@ -716,7 +716,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -740,7 +740,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -768,7 +768,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -797,7 +797,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
               // when
               const result = await getSessionCertificationResultsCsv({
                 sessionId: session.id,
-                sessionForResultsCsvRepository,
+                sessionForResultsSharingRepository,
                 certificationResults: [certificationResult],
                 i18n,
               });
@@ -836,7 +836,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -860,7 +860,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -884,7 +884,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             // when
             const result = await getSessionCertificationResultsCsv({
               sessionId: session.id,
-              sessionForResultsCsvRepository,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -914,7 +914,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
               // when
               const result = await getSessionCertificationResultsCsv({
                 sessionId: session.id,
-                sessionForResultsCsvRepository,
+                sessionForResultsSharingRepository,
                 certificationResults: [certificationResult],
                 i18n,
               });

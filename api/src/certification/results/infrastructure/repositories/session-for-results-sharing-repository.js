@@ -1,5 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { SessionForResultsCsv } from '../../domain/read-models/SessionForResultsCsv.js';
+import { SessionForResultsSharing } from '../../domain/read-models/SessionForResultsSharing.js';
 
 export async function get(sessionId) {
   const knexConn = DomainTransaction.getConnection();
@@ -8,5 +8,5 @@ export async function get(sessionId) {
     .from('sessions')
     .where('id', sessionId)
     .first();
-  return new SessionForResultsCsv(sessionDTO);
+  return new SessionForResultsSharing(sessionDTO);
 }

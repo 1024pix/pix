@@ -1,4 +1,4 @@
-class SessionForResultsCsv {
+class SessionForResultsSharing {
   constructor({ id, date, time, certificationCenter }) {
     this.id = id;
     this.date = date;
@@ -7,4 +7,4 @@ class SessionForResultsCsv {
   }
 }
 
-export { SessionForResultsCsv };
+export { SessionForResultsSharing };
