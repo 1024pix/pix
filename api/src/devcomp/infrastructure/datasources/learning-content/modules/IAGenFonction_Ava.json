@@ -772,7 +772,7 @@
                 "id": "18c439bf-63ae-4ddb-9fa7-82c2b4db17c3",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>En résumé, voici un schéma montrant comment un logiciel d’IA génère une réponse en faisant appel à un outil.</p>"
+                "content": "<p>Pour résumer, le schéma suivant montre comment un logiciel d’IA générative répond à un prompt en faisant appel à un outil.</p>"
               }
             },
             {
@@ -782,7 +782,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/IAGenFonction_AVA/schema_ia_outils_global.svg",
                 "alt": "Schéma des étapes de la génération d’une réponse d’un logiciel d’IA conversationnelle qui fait appel à un outil.",
-                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie l’outil.</p><p>L’IA générative transmet la requête à&nbsp; l’outil.</p><p>L’outil envoie la réponse à l’IA générative.</p><p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p><p>L’IA générative génère la réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
+                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie un outil.</p>\n<p>L’IA générative transmet une requête à l’outil.</p>\n<p>L’outil envoie une réponse à l’IA générative.</p>\n<p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p>\n<p>L’IA générative génère une réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -793,7 +793,7 @@
                 "id": "b88d46da-1c84-442c-a481-b3b9998e58a2",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>⚠️Point de vigilance&nbsp;:&nbsp;</strong></p><p>Ce n’est pas parce qu’un logiciel d’IA générative fait appel à un outil qu’il devient infaillible&nbsp;: il peut toujours halluciner, se tromper d’outils ou d’informations à lui envoyer. Restez vigilant avec les résultats obtenus.</p>"
+                "content": "<p><strong>⚠️Point de vigilance&nbsp;:&nbsp;</strong></p><p>Ce n’est pas parce qu’un logiciel d’IA générative fait appel à un outil qu’il devient infaillible&nbsp;: le logiciel d'IA générative peut toujours halluciner, se tromper d’outils ou envoyer à un outil de mauvaises informations. Restez vigilant et vérifiez les résultats obtenus.</p>"
               }
             }
           ]
