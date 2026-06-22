@@ -9,7 +9,8 @@ const getUserDetailsForAdmin = async function ({ userId, userRepository, legalDo
   const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userId);
 
   const pixAppTosStatus = await legalDocumentApiRepository.getPixAppTosStatus({ userId });
-  userDetailsForAdmin.tosStatus = { pixAppTosStatus };
+  const pixOrgaTosStatus = await legalDocumentApiRepository.getPixOrgaTosStatus({ userId });
+  userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
 
   return userDetailsForAdmin;
 };

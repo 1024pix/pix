@@ -45,8 +45,8 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
     });
 
     context('terms of service', function () {
-      context('when the user TOS status is ACCEPTED', function () {
-        it('returns the userDetailsForAdmin with accepted Pix App TOS status', async function () {
+      context('when the user TOS statuses are ACCEPTED for pix app and pix orga', function () {
+        it('returns the userDetailsForAdmin with accepted Pix App and Pix Orga TOS status', async function () {
           // given
           const user = domainBuilder.buildUser({
             cgu: false, // irrelevant data to enlighten the fact that values come now from tosStatus
@@ -54,24 +54,36 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
             lastPixAppTermsOfServiceValidatedAt: null,
           });
 
-          const acceptedAt = new Date('2025-01-15');
+          const pixAppTosAcceptedAt = new Date('2025-01-15');
+          const pixOrgaTosAcceptedAt = new Date('2026-01-15');
           const userDetailsForAdmin = new UserDetailsForAdmin({
             userId: user.id,
           });
-          const pixAppTosStatus = { status: STATUS.ACCEPTED, documentPath: '/tos/v2.pdf', acceptedAt: acceptedAt };
+          const pixAppTosStatus = {
+            status: STATUS.ACCEPTED,
+            documentPath: '/tos/v2.pdf',
+            acceptedAt: pixAppTosAcceptedAt,
+          };
+          const pixOrgaTosStatus = {
+            status: STATUS.ACCEPTED,
+            documentPath: '/tos/v4.pdf',
+            acceptedAt: pixOrgaTosAcceptedAt,
+          };
 
           // when
-          userDetailsForAdmin.tosStatus = { pixAppTosStatus };
+          userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.true;
-          expect(userDetailsForAdmin.lastPixAppTermsOfServiceValidatedAt).to.deep.equal(acceptedAt);
+          expect(userDetailsForAdmin.lastPixAppTermsOfServiceValidatedAt).to.deep.equal(pixAppTosAcceptedAt);
+          expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(pixOrgaTosAcceptedAt);
           expect(userDetailsForAdmin.pixAppTermsOfServiceAccepted).to.equal(true);
+          expect(userDetailsForAdmin.pixOrgaTermsOfServiceAccepted).to.equal(true);
         });
       });
 
-      context('when the user TOS status is REQUESTED', function () {
-        it('returns the user with not accepted Pix App TOS status', function () {
+      context('when the user TOS statuses are REQUESTED for Pix App and ACCEPTED for Pix Orga', function () {
+        it('returns the user with not accepted Pix App TOS status and accepted Pix Orga TOS status', function () {
           // given
           const user = domainBuilder.buildUser({
             cgu: true, // irrelevant data to enlighten the fact that values come now from tosStatus
@@ -81,10 +93,16 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
           const userDetailsForAdmin = new UserDetailsForAdmin({
             userId: user.id,
           });
+          const pixOrgaTosAcceptedAt = new Date('2026-01-15');
           const pixAppTosStatus = { status: STATUS.REQUESTED, acceptedAt: null };
+          const pixOrgaTosStatus = {
+            status: STATUS.ACCEPTED,
+            documentPath: '/tos/v4.pdf',
+            acceptedAt: pixOrgaTosAcceptedAt,
+          };
 
           // when
-          userDetailsForAdmin.tosStatus = { pixAppTosStatus };
+          userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.false;
@@ -93,8 +111,8 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
         });
       });
 
-      context('when the user TOS status is UPDATE-REQUESTED', function () {
-        it('returns the user with update-requested TOS status', function () {
+      context('when the user TOS statuses for Pix App and Pix Orga are UPDATE-REQUESTED', function () {
+        it('returns the user with update-requested Pix Orga and Pix App TOS statuses', function () {
           // given
           const user = domainBuilder.buildUser({
             cgu: false, // irrelevant data to enlighten the fact that values come now from tosStatus
@@ -105,18 +123,21 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
             userId: user.id,
           });
           const pixAppTosStatus = { status: STATUS.UPDATE_REQUESTED, acceptedAt: null };
+          const pixOrgaTosStatus = { status: STATUS.UPDATE_REQUESTED, acceptedAt: null };
 
           // when
-          userDetailsForAdmin.tosStatus = { pixAppTosStatus };
+          userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.true;
           expect(userDetailsForAdmin.lastPixAppTermsOfServiceValidatedAt).to.be.null;
+          expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.be.null;
           expect(userDetailsForAdmin.pixAppTermsOfServiceAccepted).to.be.false;
+          expect(userDetailsForAdmin.pixOrgaTermsOfServiceAccepted).to.be.false;
         });
       });
 
-      context('when the user TOS status is NOT-APPLICABLE', function () {
+      context('when the user Pix App TOS status is NOT-APPLICABLE', function () {
         it('returns the user with update-requested TOS status', function () {
           // given
           const user = domainBuilder.buildUser({
@@ -128,9 +149,10 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
             userId: user.id,
           });
           const pixAppTosStatus = { status: STATUS.NOT_APPLICABLE, acceptedAt: null };
+          const pixOrgaTosStatus = { status: STATUS.REQUESTED, acceptedAt: null };
 
           // when
-          userDetailsForAdmin.tosStatus = { pixAppTosStatus };
+          userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.false;
