@@ -8,7 +8,7 @@ const serialize = function (combinedCourseBlueprint) {
     items: {
       ref: 'id',
       included: true,
-      attributes: ['name', 'duration', 'image', 'isRecommendable'],
+      attributes: ['name', 'type', 'duration', 'image', 'isRecommendable'],
     },
     typeForAttribute: (attribute) => {
       if (attribute === 'items') return 'combined-course-blueprint-items';

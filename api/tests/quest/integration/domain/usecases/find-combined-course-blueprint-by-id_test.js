@@ -1,5 +1,8 @@
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { CombinedCourseBlueprintItem } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprintItem.js';
+import {
+  CampaignCombinedCourseBlueprintItem,
+  ModuleCombinedCourseBlueprintItem,
+} from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprintItem.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -58,11 +61,11 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
       surveyLink: null,
       organizationIds: [],
       items: [
-        new CombinedCourseBlueprintItem({
+        new CampaignCombinedCourseBlueprintItem({
           id: targetProfile.id,
           name: 'Diagnostic',
         }),
-        new CombinedCourseBlueprintItem({
+        new ModuleCombinedCourseBlueprintItem({
           id: moduleId,
           name: 'Demo combinix 1',
           duration: 1,
