@@ -37,6 +37,25 @@ const cappedTubesSchema = Joi.array().items(
   }),
 );
 
+const schema = Joi.object({
+  items: itemsSchema,
+  cappedTubeRequirements: cappedTubesSchema,
+  rewardId: Joi.alternatives()
+    .conditional('rewardType', {
+      is: Joi.string(),
+      then: Joi.number().integer().required(),
+      otherwise: undefined,
+    })
+    .allow(null),
+  rewardType: Joi.alternatives()
+    .conditional('rewardId', {
+      is: Joi.number().integer(),
+      then: Joi.string().required(),
+      otherwise: undefined,
+    })
+    .allow(null),
+});
+
 export class QuestInput {
   constructor({ items, rewardId, rewardType, cappedTubeRequirements = [] } = {}) {
     this.items = items;
@@ -47,7 +66,7 @@ export class QuestInput {
   }
 
   #validate() {
-    const { error } = itemsSchema.validate(this.items);
+    const { error } = schema.validate(this);
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: this.items });
     }
