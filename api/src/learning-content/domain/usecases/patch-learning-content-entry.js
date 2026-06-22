@@ -13,6 +13,7 @@ export async function patchLearningContentEntry({
   courseRepository,
   tutorialRepository,
   missionRepository,
+  moduleRepository,
 }) {
   const repository = {
     frameworks: frameworkRepository,
@@ -25,6 +26,7 @@ export async function patchLearningContentEntry({
     courses: courseRepository,
     tutorials: tutorialRepository,
     missions: missionRepository,
+    modules: moduleRepository,
   }[modelName];
 
   await repository.save(updatedRecord);

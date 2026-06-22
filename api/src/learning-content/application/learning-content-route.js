@@ -48,6 +48,7 @@ async function register(server) {
                 'challenges',
                 'tutorials',
                 'courses',
+                'modules',
               )
               .required(),
           }),
