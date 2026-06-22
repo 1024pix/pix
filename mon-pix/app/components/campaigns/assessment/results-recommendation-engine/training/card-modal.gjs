@@ -92,7 +92,7 @@ export default class CardModal extends Component {
           </div>
         </div>
 
-        <PixAccordions {{on "click" (fn this.onModalAccordionClick "OBJECTIVES")}}>
+        <PixAccordions @isV2Version={{true}} {{on "click" (fn this.onModalAccordionClick "OBJECTIVES")}}>
           <:title>
             <h2>{{t "pages.skill-review.recommended-engine.modal.objectives"}}</h2>
           </:title>
@@ -112,7 +112,7 @@ export default class CardModal extends Component {
             </ul>
           </:content>
         </PixAccordions>
-        <PixAccordions {{on "click" (fn this.onModalAccordionClick "PROGRAM")}}>
+        <PixAccordions @isV2Version={{true}} {{on "click" (fn this.onModalAccordionClick "PROGRAM")}}>
           <:title>
             <h2>{{t "pages.skill-review.recommended-engine.modal.program"}}</h2>
           </:title>
