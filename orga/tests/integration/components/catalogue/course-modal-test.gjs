@@ -177,7 +177,7 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
     });
   });
 
-  module('for a "blueprint" type course', function () {
+  module('for a "combined-course-blueprint" type course', function () {
     test('it shows the course content', async function (assert) {
       //given
       const currentCourse = store.createRecord('combined-course-blueprint', {
