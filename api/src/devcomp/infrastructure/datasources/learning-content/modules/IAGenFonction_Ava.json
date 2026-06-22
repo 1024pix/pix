@@ -782,7 +782,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/IAGenFonction_AVA/schema_ia_outils_global.svg",
                 "alt": "Schéma des étapes de la génération d’une réponse d’un logiciel d’IA conversationnelle qui fait appel à un outil.",
-                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie un outil.</p>\n<p>L’IA générative transmet une requête à l’outil.</p>\n<p>L’outil envoie une réponse à l’IA générative.</p>\n<p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p>\n<p>L’IA générative génère une réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
+                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie un outil.</p><p>L’IA générative transmet une requête à l’outil.</p><p>L’outil envoie une réponse à l’IA générative.</p><p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p><p>L’IA générative génère une réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -793,7 +793,7 @@
                 "id": "b88d46da-1c84-442c-a481-b3b9998e58a2",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>⚠️Point de vigilance&nbsp;:&nbsp;</strong></p><p>Ce n’est pas parce qu’un logiciel d’IA générative fait appel à un outil qu’il devient infaillible&nbsp;: le logiciel d'IA générative peut toujours halluciner, se tromper d’outils ou envoyer à un outil de mauvaises informations. Restez vigilant et vérifiez les résultats obtenus.</p>"
+                "content": "<p><strong>⚠️Point de vigilance&nbsp;:&nbsp;</strong></p><p>Ce n’est pas parce qu’un logiciel d’IA générative fait appel à un outil qu’il devient infaillible&nbsp;: le logiciel d’IA générative peut toujours halluciner, se tromper d’outils ou envoyer à un outil de mauvaises informations. Restez vigilant et vérifiez les résultats obtenus.</p>"
               }
             }
           ]
@@ -863,7 +863,7 @@
                 "id": "8454a04e-e0aa-432f-97da-72c94c43e3e5",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>🤔À leur lancement, les logiciels IA générative conversationnelle grand public avaient beaucoup de <strong>limites </strong>: ils généraient principalement du texte, faisaient des erreurs dans les calculs, n’avaient pas d’accès aux informations en temps réel, etc.</li><li>🧰Pour dépasser ces limites, les développeurs ont mis en place des <strong>outils </strong>que les logiciels d’IA peuvent appeler pour faire davantage d’<strong>actions&nbsp;</strong>en interagissant avec d’autres logiciels&nbsp;: calculer, exécuter du <strong>code informatique</strong>, générer un support de <strong>présentation</strong>, etc.<br></li><li>⚙️Ce mécanisme, appelé<strong> appel d’outils</strong> (tool calling), repose sur une liste d’outils définis à l’avance par les développeurs.</li><li>🎯 Pour traiter une demande, le logiciel d’IA identifie les <strong>outils </strong> utiles, leur adresse des <strong>requêtes </strong>et intègre les résultats dans le prompt pour générer une réponse adaptée.</li></ul><br>"
+                "content": "<ul>    <li>À leur lancement, les logiciels IA générative de texte avaient beaucoup de <strong>limites </strong>: ils généraient principalement du texte, faisaient des erreurs dans les calculs, n’avaient pas d’accès aux informations en temps réel, etc.&nbsp;🤔</li>    <li>Pour dépasser ces limites, les développeurs ont mis en place des <strong>outils </strong>que les logiciels d’IA peuvent appeler pour faire davantage d’<strong>actions&nbsp;</strong>en interagissant avec d’autres logiciels&nbsp;: calculer, exécuter du <strong>code informatique</strong>, générer un support de <strong>présentation</strong>, etc.&nbsp;</li>    <li>Ce mécanisme, appelé<strong> appel d’outils</strong> (tool calling), repose sur une liste d’outils définis à l’avance par les développeurs.&nbsp;⚙️</li>    <li>Pour traiter une demande, un logiciel d’IA identifie des <strong>outils </strong> utiles. Il leur transmet des <strong>requêtes </strong>et intègre les résultats dans le prompt pour générer une réponse adaptée.&nbsp;🎯</li></ul><br>"
               }
             },
             {
@@ -873,7 +873,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/IAGenFonction_AVA/recap_outils_fond_jaune.svg",
                 "alt": "Schéma récapitulatif des outils intégrés dans les logiciels d’IA conversationnelle",
-                "alternativeText": "<p>L’IA générative peut générer du texte.&nbsp;</p><p>Elle peut aussi faire appel à des outils.</p><p>Parmi ces outils, des services tiers comme la calculatrice, la boîte mail, l’agenda, la génération d’image, la météo, la recherche sur internet, etc.</p>",
+                "alternativeText": "<p>Une IA générative peut générer du texte.&nbsp;</p><p>Elle peut aussi faire appel à des outils.</p><p>Parmi ces outils, il y a des services tiers comme la calculatrice, la boîte mail, l’agenda, la génération d’image, la météo, la recherche sur internet, etc.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -899,7 +899,7 @@
                 "isCompletionRequired": false,
                 "title": "ChatPix pour tester",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmlfcrotr00004z01vw5daup4",
-                "instruction": "<p>Testez ce logiciel d’IA générative pour déduire les outils auxquels il a accès puis répondez aux questions.</p>",
+                "instruction": "<p>Testez le logiciel d’IA générative ci-dessous pour déduire les outils auxquels il a accès puis répondez aux questions.</p>",
                 "solution": "",
                 "height": 550
               }
@@ -919,8 +919,8 @@
                     "type": "select",
                     "input": "rechercheImage",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez - ",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner - ",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [
                       ""
                     ],
@@ -940,14 +940,14 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>La production de graphique&nbsp;:&nbsp;</p>"
+                    "content": "<br><p>La production de graphiques&nbsp;:&nbsp;</p>"
                   },
                   {
                     "type": "select",
                     "input": "productionGraphique",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez - ",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner - ",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -967,11 +967,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "Bonne réponse !",
-                    "diagnosis": "Effectivement, ce logiciel d’IA n’a accès à aucun de ces outils."
+                    "diagnosis": "<p>Effectivement, ce logiciel d’IA générative n’a accès à aucun de ces outils.</p>"
                   },
                   "invalid": {
                     "state": "Mauvaise réponse !",
-                    "diagnosis": "<p> Avez-vous testé avec un prompt pour chaque situation ?</p><ul><li>Pour la recherche sur internet&nbsp;: avez-vous posé à l’IA une question d’actualité ?<ul><li>Par exemple, quelle équipe a remporté le dernier championnat du monde de water-polo  ?</li></ul></li><li>Pour la production de graphique&nbsp;: avez-vous demandé à l’IA de représenter des données chiffrées sous une forme visuelle ?<ul><li>Par exemple&nbsp;: Fais un graphique comparant les températures de Kinshasa et Montréal.</li></ul></li></ul>"
+                    "diagnosis": "<p> Avez-vous testé avec un prompt pour chaque situation ?</p><ul><li><strong>Pour la recherche sur internet</strong>&nbsp;: avez-vous posé à l’IA <strong>une question d’actualité ?</strong><p>Par exemple&nbsp;: «&nbsp;Quelle équipe a remporté le dernier championnat du monde de water-polo  ?&nbsp;».</p></li><li><strong>Pour la production de graphiques&nbsp;:</strong> avez-vous demandé à l’IA de <strong>représenter des données chiffrées sous une forme visuelle ?</strong><p>Par exemple&nbsp;: «&nbsp;Fais un graphique comparant les températures de Kinshasa et Montréal.&nbsp;».</p></li></ul>"
                   }
                 }
               }
