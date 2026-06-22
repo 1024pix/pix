@@ -11,6 +11,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--pix-spacing-6x);
+  min-height: 350px;
   padding: var(--pix-spacing-6x) var(--pix-spacing-3x);
   color: var(--pix-neutral-0);
   background: var(--pix-gradient-default-dark);
@@ -138,6 +139,9 @@
     max-width: 80rem;
     margin: 0 auto var(--pix-spacing-1x);
     padding: var(--pix-spacing-10x) 15%;
+    background: url('/images/illustrations/results/coupe-resultat.webp') bottom 0 right 60px / 360px no-repeat,
+      url('/images/illustrations/results/triangle-result.svg') bottom 0 right 0 / 460px no-repeat,
+      var(--pix-gradient-default-dark);
 
     &__content {
       gap: var(--pix-spacing-4x);
