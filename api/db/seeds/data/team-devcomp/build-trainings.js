@@ -14,22 +14,7 @@ export function buildTrainings(databaseBuilder) {
       "Aujourd'hui, manger un croissant est tout un art en France. De nombreux touristes viennent en France et font le tour des meilleures boulangeries pour en manger, mais sans connaître les différentes manières de le savourer pleinement.",
   }).id;
 
-  databaseBuilder.factory.buildTargetProfileTraining({
-    targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    trainingId: frTrainingId1,
-  });
-
-  const frTrainingTriggerId = databaseBuilder.factory.buildTrainingTrigger({
-    trainingId: frTrainingId1,
-    threshold: 0,
-    type: 'prerequisite',
-  }).id;
-
-  databaseBuilder.factory.buildTrainingTriggerTube({
-    trainingTriggerId: frTrainingTriggerId,
-    tubeId: 'tube1NLpOetQhutFlA',
-    level: 2,
-  });
+  _buildTargetProfileTrainingAndTrigger(databaseBuilder, frTrainingId1);
 
   const frTrainingId2 = databaseBuilder.factory.buildTraining({
     id: trainingId++,
@@ -50,22 +35,7 @@ export function buildTrainings(databaseBuilder) {
       'Quand vous discutez avec un logiciel d’intelligence artificielle (IA) générative, la conversation n’est pas privée. Tout ce que vous écrivez peut être enregistré et parfois réutilisé pour améliorer l’IA. Dans ce module, vous allez comprendre pourquoi les échanges avec une IA générative ne sont pas totalement privés et quelles informations il vaut mieux éviter d’écrire dans vos instructions (prompts).',
   }).id;
 
-  databaseBuilder.factory.buildTargetProfileTraining({
-    targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    trainingId: frTrainingId2,
-  });
-
-  const frTrainingTriggerId2 = databaseBuilder.factory.buildTrainingTrigger({
-    trainingId: frTrainingId2,
-    threshold: 0,
-    type: 'prerequisite',
-  }).id;
-
-  databaseBuilder.factory.buildTrainingTriggerTube({
-    trainingTriggerId: frTrainingTriggerId2,
-    tubeId: 'tube1NLpOetQhutFlA',
-    level: 2,
-  });
+  _buildTargetProfileTrainingAndTrigger(databaseBuilder, frTrainingId2);
 
   const frTrainingId3 = databaseBuilder.factory.buildTraining({
     id: trainingId++,
@@ -83,22 +53,7 @@ export function buildTrainings(databaseBuilder) {
       "Aujourd'hui, on utilise des mots de passe pour tout : son téléphone, son adresse mail, ses réseaux sociaux. Dans ce module, vous allez découvrir pourquoi et comment créer des mots de passe solides.",
   }).id;
 
-  databaseBuilder.factory.buildTargetProfileTraining({
-    targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    trainingId: frTrainingId3,
-  });
-
-  const frTrainingTriggerId3 = databaseBuilder.factory.buildTrainingTrigger({
-    trainingId: frTrainingId3,
-    threshold: 0,
-    type: 'prerequisite',
-  }).id;
-
-  databaseBuilder.factory.buildTrainingTriggerTube({
-    trainingTriggerId: frTrainingTriggerId3,
-    tubeId: 'tube1NLpOetQhutFlA',
-    level: 2,
-  });
+  _buildTargetProfileTrainingAndTrigger(databaseBuilder, frTrainingId3);
 
   const frFrTrainingId1 = databaseBuilder.factory.buildTraining({
     id: trainingId++,
@@ -110,22 +65,7 @@ export function buildTrainings(databaseBuilder) {
     registrationRequired: true,
   }).id;
 
-  databaseBuilder.factory.buildTargetProfileTraining({
-    targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    trainingId: frFrTrainingId1,
-  });
-
-  const frFrTrainingTriggerId1 = databaseBuilder.factory.buildTrainingTrigger({
-    trainingId: frFrTrainingId1,
-    threshold: 0,
-    type: 'prerequisite',
-  }).id;
-
-  databaseBuilder.factory.buildTrainingTriggerTube({
-    trainingTriggerId: frFrTrainingTriggerId1,
-    tubeId: 'tube1NLpOetQhutFlA',
-    level: 2,
-  });
+  _buildTargetProfileTrainingAndTrigger(databaseBuilder, frFrTrainingId1);
 
   const frFrTrainingId2 = databaseBuilder.factory.buildTraining({
     id: trainingId++,
@@ -144,22 +84,7 @@ export function buildTrainings(databaseBuilder) {
     deliveryMode: Training.modes.REMOTE,
   }).id;
 
-  databaseBuilder.factory.buildTargetProfileTraining({
-    targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    trainingId: frFrTrainingId2,
-  });
-
-  const frFrTrainingTriggerId2 = databaseBuilder.factory.buildTrainingTrigger({
-    trainingId: frFrTrainingId2,
-    threshold: 0,
-    type: 'prerequisite',
-  }).id;
-
-  databaseBuilder.factory.buildTrainingTriggerTube({
-    trainingTriggerId: frFrTrainingTriggerId2,
-    tubeId: 'tube1NLpOetQhutFlA',
-    level: 2,
-  });
+  _buildTargetProfileTrainingAndTrigger(databaseBuilder, frFrTrainingId2);
 
   const enTrainingId = databaseBuilder.factory.buildTraining({
     id: trainingId++,
@@ -169,22 +94,26 @@ export function buildTrainings(databaseBuilder) {
     objectives: ['How to tell if a croissant is of good quality', 'Buy a croissant to eat'],
   }).id;
 
+  _buildTargetProfileTrainingAndTrigger(databaseBuilder, enTrainingId);
+
+  return [frTrainingId1, frTrainingId2, frTrainingId3, frFrTrainingId1, frFrTrainingId2, enTrainingId];
+}
+
+function _buildTargetProfileTrainingAndTrigger(databaseBuilder, trainingId) {
   databaseBuilder.factory.buildTargetProfileTraining({
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    trainingId: enTrainingId,
+    trainingId,
   });
 
-  const enTrainingTrigger = databaseBuilder.factory.buildTrainingTrigger({
-    trainingId: enTrainingId,
+  const trainingTriggerId = databaseBuilder.factory.buildTrainingTrigger({
+    trainingId,
     threshold: 0,
     type: 'prerequisite',
   }).id;
 
   databaseBuilder.factory.buildTrainingTriggerTube({
-    trainingTriggerId: enTrainingTrigger,
+    trainingTriggerId,
     tubeId: 'tube1NLpOetQhutFlA',
     level: 2,
   });
-
-  return [frTrainingId1, frTrainingId2, frTrainingId3, frFrTrainingId1, frFrTrainingId2, enTrainingId];
 }
