@@ -24,7 +24,6 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
     cpfCertificationResultRepository = {
       countExportableCertificationCoursesByTimeRange: sinon.stub(),
       markCertificationToExport: sinon.stub(),
-      updateCertificationImportStatus: sinon.stub(),
     };
   });
 
