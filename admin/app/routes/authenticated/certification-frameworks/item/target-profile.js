@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default class TargetProfileRoute extends Route {
-  @service('store') store;
+  @service store;
 
   async model() {
     const { frameworkHistory, frameworkKey, currentCertificationFramework, hasTargetProfilesHistory } = this.modelFor(
