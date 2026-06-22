@@ -21,6 +21,11 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
       days: 2,
     },
     isRecommendable: true,
+    description: 'Une description du contenu formatif',
+    deliveryMode: 'remote',
+    registrationRequired: true,
+    objectives: 'Objectif 1;Objectif 2',
+    program: 'Un programme détaillé',
   };
 
   test('it should display the details', async function (assert) {
@@ -145,6 +150,55 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
       assert
         .dom(screen.getByRole('link', { name: 'https://app.pix.fr/modules/123/soleil (nouvelle fenêtre)' }))
         .exists();
+    });
+  });
+
+  module('Recommendation engine card', function () {
+    test('it should display the details', async function (assert) {
+      // when
+      const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
+
+      // then
+      assert.dom(screen.getByText(t('pages.trainings.training.details.recommendationEngine'))).exists();
+      assert.dom(screen.getByText(training.description)).exists();
+      assert.dom(screen.getByText(training.program)).exists();
+      assert.dom(screen.getByText('À distance')).exists();
+
+      const objectives = screen.getAllByRole('listitem');
+      assert.strictEqual(objectives.length, 2);
+
+      assert.strictEqual(objectives[0].textContent.trim(), 'Objectif 1');
+      assert.strictEqual(objectives[1].textContent.trim(), 'Objectif 2');
+    });
+
+    module('when registrationRequired is false', function () {
+      test('it should display "Non"', async function (assert) {
+        // given
+        const trainingWithRegistration = { ...training, registrationRequired: false };
+
+        // when
+        const screen = await render(
+          <template><TrainingDetailsCard @training={{trainingWithRegistration}} /></template>,
+        );
+
+        // then
+        assert.dom(screen.getByText(t('common.words.no'))).exists();
+      });
+    });
+
+    module('when registrationRequired is true', function () {
+      test('it should display "Oui"', async function (assert) {
+        // given
+        const trainingWithRegistration = { ...training, registrationRequired: true };
+
+        // when
+        const screen = await render(
+          <template><TrainingDetailsCard @training={{trainingWithRegistration}} /></template>,
+        );
+
+        // then
+        assert.dom(screen.getByText(t('common.words.yes'))).exists();
+      });
     });
   });
 });

@@ -1898,6 +1898,7 @@
           "internalTitle": "Titre interne",
           "locales": "{ count, plural, one {Locale} other {Locales}}",
           "publishedOn": "Publié sur",
+          "recommendationEngine": "Informations utilisées pour le moteur de recommandation",
           "status": "Statut",
           "status-label": {
             "disabled": "Non déclenchable",

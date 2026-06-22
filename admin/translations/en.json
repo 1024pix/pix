@@ -1888,6 +1888,7 @@
           "internalTitle": "Internal title",
           "locales": "{ count, plural, one {Locale} other {Locales}}",
           "publishedOn": "Published on",
+          "recommendationEngine": "Information used by the recommendation engine",
           "status": "Status",
           "status-label": {
             "disabled": "Non-triggerable",
