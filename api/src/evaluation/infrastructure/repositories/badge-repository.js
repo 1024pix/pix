@@ -79,15 +79,6 @@ const remove = async (badgeId) => {
   return true;
 };
 
-const findAllByIds = async ({ ids }) => {
-  const knexConnection = DomainTransaction.getConnection();
-  const badges = await knexConnection.from('badges').whereIn('id', ids);
-
-  return badges.map((badge) => {
-    return new Badge(badge);
-  });
-};
-
 const findAllByTargetProfileId = async (targetProfileId) => {
   const knexConnection = DomainTransaction.getConnection();
   const badges = await knexConnection('badges').where({
@@ -97,6 +88,6 @@ const findAllByTargetProfileId = async (targetProfileId) => {
   return badges.map((badge) => new Badge(badge));
 };
 
-export { findAllByIds, findAllByTargetProfileId, findByCampaignId, get, isAssociated, remove, save, saveAll, update };
+export { findAllByTargetProfileId, findByCampaignId, get, isAssociated, remove, save, saveAll, update };
 
 const adaptModelToDb = (badge) => omit(badge, ['id', 'badgeCriteria', 'complementaryCertificationBadge']);
