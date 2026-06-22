@@ -988,7 +988,7 @@
               "element": {
                 "id": "d14eac04-d14f-42aa-a61a-b914fcfb11e1",
                 "type": "qab",
-                "instruction": "<p>Pour chaque prompt suivant, dites s’il encourage à faire appel à un outil.</p>",
+                "instruction": "<p>Pour chaque prompt suivant, dites s’il encourage le logiciel d’IA générative à faire appel à un outil.</p>",
                 "cards": [
                   {
                     "id": "5cabf99b-be7e-459a-a2d2-7e021df91abe",
@@ -1036,7 +1036,7 @@
                   },
                   {
                     "id": "75ad5ac8-377f-4101-94b7-266dd141308e",
-                    "text": "Je veux faire une terrasse de 4m sur 3m avec des lames de terrasse de pin au format  L.240 x l.12 cm. Combien faut-il que j’en achète ? ",
+                    "text": "Je veux faire une terrasse de 4 m sur 3 m avec des lames de terrasse de pin au format  L.240 x l.12 cm. Combien faut-il que j’en achète ? ",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -1047,7 +1047,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>Le logiciel d’IA conversationnelle va avoir besoin de faire appel à des outils&nbsp;:</p><ul><li> la <strong>commande en ligne </strong>pour l’achat de l’escabeau et des rouleaux de peinture,</li><li>la <strong>recherche sur internet</strong> pour donner des sources,&nbsp;</li><li> et la <strong>calculatrice </strong>pour l’estimation du nombre de lames pour la terrasse.</li></ul>"
+                  "diagnosis": "<p>Le logiciel d’IA générative va avoir besoin de faire appel à des outils&nbsp;:</p><ul><li> la <strong>commande en ligne </strong>pour l’achat d'un escabeau et des rouleaux de peinture,</li><li>la <strong>recherche sur internet</strong> pour donner des sources,&nbsp;</li><li> et la <strong>calculatrice </strong>pour une estimation du nombre de lames pour la terrasse.</li></ul>"
                 }
               }
             }
@@ -1102,8 +1102,8 @@
                     "type": "select",
                     "input": "classementetape3",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -1135,8 +1135,8 @@
                     "type": "select",
                     "input": "classementetape4",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -1168,8 +1168,8 @@
                     "type": "select",
                     "input": "classementetape5",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -1201,8 +1201,8 @@
                     "type": "select",
                     "input": "classementetape6",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -1261,12 +1261,12 @@
               "element": {
                 "id": "65220197-b2bf-4f2d-ad5d-7d6ef8d11070",
                 "type": "qcu-declarative",
-                "instruction": "<p>Vous en savez maintenant davantage sur les appels à des outils.</p><p>Que pouvez-vous dire de leurs usages&nbsp; dans votre utilisation de l’IA ?<br></p>",
+                "instruction": "<p>Vous en savez maintenant davantage sur les appels à des outils.</p><p> Que pouvez-vous dire de ces appels à des outils dans votre utilisation de l’IA ?<br><br></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>J’ai déjà fait appel à des outils en utilisant un prompt.<br></p>",
+                    "content": "<p>J’ai déjà envoyé des prompts qui faisaient appel à des outils.</p>",
                     "feedback": {
                       "diagnosis": "<p>C’est probable, ils sont très utilisés !<br></p>"
                     }
