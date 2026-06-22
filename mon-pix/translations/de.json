@@ -2366,6 +2366,7 @@
       "type": {
         "autoformation": "Selbstständiger Lernpfad",
         "e-learning": "Fernunterricht",
+        "external-service": "Externer Dienst",
         "formation": "Ausbildung",
         "hybrid-training": "Hybride Ausbildung",
         "in-person-training": "Präsenzschulungen",

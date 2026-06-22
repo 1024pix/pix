@@ -2366,6 +2366,7 @@
       "type": {
         "autoformation": "Autoformation customised test",
         "e-learning": "E-Learning",
+        "external-service": "External service",
         "formation": "Training",
         "hybrid-training": "Hybrid training",
         "in-person-training": "In person training",

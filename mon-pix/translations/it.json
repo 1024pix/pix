@@ -2366,6 +2366,7 @@
       "type": {
         "autoformation": "Corsi di autoformazione",
         "e-learning": "Formazione a distanza",
+        "external-service": "Servizio esterno",
         "formation": "Formazione",
         "hybrid-training": "Formazione ibrida",
         "in-person-training": "Formazione faccia a faccia",

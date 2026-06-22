@@ -2366,6 +2366,7 @@
       "type": {
         "autoformation": "Parcours d'autoformation",
         "e-learning": "Formation à distance",
+        "external-service": "Service externe",
         "formation": "Formation",
         "hybrid-training": "Formation hybride",
         "in-person-training": "Formation en présentiel",
