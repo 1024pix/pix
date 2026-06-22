@@ -50,14 +50,6 @@ export async function findActiveByCompetenceId(competenceId) {
   return skillDtos.map(toDomain);
 }
 
-export async function findOperativeByCompetenceId(competenceId) {
-  const cacheKey = `findOperativeByCompetenceId(${competenceId})`;
-  const findOperativeByCompetenceIdCallback = (knex) =>
-    knex.where({ competenceId }).whereIn('status', OPERATIVE_STATUSES).orderBy('id');
-  const skillDtos = await getInstance().find(cacheKey, findOperativeByCompetenceIdCallback);
-  return skillDtos.map(toDomain);
-}
-
 export async function findOperativeByCompetenceIds(competenceIds) {
   const knexConn = DomainTransaction.getConnection();
   const ids = await knexConn
