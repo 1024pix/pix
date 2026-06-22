@@ -25,7 +25,7 @@
         {
           "id": "93444833-7b39-42be-bd0b-f0b4341209f0",
           "type": "discovery",
-          "title": "Conversation sur l’évolution des IA conversationnelles",
+          "title": "Conversation sur l’évolution des IA génératives",
           "components": [
             {
               "type": "element",
@@ -97,7 +97,7 @@
                 "id": "540b867d-1e06-496c-a9e9-425c2012fef8",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Yasmine aimerait trouver des objets en brocante pour décorer une fois les travaux terminés.</p><p>Elle a posé la même question à deux logiciels d’IA conversationnelle différents.</p><br><p>Observez la différence entre ces deux réponses.</p>"
+                "content": "<p>Yasmine aimerait trouver des objets en brocante pour décorer une fois les travaux terminés.</p><p>Elle a posé la même question à deux logiciels d’IA générative. </p><p>Observez les différences entre ces deux réponses puis répondez à la question qui suit.</p>"
               }
             },
             {
@@ -112,11 +112,11 @@
                 "props": {
                   "conversation1": {
                     "title": "Exemple 1",
-                    "llmName": "ChatPix"
+                    "llmName": "IA générative n°1 "
                   },
                   "conversation2": {
                     "title": "Exemple 2",
-                    "llmName": "ChatPix"
+                    "llmName": "IA générative n°2"
                   },
                   "userName": "Yasmine",
                   "messages": [
@@ -143,7 +143,7 @@
               "element": {
                 "id": "d0207bf0-7267-4877-a80d-adfda8f6d7e5",
                 "type": "qcu-discovery",
-                "instruction": "À votre avis, dans quel exemple le logiciel d’IA conversationnelle a-t-il fait appel à un outil ?",
+                "instruction": "<p>À votre avis, dans quel exemple l’IA générative&nbsp; fait-il appel à un outil ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
