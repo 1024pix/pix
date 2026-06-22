@@ -134,7 +134,6 @@ const serializeForUpdate = function (usersDetailsForAdmin) {
       'username',
       'lang',
       'locale',
-      'cgu',
       'pixOrgaTermsOfServiceAccepted',
       'pixCertifTermsOfServiceAccepted',
       'organizationLearners',

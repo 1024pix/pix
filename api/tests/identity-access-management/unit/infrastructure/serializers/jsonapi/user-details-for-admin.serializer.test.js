@@ -198,7 +198,6 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'last-name': modelObject.lastName,
             email: modelObject.email,
             username: modelObject.username,
-            cgu: modelObject.cgu,
             lang: 'fr',
             locale: 'fr-FR',
             'pix-orga-terms-of-service-accepted': modelObject.pixOrgaTermsOfServiceAccepted,
