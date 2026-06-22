@@ -1,5 +1,4 @@
 import { InvalidOrAlreadyUsedEmailError } from '../../../identity-access-management/domain/errors.js';
-import * as legalDocumentApi from '../../../legal-documents/application/api/legal-documents-api.js';
 import * as organizationFeaturesApi from '../../../organizational-entities/application/api/organization-features-api.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { OrganizationLearnerForAdmin } from '../../../prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
@@ -120,12 +119,6 @@ const getUserDetailsForAdmin = async function (userId) {
     throw new UserNotFoundError(`User not found for ID ${userId}`);
   }
 
-  const pixOrgaLegalDocumentStatus = await legalDocumentApi.getLegalDocumentStatusByUserId({
-    userId,
-    service: 'pix-orga',
-    type: 'TOS',
-  });
-
   const lastUserApplicationConnectionsDTO = await knexConn('last-user-application-connections').where({ userId });
 
   const authenticationMethodsDTO = await knexConn('authentication-methods')
@@ -161,7 +154,6 @@ const getUserDetailsForAdmin = async function (userId) {
 
   return _fromKnexDTOToUserDetailsForAdmin({
     userDTO,
-    pixOrgaLegalDocumentStatus,
     organizationLearnersDTO,
     authenticationMethodsDTO,
     pixAdminRolesDTO,
@@ -498,7 +490,6 @@ export {
 
 function _fromKnexDTOToUserDetailsForAdmin({
   userDTO,
-  pixOrgaLegalDocumentStatus,
   organizationLearnersDTO,
   authenticationMethodsDTO,
   pixAdminRolesDTO,
@@ -558,11 +549,9 @@ function _fromKnexDTOToUserDetailsForAdmin({
     lastName: userDTO.lastName,
     username: userDTO.username,
     email: userDTO.email,
-    pixOrgaTermsOfServiceAccepted: pixOrgaLegalDocumentStatus.status === 'accepted',
     pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
     lang: userDTO.lang,
     locale: userDTO.locale,
-    lastPixOrgaTermsOfServiceValidatedAt: pixOrgaLegalDocumentStatus.acceptedAt,
     lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
     lastLoggedAt: userDTO.lastLoggedAt,
     emailConfirmedAt: userDTO.emailConfirmedAt,

@@ -9,8 +9,6 @@ import { LastUserApplicationConnection } from '../../../../../src/identity-acces
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { UserDetailsForAdmin } from '../../../../../src/identity-access-management/domain/models/UserDetailsForAdmin.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
-import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
-import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { IMPORT_KEY_FIELD } from '../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationLearnerForAdmin } from '../../../../../src/prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
@@ -1106,22 +1104,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         await databaseBuilder.factory.buildUserLogin({ userId: userInDB.id, lastLoggedAt });
         await databaseBuilder.commit();
 
-        const { PIX_ORGA } = LegalDocumentService.VALUES;
-        const { TOS } = LegalDocumentType.VALUES;
-
-        const service = PIX_ORGA;
-        const type = TOS;
-
-        const documentVersion = databaseBuilder.factory.buildLegalDocumentVersion({
-          service,
-          type,
-          versionAt: new Date('2024-02-01'),
-        });
-        const documentVersionUserAcceptance = databaseBuilder.factory.buildLegalDocumentVersionUserAcceptance({
-          userId: userInDB.id,
-          legalDocumentVersionId: documentVersion.id,
-          acceptedAt: new Date('2024-03-01'),
-        });
         await databaseBuilder.commit();
 
         // when
@@ -1137,10 +1119,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(userDetailsForAdmin.updatedAt).to.deep.equal(createdAt);
         expect(userDetailsForAdmin.lang).to.equal('en');
         expect(userDetailsForAdmin.locale).to.equal('en');
-        expect(userDetailsForAdmin.pixOrgaTermsOfServiceAccepted).equals(true);
-        expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(
-          documentVersionUserAcceptance.acceptedAt,
-        );
         expect(userDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(lastLoggedAt);
         expect(userDetailsForAdmin.lastLoggedAt).to.deep.equal(lastLoggedAt);
         expect(userDetailsForAdmin.emailConfirmedAt).to.deep.equal(emailConfirmedAt);

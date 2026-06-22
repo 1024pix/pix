@@ -12,6 +12,14 @@ const getPixAppTosStatus = async ({ userId, dependencies = { legalDocumentApi } 
   return dependencies.legalDocumentApi.getLegalDocumentStatusByUserId({ userId, service: 'pix-app', type: 'TOS' });
 };
 
-const legalDocumentApiRepository = { acceptPixAppTos, acceptPixOrgaTos, getPixAppTosStatus };
+const getPixOrgaTosStatus = async ({ userId, dependencies = { legalDocumentApi } }) => {
+  return dependencies.legalDocumentApi.getLegalDocumentStatusByUserId({
+    userId,
+    service: 'pix-orga',
+    type: 'TOS',
+  });
+};
+
+const legalDocumentApiRepository = { acceptPixAppTos, acceptPixOrgaTos, getPixAppTosStatus, getPixOrgaTosStatus };
 
 export { legalDocumentApiRepository };
