@@ -116,6 +116,11 @@
 
     &__description {
       @extend %pix-body-m;
+
+      a {
+        color: var(--pix-orga-500);
+        text-decoration: underline;
+      }
     }
 
     &__badges-title {

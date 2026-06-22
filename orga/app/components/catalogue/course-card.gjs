@@ -10,7 +10,7 @@ import { eq } from 'ember-truth-helpers';
 export const TARGET_PROFILE_OVERVIEW = 'target-profile-overview';
 export const TARGET_PROFILE = 'targetProfile';
 export const BLUEPRINT = 'blueprint';
-export const COMBINED_COURSE_BLUEPRINT = 'combined-course-blueprint';
+export const COMBINED_COURSE_BLUEPRINT_OVERVIEW = 'combined-course-blueprint-overview';
 
 export function getCourseInfo(courseType) {
   switch (courseType) {
@@ -22,7 +22,7 @@ export function getCourseInfo(courseType) {
         image: 'https://assets.pix.org/sites/orga/target-profile.png',
       };
     case BLUEPRINT:
-    case COMBINED_COURSE_BLUEPRINT:
+    case COMBINED_COURSE_BLUEPRINT_OVERVIEW:
       return {
         color: 'yellow',
         label: 'pages.catalogue.card.tag.blueprint',

@@ -197,6 +197,33 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       assert.dom(screen.getByText(currentCourse.description)).exists();
       assert.dom(screen.getByText(t('pages.catalogue.card.tag.blueprint'))).exists();
     });
+    test('it shows the blueprint items', async function (assert) {
+      //given
+      const itemEval = store.createRecord('combined-course-blueprint-items', {
+        name: 'Evaluation',
+        type: 'evaluation',
+      });
+      const itemModule = store.createRecord('combined-course-blueprint-items', {
+        name: 'Le module IA',
+        type: 'module',
+      });
+      const currentCourse = store.createRecord('combined-course-blueprint-overview', {
+        name: 'Le module EDU',
+        illustration: 'mon-image.svg',
+        description: 'description',
+        items: [itemEval, itemModule],
+      });
+
+      //when
+      const screen = await render(
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByText('Evaluation')).exists();
+    });
   });
 
   module('badges', function () {

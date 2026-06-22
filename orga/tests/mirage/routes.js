@@ -700,7 +700,7 @@ export default function routes() {
   });
 
   this.get('/organizations/:id/combined-course-blueprints/:blueprintId', (schema, request) => {
-    const combinedCourseBlueprintId = request.params.combinedCourseBlueprintId;
+    const combinedCourseBlueprintId = request.params.blueprintId;
     return schema.combinedCourseBlueprintOverviews.find(combinedCourseBlueprintId);
   });
 
