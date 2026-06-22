@@ -74,16 +74,6 @@ const findUniqByUserId = function ({ userId, limitDate, skillIds }) {
   return findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skillIds });
 };
 
-const findUniqByUserIdAndAssessmentId = async function ({ userId, assessmentId }) {
-  const query = _findByUserIdAndLimitDateQuery({ userId });
-  const knowledgeElementRows = await query.where({ assessmentId });
-
-  const keCollection = new KnowledgeElementCollection(
-    knowledgeElementRows.map((knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow)),
-  );
-  return keCollection.latestUniqNonResetKnowledgeElements;
-};
-
 const findUniqByUserIdAndCompetenceId = async function ({ userId, competenceId }) {
   const knowledgeElements = await findAssessedByUserIdAndLimitDateQuery({ userId });
   return knowledgeElements.filter((knowledgeElement) => knowledgeElement.competenceId === competenceId);
@@ -115,10 +105,8 @@ const findInvalidatedAndDirectByUserId = async function ({ userId }) {
 
 export {
   batchSave,
-  findAssessedByUserIdAndLimitDateQuery,
   findInvalidatedAndDirectByUserId,
   findUniqByUserId,
-  findUniqByUserIdAndAssessmentId,
   findUniqByUserIdAndCompetenceId,
   findUniqByUserIdGroupedByCompetenceId,
   findUniqByUserIds,
