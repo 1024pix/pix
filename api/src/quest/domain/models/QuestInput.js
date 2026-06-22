@@ -30,6 +30,13 @@ const itemsSchema = Joi.array()
   .required()
   .strict();
 
+const cappedTubesSchema = Joi.array().items(
+  Joi.object({
+    tubes: Joi.array().items(Joi.object({ tubeId: Joi.string(), level: Joi.number().integer() })),
+    threshold: Joi.string(),
+  }),
+);
+
 export class QuestInput {
   constructor({ items, rewardId, rewardType, cappedTubeRequirements = [] } = {}) {
     this.items = items;
