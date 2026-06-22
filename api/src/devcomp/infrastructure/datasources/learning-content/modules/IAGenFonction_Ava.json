@@ -243,7 +243,7 @@
                 "id": "d8c78172-4027-44f7-abe4-c316d4da0925",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Yasmine utilise un logiciel d’IA&nbsp;: ChatPix 3.0.</p><p> Le<strong> prompt système</strong> est l’instruction  donnée au logiciel d’IA pour définir son comportement et les outils qu’il peut mobiliser. Il n’est pas visible des utilisateurs.</p><p><strong>Analysez&nbsp;le prompt  de ChatPix 3.0 ci-dessous puis répondez aux questions.</strong></p><blockquote><code>Tu es un assistant doté de plusieurs outils externes. <br>Tu disposes des outils suivants&nbsp;: <br>- l’application de musique&nbsp;: pour lancer ou arrêter une musique, <br>- la calculatrice&nbsp;: pour effectuer des calculs numériques.<br> <br> Règles d’utilisation&nbsp;: <br>1. Si l’utilisateur demande explicitement le&nbsp; lancement ou l’arrêt d’une musique, tu DOIS appeler l’outil `application de musique`.<br> <br>2. Si la demande peut être résolue par un calcul mathématique,&nbsp;tu DOIS appeler l’outil `calculatrice`. <br>3. Si aucun outil n’est approprié, réponds normalement en texte.<br> <br> Lorsque tu appelles un outil&nbsp;: <br>- Ne produis aucun texte explicatif <br>- Retourne uniquement l’appel d’outil au format JSON valid<br><br><br></code><br></blockquote>"
+                "content": "<p>Yasmine utilise un logiciel d’IA générative : ChatPix 3.0.</p><p> Le<strong> prompt système</strong> est l’instruction  donnée au logiciel d’IA pour définir son comportement et les outils qu’il peut utiliser. Il n’est pas visible des utilisateurs comme Yasmine.</p><p><strong>Analysez&nbsp;le prompt système de ChatPix 3.0 ci-dessous puis répondez aux questions.</strong></p><blockquote><code>Tu es un assistant doté de plusieurs outils externes. <br>Tu disposes des outils suivants&nbsp;: <br>- l’application de musique&nbsp;: pour lancer ou arrêter une musique, <br>- la calculatrice&nbsp;: pour effectuer des calculs numériques.<br> <br> Règles d’utilisation&nbsp;: <br>1. Si l’utilisateur demande explicitement le&nbsp; lancement ou l’arrêt d’une musique, tu DOIS appeler l’outil `application de musique`.<br> <br>2. Si la demande peut être résolue par un calcul mathématique,&nbsp;tu DOIS appeler l’outil `calculatrice`. <br>3. Si aucun outil n’est approprié, réponds normalement en texte.<br> <br> Lorsque tu appelles un outil&nbsp;: <br>- Ne produis aucun texte explicatif.<br>- Envoie la requête à l’outil dans&nbsp;un format adapté.</code><br></blockquote>"
               }
             },
             {
@@ -256,14 +256,14 @@
                       "id": "a898285f-1976-4273-a7a8-3c1b7ecf9f53",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>Yasmine envoie une demande, sous la forme d’un prompt, à ChatPix 3.0, le logiciel d’IA défini ci-dessus.</p>",
+                      "instruction": "<p>Yasmine envoie une demande, sous la forme d’un prompt, au logiciel d’IA générative<strong> ChatPix 3.0</strong>.</p>",
                       "functionalInstruction": "",
                       "tagName": "llm-messages",
                       "props": {
                         "messages": [
                           {
                             "direction": "outbound",
-                            "content": "Combien de litres de peinture sont nécessaires pour peindre un salon carré, dont les murs font 2,5 m en hauteur, 5 m de longueur, pour 3 couches de peinture avec une peinture de rendement 10 m²/L/couche ?"
+                            "content": "Combien de litres de peinture sont nécessaires pour peindre un salon carré, dont les murs font 2,5 m en hauteur, 5 m de longueur, pour 3 couches de peinture avec une peinture de rendement 10 m2/L/couche ?"
                           }
                         ]
                       }
@@ -271,7 +271,7 @@
                     {
                       "id": "5d883cf5-5796-4c14-b2ee-8c5e458b40f2",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Quel outil peut être utilisé par ChatPix 3.0 pour répondre à cette demande ?&nbsp;</p>",
+                      "instruction": "<p>D’après le prompt système, quel outil peut être utilisé par ChatPix 3.0 pour répondre à la demande de Yasmine  ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -320,14 +320,14 @@
                       "id": "d51c484f-4e0f-424d-8d4e-4b22587a5260",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>Yasmine envoie le prompt suivant à ChatPix 3.0, défini ci-dessus.</p>",
+                      "instruction": "<p>Yasmine envoie un autre prompt à <strong>ChatPix 3.0</strong>.</p>",
                       "functionalInstruction": "",
                       "tagName": "llm-messages",
                       "props": {
                         "messages": [
                           {
                             "direction": "outbound",
-                            "content": "Ajoute à mon agenda le rendez-vous avec le cuisiniste qui aura lieu samedi prochain à 10h."
+                            "content": "Ajoute à mon agenda le rendez-vous avec le cuisiniste qui aura lieu samedi prochain à 10 h."
                           }
                         ]
                       }
@@ -335,7 +335,7 @@
                     {
                       "id": "e99bf18b-14df-4e78-ae8d-8b756f704898",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Quel outil peut être utilisé par ChatPix 3.0 pour répondre à cette demande ?&nbsp;</p>",
+                      "instruction": "<p>D’après le prompt système, quel outil peut être utilisé par ChatPix 3.0 pour répondre à cette nouvelle demande de Yasmine  ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
