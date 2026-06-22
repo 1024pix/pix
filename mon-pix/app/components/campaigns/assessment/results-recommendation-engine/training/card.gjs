@@ -19,6 +19,10 @@ export default class Card extends Component {
     return this.intl.t(`pages.skill-review.recommended-engine.training-card.delivery-mode.${deliveryMode}`);
   }
 
+  get illustrationPath() {
+    return `/images/illustrations/results/training-${this.args.training.type}.webp`;
+  }
+
   get type() {
     if (this.args.training.isTypeLinkedToALocation) {
       return this.intl.t('pages.training.type.formation');
@@ -48,6 +52,11 @@ export default class Card extends Component {
         <img
           class="results-recommendation-engine-training-card-image-hero__editor-logo"
           src="{{@training.editorLogoUrl}}"
+          alt=""
+        />
+        <img
+          class="results-recommendation-engine-training-card-image-hero__illustration"
+          src="{{this.illustrationPath}}"
           alt=""
         />
       </div>
