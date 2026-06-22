@@ -375,7 +375,7 @@
       "DROIT": {
         "LEVEL_ADVANCED": {
           "description": {
-            "shareable": "La maîtrise du numérique du/de la candidat(e) pour les métiers du droit lui permet d’identifier les enjeux et les problématiques juridiques que soulève le recours au numérique. Elle permet de déterminer le cadre juridique applicable à une situation juridique donnée, et de mettre en œuvre les règles de droit concernées.\nIl/elle maîtrise également les outils numériques à la disposition des praticiens du droit et peut réaliser une recherche juridique avancée et efficace.",
+            "shareable": "Sa maîtrise du numérique pour les métiers du droit lui permet d’identifier les enjeux et les problématiques juridiques que soulève le recours au numérique. Le/la candidate peut également déterminer le cadre juridique applicable à une situation juridique donnée, et mettre en œuvre les règles de droit concernées.\nEnfin, il/elle maîtrise également les outils numériques à la disposition des praticiens du droit et peut réaliser une recherche juridique avancée et efficace.",
             "user": "Votre maîtrise du numérique pour les métiers du droit vous permet d’identifier les enjeux et les problématiques juridiques que soulève le recours au numérique. Elle permet de déterminer le cadre juridique applicable à une situation juridique donnée, et de mettre en œuvre les règles de droit concernées.\nVous maîtrisez également les outils numériques à la disposition des praticiens du droit et pouvez réaliser une recherche juridique avancée et efficace."
           },
           "label": "Avancé",
@@ -386,7 +386,7 @@
         },
         "LEVEL_CONFIRMED": {
           "description": {
-            "shareable": "La maîtrise du numérique du/de la candidat(e) pour les métiers du droit lui permet d’identifier les enjeux et les problématiques juridiques que soulève le recours au numérique, et de déterminer le cadre juridique correspondant.\nIl/elle peut également identifier les principaux outils numériques à la disposition des praticiens du droit et réaliser une recherche juridique pertinente.",
+            "shareable": "Sa maîtrise du numérique pour les métiers du droit lui permet d’identifier les enjeux et les problématiques juridiques que soulève le recours au numérique, et de déterminer le cadre juridique correspondant.\nLe/la candidate peut également identifier les principaux outils numériques à la disposition des praticiens du droit et réaliser une recherche juridique pertinente.",
             "user": "Votre maîtrise du numérique pour les métiers du droit vous permet d’identifier les enjeux et les problématiques juridiques que soulève le recours au numérique, et de déterminer le cadre juridique correspondant.\nVous pouvez également identifier les principaux outils numériques à la disposition des praticiens du droit et réaliser une recherche juridique pertinente."
           },
           "label": "Confirmé",
@@ -397,7 +397,7 @@
         },
         "LEVEL_EXPERT": {
           "description": {
-            "shareable": "La maîtrise du numérique du/de la candidat(e) pour les métiers du droit lui permet d’identifier les enjeux et les problématiques juridiques que soulève le recours au numérique. Elle permet de déterminer le cadre juridique applicable à une situation juridique donnée, et de mettre en œuvre les règles de droit concernées. Il/elle est en capacité d’anticiper et de proposer des solutions juridiques ajustées à un besoin ou une attente.\nIl/elle maîtrise également les outils numériques à la disposition des praticiens du droit et peut réaliser une recherche juridique avancée et efficace.",
+            "shareable": "Sa maîtrise du numérique pour les métiers du droit lui permet d’identifier les enjeux et les problématiques juridiques que soulève le recours au numérique. Le/la candidate peut également déterminer le cadre juridique applicable à une situation juridique donnée, et mettre en œuvre les règles de droit concernées. Il/elle est en capacité d’anticiper et de proposer des solutions juridiques ajustées à un besoin ou une attente.\nEnfin, il/elle maîtrise également les outils numériques à la disposition des praticiens du droit et peut réaliser une recherche juridique avancée et efficace.",
             "user": "Votre maîtrise du numérique pour les métiers du droit vous permet d’identifier les enjeux et les problématiques juridiques que soulève le recours au numérique. Elle permet de déterminer le cadre juridique applicable à une situation juridique donnée, et de mettre en œuvre les règles de droit concernées. Vous êtes en capacité d’anticiper et de proposer des solutions juridiques ajustées à un besoin ou une attente.\nVous maîtrisez également les outils numériques à la disposition des praticiens du droit et pouvez réaliser une recherche juridique avancée et efficace."
           },
           "label": "Expert",
@@ -408,7 +408,7 @@
         },
         "LEVEL_INDEPENDENT": {
           "description": {
-            "shareable": "La maîtrise du numérique du/de la candidat(e) pour les métiers du droit lui permet de saisir les principaux enjeux juridiques du numérique et identifier les principaux outils juridiques à la disposition des praticiens du droit.",
+            "shareable": "Sa maîtrise du numérique pour les métiers du droit lui permet de saisir les principaux enjeux juridiques du numérique et identifier les principaux outils juridiques à la disposition des praticiens du droit.",
             "user": "Votre maîtrise du numérique pour les métiers du droit vous permet de saisir les principaux enjeux juridiques du numérique et identifier les principaux outils juridiques à la disposition des praticiens du droit."
           },
           "label": "Indépendant",
@@ -525,6 +525,10 @@
       },
       "PRO_SANTE": {
         "LEVEL_ADVANCED": {
+          "description": {
+            "shareable": "Sa maîtrise du numérique en santé lui permet de repérer rapidement les anomalies dans un dossier patient. Vigilant face aux risques, le/la candidat(e) sait identifier les menaces et adopter le bon comportement face à un matériel informatique suspect.\nDe plus, il/elle communique en toute sécurité : il/elle est capable d’effectuer des échanges sécurisés via MSSanté, d’interagir avec les patients sur la messagerie de Mon Espace Santé tout en sachant leur en expliquer l’intérêt, et de configurer des actes de télésanté en toute conformité.",
+            "user": "Votre maîtrise du numérique en santé vous permet de repérer rapidement les anomalies dans un dossier patient. Vigilant face aux risques, vous savez identifier les menaces et adopter le bon comportement face à un matériel informatique suspect.\nDe plus, vous communiquez en toute sécurité : vous êtes capable d’effectuer des échanges sécurisés via MSSanté, d’interagir avec les patients sur la messagerie de Mon Espace Santé tout en sachant leur en expliquer l’intérêt, et de configurer des actes de télésanté en toute conformité."
+          },
           "label": "Avancé",
           "summary": {
             "shareable": "Le/la candidat(e) a obtenu le niveau Avancé.",
@@ -532,6 +536,10 @@
           }
         },
         "LEVEL_CONFIRMED": {
+          "description": {
+            "shareable": "Sa maîtrise du numérique en santé lui permet d’appliquer les procédures d’identitovigilance à chaque étape du parcours de soins, dans le respect de la réglementation liée au traitement des données de santé. Il/Elle adopte également les bonnes pratiques de cybersécurité au quotidien pour protéger son matériel informatique professionnel.\nDe plus, le/la candidat(e) est capable d’alimenter le Dossier Médical Partagé des patients et de différencier les actes de télésanté (téléconsultation, téléexpertise, etc).",
+            "user": "Votre maîtrise du numérique en santé vous permet d’appliquer les procédures d’identitovigilance à chaque étape du parcours de soins, dans le respect de la réglementation liée au traitement des données de santé. Vous adoptez également les bonnes pratiques de cybersécurité au quotidien pour protéger votre matériel informatique professionnel.\nDe plus, vous êtes capable d’alimenter le Dossier Médical Partagé des patients et de différencier les actes de télésanté (téléconsultation, téléexpertise, etc)."
+          },
           "label": "Confirmé",
           "summary": {
             "shareable": "Le/la candidat(e) a obtenu le niveau Confirmé.",
@@ -539,6 +547,10 @@
           }
         },
         "LEVEL_EXPERT": {
+          "description": {
+            "shareable": "Sa maîtrise du numérique en santé lui permet de repérer rapidement les anomalies dans un dossier patient. Vigilant face aux risques, le/la candidat(e) sait identifier les menaces et adopter le bon comportement face à un matériel informatique suspect.\nDe plus, il/elle communique en toute sécurité : il/elle est capable d’effectuer des échanges sécurisés via MSSanté, d’interagir avec les patients sur la messagerie de Mon Espace Santé tout en sachant leur en expliquer l’intérêt, et de configurer des actes de télésanté en toute conformité.",
+            "user": "Votre maîtrise du numérique en santé vous permet de sensibiliser votre entourage professionnel à l’identitovigilance ainsi qu’à la réglementation liée aux traitements des données de santé. Vous savez comment réagir en cas de cyberattaque et comprenez l’enjeu de la gestion des droits d’accès au sein d’une équipe de soins.\nDans votre quotidien professionnel, l’utilisation des outils numériques professionnels est devenue un réflexe qui vous permet d’accompagner au mieux les patients dans la gestion de leurs droits. La connaissance des cadres financiers et de remboursement des actes de télésanté vous permet de mener ces actes en toute autonomie.\n"
+          },
           "label": "Expert",
           "summary": {
             "shareable": "Le/la candidat(e) a obtenu le niveau Expert.",
@@ -546,6 +558,10 @@
           }
         },
         "LEVEL_INDEPENDENT": {
+          "description": {
+            "shareable": "Sa maîtrise du numérique en santé lui permet de comprendre les enjeux de l'identitovigilance et de la réglementation des données. Le/la candidat(e) mesure également les conséquences qu’une cyberattaque peut avoir sur une structure de santé. \nIl/Elle est également à l’aise avec les outils numériques à la disposition des professionnels de santé et des particuliers, il/elle comprend les concepts de l’identité numérique professionnelle et il/elle est familier des différentes formes de télésanté.",
+            "user": "Votre maîtrise du numérique en santé vous permet de comprendre les enjeux de l'identitovigilance et de la réglementation des données. Vous mesurez également les conséquences qu’une cyberattaque peut avoir sur une structure de santé. \nVous êtes également à l’aise avec les outils numériques à la disposition des professionnels de santé et des particuliers, vous comprenez les concepts de l’identité numérique professionnelle et vous êtes familier des différentes formes de télésanté."
+          },
           "label": "Indépendant",
           "summary": {
             "shareable": "Le/la candidat(e) a obtenu le niveau Indépendant.",
