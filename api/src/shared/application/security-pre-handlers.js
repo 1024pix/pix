@@ -37,7 +37,6 @@ import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkU
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
 import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
-import * as checkUserIsMemberOfAnOrganizationUseCase from './validator/checkUserIsMemberOfAnOrganization.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const { has } = lodash;
@@ -576,30 +575,6 @@ async function checkUserBelongsToOrganization(request, h, dependencies = { check
   return _replyForbiddenError(h);
 }
 
-async function checkUserIsMemberOfAnOrganization(
-  request,
-  h,
-  dependencies = { checkUserIsMemberOfAnOrganizationUseCase },
-) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-
-  let isMemberOfAnOrganization;
-  try {
-    isMemberOfAnOrganization = await dependencies.checkUserIsMemberOfAnOrganizationUseCase.execute(userId);
-  } catch {
-    return _replyForbiddenError(h);
-  }
-
-  if (isMemberOfAnOrganization) {
-    return h.response(true);
-  }
-  return _replyForbiddenError(h);
-}
-
 async function checkAuthorizationToManageCampaign(
   request,
   h,
@@ -860,7 +835,6 @@ export const securityPreHandlers = {
   checkUserIsAdminInOrganization,
   checkUserIsAdminInSCOOrganizationManagingStudents,
   checkUserIsAdminInSUPOrganizationManagingStudents,
-  checkUserIsMemberOfAnOrganization,
   checkOrganizationDoesNotHaveFeature,
   checkUserIsAdminOfCertificationCenter,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
