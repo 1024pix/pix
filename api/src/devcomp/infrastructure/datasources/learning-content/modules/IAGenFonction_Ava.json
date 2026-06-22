@@ -716,40 +716,40 @@
                       "id": "f9fe4d5a-1c3d-41d4-8c6c-5ca58f8912f0",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Voici la réponse que renvoie l’outil Météo au logiciel d’IA générative.</p><br><blockquote><code>{ &nbsp;<br>&nbsp;\"condition\": \"ensoleillé\", &nbsp;&nbsp;<br>\"temperature\": 30 <br>}</code></blockquote><br>"
+                      "content": "<p>L’outil Météo envoie au logiciel d’IA générative la réponse suivante&nbsp;:</p><br><blockquote><code>{ \"condition\": \"ensoleillé\", &nbsp;&nbsp;<br>&nbsp; \"temperature\": 30 }</code></blockquote>"
                     },
                     {
                       "id": "894da3c4-c063-4b77-8930-4d3bdd375d7b",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Laquelle de ces réponses Yasmine a-t-elle le plus de chance de recevoir à sa demande concernant les travaux de sa terrasse ?</p>",
+                      "instruction": "<p>Quelle réponse à son prompt, qui concernait les travaux de sa terrasse, Yasmine a-t-elle le plus de chance de recevoir de la part du logiciel d’IA générative ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "condition&nbsp;: ensoleillé ; temperature&nbsp;: 30",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non, cette proposition n’est que l’information envoyée par l’outil Météo.</strong> </p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les données de l’outil Météo transmises au logiciel d’IA générative, celui-ci les utilise pour générer sa réponse. </p><p>Donc, la bonne réponse était&nbsp;:&nbsp; “Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp; Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.”</p>"
+                            "diagnosis": "<p><strong>Non, cette proposition n’est que l’information envoyée par l’outil Météo.</strong></p><p>L’objectif de Yasmine est de vérifier si la météo permettra de refaire sa terrasse ce week-end. </p><p>Une fois <strong>les données de l’outil Météo transmises au logiciel d’IA</strong> générative, celui-ci les utilise pour <strong>générer sa réponse.</strong> </p><p>Donc, la bonne réponse était&nbsp;:&nbsp; «&nbsp;Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment&nbsp;[...]&nbsp;».</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Ce week-end à Jolieville, le soleil sera au rendez-vous avec une température autour de 30°.",
+                          "content": "<p>Ce week-end à Jolieville, le soleil sera au rendez-vous avec une température autour de 30 °.</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non , cette proposition ne répond pas à la question de Yasmine.</strong> </p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les données de l’outil Météo transmises au logiciel d’IA générative, celui-ci les utilise pour générer sa réponse. </p><p>Donc, la bonne réponse était&nbsp;:&nbsp; “Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp; Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.”</p>"
+                            "diagnosis": "<p><strong>Non , cette proposition ne répond pas à la question de Yasmine.</strong> </p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois<strong> les données de l’outil Météo transmises au logiciel d’IA générative, </strong>celui-ci les utilise<strong> pour générer sa réponse.</strong> </p><p>Donc, la bonne réponse était&nbsp;:&nbsp; «&nbsp;Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment&nbsp;[...]&nbsp;».</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp; Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.</p>",
+                          "content": "<p>Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp;Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les données de l’outil Météo transmises au logiciel d’IA générative, celui-ci les utilise pour générer sa réponse.</p>"
+                            "diagnosis": "<p><strong>Bien vu !</strong></p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end<strong>.</strong> Une fois les<strong> données de l’outil Météo transmises au logiciel d’IA </strong>générative, celui-ci les utilise pour <strong>générer sa réponse.</strong></p>"
                           }
                         },
                         {
                           "id": "4",
-                          "content": "Je ne sais pas.",
+                          "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les données de l’outil Météo transmises au logiciel d’IA générative, celui-ci les utilise pour générer sa réponse.</p><p>Donc, la bonne réponse était&nbsp;: “Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp; Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.”</p>"
+                            "diagnosis": "<p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois <strong>les données de l’outil Météo transmises au logiciel d’IA</strong> générative, celui-ci les utilise<strong> pour générer sa réponse.</strong></p><p>Donc, la bonne réponse était&nbsp;: «&nbsp;Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment [...]&nbsp;».</p>"
                           }
                         }
                       ],
