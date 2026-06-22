@@ -19,7 +19,6 @@ describe('Integration | Application | organization-place-controller', function (
 
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     sandbox.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
-    sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToSupOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');

@@ -1,5 +1,4 @@
 import jsonapiSerializer from 'jsonapi-serializer';
-import lodash from 'lodash';
 
 import * as checkUserIsCandidateUseCase from '../../certification/enrolment/application/usecases/check-user-is-candidate.js';
 import * as centerRepository from '../../certification/enrolment/infrastructure/repositories/center-repository.js';
@@ -27,7 +26,6 @@ import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/che
 import * as checkOrganizationLearnerBelongsToOrganizationUseCase from './usecases/checkOrganizationLearnerBelongsToOrganization.js';
 import * as checkUserBelongsToLearnersOrganizationUseCase from './usecases/checkUserBelongsToLearnersOrganization.js';
 import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization.js';
-import * as checkUserBelongsToOrganizationManagingStudentsUseCase from './usecases/checkUserBelongsToOrganizationManagingStudents.js';
 import * as checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
 import * as checkUserBelongsToSupOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js';
 import * as checkUserCanDisableHisOrganizationMembershipUseCase from './usecases/checkUserCanDisableHisOrganizationMembership.js';
@@ -39,7 +37,6 @@ import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecase
 import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
-const { has } = lodash;
 
 function _replyForbiddenError(h) {
   const errorHttpStatusCode = 403;
@@ -347,28 +344,6 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCou
   } catch {
     return _replyForbiddenError(h);
   }
-}
-
-async function checkUserBelongsToOrganizationManagingStudents(
-  request,
-  h,
-  dependencies = { checkUserBelongsToOrganizationManagingStudentsUseCase },
-) {
-  if (!has(request, 'auth.credentials.userId')) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const organizationId = request.params.id;
-
-  try {
-    if (await dependencies.checkUserBelongsToOrganizationManagingStudentsUseCase.execute(userId, organizationId)) {
-      return h.response(true);
-    }
-  } catch {
-    return _replyForbiddenError(h);
-  }
-  return _replyForbiddenError(h);
 }
 
 async function checkUserBelongsToScoOrganizationAndManagesStudents(
@@ -825,7 +800,6 @@ export const securityPreHandlers = {
   checkUserBelongsToLearnersOrganization,
   checkUserBelongsToOrganization,
   checkCampaignParticipationBelongsToUser,
-  checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
   checkUserCanDisableHisOrganizationMembership,
