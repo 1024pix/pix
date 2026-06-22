@@ -23,6 +23,18 @@ module('Integration | Component | Catalogue::CourseCard', function (hooks) {
     assert.dom(within(card).getByRole('heading', { name: 'Ma super formation' })).exists();
   });
 
+  test('it does not show anchor link if selectCourse is not defined', async function (assert) {
+    const store = this.owner.lookup('service:store');
+    const course = store.createRecord('course', { name: 'Ma super formation', type: 'targetProfile', nbTubes: 5 });
+
+    const screen = await render(<template><CourseCard @course={{course}} @type="all" /></template>);
+    const card = await screen.getByRole('article');
+
+    assert.notOk(
+      within(card).queryByRole('link', { name: t('pages.catalogue.modal.open-modal', { name: course.name }) }),
+    );
+  });
+
   module('for a "targetProfile" type course', function () {
     test('it shows the "Parcours" type tag', async function (assert) {
       const store = this.owner.lookup('service:store');

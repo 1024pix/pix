@@ -62,22 +62,24 @@ export default class CourseCard extends Component {
         </:footer>
       </PixCard>
 
-      {{#if (eq @course.type "targetProfile")}}
-        <LinkTo
-          @route="authenticated.catalogue.list"
-          @model={{@type}}
-          @query={{hash targetProfileId=@course.id}}
-          {{on "click" @selectCourse}}
-          aria-label={{t "pages.catalogue.modal.open-modal" name=@course.name}}
-        />
-      {{else if (eq @course.type "blueprint")}}
-        <LinkTo
-          @route="authenticated.catalogue.list"
-          @model={{@type}}
-          @query={{hash blueprintId=@course.id}}
-          {{on "click" @selectCourse}}
-          aria-label={{t "pages.catalogue.modal.open-modal" name=@course.name}}
-        />
+      {{#if @selectCourse}}
+        {{#if (eq @course.type "targetProfile")}}
+          <LinkTo
+            @route="authenticated.catalogue.list"
+            @model={{@type}}
+            @query={{hash targetProfileId=@course.id}}
+            {{on "click" @selectCourse}}
+            aria-label={{t "pages.catalogue.modal.open-modal" name=@course.name}}
+          />
+        {{else if (eq @course.type "blueprint")}}
+          <LinkTo
+            @route="authenticated.catalogue.list"
+            @model={{@type}}
+            @query={{hash blueprintId=@course.id}}
+            {{on "click" @selectCourse}}
+            aria-label={{t "pages.catalogue.modal.open-modal" name=@course.name}}
+          />
+        {{/if}}
       {{/if}}
     </div>
   </template>
