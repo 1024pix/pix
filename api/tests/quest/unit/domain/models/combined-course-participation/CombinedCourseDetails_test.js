@@ -1176,4 +1176,45 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
       expect(result.items[2].isCompleted).to.be.false;
     });
   });
+
+  describe('#isSuccessful', function () {
+    it('should only evaluate the completion of recommended modules to user specifically', async function () {
+      // given && when
+      const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
+        name,
+        code,
+        organizationId,
+        questId,
+        combinedCourseItems: [
+          { campaignId: 777, targetProfileId: 888 },
+          { moduleId: 'abcdef1' },
+          { moduleId: 'abcdef2' },
+        ],
+        cryptoService,
+      });
+
+      const dataForQuest = domainBuilder.buildCombinedCourseDataForQuest({
+        campaignParticipations: [{ campaignId: 777, status: CampaignParticipationStatuses.SHARED }],
+        passages: [
+          {
+            referenceId: 'abcdef2',
+            isTerminated: true,
+          },
+        ],
+      });
+
+      combinedCourseDetails.recommandableModuleIds = [
+        { moduleId: 'abcdef2', targetProfileIds: [888] },
+        { moduleId: 'abcdef1', targetProfileIds: [888] },
+      ];
+      await combinedCourseDetails.setEncryptedUrl();
+      combinedCourseDetails.setDataAndGenerateItems({
+        recommendedModuleIdsForUser: [{ moduleId: 'abcdef2' }],
+        dataForQuest,
+      });
+
+      // then
+      expect(combinedCourseDetails.isSuccessful()).to.be.true;
+    });
+  });
 });
