@@ -2,20 +2,6 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCandidate } from '../../domain/models/CertificationCandidate.js';
 
-/**
- * @param {object} params
- * @param {number} params.sessionId
- * @param {number} params.userId
- * @returns {Promise<CertificationCandidate | undefined>}
- */
-const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
-  const candidateData = await candidateBaseQuery().where({ sessionId, userId });
-  if (candidateData.length === 0) {
-    return undefined;
-  }
-  return toDomain(candidateData);
-};
-
 const findBySessionId = async function (sessionId) {
   const candidatesData = await candidateBaseQuery()
     .where({ 'certification-candidates.sessionId': sessionId })
@@ -49,7 +35,7 @@ const update = async function (certificationCandidate) {
   }
 };
 
-export { findBySessionId, getBySessionIdAndUserId, update };
+export { findBySessionId, update };
 
 function toDomain(candidateData) {
   return new CertificationCandidate({
