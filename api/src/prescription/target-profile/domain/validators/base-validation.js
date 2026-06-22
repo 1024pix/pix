@@ -1,9 +1,5 @@
 import Joi from 'joi';
-import lodash from 'lodash';
 
-const { first } = lodash;
-
-import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { TargetProfile } from '../../../../shared/domain/models/TargetProfile.js';
 
 const categories = TargetProfile.categories;
@@ -27,7 +23,7 @@ const schema = Joi.object({
       categories.BACK_TO_SCHOOL,
     )
     .required()
-    .error((errors) => first(errors))
+    .error((errors) => errors?.at(0))
     .messages({
       'any.required': 'CATEGORY_IS_REQUIRED',
       'string.base': 'CATEGORY_IS_REQUIRED',
@@ -41,12 +37,4 @@ const schema = Joi.object({
   }),
 });
 
-function validate(targetProfile) {
-  const { error } = schema.validate(targetProfile, { abortEarly: false, allowUnknown: true });
-  if (error) {
-    throw EntityValidationError.fromJoiErrors(error.details);
-  }
-  return true;
-}
-
-export { schema, validate };
+export { schema };
