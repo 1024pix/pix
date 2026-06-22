@@ -20,6 +20,17 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       rewardId: 5,
       rewardType: 'ATTESTATION',
       surveyLink: 'http://survey-link-test.fr',
+      cappedTubes: [
+        {
+          threshold: 0.5,
+          tubes: [
+            {
+              tubeId: '123',
+              level: 1,
+            },
+          ],
+        },
+      ],
     });
 
     const serializedRecord = record.serialize();
@@ -41,6 +52,17 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
               },
             ],
             'attestation-label': 'Label attestation',
+            'capped-tubes': [
+              {
+                threshold: 0.5,
+                tubes: [
+                  {
+                    tubeId: '123',
+                    level: 1,
+                  },
+                ],
+              },
+            ],
             'reward-id': 5,
             'reward-type': 'ATTESTATION',
             'survey-link': 'http://survey-link-test.fr',
@@ -67,6 +89,17 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       rewardId: 5,
       rewardType: 'ATTESTATION',
       surveyLink: 'http://survey-link-test.fr',
+      'capped-tubes': [
+        {
+          threshold: 0.5,
+          tubes: [
+            {
+              tubeId: '123',
+              level: 1,
+            },
+          ],
+        },
+      ],
     });
 
     const serializedRecord = record.serialize();
