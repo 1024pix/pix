@@ -2344,13 +2344,26 @@
       }
     },
     "terms-of-service": {
+      "actions": {
+        "accept": "Accept and continue",
+        "decline": "Refuse and quit",
+        "document-link": "Read the terms and conditions"
+      },
       "cgu": "I agree to the '<a href=\"https://pix.org/en/terms-and-conditions\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
       "form": {
         "button": "Continue",
         "error-message": "Please agree to the terms and conditions of use."
       },
       "message": "We have updated our terms and conditions of use. Please agree to them in order to continue your experience on Pix.",
-      "title": "Terms and conditions of use"
+      "requested": {
+        "message": "To continue using Pix, we invite you to read and accept our General Terms and Conditions.",
+        "title": "Please accept our General Terms and Conditions (TCS)"
+      },
+      "title": "Terms and conditions of use",
+      "update-requested": {
+        "message": "We have updated our TCS. Review the changes and accept them to continue.",
+        "title": "Important update to the General Terms and Conditions (TCS)"
+      }
     },
     "timed-challenge-instructions": {
       "action": "Start",

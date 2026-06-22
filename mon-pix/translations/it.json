@@ -2344,13 +2344,26 @@
       }
     },
     "terms-of-service": {
+      "actions": {
+        "accept": "Accetta e continua",
+        "decline": "Rifiuta e esci",
+        "document-link": "Leggi le condizioni d'uso"
+      },
       "cgu": "Accetto i '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'termini e condizioni d'uso di Pix'</a>'.",
       "form": {
         "button": "Continua",
         "error-message": "È necessario accettare le condizioni d'uso di Pix."
       },
       "message": "Abbiamo aggiornato le nostre condizioni d'uso. Ti preghiamo di accettarle per continuare la tua esperienza su Pix.",
-      "title": "Termini e condizioni d'uso"
+      "requested": {
+        "message": "Per continuare a utilizzare Pix, ti invitiamo a leggere e accettare i nostri Termini e Condizioni Generali.",
+        "title": "Si prega di accettare i nostri Termini e Condizioni Generali (TCS)"
+      },
+      "title": "Termini e condizioni d'uso",
+      "update-requested": {
+        "message": "Abbiamo aggiornato i nostri TCS. Esamina le modifiche e accettale per continuare.",
+        "title": "Aggiornamento importante dei Termini e Condizioni Generali (TCS)"
+      }
     },
     "timed-challenge-instructions": {
       "action": "Inizia",

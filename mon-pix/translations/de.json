@@ -2344,13 +2344,26 @@
       }
     },
     "terms-of-service": {
+      "actions": {
+        "accept": "Akzeptieren und fortfahren",
+        "decline": "Ablehnen und beenden",
+        "document-link": "Lesen Sie die Nutzungsbedingungen"
+      },
       "cgu": "Ich akzeptiere die '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'Nutzungsbedingungen für Pix'</a>'.",
       "form": {
         "button": "Fortfahren",
         "error-message": "Bitte akzeptiere die Nutzungsbedingungen von Pix."
       },
       "message": "Wir haben unsere Nutzungsbedingungen aktualisiert. Bitte akzeptiere sie, damit du deine Arbeit auf Pix fortsetzen kannst.",
-      "title": "Bedingungen für die Nutzung"
+      "requested": {
+        "message": "Um Pix weiterhin nutzen zu können, laden wir dich ein, unsere Allgemeinen Geschäftsbedingungen zu lesen und zu akzeptieren.",
+        "title": "Bitte akzeptieren Sie unsere Allgemeinen Geschäftsbedingungen (AGB)"
+      },
+      "title": "Bedingungen für die Nutzung",
+      "update-requested": {
+        "message": "Wir haben unsere AGB aktualisiert. Überprüfen Sie die Änderungen und akzeptieren Sie sie, um fortzufahren.",
+        "title": "Wichtige Aktualisierung der Allgemeinen Geschäftsbedingungen (AGB)"
+      }
     },
     "timed-challenge-instructions": {
       "action": "Start",

@@ -2344,13 +2344,26 @@
       }
     },
     "terms-of-service": {
+      "actions": {
+        "accept": "Accepteer en ga verder",
+        "decline": "Weiger en sluit af",
+        "document-link": "Lees de gebruiksvoorwaarden"
+      },
       "cgu": "Ik ga akkoord met de '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'gebruiksvoorwaarden van Pix'</a>'.",
       "form": {
         "button": "Ik ga verder",
         "error-message": "Je moet de gebruiksvoorwaarden van Pix accepteren."
       },
       "message": "We hebben onze gebruiksvoorwaarden bijgewerkt. Accepteer ze om je Pix-ervaring voort te zetten.",
-      "title": "Gebruiksvoorwaarden"
+      "requested": {
+        "message": "Om Pix te kunnen blijven gebruiken, nodigen we je uit om onze Algemene Voorwaarden te lezen en te accepteren.",
+        "title": "Accepteer alstublieft onze Algemene Voorwaarden (AV)"
+      },
+      "title": "Gebruiksvoorwaarden",
+      "update-requested": {
+        "message": "We hebben onze AV bijgewerkt. Controleer de wijzigingen en accepteer ze om door te gaan.",
+        "title": "Belangrijke update van de Algemene Voorwaarden (AV)"
+      }
     },
     "timed-challenge-instructions": {
       "action": "Beginnen",
