@@ -1,13 +1,16 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
-import { click, find } from '@ember/test-helpers';
+import { click, fillIn, find } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import { VERIFY_RESPONSE_DELAY } from 'mon-pix/components/module/component/element';
 import ModuleQcmDeclarative from 'mon-pix/components/module/element/qcm-declarative';
+import { categoriesKey } from 'mon-pix/models/module-issue-report';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { waitForDialog } from '../../../helpers/wait-for';
 
 module('Integration | Component | Module | QcmDeclarative', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -198,6 +201,7 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
       class PreviewModeServiceStub extends Service {
         isEnabled = true;
       }
+
       this.owner.register('service:modulixPreviewMode', PreviewModeServiceStub);
       const qcmDeclarativeElement = _getQcmDeclarativeElement();
 
@@ -208,6 +212,57 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
 
       // then
       assert.dom(screen.getByText(feedback.diagnosis)).exists();
+    });
+  });
+
+  module('when user clicks on report button', function () {
+    test('should send report with correct element id, selected answers, category and comment', async function (assert) {
+      // given
+      const passageEventService = this.owner.lookup('service:passageEvents');
+      sinon.stub(passageEventService, 'record');
+      const issueReportService = this.owner.lookup('service:moduleIssueReport');
+      const issueReportRecordStub = sinon.stub(issueReportService, 'record').resolves();
+      const qcmDeclarativeElement = _getQcmDeclarativeElement();
+      const onAnswerStub = sinon.stub();
+      const comment = "Il y a une faute d'orthographe dans la question";
+
+      // when
+      const screen = await render(
+        <template>
+          <div id="modal-container"></div>
+          <ModuleQcmDeclarative @element={{qcmDeclarativeElement}} @onAnswer={{onAnswerStub}} />
+        </template>,
+      );
+      const proposal1Element = screen.getByLabelText(qcmDeclarativeElement.proposals[0].content);
+      const proposal3Element = screen.getByLabelText(qcmDeclarativeElement.proposals[2].content);
+      await click(proposal1Element);
+      await click(proposal3Element);
+      await click(screen.getByRole('button', { name: 'Soumettre ma sélection' }));
+
+      await clock.tickAsync(VERIFY_RESPONSE_DELAY + 10);
+
+      await click(screen.getByRole('button', { name: t('pages.modulix.issue-report.aria-label') }));
+      await waitForDialog();
+
+      assert.dom(screen.getByRole('dialog')).exists();
+      assert.dom(screen.getByRole('heading', { name: t('pages.modulix.issue-report.modal.title'), level: 1 })).exists();
+
+      await fillIn(
+        screen.getByRole('textbox', { name: t('pages.modulix.issue-report.modal.textarea-label') }),
+        comment,
+      );
+      await click(screen.getByRole('button', { name: t('common.actions.send') }));
+
+      assert.dom(await screen.findByText(t('pages.modulix.issue-report.modal.confirmation-message.success'))).exists();
+
+      // then
+      sinon.assert.calledOnceWithExactly(issueReportRecordStub, {
+        elementId: qcmDeclarativeElement.id,
+        answer: `${qcmDeclarativeElement.proposals[0].id}, ${qcmDeclarativeElement.proposals[2].id}`,
+        categoryKey: categoriesKey.QUESTION_ISSUE,
+        comment,
+      });
+      assert.ok(true);
     });
   });
 
