@@ -8,13 +8,11 @@ const buildUserDetailsForAdmin = function ({
   email = 'louis.philippe@example.net',
   username = 'jean.bono1234',
   pixCertifTermsOfServiceAccepted = false,
-  pixOrgaTermsOfServiceAccepted = false,
   isAuthenticatedFromGAR = false,
   createdAt,
   updatedAt,
   lang = 'fr',
   locale,
-  lastPixOrgaTermsOfServiceValidatedAt,
   lastPixCertifTermsOfServiceValidatedAt,
   lastLoggedAt,
   emailConfirmedAt,
@@ -26,6 +24,7 @@ const buildUserDetailsForAdmin = function ({
   isPixAgent = false,
   lastApplicationConnections,
   pixAppTosStatus = { status: STATUS.ACCEPTED, acceptedAt: null },
+  pixOrgaTosStatus = { status: STATUS.ACCEPTED, acceptedAt: null },
 } = {}) {
   const userDetailsForAdmin = new UserDetailsForAdmin({
     id,
@@ -33,13 +32,11 @@ const buildUserDetailsForAdmin = function ({
     lastName,
     email,
     username,
-    pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
     createdAt,
     updatedAt,
     lang,
     locale,
-    lastPixOrgaTermsOfServiceValidatedAt,
     lastPixCertifTermsOfServiceValidatedAt,
     lastLoggedAt,
     emailConfirmedAt,
@@ -52,7 +49,7 @@ const buildUserDetailsForAdmin = function ({
     isPixAgent,
     lastApplicationConnections,
   });
-  userDetailsForAdmin.tosStatus = { pixAppTosStatus };
+  userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
   return userDetailsForAdmin;
 };
 

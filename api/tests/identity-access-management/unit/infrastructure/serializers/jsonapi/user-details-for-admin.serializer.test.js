@@ -39,9 +39,15 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
           }),
         ],
       });
-      const acceptedAt = new Date('2024-03-01');
-      const pixAppTosStatus = { status: STATUS.ACCEPTED, documentPath: '/tos/v2.pdf', acceptedAt: acceptedAt };
-      userDetailsForAdmin.tosStatus = { pixAppTosStatus };
+      const pixAppTosAcceptedAt = new Date('2024-03-01');
+      const pixOrgaTosAcceptedAt = new Date('2025-06-07');
+      const pixAppTosStatus = { status: STATUS.ACCEPTED, documentPath: '/tos/v2.pdf', acceptedAt: pixAppTosAcceptedAt };
+      const pixOrgaTosStatus = {
+        status: STATUS.ACCEPTED,
+        documentPath: '/tos/v4.pdf',
+        acceptedAt: pixOrgaTosAcceptedAt,
+      };
+      userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
 
       // when
       const json = serializer.serialize(userDetailsForAdmin);
@@ -61,8 +67,8 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'pix-certif-terms-of-service-accepted': userDetailsForAdmin.pixCertifTermsOfServiceAccepted,
             lang: 'fr',
             locale: 'fr-FR',
-            'last-pix-app-terms-of-service-validated-at': acceptedAt,
-            'last-pix-orga-terms-of-service-validated-at': now,
+            'last-pix-app-terms-of-service-validated-at': pixAppTosAcceptedAt,
+            'last-pix-orga-terms-of-service-validated-at': pixOrgaTosAcceptedAt,
             'last-pix-certif-terms-of-service-validated-at': now,
             'last-logged-at': now,
             'email-confirmed-at': now,
