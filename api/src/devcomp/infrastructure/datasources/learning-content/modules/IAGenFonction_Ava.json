@@ -397,7 +397,7 @@
                       "id": "582588be-aeba-495e-9eaf-fb4b703ade17",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Les développeurs configurent les logiciels d’IA pour faire appel à des outils. Pour cela, ils définissent les <strong>paramètres </strong>de l’outil dans le prompt système&nbsp;. Ils décrivent pour chaque outil&nbsp;: son nom, son contexte d’utilisation (objectif, finalité), ses valeurs d’entrées, le format de la réponse attendue, etc.&nbsp;</p>"
+                      "content": "<p>Les développeurs configurent les logiciels d’IA pour faire appel à des outils. Pour cela, les développeurs définissent les <strong>paramètres </strong>des outils dans un <strong>prompt système</strong> et décrivent pour chaque outil&nbsp;: son nom, son contexte d’utilisation (objectif, finalité), ses valeurs d’entrées, le format de la réponse attendue, etc.</p>"
                     }
                   ]
                 },
@@ -407,7 +407,7 @@
                       "id": "116f00ef-b0ee-4df5-ab5e-eadd4be5a31b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Mais que peut faire l’utilisateur dans la configuration de ces outils ?</h5><br><p> ✅ Dans certains cas, des <strong>accès </strong>doivent être autorisés par l’utilisateur (ex.&nbsp;: autoriser l’accès à la boîte mail, à un agenda, un cloud, etc.)&nbsp;</p>"
+                      "content": "<h5>Mais que peut faire l’utilisateur dans la configuration de ces outils ?</h5><br><p> ✅ Dans certains cas, des <strong>accès </strong>doivent être autorisés par l’utilisateur (exemple&nbsp;: autoriser l’accès à la boîte mail, à un agenda, un cloud, etc.)&nbsp;</p>"
                     }
                   ]
                 },
@@ -464,7 +464,7 @@
                 "id": "7831fafa-8342-49ad-b93d-8c46106966ab",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une fois les outils définis,&nbsp;que se passe-t-il exactement lorsque nous faisons une demande à l’IA ?</p><p>C’est ce que nous allons voir dans cette dernière partie.</p>"
+                "content": "<p>Une fois les outils définis,&nbsp;que se passe-t-il exactement lorsque nous faisons une demande à l’IA ?</p><p>C’est ce que nous allons voir.</p>"
               }
             }
           ]
