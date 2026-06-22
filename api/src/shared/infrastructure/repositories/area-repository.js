@@ -35,13 +35,6 @@ export async function findByFrameworkIdWithCompetences({ frameworkId, locale }) 
   return toDomainWithCompetences(areaDtos, locale);
 }
 
-export async function findByFrameworkId({ frameworkId, locale }) {
-  const cacheKey = `findByFrameworkId({ frameworkId: ${frameworkId} })`;
-  const findAreasByFrameworkIdCallback = (knex) => knex.where('frameworkId', frameworkId).orderBy('id');
-  const areaDtos = await getInstance().find(cacheKey, findAreasByFrameworkIdCallback);
-  return areaDtos.map((areaDto) => toDomain(areaDto, locale));
-}
-
 export async function findByRecordIds({ areaIds, locale }) {
   const areaDtos = await getInstance().getMany(areaIds);
   return areaDtos
