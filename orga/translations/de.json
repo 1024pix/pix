@@ -1056,7 +1056,7 @@
       "modal": {
         "associated-badges": "Zugehörige Abzeichen",
         "max-level": "Max. Stufe",
-        "open-modal": "Details zum Kurs anzeigen",
+        "open-modal": "Details zu {name} anzeigen",
         "select-course": "Diesen Kurs auswählen",
         "tube-name-and-description": "Name und Beschreibung des Themas",
         "tube-unavailable": "Thema nicht verfügbar"

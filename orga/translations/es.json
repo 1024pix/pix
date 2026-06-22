@@ -1060,7 +1060,7 @@
       "modal": {
         "associated-badges": "Insignias relacionadas",
         "max-level": "Nivel máx.",
-        "open-modal": "Ver detalles del cursos",
+        "open-modal": "Ver detalles del curso {name}",
         "select-course": "Seleccionar este curso",
         "tube-name-and-description": "Nombre y descripción del tema",
         "tube-unavailable": "Tema no disponible"

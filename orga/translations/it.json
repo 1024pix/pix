@@ -1057,7 +1057,7 @@
       "modal": {
         "associated-badges": "Badge associati",
         "max-level": "Livello max.",
-        "open-modal": "Visualizza i dettagli del percorso",
+        "open-modal": "Visualizza i dettagli del percorso {name}",
         "select-course": "Seleziona questo corso",
         "tube-name-and-description": "Nome e descrizione dell'argomento",
         "tube-unavailable": "Argomento non disponibile"

@@ -68,7 +68,7 @@ export default class CourseCard extends Component {
           @model={{@type}}
           @query={{hash targetProfileId=@course.id}}
           {{on "click" @selectCourse}}
-          aria-label={{t "pages.catalogue.modal.open-modal"}}
+          aria-label={{t "pages.catalogue.modal.open-modal" name=@course.name}}
         />
       {{else if (eq @course.type "blueprint")}}
         <LinkTo
@@ -76,7 +76,7 @@ export default class CourseCard extends Component {
           @model={{@type}}
           @query={{hash blueprintId=@course.id}}
           {{on "click" @selectCourse}}
-          aria-label={{t "pages.catalogue.modal.open-modal"}}
+          aria-label={{t "pages.catalogue.modal.open-modal" name=@course.name}}
         />
       {{/if}}
     </div>

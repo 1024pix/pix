@@ -1053,8 +1053,11 @@
       },
       "modal": {
         "associated-badges": "Badges associés",
-        "open-modal": "Voir le détail du parcours",
-        "select-course": "Sélectionner ce parcours"
+        "max-level": "Niveau maximum",
+        "open-modal": "Voir le détail du parcours {name}",
+        "select-course": "Sélectionner ce parcours",
+        "tube-name-and-description": "Sujet et description",
+        "tube-unavailable": "Sujet indisponible"
       },
       "tab-filters": {
         "all": "Tous",
