@@ -62,8 +62,8 @@ class UserDetailsForAdmin {
 
   set tosStatus({ pixAppTosStatus }) {
     this.cgu = pixAppTosStatus.status === STATUS.ACCEPTED || pixAppTosStatus.status === STATUS.UPDATE_REQUESTED;
-    this.lastPixAppTermsOfServiceValidatedAt = pixAppTosStatus.acceptedAt;
     this.pixAppTermsOfServiceAccepted = pixAppTosStatus.status === STATUS.ACCEPTED;
+    this.lastPixAppTermsOfServiceValidatedAt = pixAppTosStatus.acceptedAt;
   }
 }
 

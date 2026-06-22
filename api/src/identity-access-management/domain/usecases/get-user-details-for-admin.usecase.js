@@ -7,8 +7,8 @@
  */
 const getUserDetailsForAdmin = async function ({ userId, userRepository, legalDocumentApiRepository }) {
   const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userId);
-  const pixAppTosStatus = await legalDocumentApiRepository.getPixAppTosStatus({ userId });
 
+  const pixAppTosStatus = await legalDocumentApiRepository.getPixAppTosStatus({ userId });
   userDetailsForAdmin.tosStatus = { pixAppTosStatus };
 
   return userDetailsForAdmin;

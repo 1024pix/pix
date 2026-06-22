@@ -43,6 +43,7 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
         });
       });
     });
+
     context('terms of service', function () {
       context('when the user TOS status is ACCEPTED', function () {
         it('returns the userDetailsForAdmin with accepted Pix App TOS status', async function () {
