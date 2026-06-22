@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/IAGenFonction_AVA/picto_iagenfonction_ava.svg",
-    "description": "<p>À leurs débuts, les logiciels d'intelligence artificielle (IA) générative ne savaient générer que du texte. Ils peuvent maintenant calculer, produire des graphiques, du code ou encore interagir avec d’autres logiciels  !</p><p>Dans ce module, vous allez découvrir le secret qui se cache derrière ces nouvelles capacités&nbsp;: ces logiciels d’IA générative font appel à des outils.</p>",
+    "description": "<p>À leurs débuts, les logiciels d’intelligence artificielle (IA) générative ne savaient générer que du texte. Ils peuvent maintenant calculer, produire des graphiques, du code ou encore interagir avec d’autres logiciels  !</p><p>Dans ce module, vous allez découvrir le secret qui se cache derrière ces nouvelles capacités&nbsp;: ces logiciels d’IA générative font appel à des outils.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -243,7 +243,7 @@
                 "id": "d8c78172-4027-44f7-abe4-c316d4da0925",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Yasmine utilise un logiciel d’IA générative : ChatPix 3.0.</p><p> Le<strong> prompt système</strong> est l’instruction  donnée au logiciel d’IA pour définir son comportement et les outils qu’il peut utiliser. Il n’est pas visible des utilisateurs comme Yasmine.</p><p><strong>Analysez&nbsp;le prompt système de ChatPix 3.0 ci-dessous puis répondez aux questions.</strong></p><blockquote><code>Tu es un assistant doté de plusieurs outils externes. <br>Tu disposes des outils suivants&nbsp;: <br>- l’application de musique&nbsp;: pour lancer ou arrêter une musique, <br>- la calculatrice&nbsp;: pour effectuer des calculs numériques.<br> <br> Règles d’utilisation&nbsp;: <br>1. Si l’utilisateur demande explicitement le&nbsp; lancement ou l’arrêt d’une musique, tu DOIS appeler l’outil `application de musique`.<br> <br>2. Si la demande peut être résolue par un calcul mathématique,&nbsp;tu DOIS appeler l’outil `calculatrice`. <br>3. Si aucun outil n’est approprié, réponds normalement en texte.<br> <br> Lorsque tu appelles un outil&nbsp;: <br>- Ne produis aucun texte explicatif.<br>- Envoie la requête à l’outil dans&nbsp;un format adapté.</code><br></blockquote>"
+                "content": "<p>Yasmine utilise un logiciel d’IA générative&nbsp;: ChatPix 3.0.</p><p> Le<strong> prompt système</strong> est l’instruction  donnée au logiciel d’IA pour définir son comportement et les outils qu’il peut utiliser. Il n’est pas visible des utilisateurs comme Yasmine.</p><p><strong>Analysez&nbsp;le prompt système de ChatPix 3.0 ci-dessous puis répondez aux questions.</strong></p><blockquote><code>Tu es un assistant doté de plusieurs outils externes. <br>Tu disposes des outils suivants&nbsp;: <br>- l’application de musique&nbsp;: pour lancer ou arrêter une musique, <br>- la calculatrice&nbsp;: pour effectuer des calculs numériques.<br> <br> Règles d’utilisation&nbsp;: <br>1. Si l’utilisateur demande explicitement le&nbsp; lancement ou l’arrêt d’une musique, tu DOIS appeler l’outil `application de musique`.<br> <br>2. Si la demande peut être résolue par un calcul mathématique,&nbsp;tu DOIS appeler l’outil `calculatrice`. <br>3. Si aucun outil n’est approprié, réponds normalement en texte.<br> <br> Lorsque tu appelles un outil&nbsp;: <br>- Ne produis aucun texte explicatif.<br>- Envoie la requête à l’outil dans&nbsp;un format adapté.</code><br></blockquote>"
               }
             },
             {
@@ -271,7 +271,7 @@
                     {
                       "id": "5d883cf5-5796-4c14-b2ee-8c5e458b40f2",
                       "type": "qcu-discovery",
-                      "instruction": "<p>D’après le prompt système, quel outil peut être utilisé par ChatPix 3.0 pour répondre à la demande de Yasmine  ?</p>",
+                      "instruction": "<p>D’après le prompt système, quel outil peut être utilisé par ChatPix 3.0 pour répondre à la demande de Yasmine  ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -335,7 +335,7 @@
                     {
                       "id": "e99bf18b-14df-4e78-ae8d-8b756f704898",
                       "type": "qcu-discovery",
-                      "instruction": "<p>D’après le prompt système, quel outil peut être utilisé par ChatPix 3.0 pour répondre à cette nouvelle demande de Yasmine  ?</p>",
+                      "instruction": "<p>D’après le prompt système, quel outil peut être utilisé par ChatPix 3.0 pour répondre à cette nouvelle demande de Yasmine  ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -480,7 +480,7 @@
                 "id": "ac63719a-64dc-425d-b8cd-e3a7441830b0",
                 "type": "custom",
                 "title": "Le prompt de Yasmine",
-                "instruction": "<p>Yasmine a fait une demande à un logiciel d’IA conversationnelle.</p>",
+                "instruction": "<p>Yasmine a fait une demande, sous la forme d’un prompt, à un logiciel d’IA générative.</p>",
                 "functionalInstruction": "",
                 "tagName": "llm-messages",
                 "props": {
@@ -506,35 +506,35 @@
                     {
                       "id": "1904da0e-efb2-4470-bcbe-8e8d3435b468",
                       "type": "qcu-discovery",
-                      "instruction": "<p>À&nbsp;votre avis, quelle partie du prompt permet d’identifier l’outil nécessaire au logiciel d’IA conversationnel ?</p>",
+                      "instruction": "<p>À&nbsp;votre avis, quelle partie du prompt permet d’identifier l’outil nécessaire au logiciel d’IA générative ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>J’habite à Jolieville,<br></p>",
+                          "content": "<p>J’habite à Jolieville<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>L’expression «&nbsp;<strong>est-ce que la météo&nbsp;»&nbsp;</strong>permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong> </p><p>Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil. </p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est l’expression «&nbsp;<strong>est-ce que la météo&nbsp;» </strong>qui&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong> </p><p>Lors de la génération de la réponse, le<strong> logiciel d’IA décide de faire appel ou non à un outil. </strong>L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil. </p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>et je veux refaire ma terrasse.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non !</strong></p><p>L’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>»&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p> Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est l’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>» qui permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p> Lors de la génération de la réponse,<strong> le logiciel d’IA décide de faire appel ou non à un outil.</strong> L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Est-ce que la météo<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !&nbsp;</p><p>Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                            "diagnosis": "<p><strong>Bien vu !&nbsp;</strong></p><p>Lors de la génération de la réponse, le <strong>logiciel d’IA décide de faire appel ou non à un outil. </strong>L’utilisateur peut aussi demander&nbsp;explicitement dans son prompt l’utilisation d’un outil.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>permettra de le faire ce week-end ?<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p> L’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>»&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>  Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p> C’est l’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>» qui permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>  Lors de la génération de la réonse, <strong>le logiciel d’IA décide de faire appel ou non à un outil</strong>. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
                           }
                         }
                       ],
@@ -548,7 +548,7 @@
                       "id": "838dd2fd-5a2c-462c-b93a-b230dadc4e62",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Le logiciel d’IA analyse le prompt et identifie l’outil pertinent.</p><p>L’outil pertinent identifié ici est un logiciel qui se connecte aux informations d’un service externe de météo (Météo France, AEMET, National Weather Service, etc. )</p>"
+                      "content": "<p>Le logiciel d’IA <strong>analyse le prompt</strong> qu’il reçoit et <strong>identifie l’outil </strong>pertinent à utiliser pour y répondre.</p><p>L’outil pertinent identifié ici est un logiciel qui se connecte aux informations d’un service externe de <strong>météo </strong>(Météo France, AEMET, National Weather Service, etc.).</p>"
                     },
                     {
                       "id": "d81c2f6a-7811-4ed5-8959-70fd4ed60bd2",
@@ -578,7 +578,7 @@
                     {
                       "id": "36f8d720-4607-4bbd-8b36-161f782e8f70",
                       "type": "qrocm",
-                      "instruction": "Quelle est la requête que le logiciel d’IA conversationnel va envoyer pour répondre à la demande ?",
+                      "instruction": "<p>Quelle est la requête que le logiciel d’IA générative va envoyer à l’outil pour répondre à la demande de Yasmine ?</p>",
                       "proposals": [
                         {
                           "type": "text",
@@ -592,15 +592,15 @@
                           "type": "select",
                           "input": "outil",
                           "display": "inline",
-                          "placeholder": "- Sélectionnez -",
-                          "ariaLabel": "- Sélectionnez -",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "- Sélectionner -",
                           "tolerances": [
                             ""
                           ],
                           "options": [
                             {
                               "id": "1",
-                              "content": "\"météo\","
+                              "content": "\"ce week-end\","
                             },
                             {
                               "id": "2",
@@ -608,11 +608,11 @@
                             },
                             {
                               "id": "3",
-                              "content": "\"ce week-end\","
+                              "content": "\"météo\","
                             }
                           ],
                           "solutions": [
-                            "1"
+                            "3"
                           ]
                         },
                         {
@@ -623,13 +623,13 @@
                           "type": "select",
                           "input": "localisation",
                           "display": "inline",
-                          "placeholder": "- Sélectionnez -",
-                          "ariaLabel": "- Sélectionnez -",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "- Sélectionner -",
                           "tolerances": [],
                           "options": [
                             {
                               "id": "1",
-                              "content": "\"météo\","
+                              "content": "\"ce week-end\","
                             },
                             {
                               "id": "2",
@@ -637,7 +637,7 @@
                             },
                             {
                               "id": "3",
-                              "content": "\"ce week-end\","
+                              "content": "\"météo\","
                             }
                           ],
                           "solutions": [
@@ -652,25 +652,25 @@
                           "type": "select",
                           "input": "date",
                           "display": "inline",
-                          "placeholder": "- Sélectionnez -",
-                          "ariaLabel": "- Sélectionnez -",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "- Sélectionner -",
                           "tolerances": [],
                           "options": [
                             {
                               "id": "1",
-                              "content": "\"météo\""
+                              "content": "\"ce week-end\","
                             },
                             {
                               "id": "2",
-                              "content": "\"Jolieville\""
+                              "content": "\"Jolieville\","
                             },
                             {
                               "id": "3",
-                              "content": "\"ce week-end\""
+                              "content": "\"météo\","
                             }
                           ],
                           "solutions": [
-                            "3"
+                            "1"
                           ]
                         },
                         {
@@ -680,12 +680,12 @@
                       ],
                       "feedbacks": {
                         "valid": {
-                          "state": "Bien vu !&nbsp;",
+                          "state": "<p><strong>Bien vu !&nbsp;</strong></p>",
                           "diagnosis": "<p>Le logiciel a choisi l’<strong>outil Météo</strong>&nbsp;et lui a transmis l’information du lieu et de la date recherchés. Ces informations sont les <strong>arguments </strong>de la requête.</p><br>"
                         },
                         "invalid": {
-                          "state": "Eh non !",
-                          "diagnosis": "<p>Le logiciel a choisi l’<strong>outil Météo</strong> (en anglais \"weather\")&nbsp;et lui a transmis l’information du lieu et de la date recherchés. Ces informations sont les <strong>arguments </strong>de la requête.</p>"
+                          "state": "<p><strong>Eh non !</strong></p>",
+                          "diagnosis": "<p>Le logiciel a choisi l’<strong>outil Météo</strong>&nbsp;et lui a transmis l’information du lieu et de la date recherchés. Ces informations sont les <strong>arguments </strong>de la requête.</p>"
                         }
                       }
                     }
@@ -697,7 +697,7 @@
                       "id": "8d039074-9bcf-4c83-bcb8-e277963d5ba3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’outil traite la requête et renvoie la réponse.<br></p>"
+                      "content": "<p>L’outil Météo traite la requête transmise par l’IA générative et lui envoie une réponse.</p>"
                     },
                     {
                       "id": "d0ad2b49-770f-437e-8b00-ef2d6530bd67",
@@ -782,7 +782,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/IAGenFonction_AVA/schema_ia_outils_global.svg",
                 "alt": "Schéma des étapes de la génération d’une réponse d’un logiciel d’IA conversationnelle qui fait appel à un outil.",
-                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie l’outil.</p><p>L'IA générative transmet la requête à&nbsp; l’outil.</p><p>L’outil envoie la réponse à l’IA générative.</p><p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p><p>L’IA générative génère la réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
+                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie l’outil.</p><p>L’IA générative transmet la requête à&nbsp; l’outil.</p><p>L’outil envoie la réponse à l’IA générative.</p><p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p><p>L’IA générative génère la réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
                 "legend": "",
                 "licence": ""
               }
