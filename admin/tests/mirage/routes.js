@@ -112,6 +112,18 @@ export default function routes() {
     return certificationVersion.update(params.data.attributes);
   });
 
+  this.delete('/admin/certification-versions/:id', (schema, request) => {
+    const certificationVersions = schema.certificationVersions.all();
+    const certificationVersionToDelete = certificationVersions.filter((version) => version.id === request.params.id);
+    certificationVersionToDelete.destroy();
+
+    const frameworkHistory = schema.frameworkHistories.first();
+
+    frameworkHistory.update({
+      history: frameworkHistory.attrs.history.filter((version) => version.id !== Number(request.params.id)),
+    });
+  });
+
   this.get('/admin/certification-frameworks', (schema) => {
     return schema.certificationFrameworks.all();
   });

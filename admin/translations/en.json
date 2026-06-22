@@ -496,6 +496,7 @@
         "certification-framework": "Certification framework",
         "frameworks": {
           "create-button": "Create a new version of the certification framework",
+          "create-button-cancel-tooltip": "It is not possible to create a new version for this scope as a draft version already exists",
           "details": {
             "title": "Current certification framework details"
           },

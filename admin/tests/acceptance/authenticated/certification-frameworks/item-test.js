@@ -1,12 +1,12 @@
 import { visit, within } from '@1024pix/ember-testing-library';
-import { currentURL } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
-module('Acceptance | Complementary certifications | Complementary certification | Item', function (hooks) {
+module('Acceptance | Certification Frameworks | Item', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -88,7 +88,7 @@ module('Acceptance | Complementary certifications | Complementary certification 
     assert.strictEqual(currentURL(), '/certification-frameworks/CLEA/target-profile');
   });
 
-  test('it should display the create button on new version page', async function (assert) {
+  test('it should display the create-button', async function (assert) {
     // given
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
@@ -104,5 +104,72 @@ module('Acceptance | Complementary certifications | Complementary certification 
     assert
       .dom(screen.queryByRole('link', { name: t('components.certification-frameworks.item.frameworks.create-button') }))
       .exists();
+  });
+
+  test("it shouln't possible to create 2 certification-version with status DRAFT", async function (assert) {
+    // given
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+    server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
+    server.create('framework-history', {
+      id: 'DROIT',
+      history: [
+        {
+          id: 13,
+          startDate: new Date('2023-10-10'),
+          expirationDate: null,
+          assessmentDuration: 90,
+          maximumAssessmentLength: 32,
+          status: 'ACTIVE',
+        },
+        {
+          id: 14,
+          startDate: null,
+          expirationDate: null,
+          assessmentDuration: 90,
+          maximumAssessmentLength: 32,
+          status: 'DRAFT',
+        },
+      ],
+    });
+
+    server.create('certification-version', { id: 13 });
+    server.create('certification-version', { id: 14 });
+
+    // when
+    const screen = await visit('/certification-frameworks/DROIT/');
+
+    const button = await screen.findByRole('link', {
+      name: t('components.certification-frameworks.item.frameworks.create-button'),
+      exact: false,
+    });
+
+    // then
+    assert.strictEqual(button.getAttribute('aria-disabled'), 'true');
+
+    const rows = await screen.findAllByRole('row');
+    const [, row1] = rows;
+
+    assert.strictEqual(rows.length, 3);
+    assert.dom(await screen.getByRole('cell', { name: "En cours d'édition" })).exists();
+    assert.dom(await screen.getByRole('cell', { name: 'Actif' })).exists();
+
+    const deleteButton = within(row1).getByRole('button', {
+      name: t('components.certification-frameworks.item.frameworks.history.table.actions.delete'),
+    });
+
+    await click(deleteButton);
+
+    const confirmButton = await screen.findByRole('button', {
+      name: t('components.certification-frameworks.deletion-modal.action-button'),
+    });
+
+    await click(confirmButton);
+
+    assert.strictEqual(button.getAttribute('aria-disabled'), 'false');
+    const rowsAfterDelete = await screen.findAllByRole('row');
+    assert.strictEqual(rowsAfterDelete.length, 2);
+    assert.dom(await screen.queryByRole('cell', { name: "En cours d'édition" })).doesNotExist();
+    assert.dom(await screen.getByRole('cell', { name: 'Actif' })).exists();
   });
 });

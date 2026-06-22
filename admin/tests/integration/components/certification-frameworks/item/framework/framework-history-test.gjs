@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import FrameworkHistory from 'pix-admin/components/certification-frameworks/item/framework/framework-history';
 import { module, test } from 'qunit';
@@ -188,9 +188,9 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
       assert.dom(screen.getAllByRole('button', { name: deleteButtonName })[2]).hasAttribute('aria-disabled');
     });
 
-    test('it should be possible to delete a DRAFT version', async function (assert) {
+    test('it should be possible to only delete a DRAFT version', async function (assert) {
       // given
-      const certificationVersion = store.createRecord('certification-version', { id: archivedFrameworkItem.id });
+      const certificationVersion = store.createRecord('certification-version', { id: draftFrameworkItem.id });
       sinon.stub(store, 'findRecord').resolves(certificationVersion);
       sinon.stub(certificationVersion, 'destroyRecord').resolves();
       const frameworkHistory = store.createRecord('framework-history', {
@@ -198,16 +198,27 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
       });
 
       const screen = await render(
-        <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+        <template>
+          <FrameworkHistory
+            @frameworkKey="CORE"
+            @frameworkHistory={{frameworkHistory}}
+            @showCreationVersionButton={{true}}
+          />
+        </template>,
       );
 
-      // when
-      await click(screen.getAllByRole('button', { name: deleteButtonName })[0]);
-      await click(screen.getByText('Confirmer la suppression'));
+      const [, row1, row2, row3] = await screen.getAllByRole('row');
 
-      // then
-      assert.strictEqual(screen.getAllByRole('row').length, 3);
-      assert.dom(screen.queryByRole('cell', { name: `${archivedFrameworkItem.id}` })).doesNotExist();
+      const draftDeleteButton = within(row1).getByRole('button', { name: deleteButtonName });
+      const activeDeleteButton = within(row2).getByRole('button', { name: deleteButtonName });
+      const archivedDeleteButton = within(row3).getByRole('button', { name: deleteButtonName });
+
+      assert.dom(draftDeleteButton).doesNotHaveAttribute('aria-disabled');
+      assert.dom(activeDeleteButton).hasAttribute('aria-disabled');
+      assert.dom(archivedDeleteButton).hasAttribute('aria-disabled');
+
+      await click(draftDeleteButton);
+      await click(screen.getByText('Confirmer la suppression'));
     });
 
     module('when deletion is a success', function () {
@@ -215,6 +226,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
         sinon.stub(pixToast, 'sendSuccessNotification');
         const certificationVersion = store.createRecord('certification-version', { id: archivedFrameworkItem.id });
         sinon.stub(store, 'findRecord').resolves(certificationVersion);
+        sinon.stub(store, 'queryRecord').resolves();
         sinon.stub(certificationVersion, 'destroyRecord').resolves();
         const frameworkHistory = store.createRecord('framework-history', {
           history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
@@ -242,6 +254,7 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
 
         const certificationVersion = store.createRecord('certification-version', { id: archivedFrameworkItem.id });
         sinon.stub(store, 'findRecord').resolves(certificationVersion);
+        sinon.stub(store, 'queryRecord').rejects();
         sinon.stub(certificationVersion, 'destroyRecord').rejects();
 
         const screen = await render(

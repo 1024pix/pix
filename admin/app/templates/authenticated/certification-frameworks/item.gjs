@@ -8,6 +8,7 @@ import Header from 'pix-admin/components/certification-frameworks/item/header';
     <Header
       @certificationFramework={{@model.currentCertificationFramework}}
       @frameworkHistory={{@model.frameworkHistory}}
+      @showCreationVersionButton={{@controller.showCreationVersionButton}}
     />
 
     <section class="page-body certification-framework">

@@ -24,15 +24,13 @@ export default class FrameworkHistory extends Component {
   @service intl;
   @service pixToast;
 
-  @tracked frameworkHistory = [];
   @tracked selectedVersion = null;
   @tracked selectedVersionStatus = null;
   @tracked showDeletionConfirmationModal = false;
   @tracked showVersionDetailModal = false;
 
-  constructor() {
-    super(...arguments);
-    this.frameworkHistory = this.args.frameworkHistory?.history.sort(sortByStartDateNullFirst) ?? [];
+  get frameworkHistory() {
+    return this.args.frameworkHistory?.history.sort(sortByStartDateNullFirst) ?? [];
   }
 
   get hasHistory() {
@@ -66,10 +64,9 @@ export default class FrameworkHistory extends Component {
 
   @action
   async deleteVersion() {
-    const selectionVersionId = parseInt(this.selectedVersion.id);
     try {
       await this.selectedVersion.destroyRecord();
-      this.frameworkHistory = this.frameworkHistory.filter(({ id }) => id !== selectionVersionId);
+      await this.store.queryRecord('framework-history', this.args.frameworkKey);
       this.pixToast.sendSuccessNotification({
         message: this.intl.t('components.certification-frameworks.deletion-modal.success-message'),
       });
