@@ -16,14 +16,13 @@ export default class Header extends Component {
   }
 
   get canCreateVersion() {
-    return this.args.frameworkHistory?.history?.some((history) => history.status === 'DRAFT');
+    return this.args.frameworkHistory?.hasDraft;
   }
 
   get activeCertificationVersionId() {
+    const activeVersion = this.args.frameworkHistory?.activeHistory;
     return {
-      activeVersionId: this.args.frameworkHistory?.history.find(
-        (frameworkHistory) => frameworkHistory.status == 'ACTIVE',
-      )?.id,
+      activeVersionId: activeVersion?.id,
     };
   }
 
