@@ -275,7 +275,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
     it('should be true if user language is available for certification', function () {
       // given
       const user = domainBuilder.buildUser({
-        lang: 'en',
+        lang: 'fr-fr',
       });
 
       // when

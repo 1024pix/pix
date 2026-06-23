@@ -15,7 +15,7 @@ import { AlgorithmEngineVersion } from './AlgorithmEngineVersion.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
-export const V3_CERTIFICATION_AVAILABLE_LOCALES = ['fr-fr', 'fr', 'en'];
+export const V3_CERTIFICATION_AVAILABLE_LOCALES = ['fr-fr', 'fr'];
 
 export class CertificationCourse {
   /**
