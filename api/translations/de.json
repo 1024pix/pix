@@ -528,6 +528,10 @@
       "REJECTED_EDU_NOT_ELIGIBLE": {
         "candidate": "Ihre Ergebnisse machen Sie nicht zulassungsberechtigt für die Zertifizierung Pix+ Édu. Sie können auf Pix weiter Fortschritte machen und es bei einer nächsten Sitzung erneut versuchen.",
         "organization": "Der Kandidat ist nicht zulassungsberechtigt für die Zertifizierung Pix+ Édu."
+      },
+      "REJECTED_PIX_PLUS_NOT_OBTAINED": {
+        "candidate": "Die erzielten Ergebnisse erlauben keine Validierung Ihrer Zertifizierung. Sie müssen Ihre Kenntnisse vertiefen, um diese Kompetenzen aufzuwerten.",
+        "organization": "Die erzielten Ergebnisse erlauben keine Validierung der Pix+-Zertifizierung. Der Kandidat muss seine Kenntnisse vertiefen, um diese Kompetenzen aufzuwerten."
       }
     }
   },

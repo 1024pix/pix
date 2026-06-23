@@ -658,6 +658,10 @@
       "REJECTED_EDU_NOT_ELIGIBLE": {
         "candidate": "Your results do not make you eligible for the Pix+ Édu certification. You can keep progressing on Pix and try again during a future session.",
         "organization": "The candidate is not eligible for the Pix+ Édu certification."
+      },
+      "REJECTED_PIX_PLUS_NOT_OBTAINED": {
+        "candidate": "The results obtained do not allow the validation of your certification. You need to consolidate your knowledge to enhance these skills.",
+        "organization": "The results obtained do not allow the validation of the Pix+ certification. The candidate needs to consolidate their knowledge to enhance these skills."
       }
     }
   },

@@ -827,6 +827,10 @@
       "REJECTED_EDU_NOT_ELIGIBLE": {
         "candidate": "Les résultats obtenus ne permettent pas l'admissibilité au volet 2 de pratique professionnelle de la certification Pix+ Édu. Vous avez besoin de consolider vos acquis (en matière de numérique éducatif) pour valoriser vos compétences professionnelles.",
         "organization": "Le candidat n'est pas admissible au volet 2 de pratique professionnelle de la certification Pix+ Édu."
+      },
+      "REJECTED_PIX_PLUS_NOT_OBTAINED": {
+        "candidate": "Les résultats obtenus ne permettent pas la validation de votre certification. Vous avez besoin de consolider vos acquis pour valoriser ces compétences.",
+        "organization": "Les résultats obtenus ne permettent pas la validation de la certification Pix+. Le candidat a besoin de consolider ses acquis pour valoriser ces compétences."
       }
     }
   },
