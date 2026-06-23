@@ -1203,10 +1203,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         ],
       });
 
-      combinedCourseDetails.recommandableModuleIds = [
+      combinedCourseDetails.setRecommandableModuleIds([
         { moduleId: 'abcdef2', targetProfileIds: [888] },
         { moduleId: 'abcdef1', targetProfileIds: [888] },
-      ];
+      ]);
       await combinedCourseDetails.setEncryptedUrl();
       combinedCourseDetails.setDataAndGenerateItems({
         recommendedModuleIdsForUser: [{ moduleId: 'abcdef2' }],
@@ -1215,6 +1215,44 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
       // then
       expect(combinedCourseDetails.isSuccessful()).to.be.true;
+    });
+    it('should return false when recommended modules is not fulfilled', async function () {
+      // given && when
+      const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
+        name,
+        code,
+        organizationId,
+        questId,
+        combinedCourseItems: [
+          { campaignId: 777, targetProfileId: 888 },
+          { moduleId: 'abcdef1' },
+          { moduleId: 'abcdef2' },
+        ],
+        cryptoService,
+      });
+
+      const dataForQuest = domainBuilder.buildCombinedCourseDataForQuest({
+        campaignParticipations: [{ campaignId: 777, status: CampaignParticipationStatuses.SHARED }],
+        passages: [
+          {
+            referenceId: 'abcdef2',
+            isTerminated: true,
+          },
+        ],
+      });
+
+      combinedCourseDetails.setRecommandableModuleIds([
+        { moduleId: 'abcdef2', targetProfileIds: [888] },
+        { moduleId: 'abcdef1', targetProfileIds: [888] },
+      ]);
+      await combinedCourseDetails.setEncryptedUrl();
+      combinedCourseDetails.setDataAndGenerateItems({
+        recommendedModuleIdsForUser: [{ moduleId: 'abcdef1' }, { moduleId: 'abcdef2' }],
+        dataForQuest,
+      });
+
+      // then
+      expect(combinedCourseDetails.isSuccessful()).to.be.false;
     });
   });
 });
