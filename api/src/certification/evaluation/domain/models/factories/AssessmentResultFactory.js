@@ -255,6 +255,27 @@ export class AssessmentResultFactory {
     });
   }
 
+  static buildRejectedNotObtainedPixPlusAssessmentResult({
+    assessmentId,
+    juryId,
+    capacity,
+    reachedMeshIndex,
+    versionId,
+  }) {
+    return this.#buildWithAutoJuryComment({
+      autoJuryCommentKey: AutoJuryCommentKeys.REJECTED_PIX_PLUS_NOT_OBTAINED,
+      status: AssessmentResult.status.REJECTED,
+      pixScore: null,
+      reproducibilityRate: null,
+      assessmentId,
+      juryId,
+      competenceMarks: [],
+      capacity,
+      reachedMeshIndex,
+      versionId,
+    });
+  }
+
   static buildRejectedDueToBelowMinimumMesh({
     pixScore,
     reproducibilityRate,
