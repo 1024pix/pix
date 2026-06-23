@@ -461,6 +461,17 @@
       }
     },
     "certification-centers": {
+      "attached-organizations": {
+        "empty": "No organisation attached.",
+        "table": {
+          "caption": "Organisation attached to the certification center.",
+          "headers": {
+            "external-id": "External ID",
+            "id": "ID of the organisation",
+            "name": "Name of the attached organisation"
+          }
+        }
+      },
       "invitations": {
         "table": {
           "caption": "Liste des invitations envoyées pour rejoindre un centre de certification. Contient une adresse e-mail de l'utilisateur, le rôle que l'on souhaite lui attribuer, la date de dernier envoi de l'invitation et des actions permettent de renvoyer l'invitation ou de la supprimer."
@@ -1402,6 +1413,12 @@
           "external-id": "External identifier",
           "type": "Type"
         }
+      },
+      "navbar": {
+        "aria-label": "Certification center navigation section",
+        "attached-organizations": "Attached organization",
+        "invitations": "Invitations",
+        "team": "Team"
       },
       "notifications": {
         "failure": {

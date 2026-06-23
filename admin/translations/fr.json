@@ -468,6 +468,17 @@
       }
     },
     "certification-centers": {
+      "attached-organizations": {
+        "empty": "Aucune organisation rattachée.",
+        "table": {
+          "caption": "Organisation rattachée au centre de certification.",
+          "headers": {
+            "external-id": "Identifiant externe",
+            "id": "ID de l'organisation",
+            "name": "Nom de l'organisation rattachée"
+          }
+        }
+      },
       "invitations": {
         "table": {
           "caption": "Liste des invitations envoyées pour rejoindre un centre de certification. Contient une adresse e-mail de l'utilisateur, le rôle que l'on souhaite lui attribuer, la date de dernier envoi de l'invitation et des actions permettent de renvoyer l'invitation ou de la supprimer."
@@ -1394,6 +1405,14 @@
         "question": "Êtes-vous sûr de vouloir archiver ce centre de certification?",
         "title": "Archiver le centre de certification {certificationCenterName}",
         "warning": "Cette action est irréversible."
+      },
+      "get": {
+        "navbar": {
+          "aria-label": "Navigation de la section centre de certification",
+          "attached-organizations": "Lien orga",
+          "invitations": "Invitations",
+          "team": "Équipe"
+        }
       },
       "information-view": {
         "habilitations": {
