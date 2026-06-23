@@ -13,4 +13,9 @@ function findPaginatedFilteredCertificationCenters(schema) {
   return json;
 }
 
-export { findPaginatedFilteredCertificationCenters };
+function findCertificationCenterAttachedOrganizations(schema, request) {
+  const certificationCenterId = request.params.id;
+  return schema.attachedOrganizations.where({ certificationCenterId });
+}
+
+export { findCertificationCenterAttachedOrganizations, findPaginatedFilteredCertificationCenters };

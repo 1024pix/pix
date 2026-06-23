@@ -1,6 +1,7 @@
 // This file imports and exports all factories for explicit registration in config.js
 
 import attachedCertificationCenter from './factories/attached-certification-center';
+import attachedOrganization from './factories/attached-organization';
 import badge from './factories/badge';
 import certificationCandidate from './factories/certification-candidate';
 import certificationCenter from './factories/certification-center';
@@ -17,6 +18,7 @@ import user from './factories/user';
 
 export default {
   attachedCertificationCenter,
+  attachedOrganization,
   badge,
   certificationCandidate,
   certificationCenter,

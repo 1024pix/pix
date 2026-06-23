@@ -11,7 +11,10 @@ import {
 } from './handlers/autonomous-courses';
 import { updateBadgeCriterion } from './handlers/badge-criteria';
 import { findPaginatedFilteredCampaignParticipations } from './handlers/campaign-participations';
-import { findPaginatedFilteredCertificationCenters } from './handlers/certification-centers';
+import {
+  findCertificationCenterAttachedOrganizations,
+  findPaginatedFilteredCertificationCenters,
+} from './handlers/certification-centers';
 import { attachCombinedCourseBlueprintToOrganizations } from './handlers/combined-course-blueprint.js';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import { findFrameworkAreas } from './handlers/frameworks';
@@ -347,6 +350,7 @@ export default function routes() {
 
     return certificationCenterMembership;
   });
+  this.get('/admin/certification-centers/:id/organizations', findCertificationCenterAttachedOrganizations);
 
   this.get('/admin/users/:id/certification-courses', (schema, request) => {
     const userId = request.params.id;
