@@ -1,6 +1,9 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixStars from '@1024pix/pix-ui/components/pix-stars';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -15,6 +18,7 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
   @service media;
 
   @tracked stagedMessageContentShowMoreEnabled = false;
+  @tracked isResetModalVisible = false;
 
   get masteryRatePercentage() {
     return Math.round(this.args.campaignParticipationResult.masteryRate * 100);
@@ -56,6 +60,11 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
 
   @action toggleStagedMessage() {
     this.stagedMessageContentShowMoreEnabled = !this.stagedMessageContentShowMoreEnabled;
+  }
+
+  @action
+  toggleResetModalVisibility() {
+    this.isResetModalVisible = !this.isResetModalVisible;
   }
 
   <template>
@@ -108,6 +117,54 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
           <PixButtonLink @route="authentication.login" @size="small" @variant="secondary-white">
             {{t "pages.skill-review.actions.back-to-pix"}}
           </PixButtonLink>
+          {{#if @campaignParticipationResult.canReset}}
+            <PixButton
+              @iconBefore="refresh"
+              @variant="tertiary-white"
+              @triggerAction={{this.toggleResetModalVisibility}}
+            >
+              {{t "pages.skill-review.hero.retry.actions.reset"}}
+            </PixButton>
+            <PixModal
+              class="evaluation-results-hero-recommendation-engine-reset-modal"
+              @title={{t "pages.skill-review.reset.button"}}
+              @showModal={{this.isResetModalVisible}}
+              @onCloseButtonClick={{this.toggleResetModalVisibility}}
+            >
+              <:content>
+                <p class="evaluation-results-hero-recommendation-engine-reset-modal__text">
+                  {{t
+                    "pages.skill-review.reset.modal.text"
+                    targetProfileName=@campaign.targetProfileName
+                    htmlSafe=true
+                  }}
+                </p>
+                <PixNotificationAlert @type="warning">{{t
+                    "pages.skill-review.reset.modal.warning-text"
+                  }}</PixNotificationAlert>
+              </:content>
+              <:footer>
+                <ul class="reset-campaign-participation-modal__footer">
+                  <li>
+                    <PixButton @variant="secondary" @triggerAction={{this.toggleResetModalVisibility}}>
+                      {{t "common.actions.cancel"}}
+                    </PixButton>
+                  </li>
+                  <li>
+                    <PixButtonLink
+                      @route="campaigns.entry-point"
+                      @model={{@campaign.code}}
+                      @query={{hash reset=true}}
+                      @variant="error"
+                    >
+                      {{t "common.actions.confirm"}}
+                    </PixButtonLink>
+                  </li>
+                </ul>
+              </:footer>
+            </PixModal>
+
+          {{/if}}
         </div>
       </div>
     </div>

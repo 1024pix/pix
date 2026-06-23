@@ -91,13 +91,19 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: var(--pix-spacing-4x);
+    gap: var(--pix-spacing-3x);
     align-items: flex-start;
     width: 100%;
 
     .pix-button {
       width: 100%;
     }
+  }
+}
+
+.evaluation-results-hero-recommendation-engine-reset-modal {
+  &__text {
+    margin-bottom: var(--pix-spacing-4x);
   }
 }
 

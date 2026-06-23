@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, settled } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
@@ -8,6 +8,7 @@ import { module, test } from 'qunit';
 
 import { stubCurrentUserService } from '../../../../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
+import { waitForDialog } from '../../../../../../helpers/wait-for';
 
 module(
   'Integration | Components | Campaigns | Assessment | ResultsRecommendationEngine | EvaluationResultsHeroRecommendationEngine',
@@ -363,6 +364,59 @@ module(
       // then
       assert.dom(screen.getByRole('link', { name: t('pages.skill-review.actions.back-to-pix') })).exists();
       assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
+    });
+
+    module('when campaign can be reset', function (hooks) {
+      hooks.beforeEach(async function () {
+        stubCurrentUserService(this.owner, { firstName: 'Hermione' });
+      });
+
+      test('it should display a reset button', async function (assert) {
+        // given
+        const campaign = { organizationId: 1, hasCustomResultPageButton: false };
+        const campaignParticipationResult = { masteryRate: 0.75, canReset: true };
+
+        // when
+        const screen = await render(
+          <template>
+            <EvaluationResultsHeroRecommendationEngine
+              @campaign={{campaign}}
+              @campaignParticipationResult={{campaignParticipationResult}}
+              @hasTrainings={{false}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.dom(screen.getByRole('button', { name: t('pages.skill-review.reset.button') })).exists();
+      });
+
+      module('when clicking on the reset button', function () {
+        test('it should display a confirmation modal with a reset confirm button', async function (assert) {
+          // given
+          const campaign = { organizationId: 1, hasCustomResultPageButton: false };
+          const campaignParticipationResult = { masteryRate: 0.75, canReset: true };
+
+          // when
+          const screen = await render(
+            <template>
+              <EvaluationResultsHeroRecommendationEngine
+                @campaign={{campaign}}
+                @campaignParticipationResult={{campaignParticipationResult}}
+                @hasTrainings={{false}}
+              />
+            </template>,
+          );
+
+          await click(screen.getByRole('button', { name: t('pages.skill-review.reset.button') }));
+
+          await waitForDialog();
+          assert.dom(screen.getByRole('dialog', { name: t('pages.skill-review.reset.button') })).exists();
+
+          const resetConfirmationDialog = screen.getByRole('dialog', { name: t('pages.skill-review.reset.button') });
+          assert.dom(within(resetConfirmationDialog).getByText(t('common.actions.confirm'))).exists();
+        });
+      });
     });
   },
 );
