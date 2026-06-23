@@ -977,7 +977,8 @@
         "options": {
           "english": "English - EN",
           "french": "French - FR"
-        }
+        },
+        "warning-message": "Due to technical problems, the Pix Certification is momentarily unavailable in English. We apologize for any inconvenience caused."
       },
       "link-to-user-certification": "See my certificates",
       "non-eligible-subscription": "You are not eligible to {subscriptionLabel}. However, you can still take your Pix Certification.",

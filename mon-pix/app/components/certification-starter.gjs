@@ -72,10 +72,6 @@ export default class CertificationStarter extends Component {
         value: VALID_CERTIFICATION_LOCALES.FRENCH,
         label: this.intl.t('pages.certification-start.language-selector.options.french'),
       },
-      {
-        value: VALID_CERTIFICATION_LOCALES.ENGLISH,
-        label: this.intl.t('pages.certification-start.language-selector.options.english'),
-      },
     ];
   }
 
@@ -207,10 +203,15 @@ export default class CertificationStarter extends Component {
             @options={{this.languageOptions}}
             @hideDefaultOption={{true}}
             @iconName="language"
+            @isDisabled={{true}}
           >
             <:label>{{t "pages.certification-start.language-selector.label"}}</:label>
             <:default as |language|>{{language.label}}</:default>
           </PixSelect>
+
+          <PixNotificationAlert @withIcon={{true}} @type="error" class="create-attestations__errors">
+            <p>{{t "pages.certification-start.language-selector.warning-message"}}</p>
+          </PixNotificationAlert>
 
           <PixCheckbox
             @class="certification-start-form__lang-confirm-checkbox"
