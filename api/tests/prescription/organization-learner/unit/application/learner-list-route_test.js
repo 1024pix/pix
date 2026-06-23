@@ -6,7 +6,7 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
-describe('Integration | Application | Routes | Learner List', function () {
+describe('Unit | Application | Routes | Learner List', function () {
   describe('GET /api/organizations/{organizationId}/participants', function () {
     const method = 'GET';
     const url = '/api/organizations/1/participants';
@@ -30,7 +30,7 @@ describe('Integration | Application | Routes | Learner List', function () {
       expect(learnerListController.findPaginatedFilteredParticipants).to.have.been.calledOnce;
     });
 
-    it('should return HTTP code 400 when user not belongs to the organization', async function () {
+    it('should return HTTP code 403 when user not belongs to the organization', async function () {
       //given
       sinon
         .stub(securityPreHandlers, 'checkUserBelongsToOrganization')
