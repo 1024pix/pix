@@ -88,4 +88,58 @@ describe('Unit | Application | Routes | Learner List', function () {
       });
     });
   });
+  describe('GET /api/admin/organization-learners', function () {
+    it('should return error 403 when user is not admin', async function () {
+      //given
+      sinon.stub(learnerListController, 'findOrganizationLearnersForAdmin');
+      sinon
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+        .withArgs([
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleCertif,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleMetier,
+        ])
+        .callsFake(
+          () => (request, h) =>
+            h
+              .response({ errors: new Error('forbidden') })
+              .code(403)
+              .takeover(),
+        );
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      //when
+      const response = await httpTestServer.request('GET', '/api/admin/organization-learners', null);
+
+      //then
+      expect(response.statusCode).to.be.equal(403);
+      sinon.assert.notCalled(learnerListController.findOrganizationLearnersForAdmin);
+    });
+    it('should return error 400 when filters are invalid', async function () {
+      //given
+      sinon.stub(learnerListController, 'findOrganizationLearnersForAdmin');
+      sinon
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+        .withArgs([
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleCertif,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleMetier,
+        ])
+        .callsFake(() => (request, h) => h.response().code(200));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      //when
+      const response = await httpTestServer.request('GET', '/api/admin/organization-learners?filter[wrongFilter]=true');
+
+      //then
+      expect(response.statusCode).to.be.equal(400);
+      sinon.assert.notCalled(learnerListController.findOrganizationLearnersForAdmin);
+    });
+  });
 });

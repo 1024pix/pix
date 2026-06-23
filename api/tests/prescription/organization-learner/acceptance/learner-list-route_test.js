@@ -51,6 +51,35 @@ describe('Acceptance | Application | learner-list-route', function () {
     });
   });
 
+  describe('GET /api/admin/organization-learners', function () {
+    it('should return a list of organization learners', async function () {
+      //given
+      const superAdminId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildOrganizationLearner({ firstName: 'Annie', organizationId });
+      databaseBuilder.factory.buildOrganizationLearner({ firstName: 'Annie-Marie', organizationId });
+      databaseBuilder.factory.buildOrganizationLearner({ firstName: 'Simon', organizationId });
+      databaseBuilder.factory.buildOrganizationLearner({ firstName: 'Annie', organizationId: otherOrganizationId });
+      await databaseBuilder.commit();
+
+      const params =
+        '?filter[fullName]=Annie' + '&page[number]=1&page[size]=25' + `&filter[organizationId]=${organizationId}`;
+      const request = {
+        method: 'GET',
+        url: `/api/admin/organization-learners${params}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdminId }),
+      };
+      //when
+      const response = await server.inject(request);
+
+      //then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.length).to.equal(2);
+      expect(response.result.data[0].type).to.equal('admin-organization-learners');
+    });
+  });
+
   describe('GET /api/organizations/{organizationId}/divisions', function () {
     it('should return the divisions', async function () {
       // given
