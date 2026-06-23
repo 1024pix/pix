@@ -42,7 +42,7 @@
                 "id": "ffc7b36c-53fa-48a1-99a1-b7475e27e481",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><em>[carousel avec images + textes ?]</em><br><strong>Aimed - 09h08</strong> <br>Sur les postes du service comptabilité, nous rencontrons des problèmes depuis ce matin&nbsp;: fichiers inaccessibles, lenteurs inhabituelles et messages d’alerte. Ça touche de plus en plus d’ordinateurs. </p><p><strong>Lina - 09h19</strong><br>Je n’arrive plus à ouvrir mes fichiers. Un message demande de payer pour les récupérer. </p><p><strong>Hugo - 10h02</strong><br>Des mails ont été envoyés depuis ma boîte mail alors que je ne les ai pas écrits.<br><br></p>"
+                "content": "<p>[carousel avec images + textes ?]<br><strong>Aimed - 09h08</strong> <br>Sur les postes du service comptabilité, nous rencontrons des problèmes depuis ce matin&nbsp;: fichiers inaccessibles, lenteurs inhabituelles et messages d’alerte. Ça touche de plus en plus d’ordinateurs. </p><p><strong>Lina - 09h19</strong><br>Je n’arrive plus à ouvrir mes fichiers. Un message demande de payer pour les récupérer. </p><p><strong>Hugo - 10h02</strong><br>Des mails ont été envoyés depuis ma boîte mail alors que je ne les ai pas écrits.</p>"
               }
             },
             {
@@ -323,7 +323,7 @@
                 "id": "52f479e5-04c7-4f2e-9a93-ebbe598da33c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une fois la propagation identifiée, le service informatique poursuit son analyse.<br>Un mois plus tard, le service informatique de la mairie publie un rapport technique.</p>"
+                "content": "<p>Une fois la propagation identifiée, le service informatique de la mairie poursuit son analyse.<br>Un mois plus tard, le service informatique publie un rapport technique.</p>"
               }
             }
           ]
@@ -482,7 +482,7 @@
                 "id": "476dbcc4-5c2e-4834-af04-309db82ee912",
                 "type": "text",
                 "tag": " ",
-                "content": "<table>    <tbody>        <tr>            <th scope=\"\\&quot;col\\&quot;\">Action nuisible</th>            <th scope=\"\\&quot;col\\&quot;\">Type de logiciel malveillant</th>            <th scope=\"\\&quot;col\\&quot;\">Objectif possible</th>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Espionner un utilisateur</th>            <td>Logiciel espion (<em>spyware</em>),                enregistreur de frappe (<em>keylogger</em>)</td>            <td>Exploiter                ou revendre des données            </td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Voler des données</th>            <td>Voleur de données (<em>infostealer</em>)</td>            <td>Exploiter&nbsp; ou revendre des données</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Chiffrer des fichiers<br></th>            <td>Rançongiciel (<em>ransomware</em>)</td>            <td>Demander une rançon</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Prendre le contrôle&nbsp; ou dissimuler une action<br></th>            <td>Outil de dissimulation d’activité (<em>Rootkit</em>)</td>            <td>Maintenir un accès ou cacher une activité</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Faire dysfonctionner un appareil ou une machine</th>            <td>Virus informatique ou ver informatique</td>            <td>Perturber un système</td>        </tr>    </tbody></table>"
+                "content": "<table>    <tbody>        <tr>            <th scope=\"\\&quot;col\\&quot;\">Action nuisible</th>            <th scope=\"\\&quot;col\\&quot;\">Type de logiciel malveillant</th>            <th scope=\"\\&quot;col\\&quot;\">Objectif possible</th>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Espionner un utilisateur</th>            <td>Logiciel espion (<em>spyware</em>),                enregistreur de frappe (<em>keylogger</em>)</td>            <td>Exploiter                ou revendre des données            </td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Voler des données</th>            <td>Voleur de données (<em>infostealer</em>)</td>            <td>Exploiter&nbsp; ou revendre des données</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Chiffrer des fichiers</th>            <td>Rançongiciel (<em>ransomware</em>)</td>            <td>Demander une rançon</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Prendre le contrôle&nbsp; ou dissimuler une action</th>            <td>Outil de dissimulation d’activité (<em>Rootkit</em>)</td>            <td>Maintenir un accès ou cacher une activité</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Faire dysfonctionner un appareil ou une machine</th>            <td>Virus informatique ou ver informatique</td>            <td>Perturber un système</td>        </tr>    </tbody></table>"
               }
             },
             {
@@ -513,7 +513,7 @@
                 "id": "70f1b589-6274-4267-9068-9a0dc495f24c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour analyser un logiciel malveillant, trois questions à se poser&nbsp;: </p><ul><li>Un logiciel malveillant peut avoir différents <strong>moyens d’entrée</strong>&nbsp;: il peut exploiter une vulnérabilité humaine ou logicielle, ou utiliser un véhicule d’entrée comme un cheval de Troie.</li><li>Un logiciel malveillant peut avoir différents moyens de <strong>propagation </strong>: il peut infecter des programmes hôtes exécutables, se diffuser par le réseau ou rester sur l’appareil infecté.</li><li>Un logiciel malveillant a pour but de réaliser des actions nuisibles&nbsp;: on parle de <strong>charge utile</strong>. Les logiciels sont souvent <strong>nommés </strong>en fonction de ces <strong>actions nuisibles</strong> (logiciel espion, rançongiciel, voleur de données, outil de dissimulation d’activité)<br> </li></ul><p>Une <strong>cyberattaque </strong>peut <strong>combiner plusieurs logiciels malveillants</strong>, chacun jouant un rôle différent, et des <strong>techniques d’arnaque </strong>comme de l’ingénierie sociale.<br><br></p>"
+                "content": "<p>Pour analyser un logiciel malveillant, trois questions à se poser&nbsp;: </p><ul><li>Un logiciel malveillant peut avoir différents <strong>moyens d’entrée</strong>&nbsp;: il peut exploiter une vulnérabilité humaine ou logicielle, ou utiliser un véhicule d’entrée comme un cheval de Troie.</li><li>Un logiciel malveillant peut avoir différents moyens de <strong>propagation </strong>: il peut infecter des programmes hôtes exécutables, se diffuser par le réseau ou rester sur l’appareil infecté.</li><li>Un logiciel malveillant a pour but de réaliser des actions nuisibles&nbsp;: on parle de <strong>charge utile</strong>. Les logiciels sont souvent <strong>nommés </strong>en fonction de ces <strong>actions nuisibles</strong> (logiciel espion, rançongiciel, voleur de données, outil de dissimulation d’activité)<br> </li></ul><p>Une <strong>cyberattaque </strong>peut <strong>combiner plusieurs logiciels malveillants</strong>, chacun jouant un rôle différent, et des <strong>techniques d’arnaque </strong>comme de l’ingénierie sociale.</p>"
               }
             }
           ]
@@ -580,7 +580,7 @@
                     "diagnosis": "<p>Ces trois informations aident à comprendre comment il s’introduit, comment il circule et ce qu’il fait une fois installé.</p>"
                   },
                   "invalid": {
-                    "state": "<p>Mauvaise réponse.<br></p>",
+                    "state": "<p>Mauvaise réponse.</p>",
                     "diagnosis": "<p>Les 3 informations à analyser concernent le comportement du logiciel malveillant.</p>"
                   }
                 },
