@@ -59,7 +59,6 @@
     "lint:scripts": "eslint --ignore-pattern **/compose.yaml scripts",
     "lint:yaml": "eslint --fix .circleci/*.yml .github/**/*.yaml",
     "lint:docs": "find ./docs -type f -name '*.md' | xargs -L1 markdown-link-check --quiet --config ./docs/link--check-config.json ",
-    "preinstall": "npx check-engine",
     "dev:team-certif": "run-p --print-label dev:api dev:mon-pix dev:certif dev:admin",
     "dev:admin": "cd admin && npm run dev",
     "dev:api": "cd api && npm run dev",
