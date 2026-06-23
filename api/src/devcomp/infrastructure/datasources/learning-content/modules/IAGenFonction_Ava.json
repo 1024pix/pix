@@ -422,7 +422,7 @@
                     {
                       "id": "139efa7a-48f4-476f-88d6-1fd440588231",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGenFonctionAva/capture-mistral-activer-outil.png",
+                      "url": "https://assets.pix.org/modules/IAGenFonction_AVA/mistral-outil.png",
                       "alt": "Capture d’écran de l’interface de Mistral",
                       "alternativeText": "",
                       "legend": "Sur Mistral, il est possible d’activer ou de désactiver certains outils dans une conversation.",
@@ -436,16 +436,7 @@
                       "id": "c80fea48-c2fd-4eee-900f-9acf88be2fee",
                       "type": "text",
                       "tag": " ",
-                      "content": "🔧 De plus, un utilisateur expérimenté peut également <strong>ajouter des outils </strong>supplémentaires, par lui-même."
-                    },
-                    {
-                      "id": "4c0ca799-cea7-46ef-a9f0-e9c4214591c1",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGenFonctionAva/capture-chat-gpt-ajout-outil.png",
-                      "alt": "Capture d’écran de l’interface de ChatGPT",
-                      "alternativeText": "",
-                      "legend": "Sur ChatGPT, il est possible de configurer l’ajout d’outils personnalisés.",
-                      "licence": ""
+                      "content": "<p>🔧 Un utilisateur expérimenté peut également <strong>ajouter des outils </strong>supplémentaires, par lui-même.</p>"
                     }
                   ]
                 }
