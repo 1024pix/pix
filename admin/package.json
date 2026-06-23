@@ -33,7 +33,6 @@
     "lint:scss:fix": "npm run lint:scss -- --fix",
     "lint:translations": "eslint --format node_modules/eslint-plugin-i18n-json/formatter.js translations",
     "lint:translations:fix": "npm run lint:translations -- --fix",
-    "preinstall": "npx check-engine",
     "dev": "ember serve --proxy http://localhost:3000",
     "start": "npm run dev",
     "test": "ember test",
