@@ -17,7 +17,6 @@
     "lint": "eslint . --cache --cache-strategy content",
     "lint:fix": "eslint --fix . --cache --cache-strategy content",
     "postdeploy": "DEBUG=knex:* npm run db:migrate",
-    "preinstall": "npx check-engine",
     "test": "NODE_ENV=test npm run db:prepare && vitest",
     "test:ci": "NODE_ENV=test npm run db:prepare && vitest",
     "test:watch": "NODE_ENV=test npm run db:prepare && vitest --watch",
