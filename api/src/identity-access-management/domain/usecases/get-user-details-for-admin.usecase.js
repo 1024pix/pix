@@ -10,7 +10,7 @@ const getUserDetailsForAdmin = async function ({ userId, userRepository, legalDo
 
   const pixAppTosStatus = await legalDocumentApiRepository.getPixAppTosStatus({ userId });
   const pixOrgaTosStatus = await legalDocumentApiRepository.getPixOrgaTosStatus({ userId });
-  userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
+  userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
 
   return userDetailsForAdmin;
 };

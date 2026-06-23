@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
           };
 
           // when
-          userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
+          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.true;
@@ -102,7 +102,7 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
           };
 
           // when
-          userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
+          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.false;
@@ -126,7 +126,7 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
           const pixOrgaTosStatus = { status: STATUS.UPDATE_REQUESTED, acceptedAt: null };
 
           // when
-          userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
+          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.true;
@@ -152,7 +152,7 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
           const pixOrgaTosStatus = { status: STATUS.REQUESTED, acceptedAt: null };
 
           // when
-          userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
+          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.false;

@@ -47,7 +47,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
         documentPath: '/tos/v4.pdf',
         acceptedAt: pixOrgaTosAcceptedAt,
       };
-      userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
+      userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
 
       // when
       const json = serializer.serialize(userDetailsForAdmin);

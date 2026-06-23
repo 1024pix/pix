@@ -49,7 +49,7 @@ const buildUserDetailsForAdmin = function ({
     isPixAgent,
     lastApplicationConnections,
   });
-  userDetailsForAdmin.tosStatus = { pixAppTosStatus, pixOrgaTosStatus };
+  userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
   return userDetailsForAdmin;
 };
 
