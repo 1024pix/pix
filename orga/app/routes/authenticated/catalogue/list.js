@@ -53,4 +53,11 @@ export default class AuthenticatedCatalogueFilter extends Route {
     }
     this.#currentOrgaId = orgId;
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('targetProfileId', null);
+      controller.set('blueprintId', null);
+    }
+  }
 }
