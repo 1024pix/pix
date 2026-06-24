@@ -1,4 +1,4 @@
-import { TargetProfile } from '../../domain/models/TargetProfile.js';
+import { TargetProfile } from '../../domain/models/combined-course-blueprints/entities/TargetProfile.js';
 
 export const findByIds = async function ({ ids, targetProfilesApi }) {
   const targetProfiles = await targetProfilesApi.getByIds(ids);

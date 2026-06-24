@@ -1,8 +1,8 @@
-import { Campaign } from '../../../../src/quest/domain/models/Campaign.js';
 import { CombinedCourseBlueprint } from '../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseDetails } from '../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js';
+import { Campaign } from '../../../../src/quest/domain/models/combined-courses/entities/Campaign.js';
 import { CombinedCourse } from '../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
-import { Module } from '../../../../src/quest/domain/models/Module.js';
+import { Module } from '../../../../src/quest/domain/models/combined-courses/entities/Module.js';
 import { DataForQuest } from '../../../../src/quest/domain/models/quests/aggregates/DataForQuest.js';
 import { Eligibility } from '../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
 import { Quest } from '../../../../src/quest/domain/models/quests/entities/Quest.js';

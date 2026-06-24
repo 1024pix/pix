@@ -1,7 +1,7 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
 import { COMBINED_COURSE_HEADER } from '../constants.js';
-import { Campaign } from '../models/Campaign.js';
+import { Campaign } from '../models/combined-courses/entities/Campaign.js';
 
 export const createCombinedCourses = withTransaction(
   async ({

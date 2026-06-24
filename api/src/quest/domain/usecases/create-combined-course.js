@@ -1,5 +1,5 @@
 import { ForbiddenAccess, NotFoundError } from '../../../shared/domain/errors.js';
-import { Campaign } from '../models/Campaign.js';
+import { Campaign } from '../models/combined-courses/entities/Campaign.js';
 
 export const createCombinedCourse = async ({
   combinedCourseForCreation,

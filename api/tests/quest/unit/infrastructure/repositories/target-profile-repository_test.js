@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { TargetProfile } from '../../../../../src/quest/domain/models/TargetProfile.js';
+import { TargetProfile } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/TargetProfile.js';
 import * as targetProfileRepository from '../../../../../src/quest/infrastructure/repositories/target-profile-repository.js';
 import { expect } from '../../../../test-helper.js';
 

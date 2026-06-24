@@ -1,4 +1,4 @@
-import { VerifiedCode } from '../../../../../src/quest/domain/models/VerifiedCode.js';
+import { VerifiedCode } from '../../../../../src/quest/domain/models/prescription/value-objects/VerifiedCode.js';
 import * as verifiedCodeSerializer from '../../../../../src/quest/infrastructure/serializers/verified-code-serializer.js';
 import { expect } from '../../../../test-helper.js';
 

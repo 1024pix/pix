@@ -1,4 +1,4 @@
-import { OrganizationLearner } from '../../../../../src/quest/domain/models/OrganizationLearner.js';
+import { OrganizationLearner } from '../../../../../src/quest/domain/models/prescription/entities/OrganizationLearner.js';
 import * as combinedCourseParticipantRepository from '../../../../../src/quest/infrastructure/repositories/combined-course-participant-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
