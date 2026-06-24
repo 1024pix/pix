@@ -33,7 +33,7 @@
                 "id": "d629b072-8cae-4484-82e2-25766a9e27cc",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Charlie vient de recevoir cet objet.&nbsp;</p>"
+                "content": "<p>Sitan aimerait progresser en chant.&nbsp;</p><p>Elle demande conseil à deux intelligences artificielles sur Compar:IA.<br><br></p>"
               }
             },
             {
@@ -41,11 +41,11 @@
               "element": {
                 "id": "6eda4aca-d3e7-4800-a6af-f10e479b997e",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/image-provisoire.png",
-                "alt": "Un homme tient un objet dans sa main.",
-                "alternativeText": "",
+                "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/accroche-compare-impact.png",
+                "alt": "Comparaison entre 2 réponses d'IA et leur impact environnemental",
+                "alternativeText": "<p>Sitan :&nbsp; Comment m'améliorer en chant ? Fais une réponse courte en 2 phrases.</p><p>Réponse de IBM/ Granite 4.1 8B :&nbsp;</p><p>Pour améliorer votre chant, pratiquez régulièrement en travaillant sur votre respiration, votre intonation et votre technique vocale avec un coach ou en utilisant des ressources en ligne. Enregistrez-vous et écoutez votre performance pour identifier les domaines à améliorer.</p><p>impact estimé de la discussion : 6 mWh</p><p>Réponse de Alibaba/ Qwen 3.6 Plus :&nbsp;</p><p>Pratique quotidiennement des exercices de respiration et de vocalises pour consolider ta technique. Enregistre-toi régulièrement et fais-toi accompagner par un professeur pour recevoir des retours objectifs et progresser efficacement.</p><p>impact estimé de la discussion : 14 425 mWh</p><p><br></p>",
                 "legend": "",
-                "licence": "Image provisoire - nous n’avons pas les droits"
+                "licence": "Image brouillon"
               }
             },
             {
@@ -53,35 +53,35 @@
               "element": {
                 "id": "1d281c04-2639-4bf8-a3da-7bda4de2f3e1",
                 "type": "qcu-discovery",
-                "instruction": "<p>À votre avis, qu’est-ce que c’est ?&nbsp;</p>",
+                "instruction": "<p>À votre avis, d’où vient cette différence entre l’énergie consommée&nbsp;par les deux modèles d’IA ?&nbsp;<br></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Une carte mère</p>",
+                    "content": "<p>de l’entraînement du modèle d’IA</p>",
                     "feedback": {
-                      "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une carte graphique, <strong>GPU </strong>en anglais (Graphics Processing Unit), un composant qui peut être ajouté dans un ordinateur pour pouvoir <strong>faire très rapidement certains types de calcul.</strong></p><p>Quand il calcule, le GPU chauffe et doit être refroidi, d’où les <strong>ventilateurs </strong>visibles sur la photo.</p>"
+                      "diagnosis": "<p><strong>Pas seulement !</strong></p><p>En réalité, cela vient à la fois de l’entraînement et de l’utilisation de l’IA.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Une carte graphique ou GPU</p>",
+                    "content": "<p>de l’utilisation du modèle d’IA</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bien vu ! </p><p>C’est une carte graphique, <strong>GPU </strong>en anglais (Graphics Processing Unit), un composant qui peut être ajouté dans un ordinateur pour pouvoir <strong>faire très rapidement certains types de calcul.</strong></p><p>Quand il calcule, le GPU chauffe et doit être refroidi, d’où les <strong>ventilateurs </strong>visibles sur la photo.</p>"
+                      "diagnosis": "<p>Pas seulement ! </p><p>En réalité, cela vient à la fois de l’entraînement et de l’utilisation de l’IA. </p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Un disque dur SSD</p>",
+                    "content": "<p>des deux<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! </p><p>Il s'agit d'une carte graphique, <strong>GPU </strong>en anglais (Graphics Processing Unit), un composant qui peut être ajouté dans un ordinateur pour pouvoir <strong>faire très rapidement certains types de calcul.</strong></p><p>Quand il calcule, le GPU chauffe et doit être refroidi, d’où les <strong>ventilateurs </strong>visibles sur la photo.</p>"
+                      "diagnosis": "<p> <strong>Bien vu !</strong></p><p>En réalité, cela vient à la fois de l’entraînement et de l’utilisation de l’IA.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Il s’agit d’une carte graphique, <strong>GPU </strong>en anglais (Graphics Processing Unit), un composant qui peut être ajouté dans un ordinateur pour pouvoir <strong>faire très rapidement certains types de calcul.</strong></p><p>Quand il calcule, le GPU chauffe et doit être refroidi, d’où les <strong>ventilateurs </strong>visibles sur la photo.</p>"
+                      "diagnosis": "<p>En réalité, cela vient à la fois de l’entraînement et de l’utilisation de l’IA.</p>"
                     }
                   }
                 ],
@@ -101,7 +101,7 @@
                 "id": "b2582fac-a970-4816-a870-d41380e4912e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Initialement utilisées pour des calculs graphiques (modélisation 3D, jeux vidéos, etc.), les cartes graphiques sont aujourd’hui aussi très utilisées pour l’entraînement des logiciels d’intelligence artificielle. </p><p>Cela nous donne un indice sur ce que veut faire Charlie…</p>"
+                "content": "<p>Mais pourquoi les IA consomment-elles de l'énergie lors de leur entraînement ? Et comment expliquer une aussi grande différence entre ces 2 modèles ?&nbsp; </p><p>C’est ce que vous allez découvrir dans ce module.<br><br></p>"
               }
             }
           ]
