@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/CYPhishingInd/picto_cyber_phishing_ind.svg",
-    "description": "<p>Les messages et mails d’arnaque sont très courants et ressemblent à des messages sûrs.&nbsp;</p><p> Dans ce module, découvrez des indices et techniques qui permettent de vérifier vos messages. </p><p>Découvrez aussi des réflexes pour vous protéger et protéger les autres. 🕵️<br><br><em>Module produit en partenariat avec cybermalveillance.gouv.fr.</em></p>",
+    "description": "<p>Les messages et mails d’arnaque sont très courants et ressemblent à des messages sûrs.&nbsp;</p><p> Dans ce module, découvrez des indices et techniques qui permettent de vérifier vos messages. </p><p>Découvrez aussi des réflexes pour vous protéger et protéger les autres. 🕵<br><br></p>",
     "duration": 10,
     "level": "independent",
     "objectives": [
@@ -338,8 +338,8 @@
                     {
                       "subject": "Votre nouvel avis d’imposition est disponible",
                       "from": {
-                        "name": "Impost.g0uv",
-                        "address": "no-reply@impost.g0uv.fr"
+                        "name": "Impost.fεd",
+                        "address": "info@news.minf1n.be"
                       },
                       "body": [
                         {
@@ -369,7 +369,7 @@
                         {
                           "type": "paragraph",
                           "content": [
-                            "Service des impôts"
+                            "Le SPF Finances"
                           ]
                         }
                       ],
@@ -428,7 +428,7 @@
                       "subject": "Amende impayée - Service des infractions",
                       "from": {
                         "name": "Service des infractions",
-                        "address": "infractions@amendes-en-retard.com"
+                        "address": "myebox@amendes-en-retard.com"
                       },
                       "body": [
                         {
@@ -440,7 +440,7 @@
                         {
                           "type": "paragraph",
                           "content": [
-                            "Nous vous informons que vous avez un retard de paiement d’une amende de 85 € auprès de l’Agence de Traitement Automatisé des Infractions (ANTAI).",
+                            "Nous vous informons que vous avez un retard de paiement d’une amende de 85 € auprès du service public fédéral des amendes routières.",
                             "Référence de dossier : ML854YD9.",
                             "Veuillez régulariser votre situation en cliquant sur le lien ci-dessous."
                           ]
@@ -458,7 +458,7 @@
                         {
                           "type": "paragraph",
                           "content": [
-                            "Service des infractions de l’ANTAI"
+                            "My eBox"
                           ]
                         }
                       ],
@@ -922,7 +922,7 @@
                   },
                   {
                     "id": "2",
-                    "content": "<p>paysagesdumonde.abonnement@presse.fr</p>"
+                    "content": "<p>paysagesdumonde.abonnement@presse.be</p>"
                   },
                   {
                     "id": "3",
