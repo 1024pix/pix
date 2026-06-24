@@ -6,6 +6,7 @@ import { passageEventRoute } from './application/passage-events/passage-event-ro
 import { passageRoute } from './application/passages/passage-route.js';
 import { trainingRoute } from './application/trainings/training-route.js';
 import { tutorialEvaluationsRoute } from './application/tutorial-evaluations/tutorial-evaluations-route.js';
+import { userCampaignSurveyRoute } from './application/user-campaign-surveys/user-campaign-survey-route.js';
 import { userTrainingsRoute } from './application/user-trainings/user-trainings-route.js';
 import { userTutorialsRoute } from './application/user-tutorials/user-tutorials-route.js';
 
@@ -17,6 +18,7 @@ const devcompRoutes = [
   passageRoute,
   passageEventRoute,
   trainingRoute,
+  userCampaignSurveyRoute,
   userTutorialsRoute,
   tutorialEvaluationsRoute,
   userTrainingsRoute,
