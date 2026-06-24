@@ -1,4 +1,4 @@
-name: "Security Checks"
+name: 'Security Checks'
 
 on:
   push:
@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: package.json
+          cache: npm
 
       - name: Install Cyclone DX
         # cycloneDX is installed as part of the first batch, sinnce we will have to make `npm ci` to fetch dependencies
@@ -25,7 +31,7 @@ jobs:
           apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
           projectName: Monorepo
           projectVersion: dev
-          bomFilename: "pix-repo-sbom.json"
+          bomFilename: 'pix-repo-sbom.json'
           autoCreate: true
 
       - name: Pix App - Create SBOM
@@ -38,7 +44,7 @@ jobs:
           apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
           projectName: Pix App
           projectVersion: dev
-          bomFilename: "pix-app-sbom.json"
+          bomFilename: 'pix-app-sbom.json'
           autoCreate: true
 
       - name: Pix Orga - Create SBOM
@@ -51,7 +57,7 @@ jobs:
           apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
           projectName: Pix Orga
           projectVersion: dev
-          bomFilename: "pix-orga-sbom.json"
+          bomFilename: 'pix-orga-sbom.json'
           autoCreate: true
 
       - name: Pix Certif - Create SBOM
@@ -64,7 +70,7 @@ jobs:
           apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
           projectName: Pix Certif
           projectVersion: dev
-          bomFilename: "pix-certif-sbom.json"
+          bomFilename: 'pix-certif-sbom.json'
           autoCreate: true
 
       - name: Pix Admin - Create SBOM
@@ -77,7 +83,7 @@ jobs:
           apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
           projectName: Pix Admin
           projectVersion: dev
-          bomFilename: "pix-admin-sbom.json"
+          bomFilename: 'pix-admin-sbom.json'
           autoCreate: true
 
       - name: Pix Junior - Create SBOM
@@ -90,7 +96,7 @@ jobs:
           apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
           projectName: Pix Junior
           projectVersion: dev
-          bomFilename: "pix-junior-sbom.json"
+          bomFilename: 'pix-junior-sbom.json'
           autoCreate: true
 
       - name: Pix API - Create SBOM
@@ -103,7 +109,7 @@ jobs:
           apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
           projectName: Pix API
           projectVersion: dev
-          bomFilename: "pix-api-sbom.json"
+          bomFilename: 'pix-api-sbom.json'
           autoCreate: true
 
       - name: Pix Audit Logger - Create SBOM
@@ -116,7 +122,7 @@ jobs:
           apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
           projectName: Pix Audit Logger
           projectVersion: dev
-          bomFilename: "pix-audit-logger-sbom.json"
+          bomFilename: 'pix-audit-logger-sbom.json'
           autoCreate: true
 
       - name: Tests E2E - Create SBOM
@@ -129,7 +135,7 @@ jobs:
           apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
           projectName: Tests E2E
           projectVersion: dev
-          bomFilename: "pix-tests-e2e-sbom.json"
+          bomFilename: 'pix-tests-e2e-sbom.json'
           autoCreate: true
 
       - name: Tests Playwright - Create SBOM
@@ -142,7 +148,7 @@ jobs:
           apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
           projectName: Tests Playwright
           projectVersion: dev
-          bomFilename: "pix-tests-playwright-sbom.json"
+          bomFilename: 'pix-tests-playwright-sbom.json'
           autoCreate: true
 
       # A last folder in tests exists, but there are issues with NPM CI.
