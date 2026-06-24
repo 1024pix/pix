@@ -26,6 +26,18 @@ const buildCombinedCourseBlueprint = function ({
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({
             moduleId: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a',
           }).toDTO(),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId: 'f32a2238-4f65-4698-b486-15d51935d335',
+          }).toDTO(),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId: '6282925d-4775-4bca-b513-4c3009ec5886',
+          }).toDTO(),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId: '08ef1a47-b691-4138-b899-39f3512fa152',
+          }).toDTO(),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId: 'ab82925d-4775-4bca-b513-4c3009ec5886',
+          }).toDTO(),
         ],
       }).id
     : questId;

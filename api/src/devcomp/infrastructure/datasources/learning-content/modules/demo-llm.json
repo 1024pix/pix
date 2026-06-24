@@ -6,7 +6,7 @@
   "isBeta": true,
   "visibility": "private",
   "details": {
-    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "image": "https://assets.pix.org/modules/jameliore-mes-prompts/picto_moduleIA_prompt2.svg",
     "description": "<p>Ce module est dédié à des tests internes à Pix.</p><p>Il contient un exemple d’intégration de ChatPix.</p>",
     "duration": 2,
     "level": "novice",

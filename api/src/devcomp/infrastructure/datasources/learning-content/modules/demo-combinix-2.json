@@ -6,7 +6,7 @@
   "isBeta": true,
   "visibility": "private",
   "details": {
-    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "image": "https://assets.pix.org/modules/11_Moteur_Rechinfo_NOV_2/picto_moteur_rechinfo_nov2.svg",
     "description": "<p>Ce module est dédié à des tests internes à Pix.</p><p>Il permet d'avoir le scénario d'un module en arrivant rapidement à la fin</p>",
     "duration": 1,
     "level": "novice",
