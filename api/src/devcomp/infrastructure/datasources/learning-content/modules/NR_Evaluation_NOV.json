@@ -403,23 +403,20 @@
               }
             },
             {
-              "type": "element",
-              "element": {
-                "id": "f12ca75a-4fc1-4c63-bdf3-1d0e5977cb5b",
-                "type": "image",
-                "url": "https://assets.pix.org/modules/nr-evaluation-nov/draft_po-idataselect_impacts-carbone-activites.png",
-                "alt": "",
-                "alternativeText": "<p>Extraits du logiciel de calcul d’empreinte carbone.</p><p>Empreintes carbone des équipements numériques&nbsp;:</p><ul><li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li><li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li><li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li></ul><p>Empreintes carbone d’activités de référence&nbsp;:</p><ul><li>4 allers-retours Paris-Berlin en TGV&nbsp;: 29,3kg&nbsp;CO₂eq</li><li>100kg de bananes&nbsp;: 90,9kg&nbsp;CO₂eq</li><li>Fabrication de&nbsp;10 jeans&nbsp;: 251kg&nbsp;CO₂eq</li></ul>",
-                "legend": "",
-                "licence": ""
-              }
-            },
-            {
               "type": "stepper",
-              "instruction": "<p>Répondez aux questions suivantes.<br></p>",
+              "instruction": "",
               "steps": [
                 {
                   "elements": [
+                    {
+                      "id": "38702e96-863c-4247-a519-698a45d51f14",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec3_part1.png",
+                      "alt": "",
+                      "alternativeText": "<p>Extrait du logiciel de calcul d’empreinte carbone.</p>\n<p>Empreintes carbone d'un smartphone</p>\n<ul>\n    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>\n    </ul><ul>\n<br></ul>",
+                      "legend": "",
+                      "licence": ""
+                    },
                     {
                       "id": "15c7f1a1-e92a-4558-a51f-6fa960c7fa0c",
                       "type": "qcu",
@@ -445,10 +442,20 @@
                       ],
                       "solution": "0"
                     }
+
                   ]
                 },
                 {
                   "elements": [
+                    {
+                      "id": "865b01d0-a5a8-4ce9-bc0d-c6444ad32425",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec3_part2_v2.png",
+                      "alt": "",
+                      "alternativeText": "<p>Extrait du logiciel de calcul d’empreinte carbone.</p>\n<p>Empreintes carbone des équipements numériques&nbsp;:</p>\n<ul>\n    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>\n    <li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li>\n    <li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li>\n</ul>\n\n",
+                      "legend": "",
+                      "licence": ""
+                    },
                     {
                       "id": "03c988e2-cde6-47fe-8341-b7d4dfb36a6b",
                       "type": "qcu",
@@ -479,6 +486,15 @@
                 {
                   "elements": [
                     {
+                      "id": "c7c42c29-5e04-4654-a517-ef21e5d464eb",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec3_part3.png",
+                      "alt": "",
+                      "alternativeText": "<p>Extraits du logiciel de calcul d’empreinte carbone.</p>\n<p>Empreintes carbone des équipements numériques&nbsp;:</p>\n<ul>\n    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>\n    <li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li>\n    <li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li>\n</ul>\n<p>Empreintes carbone d’activités de référence&nbsp;:</p>\n<ul>\n    <li>4 allers-retours Paris-Berlin en TGV&nbsp;: 29,3kg&nbsp;CO₂eq</li>\n    <li>100kg de bananes&nbsp;: 90,9kg&nbsp;CO₂eq</li>\n    <li>Fabrication de&nbsp;10 jeans&nbsp;: 251kg&nbsp;CO₂eq</li>\n</ul>\n",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
                       "id": "020f2752-2a1a-4ab3-a4a0-ffcdcbbaa06d",
                       "type": "qcu",
                       "instruction": "<p>Qu’est-ce qui émet le plus de gaz à effet de serre ?</p>",
@@ -488,21 +504,22 @@
                           "id": "0",
                           "content": "<p>la fabrication d’un smartphone</p>",
                           "feedback": {
-                            "state": "<p>Bien vu !<br></p>",
-                            "diagnosis": "<p>La fabrication d’un smartphone émet beaucoup plus de gaz à effet de serre que celle d’un jean.</p>"
+                            "state": "<p>Eh oui !</p>",
+                            "diagnosis": "<p>La fabrication de 10 jeans plus de gaz à effet de serre que celle d’un smartphone.</p>"
                           }
                         },
                         {
                           "id": "1",
                           "content": "<p>la fabrication de 10 jeans</p>",
                           "feedback": {
-                            "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>La fabrication d’un smartphone émet beaucoup plus de gaz à effet de serre que celle d’un jean.</p>"
+                            "state": "<p>Bien vu !</p>",
+                            "diagnosis": "<p>La fabrication de 10 jeans plus de gaz à effet de serre que celle d’un smartphone.</p>"
                           }
                         }
                       ],
-                      "solution": "0"
+                      "solution": "1"
                     }
+
                   ]
                 }
               ]
