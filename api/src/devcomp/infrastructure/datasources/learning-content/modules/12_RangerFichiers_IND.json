@@ -43,7 +43,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/RangerFichiers_IND/accroche2.png",
                 "alt": "Dossier « Documents » de Marie",
-                "alternativeText": "<p>Image montrant le dossier «&nbsp;Documents&nbsp;» de Marie dans lequel se trouvent&nbsp;:</p><ul>    <li>Un dossier «&nbsp;Musique fêtes&nbsp;»</li>    <li>Des fichiers&nbsp;:<ul>            <li>«&nbsp;CV&nbsp;»</li>            <li>«&nbsp;facture2024&nbsp;»</li>            <li>«&nbsp;facture2025&nbsp;»</li>            <li>«&nbsp;notes1&nbsp;»</li>            <li>«&nbsp;notes2&nbsp;»</li>            <li>«&nbsp;notes3&nbsp;»</li>        </ul>    </li></ul>",
+                "alternativeText": "<p>Image montrant le dossier «&nbsp;Documents&nbsp;» de Marie dans lequel se trouvent&nbsp;:</p><ul>    <li>Un dossier «&nbsp;Musique fête&nbsp;»</li>    <li>Des fichiers&nbsp;:<ul>            <li>«&nbsp;CV&nbsp;»</li>            <li>«&nbsp;facture2024&nbsp;»</li>            <li>«&nbsp;facture2025&nbsp;»</li>            <li>«&nbsp;notes1&nbsp;»</li>            <li>«&nbsp;notes2&nbsp;»</li>            <li>«&nbsp;notes3&nbsp;»</li>        </ul>    </li></ul>",
                 "legend": "",
                 "licence": ""
               }
@@ -670,7 +670,7 @@
                 "isCompletionRequired": true,
                 "title": "simulateur gestionnaire de fichiers",
                 "url": "https://epreuves.pix.fr/filemanager/filemanager.html?mode=modulix_rangerfichiers_ind_decouverte4&lang=fr",
-                "instruction": "<p>Dans le gestionnaire de fichiers ci-dessous&nbsp;: </p><ol><li> Dans le dossier «&nbsp;Documents&nbsp;», créer 2 sous-dossiers&nbsp;:&nbsp; «&nbsp;Factures&nbsp;» et «&nbsp;Notes&nbsp;».</li><li>Ranger les fichiers du dossier «&nbsp;Documents&nbsp;» dans les bons sous-dossiers.</li><li>Déplacer le dossier «&nbsp;Playlist fêtes&nbsp;» dans le dossier «&nbsp;Musiques&nbsp;».</li></ol>",
+                "instruction": "<p>Dans le gestionnaire de fichiers ci-dessous&nbsp;: </p><ol><li> Dans le dossier «&nbsp;Documents&nbsp;», créer 2 sous-dossiers&nbsp;:&nbsp; «&nbsp;Factures&nbsp;» et «&nbsp;Notes&nbsp;».</li><li>Ranger les fichiers du dossier «&nbsp;Documents&nbsp;» dans les bons sous-dossiers.</li><li>Déplacer le dossier «&nbsp;Musique fête&nbsp;» dans le dossier «&nbsp;Musiques&nbsp;».</li></ol>",
                 "solution": "courgette",
                 "height": 500
               }
@@ -690,7 +690,7 @@
                 "id": "0de4339c-c273-4f16-b1b3-3c148c531a93",
                 "type": "expand",
                 "title": "🗝️Indice 2",
-                "content": "<p>Le dossier «&nbsp;Playlist fête&nbsp;» contient des fichiers de type audio. Ce dossier sera plus à sa place en le rangeant dans le dossier «&nbsp;Musique&nbsp;».</p><p>Le dossier «&nbsp;Musiques&nbsp;» est visible dans le volet latéral du gestionnaire.</p>"
+                "content": "<p>Le dossier «&nbsp;Musique fête&nbsp;» contient des fichiers de type audio. Ce dossier sera plus à sa place en le rangeant dans le dossier «&nbsp;Musique&nbsp;».</p><p>Le dossier «&nbsp;Musiques&nbsp;» est visible dans le volet latéral du gestionnaire.</p>"
               }
             }
           ]
