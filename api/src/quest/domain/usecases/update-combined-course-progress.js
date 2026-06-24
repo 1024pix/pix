@@ -10,6 +10,7 @@ export async function updateCombinedCourseProgress({
   organizationLearnerParticipationRepository,
   combinedCourseDetailsService,
   rewardRepository,
+  successRepository,
 }) {
   const combinedCourse = await combinedCourseRepository.getByCode({ code });
   const organizationLearnerId = await organizationLearnerPrescriptionRepository.findIdByUserIdAndOrganizationId({
@@ -44,6 +45,17 @@ export async function updateCombinedCourseProgress({
   const isCombinedCourseCompleted = await updatedCombinedCourseDetails.items.every((item) => item.isCompleted);
 
   if (isCombinedCourseCompleted) {
+    const success = await successRepository.find({
+      userId,
+      campaignParticipationIds: updatedCombinedCourseDetails.quest.findCampaignParticipationIdsContributingToQuest(
+        updatedCombinedCourseDetails.dataForQuest,
+      ),
+      targetProfileIds:
+        updatedCombinedCourseDetails.quest.findTargetProfileIdsWithoutCampaignParticipationContributingToQuest(
+          updatedCombinedCourseDetails.dataForQuest,
+        ),
+    });
+    updatedCombinedCourseDetails.dataForQuest.success = success;
     updatedCombinedCourseDetails.participation.complete();
     const organizationLearnerParticipation = OrganizationLearnerParticipation.buildFromCombinedCourse(
       updatedCombinedCourseDetails.participation,
