@@ -60,14 +60,14 @@
                     "id": "1",
                     "content": "Des fichiers uniquement",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. Un dossier peut contenir <strong>des </strong><strong>fichiers et d’autres dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec plusieurs niveaux de rangement.</p>"
+                      "diagnosis": "<p>Eh non. Un dossier peut contenir des <strong>fichiers et d’autres dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec plusieurs niveaux de rangement.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "Des dossiers uniquement",
                     "feedback": {
-                      "diagnosis": "<p>Eh non.Un dossier peut contenir des <strong>fichiers</strong> et d’autres <strong>dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec plusieurs niveaux de rangement.</p>"
+                      "diagnosis": "<p>Eh non. Un dossier peut contenir des <strong>fichiers</strong> et d’autres <strong>dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec plusieurs niveaux de rangement.</p>"
                     }
                   },
                   {
