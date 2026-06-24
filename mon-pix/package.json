@@ -61,6 +61,7 @@
     "@embroider/util": "^1.13.5",
     "@embroider/webpack": "^4.1.2",
     "@formatjs/intl": "^4.1.11",
+    "@formatjs/intl-durationformat": "^0.10.15",
     "@glimmer/component": "^1.1.2",
     "@sentry/ember": "^10.53.1",
     "@testing-library/user-event": "^14.6.1",

@@ -1,5 +1,6 @@
 import './deprecation-workflow';
 import '@1024pix/epreuves-components';
+import '@formatjs/intl-durationformat/polyfill.js';
 
 import Application from '@ember/application';
 import setupInspector from '@embroider/legacy-inspector-support/ember-source-4.12';
