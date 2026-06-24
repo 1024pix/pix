@@ -10,8 +10,9 @@ export default class NewController extends Controller {
   @service intl;
 
   @tracked errors;
+  @tracked courseId = null;
 
-  queryParams = ['source'];
+  queryParams = ['source', 'courseId'];
 
   @action
   async createCampaign() {

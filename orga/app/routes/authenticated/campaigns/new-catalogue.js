@@ -22,8 +22,7 @@ export default class NewRoute extends Route {
 
   async model(params) {
     const organization = this.currentUser.organization;
-    await organization.targetProfiles;
-    await organization.combinedCourseBlueprints;
+
     const membersSortedByFullName = await this.store.findAll('member-identity', {
       adapterOptions: { organizationId: organization.id },
     });
@@ -63,15 +62,35 @@ export default class NewRoute extends Route {
       ...(campaignAttributes ?? campaignAttributes),
     });
 
-    const targetProfiles = (await organization.targetProfiles) ?? undefined;
-    const combinedCourseBlueprints = (await organization.combinedCourseBlueprints) ?? undefined;
+    if (params?.courseId) {
+      let course = await this.store.peekRecord('course', params.courseId, {
+        adapterOptions: { organizationId: organization.id },
+      });
 
-    return { campaign, membersSortedByFullName, targetProfiles, combinedCourseBlueprints };
+      if (!course) {
+        const courses = await this.store.findAll('course', {
+          adapterOptions: { organizationId: organization.id },
+        });
+        course = courses.find(({ id }) => id === params.courseId);
+      }
+
+      campaign.course = course;
+
+      if (campaign.course.type === 'targetProfile') {
+        campaign.type = 'ASSESSMENT';
+      }
+      if (campaign.course.type === 'blueprint') {
+        campaign.type = 'COMBINED_COURSE';
+      }
+    }
+
+    return { campaign, membersSortedByFullName };
   }
 
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.set('source', null);
+      controller.set('courseId', null);
     }
   }
 }

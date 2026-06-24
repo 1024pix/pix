@@ -2,6 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixOverlay from '@1024pix/pix-ui/components/pix-overlay';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { hash } from '@ember/helper';
 import { service } from '@ember/service';
 import { recordIdentifierFor } from '@ember-data/store';
 import Component from '@glimmer/component';
@@ -43,7 +44,7 @@ export default class CourseModal extends Component {
     if (this.hasReachedPlacesLimit) {
       return null;
     }
-    return 'authenticated.campaigns.new';
+    return 'authenticated.campaigns.new-catalogue';
   }
 
   get courseLevelLabel() {
@@ -116,6 +117,7 @@ export default class CourseModal extends Component {
 
             <PixButtonLink
               @route={{this.campaignCreationRoute}}
+              @query={{hash courseId=@currentCourse.id}}
               @isDisabled={{this.hasReachedPlacesLimit}}
               @size="small"
               class="course-modal__body__form-link"

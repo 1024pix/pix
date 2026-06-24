@@ -83,6 +83,89 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
     sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
   });
 
+  module('when courseId param is defined', function (hooks) {
+    const organizationId = 12345;
+    const createdCampaignRecord = {};
+    let courseRecord;
+    let peekRecordStub;
+
+    hooks.beforeEach(async function () {
+      const organization = EmberObject.create({
+        id: organizationId,
+      });
+
+      const prescriber = { id: Symbol('prescriber id') };
+
+      class CurrentUserStub extends Service {
+        organization = organization;
+        prescriber = prescriber;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const members = Symbol('list of members sorted by firstnames and lastnames');
+
+      const findAllStub = sinon.stub();
+      const createRecordStub = sinon.stub();
+      peekRecordStub = sinon.stub();
+
+      courseRecord = {
+        id: Symbol('target profile overview id'),
+      };
+
+      class StoreStub extends Service {
+        findAll = findAllStub.resolves(members);
+        createRecord = createRecordStub.resolves(createdCampaignRecord);
+        peekRecord = peekRecordStub.resolves(courseRecord);
+      }
+
+      this.owner.register('service:store', StoreStub);
+    });
+
+    test('should return a campaign with course set', async function (assert) {
+      // given
+      const route = this.owner.lookup('route:authenticated/campaigns/new-catalogue');
+
+      courseRecord.type = 'targetProfile';
+
+      // when
+      const model = await route.model({ courseId: courseRecord.id });
+
+      assert.strictEqual(model.campaign.course, courseRecord);
+      sinon.assert.calledWithExactly(peekRecordStub, 'course', courseRecord.id, {
+        adapterOptions: { organizationId },
+      });
+    });
+
+    module('when course is a target profile', function () {
+      test('it should set the campaign type to ASSESSMENT', async function (assert) {
+        // given
+        const route = this.owner.lookup('route:authenticated/campaigns/new-catalogue');
+
+        courseRecord.type = 'targetProfile';
+
+        // when
+        const model = await route.model({ courseId: courseRecord.id });
+
+        assert.strictEqual(model.campaign.type, 'ASSESSMENT');
+      });
+    });
+
+    module('when course is a blueprint', function () {
+      test('it should set the campaign type to COMBINED_COURSE', async function (assert) {
+        // given
+        const route = this.owner.lookup('route:authenticated/campaigns/new-catalogue');
+
+        courseRecord.type = 'blueprint';
+
+        // when
+        const model = await route.model({ courseId: courseRecord.id });
+
+        assert.strictEqual(model.campaign.type, 'COMBINED_COURSE');
+      });
+    });
+  });
+
   module('when duplicating a campaign', function () {
     module('when campaign type is ASSESSMENT', function () {
       test('should prefill campaign attributes from given source campaign', async function (assert) {
@@ -264,12 +347,17 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
   });
 
   module('resetController', function () {
-    test('should reset source to null when isExiting true', function (assert) {
+    test('should reset source and courseId when isExiting true', function (assert) {
+      // given
       const route = this.owner.lookup('route:authenticated/campaigns/new-catalogue');
-
       const controller = { set: sinon.stub() };
+
+      // when
       route.resetController(controller, true);
-      assert.true(controller.set.calledWithExactly('source', null));
+
+      // then
+      assert.true(controller.set.firstCall.calledWithExactly('source', null));
+      assert.true(controller.set.secondCall.calledWithExactly('courseId', null));
     });
   });
 

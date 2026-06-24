@@ -275,7 +275,7 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
   module('campaign creation page link', function () {
     test('it shows enabled campaign creation route button if enough "places"', async function (assert) {
       //given
-      const currentCourse = store.createRecord('target-profile-overview', { name: 'Ma super formation' });
+      const currentCourse = store.createRecord('target-profile-overview', { id: 123, name: 'Ma super formation' });
       sinon.stub(currentUser, 'placeStatistics').value({ hasReachedMaximumPlacesLimit: false });
 
       //when
@@ -284,8 +284,9 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       );
       const submitButton = await screen.getByText(t('pages.catalogue.modal.select-course'));
 
-      // // then
+      //then
       assert.dom(submitButton).hasAttribute('aria-disabled', 'false');
+      assert.ok(submitButton.href.includes('/creation-catalogue?courseId=123'));
     });
     test('it disables campaign creation route button if not enough "places"', async function (assert) {
       //given
