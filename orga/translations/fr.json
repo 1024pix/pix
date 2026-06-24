@@ -749,6 +749,8 @@
       "combined-course-blueprints-label": "Sélectionnez un parcours",
       "combined-course-blueprints-list-label": "Sélectionnez un parcours apprenant",
       "copy-of": "Copie de",
+      "course-label": "Sélectionnez un parcours",
+      "course-selection-label": "Sélectionner un parcours",
       "external-id-label": {
         "label": "Libellé de l’identifiant",
         "question-label": "Souhaitez-vous demander un identifiant externe ?",

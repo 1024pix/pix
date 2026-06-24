@@ -3,13 +3,13 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import CreateForm from 'pix-orga/components/campaign/create-form';
+import CreateForm from 'pix-orga/components/campaign/create-form-catalogue';
 import { assert, module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Campaign::CreateForm', function (hooks) {
+module('Integration | Component | Campaign::CreateForm (catalogue)', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   const data = {};
@@ -39,8 +39,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     data.defaultMembers = [prescriber];
     data.campaign = store.createRecord('campaign', { ownerId: prescriber.id });
     data.errors = {};
-    data.targetProfiles = [];
-    data.combinedCourseBlueprints = [];
   });
 
   test('it should contain inputs, attributes and validation button', async function (assert) {
@@ -52,7 +50,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
@@ -77,7 +74,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
@@ -97,7 +93,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
@@ -141,7 +136,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               @onSubmit={{createCampaignSpy}}
               @onCancel={{cancelSpy}}
               @errors={{data.errors}}
-              @targetProfiles={{data.targetProfiles}}
               @membersSortedByFullName={{data.defaultMembers}}
             />
           </template>,
@@ -161,7 +155,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               @onSubmit={{createCampaignSpy}}
               @onCancel={{cancelSpy}}
               @errors={{data.errors}}
-              @targetProfiles={{data.targetProfiles}}
               @membersSortedByFullName={{data.defaultMembers}}
             />
           </template>,
@@ -170,24 +163,23 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         assert.dom(screen.getByText(t('pages.campaign-creation.owner.info'))).exists();
         assert.dom(screen.getAllByText(t('pages.campaign-creation.owner.title'))[0]).exists();
         await click(screen.getByLabelText(t('pages.campaign-creation.owner.label'), { exact: false }));
+
         await screen.findByRole('listbox');
 
         // then
         assert.dom(screen.getByRole('option', { name: 'Adam Troisjour', selected: true })).exists();
       });
 
-      test('it should fill target-profile fields', async function (assert) {
+      test('it should fill course fields', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const targetProfile = store.createRecord('target-profile', {
+        const course = store.createRecord('course', {
           id: '1',
           name: 'Target profile 1',
-          description: 'Description 1',
-          category: 'Category 1',
+          type: 'targetProfile',
         });
-        data.targetProfiles = [targetProfile];
         data.campaign.type = campaignType.status;
-        data.campaign.targetProfile = targetProfile;
+        data.campaign.course = course;
 
         // when
         const screen = await render(
@@ -197,17 +189,19 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               @onSubmit={{createCampaignSpy}}
               @onCancel={{cancelSpy}}
               @errors={{data.errors}}
-              @targetProfiles={{data.targetProfiles}}
               @membersSortedByFullName={{data.defaultMembers}}
             />
           </template>,
         );
 
         // then
-        const targetProfileField = screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), {
-          exact: false,
-        });
-        assert.strictEqual(targetProfileField.innerText, targetProfile.name);
+        assert
+          .dom(
+            screen.getByRole('heading', {
+              name: course.name,
+            }),
+          )
+          .exists();
       });
 
       test('it should fill multiple sendings fields', async function (assert) {
@@ -224,7 +218,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               @onSubmit={{createCampaignSpy}}
               @onCancel={{cancelSpy}}
               @errors={{data.errors}}
-              @targetProfiles={{data.targetProfiles}}
               @membersSortedByFullName={{data.defaultMembers}}
             />
           </template>,
@@ -249,7 +242,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               @onSubmit={{createCampaignSpy}}
               @onCancel={{cancelSpy}}
               @errors={{data.errors}}
-              @targetProfiles={{data.targetProfiles}}
               @membersSortedByFullName={{data.defaultMembers}}
             />
           </template>,
@@ -273,7 +265,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         data.prescriber.features.CAMPAIGN_WITHOUT_USER_PROFILE = { active: true, params: null };
       });
 
-      test('it should display fields for campaign title and target profile', async function (assert) {
+      test('it should display fields for campaign title', async function (assert) {
         // when
         const screen = await render(
           <template>
@@ -282,7 +274,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               @onSubmit={{createCampaignSpy}}
               @onCancel={{cancelSpy}}
               @errors={{data.errors}}
-              @targetProfiles={{data.targetProfiles}}
               @membersSortedByFullName={{data.defaultMembers}}
             />
           </template>,
@@ -303,7 +294,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               @onSubmit={{createCampaignSpy}}
               @onCancel={{cancelSpy}}
               @errors={{data.errors}}
-              @targetProfiles={{data.targetProfiles}}
               @membersSortedByFullName={{data.defaultMembers}}
             />
           </template>,
@@ -314,35 +304,25 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         assert.dom(screen.getByText(t(campaignType.explanation))).exists();
       });
 
-      module('when the user chose a target profile', function () {
-        test('it should display informations about target profile', async function (assert) {
+      module('when the user has selected a course', function () {
+        test('it should display informations about the course', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
-          data.targetProfiles = [
-            store.createRecord('target-profile', {
-              id: '1',
-              name: 'targetProfile1',
-              description: 'description1',
-              tubeCount: 11,
-              thematicResultCount: 12,
-              hasStage: true,
-            }),
-            store.createRecord('target-profile', {
-              id: '2',
-              name: 'targetProfile2',
-              description: 'description2',
-              tubeCount: 21,
-              thematicResultCount: 22,
-              hasStage: false,
-            }),
-          ];
+          const course = store.createRecord('course', {
+            id: '1',
+            name: 'targetProfile1',
+            type: 'targetProfile',
+            nbTubes: 3,
+            isSimplifiedAccess: true,
+          });
+          data.campaign.course = course;
+          data.campaign.type = campaignType.status;
 
           // when
           const screen = await render(
             <template>
               <CreateForm
                 @campaign={{data.campaign}}
-                @targetProfiles={{data.targetProfiles}}
                 @onSubmit={{createCampaignSpy}}
                 @onCancel={{cancelSpy}}
                 @errors={{data.errors}}
@@ -350,232 +330,32 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               />
             </template>,
           );
-          await clickByName(t(campaignType.purpose));
 
-          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
-          await click(await screen.findByRole('option', { description: 'targetProfile1' }));
           // then
-          assert.dom(screen.getByText('description1')).exists();
-          assert.dom(screen.getByText(t('common.target-profile-details.subjects', { value: 11 }))).exists();
-          assert.dom(screen.getByText(t('common.target-profile-details.thematic-results', { value: 12 }))).exists();
+          assert.dom(screen.getByText(t('pages.catalogue.card.tag.target-profile'))).exists();
+          assert.dom(screen.getByRole('heading', { name: course.name })).exists();
+          assert.dom(screen.getByText(t('pages.catalogue.card.tubes-count', { count: course.nbTubes }))).exists();
+          assert.dom(screen.getByText(t('pages.catalogue.card.simplified-access'))).exists();
         });
 
-        test('it should display a message about result', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          data.targetProfiles = [
-            store.createRecord('target-profile', {
+        module('when the user wants to select another course', function () {
+          test('it should redirect to /catalogue/targetProfile', async function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            data.campaign.course = store.createRecord('course', {
               id: '1',
               name: 'targetProfile1',
-              description: 'description1',
-              tubeCount: 11,
-              thematicResultCount: 12,
-              hasStage: true,
-            }),
-            store.createRecord('target-profile', {
-              id: '2',
-              name: 'targetProfile2',
-              description: 'description2',
-              tubeCount: 21,
-              thematicResultCount: 22,
-              hasStage: false,
-            }),
-          ];
-
-          // when
-          const screen = await render(
-            <template>
-              <CreateForm
-                @campaign={{data.campaign}}
-                @targetProfiles={{data.targetProfiles}}
-                @onSubmit={{createCampaignSpy}}
-                @onCancel={{cancelSpy}}
-                @errors={{data.errors}}
-                @membersSortedByFullName={{data.defaultMembers}}
-              />
-            </template>,
-          );
-          await clickByName(t(campaignType.purpose));
-
-          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
-          await click(await screen.findByRole('option', { description: 'targetProfile1' }));
-
-          // then
-          assert.dom(screen.getByText(t('common.target-profile-details.results.common'))).exists();
-        });
-
-        module('simplified access', function () {
-          test('it should display with simplified access label in options list', async function (assert) {
-            // given
-            const store = this.owner.lookup('service:store');
-            data.targetProfiles = [
-              store.createRecord('target-profile', {
-                id: '1',
-                name: 'targetProfile1',
-                isSimplifiedAccess: true,
-              }),
-            ];
-
-            // when
-            const screen = await render(
-              <template>
-                <CreateForm
-                  @campaign={{data.campaign}}
-                  @targetProfiles={{data.targetProfiles}}
-                  @onSubmit={{createCampaignSpy}}
-                  @onCancel={{cancelSpy}}
-                  @errors={{data.errors}}
-                  @membersSortedByFullName={{data.defaultMembers}}
-                />
-              </template>,
-            );
-
-            await clickByName(t(campaignType.purpose));
-
-            await click(
-              screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
-            );
-
-            // then
-            assert.ok(screen.getByText(t('common.target-profile-details.simplified-access.without-account')));
-          });
-
-          test('it should display without simplified access label in options list', async function (assert) {
-            // given
-            const store = this.owner.lookup('service:store');
-            data.targetProfiles = [
-              store.createRecord('target-profile', {
-                id: '1',
-                name: 'targetProfile1',
-                isSimplifiedAccess: false,
-              }),
-            ];
-
-            // when
-            const screen = await render(
-              <template>
-                <CreateForm
-                  @campaign={{data.campaign}}
-                  @targetProfiles={{data.targetProfiles}}
-                  @onSubmit={{createCampaignSpy}}
-                  @onCancel={{cancelSpy}}
-                  @errors={{data.errors}}
-                  @membersSortedByFullName={{data.defaultMembers}}
-                />
-              </template>,
-            );
-            await clickByName(t(campaignType.purpose));
-
-            await click(
-              screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
-            );
-
-            // then
-            assert.ok(screen.getByText(t('common.target-profile-details.simplified-access.with-account')));
-          });
-        });
-
-        module('Displaying options and categories', function () {
-          test('it should display options in alphapetical order', async function (assert) {
-            // given
-
-            const store = this.owner.lookup('service:store');
-            data.targetProfiles = [
-              store.createRecord('target-profile', {
-                id: '1',
-                name: 'targetProfile4',
-                description: 'description4',
-                tubeCount: 11,
-                thematicResultCount: 12,
-                hasStage: true,
-                category: 'B',
-              }),
-              store.createRecord('target-profile', {
-                id: '2',
-                name: 'targetProfile3',
-                description: 'description3',
-                tubeCount: 21,
-                thematicResultCount: 22,
-                hasStage: false,
-                category: 'B',
-              }),
-              store.createRecord('target-profile', {
-                id: '3',
-                name: 'targetProfile2',
-                description: 'description2',
-                tubeCount: 33,
-                thematicResultCount: 12,
-                hasStage: true,
-                category: 'A',
-              }),
-              store.createRecord('target-profile', {
-                id: '4',
-                name: 'targetProfile1',
-                description: 'description1',
-                tubeCount: 44,
-                thematicResultCount: 12,
-                hasStage: true,
-                category: 'A',
-              }),
-            ];
-
-            // when
-            const screen = await render(
-              <template>
-                <CreateForm
-                  @campaign={{data.campaign}}
-                  @targetProfiles={{data.targetProfiles}}
-                  @onSubmit={{createCampaignSpy}}
-                  @onCancel={{cancelSpy}}
-                  @errors={{data.errors}}
-                  @membersSortedByFullName={{data.defaultMembers}}
-                />
-              </template>,
-            );
-            await clickByName(t(campaignType.purpose));
-
-            await click(
-              screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
-            );
-            let options = await screen.findAllByRole('option');
-
-            // then
-            options = options.map((option) => {
-              return option.innerText;
+              type: 'targetProfile',
+              nbTubes: 3,
+              isSimplifiedAccess: true,
             });
-            assert.deepEqual(options, ['targetProfile1', 'targetProfile2', 'targetProfile3', 'targetProfile4']);
-          });
-
-          test('it should display options with OTHER category at last position', async function (assert) {
-            // given
-            const store = this.owner.lookup('service:store');
-            data.targetProfiles = [
-              store.createRecord('target-profile', {
-                id: '2',
-                name: 'targetProfile3',
-                description: 'description3',
-                tubeCount: 21,
-                thematicResultCount: 22,
-                hasStage: false,
-                category: 'OTHER',
-              }),
-              store.createRecord('target-profile', {
-                id: '1',
-                name: 'targetProfile4',
-                description: 'description4',
-                tubeCount: 11,
-                thematicResultCount: 12,
-                hasStage: true,
-                category: 'A',
-              }),
-            ];
+            data.campaign.type = campaignType.status;
 
             // when
             const screen = await render(
               <template>
                 <CreateForm
                   @campaign={{data.campaign}}
-                  @targetProfiles={{data.targetProfiles}}
                   @onSubmit={{createCampaignSpy}}
                   @onCancel={{cancelSpy}}
                   @errors={{data.errors}}
@@ -583,216 +363,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
                 />
               </template>,
             );
-            await clickByName(t(campaignType.purpose));
-
-            await click(
-              screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
-            );
-            let options = await screen.findAllByRole('option');
-
-            // then
-            options = options.map((option) => {
-              return option.innerText;
-            });
-            assert.deepEqual(options, ['targetProfile4', 'targetProfile3']);
-          });
-        });
-      });
-
-      module('when the user wants to clear the content of the target profile input', function (hooks) {
-        hooks.beforeEach(function () {
-          const store = this.owner.lookup('service:store');
-          data.targetProfiles = [
-            store.createRecord('target-profile', {
-              id: '1',
-              name: 'targetProfile1',
-              description: 'description1',
-            }),
-          ];
-        });
-      });
-
-      module('multiple sending', function () {
-        test('it should not display multiple sendings field', async function (assert) {
-          // when
-          const screen = await render(
-            <template>
-              <CreateForm
-                @campaign={{data.campaign}}
-                @onSubmit={{createCampaignSpy}}
-                @onCancel={{cancelSpy}}
-                @errors={{data.errors}}
-                @targetProfiles={{data.targetProfiles}}
-                @membersSortedByFullName={{data.defaultMembers}}
-              />
-            </template>,
-          );
-          await clickByName(t(campaignType.purpose));
-
-          // then
-          assert
-            .dom(screen.queryByLabelText(t('pages.campaign-creation.multiple-sendings.assessments.question-label')))
-            .doesNotExist();
-          assert
-            .dom(screen.queryByLabelText(t('pages.campaign-creation.multiple-sendings.assessments.info')))
-            .doesNotExist();
-        });
-
-        test('it should display multiple sendings field', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          data.targetProfiles = [
-            store.createRecord('target-profile', {
-              id: '1',
-              name: 'targetProfile1',
-              description: 'description1',
-              tubeCount: 11,
-              thematicResultCount: 12,
-              hasStage: true,
-            }),
-            store.createRecord('target-profile', {
-              id: '2',
-              name: 'targetProfile2',
-              description: 'description2',
-              tubeCount: 21,
-              thematicResultCount: 22,
-              hasStage: false,
-            }),
-          ];
-          data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = true;
-
-          // when
-          const screen = await render(
-            <template>
-              <CreateForm
-                @campaign={{data.campaign}}
-                @targetProfiles={{data.targetProfiles}}
-                @onSubmit={{createCampaignSpy}}
-                @onCancel={{cancelSpy}}
-                @errors={{data.errors}}
-                @membersSortedByFullName={{data.defaultMembers}}
-              />
-            </template>,
-          );
-          await clickByName(t(campaignType.purpose));
-
-          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
-          await click(await screen.findByRole('option', { description: 'targetProfile1' }));
-
-          // then
-          assert.dom(screen.getByText(t('common.target-profile-details.results.common'))).exists();
-        });
-
-        module('when target profile are knowledge elements resettable', function () {
-          test('it should display specific message', async function (assert) {
-            // given
-            data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = { active: true, params: null };
-            const store = this.owner.lookup('service:store');
-
-            data.targetProfiles = [
-              store.createRecord('target-profile', {
-                id: '1',
-                name: 'targetProfile1',
-                description: 'description1',
-                tubeCount: 11,
-                thematicResultCount: 12,
-                hasStage: true,
-                areKnowledgeElementsResettable: true,
-              }),
-              store.createRecord('target-profile', {
-                id: '2',
-                name: 'targetProfile2',
-                description: 'description2',
-                tubeCount: 21,
-                thematicResultCount: 22,
-                hasStage: false,
-              }),
-            ];
-
-            // when
-            const screen = await render(
-              <template>
-                <CreateForm
-                  @campaign={{data.campaign}}
-                  @targetProfiles={{data.targetProfiles}}
-                  @onSubmit={{createCampaignSpy}}
-                  @onCancel={{cancelSpy}}
-                  @errors={{data.errors}}
-                  @membersSortedByFullName={{data.defaultMembers}}
-                />
-              </template>,
-            );
-            await clickByName(t(campaignType.purpose));
-
-            await click(
-              screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
-            );
-            await click(await screen.findByRole('option', { description: 'targetProfile1' }));
 
             // then
             assert
-              .dom(
-                screen.getByText(t('pages.campaign-creation.multiple-sendings.knowledge-elements-resettable'), {
-                  exact: false,
-                }),
-              )
-              .exists();
-          });
-        });
-
-        module('when target profile are not knowledge elements resettable', function () {
-          test('it should not display specific message', async function (assert) {
-            // given
-            const store = this.owner.lookup('service:store');
-            data.targetProfiles = [
-              store.createRecord('target-profile', {
-                id: '1',
-                name: 'targetProfile1',
-                description: 'description1',
-                tubeCount: 11,
-                thematicResultCount: 12,
-                hasStage: true,
-                areKnowledgeElementsResettable: false,
-              }),
-              store.createRecord('target-profile', {
-                id: '2',
-                name: 'targetProfile2',
-                description: 'description2',
-                tubeCount: 21,
-                thematicResultCount: 22,
-                hasStage: false,
-              }),
-            ];
-            data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = true;
-
-            // when
-            const screen = await render(
-              <template>
-                <CreateForm
-                  @campaign={{data.campaign}}
-                  @targetProfiles={{data.targetProfiles}}
-                  @onSubmit={{createCampaignSpy}}
-                  @onCancel={{cancelSpy}}
-                  @errors={{data.errors}}
-                  @membersSortedByFullName={{data.defaultMembers}}
-                />
-              </template>,
-            );
-            await clickByName(t(campaignType.purpose));
-
-            await click(
-              screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
-            );
-            await click(await screen.findByRole('option', { description: 'targetProfile1' }));
-
-            // then
-            assert
-              .dom(
-                screen.queryByText(t('pages.campaign-creation.multiple-sendings.knowledge-elements-resettable'), {
-                  exact: false,
-                }),
-              )
-              .doesNotExist();
+              .dom(screen.getByRole('link', { name: t('pages.campaign-creation.course-selection-label') }))
+              .hasAttribute('href', '/catalogue/targetProfile');
           });
         });
       });
@@ -801,13 +376,21 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
   module(`when campaign is of type combined course`, function () {
     test(`it should have checked combined course goal and not display owner fields`, async function (assert) {
+      const store = this.owner.lookup('service:store');
       const campaignType = {
         status: 'COMBINED_COURSE',
         purpose: 'pages.campaign-creation.purpose.combined-course',
       };
       // given
       data.campaign.type = campaignType.status;
-      data.combinedCourseBlueprints = [{ id: 1, name: 'Mon schéma de parcours combiné' }];
+      data.campaign.course = store.createRecord('course', {
+        id: '1',
+        name: 'Mon schéma de parcours combiné',
+        type: 'blueprint',
+        nbModules: 3,
+        isSimplifiedAccess: true,
+      });
+
       // when
       const screen = await render(
         <template>
@@ -816,9 +399,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
-            @combinedCourseBlueprints={{data.combinedCourseBlueprints}}
           />
         </template>,
       );
@@ -828,7 +409,39 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       assert.dom(screen.queryByText(t('pages.campaign-creation.owner.info'))).doesNotExist();
       assert.dom(screen.queryByText(t('pages.campaign-creation.owner.title'))).doesNotExist();
     });
+
+    test('it should redirect to /catalogue/blueprint', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      data.campaign.course = store.createRecord('course', {
+        id: '1',
+        name: 'blueprint1',
+        type: 'blueprint',
+        nbModules: 3,
+        isSimplifiedAccess: true,
+      });
+      data.campaign.type = 'COMBINED_COURSE';
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(screen.getByRole('link', { name: t('pages.campaign-creation.course-selection-label') }))
+        .hasAttribute('href', '/catalogue/blueprint');
+    });
   });
+
   test('should not display EXAM type when feature is not enable', async function () {
     // given
     data.prescriber.features.CAMPAIGN_WITHOUT_USER_PROFILE = { active: false, params: null };
@@ -841,7 +454,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
@@ -863,7 +475,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -885,7 +496,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -909,7 +519,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -930,7 +539,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -951,7 +559,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -968,12 +575,13 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     test('it should not display fields for campaign title and target profile', async function (assert) {
       // when
       const store = this.owner.lookup('service:store');
-      const combinedCourseBlueprint = store.createRecord('combined-course-blueprint', {
+      data.campaign.course = store.createRecord('course', {
         id: '1',
         name: 'Blueprint 1',
+        type: 'blueprint',
       });
+      data.campaign.type = 'COMBINED_COURSE';
 
-      data.combinedCourseBlueprints = [combinedCourseBlueprint];
       const screen = await render(
         <template>
           <CreateForm
@@ -982,21 +590,12 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
             @membersSortedByFullName={{data.defaultMembers}}
-            @combinedCourseBlueprints={{data.combinedCourseBlueprints}}
           />
         </template>,
       );
 
-      await clickByName(t('pages.campaign-creation.purpose.combined-course'));
-
       // then
       assert.dom(screen.queryByText(t('pages.campaign-creation.test-title.label'))).doesNotExist();
-      assert.dom(screen.queryByText(t('pages.campaign-creation.target-profiles-list-label'))).doesNotExist();
-      await fillByLabel('Nom de la campagne *', 'Mon parcours combiné');
-      await clickByName(t('pages.campaign-creation.purpose.combined-course'));
-
-      await click(screen.getByLabelText(`${t('pages.campaign-creation.combined-course-blueprints-list-label')} *`));
-      assert.ok(await screen.findByRole('option', { description: combinedCourseBlueprint.name }));
     });
   });
 
@@ -1012,7 +611,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
@@ -1042,7 +640,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
@@ -1067,7 +664,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -1091,7 +687,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -1112,7 +707,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -1134,7 +728,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -1154,7 +747,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -1174,7 +766,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -1197,7 +788,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -1223,7 +813,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
@@ -1246,7 +835,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
@@ -1261,26 +849,22 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
 
-    const targetProfile = store.createRecord('target-profile', { name: 'targetProfile1', id: '123' });
-    data.targetProfiles = [targetProfile];
+    data.campaign.course = store.createRecord('course', { name: 'targetProfile1', id: '123', type: 'targetProfile' });
     const createCampaignSpy = sinon.stub();
 
-    const screen = await render(
+    await render(
       <template>
         <CreateForm
           @campaign={{data.campaign}}
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
     );
     await fillByLabel(`${t('pages.campaign-creation.name.label')} *`, 'Ma campagne');
     await clickByName(t('pages.campaign-creation.purpose.assessment'));
-    await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
-    await click(await screen.findByRole('option', { description: targetProfile.name }));
 
     // when
     await clickByName(t('pages.campaign-creation.actions.create'));
@@ -1299,7 +883,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
@@ -1321,7 +904,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{createCampaignSpy}}
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
-          @targetProfiles={{data.targetProfiles}}
           @membersSortedByFullName={{data.defaultMembers}}
         />
       </template>,
@@ -1365,7 +947,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             @onSubmit={{createCampaignSpy}}
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
             @membersSortedByFullName={{data.defaultMembers}}
           />
         </template>,
@@ -1378,77 +959,37 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       assert.dom(screen.getByText(t('api-error-messages.campaign-creation.external-user-id-required'))).exists();
     });
 
-    test('it should display errors messages when the target profile field is empty', async function (assert) {
-      // given
-      const campaignWithErrors = EmberObject.create({
-        errors: {
-          targetProfile: [
-            {
-              message: 'TARGET_PROFILE_IS_REQUIRED',
-            },
-          ],
-        },
+    ['targetProfile', 'blueprint'].forEach((error) => {
+      test(`it should display error message when the ${error} course field is empty`, async function (assert) {
+        // given
+        const campaignWithErrors = EmberObject.create({
+          errors: {
+            [error]: [
+              {
+                message: 'TARGET_PROFILE_IS_REQUIRED',
+              },
+            ],
+          },
+        });
+        data.errors = campaignWithErrors.errors;
+
+        // when
+        const screen = await render(
+          <template>
+            <CreateForm
+              @campaign={{data.campaign}}
+              @onSubmit={{createCampaignSpy}}
+              @onCancel={{cancelSpy}}
+              @errors={{data.errors}}
+              @membersSortedByFullName={{data.defaultMembers}}
+            />
+          </template>,
+        );
+        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+        // then
+        assert.dom(screen.getByText(t('api-error-messages.campaign-creation.target-profile-required'))).exists();
       });
-      data.errors = campaignWithErrors.errors;
-
-      // when
-      const screen = await render(
-        <template>
-          <CreateForm
-            @campaign={{data.campaign}}
-            @onSubmit={{createCampaignSpy}}
-            @onCancel={{cancelSpy}}
-            @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
-            @membersSortedByFullName={{data.defaultMembers}}
-          />
-        </template>,
-      );
-      await clickByName(t('pages.campaign-creation.purpose.assessment'));
-
-      // then
-      assert.dom(screen.getByText(t('api-error-messages.campaign-creation.target-profile-required'))).exists();
-    });
-
-    test('it should display errors messages when the blueprint id field is empty', async function (assert) {
-      // given
-      const campaignWithErrors = EmberObject.create({
-        errors: {
-          blueprint: [
-            {
-              message: 'TARGET_PROFILE_IS_REQUIRED',
-            },
-          ],
-        },
-      });
-      data.errors = campaignWithErrors.errors;
-
-      const store = this.owner.lookup('service:store');
-      const combinedCourseBlueprint = store.createRecord('combined-course-blueprint', {
-        id: '1',
-        name: 'Blueprint 1',
-      });
-
-      data.combinedCourseBlueprints = [combinedCourseBlueprint];
-
-      // when
-      const screen = await render(
-        <template>
-          <CreateForm
-            @campaign={{data.campaign}}
-            @onSubmit={{createCampaignSpy}}
-            @onCancel={{cancelSpy}}
-            @errors={{data.errors}}
-            @targetProfiles={{data.targetProfiles}}
-            @membersSortedByFullName={{data.defaultMembers}}
-            @combinedCourseBlueprints={{data.combinedCourseBlueprints}}
-          />
-        </template>,
-      );
-      await clickByName(t('pages.campaign-creation.purpose.combined-course'));
-
-      // then
-      assert.dom(screen.getByText(t('api-error-messages.campaign-creation.target-profile-required'))).exists();
     });
   });
 });

@@ -1,5 +1,5 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixFilterableAndSearchableSelect from '@1024pix/pix-ui/components/pix-filterable-and-searchable-select';
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
@@ -11,15 +11,15 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { eq, gt, not } from 'ember-truth-helpers';
+import { eq, not, or } from 'ember-truth-helpers';
 import { ID_PIX_TYPES } from 'pix-orga/helpers/id-pix-types.js';
-import { orderBy } from 'pix-orga/utils/collection';
 
 import displayCampaignErrors from '../../helpers/display-campaign-errors';
-import TargetProfileDetails from '../campaign/target-profile-details';
+import CourseCard from '../catalogue/course-card';
 import ExplanationCard from '../ui/explanation-card';
 import FormField from '../ui/form-field';
 import PixFieldset from '../ui/pix-fieldset';
+
 export default class CreateForm extends Component {
   @service currentUser;
   @service intl;
@@ -34,32 +34,6 @@ export default class CreateForm extends Component {
 
   get isComputeLearnerCertificabilityEnabled() {
     return this.currentUser.prescriber.computeOrganizationLearnerCertificability;
-  }
-
-  get targetOwnerOptions() {
-    const options = this.args.targetProfiles.map((targetProfile) => {
-      return {
-        value: targetProfile.id,
-        label: targetProfile.name,
-        category: this.intl.t(`pages.campaign-creation.tags.${targetProfile.category}`),
-        icon: targetProfile.isSimplifiedAccess ? 'accountOff' : 'users',
-        iconTitle: targetProfile.isSimplifiedAccess
-          ? this.intl.t('common.target-profile-details.simplified-access.without-account')
-          : this.intl.t('common.target-profile-details.simplified-access.with-account'),
-        order: 'OTHER' === targetProfile.category ? 1 : 0,
-      };
-    });
-    return orderBy(options, ['order', 'category', 'label']);
-  }
-
-  get blueprintOwnerOptions() {
-    const options = this.args.combinedCourseBlueprints.map((blueprint) => {
-      return {
-        value: blueprint.id,
-        label: blueprint.name,
-      };
-    });
-    return orderBy(options, ['label']);
   }
 
   get campaignOwnerOptions() {
@@ -91,7 +65,7 @@ export default class CreateForm extends Component {
     }
   }
 
-  get isCreateCampaignOftypeExamEnabled() {
+  get isCreateCampaignOfTypeExamEnabled() {
     return this.currentUser.prescriber.enableCampaignWithoutUserProfile;
   }
 
@@ -119,24 +93,26 @@ export default class CreateForm extends Component {
     return this.args.campaign.externalIdType === '';
   }
 
-  get isTargetProfileSelectable() {
-    return this.isCampaignGoalAssessment || this.isCampaignGoalExam;
-  }
-
-  get isCombinedCourseBlueprintSelectable() {
-    return this.isCombinedCourseGoal;
-  }
-
   get isTitleInputEnable() {
     return (this.isCampaignGoalAssessment || this.isCampaignGoalExam) && !this.isCombinedCourseGoal;
   }
 
-  get hasCombinedCourseBlueprintShares() {
-    return this.args.combinedCourseBlueprints ? this.args.combinedCourseBlueprints.length > 0 : false;
-  }
-
   get displayOwnerField() {
     return this.isCampaignGoalAssessment || this.isCampaignGoalExam || this.isCampaignGoalProfileCollection;
+  }
+
+  get displayCourseSelection() {
+    return !this.isCampaignGoalProfileCollection;
+  }
+
+  get catalogueCourseSelectionTab() {
+    if (this.isCombinedCourseGoal) {
+      return 'blueprint';
+    }
+    if (this.isCampaignGoalAssessment || this.isCampaignGoalExam) {
+      return 'targetProfile';
+    }
+    return 'all';
   }
 
   @action
@@ -151,19 +127,6 @@ export default class CreateForm extends Component {
     this.wantIdPix = false;
     this.args.campaign.externalIdLabel = null;
     this.args.campaign.externalIdType = '';
-  }
-
-  @action
-  selectTargetProfile(targetProfileId) {
-    this.args.campaign.targetProfile = this.args.targetProfiles.find(
-      (targetProfile) => targetProfile.id === targetProfileId,
-    );
-  }
-
-  @action
-  selectCombinedCourseBlueprint(blueprintId) {
-    const record = this.store.peekRecord('combined-course-blueprint', blueprintId);
-    this.args.campaign.combinedCourseBlueprint = record;
   }
 
   @action
@@ -201,6 +164,7 @@ export default class CreateForm extends Component {
   onChangeCampaignCustomLandingPageText(event) {
     this.args.campaign.customLandingPageText = event.target.value;
   }
+
   @action
   onChangeIdPixType(event) {
     this.args.campaign.externalIdType = event.target.value;
@@ -213,7 +177,7 @@ export default class CreateForm extends Component {
   }
 
   <template>
-    <form {{on "submit" this.onSubmit}} class="form">
+    <form {{on "submit" this.onSubmit}} class="form campaign-creation-form">
       <p class="form__mandatory-fields-information" aria-hidden="true">
         <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark">*</abbr>
         {{t "common.form.mandatory-fields"}}
@@ -257,19 +221,17 @@ export default class CreateForm extends Component {
                 <:label>{{t "pages.campaign-creation.purpose.assessment"}}</:label>
               </PixRadioButton>
 
-              {{#if this.hasCombinedCourseBlueprintShares}}
-                <PixRadioButton
-                  name="campaign-goal"
-                  @value="combined-course"
-                  {{on "change" this.setCampaignGoal}}
-                  aria-describedby="combined-course-info"
-                  checked={{this.isCombinedCourseGoal}}
-                >
-                  <:label>{{t "pages.campaign-creation.purpose.combined-course"}}</:label>
-                </PixRadioButton>
-              {{/if}}
+              <PixRadioButton
+                name="campaign-goal"
+                @value="combined-course"
+                {{on "change" this.setCampaignGoal}}
+                aria-describedby="combined-course-info"
+                checked={{this.isCombinedCourseGoal}}
+              >
+                <:label>{{t "pages.campaign-creation.purpose.combined-course"}}</:label>
+              </PixRadioButton>
 
-              {{#if this.isCreateCampaignOftypeExamEnabled}}
+              {{#if this.isCreateCampaignOfTypeExamEnabled}}
                 <PixRadioButton
                   name="campaign-goal"
                   @value="exam-participants"
@@ -337,8 +299,34 @@ export default class CreateForm extends Component {
         </:information>
       </FormField>
 
-      {{#if this.displayOwnerField}}
+      {{#if this.displayCourseSelection}}
+        <FormField>
+          <:default>
+            <div class="campaign-creation-form__course-selection">
+              <PixFieldset @required={{true}}>
+                <:title>{{t "pages.campaign-creation.course-label"}}</:title>
+                <:content>
+                  {{#if @campaign.course}}
+                    <CourseCard @course={{@campaign.course}} @type={{@campaign.course.type}} />
+                  {{/if}}
+                  <PixButtonLink
+                    @route="authenticated.catalogue.list"
+                    @model={{this.catalogueCourseSelectionTab}}
+                    @variant="primary-bis"
+                  >{{t "pages.campaign-creation.course-selection-label"}}</PixButtonLink>
+                </:content>
+              </PixFieldset>
+            </div>
+            {{#if (or @errors.targetProfile @errors.blueprint)}}
+              <div class="form__error error-message">
+                <span>{{t "api-error-messages.campaign-creation.target-profile-required"}}</span>
+              </div>
+            {{/if}}
+          </:default>
+        </FormField>
+      {{/if}}
 
+      {{#if this.displayOwnerField}}
         <FormField>
           <:default>
             <PixSelect
@@ -369,71 +357,6 @@ export default class CreateForm extends Component {
 
         </FormField>
 
-      {{/if}}
-
-      {{#if this.isTargetProfileSelectable}}
-        <FormField>
-          <:default>
-            <PixFilterableAndSearchableSelect
-              @placeholder={{t "pages.campaign-creation.target-profiles-label"}}
-              @categoriesPlaceholder={{t "pages.campaign-creation.target-profiles-category-placeholder"}}
-              @options={{this.targetOwnerOptions}}
-              @hideDefaultOption={{true}}
-              @onChange={{this.selectTargetProfile}}
-              @value={{@campaign.targetProfile.id}}
-              @requiredLabel={{t "common.form.mandatory-fields-title"}}
-              @errorMessage={{if
-                @errors.targetProfile
-                (t "api-error-messages.campaign-creation.target-profile-required")
-              }}
-              @isSearchable={{true}}
-              @locale={{this.locale.currentLocale}}
-              @searchLabel={{t "pages.campaign-creation.target-profiles-search-placeholder"}}
-            >
-              <:label>{{t "pages.campaign-creation.target-profiles-list-label"}}</:label>
-              <:categoriesLabel>{{t "pages.campaign-creation.target-profiles-category-label"}}</:categoriesLabel>
-            </PixFilterableAndSearchableSelect>
-          </:default>
-          <:information>
-            {{#if @campaign.targetProfile}}
-              <ExplanationCard id="target-profile-info">
-                <:title>{{@campaign.targetProfile.name}}</:title>
-
-                <:message>
-                  <TargetProfileDetails
-                    class="form__field-info-message"
-                    @targetProfileDescription={{@campaign.targetProfile.description}}
-                    @hasStages={{@campaign.targetProfile.hasStage}}
-                    @hasBadges={{gt @campaign.targetProfile.thematicResultCount 0}}
-                    @targetProfileTubesCount={{@campaign.targetProfile.tubeCount}}
-                    @targetProfileThematicResultCount={{@campaign.targetProfile.thematicResultCount}}
-                    @simplifiedAccess={{@campaign.targetProfile.isSimplifiedAccess}}
-                  />
-                </:message>
-              </ExplanationCard>
-            {{/if}}
-          </:information>
-        </FormField>
-      {{/if}}
-
-      {{#if this.isCombinedCourseBlueprintSelectable}}
-        <FormField>
-          <:default>
-            <PixSelect
-              @placeholder={{t "pages.campaign-creation.combined-course-blueprints-label"}}
-              @options={{this.blueprintOwnerOptions}}
-              @hideDefaultOption={{true}}
-              @onChange={{this.selectCombinedCourseBlueprint}}
-              @value={{@campaign.combinedCourseBlueprint.id}}
-              @requiredLabel={{t "common.form.mandatory-fields-title"}}
-              @errorMessage={{if @errors.blueprint (t "api-error-messages.campaign-creation.target-profile-required")}}
-              @locale={{this.locale.currentLocale}}
-              @searchLabel={{t "pages.campaign-creation.combined-course-blueprints-search-placeholder"}}
-            >
-              <:label>{{t "pages.campaign-creation.combined-course-blueprints-list-label"}}</:label>
-            </PixSelect>
-          </:default>
-        </FormField>
       {{/if}}
 
       {{#if this.isMultipleSendingEnabled}}

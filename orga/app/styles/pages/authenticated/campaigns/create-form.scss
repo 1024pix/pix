@@ -39,3 +39,17 @@
     }
   }
 }
+
+.campaign-creation-form {
+  &__course-selection {
+    .pix-fieldset {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      &__label, .course-card {
+        margin-bottom: var(--pix-spacing-4x);
+      }
+    }
+  }
+}
