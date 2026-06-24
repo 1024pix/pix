@@ -1,7 +1,6 @@
 import { knex } from '../../db/knex-database-connection.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
-import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
 
 export class DuplicateEnglishCoreCalibrationWithNewIds extends Script {
   constructor() {
@@ -47,14 +46,22 @@ export class DuplicateEnglishCoreCalibrationWithNewIds extends Script {
       versionId: challenge.versionId,
     }));
 
-    if (!dryRun) {
-      const knexConnection = DomainTransaction.getConnection();
-      await knexConnection.batchInsert('certification-frameworks-challenges', newChallenges);
-    }
+    const trx = await knex.transaction();
 
-    logger.info(
-      `${newChallenges.length} challenges have been added to current version ${dryRun ? '(dry run)' : ''}. Youpi Yo Youpi Yay`,
-    );
+    try {
+      await trx.batchInsert('certification-frameworks-challenges', newChallenges);
+      if (dryRun) {
+        await trx.rollback();
+        logger.info(`${newChallenges.length} challenges would have been added to current version`);
+        return;
+      } else {
+        await trx.commit();
+        logger.info(`${newChallenges.length} challenges have been added to current version. Youpi.`);
+      }
+    } catch (error) {
+      await trx.rollback();
+      throw error;
+    }
   }
 }
 

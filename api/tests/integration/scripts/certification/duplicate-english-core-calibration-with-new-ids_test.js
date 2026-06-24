@@ -142,5 +142,45 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
         expect(Number(countAfter)).to.equal(Number(countBefore));
       });
     });
+
+    context('when an error occurs during insertion', function () {
+      afterEach(function () {
+        sinon.restore();
+      });
+
+      it('should rollback the transaction and rethrow the error', async function () {
+        // given
+        const { id: versionId } = databaseBuilder.factory.buildCertificationVersion({
+          scope: 'CORE',
+          expirationDate: null,
+        });
+
+        const baseId = 'challengeEnError';
+
+        databaseBuilder.factory.learningContent.buildChallenge({
+          id: `${baseId}-EN`,
+        });
+
+        databaseBuilder.factory.buildCertificationFrameworksChallenge({
+          challengeId: baseId,
+          versionId,
+          discriminant: 1.5,
+          difficulty: 2.5,
+        });
+
+        await databaseBuilder.commit();
+
+        const dbError = new Error('DB insertion error');
+        const fakeTrx = {
+          batchInsert: sinon.stub().rejects(dbError),
+          rollback: sinon.stub().resolves(),
+        };
+        sinon.stub(knex, 'transaction').resolves(fakeTrx);
+
+        // when / then
+        await expect(script.handle({ logger, options: { dryRun: false } })).to.be.rejectedWith('DB insertion error');
+        expect(fakeTrx.rollback).to.have.been.calledOnce;
+      });
+    });
   });
 });
