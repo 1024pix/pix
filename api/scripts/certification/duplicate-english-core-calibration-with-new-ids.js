@@ -27,12 +27,10 @@ export class DuplicateEnglishCoreCalibrationWithNewIds extends Script {
       .join('certification_versions', 'certification_versions.id', 'certification-frameworks-challenges.versionId')
       .join(
         { lc_challenges: 'learningcontent.challenges' },
-        'lc_challenges.id',
-        'certification-frameworks-challenges.challengeId',
+        knex.raw('lc_challenges.id = "certification-frameworks-challenges"."challengeId" || \'-EN\''),
       )
       .where('certification_versions.scope', 'CORE')
       .whereNull('certification_versions.expirationDate')
-      .whereRaw('?=ANY(??)', ['en', 'lc_challenges.locales'])
       .select(
         'certification-frameworks-challenges.challengeId',
         'certification-frameworks-challenges.discriminant',

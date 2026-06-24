@@ -15,20 +15,21 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
 
   describe('#handle', function () {
     context('when dryRun is false', function () {
-      it('should insert duplicates with -EN suffix for English challenges of the current CORE version', async function () {
+      it('should insert duplicates with -EN suffix for challenges that have a -EN counterpart in LCMS', async function () {
         // given
         const { id: versionId } = databaseBuilder.factory.buildCertificationVersion({
           scope: 'CORE',
           expirationDate: null,
         });
 
-        const { id: challengeId } = databaseBuilder.factory.learningContent.buildChallenge({
-          id: 'challengeEn1',
-          locales: ['en'],
+        const baseId = 'challengeEn1';
+
+        databaseBuilder.factory.learningContent.buildChallenge({
+          id: `${baseId}-EN`,
         });
 
         databaseBuilder.factory.buildCertificationFrameworksChallenge({
-          challengeId,
+          challengeId: baseId,
           versionId,
           discriminant: 1.5,
           difficulty: 2.5,
@@ -41,7 +42,7 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
 
         // then
         const insertedChallenge = await knex('certification-frameworks-challenges')
-          .where({ challengeId: `${challengeId}-EN`, versionId })
+          .where({ challengeId: `${baseId}-EN`, versionId })
           .first();
 
         expect(insertedChallenge).to.exist;
@@ -49,20 +50,19 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
         expect(insertedChallenge.difficulty).to.equal(2.5);
       });
 
-      it('should not duplicate non-English challenges', async function () {
+      it('should not duplicate challenges that have no corresponding -EN entry in LCMS', async function () {
         // given
         const { id: versionId } = databaseBuilder.factory.buildCertificationVersion({
           scope: 'CORE',
           expirationDate: null,
         });
 
-        const { id: frenchChallengeId } = databaseBuilder.factory.learningContent.buildChallenge({
+        databaseBuilder.factory.learningContent.buildChallenge({
           id: 'challengeFr1',
-          locales: ['fr'],
         });
 
         databaseBuilder.factory.buildCertificationFrameworksChallenge({
-          challengeId: frenchChallengeId,
+          challengeId: 'challengeFr1',
           versionId,
         });
 
@@ -73,26 +73,27 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
 
         // then
         const insertedChallenge = await knex('certification-frameworks-challenges')
-          .where({ challengeId: `${frenchChallengeId}-EN` })
+          .where({ challengeId: 'challengeFr1-EN' })
           .first();
 
         expect(insertedChallenge).to.not.exist;
       });
 
-      it('should not duplicate English challenges from an expired CORE version', async function () {
+      it('should not duplicate challenges from an expired CORE version', async function () {
         // given
         const { id: expiredVersionId } = databaseBuilder.factory.buildCertificationVersion({
           scope: 'CORE',
           expirationDate: new Date('2025-01-01'),
         });
 
-        const { id: challengeId } = databaseBuilder.factory.learningContent.buildChallenge({
-          id: 'challengeEnExpired',
-          locales: ['en'],
+        const baseId = 'challengeEnExpired';
+
+        databaseBuilder.factory.learningContent.buildChallenge({
+          id: `${baseId}-EN`,
         });
 
         databaseBuilder.factory.buildCertificationFrameworksChallenge({
-          challengeId,
+          challengeId: baseId,
           versionId: expiredVersionId,
         });
 
@@ -103,7 +104,7 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
 
         // then
         const insertedChallenge = await knex('certification-frameworks-challenges')
-          .where({ challengeId: `${challengeId}-EN` })
+          .where({ challengeId: `${baseId}-EN` })
           .first();
 
         expect(insertedChallenge).to.not.exist;
@@ -118,13 +119,14 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
           expirationDate: null,
         });
 
-        const { id: challengeId } = databaseBuilder.factory.learningContent.buildChallenge({
-          id: 'challengeEn1',
-          locales: ['en'],
+        const baseId = 'challengeEn1';
+
+        databaseBuilder.factory.learningContent.buildChallenge({
+          id: `${baseId}-EN`,
         });
 
         databaseBuilder.factory.buildCertificationFrameworksChallenge({
-          challengeId,
+          challengeId: baseId,
           versionId,
         });
 
