@@ -34,7 +34,7 @@ export default class OrganizationNetworkComponent extends Component {
       await this.refreshOrganizationChildren();
     } catch (responseError) {
       const error = get(responseError, 'errors[0]');
-      const childOrganizationId = error.meta?.organizationId;
+      const childOrganizationId = error.meta?.childOrganizationId;
       let message;
       switch (error?.code) {
         case 'UNABLE_TO_ATTACH_CHILD_ORGANIZATION_TO_ITSELF':

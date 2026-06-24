@@ -135,7 +135,7 @@ module('Integration | Component | organizations/network', function (hooks) {
           const adapter = store.adapterFor('organization');
           const attachChildOrganizationStub = sinon.stub(adapter, 'attachChildOrganization');
           attachChildOrganizationStub.rejects({
-            errors: [{ code: 'UNABLE_TO_ATTACH_CHILD_ORGANIZATION_TO_ITSELF', meta: { organizationId: '1' } }],
+            errors: [{ code: 'UNABLE_TO_ATTACH_CHILD_ORGANIZATION_TO_ITSELF', meta: { childOrganizationId: '1' } }],
           });
 
           const screen = await render(<template><Network @organization={{parentOrganization}} /></template>);
@@ -178,7 +178,7 @@ module('Integration | Component | organizations/network', function (hooks) {
             errors: [
               {
                 code: 'UNABLE_TO_ATTACH_ALREADY_ATTACHED_CHILD_ORGANIZATION',
-                meta: { organizationId: alreadyAttachedChildOrganizationId },
+                meta: { childOrganizationId: alreadyAttachedChildOrganizationId },
               },
             ],
           });
