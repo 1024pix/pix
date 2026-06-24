@@ -33,7 +33,7 @@
                 "id": "d629b072-8cae-4484-82e2-25766a9e27cc",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Sitan aimerait progresser en chant.&nbsp;</p><p>Elle demande conseil à deux intelligences artificielles sur Compar:IA.<br><br></p>"
+                "content": "<p>Sitan aimerait progresser en chant.&nbsp;</p>\n<p>Elle demande conseil à deux intelligences artificielles sur Compar:IA.</p>"
               }
             },
             {
@@ -46,6 +46,15 @@
                 "alternativeText": "<p>Sitan :&nbsp; Comment m'améliorer en chant ? Fais une réponse courte en 2 phrases.</p><p>Réponse de IBM/ Granite 4.1 8B :&nbsp;</p><p>Pour améliorer votre chant, pratiquez régulièrement en travaillant sur votre respiration, votre intonation et votre technique vocale avec un coach ou en utilisant des ressources en ligne. Enregistrez-vous et écoutez votre performance pour identifier les domaines à améliorer.</p><p>impact estimé de la discussion : 6 mWh</p><p>Réponse de Alibaba/ Qwen 3.6 Plus :&nbsp;</p><p>Pratique quotidiennement des exercices de respiration et de vocalises pour consolider ta technique. Enregistre-toi régulièrement et fais-toi accompagner par un professeur pour recevoir des retours objectifs et progresser efficacement.</p><p>impact estimé de la discussion : 14 425 mWh</p><p><br></p>",
                 "legend": "",
                 "licence": "Image brouillon"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "af2a1f06-fde9-4ef5-ad58-6960c8179fa0",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Les deux modèles donnent des conseils, mais Sitan est étonnée par<strong> la différence d’impact environnemental </strong>pour une même requête : Qwen 3.6 Plus, un modèle d’Alibaba, a une consommation d’énergie estimée à plus de 2 000 fois supérieure à celle de Granite 4.1, un modèle d’IBM !<br><br></p>"
               }
             },
             {
@@ -123,7 +132,219 @@
                 "id": "b984fed2-3e75-479e-848b-d9d82780b742",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Charlie veut entraîner une IA générative&nbsp;: ChatPix 4.0. Il se demande de combien de GPU il a besoin.<br></p>"
+                "content": "<p>Commençons par la première source de consommation d’énergie d’un modèle d’IA : son entraînement, indispensable à son fonctionnement.<br></p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "959fd22d-b5fa-4fae-bd74-17f78867fea0",
+          "type": "discovery",
+          "title": "L’énergie consommée par l’entraînement des IA",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "20d3955b-9094-459b-9f9f-8434ce2fdd1c",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p><strong>L’entraînement </strong>d’un modèle de langage consiste à lui <strong>fournir un grand volume de données</strong> pour qu’il améliore ses prédictions. Des milliards de milliards de calculs sont effectués durant cette phase d’entraînement, notamment pour ajuster la valeur des paramètres du modèle.&nbsp; </p><p>A titre d’exemple, l’<strong>entraînement du modèle GPT-4 d'OpenAI,</strong> sorti en 2023, nécessité <strong>14 semaines de calculs en continu</strong> ! Cela correspond à une consommation d’énergie de <strong>42GWh GigaWattHeures</strong>…<br><br></p>"
+                    },
+                    {
+                      "id": "20d3955b-9094-459b-9f9f-8434ce2fdd1c",
+                      "type": "qcu-declarative",
+                      "instruction": "<p>Et vous, qu’auriez vous si vous aviez à disposition 42GWh ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Alimenter en électricité 7600 personnes résidant en europe pendant un an.</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Recharger votre smartphone pendant 4 200 000 années</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Drôle d'idée !</p><p><strong>Mais toutes les réponses correspondent à 42GWh</strong>.</p>\n<p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Parcourir 210 000 000 de kilomètres en voiture électrique, soit 52 000 allers-retours Madrid-Berlin.</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p>\n<p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Entraîner un modèle d'intelligence artificielle générative<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p>\n<p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                          }
+                        },
+                        {
+                          "id": "5",
+                          "content": "<p>Je ne sais pas.<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p>\n<p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>.</p>"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "8d07ad91-7c48-4d1f-b60a-a311a7b428fd",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Open IA et d'autres entreprises ont entraînées d’autres modèles depuis. En voici quelques exemples.</p>"
+                    },
+                    {
+                      "id": "5347533c-7309-4991-b0b3-133784208d25",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/modeles-ia.png",
+                      "alt": "à venir",
+                      "alternativeText": "<p>à venir<br></p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "4f7a89dc-de3c-4bc0-9e96-ddb6042a6552",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>À votre avis, parmi ces modèles, lequel a consommé le plus d’énergie au moment de son entrainement ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Granite 4.1 8B</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Eh non ! </strong></p><p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c'est celui qui a <strong>l</strong><strong>e plus de paramètres.</strong></p><p>Plus un modèle d'IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>GPT 5.5</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c'est celui qui a <strong>l</strong><strong>e plus de paramètres.</strong></p>\n<p>Plus un modèle d'IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Llama 4 Maverick</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c'est celui qui a <strong>l</strong><strong>e plus de paramètres.</strong></p>\n<p>Plus un modèle d'IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Apertus 70B Instruct</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c'est celui qui a <strong>l</strong><strong>e plus de paramètres.</strong></p>\n<p>Plus un modèle d'IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                          }
+                        },
+                        {
+                          "id": "5",
+                          "content": "<p>Gemini 3.1 Flash Lite</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c'est celui qui a <strong>l</strong><strong>e plus de paramètres.</strong></p>\n<p>Plus un modèle d'IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                          }
+                        },
+                        {
+                          "id": "6",
+                          "content": "<p>Mistral 3 Large</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p><strong>Mistral 3 Large </strong>est celui qui a <strong>le plus de paramètres.\n</strong></p><p>Plus un modèle d'IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                          }
+                        },
+                        {
+                          "id": "7",
+                          "content": "<p>Je ne sais pas.<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c'est celui qui a l<strong>e plus de paramètres.</strong>\n</p><p>Plus un modèle d'IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "6"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c4035d28-df59-4d17-aea2-8e50560d5bf6",
+          "type": "short-lesson",
+          "title": "L’impact de l’utilisation de l’IA",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "cd1e0ee5-4378-4996-abc4-99b774160840",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>L’entraînement d’un nouveau modèle d’IA est donc très coûteux en énergie.</p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "2c1c5be2-a58d-475d-afec-dc7b6ad88e8e",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<h5>Et une fois le modèle entraîné ? </h5><p>Les centres données sont également sollicités au moment de l’utilisation des logiciels d’IA&nbsp;: ils sont nécessaires pour effectuer des calculs et stocker des informations pour générer des réponses. Du fait de l’explosion des usages des logiciels d’IA générative, <strong>l’impact de leur utilisation dépasse maintenant celui de leur entraînement<strong> et va probablement encore augmenter.</strong></strong></p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "5878e032-208b-4e28-94d2-9fb5e1b47884",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>À titre d’exemple, les émissions de GES de Google ont augmenté de 50% entre 2019 et 2023, ainsi que sa consommation d’eau (+20 à 30% de 2021 à 2023), principalement en raison du développement des logiciels d’IA générative&nbsp;et de l’expansion de ses centres de données.</p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "7bce7710-e3e0-4626-a366-c341bc7661aa",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "Cette massification résulte notamment d’une volonté des acteurs du numérique d’<strong>imposer l’usage des logiciels d’IA</strong> dans les outils numériques existants, et dans leurs entreprises.<p></p>"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cc12db94-bbed-49bb-bce3-6cc5db06cd59",
+          "type": "transition",
+          "title": "Transition",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "4d216976-f4a0-484c-8758-8984e25f14c7",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Mais pourquoi a-t-on besoin de GPU pour entraîner l’IA ?</p>"
               }
             }
           ]
@@ -277,181 +498,6 @@
                 "tag": " ",
                 "content": "<p>Les GPU sont des pièces maîtresses des centres de données dédiés à l’intelligence artificielle.</p><h5>Et quel est l’impact des GPU sur l’environnement ? </h5><p>La fabrication des GPU nécessite beaucoup de <strong>matières premières </strong>(métaux, terres rares, pétrole …), et leur utilisation consomme énormément d’<strong>électricité</strong>. </p><p>Les GPU ont donc un fort impact négatif sur l’environnement, d’autant qu’il faut les <strong>renouveler souvent</strong> et que les services d’intelligence artificielle modernes nécessitent énormément de GPU pour fonctionner. Cela génère beaucoup de <strong>déchets électroniques</strong>, dont une grande partie n’est pas recyclable</p>"
               }
-            }
-          ]
-        },
-        {
-          "id": "cc12db94-bbed-49bb-bce3-6cc5db06cd59",
-          "type": "transition",
-          "title": "Transition",
-          "components": [
-            {
-              "type": "element",
-              "element": {
-                "id": "4d216976-f4a0-484c-8758-8984e25f14c7",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Mais pourquoi a-t-on besoin de GPU pour entraîner l’IA ?</p>"
-              }
-            }
-          ]
-        },
-        {
-          "id": "959fd22d-b5fa-4fae-bd74-17f78867fea0",
-          "type": "discovery",
-          "title": "L’énergie consommée par l’entraînement des IA",
-          "components": [
-            {
-              "type": "element",
-              "element": {
-                "id": "286099b2-22c1-405e-b6d0-ade39745c27e",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Maintenant qu’il a acheté des cartes graphiques, Charlie veut entraîner ChatPix 4.0. </p><p>Pour cela, les cartes graphiques doivent faire un grand nombre de calculs, ce qui demande de l’énergie. &nbsp;</p><p>Charlie fait attention à sa facture d’électricité&nbsp;: il se demande combien cela va consommer d’énergie. </p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "c2ce2d31-5df4-4d06-87aa-8d35f4ab881e",
-                "type": "image",
-                "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/futur-poi.png",
-                "alt": "",
-                "alternativeText": "",
-                "legend": "à l’avenir ce sera un POI",
-                "licence": ""
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "52e4defe-8d35-4ceb-b8a8-b7a8f16a859b",
-                "type": "qrocm",
-                "instruction": "<p>D’après vos observations, que peut-on dire ?</p>",
-                "proposals": [
-                  {
-                    "type": "text",
-                    "content": "<p>Si le nombre de paramètres du modèle augmente, la consommation</p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "parametre",
-                    "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "diminue."
-                      },
-                      {
-                        "id": "2",
-                        "content": "reste stable."
-                      },
-                      {
-                        "id": "3",
-                        "content": "augmente."
-                      }
-                    ],
-                    "solutions": [
-                      "3"
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<p>Si la taille du jeu de données d’entraînement augmente, la consommation</p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "jeudedonnée",
-                    "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "diminue."
-                      },
-                      {
-                        "id": "2",
-                        "content": "reste stable."
-                      },
-                      {
-                        "id": "3",
-                        "content": "augmente."
-                      }
-                    ],
-                    "solutions": [
-                      "3"
-                    ]
-                  }
-                ],
-                "feedbacks": {
-                  "valid": {
-                    "state": "<p>Bien vu !<br></p>",
-                    "diagnosis": "<p>Par exemple, l’entraînement du modèle<strong> GPT-4</strong> d’OpenAI, sorti en 2023, avait plusieurs <strong>centaines de milliards de paramètres.</strong> </p><p>Son entraînement a nécessité <strong>14 semaines de calculs en continu</strong>, en consommant quotidiennement autant d’électricité qu’une ville française de 30000 habitants.</p>"
-                  },
-                  "invalid": {
-                    "state": "<p>Eh non !</p><p>Plus un modèle d’IA a un grand nombre de paramètres, et plus on l’entraîne sur de grandes quantités de données, plus son entraînement consomme.</p>",
-                    "diagnosis": "<p>Par exemple, l’entraînement du modèle<strong> GPT-4</strong> d’OpenAI, sorti en 2023, avait plusieurs <strong>centaines de milliards de paramètres.</strong> </p><p>Son entraînement a nécessité <strong>14 semaines de calculs en continu</strong>, en consommant quotidiennement autant d’électricité qu’une ville française de 30000 habitants.</p>"
-                  }
-                }
-              }
-            }
-          ]
-        },
-        {
-          "id": "c4035d28-df59-4d17-aea2-8e50560d5bf6",
-          "type": "short-lesson",
-          "title": "L’impact de l’utilisation de l’IA",
-          "components": [
-            {
-              "type": "stepper",
-              "instruction": "",
-              "steps": [
-                {
-                  "elements": [
-                    {
-                      "id": "cd1e0ee5-4378-4996-abc4-99b774160840",
-                      "type": "text",
-                      "tag": " ",
-                      "content": "<p>L’entraînement d’un nouveau modèle d’IA est donc très coûteux en énergie.</p>"
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "2c1c5be2-a58d-475d-afec-dc7b6ad88e8e",
-                      "type": "text",
-                      "tag": " ",
-                      "content": "<h5>Et une fois le modèle entraîné ? </h5><p>Les centres données sont également sollicités au moment de l’utilisation des logiciels d’IA&nbsp;: ils sont nécessaires pour effectuer des calculs et stocker des informations pour générer des réponses. Du fait de l’explosion des usages des logiciels d’IA générative, <strong>l’impact de leur utilisation dépasse maintenant celui de leur entraînement<strong> et va probablement encore augmenter.</strong></strong></p>"
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "5878e032-208b-4e28-94d2-9fb5e1b47884",
-                      "type": "text",
-                      "tag": " ",
-                      "content": "<p>À titre d’exemple, les émissions de GES de Google ont augmenté de 50% entre 2019 et 2023, ainsi que sa consommation d’eau (+20 à 30% de 2021 à 2023), principalement en raison du développement des logiciels d’IA générative&nbsp;et de l’expansion de ses centres de données.</p>"
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "7bce7710-e3e0-4626-a366-c341bc7661aa",
-                      "type": "text",
-                      "tag": " ",
-                      "content": "Cette massification résulte notamment d’une volonté des acteurs du numérique d’<strong>imposer l’usage des logiciels d’IA</strong> dans les outils numériques existants, et dans leurs entreprises.<p></p>"
-                    }
-                  ]
-                }
-              ]
             }
           ]
         },
