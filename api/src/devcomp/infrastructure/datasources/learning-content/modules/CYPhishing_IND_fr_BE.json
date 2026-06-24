@@ -48,21 +48,21 @@
                     "id": "1",
                     "content": "Oui.",
                     "feedback": {
-                      "diagnosis": "<p>La tentative d’arnaque par mail ou par SMS is un phénomène massif. Il y a peu de chances d’y échapper.</p>"
+                      "diagnosis": "<p>La tentative d’arnaque par mail ou par SMS est un phénomène massif. Il y a peu de chances d’y échapper.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "Non.",
                     "feedback": {
-                      "diagnosis": "<p>La tentative d’arnaque par mail ou par SMS is un phénomène massif. Il y a peu de chances d’y échapper.</p>"
+                      "diagnosis": "<p>La tentative d’arnaque par mail ou par SMS est un phénomène massif. Il y a peu de chances d’y échapper.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "Je ne sais pas.",
                     "feedback": {
-                      "diagnosis": "<p>La tentative d’arnaque par mail ou par SMS is un phénomène massif. Il y a peu de chances d’y échapper.</p>"
+                      "diagnosis": "<p>La tentative d’arnaque par mail ou par SMS est un phénomène massif. Il y a peu de chances d’y échapper.</p>"
                     }
                   }
                 ]
@@ -377,7 +377,7 @@
                         "from.name",
                         "from.address"
                       ],
-                      "correctFeedback": "Le nom de l’expéditeur est orthographié : « impost.g0uv » au lieu de « impots.gouv ». Les erreurs dans les noms ou dans les adresses mail sont de bons indicateurs d’arnaques.",
+                      "correctFeedback": "Le nom de l’expéditeur est orthographié : « Impost.fεd ». Ce n'est pas le nom habituel du service. Les erreurs dans les noms ou dans les adresses mail sont de bons indicateurs d’arnaques.",
                       "incorrectFeedback": "Observez bien l’orthographe du nom et de l’adresse de l’expéditeur. Retentez votre chance !"
                     },
                     {
@@ -637,7 +637,7 @@
                           "address": "donnees-gestion-utilisateurs@service-microsoft.com",
                           "avatarColor": "#2f80ed"
                         },
-                        "body": "Bonjour,<br><br>Dans le cadre de l’évolution de notre politique de traitement des données personnelles, une validation de vos informations is désormais obligatoire. Veuillez mettre à jour vos informations dans les 3 jours.<br><br>Merci de vérifier et compléter vos informations sur le portail sécurisé : <a href=’fake’>http://portail-donnees-utilisateur-microsoft.com</a><br><br>Cordialement, Service Données & Conformité Microsoft",
+                        "body": "Bonjour,<br><br>Dans le cadre de l’évolution de notre politique de traitement des données personnelles, une validation de vos informations est désormais obligatoire. Veuillez mettre à jour vos informations dans les 3 jours.<br><br>Merci de vérifier et compléter vos informations sur le portail sécurisé : <a href=’fake’>http://portail-donnees-utilisateur-microsoft.com</a><br><br>Cordialement, Service Données & Conformité Microsoft",
                         "time": {
                           "minutes": -10
                         }
@@ -674,7 +674,7 @@
                       "id": "076374bc-760c-455d-a326-328e22795873",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h4>Vous avez encore un doute&nbsp;?&nbsp;🕵️ </h4>\n<ul><li>Demandez de l’aide à un proche ou un professionnel en qui vous avez confiance.</li><li>Utilisez un autre canal pour contacter l’auteur (téléphonez ou allez sur le site officiel).</li><li>Allez sur le site <a target=\"_blank\" href=\"https://www.cybermalveillance.gouv.fr/17cyber\">cybermalveillance.gouv.fr/17cyber</a> pour obtenir une assistance en ligne. </li></ul>"
+                      "content": "<h4>Vous avez encore un doute&nbsp;?&nbsp;🕵️ </h4>\n<ul>\n    <li>Demandez de l’aide à un proche ou un professionnel en qui vous avez confiance.</li>\n    <li>Utilisez un autre canal pour contacter l’auteur (téléphonez ou allez sur le site officiel).</li>\n    <li>Allez sur le site <a target=\"_blank\" href=\"https://safeonweb.be/fr\">safeonweb.be</a> pour obtenir une assistance en ligne. </li>\n</ul>"
                     }
                   ]
                 }
@@ -699,7 +699,7 @@
                 "id": "08b3b256-cc6f-4156-950a-d7dd18deb1a9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’hameçonnage (ou phishing en anglais) is une technique utilisée par des escrocs pour <strong>vous inciter à communiquer des données personnelles</strong> en se <strong>faisant passer pour un tiers de confiance</strong>.&nbsp;🎣</p>\n<p>Un message d’<strong>hameçonnage</strong> peut ressembler à un message légitime. Il comporte souvent plusieurs petits <strong>indices</strong> à repérer&nbsp;:</p>"
+                "content": "<p>L’hameçonnage (ou phishing en anglais) est une technique utilisée par des escrocs pour <strong>vous inciter à communiquer des données personnelles</strong> en se <strong>faisant passer pour un tiers de confiance</strong>.&nbsp;🎣</p>\n<p>Un message d’<strong>hameçonnage</strong> peut ressembler à un message légitime. Il comporte souvent plusieurs petits <strong>indices</strong> à repérer&nbsp;:</p>"
               }
             },
             {
@@ -940,7 +940,7 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bonne réponse&nbsp;!</p>",
-                    "diagnosis": "<p>Dans l’adresse mail d’un expéditeur, la partie avant et la partie après l’arobase&nbsp;(@) comptent pour vérifier s’il is digne de confiance.</p>"
+                    "diagnosis": "<p>Dans l’adresse mail d’un expéditeur, la partie avant et la partie après l’arobase&nbsp;(@) comptent pour vérifier s’il est digne de confiance.</p>"
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.</p>",
@@ -1009,21 +1009,21 @@
               "element": {
                 "id": "40384035-27cc-40a0-ac17-b1e3c6d1a182",
                 "type": "qcu-discovery",
-                "instruction": "<p>Quel moyen choisissez-vous pour vérifier si ce message is une arnaque&nbsp;?</p>",
+                "instruction": "<p>Quel moyen choisissez-vous pour vérifier si ce message est une arnaque&nbsp;?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>Je clique sur le lien pour poser mes questions dans le formulaire.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Mauvais réflexe&nbsp;!</p>\n<p>Vous risquez de tomber dans le piège de l’escroc. Il is préférable d’utiliser un autre canal de contact, par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
+                      "diagnosis": "<p>Mauvais réflexe&nbsp;!</p>\n<p>Vous risquez de tomber dans le piège de l’escroc. Il est préférable d’utiliser un autre canal de contact, par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>J’appelle le numéro du service après-vente sur le site.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement c’est une très bonne idée. </p><p>Vous pouvez aussi <strong>vérifier sur votre compte client</strong> si un problème existe dans le suivi de votre commande.Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
+                      "diagnosis": "<p>Effectivement c’est une très bonne idée. </p><p>Vous pouvez aussi <strong>vérifier sur votre compte client</strong> si un problème existe dans le suivi de votre commande. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
                     }
                   },
                   {
@@ -1037,14 +1037,14 @@
                     "id": "4",
                     "content": "<p>Je réponds au mail pour poser mes questions.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Vous risquez de tomber dans le piège de l’escroc.</p><p>Il is préférable d’utiliser un autre canal de contact, par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
+                      "diagnosis": "<p>Vous risquez de tomber dans le piège de l’escroc.</p><p>Il est préférable d’utiliser un autre canal de contact, par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
                     }
                   },
                   {
                     "id": "5",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est normal, il n’est pas toujours simple de savoir où trouver la bonne information.</p><p>Dans un cas comme celui-ci, il is préférable d’utiliser un autre canal de contact pour vérifier l’information. Vous pouvez par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
+                      "diagnosis": "<p>C’est normal, il n’est pas toujours simple de savoir où trouver la bonne information.</p><p>Dans un cas comme celui-ci, il est préférable d’utiliser un autre canal de contact pour vérifier l’information. Vous pouvez par exemple vous <strong>connecter à votre compte client</strong> ou <strong>contacter le service après-vente</strong>. Dans les deux cas, n’utilisez pas les liens ou numéros fournis dans le mail.</p>"
                     }
                   }
                 ],
