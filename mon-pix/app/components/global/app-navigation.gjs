@@ -4,6 +4,7 @@ import PixNavigationButton from '@1024pix/pix-ui/components/pix-navigation-butto
 import PixNavigationSeparator from '@1024pix/pix-ui/components/pix-navigation-separator';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
 import PixLogo from '../pix-logo';
@@ -12,7 +13,35 @@ export default class AppNavigation extends Component {
   @service currentDomain;
   @service currentUser;
   @service media;
+  @service store;
   @service url;
+
+  @tracked _hasAttestations = false;
+
+  constructor(owner, args) {
+    super(owner, args);
+    if (!this.currentUser.user) return;
+
+    const cacheKey = `pix-has-attestations-${this.currentUser.user.id}`;
+    if (localStorage.getItem(cacheKey) === 'true') {
+      this._hasAttestations = true;
+      return;
+    }
+
+    this._loadAttestationVisibility(cacheKey);
+  }
+
+  async _loadAttestationVisibility(cacheKey) {
+    try {
+      const attestations = await this.store.findAll('attestation-detail');
+      if (attestations.length > 0) {
+        localStorage.setItem(cacheKey, 'true');
+        this._hasAttestations = true;
+      }
+    } catch {
+      // silently fail — don't show the link
+    }
+  }
 
   get showAssessmentsNavItem() {
     return this.currentUser.user.hasAssessmentParticipations;
@@ -23,7 +52,7 @@ export default class AppNavigation extends Component {
   }
 
   get showAttestationNavItem() {
-    return this.currentUser.hasAttestationsDetails;
+    return this._hasAttestations;
   }
 
   <template>

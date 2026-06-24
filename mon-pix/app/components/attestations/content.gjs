@@ -10,7 +10,6 @@ import AttestationCard from './card';
 
 export default class AttestationContent extends Component {
   @service session;
-  @service currentUser;
   @service fileSaver;
   @service pixMetrics;
   @service intl;
@@ -45,7 +44,7 @@ export default class AttestationContent extends Component {
       </UiPageTitle>
 
       <ul class="attestation-list">
-        {{#each this.currentUser.attestationsDetails as |attestationDetail|}}
+        {{#each @attestationsDetails as |attestationDetail|}}
           <li>
             <AttestationCard
               @type={{attestationDetail.type}}
