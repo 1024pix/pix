@@ -45,10 +45,7 @@ const get = async function ({ id }) {
     })
     .from('sessions')
     .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
-    .leftJoin('certification-courses', function () {
-      this.on('certification-courses.sessionId', '=', 'sessions.id');
-      this.on('certification-courses.userId', '=', 'certification-candidates.userId');
-    })
+    .leftJoin('certification-courses', 'certification-courses.candidateId', 'certification-candidates.id')
     .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin('certification-challenge-live-alerts', function () {
       this.on('certification-challenge-live-alerts.assessmentId', '=', 'assessments.id').andOnVal(
