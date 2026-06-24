@@ -1,6 +1,6 @@
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../constants.js';
 
-export class CombinedCourseBlueprintItem {
+class CombinedCourseBlueprintItem {
   constructor({ id, name }) {
     this.id = id;
     this.name = name;
