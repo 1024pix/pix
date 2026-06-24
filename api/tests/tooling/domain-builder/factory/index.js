@@ -152,6 +152,7 @@ import { buildTube } from './build-tube.js';
 import { buildTutorial } from './build-tutorial.js';
 import { buildTutorialForUser } from './build-tutorial-for-user.js';
 import { buildUser } from './build-user.js';
+import { buildUserCampaignSurvey } from './build-user-campaign-survey.js';
 import { buildUserCompetence } from './build-user-competence.js';
 import { buildUserDetailsForAdmin } from './build-user-details-for-admin.js';
 import { buildUserOrgaSettings } from './build-user-orga-settings.js';
@@ -526,6 +527,7 @@ export {
   buildTutorial,
   buildTutorialForUser,
   buildUser,
+  buildUserCampaignSurvey,
   buildUserCompetence,
   buildUserDetailsForAdmin,
   buildUserOrgaSettings,
