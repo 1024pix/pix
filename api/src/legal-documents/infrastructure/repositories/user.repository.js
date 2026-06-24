@@ -1,6 +1,13 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserNotFoundError } from '../../../shared/domain/errors.js';
 
+const isAnonymous = async (userId) => {
+  const knexConnection = DomainTransaction.getConnection();
+  const user = await knexConnection('users').select('isAnonymous').where({ id: userId }).first();
+  if (!user) throw new UserNotFoundError();
+  return user.isAnonymous;
+};
+
 const getPixAppLegacyCguByUserId = async (userId) => {
   const knexConnection = DomainTransaction.getConnection();
   const user = await knexConnection('users')
@@ -21,4 +28,4 @@ const acceptLegacyPixAppTermsOfService = async function (id) {
   });
 };
 
-export { acceptLegacyPixAppTermsOfService, getPixAppLegacyCguByUserId };
+export { acceptLegacyPixAppTermsOfService, getPixAppLegacyCguByUserId, isAnonymous };
