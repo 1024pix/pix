@@ -20,6 +20,9 @@ const getPixOrgaTosStatus = async ({ userId, dependencies = { legalDocumentApi }
   });
 };
 
-const legalDocumentApiRepository = { acceptPixAppTos, acceptPixOrgaTos, getPixAppTosStatus, getPixOrgaTosStatus };
-
-export { legalDocumentApiRepository };
+export const legalDocumentApiRepository = {
+  acceptPixAppTos,
+  acceptPixOrgaTos,
+  getPixAppTosStatus,
+  getPixOrgaTosStatus,
+};
