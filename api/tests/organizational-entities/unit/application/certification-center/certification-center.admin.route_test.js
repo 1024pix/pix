@@ -61,7 +61,7 @@ describe('Unit | Organizational Entities | Application | Route | Admin | Certifi
     });
   });
 
-  describe('GET /api/admin/certification-centers/{id}/certification-centers', function () {
+  describe('GET /api/admin/certification-centers/{id}/organizations', function () {
     describe('when the user authenticated has no role', function () {
       it('returns a 403 HTTP status code', async function () {
         // given

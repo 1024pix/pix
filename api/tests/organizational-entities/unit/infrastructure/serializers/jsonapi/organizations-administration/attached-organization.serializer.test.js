@@ -21,7 +21,7 @@ describe('Unit | Infrastructure | Serializers | JSONAPI | Organizations-Administ
       const expectedJSON = {
         data: [
           {
-            type: 'organizations',
+            type: 'attached-organizations',
             id: '1',
             attributes: {
               name: 'My attached organization',
@@ -29,7 +29,7 @@ describe('Unit | Infrastructure | Serializers | JSONAPI | Organizations-Administ
             },
           },
           {
-            type: 'organizations',
+            type: 'attached-organizations',
             id: '2',
             attributes: {
               name: 'My other organization',

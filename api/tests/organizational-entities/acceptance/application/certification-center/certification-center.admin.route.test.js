@@ -541,8 +541,8 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
     });
   });
 
-  describe('GET /api/admin/certification-centers/{certificationCenterId}/organizations', function () {
-    it('should return organization attached to a given certification center and http code 200', async function () {
+  describe('GET /api/admin/certification-centers/{certificationCenterId}/attached-organizations', function () {
+    it('should return the organizations attached to a given certification center and http code 200', async function () {
       // given
       const server = await createServer();
 
@@ -565,7 +565,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data[0].type).to.equal('organizations');
+      expect(response.result.data[0].type).to.equal('attached-organizations');
     });
   });
 });
