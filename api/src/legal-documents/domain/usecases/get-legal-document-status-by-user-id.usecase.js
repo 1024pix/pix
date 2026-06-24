@@ -57,13 +57,14 @@ const getLegalDocumentStatusByUserId = async ({
     isPixAppTos &&
     (legalDocumentStatus.status === STATUS.REQUESTED || legalDocumentStatus.status === STATUS.UPDATE_REQUESTED)
   ) {
+    const isAnonymous = await userRepository.isAnonymous(userId);
+    if (isAnonymous) {
+      return LegalDocumentStatus.notApplicable();
+    }
+
     const isScoStudent = await userScoRepository.isUserScoStudent(userId);
     if (isScoStudent) {
-      return new LegalDocumentStatus({
-        status: STATUS.NOT_APPLICABLE,
-        acceptedAt: null,
-        documentPath: null,
-      });
+      return LegalDocumentStatus.notApplicable();
     }
   }
 

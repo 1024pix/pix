@@ -305,6 +305,30 @@ describe('Integration | Legal documents | Domain | Use case | get-legal-document
           expect(result.status).to.equal(STATUS.ACCEPTED);
         });
       });
+
+      context('when the user is anonymous', function () {
+        it('returns not-applicable status', async function () {
+          // given
+          const user = databaseBuilder.factory.buildUser.anonymous();
+          databaseBuilder.factory.buildLegalDocumentVersion({
+            service: PIX_APP,
+            type: TOS,
+            versionAt: new Date('2024-01-01'),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const result = await usecases.getLegalDocumentStatusByUserId({
+            userId: user.id,
+            service: PIX_APP,
+            type: TOS,
+          });
+
+          // then
+          expect(result).to.be.an.instanceOf(LegalDocumentStatus);
+          expect(result.status).to.equal(STATUS.NOT_APPLICABLE);
+        });
+      });
     });
   });
 });
