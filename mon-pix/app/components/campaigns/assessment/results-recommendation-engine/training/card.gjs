@@ -4,12 +4,14 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import Training from 'mon-pix/models/training';
 
 import CardModal from './card-modal';
 import RegistrationCardTag from './registration-card-tag';
 
 export default class Card extends Component {
   @service intl;
+  @service locale;
 
   @tracked modalIsOpen = false;
 
@@ -17,6 +19,10 @@ export default class Card extends Component {
     const deliveryMode = this.args.training.deliveryMode === 'onSite' ? 'on-site' : this.args.training.deliveryMode;
 
     return this.intl.t(`pages.skill-review.recommended-engine.training-card.delivery-mode.${deliveryMode}`);
+  }
+
+  get formattedDuration() {
+    return Training.formatDuration({ locale: this.locale.currentLanguage, duration: this.args.training.duration });
   }
 
   get illustrationPath() {
@@ -66,7 +72,7 @@ export default class Card extends Component {
         <ul class="results-recommendation-engine-training-card-content__details"><li>{{this.type}}</li>
           <li>{{this.deliveryMode}}</li>
           {{#if @training.hasDuration}}
-            <li>{{@training.formattedDuration}}</li>
+            <li>{{this.formattedDuration}}</li>
           {{/if}}
         </ul>
       </section>

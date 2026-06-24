@@ -206,6 +206,8 @@
       display: flex;
       flex-direction: column;
       font-weight: var(--pix-font-bold);
+      text-align: center;
+      text-wrap: balance;
     }
   }
 }
