@@ -145,7 +145,6 @@ import { getSamlAuthenticationRedirectionUrl } from './get-saml-authentication-r
 import { getUserAccountInfo } from './get-user-account-info.usecase.js';
 import { getUserByResetPasswordDemand } from './get-user-by-reset-password-demand.usecase.js';
 import { getUserDetailsForAdmin } from './get-user-details-for-admin.usecase.js';
-import { importUserLastLoggedAt } from './import-user-last-logged-at.usecase.js';
 import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
 import { logoutOidcUser } from './logout-oidc-user.usecase.js';
 import { markAssessmentInstructionsInfoAsSeen } from './mark-assessment-instructions-info-as-seen.usecase.js';
@@ -206,7 +205,6 @@ const usecasesWithoutInjectedDependencies = {
   getUserAccountInfo,
   getUserByResetPasswordDemand,
   getUserDetailsForAdmin,
-  importUserLastLoggedAt,
   listLtiPublicKeys,
   logoutOidcUser,
   markAssessmentInstructionsInfoAsSeen,
