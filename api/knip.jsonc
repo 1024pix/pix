@@ -1,7 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "entry": ["**/scripts/**/*.js", "**/*job-controller.js", "datamart/**/*.js", "db/**/*.js", "tests/**/*.{cjs,js}"],
-  "exclude": ["exports"],
   "ignoreDependencies": [
     "mocha-junit-reporter", // used by .circleci/config.yml
     "pg-query-stream", // https://knexjs.org/guide/interfaces.html#streams
