@@ -675,7 +675,7 @@
         {
           "id": "0ec7d0c2-0f68-4d34-b515-ea7f8ddcea68",
           "type": "short-lesson",
-          "title": "Leçon : quelle piste pour réduire l’impact",
+          "title": "Leçon : quelles pistes pour réduire l’impact ?",
           "components": [
             {
               "type": "stepper",
@@ -687,7 +687,7 @@
                       "id": "974d179b-fa0b-4312-a156-e0521cb95089",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>En théorie, <strong>les concepteurs d’IA générative disposent de plusieurs moyens d’action pour réduire leur impact sur l’environnement</strong>&nbsp;: </p><ul><li>faire des études d’impact et les publier, </li><li>entraîner moins de nouveaux modèles, </li><li>améliorer leurs logiciels et leurs infrastructures pour qu’elles consomment moins d’énergie,</li><li>inciter leurs utilisateurs à n’utiliser l’IA générative que pour des usages pertinents, etc.</li></ul>"
+                      "content": "<p>Une <strong>meilleure évaluation des impacts environnementaux</strong>&nbsp;des intelligences artificielles génératives est essentielle car elle permettrait de mieux les comprendre en vue de les limiter.</p>"
                     }
                   ]
                 },
@@ -697,7 +697,7 @@
                       "id": "8519af0e-fb12-4bbf-8435-62c853decfdb",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>… mais généralement <strong>ils n’en font rien</strong>. L’économie de l’intelligence artificielle est très concurrentielle et vise principalement à faire des profits. La réduction des impacts environnementaux est donc rarement une priorité pour les concepteurs.</p>"
+                      "content": "<h5>Comment les entreprises proposant des services d’IA pourraient limiter leur impact ?</h5><p> Elles pourraient <strong>entraîner moins de nouveaux modèles </strong>et améliorer leurs logiciels et leurs infrastructures pour qu'elles <strong>consomment moins d'énergie.</strong></p><p> Mais l'<strong>économie de l'intelligence artificielle est très concurrentielle</strong> et vise principalement à faire des profits. La réduction des impacts environnementaux est donc rarement une priorité.<br></p>"
                     }
                   ]
                 },
@@ -707,7 +707,7 @@
                       "id": "71326633-9b59-4fc5-a33a-c5ac633daac9",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>En tant qu’utilisateur, que pouvons-nous faire ?</h5>On peut adopter une démarche de <strong>sobriété</strong> et réduire autant que possible notre utilisation des logiciels d’intelligence artificielle.<p></p>"
+                      "content": "<h5>Et en tant qu’utilisateur, que pouvons-nous faire ?</h5><p>Nous pouvons adopter une démarche de <strong>sobriété </strong>et réduire notre utilisation des logiciels d’IA.<br></p><p><br></p>"
                     }
                   ]
                 }
@@ -732,7 +732,7 @@
                 "id": "280fa165-c7a5-44f2-b82e-bdcc6a28c16a",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li><strong>Entraîner</strong> et <strong>faire fonctionner</strong> un modèle d’intelligence artificielle nécessite de faire énormément de <strong>calculs</strong>.</li><li>Ces calculs sont faits dans des centres de données avec du matériel spécialisé, comme des <strong>cartes graphiques (GPU)</strong>, qui nécessitent <strong>beaucoup de ressources pour être fabriquées</strong>, <strong>beaucoup d’électricité pour fonctionner</strong>, et ont une <strong>durée de vie courte</strong>. Tout cela a un fort impact négatif sur l’environnement.</li><li>Pour limiter ces impacts, les concepteurs d’intelligence artificielle pourraient davantage&nbsp;:<ul><li>mener des <strong>études scientifiques</strong> sur leurs impacts, et les rendre <strong>publiques</strong></li><li>entraîner moins de nouveaux modèles</li><li>améliorer leurs techniques afin de réduire leur impact.</li></ul></li><li>Malheureusement, la plupart des concepteurs ne mènent pas ces actions car elles ne <strong>s’inscrivent pas dans leur modèle économique</strong>.</li><li>À titre individuel, on peut essayer de <strong>réduire autant que possible notre utilisation</strong> des logiciels d’intelligence artificielle pour limiter ses impacts environnementaux</li></ul>"
+                "content": "<ul><li>Les modèles d’IA demandent une <strong>puissance de calcul</strong> importante pour être entraînés et utilisés.</li><li>Ces calculs reposent sur des <strong>centres de données et des GPU gourmands en ressources et en électricité. </strong>⚡</li><li>Les entreprises qui mettent à disposition ces technologies pourraient réduire cet impact en <strong>améliorant l’efficacité de leurs modèles</strong> ou en <strong>limitant les nouveaux entraînements</strong>. Cependant, ces choix peuvent entrer en tension avec leurs <strong>objectifs économiques</strong>. 💵</li><li><strong>Réduire nos usages de l’IA</strong> limite cet impact.↘️</li></ul>"
               }
             }
           ]
