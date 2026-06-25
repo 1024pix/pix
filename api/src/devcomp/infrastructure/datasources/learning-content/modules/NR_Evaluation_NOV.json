@@ -61,7 +61,7 @@
                       "userName": "Alice",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Nos activités numériques émettent aussi des gaz à effet de serre. Mais certaines beaucoup plus que d’autres…"
+                      "content": "Nos activités numériques émettent aussi des gaz à effet de serre qui accentuent le réchauffement climatique. Mais certaines beaucoup plus que d’autres…"
                     },
                     {
                       "userName": "Benoît",
@@ -204,7 +204,7 @@
                       "userName": "Alice",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Beaucoup de choses : la fabrication de ton ordinateur, la production de l’électricité pour le recharger, etc."
+                      "content": "Beaucoup de choses : la fabrication de ton ordinateur, la production de l’électricité pour le recharger, le stockage de tes emails, etc."
                     }
                   ],
                   "animationSpeed": 8
@@ -442,7 +442,6 @@
                       ],
                       "solution": "0"
                     }
-
                   ]
                 },
                 {
@@ -519,7 +518,6 @@
                       ],
                       "solution": "1"
                     }
-
                   ]
                 }
               ]
@@ -551,7 +549,7 @@
                       "id": "989597aa-693b-4791-98ac-03562231dca6",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>🤔 Mais l'empreinte carbone ne mesure que le réchauffement climatique ?</strong></p><p>En effet, c’est l’une des <strong>limites</strong> de l’empreinte carbone. Elle ne présente qu’un facteur d’impact environnemental&nbsp;: l’effet sur le <strong>réchauffement climatique</strong>. Elle ne donne aucune information sur les <strong>autres impacts</strong> environnementaux, comme la raréfaction de l'<strong>eau douce</strong>, l'épuisement des <strong>ressources minérales et métalliques</strong>, l’acidification des océans, etc.</p>"
+                      "content": "<p><strong>🤔 Mais l'empreinte carbone ne mesure que l'impact sur le réchauffement climatique ?</strong></p><p>En effet, c’est l’une des <strong>limites</strong> de l’empreinte carbone. Elle ne présente qu’un facteur d’impact environnemental&nbsp;: les <strong>émissions de gaz à effet de serre</strong>. Elle ne donne aucune information sur les <strong>autres impacts</strong> environnementaux, comme la raréfaction de l'<strong>eau douce</strong>, l'épuisement des <strong>ressources minérales et métalliques</strong>, l’acidification des océans, etc.</p>"
                     }
                   ]
                 }
@@ -576,7 +574,7 @@
                 "id": "40c90095-fccd-42e9-aa92-0c565d891189",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>L’empreinte carbone estime l’impact d’une activité (comme regarder un film) ou de la construction d’un objet (comme un ordinateur) sur le réchauffement climatique.🌏</li><li>L'empreinte carbone permet de comparer différentes activités, numériques ou non, et de fixer des objectifs pour réduire les émissions.📐</li><li>Pour calculer l'empreinte carbone, on définit les activités, la période, puis on additionne les émissions de gaz à effet de serre associées.🤔</li><li>Mais elle a une limite importante&nbsp;: elle ne prend pas en compte d’autres impacts, comme la consommation en l’eau ou en ressources.⚠️</li></ul>"
+                "content": "<ul><li>L’empreinte carbone estime l’<strong>impact d’une activité</strong> (comme regarder un film) ou de la <strong>construction d’un objet</strong> (comme un ordinateur) sur le <strong>réchauffement climatique</strong>.🌏</li><li>L'empreinte carbone permet de <strong>comparer différentes activités</strong>, numériques ou non, et de <strong>fixer des objectifs</strong> pour réduire les émissions.📐</li><li>Pour calculer l'empreinte carbone, on définit les activités, la période, puis on <strong>additionne les émissions de gaz à effet de serre</strong> associées.🤔</li><li>Mais elle a une limite importante&nbsp;: elle ne <strong>prend pas en compte d’autres impacts</strong>, comme la raréfaction de l'eau douce ou l'épuisement des ressources minérales.⚠️</li></ul>"
               }
             }
           ]
@@ -662,16 +660,159 @@
                 "id": "12230128-20b2-432c-9b20-bee86fc9f02f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’entreprise BTPix a calculé l’empreinte carbone de ses activités numériques. Consultez le détail de cette empreinte carbone puis répondez aux questions.</p><p>Empreinte carbone du matériel&nbsp;:</p><table><thead><tr><th style=\"text-align:left\">Équipement</th><th style=\"text-align:left\">Quantité</th><th style=\"text-align:left\">Empreinte carbone par unité</th><th style=\"text-align:left\">Empreinte carbone totale</th></tr></thead><tbody><tr><td style=\"text-align:left\">Ordinateur portable</td><td style=\"text-align:left\">10</td><td style=\"text-align:left\">193kg CO2eq</td><td style=\"text-align:left\">1930kg CO2eq</td></tr><tr><td style=\"text-align:left\">Ordinateur fixe</td><td style=\"text-align:left\">24</td><td style=\"text-align:left\">259kg CO2eq</td><td style=\"text-align:left\">6216kg CO2eq</td></tr><tr><td style=\"text-align:left\">Écran d’ordinateur</td><td style=\"text-align:left\">33</td><td style=\"text-align:left\">92,6kg CO2eq</td><td style=\"text-align:left\">3055,6kg CO2eq</td></tr></tbody></table><p>Empreinte carbone des services numériques&nbsp;:</p><table><thead><tr><th style=\"text-align:left\">Service</th><th style=\"text-align:left\">Quantité par semaine</th><th style=\"text-align:left\">Empreinte carbone totale par semaine</th></tr></thead><tbody><tr><td style=\"text-align:left\">Emails</td><td style=\"text-align:left\">770 emails</td><td style=\"text-align:left\">0,9kg CO2eq</td></tr><tr><td style=\"text-align:left\">Visioconférence</td><td style=\"text-align:left\">300 heures</td><td style=\"text-align:left\">4,81 CO2eq</td></tr></tbody></table>"
+                "content": "<p>Le tableau suivant détaille l'empreinte carbone d'une télévision étape par étape. Consultez le puis classez les étapes.</p><table><thead><tr><th style=\"text-align:left\">Étape</th><th style=\"text-align:left\">Émission de gaz à effet de serre</th></tr></thead><tbody><tr><td style=\"text-align:left\">Assemblage et distribution</td><td style=\"text-align:left\">3,26 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Construction</td><td style=\"text-align:left\">325 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Fin de vie</td><td style=\"text-align:left\">11,9 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Usage pendant 10 ans</td><td style=\"text-align:left\">36,9 kg CO2eq</td></tr></tbody></table><p>Source des données : <a href=\"https://librairie.ademe.fr/changement-climatique/7880-evaluation-de-l-impact-environnemental-du-numerique-en-france.html\" target=\"_blank\">Étude ADEME/ARCEP - mise à jour 2025</a> et <a href=\"https://base-empreinte.ademe.fr/donnees/jeu-donnees\" target=\"_blank\">Base Empreinte ADEME</a></p>"
               }
             },
             {
               "type": "element",
               "element": {
                 "id": "c872a6c5-ba72-4646-94e2-2cd3c041d4f9",
-                "type": "text",
-                "tag": " ",
-                "content": ""
+                "type": "qrocm",
+                "instruction": "<p>Classez les étapes de la vie d'un smartphone, de celle qui émet le plus de gaz à effet serre à celle qui émet le moins de gaz à effet de serre.</p>",
+                "proposals": [
+                  {
+                    "type": "text",
+                    "content": "<p>1 - Étape qui émet le plus de gaz à effet de serre : </p>"
+                  },
+                  {
+                    "type": "select",
+                    "input": "0",
+                    "display": "inline",
+                    "placeholder": "",
+                    "ariaLabel": "",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "0",
+                        "content": "assemblage et distribution"
+                      },
+                      {
+                        "id": "1",
+                        "content": "construction"
+                      },
+                      {
+                        "id": "2",
+                        "content": "fin de vie"
+                      },
+                      {
+                        "id": "3",
+                        "content": "usage"
+                      }
+                    ],
+                    "solutions": [
+                      "1"
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<br><p>2 - </p>"
+                  },
+                  {
+                    "type": "select",
+                    "input": "10",
+                    "display": "inline",
+                    "placeholder": "",
+                    "ariaLabel": "",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "10",
+                        "content": "assemblage et distribution"
+                      },
+                      {
+                        "id": "11",
+                        "content": "construction"
+                      },
+                      {
+                        "id": "12",
+                        "content": "fin de vie"
+                      },
+                      {
+                        "id": "13",
+                        "content": "usage"
+                      }
+                    ],
+                    "solutions": [
+                      "13"
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<br><p>3 - </p>"
+                  },
+                  {
+                    "type": "select",
+                    "input": "20",
+                    "display": "inline",
+                    "placeholder": "",
+                    "ariaLabel": "",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "20",
+                        "content": "assemblage et distribution"
+                      },
+                      {
+                        "id": "21",
+                        "content": "construction"
+                      },
+                      {
+                        "id": "22",
+                        "content": "fin de vie"
+                      },
+                      {
+                        "id": "23",
+                        "content": "usage"
+                      }
+                    ],
+                    "solutions": [
+                      "22"
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<br><p>4 - Étape qui émets le moins de gaz à effet de serre : </p>"
+                  },
+                  {
+                    "type": "select",
+                    "input": "30",
+                    "display": "inline",
+                    "placeholder": "",
+                    "ariaLabel": "",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "30",
+                        "content": "assemblage et distribution"
+                      },
+                      {
+                        "id": "31",
+                        "content": "construction"
+                      },
+                      {
+                        "id": "32",
+                        "content": "fin de vie"
+                      },
+                      {
+                        "id": "33",
+                        "content": "usage"
+                      }
+                    ],
+                    "solutions": [
+                      "30"
+                    ]
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "Bonne réponse !",
+                    "diagnosis": "L'étape de construction d'une télévision représente la plus grande partie de ses émissions de gaz à effet de serre, suivi de l'étape d'usage, puis celle de fin de vie, puis celle d'assemblage et de distribution."
+                  },
+                  "invalid": {
+                    "state": "Mauvaise réponse !",
+                    "diagnosis": "Vous pouvez relire le tableau pour comprendre quelle quantité de gaz à effet de serre émettent les différentes étapes de la vie d'une télévision, et les classer de celle qui émet le plus de gaz à effet de serre à celle qui émet le moins de gaz à effet de serre."
+                  }
+                }
               }
             }
           ]
