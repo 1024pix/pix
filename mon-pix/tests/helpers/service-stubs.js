@@ -75,7 +75,6 @@ export function stubSessionService(owner, sessionData = {}) {
  * @param {string} [userData.email] - The email of the user.
  * @param {string} [userData.lang] - The language of the user.
  * @param {Object} [userData.profile] - The profile of the user.
- * @param {boolean} [userData.mustValidateTermsOfService=false] - Indicates if the user must validate terms of service.
  * @param {boolean} [userData.hasRecommendedTrainings=false] - Indicates if the user has recommended trainings.
  * @param {boolean} [userData.hasAssessmentParticipations=false] - Indicates if the user has assessment participations.
  * @param {boolean} [userData.hasSeenOtherChallengesTooltip=false] - Indicates if the user has seen the other challenges tooltip.
@@ -95,7 +94,6 @@ export function stubCurrentUserService(owner, userData = {}, { withStoreStubbed 
   const lang = userData.lang || 'fr';
   const email = userData.email || `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.net`;
   const codeForLastProfileToShare = userData.codeForLastProfileToShare || null;
-  const mustValidateTermsOfService = userData.mustValidateTermsOfService || false;
   const hasRecommendedTrainings = userData.hasRecommendedTrainings || false;
   const hasAssessmentParticipations = userData.hasAssessmentParticipations || false;
   const hasSeenOtherChallengesTooltip = userData.hasSeenOtherChallengesTooltip || false;
@@ -134,7 +132,6 @@ export function stubCurrentUserService(owner, userData = {}, { withStoreStubbed 
             lang,
             profile,
             codeForLastProfileToShare,
-            mustValidateTermsOfService,
             hasRecommendedTrainings,
             hasSeenFocusedChallengeTooltip,
             hasSeenOtherChallengesTooltip,

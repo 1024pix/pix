@@ -9,7 +9,12 @@ export default class TermsOfServiceRoute extends Route {
   beforeModel(transition) {
     this.session.requireAuthentication(transition, 'authentication');
 
-    if (this.session.isAuthenticatedByGar || !this.currentUser.user.mustValidateTermsOfService) {
+    const mustSkipTos =
+      this.session.isAuthenticatedByGar ||
+      this.currentUser.user.pixAppTermsOfServiceStatus === 'accepted' ||
+      this.currentUser.user.pixAppTermsOfServiceStatus === 'not-applicable';
+
+    if (mustSkipTos) {
       if (this.session.attemptedTransition) {
         this.session.attemptedTransition.retry();
       } else {

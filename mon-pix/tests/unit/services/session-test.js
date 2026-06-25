@@ -131,13 +131,31 @@ module('Unit | Services | session', function (hooks) {
   });
 
   module('#requireAuthenticationAndApprovedTermsOfService', function () {
-    module('when user is authenticated and must validate the terms of service', function () {
+    module('when user is authenticated and has terms of service status set at Requested', function () {
       test('should redirect user to terms of service page', async function (assert) {
         // given
         const transition = { from: 'campaigns.campaign-landing-page' };
         sessionService.setup();
         sessionService.session.isAuthenticated = true;
-        sessionService.currentUser.user = { mustValidateTermsOfService: true };
+        sessionService.currentUser.user = { pixAppTermsOfServiceStatus: 'requested' };
+
+        // when
+        await sessionService.requireAuthenticationAndApprovedTermsOfService(transition);
+
+        // then
+        assert.deepEqual(sessionService.attemptedTransition, { from: 'campaigns.campaign-landing-page' });
+        sinon.assert.calledWith(routerService.transitionTo, 'terms-of-service');
+        assert.ok(true);
+      });
+    });
+
+    module('when user is authenticated and has terms of service status set at Update Requested', function () {
+      test('should redirect user to terms of service page', async function (assert) {
+        // given
+        const transition = { from: 'campaigns.campaign-landing-page' };
+        sessionService.setup();
+        sessionService.session.isAuthenticated = true;
+        sessionService.currentUser.user = { pixAppTermsOfServiceStatus: 'update-requested' };
 
         // when
         await sessionService.requireAuthenticationAndApprovedTermsOfService(transition);

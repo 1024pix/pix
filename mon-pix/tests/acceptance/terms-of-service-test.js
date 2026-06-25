@@ -6,7 +6,6 @@ import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import { authenticateByEmail } from '../helpers/authentication';
-import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | terms-of-service', function (hooks) {
@@ -25,15 +24,14 @@ module('Acceptance | terms-of-service', function (hooks) {
     });
   });
 
-  module('When user log in and must validate Pix latest terms of service', function () {
+  module('When user logs in and has term of service status set at requested', function () {
     test('should be redirected to terms-of-services page', async function (assert) {
       // given
       const user = server.create('user', {
         email: 'with-email',
         password: 'pix123',
         cgu: true,
-        mustValidateTermsOfService: true,
-        lastTermsOfServiceValidatedAt: new Date(),
+        pixAppTermsOfServiceStatus: 'requested',
       });
 
       // when
@@ -44,20 +42,54 @@ module('Acceptance | terms-of-service', function (hooks) {
     });
   });
 
-  module('when the user has validated terms of service', function () {
-    test('should redirect to default page when user validate the terms of service', async function (assert) {
+  module('When user logs in and has term of service status set at update-requested', function () {
+    test('should be redirected to terms-of-services page', async function (assert) {
       // given
       const user = server.create('user', {
         email: 'with-email',
         password: 'pix123',
         cgu: true,
-        mustValidateTermsOfService: true,
-        lastTermsOfServiceValidatedAt: new Date(),
+        pixAppTermsOfServiceStatus: 'update-requested',
       });
-      await authenticateByEmail(user);
 
       // when
-      await clickByLabel(t('pages.terms-of-service.actions.accept'));
+      await authenticateByEmail(user);
+
+      // then
+      assert.strictEqual(currentURL(), '/cgu');
+    });
+  });
+
+  module('When user logs in and has term of service status set at accepted', function () {
+    test('should redirect to default page', async function (assert) {
+      // given
+      const user = server.create('user', {
+        email: 'with-email',
+        password: 'pix123',
+        cgu: true,
+        pixAppTermsOfServiceStatus: 'accepted',
+      });
+
+      // when
+      await authenticateByEmail(user);
+
+      // then
+      assert.strictEqual(currentURL(), '/accueil');
+    });
+  });
+
+  module('When user logs in and has term of service status set at not-applicable', function () {
+    test('should redirect to default page', async function (assert) {
+      // given
+      const user = server.create('user', {
+        email: 'with-email',
+        password: 'pix123',
+        cgu: true,
+        pixAppTermsOfServiceStatus: 'not-applicable',
+      });
+
+      // when
+      await authenticateByEmail(user);
 
       // then
       assert.strictEqual(currentURL(), '/accueil');
