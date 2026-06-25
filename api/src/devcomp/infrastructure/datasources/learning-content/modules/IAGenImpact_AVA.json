@@ -33,7 +33,7 @@
                 "id": "d629b072-8cae-4484-82e2-25766a9e27cc",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Sitan aimerait progresser en chant.&nbsp;</p><p>Elle demande conseil à deux intelligences artificielles sur Compar:IA.</p>"
+                "content": "<p>Sitan aimerait progresser en chant.&nbsp;</p><p>Elle demande conseil à deux intelligences artificielles génératives sur <a href=\"https://comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>.</p>"
               }
             },
             {
@@ -54,7 +54,7 @@
                 "id": "af2a1f06-fde9-4ef5-ad58-6960c8179fa0",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les deux modèles donnent des conseils, mais Sitan est étonnée par<strong> la différence d’impact environnemental </strong>pour une même requête&nbsp;: Qwen 3.6 Plus, un modèle d’Alibaba, a une consommation d’énergie estimée à plus de 2 000 fois supérieure à celle de Granite 4.1, un modèle d’IBM !<br><br></p>"
+                "content": "<p>Les deux modèles donnent des conseils, mais Sitan est étonnée par<strong> la différence d’impact environnemental.</strong></p><p> Qwen 3.6 Plus a une consommation d’énergie estimée à plus de 2 000 fois supérieure à celle de Granite 4.1 !</p>"
               }
             },
             {
@@ -67,34 +67,27 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>de l’entraînement du modèle d’IA</p>",
+                    "content": "<p>de l’entraînement du modèle d’IA&nbsp;</p>",
                     "feedback": {
-                      "diagnosis": "<p><strong>Pas seulement !</strong></p><p>En réalité, cela vient à la fois de l’entraînement et de l’utilisation de l’IA.</p>"
+                      "diagnosis": "<p><strong>Bien vu !</strong></p><p>Sitan a donné le même prompt aux deux logiciels d’IA génératives, donc il n’y pas de différence dans l’utilisation.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>de l’utilisation du modèle d’IA</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pas seulement ! </p><p>En réalité, cela vient à la fois de l’entraînement et de l’utilisation de l’IA. </p>"
-                    }
-                  },
-                  {
-                    "id": "3",
-                    "content": "<p>des deux<br></p>",
-                    "feedback": {
-                      "diagnosis": "<p> <strong>Bien vu !</strong></p><p>En réalité, cela vient à la fois de l’entraînement et de l’utilisation de l’IA.</p>"
+                      "diagnosis": "<p><strong>Eh non !</strong></p><p>Sitan a donné le même prompt aux deux logiciels d’IA génératives, donc il n’y <strong>pas de différence dans l’utilisation.</strong></p><p>La différence vient donc de l’entraînement.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>En réalité, cela vient à la fois de l’entraînement et de l’utilisation de l’IA.</p>"
+                      "diagnosis": "<p>Sitan a donné le même prompt aux deux logiciels d’IA génératives, donc il n’y <strong>pas de différence dans l’utilisation.</strong></p><p>La différence vient donc de l’entraînement.</p>"
                     }
                   }
                 ],
-                "solution": "2"
+                "solution": "1"
               }
             }
           ]
@@ -110,7 +103,7 @@
                 "id": "b2582fac-a970-4816-a870-d41380e4912e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mais pourquoi les IA consomment-elles de l’énergie lors de leur entraînement ? Et comment expliquer une aussi grande différence entre ces 2 modèles ?&nbsp; </p><p>C’est ce que vous allez découvrir dans ce module.<br><br></p>"
+                "content": "<p>Mais pourquoi les IA consomment-elles de l’énergie lors de leur entraînement ? </p><p>Et comment expliquer une aussi grande différence entre les modèles ?&nbsp; </p><p>C’est ce que vous allez découvrir dans ce module.</p>"
               }
             }
           ]
@@ -132,7 +125,7 @@
                 "id": "b984fed2-3e75-479e-848b-d9d82780b742",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Commençons par la première source de consommation d’énergie d’un modèle d’IA&nbsp;: son entraînement, indispensable à son fonctionnement.<br></p>"
+                "content": "<p>La première source de consommation d’énergie d’une IA, son entraînement, est indispensable à son fonctionnement.</p>"
               }
             }
           ]
@@ -152,12 +145,12 @@
                       "id": "20d3955b-9094-459b-9f9f-8434ce2fdd1c",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>L’entraînement </strong>d’un modèle de langage consiste à lui <strong>fournir un grand volume de données</strong> pour qu’il améliore ses prédictions. Des milliards de milliards de calculs sont effectués durant cette phase d’entraînement, notamment pour ajuster la valeur des paramètres du modèle.&nbsp; </p><p>A titre d’exemple, l’<strong>entraînement du modèle GPT-4 d’OpenAI,</strong> sorti en 2023, nécessité <strong>14 semaines de calculs en continu</strong> ! Cela correspond à une consommation d’énergie de <strong>42GWh GigaWattHeures</strong>…<br><br></p>"
+                      "content": "<p><strong>L’entraînement </strong>d’un modèle de langage consiste à lui <strong>fournir un grand volume de données</strong> pour qu’il améliore ses prédictions. Des milliards de milliards de calculs sont effectués durant cette phase d’entraînement, notamment pour ajuster la valeur des paramètres du modèle.&nbsp; </p><p>À titre d’exemple, l’<strong>entraînement du modèle GPT-4 d’OpenAI,</strong>  a nécessité <strong>14 semaines de calculs en continu.</strong>  Cela correspond à une consommation d’énergie de <strong>42GWh GigaWattHeures !</strong><br><br></p>"
                     },
                     {
                       "id": "20d3955b-9094-459b-9f9f-8434ce2fdd1c",
                       "type": "qcu-declarative",
-                      "instruction": "<p>Et vous, qu’auriez vous si vous aviez à disposition 42GWh ?</p>",
+                      "instruction": "<p>Et vous, qu’auriez vous fait si vous aviez à disposition 42GWh d’électricité ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -361,10 +354,72 @@
                 {
                   "elements": [
                     {
+                      "id": "7903b516-814b-466e-a0b0-d54122cc8ce7",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Ces <strong>calcus </strong><strong>sont faits des centres de données </strong>spécialisés appelés <strong>hyperscalers</strong>.&nbsp; </p><p>Ces centres de données fonctionnent grâce à du matériel informatique spécifique, notamment le <strong>composant </strong>présent <strong>sur la photo</strong> ci-dessous.<br><br></p>"
+                    },
+                    {
+                      "id": "d9b18008-bd8e-47bc-b05b-20afcbd790cb",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/image-provisoire.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": "provisoire - nous n’avons pas les droits"
+                    },
+                    {
+                      "id": "e69da63c-0a10-4149-be48-cd62115c1fc7",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>À&nbsp; votre avis, comment s’appelle ce composant ?<br></p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "une carte mère",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais </strong>(Graphical Processing Unit), un composant qui peut <strong>faire très rapidement certains types de calcul.</strong></p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "une carte graphique",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut<strong> faire très rapidement certains types de calcul.</strong> <br><br></p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "un disque dur SSD",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut  <strong>faire très rapidement certains types de calcul.</strong></p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "Je ne sais pas.",
+                          "feedback": {
+                            "diagnosis": "<p>Il s’agit d’une <strong>carte graphique, GPU en anglais (Graphical Processing Unit)</strong>, un composant qui  <strong>faire très rapidement certains types de calcul.</strong></p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "e69da63c-0a10-4149-be48-cd62115c1fc7",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Des cartes graphiques ont été utilisées pour l’entraînement de ChatGPT.<br></p>"
+                    },
+                    {
                       "id": "86ca396e-2a5e-493f-88f9-648d76ce1437",
                       "type": "custom",
-                      "title": "Estimer le nombre de GPU",
-                      "instruction": "<p>À votre avis, combien de GPU ont été mobilisés pour l’entraînement de GPT-4 ?<br></p>",
+                      "title": "",
+                      "instruction": "<p>À votre avis, combien de cartes graphiques (GPU) ont été utilisées pour l’entraînement de GPT-4 ?<br></p>",
                       "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
@@ -416,64 +471,6 @@
                             "feedback": {
                               "type": "close",
                               "text": "C’était moins ! <br> L’entraînement de GPT-4 a mobilisé 25 000 GPU. <br> L’un des fournisseurs le plus connu de GPU est NVIDIA."
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "e054fb2e-6bcc-4c70-b1b0-89926c9f5ba0",
-                      "type": "custom",
-                      "title": "Estimer la durée de vie d’un GPU",
-                      "instruction": "<p>À votre avis, quelle est la durée de vie d’un GPU ?&nbsp;</p>",
-                      "functionalInstruction": "",
-                      "tagName": "pix-cursor",
-                      "props": {
-                        "options": [
-                          {
-                            "label": "1 an",
-                            "feedback": {
-                              "type": "close",
-                              "text": "Un peu plus... <br> Les cartes GPU ont une durée de vie estimée à 5 ans environ.  Cette durée de vie est courte. Le renouvellement de ces cartes nécessitera d’extraire à nouveau des métaux et des terres rares."
-                            }
-                          },
-                          {
-                            "label": "5 ans",
-                            "feedback": {
-                              "type": "good",
-                              "text": "Bien vu ! <br> Les cartes GPU ont une durée de vie estimée à 5 ans environ.  Cette durée de vie est courte. Le renouvellement de ces cartes nécessitera d’extraire à nouveau des métaux et des terres rares."
-                            }
-                          },
-                          {
-                            "label": "10 ans",
-                            "feedback": {
-                              "type": "bad",
-                              "text": "C’était moins ! <br> Les cartes GPU ont une durée de vie estimée à 5 ans environ.  Cette durée de vie est courte. Le renouvellement de ces cartes nécessitera d’extraire à nouveau des métaux et des terres rares."
-                            }
-                          },
-                          {
-                            "label": "15 ans",
-                            "feedback": {
-                              "type": "bad",
-                              "text": "C’était beaucoup moins ! <br> Les cartes GPU ont une durée de vie estimée à 5 ans environ.  Cette durée de vie est courte. Le renouvellement de ces cartes nécessitera d’extraire à nouveau des métaux et des terres rares."
-                            }
-                          },
-                          {
-                            "label": "20 ans",
-                            "feedback": {
-                              "type": "bad",
-                              "text": "C’était beaucoup moins ! <br> Les cartes GPU ont une durée de vie estimée à 5 ans environ.  Cette durée de vie est courte. Le renouvellement de ces cartes nécessitera d’extraire à nouveau des métaux et des terres rares."
-                            }
-                          },
-                          {
-                            "label": "25 ans",
-                            "feedback": {
-                              "type": "bad",
-                              "text": "C’était beaucoup moins ! <br> Les cartes GPU ont une durée de vie estimée à 5 ans environ.  Cette durée de vie est courte. Le renouvellement de ces cartes nécessitera d’extraire à nouveau des métaux et des terres rares."
                             }
                           }
                         ]
