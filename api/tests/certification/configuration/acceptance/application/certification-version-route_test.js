@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { createServer } from '../../../../../server.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../src/certification/shared/domain/constants.js';
+import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -15,6 +16,41 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
     server = await createServer();
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     await databaseBuilder.commit();
+  });
+
+  describe('GET /api/certifications/{framework}/info', function () {
+    it('returns serialized info of the request framework', async function () {
+      databaseBuilder.factory.buildCertificationVersion({
+        scope: SCOPES.CORE,
+        startDate: new Date('2025-01-11'),
+        expirationDate: null,
+        assessmentDuration: 100,
+        minimumAnswersRequiredToValidateACertification: 20,
+        challengesConfiguration: {
+          maximumAssessmentLength: 32,
+        },
+      });
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/certifications/${Frameworks.CORE}/info`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal({
+        id: Frameworks.CORE,
+        type: 'certification-infos',
+        attributes: {
+          'assessment-duration': 100,
+          'minimum-assessment-length': 20,
+          'maximum-assessment-length': 32,
+        },
+      });
+    });
   });
 
   describe('GET /api/admin/certification-versions/{certificationVersionId}', function () {

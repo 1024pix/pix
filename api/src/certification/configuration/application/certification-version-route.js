@@ -3,6 +3,7 @@ import BaseJoi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { Frameworks } from '../../shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../shared/domain/models/Scopes.js';
 import { certificationVersionController } from './certification-version-controller.js';
 
@@ -10,6 +11,25 @@ const Joi = BaseJoi.extend(JoiDate);
 
 const register = async function (server) {
   server.route([
+    {
+      method: 'GET',
+      path: '/api/certifications/{framework}/info',
+      config: {
+        validate: {
+          params: Joi.object({
+            framework: Joi.string()
+              .required()
+              .valid(...Object.values(Frameworks)),
+          }),
+        },
+        handler: certificationVersionController.getInfo,
+        tags: ['api', 'mon-pix'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle permet de récupérer les informations générales concernant un test de certification',
+        ],
+      },
+    },
     {
       method: 'GET',
       path: '/api/admin/certification-versions/{certificationVersionId}',

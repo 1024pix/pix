@@ -1,4 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
+import { certificationInfoSerializer } from '../infrastructure/serializers/certification-info-serializer.js';
 import * as certificationVersionDetailSerializer from '../infrastructure/serializers/certification-version-detail-serializer.js';
 
 async function getVersionById(request) {
@@ -43,11 +44,22 @@ async function createDraft(request, h) {
   return h.response(certificationVersionDetailSerializer.serialize(certificationVersion)).code(201);
 }
 
+async function getInfo(request) {
+  const framework = request.params.framework;
+
+  const certificationInfo = await usecases.getInfo({
+    framework,
+  });
+
+  return certificationInfoSerializer.serialize(certificationInfo);
+}
+
 const certificationVersionController = {
   createDraft,
   getVersionById,
   deleteCertificationVersion,
   update,
+  getInfo,
 };
 
 export { certificationVersionController };
