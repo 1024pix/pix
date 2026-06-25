@@ -155,35 +155,35 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Alimenter en électricité 7600 personnes résidant en europe pendant un an.</p>",
+                          "content": "<p>Alimenter en électricité 7600 personnes résidant en europe pendant un an.&nbsp;🏘️</p>",
                           "feedback": {
                             "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Recharger votre smartphone pendant 4 200 000 années</p>",
+                          "content": "<p>Recharger votre smartphone pendant 4 200 000 années.&nbsp;📱</p>",
                           "feedback": {
                             "diagnosis": "<p>Drôle d’idée !</p><p><strong>Mais toutes les réponses correspondent à 42GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Parcourir 210 000 000 de kilomètres en voiture électrique, soit 52 000 allers-retours Madrid-Berlin.</p>",
+                          "content": "<p>Faire 210 000 000 de kilomètres en voiture électrique, soit&nbsp; 5 240 fois le tour de la terre.&nbsp;🌏</p>",
                           "feedback": {
                             "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "4",
-                          "content": "<p>Entraîner un modèle d’intelligence artificielle générative<br></p>",
+                          "content": "<p>Entraîner un modèle d’intelligence artificielle générative.&nbsp;✨</p>",
                           "feedback": {
                             "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "5",
-                          "content": "<p>Je ne sais pas.<br></p>",
+                          "content": "<p>Je ne sais pas.&nbsp;🤔</p>",
                           "feedback": {
                             "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>.</p>"
                           }
@@ -528,7 +528,7 @@
                     {
                       "id": "71902fb1-72ae-4c38-94d9-a11de01aba9a",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/citation-meta.png",
+                      "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/citation-google.png",
                       "alt": "Citation de Sundar Pichai, voir dans l’aternative textuelle",
                       "alternativeText": "<p>«&nbsp;L’IA accroît si fortement la demande en énergie que le système actuel ne peut pas totalement gérer cette augmentation. Mais cela stimule d’importants investissements dans l’énergaie solaire, nucléaire, les batteries, etc. C’est pourquoi, en tant que spécialiste des nouvelles technologies, je suis optimiste quant à l’abondance des sources d’énergie renouvelables à l’avenir.&nbsp;» Sundar Pichai, PDG de Google, novembre 2025</p>",
                       "legend": "",
@@ -580,9 +580,9 @@
                     {
                       "id": "514553df-c76c-41f2-852c-87bc7a85cdd6",
                       "type": "image",
-                      "url": "Citation de Mark Zuckerberg, voir alternative textuelle",
+                      "url": "Citation de Mark Zuckerberg, voir dans l’alternative textuelle",
                       "alt": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/citation-meta.png",
-                      "alternativeText": "<p>«&nbsp;Je pense que l’open source est nécessaire pour un futur positif avec l’IA. [...] L’open source va garantir un accès aux bénéfices et aux opportunités de l’IA à plus de personnes dans le monde, que ce pouvoir ne soit pas concentré entre les mains d’une poignée d’entreprises, et que cette technologie puisse être déployée de façon plus équilibrée et sécurisée au sein de la société.&nbsp;» Mark Zuckerberg, dirigeant de Meta, juillet 2024</p>",
+                      "alternativeText": "<p>Je pense que l’open source est nécessaire pour un futur positif avec l’IA. [...] L’open source va garantir un accès aux bénéfices et aux opportunités de l’IA à plus de personnes dans le monde, que ce pouvoir ne soit pas concentré entre les mains d’une poignée d’entreprises, et que cette technologie puisse être déployée de façon plus équilibrée et sécurisée au sein de la société.</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -594,7 +594,7 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Meta donne accès à certains de ces modèles en “open source”.</p>"
+                          "content": "<p>Meta donne accès à certains de ces modèles en «&nbsp;open source&nbsp;».</p>"
                         },
                         {
                           "id": "2",
