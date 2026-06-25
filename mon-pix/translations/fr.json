@@ -2252,6 +2252,22 @@
       },
       "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
       "recommended-engine": {
+        "drawer": {
+          "emojis": {
+            "dissatisfied": "Je n'apprécie pas",
+            "neutral": "Je n'ai pas d'avis",
+            "satisfied": "J'aime bien",
+            "very-dissatisfied": "Je n'apprécie pas du tout",
+            "very-satisfied": "J'adore"
+          },
+          "hide": "Masquer",
+          "instruction": "Cliquez sur un emoji pour donner votre avis.",
+          "statement": "J'apprécie les contenus qui me sont recommandés pour aller plus loin.",
+          "thank-you": {
+            "subtitle": "C'est dans la boite",
+            "title": "Merci pour votre avis !"
+          }
+        },
         "modal": {
           "actions": {
             "discover-module": "Découvrir le module",

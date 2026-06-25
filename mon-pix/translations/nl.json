@@ -2252,6 +2252,22 @@
       },
       "not-finished": "Je kunt je resultaten nog niet opsturen, dus we hebben nog een paar vragen voor je.",
       "recommended-engine": {
+        "drawer": {
+          "emojis": {
+            "dissatisfied": "Ik vind het niet leuk",
+            "neutral": "Ik heb geen mening",
+            "satisfied": "Ik vind het leuk",
+            "very-dissatisfied": "Ik vind het helemaal niet leuk",
+            "very-satisfied": "Ik ben er dol op"
+          },
+          "hide": "Verbergen",
+          "instruction": "Klik op een emoji om uw mening te geven.",
+          "statement": "Ik waardeer de aanbevolen inhoud om verder te gaan.",
+          "thank-you": {
+            "subtitle": "Gelukt!",
+            "title": "Bedankt voor uw feedback!"
+          }
+        },
         "modal": {
           "actions": {
             "discover-module": "Module starten",

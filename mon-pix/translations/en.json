@@ -2252,6 +2252,22 @@
       },
       "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
       "recommended-engine": {
+        "drawer": {
+          "emojis": {
+            "dissatisfied": "I don't like it",
+            "neutral": "I have no opinion",
+            "satisfied": "I like it",
+            "very-dissatisfied": "I don't like it at all",
+            "very-satisfied": "I love it"
+          },
+          "hide": "Hide",
+          "instruction": "Click on an emoji to give your feedback.",
+          "statement": "I appreciate the content recommended to me to go further.",
+          "thank-you": {
+            "subtitle": "It's in the bag",
+            "title": "Thank you for your feedback!"
+          }
+        },
         "modal": {
           "actions": {
             "discover-module": "Start the module",
