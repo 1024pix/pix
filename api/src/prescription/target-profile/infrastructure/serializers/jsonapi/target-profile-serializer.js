@@ -31,4 +31,4 @@ const deserialize = function (json) {
   return deserializedData;
 };
 
-export { deserialize, serialize, serializeId };
+export const targetProfileSerializer = { deserialize, serialize, serializeId };

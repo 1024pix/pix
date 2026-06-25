@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/framework-with-skills-serializer.js';
+import { frameworkWithSkillsSerializer } from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/framework-with-skills-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | framework', function () {
@@ -324,7 +324,7 @@ describe('Unit | Serializer | JSONAPI | framework', function () {
       };
 
       // when
-      const serializedFramework = serializer.serialize(frameworks);
+      const serializedFramework = frameworkWithSkillsSerializer.serialize(frameworks);
 
       // then
       return expect(serializedFramework).to.deep.equal(expectedResult);

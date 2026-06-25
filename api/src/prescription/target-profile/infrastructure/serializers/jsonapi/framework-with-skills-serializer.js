@@ -43,4 +43,4 @@ const serialize = function (frameworks) {
   }).serialize(frameworks);
 };
 
-export { serialize };
+export const frameworkWithSkillsSerializer = { serialize };

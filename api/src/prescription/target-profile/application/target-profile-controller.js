@@ -1,8 +1,8 @@
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as frameworkWithSkillsSerializer from '../infrastructure/serializers/jsonapi/framework-with-skills-serializer.js';
-import * as targetProfileForSpecifierSerializer from '../infrastructure/serializers/jsonapi/target-profile-for-specifier-serializer.js';
-import * as targetProfileOverviewSerializer from '../infrastructure/serializers/jsonapi/target-profile-overview-serializer.js';
+import { frameworkWithSkillsSerializer } from '../infrastructure/serializers/jsonapi/framework-with-skills-serializer.js';
+import { targetProfileForSpecifierSerializer } from '../infrastructure/serializers/jsonapi/target-profile-for-specifier-serializer.js';
+import { targetProfileOverviewSerializer } from '../infrastructure/serializers/jsonapi/target-profile-overview-serializer.js';
 
 const findTargetProfiles = async function (request, h, dependencies = { targetProfileForSpecifierSerializer }) {
   const organizationId = request.params.organizationId;

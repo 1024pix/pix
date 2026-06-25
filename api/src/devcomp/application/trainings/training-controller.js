@@ -1,4 +1,4 @@
-import * as targetProfileSummaryForAdminSerializer from '../../../prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
+import { targetProfileSummaryForAdminSerializer } from '../../../prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { trainingSerializer } from '../../infrastructure/serializers/jsonapi/training-serializer.js';
