@@ -7,4 +7,4 @@ const serialize = (announcement) =>
     attributes: ['content'],
   }).serialize(announcement);
 
-export { serialize };
+export const announcementSerializer = { serialize };

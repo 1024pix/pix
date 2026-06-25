@@ -1,5 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as announcementSerializer from '../infrastructure/serializers/jsonapi/announcement-serializer.js';
+import { announcementSerializer } from '../infrastructure/serializers/jsonapi/announcement-serializer.js';
 
 const get = async (request, h, dependencies = { announcementSerializer }) => {
   const { name } = request.params;
