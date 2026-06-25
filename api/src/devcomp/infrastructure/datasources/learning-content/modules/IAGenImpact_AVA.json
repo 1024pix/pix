@@ -994,7 +994,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p>En août 2025, Google a publié une <a href=\"https://blog.google/intl/fr-fr/nouveautes-produits/dans-le-cloud/quelle-consommation-energetique-pour-lia-de-google-nous-avons-fait-le-calcul/\">étude des impacts environnementaux de ses logiciels d’intelligence artificielle</a>.</p><p>Répondez aux questions suivantes à propos de cette étude.</p>",
+              "instruction": "<p>En août 2025, Google a publié une <a href=\"https://blog.google/intl/fr-fr/nouveautes-produits/dans-le-cloud/quelle-consommation-energetique-pour-lia-de-google-nous-avons-fait-le-calcul/\" target=\"_blank\">étude des impacts environnementaux de ses logiciels d’intelligence artificielle</a>.</p><p>Répondez aux questions suivantes à propos de cette étude.</p>",
               "steps": [
                 {
                   "elements": [
