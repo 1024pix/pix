@@ -1,4 +1,3 @@
-import { PROFILE_REWARDS_TABLE_NAME } from '../../../../../db/migrations/20240820101213_add-profile-rewards-table.js';
 import { ATTESTATIONS } from '../../../../../src/profile/domain/constants.js';
 import { ProfileReward } from '../../../../../src/profile/domain/models/ProfileReward.js';
 import {
@@ -29,7 +28,7 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       await save({ userId: userId, rewardId });
 
       // then
-      const result = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId: userId });
+      const result = await knex('profile-rewards').where({ userId: userId });
 
       expect(result).to.have.lengthOf(1);
       expect(result[0].userId).to.equal(userId);
@@ -52,7 +51,7 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       await save({ userId: userId, rewardId });
 
       // then
-      const result = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId: userId });
+      const result = await knex('profile-rewards').where({ userId: userId });
 
       expect(result).to.have.lengthOf(1);
       expect(result[0].userId).to.equal(userId);

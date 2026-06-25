@@ -1,4 +1,3 @@
-import { STAGE_ACQUISITIONS_TABLE_NAME } from '../../../../../../db/migrations/20230721114848_create-stage_acquisitions-table.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { stageUsecases } from '../../../../../../src/prescription/stages/domain/usecases/index.js';
@@ -146,7 +145,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
               );
 
             await databaseBuilder.commit();
-            const stageAcquisitionsBefore = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({
+            const stageAcquisitionsBefore = await knex('stage-acquisitions').where({
               campaignParticipationId,
             });
 
@@ -157,7 +156,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
 
             // then
             expect(stageAcquisitionsBefore).to.have.lengthOf(3);
-            const stageAcquisitionsAfter = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ campaignParticipationId });
+            const stageAcquisitionsAfter = await knex('stage-acquisitions').where({ campaignParticipationId });
             expect(stageAcquisitionsAfter).to.have.lengthOf(4);
           });
         });
@@ -182,7 +181,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
 
               // then
               const transactionStageAcquisitions = await domainTransaction
-                .knexTransaction(STAGE_ACQUISITIONS_TABLE_NAME)
+                .knexTransaction('stage-acquisitions')
                 .select('campaignParticipationId', 'stageId')
                 .where({ campaignParticipationId });
 
@@ -205,7 +204,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
                 },
               ]);
 
-              const stageAcquisitions = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ campaignParticipationId });
+              const stageAcquisitions = await knex('stage-acquisitions').where({ campaignParticipationId });
               expect(stageAcquisitions).to.have.lengthOf(0);
             });
           });
@@ -227,7 +226,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
             });
 
             // then
-            const stageAcquisitions = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ campaignParticipationId });
+            const stageAcquisitions = await knex('stage-acquisitions').where({ campaignParticipationId });
             expect(stageAcquisitions).to.have.lengthOf(0);
           });
         });
@@ -251,7 +250,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
             });
 
             // then
-            const stageAcquisitions = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ campaignParticipationId });
+            const stageAcquisitions = await knex('stage-acquisitions').where({ campaignParticipationId });
             expect(stageAcquisitions).to.have.lengthOf(4);
           });
         });
@@ -282,7 +281,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
           });
 
           // then
-          const stageAcquisitionsAfter = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ campaignParticipationId });
+          const stageAcquisitionsAfter = await knex('stage-acquisitions').where({ campaignParticipationId });
           expect(stageAcquisitionsAfter).to.have.lengthOf(1);
         });
       });
@@ -346,7 +345,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
               );
 
             await databaseBuilder.commit();
-            const stageAcquisitionsBefore = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({
+            const stageAcquisitionsBefore = await knex('stage-acquisitions').where({
               campaignParticipationId,
             });
 
@@ -357,7 +356,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
 
             // then
             expect(stageAcquisitionsBefore).to.have.lengthOf(3);
-            const stageAcquisitionsAfter = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ campaignParticipationId });
+            const stageAcquisitionsAfter = await knex('stage-acquisitions').where({ campaignParticipationId });
             expect(stageAcquisitionsAfter).to.have.lengthOf(4);
           });
         });
@@ -382,7 +381,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
 
               // then
               const transactionStageAcquisitions = await domainTransaction
-                .knexTransaction(STAGE_ACQUISITIONS_TABLE_NAME)
+                .knexTransaction('stage-acquisitions')
                 .select('campaignParticipationId', 'stageId')
                 .where({ campaignParticipationId });
 
@@ -405,7 +404,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
                 },
               ]);
 
-              const stageAcquisitions = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ campaignParticipationId });
+              const stageAcquisitions = await knex('stage-acquisitions').where({ campaignParticipationId });
               expect(stageAcquisitions).to.have.lengthOf(0);
             });
           });
@@ -427,7 +426,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
             });
 
             // then
-            const stageAcquisitions = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ campaignParticipationId });
+            const stageAcquisitions = await knex('stage-acquisitions').where({ campaignParticipationId });
             expect(stageAcquisitions).to.have.lengthOf(0);
           });
         });
@@ -451,7 +450,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
             });
 
             // then
-            const stageAcquisitions = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ campaignParticipationId });
+            const stageAcquisitions = await knex('stage-acquisitions').where({ campaignParticipationId });
             expect(stageAcquisitions).to.have.lengthOf(4);
           });
         });
@@ -488,7 +487,7 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
           });
 
           // then
-          const stageAcquisitionsAfter = await knex(STAGE_ACQUISITIONS_TABLE_NAME).where({ campaignParticipationId });
+          const stageAcquisitionsAfter = await knex('stage-acquisitions').where({ campaignParticipationId });
           expect(stageAcquisitionsAfter).to.have.lengthOf(1);
         });
       });

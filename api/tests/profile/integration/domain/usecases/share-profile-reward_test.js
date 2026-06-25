@@ -1,4 +1,3 @@
-import { ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME } from '../../../../../db/migrations/20241118134739_create-organizations-profile-rewards-table.js';
 import { ProfileRewardCantBeSharedError } from '../../../../../src/profile/domain/errors.js';
 import { usecases } from '../../../../../src/profile/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';
@@ -76,7 +75,7 @@ describe('Profile | Integration | Domain | Usecases | share-profile-reward', fun
           campaignParticipationId,
         });
 
-        const organizationsProfileRewards = await knex(ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME);
+        const organizationsProfileRewards = await knex('organizations-profile-rewards');
 
         expect(organizationsProfileRewards).to.have.lengthOf(1);
         expect(organizationsProfileRewards[0].profileRewardId).to.equal(profileRewardId);
