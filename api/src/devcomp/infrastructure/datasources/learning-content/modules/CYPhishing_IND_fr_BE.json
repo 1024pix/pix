@@ -94,7 +94,7 @@
       "grains": [
         {
           "id": "252867ab-6de0-480e-9ca9-2a8bf026cc0c",
-          "type": "activity",
+          "type": "discovery",
           "title": "Activité découverte 1",
           "components": [
             {
@@ -297,7 +297,7 @@
                 "id": "c2b8aa37-14f0-47c8-a251-1d9879760ddb",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour résumer, <strong>l’hameçonnage</strong> (ou phishing en anglais) est une technique d’arnaque par <strong>messages privés, SMS, mails ou appels.</strong>&nbsp;Un escroc <strong>se fait passer pour</strong> une personne ou un organisme de confiance, généralement en <strong>jouant sur vos émotions</strong>, pour <strong>récupérer vos données personnelles</strong>.🎣</p><p><br>⚠️ Les messages d’hameçonnage sont <strong>de plus en plus réalistes</strong>, année après année. Ils sont donc de plus en plus durs à repérer.<br><br></p>"
+                "content": "<p>Pour résumer, <strong>l’hameçonnage</strong> (ou phishing en anglais) est une technique d’arnaque par <strong>messages privés, SMS, mails ou appels.</strong>&nbsp;Un escroc <strong>se fait passer pour</strong> une personne ou un organisme de confiance, généralement en <strong>jouant sur vos émotions</strong>, pour <strong>récupérer vos données personnelles</strong>.🎣</p><p><br>⚠️ Les messages d’hameçonnage sont <strong>de plus en plus réalistes</strong>, année après année. Ils sont donc de plus en plus durs à repérer.</p>"
               }
             }
           ]
@@ -572,7 +572,7 @@
         },
         {
           "id": "2ca4c288-0463-495a-82cf-915dfd2b4025",
-          "type": "activity",
+          "type": "discovery",
           "title": "Activité découverte 3",
           "components": [
             {
@@ -709,7 +709,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/CYPhishingInd/recap1.svg",
                 "alt": "infographie présentant les indices à repérer, détaillés dans l’alternative textuelle.",
-                "alternativeText": "<ul>\n    <li>Un sentiment d’urgence qui vous pousse à agir rapidement&nbsp;🚨</li>\n    <li>Un expéditeur imité de façon imparfaite&nbsp;👺</li>\n    <li>Un lien suspect qui is mal orthographié ou pas qui n'a pas de rapport avec l’expéditeur ou le sujet du mail&nbsp;🔗</li><br>\n</ul>",
+                "alternativeText": "<ul>\n    <li>Un sentiment d’urgence qui vous pousse à agir rapidement&nbsp;🚨</li>\n    <li>Un expéditeur imité de façon imparfaite&nbsp;👺</li>\n    <li>Un lien suspect qui est mal orthographié ou pas qui n'a pas de rapport avec l’expéditeur ou le sujet du mail&nbsp;🔗</li><br>\n</ul>",
                 "legend": "",
                 "licence": ""
               }
@@ -966,7 +966,7 @@
                 "id": "6b32cda8-9635-4e9b-b580-2052294a3194",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Parmi les mails reçus dans l’application ci-dessous, l’un d’entre eux is malveillant.</p>"
+                "content": "<p>Parmi les mails reçus dans l’application ci-dessous, l’un d’entre eux est malveillant.</p>"
               }
             },
             {
