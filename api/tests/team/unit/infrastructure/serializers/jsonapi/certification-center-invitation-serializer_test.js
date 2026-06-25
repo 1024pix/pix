@@ -1,5 +1,5 @@
 import { CertificationCenterInvitation } from '../../../../../../src/team/domain/models/CertificationCenterInvitation.js';
-import * as serializer from '../../../../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
+import { certificationCenterInvitationSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Team | Serializer | JSONAPI | certification-center-invitation-serializer', function () {
@@ -14,7 +14,7 @@ describe('Unit | Team | Serializer | JSONAPI | certification-center-invitation-s
       });
 
       // when
-      const json = serializer.serialize(invitation);
+      const json = certificationCenterInvitationSerializer.serialize(invitation);
 
       // then
       expect(json).to.deep.equal({
@@ -45,7 +45,7 @@ describe('Unit | Team | Serializer | JSONAPI | certification-center-invitation-s
       });
 
       // when
-      const json = serializer.serializeForAdmin(certificationCenterInvitation);
+      const json = certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitation);
 
       // then
       expect(json).to.deep.equal({
@@ -78,7 +78,7 @@ describe('Unit | Team | Serializer | JSONAPI | certification-center-invitation-s
       };
 
       // when
-      const json = await serializer.deserializeForAdmin(payload);
+      const json = await certificationCenterInvitationSerializer.deserializeForAdmin(payload);
 
       // then
       expect(json).to.deep.equal({

@@ -1,5 +1,5 @@
 import { UserOrganizationForAdmin } from '../../../../../../src/team/domain/read-models/UserOrganizationForAdmin.js';
-import * as serializer from '../../../../../../src/team/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
+import { userOrganizationForAdminSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Team | Serializer | JSONAPI | user-organization-for-admin-serializer', function () {
@@ -26,7 +26,7 @@ describe('Unit | Team | Serializer | JSONAPI | user-organization-for-admin-seria
       const modelObjects = [userOrganizationForAdmin1, userOrganizationForAdmin2];
 
       // when
-      const json = serializer.serialize(modelObjects);
+      const json = userOrganizationForAdminSerializer.serialize(modelObjects);
 
       // then
       expect(json).to.be.deep.equal({

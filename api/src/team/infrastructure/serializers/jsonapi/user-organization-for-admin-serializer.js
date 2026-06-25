@@ -15,4 +15,4 @@ const serialize = function (organization) {
   }).serialize(organization);
 };
 
-export { serialize };
+export const userOrganizationForAdminSerializer = { serialize };

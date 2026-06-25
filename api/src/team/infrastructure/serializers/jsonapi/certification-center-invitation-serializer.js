@@ -24,6 +24,4 @@ const deserializeForAdmin = function (payload) {
   });
 };
 
-const certificationCenterInvitationSerializer = { serialize, serializeForAdmin, deserializeForAdmin };
-
-export { certificationCenterInvitationSerializer, deserializeForAdmin, serialize, serializeForAdmin };
+export const certificationCenterInvitationSerializer = { deserializeForAdmin, serialize, serializeForAdmin };

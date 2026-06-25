@@ -74,4 +74,4 @@ const deserialize = function (payload) {
   });
 };
 
-export { deserialize, serialize, serializeForAdmin, serializeMembers };
+export const certificationCenterMembershipSerializer = { deserialize, serialize, serializeForAdmin, serializeMembers };

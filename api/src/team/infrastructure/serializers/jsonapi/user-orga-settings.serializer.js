@@ -76,4 +76,4 @@ const serialize = function (userOrgaSettings) {
   }).serialize(userOrgaSettings);
 };
 
-export { serialize };
+export const userOrgaSettingsSerializer = { serialize };

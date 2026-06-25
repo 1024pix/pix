@@ -1,5 +1,5 @@
 import { OrganizationMemberIdentity } from '../../../../../../src/team/domain/models/OrganizationMemberIdentity.js';
-import * as serializer from '../../../../../../src/team/infrastructure/serializers/jsonapi/organization-member-identity.serializer.js';
+import { organizationMemberIdentitySerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/organization-member-identity.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-members-serializer', function () {
@@ -19,7 +19,7 @@ describe('Unit | Serializer | JSONAPI | organization-members-serializer', functi
       const members = [organizationMember1, organizationMember2];
 
       // when
-      const serializedOrganizationMemberIdentity = serializer.serialize(members);
+      const serializedOrganizationMemberIdentity = organizationMemberIdentitySerializer.serialize(members);
 
       // then
       expect(serializedOrganizationMemberIdentity).to.deep.equal({

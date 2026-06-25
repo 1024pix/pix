@@ -8,5 +8,4 @@ const serialize = function (invitation) {
   }).serialize(invitation);
 };
 
-const serializer = { serialize };
-export { serialize, serializer };
+export const scoOrganizationInvitationSerializer = { serialize };

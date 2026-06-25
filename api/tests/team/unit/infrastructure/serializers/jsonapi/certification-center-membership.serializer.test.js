@@ -1,5 +1,5 @@
 import { CertificationCenterMembership } from '../../../../../../src/team/domain/models/CertificationCenterMembership.js';
-import * as certificationCenterMembershipSerializer from '../../../../../../src/team/infrastructure/serializers/jsonapi/certification-center-membership.serializer.js';
+import { certificationCenterMembershipSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/certification-center-membership.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
