@@ -1,10 +1,10 @@
-import { usecases } from '../../src/quest/domain/usecases/index.js';
-import { JobGroup } from '../../src/shared/application/jobs/job-controller.js';
-import { commaSeparatedNumberParser } from '../../src/shared/application/scripts/parsers.js';
-import { Script } from '../../src/shared/application/scripts/script.js';
-import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
-import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
-import { JobClient } from '../../src/shared/infrastructure/jobs/JobClient.js';
+import { JobGroup } from '../../shared/application/jobs/job-controller.js';
+import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
+import { Script } from '../../shared/application/scripts/script.js';
+import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
+import { JobClient } from '../../shared/infrastructure/jobs/JobClient.js';
+import { usecases } from '../domain/usecases/index.js';
 
 // Définition du script
 export class DeleteAndAnonymiseCombinedCoursesScript extends Script {

@@ -1,8 +1,8 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { DeleteAndAnonymiseCombinedCoursesScript } from '../../../scripts/prod/delete-and-anonymise-combined-courses.js';
-import { DomainTransaction } from '../../../src/shared/domain/DomainTransaction.js';
+import { DeleteAndAnonymiseCombinedCoursesScript } from '../../../../src/quest/scripts/delete-and-anonymise-combined-courses.js';
+import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
+import { expect } from '../../../test-helper.js';
 
 describe('DeleteAndAnonymiseCombinedCoursesScript', function () {
   let script, logger;
