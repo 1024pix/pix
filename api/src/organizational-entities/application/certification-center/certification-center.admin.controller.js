@@ -5,8 +5,8 @@ import {
   deserializeForCertificationCenterBatchArchive,
   requiredFieldNamesForCertificationCenterBatchArchive,
 } from '../../infrastructure/serializers/csv/certification-center-archive-csv-serializer.js';
-import * as certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center/certification-center.serializer.js';
-import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center/certification-center-for-admin.serializer.js';
+import { certificationCenterSerializer } from '../../infrastructure/serializers/jsonapi/certification-center/certification-center.serializer.js';
+import { certificationCenterForAdminSerializer } from '../../infrastructure/serializers/jsonapi/certification-center/certification-center-for-admin.serializer.js';
 import { attachedOrganizationSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/attached-organization.serializer.js';
 
 const archiveCertificationCenter = async function (request, h) {

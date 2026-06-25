@@ -1,4 +1,4 @@
-import * as organizationLearnerTypeSerializer from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-learner-type/organization-learner-type-serializer.js';
+import { organizationLearnerTypeSerializer } from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-learner-type/organization-learner-type-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

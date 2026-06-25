@@ -1,5 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as networkSerializer from '../../infrastructure/serializers/jsonapi/network/network.serializer.js';
+import { networkSerializer } from '../../infrastructure/serializers/jsonapi/network/network.serializer.js';
 
 const findAllFilteredNetworks = async function (request, h, dependencies = { networkSerializer }) {
   const { filter, page } = request.query;

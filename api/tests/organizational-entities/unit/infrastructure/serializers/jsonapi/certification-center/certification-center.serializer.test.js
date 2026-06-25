@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/certification-center/certification-center.serializer.js';
+import { certificationCenterSerializer } from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/certification-center/certification-center.serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -54,7 +54,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
       };
 
       // when
-      const serializedCertificationCenter = serializer.serialize(certificationCenter);
+      const serializedCertificationCenter = certificationCenterSerializer.serialize(certificationCenter);
 
       // then
       expect(serializedCertificationCenter).to.deep.equal(expectedSerializedCertificationCenter);

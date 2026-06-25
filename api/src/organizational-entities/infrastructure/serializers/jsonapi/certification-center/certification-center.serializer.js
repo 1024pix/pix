@@ -17,4 +17,4 @@ const serialize = function (certificationCenters, meta) {
   }).serialize(certificationCenters);
 };
 
-export { serialize };
+export const certificationCenterSerializer = { serialize };

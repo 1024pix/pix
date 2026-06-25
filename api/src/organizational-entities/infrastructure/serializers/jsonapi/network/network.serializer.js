@@ -18,4 +18,4 @@ const deserialize = function (json) {
   };
 };
 
-export { deserialize, serialize };
+export const networkSerializer = { deserialize, serialize };

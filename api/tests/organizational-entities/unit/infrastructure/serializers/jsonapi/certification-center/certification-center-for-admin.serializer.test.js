@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/certification-center/certification-center-for-admin.serializer.js';
+import { certificationCenterForAdminSerializer } from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/certification-center/certification-center-for-admin.serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -49,7 +49,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
       const createdBy = 123;
 
       // when
-      const deserializedCertificationCenterForAdmin = serializer.deserialize({
+      const deserializedCertificationCenterForAdmin = certificationCenterForAdminSerializer.deserialize({
         data: certificationCenterJsonApi.data,
         createdBy,
       });
@@ -87,7 +87,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
         });
 
         // when
-        const serializedCertificationCenter = serializer.serialize(certificationCenter);
+        const serializedCertificationCenter = certificationCenterForAdminSerializer.serialize(certificationCenter);
 
         // then
         certificationCenterJsonApi.data.attributes['created-at'] = new Date('2018-01-01T05:43:10Z');

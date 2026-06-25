@@ -8,4 +8,4 @@ const serialize = function (tags) {
   }).serialize(tags);
 };
 
-export { serialize };
+export const tagSerializer = { serialize };

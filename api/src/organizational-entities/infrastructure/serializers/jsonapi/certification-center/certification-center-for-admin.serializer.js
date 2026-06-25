@@ -76,4 +76,4 @@ const serialize = function (certificationCenter) {
   }).serialize({ ...certificationCenter });
 };
 
-export { deserialize, serialize };
+export const certificationCenterForAdminSerializer = { deserialize, serialize };

@@ -11,11 +11,11 @@ import {
   deserializeForOrganizationsImport,
   requiredFieldNamesForOrganizationsImport,
 } from '../../infrastructure/serializers/csv/organizations-csv-serializer.js';
-import * as certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center/certification-center.serializer.js';
-import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
+import { certificationCenterSerializer } from '../../infrastructure/serializers/jsonapi/certification-center/certification-center.serializer.js';
+import { organizationSerializer } from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import { organizationForAdminSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
-import * as organizationPlacesStatisticsSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-places-statistics.serializer.js';
-import * as organizationStatisticsSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-statistics.serializer.js';
+import { organizationPlacesStatisticsSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-places-statistics.serializer.js';
+import { organizationStatisticsSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-statistics.serializer.js';
 
 const ADD_TAGS_TO_ORGANIZATIONS_HEADER = organizationTagCsvParser.CSV_HEADER;
 
