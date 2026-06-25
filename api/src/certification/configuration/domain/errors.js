@@ -24,3 +24,9 @@ export class CertificationVersionDraftAlreadyExistError extends DomainError {
     super("Il est interdit de créer une nouvelle version lorsqu'il y en a déjà une en cours d'édition");
   }
 }
+
+export class ActiveCertificationInfoNotFound extends DomainError {
+  constructor(framework) {
+    super(`Certification info for active version of framework "${framework}" not found`);
+  }
+}

@@ -6,6 +6,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
+import * as certificationInfoRepository from '../../infrastructure/repositories/certification-info-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
@@ -23,6 +24,7 @@ import { findComplementaryCertifications } from './find-complementary-certificat
 import { getComplementaryCertificationForTargetProfileAttachmentRepository } from './get-complementary-certification-for-target-profile-attachment.js';
 import { getComplementaryCertificationTargetProfileHistory } from './get-complementary-certification-target-profile-history.js';
 import { getFrameworkHistory } from './get-framework-history.js';
+import { getInfo } from './get-info.js';
 import { getScoBlockedAccessDates } from './get-sco-blocked-access-dates.js';
 import { getVersionById } from './get-version-by-id.js';
 import { importScoWhitelist } from './import-sco-whitelist.js';
@@ -55,6 +57,7 @@ const dependencies = {
   attachableTargetProfileRepository,
   centerRepository,
   ScoBlockedAccessDatesRepository,
+  certificationInfoRepository,
   challengeRepository,
   complementaryCertificationBadgesRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
@@ -79,6 +82,7 @@ const usecasesWithoutInjectedDependencies = {
   getComplementaryCertificationForTargetProfileAttachmentRepository,
   getComplementaryCertificationTargetProfileHistory,
   getFrameworkHistory,
+  getInfo,
   getScoBlockedAccessDates,
   getVersionById,
   importScoWhitelist,
