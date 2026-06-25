@@ -1,6 +1,6 @@
 import { divisionSerializer } from '../../campaign/infrastructure/serializers/jsonapi/division-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as organizationParticipantsSerializer from '../infrastructure/serializers/jsonapi/organization-participants-serializer.js';
+import { organizationParticipantsSerializer } from '../infrastructure/serializers/jsonapi/organization-participants-serializer.js';
 import { mapCertificabilityByLabel } from './../../shared/application/helpers.js';
 
 const findPaginatedFilteredParticipants = async function (

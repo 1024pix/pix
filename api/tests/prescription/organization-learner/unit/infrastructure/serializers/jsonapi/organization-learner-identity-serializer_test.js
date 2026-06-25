@@ -1,5 +1,5 @@
 import { OrganizationLearner } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
-import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organization-learner-identity-serializer.js';
+import { organizationLearnerIdentitySerializer } from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organization-learner-identity-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-learner-identity-serializer', function () {
@@ -24,7 +24,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-identity-serializer
       };
 
       // when
-      const json = serializer.serialize(organizationLearner);
+      const json = organizationLearnerIdentitySerializer.serialize(organizationLearner);
 
       // then
       expect(json).to.deep.equal(expectedSerializedOrganizationLearner);

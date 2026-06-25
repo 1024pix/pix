@@ -20,4 +20,4 @@ const serialize = function (analysisByTubes) {
   }).serialize(analysisByTubes);
 };
 
-export { serialize };
+export const analysisByTubesSerializer = { serialize };

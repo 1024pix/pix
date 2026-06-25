@@ -1,5 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as organizationsToJoinSerializer from '../infrastructure/serializers/jsonapi/organizations-to-join-serializer.js';
+import { organizationsToJoinSerializer } from '../infrastructure/serializers/jsonapi/organizations-to-join-serializer.js';
 
 const getOrganization = async function (request, h, dependencies = { organizationsToJoinSerializer }) {
   const { code } = request.params;

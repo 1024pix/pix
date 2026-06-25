@@ -8,4 +8,4 @@ const serialize = function (organizationLearnerIdentity) {
   }).serialize(organizationLearnerIdentity);
 };
 
-export { serialize };
+export const organizationLearnerIdentitySerializer = { serialize };
