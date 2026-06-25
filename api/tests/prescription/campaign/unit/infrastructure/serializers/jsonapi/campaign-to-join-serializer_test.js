@@ -1,4 +1,4 @@
-import * as campaignToJoinSerializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
+import { campaignToJoinSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
 import { CampaignExternalIdTypes } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';

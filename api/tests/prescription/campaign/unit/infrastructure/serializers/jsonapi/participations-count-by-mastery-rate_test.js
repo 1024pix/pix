@@ -1,10 +1,10 @@
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/participations-count-by-mastery-rate.js';
+import { participationsCountByMasteryRateSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/participations-count-by-mastery-rate.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | participations-count-by-mastery-rate', function () {
   describe('#serialize', function () {
     it('should convert a campaign result distribution object into JSON API data', function () {
-      const json = serializer.serialize({
+      const json = participationsCountByMasteryRateSerializer.serialize({
         campaignId: 1,
         resultDistribution: [
           { count: 1, masteryRate: '0.50' },

@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
+import { campaignAssessmentResultMinimalSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -42,7 +42,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
         },
       };
 
-      const resultsSerialized = serializer.serialize({ participations, pagination });
+      const resultsSerialized = campaignAssessmentResultMinimalSerializer.serialize({ participations, pagination });
 
       expect(resultsSerialized).to.deep.equal({
         data: [

@@ -1,5 +1,5 @@
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
-import * as campaignResultLevelsPerTubesAndCompetencesSerializer from '../../campaign/infrastructure/serializers/jsonapi/campaign-result-levels-per-tubes-and-competences-serializer.js';
+import { campaignResultLevelsPerTubesAndCompetencesSerializer } from '../../campaign/infrastructure/serializers/jsonapi/campaign-result-levels-per-tubes-and-competences-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as anonymisedCampaignAssessmentSerializer from '../infrastructure/serializers/jsonapi/anonymised-campaign-assessment-serializer.js';
 import * as availableCampaignParticipationsSerializer from '../infrastructure/serializers/jsonapi/available-campaign-participation-serializer.js';

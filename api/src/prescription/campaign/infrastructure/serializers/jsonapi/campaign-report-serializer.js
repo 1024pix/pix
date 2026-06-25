@@ -105,4 +105,4 @@ const serialize = function (campaignReports, meta) {
   }).serialize(campaignReports);
 };
 
-export { serialize };
+export const campaignReportSerializer = { serialize };

@@ -1,5 +1,5 @@
 import { CampaignParticipantActivity } from '../../../../../../../src/prescription/campaign/domain/read-models/CampaignParticipantActivity.js';
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
+import { campaignParticipantActivitySerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { expect } from '../../../../../../test-helper.js';
 
@@ -36,7 +36,10 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
         },
       };
 
-      const resultsSerialized = serializer.serialize({ campaignParticipantsActivities, pagination });
+      const resultsSerialized = campaignParticipantActivitySerializer.serialize({
+        campaignParticipantsActivities,
+        pagination,
+      });
 
       expect(resultsSerialized).to.deep.equal({
         data: [

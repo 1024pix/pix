@@ -1,11 +1,11 @@
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/group-serializer.js';
+import { groupSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/group-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | group-serializer', function () {
   describe('#serialize', function () {
     it('serializes all groups', function () {
       // when
-      const json = serializer.serialize([{ name: 'LB6' }, { name: 'AB3' }]);
+      const json = groupSerializer.serialize([{ name: 'LB6' }, { name: 'AB3' }]);
       // then
       expect(json).to.deep.equal({
         data: [

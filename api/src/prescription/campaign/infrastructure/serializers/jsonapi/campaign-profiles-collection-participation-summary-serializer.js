@@ -20,4 +20,4 @@ const serialize = function ({ data, pagination }) {
   }).serialize(data);
 };
 
-export { serialize };
+export const campaignProfilesCollectionParticipationSummarySerializer = { serialize };

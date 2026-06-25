@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-report-serializer.js';
+import { campaignReportSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -47,7 +47,7 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
       });
 
       // when
-      const json = serializer.serialize(report);
+      const json = campaignReportSerializer.serialize(report);
 
       // then
       expect(json).to.deep.equal({

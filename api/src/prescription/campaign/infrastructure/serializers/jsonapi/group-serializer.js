@@ -9,4 +9,4 @@ const serialize = function (groups) {
   }).serialize(groups);
 };
 
-export { serialize };
+export const groupSerializer = { serialize };

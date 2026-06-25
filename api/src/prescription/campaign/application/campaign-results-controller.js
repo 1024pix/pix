@@ -1,9 +1,9 @@
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { certificabilityByLabel } from '../../shared/application/helpers.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as campaignAssessmentResultMinimalSerializer from '../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
-import * as campaignCollectiveResultSerializer from '../infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
-import * as campaignProfilesCollectionParticipationSummarySerializer from '../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
+import { campaignAssessmentResultMinimalSerializer } from '../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
+import { campaignCollectiveResultSerializer } from '../infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
+import { campaignProfilesCollectionParticipationSummarySerializer } from '../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
 
 const findAssessmentParticipationResults = async function (
   request,

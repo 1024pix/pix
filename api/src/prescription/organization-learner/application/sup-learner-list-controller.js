@@ -1,4 +1,4 @@
-import * as groupSerializer from '../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/group-serializer.js';
+import { groupSerializer } from '../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/group-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as supOrganizationParticipantsSerializer from '../infrastructure/serializers/jsonapi/sup-organization-participants-serializer.js';
 import { mapCertificabilityByLabel } from './../../shared/application/helpers.js';

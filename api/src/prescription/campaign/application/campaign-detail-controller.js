@@ -2,11 +2,11 @@ import stream from 'node:stream';
 
 import { escapeFileName, getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as campaignDetailsManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
-import * as campaignParticipantsActivitySerializer from '../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
-import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
-import * as campaignToJoinSerializer from '../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
-import * as targetProfileSerializer from '../infrastructure/serializers/jsonapi/target-profile-serializer.js';
+import { campaignManagementSerializer } from '../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
+import { campaignParticipantActivitySerializer } from '../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
+import { campaignReportSerializer } from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
+import { campaignToJoinSerializer } from '../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
+import { targetProfileSerializer } from '../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 
 const { PassThrough } = stream;
 
@@ -40,7 +40,7 @@ const getById = async function (
 const getCampaignDetails = async function (request) {
   const { campaignId } = request.params;
   const campaign = await usecases.getCampaignManagement({ campaignId });
-  return campaignDetailsManagementSerializer.serialize(campaign);
+  return campaignManagementSerializer.serialize(campaign);
 };
 
 const getTargetProfile = async function (request, _, dependencies = { targetProfileSerializer }) {
@@ -119,7 +119,7 @@ const getCsvProfilesCollectionResults = async function (request, h) {
 const findParticipantsActivity = async function (
   request,
   h,
-  dependencies = { campaignParticipantsActivitySerializer },
+  dependencies = { campaignParticipantsActivitySerializer: campaignParticipantActivitySerializer },
 ) {
   const { campaignId } = request.params;
 

@@ -11,8 +11,8 @@ import { getDataBuffer } from '../../learner-management/infrastructure/utils/buf
 import { CAMPAIGNS_HEADER } from '../domain/constants.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as csvCampaignsIdsParser from '../infrastructure/serializers/csv/csv-campaigns-ids-parser.js';
-import * as campaignManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
-import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
+import { campaignManagementSerializer } from '../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
+import { campaignReportSerializer } from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 
 const getTemplateForCreateCampaigns = (request, h) => {
   const fields = CAMPAIGNS_HEADER.columns.map(({ name }) => name);

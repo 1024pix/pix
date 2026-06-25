@@ -15,4 +15,4 @@ const serialize = function (model) {
   }).serialize(model);
 };
 
-export { serialize };
+export const campaignParticipationsCountsByDaySerializer = { serialize };

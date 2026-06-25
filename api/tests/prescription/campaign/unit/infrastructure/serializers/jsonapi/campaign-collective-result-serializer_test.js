@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
+import { campaignCollectiveResultSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -107,7 +107,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
       };
 
       // when
-      const result = serializer.serialize(campaignCollectiveResult);
+      const result = campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
