@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 
 export class CertificationCandidateForSupervising {
@@ -11,7 +13,7 @@ export class CertificationCandidateForSupervising {
     authorizedToStart,
     assessmentStatus,
     startDateTime,
-    theoricalEndDateTime,
+    assessmentDuration,
     subscription,
     stillValidBadgeAcquisitions = [],
     accessibilityAdjustmentNeeded,
@@ -26,13 +28,22 @@ export class CertificationCandidateForSupervising {
     this.extraTimePercentage = extraTimePercentage != null ? parseFloat(extraTimePercentage) : extraTimePercentage;
     this.authorizedToStart = authorizedToStart;
     this.assessmentStatus = assessmentStatus;
+    this.assessmentDuration = assessmentDuration;
     this.startDateTime = startDateTime;
-    this.theoricalEndDateTime = theoricalEndDateTime;
     this.subscription = subscription;
     this.stillValidBadgeAcquisitions = stillValidBadgeAcquisitions;
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
     this.challengeLiveAlert = challengeLiveAlert?.status ? challengeLiveAlert : null;
     this.companionLiveAlert = companionLiveAlert?.status ? companionLiveAlert : null;
+  }
+
+  get theoricalEndDateTime() {
+    const startDateTime = dayjs(this.startDateTime || null);
+    if (!startDateTime.isValid()) {
+      return null;
+    }
+
+    return startDateTime.add(this.assessmentDuration, 'minute').toDate();
   }
 
   authorizeToStart() {

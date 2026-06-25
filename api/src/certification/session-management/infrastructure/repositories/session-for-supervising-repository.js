@@ -29,6 +29,7 @@ const get = async function ({ id }) {
           'authorizedToStart', "certification-candidates"."authorizedToStart",
           'assessmentStatus', "assessments"."state",
           'startDateTime', "certification-courses"."createdAt",
+          'assessmentDuration', "certification_versions"."assessmentDuration",
           'challengeLiveAlert', json_build_object(
             'type', 'challenge',
             'status', "certification-challenge-live-alerts".status,
@@ -47,6 +48,7 @@ const get = async function ({ id }) {
         )
         .from('certification-candidates')
         .leftJoin('certification-courses', 'certification-courses.candidateId', 'certification-candidates.id')
+        .leftJoin('certification_versions', 'certification_versions.id', 'certification-courses.versionId')
         .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
         .leftJoin('certification-challenge-live-alerts', function () {
           this.on('certification-challenge-live-alerts.assessmentId', '=', 'assessments.id').andOnVal(
