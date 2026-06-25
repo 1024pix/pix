@@ -413,13 +413,13 @@
                       "id": "e69da63c-0a10-4149-be48-cd62115c1fc7",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Des cartes graphiques ont été utilisées pour l’entraînement de ChatGPT.<br></p>"
+                      "content": "<p>Initialement utilisées pour des calculs graphiques (modélisation 3D, jeux vidéos…), les <strong>cartes graphiques</strong> sont aujourd’hui aussi<strong> très utilisées pour l’entraînement des logiciels d’intelligence artificielle.</strong></p>"
                     },
                     {
                       "id": "86ca396e-2a5e-493f-88f9-648d76ce1437",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>À votre avis, combien de cartes graphiques (GPU) ont été utilisées pour l’entraînement de GPT-4 ?<br></p>",
+                      "instruction": "<p>À votre avis, combien de cartes graphiques (GPU) ont été utilisées pour l’entraînement de GPT-4 ?</p>",
                       "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
@@ -493,7 +493,7 @@
                 "id": "b9694946-e4c2-4808-8d37-4da5da289474",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les GPU sont des pièces maîtresses des centres de données dédiés à l’intelligence artificielle.</p><h5>Et quel est l’impact des GPU sur l’environnement ? </h5><p>La fabrication des GPU nécessite beaucoup de <strong>matières premières </strong>(métaux, terres rares, pétrole …), et leur utilisation consomme énormément d’<strong>électricité</strong>. </p><p>Les GPU ont donc un fort impact négatif sur l’environnement, d’autant qu’il faut les <strong>renouveler souvent</strong> et que les services d’intelligence artificielle modernes nécessitent énormément de GPU pour fonctionner. Cela génère beaucoup de <strong>déchets électroniques</strong>, dont une grande partie n’est pas recyclable</p>"
+                "content": "<p>Les GPU sont des pièces maîtresses des centres de données dédiés à l’intelligence artificielle.</p><h5>Et quel est l’impact des GPU sur l’environnement ? </h5><p>La fabrication des GPU nécessite beaucoup de <strong>matières premières </strong>(métaux, terres rares, pétrole, etc. ), et leur utilisation consomme énormément d’<strong>électricité</strong>. </p><p>Les GPU ont donc un fort impact négatif sur l’environnement, d’autant qu’il faut les <strong>renouveler souvent</strong> et que les services d’intelligence artificielle modernes nécessitent énormément de GPU pour fonctionner. Cela génère beaucoup de <strong>déchets électroniques</strong>, dont une grande partie n’est pas recyclable.</p>"
               }
             }
           ]
