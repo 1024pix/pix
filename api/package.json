@@ -50,7 +50,7 @@
     "lint": "run-s -clns 'lint:(dependencies|context-deps|filenames|js|format)'",
     "lint:fix": "run-s -clns 'lint:(js|format):fix'",
     "lint:dependencies": "knip -n",
-    "lint:context-deps": "depcruise --config .dependency-cruiser.mjs src",
+    "lint:context-deps": "depcruise --config .dependency-cruiser.mjs .",
     "lint:filenames": "ls-lint",
     "lint:js": "eslint . --cache --cache-strategy content",
     "lint:js:fix": "npm run lint:js -- --fix",
