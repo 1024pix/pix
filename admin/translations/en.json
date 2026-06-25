@@ -594,7 +594,8 @@
           "success-notification": "The new version of the certification framework  has been successfully created.",
           "title": "Creating a new version of the certification framework for {frameworkLabel}"
         },
-        "page-title": "Creation of a new version of the certification in {scope} framework"
+        "page-title": "Creation of a new version of the certification in {scope} framework",
+        "title": "Creating a Certification Release"
       }
     },
     "certifications": {

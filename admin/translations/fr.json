@@ -548,7 +548,8 @@
             "success-notification": "La nouvelle version du référentiel de certification a été créé avec succès",
             "title": "Création d'une nouvelle version du référentiel de certification"
           },
-          "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}"
+          "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}",
+          "title": "Création d'une version de certification"
         }
       },
       "deletion-modal": {

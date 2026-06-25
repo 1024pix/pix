@@ -1,5 +1,6 @@
 import { visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
@@ -109,6 +110,18 @@ module('Acceptance | Certification Framework | item | Framework | new', function
   });
 
   module('when admin member has role "SUPER ADMIN"', function () {
+    test('should display a breadcrum with the correct scope', async function (assert) {
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      // when
+      const screen = await visit(`/certification-frameworks/CORE/versions/new?activeVersionId=13`);
+
+      const nav = screen.getAllByRole('navigation')[1];
+      // then
+      assert.ok(within(nav).getByRole('link', { name: t('components.certification-frameworks.title') }));
+      assert.ok(within(nav).getByRole('link', { name: 'CORE' }));
+      assert.ok(within(nav).getByText(t('components.certification-frameworks.certification-framework.versions.title')));
+    });
+
     module('when there is already a draftVersion in scope', function () {
       test('stays on the page with a notification error', async function (assert) {
         // given
@@ -182,8 +195,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
         assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/versions/77/edit');
         assert.dom(screen.getByText('form'));
 
-        // TODO cliquer sur le breadcrumb par ex
-        await visit(`/certification-frameworks/DROIT/versions`);
+        await click(screen.getByRole('link', { name: 'DROIT' }));
         assert.strictEqual(currentURL(), '/certification-frameworks/DROIT');
         const [, row1, row2] = await screen.findAllByRole('row');
         assert.dom(within(row1).getByRole('cell', { name: '77' })).exists();
