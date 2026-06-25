@@ -1024,7 +1024,7 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bonne réponse !<br></p>",
-                          "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la <strong>médiane </strong>ne prend pas en compte les valeurs extrêmes&nbsp;! La consommation d’énergie <strong>moyenne </strong>pourrait être bien <strong>plus élevée</strong>. </p><p>  De plus <strong>Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes</strong>, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
+                          "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la <strong>médiane </strong>ne prend pas en compte les valeurs extrêmes&nbsp;! La consommation d’énergie <strong>moyenne </strong>pourrait être bien <strong>plus élevée</strong>. </p><p>  De plus, <strong>Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes</strong>, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non !&nbsp;</p><p>La réponse était 0,24&nbsp;wattheure (Wh).</p>",
