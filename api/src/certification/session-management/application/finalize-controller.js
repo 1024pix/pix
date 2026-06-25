@@ -1,5 +1,5 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import * as certificationReportSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
+import { certificationReportSerializer } from '../../shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 
 const finalize = async function (request, h, dependencies = { certificationReportSerializer }) {

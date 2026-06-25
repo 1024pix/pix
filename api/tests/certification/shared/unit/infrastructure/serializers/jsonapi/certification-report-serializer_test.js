@@ -2,7 +2,7 @@ import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import * as serializer from '../../../../../../../src/certification/shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
+import { certificationReportSerializer } from '../../../../../../../src/certification/shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
       };
 
       // when
-      const jsonApi = serializer.serialize(certificationReport);
+      const jsonApi = certificationReportSerializer.serialize(certificationReport);
 
       // then
       expect(jsonApi).to.deep.equal(jsonApiData);
@@ -82,7 +82,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
       ];
 
       // when
-      const jsonApi = serializer.serialize(certificationReport);
+      const jsonApi = certificationReportSerializer.serialize(certificationReport);
 
       // then
       expect(jsonApi.included).to.deep.equal(jsonApiDataIncluded);
@@ -117,7 +117,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
       };
 
       // when
-      const deserializedCertificationReport = await serializer.deserialize(jsonApiData);
+      const deserializedCertificationReport = await certificationReportSerializer.deserialize(jsonApiData);
 
       // then
       expect(deserializedCertificationReport).to.deep.equal(certificationReport);
