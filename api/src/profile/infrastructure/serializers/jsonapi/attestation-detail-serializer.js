@@ -8,4 +8,4 @@ const serialize = function (attestationDetail) {
   }).serialize(attestationDetail);
 };
 
-export { serialize };
+export const attestationDetailSerializer = { serialize };

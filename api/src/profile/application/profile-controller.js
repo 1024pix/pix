@@ -1,6 +1,6 @@
 import { getChallengeLocale } from '../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as profileSerializer from '../infrastructure/serializers/jsonapi/profile-serializer.js';
+import { profileSerializer } from '../infrastructure/serializers/jsonapi/profile-serializer.js';
 
 const getProfile = function (request, h, dependencies = { profileSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;

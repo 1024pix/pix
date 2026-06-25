@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/profile/infrastructure/serializers/jsonapi/profile-serializer.js';
+import { profileSerializer } from '../../../../../../src/profile/infrastructure/serializers/jsonapi/profile-serializer.js';
 import { MAX_REACHABLE_LEVEL } from '../../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -152,7 +152,7 @@ describe('Unit | Serializer | JSONAPI | profile', function () {
       };
 
       // when
-      const json = serializer.serialize(profile);
+      const json = profileSerializer.serialize(profile);
 
       // then
       expect(json).to.deep.equal(expectedSerializedProfile);
