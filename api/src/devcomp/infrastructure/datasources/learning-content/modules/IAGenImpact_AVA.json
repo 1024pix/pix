@@ -157,28 +157,28 @@
                           "id": "1",
                           "content": "<p>Alimenter en électricité 7600 personnes résidant en europe pendant un an.&nbsp;🏘️</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                            "diagnosis": "<p><strong>Bonne idée ! </strong></p><p>Toutes les réponses correspondent à 42GWh.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Recharger votre smartphone pendant 4 200 000 années.&nbsp;📱</p>",
                           "feedback": {
-                            "diagnosis": "<p>Drôle d’idée !</p><p><strong>Mais toutes les réponses correspondent à 42GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                            "diagnosis": "<p><strong>Drôle d’idée !</strong></p><p>En tout cas, toutes les réponses correspondent à 42GWh.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Faire 210 000 000 de kilomètres en voiture électrique, soit&nbsp; 5 240 fois le tour de la terre.&nbsp;🌏</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                            "diagnosis": "<p><strong>Vous risquez d'être fatigué !</strong></p><p>En tout cas, toutes les réponses correspondent à 42GWh.</p><p>Et ce total ne prend en compte que l’entraînement d'<strong>u</strong><strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Entraîner un modèle d’intelligence artificielle générative.&nbsp;✨</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Toutes les réponses correspondent à 42GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                            "diagnosis": "<p><strong>Pourquoi pas ?</strong></p><p>En tout cas, ce total ne prend en compte que l’entraînement pour <strong>u</strong><strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
@@ -999,39 +999,6 @@
                 {
                   "elements": [
                     {
-                      "id": "6ff2f836-1331-46c0-8e8b-373d55f69ed8",
-                      "type": "qcu",
-                      "instruction": "<p>D’après l’étude, quel est l’impact d’une requête à Gemini ?</p>",
-                      "hasShortProposals": false,
-                      "proposals": [
-                        {
-                          "id": "0",
-                          "content": "<p>0,024&nbsp;wattheure (Wh) d’énergie</p>",
-                          "feedback": {
-                            "state": "<p>Eh non ! La réponse était 0,24&nbsp;wattheure (Wh).</p>",
-                            "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la médiane ne prend pas en compte les valeurs extrêmes&nbsp;!&nbsp; La consommation d’énergie <strong>moyenne </strong>pourrait être bien <strong>plus élevée</strong>.</p><p>De plus Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
-                          }
-                        },
-                        {
-                          "id": "1",
-                          "content": "<p>24&nbsp;wattheure (Wh) d’énergie</p>",
-                          "feedback": {
-                            "state": "<p>Eh non !&nbsp;La réponse était 0,24&nbsp;wattheure (Wh).</p>",
-                            "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la médiane ne prend pas en compte les valeurs extrêmes&nbsp;!&nbsp; La consommation d’énergie <strong>moyenne </strong>pourrait être bien<strong> plus élevé</strong><strong>e</strong>. </p><p>De plus Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
-                          }
-                        },
-                        {
-                          "id": "2",
-                          "content": "<p>0,24&nbsp;wattheure (Wh) d’énergie</p>",
-                          "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
-                            "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la médiane ne prend pas en compte les valeurs extrêmes&nbsp;! La consommation d’énergie <strong>moyenne </strong>pourrait être bien <strong>plus élevée</strong>. </p><p> De plus Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
-                          }
-                        }
-                      ],
-                      "solution": "2"
-                    },
-                    {
                       "id": "5eb45076-3461-402b-a8b4-707431b8070e",
                       "type": "qrocm",
                       "instruction": "<p>D’après l’étude, quel est l’impact d’une requête à Gemini ?</p>",
@@ -1057,11 +1024,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bonne réponse !<br></p>",
-                          "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la médiane ne prend pas en compte les valeurs extrêmes&nbsp;!</p><p> La consommation d’énergie <strong>moyenne </strong>pourrait être bien <strong>plus élevée</strong>.   De plus Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
+                          "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la <strong>médiane </strong>ne prend pas en compte les valeurs extrêmes&nbsp;! La consommation d’énergie <strong>moyenne </strong>pourrait être bien <strong>plus élevée</strong>. </p><p>  De plus <strong>Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes</strong>, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non !&nbsp;</p><p>La réponse était 0,24&nbsp;wattheure (Wh).</p>",
-                          "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la médiane ne prend pas en compte les valeurs extrêmes&nbsp;!</p><p> La consommation d’énergie <strong>moyenne </strong>pourrait être bien <strong>plus élevée</strong>. De plus Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
+                          "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la <strong>médiane </strong>ne prend pas en compte les valeurs extrêmes&nbsp;! La consommation d’énergie <strong>moyenne </strong>pourrait être bien <strong>plus élevée</strong>. </p><p>De plus <strong>Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes</strong>, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
                         }
                       }
                     }
