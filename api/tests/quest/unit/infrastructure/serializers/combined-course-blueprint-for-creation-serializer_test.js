@@ -8,7 +8,7 @@ import {
   REQUIREMENT_COMPARISONS,
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
-import * as combinedCourseBlueprintForCreationSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-for-creation-serializer.js';
+import { combinedCourseBlueprintForCreationSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-for-creation-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-blueprint', function () {

@@ -11,4 +11,4 @@ const deserialize = async function (payload) {
   return new CombinedCourseBlueprintForUpdate(deserializedData);
 };
 
-export { deserialize };
+export const combinedCourseBlueprintForUpdateSerializer = { deserialize };

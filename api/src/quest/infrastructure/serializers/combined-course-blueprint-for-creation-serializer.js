@@ -28,4 +28,4 @@ const deserialize = async function (payload) {
   });
 };
 
-export { deserialize, serialize };
+export const combinedCourseBlueprintForCreationSerializer = { deserialize, serialize };

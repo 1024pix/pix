@@ -1,4 +1,4 @@
-import * as combinedCourseforCreationSerialzer from '../../../../../src/quest/infrastructure/serializers/combined-course-for-creation-serializer.js';
+import { combinedCourseForCreationSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-for-creation-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-creation', function () {
@@ -25,7 +25,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-crea
     };
 
     // when
-    const deserialized = await combinedCourseforCreationSerialzer.deserialize(payload);
+    const deserialized = await combinedCourseForCreationSerializer.deserialize(payload);
 
     // then
     expect(deserialized).deep.equal({

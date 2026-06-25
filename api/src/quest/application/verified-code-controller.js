@@ -1,5 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as verifiedCodeSerializer from '../infrastructure/serializers/verified-code-serializer.js';
+import { verifiedCodeSerializer } from '../infrastructure/serializers/verified-code-serializer.js';
 
 const get = async function (request, h, dependencies = { verifiedCodeSerializer }) {
   const { code } = request.params;

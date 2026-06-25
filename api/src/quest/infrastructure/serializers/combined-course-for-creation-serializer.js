@@ -8,4 +8,4 @@ const deserialize = function (payload) {
   return new CombinedCourseForCreation({ organizationId, name, blueprintId });
 };
 
-export { deserialize };
+export const combinedCourseForCreationSerializer = { deserialize };

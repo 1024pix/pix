@@ -1,4 +1,4 @@
-import * as combinedCourseDetailsSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-details-serializer.js';
+import { combinedCourseDetailsSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-details-serializer.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 

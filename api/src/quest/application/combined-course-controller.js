@@ -3,15 +3,15 @@ import { createReadStream } from 'node:fs';
 import { getDataBuffer } from '../../prescription/learner-management/infrastructure/utils/bufferize/get-data-buffer.js';
 import { getChallengeLocale } from '../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as campaignTypeCombinedCourseSerializer from '../infrastructure/serializers/campaign-type-combined-course-serializer.js';
-import * as combinedCourseDetailsSerializer from '../infrastructure/serializers/combined-course-details-serializer.js';
-import * as combinedCourseForCreationSerializer from '../infrastructure/serializers/combined-course-for-creation-serializer.js';
-import * as combinedCourseListSerializer from '../infrastructure/serializers/combined-course-list-serializer.js';
-import * as combinedCourseParticipationDetailSerializer from '../infrastructure/serializers/combined-course-participation-detail-serializer.js';
-import * as combinedCourseParticipationSerializer from '../infrastructure/serializers/combined-course-participation-serializer.js';
-import * as combinedCourseSerializer from '../infrastructure/serializers/combined-course-serializer.js';
-import * as combinedCourseStatisticsSerializer from '../infrastructure/serializers/combined-course-statistics-serializer.js';
-import * as courseSerializer from '../infrastructure/serializers/course-serializer.js';
+import { campaignTypeCombinedCourseSerializer } from '../infrastructure/serializers/campaign-type-combined-course-serializer.js';
+import { combinedCourseDetailsSerializer } from '../infrastructure/serializers/combined-course-details-serializer.js';
+import { combinedCourseForCreationSerializer } from '../infrastructure/serializers/combined-course-for-creation-serializer.js';
+import { combinedCourseListSerializer } from '../infrastructure/serializers/combined-course-list-serializer.js';
+import { combinedCourseParticipationDetailSerializer } from '../infrastructure/serializers/combined-course-participation-detail-serializer.js';
+import { combinedCourseParticipationSerializer } from '../infrastructure/serializers/combined-course-participation-serializer.js';
+import { combinedCourseSerializer } from '../infrastructure/serializers/combined-course-serializer.js';
+import { combinedCourseStatisticsSerializer } from '../infrastructure/serializers/combined-course-statistics-serializer.js';
+import { courseSerializer } from '../infrastructure/serializers/course-serializer.js';
 
 const getByCode = async function (request, _, dependencies = { combinedCourseSerializer }) {
   const { code } = request.query.filter;

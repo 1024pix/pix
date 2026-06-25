@@ -9,4 +9,4 @@ const serialize = function (combinedCourse, meta) {
   }).serialize(combinedCourse);
 };
 
-export { serialize };
+export const combinedCourseListSerializer = { serialize };

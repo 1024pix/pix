@@ -1,6 +1,6 @@
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { Quest } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
-import * as combinedCourseBlueprintOverviewSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-overview-serializer.js';
+import { combinedCourseBlueprintOverviewSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-overview-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprint-overview', function () {

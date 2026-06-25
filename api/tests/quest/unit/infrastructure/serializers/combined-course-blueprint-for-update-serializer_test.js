@@ -1,5 +1,5 @@
 import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
-import * as combinedCourseforUpdateSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-for-update-serializer.js';
+import { combinedCourseBlueprintForUpdateSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-for-update-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-update', function () {
@@ -30,7 +30,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-upda
     };
 
     // when
-    const deserialized = await combinedCourseforUpdateSerializer.deserialize(payload);
+    const deserialized = await combinedCourseBlueprintForUpdateSerializer.deserialize(payload);
 
     // then
     expect(deserialized).to.be.instanceOf(CombinedCourseBlueprintForUpdate);

@@ -1,6 +1,6 @@
 import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { CombinedCourseParticipationDetails } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseParticipationDetails.js';
-import { serialize } from '../../../../../src/quest/infrastructure/serializers/combined-course-participation-serializer.js';
+import { combinedCourseParticipationSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-participation-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('CombinedCourseParticipationSerializer', function () {
@@ -21,7 +21,7 @@ describe('CombinedCourseParticipationSerializer', function () {
       nbCampaignsCompleted: 1,
     });
 
-    const serialized = serialize(combinedCourseParticipation);
+    const serialized = combinedCourseParticipationSerializer.serialize(combinedCourseParticipation);
 
     expect(serialized).to.deep.equal({
       data: {

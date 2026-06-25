@@ -8,4 +8,4 @@ const serialize = function (questResult) {
   }).serialize(questResult);
 };
 
-export { serialize };
+export const questResultSerializer = { serialize };

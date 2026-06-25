@@ -17,4 +17,4 @@ const serialize = function (combinedCourseBlueprint) {
   }).serialize(combinedCourseBlueprint);
 };
 
-export { serialize };
+export const combinedCourseBlueprintOverviewSerializer = { serialize };

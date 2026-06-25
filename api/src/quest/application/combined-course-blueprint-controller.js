@@ -1,10 +1,10 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as adminCombinedCourseBlueprintDetailsSerializer from '../infrastructure/serializers/admin-combined-course-blueprint-details-serializer.js';
-import * as combinedCourseBlueprintForCreationSerializer from '../infrastructure/serializers/combined-course-blueprint-for-creation-serializer.js';
-import * as combinedCourseBlueprintForUpdateSerializer from '../infrastructure/serializers/combined-course-blueprint-for-update-serializer.js';
-import * as combinedCourseBlueprintOrganizationSerializer from '../infrastructure/serializers/combined-course-blueprint-organization-serializer.js';
-import * as combinedCourseBlueprintOverviewSerializer from '../infrastructure/serializers/combined-course-blueprint-overview-serializer.js';
-import * as combinedCourseBlueprintSerializer from '../infrastructure/serializers/combined-course-blueprint-serializer.js';
+import { adminCombinedCourseBlueprintDetailsSerializer } from '../infrastructure/serializers/admin-combined-course-blueprint-details-serializer.js';
+import { combinedCourseBlueprintForCreationSerializer } from '../infrastructure/serializers/combined-course-blueprint-for-creation-serializer.js';
+import { combinedCourseBlueprintForUpdateSerializer } from '../infrastructure/serializers/combined-course-blueprint-for-update-serializer.js';
+import { combinedCourseBlueprintOrganizationSerializer } from '../infrastructure/serializers/combined-course-blueprint-organization-serializer.js';
+import { combinedCourseBlueprintOverviewSerializer } from '../infrastructure/serializers/combined-course-blueprint-overview-serializer.js';
+import { combinedCourseBlueprintSerializer } from '../infrastructure/serializers/combined-course-blueprint-serializer.js';
 
 const findAll = async (request, _, dependencies = { combinedCourseBlueprintSerializer }) => {
   const combinedCourseBlueprints = await usecases.findCombinedCourseBlueprints();

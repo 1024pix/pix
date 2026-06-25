@@ -1,7 +1,7 @@
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
-import { serialize } from '../../../../../src/quest/infrastructure/serializers/combined-course-participation-detail-serializer.js';
+import { combinedCourseParticipationDetailSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-participation-detail-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('CombinedCourseParticipationSerializer', function () {
@@ -44,7 +44,7 @@ describe('CombinedCourseParticipationSerializer', function () {
       ],
     };
 
-    const serialized = serialize(combinedCourseDetails);
+    const serialized = combinedCourseParticipationDetailSerializer.serialize(combinedCourseDetails);
 
     expect(serialized).deep.equal({
       data: {
