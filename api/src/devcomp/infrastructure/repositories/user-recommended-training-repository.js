@@ -1,10 +1,9 @@
-import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
 
 const save = function ({ userId, trainingId, campaignParticipationId, isRelevant }) {
   const knexConn = DomainTransaction.getConnection();
-  return knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+  return knexConn('user-recommended-trainings')
     .insert({ userId, trainingId, campaignParticipationId, isRelevant, updatedAt: knexConn.fn.now() })
     .onConflict(['userId', 'trainingId', 'campaignParticipationId'])
     .merge(['isRelevant', 'updatedAt']);
@@ -12,9 +11,9 @@ const save = function ({ userId, trainingId, campaignParticipationId, isRelevant
 
 const findByCampaignParticipationId = async function ({ campaignParticipationId, locale }) {
   const knexConn = DomainTransaction.getConnection();
-  const trainings = await knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+  const trainings = await knexConn('user-recommended-trainings')
     .select('trainings.*', 'isRelevant')
-    .innerJoin('trainings', 'trainings.id', `${USER_RECOMMENDED_TRAININGS_TABLE_NAME}.trainingId`)
+    .innerJoin('trainings', 'trainings.id', 'user-recommended-trainings.trainingId')
     .where({ campaignParticipationId, isDisabled: false })
     .whereRaw('? = ANY(locales)', locale)
     .orderBy('id', 'asc');
@@ -27,9 +26,9 @@ const findByCampaignParticipationIdAndTrainingIdAndUserId = async function ({
   userId,
 }) {
   const knexConn = DomainTransaction.getConnection();
-  const result = await knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+  const result = await knexConn('user-recommended-trainings')
     .select('trainings.*', 'isRelevant')
-    .innerJoin('trainings', 'trainings.id', `${USER_RECOMMENDED_TRAININGS_TABLE_NAME}.trainingId`)
+    .innerJoin('trainings', 'trainings.id', 'user-recommended-trainings.trainingId')
     .where({ campaignParticipationId, trainingId, userId, isDisabled: false })
     .first();
 
@@ -38,9 +37,9 @@ const findByCampaignParticipationIdAndTrainingIdAndUserId = async function ({
 
 const findModulesByCampaignParticipationIds = async function ({ campaignParticipationIds }) {
   const knexConn = DomainTransaction.getConnection();
-  const moduleLinks = await knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+  const moduleLinks = await knexConn('user-recommended-trainings')
     .select('trainings.*')
-    .innerJoin('trainings', 'trainings.id', `${USER_RECOMMENDED_TRAININGS_TABLE_NAME}.trainingId`)
+    .innerJoin('trainings', 'trainings.id', 'user-recommended-trainings.trainingId')
     .where({ isDisabled: false, type: 'modulix' })
     .whereIn('campaignParticipationId', campaignParticipationIds)
     .orderBy('trainings.id', 'asc');
@@ -58,13 +57,13 @@ const findModulesByCampaignParticipationIds = async function ({ campaignParticip
 
 const hasRecommendedTrainings = async function ({ userId }) {
   const knexConn = DomainTransaction.getConnection();
-  const result = await knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME).select(1).where({ userId }).first();
+  const result = await knexConn('user-recommended-trainings').select(1).where({ userId }).first();
   return Boolean(result);
 };
 
 const deleteCampaignParticipationIds = async ({ campaignParticipationIds }) => {
   const knexConn = DomainTransaction.getConnection();
-  return knexConn(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+  return knexConn('user-recommended-trainings')
     .update({ campaignParticipationId: null, updatedAt: new Date() })
     .whereIn('campaignParticipationId', campaignParticipationIds);
 };

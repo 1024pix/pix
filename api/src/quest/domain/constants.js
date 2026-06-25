@@ -1,7 +1,6 @@
-import { ATTESTATIONS_TABLE_NAME } from '../../../db/migrations/20240820101115_add-attestations-table.js';
 import { CsvColumn } from '../../shared/infrastructure/serializers/csv/csv-column.js';
 
-export const REWARD_TYPES = { ATTESTATION: ATTESTATIONS_TABLE_NAME };
+export const REWARD_TYPES = { ATTESTATION: 'attestations' };
 
 export const COMBINED_COURSE_ITEM_TYPES = {
   MODULE: 'module',
