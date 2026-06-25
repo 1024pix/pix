@@ -1,4 +1,12 @@
-import { HttpErrors } from '../../shared/application/errors/http-errors.js';
+import {
+  BadRequestError,
+  ConflictError,
+  ForbiddenError,
+  InternalServerError,
+  NotFoundError,
+  PayloadTooLargeError,
+  ServiceUnavailableError,
+} from '../../shared/application/errors/http-errors.js';
 import {
   ChatForbiddenError,
   ChatNotFoundError,
@@ -16,46 +24,46 @@ import {
 export const llmDomainErrorMappingConfiguration = [
   {
     name: ChatNotFoundError.name,
-    httpErrorFn: (error) => new HttpErrors.NotFoundError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new NotFoundError(error.message, error.code, error.meta),
   },
   {
     name: MaxPromptsReachedError.name,
-    httpErrorFn: (error) => new HttpErrors.ForbiddenError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new ForbiddenError(error.message, error.code, error.meta),
   },
   {
     name: ChatForbiddenError.name,
-    httpErrorFn: (error) => new HttpErrors.ForbiddenError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new ForbiddenError(error.message, error.code, error.meta),
   },
   {
     name: PromptAlreadyOngoingError.name,
-    httpErrorFn: (error) => new HttpErrors.ConflictError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new ConflictError(error.message, error.code, error.meta),
   },
   {
     name: ConfigurationNotFoundError.name,
-    httpErrorFn: (error) => new HttpErrors.BadRequestError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new BadRequestError(error.message, error.code, error.meta),
   },
   {
     name: NoUserIdProvidedError.name,
-    httpErrorFn: (error) => new HttpErrors.BadRequestError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new BadRequestError(error.message, error.code, error.meta),
   },
   {
     name: NoAttachmentNeededError.name,
-    httpErrorFn: (error) => new HttpErrors.BadRequestError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new BadRequestError(error.message, error.code, error.meta),
   },
   {
     name: NoAttachmentNorMessageProvidedError.name,
-    httpErrorFn: (error) => new HttpErrors.BadRequestError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new BadRequestError(error.message, error.code, error.meta),
   },
   {
     name: LLMApiError.name,
-    httpErrorFn: (error) => new HttpErrors.ServiceUnavailableError(error.message),
+    httpErrorFn: (error) => new ServiceUnavailableError(error.message),
   },
   {
     name: IncorrectMessagesOrderingError.name,
-    httpErrorFn: (error) => new HttpErrors.InternalServerError(error.message),
+    httpErrorFn: (error) => new InternalServerError(error.message),
   },
   {
     name: TooLargeMessageInputError.name,
-    httpErrorFn: (error) => new HttpErrors.PayloadTooLargeError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new PayloadTooLargeError(error.message, error.code, error.meta),
   },
 ];

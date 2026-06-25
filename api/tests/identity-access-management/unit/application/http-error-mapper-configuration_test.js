@@ -8,7 +8,13 @@ import {
   UserCantBeCreatedError,
   UserShouldChangePasswordError,
 } from '../../../../src/identity-access-management/domain/errors.js';
-import { HttpErrors } from '../../../../src/shared/application/errors/http-errors.js';
+import {
+  BadRequestError,
+  ConflictError,
+  NotFoundError,
+  PasswordShouldChangeError,
+  UnauthorizedError,
+} from '../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | HttpErrorMapperConfiguration', function () {
@@ -23,7 +29,7 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
       const error = httpErrorMapper.httpErrorFn(new AuthenticationKeyExpired());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+      expect(error).to.be.instanceOf(UnauthorizedError);
       expect(error.code).to.equal('EXPIRED_AUTHENTICATION_KEY');
     });
   });
@@ -39,7 +45,7 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
       const error = httpErrorMapper.httpErrorFn(new DifferentExternalIdentifierError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.ConflictError);
+      expect(error).to.be.instanceOf(ConflictError);
     });
   });
 
@@ -57,7 +63,7 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
         );
 
         // then
-        expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+        expect(error).to.be.instanceOf(UnauthorizedError);
         expect(error.meta.isLoginFailureWithUsername).to.be.true;
       });
     });
@@ -75,7 +81,7 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
         );
 
         // then
-        expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+        expect(error).to.be.instanceOf(UnauthorizedError);
         expect(error.meta.isLoginFailureWithUsername).to.be.false;
       });
     });
@@ -92,7 +98,7 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
         const error = httpErrorMapper.httpErrorFn(new MissingOrInvalidCredentialsError({ remainingAttempts }));
 
         // then
-        expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+        expect(error).to.be.instanceOf(UnauthorizedError);
         expect(error.meta.remainingAttempts).to.equal(remainingAttempts);
       });
     });
@@ -109,7 +115,7 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
       const error = httpErrorMapper.httpErrorFn(new MissingUserAccountError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error).to.be.instanceOf(BadRequestError);
     });
   });
 
@@ -125,7 +131,7 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
       const error = httpErrorMapper.httpErrorFn(new PasswordResetDemandNotFoundError(message));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.NotFoundError);
+      expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal(message);
     });
   });
@@ -142,7 +148,7 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
       const error = httpErrorMapper.httpErrorFn(new UserCantBeCreatedError(message));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+      expect(error).to.be.instanceOf(UnauthorizedError);
       expect(error.message).to.equal(message);
     });
   });
@@ -160,7 +166,7 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
       const error = httpErrorMapper.httpErrorFn(new UserShouldChangePasswordError(message, meta));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.PasswordShouldChangeError);
+      expect(error).to.be.instanceOf(PasswordShouldChangeError);
       expect(error.message).to.equal(message);
       expect(error.meta).to.equal(meta);
     });

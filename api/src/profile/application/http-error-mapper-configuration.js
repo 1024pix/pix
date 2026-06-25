@@ -1,4 +1,8 @@
-import { HttpErrors } from '../../shared/application/errors/http-errors.js';
+import {
+  BadRequestError,
+  NotFoundError,
+  PreconditionFailedError,
+} from '../../shared/application/errors/http-errors.js';
 import {
   AttestationNotFoundError,
   NoProfileRewardsFoundError,
@@ -10,25 +14,25 @@ const profileDomainErrorMappingConfiguration = [
   {
     name: AttestationNotFoundError.name,
     httpErrorFn: (error) => {
-      return new HttpErrors.NotFoundError(error.message, error.code, error.meta);
+      return new NotFoundError(error.message, error.code, error.meta);
     },
   },
   {
     name: NoProfileRewardsFoundError.name,
     httpErrorFn: (error) => {
-      return new HttpErrors.NotFoundError(error.message, error.code, error.meta);
+      return new NotFoundError(error.message, error.code, error.meta);
     },
   },
   {
     name: ProfileRewardCantBeSharedError.name,
     httpErrorFn: (error) => {
-      return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
+      return new PreconditionFailedError(error.message, error.code, error.meta);
     },
   },
   {
     name: RewardTypeDoesNotExistError.name,
     httpErrorFn: (error) => {
-      return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
+      return new BadRequestError(error.message, error.code, error.meta);
     },
   },
 ];
