@@ -142,13 +142,13 @@
                 {
                   "elements": [
                     {
-                      "id": "20d3955b-9094-459b-9f9f-8434ce2fdd1c",
+                      "id": "ce0c7e21-928c-4a63-9e56-85076e055718",
                       "type": "text",
                       "tag": " ",
                       "content": "<p><strong>L’entraînement </strong>d’un modèle de langage consiste à lui <strong>fournir un grand volume de données</strong> pour qu’il améliore ses prédictions. Des milliards de milliards de calculs sont effectués durant cette phase d’entraînement, notamment pour ajuster la valeur des paramètres du modèle.&nbsp; </p><p>À titre d’exemple, l’<strong>entraînement du modèle GPT-4 d’OpenAI,</strong>  a nécessité <strong>14 semaines de calculs en continu.</strong>  Cela correspond à une consommation d’énergie de <strong>42GWh GigaWattHeures !</strong><br><br></p>"
                     },
                     {
-                      "id": "20d3955b-9094-459b-9f9f-8434ce2fdd1c",
+                      "id": "10fd3e5a-8e74-47a0-8d94-dc4205466a90",
                       "type": "qcu-declarative",
                       "instruction": "<p>Et vous, qu’auriez vous fait si vous aviez à disposition 42GWh d’électricité ?</p>",
                       "hasShortProposals": false,
@@ -410,7 +410,7 @@
                 {
                   "elements": [
                     {
-                      "id": "e69da63c-0a10-4149-be48-cd62115c1fc7",
+                      "id": "d135a41a-df4b-4f4b-b688-f6867aea83d2",
                       "type": "text",
                       "tag": " ",
                       "content": "<p>Initialement utilisées pour des calculs graphiques (modélisation 3D, jeux vidéos…), les <strong>cartes graphiques</strong> sont aujourd’hui aussi<strong> très utilisées pour l’entraînement des logiciels d’intelligence artificielle.</strong></p>"
