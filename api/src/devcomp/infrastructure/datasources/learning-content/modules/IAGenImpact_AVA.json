@@ -11,9 +11,9 @@
     "duration": 10,
     "level": "advanced",
     "objectives": [
-      "<p>Identifier les besoins matériels des logiciels d’intelligence artificielle générative</p>",
-      "<p>Comprendre l’impact environnemental des phases d’entraînement et d’utilisation des logiciels d’intelligence artificielle générative</p>",
-      "<p>Identifier des pistes pour réduire l’impact environnemental des logiciels d’intelligence artificielle générative</p>"
+      "<p>Identifier les besoins matériels des logiciels d’intelligence artificielle (IA) générative</p>",
+      "<p>Comprendre l’impact environnemental des phases d’entraînement et d’utilisation des logiciels d’IA générative</p>",
+      "<p>Identifier des pistes pour réduire l’impact environnemental des logiciels d’IA générative</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -918,7 +918,7 @@
                 "id": "49975927-1cd5-4fe3-9d7f-c77d6316cb0b",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>André, Bréatrice, Charlotte, Dylan et Elisabeth sont en réunion. </p><p>Ils travaillent dans une entreprise qui propose des serivces d’intelligence artificielle générative.</p>"
+                "content": "<p>André, Bréatrice, Charlotte, Dylan et Elisabeth sont en réunion. </p><p>Ils travaillent dans une entreprise qui propose des services d’intelligence artificielle générative.</p>"
               }
             },
             {
@@ -938,7 +938,7 @@
               "element": {
                 "id": "b6105600-ded6-45dc-b0c4-5879aec035fc",
                 "type": "qcm",
-                "instruction": "<p>Qui proposent des pistes qui risquent d’augmenter l’impact environnemental de l’entreprise ?</p>",
+                "instruction": "<p>Parmi eux, lesquels proposent des pistes qui risquent d’augmenter l’impact environnemental de l’entreprise ?</p>",
                 "hasShortProposals": true,
                 "proposals": [
                   {
