@@ -357,7 +357,7 @@
                       "id": "7903b516-814b-466e-a0b0-d54122cc8ce7",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Ces <strong>calcus </strong><strong>sont faits des centres de données </strong>spécialisés appelés <strong>hyperscalers</strong>.&nbsp; </p><p>Ces centres de données fonctionnent grâce à du matériel informatique spécifique, notamment le <strong>composant </strong>présent <strong>sur la photo</strong> ci-dessous.<br><br></p>"
+                      "content": "<p>Ces <strong>calcus </strong><strong>sont faits des centres de données </strong>spécialisés appelés <strong>hyperscalers</strong>.&nbsp; </p>\n<p>Ces centres de données fonctionnent grâce à du matériel informatique spécifique, notamment le <strong>composant </strong>présent <strong>sur la photo</strong> ci-dessous.</p>"
                     },
                     {
                       "id": "d9b18008-bd8e-47bc-b05b-20afcbd790cb",
@@ -385,7 +385,7 @@
                           "id": "2",
                           "content": "une carte graphique",
                           "feedback": {
-                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut<strong> faire très rapidement certains types de calcul.</strong> <br><br></p>"
+                            "diagnosis": "<p><strong>Bien vu ! </strong></p>\n<p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut<strong> faire très rapidement certains types de calcul.</strong></p>"
                           }
                         },
                         {
