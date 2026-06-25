@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { ClientApplicationsScript } from '../../../scripts/identity-access-management/client-applications.js';
-import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
-import { databaseBuilder, knex } from '../../tooling/databases.js';
-import { domainBuilder } from '../../tooling/domain-builder/domain-builder.js';
+import { ClientApplicationsScript } from '../../../../src/identity-access-management/scripts/client-applications.js';
+import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
+import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('ClientApplicationsScript', function () {
   describe('Options', function () {

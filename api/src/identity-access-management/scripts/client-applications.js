@@ -1,7 +1,7 @@
-import { clientApplicationRepository } from '../../src/identity-access-management/infrastructure/repositories/client-application.repository.js';
-import { Script } from '../../src/shared/application/scripts/script.js';
-import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
-import { cryptoService } from '../../src/shared/domain/services/crypto-service.js';
+import { clientApplicationRepository } from '../../../src/identity-access-management/infrastructure/repositories/client-application.repository.js';
+import { Script } from '../../../src/shared/application/scripts/script.js';
+import { ScriptRunner } from '../../../src/shared/application/scripts/script-runner.js';
+import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 
 export class ClientApplicationsScript extends Script {
   constructor() {
@@ -139,6 +139,7 @@ export class ClientApplicationsScript extends Script {
 
   async list() {
     const list = await clientApplicationRepository.list();
+    // eslint-disable-next-line no-console
     console.table(
       list.map((clientApplication) => {
         return {
