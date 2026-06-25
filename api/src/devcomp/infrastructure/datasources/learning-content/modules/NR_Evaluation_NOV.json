@@ -99,38 +99,139 @@
                 "id": "26367780-e7c8-415f-beac-58f7a51b8bae",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour comprendre ce qu’est une empreinte carbone, regardons déjà quels gaz à effet de serre émettent les activités humaines.</p><p>Sélectionnez une activité humaine pour découvrir quels gaz à effet de serre elle émet.</p>"
+                "content": "<p>Pour comprendre ce qu’est une empreinte carbone, regardons déjà quels gaz à effet de serre émettent les activités humaines.</p>"
               }
             },
             {
-              "type": "element",
-              "element": {
-                "id": "bd0a7414-0282-449c-8e4e-e1aa692336d8",
-                "type": "image",
-                "url": "https://assets.pix.org/modules/nr-evaluation-nov/draft-poi-dataselect-empreintes-carbone-activites-humaines.png",
-                "alt": "",
-                "alternativeText": "",
-                "legend": "",
-                "licence": ""
-              }
+              "type": "stepper",
+              "instruction": "<p>Parcourez les activités humaines suivantes pour découvrir quels gaz à effet de serre elles émettent, puis répondez aux questions.</p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "59b8ff08-6197-4e96-9d96-caea37e36a96",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-1.png",
+                      "alt": "",
+                      "alternativeText": "<p>Activité : parcourir 100 kilomètres en voiture.</p><p>Gaz émis : dioxyde de carbone (CO2).</p>",
+                      "legend": "",
+                      "licence": ""
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "4ae54e1b-d0b0-4ab8-a62d-24a87c114ffd",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-2.png",
+                      "alt": "",
+                      "alternativeText": "<p>Activité : produire 1 kg de viande de boeuf.</p><p>Gaz émis : méthane (CH4) et&nbsp;dioxyde de carbone (CO2).</p>",
+                      "legend": "",
+                      "licence": ""
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "98eb039c-c246-4588-91db-d46562fe1c1b",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-3.png",
+                      "alt": "",
+                      "alternativeText": "<p>Activité : produire 100 kg de carottes.</p><p>Gaz émis : méthane (CH4) et protoxyde d'azote&nbsp;(NO2).</p>",
+                      "legend": "",
+                      "licence": ""
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "type": "element",
-              "element": {
-                "id": "c0568f59-0071-4d9b-b928-f02f9aa219c5",
-                "type": "text",
-                "tag": " ",
-                "content": "<p><strong>🏗&nbsp;Image temporaire en attendant le POI final&nbsp;🏗</strong></p><p><strong>Fonctionnement du POI</strong>&nbsp;: Lorsqu’on sélectionne une activité dans la partie gauche, la partie droite affiche le(s) gaz à effet de serre émis par cette activité, et la balance est plus ou moins remplie selon l’impact carbone de l’activité (pas à l’échelle, juste de façon indicative).</p><p><strong>Contenu du POI&nbsp;:</strong></p><ul><li>Parcourir 100km en voiture<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><li>Produire 100kg de carottes<ul><li>Gaz émis&nbsp;: Méthane et Protoxyde d’azote</li></ul></li><li>Produire 100kWh d’électricité en France<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><li>Produire 100g de viande boeuf<ul><li>Gaz émis&nbsp;: Méthane et Dioxyde de carbone (CO₂)</li></ul></li><li>Envoyer 100 emails<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><li>Chauffer un appartement de 50m2 en hiver<ul><li>Gaz émis&nbsp;: Dioxyde de carbone (CO₂)</li></ul></li><br></ul>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "05ac6d37-8dc1-4155-b1f9-df14c0d907b4",
-                "type": "text",
-                "tag": " ",
-                "content": ""
-              }
+              "type": "stepper",
+              "instruction": "<p>Répondez aux questions suivantes.<br></p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "5c6cf576-1284-4591-b861-7b4ad3d8c96d",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Quels gaz à effet de serre est émis par un trajet en voiture ?<br></p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "0",
+                          "content": "oxygène (O)",
+                          "feedback": {
+                            "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                          }
+                        },
+                        {
+                          "id": "1",
+                          "content": "dioxyde de carbone (CO2)",
+                          "feedback": {
+                            "diagnosis": "Bien vu ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "méthane (CH4)",
+                          "feedback": {
+                            "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "50d81f9c-5465-459b-aa9b-f79045acbe4d",
+                      "type": "qcm",
+                      "instruction": "<p>Quels gaz à effet de serre sont émis par la production de carottes ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "0",
+                          "content": "dioxyde de carbone (CO2)"
+                        },
+                        {
+                          "id": "1",
+                          "content": "protoxyde d'azote (NO2)"
+                        },
+                        {
+                          "id": "2",
+                          "content": "dioxyde de soufre (SO2)"
+                        },
+                        {
+                          "id": "3",
+                          "content": "méthane (CH4)"
+                        },
+                        {
+                          "id": "4",
+                          "content": "Je ne sais pas."
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "Bien vu !",
+                          "diagnosis": "La production de carottes émet du protoxyde d'azote (NO2) et du dioxyde de carbone (CO2)."
+                        },
+                        "invalid": {
+                          "state": "Eh non !",
+                          "diagnosis": "La production de carottes émet du protoxyde d'azote (NO2) et du dioxyde de carbone (CO2)."
+                        }
+                      },
+                      "solutions": [
+                        "1",
+                        "3"
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
