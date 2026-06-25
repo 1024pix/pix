@@ -762,67 +762,81 @@
               "element": {
                 "id": "05dbaa5a-b561-40bc-9598-92da761bdd1e",
                 "type": "qrocm",
-                "instruction": "<p>Compléter les phrases suivantes.</p>",
+                "instruction": "<p>Compléter la phrase suivante.</p>",
                 "proposals": [
                   {
                     "type": "text",
-                    "content": "<p>Ce matériel a&nbsp;</p>"
+                    "content": "<p>L’entraînement des logiciels d’intelligence</p>"
                   },
                   {
-                    "type": "select",
                     "input": "choice1",
+                    "type": "input",
+                    "inputType": "text",
+                    "size": 10,
                     "display": "inline",
-                    "placeholder": "Sélectionnez une réponse",
-                    "ariaLabel": "Sélectionnez une réponse",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "un fort impact sur l’environnement"
-                      },
-                      {
-                        "id": "2",
-                        "content": "un impact réduit sur l’environnement"
-                      }
+                    "placeholder": "",
+                    "ariaLabel": "à compléter",
+                    "tolerances": [
+                      "t1",
+                      "t2",
+                      "t3"
                     ],
                     "solutions": [
-                      "1"
+                      "artificielle"
                     ]
                   },
                   {
                     "type": "text",
-                    "content": "<p> d’autant plus qu’il a &nbsp;<br></p>"
+                    "content": "<p>nécessitent des calculs pendant des semaines qui sont traités dans des centres de</p>"
                   },
                   {
-                    "type": "select",
                     "input": "choice2",
+                    "type": "input",
+                    "inputType": "text",
+                    "size": 10,
                     "display": "inline",
-                    "placeholder": "Sélectionnez une réponse",
-                    "ariaLabel": "Sélectionnez une réponse",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "une durée de vie courte."
-                      },
-                      {
-                        "id": "2",
-                        "content": "une durée de vie longue."
-                      }
+                    "placeholder": "",
+                    "ariaLabel": "à compléter",
+                    "tolerances": [
+                      "t1",
+                      "t2",
+                      "t3"
                     ],
                     "solutions": [
-                      "1"
+                      "données"
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<p>spécialisés équipés des milliers de cartes</p>"
+                  },
+                  {
+                    "input": "choice3",
+                    "type": "input",
+                    "inputType": "text",
+                    "size": 10,
+                    "display": "inline",
+                    "placeholder": "",
+                    "ariaLabel": "à compléter",
+                    "tolerances": [
+                      "t1",
+                      "t2",
+                      "t3"
+                    ],
+                    "solutions": [
+                      "graphiques.",
+                      "GPU"
                     ]
                   }
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "<p>Bonne réponse !<br></p>",
-                    "diagnosis": "<p>Ce matériel a <strong>un fort impact sur l’environnement</strong> d’autant plus qu’il a <strong>une durée de vie courte</strong>.</p>"
+                    "state": "<p>Bonne réponse !<br></p>",
+                    "diagnosis": "<p>Et ces centres de données sont de plus en plus nombreux.<br></p>"
                   },
                   "invalid": {
                     "state": "<p>Pas vraiment ...<br></p>",
-                    "diagnosis": "<p>Ce matériel a <strong>un fort impact sur l’environnement</strong> d’autant plus qu’il a <strong>une durée de vie courte</strong>.</p>"
+                    "diagnosis": "<p>Vous pouvez réessayez...</p><ul><li>Mon premier correspond à la deuxième lettre de l'<strong>IA.</strong></li><li>Mon second est la version française du <strong>datacenter</strong>.</li><li> Mon troisième est le <strong>composant </strong>qui a été <strong>vu dans ce module.</strong></li></ul>"
                   }
                 }
               }
