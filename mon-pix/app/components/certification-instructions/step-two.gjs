@@ -6,7 +6,10 @@ import { t } from 'ember-intl';
       <img src="/images/illustrations/certification-instructions-steps/clock.svg" alt="" />
 
       <p class="instructions-content__legend--bold">
-        {{t "pages.certification-instructions.steps.2.legend.strong-text"}}
+        {{t
+          "pages.certification-instructions.steps.2.legend.strong-text"
+          maximumAssessmentLength=@maximumAssessmentLength
+        }}
       </p>
 
       <p class="instructions-content__legend">{{@durationLegend}}</p>
@@ -14,7 +17,11 @@ import { t } from 'ember-intl';
 
     <div class="instructions-content__text">
       <p>
-        {{t "pages.certification-instructions.steps.2.paragraphs.1" htmlSafe=true}}
+        {{t
+          "pages.certification-instructions.steps.2.paragraphs.1"
+          htmlSafe=true
+          maximumAssessmentLength=@maximumAssessmentLength
+        }}
       </p>
 
       <p>
@@ -27,7 +34,11 @@ import { t } from 'ember-intl';
       </p>
 
       <p>
-        <em>{{t "pages.certification-instructions.steps.2.paragraphs.4" htmlSafe=true}}</em>
+        <em>{{t
+            "pages.certification-instructions.steps.2.paragraphs.4"
+            htmlSafe=true
+            minimumAssessmentLength=@minimumAssessmentLength
+          }}</em>
       </p>
     </div>
   </div>

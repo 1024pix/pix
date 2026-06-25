@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 DOMANDE"
+            "strong-text": "{maximumAssessmentLength} DOMANDE"
           },
           "paragraphs": {
-            "1": "Il test di certificazione è composto da '<strong>'32 domande'</strong>'",
+            "1": "Il test di certificazione è composto da '<strong>'{maximumAssessmentLength} domande'</strong>'",
             "2": "Hai un massimo di '<strong>'{duration}'</strong>' per rispondere*.",
             "3": "*escluso il tempo supplementare",
-            "4": "Se si completano '<strong>'meno di 20 domande, non sarà possibile assegnare un punteggio'</strong>'."
+            "4": "Se si completano '<strong>'meno di {minimumAssessmentLength} domande, non sarà possibile assegnare un punteggio'</strong>'."
           },
           "title": "Come funziona il test di certificazione?"
         },

@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 FRAGEN"
+            "strong-text": "{maximumAssessmentLength} FRAGEN"
           },
           "paragraphs": {
-            "1": "Der Zertifizierungstest besteht aus '<strong>'32 Fragen'</strong>'.",
+            "1": "Der Zertifizierungstest besteht aus '<strong>'{maximumAssessmentLength} Fragen'</strong>'.",
             "2": "Du hast maximal '<strong>'{duration}'</strong>' Zeit, um darauf zu antworten*.",
             "3": "*ohne eventuelle Zeitzuschläge",
-            "4": "Wenn du '<strong>'weniger als 20 Fragen bearbeitest, können wir dir keine Punktzahl ausstellen'</strong>'."
+            "4": "Wenn du '<strong>'weniger als {minimumAssessmentLength} Fragen bearbeitest, können wir dir keine Punktzahl ausstellen'</strong>'."
           },
           "title": "Wie läuft der Zertifizierungstest ab?"
         },

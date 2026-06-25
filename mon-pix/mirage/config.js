@@ -141,4 +141,14 @@ function routes() {
   this.get('/verified-codes/:code', getVerifiedCodes);
   this.patch('/combined-courses/:code/reassess-status', () => new Response(204));
   this.get('/combined-courses', getCombinedCourses);
+
+  this.get('/certifications/:framework/info', (schema, request) => {
+    const framework = request.params.framework;
+    return schema.certificationInfos.create({
+      id: framework,
+      assessmentDuration: 100,
+      maximumAssessmentLength: 40,
+      minimumAssessmentLength: 10,
+    });
+  });
 }

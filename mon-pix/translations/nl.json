@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 VRAGEN"
+            "strong-text": "{maximumAssessmentLength} VRAGEN"
           },
           "paragraphs": {
-            "1": "De certificeringstest bestaat uit '<strong>'32 vragen'</strong>'.",
+            "1": "De certificeringstest bestaat uit '<strong>'{maximumAssessmentLength} vragen'</strong>'.",
             "2": "Je hebt maximaal '<strong>'{duration}'</strong>' om te reageren*.",
             "3": "*exclusief eventuele extra tijd",
-            "4": "Als je '<strong>'minder dan 20 vragen invult, kunnen we je geen score geven'</strong>'."
+            "4": "Als je '<strong>'minder dan {minimumAssessmentLength} vragen invult, kunnen we je geen score geven'</strong>'."
           },
           "title": "Hoe werkt de certificeringstest?"
         },

@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 QUESTIONS"
+            "strong-text": "{maximumAssessmentLength} QUESTIONS"
           },
           "paragraphs": {
-            "1": "Le test de certification est composé de '<strong>'32 questions'</strong>'",
+            "1": "Le test de certification est composé de '<strong>'{maximumAssessmentLength} questions'</strong>'",
             "2": "Vous avez au maximum '<strong>'{duration}'</strong>' pour y répondre*",
             "3": "*hors éventuel temps majoré",
-            "4": "Si vous traitez '<strong>'moins de 20 questions, nous ne serons pas en mesure de vous délivrer un score'</strong>'."
+            "4": "Si vous traitez '<strong>'moins de {minimumAssessmentLength} questions, nous ne serons pas en mesure de vous délivrer un score'</strong>'."
           },
           "title": "Comment se passe le test de certification ?"
         },

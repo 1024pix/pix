@@ -37,5 +37,6 @@ export default function (schema, request) {
     sessionId: 1,
     birthdate: '1990-01-04',
     hasSeenCertificationInstructions,
+    subscription: 'CORE',
   });
 }

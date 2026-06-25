@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 PREGUNTAS"
+            "strong-text": "{maximumAssessmentLength} PREGUNTAS"
           },
           "paragraphs": {
-            "1": "La prueba de certificación consta de '<strong>'32 preguntas'</strong>'.",
+            "1": "La prueba de certificación consta de '<strong>'{maximumAssessmentLength} preguntas'</strong>'.",
             "2": "Tienes un máximo de '<strong>'{duration}'</strong>' para responder*.",
             "3": "*excluyendo cualquier tiempo adicional",
-            "4": "Si completas '<strong>'menos de 20 preguntas, no podremos emitir una puntuación'</strong>'."
+            "4": "Si completas '<strong>'menos de {minimumAssessmentLength} preguntas, no podremos emitir una puntuación'</strong>'."
           },
           "title": "¿Cómo funciona la prueba de certificación?"
         },
