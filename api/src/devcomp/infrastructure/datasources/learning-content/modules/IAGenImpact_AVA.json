@@ -746,74 +746,88 @@
         {
           "id": "fd28e9e3-a822-4223-99bd-c0e04b3f2fc3",
           "type": "activity",
-          "title": "activity-1",
+          "title": "activity-1 - Texte à trou",
           "components": [
             {
               "type": "element",
               "element": {
                 "id": "1c8ba0b7-01d2-4f46-834b-688b3b6ec4cb",
                 "type": "qrocm",
-                "instruction": "<p>Compléter les phrases suivantes.</p>",
+                "instruction": "<p>Complétez la phrase suivante.</p>",
                 "proposals": [
                   {
                     "type": "text",
-                    "content": "<p>L’entraînement des logiciels d’intelligence artificielle nécessite des&nbsp;</p>"
+                    "content": "<p>L’entraînement des logiciels d’intelligence</p>"
                   },
                   {
-                    "type": "select",
                     "input": "choice1",
+                    "type": "input",
+                    "inputType": "text",
+                    "size": 10,
                     "display": "inline",
-                    "placeholder": "Sélectionnez une réponse",
-                    "ariaLabel": "Sélectionnez une réponse",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "routeurs réseau"
-                      },
-                      {
-                        "id": "2",
-                        "content": "centres de données"
-                      }
+                    "placeholder": "",
+                    "ariaLabel": "Complétez",
+                    "tolerances": [
+                      "t1",
+                      "t2",
+                      "t3"
                     ],
                     "solutions": [
-                      "2"
+                      "artificielle"
                     ]
                   },
                   {
                     "type": "text",
-                    "content": "<p>spécialisés, équipés de&nbsp;<br></p>"
+                    "content": "<p>nécessitent des calculs pendant des semaines qui sont traités dans des centres de</p>"
                   },
                   {
-                    "type": "select",
                     "input": "choice2",
+                    "type": "input",
+                    "inputType": "text",
+                    "size": 10,
                     "display": "inline",
-                    "placeholder": "Sélectionnez une réponse",
-                    "ariaLabel": "Sélectionnez une réponse",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "cartes graphiques (GPU)."
-                      },
-                      {
-                        "id": "2",
-                        "content": "écrans haute résolution."
-                      }
+                    "placeholder": "",
+                    "ariaLabel": "Complétez",
+                    "tolerances": [
+                      "t1",
+                      "t2",
+                      "t3"
                     ],
                     "solutions": [
-                      "1"
+                      "données"
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<p>spécialisés équipés des milliers de cartes</p>"
+                  },
+                  {
+                    "input": "choice3",
+                    "type": "input",
+                    "inputType": "text",
+                    "size": 10,
+                    "display": "inline",
+                    "placeholder": "",
+                    "ariaLabel": "Complétez",
+                    "tolerances": [
+                      "t1",
+                      "t2",
+                      "t3"
+                    ],
+                    "solutions": [
+                      "graphiques",
+                      "GPU"
                     ]
                   }
                 ],
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bonne réponse !<br></p>",
-                    "diagnosis": "<p>L’entraînement des logiciels d’intelligence artificielle nécessite des <strong>centres de données</strong> spécialisés, équipés de <strong>cartes graphiques (GPU)</strong>.</p>"
+                    "diagnosis": "<p><br></p>"
                   },
                   "invalid": {
                     "state": "<p>Pas vraiment ...<br></p>",
-                    "diagnosis": "<p>L’entraînement des logiciels d’intelligence artificielle nécessite des centres de données spécialisés, équipés de cartes graphiques (GPU).</p>"
+                    "diagnosis": "<p>L’entraînement des logiciels d’intelligence <strong>artificielle </strong>nécessitent des calculs pendant des semaines qui sont traités dans des centres de <strong>données </strong>spécialisés équipés des milliers de cartes <strong>graphiques.</strong></p>"
                   }
                 }
               }
@@ -893,7 +907,7 @@
         {
           "id": "f64657a2-e6a3-453b-a3c9-f0f0c910e1ba",
           "type": "activity",
-          "title": "activity-2",
+          "title": "activity-2 Vrai ou Faux",
           "components": [
             {
               "type": "element",
@@ -909,7 +923,7 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vraie",
+                    "proposalA": "Vrai",
                     "proposalB": "Faux",
                     "solution": "B"
                   },
@@ -920,7 +934,7 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vraie",
+                    "proposalA": "Vrai",
                     "proposalB": "Faux",
                     "solution": "A"
                   },
@@ -931,7 +945,7 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Vraie",
+                    "proposalA": "Vrai",
                     "proposalB": "Faux",
                     "solution": "B"
                   },
