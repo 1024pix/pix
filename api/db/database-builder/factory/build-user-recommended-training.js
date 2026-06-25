@@ -1,4 +1,3 @@
-import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../migrations/20221017085933_create-user-recommended-trainings.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildTraining } from './build-training.js';
 
@@ -15,7 +14,7 @@ const buildUserRecommendedTraining = function ({
     trainingId = buildTraining().id;
   }
   return databaseBuffer.pushInsertable({
-    tableName: USER_RECOMMENDED_TRAININGS_TABLE_NAME,
+    tableName: 'user-recommended-trainings',
     values: { id, userId, trainingId, campaignParticipationId, isRelevant, createdAt, updatedAt },
   });
 };
