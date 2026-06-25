@@ -943,6 +943,18 @@
                   "4"
                 ]
               }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "34079946-007f-457f-b7de-dbc2a8a39956",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/activite-reunion.jpg",
+                "alt": "Les différents personnages font des propositions. Voir dans l'alternative textuelle.",
+                "alternativeText": "<ul><li>André : Je propose qu’on adopte un modèle gratuit au début : on va rapidement gagner en notoriété et gagner des parts de marché. </li><li>Béatrice : Je pense qu’il faut accélérer le rythme de sorties de nos nouvelles versions. Nos concurrents sont plus rapides et nous sommes à la traîne. </li><li>Charlotte : Notre fonctionnalité de vidéo est très gourmande en calculs alors que les utilisateurs le font gratuitement : nous devrions ne donner accès à cette fonctionnalité que sur abonnement payant ! </li><li>Dylan : Et si nous faisison un partenariat avec le moteur de rechercheTrouveTout pour synthétiser par défaut avec l’IA les résultats aux recherches des utilisateurs : nous allons gagner en visibilité ! </li><li>Elisabeth : Notre facture d’électricité nous coûte trop cher, il faut donner la priorité à l’optimisation des calculs pour réduire la charge sur les serveurs.<br></li></ul>",
+                "legend": "",
+                "licence": ""
+              }
             }
           ]
         }
