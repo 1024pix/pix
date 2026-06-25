@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
+import { candidateSerializer } from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
 import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -18,7 +18,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const result = serializer.serializeId(candidateId);
+      const result = candidateSerializer.serializeId(candidateId);
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
@@ -100,7 +100,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const deserializedCandidate = await serializer.deserialize(candidateJsonApiData);
+      const deserializedCandidate = await candidateSerializer.deserialize(candidateJsonApiData);
 
       // then
       expect(deserializedCandidate).to.deepEqualInstance(
@@ -166,7 +166,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const jsonApi = serializer.serializeForParticipation(candidate);
+      const jsonApi = candidateSerializer.serializeForParticipation(candidate);
 
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);
@@ -228,7 +228,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const jsonApi = serializer.serialize(candidate);
+      const jsonApi = candidateSerializer.serialize(candidate);
 
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);
@@ -275,7 +275,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const jsonApi = serializer.serializeForSession(sessionCandidate);
+      const jsonApi = candidateSerializer.serializeForSession(sessionCandidate);
 
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);

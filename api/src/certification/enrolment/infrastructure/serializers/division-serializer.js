@@ -9,4 +9,4 @@ const serialize = function (divisions) {
   }).serialize(divisions);
 };
 
-export { serialize };
+export const divisionSerializer = { serialize };

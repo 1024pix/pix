@@ -33,4 +33,4 @@ const serialize = function (userCertificationEligibility) {
   }).serialize(userCertificationEligibility);
 };
 
-export { serialize };
+export const userCertificationEligibilitySerializer = { serialize };

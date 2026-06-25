@@ -1,7 +1,7 @@
 import { normalize } from '../../../shared/infrastructure/utils/string-utils.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as candidateSerializer from '../infrastructure/serializers/candidate-serializer.js';
-import * as timelineSerializer from '../infrastructure/serializers/timeline-serializer.js';
+import { candidateSerializer } from '../infrastructure/serializers/candidate-serializer.js';
+import { timelineSerializer } from '../infrastructure/serializers/timeline-serializer.js';
 
 const addCandidate = async function (request, h, dependencies = { candidateSerializer }) {
   const sessionId = request.params.sessionId;

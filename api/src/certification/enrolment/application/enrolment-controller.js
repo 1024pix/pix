@@ -1,7 +1,7 @@
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { usecases } from '../domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../infrastructure/candidates-import/fill-candidates-import-sheet.js';
-import * as candidateSerializer from '../infrastructure/serializers/candidate-serializer.js';
+import { candidateSerializer } from '../infrastructure/serializers/candidate-serializer.js';
 
 const enrolStudentsToSession = async function (request, h, dependencies = { candidateSerializer }) {
   const sessionId = request.params.sessionId;

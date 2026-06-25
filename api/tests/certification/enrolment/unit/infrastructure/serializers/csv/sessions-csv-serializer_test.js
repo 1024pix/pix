@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { deserializeForSessionsImport } from '../../../../../../../src/certification/enrolment/infrastructure/serializers/csv/sessions-csv-serializer.js';
+import { sessionsCsvSerializer } from '../../../../../../../src/certification/enrolment/infrastructure/serializers/csv/sessions-csv-serializer.js';
 import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { emptySession } from '../../../../../../../src/certification/shared/infrastructure/utils/csv/sessions-import.js';
 import { FileValidationError } from '../../../../../../../src/shared/domain/errors.js';
@@ -15,7 +15,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
         const parsedCsvData = [{ '* Nom du site': `Site 1` }];
 
         // when
-        const error = await catchErr(deserializeForSessionsImport)({
+        const error = await catchErr(sessionsCsvSerializer.deserializeForSessionsImport)({
           parsedCsvData,
           hasBillingMode: true,
         });
@@ -53,7 +53,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
             ];
 
             // when
-            const error = await catchErr(deserializeForSessionsImport)({
+            const error = await catchErr(sessionsCsvSerializer.deserializeForSessionsImport)({
               parsedCsvData,
               hasBillingMode: true,
             });
@@ -91,7 +91,10 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
             ];
 
             // when
-            const result = await deserializeForSessionsImport({ parsedCsvData, hasBillingMode: false });
+            const result = await sessionsCsvSerializer.deserializeForSessionsImport({
+              parsedCsvData,
+              hasBillingMode: false,
+            });
 
             // then
             expect(result).to.deep.equal([emptySession]);
@@ -149,7 +152,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const error = await catchErr(deserializeForSessionsImport)({
+          const error = await catchErr(sessionsCsvSerializer.deserializeForSessionsImport)({
             parsedCsvData: parsedCsvDataWithCleASubscription,
             hasBillingMode: true,
             certificationCenterHabilitations: habilitationsWithoutCleA,
@@ -192,7 +195,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const error = await catchErr(deserializeForSessionsImport)({
+          const error = await catchErr(sessionsCsvSerializer.deserializeForSessionsImport)({
             parsedCsvData,
             hasBillingMode: false,
           });
@@ -234,7 +237,10 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const result = await deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
+          const result = await sessionsCsvSerializer.deserializeForSessionsImport({
+            parsedCsvData,
+            hasBillingMode: true,
+          });
 
           // then
           expect(result).to.deep.equal([emptySession]);
@@ -273,7 +279,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const result = deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
+          const result = sessionsCsvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -310,7 +316,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const result = deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
+          const result = sessionsCsvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -340,7 +346,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const result = deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
+          const result = sessionsCsvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -369,7 +375,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
             ];
 
             // when
-            const result = deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
+            const result = sessionsCsvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
             // then
             expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -412,7 +418,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const result = deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
+          const result = sessionsCsvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -510,7 +516,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const result = deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
+          const result = sessionsCsvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -580,9 +586,9 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const result = deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true }).map((session) =>
-            _.omit(session, 'uniqueKey'),
-          );
+          const result = sessionsCsvSerializer
+            .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
+            .map((session) => _.omit(session, 'uniqueKey'));
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -633,9 +639,9 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const result = deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true }).map((session) =>
-            _.omit(session, 'uniqueKey'),
-          );
+          const result = sessionsCsvSerializer
+            .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
+            .map((session) => _.omit(session, 'uniqueKey'));
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -654,9 +660,9 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
             const csvLine = [_lineWithCandidateAndBillingInformation({ prepaymentCode })];
 
             // when
-            const result = deserializeForSessionsImport({ parsedCsvData: csvLine, hasBillingMode: true }).map(
-              (session) => _.omit(session, 'uniqueKey'),
-            );
+            const result = sessionsCsvSerializer
+              .deserializeForSessionsImport({ parsedCsvData: csvLine, hasBillingMode: true })
+              .map((session) => _.omit(session, 'uniqueKey'));
 
             // then
             const expectedResult = [
@@ -748,11 +754,13 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
         ];
 
         // when
-        const result = deserializeForSessionsImport({
-          parsedCsvData,
-          hasBillingMode: true,
-          certificationCenterHabilitations: habilitations,
-        }).map((session) => _.omit(session, 'uniqueKey'));
+        const result = sessionsCsvSerializer
+          .deserializeForSessionsImport({
+            parsedCsvData,
+            hasBillingMode: true,
+            certificationCenterHabilitations: habilitations,
+          })
+          .map((session) => _.omit(session, 'uniqueKey'));
 
         // then
         expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -928,7 +936,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const [result] = deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
+          const [result] = sessionsCsvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(result.candidates).to.have.lengthOf(6);
@@ -955,9 +963,9 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           ];
 
           // when
-          const result = deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true }).map((session) =>
-            _.omit(session, 'uniqueKey'),
-          );
+          const result = sessionsCsvSerializer
+            .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
+            .map((session) => _.omit(session, 'uniqueKey'));
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -984,7 +992,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
       ];
 
       // when
-      const [firstSession, secondSession] = deserializeForSessionsImport({
+      const [firstSession, secondSession] = sessionsCsvSerializer.deserializeForSessionsImport({
         parsedCsvData,
         hasBillingMode: true,
       });
@@ -1053,7 +1061,7 @@ describe('Certification | Enrolment | Unit | Infrastructure | Serializers | CSV 
           },
         ];
 
-        const error = await catchErr(deserializeForSessionsImport)({
+        const error = await catchErr(sessionsCsvSerializer.deserializeForSessionsImport)({
           parsedCsvData,
           hasBillingMode: true,
         });

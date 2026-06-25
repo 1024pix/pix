@@ -1,5 +1,5 @@
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
-import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/session-serializer.js';
+import { sessionSerializer } from '../../../../../../src/certification/enrolment/infrastructure/serializers/session-serializer.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { expect } from '../../../../../test-helper.js';
 
@@ -51,7 +51,7 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
     context('when session does not have a link to an existing certification center', function () {
       it('should convert a SessionEnrolment model object into JSON API data including invigilator password', function () {
         // when
-        const json = serializer.serialize(session);
+        const json = sessionSerializer.serialize(session);
 
         // then
         expect(json).to.deep.equal(expectedJsonApi);
@@ -91,7 +91,7 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
 
     it('should convert JSON API data to a Session', function () {
       // when
-      const session = serializer.deserialize(jsonApiSession);
+      const session = sessionSerializer.deserialize(jsonApiSession);
 
       // then
       expect(session).to.be.instanceOf(SessionEnrolment);

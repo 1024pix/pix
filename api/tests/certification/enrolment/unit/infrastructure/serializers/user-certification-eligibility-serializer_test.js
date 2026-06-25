@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/user-certification-eligibility-serializer.js';
+import { userCertificationEligibilitySerializer } from '../../../../../../src/certification/enrolment/infrastructure/serializers/user-certification-eligibility-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -14,7 +14,7 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
         });
 
         // when
-        const json = serializer.serialize(userCertificationEligibility);
+        const json = userCertificationEligibilitySerializer.serialize(userCertificationEligibility);
 
         // then
         expect(json).to.deep.equal({
@@ -44,7 +44,7 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
         });
 
         // when
-        const json = serializer.serialize(userCertificationEligibility);
+        const json = userCertificationEligibilitySerializer.serialize(userCertificationEligibility);
 
         // then
         expect(json).to.deep.equal({

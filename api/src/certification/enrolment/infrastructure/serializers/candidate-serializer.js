@@ -6,7 +6,7 @@ import { Subscription } from '../../domain/models/Subscription.js';
 
 const { Deserializer, Serializer } = jsonapiSerializer;
 
-export async function deserialize(json) {
+async function deserialize(json) {
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
   const deserializedCandidate = await deserializer.deserialize(json);
   deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
@@ -30,14 +30,14 @@ export async function deserialize(json) {
   });
 }
 
-export function deserializeForEdition({ candidateId, candidateData }) {
+function deserializeForEdition({ candidateId, candidateData }) {
   return new EditedCandidate({
     id: candidateId,
     accessibilityAdjustmentNeeded: candidateData['accessibility-adjustment-needed'],
   });
 }
 
-export const serializeForParticipation = function (candidate) {
+const serializeForParticipation = function (candidate) {
   return new Serializer('certification-candidate', {
     attributes: [
       'firstName',
@@ -52,11 +52,11 @@ export const serializeForParticipation = function (candidate) {
   }).serialize(candidate);
 };
 
-export function serializeId(candidateId) {
+function serializeId(candidateId) {
   return new Serializer('certification-candidate', {}).serialize({ id: candidateId });
 }
 
-export function serialize(candidates) {
+function serialize(candidates) {
   return new Serializer('certification-candidate', {
     attributes: [
       'firstName',
@@ -84,8 +84,17 @@ export function serialize(candidates) {
   }).serialize(candidates);
 }
 
-export function serializeForSession(candidates) {
+function serializeForSession(candidates) {
   return new Serializer('certification-candidate', {
     attributes: ['firstName', 'lastName', 'birthdate', 'subscription'],
   }).serialize(candidates);
 }
+
+export const candidateSerializer = {
+  deserialize,
+  deserializeForEdition,
+  serializeForParticipation,
+  serializeId,
+  serialize,
+  serializeForSession,
+};

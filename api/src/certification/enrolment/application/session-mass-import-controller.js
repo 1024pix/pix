@@ -1,7 +1,7 @@
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import * as csvHelpers from '../../shared/application/helpers/csvHelpers.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as csvSerializer from '../infrastructure/serializers/csv/sessions-csv-serializer.js';
+import { sessionsCsvSerializer } from '../infrastructure/serializers/csv/sessions-csv-serializer.js';
 import { getCsvHeaders } from '../infrastructure/utils/sessions-import.js';
 
 const createSessions = async function (request, h) {
@@ -16,7 +16,11 @@ const createSessions = async function (request, h) {
   return h.response().code(201);
 };
 
-const validateSessions = async function (request, h, dependencies = { csvHelpers, csvSerializer }) {
+const validateSessions = async function (
+  request,
+  h,
+  dependencies = { csvHelpers, csvSerializer: sessionsCsvSerializer },
+) {
   const i18n = getI18nFromRequest(request);
 
   const certificationCenterId = request.params.certificationCenterId;

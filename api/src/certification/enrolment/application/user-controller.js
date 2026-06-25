@@ -1,5 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as userCertificationEligibilitySerializer from '../infrastructure/serializers/user-certification-eligibility-serializer.js';
+import { userCertificationEligibilitySerializer } from '../infrastructure/serializers/user-certification-eligibility-serializer.js';
 
 const isCertifiable = async function (request) {
   const userId = request.auth.credentials.userId;
