@@ -9,4 +9,4 @@ const serialize = function (organizationLearnerImportFormat, meta) {
   }).serialize(organizationLearnerImportFormat);
 };
 
-export { serialize };
+export const organizationLearnerImportFormatSerializer = { serialize };

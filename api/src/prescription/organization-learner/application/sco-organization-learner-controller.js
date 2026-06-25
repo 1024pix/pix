@@ -4,7 +4,7 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { getForwardedOrigin, RequestedApplication } from '../../../shared/infrastructure/utils/network.js';
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
-import * as scoOrganizationLearnerSerializer from '../../learner-management/infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
+import { scoOrganizationLearnerSerializer } from '../../learner-management/infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 
 const createUserAndReconcileToOrganizationLearnerFromExternalUser = async function (
