@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/progression-serializer.js';
+import { progressionSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/progression-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | progression-serializer', function () {
       const progression = domainBuilder.buildProgression();
 
       // when
-      const json = serializer.serialize(progression);
+      const json = progressionSerializer.serialize(progression);
 
       // then
       expect(json).to.deep.equal({

@@ -21,4 +21,4 @@ const deserialize = async function (payload) {
   return new BadgeCriterion({ ...deserializedPayload });
 };
 
-export { deserialize };
+export const badgeCriterionSerializer = { deserialize };

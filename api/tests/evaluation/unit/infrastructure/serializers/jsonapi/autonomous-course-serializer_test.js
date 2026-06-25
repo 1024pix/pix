@@ -1,11 +1,11 @@
-import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/autonomous-course-serializer.js';
+import { autonomousCourseSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/autonomous-course-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | autonomous-course-serializer', function () {
   describe('#serializeId', function () {
     it('should return a serialized autonomous course to JSONAPI with only ID filled', function () {
       // when
-      const serializedAutonomousCourse = serializer.serializeId(1);
+      const serializedAutonomousCourse = autonomousCourseSerializer.serializeId(1);
 
       // then
       const expectedSerializedAutonomousCourse = {
@@ -34,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | autonomous-course-serializer', function 
       };
 
       // when
-      const autonomousCourse = await serializer.deserialize(jsonTraining);
+      const autonomousCourse = await autonomousCourseSerializer.deserialize(jsonTraining);
 
       // then
       expect(autonomousCourse).to.deep.equal({

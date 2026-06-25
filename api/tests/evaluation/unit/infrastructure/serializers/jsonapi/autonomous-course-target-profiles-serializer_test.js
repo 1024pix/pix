@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/autonomous-course-target-profiles-serializer.js';
+import { autonomousCourseTargetProfilesSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/autonomous-course-target-profiles-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -16,7 +16,10 @@ describe('Unit | Serializer | JSONAPI | autonomous-course-target-profile-seriali
       });
 
       // when
-      const serializedAutonomousCourseTargetProfiles = serializer.serialize([targetProfile1, targetProfile2]);
+      const serializedAutonomousCourseTargetProfiles = autonomousCourseTargetProfilesSerializer.serialize([
+        targetProfile1,
+        targetProfile2,
+      ]);
 
       // then
       const expectedSerializedAutonomousCourse = {

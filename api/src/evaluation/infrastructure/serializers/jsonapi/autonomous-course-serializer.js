@@ -16,4 +16,4 @@ const deserialize = function (payload) {
   }).deserialize(payload);
 };
 
-export { deserialize, serialize, serializeId };
+export const autonomousCourseSerializer = { deserialize, serialize, serializeId };

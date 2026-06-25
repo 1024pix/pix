@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/feedback-serializer.js';
+import { feedbackSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/feedback-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
@@ -43,7 +43,7 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
       };
 
       // when
-      const response = serializer.serialize(feedback);
+      const response = feedbackSerializer.serialize(feedback);
 
       // then
       expect(response).to.deep.equal(serializedFeedback);
@@ -77,7 +77,7 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
       const persistedFeedbacks = [simpleFeedback, otherFeedback, matchingDatesFeedback];
 
       // when
-      const result = serializer.serialize(persistedFeedbacks);
+      const result = feedbackSerializer.serialize(persistedFeedbacks);
 
       // then
       const expectedResponse = {
@@ -155,7 +155,7 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
       };
 
       // when
-      const deserializedFeedback = await serializer.deserialize(serializedFeedback);
+      const deserializedFeedback = await feedbackSerializer.deserialize(serializedFeedback);
 
       // then
       expect(deserializedFeedback.id).to.equal(serializedFeedback.data.id);

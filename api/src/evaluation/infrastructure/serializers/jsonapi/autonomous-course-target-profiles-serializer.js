@@ -7,4 +7,4 @@ const serialize = function (autonomousCourseTargetProfiles) {
   }).serialize(autonomousCourseTargetProfiles);
 };
 
-export { serialize };
+export const autonomousCourseTargetProfilesSerializer = { serialize };

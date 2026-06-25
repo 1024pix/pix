@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/challenge-to-play-serializer.js';
+import { challengeToPlaySerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/challenge-to-play-serializer.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Evaluation | Unit | Infrastructure | Serializer | JSONAPI | challenge-serializer', function () {
@@ -37,7 +37,7 @@ describe('Evaluation | Unit | Infrastructure | Serializer | JSONAPI | challenge-
         focused: null,
       });
 
-      const json = serializer.serialize(challenge);
+      const json = challengeToPlaySerializer.serialize(challenge);
 
       expect(json).to.deep.equal({
         data: {
@@ -99,7 +99,7 @@ describe('Evaluation | Unit | Infrastructure | Serializer | JSONAPI | challenge-
         focused: null,
       });
 
-      const json = serializer.serialize(challenge);
+      const json = challengeToPlaySerializer.serialize(challenge);
 
       expect(json).to.deep.equal({
         data: {

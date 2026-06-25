@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/autonomous-course-paginated-list-serializer.js';
+import { autonomousCoursePaginatedListSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/autonomous-course-paginated-list-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | autonomous-course-paginated-list-serializer', function () {
@@ -45,7 +45,7 @@ describe('Unit | Serializer | JSONAPI | autonomous-course-paginated-list-seriali
         meta,
       };
 
-      const serializedResult = serializer.serialize(autonomousCoursesList, meta);
+      const serializedResult = autonomousCoursePaginatedListSerializer.serialize(autonomousCoursesList, meta);
 
       return expect(serializedResult).to.deep.equal(expectedResponse);
     });

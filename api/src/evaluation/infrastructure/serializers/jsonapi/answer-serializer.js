@@ -52,11 +52,11 @@ const deserialize = function (payload) {
   });
 };
 
-export { deserialize, serialize };
-
 function _cleanValue(value) {
   if (value) {
     return value.replaceAll('\u0000', '');
   }
   return '';
 }
+
+export const answerSerializer = { deserialize, serialize };

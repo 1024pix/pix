@@ -16,7 +16,7 @@ import {
 } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { Answer } from '../../domain/models/Answer.js';
 import { evaluationUsecases } from '../../domain/usecases/index.js';
-import * as competenceEvaluationSerializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
+import { competenceEvaluationSerializer } from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 
 async function shareProfileRewardWithOrganization(campaignParticipationId, userId) {
   const questResults = await questUsecases.getQuestResultsForCampaignParticipation({

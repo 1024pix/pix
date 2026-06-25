@@ -60,4 +60,4 @@ const serialize = function (scorecard = {}) {
   }).serialize(scorecard);
 };
 
-export { serialize };
+export const scorecardSerializer = { serialize };

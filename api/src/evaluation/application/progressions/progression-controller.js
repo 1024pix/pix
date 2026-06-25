@@ -1,5 +1,5 @@
 import { evaluationUsecases as usecases } from '../../domain/usecases/index.js';
-import * as ProgressionSerializer from '../../infrastructure/serializers/jsonapi/progression-serializer.js';
+import { progressionSerializer } from '../../infrastructure/serializers/jsonapi/progression-serializer.js';
 
 const get = function (request) {
   const userId = request.auth.credentials.userId;
@@ -11,7 +11,7 @@ const get = function (request) {
       progressionId,
       userId,
     })
-    .then(ProgressionSerializer.serialize);
+    .then(progressionSerializer.serialize);
 };
 
 const progressionController = { get };

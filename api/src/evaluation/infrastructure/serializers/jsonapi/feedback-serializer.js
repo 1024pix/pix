@@ -30,4 +30,4 @@ const deserialize = function (json, userAgent) {
     });
 };
 
-export { deserialize, serialize };
+export const feedbackSerializer = { deserialize, serialize };

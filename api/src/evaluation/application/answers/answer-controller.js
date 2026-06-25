@@ -7,8 +7,8 @@ import {
   getChallengeLocale,
 } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { evaluationUsecases } from '../../domain/usecases/index.js';
-import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
-import * as correctionSerializer from '../../infrastructure/serializers/jsonapi/correction-serializer.js';
+import { answerSerializer } from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
+import { correctionSerializer } from '../../infrastructure/serializers/jsonapi/correction-serializer.js';
 
 async function save(request, h, dependencies = { answerSerializer, assessmentRepository, certificationEvaluationApi }) {
   const answer = dependencies.answerSerializer.deserialize(request.payload);
