@@ -161,14 +161,6 @@ export class SessionPublicationBatchError extends BaseHttpError {
   }
 }
 
-export class TooManyRequestsError extends BaseHttpError {
-  constructor(message) {
-    super(message);
-    this.title = 'Too many requests';
-    this.status = 429;
-  }
-}
-
 /**
  * @typedef {import('../../infrastructure/serializers/jsonapi/error-serializer.js').HttpError} HttpError
  * @param {Array<HttpError>|HttpError} httpError
