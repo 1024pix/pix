@@ -1,5 +1,9 @@
-import NewVersionForm from 'pix-admin/components/certification-frameworks/item/framework/new-version-form';
+import VersionCreateForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-create-form';
 
 <template>
-  <NewVersionForm @frameworks={{@model.frameworks}} @scope={{@model.scope}} @activeVersion={{@model.activeVersion}} />
+  <VersionCreateForm
+    @frameworks={{@model.frameworks}}
+    @scope={{@model.scope}}
+    @activeVersion={{@model.activeVersion}}
+  />
 </template>

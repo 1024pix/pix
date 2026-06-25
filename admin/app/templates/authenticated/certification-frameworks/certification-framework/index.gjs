@@ -1,5 +1,5 @@
-import Header from 'pix-admin/components/certification-frameworks/item/header';
-import Framework from 'pix-admin/components/certification-frameworks/item/framework';
+import Framework from 'pix-admin/components/certification-frameworks/certification-framework/framework';
+import Header from 'pix-admin/components/certification-frameworks/certification-framework/header';
 
 <template>
   <div class="page">
