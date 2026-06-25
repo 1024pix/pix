@@ -1,5 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as organizationLearnerSerializer from '../infrastructure/serializers/organization-learner.js';
+import { organizationLearnerSerializer } from '../infrastructure/serializers/organization-learner.js';
 
 const getById = async function (request) {
   const organizationLearnerId = request.params.id;

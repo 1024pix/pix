@@ -1,5 +1,5 @@
 import { ActivityAnswer } from '../../../../../src/school/domain/models/ActivityAnswer.js';
-import * as serializer from '../../../../../src/school/infrastructure/serializers/activity-answer-serializer.js';
+import { activityAnswerSerializer } from '../../../../../src/school/infrastructure/serializers/activity-answer-serializer.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
@@ -44,7 +44,7 @@ describe('Unit | Serializer | JSONAPI | activity-answer-serializer', function ()
       };
 
       // when
-      const json = serializer.serialize(answer);
+      const json = activityAnswerSerializer.serialize(answer);
 
       // then
       expect(json).to.deep.equal(expectedJSON);
@@ -57,7 +57,7 @@ describe('Unit | Serializer | JSONAPI | activity-answer-serializer', function ()
       const challengeId = 'recChallengeId';
 
       // when
-      const { activityAnswer, assessmentId, isPreview } = serializer.deserialize({
+      const { activityAnswer, assessmentId, isPreview } = activityAnswerSerializer.deserialize({
         data: {
           type: 'activity-answers',
           attributes: {

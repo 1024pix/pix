@@ -44,4 +44,4 @@ const serialize = function (challenges) {
   }).serialize(challenges);
 };
 
-export { serialize };
+export const challengeSerializer = { serialize };

@@ -1,5 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as missionSerializer from '../infrastructure/serializers/mission-serializer.js';
+import { missionSerializer } from '../infrastructure/serializers/mission-serializer.js';
 
 const getById = async function (request, h, dependencies = { missionSerializer }) {
   const { id: organizationId, missionId } = request.params;

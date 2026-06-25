@@ -18,4 +18,5 @@ const serialize = function (missions) {
     ],
   }).serialize(missions);
 };
-export { serialize };
+
+export const missionSerializer = { serialize };

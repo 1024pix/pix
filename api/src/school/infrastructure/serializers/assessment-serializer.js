@@ -6,4 +6,4 @@ const serialize = function (assessment) {
   }).serialize(assessment);
 };
 
-export { serialize };
+export const assessmentSerializer = { serialize };

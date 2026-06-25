@@ -1,5 +1,5 @@
 import { usecases } from '../../school/domain/usecases/index.js';
-import * as activityAnswerSerializer from '../infrastructure/serializers/activity-answer-serializer.js';
+import { activityAnswerSerializer } from '../infrastructure/serializers/activity-answer-serializer.js';
 
 const save = async function (request, h, dependencies = { activityAnswerSerializer }) {
   const { activityAnswer, assessmentId, isPreview } = dependencies.activityAnswerSerializer.deserialize(
