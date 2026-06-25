@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/feature-toggle-serializer.js';
+import { featureToggleSerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/feature-toggle-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | feature-toggle-serializer', function () {
@@ -19,7 +19,7 @@ describe('Unit | Serializer | JSONAPI | feature-toggle-serializer', function () 
       };
 
       // when
-      const json = serializer.serialize(featureToggles);
+      const json = featureToggleSerializer.serialize(featureToggles);
 
       // then
       expect(json).to.deep.equal(expectedJSON);

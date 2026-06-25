@@ -1,5 +1,5 @@
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';
-import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/membership.serializer.js';
+import { membershipSerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/membership.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -93,7 +93,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function () {
       };
 
       // when
-      const json = serializer.serialize(membership);
+      const json = membershipSerializer.serialize(membership);
 
       // then
       expect(json).to.deep.equal(expectedSerializedMembership);
@@ -104,7 +104,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function () {
       const membership = domainBuilder.buildMembership();
 
       // when
-      const json = serializer.serialize(membership);
+      const json = membershipSerializer.serialize(membership);
 
       // then
       expect(json.data.relationships.organization.data.type).to.equal('organizations');
@@ -123,7 +123,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function () {
       const membership = domainBuilder.buildMembership();
 
       // when
-      const json = serializer.serialize(membership);
+      const json = membershipSerializer.serialize(membership);
 
       // then
       expect(json.data.relationships.user.data.type).to.equal('users');
@@ -142,7 +142,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function () {
       membership.organization = null;
 
       // when
-      const json = serializer.serialize(membership);
+      const json = membershipSerializer.serialize(membership);
 
       // then
       expect(json.data.relationships.organization).to.be.undefined;
@@ -156,7 +156,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function () {
       membership.user = undefined;
 
       // when
-      const json = serializer.serialize(membership);
+      const json = membershipSerializer.serialize(membership);
 
       // then
       expect(json.data.relationships.user).to.be.undefined;
@@ -182,7 +182,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function () {
 
     it('should convert JSON API data into a map object that contain attribute to patch', function () {
       // when
-      const membership = serializer.deserialize(jsonMembership);
+      const membership = membershipSerializer.deserialize(jsonMembership);
 
       // then
       expect(membership.organizationRole).to.equal('ADMIN');

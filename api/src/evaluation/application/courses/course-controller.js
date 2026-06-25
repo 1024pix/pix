@@ -1,4 +1,4 @@
-import * as courseSerializer from '../../../shared/infrastructure/serializers/jsonapi/course-serializer.js';
+import { courseSerializer } from '../../../shared/infrastructure/serializers/jsonapi/course-serializer.js';
 import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import * as courseService from '../../domain/services/course-service.js';
 

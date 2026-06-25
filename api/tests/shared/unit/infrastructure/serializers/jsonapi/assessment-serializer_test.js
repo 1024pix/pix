@@ -4,7 +4,7 @@ import { Assessment } from '../../../../../../src/shared/domain/models/Assessmen
 import { CampaignAssessment } from '../../../../../../src/shared/domain/read-models/CampaignAssessment.js';
 import { CertificationAssessment } from '../../../../../../src/shared/domain/read-models/CertificationAssessment.js';
 import { CompetenceEvaluationAssessment } from '../../../../../../src/shared/domain/read-models/CompetenceEvaluationAssessment.js';
-import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/assessment-serializer.js';
+import { assessmentSerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/assessment-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
@@ -131,7 +131,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       };
 
       // when
-      const json = serializer.serialize(certificationAssessment);
+      const json = assessmentSerializer.serialize(certificationAssessment);
 
       // then
       expect(json).to.deep.equal(expectedJson);
@@ -156,7 +156,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       };
 
       // when
-      const json = serializer.serialize(competenceEvaluationAssessment);
+      const json = assessmentSerializer.serialize(competenceEvaluationAssessment);
 
       // then
       expect(json.data.relationships['progression']).to.deep.equal(expectedProgressionJson);
@@ -224,7 +224,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       };
 
       // when
-      const json = serializer.serialize(campaignAssessment);
+      const json = assessmentSerializer.serialize(campaignAssessment);
 
       // then
       expect(json.data).to.deep.equal(expectedJson);
@@ -288,7 +288,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       };
 
       // when
-      const json = serializer.serialize(campaignAssessment);
+      const json = assessmentSerializer.serialize(campaignAssessment);
 
       // then
       expect(json.data).to.deep.equal(expectedJson);
@@ -322,7 +322,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
         jsonAssessment.data.attributes.type = Assessment.types.PREVIEW;
 
         // when
-        const assessment = serializer.deserialize(jsonAssessment);
+        const assessment = assessmentSerializer.deserialize(jsonAssessment);
 
         // then
         expect(assessment).to.be.instanceOf(Assessment);
@@ -339,7 +339,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
         jsonAssessment.data.attributes.type = Assessment.types.DEMO;
 
         // when
-        const assessment = serializer.deserialize(jsonAssessment);
+        const assessment = assessmentSerializer.deserialize(jsonAssessment);
 
         // then
         expect(assessment).to.be.instanceOf(Assessment);
@@ -368,7 +368,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
         jsonAssessment.data.attributes.type = campaignType;
 
         // when
-        const error = catchErrSync(serializer.deserialize)(jsonAssessment);
+        const error = catchErrSync(assessmentSerializer.deserialize)(jsonAssessment);
 
         // then
         expect(error).to.be.instanceOf(DomainError);

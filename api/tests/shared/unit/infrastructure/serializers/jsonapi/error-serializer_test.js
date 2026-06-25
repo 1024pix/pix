@@ -1,7 +1,7 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
 import { ConflictError, MissingQueryParamError } from '../../../../../../src/shared/application/errors/http-errors.js';
-import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/error-serializer.js';
+import { errorSerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/error-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
@@ -18,7 +18,7 @@ describe('Shared |Unit | Serializer | JSONAPI | error-serializer', function () {
       });
 
       // when
-      const serializedError = serializer.serialize(error);
+      const serializedError = errorSerializer.serialize(error);
 
       // then
       expect(serializedError).to.deep.equal(expectedJSONAPIError);
@@ -36,7 +36,7 @@ describe('Shared |Unit | Serializer | JSONAPI | error-serializer', function () {
       });
 
       // when
-      const serializedError = serializer.serialize(error);
+      const serializedError = errorSerializer.serialize(error);
 
       // then
       expect(serializedError).to.deep.equal(expectedJSONAPIError);

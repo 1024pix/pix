@@ -1,5 +1,5 @@
 import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
-import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/challenge-serializer.js';
+import { challengeSerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/challenge-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
@@ -34,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
       });
 
       // when
-      const json = serializer.serialize(challenge);
+      const json = challengeSerializer.serialize(challenge);
 
       // then
       expect(json).to.deep.equal({
@@ -73,7 +73,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
         challenge.competenceId = 'competence_id';
 
         // when
-        const json = serializer.serialize(challenge);
+        const json = challengeSerializer.serialize(challenge);
 
         // then
         expect(json).to.deep.equal({
@@ -93,7 +93,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
         challenge.id = 1;
 
         // when
-        const json = serializer.serialize(challenge);
+        const json = challengeSerializer.serialize(challenge);
 
         // then
         expect(json).to.deep.equal({

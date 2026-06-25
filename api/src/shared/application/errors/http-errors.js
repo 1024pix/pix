@@ -1,4 +1,4 @@
-import * as errorSerializer from '../../infrastructure/serializers/jsonapi/error-serializer.js';
+import { errorSerializer } from '../../infrastructure/serializers/jsonapi/error-serializer.js';
 
 class BaseHttpError extends Error {
   constructor(message) {

@@ -1,6 +1,6 @@
 import { HttpErrors } from '../../../shared/application/errors/http-errors.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
-import * as errorSerializer from '../../../shared/infrastructure/serializers/jsonapi/error-serializer.js';
+import { errorSerializer } from '../../../shared/infrastructure/serializers/jsonapi/error-serializer.js';
 
 export async function checkLLMChatIsEnabled(request, h) {
   try {
