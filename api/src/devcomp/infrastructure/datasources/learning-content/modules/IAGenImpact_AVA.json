@@ -509,7 +509,7 @@
                 "id": "69b48f4c-a274-42ca-b7c3-77098bbcb574",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Donc ce n’est pas prêt de s’arrêter… Voyons pourquoi.<br></p>"
+                "content": "<p>Mais pour comprendre les différences entre les modèles d’intelligences artificielles, on peut aussi se demander quelles sont les priorités des entreprises qui les construisent.&nbsp;</p>"
               }
             }
           ]
@@ -521,7 +521,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p>Les dirigeants des entreprises d’IA générative, beaucoup plus célèbres et puissants que Charlie, accordent parfois des interviews. </p><p>Examinez ces citations et dites si, d’après vous, elles sont vraies ou fausses ?</p>",
+              "instruction": "<p>Voyons ce qu’en disent les dirigeants des principales entreprises qui fournissent des services d’intelligence artificielle.</p>",
               "steps": [
                 {
                   "elements": [
@@ -533,26 +533,42 @@
                     },
                     {
                       "id": "4901c36d-6247-4a82-b8d7-61b5b208cc6d",
-                      "type": "qcu-discovery",
-                      "instruction": "<p>Selon vous, le PDG de Google a-t-il vraiment dit cela ?</p>",
-                      "hasShortProposals": true,
+                      "type": "qcm",
+                      "instruction": "<p>À votre avis, quel va être le bilan de la consommation d’energie de Google ses prochaines années ?</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
-                          "feedback": {
-                            "diagnosis": "<p>Bien vu !&nbsp;</p><p>La citation est issue d’<a href=\"https://www.youtube.com/watch?v=BYx63PKKPvg\" target=\"_blank\">une interview réalisée par la BBC</a>. </p><p>Elle illustre une posture<strong> techno-solutionniste</strong> qui ne prend pas en compte l’effet rebond ni les limites planétaires.</p>"
-                          }
+                          "content": "<p>Google va réduire sa consommation d’énergie</p>"
                         },
                         {
                           "id": "2",
-                          "content": "Non",
-                          "feedback": {
-                            "diagnosis": "<p>Et pourtant, si !</p><p>La citation est issue d’<a href=\"https://www.youtube.com/watch?v=BYx63PKKPvg\" target=\"_blank\">une interview réalisée par la BBC</a>. </p><p>Elle illustre une posture <strong>techno-solutionniste</strong> qui ne prend pas en compte l’effet rebond ni les limites planétaires.</p>"
-                          }
+                          "content": "<p>Google va consommer d’avantage d’énergie.</p>"
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Google va investir dans des énergies renouvelables.</p>"
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Google&nbsp; va consommer de l’énergie carbonnée.</p>"
                         }
                       ],
-                      "solution": "1"
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien vu !<br></p>",
+                          "diagnosis": "<p>Même si Google investit dans les énergies renouvelables,<strong> la consommation d’énergie que demande l’IA est trop forte pour être absorbée par les réseaux d’énergie actuelles</strong>. Les grands fournisseurs d’IA consomment donc de l’énergie carbonnée.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Eh non, pas vraiment !<br></p>",
+                          "diagnosis": "<p>Même si Google investit dans les énergies renouvelables, <strong>la consommation d’énergie que demande l’IA est trop forte pour être absorbée par les réseaux d’énergie actuelles</strong>. Les grands fournisseurs d’IA consomment donc de l’énergie carbonnée.</p>"
+                        }
+                      },
+                      "solutions": [
+                        "2",
+                        "3",
+                        "4"
+                      ]
                     }
                   ]
                 },
@@ -566,26 +582,41 @@
                     },
                     {
                       "id": "6f836928-8c45-4326-8dc5-8d23d829d9eb",
-                      "type": "qcu-discovery",
-                      "instruction": "<p>Selon vous, le dirigeant de Meta a-t-il&nbsp; vraiment dit cela ?</p>",
-                      "hasShortProposals": true,
+                      "type": "qcm",
+                      "instruction": "<p>À votre avis, quelles affirmations sont justes ?</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
-                          "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Elle est issue d’un article du <a href=\"https://www.theguardian.com/technology/article/2024/jul/23/meta-launches-open-source-ai-app-competitive-with-closed-rivals?utm_source=chatgpt.com\" target=\"_blank\">journal britannique The Guardian</a>.</p><p> Beaucoup d’entreprises d’IA générative proposent des modèles complètement fermés. Certaines, comme Meta, proposent certains modèles présentés comme “ouverts”, mais ni le code d’entraînement ni les données d’entraînement ne sont accessibles.</p>"
-                          }
+                          "content": "<p>Meta donne accès à certains de ces modèles en “open source”.</p>"
                         },
                         {
                           "id": "2",
-                          "content": "Non",
-                          "feedback": {
-                            "diagnosis": "<p>Et pourtant si !</p><p>La cituation est issue d’un article du <a href=\"https://www.theguardian.com/technology/article/2024/jul/23/meta-launches-open-source-ai-app-competitive-with-closed-rivals?utm_source=chatgpt.com\" target=\"_blank\">journal britannique The Guardian</a>.</p><p>Beaucoup d’entreprises d’IA générative proposent des modèles complètement fermés. Certaines, comme Meta, proposent certains modèles présentés comme “ouverts”, mais ni le code d’entraînement ni les données d’entraînement ne sont accessibles.</p>"
-                          }
+                          "content": "<p>Meta donne accès aux données d’entraînement de ses modèles.</p>"
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Meta donne accès au code d’entraînement de ses modèles.</p>"
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Meta a changé de stratégie&nbsp;: son modèle sorti en avril 2026 est un modèle propriétaire.</p>"
                         }
                       ],
-                      "solution": "1"
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien vu !<br></p>",
+                          "diagnosis": "<p>Si en 2024 le dirigeant de Meta vantait les mérites de l’open source, ce n’est plus le cas en 2026. De plus, même dans les modèles qui étaient présentés comme «&nbsp;<strong>open source&nbsp;</strong>», ni le code d’entraînement, ni les données d’entraînement n’étaient divulgués.</p><p>C’est dommage car les modèles <strong>open source permettent de mutualiser et limiter les coûts environnementaux de l’entraînement des modèles.</strong></p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Eh non, pas vraiment !<br></p>",
+                          "diagnosis": "<p>Si en 2024 le dirigeant de Meta vantait les mérites de l’open source, ce n’est plus le cas en 2026. De plus, même dans les modèles qui étaient présentés comme «&nbsp;<strong>open source&nbsp;</strong>», ni le code d’entraînement, ni les données d’entraînement n’étaient divulgués.</p><p>C’est dommage car les modèles <strong>open source permettent de mutualiser et limiter les coûts environnementaux de l’entraînement des modèles.</strong></p>"
+                        }
+                      },
+                      "solutions": [
+                        "1",
+                        "4"
+                      ]
                     }
                   ]
                 },
@@ -599,26 +630,41 @@
                     },
                     {
                       "id": "770eba88-d331-436c-9b00-c810e0705023",
-                      "type": "qcu-discovery",
-                      "instruction": "<p>Selon vous, le blog de Mistral a-t-il vraiment affirmé cela ?</p>",
-                      "hasShortProposals": true,
+                      "type": "qcm",
+                      "instruction": "<p>À votre avis, quelles affirmations sont justes ?</p>",
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
-                          "feedback": {
-                            "diagnosis": "<p>Et pourtant, c’est une vraie citation !</p><p>La plupart des entreprises conceptrices de logiciels d’IA générative ne publient aucune étude sur leurs impacts environnementaux. À l’heure actuelle, Mistral AI est l’une des seules à avoir publié une étude.&nbsp;Cependant, cette étude est partielle et seule une synthèse a été publiée.</p>"
-                          }
+                          "content": "<p>Toutes les entreprises d’IA publient des études de leurs impacts environnementaux.</p>"
                         },
                         {
                           "id": "2",
-                          "content": "Non",
-                          "feedback": {
-                            "diagnosis": "<p>Et pourtant, si !</p><p>La plupart des entreprises conceptrices de logiciels d’IA générative ne publient aucune étude sur leurs impacts environnementaux. À l’heure actuelle, Mistral AI est l’une des seules à avoir publié une étude.&nbsp;Cependant, cette étude est partielle et seule une synthèse a été publiée.</p>"
-                          }
+                          "content": "<p>Mistral IA est l’une des seules entreprises publiant une étude de son impact environnemental.</p>"
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Les données sources de l’étude de Mistral IA ne sont pas publiques.</p>"
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Il existe une méthodologie commune pour mesurer et comparer les impacts environnementaux des différentes entreprise d’IA.</p>"
                         }
                       ],
-                      "solution": "1"
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien&nbsp;vu !</p>",
+                          "diagnosis": "<p>La plupart des entreprises conceptrices de logiciels d’IA générative ne publient pas d’étude sur leurs impacts environnementaux. </p><p>En 2025, Mistral AI était l’une des seules à avoir publié une étude, mais sans les chiffres sources.&nbsp;Il n’existe <strong>p</strong><strong>as encore de standard </strong>ou de méthodologie partagée pour évaluer les impacts environnementaux des entreprises d’IA, ce qui <strong>ne permet pas de les comparer.</strong></p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Eh non, pas vraiment !</p>",
+                          "diagnosis": " La plupart des entreprises conceptrices de logiciels d’IA générative ne publient pas d’étude sur leurs impacts environnementaux. En 2025, Mistral AI était l’une des seules à avoir publié une étude, mais sans les chiffres sources. Il n’existe pas encore de standard ou de méthodologie partagée pour évaluer les impacts environnementaux des entreprises d’IA, ce qui ne permet pas de les comparer."
+                        }
+                      },
+                      "solutions": [
+                        "2",
+                        "3"
+                      ]
                     }
                   ]
                 }
