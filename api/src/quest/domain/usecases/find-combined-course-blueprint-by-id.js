@@ -6,12 +6,18 @@ export const findCombinedCourseBlueprintById = async ({
   recommendedModuleRepository,
 }) => {
   const combinedCourseBlueprint = await combinedCourseBlueprintRepository.findById({ id });
-  const targetProfiles = await targetProfileRepository.findByIds({
-    ids: combinedCourseBlueprint.targetProfileIds,
-  });
-  const recommendableModules = await recommendedModuleRepository.findIdsByTargetProfileIds({
-    targetProfileIds: combinedCourseBlueprint.targetProfileIds,
-  });
+
+  let targetProfiles = [],
+    recommendableModules = [];
+
+  if (combinedCourseBlueprint.targetProfileIds.length > 0) {
+    targetProfiles = await targetProfileRepository.findByIds({
+      ids: combinedCourseBlueprint.targetProfileIds,
+    });
+    recommendableModules = await recommendedModuleRepository.findIdsByTargetProfileIds({
+      targetProfileIds: combinedCourseBlueprint.targetProfileIds,
+    });
+  }
   const modules = await moduleRepository.getByIds({
     moduleIds: combinedCourseBlueprint.moduleIds,
   });
