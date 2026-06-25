@@ -555,6 +555,9 @@
             "parameters": "Paramètres du référentiel :",
             "start-date": "Date d'activation :",
             "status": "Statut :"
+          },
+          "version-edit-form": {
+            "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}"
           }
         },
         "navigation": {

@@ -125,6 +125,7 @@ Router.map(function () {
       this.route('item', { path: '/:certification_framework_key' }, function () {
         this.route('frameworks', function () {
           this.route('new');
+          this.route('edit', { path: '/:version_id/edit' });
         });
         this.route('target-profile', function () {
           this.route('update', { path: '/:target_profile_id' });

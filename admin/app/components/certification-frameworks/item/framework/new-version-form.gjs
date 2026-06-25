@@ -42,7 +42,7 @@ export default class NewVersionForm extends Component {
     }
 
     await this.store.queryRecord('framework-history', this.args.scope);
-    this.router.transitionTo('authenticated.certification-frameworks.item.frameworks');
+    this.router.transitionTo('authenticated.certification-frameworks.item.frameworks.edit', version.id);
   }
 
   get checkedTubes() {

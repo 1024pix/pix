@@ -148,8 +148,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
     });
 
     module('when the is no draft version in scope', function () {
-      test('should redirect to the versions list and see draft in list', async function (assert) {
-        // given
+      test('should redirect to the version edit page', async function (assert) {
         server.get('admin/certification-frameworks/:scope/framework-history', () => {
           return droitFrameworkHistory;
         });
@@ -180,10 +179,12 @@ module('Acceptance | Certification Framework | item | Framework | new', function
         const screen = await visit(`/certification-frameworks/DROIT/frameworks/new?activeVersionId=12`);
         await click(screen.getByRole('button', { name: 'Créer la nouvelle version du référentiel de certification' }));
 
-        // then
+        assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/frameworks/77/edit');
+        assert.dom(screen.getByText('form'));
+
+        await visit(`/certification-frameworks/DROIT/frameworks`);
         assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/frameworks');
         const [, row1, row2] = await screen.findAllByRole('row');
-        assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/frameworks');
         assert.dom(within(row1).getByRole('cell', { name: '77' })).exists();
         assert.dom(within(row1).getByRole('cell', { name: "En cours d'édition" })).exists();
         assert.dom(within(row2).getByRole('cell', { name: '12' })).exists();

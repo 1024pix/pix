@@ -547,6 +547,9 @@
             "parameters": "Framework parameters:",
             "start-date": "Start date:",
             "status": "Status:"
+          },
+          "version-edit-form": {
+            "page-title": "Creation of a new version of the certification in {scope} framework"
           }
         },
         "navigation": {
