@@ -1,15 +1,15 @@
 import isEmpty from 'lodash/isEmpty.js';
 
-import { csvHelper } from '../../../../shared/infrastructure/helpers/csv.js';
+import { checkCsvHeader, parseCsvData, readCsvFile } from '../../../../shared/infrastructure/helpers/csv.js';
 
 export const requiredFieldNamesForOrganizationBatchArchive = ["ID de l'organisation"];
 
 export async function deserializeForOrganizationBatchArchive(
   file,
-  { checkCsvHeader, readCsvFile, parseCsvData } = csvHelper,
+  csvHelper = { checkCsvHeader, readCsvFile, parseCsvData },
 ) {
-  await checkCsvHeader({ filePath: file, requiredFieldNames: requiredFieldNamesForOrganizationBatchArchive });
-  const cleanedData = await readCsvFile(file);
+  await csvHelper.checkCsvHeader({ filePath: file, requiredFieldNames: requiredFieldNamesForOrganizationBatchArchive });
+  const cleanedData = await csvHelper.readCsvFile(file);
 
   const batchOrganizationOptionsWithHeader = {
     skipEmptyLines: true,
@@ -28,7 +28,7 @@ export async function deserializeForOrganizationBatchArchive(
     },
   };
 
-  const parsedData = await parseCsvData(cleanedData, batchOrganizationOptionsWithHeader);
+  const parsedData = await csvHelper.parseCsvData(cleanedData, batchOrganizationOptionsWithHeader);
 
   return parsedData.map((data) => data[requiredFieldNamesForOrganizationBatchArchive]);
 }

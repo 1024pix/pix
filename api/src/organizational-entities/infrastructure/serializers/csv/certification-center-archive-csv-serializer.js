@@ -1,15 +1,18 @@
 import isEmpty from 'lodash/isEmpty.js';
 
-import { csvHelper } from '../../../../shared/infrastructure/helpers/csv.js';
+import { checkCsvHeader, parseCsvData, readCsvFile } from '../../../../shared/infrastructure/helpers/csv.js';
 
 export const requiredFieldNamesForCertificationCenterBatchArchive = ['ID du centre de certification'];
 
 export async function deserializeForCertificationCenterBatchArchive(
   file,
-  { checkCsvHeader, readCsvFile, parseCsvData } = csvHelper,
+  csvHelper = { checkCsvHeader, readCsvFile, parseCsvData },
 ) {
-  await checkCsvHeader({ filePath: file, requiredFieldNames: requiredFieldNamesForCertificationCenterBatchArchive });
-  const cleanedData = await readCsvFile(file);
+  await csvHelper.checkCsvHeader({
+    filePath: file,
+    requiredFieldNames: requiredFieldNamesForCertificationCenterBatchArchive,
+  });
+  const cleanedData = await csvHelper.readCsvFile(file);
 
   const batchCertificationCenterOptionsWithHeader = {
     skipEmptyLines: true,
@@ -28,7 +31,7 @@ export async function deserializeForCertificationCenterBatchArchive(
     },
   };
 
-  const parsedData = await parseCsvData(cleanedData, batchCertificationCenterOptionsWithHeader);
+  const parsedData = await csvHelper.parseCsvData(cleanedData, batchCertificationCenterOptionsWithHeader);
 
   return parsedData.map((data) => data['ID du centre de certification']);
 }

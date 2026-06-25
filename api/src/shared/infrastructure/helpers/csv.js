@@ -39,7 +39,7 @@ const OPTIONS_WITH_HEADER = {
   },
 };
 
-async function checkCsvHeader({ filePath, requiredFieldNames = [] }) {
+export async function checkCsvHeader({ filePath, requiredFieldNames = [] }) {
   if (isEmpty(requiredFieldNames)) {
     throw new FileValidationError(ERRORS.MISSING_REQUIRED_FIELD_NAMES);
   }
@@ -60,7 +60,7 @@ async function checkCsvHeader({ filePath, requiredFieldNames = [] }) {
   }
 }
 
-function parseCsvWithHeader(filePath, options = OPTIONS_WITH_HEADER) {
+export function parseCsvWithHeader(filePath, options = OPTIONS_WITH_HEADER) {
   return _parseCsv(filePath, options);
 }
 
@@ -69,7 +69,7 @@ async function _parseCsv(filePath, options) {
   return parseCsvData(cleanedData, options);
 }
 
-async function readCsvFile(filePath) {
+export async function readCsvFile(filePath) {
   try {
     await access(filePath, fs.constants.F_OK);
   } catch {
@@ -81,12 +81,12 @@ async function readCsvFile(filePath) {
   return rawData.replace(/^\uFEFF/, '');
 }
 
-async function parseCsvData(cleanedData, options) {
+export async function parseCsvData(cleanedData, options) {
   const { data } = papa.parse(cleanedData, options);
   return data;
 }
 
-async function streamCsv(options) {
+export async function streamCsv(options) {
   return papa.parse(papa.NODE_STREAM_INPUT, options);
 }
 
@@ -110,10 +110,6 @@ function _csvSerializeValue(data) {
   }
 }
 
-function serializeLine(lineArray) {
+export function serializeLine(lineArray) {
   return lineArray.map(_csvSerializeValue).join(';') + '\n';
 }
-
-const csvHelper = { checkCsvHeader, parseCsvWithHeader, parseCsvData, readCsvFile };
-
-export { checkCsvHeader, csvHelper, parseCsvWithHeader, serializeLine, streamCsv };
