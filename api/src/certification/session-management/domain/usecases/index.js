@@ -48,7 +48,6 @@ import { getJurySession } from './get-jury-session.js';
 import { getSession } from './get-session.js';
 import { getSessionForSupervising } from './get-session-for-supervising.js';
 import { getV3CertificationCourseDetailsForAdministration } from './get-v3-certification-course-details-for-administration.js';
-import { integrateCpfProccessingReceipts } from './integrate-cpf-processing-receipts.js';
 import { manuallyResolveCertificationIssueReport } from './manually-resolve-certification-issue-report.js';
 import { processAutoJury } from './process-auto-jury.js';
 import { publishSession } from './publish-session.js';
@@ -204,7 +203,6 @@ const usecasesWithoutInjectedDependencies = {
   getSessionForSupervising,
   getSession,
   getV3CertificationCourseDetailsForAdministration,
-  integrateCpfProccessingReceipts,
   manuallyResolveCertificationIssueReport,
   processAutoJury,
   publishSession,

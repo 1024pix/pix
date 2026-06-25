@@ -20,7 +20,6 @@ import { sessionPublicationRoute } from './application/session-publication-route
 import { sessionRoute } from './application/session-route.js';
 import { superviseRoute } from './application/supervise-route.js';
 import { unfinalizeRoute } from './application/unfinalize-route.js';
-import { updateCpfImportStatusRoute } from './application/update-cpf-import-status-route.js';
 
 const certificationSessionRoutes = [
   cancellationRoute,
@@ -45,7 +44,6 @@ const certificationSessionRoutes = [
   sessionPublicationRoute,
   superviseRoute,
   unfinalizeRoute,
-  updateCpfImportStatusRoute,
 ];
 
 export { certificationSessionRoutes };
