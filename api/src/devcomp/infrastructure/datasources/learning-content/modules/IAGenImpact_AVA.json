@@ -751,90 +751,6 @@
             {
               "type": "element",
               "element": {
-                "id": "1c8ba0b7-01d2-4f46-834b-688b3b6ec4cb",
-                "type": "qrocm",
-                "instruction": "<p>Complétez la phrase suivante.</p>",
-                "proposals": [
-                  {
-                    "type": "text",
-                    "content": "<p>L’entraînement des logiciels d’intelligence</p>"
-                  },
-                  {
-                    "input": "choice1",
-                    "type": "input",
-                    "inputType": "text",
-                    "size": 10,
-                    "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "Complétez",
-                    "tolerances": [
-                      "t1",
-                      "t2",
-                      "t3"
-                    ],
-                    "solutions": [
-                      "artificielle"
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<p>nécessitent des calculs pendant des semaines qui sont traités dans des centres de</p>"
-                  },
-                  {
-                    "input": "choice2",
-                    "type": "input",
-                    "inputType": "text",
-                    "size": 10,
-                    "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "Complétez",
-                    "tolerances": [
-                      "t1",
-                      "t2",
-                      "t3"
-                    ],
-                    "solutions": [
-                      "données"
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<p>spécialisés équipés des milliers de cartes</p>"
-                  },
-                  {
-                    "input": "choice3",
-                    "type": "input",
-                    "inputType": "text",
-                    "size": 10,
-                    "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "Complétez",
-                    "tolerances": [
-                      "t1",
-                      "t2",
-                      "t3"
-                    ],
-                    "solutions": [
-                      "graphiques",
-                      "GPU"
-                    ]
-                  }
-                ],
-                "feedbacks": {
-                  "valid": {
-                    "state": "<p>Bonne réponse !<br></p>",
-                    "diagnosis": "<p><br></p>"
-                  },
-                  "invalid": {
-                    "state": "<p>Pas vraiment ...<br></p>",
-                    "diagnosis": "<p>L’entraînement des logiciels d’intelligence <strong>artificielle </strong>nécessitent des calculs pendant des semaines qui sont traités dans des centres de <strong>données </strong>spécialisés équipés des milliers de cartes <strong>graphiques.</strong></p>"
-                  }
-                }
-              }
-            },
-            {
-              "type": "element",
-              "element": {
                 "id": "05dbaa5a-b561-40bc-9598-92da761bdd1e",
                 "type": "qrocm",
                 "instruction": "<p>Compléter les phrases suivantes.</p>",
@@ -976,46 +892,55 @@
             {
               "type": "element",
               "element": {
+                "id": "49975927-1cd5-4fe3-9d7f-c77d6316cb0b",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>André, Bréatrice, Charlotte, Dylan et Elisabeth sont en réunion. </p><p>Ils travaillent dans une entreprise qui propose des serivces d’intelligence artificielle générative.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
                 "id": "b6105600-ded6-45dc-b0c4-5879aec035fc",
                 "type": "qcm",
-                "instruction": "<p>Sélectionnez les actions que pourraient mener les concepteurs de logiciels d’intelligence artificielle pour réduire leur impact sur l’environnement.</p>",
-                "hasShortProposals": false,
+                "instruction": "<p>Qui proposent des pistes qui risquent d’augmenter l’impact environnemental de l’entreprise ?</p>",
+                "hasShortProposals": true,
                 "proposals": [
                   {
-                    "id": "0",
-                    "content": "<p>Entraîner moins de nouveaux modèles</p>"
-                  },
-                  {
                     "id": "1",
-                    "content": "<p>Augmenter les prix de leurs logiciels pour financer des plantations d’arbres</p>"
+                    "content": "André"
                   },
                   {
                     "id": "2",
-                    "content": "<p>Utiliser en priorité des énergies renouvelables</p>"
+                    "content": "Béatrice"
                   },
                   {
                     "id": "3",
-                    "content": "<p>Publier des études scientifiques rigoureuses sur leurs impacts</p>"
+                    "content": "Charlotte"
                   },
                   {
                     "id": "4",
-                    "content": "<p>Développer de nouveaux modèles plus puissants</p>"
+                    "content": "Dylan"
+                  },
+                  {
+                    "id": "5",
+                    "content": "Elisabeth"
                   }
                 ],
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bonnes réponses !<br></p>",
-                    "diagnosis": "<p>Pour réduire leur impact sur l’environnement, les concepteurs de logiciels d’intelligence artificielles pourraient, par exemple&nbsp;:</p><ul>    <li>Entraîner moins de nouveaux modèles</li>    <li>Utiliser en priorité des énergies renouvelables</li>    <li>Publier des études scientifiques rigoureuses sur leurs impacts</li></ul>"
+                    "diagnosis": "<p>Ces exemples ne sont pas pris au hasard :&nbsp; </p><ul><li>La plupart des entreprises d’IA génératives proposent des <strong>modèles gratuits pour nous habituer à leur utilisation</strong> : on appelle ces modèles <strong>freemium</strong>.</li><li>Open IA a annoncé en mars 2026 <strong>l’arrêt du service de génération de vidéos Sora qui consommait beaucoup de ressources.</strong></li><li>Et Google et les autres <strong>moteurs de recheches utilisent de plus en plus d’intelligence artificielle par défaut</strong> pour donner une réponse à la recherche de l’utilisateur plutôt que des liens.</li></ul>"
                   },
                   "invalid": {
-                    "state": "<p>Pas tout à fait ...<br></p>",
-                    "diagnosis": "<p>Pour réduire leur impact sur l’environnement, les concepteurs de logiciels d’intelligence artificielles pourraient, par exemple&nbsp;:</p><ul>    <li>Entraîner moins de nouveaux modèles</li>    <li>Utiliser en priorité des énergies renouvelables</li>    <li>Publier des études scientifiques rigoureuses sur leurs impacts</li></ul>"
+                    "state": "<p>Non, pas vraiment...<br></p>",
+                    "diagnosis": "<p>Ces exemples ne sont pas pris au hasard :&nbsp; </p>\n<ul>\n    <li>La plupart des entreprises d’IA génératives proposent des <strong>modèles gratuits pour nous habituer à leur utilisation</strong> : on appelle ces modèles <strong>freemium</strong>.</li>\n    <li>Open IA a annoncé en mars 2026 <strong>l’arrêt du service de génération de vidéos Sora qui consommait beaucoup de ressources.</strong></li>\n    <li>Et Google et les autres <strong>moteurs de recheches utilisent de plus en plus d’intelligence artificielle par défaut</strong> pour donner une réponse à la recherche de l’utilisateur plutôt que des liens.</li>\n</ul>"
                   }
                 },
                 "solutions": [
-                  "0",
+                  "1",
                   "2",
-                  "3"
+                  "4"
                 ]
               }
             }
