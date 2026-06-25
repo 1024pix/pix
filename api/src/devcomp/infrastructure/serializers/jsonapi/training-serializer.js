@@ -151,4 +151,4 @@ const deserialize = function (payload) {
   }).deserialize(payload);
 };
 
-export { deserialize, serialize, serializeForAdmin };
+export const trainingSerializer = { deserialize, serialize, serializeForAdmin };

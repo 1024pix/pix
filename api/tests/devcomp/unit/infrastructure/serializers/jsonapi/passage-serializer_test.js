@@ -1,5 +1,5 @@
 import { Passage } from '../../../../../../src/devcomp/domain/models/Passage.js';
-import * as passageSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/passage-serializer.js';
+import { passageSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/passage-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | PassageSerializer', function () {

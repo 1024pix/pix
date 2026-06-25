@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-summary-serializer.js';
+import { trainingSummarySerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-summary-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -24,7 +24,7 @@ describe('Unit | Serializer | JSONAPI | training-summary-serializer', function (
       const meta = { pagination: { page: 1, pageSize: 3, pageCount: 1, rowCount: 2 } };
 
       // when
-      const serializedTrainingSummaries = serializer.serialize(trainingSummaries, meta);
+      const serializedTrainingSummaries = trainingSummarySerializer.serialize(trainingSummaries, meta);
 
       // then
       expect(serializedTrainingSummaries).to.deep.equal({

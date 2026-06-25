@@ -1,6 +1,6 @@
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases as devcompUsecases } from '../../domain/usecases/index.js';
-import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
+import { trainingSerializer } from '../../infrastructure/serializers/jsonapi/training-serializer.js';
 
 const findPaginatedUserRecommendedTrainings = async function (
   request,

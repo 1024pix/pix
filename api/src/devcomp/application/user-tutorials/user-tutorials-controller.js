@@ -2,8 +2,8 @@ import { getBaseLocale } from '../../../shared/domain/services/locale-service.js
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
-import * as tutorialSerializer from '../../infrastructure/serializers/jsonapi/tutorial-serializer.js';
-import * as userSavedTutorialSerializer from '../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
+import { tutorialSerializer } from '../../infrastructure/serializers/jsonapi/tutorial-serializer.js';
+import { userSavedTutorialSerializer } from '../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
 
 const add = async function (request, h, dependencies = { userSavedTutorialSerializer }) {
   const { userId } = request.auth.credentials;

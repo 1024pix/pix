@@ -15,4 +15,4 @@ function serialize(correctionResponse) {
   }).serialize(correctionResponse);
 }
 
-export { serialize };
+export const correctionResponseSerializer = { serialize };

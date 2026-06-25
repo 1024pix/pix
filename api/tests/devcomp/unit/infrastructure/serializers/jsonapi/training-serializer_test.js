@@ -1,5 +1,5 @@
 import { Training } from '../../../../../../src/devcomp/domain/models/Training.js';
-import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
+import { trainingSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -324,7 +324,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       };
 
       // when
-      const json = serializer.serializeForAdmin(training);
+      const json = trainingSerializer.serializeForAdmin(training);
 
       // then
       expect(json).to.deep.equal(expectedSerializedTraining);
@@ -335,7 +335,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       const training = domainBuilder.buildTrainingForAdmin({ objectives: null });
 
       // when
-      const json = serializer.serializeForAdmin(training);
+      const json = trainingSerializer.serializeForAdmin(training);
 
       // then
       expect(json.data.attributes.objectives).to.be.null;
@@ -381,7 +381,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       };
 
       // when
-      const json = serializer.serialize(training);
+      const json = trainingSerializer.serialize(training);
 
       // then
       expect(json).to.deep.equal(expectedSerializedTraining);
@@ -433,7 +433,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       };
 
       // when
-      const json = serializer.serialize(training, meta);
+      const json = trainingSerializer.serialize(training, meta);
 
       // then
       expect(json).to.deep.equal(expectedSerializedTraining);
@@ -464,7 +464,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       };
 
       // when
-      const training = await serializer.deserialize(jsonTraining);
+      const training = await trainingSerializer.deserialize(jsonTraining);
 
       // then
       expect(training).to.deep.equal({
@@ -495,7 +495,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       };
 
       // when
-      const training = await serializer.deserialize(jsonTraining);
+      const training = await trainingSerializer.deserialize(jsonTraining);
 
       // then
       expect(training.objectives).to.deep.equal(['Objectif 1', 'Objectif 2']);
@@ -513,7 +513,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       };
 
       // when
-      const training = await serializer.deserialize(jsonTraining);
+      const training = await trainingSerializer.deserialize(jsonTraining);
 
       // then
       expect(training.objectives).to.deep.equal(['Objectif 1', 'Objectif 2', 'Objectif 3']);
@@ -549,7 +549,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
         };
 
         // when
-        const deserializedTraining = await serializer.deserialize(jsonTraining);
+        const deserializedTraining = await trainingSerializer.deserialize(jsonTraining);
 
         // then
         expect(deserializedTraining.duration).to.deep.equal(expectedDuration);

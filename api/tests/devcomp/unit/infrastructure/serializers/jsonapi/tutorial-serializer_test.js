@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/tutorial-serializer.js';
+import { tutorialSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/tutorial-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       };
 
       // when
-      const result = serializer.serialize(tutorial);
+      const result = tutorialSerializer.serialize(tutorial);
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
@@ -77,7 +77,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       };
 
       // when
-      const result = serializer.serialize(tutorial);
+      const result = tutorialSerializer.serialize(tutorial);
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
@@ -148,7 +148,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       };
 
       // when
-      const result = serializer.serialize(tutorial);
+      const result = tutorialSerializer.serialize(tutorial);
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
@@ -193,7 +193,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       };
 
       // when
-      const result = serializer.serialize(tutorials, pagination);
+      const result = tutorialSerializer.serialize(tutorials, pagination);
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);

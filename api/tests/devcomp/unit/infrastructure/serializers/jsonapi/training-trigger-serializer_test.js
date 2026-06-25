@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-trigger-serializer.js';
+import { trainingTriggerSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-trigger-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -143,7 +143,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-tri
       };
 
       // when
-      const json = serializer.serialize(trainingTrigger);
+      const json = trainingTriggerSerializer.serialize(trainingTrigger);
 
       // then
       expect(json).to.deep.equal(expectedSerializedTrainingTrigger);
@@ -165,7 +165,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-tri
       };
 
       // when
-      const trainingTrigger = await serializer.deserialize(jsonTraining);
+      const trainingTrigger = await trainingTriggerSerializer.deserialize(jsonTraining);
 
       // then
       expect(trainingTrigger).to.deep.equal({
