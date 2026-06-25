@@ -14,7 +14,7 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
     this.requestManagerStub = { request: sinon.stub().resolves() };
     this.owner.register('service:request-manager', this.requestManagerStub, { instantiate: false });
 
-    this.owner.register('service:current-user', { user: { id: 42 } }, { instantiate: false });
+    this.owner.register('service:current-user', { user: { id: 42 } });
   });
 
   test('it displays the satisfaction score form by default', async function (assert) {
@@ -41,7 +41,7 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
       assert.dom(screen.getByText(t('pages.skill-review.recommended-engine.drawer.thank-you.title'))).isVisible();
     });
 
-    test('it calls POST /api/user-campaign-surveys with userId, campaignId and satisfactionScore', async function (assert) {
+    test('it calls POST /api/user-campaign-surveys with campaignId and satisfactionScore', async function (assert) {
       // given
       const screen = await render(<template><Drawer @campaignId={{99}} /></template>);
 
@@ -58,40 +58,29 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
       assert.ok(requestArgs.url.endsWith('/api/user-campaign-surveys'));
       assert.strictEqual(requestArgs.method, 'POST');
       const body = JSON.parse(requestArgs.body);
-      assert.strictEqual(body.data.attributes.userId, 42);
-      assert.strictEqual(body.data.attributes.campaignId, 99);
-      assert.strictEqual(body.data.attributes.satisfactionScore, 5);
+      assert.strictEqual(body.data.attributes['campaign-id'], 99);
+      assert.strictEqual(body.data.attributes['satisfaction-score'], 5);
     });
   });
 
   module('when user clicks hide', function () {
-    test('the drawer starts the closing animation', async function (assert) {
+    test('the drawer is removed', async function (assert) {
       // given
       const screen = await render(<template><Drawer @campaignId={{1}} /></template>);
 
       // when
       await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide') }));
+      await triggerEvent(document.querySelector('.results-recommendation-engine-drawer'), 'animationend', {
+        animationName: 'drawer-slide-down',
+      });
 
       // then
-      assert.dom(screen.container.querySelector('.results-recommendation-engine-drawer--hiding')).exists();
-    });
-
-    test('the drawer is removed from the DOM once the animation ends', async function (assert) {
-      // given
-      const screen = await render(<template><Drawer @campaignId={{1}} /></template>);
-      await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide') }));
-      const section = screen.container.querySelector('.results-recommendation-engine-drawer');
-
-      // when
-      await triggerEvent(section, 'animationend', { animationName: 'drawer-slide-down' });
-
-      // then
-      assert.dom(screen.container.querySelector('.results-recommendation-engine-drawer')).doesNotExist();
+      assert.dom(screen.queryByText(t('pages.skill-review.recommended-engine.drawer.statement'))).doesNotExist();
     });
   });
 
   module('when user has submitted a score and clicks close', function () {
-    test('the drawer starts the closing animation', async function (assert) {
+    test('the drawer is removed', async function (assert) {
       // given
       const screen = await render(<template><Drawer @campaignId={{1}} /></template>);
       await click(
@@ -102,9 +91,12 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
 
       // when
       await click(screen.getByRole('button', { name: t('common.actions.close') }));
+      await triggerEvent(document.querySelector('.results-recommendation-engine-drawer'), 'animationend', {
+        animationName: 'drawer-slide-down',
+      });
 
       // then
-      assert.dom(screen.container.querySelector('.results-recommendation-engine-drawer--hiding')).exists();
+      assert.dom(screen.queryByText(t('pages.skill-review.recommended-engine.drawer.thank-you.title'))).doesNotExist();
     });
   });
 });

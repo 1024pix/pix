@@ -1,11 +1,13 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
 import ResultsDetails from '../../../campaigns/assessment/results/evaluation-results-tabs/results-details';
 import Rewards from '../../../campaigns/assessment/results/evaluation-results-tabs/rewards';
 import QuitResults from '../../../campaigns/assessment/results/quit-results';
+import Drawer from '../../../campaigns/assessment/results-recommendation-engine/drawer';
 import EvaluationResultsHeroRecommendationEngine from '../../../campaigns/assessment/results-recommendation-engine/evaluation-results-hero-recommendation-engine';
 import Trainings from '../../../campaigns/assessment/results-recommendation-engine/trainings';
 
@@ -18,6 +20,8 @@ export default class EvaluationResultsRecommendationEngine extends Component {
 
     this.trackTrainingsDisplayed(this.trainings);
   }
+
+  @tracked _drawerRevealedByScroll = false;
 
   @action onCardClick({ trainingId }) {
     this.pixMetrics.trackEvent('Moteur de reco - Clic sur la carte du contenu formatif', {
@@ -65,6 +69,14 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     return badges.some((badge) => badge.isAcquired || badge.isAlwaysVisible);
   }
 
+  get shouldShowNps() {
+    return this._drawerRevealedByScroll || !this.hasTrainings;
+  }
+
+  @action revealNps() {
+    this._drawerRevealedByScroll = true;
+  }
+
   <template>
     <main role="main" class="evaluation-results-recommendation-engine">
       <header class="evaluation-results__header">
@@ -89,6 +101,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
           @onCardClick={{this.onCardClick}}
           @onModalButtonClick={{this.onModalButtonClick}}
           @onModalAccordionClick={{this.onModalAccordionClick}}
+          @onFullyVisible={{this.revealNps}}
         />
       {{/if}}
 
@@ -99,6 +112,10 @@ export default class EvaluationResultsRecommendationEngine extends Component {
 
       {{#if this.showBadges}}
         <Rewards @badges={{@model.campaignParticipationResult.campaignParticipationBadges}} />
+      {{/if}}
+
+      {{#if this.shouldShowNps}}
+        <Drawer @campaignId={{@model.campaign.id}} />
       {{/if}}
     </main>
   </template>
