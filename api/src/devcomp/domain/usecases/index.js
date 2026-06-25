@@ -48,6 +48,7 @@ import { startEmbedLlmChat } from './start-embed-llm-chat.js';
 import { terminatePassage } from './terminate-passage.js';
 import { updateTraining } from './update-training.js';
 import { verifyAndSaveAnswer } from './verify-and-save-answer.js';
+import { verifyExistingUserCampaignSurvey } from './verify-existing-user-campaign-survey.js';
 
 const dependencies = {
   ...repositories,
@@ -102,6 +103,7 @@ const usecasesWithoutInjectedDependencies = {
   terminatePassage,
   updateTraining,
   verifyAndSaveAnswer,
+  verifyExistingUserCampaignSurvey,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
