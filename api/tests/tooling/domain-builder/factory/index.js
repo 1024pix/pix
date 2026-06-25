@@ -168,6 +168,7 @@ import { buildComplementaryCertificationBadge } from './certification/complement
 import { buildActiveCalibratedChallenge } from './certification/configuration/build-active-calibrated-challenge.js';
 import { buildCenter as buildConfigurationCenter } from './certification/configuration/build-center.js';
 import { buildCertificationFrameworksChallenge } from './certification/configuration/build-certification-frameworks-challenge.js';
+import { buildCertificationInfo } from './certification/configuration/build-certification-info.js';
 import { buildFrameworkHistoryEntry } from './certification/configuration/build-framework-history-entry.js';
 import {
   buildScoBlockedAccessDateCollege,
@@ -258,6 +259,7 @@ const certification = {
     buildCenter: buildConfigurationCenter,
     buildCertificationFrameworksChallenge,
     buildFrameworkHistoryEntry,
+    buildCertificationInfo,
     buildVersion: buildConfigurationVersion,
     buildScoBlockedAccessDateCollege,
     buildScoBlockedAccessDateLycee,
