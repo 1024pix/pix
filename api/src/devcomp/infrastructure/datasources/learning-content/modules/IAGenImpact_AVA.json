@@ -198,7 +198,7 @@
                       "id": "8d07ad91-7c48-4d1f-b60a-a311a7b428fd",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Open IA et d’autres entreprises ont entraînées d’autres modèles depuis. En voici quelques exemples.</p>"
+                      "content": "<p>Open IA et d’autres entreprises ont entraînées d’autres modèles depuis la sortie de ChatGPT4.</p><p> Voici ci-dessous quelques exemples :</p>"
                     },
                     {
                       "id": "5347533c-7309-4991-b0b3-133784208d25",
@@ -657,7 +657,7 @@
                         },
                         {
                           "id": "4",
-                          "content": "<p>Il existe une méthodologie commune pour mesurer et comparer les impacts environnementaux des différentes entreprise d’IA.</p>"
+                          "content": "<p>Il existe une méthodologie commune pour comparer les impacts environnementaux des IA.</p>"
                         }
                       ],
                       "feedbacks": {
