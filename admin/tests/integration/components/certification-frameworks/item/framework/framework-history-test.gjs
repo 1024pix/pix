@@ -202,7 +202,6 @@ module('Integration | Component | Complementary certifications/Item/Framework | 
           <FrameworkHistory
             @frameworkKey="CORE"
             @frameworkHistory={{frameworkHistory}}
-            @showCreationVersionButton={{true}}
           />
         </template>,
       );

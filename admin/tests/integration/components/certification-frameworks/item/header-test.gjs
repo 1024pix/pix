@@ -1,4 +1,4 @@
-import { render, within } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
 import Header from 'pix-admin/components/certification-frameworks/item/header';
@@ -27,13 +27,11 @@ module('Integration | Component | certification-frameworks/item/header', functio
     // when
     const screen = await render(
       <template>
-        <Header @certificationFramework={{certificationFramework}} @showCreationVersionButton={{true}} />
+        <Header @certificationFramework={{certificationFramework}} />
       </template>,
     );
 
     // then
-    const nav = screen.getByRole('navigation');
-    assert.ok(within(nav).getByRole('link', { name: t('components.layout.sidebar.certification-frameworks') }));
     assert.ok(screen.getByRole('heading', { name: t('components.certification-frameworks.labels.DROIT'), level: 1 }));
   });
 
@@ -45,39 +43,13 @@ module('Integration | Component | certification-frameworks/item/header', functio
     // when
     const screen = await render(
       <template>
-        <Header
-          @certificationFramework={{certificationFramework}}
-          @frameworkHistory={{frameworkHistory}}
-          @showCreationVersionButton={{true}}
-        />
+        <Header @certificationFramework={{certificationFramework}} @frameworkHistory={{frameworkHistory}} />
       </template>,
     );
 
     const button = screen.getByText(t('components.certification-frameworks.item.frameworks.create-button'));
     // then
     assert.strictEqual(button.getAttribute('aria-disabled'), 'false');
-  });
-
-  test('it should hide create button when showCreationVersionButton is false', async function (assert) {
-    const certificationFramework = store.createRecord('certification-framework', { id: 'DROIT', name: 'DROIT' });
-
-    const frameworkHistory = store.createRecord('framework-history', { history: [] });
-
-    // when
-    const screen = await render(
-      <template>
-        <Header
-          @certificationFramework={{certificationFramework}}
-          @frameworkHistory={{frameworkHistory}}
-          @showCreationVersionButton={{false}}
-        />
-      </template>,
-    );
-
-    // then
-    assert
-      .dom(screen.queryByText(t('components.certification-frameworks.item.frameworks.create-button')))
-      .doesNotExist();
   });
 
   test('it should disable the create button when there is a draft version', async function (assert) {
@@ -118,11 +90,7 @@ module('Integration | Component | certification-frameworks/item/header', functio
     // when
     const screen = await render(
       <template>
-        <Header
-          @certificationFramework={{certificationFramework}}
-          @frameworkHistory={{frameworkHistory}}
-          @showCreationVersionButton={{true}}
-        />
+        <Header @certificationFramework={{certificationFramework}} @frameworkHistory={{frameworkHistory}} />
       </template>,
     );
 

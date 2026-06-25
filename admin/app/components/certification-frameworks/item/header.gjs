@@ -1,4 +1,3 @@
-import PixBreadcrumb from '@1024pix/pix-ui/components/pix-breadcrumb';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { service } from '@ember/service';
@@ -26,23 +25,7 @@ export default class Header extends Component {
     };
   }
 
-  get links() {
-    return [
-      {
-        route: 'authenticated.certification-frameworks',
-        label: this.intl.t('components.layout.sidebar.certification-frameworks'),
-      },
-      {
-        label: this.frameworkLabel,
-      },
-    ];
-  }
-
   <template>
-    <header>
-      <PixBreadcrumb @links={{this.links}} class="breadcrumb" />
-    </header>
-
     <div class="certification-framework-header">
       <h1 class="certification-framework-header__title">
         <span>
@@ -50,12 +33,11 @@ export default class Header extends Component {
         </span>
       </h1>
 
-      {{#if @showCreationVersionButton}}
         <PixTooltip @hide={{not this.canCreateVersion}} @position="bottom" @isWide={{true}}>
           <:triggerElement>
             <PixButtonLink
               class="framework__creation-button"
-              @route="authenticated.certification-frameworks.item.frameworks.new"
+              @route="authenticated.certification-frameworks.certification-framework.versions.new"
               @query={{this.activeCertificationVersionId}}
               @iconBefore="add"
               @isDisabled={{this.canCreateVersion}}
@@ -68,7 +50,6 @@ export default class Header extends Component {
             {{t "components.certification-frameworks.item.frameworks.create-button-cancel-tooltip"}}
           </:tooltip>
         </PixTooltip>
-      {{/if}}
     </div>
   </template>
 }

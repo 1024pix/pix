@@ -32,12 +32,6 @@ module('Integration | Component | complementary-certifications/item/framework/ne
     await click(screen.getByLabelText('@tubeName1 : Tube 1'));
 
     // then
-    assert.ok(
-      screen.getByRole('heading', {
-        name: t('components.certification-frameworks.item.frameworks.new-version-form.title'),
-        level: 2,
-      }),
-    );
     assert
       .dom(
         screen.getByRole('button', {

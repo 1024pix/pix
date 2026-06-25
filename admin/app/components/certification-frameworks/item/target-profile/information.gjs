@@ -21,12 +21,12 @@ export default class Information extends Component {
           <div class="certification-framework-details-target-profile__attach-button">
             {{#if @currentTargetProfile}}
               <PixButtonLink
-                @route="authenticated.certification-frameworks.item.target-profile.update"
+                @route="authenticated.certification-frameworks.certification-framework.target-profile.update"
                 @model={{@currentTargetProfile.id}}
               >Rattacher un nouveau profil cible
               </PixButtonLink>
             {{else}}
-              <PixButtonLink @route="authenticated.certification-frameworks.item.target-profile.new">Rattacher un profil
+              <PixButtonLink @route="authenticated.certification-frameworks.certification-framework.target-profile.new">Rattacher un profil
                 cible
               </PixButtonLink>
             {{/if}}

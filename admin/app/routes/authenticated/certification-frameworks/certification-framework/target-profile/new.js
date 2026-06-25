@@ -5,12 +5,15 @@ export default class AttachTargetProfileNewRoute extends Route {
   @service accessControl;
 
   beforeModel() {
-    this.accessControl.restrictAccessTo(['isSuperAdmin'], 'authenticated.certification-frameworks.item.target-profile');
+    this.accessControl.restrictAccessTo(
+      ['isSuperAdmin'],
+      'authenticated.certification-frameworks.certification-framework.target-profile',
+    );
   }
 
   model(_) {
     const { currentComplementaryCertification } = this.modelFor(
-      'authenticated.certification-frameworks.item.target-profile',
+      'authenticated.certification-frameworks.certification-framework.target-profile',
     );
 
     return {

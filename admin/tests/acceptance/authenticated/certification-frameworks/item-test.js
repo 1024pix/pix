@@ -49,7 +49,7 @@ module('Acceptance | Certification Frameworks | Item', function (hooks) {
 
     // then
     const [, row1, row2, row3] = await screen.findAllByRole('row');
-    assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/frameworks');
+    assert.strictEqual(currentURL(), '/certification-frameworks/DROIT');
     assert.dom(within(row1).getByRole('cell', { name: '789' })).exists();
     assert.dom(within(row1).getByRole('cell', { name: "En cours d'édition" })).exists();
     assert.dom(within(row2).getByRole('cell', { name: '456' })).exists();

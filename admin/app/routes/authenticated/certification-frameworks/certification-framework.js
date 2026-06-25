@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
-export default class ItemRoute extends Route {
+export default class CertificationFrameworkRoute extends Route {
   @service store;
   @service router;
 
@@ -21,15 +21,5 @@ export default class ItemRoute extends Route {
       currentCertificationFramework,
       hasTargetProfilesHistory: params.certification_framework_key !== 'CORE',
     };
-  }
-
-  redirect(model, transition) {
-    if (transition.to.name === 'authenticated.certification-frameworks.item.index') {
-      if (model.frameworkKey === 'CLEA') {
-        this.router.transitionTo('authenticated.certification-frameworks.item.target-profile');
-      } else {
-        this.router.transitionTo('authenticated.certification-frameworks.item.frameworks');
-      }
-    }
   }
 }

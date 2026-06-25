@@ -6,7 +6,7 @@ export default class TargetProfileRoute extends Route {
 
   async model() {
     const { frameworkHistory, frameworkKey, currentCertificationFramework, hasTargetProfilesHistory } = this.modelFor(
-      'authenticated.certification-frameworks.item',
+      'authenticated.certification-frameworks.certification-framework',
     );
     const complementaryCertifications = await this.store.findAll('complementary-certification');
     const currentComplementaryCertification = complementaryCertifications.find((cc) => cc.key === frameworkKey);
