@@ -1,7 +1,7 @@
 import { FREE_RATE } from '../../../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import * as organizationPlacesLotCategories from '../../../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { OrganizationPlacesLotManagement } from '../../../../../../../src/prescription/organization-place/domain/read-models/OrganizationPlacesLotManagement.js';
-import * as organizationPlacesLotManagementSerializer from '../../../../../../../src/prescription/organization-place/infrastructure/serializers/jsonapi/organization-places-lot-management-serializer.js';
+import { organizationPlacesLotManagementSerializer } from '../../../../../../../src/prescription/organization-place/infrastructure/serializers/jsonapi/organization-places-lot-management-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
