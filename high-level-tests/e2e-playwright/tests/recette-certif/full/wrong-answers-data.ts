@@ -49,7 +49,8 @@ export const allTestData = [
     appCertificationListInfo: {
       mainStatus: 'Pix+ Droit : Non obtenue',
       extraStatus: null,
-      comment: null,
+      comment:
+        'Commentaire : Les résultats obtenus ne permettent pas la validation de votre certification. Vous avez besoin de consolider vos acquis pour valoriser ces compétences.',
     },
   },
   {
@@ -61,7 +62,8 @@ export const allTestData = [
     appCertificationListInfo: {
       mainStatus: 'Pix+ Professionnels de Santé : Non obtenue',
       extraStatus: null,
-      comment: null,
+      comment:
+        'Commentaire : Les résultats obtenus ne permettent pas la validation de votre certification. Vous avez besoin de consolider vos acquis pour valoriser ces compétences.',
     },
   },
 ];
