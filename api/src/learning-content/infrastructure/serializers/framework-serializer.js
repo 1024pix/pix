@@ -20,4 +20,4 @@ const serialize = function (frameworks) {
   }).serialize(frameworks);
 };
 
-export { serialize };
+export const frameworkSerializer = { serialize };

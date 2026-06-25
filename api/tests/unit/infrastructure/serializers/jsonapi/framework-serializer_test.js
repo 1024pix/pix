@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../src/learning-content/infrastructure/serializers/framework-serializer.js';
+import { frameworkSerializer } from '../../../../../src/learning-content/infrastructure/serializers/framework-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | framework-serializer', function () {
@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSONAPI | framework-serializer', function () {
       };
 
       // when
-      const result = serializer.serialize(frameworks);
+      const result = frameworkSerializer.serialize(frameworks);
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);

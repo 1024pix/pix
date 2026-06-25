@@ -1,7 +1,7 @@
 import { getChallengeLocale } from '../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as frameworkAreasSerializer from '../infrastructure/serializers/framework-areas-serializer.js';
-import * as frameworkSerializer from '../infrastructure/serializers/framework-serializer.js';
+import { frameworkAreasSerializer } from '../infrastructure/serializers/framework-areas-serializer.js';
+import { frameworkSerializer } from '../infrastructure/serializers/framework-serializer.js';
 
 const getFrameworks = async function (request, h, dependencies = { frameworkSerializer }) {
   const frameworks = await usecases.getFrameworks();
