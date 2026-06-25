@@ -9,7 +9,7 @@ import authenticateSession from '../helpers/authenticate-session';
 import setupIntl from '../helpers/setup-intl';
 import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
-module('Acceptance | Campaign Creation', function (hooks) {
+module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
   let availableTargetProfiles;
   let availableCombinedCourseBlueprints;
 
@@ -17,9 +17,25 @@ module('Acceptance | Campaign Creation', function (hooks) {
   setupMirage(hooks);
   setupIntl(hooks);
 
+  hooks.beforeEach(function () {
+    server.create('feature-toggle', { id: '0', displayCatalogue: true });
+
+    availableCombinedCourseBlueprints = server.createList('course', 2, { type: 'blueprint' });
+    availableCombinedCourseBlueprints.forEach((course) => {
+      server.create('combined-course-blueprint-overview', { id: course.id, name: course.name });
+      server.create('combined-course-blueprint', { id: course.id, name: course.name });
+    });
+
+    availableTargetProfiles = server.createList('course', 2, { type: 'targetProfile' });
+    availableTargetProfiles.forEach((course) => {
+      server.create('target-profile-overview', { id: course.id, name: course.name });
+      server.create('target-profile', { id: course.id, name: course.name });
+    });
+  });
+
   test('it should not be accessible by an unauthenticated user', async function (assert) {
     // when
-    await visit('/campagnes/creation');
+    await visit('/campagnes/creation-catalogue');
 
     // then
     assert.strictEqual(currentURL(), '/connexion');
@@ -32,18 +48,31 @@ module('Acceptance | Campaign Creation', function (hooks) {
     createPrescriberByUser({ user });
 
     await authenticateSession(user.id);
-    availableCombinedCourseBlueprints = server.createList('combined-course-blueprint', 2);
+
     const expectedCombinedCourseBlueprintName = availableCombinedCourseBlueprints[1].name;
 
-    const screen = await visit('/campagnes/creation');
-    await fillByLabel('Nom de la campagne *', 'Mon parcours combiné');
-    await clickByName(t('pages.campaign-creation.purpose.combined-course'));
+    const screen = await visit('/campagnes/creation-catalogue');
 
-    await click(screen.getByLabelText(`${t('pages.campaign-creation.combined-course-blueprints-list-label')} *`));
-    await click(await screen.findByRole('option', { description: expectedCombinedCourseBlueprintName }));
+    await click(
+      screen.getByRole('link', {
+        name: t('pages.campaign-creation.course-selection-label'),
+      }),
+    );
+
+    await click(
+      screen.getByRole('link', {
+        name: t('pages.catalogue.modal.open-modal', { name: expectedCombinedCourseBlueprintName }),
+      }),
+    );
+
+    const dialog = await screen.findByRole('dialog');
+    await click(within(dialog).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+
+    await fillByLabel('Nom de la campagne *', 'Mon parcours combiné');
 
     // when
     await clickByName('Créer la campagne');
+
     // then
     assert.strictEqual(server.db.campaigns[0].name, 'Mon parcours combiné');
     assert.strictEqual(currentURL(), `/parcours/${server.db.campaigns[0].id}`);
@@ -51,8 +80,6 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
   module('when the prescriber is authenticated', (hooks) => {
     hooks.beforeEach(async () => {
-      availableTargetProfiles = server.createList('target-profile', 2);
-
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       server.create('member-identity', { id: user.id, firstName: user.firstName, lastName: user.lastName });
       createPrescriberByUser({ user });
@@ -67,10 +94,10 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should be accessible for an authenticated prescriber', async function (assert) {
       // when
-      const screen = await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation-catalogue');
 
       // then
-      assert.strictEqual(currentURL(), '/campagnes/creation');
+      assert.strictEqual(currentURL(), '/campagnes/creation-catalogue');
       assert.ok(screen.getByText("Création d'une campagne"));
     });
 
@@ -79,11 +106,23 @@ module('Acceptance | Campaign Creation', function (hooks) {
       const expectedTargetProfileId = availableTargetProfiles[1].id;
       const expectedTargetProfileName = availableTargetProfiles[1].name;
 
-      const screen = await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation-catalogue');
+
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.campaign-creation.course-selection-label'),
+        }),
+      );
+
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.catalogue.modal.open-modal', { name: expectedTargetProfileName }),
+        }),
+      );
+      const dialog = await screen.findByRole('dialog');
+      await click(within(dialog).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+
       await fillByLabel('Nom de la campagne *', 'Ma Campagne');
-      await clickByName('Évaluer les participants');
-      await click(screen.getByLabelText(`${t('pages.campaign-creation.target-profiles-list-label')} *`));
-      await click(await screen.findByRole('option', { description: expectedTargetProfileName }));
 
       const externalIdentifier = screen
         .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })
@@ -103,7 +142,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should allow to create a campaign of type PROFILES_COLLECTION and redirect to the newly created campaign', async function (assert) {
       // given
-      const screen = await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation-catalogue');
       await fillByLabel('Nom de la campagne *', 'Ma Campagne');
       await clickByName('Collecter les profils Pix des participants');
       const externalIdentifier = screen
@@ -124,11 +163,23 @@ module('Acceptance | Campaign Creation', function (hooks) {
       // given
       const expectedTargetProfileName = availableTargetProfiles[1].name;
 
-      const screen = await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation-catalogue');
+
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.campaign-creation.course-selection-label'),
+        }),
+      );
+
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.catalogue.modal.open-modal', { name: expectedTargetProfileName }),
+        }),
+      );
+      const dialog = await screen.findByRole('dialog');
+      await click(within(dialog).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+
       await fillByLabel('Nom de la campagne *', 'Ma Campagne');
-      await clickByName('Évaluer les participants');
-      await click(screen.getByLabelText(`${t('pages.campaign-creation.target-profiles-list-label')} *`));
-      await click(await screen.findByRole('option', { description: expectedTargetProfileName }));
 
       const title = `${t('pages.campaign-creation.test-title.label')} ${t('pages.campaign-creation.test-title.sublabel')}`;
 
@@ -146,11 +197,23 @@ module('Acceptance | Campaign Creation', function (hooks) {
     test('it should set the current user as owner by default when creating a campaign', async function (assert) {
       // given
       const targetProfileName = availableTargetProfiles[1].name;
-      const screen = await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation-catalogue');
+
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.campaign-creation.course-selection-label'),
+        }),
+      );
+
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.catalogue.modal.open-modal', { name: targetProfileName }),
+        }),
+      );
+      const dialog = await screen.findByRole('dialog');
+      await click(within(dialog).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+
       await fillByLabel('Nom de la campagne *', 'Ma Campagne');
-      await clickByName('Évaluer les participants');
-      await click(screen.getByLabelText(`${t('pages.campaign-creation.target-profiles-list-label')} *`));
-      await click(await screen.findByRole('option', { description: targetProfileName }));
 
       // when
       await clickByName('Créer la campagne');
@@ -161,16 +224,27 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should display error on global form when error 500 is returned from backend', async function (assert) {
       // given
-      const screen = await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation-catalogue');
 
       const expectedTargetProfileName = availableTargetProfiles[1].name;
       server.post('/campaigns', {}, 500);
 
       // when
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.campaign-creation.course-selection-label'),
+        }),
+      );
+
+      await click(
+        screen.getByRole('link', {
+          name: t('pages.catalogue.modal.open-modal', { name: expectedTargetProfileName }),
+        }),
+      );
+      const dialog = await screen.findByRole('dialog');
+      await click(within(dialog).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+
       await fillByLabel('Nom de la campagne *', 'Ma Campagne');
-      await clickByName('Évaluer les participants');
-      await click(screen.getByLabelText(`${t('pages.campaign-creation.target-profiles-list-label')} *`));
-      await click(await screen.findByRole('option', { description: expectedTargetProfileName }));
       const externalIdentifier = screen
         .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })
         .closest('fieldset');
@@ -179,7 +253,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await clickByName('Créer la campagne');
 
       // then
-      assert.strictEqual(currentURL(), '/campagnes/creation');
+      assert.strictEqual(currentURL(), '/campagnes/creation-catalogue?courseId=4');
       assert.ok(screen.getByText('Une erreur est survenue. Veuillez réessayer ultérieurement.'));
     });
   });

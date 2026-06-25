@@ -20,6 +20,7 @@ export default {
     organization: belongsTo('organization'),
     stages: hasMany('stage'),
     targetProfile: belongsTo('targetProfile'),
+    course: belongsTo('course'),
   }),
   campaignAnalysis: Model.extend({
     campaignTubeRecommendations: hasMany('campaignTubeRecommendation'),

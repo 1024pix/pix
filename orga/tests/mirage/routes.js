@@ -378,7 +378,8 @@ export default function routes() {
     if (campaign.type === 'PROFILES_COLLECTION') {
       return schema.campaigns.create(campaign);
     } else if (campaign.type === 'ASSESSMENT') {
-      const targetProfileId = body.data.relationships['target-profile'].data.id;
+      const targetProfileId =
+        body.data.relationships['target-profile']?.data.id || body.data.relationships['course']?.data.id;
       return schema.campaigns.create({ ...campaign, targetProfileId });
     }
     return new Response(422);
@@ -500,7 +501,8 @@ export default function routes() {
       customLandingPageText: body.data.attributes['custom-landing-page-text'],
       externalIdLabel: body.data.attributes['id-pix-label'],
     };
-    const combinedCourseBlueprintId = body.data.relationships['combined-course-blueprint'].data.id;
+    const combinedCourseBlueprintId =
+      body.data.relationships['combined-course-blueprint']?.data.id || body.data.relationships['course']?.data.id;
     return schema.campaigns.create({ ...campaign, combinedCourseBlueprintId });
   });
   this.get('feature-toggles', (schema) => {
@@ -702,6 +704,10 @@ export default function routes() {
   this.get('/organizations/:id/combined-course-blueprints/:blueprintId', (schema, request) => {
     const combinedCourseBlueprintId = request.params.blueprintId;
     return schema.combinedCourseBlueprintOverviews.find(combinedCourseBlueprintId);
+  });
+
+  this.get('/organizations/:organizationId/courses', function (schema) {
+    return schema.courses.all();
   });
 
   this.get('/oidc/identity-providers/:cache_buster', () => {
