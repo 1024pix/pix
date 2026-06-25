@@ -1,5 +1,5 @@
 import { User } from '../../../../../../src/identity-access-management/domain/models/User.js';
-import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-serializer.js';
+import { userSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serializer', function () {
@@ -79,7 +79,7 @@ describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serialize
         };
 
         // when
-        const json = serializer.serialize(userModelObject);
+        const json = userSerializer.serialize(userModelObject);
 
         // then
         expect(json).to.be.deep.equal(expectedSerializedUser);
@@ -108,7 +108,7 @@ describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serialize
 
     it('should convert JSON API data into an User model object', function () {
       // when
-      const user = serializer.deserialize(jsonUser);
+      const user = userSerializer.deserialize(jsonUser);
 
       // then
       expect(user).to.be.an.instanceOf(User);
@@ -122,7 +122,7 @@ describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serialize
       jsonUser.data.id = '42';
 
       // when
-      const user = serializer.deserialize(jsonUser);
+      const user = userSerializer.deserialize(jsonUser);
 
       // then
       expect(user.id).to.equal('42');
@@ -130,7 +130,7 @@ describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serialize
 
     it('should not contain an ID attribute when not given', function () {
       // when
-      const user = serializer.deserialize(jsonUser);
+      const user = userSerializer.deserialize(jsonUser);
 
       // then
       expect(user.id).to.be.undefined;

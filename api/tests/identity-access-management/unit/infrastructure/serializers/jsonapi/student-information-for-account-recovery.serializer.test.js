@@ -1,5 +1,5 @@
 import { StudentInformationForAccountRecovery } from '../../../../../../src/identity-access-management/domain/read-models/StudentInformationForAccountRecovery.js';
-import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/student-information-for-account-recovery.serializer.js';
+import { studentInformationForAccountRecoverySerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/student-information-for-account-recovery.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery', function () {
@@ -15,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
       });
 
       // when
-      const json = serializer.serialize(modelStudentInformationForAccountRecovery);
+      const json = studentInformationForAccountRecoverySerializer.serialize(modelStudentInformationForAccountRecovery);
 
       // then
       const expectedJsonApi = {
@@ -46,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
       };
 
       // when
-      const json = serializer.serializeAccountRecovery(accountRecoveryDetails);
+      const json = studentInformationForAccountRecoverySerializer.serializeAccountRecovery(accountRecoveryDetails);
 
       // then
       const expectedJsonApi = {
@@ -82,7 +82,7 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
       };
 
       // when
-      const json = await serializer.deserialize(payload);
+      const json = await studentInformationForAccountRecoverySerializer.deserialize(payload);
 
       // then
       const expectedJsonApi = {
@@ -110,7 +110,7 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
       };
 
       // when
-      const json = await serializer.deserialize(payload);
+      const json = await studentInformationForAccountRecoverySerializer.deserialize(payload);
 
       // then
       const expectedJsonApi = {

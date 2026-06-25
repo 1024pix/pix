@@ -1,5 +1,5 @@
 import { LastUserApplicationConnection } from '../../../../../../src/identity-access-management/domain/models/LastUserApplicationConnection.js';
-import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
+import { userDetailsForAdminSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
 import { STATUS } from '../../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -50,7 +50,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
       userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
 
       // when
-      const json = serializer.serialize(userDetailsForAdmin);
+      const json = userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
 
       // then
       expect(json).to.be.deep.equal({
@@ -194,7 +194,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
       });
 
       // when
-      const json = serializer.serializeForUpdate(modelObject);
+      const json = userDetailsForAdminSerializer.serializeForUpdate(modelObject);
 
       // then
       expect(json).to.be.deep.equal({
@@ -278,7 +278,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
       };
 
       // when
-      const user = serializer.deserialize(jsonUser);
+      const user = userDetailsForAdminSerializer.deserialize(jsonUser);
 
       // then
       expect(user.firstName).to.equal('Luke');

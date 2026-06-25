@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin.serializer.js';
+import { userAnonymizedDetailsForAdminSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -14,7 +14,7 @@ describe('Unit | Identity Access Management | Serializer | JSONAPI | user-anonym
       });
 
       // when
-      const json = serializer.serialize(modelObject);
+      const json = userAnonymizedDetailsForAdminSerializer.serialize(modelObject);
 
       // then
       expect(json).to.be.deep.equal({

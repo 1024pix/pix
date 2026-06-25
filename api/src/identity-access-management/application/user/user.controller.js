@@ -2,11 +2,11 @@ import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js'
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { authenticationMethodsSerializer } from '../../infrastructure/serializers/jsonapi/authentication-methods.serializer.js';
-import * as certificationPointOfContactSerializer from '../../infrastructure/serializers/jsonapi/certification-point-of-contact.serializer.js';
+import { certificationPointOfContactSerializer } from '../../infrastructure/serializers/jsonapi/certification-point-of-contact.serializer.js';
 import { emailVerificationSerializer } from '../../infrastructure/serializers/jsonapi/email-verification.serializer.js';
-import * as updateEmailSerializer from '../../infrastructure/serializers/jsonapi/update-email.serializer.js';
+import { updateEmailSerializer } from '../../infrastructure/serializers/jsonapi/update-email.serializer.js';
 import { userAccountInfoSerializer } from '../../infrastructure/serializers/jsonapi/user-account-info.serializer.js';
-import * as userSerializer from '../../infrastructure/serializers/jsonapi/user-serializer.js';
+import { userSerializer } from '../../infrastructure/serializers/jsonapi/user-serializer.js';
 import { userWithActivitySerializer } from '../../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 
 const acceptPixCertifTermsOfService = async function (request, h) {

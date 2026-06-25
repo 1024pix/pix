@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-oidc-authentication-request.serializer.js';
+import { userOidcAuthenticationRequestSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-oidc-authentication-request.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | user-oidc-authentication-requests', function () {
@@ -19,7 +19,7 @@ describe('Unit | Serializer | JSONAPI | user-oidc-authentication-requests', func
       };
 
       // when
-      const json = serializer.serialize(authenticationContent);
+      const json = userOidcAuthenticationRequestSerializer.serialize(authenticationContent);
 
       // then
       const expectedJson = {

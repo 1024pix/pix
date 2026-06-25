@@ -4,8 +4,8 @@ import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin, RequestedApplication } from '../../../shared/infrastructure/utils/network.js';
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
-import * as userOidcAuthenticationRequestSerializer from '../../infrastructure/serializers/jsonapi/user-oidc-authentication-request.serializer.js';
+import { oidcIdentityProvidersSerializer } from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
+import { userOidcAuthenticationRequestSerializer } from '../../infrastructure/serializers/jsonapi/user-oidc-authentication-request.serializer.js';
 
 /**
  * @typedef {function} authenticateOidcUser
@@ -129,10 +129,10 @@ async function getIdentityProvidersByRequestedApplication(request, h) {
 
     const identityProviders = await usecases.getIdentityProvidersByRequestedApplication({ requestedApplication });
 
-    return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
+    return h.response(oidcIdentityProvidersSerializer.serialize(identityProviders)).code(200);
   } catch (error) {
     logger.error(error, `Error getting identity providers.`);
-    return h.response(oidcProviderSerializer.serialize([])).code(200);
+    return h.response(oidcIdentityProvidersSerializer.serialize([])).code(200);
   }
 }
 

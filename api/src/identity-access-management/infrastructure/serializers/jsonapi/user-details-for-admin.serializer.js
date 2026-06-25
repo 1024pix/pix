@@ -181,4 +181,4 @@ const deserialize = function (json) {
   });
 };
 
-export { deserialize, serialize, serializeForUpdate };
+export const userDetailsForAdminSerializer = { deserialize, serialize, serializeForUpdate };

@@ -1,7 +1,7 @@
 import { getForwardedOrigin, RequestedApplication } from '../../../shared/infrastructure/utils/network.js';
 import { oidcAuthenticationServiceRegistry, usecases } from '../../domain/usecases/index.js';
 import { addOidcProviderValidator } from '../../domain/validators/add-oidc-provider.validator.js';
-import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
+import { oidcIdentityProvidersSerializer } from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
 
 /**
  * @param request
@@ -36,7 +36,7 @@ async function createInBatch(request, h) {
  */
 async function getAllIdentityProvidersForAdmin(request, h) {
   const identityProviders = await usecases.getAllIdentityProviders();
-  return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
+  return h.response(oidcIdentityProvidersSerializer.serialize(identityProviders)).code(200);
 }
 
 /**

@@ -80,4 +80,4 @@ const serialize = function (certificationPointOfContact) {
   }).serialize(certificationPointOfContact);
 };
 
-export { serialize };
+export const certificationPointOfContactSerializer = { serialize };

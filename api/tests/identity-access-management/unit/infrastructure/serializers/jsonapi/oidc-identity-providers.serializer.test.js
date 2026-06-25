@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
+import { oidcIdentityProvidersSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | oidc-identity-providers', function () {
@@ -17,7 +17,7 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
       };
 
       // when
-      const json = serializer.serialize(oidcIdentityProvider);
+      const json = oidcIdentityProvidersSerializer.serialize(oidcIdentityProvider);
 
       // then
       expect(json).to.deep.equal({

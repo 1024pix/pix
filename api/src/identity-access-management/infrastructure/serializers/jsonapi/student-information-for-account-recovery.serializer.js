@@ -29,4 +29,4 @@ const deserialize = async function (studentInformationForAccountRecovery) {
     .then((studentInformation) => studentInformation);
 };
 
-export { deserialize, serialize, serializeAccountRecovery };
+export const studentInformationForAccountRecoverySerializer = { deserialize, serialize, serializeAccountRecovery };

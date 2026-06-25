@@ -1,6 +1,6 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery.serializer.js';
+import { studentInformationForAccountRecoverySerializer } from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery.serializer.js';
 
 const checkAccountRecoveryDemand = async function (
   request,

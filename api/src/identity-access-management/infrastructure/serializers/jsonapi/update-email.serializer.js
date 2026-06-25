@@ -8,4 +8,4 @@ const serialize = function (newEmail) {
   }).serialize(newEmail);
 };
 
-export { serialize };
+export const updateEmailSerializer = { serialize };
