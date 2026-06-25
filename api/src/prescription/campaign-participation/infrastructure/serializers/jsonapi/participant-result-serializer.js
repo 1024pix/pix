@@ -63,11 +63,11 @@ const serialize = function (results) {
   }).serialize(results);
 };
 
-export { serialize };
-
 function transform(record) {
   return {
     ...record,
     campaignParticipationBadges: record.badgeResults,
   };
 }
+
+export const participantResultSerializer = { serialize };

@@ -1,5 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as campaignParticipationForUserManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer.js';
+import { campaignParticipationForUserManagementSerializer } from '../infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer.js';
 
 const findCampaignParticipationsForUserManagement = async function (
   request,

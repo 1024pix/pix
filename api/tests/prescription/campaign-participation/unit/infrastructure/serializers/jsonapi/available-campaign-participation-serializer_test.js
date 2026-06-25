@@ -1,5 +1,5 @@
 import { AvailableCampaignParticipation } from '../../../../../../../src/prescription/campaign-participation/domain/read-models/AvailableCampaignParticipation.js';
-import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/available-campaign-participation-serializer.js';
+import { availableCampaignParticipationSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/available-campaign-participation-serializer.js';
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { expect } from '../../../../../../test-helper.js';
 
@@ -30,7 +30,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
 
     it('should convert an AvailableCampaignParticipation model object into JSON API data', function () {
       // when
-      const json = serializer.serialize(campaignParticipation);
+      const json = availableCampaignParticipationSerializer.serialize(campaignParticipation);
 
       // then
       expect(json).to.deep.equal(expectedSerializedCampaignParticipation);

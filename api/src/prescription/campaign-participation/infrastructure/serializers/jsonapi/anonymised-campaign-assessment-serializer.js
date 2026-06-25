@@ -9,4 +9,4 @@ const serialize = function (anonymisedCampaignAssessment, meta) {
   }).serialize(anonymisedCampaignAssessment);
 };
 
-export { serialize };
+export const anonymisedCampaignAssessmentSerializer = { serialize };

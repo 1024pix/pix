@@ -1,5 +1,5 @@
 import { CampaignProfile } from '../../../../../../../src/prescription/campaign-participation/domain/models/CampaignProfile.js';
-import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
+import { campaignProfileSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { PlacementProfile } from '../../../../../../../src/shared/domain/models/PlacementProfile.js';
 import { UserCompetence } from '../../../../../../../src/shared/domain/models/UserCompetence.js';
@@ -39,7 +39,7 @@ describe('Unit | Serializer | JSONAPI | campaign-profile-serializer', function (
       });
 
       // when
-      const json = serializer.serialize(campaignProfile);
+      const json = campaignProfileSerializer.serialize(campaignProfile);
 
       // then
       const expectedJsonApi = {

@@ -9,4 +9,4 @@ const serialize = function (availableCampaignParticipation, meta) {
   }).serialize(availableCampaignParticipation);
 };
 
-export { serialize };
+export const availableCampaignParticipationSerializer = { serialize };

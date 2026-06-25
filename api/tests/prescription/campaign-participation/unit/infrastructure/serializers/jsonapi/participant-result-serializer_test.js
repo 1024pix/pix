@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/participant-result-serializer.js';
+import { participantResultSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/participant-result-serializer.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
@@ -207,7 +207,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
       };
 
       // when
-      const json = serializer.serialize(assessmentResult);
+      const json = participantResultSerializer.serialize(assessmentResult);
 
       // then
       expect(json).to.deep.equal(expectedSerializedCampaignParticipationResult);

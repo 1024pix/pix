@@ -55,4 +55,4 @@ const serialize = function (campaignAssessmentParticipation) {
   }).serialize(campaignAssessmentParticipation);
 };
 
-export { serialize };
+export const campaignAssessmentParticipationSerializer = { serialize };
