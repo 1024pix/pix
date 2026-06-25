@@ -836,7 +836,7 @@
                   },
                   "invalid": {
                     "state": "<p>Pas vraiment ...<br></p>",
-                    "diagnosis": "<p>Vous pouvez réessayez. Voici quelques indices&nbsp;:</p><ul><li>Mon premier correspond à la deuxième lettre de l’<strong>IA.</strong></li><li>Mon second est la version française du <strong>datacenter</strong>.</li><li> Mon troisième est le <strong>composant </strong>qui a été <strong>vu dans ce module.</strong></li></ul>"
+                    "diagnosis": "<p>Vous pouvez réessayer. Voici quelques indices&nbsp;:</p><ul><li>Mon premier correspond à la deuxième lettre de l’<strong>IA.</strong></li><li>Mon second est la version française du <strong>datacenter</strong>.</li><li> Mon troisième est le <strong>composant </strong>qui a été <strong>vu dans ce module.</strong></li></ul>"
                   }
                 }
               }
