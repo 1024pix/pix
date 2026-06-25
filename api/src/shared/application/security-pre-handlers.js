@@ -650,18 +650,14 @@ async function checkUserCanDisableHisOrganizationMembership(
   }
 }
 
-async function checkCampaignParticipationBelongsToUser(
-  request,
-  h,
-  dependencies = { checkCampaignParticipationBelongsToUserUsecase },
-) {
+async function checkCampaignParticipationBelongsToUser(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
 
   const userId = request.auth.credentials.userId;
   const { campaignParticipationId } = request.params;
-  await dependencies.checkCampaignParticipationBelongsToUserUsecase.execute({ userId, campaignParticipationId });
+  await checkCampaignParticipationBelongsToUserUsecase.execute({ userId, campaignParticipationId });
   return h.response(true);
 }
 
