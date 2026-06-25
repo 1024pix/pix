@@ -212,6 +212,7 @@
 
 .results-recommendation-engine-training-card-modal-objectives {
   &__icon {
+    flex-shrink: 0;
     color: var(--pix-primary-300);
   }
 }
