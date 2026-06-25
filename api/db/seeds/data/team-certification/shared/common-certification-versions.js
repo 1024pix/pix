@@ -181,6 +181,21 @@ export class CommonCertificationVersions {
     }
   }
 
+  static async #buildCompetencesScoringConfiguration({ databaseBuilder }) {
+    await databaseBuilder.commit();
+    const competences = await databaseBuilder
+      .knex('learningcontent.competences')
+      .select('id', 'index')
+      .where('origin', 'Pix');
+
+    const competenceIdByIndex = new Map(competences.map(({ id, index }) => [index, id]));
+
+    return COMPETENCES_SCORING_CONFIGURATION.map(({ competence, values }) => ({
+      competenceId: competenceIdByIndex.get(competence),
+      values,
+    }));
+  }
+
   /**
    * @param {Object} params
    * @param {string} params.frameworkName
@@ -293,6 +308,8 @@ export class CommonCertificationVersions {
         break;
     }
 
+    const competencesScoringConfiguration = await this.#buildCompetencesScoringConfiguration({ databaseBuilder });
+
     const currentVersion = await createVersion({
       databaseBuilder,
       status: 'ACTIVE',
@@ -300,7 +317,7 @@ export class CommonCertificationVersions {
       assessmentDuration,
       challengesConfiguration: CHALLENGES_CONFIGURATION,
       globalScoringConfiguration: GLOBAL_SCORING_CONFIGURATION,
-      competencesScoringConfiguration: COMPETENCES_SCORING_CONFIGURATION,
+      competencesScoringConfiguration,
     });
     await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds, versionId: currentVersion.id });
 

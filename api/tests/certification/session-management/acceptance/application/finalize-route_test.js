@@ -396,6 +396,15 @@ describe('Certification | Session Management | Acceptance | Application | Route 
           ({ options, session } = await _createSession({ version: 3 }));
           certificationVersionId = databaseBuilder.factory.buildCertificationVersion({
             minimumAnswersRequiredToValidateACertification: 1,
+            competencesScoringConfiguration: [
+              {
+                competence: '1.1',
+                competenceId: 'recCompetence0',
+                values: [
+                  { bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
+                ],
+              },
+            ],
           }).id;
           await databaseBuilder.commit();
         });
@@ -944,6 +953,13 @@ const _createSessionWithoutChallenge = async () => {
   const session = databaseBuilder.factory.buildSession({ version: 3 });
   const version = databaseBuilder.factory.buildCertificationVersion({
     startDate: new Date('2024-01-01'),
+    competencesScoringConfiguration: [
+      {
+        competence: '1.1',
+        competenceId: 'recCompetence0',
+        values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+      },
+    ],
   });
   databaseBuilder.factory.buildCertificationCenterMembership({
     userId,

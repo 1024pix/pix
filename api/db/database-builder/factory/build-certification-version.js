@@ -74,6 +74,7 @@ const defaultGlobalScoringConfiguration = [
 const defaultCompetencesScoringConfiguration = [
   {
     competence: '1.1',
+    competenceId: 'competence1_1',
     values: [
       {
         bounds: {

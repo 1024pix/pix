@@ -140,6 +140,22 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
     certificationVersionId = databaseBuilder.factory.buildCertificationVersion({
       challengesConfiguration: { maximumAssessmentLength: 10 },
       minimumAnswersRequiredToValidateACertification: 10,
+      competencesScoringConfiguration: [
+        {
+          competence: '1.1',
+          competenceId: 'recCompetence0',
+          values: [
+            { bounds: { max: -2, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
+            { bounds: { max: -1, min: -2 }, competenceLevel: 1 },
+            { bounds: { max: 0.5, min: -1 }, competenceLevel: 2 },
+            { bounds: { max: 1, min: 0.5 }, competenceLevel: 3 },
+            { bounds: { max: 2, min: 1 }, competenceLevel: 4 },
+            { bounds: { max: 3, min: 2 }, competenceLevel: 5 },
+            { bounds: { max: 4, min: 3 }, competenceLevel: 6 },
+            { bounds: { max: Number.MAX_SAFE_INTEGER, min: 4 }, competenceLevel: 7 },
+          ],
+        },
+      ],
     }).id;
 
     await databaseBuilder.commit();
@@ -336,6 +352,13 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
         challengesConfiguration: { maximumAssessmentLength: 10 },
         minimumAnswersRequiredToValidateACertification: 10,
         globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: 10, max: 20 } }],
+        competencesScoringConfiguration: [
+          {
+            competence: '1.1',
+            competenceId: 'recCompetence0',
+            values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+          },
+        ],
       });
 
       const session = databaseBuilder.factory.buildSession({
@@ -408,6 +431,13 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
           challengesConfiguration: { maximumAssessmentLength: 10 },
           minimumAnswersRequiredToValidateACertification: 10,
           globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: 10, max: 20 } }],
+          competencesScoringConfiguration: [
+            {
+              competence: '1.1',
+              competenceId: 'recCompetence0',
+              values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+            },
+          ],
         });
 
         const session = databaseBuilder.factory.buildSession({

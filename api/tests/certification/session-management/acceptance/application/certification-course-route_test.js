@@ -212,6 +212,13 @@ describe('Certification | Session Management | Acceptance | Application | Routes
 
         const versionId = databaseBuilder.factory.buildCertificationVersion({
           startDate: new Date('2018-12-01T01:02:03Z'),
+          competencesScoringConfiguration: [
+            {
+              competence: '1.1',
+              competenceId: 'competenceId',
+              values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+            },
+          ],
         }).id;
 
         const candidateId = databaseBuilder.factory.buildCertificationCandidate({
@@ -272,6 +279,13 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       const userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
       const versionId = databaseBuilder.factory.buildCertificationVersion({
         minimumAnswersRequiredToValidateACertification: 1,
+        competencesScoringConfiguration: [
+          {
+            competence: '1.1',
+            competenceId: 'competenceId',
+            values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+          },
+        ],
       }).id;
       const session = databaseBuilder.factory.buildSession({
         finalizedAt: new Date('2018-12-01T01:02:03Z'),

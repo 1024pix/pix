@@ -160,6 +160,7 @@ describe('Certification | Session-management | Acceptance | Application | Routes
           competencesScoringConfiguration: [
             {
               competence: 'index Compétence A',
+              competenceId: 'index Compétence A',
               values: [
                 {
                   bounds: {
@@ -288,6 +289,7 @@ describe('Certification | Session-management | Acceptance | Application | Routes
         competencesScoringConfiguration: [
           {
             competence: 'index Compétence A',
+            competenceId: 'index Compétence A',
             values: [
               {
                 bounds: {

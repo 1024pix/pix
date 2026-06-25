@@ -1,6 +1,45 @@
 import { Knex } from 'knex';
 
+const competencesScoringValues = [
+  { bounds: { max: -2, min: -9007199254740991 }, competenceLevel: 0 },
+  { bounds: { max: -1, min: -2 }, competenceLevel: 1 },
+  { bounds: { max: 0.5, min: -1 }, competenceLevel: 2 },
+  { bounds: { max: 1, min: 0.5 }, competenceLevel: 3 },
+  { bounds: { max: 2, min: 1 }, competenceLevel: 4 },
+  { bounds: { max: 3, min: 2 }, competenceLevel: 5 },
+  { bounds: { max: 4, min: 3 }, competenceLevel: 6 },
+  { bounds: { max: 9007199254740991, min: 4 }, competenceLevel: 7 },
+];
+
+const competenceIndexes = [
+  '1.1',
+  '1.2',
+  '1.3',
+  '2.1',
+  '2.2',
+  '2.3',
+  '2.4',
+  '3.1',
+  '3.2',
+  '3.3',
+  '3.4',
+  '4.1',
+  '4.2',
+  '4.3',
+  '5.1',
+  '5.2',
+];
+
 export async function buildCoreVersion(knex: Knex) {
+  const competences = await knex('learningcontent.competences').select('id', 'index').where('origin', 'Pix');
+
+  const competenceIdByIndex = new Map(competences.map(({ id, index }: { id: string; index: string }) => [index, id]));
+
+  const competencesScoringConfiguration = competenceIndexes.map((competenceIndex) => ({
+    competenceId: competenceIdByIndex.get(competenceIndex),
+    values: competencesScoringValues,
+  }));
+
   const [{ id: versionId }] = await knex('certification_versions')
     .insert({
       scope: 'CORE',
@@ -10,8 +49,7 @@ export async function buildCoreVersion(knex: Knex) {
       minimumAnswersRequiredToValidateACertification: 20,
       globalScoringConfiguration:
         '[{"bounds": {"max": -1.4, "min": -8}, "meshLevel": 0}, {"bounds": {"max": -0.519, "min": -1.4}, "meshLevel": 1}, {"bounds": {"max": 0.6, "min": -0.519}, "meshLevel": 2}, {"bounds": {"max": 1.5, "min": 0.6}, "meshLevel": 3}, {"bounds": {"max": 2.25, "min": 1.5}, "meshLevel": 4}, {"bounds": {"max": 3.1, "min": 2.25}, "meshLevel": 5}, {"bounds": {"max": 4, "min": 3.1}, "meshLevel": 6}, {"bounds": {"max": 8, "min": 4}, "meshLevel": 7}]',
-      competencesScoringConfiguration:
-        '[{"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "1.1"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "1.2"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "1.3"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "2.1"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "2.2"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "2.3"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "2.4"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "3.1"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "3.2"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "3.3"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "3.4"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "4.1"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "4.2"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "4.3"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "5.1"}, {"values": [{"bounds": {"max": -2, "min": -9007199254740991}, "competenceLevel": 0}, {"bounds": {"max": -1, "min": -2}, "competenceLevel": 1}, {"bounds": {"max": 0.5, "min": -1}, "competenceLevel": 2}, {"bounds": {"max": 1, "min": 0.5}, "competenceLevel": 3}, {"bounds": {"max": 2, "min": 1}, "competenceLevel": 4}, {"bounds": {"max": 3, "min": 2}, "competenceLevel": 5}, {"bounds": {"max": 4, "min": 3}, "competenceLevel": 6}, {"bounds": {"max": 9007199254740991, "min": 4}, "competenceLevel": 7}], "competence": "5.2"}]',
+      competencesScoringConfiguration: JSON.stringify(competencesScoringConfiguration),
       challengesConfiguration: JSON.stringify({
         maximumAssessmentLength: 32,
         challengesBetweenSameCompetence: 2,

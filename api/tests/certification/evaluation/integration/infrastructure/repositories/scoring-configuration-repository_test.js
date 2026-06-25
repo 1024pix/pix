@@ -17,6 +17,7 @@ describe('Certification | Evaluation | Integration | Repositories | scoring-conf
       const secondCompetenceScoringConfiguration = [
         {
           competence: '1.1',
+          competenceId: `${PIX_ORIGIN}Competence`,
           values: [
             {
               bounds: {
@@ -117,6 +118,7 @@ describe('Certification | Evaluation | Integration | Repositories | scoring-conf
           {
             values: [{ bounds: { max: -1, min: -4 }, competenceLevel: 0 }],
             competence: competenceIndex,
+            competenceId: `${PIX_ORIGIN}Competence`,
           },
         ],
         scope: Frameworks.CORE,
