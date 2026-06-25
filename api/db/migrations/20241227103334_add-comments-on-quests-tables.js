@@ -1,9 +1,5 @@
-import { ATTESTATIONS_TABLE_NAME } from './20240820101115_add-attestations-table.js';
-import { PROFILE_REWARDS_TABLE_NAME } from './20240820101213_add-profile-rewards-table.js';
-import { ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME } from './20241118134739_create-organizations-profile-rewards-table.js';
-
 const up = async function (knex) {
-  await knex.schema.alterTable(ATTESTATIONS_TABLE_NAME, function (table) {
+  await knex.schema.alterTable('attestations', function (table) {
     table.comment(
       `Table containing the attestation that can be delivered to users after completing a quest.
       This table is linked to the profile-rewards table.
@@ -45,7 +41,7 @@ const up = async function (knex) {
       .alter();
   });
 
-  await knex.schema.alterTable(PROFILE_REWARDS_TABLE_NAME, function (table) {
+  await knex.schema.alterTable('profile-rewards', function (table) {
     table.comment(
       `This table links a user and a reward. It is a polymorphic relationship.
             The “reward” table referred to is defined by the “rewardType” column.`,
@@ -64,7 +60,7 @@ const up = async function (knex) {
       .alter();
   });
 
-  await knex.schema.alterTable(ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME, function (table) {
+  await knex.schema.alterTable('organizations-profile-rewards', function (table) {
     table.comment(
       `This is the linking table between an attestation and an organization.
             In essence, attestations are not necessarily linked to an organization.
@@ -79,7 +75,7 @@ const up = async function (knex) {
 };
 
 const down = async function (knex) {
-  await knex.schema.alterTable(ATTESTATIONS_TABLE_NAME, function (table) {
+  await knex.schema.alterTable('attestations', function (table) {
     table.comment(null);
     table.string('templateName').comment(null).alter();
     table.string('key').comment(null).alter();
@@ -94,7 +90,7 @@ const down = async function (knex) {
     table.jsonb('successRequirements').comment(null).alter();
   });
 
-  await knex.schema.alterTable(PROFILE_REWARDS_TABLE_NAME, function (table) {
+  await knex.schema.alterTable('profile-rewards', function (table) {
     table.comment(null);
 
     table.bigInteger('userId').comment(null).alter();
@@ -102,7 +98,7 @@ const down = async function (knex) {
     table.bigInteger('rewardId').comment(null).alter();
   });
 
-  await knex.schema.alterTable(ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME, function (table) {
+  await knex.schema.alterTable('organizations-profile-rewards', function (table) {
     table.comment(null);
 
     table.bigInteger('organizationId').comment(null).alter();

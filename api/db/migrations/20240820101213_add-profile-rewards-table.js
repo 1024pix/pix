@@ -1,4 +1,4 @@
-export const PROFILE_REWARDS_TABLE_NAME = 'profile-rewards';
+const PROFILE_REWARDS_TABLE_NAME = 'profile-rewards';
 
 const up = async function (knex) {
   await knex.schema.createTable(PROFILE_REWARDS_TABLE_NAME, function (table) {
