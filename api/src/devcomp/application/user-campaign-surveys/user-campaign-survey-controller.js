@@ -9,4 +9,11 @@ async function saveUserCampaignSurvey(request, h) {
   return h.response({ data: { id: String(id), type: 'user-campaign-surveys' } }).created();
 }
 
-export const userCampaignSurveyController = { saveUserCampaignSurvey };
+async function verifyExistingUserCampaignSurvey(request, h) {
+  const { userId } = request.auth.credentials;
+  const { campaignId } = request.params;
+  const isAlreadyAnsweredSurvey = await usecases.verifyExistingUserCampaignSurvey({ userId, campaignId });
+  return h.response({ hasAnswered: isAlreadyAnsweredSurvey });
+}
+
+export const userCampaignSurveyController = { saveUserCampaignSurvey, verifyExistingUserCampaignSurvey };
