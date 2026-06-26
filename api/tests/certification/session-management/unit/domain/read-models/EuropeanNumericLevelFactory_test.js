@@ -1,6 +1,6 @@
-import { EuropeanNumericLevel } from '../../../../src/certification/session-management/domain/read-models/EuropeanNumericLevel.js';
-import { EuropeanNumericLevelFactory } from '../../../../src/certification/session-management/domain/read-models/EuropeanNumericLevelFactory.js';
-import { expect } from '../../../test-helper.js';
+import { EuropeanNumericLevel } from '../../../../../../src/certification/session-management/domain/read-models/EuropeanNumericLevel.js';
+import { EuropeanNumericLevelFactory } from '../../../../../../src/certification/session-management/domain/read-models/EuropeanNumericLevelFactory.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function () {
   describe('static #buildFromCompetenceMarks', function () {
