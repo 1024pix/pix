@@ -1,5 +1,4 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import AttestationCard from 'mon-pix/components/attestations/card';
 import { module, test } from 'qunit';
 
@@ -8,46 +7,35 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Attestations | card', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  const attestationTypes = [
-    'EDUCOLLAB',
-    'EDUCULTURENUM',
-    'EDUDOC',
-    'EDUIA',
-    'EDUINCONTOURNABLES',
-    'EDURESSOURCES',
-    'EDUSECU',
-    'EDUSUPPORT',
-    'EDUVEILLE',
-    'MINARM',
-    'PARENTHOOD',
-    'SIXTH_GRADE',
-  ];
+  test(`it renders attestation card with label`, async function (assert) {
+    const attestationDetail = {
+      obtainedAt: '2025-01-15',
+      label: 'Label',
+      key: 'key',
+    };
 
-  attestationTypes.forEach((type) => {
-    test(`it renders attestation card with ${type} type`, async function (assert) {
-      const obtainedAt = '2025-01-15';
+    const downloadAttestation = () => {};
 
-      const downloadAttestation = () => {};
+    const screen = await render(
+      <template>
+        <AttestationCard @attestationDetail={{attestationDetail}} @downloadAttestation={{downloadAttestation}} />
+      </template>,
+    );
 
-      const screen = await render(
-        <template>
-          <AttestationCard @type={{type}} @obtainedAt={{obtainedAt}} @downloadAttestation={{downloadAttestation}} />
-        </template>,
-      );
-
-      const expectedTitle = t(`components.campaigns.attestation-result.title.${type}`);
-      assert.dom(screen.getByRole('heading', { level: 2 })).hasText(expectedTitle);
-    });
+    assert.dom(screen.getByRole('heading', { level: 2 })).hasText(attestationDetail.label);
   });
-
   test('it displays correct SVG for PARENTHOOD type', async function (assert) {
-    const type = 'PARENTHOOD';
-    const obtainedAt = '2025-01-15';
+    const attestationDetail = {
+      obtainedAt: '2025-01-15',
+      label: 'Parentalité',
+      key: 'PARENTHOOD',
+    };
+
     const downloadAttestation = () => {};
 
     await render(
       <template>
-        <AttestationCard @type={{type}} @obtainedAt={{obtainedAt}} @downloadAttestation={{downloadAttestation}} />
+        <AttestationCard @attestationDetail={{attestationDetail}} @downloadAttestation={{downloadAttestation}} />
       </template>,
     );
 
@@ -55,13 +43,17 @@ module('Integration | Component | Attestations | card', function (hooks) {
   });
 
   test('it displays correct SVG for SIXTH_GRADE type', async function (assert) {
-    const type = 'SIXTH_GRADE';
-    const obtainedAt = '2025-01-15';
+    const attestationDetail = {
+      obtainedAt: '2025-01-15',
+      label: 'Parentalité',
+      key: 'SIXTH_GRADE',
+    };
+
     const downloadAttestation = () => {};
 
     await render(
       <template>
-        <AttestationCard @type={{type}} @obtainedAt={{obtainedAt}} @downloadAttestation={{downloadAttestation}} />
+        <AttestationCard @attestationDetail={{attestationDetail}} @downloadAttestation={{downloadAttestation}} />
       </template>,
     );
 

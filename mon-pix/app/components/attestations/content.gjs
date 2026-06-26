@@ -1,3 +1,4 @@
+import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -14,16 +15,12 @@ export default class AttestationContent extends Component {
   @service pixMetrics;
   @service intl;
 
-  getFilename(type) {
-    return `components.campaigns.attestation-result.title.${type}`;
-  }
-
   @action
-  async onClick(type) {
+  async onClick(attestationDetail) {
     const { access_token: token, user_id: userId } = this.session.data.authenticated;
     this.sendMetrics();
-    const url = `/api/users/${userId}/attestations/${type}`;
-    const fileName = 'attestation-' + kebabCase(deburr(this.intl.t(this.getFilename(type))));
+    const url = `/api/users/${userId}/attestations/${attestationDetail.key}`;
+    const fileName = 'attestation-' + kebabCase(deburr(attestationDetail.label));
 
     await this.fileSaver.save({ url, token, fileName });
   }
@@ -47,9 +44,8 @@ export default class AttestationContent extends Component {
         {{#each @attestationsDetails as |attestationDetail|}}
           <li>
             <AttestationCard
-              @type={{attestationDetail.type}}
-              @obtainedAt={{attestationDetail.obtainedAt}}
-              @downloadAttestation={{this.onClick}}
+              @attestationDetail={{attestationDetail}}
+              @downloadAttestation={{fn this.onClick attestationDetail}}
             />
           </li>
         {{/each}}

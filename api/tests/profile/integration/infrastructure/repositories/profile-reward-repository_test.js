@@ -119,7 +119,20 @@ describe('Profile | Integration | Repository | profile-reward', function () {
 
       // then
       expect(results).to.have.lengthOf(2);
-      expect(results).to.have.deep.members([firstProfileReward, secondProfileReward]);
+      expect(results[0]).to.deep.include({
+        id: firstProfileReward.id,
+        createdAt: firstProfileReward.createdAt,
+        rewardType: firstProfileReward.rewardType,
+        rewardId: firstProfileReward.rewardId,
+        userId: firstProfileReward.userId,
+      });
+      expect(results[1]).to.deep.include({
+        id: secondProfileReward.id,
+        createdAt: secondProfileReward.createdAt,
+        rewardType: secondProfileReward.rewardType,
+        rewardId: secondProfileReward.rewardId,
+        userId: secondProfileReward.userId,
+      });
     });
   });
 
@@ -129,7 +142,12 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: secondUserId } = databaseBuilder.factory.buildUser();
 
+      const firstAttestation = databaseBuilder.factory.buildAttestation({
+        templateName: 'firstTemplateName',
+        key: 'firstKey',
+      });
       const { rewardId: firstRewardId } = databaseBuilder.factory.buildQuest({
+        rewardId: firstAttestation.id,
         rewardType: REWARD_TYPES.ATTESTATION,
         eligibilityRequirements: [],
         successRequirements: [],
@@ -138,6 +156,7 @@ describe('Profile | Integration | Repository | profile-reward', function () {
         templateName: 'otherTemplateName',
         key: 'otherKey',
       });
+
       const { rewardId: secondRewardId } = databaseBuilder.factory.buildQuest({
         rewardType: REWARD_TYPES.ATTESTATION,
         rewardId: otherAttestation.id,
