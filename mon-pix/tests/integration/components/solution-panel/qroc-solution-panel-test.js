@@ -3,6 +3,7 @@ import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -99,6 +100,14 @@ module('Integration | Component | QROC solution panel', function (hooks) {
           assert.dom('.correction-qroc-box-answer').exists();
           assert.dom('.correction-qroc-box__answer').exists();
           assert.dom('.correction-qroc-box-answer--correct').exists();
+        });
+
+        test('should display the given answer value with a valid aria label', async function (assert) {
+          // then
+          const answerBlock = find(data.input);
+
+          assert.ok(answerBlock);
+          assert.strictEqual(answerBlock.value, 'test');
         });
 
         test('should not display the solution', async function (assert) {
@@ -289,6 +298,80 @@ module('Integration | Component | QROC solution panel', function (hooks) {
         // Then
         assert.dom('.comparison-window-solution').doesNotExist();
       });
+    });
+  });
+
+  // The aria-label is only forwarded to the DOM by PixTextarea (paragraphe format); PixInput
+  // ignores the @ariaLabel argument. So the inputAriaLabel branches are asserted through the
+  // paragraphe textarea, which renders the attribute.
+  module('aria label of the answer input', function () {
+    test('should display a good aria label when the answer is correct', async function (assert) {
+      // given
+      const challenge = EmberObject.create({ format: 'paragraphe' });
+      const answer = EmberObject.create({ result: 'ok', value: 'test', challenge });
+      this.set('answer', answer);
+      this.set('solution', '4');
+
+      // when
+      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+
+      // then
+      assert.strictEqual(
+        find('.correction-qroc-box-answer--paragraph').getAttribute('aria-label'),
+        t('pages.comparison-window.results.a11y.good-answer'),
+      );
+    });
+
+    test('should display a wrong aria label when the answer is wrong', async function (assert) {
+      // given
+      const challenge = EmberObject.create({ format: 'paragraphe' });
+      const answer = EmberObject.create({ result: 'ko', value: 'test', challenge });
+      this.set('answer', answer);
+      this.set('solution', '4');
+
+      // when
+      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+
+      // then
+      assert.strictEqual(
+        find('.correction-qroc-box-answer--paragraph').getAttribute('aria-label'),
+        t('pages.comparison-window.results.a11y.wrong-answer'),
+      );
+    });
+
+    test('should display a timedout aria label when the answer timed out', async function (assert) {
+      // given
+      const challenge = EmberObject.create({ format: 'paragraphe' });
+      const answer = EmberObject.create({ result: 'aband', value: '', timeout: -1, challenge });
+      this.set('answer', answer);
+      this.set('solution', '4');
+
+      // when
+      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+
+      // then
+      assert.strictEqual(
+        find('.correction-qroc-box-answer--paragraph').getAttribute('aria-label'),
+        t('pages.comparison-window.results.a11y.timedout'),
+      );
+    });
+  });
+
+  module('when the solution has several variants', function () {
+    test('should display only the first variant', async function (assert) {
+      // given
+      const answer = EmberObject.create({ result: 'ko', challenge: EmberObject.create() });
+      const solution = 'Reponse\nreponse\nréponse';
+      this.set('answer', answer);
+      this.set('solution', solution);
+
+      // when
+      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+
+      // then
+      const solutionText = find('.comparison-window-solution__text').textContent;
+      assert.ok(solutionText.includes('Reponse'));
+      assert.notOk(solutionText.includes('réponse'));
     });
   });
 
