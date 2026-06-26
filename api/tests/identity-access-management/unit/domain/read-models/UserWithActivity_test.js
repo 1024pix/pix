@@ -1,11 +1,11 @@
 import sinon from 'sinon';
 
-import { User } from '../../../../src/identity-access-management/domain/models/User.js';
-import { UserWithActivity } from '../../../../src/identity-access-management/domain/read-models/UserWithActivity.js';
-import { STATUS } from '../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
-import { config } from '../../../../src/shared/config.js';
-import { expect } from '../../../test-helper.js';
-import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
+import { UserWithActivity } from '../../../../../src/identity-access-management/domain/read-models/UserWithActivity.js';
+import { STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
+import { config } from '../../../../../src/shared/config.js';
+import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Read-Models | UserWithActivity', function () {
   describe('constructor', function () {
