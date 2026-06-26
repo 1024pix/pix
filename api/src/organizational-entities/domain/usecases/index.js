@@ -87,6 +87,7 @@ import { archiveCertificationCenter } from './archive-certification-center.useca
 import { archiveCertificationCentersInBatch } from './archive-certification-centers-in-batch.usecase.js';
 import { archiveOrganization } from './archive-organization.usecase.js';
 import { archiveOrganizationsInBatch } from './archive-organizations-in-batch.usecase.js';
+import { attachCertificationCenterToOrganization } from './attach-certification-center-to-organization.usecase.js';
 import { attachChildOrganizationToOrganizationUsecase } from './attach-child-organization-to-organization.usecase.js';
 import { createCertificationCenter } from './create-certification-center.usecase.js';
 import { createNetwork } from './create-network.usecase.js';
@@ -124,6 +125,7 @@ const usecasesWithoutInjectedDependencies = {
   archiveCertificationCentersInBatch,
   archiveOrganization,
   archiveOrganizationsInBatch,
+  attachCertificationCenterToOrganization,
   attachChildOrganizationToOrganization: attachChildOrganizationToOrganizationUsecase,
   createCertificationCenter,
   createNetwork,
@@ -156,8 +158,9 @@ const usecasesWithoutInjectedDependencies = {
 };
 /**
  * @typedef OrganizationalEntitiesUsecases
- * @property {addOrganizationFeatureInBatch} addOrganizationFeatureInBatch
  * @property {attachChildOrganizationToOrganizationUsecase} attachChildOrganizationToOrganization
+ * @property {attachCertificationCenterToOrganization} attachCertificationCenterToOrganization
+ * @property {addOrganizationFeatureInBatch} addOrganizationFeatureInBatch
  * @property {createCertificationCenter} createCertificationCenter
  * @property {createTag} createTag
  * @property {detachParentOrganizationFromOrganization} detachParentOrganizationFromOrganization
