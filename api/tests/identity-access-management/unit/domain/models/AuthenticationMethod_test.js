@@ -1,8 +1,8 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import * as OidcIdentityProviders from '../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
-import { AuthenticationMethod } from '../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
-import { ObjectValidationError } from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
+import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
+import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | AuthenticationMethod', function () {
   describe('buildPixAuthenticationMethod', function () {
