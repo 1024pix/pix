@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/IAGenPrompt_AVA/picto_iagen_prompt_ava.svg",
-    "description": "<p>Converser avec un logiciel&nbsp;d’IA générative ne se limite pas à poser des questions. Pour obtenir un résultat qui corresponde vraiment à votre besoin, il faut parfois organiser votre échanger avec l’IA&nbsp;: découper la demande, clarifier le besoin, donner des exemples ou faire préciser certaines étapes. </p><p>Ce module va vous aider à repérer les situations où une demande faite à l’IA devient complexe et à découvrir des techniques de conversation pour mieux guider l’IA dans ses réponses.</p>",
+    "description": "<p>Converser avec un logiciel&nbsp;d’IA générative ne se limite pas à poser des questions. Pour obtenir un résultat qui corresponde vraiment à votre besoin, il faut parfois organiser votre échange avec l’IA&nbsp;: découper la demande, clarifier le besoin, donner des exemples ou faire préciser certaines étapes. </p><p>Ce module va vous aider à repérer les situations où une demande faite à l’IA devient complexe et à découvrir des techniques de conversation pour mieux guider l’IA dans ses réponses.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -33,7 +33,7 @@
                 "id": "369dc90d-d020-4dcd-971e-fa199786accf",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Plusieurs membres de votre association de théâtre ont reçu des mails suspects. On vous demande de préparer quelques actions simples pour les aider à mieux se protéger en ligne.</p><p>Vous essayez d’abord de demander à une IA de produire directement le résultat final, en une seule demande&nbsp;:</p><blockquote>«&nbsp;Prépare un plan de sensibilisation à la cybersécurité pour notre association de théâtre. Il faut expliquer les risques courants, être bref mais ultra précis, parler à tous avec des messages sans termes complexes mais précis quand même, tenir compte des bénévoles et du bureau de l’association de théactre et produire un résultat rapide à lire, complet et prêt à servir.&nbsp;»<br></blockquote><p>Ci-dessous, ChatPix, un logiciel d’IA générative.</p>"
+                "content": "<p>Plusieurs membres de votre association de théâtre ont reçu des mails suspects. On vous demande de préparer quelques actions simples pour les aider à mieux se protéger en ligne.</p><p>Vous essayez d’abord de demander à une IA de produire directement le résultat final, en une seule demande&nbsp;:</p><blockquote>«&nbsp;Prépare un plan de sensibilisation à la cybersécurité pour notre association de théâtre. Il faut expliquer les risques courants, être bref mais ultra précis, parler à tous avec des messages sans termes complexes mais précis quand même, tenir compte des bénévoles et du bureau de l’association de théatre et produire un résultat rapide à lire, complet et prêt à servir.&nbsp;»<br></blockquote><p>Ci-dessous, ChatPix, un logiciel d’IA générative.</p>"
               }
             },
             {
@@ -136,7 +136,7 @@
                 "id": "b68821d0-4b81-4a37-9975-ae42387a0184",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour qu’une IA vous aide dans une tâche complexe, une autre approche consiste à avancer étape par étape, en découpant la tâche en plusieurs prompts ciblées pour obtenir un résultat plus solide.</p>"
+                "content": "<p>Pour qu’une IA vous aide dans une tâche complexe, une autre approche consiste à avancer étape par étape, en découpant la tâche en plusieurs prompts ciblés pour obtenir un résultat plus solide.</p>"
               }
             },
             {
@@ -285,7 +285,7 @@
               "element": {
                 "id": "b13a0ad8-7e06-46fb-876d-9f4f71c79fb9",
                 "type": "qcm",
-                "instruction": "<p>En ajoutant dnas le prompt «&nbsp;<strong>explique ta démarche&nbsp;»</strong>&nbsp;qu’est-ce qui change dans la réponse de l’IA ?</p>",
+                "instruction": "<p>En ajoutant dans le prompt <strong>«&nbsp;explique ta démarche&nbsp;»</strong>&nbsp;qu’est-ce qui change dans la réponse de l’IA ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -550,7 +550,7 @@
                 "id": "eb52f337-184a-4422-ad7b-5c9b04f930b9",
                 "type": "text",
                 "tag": "did-you-know",
-                "content": "<p>Vous pouvez fournir des exemples à l’IA de deux façons&nbsp;:    soit en joignant un document à votre demande, soit en les intégrant directement dans votre prompt.    Dans ce cas, placez-les entre guillemets ou entre chevrons comme &lt; exemple &gt;, pour que l’IA les identifie clairement comme des exemples.</p>"
+                "content": "<p>Vous pouvez fournir des exemples à l’IA de deux façons&nbsp;: soit en joignant un document à votre demande, soit en les intégrant directement dans votre prompt. Dans ce cas, placez-les entre guillemets ou entre chevrons comme &lt; exemple &gt;, pour que l’IA les identifie clairement comme des exemples.</p>"
               }
             }
           ]
@@ -572,7 +572,7 @@
                 "id": "83e15f9b-bb14-4693-8f91-0b4bb5ea5e46",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les techniques présentées reposent sur un même principe&nbsp;: <strong>utiliser l’IA comme un appui à la réflexion, sans lui déléguer toute la tâche</strong>.</p><p>Elles permettent de mieux cadrer la demande, de garder un regard critique sur la réponse et d’obtenir un résultat plus adapté, plus vérifiable et plus exploitable. Elles peuvent aussi se combiner au cours d’une même conversation.</p><table>    <caption class=\"sr-only\">Récapitulatif des techniques de conversation</caption>    <thead>        <tr>            <th scope=\"col\">Technique</th>            <th scope=\"col\" style=\"width: 31.6667%;\">Quand l’utiliser ?</th>            <th scope=\"col\" style=\"width: 35.4167%;\">Exemple de prompts</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\">Prompt chaining ou enchaînement de prompts</th>            <td>Quand la tâche comporte plusieurs étapes.</td>            <td>Prompt 1&nbsp;: «&nbsp;Analyse le besoin.&nbsp;» → Prompt 2&nbsp;: «&nbsp;Propose un plan.&nbsp;» → Prompt 3&nbsp;: «&nbsp;Rédige le contenu.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Chain-of-thought ou chaîne de pensée</th>            <td>Quand vous voulez rendre plus visible la démarche suivie par l’IA.</td>            <td>«&nbsp;Explique ta démarche avant de proposer une réponse.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Situation réflexive</th>            <td>Quand le besoin est encore flou ou difficile à formuler.</td>            <td>«&nbsp;Pose-moi quelques questions pour mieux cadrer ma demande avant de proposer un plan.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Explorer plusieurs pistes</th>            <td>Quand vous voulez comparer plusieurs options avant d’en choisir une.</td>            <td>«&nbsp;Propose 3 versions différentes&nbsp;: une très simple, une plus détaillée et une adaptée aux bénévoles.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Few-shot ou situation reflexive</th>            <td>Quand vous attendez un style, un ton ou un format précis.</td>            <td>«&nbsp;Voici deux exemples en pièces jointes. Rédige une réponse du même type pour ce nouveau cas.&nbsp;»</td>        </tr>    </tbody></table>"
+                "content": "<p>Les techniques présentées reposent sur un même principe&nbsp;: <strong>utiliser l’IA comme un appui à la réflexion, sans lui déléguer toute la tâche</strong>.</p><p>Elles permettent de mieux cadrer la demande, de garder un regard critique sur la réponse et d’obtenir un résultat plus adapté, plus vérifiable et plus exploitable. Elles peuvent aussi se combiner au cours d’une même conversation.</p><table>    <caption class=\"sr-only\">Récapitulatif des techniques de conversation</caption>    <thead>        <tr>            <th scope=\"col\">Technique</th>            <th scope=\"col\" style=\"width: 31.6667%;\">Quand l’utiliser ?</th>            <th scope=\"col\" style=\"width: 35.4167%;\">Exemples de prompts</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\">Prompt chaining ou enchaînement de prompts</th>            <td>Quand la tâche comporte plusieurs étapes.</td>            <td>Prompt 1&nbsp;: «&nbsp;Analyse le besoin.&nbsp;» → Prompt 2&nbsp;: «&nbsp;Propose un plan.&nbsp;» → Prompt 3&nbsp;: «&nbsp;Rédige le contenu.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Chain-of-thought ou chaîne de pensée</th>            <td>Quand vous voulez rendre plus visible la démarche suivie par l’IA.</td>            <td>«&nbsp;Explique ta démarche avant de proposer une réponse.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Situation réflexive</th>            <td>Quand le besoin est encore flou ou difficile à formuler.</td>            <td>«&nbsp;Pose-moi quelques questions pour mieux cadrer ma demande avant de proposer un plan.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Explorer plusieurs pistes</th>            <td>Quand vous voulez comparer plusieurs options avant d’en choisir une.</td>            <td>«&nbsp;Propose 3 versions différentes&nbsp;: une très simple, une plus détaillée et une adaptée aux bénévoles.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Few-shot ou guidage par l’exemple</th>            <td>Quand vous attendez un style, un ton ou un format précis.</td>            <td>«&nbsp;Voici deux exemples en pièces jointes. Rédige une réponse du même type pour ce nouveau cas.&nbsp;»</td>        </tr>    </tbody></table>"
               }
             }
           ]
@@ -786,7 +786,7 @@
                       },
                       {
                         "id": "3",
-                        "content": "la situation réflexive "
+                        "content": "la situation réflexive"
                       },
                       {
                         "id": "4",
@@ -823,7 +823,7 @@
                       },
                       {
                         "id": "3",
-                        "content": "la situation réflexive "
+                        "content": "la situation réflexive"
                       },
                       {
                         "id": "4",
@@ -876,7 +876,7 @@
                     "id": "1",
                     "content": "<p>Découper la tâche en plusieurs étapes. (Prompt chaining)</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bon choix&nbsp;! Découper une demande complexe aide à garder la main sur la façon dont l’IA traite votre demande, à vérifier chaque étape pour éviter les hallucinations et à éviter les oublis.</p>"
+                      "diagnosis": "<p>Bon choix&nbsp;! Découper une demande complexe aide à garder la main sur la façon dont l’IA traite votre demande, à vérifier chaque étape pour réduuire le risque d'hallucinations et à éviter les oublis.</p>"
                     }
                   },
                   {
