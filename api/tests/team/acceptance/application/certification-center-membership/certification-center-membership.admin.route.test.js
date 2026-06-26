@@ -418,16 +418,16 @@ describe('Acceptance | Team | Application | Admin | Routes | certification-cente
   });
 
   describe('GET /api/admin/certification-centers/{certificationCenterId}/certification-center-memberships', function () {
-    let certificationCenterId;
-    let email;
+    let user;
+    let certificationCenter;
+    let certificationCenterMembership;
     let request;
 
     beforeEach(async function () {
-      email = 'new.member@example.net';
-      const user = databaseBuilder.factory.buildUser({ email });
-      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId,
+      user = databaseBuilder.factory.buildUser({ email: 'new.member@example.net' });
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId: certificationCenter.id,
         userId: user.id,
       });
       const adminId = databaseBuilder.factory.buildUser.withRole().id;
@@ -435,7 +435,7 @@ describe('Acceptance | Team | Application | Admin | Routes | certification-cente
       request = {
         headers: generateAuthenticatedUserRequestHeaders({ userId: adminId }),
         method: 'GET',
-        url: `/api/admin/certification-centers/${certificationCenterId}/certification-center-memberships`,
+        url: `/api/admin/certification-centers/${certificationCenter.id}/certification-center-memberships`,
       };
 
       await databaseBuilder.commit();
@@ -447,6 +447,36 @@ describe('Acceptance | Team | Application | Admin | Routes | certification-cente
 
       // then
       expect(response.statusCode).to.equal(200);
+      expect(response.result.data[0].id).to.equal(certificationCenterMembership.id.toString());
+      expect(response.result.data[0].attributes['created-at']).to.deep.equal(certificationCenterMembership.createdAt);
+      expect(response.result.data[0].attributes['role']).to.deep.equal(certificationCenterMembership.role);
+
+      expect(response.result.included).to.deep.equal([
+        {
+          id: certificationCenter.id.toString(),
+          type: 'certificationCenters',
+          attributes: {
+            name: certificationCenter.name,
+            type: certificationCenter.type,
+          },
+          relationships: {
+            sessions: {
+              links: {
+                related: `/api/certification-centers/${certificationCenter.id}/sessions`,
+              },
+            },
+          },
+        },
+        {
+          id: user.id.toString(),
+          type: 'users',
+          attributes: {
+            email: user.email,
+            'first-name': user.firstName,
+            'last-name': user.lastName,
+          },
+        },
+      ]);
     });
 
     context('when user is not SuperAdmin', function () {

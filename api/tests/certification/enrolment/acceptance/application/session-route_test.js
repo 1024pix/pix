@@ -14,7 +14,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
     server = await createServer();
   });
 
-  describe('POST /certification-centers/{certificationCenterId}/session', function () {
+  describe('POST /api/certification-centers/{certificationCenterId}/session', function () {
     let options;
 
     beforeEach(function () {
