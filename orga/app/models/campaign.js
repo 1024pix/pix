@@ -37,6 +37,8 @@ export default class Campaign extends Model {
   @belongsTo('target-profile', { async: true, inverse: null }) targetProfile;
   @belongsTo('combined-course-blueprint', { async: true, inverse: null }) combinedCourseBlueprint;
 
+  @belongsTo('course', { async: false, inverse: null }) course;
+
   @belongsTo('campaign-collective-result', { async: true, inverse: null }) campaignCollectiveResult;
   @belongsTo('campaign-result-levels-per-tubes-and-competence', { async: true, inverse: null })
   campaignResultLevelsPerTubesAndCompetence;
@@ -102,11 +104,16 @@ export default class Campaign extends Model {
   setType(type) {
     if (['ASSESSMENT', 'EXAM'].includes(type)) {
       this.multipleSendings = false;
+      this.course = this.course?.type === 'blueprint' ? null : this.course;
     }
     if (type === 'PROFILES_COLLECTION') {
       this.multipleSendings = true;
       this.title = null;
       this.targetProfileId = null;
+      this.course = null;
+    }
+    if (type === 'COMBINED_COURSE') {
+      this.course = this.course?.type === 'targetProfile' ? null : this.course;
     }
     this.type = type;
   }
