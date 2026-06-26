@@ -1,11 +1,11 @@
 import sinon from 'sinon';
 
-import { certificationCourseController } from '../../../../src/certification/evaluation/application/certification-course-controller.js';
-import { usecases } from '../../../../src/certification/evaluation/domain/usecases/index.js';
-import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { expect } from '../../../test-helper.js';
-import { hFake } from '../../../tooling/mocks/hapi.mock.js';
-import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
+import { certificationCourseController } from '../../../../../src/certification/evaluation/application/certification-course-controller.js';
+import { usecases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
+import { CertificationCourse } from '../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { expect } from '../../../../test-helper.js';
+import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
+import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   let certificationCourseSerializer;
