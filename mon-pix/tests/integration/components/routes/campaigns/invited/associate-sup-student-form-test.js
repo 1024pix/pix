@@ -105,13 +105,131 @@ module('Integration | Component | routes/organizations/invited/associate-sup-stu
     });
   });
 
-  async function _fillInputsAndValidate({ screen }) {
-    await fillIn(screen.getByRole('textbox', { name: 'Numéro étudiant' }), 'F100');
-    await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Jean');
-    await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Bon');
-    await fillIn(screen.getByRole('spinbutton', { name: 'jour de naissance' }), '01');
-    await fillIn(screen.getByRole('spinbutton', { name: 'mois de naissance' }), '01');
-    await fillIn(screen.getByRole('spinbutton', { name: 'année de naissance' }), '2000');
+  module('when the form data have errors', function () {
+    test('should display an error when student number is not filled', async function (assert) {
+      // given
+      this.set('organizationId', organizationId);
+      const screen = await render(
+        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
+  @campaignCode='CAMPAIGN1'
+  @organizationId={{this.organizationId}}
+/>`,
+      );
+
+      // when
+      await _fillInputsAndValidate({ screen, studentNumber: '' });
+
+      // then
+      assert.ok(screen.getByText('Votre numéro étudiant n’est pas renseigné.'));
+      sinon.assert.notCalled(saveStub);
+    });
+
+    test('should display an error when first name is not filled', async function (assert) {
+      // given
+      this.set('organizationId', organizationId);
+      const screen = await render(
+        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
+  @campaignCode='CAMPAIGN1'
+  @organizationId={{this.organizationId}}
+/>`,
+      );
+
+      // when
+      await _fillInputsAndValidate({ screen, firstName: '' });
+
+      // then
+      assert.ok(screen.getByText('Votre prénom n’est pas renseigné.'));
+      sinon.assert.notCalled(saveStub);
+    });
+
+    test('should display an error when last name is not filled', async function (assert) {
+      // given
+      this.set('organizationId', organizationId);
+      const screen = await render(
+        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
+  @campaignCode='CAMPAIGN1'
+  @organizationId={{this.organizationId}}
+/>`,
+      );
+
+      // when
+      await _fillInputsAndValidate({ screen, lastName: '' });
+
+      // then
+      assert.ok(screen.getByText('Votre nom n’est pas renseigné.'));
+      sinon.assert.notCalled(saveStub);
+    });
+
+    test('should display an error when day of birth is not valid', async function (assert) {
+      // given
+      this.set('organizationId', organizationId);
+      const screen = await render(
+        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
+  @campaignCode='CAMPAIGN1'
+  @organizationId={{this.organizationId}}
+/>`,
+      );
+
+      // when
+      await _fillInputsAndValidate({ screen, dayOfBirth: '' });
+
+      // then
+      assert.ok(screen.getByText('Votre jour de naissance n’est pas valide.'));
+      sinon.assert.notCalled(saveStub);
+    });
+
+    test('should display an error when month of birth is not valid', async function (assert) {
+      // given
+      this.set('organizationId', organizationId);
+      const screen = await render(
+        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
+  @campaignCode='CAMPAIGN1'
+  @organizationId={{this.organizationId}}
+/>`,
+      );
+
+      // when
+      await _fillInputsAndValidate({ screen, monthOfBirth: '' });
+
+      // then
+      assert.ok(screen.getByText('Votre mois de naissance n’est pas valide.'));
+      sinon.assert.notCalled(saveStub);
+    });
+
+    test('should display an error when year of birth is not valid', async function (assert) {
+      // given
+      this.set('organizationId', organizationId);
+      const screen = await render(
+        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
+  @campaignCode='CAMPAIGN1'
+  @organizationId={{this.organizationId}}
+/>`,
+      );
+
+      // when
+      await _fillInputsAndValidate({ screen, yearOfBirth: '' });
+
+      // then
+      assert.ok(screen.getByText('Votre année de naissance n’est pas valide.'));
+      sinon.assert.notCalled(saveStub);
+    });
+  });
+
+  async function _fillInputsAndValidate({
+    screen,
+    studentNumber = 'F100',
+    firstName = 'Jean',
+    lastName = 'Bon',
+    dayOfBirth = '01',
+    monthOfBirth = '01',
+    yearOfBirth = '2000',
+  }) {
+    await fillIn(screen.getByRole('textbox', { name: 'Numéro étudiant' }), studentNumber);
+    await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), firstName);
+    await fillIn(screen.getByRole('textbox', { name: 'Nom' }), lastName);
+    await fillIn(screen.getByRole('spinbutton', { name: 'jour de naissance' }), dayOfBirth);
+    await fillIn(screen.getByRole('spinbutton', { name: 'mois de naissance' }), monthOfBirth);
+    await fillIn(screen.getByRole('spinbutton', { name: 'année de naissance' }), yearOfBirth);
     await click(screen.getByRole('button', { name: "C'est parti !" }));
   }
 });
