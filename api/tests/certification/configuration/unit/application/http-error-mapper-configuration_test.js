@@ -6,7 +6,11 @@ import {
   CertificationVersionDraftAlreadyExistError,
   InvalidScoWhitelistError,
 } from '../../../../../src/certification/configuration/domain/errors.js';
-import { BadRequestError, NotFoundError,UnprocessableEntityError } from '../../../../../src/shared/application/errors/http-errors.js';
+import {
+  BadRequestError,
+  NotFoundError,
+  UnprocessableEntityError,
+} from '../../../../../src/shared/application/errors/http-errors.js';
 
 describe('Unit | Certification | Configuration | Application | HttpErrorMapperConfiguration', function () {
   context('when mapping "InvalidScoWhitelistError"', function () {
