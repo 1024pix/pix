@@ -21,15 +21,44 @@ module('Integration | Component | TimeoutGauge', function (hooks) {
       assert.dom('.timeout-gauge').exists();
     });
 
-    test('renders with given allotted time', async function (assert) {
+    [
+      { allottedTime: 0, expected: '0:00' },
+      { allottedTime: 60, expected: '1:00' },
+      { allottedTime: 90, expected: '1:30' },
+      { allottedTime: 120, expected: '2:00' },
+    ].forEach(({ allottedTime, expected }) => {
+      test(`renders "${expected}" as remaining time when allotted time is ${allottedTime}s`, async function (assert) {
+        // given
+        this.set('allottedTime', allottedTime);
+
+        // when
+        await render(hbs`<TimeoutGauge @allottedTime={{this.allottedTime}} />`);
+
+        // then
+        assert.strictEqual(find('[data-test="timeout-gauge-remaining"]').textContent.trim(), expected);
+      });
+    });
+
+    test('renders a gauge progress at 0% width when no time has elapsed', async function (assert) {
       // given
-      this.set('allottedTime', 60);
+      this.set('allottedTime', 70);
 
       // when
       await render(hbs`<TimeoutGauge @allottedTime={{this.allottedTime}} />`);
 
       // then
-      assert.strictEqual(find('[data-test="timeout-gauge-remaining"]').textContent.trim(), '1:00');
+      assert.strictEqual(find('.timeout-gauge-progress').getAttribute('style'), 'width: 0%');
+    });
+
+    test('renders a gauge progress at 0% width when allotted time is not numeric', async function (assert) {
+      // given
+      this.set('allottedTime', '  ');
+
+      // when
+      await render(hbs`<TimeoutGauge @allottedTime={{this.allottedTime}} />`);
+
+      // then
+      assert.strictEqual(find('.timeout-gauge-progress').getAttribute('style'), 'width: 0%');
     });
 
     test('renders a red clock if time is over', async function (assert) {
