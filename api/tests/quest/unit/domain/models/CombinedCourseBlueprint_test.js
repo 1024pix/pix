@@ -1,10 +1,10 @@
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
 import {
   CampaignCombinedCourseBlueprintItem,
   ModuleCombinedCourseBlueprintItem,
-} from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprintItem.js';
-import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
+} from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintItem.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import { Quest } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';

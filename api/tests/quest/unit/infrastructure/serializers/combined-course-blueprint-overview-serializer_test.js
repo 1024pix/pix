@@ -2,7 +2,7 @@ import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/
 import {
   CampaignCombinedCourseBlueprintItem,
   ModuleCombinedCourseBlueprintItem,
-} from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprintItem.js';
+} from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintItem.js';
 import { Quest } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { combinedCourseBlueprintOverviewSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-overview-serializer.js';
 import { expect } from '../../../../test-helper.js';

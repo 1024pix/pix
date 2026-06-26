@@ -11,7 +11,7 @@ import { buildRequirement, TYPES } from '../../quests/value-objects/Requirement.
 import {
   CampaignCombinedCourseBlueprintItem,
   ModuleCombinedCourseBlueprintItem,
-} from './CombinedCourseBlueprintItem.js';
+} from '../value-objects/CombinedCourseBlueprintItem.js';
 
 export class CombinedCourseBlueprint {
   constructor({
