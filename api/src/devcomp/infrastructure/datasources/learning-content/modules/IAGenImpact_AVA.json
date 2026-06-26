@@ -378,28 +378,28 @@
                           "id": "1",
                           "content": "une carte mère",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais </strong>(Graphical Processing Unit), un composant qui peut <strong>faire très rapidement certains types de calcul.</strong></p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais </strong>(Graphical Processing Unit), un composant qui peut <strong>faire très rapidement certains types de calcul.</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "une carte graphique",
                           "feedback": {
-                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut<strong> faire très rapidement certains types de calcul.</strong></p>"
+                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut<strong> faire très rapidement certains types de calcul.</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "un disque dur SSD",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut  <strong>faire très rapidement certains types de calcul.</strong></p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut  <strong>faire très rapidement certains types de calcul.</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’une <strong>carte graphique, GPU en anglais (Graphical Processing Unit)</strong>, un composant qui peut <strong>faire très rapidement certains types de calcul.</strong></p>"
+                            "diagnosis": "<p>Il s’agit d’une <strong>carte graphique, GPU en anglais (Graphical Processing Unit)</strong>, un composant qui peut <strong>faire très rapidement certains types de calcul.</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         }
                       ],
