@@ -3,6 +3,7 @@ import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find, findAll } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -75,6 +76,16 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
           assert.true(correctAnswerText.classList.contains('correction-qroc-box-answer--correct'));
         });
 
+        test('should display the given answer value with a valid aria-label', async function (assert) {
+          // then
+          const correctInput = findAll(data.input)[CORRECT_ANSWER_POSITION];
+          assert.strictEqual(correctInput.value, 'rightAnswer3');
+          assert.strictEqual(
+            correctInput.getAttribute('aria-label'),
+            t('pages.comparison-window.results.a11y.good-answer'),
+          );
+        });
+
         test('should not display the solution block', async function (assert) {
           // then
           const solutionBlockList = findAll(SOLUTION_BLOCK);
@@ -95,6 +106,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 
           assert.ok(noAnswerSolutionBlock);
           assert.ok(noAnswerSolutionText);
+          assert.ok(noAnswerSolutionText.textContent.includes('rightAnswer1'));
         });
 
         test('should display the empty answer with the default message "Pas de réponse" in italic', async function (assert) {
@@ -104,6 +116,10 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 
           assert.ok(answerInput);
           assert.strictEqual(answerInput.value, EMPTY_DEFAULT_MESSAGE);
+          assert.strictEqual(
+            answerInput.getAttribute('aria-label'),
+            t('pages.comparison-window.results.a11y.skipped-answer'),
+          );
           assert.true(answerInputContainer.classList.contains('correction-qroc-box-answer--aband'));
         });
       });
@@ -142,6 +158,24 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 
           assert.ok(answerInput);
           assert.true(answerInput.classList.contains('correction-qroc-box-answer--wrong'));
+        });
+
+        test('should display the given answer value with a wrong aria-label', async function (assert) {
+          // then
+          const wrongInput = findAll(data.input)[WRONG_ANSWER_POSITION];
+
+          assert.strictEqual(wrongInput.value, 'wrongAnswer2');
+          assert.strictEqual(
+            wrongInput.getAttribute('aria-label'),
+            t('pages.comparison-window.results.a11y.wrong-answer'),
+          );
+        });
+
+        test('should display the solution value', async function (assert) {
+          // then
+          const wrongSolutionText = findAll(SOLUTION_TEXT)[WRONG_ANSWER_POSITION];
+
+          assert.ok(wrongSolutionText.textContent.includes('rightAnswer20'));
         });
       });
     });
@@ -227,6 +261,45 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       assert.strictEqual(find(SENTENCE).tagName, 'INPUT');
       assert.strictEqual(find(SENTENCE).getAttribute('aria-label'), 'Question passée');
       assert.true(find(SENTENCE).hasAttribute('disabled'));
+    });
+  });
+
+  module('When the whole question was skipped', function (hooks) {
+    hooks.beforeEach(function () {
+      const skippedAnswer = EmberObject.create({
+        id: 'answer_id',
+        value: '#ABAND#',
+        resultDetails: 'key1: false\nkey2: false\nkey3: false',
+        assessment,
+        challenge,
+      });
+      this.set('answer', skippedAnswer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
+      this.challenge.set('format', 'petit');
+    });
+
+    test('should display "Pas de réponse" for every input with a skipped aria-label', async function (assert) {
+      // when
+      await render(
+        hbs`<SolutionPanel::QrocmIndSolutionPanel
+  @answer={{this.answer}}
+  @solution={{this.solution}}
+  @challenge={{this.challenge}}
+/>`,
+      );
+
+      // then
+      const inputs = findAll(INPUT);
+      assert.strictEqual(inputs.length, 3);
+      inputs.forEach((input) => {
+        assert.strictEqual(input.value, 'Pas de réponse');
+        assert.strictEqual(input.getAttribute('aria-label'), t('pages.comparison-window.results.a11y.skipped-answer'));
+      });
+
+      findAll(ANSWER).forEach((answerContainer) => {
+        assert.true(answerContainer.classList.contains('correction-qroc-box-answer--aband'));
+      });
     });
   });
 });
