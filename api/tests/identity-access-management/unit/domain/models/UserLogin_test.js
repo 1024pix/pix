@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 
-import { UserLogin } from '../../../../src/identity-access-management/domain/models/UserLogin.js';
-import { config } from '../../../../src/shared/config.js';
-import { expect } from '../../../test-helper.js';
-import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
+import { UserLogin } from '../../../../../src/identity-access-management/domain/models/UserLogin.js';
+import { config } from '../../../../../src/shared/config.js';
+import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | UserLogin', function () {
   let clock;
