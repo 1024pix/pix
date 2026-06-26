@@ -52,4 +52,14 @@ describe('Unit | Controller | healthcheckController', function () {
         .and.have.nested.property('output.statusCode', 503);
     });
   });
+
+  describe('#checkOsStatus', function () {
+    it('should reply with OS information', function () {
+      // when
+      const response = healthcheckController.checkOsStatus();
+
+      // then
+      expect(response).to.include.keys('type', 'version', 'platform', 'release', 'arch');
+    });
+  });
 });

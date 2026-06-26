@@ -39,6 +39,15 @@ const register = async function (server) {
         tags: ['api', 'healthcheck'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/healthcheck/os',
+      config: {
+        auth: false,
+        handler: healthcheckController.checkOsStatus,
+        tags: ['api', 'healthcheck'],
+      },
+    },
   ]);
 };
 

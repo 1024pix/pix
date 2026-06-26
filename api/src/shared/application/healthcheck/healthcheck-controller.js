@@ -1,4 +1,5 @@
 import Boom from '@hapi/boom';
+import os from 'node:os';
 
 import { databaseConnections } from '../../../../db/database-connections.js';
 import packageJSON from '../../../../package.json' with { type: 'json' };
@@ -55,6 +56,16 @@ const checkForwardedOriginStatus = async function (request, h) {
   return h.response(forwardedOrigin).code(200);
 };
 
-const healthcheckController = { get, checkDbStatus, checkRedisStatus, checkForwardedOriginStatus };
+const checkOsStatus = function () {
+  return {
+    type: os.type(),
+    version: os.version(),
+    platform: os.platform(),
+    release: os.release(),
+    arch: os.arch(),
+  };
+};
+
+const healthcheckController = { get, checkDbStatus, checkRedisStatus, checkForwardedOriginStatus, checkOsStatus };
 
 export { healthcheckController };
