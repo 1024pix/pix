@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import { ObjectValidationError } from '../../../../src/shared/domain/errors.js';
-import { validateEntity } from '../../../../src/shared/domain/validators/entity-validator.js';
-import { expect } from '../../../test-helper.js';
+import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
+import { validateEntity } from '../../../../../src/shared/domain/validators/entity-validator.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Validators | entity-validator', function () {
   describe('#validateEntity', function () {
