@@ -100,6 +100,72 @@ module('Integration | Component | routes/login-form', function (hooks) {
     });
   });
 
+  module('when user is temporary blocked', function () {
+    test('should display the temporary blocked error message', async function (assert) {
+      // given
+      const sessionStub = stubSessionService(this.owner);
+      sessionStub.authenticate.rejects({
+        responseJSON: {
+          errors: [{ code: 'USER_IS_TEMPORARY_BLOCKED', meta: { blockingDurationMs: 60000 } }],
+        },
+      });
+
+      const screen = await render(hbs`<Routes::LoginForm />`);
+      await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
+      await fillIn(screen.getByLabelText(/Mot de passe/), 'Mauvais mot de passe');
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
+
+      // then
+      assert.dom(screen.getByText(/votre compte Pix est bloqué temporairement pendant 1 minutes/)).exists();
+    });
+  });
+
+  module('when user is blocked', function () {
+    test('should display the blocked error message when user has no sco identifier/username', async function (assert) {
+      // given
+      const sessionStub = stubSessionService(this.owner);
+      sessionStub.authenticate.rejects({
+        responseJSON: {
+          errors: [{ code: 'USER_IS_BLOCKED', meta: { isLoginFailureWithUsername: false } }],
+        },
+      });
+
+      const screen = await render(hbs`<Routes::LoginForm />`);
+      await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
+      await fillIn(screen.getByLabelText(/Mot de passe/), 'Mauvais mot de passe');
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
+
+      // then
+      assert
+        .dom(screen.getByText(/Votre compte est bloqué car vous avez effectué trop de tentatives de connexion/))
+        .exists();
+    });
+
+    test('should display the specific blocked error message when user has a sco identifier/username', async function (assert) {
+      // given
+      const sessionStub = stubSessionService(this.owner);
+      sessionStub.authenticate.rejects({
+        responseJSON: {
+          errors: [{ code: 'USER_IS_BLOCKED', meta: { isLoginFailureWithUsername: true } }],
+        },
+      });
+
+      const screen = await render(hbs`<Routes::LoginForm />`);
+      await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
+      await fillIn(screen.getByLabelText(/Mot de passe/), 'Mauvais mot de passe');
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
+
+      // then
+      assert.dom(screen.getByText(/contactez votre enseignant/)).exists();
+    });
+  });
+
   module('when password is a one time password', function () {
     test('should redirect to "update-expired-password" route', async function (assert) {
       // given
@@ -205,6 +271,38 @@ module('Integration | Component | routes/login-form', function (hooks) {
 
       // then
       assert.dom(screen.getByText(/Impossible de se connecter\. Veuillez réessayer dans quelques instants/)).exists();
+    });
+
+    test('should redirect to "update-expired-password" route when password should change', async function (assert) {
+      // given
+      const response = {
+        errors: [
+          {
+            title: 'PasswordShouldChange',
+            meta: 'PASSWORD_RESET_TOKEN',
+          },
+        ],
+      };
+
+      addGarAuthenticationMethodToUserStub.rejects(response);
+      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+
+      const routerObserver = this.owner.lookup('service:router');
+      routerObserver.replaceWith = sinon.stub();
+
+      const screen = await render(
+        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`,
+      );
+
+      await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
+      await fillIn(screen.getByLabelText(/Mot de passe/), 'JeMeLoggue1024');
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
+
+      // then
+      sinon.assert.calledWith(routerObserver.replaceWith, 'update-expired-password');
+      assert.ok(true);
     });
 
     test('should display the specific error message if update fails with http error 409 and code UNEXPECTED_USER_ACCOUNT', async function (assert) {
