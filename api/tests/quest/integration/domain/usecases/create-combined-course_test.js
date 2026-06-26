@@ -92,6 +92,121 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     expect(campaigns[1].title).to.equal(otherTargetProfile.name);
     expect(campaigns[1].customResultPageButtonUrl.includes('/chargement')).false;
     expect(campaigns[1].customResultPageButtonText).to.equal('Continuer');
+
+    // Modules
+    const successRequirements = createdQuest.successRequirements;
+    const moduleRequirements = successRequirements.filter((req) => req.data.moduleId);
+    expect(moduleRequirements).to.have.lengthOf(2);
+    expect(moduleRequirements[0].data.moduleId.data).to.equal(moduleId1);
+    expect(moduleRequirements[1].data.moduleId.data).to.equal(moduleId2);
+  });
+
+  it('should create combined course even with no campaign', async function () {
+    // given
+    const moduleId1 = 'eeeb4951-6f38-4467-a4ba-0c85ed71321a';
+    const moduleId2 = 'f32a2238-4f65-4698-b486-15d51935d335';
+    const userId = databaseBuilder.factory.buildUser().id;
+    const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+    const attestation = databaseBuilder.factory.buildAttestation();
+
+    const quest = databaseBuilder.factory.buildQuest({
+      rewardId: attestation.id,
+      rewardType: REWARD_TYPES.ATTESTATION,
+      successRequirements: [
+        CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId1 }).toDTO(),
+        CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId2 }).toDTO(),
+      ],
+    });
+
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: quest.id }).id;
+    databaseBuilder.factory.buildCombinedCourseBlueprintShare({ combinedCourseBlueprintId, organizationId });
+
+    await databaseBuilder.commit();
+
+    const nameInput = 'Un parcours combiné';
+
+    const combinedCourseForCreation = new CombinedCourseForCreation({
+      blueprintId: combinedCourseBlueprintId,
+      organizationId,
+      name: nameInput,
+    });
+
+    // when
+    await usecases.createCombinedCourse({
+      combinedCourseForCreation,
+      creatorId: userId,
+    });
+
+    // then
+    const [createdQuest] = await knex('quests')
+      .join('combined_courses', 'combined_courses.questId', 'quests.id')
+      .where('combined_courses.organizationId', organizationId)
+      .orderBy('quests.id');
+
+    // Quest
+    expect(createdQuest.combinedCourseBlueprintId).to.equal(combinedCourseBlueprintId);
+
+    // No campaign
+    const campaigns = await knex('campaigns').where({ organizationId });
+    expect(campaigns).to.have.lengthOf(0);
+
+    // Modules
+    const successRequirements = createdQuest.successRequirements;
+    expect(successRequirements).to.have.lengthOf(2);
+    expect(successRequirements[0].data.moduleId.data).to.equal(moduleId1);
+    expect(successRequirements[1].data.moduleId.data).to.equal(moduleId2);
+  });
+
+  it('should create combined course with only campaigns', async function () {
+    // given
+    const userId = databaseBuilder.factory.buildUser().id;
+    const organizationId = databaseBuilder.factory.buildOrganization().id;
+    const targetProfile1 = databaseBuilder.factory.buildTargetProfile();
+    const targetProfile2 = databaseBuilder.factory.buildTargetProfile();
+
+    const attestation = databaseBuilder.factory.buildAttestation();
+
+    const quest = databaseBuilder.factory.buildQuest({
+      rewardId: attestation.id,
+      rewardType: REWARD_TYPES.ATTESTATION,
+      successRequirements: [
+        CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: targetProfile1.id }).toDTO(),
+        CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: targetProfile2.id }).toDTO(),
+      ],
+    });
+
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: quest.id }).id;
+    databaseBuilder.factory.buildCombinedCourseBlueprintShare({ combinedCourseBlueprintId, organizationId });
+
+    await databaseBuilder.commit();
+
+    const nameInput = 'Un parcours combiné';
+
+    const combinedCourseForCreation = new CombinedCourseForCreation({
+      blueprintId: combinedCourseBlueprintId,
+      organizationId,
+      name: nameInput,
+    });
+
+    // when
+    await usecases.createCombinedCourse({
+      combinedCourseForCreation,
+      creatorId: userId,
+    });
+
+    // then
+    const [createdQuest] = await knex('quests')
+      .join('combined_courses', 'combined_courses.questId', 'quests.id')
+      .where('combined_courses.organizationId', organizationId)
+      .orderBy('quests.id');
+
+    // Quest
+    expect(createdQuest.combinedCourseBlueprintId).to.equal(combinedCourseBlueprintId);
+
+    // Campaigns
+    const campaigns = await knex('campaigns').where({ organizationId });
+    expect(campaigns).to.have.lengthOf(2);
   });
 
   it('should throw NotFoundError when blueprint is not found with the id in payload', async function () {
