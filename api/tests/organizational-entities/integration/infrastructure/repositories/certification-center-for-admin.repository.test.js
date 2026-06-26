@@ -188,4 +188,34 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       });
     });
   });
+
+  describe('#exists', function () {
+    describe('when a given certification center exists', function () {
+      it('returns true', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        await databaseBuilder.commit();
+
+        // when
+        const result = await certificationCenterForAdminRepository.exists({ certificationCenterId });
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    describe('when a given certification center does not exist', function () {
+      it('returns false', async function () {
+        // given
+        databaseBuilder.factory.buildCertificationCenter();
+        await databaseBuilder.commit();
+
+        // when
+        const result = await certificationCenterForAdminRepository.exists({ certificationCenterId: 99 });
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
 });
