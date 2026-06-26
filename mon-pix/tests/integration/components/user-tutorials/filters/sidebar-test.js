@@ -65,6 +65,36 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
         // then
         assert.true(checkbox.checked);
       });
+
+      module('when an already selected filter is clicked again', function () {
+        test('should remove it from selected filters', async function (assert) {
+          // given
+          this.set('isVisible', true);
+          this.set('areas', [
+            { id: 'area1', title: 'Area 1', sortedCompetences: [{ id: 'competence1', name: 'Ma superbe compétence' }] },
+          ]);
+          this.set('onSubmit', () => {});
+          this.set('onClose', () => {});
+
+          const screen = await render(
+            hbs`<UserTutorials::Filters::Sidebar
+  @isVisible={{this.isVisible}}
+  @onSubmit={{this.onSubmit}}
+  @onClose={{this.onClose}}
+  @areas={{this.areas}}
+/>`,
+          );
+          await click(screen.getByRole('button', { name: 'Area 1' }));
+          const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
+          await click(checkbox);
+
+          // when
+          await click(checkbox);
+
+          // then
+          assert.false(checkbox.checked);
+        });
+      });
     });
 
     module('when filters is selected', function () {
