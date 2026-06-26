@@ -1,9 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
-import { find } from '@ember/test-helpers';
+import { click, find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
@@ -142,6 +144,42 @@ module('Integration | Component | competence-card-default', function (hooks) {
         // then
         assert.dom('.competence-card__button').exists();
         assert.ok(find('.competence-card__button').textContent.includes('Retenter'));
+      });
+
+      test('should call competenceEvaluation service for improving when clicking the improving button', async function (assert) {
+        // given
+        const userId = 'userId';
+        const competenceId = 'recCompetenceId';
+        const scorecardId = 'scorecardId';
+        const improveStub = sinon.stub();
+
+        class CompetenceEvaluationServiceStub extends Service {
+          improve = improveStub;
+        }
+        class CurrentUserServiceStub extends Service {
+          user = { id: userId };
+        }
+        this.owner.register('service:competenceEvaluation', CompetenceEvaluationServiceStub);
+        this.owner.register('service:currentUser', CurrentUserServiceStub);
+
+        const scorecard = {
+          area,
+          id: scorecardId,
+          competenceId,
+          level: 3,
+          isFinished: true,
+          isStarted: false,
+          remainingDaysBeforeImproving: 0,
+        };
+        this.set('scorecard', scorecard);
+        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+
+        // when
+        await click('.competence-card__button');
+
+        // then
+        sinon.assert.calledWith(improveStub, { userId, competenceId, scorecardId });
+        assert.ok(true);
       });
 
       test('should show the improving countdown when there is some remaining days before improving', async function (assert) {
