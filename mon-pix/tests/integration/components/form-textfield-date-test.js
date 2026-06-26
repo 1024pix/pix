@@ -62,6 +62,49 @@ module('Integration | Component | form textfield date', function (hooks) {
     });
   });
 
+  module('#Validation message status class', function () {
+    [
+      { status: 'default', expectedClass: 'form-textfield__message--default' },
+      { status: 'error', expectedClass: 'form-textfield__message--error' },
+      { status: 'success', expectedClass: 'form-textfield__message--success' },
+    ].forEach(function ({ status, expectedClass }) {
+      test(`should set the "${expectedClass}" class on each validation message when status is "${status}"`, async function (assert) {
+        // given
+        this.set('label', 'date');
+        this.set('dayValidationStatus', status);
+        this.set('monthValidationStatus', status);
+        this.set('yearValidationStatus', status);
+        this.set('dayValidationMessage', 'day message');
+        this.set('monthValidationMessage', 'month message');
+        this.set('yearValidationMessage', 'year message');
+        this.set('validateStub', () => {});
+        this.set('handleInputStub', () => {});
+
+        // when
+        await render(hbs`<FormTextfieldDate
+  @label={{this.label}}
+  @dayValidationStatus={{this.dayValidationStatus}}
+  @monthValidationStatus={{this.monthValidationStatus}}
+  @yearValidationStatus={{this.yearValidationStatus}}
+  @dayValidationMessage={{this.dayValidationMessage}}
+  @monthValidationMessage={{this.monthValidationMessage}}
+  @yearValidationMessage={{this.yearValidationMessage}}
+  @onValidateDay={{this.validateStub}}
+  @onValidateMonth={{this.validateStub}}
+  @onValidateYear={{this.validateStub}}
+  @onDayInput={{this.handleInputStub}}
+  @onMonthInput={{this.handleInputStub}}
+  @onYearInput={{this.handleInputStub}}
+/>`);
+
+        // then
+        assert.dom(`${MESSAGE}#dayValidationMessage`).hasClass(expectedClass);
+        assert.dom(`${MESSAGE}#monthValidationMessage`).hasClass(expectedClass);
+        assert.dom(`${MESSAGE}#yearValidationMessage`).hasClass(expectedClass);
+      });
+    });
+  });
+
   module('#Component Interactions', function () {
     test('should handle action <validate> when input lost focus', async function (assert) {
       // given
