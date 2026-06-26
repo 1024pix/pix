@@ -24,7 +24,7 @@ describe('Quest | Unit | Infrastructure | Repositories | Reward', function () {
         rewardId: Symbol('rewardId'),
         rewardType: Symbol('rewardType'),
       };
-      reward = Symbol('reward');
+      reward = { id: 1, label: 'Label' };
       rewardApiStub = {
         getByIdAndType: sinon.stub(),
       };

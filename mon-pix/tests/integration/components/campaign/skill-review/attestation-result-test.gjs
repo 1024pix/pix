@@ -13,10 +13,10 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
   setupIntlRenderingTest(hooks);
 
   module('when the attestation is obtained', function () {
-    test('it should display the expected message', async function (assert) {
+    test('it should display the expected message and title', async function (assert) {
       const result = [
         {
-          reward: { key: 'SIXTH_GRADE' },
+          reward: { key: 'SIXTH_GRADE', label: '6ème' },
           obtained: true,
         },
       ];
@@ -24,44 +24,14 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
       const screen = await render(<template><AttestationResult @results={{result}} /></template>);
       const obtainedTitle = t('components.campaigns.attestation-result.obtained');
       assert.dom(screen.getByText(obtainedTitle)).exists();
-    });
 
-    module('attestation title', function () {
-      const attestationKeys = [
-        'EDUCOLLAB',
-        'EDUCULTURENUM',
-        'EDUDOC',
-        'EDUIA',
-        'EDUINCONTOURNABLES',
-        'EDURESSOURCES',
-        'EDUSECU',
-        'EDUSUPPORT',
-        'EDUVEILLE',
-        'MINARM',
-        'PARENTHOOD',
-        'SIXTH_GRADE',
-      ];
-
-      attestationKeys.forEach((key) => {
-        test(`it should display ${key} attestation title`, async function (assert) {
-          const result = [
-            {
-              reward: { key },
-              obtained: true,
-            },
-          ];
-
-          const screen = await render(<template><AttestationResult @results={{result}} /></template>);
-          const rewardTitle = t(`components.campaigns.attestation-result.title.${key}`);
-          assert.dom(screen.getByText(rewardTitle)).exists();
-        });
-      });
+      assert.dom(screen.getByText(result[0].reward.label)).exists();
     });
 
     test('it should display the download button', async function (assert) {
       const result = [
         {
-          reward: { key: 'SIXTH_GRADE' },
+          reward: { key: 'SIXTH_GRADE', label: '6ème' },
           obtained: true,
         },
       ];
@@ -75,7 +45,7 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
       // given
       const result = [
         {
-          reward: { key: 'SIXTH_GRADE' },
+          reward: { key: 'SIXTH_GRADE', label: 'Sensibilisation au numérique' },
           obtained: true,
         },
       ];
@@ -98,12 +68,11 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
       // when
       const screen = await render(<template><AttestationResult @results={{result}} /></template>);
       await click(screen.getByRole('button', { name: t('common.actions.download') }));
-
       // then
       assert.ok(
         fileSaverSaveStub.calledWithExactly({
           url: '/api/users/123/attestations/SIXTH_GRADE',
-          fileName: 'sensibilisation-au-numerique',
+          fileName: 'attestation-sensibilisation-au-numerique',
           token: 'access_token!',
         }),
       );
@@ -121,7 +90,7 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
       // given
       const result = [
         {
-          reward: { key: 'SIXTH_GRADE' },
+          reward: { key: 'SIXTH_GRADE', label: 'Sensibilisation au numérique' },
           obtained: true,
         },
       ];
@@ -145,7 +114,7 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
       assert.ok(
         fileSaverSaveStub.calledWithExactly({
           url: '/api/users/123/attestations/SIXTH_GRADE',
-          fileName: 'sensibilisation-au-numerique',
+          fileName: 'attestation-sensibilisation-au-numerique',
           token: 'access_token!',
         }),
       );
@@ -157,7 +126,7 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
     test('it should display the expected message', async function (assert) {
       const result = [
         {
-          reward: { key: 'SIXTH_GRADE' },
+          reward: { key: 'SIXTH_GRADE', label: '6ème' },
           obtained: false,
         },
       ];
@@ -170,20 +139,19 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
     test('it should display the attestation title', async function (assert) {
       const result = [
         {
-          reward: { key: 'SIXTH_GRADE' },
+          reward: { key: 'SIXTH_GRADE', label: '6ème' },
           obtained: false,
         },
       ];
 
       const screen = await render(<template><AttestationResult @results={{result}} /></template>);
-      const rewardTitle = t(`components.campaigns.attestation-result.title.SIXTH_GRADE`);
-      assert.dom(screen.getByText(rewardTitle)).exists();
+      assert.dom(screen.getByText(result[0].reward.label)).exists();
     });
 
     test('it should not display the download button', async function (assert) {
       const result = [
         {
-          reward: { key: 'SIXTH_GRADE' },
+          reward: { key: 'SIXTH_GRADE', label: '6ème' },
           obtained: false,
         },
       ];
@@ -196,7 +164,7 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
 
   module('when the attestation is still computing', function () {
     test('it should display the expected message', async function (assert) {
-      const result = [{ obtained: null }];
+      const result = [{ obtained: null, label: '6ème' }];
 
       const screen = await render(<template><AttestationResult @results={{result}} /></template>);
       const computingTitle = t('components.campaigns.attestation-result.computing');

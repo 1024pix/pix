@@ -18,15 +18,11 @@ export default class AttestationResult extends Component {
     return this.args.results[0];
   }
 
-  get resultTitle() {
-    return `components.campaigns.attestation-result.title.${this.result.reward.key}`;
-  }
-
   @action async onClick() {
     const { access_token: token, user_id: userId } = this.session.data.authenticated;
     this.sendMetrics();
     const url = `/api/users/${userId}/attestations/${this.result.reward.key}`;
-    const fileName = kebabCase(deburr(this.intl.t(this.resultTitle)));
+    const fileName = 'attestation-' + kebabCase(deburr(this.result.reward.label));
 
     try {
       await this.fileSaver.save({ url, token, fileName });
@@ -53,7 +49,7 @@ export default class AttestationResult extends Component {
           </span>
         </p>
         <span class="attestation-result__title">
-          {{t this.resultTitle}}
+          {{this.result.reward.label}}
         </span>
         <img
           class="attestation-result__illustration"
@@ -77,7 +73,7 @@ export default class AttestationResult extends Component {
           </span>
         </p>
         <span class="attestation-result__title">
-          {{t this.resultTitle}}
+          {{this.result.reward.label}}
         </span>
       {{else if (eq this.result.obtained null)}}
         <img
