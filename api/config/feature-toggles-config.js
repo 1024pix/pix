@@ -137,4 +137,10 @@ export default {
     devDefaultValues: { test: true, reviewApp: true },
     tags: ['team-certif', 'pix-api', 'backend'],
   },
+  isOsHealthcheckEnabled: {
+    type: 'boolean',
+    description: 'Enable the OS healthcheck endpoint',
+    defaultValue: false,
+    tags: ['backend', 'pix-api'],
+  },
 };
