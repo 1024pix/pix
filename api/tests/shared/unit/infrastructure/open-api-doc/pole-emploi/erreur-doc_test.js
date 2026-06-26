@@ -1,5 +1,5 @@
-import { erreurDoc as ErreurDoc } from '../../../../../src/shared/infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
-import { expect } from '../../../../test-helper.js';
+import { erreurDoc as ErreurDoc } from '../../../../../../src/shared/infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Open API Doc | Pole Emploi | Erreur Documentation', function () {
   it('should validate payload for a campaign participation', function () {

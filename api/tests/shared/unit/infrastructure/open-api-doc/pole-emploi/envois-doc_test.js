@@ -1,5 +1,5 @@
-import { poleEmploiEnvoisDoc } from '../../../../../src/shared/infrastructure/open-api-doc/pole-emploi/envois-doc.js';
-import { expect } from '../../../../test-helper.js';
+import { poleEmploiEnvoisDoc } from '../../../../../../src/shared/infrastructure/open-api-doc/pole-emploi/envois-doc.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Open API Doc | Pole Emploi | Envois Documentation', function () {
   it('should validate payload for a campaign participation', function () {
