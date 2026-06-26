@@ -337,7 +337,7 @@
                 "id": "4d216976-f4a0-484c-8758-8984e25f14c7",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mais comment sont faits tous ces calculs ? C’est ce que nous allons vois maintenant !</p>"
+                "content": "<p>Mais comment sont faits tous ces calculs ? C’est ce que nous allons voir maintenant !</p>"
               }
             }
           ]
@@ -378,28 +378,28 @@
                           "id": "1",
                           "content": "une carte mère",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais </strong>(Graphical Processing Unit), un composant qui peut <strong>faire très rapidement certains types de calcul.</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais </strong>(Graphical Processing Unit), un composant qui peut <strong>faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "une carte graphique",
                           "feedback": {
-                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut<strong> faire très rapidement certains types de calcul.</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
+                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut<strong> faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "un disque dur SSD",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut  <strong>faire très rapidement certains types de calcul.</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut  <strong>faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’une <strong>carte graphique, GPU en anglais (Graphical Processing Unit)</strong>, un composant qui peut <strong>faire très rapidement certains types de calcul.</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
+                            "diagnosis": "<p>Il s’agit d’une <strong>carte graphique, GPU en anglais (Graphical Processing Unit)</strong>, un composant qui peut <strong>faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         }
                       ],
@@ -413,7 +413,7 @@
                       "id": "d135a41a-df4b-4f4b-b688-f6867aea83d2",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Initialement utilisées pour des calculs graphiques (modélisation 3D, jeux vidéo…), les <strong>cartes graphiques</strong> sont aujourd’hui aussi<strong> très utilisées pour l’entraînement des logiciels d’intelligence artificielle.</strong></p>"
+                      "content": "<p>Initialement utilisées pour des calculs graphiques (modélisation 3D, jeux vidéo, etc.), les <strong>cartes graphiques</strong> sont aujourd’hui aussi<strong> très utilisées pour l’entraînement des logiciels d’intelligence artificielle.</strong></p>"
                     },
                     {
                       "id": "86ca396e-2a5e-493f-88f9-648d76ce1437",
@@ -493,7 +493,7 @@
                 "id": "b9694946-e4c2-4808-8d37-4da5da289474",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les GPU sont des pièces maîtresses des centres de données dédiés à l’intelligence artificielle grâce à leur grande puissance de calcul.</p><br><h5>Et quel est l’impact des GPU sur l’environnement ? </h5><p>La fabrication des GPU nécessite beaucoup de <strong>matières premières </strong>(métaux, terres rares, pétrole, etc. ), et leur utilisation consomme énormément d’<strong>électricité</strong>. </p><p>Les GPU ont donc un fort impact négatif sur l’environnement, d’autant qu’il faut les <strong>renouveler souvent</strong> et que les services d’intelligence artificielle modernes nécessitent énormément de GPU pour fonctionner. Cela génère beaucoup de <strong>déchets électroniques</strong>, dont une grande partie n’est pas recyclable.</p>"
+                "content": "<p>Les GPU sont des pièces maîtresses des centres de données dédiés à l’intelligence artificielle grâce à leur grande puissance de calcul.</p><br><h5>Et quel est l’impact des GPU sur l’environnement ? </h5><p>La fabrication des GPU nécessite beaucoup de <strong>matières premières </strong>(métaux, terres rares, pétrole, etc.), et leur utilisation consomme énormément d’<strong>électricité</strong>. </p><p>Les GPU ont donc un fort impact négatif sur l’environnement, d’autant qu’il faut les <strong>renouveler souvent</strong> et que les services d’intelligence artificielle modernes nécessitent énormément de GPU pour fonctionner. Cela génère beaucoup de <strong>déchets électroniques</strong>, dont une grande partie n’est pas recyclable.</p>"
               }
             }
           ]
@@ -554,7 +554,7 @@
                         },
                         {
                           "id": "4",
-                          "content": "<p>Google&nbsp; va consommer de l’énergie carbonnée.</p>"
+                          "content": "<p>Google va consommer de l’énergie carbonnée.</p>"
                         }
                       ],
                       "feedbacks": {
@@ -835,7 +835,7 @@
                     "diagnosis": "<p>Et ces centres de données sont de plus en plus nombreux.<br></p>"
                   },
                   "invalid": {
-                    "state": "<p>Pas vraiment ...<br></p>",
+                    "state": "<p>Pas vraiment...<br></p>",
                     "diagnosis": "<p>Vous pouvez réessayer. Voici quelques indices&nbsp;:</p><ul><li>Mon premier correspond à la deuxième lettre de l’<strong>IA.</strong></li><li>Mon second est la version française du <strong>datacenter</strong>.</li><li> Mon troisième est le <strong>composant </strong>qui a été <strong>vu dans ce module.</strong></li></ul>"
                   }
                 }
