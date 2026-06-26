@@ -5,7 +5,7 @@ export const getQuestResultsForCampaignParticipation = async ({
   campaignParticipationId,
   questRepository,
   eligibilityRepository,
-  rewardRepository,
+  profileRewardRepository,
   logger,
 }) => {
   try {
@@ -32,7 +32,7 @@ export const getQuestResultsForCampaignParticipation = async ({
     for (const quest of questsRelatedToCampaignParticipation) {
       const isEligible = quest.isEligible(dataForQuest);
       if (!isEligible) continue;
-      const questResult = await rewardRepository.getByQuestAndUserId({ userId, quest });
+      const questResult = await profileRewardRepository.getByQuestAndUserId({ userId, quest });
       questResults.push(questResult);
     }
 

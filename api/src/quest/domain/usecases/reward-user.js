@@ -5,7 +5,7 @@ export const rewardUser = async ({
   questRepository,
   eligibilityRepository,
   successRepository,
-  rewardRepository,
+  profileRewardRepository,
   logger,
 }) => {
   try {
@@ -21,7 +21,7 @@ export const rewardUser = async ({
     logger.debug(`Found ${quests.length} quests with reward for user ${userId}`);
 
     const eligibilities = await eligibilityRepository.find({ userId });
-    const rewards = await rewardRepository.getByUserId({ userId });
+    const rewards = await profileRewardRepository.getByUserId({ userId });
 
     const rewardIds = rewards.map((reward) => reward.rewardId);
 
@@ -57,7 +57,7 @@ export const rewardUser = async ({
         if (userHasSucceedQuest) {
           logger.debug(`Success found on quest ${quest.id} for user ${userId}. Pushing reward ${quest.rewardId}`);
 
-          await rewardRepository.reward({ userId, rewardId: quest.rewardId });
+          await profileRewardRepository.reward({ userId, rewardId: quest.rewardId });
           rewardIds.push(quest.rewardId);
           break;
         }

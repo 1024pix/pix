@@ -9,7 +9,7 @@ export async function updateCombinedCourseProgress({
   organizationLearnerPrescriptionRepository,
   organizationLearnerParticipationRepository,
   combinedCourseDetailsService,
-  rewardRepository,
+  profileRewardRepository,
   successRepository,
 }) {
   const combinedCourse = await combinedCourseRepository.getByCode({ code });
@@ -63,9 +63,10 @@ export async function updateCombinedCourseProgress({
     await combinedCourseParticipationRepository.update(organizationLearnerParticipation.fieldsForUpdate);
 
     if (updatedCombinedCourseDetails.isSuccessful() && combinedCourse.quest.rewardId) {
-      await rewardRepository.reward({
+      await profileRewardRepository.reward({
         userId,
         rewardId: combinedCourse.quest.rewardId,
+        organizationId: combinedCourse.organizationId,
       });
     }
   }

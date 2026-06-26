@@ -8,7 +8,7 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
   let questRepository;
   let eligibilityRepository;
   let successRepository;
-  let rewardRepository;
+  let profileRewardRepository;
 
   let dependencies;
   let logger;
@@ -30,13 +30,13 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
 
     successRepository = { find: sinon.stub() };
 
-    rewardRepository = { save: sinon.stub(), getByUserId: sinon.stub() };
+    profileRewardRepository = { save: sinon.stub(), getByUserId: sinon.stub() };
 
     dependencies = {
       questRepository,
       eligibilityRepository,
       successRepository,
-      rewardRepository,
+      profileRewardRepository,
       logger,
     };
   });
@@ -57,7 +57,7 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
       // given
       const quest = { isEligible: () => false };
       questRepository.findAllWithReward.resolves([quest]);
-      rewardRepository.getByUserId.resolves([]);
+      profileRewardRepository.getByUserId.resolves([]);
       eligibilityRepository.find.resolves([]);
 
       // when
@@ -72,7 +72,7 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
       const quest = { isEligible: () => false };
       questRepository.findAllWithReward.resolves([quest]);
       eligibilityRepository.find.resolves([Symbol('eligibility')]);
-      rewardRepository.getByUserId.resolves([]);
+      profileRewardRepository.getByUserId.resolves([]);
 
       // when
       await rewardUser({
@@ -94,7 +94,7 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
       questRepository.findAllWithReward.resolves([quest]);
       eligibilityRepository.find.resolves([Symbol('eligibility')]);
       successRepository.find.resolves([Symbol('success')]);
-      rewardRepository.getByUserId.resolves([]);
+      profileRewardRepository.getByUserId.resolves([]);
 
       // when
       await rewardUser({
@@ -103,7 +103,7 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
       });
 
       // then
-      expect(rewardRepository.save).to.have.not.been.called;
+      expect(profileRewardRepository.save).to.have.not.been.called;
     });
   });
 
@@ -114,7 +114,7 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
       const quest = { isEligible: () => true, rewardId: questRewardId };
       questRepository.findAllWithReward.resolves([quest]);
       eligibilityRepository.find.resolves([Symbol('eligibility')]);
-      rewardRepository.getByUserId.resolves([
+      profileRewardRepository.getByUserId.resolves([
         {
           rewardId: questRewardId,
         },

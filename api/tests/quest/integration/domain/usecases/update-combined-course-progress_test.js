@@ -181,7 +181,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
 
         await usecases.updateCombinedCourseProgress({ userId, code });
 
-        const profileRewards = await repositories.rewardRepository.getByUserId({ userId });
+        const profileRewards = await repositories.profileRewardRepository.getByUserId({ userId });
 
         expect(profileRewards[0].rewardType).to.equal(REWARD_TYPES.ATTESTATION);
         expect(profileRewards[0].rewardId).to.equal(reward.id);
@@ -226,7 +226,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
         await usecases.updateCombinedCourseProgress({ userId, code });
 
         // then
-        const profileRewards = await repositories.rewardRepository.getByUserId({ userId });
+        const profileRewards = await repositories.profileRewardRepository.getByUserId({ userId });
         expect(profileRewards).to.be.empty;
       });
     });
