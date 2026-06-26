@@ -6,6 +6,7 @@ import {
   ParentOrganizationNotInNetworkError,
   StructureNotFoundError,
   TagNotFoundError,
+  UnableToAttachCertificationCenterToOrganization,
   UnableToDetachParentOrganizationFromChildOrganization,
 } from '../../../../src/organizational-entities/domain/errors.js';
 import { OrganizationLearnerTypeNotFound } from '../../../../src/organizational-entities/domain/errors.js';
@@ -164,6 +165,26 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       // then
       expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('Error during organization archiving');
+      expect(error.meta).to.equal(meta);
+    });
+  });
+
+  context('when mapping "UnableToAttachCertificationCenterToOrganization"', function () {
+    it('should return an UnprocessableEntityError Http Error', function () {
+      // given
+      const httpErrorMapper = organizationalEntitiesDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === UnableToAttachCertificationCenterToOrganization.name,
+      );
+
+      const meta = { organizationId: 1234, certificationCenterId: 456 };
+
+      // when
+      const error = httpErrorMapper.httpErrorFn(new UnableToAttachCertificationCenterToOrganization({ meta }));
+
+      // then
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
+      expect(error.code).to.equal('UNABLE_TO_ATTACH_CERTIFICATION_CENTER_TO_ORGANIZATION');
+      expect(error.message).to.equal('Unable to attach certification center to organization');
       expect(error.meta).to.equal(meta);
     });
   });

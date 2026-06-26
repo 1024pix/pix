@@ -15,6 +15,7 @@ import {
   ParentOrganizationNotInNetworkError,
   StructureNotFoundError,
   TagNotFoundError,
+  UnableToAttachCertificationCenterToOrganization,
   UnableToAttachChildOrganizationToParentOrganizationError,
   UnableToDetachParentOrganizationFromChildOrganization,
 } from '../domain/errors.js';
@@ -86,6 +87,10 @@ const organizationalEntitiesDomainErrorMappingConfiguration = [
   },
   {
     name: ArchiveOrganizationError.name,
+    httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: UnableToAttachCertificationCenterToOrganization.name,
     httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
   },
 ];
