@@ -1,12 +1,12 @@
 import sinon from 'sinon';
 
-import { ImproveCompetenceEvaluationForbiddenError } from '../../../../src/evaluation/domain/errors.js';
-import { improveCompetenceEvaluation } from '../../../../src/evaluation/domain/usecases/improve-competence-evaluation.js';
-import { MAX_REACHABLE_LEVEL } from '../../../../src/shared/domain/constants.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../test-helper.js';
-import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../tooling/test-utils/error.js';
+import { ImproveCompetenceEvaluationForbiddenError } from '../../../../../src/evaluation/domain/errors.js';
+import { improveCompetenceEvaluation } from '../../../../../src/evaluation/domain/usecases/improve-competence-evaluation.js';
+import { MAX_REACHABLE_LEVEL } from '../../../../../src/shared/domain/constants.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | Improve Competence Evaluation', function () {
   let competenceEvaluation, userId, competenceEvaluationRepository, assessmentRepository;
