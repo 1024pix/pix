@@ -741,18 +741,6 @@
       },
       "title": "Analysis"
     },
-    "campaign-combined-courses": {
-      "empty": "No learning courses found for this campaign",
-      "table": {
-        "column": {
-          "code": "Course code",
-          "name": "Course name",
-          "participants": "Number of participants"
-        },
-        "description": "List of learning courses associated with this campaign"
-      },
-      "title": "Learning courses"
-    },
     "campaign-creation": {
       "actions": {
         "create": "Create a campaign",
@@ -1148,7 +1136,6 @@
         }
       }
     },
-    "combined-course-blueprints-list-label": "Sélectionnez un schéma de parcours",
     "combined-courses": {
       "empty-state": "No learning course available at the moment.",
       "table": {

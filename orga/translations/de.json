@@ -52,6 +52,7 @@
       "ine-required": "Das INE-Feld ist für jeden Schüler/jede Schülerin obligatorisch.",
       "ine-unique": "Die INE {nationalStudentId} ist in der Datei mehrfach für mehrere Schüler vorhanden.",
       "invalid-birthdate-format": "Der Schüler mit der INE {nationalStudentId} hat das falsche Format für sein Geburtsdatum. Es muss im Format 'DD/MM/YYYY' sein.",
+      "invalid-char-detected": "Der Name/Vorname des Schülers mit INE {nationalStudentId} enthält nicht unterstützte Zeichen.",
       "invalid-file": "Die Datei ist nicht konform.",
       "invalid-file-extension": "Erweiterung {fileExtension} nicht unterstützt.",
       "last-name-required": "Bei einem Schüler mit der INE {nationalStudentId} ist das Feld Nachname nicht ausgefüllt. Dieses ist für jeden Schüler obligatorisch.",
@@ -67,13 +68,7 @@
     "certification": {
       "message": "'<strong>'Zertifizierungen:'</strong>' vergessen Sie nicht, '< a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'die Sitzungen in Pix Certif'</a>' abzuschließen und dann die Zertifikate über den Reiter \"Zertifizierungen\" vor Schulbeginn {year} hochzuladen."
     },
-    "ia": {
-      "message": "Die neuen Pix-Lernpfade zum Thema KI sind in Ihrem Pix Orga-Bereich verfügbar! Sie sind für die Schüler der 4e, der 2de (allgemein und technologisch) und des 1. Jahres der CAP verpflichtend und werden schrittweise in den Schuljahren 2025-2026 und 2026-2027 eingeführt.",
-      "step1": "Sehen Sie sich '<'a href='https://cloud.pix.fr/s/rrkLPMS5dYGKRQ9' title='KI-Einsatzkit' class='link link--banner link--bold link--underlined' '>'das Einsatzkit'</a>' an.",
-      "step2": "Melden Sie sich für das '<'a href='https://app.livestorm.co/pix-1/parcours-intelligence-artificielle-enseignement-scolaire?utm_source=pixorga' class='link link--banner link--bold link--underlined' '>'Webinar'</a>' an."
-    },
     "import": {
-      "ia-message": "📢 '<'a href='https://cloud.pix.fr/s/rrkLPMS5dYGKRQ9' class='link link--banner link--bold link--underlined' '>'Neu: Entdecken Sie das Kit zur Einführung von KI-Lernpfaden'</a>'.",
       "message": "Die wichtigsten Etappen des Jahres in der Schulbildung :",
       "step1a": "Einführung : '<'a href='https://cloud.pix.fr/s/WjTnkSbFs9TDcSC' title='Anleitung zum Herunterladen der Ergebnisse' class='link link--banner link--bold link--underlined' '>'Ergebnisse herunterladen'</a>' Zertifizierung und",
       "step1b": "importieren",
@@ -241,6 +236,9 @@
         "placeholder": "Gruppen"
       },
       "loading": "Laden...",
+      "participantExternalId": {
+        "label": "Externe ID-Suche"
+      },
       "placeholder": "-- -- Auswählen --",
       "title": "Filter"
     },
@@ -1516,6 +1514,11 @@
         },
         "column": {
           "checkbox": "Auswählen/Aufheben der Auswahl {firstname} {lastname}",
+          "division": {
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Klasse sortiert. Klicken Sie, um in alphabetischer Reihenfolge zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle ist nach Klasse sortiert, alphabetisch in umgekehrter Reihenfolge. Klicken Sie, um in alphabetischer Reihenfolge zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle wird nach Klassen in alphabetischer Reihenfolge sortiert. Klicken Sie, um in umgekehrter alphabetischer Reihenfolge zu sortieren."
+          },
           "first-name": "Vorname",
           "is-certifiable": {
             "label": "Zertifizierbarkeit"
@@ -2000,6 +2003,7 @@
     },
     "team-invitations": {
       "cancel-invitation": "Einladung löschen",
+      "empty-table": "Sie haben keine ausstehenden Einladungen.",
       "invitation-cancelled-succeed-message": "Die Einladung wurde tatsächlich gelöscht.",
       "invitation-resent-succeed-message": "Die Einladung wurde ordnungsgemäß zurückgeschickt.",
       "resend-invitation": "Einladung erneut senden",

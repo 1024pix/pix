@@ -68,13 +68,7 @@
     "certification": {
       "message": "'<strong>'Certificaciones:'</strong>' no olvide '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finalizar las sesiones en Pix Certif'</a>' y, a continuación, descargar los certificados a través de la pestaña \"Certificaciones\" antes del inicio del nuevo curso escolar {year}."
     },
-    "ia": {
-      "message": "¡Los nuevos itinerarios de aprendizaje Pix sobre IA están disponibles en tu espacio Pix Orga! Son obligatorios para los alumnos de 4e, 2de (general y tecnológico) y 1º de CAP, y se introducirán progresivamente a lo largo de los cursos 2025-2026 y 2026-2027.",
-      "step1": "Echa un vistazo a '<'a href='https://cloud.pix.fr/s/rrkLPMS5dYGKRQ9' title='Kit de despliegue de IA' class='link link--banner link--bold link--underlined' '>'el kit de despliegue'</a>'",
-      "step2": "Inscríbase en el '<'a href='https://app.livestorm.co/pix-1/parcours-intelligence-artificielle-enseignement-scolaire?utm_source=pixorga' class='link link--banner link--bold link--underlined' '>'webinar'</a>'"
-    },
     "import": {
-      "ia-message": "📢 '<'a href='https://cloud.pix.fr/s/rrkLPMS5dYGKRQ9' class='link link--banner link--bold link--underlined' '>'Nuevo: descubre el kit de despliegue de la vía de aprendizaje de IA'</a>'",
       "message": "Etapas clave del curso escolar :",
       "step1a": "Implement : '<'a href='https://cloud.pix.fr/s/WjTnkSbFs9TDcSC' title='Guía descarga resultados' class='link link--banner link--bold link--underlined' '>'descarga resultados'</a>' certificación y",
       "step1b": "importar",
@@ -1520,6 +1514,11 @@
         },
         "column": {
           "checkbox": "Seleccionar/Deseleccionar {firstname} {lastname}",
+          "division": {
+            "ariaLabelDefaultSort": "La mesa no está clasificada por clase. Haga clic para ordenar alfabéticamente.",
+            "ariaLabelSortDown": "La tabla está ordenada por clase en el orden alfabético inverso. Haga clic para ordenar alfabéticamente.",
+            "ariaLabelSortUp": "La tabla está ordenada por clase en orden alfabético. Haga clic para ordenar en orden alfabético inverso."
+          },
           "first-name": "Nombre",
           "is-certifiable": {
             "label": "Certificación"
