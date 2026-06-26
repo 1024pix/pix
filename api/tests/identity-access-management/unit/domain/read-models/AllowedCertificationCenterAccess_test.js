@@ -1,14 +1,15 @@
 import sinon from 'sinon';
 
-import { expect } from '../../../test-helper.js';
-import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
+import { AllowedCertificationCenterAccess } from '../../../../../src/identity-access-management/domain/read-models/AllowedCertificationCenterAccess.js';
+import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', function () {
   context('#isInWhitelist', function () {
     it('should return true when certification center is in whitelist', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        isInWhitelist: true,
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { isInWhitelist: true },
       });
 
       // when
@@ -20,8 +21,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not in whitelist', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        externalId: 'EXAMPLE3',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { externalId: 'EXAMPLE3' },
       });
 
       // when
@@ -35,8 +36,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
   context('#isCollege', function () {
     it('should return false when certification center is not of type SCO', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'NOT_SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'NOT_SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['COLLEGE', 'some_other_tag'],
       });
@@ -50,8 +51,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not related to a managing students organization', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: false,
         relatedOrganizationTags: ['COLLEGE', 'some_other_tag'],
       });
@@ -65,8 +66,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center has not the tag COLLEGE', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['COLLEuuuGE', 'some_other_tag'],
       });
@@ -80,8 +81,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true when certification center is SCO, related to a managing students orga and has tag COLLEGE', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['COLLEGE', 'some_other_tag'],
       });
@@ -97,8 +98,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
   context('#isLycee', function () {
     it('should return false when certification center is not of type SCO', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'NOT_SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'NOT_SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['LYCEE', 'some_other_tag'],
       });
@@ -112,8 +113,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not related to a managing students organization', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'NOT_SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: false,
         relatedOrganizationTags: ['LYCEE', 'some_other_tag'],
       });
@@ -127,8 +128,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center has neither the tag LYCEE and LYCEE PRO', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['LYCEEeeee', 'some_other_tag'],
       });
@@ -142,8 +143,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true when certification center is SCO, related to a managing students orga and has tag LYCEE', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['LYCEE', 'some_other_tag'],
       });
@@ -157,8 +158,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true when certification center is SCO, related to a managing students orga and has tag LYCEE PRO', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['LYCEE PRO', 'some_other_tag'],
       });
@@ -172,8 +173,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true when certification center is SCO, related to a managing students orga and has both tags LYCEE PRO and LYCEE', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['LYCEE PRO', 'LYCEE', 'some_other_tag'],
       });
@@ -189,8 +190,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
   context('#isAEFE', function () {
     it('should return false when certification center does not have the tag AEFE', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['LYCEEeeee', 'some_other_tag'],
       });
@@ -204,7 +205,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true when certification has tag AEFE', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         relatedOrganizationTags: ['AEFE', 'some_other_tag'],
       });
 
@@ -220,6 +222,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when certification center is not of type SCO', function () {
       // given
       const notScoAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess.notSco({
+        center: { type: 'NOT_SCO' },
+        isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['AGRICULTURE', 'some_other_tag'],
       });
 
@@ -232,8 +236,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not related to a managing students organization', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'NOT_SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'NOT_SCO' },
         isRelatedToManagingStudentsOrganization: false,
         relatedOrganizationTags: ['AGRICULTURE', 'some_other_tag'],
       });
@@ -247,8 +251,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center does not have the tag AGRICULTURE', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['LYCEEeeee', 'some_other_tag'],
       });
@@ -262,8 +266,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true when certification center is SCO, related to a managing students orga and has tag AGRICULTURE', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['AGRICULTURE', 'some_other_tag'],
       });
@@ -279,7 +283,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
   context('#hasTag', function () {
     it('should return false when certification center has not the given tag', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         relatedOrganizationTags: ['tagOne'],
       });
 
@@ -292,7 +297,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true when certification center has the given tag', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         relatedOrganizationTags: ['tagOne'],
       });
 
@@ -310,8 +316,10 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     beforeEach(function () {
       validData = {
-        externalId: 'NOT_WHITELISTED',
-        type: 'SCO',
+        center: {
+          externalId: 'NOT_WHITELISTED',
+          type: 'SCO',
+        },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['COLLEGE', 'some_other_tag'],
         scoBlockedAccessDateCollege: '2021-01-01',
@@ -325,7 +333,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when certification center is not a college', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['COLLEGEee', 'some_other_tag'],
       });
@@ -340,7 +348,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when certification center is also a lycee', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['COLLEGE', 'LYCEE', 'some_other_tag'],
       });
@@ -355,9 +363,9 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when certification center is whitelisted', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
         ...validData,
-        isInWhitelist: true,
+        center: { ...validData.center, isInWhitelist: true },
       });
 
       // when
@@ -370,7 +378,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when current date is after the college date limit', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2022-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess(validData);
 
       // when
       const isAccessBlockedCollege = allowedCertificationCenterAccess.isAccessBlockedCollege();
@@ -382,7 +390,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return true otherwise all above conditions', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess(validData);
 
       // when
       const isAccessBlockedCollege = allowedCertificationCenterAccess.isAccessBlockedCollege();
@@ -398,8 +406,10 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     beforeEach(function () {
       validData = {
-        externalId: 'NOT_WHITELISTED',
-        type: 'SCO',
+        center: {
+          externalId: 'NOT_WHITELISTED',
+          type: 'SCO',
+        },
         isRelatedToManagingStudentsOrganization: true,
         scoBlockedAccessDateLycee: '2021-01-01',
         relatedOrganizationTags: ['LYCEE PRO', 'some_other_tag'],
@@ -413,7 +423,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when certification center is not a lycee', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
       });
@@ -428,9 +438,9 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when certification center is whitelisted', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
         ...validData,
-        isInWhitelist: true,
+        center: { ...validData.center, isInWhitelist: true },
       });
 
       // when
@@ -443,7 +453,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when current date is after the lycee date limit', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2022-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess(validData);
 
       // when
       const isAccessBlockedLycee = allowedCertificationCenterAccess.isAccessBlockedLycee();
@@ -455,11 +465,11 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return true otherwise all above conditions', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccessLycee = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccessLycee = new AllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE'],
       });
-      const allowedCertificationCenterAccessLyceePro = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccessLyceePro = new AllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE PRO'],
       });
@@ -480,8 +490,10 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     beforeEach(function () {
       validData = {
-        externalId: 'NOT_WHITELISTED',
-        type: 'SCO',
+        center: {
+          externalId: 'NOT_WHITELISTED',
+          type: 'SCO',
+        },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['AEFE', 'some_other_tag'],
         scoBlockedAccessDateLycee: '2021-01-01',
@@ -495,7 +507,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when certification center is not AEFE', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
       });
@@ -510,9 +522,9 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when certification center is whitelisted', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
         ...validData,
-        isInWhitelist: true,
+        center: { ...validData.center, isInWhitelist: true },
       });
 
       // when
@@ -525,7 +537,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when current date is after the lycee date limit', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2022-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess(validData);
 
       // when
       const isAccessBlockedAEFE = allowedCertificationCenterAccess.isAccessBlockedAEFE();
@@ -537,7 +549,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return true otherwise all above conditions', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccessAEFE = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccessAEFE = new AllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['AEFE'],
       });
@@ -556,8 +568,10 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     beforeEach(function () {
       validData = {
-        externalId: 'NOT_WHITELISTED',
-        type: 'SCO',
+        center: {
+          externalId: 'NOT_WHITELISTED',
+          type: 'SCO',
+        },
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['AGRICULTURE', 'some_other_tag'],
         scoBlockedAccessDateLycee: '2021-01-01',
@@ -571,7 +585,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when certification center is not AGRICULTURE', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
       });
@@ -586,9 +600,9 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when certification center is whitelisted', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
         ...validData,
-        isInWhitelist: true,
+        center: { ...validData.center, isInWhitelist: true },
       });
 
       // when
@@ -601,7 +615,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return false when current date is after the lycee date limit', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2022-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess(validData);
 
       // when
       const isAccessBlockedAgri = allowedCertificationCenterAccess.isAccessBlockedAgri();
@@ -613,7 +627,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     it('should return true otherwise all above conditions', function () {
       // given
       clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
-      const allowedCertificationCenterAccessAgri = domainBuilder.buildAllowedCertificationCenterAccess({
+      const allowedCertificationCenterAccessAgri = new AllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['AGRICULTURE'],
       });
@@ -629,8 +643,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
   context('#isScoManagingStudents', function () {
     it('should return false when certification center is not of type SCO', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'PRO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'PRO' },
         isRelatedToManagingStudentsOrganization: true,
       });
 
@@ -643,8 +657,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not related to a managing students organization', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: false,
       });
 
@@ -657,8 +671,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true when certification center is of type SCO and related to a managing students organization', function () {
       // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        type: 'SCO',
+      const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+        center: { type: 'SCO' },
         isRelatedToManagingStudentsOrganization: true,
       });
 
@@ -674,8 +688,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     describe('when pixCertifScoBlockedAccessDateLycee is defined', function () {
       it('should return the french formated pixCertifScoBlockedAccessDateLycee', function () {
         // given
-        const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-          id: 1,
+        const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+          center: { id: 1 },
           scoBlockedAccessDateLycee: '2022-02-01',
         });
 
@@ -690,8 +704,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     describe('when pixCertifScoBlockedAccessDateLycee is not defined', function () {
       it('should return undefined', function () {
         // given
-        const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-          id: 1,
+        const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+          center: { id: 1 },
         });
 
         // when
@@ -707,8 +721,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     describe('when pixCertifScoBlockedAccessDateCollege is defined', function () {
       it('should return the french formated pixCertifScoBlockedAccessDateCollege', function () {
         // given
-        const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-          id: 1,
+        const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+          center: { id: 1 },
           scoBlockedAccessDateCollege: '2022-02-01',
         });
 
@@ -723,8 +737,8 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     describe('when pixCertifScoBlockedAccessDateCollege is not defined', function () {
       it('should return undefined', function () {
         // given
-        const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-          id: 1,
+        const allowedCertificationCenterAccess = new AllowedCertificationCenterAccess({
+          center: { id: 1 },
         });
 
         // when
