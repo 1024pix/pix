@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Les écrans ont envahi notre quotidien. Mais passer trop de temps devant un écran peut avoir des conséquences sur notre santé. Comment réussir à reprendre le contrôle ?<br>Découvrez les effets d’un temps d’écran excessif et de bonnes habitudes à adopter pour protéger votre santé. 📱</p>",
+    "description": "<p>Les écrans ont envahi notre quotidien. Mais passer trop de temps devant un écran peut avoir des conséquences sur notre santé. Comment réussir à reprendre le contrôle ?<br>Découvrez les effets d’un temps d’écran excessif et les bonnes habitudes à adopter pour protéger votre santé. 📱</p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
@@ -100,7 +100,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p><strong></strong>Vous avez eu un score élevé de “Oui” ? C’est tout à fait normal ! <br>Les Français passent en moyenne <strong>32 h par semaine sur un écran</strong>. Cela représente un <strong>tiers du temps que l’on passe éveillé</strong>. </p><p><strong>Les écrans sont partout</strong> (au travail, à la maison, ailleurs) et nous sont utiles peu importe notre âge ou nos activités.</p>"
+                  "diagnosis": "<p><strong></strong>Vous avez eu un score élevé de « Oui » ? Vous n'êtes pas seul ! <br>Les Français passent en moyenne <strong>32 h par semaine devant un écran</strong>. Cela représente un <strong>tiers du temps que l’on passe éveillé</strong>. </p><p><strong>Les écrans sont partout</strong> (au travail, à la maison, ailleurs) et nous sont utiles peu importe notre âge ou nos activités.</p>"
                 }
               }
             }
@@ -164,7 +164,7 @@
                 "id": "cc9d7461-950a-4d05-82a3-4fb43118b132",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le problème n’est pas seulement l’écran, mais le <strong>manque de mouvement</strong>. Quand on est sur un écran, on reste longtemps en <strong>position assise ou couchée</strong>, tout en étant éveillé. C’est ce qu’on appelle <strong>la sédentarité</strong>.</p><p>On peut considérer que <strong>7 heures par jour</strong> assis devant un écran est une <strong>durée excessive</strong> pour un adulte (4 heures pour un enfant). 🕐</p>"
+                "content": "<p>Le problème n’est pas seulement l’écran, mais le <strong>manque de mouvement</strong>. Quand on est devant un écran, on reste longtemps en <strong>position assise ou couchée</strong>, tout en étant éveillé. C’est ce qu’on appelle <strong>la sédentarité</strong>.</p><p>On peut considérer que <strong>7 heures par jour</strong> devant un écran est une <strong>durée excessive</strong> pour un adulte (4 heures pour un enfant). 🕐</p>"
               }
             },
             {
@@ -359,7 +359,7 @@
                 "id": "77daaf6d-6ab8-4e3a-aac1-367e27bb7f63",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Les écrans ont aussi des effets sur la <strong>santé mentale</strong> et sur le <strong>rapport/la relation aux autres</strong>. Ils peuvent notamment augmenter l’anxiété et accentuer les risques de dépression.</p>"
+                "content": "<p>Les écrans ont aussi des effets sur la <strong>santé mentale</strong> et sur le <strong>les relations aux autres</strong>. Ils peuvent notamment augmenter l’anxiété et accentuer les risques de dépression.</p>"
               }
             }
           ]
@@ -524,7 +524,7 @@
                 "id": "df348def-712c-441b-b8aa-379905fb71f0",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li><strong>Plus de 7 heures par jour</strong> sur un écran peut être considérée comme une <strong>durée excessive</strong> pour un adulte. 🕒</li>    <li>Le principal problème est la <strong>sédentarité</strong> provoquée par les écrans&nbsp;: on reste longtemps assis ou couché, tout en étant éveillé. 🛏️</li>    <li>Un usage excessif des écrans peut entraîner des <strong>problèmes de santé</strong> comme des troubles du <strong>sommeil</strong>, de la <strong>vue</strong> et de l’<strong>alimentation</strong>. 🩺</li>    <li>De <strong>bonnes habitudes</strong> permettent de limiter un usage excessif des écrans et réduire la sédentarité&nbsp;:&nbsp;<ul>            <li>se déconnecter,&nbsp;</li>            <li>remplacer l’écran,&nbsp;</li>            <li>limiter son temps d’écran,&nbsp;</li>            <li>avoir une activité physique.</li>        </ul>    </li></ul>"
+                "content": "<ul>    <li><strong>Plus de 7 heures par jour</strong> devant un écran peut être considéré comme un <strong>temps d’écran excessif</strong> pour un adulte. 🕒</li>    <li>Le principal problème est la <strong>sédentarité</strong> provoquée par l’usage des écrans&nbsp;: on reste longtemps assis ou couché, tout en étant éveillé. 🛏️</li>    <li>Un usage excessif des écrans peut entraîner des <strong>problèmes de santé</strong> comme des troubles du <strong>sommeil</strong>, de la <strong>vue</strong> et de l’<strong>alimentation</strong>. 🩺</li>    <li>De <strong>bonnes habitudes</strong> permettent de limiter ces risques et réduire la sédentarité&nbsp;:&nbsp;<ul>            <li>se déconnecter,&nbsp;</li>            <li>remplacer l’écran,&nbsp;</li>            <li>limiter son temps d’écran,&nbsp;</li>            <li>pratiquer une activité physique.</li>        </ul>    </li></ul>"
               }
             }
           ]
