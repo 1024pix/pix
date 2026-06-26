@@ -1,13 +1,13 @@
-import { Validator } from '../../../../src/evaluation/domain/models/Validator.js';
-import { ValidatorQCM } from '../../../../src/evaluation/domain/models/ValidatorQCM.js';
-import { ValidatorQCU } from '../../../../src/evaluation/domain/models/ValidatorQCU.js';
-import { ValidatorQROC } from '../../../../src/evaluation/domain/models/ValidatorQROC.js';
-import { ValidatorQROCMDep } from '../../../../src/evaluation/domain/models/ValidatorQROCMDep.js';
-import { ValidatorQROCMInd } from '../../../../src/evaluation/domain/models/ValidatorQROCMInd.js';
-import { Challenge, Statuses } from '../../../../src/shared/domain/models/Challenge.js';
-import { Skill } from '../../../../src/shared/domain/models/Skill.js';
-import { expect } from '../../../test-helper.js';
-import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
+import { Validator } from '../../../../../src/evaluation/domain/models/Validator.js';
+import { ValidatorQCM } from '../../../../../src/evaluation/domain/models/ValidatorQCM.js';
+import { ValidatorQCU } from '../../../../../src/evaluation/domain/models/ValidatorQCU.js';
+import { ValidatorQROC } from '../../../../../src/evaluation/domain/models/ValidatorQROC.js';
+import { ValidatorQROCMDep } from '../../../../../src/evaluation/domain/models/ValidatorQROCMDep.js';
+import { ValidatorQROCMInd } from '../../../../../src/evaluation/domain/models/ValidatorQROCMInd.js';
+import { Challenge, Statuses } from '../../../../../src/shared/domain/models/Challenge.js';
+import { Skill } from '../../../../../src/shared/domain/models/Skill.js';
+import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | Challenge', function () {
   describe('#constructor', function () {

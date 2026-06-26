@@ -1,5 +1,6 @@
-import { expect } from '../../../test-helper.js';
-import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
+import { BadgeForCalculation } from '../../../../../src/shared/domain/models/BadgeForCalculation.js';
+import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | BadgeForCalculation', function () {
   describe('#shouldBeObtained', function () {
@@ -28,7 +29,7 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
           threshold: 30,
           skillIds: ['recSkill2', 'recSkill6', 'recSkill7'],
         });
-        const badgeForCalculation = domainBuilder.buildBadgeForCalculation({
+        const badgeForCalculation = new BadgeForCalculation({
           badgeCriteria: [criteria1, criteria2],
         });
 
@@ -49,8 +50,8 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
           threshold: 70,
           skillIds: ['recSkill2', 'recSkill6', 'recSkill7'],
         });
-        const badgeForCalculation = domainBuilder.buildBadgeForCalculation({
-          badgeCriteriaa: [criteria1, criteria2],
+        const badgeForCalculation = new BadgeForCalculation({
+          badgeCriteria: [criteria1, criteria2],
         });
 
         // when
@@ -81,7 +82,7 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
           threshold: 30,
           skillIds: [3, 4],
         });
-        const badgeForCalculation = domainBuilder.buildBadgeForCalculation({
+        const badgeForCalculation = new BadgeForCalculation({
           badgeCriteria: [criteria1, criteria2],
         });
 
@@ -111,7 +112,7 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
           threshold: 30,
           skillIds: [3, 4],
         });
-        const badgeForCalculation = domainBuilder.buildBadgeForCalculation({
+        const badgeForCalculation = new BadgeForCalculation({
           badgeCriteria: [criteria1, criteria2],
         });
 
@@ -139,7 +140,7 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
           threshold: 30,
           skillIds: [2],
         });
-        const badgeForCalculation = domainBuilder.buildBadgeForCalculation({
+        const badgeForCalculation = new BadgeForCalculation({
           badgeCriteria: [criteria1, criteria2],
         });
 

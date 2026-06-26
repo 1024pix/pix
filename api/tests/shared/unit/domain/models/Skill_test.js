@@ -1,6 +1,6 @@
-import { Skill } from '../../../../src/shared/domain/models/Skill.js';
-import { expect } from '../../../test-helper.js';
-import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
+import { Skill } from '../../../../../src/shared/domain/models/Skill.js';
+import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | Skill', function () {
   describe('#Difficulty', function () {

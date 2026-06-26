@@ -1,5 +1,5 @@
-import { Thematic } from '../../../../src/shared/domain/models/Thematic.js';
-import { expect } from '../../../test-helper.js';
+import { Thematic } from '../../../../../src/shared/domain/models/Thematic.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Thematic', function () {
   it('should return a thematic', function () {
