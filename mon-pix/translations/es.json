@@ -1314,21 +1314,21 @@
         "in-progress": {
           "details": {
             "text": "En función de tu nivel al finalizar el curso, se te podrá expedir un certificado de superación.",
-            "title": "Completa todos los cursos para obtener tu certificado"
+            "title": "Completa tu curso para obtener tu certificado"
           },
           "status": "Pendiente"
         },
         "not-obtained": {
           "details": {
-            "text": "Por desgracia, los resultados obtenidos en las pruebas realizadas no permiten validar la obtención de su certificado",
-            "title": "Entender el motivo"
+            "text": "Lamentablemente, los resultados obtenidos en las pruebas realizadas no permiten validar la obtención de tu certificado.",
+            "title": "Lamentablemente, no has cumplido las condiciones para obtener el certificado"
           },
           "status": "No obtenido"
         },
         "obtained": {
           "details": {
-            "text": "¡Descarga tu certificado de aprobación! Este documento también está disponible en tu cuenta Pix.",
-            "title": "¿Dónde se puede encontrar eso?"
+            "text": "Puedes descargar tu certificado ahora mismo o encontrarlo en tu cuenta Pix.",
+            "title": "¡Has obtenido tu certificado!"
           },
           "link": "Descargaré mi certificado",
           "status": "Obtenido"

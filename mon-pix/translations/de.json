@@ -1314,21 +1314,21 @@
         "in-progress": {
           "details": {
             "text": "Je nach Ihrem Leistungsstand am Ende des Kurses kann eine Teilnahmebescheinigung ausgestellt werden.",
-            "title": "Schließe alle Kurse ab, um dein Zertifikat zu erhalten"
+            "title": "Schließen Sie Ihren Kurs ab, um Ihre Bescheinigung zu erhalten"
           },
           "status": "Steht noch aus"
         },
         "not-obtained": {
           "details": {
-            "text": "Leider lassen die auf den absolvierten Strecken erzielten Ergebnisse keine Bestätigung des Erwerbs Ihrer Bescheinigung zu",
-            "title": "Den Grund verstehen"
+            "text": "Leider lassen die auf den absolvierten Strecken erzielten Ergebnisse keine Bestätigung des Erwerbs Ihrer Bescheinigung zu.",
+            "title": "Leider haben Sie die Voraussetzungen für den Erhalt der Bescheinigung nicht erfüllt"
           },
           "status": "Nicht erhalten"
         },
         "obtained": {
           "details": {
-            "text": "Laden Sie Ihre Teilnahmebescheinigung herunter! Dieses Dokument finden Sie auch in Ihrem Pix-Konto.",
-            "title": "Wo findet man das?"
+            "text": "Sie können Ihre Bescheinigung jetzt herunterladen oder in Ihrem Pix-Konto finden.",
+            "title": "Sie haben Ihre Bescheinigung erhalten!"
           },
           "link": "Ich lade meine Bescheinigung herunter",
           "status": "Erhalten"

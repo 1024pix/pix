@@ -1314,21 +1314,21 @@
         "in-progress": {
           "details": {
             "text": "Depending on your level at the end of the course, a certificate of completion may be issued.",
-            "title": "Complete all the courses to earn your attestation"
+            "title": "Complete your course to earn your attestation"
           },
           "status": "Pending"
         },
         "not-obtained": {
           "details": {
-            "text": "Unfortunately, the results obtained on the courses you completed do not meet the requirements for issuing your attestation",
-            "title": "Understand why"
+            "text": "Unfortunately, the results obtained on the courses you completed do not meet the requirements for issuing your attestation.",
+            "title": "Unfortunately, you did not meet the conditions to obtain the attestation"
           },
           "status": "Not obtained"
         },
         "obtained": {
           "details": {
-            "text": "Download your certificate of completion! This document is also available in your Pix account.",
-            "title": "Where can I find it?"
+            "text": "You can download your attestation now or find it in your Pix account.",
+            "title": "You have obtained your attestation!"
           },
           "link": "Download my attestation",
           "status": "Obtained"

@@ -1314,21 +1314,21 @@
         "in-progress": {
           "details": {
             "text": "A seconda del livello raggiunto al termine del corso, potrà essere rilasciato un attestato di completamento.",
-            "title": "Completa tutti i percorsi per ottenere il tuo attestato"
+            "title": "Completa il tuo percorso per ottenere il tuo attestato"
           },
           "status": "In attesa"
         },
         "not-obtained": {
           "details": {
-            "text": "Purtroppo, i risultati ottenuti nei percorsi svolti non consentono di confermare il rilascio del certificato",
-            "title": "Capire il motivo"
+            "text": "Purtroppo, i risultati ottenuti nei percorsi svolti non consentono di confermare il rilascio del certificato.",
+            "title": "Purtroppo, non hai soddisfatto le condizioni per ottenere l'attestato"
           },
           "status": "Non ottenuto"
         },
         "obtained": {
           "details": {
-            "text": "Scarica il tuo attestato di superamento dell'esame! Questo documento è disponibile anche nel tuo account Pix.",
-            "title": "Dove si trova?"
+            "text": "Puoi scaricare il tuo attestato adesso o trovarlo nel tuo account Pix.",
+            "title": "Hai ottenuto il tuo attestato!"
           },
           "link": "Scarico il mio certificato",
           "status": "Ottenuto"

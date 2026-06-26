@@ -1314,21 +1314,21 @@
         "in-progress": {
           "details": {
             "text": "Afhankelijk van uw niveau aan het einde van de opleiding kan een certificaat van succes worden uitgereikt.",
-            "title": "Voltooi alle parcours om je certificaat te behalen"
+            "title": "Voltooi je parcours om je certificaat te behalen"
           },
           "status": "Behandeling"
         },
         "not-obtained": {
           "details": {
-            "text": "Helaas kunnen we op basis van de behaalde resultaten op de afgelegde parcoursen niet bevestigen dat u uw certificaat hebt behaald",
-            "title": "De reden begrijpen"
+            "text": "Helaas kunnen we op basis van de behaalde resultaten op de afgelegde parcoursen niet bevestigen dat u uw certificaat hebt behaald.",
+            "title": "Helaas heb je niet aan de voorwaarden voldaan om het certificaat te behalen"
           },
           "status": "Niet behaald"
         },
         "obtained": {
           "details": {
-            "text": "Download je certificaat van succes! Dit document is ook beschikbaar in je Pix-account.",
-            "title": "Waar is ze te vinden?"
+            "text": "Je kunt je certificaat nu downloaden of terugvinden in je Pix-account.",
+            "title": "Je hebt je certificaat behaald!"
           },
           "link": "Ik download mijn verklaring",
           "status": "Behaald"
