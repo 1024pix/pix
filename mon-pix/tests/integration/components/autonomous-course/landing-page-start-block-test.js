@@ -71,7 +71,7 @@ module('Integration | Component | Autonomous Course | Landing page start block',
     test('should redirect to log-in form on specific button click', async function (assert) {
       sessionService.requireAuthenticationAndApprovedTermsOfService = sinon.stub().resolves();
 
-      this.set('startCampaignParticipation', sinon.stub());
+      this.set('startCampaignParticipation', sinon.stub().returns('stubbed-transition'));
       this.set('redirectToSigninIfUserIsAnonymous', sinon.stub());
 
       // when
@@ -85,7 +85,7 @@ module('Integration | Component | Autonomous Course | Landing page start block',
           name: t('pages.autonomous-course.landing-page.actions.sign-in'),
         }),
       );
-      sinon.assert.calledOnce(sessionService.requireAuthenticationAndApprovedTermsOfService);
+      sinon.assert.calledWith(sessionService.requireAuthenticationAndApprovedTermsOfService, 'stubbed-transition');
       assert.ok(true);
     });
   });
