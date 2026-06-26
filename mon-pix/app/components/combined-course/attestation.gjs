@@ -31,9 +31,10 @@ export default class Attestation extends Component {
     const status = this.args.attestation.computedStatus;
     return {
       information: this.intl.t(`pages.combined-courses.rewards.${status}.details.title`),
-      text: status === REWARD_STATUSES.OBTAINED
-        ? this.intl.t(`pages.combined-courses.rewards.${status}.details.text`)
-        : null,
+      text:
+        status === REWARD_STATUSES.OBTAINED
+          ? this.intl.t(`pages.combined-courses.rewards.${status}.details.text`)
+          : null,
     };
   }
 
