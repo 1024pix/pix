@@ -19,7 +19,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Exam', function (hook
 
   hooks.beforeEach(function () {
     this.server.schema.users.create({
-      mustValidateTermsOfService: true,
+      pixAppTermsOfServiceStatus: 'requested',
     });
     server.create('challenge', { id: 'recSMARPLA' });
   });
@@ -29,8 +29,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Exam', function (hook
 
     hooks.beforeEach(function () {
       prescritUser = server.create('user', 'withEmail', {
-        mustValidateTermsOfService: false,
-        lastTermsOfServiceValidatedAt: null,
+        pixAppTermsOfServiceStatus: 'accepted',
       });
     });
 

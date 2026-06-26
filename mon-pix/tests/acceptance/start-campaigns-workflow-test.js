@@ -28,7 +28,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
   hooks.beforeEach(function () {
     this.server.schema.users.create({
-      mustValidateTermsOfService: true,
+      pixAppTermsOfServiceStatus: 'requested',
     });
   });
 
@@ -37,8 +37,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
     hooks.beforeEach(function () {
       prescritUser = server.create('user', 'withEmail', {
-        mustValidateTermsOfService: false,
-        lastTermsOfServiceValidatedAt: null,
+        pixAppTermsOfServiceStatus: 'accepted',
       });
     });
 
@@ -200,12 +199,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             test('should redirect to invited sco student page after accept terms of service', async function (assert) {
               // given
               const screen = await visit('/campagnes');
-              prescritUser.mustValidateTermsOfService = true;
+              prescritUser.pixAppTermsOfServiceStatus = 'requested';
               await fillIn(
                 screen.getByRole('textbox', { name: `${t('pages.fill-in-campaign-code.label')} *` }),
                 campaign.code,
               );
-
               await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
               await click(screen.getByRole('button', { name: 'Je commence' }));
               await click(screen.getByRole('button', { name: 'Se connecter' }));

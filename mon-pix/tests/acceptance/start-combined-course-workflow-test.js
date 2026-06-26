@@ -94,8 +94,7 @@ module('Acceptance | Combined course | Start Combined course workflow', function
     module('when organization is restricted', function (hooks) {
       hooks.beforeEach(async function () {
         const prescritUser = server.create('user', 'withEmail', {
-          mustValidateTermsOfService: false,
-          lastTermsOfServiceValidatedAt: null,
+          pixAppTermsOfServiceStatus: 'accepted',
         });
 
         await authenticate(prescritUser);

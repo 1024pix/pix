@@ -102,8 +102,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
     module('When user is logged in', function (hooks) {
       hooks.beforeEach(async function () {
         const prescritUser = server.create('user', 'withEmail', {
-          mustValidateTermsOfService: false,
-          lastTermsOfServiceValidatedAt: null,
+          pixAppTermsOfServiceStatus: 'accepted',
         });
         await authenticateByEmail(prescritUser);
 

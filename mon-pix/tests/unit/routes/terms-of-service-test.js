@@ -13,7 +13,7 @@ module('Unit | Route | Terms-of-service', function (hooks) {
     module('when user is external', function (hooks) {
       hooks.beforeEach(function () {
         const sessionStub = stubSessionService(this.owner, { isAuthenticatedByGar: true });
-        const currentUser = stubCurrentUserService(this.owner, { mustValidateTermsOfService: true });
+        const currentUser = stubCurrentUserService(this.owner, { pixAppTermsOfServiceStatus: 'requested' });
         route = this.owner.lookup('route:terms-of-service');
         route.router = { replaceWith: sinon.stub() };
         route.session = sessionStub;
@@ -44,7 +44,7 @@ module('Unit | Route | Terms-of-service', function (hooks) {
     module('when user must not validate terms of service', function (hooks) {
       hooks.beforeEach(function () {
         const sessionStub = stubSessionService(this.owner, { isAuthenticatedByGar: true });
-        const currentUser = stubCurrentUserService(this.owner, { mustValidateTermsOfService: false });
+        const currentUser = stubCurrentUserService(this.owner, { pixAppTermsOfServiceStatus: 'accepted' });
         route = this.owner.lookup('route:terms-of-service');
         route.router = { replaceWith: sinon.stub() };
         route.session = sessionStub;
