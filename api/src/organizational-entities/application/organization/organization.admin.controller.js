@@ -206,6 +206,15 @@ const findAttachedCertificationCenterForAdmin = async function (request) {
   return certificationCenterSerializer.serialize(certificationCenter);
 };
 
+const attachCertificationCenter = async function (request, h) {
+  const { certificationCenterId } = request.payload;
+  const { organizationId } = request.params;
+
+  await usecases.attachCertificationCenterToOrganization({ organizationId, certificationCenterId });
+
+  return h.response().code(204);
+};
+
 const organizationAdminController = {
   getTemplateForAddTagsToOrganizations,
   addTagsToOrganizations,
@@ -228,6 +237,7 @@ const organizationAdminController = {
   findChildrenOrganizations,
   getOrganizationStatistics,
   findAttachedCertificationCenterForAdmin,
+  attachCertificationCenter,
 };
 
 export { organizationAdminController };

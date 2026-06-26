@@ -585,6 +585,38 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/admin/organizations/{organizationId}/attach-certification-centers',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            organizationId: identifiersType.organizationId,
+          }),
+          payload: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+        },
+        handler: (request, h) => organizationAdminController.attachCertificationCenter(request, h),
+        tags: ['api', 'admin', 'organizational-entities', 'organizations', 'certification-centers'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN, METIER, SUPPORT ou CERTIF permettant un accès à l'application d'administration de Pix**\n" +
+            '- Elle permet de rattacher un centre de certification à un organisation donnée.',
+        ],
+      },
+    },
   ]);
 };
 
