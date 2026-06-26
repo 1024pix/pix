@@ -2353,12 +2353,7 @@
     "timed-challenge-instructions": {
       "action": "Start",
       "primary": "Du hast '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' zur Verfügung, um die nächste Frage zu bestehen.",
-      "secondary": "Du kannst danach weiter machen, aber die Frage gilt nicht als bestanden.",
-      "time": {
-        "and": " und",
-        "minutes": "{minutes, plural, =0 {} =1 {# Minute} other {# Minuten}}",
-        "seconds": "{seconds, plural, =0 {} =1 {# Sekunden} other {# Sekunden}}"
-      }
+      "secondary": "Du kannst danach weiter machen, aber die Frage gilt nicht als bestanden."
     },
     "training": {
       "editor": "Formativer Inhalt vorgeschlagen von",

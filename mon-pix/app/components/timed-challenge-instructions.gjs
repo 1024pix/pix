@@ -1,9 +1,9 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { service } from '@ember/service';
+import { DurationFormat } from '@formatjs/intl-durationformat';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
-import isInteger from 'lodash/isInteger';
 
 export default class TimedChallengeInstructions extends Component {
   <template>
@@ -31,26 +31,18 @@ export default class TimedChallengeInstructions extends Component {
     </div>
   </template>
   @service intl;
+  @service locale;
 
   get allocatedTime() {
-    if (!isInteger(this.args.time)) {
+    const time = this.args.time;
+
+    if (!Number.isInteger(time)) {
       return '';
     }
 
-    const minutes = _getMinutes(this.args.time);
-    const seconds = _getSeconds(this.args.time);
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
 
-    let allocatedTime = this.intl.t('pages.timed-challenge-instructions.time.minutes', { minutes });
-    if (minutes && seconds) allocatedTime += this.intl.t('pages.timed-challenge-instructions.time.and');
-    allocatedTime += this.intl.t('pages.timed-challenge-instructions.time.seconds', { seconds });
-    return allocatedTime;
+    return new DurationFormat(this.locale.currentLanguage, { style: 'long' }).format({ minutes, seconds });
   }
-}
-
-function _getMinutes(time) {
-  return Math.floor(time / 60);
-}
-
-function _getSeconds(time) {
-  return time % 60;
 }

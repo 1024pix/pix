@@ -2353,12 +2353,7 @@
     "timed-challenge-instructions": {
       "action": "Beginnen",
       "primary": "Je hebt '<span class=\"timed-challenge-instructies__time\">'{time}'</span>' om de volgende vraag te beantwoorden.",
-      "secondary": "Daarna kun je nog antwoorden, maar wordt de opdracht niet als voltooid beschouwd.",
-      "time": {
-        "and": " en ",
-        "minutes": "{minutes, plural, =0 {} =1 {# minuut} other {# minuten}}",
-        "seconds": "{seconds, plural, =0 {} =1 {# seconde} other {# seconden}}"
-      }
+      "secondary": "Daarna kun je nog antwoorden, maar wordt de opdracht niet als voltooid beschouwd."
     },
     "training": {
       "editor": "Inhoud van de training voorgesteld door",

@@ -2353,12 +2353,7 @@
     "timed-challenge-instructions": {
       "action": "Inizia",
       "primary": "Avrete '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' per passare alla domanda successiva.",
-      "secondary": "È possibile continuare a rispondere anche in seguito, ma la domanda non sarà considerata come riuscita.",
-      "time": {
-        "and": " e",
-        "minutes": "{minutes, plural, =0 {} =1 {# minuti} other {# minuti}}",
-        "seconds": "{seconds, plural, =0 {} =1 {# secondi} other {# secondi}}."
-      }
+      "secondary": "È possibile continuare a rispondere anche in seguito, ma la domanda non sarà considerata come riuscita."
     },
     "training": {
       "editor": "Contenuti formativi proposti da",
