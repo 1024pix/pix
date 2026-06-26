@@ -11,12 +11,7 @@ import onKey from 'ember-keyboard/modifiers/on-key';
 
 export default class UserLoggedMenu extends Component {
   @service currentUser;
-
   @tracked canDisplayMenu = false;
-
-  get displayedIdentifier() {
-    return this.currentUser.user.email ? this.currentUser.user.email : this.currentUser.user.username;
-  }
 
   get showMyTestsLink() {
     return this.currentUser.user.hasAssessmentParticipations;
