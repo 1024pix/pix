@@ -257,4 +257,57 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       );
     });
   });
+
+  module('submit button state', function () {
+    test('should disable the submit button when email is empty', async function (assert) {
+      // given & when
+      const screen = await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} />`);
+
+      // then
+      const submitButton = screen.getByRole('button', {
+        name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
+        hidden: true,
+      });
+      assert.dom(submitButton).hasAttribute('aria-disabled');
+    });
+
+    test('should disable the submit button when email is not valid', async function (assert) {
+      // given
+      const screen = await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} />`);
+
+      // when
+      await fillIn(
+        screen.getByRole('textbox', {
+          name: new RegExp(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email')),
+        }),
+        'wrongemail',
+      );
+
+      // then
+      const submitButton = screen.getByRole('button', {
+        name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
+        hidden: true,
+      });
+      assert.dom(submitButton).hasAttribute('aria-disabled');
+    });
+
+    test('should enable the submit button when email is valid', async function (assert) {
+      // given
+      const screen = await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} />`);
+
+      // when
+      await fillIn(
+        screen.getByRole('textbox', {
+          name: new RegExp(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email')),
+        }),
+        'user@example.net',
+      );
+
+      // then
+      const submitButton = screen.getByRole('button', {
+        name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
+      });
+      assert.dom(submitButton).doesNotHaveAttribute('aria-disabled');
+    });
+  });
 });
