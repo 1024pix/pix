@@ -64,6 +64,23 @@ module('Integration | Component | user-account | email-with-validation-form', fu
           // then
           assert.dom(screen.getByText(expectedInvalidEmailError)).exists();
         });
+
+        test('should trim the new email value and not display an error for a surrounded-by-spaces valid email', async function (assert) {
+          // given
+          const emailWithSpaces = '   lea@example.net   ';
+          const expectedInvalidEmailError = 'Votre adresse e-mail n’est pas valide.';
+
+          const screen = await render(hbs`<UserAccount::EmailWithValidationForm />`);
+          const emailInput = screen.getByRole('textbox', { name: 'Nouvelle adresse e-mail' });
+
+          // when
+          await fillIn(emailInput, emailWithSpaces);
+          await triggerEvent(emailInput, 'focusout');
+
+          // then
+          assert.strictEqual(emailInput.value, emailWithSpaces.trim());
+          assert.dom(screen.queryByText(expectedInvalidEmailError)).doesNotExist();
+        });
       });
     });
   });
@@ -91,6 +108,30 @@ module('Integration | Component | user-account | email-with-validation-form', fu
 
       // then
       sinon.assert.calledOnce(this.showVerificationCode);
+      assert.ok(true);
+    });
+
+    test('should not request a verification code when the form is not valid', async function (assert) {
+      // given
+      this.set('showVerificationCode', sinon.stub());
+      const sendNewEmail = sinon.stub();
+      store.createRecord = sinon.stub().returns({ sendNewEmail });
+
+      const screen = await render(
+        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`,
+      );
+
+      // when
+      await click(
+        screen.getByRole('button', {
+          name: t('pages.user-account.account-add-or-update-email-with-validation.save-button'),
+        }),
+      );
+
+      // then
+      sinon.assert.notCalled(store.createRecord);
+      sinon.assert.notCalled(sendNewEmail);
+      sinon.assert.notCalled(this.showVerificationCode);
       assert.ok(true);
     });
 
