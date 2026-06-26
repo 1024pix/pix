@@ -13,6 +13,12 @@ export default class EvaluationResultsRecommendationEngine extends Component {
   @service media;
   @service pixMetrics;
 
+  constructor(...args) {
+    super(...args);
+
+    this.trackTrainingsDisplayed(this.trainings);
+  }
+
   @action onCardClick({ trainingId }) {
     this.pixMetrics.trackEvent('Moteur de reco - Clic sur la carte du contenu formatif', {
       trainingId,
@@ -29,6 +35,15 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     this.pixMetrics.trackEvent("Moteur de reco - Clic sur l'accordéon de la modale du contenu formatif", {
       trainingId,
       accordionName,
+    });
+  }
+
+  trackTrainingsDisplayed(trainings) {
+    trainings.forEach((training, index) => {
+      this.pixMetrics.trackEvent('Moteur de reco - Affichage du contenu formatif sur la page de résultats', {
+        trainingId: training.id,
+        position: index + 1,
+      });
     });
   }
 

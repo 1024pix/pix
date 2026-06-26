@@ -140,6 +140,15 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         sinon.assert.calledOnceWith(trackPageStub);
         assert.strictEqual(metricsService.context.code, campaign.code);
 
+        sinon.assert.calledWithExactly(
+          trackEventStub,
+          'Moteur de reco - Affichage du contenu formatif sur la page de résultats',
+          {
+            trainingId: training.id,
+            position: 1,
+          },
+        );
+
         // when
         await click(
           screen.getByRole('button', {
@@ -171,7 +180,7 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.modal.objectives') }));
 
         // then
-        sinon.assert.callCount(trackEventStub, 3);
+        sinon.assert.callCount(trackEventStub, 4);
 
         // when
         await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.modal.program') }));
@@ -191,7 +200,7 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.modal.program') }));
 
         // then
-        sinon.assert.callCount(trackEventStub, 4);
+        sinon.assert.callCount(trackEventStub, 5);
 
         // when
         await click(
