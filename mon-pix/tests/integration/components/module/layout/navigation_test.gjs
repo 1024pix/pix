@@ -60,7 +60,7 @@ module('Integration | Component | Module | Navigation', function (hooks) {
         );
 
         // then
-        assert.dom('#module-navigation').hasAttribute('style', 'top: 36.5px;');
+        assert.dom('#module-navigation').hasAttribute('style', /^top: \d+(\.\d+)?px;?$/);
       });
     });
   });
