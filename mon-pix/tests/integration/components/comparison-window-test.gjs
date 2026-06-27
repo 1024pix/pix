@@ -2,7 +2,8 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
+import ComparisonWindow from 'mon-pix/components/comparison-window';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -11,9 +12,11 @@ module('Integration | Component | comparison-window', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('rendering', function (hooks) {
+    const state = {};
     let answer;
     let challenge;
     let correction;
+    const closeComparisonWindow = () => {};
 
     hooks.beforeEach(function () {
       answer = EmberObject.create({
@@ -28,10 +31,9 @@ module('Integration | Component | comparison-window', function (hooks) {
       });
       correction = EmberObject.create({ solution: '2,3', learningMoreTutorials: [], tutorials: [] });
 
-      this.set('answer', answer);
       answer.set('challenge', challenge);
       answer.set('correction', correction);
-      this.set('closeComparisonWindow', () => {});
+      state.answer = answer;
     });
 
     test('should display challenge illustration and alt', async function (assert) {
@@ -41,7 +43,9 @@ module('Integration | Component | comparison-window', function (hooks) {
 
       // when
       await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+        <template>
+          <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+        </template>,
       );
 
       // then
@@ -52,7 +56,9 @@ module('Integration | Component | comparison-window', function (hooks) {
     test('should render challenge instruction', async function (assert) {
       // when
       await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+        <template>
+          <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+        </template>,
       );
 
       // then
@@ -62,7 +68,9 @@ module('Integration | Component | comparison-window', function (hooks) {
     test('should render a closed feedback panel', async function (assert) {
       //when
       await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+        <template>
+          <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+        </template>,
       );
 
       //then
@@ -76,7 +84,9 @@ module('Integration | Component | comparison-window', function (hooks) {
 
       // when
       await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+        <template>
+          <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+        </template>,
       );
 
       // then
@@ -94,7 +104,9 @@ module('Integration | Component | comparison-window', function (hooks) {
 
       // when
       await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+        <template>
+          <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+        </template>,
       );
 
       // then
@@ -111,7 +123,9 @@ module('Integration | Component | comparison-window', function (hooks) {
 
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+          <template>
+            <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+          </template>,
         );
 
         // then
@@ -131,7 +145,9 @@ module('Integration | Component | comparison-window', function (hooks) {
 
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+          <template>
+            <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+          </template>,
         );
 
         // then
@@ -150,7 +166,9 @@ module('Integration | Component | comparison-window', function (hooks) {
 
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+          <template>
+            <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+          </template>,
         );
 
         // then
@@ -164,7 +182,9 @@ module('Integration | Component | comparison-window', function (hooks) {
       test('should not render corrected answers when challenge has no type', async function (assert) {
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+          <template>
+            <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+          </template>,
         );
         // then
         assert.dom('div[data-test-id="comparison-window__corrected-answers--qroc"]').doesNotExist();
@@ -179,7 +199,9 @@ module('Integration | Component | comparison-window', function (hooks) {
 
             // when
             await render(
-              hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+              <template>
+                <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+              </template>,
             );
 
             // then
@@ -195,7 +217,9 @@ module('Integration | Component | comparison-window', function (hooks) {
 
             // when
             await render(
-              hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+              <template>
+                <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+              </template>,
             );
 
             // then
@@ -211,7 +235,9 @@ module('Integration | Component | comparison-window', function (hooks) {
 
             // when
             await render(
-              hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+              <template>
+                <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+              </template>,
             );
 
             // then
@@ -225,9 +251,12 @@ module('Integration | Component | comparison-window', function (hooks) {
         challenge = EmberObject.create({ type: 'QROCM-ind', proposals: '' });
         correction.set('solution', '');
         answer.set('challenge', challenge);
+        answer.set('correction', correction);
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+          <template>
+            <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+          </template>,
         );
         // then
         assert.dom('div[data-test-id="comparison-window__corrected-answers--qrocm"]').exists();
@@ -239,10 +268,87 @@ module('Integration | Component | comparison-window', function (hooks) {
         answer.set('challenge', challenge);
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
+          <template>
+            <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+          </template>,
         );
         // then
         assert.dom('.qcm-solution-panel').exists();
+      });
+
+      test('should render corrected answers when challenge type is QROCM-dep', async function (assert) {
+        // given
+        challenge = EmberObject.create({ type: 'QROCM-dep', proposals: '${key1}' });
+        correction.set('solution', 'key1:\n- solution1');
+        answer.set('challenge', challenge);
+        answer.set('correction', correction);
+        // when
+        await render(
+          <template>
+            <ComparisonWindow @answer={{state.answer}} @closeComparisonWindow={{closeComparisonWindow}} />
+          </template>,
+        );
+        // then
+        assert.dom('div[data-test-id="comparison-window__corrected-answers--qrocm"]').exists();
+      });
+    });
+
+    module('result title', function () {
+      [
+        { result: '', expectedTitleKey: 'pages.comparison-window.results.default.title' },
+        { result: 'xxx', expectedTitleKey: 'pages.comparison-window.results.default.title' },
+        { result: 'ok', expectedTitleKey: 'pages.comparison-window.results.ok.title' },
+        { result: 'ko', expectedTitleKey: 'pages.comparison-window.results.ko.title' },
+        { result: 'aband', expectedTitleKey: 'pages.comparison-window.results.aband.title' },
+        { result: 'timedout', expectedTitleKey: 'pages.comparison-window.results.timedout.title' },
+      ].forEach((data) => {
+        test(`should display the expected title when validation is "${data.result}"`, async function (assert) {
+          // given
+          challenge = EmberObject.create({ type: 'QCM' });
+          answer.set('challenge', challenge);
+          answer.set('result', data.result);
+
+          // when
+          const screen = await render(
+            <template>
+              <ComparisonWindow
+                @answer={{state.answer}}
+                @closeComparisonWindow={{closeComparisonWindow}}
+                @showModal={{true}}
+              />
+            </template>,
+          );
+
+          // then
+          assert.dom(screen.getByRole('heading', { name: t(data.expectedTitleKey) })).exists();
+        });
+      });
+
+      [
+        { result: 'ok', expectedTitleKey: 'pages.comparison-window.results.okAutoReply.title' },
+        { result: 'ko', expectedTitleKey: 'pages.comparison-window.results.koAutoReply.title' },
+        { result: 'aband', expectedTitleKey: 'pages.comparison-window.results.abandAutoReply.title' },
+      ].forEach((data) => {
+        test(`should display the expected title when challenge is auto validated and validation is "${data.result}"`, async function (assert) {
+          // given
+          challenge = EmberObject.create({ type: 'QROC', autoReply: true });
+          answer.set('challenge', challenge);
+          answer.set('result', data.result);
+
+          // when
+          const screen = await render(
+            <template>
+              <ComparisonWindow
+                @answer={{state.answer}}
+                @closeComparisonWindow={{closeComparisonWindow}}
+                @showModal={{true}}
+              />
+            </template>,
+          );
+
+          // then
+          assert.dom(screen.getByRole('heading', { name: t(data.expectedTitleKey) })).exists();
+        });
       });
     });
   });
