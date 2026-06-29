@@ -273,7 +273,7 @@
                 "id": "a74b7f3c-61f2-442d-95e5-573fa11c2eff",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voici quelques paramètres d’un EDR.&nbsp;</p>\n<p><strong>Observez-les puis répondez aux questions qui suivent.</strong></p>\n\n<table>\n    <thead>\n        <tr>\n            <th>Condition détectée</th>\n            <th>Action (Réponse)</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td><strong>SI</strong> un fichier malveillant est téléchargé</td>\n            <td><strong>ALORS</strong> mettre le fichier en quarantaine <strong>ET</strong> envoyer une alerte</td>\n        </tr>\n        <tr>\n            <td><strong>SI</strong> un programme inconnu tente d'accéder à des données sensibles</td>\n            <td><strong>ALORS</strong> mettre fin au processus sur le terminal <strong>ET</strong> envoyer une alerte</td>\n        </tr>\n        <tr>\n            <td><strong>SI</strong> un terminal tente de propager un logiciel malveillant vers d'autres terminaux du réseau de l’entreprise</td>\n            <td><strong>ALORS</strong> isoler le terminal du réseau de l’entreprise <strong>ET</strong> envoyer une alerte</td>\n        </tr>\n        <tr>\n            <td><strong>SI</strong> une connexion inhabituelle est détectée sur un terminal</td>\n            <td><strong>ALORS</strong> envoyer une alerte</td>\n        </tr>\n    </tbody>\n</table>"
+                "content": "<p>Voici quelques actions possibles d’un EDR dans le tableau ci-dessous.&nbsp;</p>\n<p><strong>Observez-les puis répondez aux questions qui suivent.</strong></p>\n\n<table>\n    <thead>\n        <tr>\n            <th>Condition détectée</th>\n            <th>Action (Réponse)</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td><strong>SI</strong> un fichier malveillant est téléchargé</td>\n            <td><strong>ALORS</strong> mettre le fichier en quarantaine <strong>ET</strong> envoyer une alerte</td>\n        </tr>\n        <tr>\n            <td><strong>SI</strong> un programme inconnu tente d'accéder à des données sensibles</td>\n            <td><strong>ALORS</strong> mettre fin au processus sur le terminal <strong>ET</strong> envoyer une alerte</td>\n        </tr>\n        <tr>\n            <td><strong>SI</strong> un terminal tente de propager un logiciel malveillant vers d'autres terminaux du réseau de l’entreprise</td>\n            <td><strong>ALORS</strong> isoler le terminal du réseau de l’entreprise <strong>ET</strong> envoyer une alerte</td>\n        </tr>\n        <tr>\n            <td><strong>SI</strong> une connexion inhabituelle est détectée sur un terminal</td>\n            <td><strong>ALORS</strong> envoyer une alerte</td>\n        </tr>\n    </tbody>\n</table>"
               }
             },
             {
@@ -403,7 +403,7 @@
                 "id": "8c6cbf13-0d7b-4f90-8d8a-f637fa8f8279",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Lorsqu’un EDR détecte un incident (comportement suspect, logiciel malveillant, etc.), <strong>il envoie une alerte à l’équipe de sécurité</strong> puis, dans certains cas, déclenche <strong>des actions de remédiation rapides et ciblées</strong>. </p><p>Par exemple, il peut&nbsp;: </p><ul><li>Bloquer un programme ou un fichier suspect.&nbsp;</li><li>Mettre un fichier en quarantaine.</li><li>Isoler un terminal du réseau.&nbsp;</li></ul>"
+                "content": "<p>Lorsqu’un EDR détecte un incident (comportement suspect, logiciel malveillant, etc.), il <strong>envoie une alerte à l’équipe de sécurité</strong> puis, dans certains cas, déclenche <strong>des actions de remédiation rapides et ciblées</strong>. </p><p>Par exemple, il peut&nbsp;: </p><ul><li>Bloquer un programme ou un fichier suspect.&nbsp;</li><li>Mettre un fichier en quarantaine.</li><li>Isoler un terminal du réseau.</li></ul>"
               }
             },
             {
@@ -412,7 +412,7 @@
                 "id": "17d9dbe6-b2ad-4bbb-9c7a-f4d255ab6fa5",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>⚠️Pour être efficace, un EDR doit être <strong>installé sur tous les terminaux d’une organisation</strong>. Un seul terminal oublié peut devenir une faiblesse  et mettre en danger l’ensemble du réseau de l’organisation.<br><br></p>"
+                "content": "<p>⚠️Pour être efficace, un EDR doit être <strong>installé sur tous les terminaux d’une organisation</strong>. Un seul terminal oublié peut devenir une faiblesse  et mettre en danger l’ensemble du réseau de l’organisation.</p>"
               }
             }
           ]
