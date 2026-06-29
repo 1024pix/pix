@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import AssessmentBanner from 'mon-pix/components/assessment-banner';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -21,7 +21,7 @@ module('Integration | Component | assessment-banner', function (hooks) {
 
   test('should not display home link button if not requested', async function (assert) {
     // given & when
-    const screen = await render(hbs`<AssessmentBanner @displayHomeLink={{false}} />`);
+    const screen = await render(<template><AssessmentBanner @displayHomeLink={{false}} /></template>);
 
     // then
     assert.dom(screen.queryByRole('button', { name: 'Quitter' })).doesNotExist();
@@ -34,7 +34,7 @@ module('Integration | Component | assessment-banner', function (hooks) {
       // given
       router = this.owner.lookup('service:router');
       sinon.stub(router, 'transitionTo');
-      screen = await render(hbs`<AssessmentBanner @displayHomeLink={{true}} />`);
+      screen = await render(<template><AssessmentBanner @displayHomeLink={{true}} /></template>);
     });
 
     test('it should display home button', function (assert) {
@@ -93,8 +93,9 @@ module('Integration | Component | assessment-banner', function (hooks) {
           userId: 2,
         })
         .resolves(campaignParticipation);
-      this.set('assessment', assessment);
-      screen = await render(hbs`<AssessmentBanner @displayHomeLink={{true}} @assessment={{this.assessment}} />`);
+      screen = await render(
+        <template><AssessmentBanner @displayHomeLink={{true}} @assessment={{assessment}} /></template>,
+      );
 
       // when
       await click(screen.getByRole('button', { name: 'Quitter' }));
@@ -128,8 +129,9 @@ module('Integration | Component | assessment-banner', function (hooks) {
           userId: 2,
         })
         .resolves(campaignParticipation);
-      this.set('assessment', assessment);
-      screen = await render(hbs`<AssessmentBanner @displayHomeLink={{true}} @assessment={{this.assessment}} />`);
+      screen = await render(
+        <template><AssessmentBanner @displayHomeLink={{true}} @assessment={{assessment}} /></template>,
+      );
 
       // when
       await click(screen.getByRole('button', { name: 'Quitter' }));
@@ -151,8 +153,9 @@ module('Integration | Component | assessment-banner', function (hooks) {
         type: 'CAMPAIGN',
         campaign,
       });
-      this.set('assessment', assessment);
-      screen = await render(hbs`<AssessmentBanner @displayHomeLink={{true}} @assessment={{this.assessment}} />`);
+      screen = await render(
+        <template><AssessmentBanner @displayHomeLink={{true}} @assessment={{assessment}} /></template>,
+      );
 
       // when
       await click(screen.getByRole('button', { name: 'Quitter' }));
@@ -172,10 +175,8 @@ module('Integration | Component | assessment-banner', function (hooks) {
         title: 'Assessment title',
       });
 
-      this.set('assessment', assessment);
-
       // when
-      const screen = await render(hbs`<AssessmentBanner @assessment={{this.assessment}} />`);
+      const screen = await render(<template><AssessmentBanner @assessment={{assessment}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { name: "Épreuve pour l'évaluation : Assessment title" })).exists();
@@ -190,10 +191,8 @@ module('Integration | Component | assessment-banner', function (hooks) {
         title: null,
       });
 
-      this.set('assessment', assessment);
-
       // when
-      const screen = await render(hbs`<AssessmentBanner @assessment={{this.assessment}} />`);
+      const screen = await render(<template><AssessmentBanner @assessment={{assessment}} /></template>);
 
       // then
       assert.dom(screen.queryByRole('heading', { name: "Épreuve pour l'évaluation :" })).doesNotExist();
@@ -211,16 +210,18 @@ module('Integration | Component | assessment-banner', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         store.createRecord('assessment', {});
-        this.set('toggleTextToSpeech', sinon.stub());
+        const toggleTextToSpeech = sinon.stub();
 
         // when
         const screen = await render(
-          hbs`<AssessmentBanner
-  @displayHomeLink={{true}}
-  @displayTextToSpeechActivationButton={{true}}
-  @isTextToSpeechActivated={{true}}
-  @toggleTextToSpeech={{this.toggleTextToSpeech}}
-/>`,
+          <template>
+            <AssessmentBanner
+              @displayHomeLink={{true}}
+              @displayTextToSpeechActivationButton={{true}}
+              @isTextToSpeechActivated={{true}}
+              @toggleTextToSpeech={{toggleTextToSpeech}}
+            />
+          </template>,
         );
 
         // then
@@ -232,18 +233,20 @@ module('Integration | Component | assessment-banner', function (hooks) {
           // given
           const store = this.owner.lookup('service:store');
           store.createRecord('assessment', {});
-          this.set('toggleTextToSpeech', sinon.stub());
+          const toggleTextToSpeech = sinon.stub();
           const speechSynthesis = window.speechSynthesis;
           delete window.speechSynthesis;
 
           // when
           const screen = await render(
-            hbs`<AssessmentBanner
-  @displayHomeLink={{true}}
-  @displayTextToSpeechActivationButton={{true}}
-  @isTextToSpeechActivated={{true}}
-  @toggleTextToSpeech={{this.toggleTextToSpeech}}
-/>`,
+            <template>
+              <AssessmentBanner
+                @displayHomeLink={{true}}
+                @displayTextToSpeechActivationButton={{true}}
+                @isTextToSpeechActivated={{true}}
+                @toggleTextToSpeech={{toggleTextToSpeech}}
+              />
+            </template>,
           );
 
           // then
@@ -259,16 +262,18 @@ module('Integration | Component | assessment-banner', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         store.createRecord('assessment', {});
-        this.set('toggleTextToSpeech', sinon.stub());
+        const toggleTextToSpeech = sinon.stub();
 
         // when
         const screen = await render(
-          hbs`<AssessmentBanner
-  @displayHomeLink={{true}}
-  @displayTextToSpeechActivationButton={{false}}
-  @isTextToSpeechActivated={{true}}
-  @toggleTextToSpeech={{this.toggleTextToSpeech}}
-/>`,
+          <template>
+            <AssessmentBanner
+              @displayHomeLink={{true}}
+              @displayTextToSpeechActivationButton={{false}}
+              @isTextToSpeechActivated={{true}}
+              @toggleTextToSpeech={{toggleTextToSpeech}}
+            />
+          </template>,
         );
 
         // then
@@ -287,16 +292,18 @@ module('Integration | Component | assessment-banner', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       store.createRecord('assessment', {});
-      this.set('toggleTextToSpeech', sinon.stub());
+      const toggleTextToSpeech = sinon.stub();
 
       // when
       const screen = await render(
-        hbs`<AssessmentBanner
-  @displayHomeLink={{true}}
-  @displayTextToSpeechActivationButton={{true}}
-  @isTextToSpeechActivated={{true}}
-  @toggleTextToSpeech={{this.toggleTextToSpeech}}
-/>`,
+        <template>
+          <AssessmentBanner
+            @displayHomeLink={{true}}
+            @displayTextToSpeechActivationButton={{true}}
+            @isTextToSpeechActivated={{true}}
+            @toggleTextToSpeech={{toggleTextToSpeech}}
+          />
+        </template>,
       );
 
       // then
