@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import QcmProposals from 'mon-pix/components/proposals/qcm-proposals';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -8,7 +8,7 @@ module('Integration | Component | QCM proposals', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('renders', async function (assert) {
-    await render(hbs`<Proposals::QcmProposals />`);
+    await render(<template><QcmProposals /></template>);
     assert.dom('.qcm-proposals').exists();
   });
 
@@ -25,19 +25,21 @@ module('Integration | Component | QCM proposals', function (hooks) {
 
     test('should render as many checkboxes as proposals, with the selected one checked', async function (assert) {
       // given
-      this.set('proposals', proposals);
-      this.set('answerValue', answerValue);
-      this.set('answerChanged', answerChangedHandler);
-      this.set('shuffled', false);
+      const proposalsValue = proposals;
+      const answerValueValue = answerValue;
+      const answerChanged = answerChangedHandler;
+      const shuffled = false;
 
       // when
       const screen = await render(
-        hbs`<Proposals::QcmProposals
-  @answerValue={{this.answerValue}}
-  @proposals={{this.proposals}}
-  @answerChanged={{this.answerChanged}}
-  @shuffled={{this.shuffled}}
-/>`,
+        <template>
+          <QcmProposals
+            @answerValue={{answerValueValue}}
+            @proposals={{proposalsValue}}
+            @answerChanged={{answerChanged}}
+            @shuffled={{shuffled}}
+          />
+        </template>,
       );
 
       // then
@@ -50,21 +52,23 @@ module('Integration | Component | QCM proposals', function (hooks) {
 
     test('should render all proposals when shuffled is true', async function (assert) {
       // given
-      this.set('proposals', proposals);
-      this.set('answerValue', answerValue);
-      this.set('answerChanged', answerChangedHandler);
-      this.set('shuffled', true);
-      this.set('shuffleSeed', 64);
+      const proposalsValue = proposals;
+      const answerValueValue = answerValue;
+      const answerChanged = answerChangedHandler;
+      const shuffled = true;
+      const shuffleSeed = 64;
 
       // when
       const screen = await render(
-        hbs`<Proposals::QcmProposals
-  @answerValue={{this.answerValue}}
-  @proposals={{this.proposals}}
-  @answerChanged={{this.answerChanged}}
-  @shuffled={{this.shuffled}}
-  @shuffleSeed={{this.shuffleSeed}}
-/>`,
+        <template>
+          <QcmProposals
+            @answerValue={{answerValueValue}}
+            @proposals={{proposalsValue}}
+            @answerChanged={{answerChanged}}
+            @shuffled={{shuffled}}
+            @shuffleSeed={{shuffleSeed}}
+          />
+        </template>,
       );
 
       // then
