@@ -30,7 +30,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
       databaseBuilder.factory.buildCertificationVersion({
         scope: SCOPES.CORE,
         startDate: coreStartDate,
-        expirationDate: null,
+        status: VERSION_STATUSES.ACTIVE,
       });
 
       await databaseBuilder.commit();
@@ -108,12 +108,14 @@ describe('Acceptance | Application | Certification | Configuration | certificati
         scope: SCOPES.CORE,
         startDate: new Date('2025-01-11'),
         expirationDate: null,
+        status: VERSION_STATUSES.ACTIVE,
       });
 
       const olderVersion = databaseBuilder.factory.buildCertificationVersion({
         scope: SCOPES.CORE,
         startDate: new Date('2024-01-11'),
         expirationDate: newerVersion.startDate,
+        status: VERSION_STATUSES.ARCHIVED,
       });
 
       await databaseBuilder.commit();

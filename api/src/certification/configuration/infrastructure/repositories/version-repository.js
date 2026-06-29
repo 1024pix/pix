@@ -103,7 +103,7 @@ export async function getFrameworkHistory({ scope }) {
   const knexConn = DomainTransaction.getConnection();
 
   const rows = await knexConn('certification_versions')
-    .select('id', 'startDate', 'expirationDate', 'assessmentDuration', 'challengesConfiguration')
+    .select('id', 'startDate', 'expirationDate', 'assessmentDuration', 'challengesConfiguration', 'status')
     .where({ scope })
     .orderBy('startDate', 'desc');
 
@@ -116,13 +116,21 @@ export async function deleteVersion(id) {
   await knexConn('certification_versions').where({ id }).del();
 }
 
-function _toFrameworkHistoryEntry({ id, startDate, expirationDate, assessmentDuration, challengesConfiguration }) {
+function _toFrameworkHistoryEntry({
+  id,
+  startDate,
+  expirationDate,
+  assessmentDuration,
+  challengesConfiguration,
+  status,
+}) {
   return new FrameworkHistoryEntry({
     id,
     startDate,
     expirationDate,
     assessmentDuration,
     maximumAssessmentLength: challengesConfiguration.maximumAssessmentLength,
+    status,
   });
 }
 
@@ -136,6 +144,7 @@ function _toDomain({
   globalScoringConfiguration,
   competencesScoringConfiguration,
   challengesConfiguration,
+  status,
   comments,
 }) {
   return new Version({
@@ -147,6 +156,7 @@ function _toDomain({
     assessmentDuration,
     globalScoringConfiguration,
     competencesScoringConfiguration,
+    status,
     comments,
     challengesConfiguration: new FlashAssessmentAlgorithmConfiguration({
       maximumAssessmentLength: challengesConfiguration.maximumAssessmentLength,

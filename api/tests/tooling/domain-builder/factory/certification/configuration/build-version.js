@@ -6,18 +6,14 @@ import { buildFlashAlgorithmConfiguration } from '../../build-flash-algorithm-co
 export const buildVersion = ({
   id = 1,
   scope = SCOPES.CORE,
-  startDate = new Date(),
-  expirationDate,
+  startDate = null,
+  expirationDate = null,
   assessmentDuration = 105,
   minimumAnswersRequiredToValidateACertification = 20,
   globalScoringConfiguration = [],
   competencesScoringConfiguration = [],
   challengesConfiguration = {},
-  status = startDate && expirationDate
-    ? VERSION_STATUSES.ARCHIVED
-    : startDate && !expirationDate
-      ? VERSION_STATUSES.ACTIVE
-      : VERSION_STATUSES.DRAFT,
+  status = VERSION_STATUSES.DRAFT,
   comments = 'Some comments',
 } = {}) => {
   return new Version({
@@ -45,11 +41,7 @@ buildVersion.api = ({
   globalScoringConfiguration,
   competencesScoringConfiguration,
   challengesConfiguration,
-  status = startDate && expirationDate
-    ? VERSION_STATUSES.ARCHIVED
-    : startDate && !expirationDate
-      ? VERSION_STATUSES.ACTIVE
-      : VERSION_STATUSES.DRAFT,
+  status = VERSION_STATUSES.DRAFT,
   comments = 'Some comments',
 } = {}) => {
   const baseVersion = new Version({

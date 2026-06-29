@@ -1,3 +1,4 @@
+import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { usecases } from '../../../../../../src/certification/configuration/domain/usecases/index.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
@@ -14,24 +15,25 @@ describe('Certification | Configuration | Integration | Domain | UseCase | find-
     databaseBuilder.factory.buildCertificationVersion({
       scope: SCOPES.CORE,
       startDate: coreStartDate,
-      expirationDate: null,
+      status: VERSION_STATUSES.ACTIVE,
     });
 
     databaseBuilder.factory.buildCertificationVersion({
       scope: SCOPES.PIX_PLUS_DROIT,
       startDate: droitStartDate,
-      expirationDate: null,
+      status: VERSION_STATUSES.ACTIVE,
     });
 
     databaseBuilder.factory.buildCertificationVersion({
       scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
       startDate: new Date(2020, 12, 12),
       expirationDate: new Date(2020, 12, 14),
+      status: VERSION_STATUSES.ARCHIVED,
     });
     databaseBuilder.factory.buildCertificationVersion({
       scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
       startDate: edu1erDegreStartDate,
-      expirationDate: null,
+      status: VERSION_STATUSES.ACTIVE,
     });
 
     await databaseBuilder.commit();
