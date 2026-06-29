@@ -1,7 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import LearnerReconciliation from 'mon-pix/components/campaigns/invited/learner-reconciliation';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -9,12 +9,12 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign | Invited | learner-reconciliation', function (hooks) {
   setupIntlRenderingTest(hooks);
-  let reconciliationFields, organizationName, onSubmit;
+  const state = {};
 
   hooks.beforeEach(function () {
-    onSubmit = sinon.stub();
-    organizationName = 'My Organization';
-    reconciliationFields = [
+    state.onSubmit = sinon.stub();
+    state.organizationName = 'My Organization';
+    state.reconciliationFields = [
       {
         fieldId: 'field2',
         name: 'COMMON_FIRSTNAME',
@@ -27,31 +27,28 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       },
     ];
 
-    const FIELD_KEY = {
+    state.mappingFields = {
       COMMON_FIRSTNAME: 'components.invited.reconciliation.field.firstname',
       COMMON_LASTNAME: 'components.invited.reconciliation.field.lastname',
       COMMON_BIRTHDATE: 'components.invited.reconciliation.field.birthdate',
     };
-
-    this.set('reconciliationFields', reconciliationFields);
-    this.set('mappingFields', FIELD_KEY);
-    this.set('organizationName', organizationName);
-    this.set('onSubmit', onSubmit);
   });
 
   test('it should display reconciliation form', async function (assert) {
     // given / when
     const screen = await render(
-      hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @mappingFields={{this.mappingFields}}
-/>`,
+      <template>
+        <LearnerReconciliation
+          @reconciliationFields={{state.reconciliationFields}}
+          @organizationName={{state.organizationName}}
+          @mappingFields={{state.mappingFields}}
+        />
+      </template>,
     );
     // then
     assert.ok(
       screen.getByRole('heading', {
-        name: t('components.invited.reconciliation.title', { organizationName }),
+        name: t('components.invited.reconciliation.title', { organizationName: state.organizationName }),
         level: 1,
       }),
     );
@@ -69,11 +66,13 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
     test('should display error message when field not defined', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @mappingFields={{this.mappingFields}}
-/>`,
+        <template>
+          <LearnerReconciliation
+            @reconciliationFields={{state.reconciliationFields}}
+            @organizationName={{state.organizationName}}
+            @mappingFields={{state.mappingFields}}
+          />
+        </template>,
       );
       // when
       const button = screen.getByRole('button', { name: t('common.actions.lets-go') });
@@ -99,11 +98,13 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
     test('should display error date when wrong date written', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @mappingFields={{this.mappingFields}}
-/>`,
+        <template>
+          <LearnerReconciliation
+            @reconciliationFields={{state.reconciliationFields}}
+            @organizationName={{state.organizationName}}
+            @mappingFields={{state.mappingFields}}
+          />
+        </template>,
       );
       // when
       await fillIn(
@@ -130,13 +131,15 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       test('should not disable button', async function (assert) {
         // given
         const screen = await render(
-          hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @onSubmit={{this.onSubmit}}
-  @mappingFields={{this.mappingFields}}
-  @isLoading={{false}}
-/>`,
+          <template>
+            <LearnerReconciliation
+              @reconciliationFields={{state.reconciliationFields}}
+              @organizationName={{state.organizationName}}
+              @onSubmit={{state.onSubmit}}
+              @mappingFields={{state.mappingFields}}
+              @isLoading={{false}}
+            />
+          </template>,
         );
         // when
         const button = screen.getByRole('button', { name: t('common.actions.lets-go') });
@@ -146,13 +149,15 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       test('should disable button', async function (assert) {
         // given
         const screen = await render(
-          hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @onSubmit={{this.onSubmit}}
-  @mappingFields={{this.mappingFields}}
-  @isLoading={{true}}
-/>`,
+          <template>
+            <LearnerReconciliation
+              @reconciliationFields={{state.reconciliationFields}}
+              @organizationName={{state.organizationName}}
+              @onSubmit={{state.onSubmit}}
+              @mappingFields={{state.mappingFields}}
+              @isLoading={{true}}
+            />
+          </template>,
         );
         // when
         const form = screen.getByRole('form');
@@ -164,12 +169,14 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
     test('should call submit to register learner', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @mappingFields={{this.mappingFields}}
-  @onSubmit={{this.onSubmit}}
-/>`,
+        <template>
+          <LearnerReconciliation
+            @reconciliationFields={{state.reconciliationFields}}
+            @organizationName={{state.organizationName}}
+            @mappingFields={{state.mappingFields}}
+            @onSubmit={{state.onSubmit}}
+          />
+        </template>,
       );
       // when
       await fillIn(
@@ -188,7 +195,7 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       await click(button);
 
       // then
-      assert.true(onSubmit.calledWithExactly({ field2: 'jaune', field1: '2020-01-06' }));
+      assert.true(state.onSubmit.calledWithExactly({ field2: 'jaune', field1: '2020-01-06' }));
     });
   });
 
@@ -196,13 +203,15 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
     test('should display errorMessage', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @reconciliationError='Une erreur!!!'
-  @mappingFields={{this.mappingFields}}
-  @onSubmit={{this.onSubmit}}
-/>`,
+        <template>
+          <LearnerReconciliation
+            @reconciliationFields={{state.reconciliationFields}}
+            @organizationName={{state.organizationName}}
+            @reconciliationError="Une erreur!!!"
+            @mappingFields={{state.mappingFields}}
+            @onSubmit={{state.onSubmit}}
+          />
+        </template>,
       );
       assert.ok(screen.getByText('Une erreur!!!'));
     });
