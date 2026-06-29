@@ -1671,6 +1671,31 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       expect(response.result.data[0].type).to.equal('certification-centers');
     });
   });
+  describe('POST /api/admin/organizations/{id}/attach-certification-centers', function () {
+    it('should attach a given certification center to a given organization and return http code 204', async function () {
+      // given
+      const server = await createServer();
+
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'POST',
+        url: `/api/admin/organizations/${organization.id}/attach-certification-centers`,
+        headers: generateAuthenticatedUserRequestHeaders({
+          userId: superAdmin.id,
+        }),
+        payload: { certificationCenterId: certificationCenterId },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
 });
 
 function _createMultipartPayload({ boundary, filename, fieldName, contentType, content }) {
