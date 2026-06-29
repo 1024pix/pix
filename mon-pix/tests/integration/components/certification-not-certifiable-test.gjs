@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import CertificationNotCertifiable from 'mon-pix/components/certification-not-certifiable';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -10,7 +10,7 @@ module('Integration | Component | certification-not-certifiable', function (hook
   setupIntlRenderingTest(hooks);
 
   test('renders', async function (assert) {
-    await render(hbs`<CertificationNotCertifiable />`);
+    await render(<template><CertificationNotCertifiable /></template>);
 
     assert.strictEqual(
       find('.certification-not-certifiable__title').textContent.trim(),
