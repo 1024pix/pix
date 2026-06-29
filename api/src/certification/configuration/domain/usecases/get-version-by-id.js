@@ -14,12 +14,12 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
  * @param {LearningContentRepository} params.learningContentRepository
  * @param {VersionRepository} params.versionRepository
  */
-export const getVersionById = async ({
+export async function getVersionById({
   id,
   frameworkChallengesRepository,
   learningContentRepository,
   versionRepository,
-}) => {
+}) {
   const version = await versionRepository.getById({ id });
 
   if (!version) {
@@ -38,4 +38,4 @@ export const getVersionById = async ({
     version,
     areas: frameworkAreas,
   };
-};
+}

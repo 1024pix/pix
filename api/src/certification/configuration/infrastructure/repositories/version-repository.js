@@ -115,7 +115,7 @@ export async function deleteVersion(id) {
   await knexConn('certification_versions').where({ id }).del();
 }
 
-const _toFrameworkHistoryEntry = ({ id, startDate, expirationDate, assessmentDuration, challengesConfiguration }) => {
+function _toFrameworkHistoryEntry({ id, startDate, expirationDate, assessmentDuration, challengesConfiguration }) {
   return new FrameworkHistoryEntry({
     id,
     startDate,
@@ -123,9 +123,9 @@ const _toFrameworkHistoryEntry = ({ id, startDate, expirationDate, assessmentDur
     assessmentDuration,
     maximumAssessmentLength: challengesConfiguration.maximumAssessmentLength,
   });
-};
+}
 
-const _toDomain = ({
+function _toDomain({
   id,
   scope,
   startDate,
@@ -136,7 +136,7 @@ const _toDomain = ({
   competencesScoringConfiguration,
   challengesConfiguration,
   comments,
-}) => {
+}) {
   return new Version({
     id,
     scope,
@@ -157,4 +157,4 @@ const _toDomain = ({
       defaultProbabilityToPickChallenge: challengesConfiguration.defaultProbabilityToPickChallenge,
     }),
   });
-};
+}

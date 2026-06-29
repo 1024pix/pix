@@ -17,7 +17,7 @@ import { BadgeToAttach } from '../models/BadgeToAttach.js';
  * @param {Array<ComplementaryCertificationBadge>} params.complementaryCertificationBadgesToAttachDTO
  * @param {ComplementaryCertificationBadgesRepository} params.complementaryCertificationBadgesRepository
  */
-const attachBadges = async function ({
+export async function attachBadges({
   complementaryCertification,
   userId,
   targetProfileIdToDetach,
@@ -66,9 +66,7 @@ const attachBadges = async function ({
       complementaryCertificationBadges,
     });
   });
-};
-
-export { attachBadges };
+}
 
 function _isRequiredInformationMissing(complementaryCertificationBadgesToAttachDTO) {
   return complementaryCertificationBadgesToAttachDTO.some(

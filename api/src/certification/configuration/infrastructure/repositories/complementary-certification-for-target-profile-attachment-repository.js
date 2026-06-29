@@ -6,7 +6,7 @@ function _toDomain(row) {
   return new ComplementaryCertificationForTargetProfileAttachment(row);
 }
 
-const getById = async function ({ complementaryCertificationId }) {
+export async function getById({ complementaryCertificationId }) {
   const knexConn = DomainTransaction.getConnection();
   const complementaryCertification = await knexConn
     .from('complementary-certifications')
@@ -18,7 +18,7 @@ const getById = async function ({ complementaryCertificationId }) {
   }
 
   return _toDomain(complementaryCertification);
-};
+}
 
 /**
  * @function
@@ -28,7 +28,7 @@ const getById = async function ({ complementaryCertificationId }) {
  * @returns {Promise<ComplementaryCertificationForTargetProfileAttachment>}
  * @throws {NotFoundError}
  */
-const getByKey = async function ({ complementaryCertificationKey }) {
+export async function getByKey({ complementaryCertificationKey }) {
   const knexConn = DomainTransaction.getConnection();
   const complementaryCertification = await knexConn
     .from('complementary-certifications')
@@ -40,6 +40,4 @@ const getByKey = async function ({ complementaryCertificationKey }) {
   }
 
   return _toDomain(complementaryCertification);
-};
-
-export { getById, getByKey };
+}

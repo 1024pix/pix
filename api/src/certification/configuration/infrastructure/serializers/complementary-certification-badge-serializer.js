@@ -5,7 +5,7 @@ import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-ut
 
 const { Deserializer } = jsonapiSerializer;
 
-const deserialize = async function (json) {
+export async function deserialize(json) {
   const deserialize = new Deserializer({ keyForAttribute: 'camelCase' });
 
   const deserializedComplementaryCertification = await deserialize.deserialize(json);
@@ -21,6 +21,4 @@ const deserialize = async function (json) {
   );
 
   return deserializedComplementaryCertification;
-};
-
-export { deserialize };
+}

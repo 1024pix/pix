@@ -7,7 +7,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { ComplementaryCertificationKeys } from '../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { complementaryCertificationController } from './complementary-certification-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -91,7 +91,7 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const complementaryCertificationRoute = {
   name: 'certification/configuration/complementary-certifications-api',

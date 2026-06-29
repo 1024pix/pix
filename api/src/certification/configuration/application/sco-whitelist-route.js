@@ -3,7 +3,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { MAX_FILE_SIZE_UPLOAD } from '../../../shared/domain/constants.js';
 import { scoWhitelistController } from './sco-whitelist-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -58,6 +58,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const scoWhitelistRoute = { name: 'certification/configuration/sco-whitelist-api', register };

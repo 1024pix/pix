@@ -26,7 +26,7 @@ export const importScoWhitelist = withTransaction(
   },
 );
 
-const _getCSVLineNumbersWithError = ({ externalIds, updatedExternalIds }) => {
+function _getCSVLineNumbersWithError({ externalIds, updatedExternalIds }) {
   const uniqueExternalIds = [...new Set(externalIds)];
   const externalIdsOnError = uniqueExternalIds.filter((externalId) => {
     return !updatedExternalIds.includes(externalId);
@@ -49,4 +49,4 @@ const _getCSVLineNumbersWithError = ({ externalIds, updatedExternalIds }) => {
   }
 
   return [];
-};
+}

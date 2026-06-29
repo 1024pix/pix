@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { Frameworks } from '../../shared/domain/models/Frameworks.js';
 import { certificationFrameworkController } from './certification-framework-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -93,7 +93,7 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationFrameworkRoute = {
   name: 'certification/configuration/certification-frameworks-api',

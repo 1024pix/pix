@@ -6,8 +6,6 @@
  * @param {object} params
  * @param {ComplementaryCertificationRepository} params.complementaryCertificationRepository
  */
-const findComplementaryCertifications = function ({ complementaryCertificationRepository }) {
+export function findComplementaryCertifications({ complementaryCertificationRepository }) {
   return complementaryCertificationRepository.findAll();
-};
-
-export { findComplementaryCertifications };
+}

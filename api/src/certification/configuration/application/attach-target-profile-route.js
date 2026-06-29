@@ -5,7 +5,7 @@ import { identifiersType } from '../../../shared/domain/types/identifiers-type.j
 import { erreurDoc } from '../../../shared/infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
 import { attachTargetProfileController } from './attach-target-profile-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'PUT',
@@ -74,6 +74,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const attachTargetProfileRoute = { name: 'certification/configuration/attach-target-profile-api', register };

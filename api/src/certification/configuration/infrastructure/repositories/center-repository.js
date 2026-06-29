@@ -8,7 +8,7 @@ import { CenterTypes } from '../../domain/models/CenterTypes.js';
  * @param {Array<string>} params.externalIds
  * @returns {Promise<Array<number>>} - number of rows affected
  */
-export const addToWhitelistByExternalIds = async ({ externalIds }) => {
+export async function addToWhitelistByExternalIds({ externalIds }) {
   const knexConn = DomainTransaction.getConnection();
   const updatedLines = await knexConn('certification-centers')
     .update({
@@ -24,29 +24,29 @@ export const addToWhitelistByExternalIds = async ({ externalIds }) => {
 
   const updatedExternalIds = updatedLines.map((line) => line.externalId);
   return updatedExternalIds;
-};
+}
 
 /**
  * @returns {Promise<number>}
  */
-export const resetWhitelist = async () => {
+export async function resetWhitelist() {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('certification-centers')
     .update({ isScoBlockedAccessWhitelist: false, updatedAt: knexConn.fn.now() })
     .where({ type: CenterTypes.SCO });
-};
+}
 
 /**
  * @returns {Promise<Array<Center>>}
  */
-export const getWhitelist = async () => {
+export async function getWhitelist() {
   const knexConn = DomainTransaction.getConnection();
   const data = await knexConn('certification-centers')
     .select('id', 'type', 'externalId')
     .where({ isScoBlockedAccessWhitelist: true });
 
   return data.map(_toDomain);
-};
+}
 
 /**
  * @param {object} data
@@ -55,6 +55,6 @@ export const getWhitelist = async () => {
  * @param {CenterTypes} data.type
  * @returns {Center}
  */
-const _toDomain = ({ id, externalId, type }) => {
+function _toDomain({ id, externalId, type }) {
   return new Center({ id, externalId, type });
-};
+}

@@ -5,7 +5,7 @@ import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
  * @param {VersionRepository} params.versionRepository
  * @returns {Promise<Array<{id: string, name: string, versionStartDate: Date|null}>>}
  */
-const findCertificationFrameworks = async function ({ versionRepository }) {
+export async function findCertificationFrameworks({ versionRepository }) {
   const frameworksWithVersions = [];
   for (const framework of Object.values(Frameworks)) {
     if (framework === Frameworks.CLEA) {
@@ -28,6 +28,4 @@ const findCertificationFrameworks = async function ({ versionRepository }) {
   }
 
   return frameworksWithVersions;
-};
-
-export { findCertificationFrameworks };
+}

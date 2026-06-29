@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-export const serialize = ({ version, areas }) => {
+export function serialize({ version, areas }) {
   const data = {
     id: version.id,
     startDate: version.startDate,
@@ -50,4 +50,4 @@ export const serialize = ({ version, areas }) => {
       },
     },
   }).serialize(data);
-};
+}

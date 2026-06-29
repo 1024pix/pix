@@ -11,7 +11,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
  * @param {string} params.comments
  * @param {VersionRepository} params.versionRepository
  */
-export const updateVersion = async ({ id, comments, versionRepository }) => {
+export async function updateVersion({ id, comments, versionRepository }) {
   const version = await versionRepository.getById({ id });
 
   if (!version) {
@@ -20,4 +20,4 @@ export const updateVersion = async ({ id, comments, versionRepository }) => {
 
   version.update({ comments });
   return versionRepository.update({ version });
-};
+}
