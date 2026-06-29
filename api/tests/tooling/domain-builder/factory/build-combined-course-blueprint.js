@@ -10,6 +10,8 @@ function buildCombinedCourseBlueprint({
   updatedAt = new Date(),
   organizationIds = [],
   quest,
+  surveyUrl = null,
+  rewardRequirementsDescription = null,
 } = {}) {
   return new CombinedCourseBlueprint({
     id,
@@ -21,6 +23,8 @@ function buildCombinedCourseBlueprint({
     updatedAt,
     organizationIds,
     quest,
+    surveyLink: surveyUrl,
+    rewardRequirements: rewardRequirementsDescription,
   });
 }
 

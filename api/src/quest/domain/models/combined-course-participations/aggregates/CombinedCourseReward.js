@@ -15,6 +15,7 @@ export class CombinedCourseReward {
     this.status = this.#computeStatus({ combinedCourseDetails });
     this.label = reward.label;
     this.templateName = reward.templateName;
+    this.requirementsDescription = reward.requirementsDescription;
   }
 
   #computeStatus({ combinedCourseDetails }) {

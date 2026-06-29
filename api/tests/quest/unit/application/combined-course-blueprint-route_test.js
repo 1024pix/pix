@@ -55,6 +55,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
             illustration: 'illustration.svg',
             'reward-id': 1,
             'reward-type': REWARD_TYPES.ATTESTATION,
+            'reward-requirements': 'Description of the reward requirements',
             content: [{ type: 'module', value: 'e67ec5d0', shortId: 'short-e67ec5d0' }],
             'capped-tube-requirements': [{ threshold: 20, tubes: [{ tubeId: 'tube1', level: 5 }] }],
           },
@@ -209,6 +210,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
             'internal-name': 'Mon schéma de parcours combiné',
             description: 'La description combinix',
             illustration: 'illustration.svg',
+            'reward-requirements': 'Description of the reward requirements',
           },
         },
       };
