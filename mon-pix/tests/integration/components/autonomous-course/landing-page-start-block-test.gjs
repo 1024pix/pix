@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import LandingPageStartBlock from 'mon-pix/components/autonomous-course/landing-page-start-block';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,13 +13,13 @@ module('Integration | Component | Autonomous Course | Landing page start block',
 
   test('should display title and custom landing page text', async function (assert) {
     // given
-    this.set('model', {
+    const model = {
       title: 'dummy landing page title',
       customLandingPageText: 'dummy landing page text',
-    });
+    };
 
     // when
-    const screen = await render(hbs`<AutonomousCourse::LandingPageStartBlock @campaign={{this.model}} />`);
+    const screen = await render(<template><LandingPageStartBlock @campaign={{model}} /></template>);
 
     // then
     assert
@@ -37,7 +37,7 @@ module('Integration | Component | Autonomous Course | Landing page start block',
 
     test('should display the launcher block', async function (assert) {
       // when
-      const screen = await render(hbs`<AutonomousCourse::LandingPageStartBlock />`);
+      const screen = await render(<template><LandingPageStartBlock /></template>);
 
       // then
       assert
@@ -51,11 +51,11 @@ module('Integration | Component | Autonomous Course | Landing page start block',
 
     test('should start campaign participation on main button click', async function (assert) {
       // given
-      this.set('startCampaignParticipation', sinon.stub());
+      const startCampaignParticipation = sinon.stub();
 
       // when
       const screen = await render(
-        hbs`<AutonomousCourse::LandingPageStartBlock @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        <template><LandingPageStartBlock @startCampaignParticipation={{startCampaignParticipation}} /></template>,
       );
 
       // then
@@ -64,19 +64,18 @@ module('Integration | Component | Autonomous Course | Landing page start block',
           name: t('pages.autonomous-course.landing-page.actions.start-anonymously'),
         }),
       );
-      sinon.assert.calledOnce(this.startCampaignParticipation);
+      sinon.assert.calledOnce(startCampaignParticipation);
       assert.ok(true);
     });
 
     test('should redirect to log-in form on specific button click', async function (assert) {
       sessionService.requireAuthenticationAndApprovedTermsOfService = sinon.stub().resolves();
 
-      this.set('startCampaignParticipation', sinon.stub().returns('stubbed-transition'));
-      this.set('redirectToSigninIfUserIsAnonymous', sinon.stub());
+      const startCampaignParticipation = sinon.stub().returns('stubbed-transition');
 
       // when
       const screen = await render(
-        hbs`<AutonomousCourse::LandingPageStartBlock @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        <template><LandingPageStartBlock @startCampaignParticipation={{startCampaignParticipation}} /></template>,
       );
 
       // then
@@ -94,11 +93,11 @@ module('Integration | Component | Autonomous Course | Landing page start block',
     test('should start campaign participation on main button click', async function (assert) {
       // given
       stubSessionService(this.owner, { isAuthenticated: true });
-      this.set('startCampaignParticipation', sinon.stub());
+      const startCampaignParticipation = sinon.stub();
 
       // when
       const screen = await render(
-        hbs`<AutonomousCourse::LandingPageStartBlock @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        <template><LandingPageStartBlock @startCampaignParticipation={{startCampaignParticipation}} /></template>,
       );
 
       // then
@@ -107,7 +106,7 @@ module('Integration | Component | Autonomous Course | Landing page start block',
           name: t('pages.autonomous-course.landing-page.actions.start-connected'),
         }),
       );
-      sinon.assert.calledOnce(this.startCampaignParticipation);
+      sinon.assert.calledOnce(startCampaignParticipation);
       assert.ok(true);
     });
   });
