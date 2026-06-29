@@ -2,8 +2,8 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, find, findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ChallengeStatement from 'mon-pix/components/challenge-statement';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,19 +13,25 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 module('Integration | Component | ChallengeStatement', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  function addChallengeToContext(component, challenge) {
-    component.set('challenge', challenge);
+  const state = {};
+
+  function addChallengeToContext(_component, challenge) {
+    state.challenge = challenge;
   }
 
-  function addAssessmentToContext(component, assessment) {
-    component.set('assessment', assessment);
+  function addAssessmentToContext(_component, assessment) {
+    state.assessment = assessment;
   }
 
   function renderChallengeStatement() {
-    return render(hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} />`);
+    return render(
+      <template><ChallengeStatement @challenge={{state.challenge}} @assessment={{state.assessment}} /></template>,
+    );
   }
 
   hooks.beforeEach(function () {
+    delete state.challenge;
+    delete state.assessment;
     stubCurrentUserService(this.owner);
     this.store = this.owner.lookup('service:store');
   });
@@ -106,7 +112,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} />`,
+        <template><ChallengeStatement @challenge={{state.challenge}} @assessment={{state.assessment}} /></template>,
       );
 
       // then
@@ -219,7 +225,13 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
               // when
               const screen = await render(
-                hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+                <template>
+                  <ChallengeStatement
+                    @challenge={{state.challenge}}
+                    @assessment={{state.assessment}}
+                    @isTextToSpeechActivated={{true}}
+                  />
+                </template>,
               );
 
               // then
@@ -242,7 +254,13 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                   locales: ['fr'],
                 });
                 const screen = await render(
-                  hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+                  <template>
+                    <ChallengeStatement
+                      @challenge={{state.challenge}}
+                      @assessment={{state.assessment}}
+                      @isTextToSpeechActivated={{true}}
+                    />
+                  </template>,
                 );
 
                 // when
@@ -280,7 +298,13 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 this.owner.register('service:pix-metrics', MetricsStubService);
 
                 const screen = await render(
-                  hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+                  <template>
+                    <ChallengeStatement
+                      @challenge={{state.challenge}}
+                      @assessment={{state.assessment}}
+                      @isTextToSpeechActivated={{true}}
+                    />
+                  </template>,
                 );
 
                 // when
@@ -311,7 +335,13 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
               // when
               const screen = await render(
-                hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{false}} />`,
+                <template>
+                  <ChallengeStatement
+                    @challenge={{state.challenge}}
+                    @assessment={{state.assessment}}
+                    @isTextToSpeechActivated={{false}}
+                  />
+                </template>,
               );
 
               // then
@@ -348,7 +378,13 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
             // when
             const screen = await render(
-              hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+              <template>
+                <ChallengeStatement
+                  @challenge={{state.challenge}}
+                  @assessment={{state.assessment}}
+                  @isTextToSpeechActivated={{true}}
+                />
+              </template>,
             );
 
             // then
@@ -382,7 +418,13 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
             // when
             const screen = await render(
-              hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+              <template>
+                <ChallengeStatement
+                  @challenge={{state.challenge}}
+                  @assessment={{state.assessment}}
+                  @isTextToSpeechActivated={{true}}
+                />
+              </template>,
             );
 
             // then
@@ -431,7 +473,13 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               });
 
               const screen = await render(
-                hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+                <template>
+                  <ChallengeStatement
+                    @challenge={{state.challenge}}
+                    @assessment={{state.assessment}}
+                    @isTextToSpeechActivated={{true}}
+                  />
+                </template>,
               );
 
               // when
@@ -475,7 +523,13 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
               // when
               const screen = await render(
-                hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+                <template>
+                  <ChallengeStatement
+                    @challenge={{state.challenge}}
+                    @assessment={{state.assessment}}
+                    @isTextToSpeechActivated={{true}}
+                  />
+                </template>,
               );
 
               // then
@@ -501,7 +555,13 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
               // when
               const screen = await render(
-                hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{false}} />`,
+                <template>
+                  <ChallengeStatement
+                    @challenge={{state.challenge}}
+                    @assessment={{state.assessment}}
+                    @isTextToSpeechActivated={{false}}
+                  />
+                </template>,
               );
 
               // then
@@ -531,7 +591,13 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
           // when
           const screen = await render(
-            hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+            <template>
+              <ChallengeStatement
+                @challenge={{state.challenge}}
+                @assessment={{state.assessment}}
+                @isTextToSpeechActivated={{true}}
+              />
+            </template>,
           );
 
           // then
