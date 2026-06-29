@@ -11,12 +11,12 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
     context('when there are no organization learners', function () {
       it('should return session information with ordered candidates and no division', async function () {
         // given
-        databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });
-        databaseBuilder.factory.buildOrganization({ type: 'SUP', externalId: 'EXT1234', isManagingStudents: false });
+        databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'eXt1234', isManagingStudents: true });
+        databaseBuilder.factory.buildOrganization({ type: 'SUP', externalId: 'EXt1234', isManagingStudents: false });
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
           name: 'Tour Gamma',
           type: 'SUP',
-          externalId: 'EXT1234',
+          externalId: 'Ext1234',
         });
 
         const session = databaseBuilder.factory.buildSession({
@@ -81,11 +81,11 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
     context('when there are organization learners', function () {
       it('should return session information with with ordered candidates and division', async function () {
         // given
-        databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });
+        databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'Ext1234', isManagingStudents: true });
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
           name: 'Tour Gamma',
           type: 'SCO',
-          externalId: 'EXT1234',
+          externalId: 'eXT1234',
         });
 
         const session = databaseBuilder.factory.buildSession({
