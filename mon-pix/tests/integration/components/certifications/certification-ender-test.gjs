@@ -1,6 +1,6 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import CertificationEnder from 'mon-pix/components/certifications/certification-ender';
 import { module, test } from 'qunit';
 
 import { stubCurrentUserService } from '../../../helpers/service-stubs';
@@ -11,7 +11,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
 
   test('should display the translated labels', async function (assert) {
     // when
-    const screen = await renderScreen(hbs`<Certifications::CertificationEnder />`);
+    const screen = await renderScreen(<template><CertificationEnder /></template>);
 
     // then
     assert.ok(screen.getByText(t('pages.certification-ender.candidate.title')));
@@ -19,7 +19,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
 
   test('should not display the authenticated menu', async function (assert) {
     // when
-    const screen = await renderScreen(hbs`<Certifications::CertificationEnder />`);
+    const screen = await renderScreen(<template><CertificationEnder /></template>);
 
     // then
     assert.dom(screen.queryByRole('navigation', { name: t('navigation.main.label') })).doesNotExist();
@@ -27,11 +27,11 @@ module('Integration | Component | Certifications | CertificationEnder', function
 
   test('should display the certification number', async function (assert) {
     // given
-    this.certificationNumber = 1234;
+    const certificationNumber = 1234;
 
     // when
     const screen = await renderScreen(
-      hbs`<Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} />`,
+      <template><CertificationEnder @certificationNumber={{certificationNumber}} /></template>,
     );
 
     // then
@@ -44,7 +44,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
 
     // when
     const screen = await renderScreen(
-      hbs`<Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} />`,
+      <template><CertificationEnder @certificationNumber={{this.certificationNumber}} /></template>,
     );
 
     // then
@@ -54,7 +54,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
   test('should display the remote certification logout message', async function (assert) {
     // when
     const screen = await renderScreen(
-      hbs`<Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} />`,
+      <template><CertificationEnder @certificationNumber={{this.certificationNumber}} /></template>,
     );
 
     // then
@@ -68,7 +68,9 @@ module('Integration | Component | Certifications | CertificationEnder', function
 
       // when
       const screen = await renderScreen(
-        hbs`<Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} @isEndedByInvigilator={{false}} />`,
+        <template>
+          <CertificationEnder @certificationNumber={{this.certificationNumber}} @isEndedByInvigilator={{false}} />
+        </template>,
       );
 
       // then
@@ -83,7 +85,9 @@ module('Integration | Component | Certifications | CertificationEnder', function
 
       // when
       const screen = await renderScreen(
-        hbs`<Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} @isEndedByInvigilator={{true}} />`,
+        <template>
+          <CertificationEnder @certificationNumber={{this.certificationNumber}} @isEndedByInvigilator={{true}} />
+        </template>,
       );
 
       // then
@@ -97,10 +101,14 @@ module('Integration | Component | Certifications | CertificationEnder', function
       stubCurrentUserService(this.owner, { firstName: 'Jim', lastName: 'Halpert' });
 
       // when
-      const screen = await renderScreen(hbs`<Certifications::CertificationEnder
-  @certificationNumber={{this.certificationNumber}}
-  @hasBeenEndedDueToFinalization={{true}}
-/>`);
+      const screen = await renderScreen(
+        <template>
+          <CertificationEnder
+            @certificationNumber={{this.certificationNumber}}
+            @hasBeenEndedDueToFinalization={{true}}
+          />
+        </template>,
+      );
 
       // then
       assert.ok(screen.getByText(t('pages.certification-ender.candidate.ended-due-to-finalization')));
