@@ -2,7 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find, findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import QcuSolutionPanel from 'mon-pix/components/solution-panel/qcu-solution-panel';
 import { pshuffle } from 'mon-pix/utils/pshuffle';
 import { module, test } from 'qunit';
 
@@ -61,19 +61,21 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
     test('Should display only user answer', async function (assert) {
       // Given
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
+      const answerArg = answer;
+      const solutionArg = solution;
+      const solutionToDisplayArg = null;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcuSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QcuSolutionPanel
+            @answer={{answerArg}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplayArg}}
+          />
+        </template>,
       );
 
       // Then
@@ -94,19 +96,21 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
     test('should inform that the answer is correct', async function (assert) {
       //Given
-      this.set('answer', correctAnswer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
+      const answerArg = correctAnswer;
+      const solutionArg = solution;
+      const solutionToDisplayArg = null;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcuSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QcuSolutionPanel
+            @answer={{answerArg}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplayArg}}
+          />
+        </template>,
       );
 
       // Then
@@ -128,19 +132,21 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
     test('should inform that the answer is wrong', async function (assert) {
       //Given
-      this.set('answer', unCorrectAnswer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
+      const answerArg = unCorrectAnswer;
+      const solutionArg = solution;
+      const solutionToDisplayArg = null;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcuSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QcuSolutionPanel
+            @answer={{answerArg}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplayArg}}
+          />
+        </template>,
       );
 
       // Then
@@ -149,19 +155,21 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
     test('should inform the user of the correct answer', async function (assert) {
       // Given
-      this.set('answer', unCorrectAnswer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
+      const answerArg = unCorrectAnswer;
+      const solutionArg = solution;
+      const solutionToDisplayArg = null;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcuSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QcuSolutionPanel
+            @answer={{answerArg}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplayArg}}
+          />
+        </template>,
       );
 
       // Then
@@ -172,19 +180,21 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
     test('should inform the user of the correct answer with solution to display when it is not null', async function (assert) {
       // Given
-      this.set('answer', unCorrectAnswer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', solutionToDisplay);
-      this.set('challenge', challenge);
+      const answerArg = unCorrectAnswer;
+      const solutionArg = solution;
+      const solutionToDisplayArg = solutionToDisplay;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcuSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QcuSolutionPanel
+            @answer={{answerArg}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplayArg}}
+          />
+        </template>,
       );
 
       // Then
@@ -209,18 +219,20 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
     test('QCU, correct answer is checked', async function (assert) {
       //Given
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
+      const answerArg = answer;
+      const solutionArg = solution;
+      const solutionToDisplayArg = null;
+      const challengeArg = challenge;
       // When
       await render(
-        hbs`<SolutionPanel::QcuSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QcuSolutionPanel
+            @answer={{answerArg}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplayArg}}
+          />
+        </template>,
       );
 
       // Then
@@ -233,19 +245,21 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
       //Given
       answer = EmberObject.create(unCorrectAnswer);
 
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
+      const answerArg = answer;
+      const solutionArg = solution;
+      const solutionToDisplayArg = null;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcuSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QcuSolutionPanel
+            @answer={{answerArg}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplayArg}}
+          />
+        </template>,
       );
 
       // Then
@@ -256,19 +270,21 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
     test('QCU, incorrect answer is not checked', async function (assert) {
       //Given
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
+      const answerArg = answer;
+      const solutionArg = solution;
+      const solutionToDisplayArg = null;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcuSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QcuSolutionPanel
+            @answer={{answerArg}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplayArg}}
+          />
+        </template>,
       );
 
       // Then
@@ -281,19 +297,21 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
       //Given
       answer = EmberObject.create(unCorrectAnswer);
 
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
+      const answerArg = answer;
+      const solutionArg = solution;
+      const solutionToDisplayArg = null;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcuSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QcuSolutionPanel
+            @answer={{answerArg}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplayArg}}
+          />
+        </template>,
       );
 
       // Then
@@ -307,10 +325,10 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
         // Given
         answer = EmberObject.create(correctAnswer);
         challenge.shuffled = true;
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('solutionToDisplay', null);
-        this.set('challenge', challenge);
+        const answerArg = answer;
+        const solutionArg = solution;
+        const solutionToDisplayArg = null;
+        const challengeArg = challenge;
 
         const expectedAnswers = ['foo', 'bar', 'qix', 'yon'];
 
@@ -318,12 +336,14 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
         // When
         await render(
-          hbs`<SolutionPanel::QcuSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+          <template>
+            <QcuSolutionPanel
+              @answer={{answerArg}}
+              @challenge={{challengeArg}}
+              @solution={{solutionArg}}
+              @solutionToDisplay={{solutionToDisplayArg}}
+            />
+          </template>,
         );
 
         // Then
