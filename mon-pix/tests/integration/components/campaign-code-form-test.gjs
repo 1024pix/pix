@@ -1,6 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import CampaignCodeForm from 'mon-pix/components/campaign-code-form';
 import { module, test } from 'qunit';
@@ -124,8 +123,8 @@ module('Integration | Component | campaign code form', function (hooks) {
     module('when campaign code is empty', function () {
       test('displays error message', async function (assert) {
         // given
-        this.set('clearErrors', () => {});
-        const screen = await render(hbs`<CampaignCodeForm @clearErrors={{this.clearErrors}}/>`);
+        const clearErrors = () => {};
+        const screen = await render(<template><CampaignCodeForm @clearErrors={{clearErrors}} /></template>);
         await fillIn(screen.getByRole('textbox', { name: `${t('pages.fill-in-campaign-code.label')} *` }), '');
 
         // when
