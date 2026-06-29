@@ -5,6 +5,7 @@ import {
   executeInContext,
   EXECUTORS,
 } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
+import { JobClient } from '../../../../../../src/shared/infrastructure/jobs/JobClient.js';
 import {
   JobExpireIn,
   JobPriority,
@@ -15,6 +16,10 @@ import { expect } from '../../../../../test-helper.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Infrastructure | Repositories | Jobs | job-repository', function () {
+  beforeEach(async function () {
+    await JobClient.instance.registerJob('JobTest');
+  });
+
   it('create one job db with given config', async function () {
     // given
     const name = 'JobTest';
