@@ -1313,14 +1313,12 @@
       "rewards": {
         "in-progress": {
           "details": {
-            "text": "Depending on your level at the end of the course, a certificate of completion may be issued.",
             "title": "Complete your course to earn your attestation"
           },
           "status": "Pending"
         },
         "not-obtained": {
           "details": {
-            "text": "Unfortunately, the results obtained on the courses you completed do not meet the requirements for issuing your attestation.",
             "title": "Unfortunately, you did not meet the conditions to obtain the attestation"
           },
           "status": "Not obtained"

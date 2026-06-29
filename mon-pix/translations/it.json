@@ -1313,14 +1313,12 @@
       "rewards": {
         "in-progress": {
           "details": {
-            "text": "A seconda del livello raggiunto al termine del corso, potrà essere rilasciato un attestato di completamento.",
             "title": "Completa il tuo percorso per ottenere il tuo attestato"
           },
           "status": "In attesa"
         },
         "not-obtained": {
           "details": {
-            "text": "Purtroppo, i risultati ottenuti nei percorsi svolti non consentono di confermare il rilascio del certificato.",
             "title": "Purtroppo, non hai soddisfatto le condizioni per ottenere l'attestato"
           },
           "status": "Non ottenuto"
