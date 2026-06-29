@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import SendProfile from 'mon-pix/components/routes/campaigns/profiles-collection/send-profile';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,15 +13,14 @@ module('Integration | Component | routes/campaigns/profiles_collection/send-prof
   module('when isDisabled is true', function () {
     test('should not display the share results button', async function (assert) {
       // given
-      this.set('isDisabled', true);
-      this.set('campaignParticipation', { isShared: false });
+      const isDisabled = true;
+      const campaignParticipation = { isShared: false };
 
       // when
       const screen = await render(
-        hbs`<Routes::Campaigns::ProfilesCollection::SendProfile
-  @isDisabled={{this.isDisabled}}
-  @campaignParticipation={{this.campaignParticipation}}
-/>`,
+        <template>
+          <SendProfile @isDisabled={{isDisabled}} @campaignParticipation={{campaignParticipation}} />
+        </template>,
       );
 
       // then
@@ -33,15 +32,16 @@ module('Integration | Component | routes/campaigns/profiles_collection/send-prof
     test('should call sendProfile property', async function (assert) {
       // given
       const sendProfile = sinon.stub();
-      this.set('isDisabled', false);
-      this.set('sendProfile', sendProfile);
-      this.set('campaignParticipation', { isShared: false });
+      const isDisabled = false;
+      const campaignParticipation = { isShared: false };
       const screen = await render(
-        hbs`<Routes::Campaigns::ProfilesCollection::SendProfile
-  @isDisabled={{this.isDisabled}}
-  @campaignParticipation={{this.campaignParticipation}}
-  @sendProfile={{this.sendProfile}}
-/>`,
+        <template>
+          <SendProfile
+            @isDisabled={{isDisabled}}
+            @campaignParticipation={{campaignParticipation}}
+            @sendProfile={{sendProfile}}
+          />
+        </template>,
       );
 
       // when
