@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import BackupEmailConfirmationForm from 'mon-pix/components/account-recovery/backup-email-confirmation-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -18,17 +18,16 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
     test('should render recover account backup email confirmation form with the existing email', async function (assert) {
       // given
       const resetErrors = sinon.stub();
-      this.set('resetErrors', resetErrors);
-      this.set('firstName', firstName);
-      this.set('existingEmail', existingEmail);
 
       // when
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm
-  @firstName={{this.firstName}}
-  @existingEmail={{this.existingEmail}}
-  @resetErrors={{this.resetErrors}}
-/>`,
+        <template>
+          <BackupEmailConfirmationForm
+            @firstName={{firstName}}
+            @existingEmail={{existingEmail}}
+            @resetErrors={{resetErrors}}
+          />
+        </template>,
       );
 
       // then
@@ -72,12 +71,10 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
     test('should render recover account backup email confirmation form', async function (assert) {
       // given
       const resetErrors = sinon.stub();
-      this.set('resetErrors', resetErrors);
-      this.set('firstName', firstName);
 
       // when
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}} />`,
+        <template><BackupEmailConfirmationForm @firstName={{firstName}} @resetErrors={{resetErrors}} /></template>,
       );
 
       // then
@@ -109,7 +106,6 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       // given
       const email = 'Philipe@example.net';
       const resetErrors = sinon.stub();
-      this.set('resetErrors', resetErrors);
 
       const createRecordStub = sinon.stub();
 
@@ -120,10 +116,9 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       this.owner.register('service:store', StoreStubService);
       const sendEmail = sinon.stub();
       sendEmail.resolves();
-      this.set('sendEmail', sendEmail);
 
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm @sendEmail={{this.sendEmail}} @resetErrors={{this.resetErrors}} />`,
+        <template><BackupEmailConfirmationForm @sendEmail={{sendEmail}} @resetErrors={{resetErrors}} /></template>,
       );
 
       // when
@@ -148,7 +143,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       // given
       const email = 'Philipe@example.net';
 
-      const screen = await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @isLoading={{true}} />`);
+      const screen = await render(<template><BackupEmailConfirmationForm @isLoading={{true}} /></template>);
 
       // when
       await fillIn(
@@ -171,11 +166,10 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
     test('should show an error when email is empty', async function (assert) {
       // given
       const resetErrors = sinon.stub();
-      this.set('resetErrors', resetErrors);
       const email = '';
 
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}} />`,
+        <template><BackupEmailConfirmationForm @firstName={{firstName}} @resetErrors={{resetErrors}} /></template>,
       );
       const emailInput = screen.getByRole('textbox', {
         name: new RegExp(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email')),
@@ -194,11 +188,10 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
     test('should show an error when email is not valid', async function (assert) {
       // given
       const resetErrors = sinon.stub();
-      this.set('resetErrors', resetErrors);
       const email = 'Philipe@';
 
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}} />`,
+        <template><BackupEmailConfirmationForm @firstName={{firstName}} @resetErrors={{resetErrors}} /></template>,
       );
 
       const emailInput = screen.getByRole('textbox', {
@@ -220,15 +213,12 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
     test('should valid form when email is valid', async function (assert) {
       // given
       const resetErrors = sinon.stub();
-      this.set('resetErrors', resetErrors);
-      this.set('sendEmail', () => {});
+      const sendEmail = () => {};
       const email = 'Philipe@example.net';
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm
-  @firstName={{this.firstName}}
-  @resetErrors={{this.resetErrors}}
-  @sendEmail={{this.sendEmail}}
-/>`,
+        <template>
+          <BackupEmailConfirmationForm @firstName={{firstName}} @resetErrors={{resetErrors}} @sendEmail={{sendEmail}} />
+        </template>,
       );
 
       // when
@@ -261,7 +251,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
   module('submit button state', function () {
     test('should disable the submit button when email is empty', async function (assert) {
       // given & when
-      const screen = await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} />`);
+      const screen = await render(<template><BackupEmailConfirmationForm @firstName={{firstName}} /></template>);
 
       // then
       const submitButton = screen.getByRole('button', {
@@ -273,7 +263,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
 
     test('should disable the submit button when email is not valid', async function (assert) {
       // given
-      const screen = await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} />`);
+      const screen = await render(<template><BackupEmailConfirmationForm @firstName={{firstName}} /></template>);
 
       // when
       await fillIn(
@@ -293,7 +283,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
 
     test('should enable the submit button when email is valid', async function (assert) {
       // given
-      const screen = await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} />`);
+      const screen = await render(<template><BackupEmailConfirmationForm @firstName={{firstName}} /></template>);
 
       // when
       await fillIn(
