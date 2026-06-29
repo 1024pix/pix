@@ -113,6 +113,10 @@ export default class CreateForm extends Component {
     return !this.isCampaignGoalProfileCollection;
   }
 
+  get displayLandingPageInfo() {
+    return Boolean(this.args.campaign.course) && !this.isCombinedCourseGoal;
+  }
+
   get catalogueCourseSelectionTab() {
     if (this.isCombinedCourseGoal) {
       return 'blueprint';
@@ -503,7 +507,7 @@ export default class CreateForm extends Component {
         </FormField>
       {{/if}}
 
-      {{#unless this.isCombinedCourseGoal}}
+      {{#if this.displayLandingPageInfo}}
         <FormField>
           <PixTextarea
             @id="custom-landing-page-text"
@@ -516,7 +520,7 @@ export default class CreateForm extends Component {
             <:label>{{t "pages.campaign-creation.landing-page-text.label"}}</:label>
           </PixTextarea>
         </FormField>
-      {{/unless}}
+      {{/if}}
 
       <div class="form__validation">
         <PixButton @triggerAction={{@onCancel}} @variant="secondary">

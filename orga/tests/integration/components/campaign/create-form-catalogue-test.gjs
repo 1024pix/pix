@@ -61,7 +61,6 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
     assert.strictEqual(within(fieldset).getAllByRole('radio').length, 3);
     assert.dom('button[type="submit"]').exists();
-    assert.dom('textarea').hasAttribute('maxLength', '5000');
   });
 
   test("it should display campaign's name", async function (assert) {
@@ -236,7 +235,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       test('it should explain which informations will be visible to organization-learners', async function () {
         // given
         data.campaign.type = campaignType.status;
-
+        data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
         // when
         const screen = await render(
           <template>
@@ -862,10 +861,54 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       .hasValue('Mon titre de parcours');
   });
 
+  module('landing page customization', function () {
+    test('should not display hide landing page info for combinedCourse', async function () {
+      // given
+      data.campaign.course = store.createRecord('course', { type: 'blueprint' });
+      data.campaign.type = 'COMBINED_COURSE';
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+      // then
+      assert
+        .dom(screen.queryByLabelText(t('pages.campaign-creation.landing-page-text.label'), { exact: false }))
+        .doesNotExist();
+    });
+    test('should not display hide landing page until user select a course', async function () {
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+      // then
+      assert
+        .dom(screen.queryByLabelText(t('pages.campaign-creation.landing-page-text.label'), { exact: false }))
+        .doesNotExist();
+    });
+  });
+
   test('it should fill campaign landing page text', async function (assert) {
     // given
+    data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+    data.campaign.type = 'ASSESSMENT';
     data.campaign.customLandingPageText = 'Mon texte de landing page';
-
     // when
     const screen = await render(
       <template>
