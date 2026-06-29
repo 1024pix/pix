@@ -2,8 +2,8 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import QrocSolutionPanel from 'mon-pix/components/solution-panel/qroc-solution-panel';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -17,11 +17,9 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       const challenge = EmberObject.create({ format: 'paragraphe' });
       const answer = EmberObject.create({ challenge });
       const solution = '4';
-      this.set('answer', answer);
-      this.set('solution', solution);
 
       //when
-      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+      await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
 
       // then
       assert.dom('input').doesNotExist();
@@ -40,11 +38,9 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       const challenge = EmberObject.create({ format: 'phrase' });
       const answer = EmberObject.create({ challenge });
       const solution = '4';
-      this.set('answer', answer);
-      this.set('solution', solution);
 
       //when
-      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+      await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
 
       // then
       assert.dom('input.correction-qroc-box-answer--sentence').hasAttribute('disabled');
@@ -57,11 +53,9 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       const challenge = EmberObject.create({ format: '' });
       const answer = EmberObject.create({ id: 'answer_id', result: 'ok', value: 'test', challenge });
       const solution = '4';
-      this.set('answer', answer);
-      this.set('solution', solution);
 
       //when
-      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+      await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
 
       // then
       assert.dom('textarea.correction-qroc-box-answer--paragraph').doesNotExist();
@@ -88,11 +82,9 @@ module('Integration | Component | QROC solution panel', function (hooks) {
           const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
           const answer = EmberObject.create({ id: 'answer_id', result: 'ok', value: 'test', assessment, challenge });
           const solution = '4';
-          this.set('answer', answer);
-          this.set('solution', solution);
 
           //when
-          await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+          await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
         });
 
         test('should display the answer in bold green', async function (assert) {
@@ -123,11 +115,9 @@ module('Integration | Component | QROC solution panel', function (hooks) {
           const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
           const answer = EmberObject.create({ id: 'answer_id', result: 'ko', assessment, challenge });
           const solution = '4';
-          this.set('answer', answer);
-          this.set('solution', solution);
 
           // when
-          await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+          await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
         });
 
         test('should display the false answer with line-through', function (assert) {
@@ -162,12 +152,9 @@ module('Integration | Component | QROC solution panel', function (hooks) {
             challenge,
           });
           const solution = '4';
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('isResultWithoutAnswer', true);
 
           // when
-          await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+          await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
         });
 
         test('should display "Pas de réponse" in italic', function (assert) {
@@ -194,12 +181,9 @@ module('Integration | Component | QROC solution panel', function (hooks) {
             challenge,
           });
           const solution = '4';
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('isResultWithoutAnswer', true);
 
           // when
-          await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+          await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
         });
 
         test('should display "Temps écoulé" in italic', function (assert) {
@@ -222,19 +206,17 @@ module('Integration | Component | QROC solution panel', function (hooks) {
         const solutionToDisplay = 'MEILLEURE EXPLICATION !';
         const solution = 'SOLUTION !';
         const challenge = EmberObject.create();
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('solutionToDisplay', solutionToDisplay);
-        this.set('challenge', challenge);
 
         // When
         await render(
-          hbs`<SolutionPanel::QrocSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+          <template>
+            <QrocSolutionPanel
+              @answer={{answer}}
+              @challenge={{challenge}}
+              @solution={{solution}}
+              @solutionToDisplay={{solutionToDisplay}}
+            />
+          </template>,
         );
 
         // Then
@@ -250,19 +232,17 @@ module('Integration | Component | QROC solution panel', function (hooks) {
         const solutionToDisplay = null;
         const solution = 'SOLUTION !';
         const challenge = EmberObject.create();
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('solutionToDisplay', solutionToDisplay);
-        this.set('challenge', challenge);
 
         // When
         await render(
-          hbs`<SolutionPanel::QrocSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+          <template>
+            <QrocSolutionPanel
+              @answer={{answer}}
+              @challenge={{challenge}}
+              @solution={{solution}}
+              @solutionToDisplay={{solutionToDisplay}}
+            />
+          </template>,
         );
 
         // Then
@@ -280,19 +260,17 @@ module('Integration | Component | QROC solution panel', function (hooks) {
         const solutionToDisplay = 'MEILLEURE EXPLICATION !';
         const solution = 'SOLUTION !';
         const challenge = EmberObject.create();
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('solutionToDisplay', solutionToDisplay);
-        this.set('challenge', challenge);
 
         // When
         await render(
-          hbs`<SolutionPanel::QrocSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+          <template>
+            <QrocSolutionPanel
+              @answer={{answer}}
+              @challenge={{challenge}}
+              @solution={{solution}}
+              @solutionToDisplay={{solutionToDisplay}}
+            />
+          </template>,
         );
 
         // Then
@@ -309,11 +287,10 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       // given
       const challenge = EmberObject.create({ format: 'paragraphe' });
       const answer = EmberObject.create({ result: 'ok', value: 'test', challenge });
-      this.set('answer', answer);
-      this.set('solution', '4');
+      const solution = '4';
 
       // when
-      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+      await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
 
       // then
       assert.strictEqual(
@@ -326,11 +303,10 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       // given
       const challenge = EmberObject.create({ format: 'paragraphe' });
       const answer = EmberObject.create({ result: 'ko', value: 'test', challenge });
-      this.set('answer', answer);
-      this.set('solution', '4');
+      const solution = '4';
 
       // when
-      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+      await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
 
       // then
       assert.strictEqual(
@@ -343,11 +319,10 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       // given
       const challenge = EmberObject.create({ format: 'paragraphe' });
       const answer = EmberObject.create({ result: 'aband', value: '', timeout: -1, challenge });
-      this.set('answer', answer);
-      this.set('solution', '4');
+      const solution = '4';
 
       // when
-      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+      await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
 
       // then
       assert.strictEqual(
@@ -362,11 +337,9 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       // given
       const answer = EmberObject.create({ result: 'ko', challenge: EmberObject.create() });
       const solution = 'Reponse\nreponse\nréponse';
-      this.set('answer', answer);
-      this.set('solution', solution);
 
       // when
-      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+      await render(<template><QrocSolutionPanel @answer={{answer}} @solution={{solution}} /></template>);
 
       // then
       const solutionText = find('.comparison-window-solution__text').textContent;
@@ -386,19 +359,19 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       //Given
       const answer = EmberObject.create({ result: 'ko' });
       const solutionToDisplay = null;
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', solutionToDisplay);
-      this.set('challenge', challenge);
+      const challengeArg = challenge;
+      const solutionArg = solution;
 
       // When
       await render(
-        hbs`<SolutionPanel::QrocSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QrocSolutionPanel
+            @answer={{answer}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplay}}
+          />
+        </template>,
       );
 
       // Then
@@ -409,19 +382,19 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       //Given
       const answer = EmberObject.create({ result: 'ko' });
       const solutionToDisplay = 'TADA !';
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', solutionToDisplay);
-      this.set('challenge', challenge);
+      const challengeArg = challenge;
+      const solutionArg = solution;
 
       // When
       await render(
-        hbs`<SolutionPanel::QrocSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+        <template>
+          <QrocSolutionPanel
+            @answer={{answer}}
+            @challenge={{challengeArg}}
+            @solution={{solutionArg}}
+            @solutionToDisplay={{solutionToDisplay}}
+          />
+        </template>,
       );
 
       // Then
