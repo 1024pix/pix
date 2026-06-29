@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Item from 'mon-pix/components/challenge/item';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -14,19 +14,16 @@ module('Integration | Component | Challenge | Item', function (hooks) {
   test('should render', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    this.set(
-      'challenge',
-      store.createRecord('challenge', {
-        type: 'QROC',
-        timer: false,
-        format: 'phrase',
-        proposals: '${myInput}',
-      }),
-    );
-    this.set('answer', {});
+    const challenge = store.createRecord('challenge', {
+      type: 'QROC',
+      timer: false,
+      format: 'phrase',
+      proposals: '${myInput}',
+    });
+    const answer = {};
 
     // when
-    await render(hbs`<Challenge::Item @challenge={{this.challenge}} @answer={{this.answer}} />`);
+    await render(<template><Item @challenge={{challenge}} @answer={{answer}} /></template>);
 
     // then
     assert.dom('.challenge-item').exists();
@@ -42,20 +39,17 @@ module('Integration | Component | Challenge | Item', function (hooks) {
       test(`should render the proper proposals when challenge type is ${challengeType}`, async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        this.set(
-          'challenge',
-          store.createRecord('challenge', {
-            type: challengeType,
-            timer: false,
-            proposals: '- prop 1\n- prop 2',
-          }),
-        );
-        this.set('assessment', store.createRecord('assessment', {}));
-        this.set('answer', null);
+        const challenge = store.createRecord('challenge', {
+          type: challengeType,
+          timer: false,
+          proposals: '- prop 1\n- prop 2',
+        });
+        const assessment = store.createRecord('assessment', {});
+        const answer = null;
 
         // when
         const screen = await render(
-          hbs`<Challenge::Item @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`,
+          <template><Item @challenge={{challenge}} @answer={{answer}} @assessment={{assessment}} /></template>,
         );
 
         // then
@@ -67,21 +61,18 @@ module('Integration | Component | Challenge | Item', function (hooks) {
       test(`should render a text input when challenge type is ${challengeType}`, async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        this.set(
-          'challenge',
-          store.createRecord('challenge', {
-            type: challengeType,
-            timer: false,
-            format: 'phrase',
-            proposals: '${myInput}',
-          }),
-        );
-        this.set('assessment', store.createRecord('assessment', {}));
-        this.set('answer', null);
+        const challenge = store.createRecord('challenge', {
+          type: challengeType,
+          timer: false,
+          format: 'phrase',
+          proposals: '${myInput}',
+        });
+        const assessment = store.createRecord('assessment', {});
+        const answer = null;
 
         // when
         const screen = await render(
-          hbs`<Challenge::Item @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`,
+          <template><Item @challenge={{challenge}} @answer={{answer}} @assessment={{assessment}} /></template>,
         );
 
         // then
@@ -93,22 +84,24 @@ module('Integration | Component | Challenge | Item', function (hooks) {
   });
 
   module('when validating an answer', function (hooks) {
+    const state = {};
     let createRecordStub;
     let transitionToStub;
     let answer;
-    let challenge;
-    let assessment;
-    let onChallengeSubmitStub;
 
     hooks.beforeEach(function () {
       const store = this.owner.lookup('service:store');
-      challenge = store.createRecord('challenge', {
+      state.challenge = store.createRecord('challenge', {
         type: 'QROC',
         timer: false,
         format: 'phrase',
         proposals: '${myInput}',
       });
-      assessment = { hasOngoingChallengeLiveAlert: false, orderedChallengeIdsAnswered: [], get: () => 'assessment-id' };
+      state.assessment = {
+        hasOngoingChallengeLiveAlert: false,
+        orderedChallengeIdsAnswered: [],
+        get: () => 'assessment-id',
+      };
 
       answer = {
         setProperties: sinon.stub(),
@@ -121,7 +114,7 @@ module('Integration | Component | Challenge | Item', function (hooks) {
       // trying to normalize the plain assessment object as a relationship).
       createRecordStub = sinon.stub(store, 'createRecord').returns(answer);
       transitionToStub = sinon.stub();
-      onChallengeSubmitStub = sinon.stub();
+      state.onChallengeSubmitStub = sinon.stub();
 
       class RouterStub extends Service {
         transitionTo = transitionToStub;
@@ -133,12 +126,6 @@ module('Integration | Component | Challenge | Item', function (hooks) {
       }
       this.owner.register('service:router', RouterStub);
       this.owner.register('service:current-user', CurrentUserStub);
-
-      this.set('challenge', challenge);
-      this.set('assessment', assessment);
-      this.set('answer', null);
-      this.set('onChallengeSubmit', onChallengeSubmitStub);
-      this.set('noop', () => {});
     });
 
     hooks.afterEach(function () {
@@ -146,14 +133,17 @@ module('Integration | Component | Challenge | Item', function (hooks) {
     });
 
     async function renderItem() {
+      const noop = () => {};
       const screen = await render(
-        hbs`<Challenge::Item
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-  @onChallengeSubmit={{this.onChallengeSubmit}}
-  @resetAllChallengeInfo={{this.noop}}
-/>`,
+        <template>
+          <Item
+            @challenge={{state.challenge}}
+            @answer={{null}}
+            @assessment={{state.assessment}}
+            @onChallengeSubmit={{state.onChallengeSubmitStub}}
+            @resetAllChallengeInfo={{noop}}
+          />
+        </template>,
       );
       await fillIn(screen.getByRole('textbox'), '  example \n ');
       await click(screen.getByRole('button', { name: t('pages.challenge.actions.validate-go-to-next') }));
@@ -165,8 +155,8 @@ module('Integration | Component | Challenge | Item', function (hooks) {
       await renderItem();
 
       // then
-      sinon.assert.calledOnce(onChallengeSubmitStub);
-      sinon.assert.calledWith(createRecordStub, 'answer', { assessment, challenge });
+      sinon.assert.calledOnce(state.onChallengeSubmitStub);
+      sinon.assert.calledWith(createRecordStub, 'answer', { assessment: state.assessment, challenge: state.challenge });
       assert.ok(true);
     });
 
@@ -229,7 +219,7 @@ module('Integration | Component | Challenge | Item', function (hooks) {
     module('when there is an ongoing live alert', function () {
       test('should not save the answer nor redirect', async function (assert) {
         // given
-        assessment.hasOngoingChallengeLiveAlert = true;
+        state.assessment.hasOngoingChallengeLiveAlert = true;
 
         // when
         await renderItem();
@@ -262,7 +252,7 @@ module('Integration | Component | Challenge | Item', function (hooks) {
         // given
         const error = { errors: [{ detail: 'Le surveillant a mis fin à votre test de certification.' }] };
         answer.save = sinon.stub().rejects(error);
-        assessment.certificationCourse = { get: () => 'certification-course-id' };
+        state.assessment.certificationCourse = { get: () => 'certification-course-id' };
 
         // when
         await renderItem();
