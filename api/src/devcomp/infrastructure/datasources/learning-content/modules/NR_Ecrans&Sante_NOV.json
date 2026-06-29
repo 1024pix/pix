@@ -100,7 +100,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p><strong></strong>Vous avez eu un score élevé de « Oui » ? Vous n'êtes pas seul ! <br>Les Français passent en moyenne <strong>32 h par semaine devant un écran</strong>. Cela représente un <strong>tiers du temps que l’on passe éveillé</strong>. </p><p><strong>Les écrans sont partout</strong> (au travail, à la maison, ailleurs) et nous sont utiles peu importe notre âge ou nos activités.</p>"
+                  "diagnosis": "<p><strong></strong>Vous avez eu un score élevé de «&nbsp;Oui&nbsp;» ? Vous n'êtes pas seul&nbsp;! <br>Les Français passent en moyenne <strong>32 h par semaine devant un écran</strong>. Cela représente un <strong>tiers du temps que l’on passe éveillé</strong>. </p><p><strong>Les écrans sont partout</strong> (au travail, à la maison, ailleurs) et nous sont utiles peu importe notre âge ou nos activités.</p>"
                 }
               }
             }
@@ -664,7 +664,7 @@
                 "id": "af63ce13-fe36-41d6-b5bc-0b0a15b28f46",
                 "type": "text",
                 "tag": " ",
-                "content": "\n<p>Alfie et Sarah sont des collègues de travail.</p>\n<p><strong>Comparez la journée-type de Alfie et Sarah, puis répondez à la question qui suit.</strong></p>\n<p>[A terme : carrousel illustré ?&nbsp;BD ?]</p>\n<p><br></p>\n<table>\n    <thead>\n        <tr>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\"><br></th>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\">Alfie</th>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\">Sarah</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td><strong>Réveil</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Lit ses mails</td>\n            <td>Promène son chien</td>\n        </tr>\n        <tr>\n            <td><strong>Matin</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Réunion en visioconférence</td>\n            <td>Réunion en présence de ses collègues</td>\n        </tr>\n        <tr>\n            <td><strong>Midi</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Manger avec des amis</td>\n            <td>Manger avec des amis</td>\n        </tr>\n        <tr>\n            <td><strong>Après-midi</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Travaille sur un ordinateur</td>\n            <td>Travaille sur un ordinateur</td>\n        </tr>\n        <tr>\n            <td><strong>Soir</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Regarde une série après le dîner</td>\n            <td>Lit un livre avant de dormir</td>\n        </tr>\n    </tbody>\n</table>"
+                "content": "<p>Alfie, Sarah et Garance sont des collègues de travail.</p>\n<p><strong>Comparez leur journée-type, puis répondez à la question qui suit.</strong></p>\n<p>[A terme : carrousel illustré ?&nbsp;BD ?]</p>\n<p><br></p>\n<table>\n    <thead>\n        <tr>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\"><br></th>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\">Alfie</th>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\">Sarah</th>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\">Garance</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td><strong>Réveil</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Lit ses mails</td>\n            <td>Promène son chien</td>\n            <td>Répond à des messages<br></td>\n        </tr>\n        <tr>\n            <td><strong>Matin</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Réunion en visioconférence</td>\n            <td>Réunion en présence de ses collègues</td>\n            <td>Réunion chez un client<br></td>\n        </tr>\n        <tr>\n            <td><strong>Midi</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Manger avec des amis</td>\n            <td>Manger avec des amis</td>\n            <td>Fais de la course à pieds après son repas<br></td>\n        </tr>\n        <tr>\n            <td><strong>Après-midi</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Travaille sur un ordinateur</td>\n            <td>Travaille sur un ordinateur</td>\n            <td>Travaille sur un ordinateur<br></td>\n        </tr>\n        <tr>\n            <td><strong>Soir</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Regarde une série après le dîner</td>\n            <td>Lit un livre avant de dormir</td>\n            <td>Regarde un film pendant le dîner<br></td>\n        </tr>\n    </tbody>\n</table>"
               }
             },
             {
@@ -672,7 +672,7 @@
               "element": {
                 "id": "cd8fdadf-6fb4-467f-81b2-138dec8e2cf5",
                 "type": "qcu",
-                "instruction": "<p>Qui de Alfie ou Sarah dépasse 7 h par jour sur les écrans ?</p>",
+                "instruction": "<p>Qui de Alfie, Sarah ou Garance dépasse 7 h par jour sur les écrans ?</p>",
                 "hasShortProposals": true,
                 "proposals": [
                   {
@@ -689,6 +689,14 @@
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
                       "diagnosis": "<p>Sarah passe moins de temps sur les écrans qu’Alfie. Son temps d’écran n’est pas excessif.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "Garance",
+                    "feedback": {
+                      "state": "<p>Mauvaise réponse.</p>",
+                      "diagnosis": "<p>Garance passe moins de temps sur les écrans qu’Alfie. Son temps d’écran n’est pas excessif.</p>"
                     }
                   }
                 ],
