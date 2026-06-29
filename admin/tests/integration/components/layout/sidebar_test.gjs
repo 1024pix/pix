@@ -300,7 +300,15 @@ module('Integration | Component | Layout | Sidebar', function (hooks) {
     const screen = await render(<template><Sidebar /></template>);
 
     // then
-    assert.dom(screen.getByRole('link', { name: 'Utilisateurs' })).exists();
+    assert.dom(screen.getByRole('link', { name: t('components.layout.sidebar.users') })).exists();
+  });
+
+  test('should contain link to "organization-learners" management page', async function (assert) {
+    // when
+    const screen = await render(<template><Sidebar /></template>);
+
+    // then
+    assert.dom(screen.getByRole('link', { name: t('components.layout.sidebar.organization-learners') })).exists();
   });
 
   test('should contain link to "sessions" management page', async function (assert) {

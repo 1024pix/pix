@@ -56,6 +56,9 @@ Router.map(function () {
         this.route('attached-certification-centers');
       });
     });
+    this.route('organization-learners', function () {
+      this.route('list');
+    });
 
     this.route('networks', function () {
       this.route('new');
