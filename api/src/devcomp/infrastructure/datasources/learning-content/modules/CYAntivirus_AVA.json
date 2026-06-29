@@ -130,7 +130,7 @@
                 "id": "df327be0-6c6c-40e2-b746-01dcd06addaa",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L'entreprise BCHX dispose de plus de 50 ordinateurs connectés à son réseau informatique.</p>\n<p>L’EDR de l’entreprise a récemment détecté un comportement suspect sur un des ordinateurs.</p>\n<br><p><em>[NDC]Image actuellement générée par IA, elle sera moins chargées dans la version définitive. <br>Inspiration interface EDR : https://www.youtube.com/watch?v=uAratnOEbWM (vers 4mn)<br>⚠️Il ne s’agit pas de montrer une interface totalement réaliste de l’EDR mais de se mettre à la place de ce que surveille l’EDR :&nbsp;</em><br></p>"
+                "content": "<p>L’entreprise BCHX dispose de plus de 50 ordinateurs connectés à son réseau informatique.</p><p>L’EDR de l’entreprise a récemment détecté un comportement suspect sur un des ordinateurs.</p><br><p><em>[NDC]Image actuellement générée par IA, elle sera moins chargées dans la version définitive. <br>Inspiration interface EDR&nbsp;: https://www.youtube.com/watch?v=uAratnOEbWM (vers 4mn)<br>⚠️Il ne s’agit pas de montrer une interface totalement réaliste de l’EDR mais de se mettre à la place de ce que surveille l’EDR&nbsp;:&nbsp;</em><br></p>"
               }
             },
             {
@@ -149,7 +149,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/CY_Antivirus_AVA/chat-gpt-image-10-juin-2026-17_49_18.png",
                 "alt": "",
-                "alternativeText": "<p>Illustration montrant les différents paramètres d'un PC en temps réel. Sur ce PC, le nombre d'opération en cours est très élevé, il tente d'accéder à des fichier protégées et se connecte à des sites à l'étranger.</p>",
+                "alternativeText": "<p>Illustration montrant les différents paramètres d’un PC en temps réel. Sur ce PC, le nombre d’opération en cours est très élevé, il tente d’accéder à des fichier protégées et se connecte à des sites à l’étranger.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -190,11 +190,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "Bien vu !",
-                    "diagnosis": "<p>Certaines activités peuvent attirer l'attention car elles sortent du fonctionnement habituel d'un ordinateur&nbsp;: processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers, des connexions réseau inhabituelles ou encore une tentative d’accès à des données protégées.</p>\n<p>Un EDR <strong>surveille en continu l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire. Pour détecter <strong>un comportement suspect</strong>, un EDR croise alors plusieurs signaux.</p>"
+                    "diagnosis": "<p>Certaines activités peuvent attirer l’attention car elles sortent du fonctionnement habituel d’un ordinateur&nbsp;: processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers, des connexions réseau inhabituelles ou encore une tentative d’accès à des données protégées.</p><p>Un EDR <strong>surveille en continu l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire. Pour détecter <strong>un comportement suspect</strong>, un EDR croise alors plusieurs signaux.</p>"
                   },
                   "invalid": {
                     "state": "Eh non !",
-                    "diagnosis": "<p>Certaines activités peuvent attirer l'attention car elles sortent du fonctionnement habituel d'un ordinateur&nbsp;: processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers, des connexions réseau inhabituelles ou encore une tentative d’accès à des données protégées.</p>\n<p>Un EDR <strong>surveille en continu l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire. Pour détecter <strong>un comportement suspect</strong>, un EDR croise alors plusieurs signaux.</p>"
+                    "diagnosis": "<p>Certaines activités peuvent attirer l’attention car elles sortent du fonctionnement habituel d’un ordinateur&nbsp;: processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers, des connexions réseau inhabituelles ou encore une tentative d’accès à des données protégées.</p><p>Un EDR <strong>surveille en continu l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire. Pour détecter <strong>un comportement suspect</strong>, un EDR croise alors plusieurs signaux.</p>"
                   }
                 },
                 "solutions": [
@@ -232,13 +232,13 @@
                       "id": "6861f8ce-5b28-41d2-bd44-fbb2454b3350",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Comment un EDR détecte-t-il une menace ?🔎</h5><ul><li>Pour cela, un programme est installé sur chaque terminal. <strong>Il collecte en continu les données d’activité d’un terminal</strong> puis les transmet à une console centrale.&nbsp; </li><li>La console centrale de l’EDR analyse et enregistre ensuite ces données pour <strong>repérer des comportements inhabituels ou suspects</strong> sur les terminaux.</li></ul><p><br></p><p>Cette méthode de détection s’appuie sur l’<strong>analyse comportementale</strong>. <em>[NDC] +schéma simplifié de l’EDR</em></p>"
+                      "content": "<h5>Comment un EDR détecte-t-il une menace ?🔎</h5><ul><li>Pour cela, un programme est installé sur chaque terminal. <strong>Il collecte en continu les données d’activité d’un terminal</strong> puis les transmet à une console centrale.&nbsp; </li><li>La console centrale de l’EDR analyse et enregistre ensuite ces données pour <strong>repérer des comportements inhabituels ou suspects</strong> sur les terminaux.</li></ul><p>Cette méthode de détection s’appuie sur l’<strong>analyse comportementale</strong>. <em>[NDC] +schéma simplifié de l’EDR</em></p>"
                     },
                     {
                       "id": "fb2bb6ea-c22f-4174-bf25-ab160118b9b7",
                       "type": "text",
                       "tag": "further-information",
-                      "content": "<p>Les équipes de sécurité <strong>paramètrent la sensibilité de l’EDR</strong> pour trouver un équilibre entre la détection des menaces et les fausses alertes. Certains comportements sont plus suspects que d'autres.</p>"
+                      "content": "<p>Les équipes de sécurité <strong>paramètrent la sensibilité de l’EDR</strong> pour trouver un équilibre entre la détection des menaces et les fausses alertes. Certains comportements sont plus suspects que d’autres.</p>"
                     }
                   ]
                 }
@@ -273,7 +273,7 @@
                 "id": "a74b7f3c-61f2-442d-95e5-573fa11c2eff",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voici quelques actions possibles d’un EDR dans le tableau ci-dessous.&nbsp;</p>\n<p><strong>Observez-les puis répondez aux questions qui suivent.</strong></p>\n\n<table>\n    <thead>\n        <tr>\n            <th>Condition détectée</th>\n            <th>Action (Réponse)</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td><strong>SI</strong> un fichier malveillant est téléchargé</td>\n            <td><strong>ALORS</strong> mettre le fichier en quarantaine <strong>ET</strong> envoyer une alerte</td>\n        </tr>\n        <tr>\n            <td><strong>SI</strong> un programme inconnu tente d'accéder à des données sensibles</td>\n            <td><strong>ALORS</strong> mettre fin au processus sur le terminal <strong>ET</strong> envoyer une alerte</td>\n        </tr>\n        <tr>\n            <td><strong>SI</strong> un terminal tente de propager un logiciel malveillant vers d'autres terminaux du réseau de l’entreprise</td>\n            <td><strong>ALORS</strong> isoler le terminal du réseau de l’entreprise <strong>ET</strong> envoyer une alerte</td>\n        </tr>\n        <tr>\n            <td><strong>SI</strong> une connexion inhabituelle est détectée sur un terminal</td>\n            <td><strong>ALORS</strong> envoyer une alerte</td>\n        </tr>\n    </tbody>\n</table>"
+                "content": "<p>Voici quelques actions possibles d’un EDR dans le tableau ci-dessous.&nbsp;</p><p><strong>Observez-les puis répondez aux questions qui suivent.</strong></p><table>    <thead>        <tr>            <th>Condition détectée</th>            <th>Action (Réponse)</th>        </tr>    </thead>    <tbody>        <tr>            <td><strong>SI</strong> un fichier malveillant est téléchargé</td>            <td><strong>ALORS</strong> mettre le fichier en quarantaine <strong>ET</strong> envoyer une alerte</td>        </tr>        <tr>            <td><strong>SI</strong> un programme inconnu tente d’accéder à des données sensibles</td>            <td><strong>ALORS</strong> mettre fin au processus sur le terminal <strong>ET</strong> envoyer une alerte</td>        </tr>        <tr>            <td><strong>SI</strong> un terminal tente de propager un logiciel malveillant vers d’autres terminaux du réseau de l’entreprise</td>            <td><strong>ALORS</strong> isoler le terminal du réseau de l’entreprise <strong>ET</strong> envoyer une alerte</td>        </tr>        <tr>            <td><strong>SI</strong> une connexion inhabituelle est détectée sur un terminal</td>            <td><strong>ALORS</strong> envoyer une alerte</td>        </tr>    </tbody></table>"
               }
             },
             {
@@ -339,21 +339,21 @@
                     {
                       "id": "90c217d6-8863-48a3-b26e-649e0ea6bdb3",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Les actions de l’EDR sont paramétrées à l'avance.</p>",
+                      "instruction": "<p>Les actions de l’EDR sont paramétrées à l’avance.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Exactement. L’EDR intègre des <strong>règles de détection et de réponses</strong> fournies par l’éditeur de l’EDR. L'équipe de sécurité peut ensuite les configurer en fonction des besoins et de la politique de sécurité de l'organisation. </p>\n<p>Ces <strong>paramètres</strong> déterminent comment l'EDR doit réagir face à certaines situations.</p>"
+                            "diagnosis": "<p>Exactement. L’EDR intègre des <strong>règles de détection et de réponses</strong> fournies par l’éditeur de l’EDR. L’équipe de sécurité peut ensuite les configurer en fonction des besoins et de la politique de sécurité de l’organisation. </p><p>Ces <strong>paramètres</strong> déterminent comment l’EDR doit réagir face à certaines situations.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! L’EDR intègre des <strong>règles de détection et de réponses</strong> fournies par l’éditeur de l’EDR. L'équipe de sécurité peut ensuite les configurer en fonction des besoins et de la politique de sécurité de l'organisation. </p>\n<p>Ces <strong>paramètres</strong> déterminent comment l'EDR doit réagir face à certaines situations.</p>"
+                            "diagnosis": "<p>Eh non ! L’EDR intègre des <strong>règles de détection et de réponses</strong> fournies par l’éditeur de l’EDR. L’équipe de sécurité peut ensuite les configurer en fonction des besoins et de la politique de sécurité de l’organisation. </p><p>Ces <strong>paramètres</strong> déterminent comment l’EDR doit réagir face à certaines situations.</p>"
                           }
                         }
                       ],
@@ -373,14 +373,14 @@
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Pas toujours. Certaines actions peuvent être automatiques, tandis que d’autres nécessitent une <strong>validation ou une intervention humaine</strong>.</p>\n<p>Très souvent, l’EDR n’agit pas et envoie simplement<strong> une alerte</strong> pour signaler l’incident à l’équipe de sécurité qui décidera des actions à entreprendre.</p>"
+                            "diagnosis": "<p>Pas toujours. Certaines actions peuvent être automatiques, tandis que d’autres nécessitent une <strong>validation ou une intervention humaine</strong>.</p><p>Très souvent, l’EDR n’agit pas et envoie simplement<strong> une alerte</strong> pour signaler l’incident à l’équipe de sécurité qui décidera des actions à entreprendre.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Exact. Certaines actions peuvent être automatiques, tandis que d’autres nécessitent une <strong>validation ou une intervention humaine</strong>.</p>\n<p>Très souvent, l’EDR n’agit pas et envoie simplement<strong> une alerte</strong> pour signaler l’incident à l’équipe de sécurité qui décidera des actions à entreprendre.</p>"
+                            "diagnosis": "<p>Exact. Certaines actions peuvent être automatiques, tandis que d’autres nécessitent une <strong>validation ou une intervention humaine</strong>.</p><p>Très souvent, l’EDR n’agit pas et envoie simplement<strong> une alerte</strong> pour signaler l’incident à l’équipe de sécurité qui décidera des actions à entreprendre.</p>"
                           }
                         }
                       ],
@@ -444,12 +444,12 @@
                 "id": "03e15a1b-70ef-4a4d-9089-f38be3c203e9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Lundi matin à 08h17, l’EDR d’une entreprise a détecté une activité suspecte sur le poste <code>LAPTOP-FIN-042</code>, utilisé par <code>pedro.pascal</code>. Suite à une alerte de l’EDR, l’équipe de sécurité consulte les informations enregistrées par l'EDR dans un rapport d’incident. </p>\n<p><strong>Ouvrez et lisez le rapport d’incident de l’EDR puis complétez le texte qui suit.</strong></p>\n<p><a href=\"https://docs.google.com/document/d/1VTtgXci4PaBA1PnNk8hNXwnKu-av7Z3eoOSZjtpmpZ8/edit?tab=t.d5j6brigikue\" target=\"_blank\">Rapport d’incident</a></p>"
+                "content": "<p>Lundi matin à 08h17, l’EDR d’une entreprise a détecté une activité suspecte sur le poste <code>LAPTOP-FIN-042</code>, utilisé par <code>pedro.pascal</code>. Suite à une alerte de l’EDR, l’équipe de sécurité consulte les informations enregistrées par l’EDR dans un rapport d’incident. </p><p><strong>Ouvrez et lisez le rapport d’incident de l’EDR puis complétez le texte qui suit.</strong></p><p><a href=\"https://docs.google.com/document/d/1VTtgXci4PaBA1PnNk8hNXwnKu-av7Z3eoOSZjtpmpZ8/edit?tab=t.d5j6brigikue\" target=\"_blank\">Rapport d’incident</a></p>"
               }
             },
             {
               "type": "stepper",
-              "instruction": "<p><br></p>",
+              "instruction": "",
               "steps": [
                 {
                   "elements": [
@@ -460,7 +460,7 @@
                       "proposals": [
                         {
                           "type": "text",
-                          "content": "<p>L'équipe de sécurité cherche à identifier l'origine probable de l'incident&nbsp;:</p>"
+                          "content": "<p>L’équipe de sécurité cherche à identifier l’origine probable de l’incident&nbsp;:</p>"
                         },
                         {
                           "type": "select",
@@ -493,7 +493,7 @@
                         },
                         {
                           "type": "text",
-                          "content": "<p>L'équipe de sécurité cherche à savoir si le programme a tenté d'accéder à des données de l'utilisateur&nbsp;:</p>"
+                          "content": "<p>L’équipe de sécurité cherche à savoir si le programme a tenté d’accéder à des données de l’utilisateur&nbsp;:</p>"
                         },
                         {
                           "type": "select",
@@ -526,7 +526,7 @@
                         },
                         {
                           "type": "text",
-                          "content": "<p>L'équipe de sécurité cherche à vérifier si la menace a été contenue par l’EDR&nbsp;:</p>"
+                          "content": "<p>L’équipe de sécurité cherche à vérifier si la menace a été contenue par l’EDR&nbsp;:</p>"
                         },
                         {
                           "type": "select",
@@ -550,7 +550,7 @@
                             },
                             {
                               "id": "4",
-                              "content": "L'EDR a juste envoyé une alerte"
+                              "content": "L’EDR a juste envoyé une alerte"
                             }
                           ],
                           "solutions": [
@@ -560,12 +560,12 @@
                       ],
                       "feedbacks": {
                         "valid": {
-                          "state": "<p>Bien vu !&nbsp;<br></p>",
-                          "diagnosis": "<p>Ce que vous venez de faire ressemble, de façon très simplifiée, au travail d’analyse mené par l’équipe de sécurité après une alerte de cybersécurité.</p>\n<p>À partir des <strong>traces enregistrées par l’EDR</strong>, les équipes cherchent à reconstituer le déroulement d’un incident.</p>"
+                          "state": "<p>Bien vu !&nbsp;<br></p>",
+                          "diagnosis": "<p>Ce que vous venez de faire ressemble, de façon très simplifiée, au travail d’analyse mené par l’équipe de sécurité après une alerte de cybersécurité.</p><p>À partir des <strong>traces enregistrées par l’EDR</strong>, les équipes cherchent à reconstituer le déroulement d’un incident.</p>"
                         },
                         "invalid": {
-                          "state": "<p>Pas facile !<br></p>",
-                          "diagnosis": "<p>Ce qu'il vous était demandé ressemble, de façon très simplifiée, au travail d’analyse mené par l’équipe de sécurité après une alerte de cybersécurité.</p>\n<p>À partir des <strong>traces enregistrées par l’EDR</strong>, les équipes cherchent à reconstituer le déroulement d’un incident.</p>"
+                          "state": "<p>Pas facile !<br></p>",
+                          "diagnosis": "<p>Ce qu’il vous était demandé ressemble, de façon très simplifiée, au travail d’analyse mené par l’équipe de sécurité après une alerte de cybersécurité.</p><p>À partir des <strong>traces enregistrées par l’EDR</strong>, les équipes cherchent à reconstituer le déroulement d’un incident.</p>"
                         }
                       }
                     }
@@ -577,40 +577,40 @@
                       "id": "7c4cde95-97d8-4a1f-9b5e-39a7533556e7",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L'EDR a contenu la menace.</p>"
+                      "content": "<p>L’EDR a contenu la menace.</p>"
                     },
                     {
                       "id": "1578b4b3-cf37-41e8-97bb-381e3b732d9a",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Selon vous, que doit faire l'équipe de sécurité maintenant ?</p>",
+                      "instruction": "<p>Selon vous, que doit faire l’équipe de sécurité maintenant ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Considérer l'incident comme terminé, car l’EDR a bloqué l’activité suspecte et isolé le poste concerné.</p>",
+                          "content": "<p>Considérer l’incident comme terminé, car l’EDR a bloqué l’activité suspecte et isolé le poste concerné.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! </p><p>Avant de clôturer l’incident, l’équipe de sécurité doit poursuivre l'investigation pour évaluer son impact réel (autres terminaux touchés, fuite de données, etc.) et décider des <strong>mesures à mettre en place</strong> pour éviter qu’il ne se reproduise.</p>"
+                            "diagnosis": "<p>Eh non ! </p><p>Avant de clôturer l’incident, l’équipe de sécurité doit poursuivre l’investigation pour évaluer son impact réel (autres terminaux touchés, fuite de données, etc.) et décider des <strong>mesures à mettre en place</strong> pour éviter qu’il ne se reproduise.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Supprimer les traces techniques, car elles ne sont plus utiles une fois la menace contenue.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! </p>\n<p>Avant de clôturer l’incident, l’équipe de sécurité doit poursuivre l'investigation pour évaluer son impact réel (autres terminaux touchés, fuite de données, etc.) et décider des <strong>mesures à mettre en place</strong> pour éviter qu’il ne se reproduise.</p>"
+                            "diagnosis": "<p>Eh non ! </p><p>Avant de clôturer l’incident, l’équipe de sécurité doit poursuivre l’investigation pour évaluer son impact réel (autres terminaux touchés, fuite de données, etc.) et décider des <strong>mesures à mettre en place</strong> pour éviter qu’il ne se reproduise.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Poursuivre l’analyse pour vérifier qu'aucune propagation ni fuite de données n'a eu lieu.</p>",
+                          "content": "<p>Poursuivre l’analyse pour vérifier qu’aucune propagation ni fuite de données n’a eu lieu.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu ! </p>\n<p>Avant de clôturer l’incident, l’équipe de sécurité doit poursuivre l'investigation pour évaluer son impact réel (autres terminaux touchés, fuite de données, etc.) et décider des <strong>mesures à mettre en place</strong> pour éviter qu’il ne se reproduise.</p>"
+                            "diagnosis": "<p>Bien vu ! </p><p>Avant de clôturer l’incident, l’équipe de sécurité doit poursuivre l’investigation pour évaluer son impact réel (autres terminaux touchés, fuite de données, etc.) et décider des <strong>mesures à mettre en place</strong> pour éviter qu’il ne se reproduise.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Avant de clôturer l’incident, l’équipe de sécurité doit poursuivre l'investigation pour évaluer son impact réel (autres terminaux touchés, fuite de données, etc.) et décider des <strong>mesures à mettre en place</strong> pour éviter qu’il ne se reproduise.</p>"
+                            "diagnosis": "<p>Avant de clôturer l’incident, l’équipe de sécurité doit poursuivre l’investigation pour évaluer son impact réel (autres terminaux touchés, fuite de données, etc.) et décider des <strong>mesures à mettre en place</strong> pour éviter qu’il ne se reproduise.</p>"
                           }
                         }
                       ],
@@ -761,7 +761,7 @@
                   },
                   {
                     "id": "3fd9383b-0428-4e97-b8a3-8b8794ba6cd2",
-                    "text": "Collecter des informations utiles à l'analyse d'un incident.",
+                    "text": "Collecter des informations utiles à l’analyse d’un incident.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -799,7 +799,7 @@
                 "type": "custom",
                 "title": "",
                 "instruction": "<p>Remettez dans l’ordre chronologique les différentes étapes de traitement de cet incident.</p>",
-                "functionalInstruction": "<p><em>[NDC] MVP a modifier quand le POI classement sera généralisé</em></p>\n<p><em>Feedbacks&nbsp;:&nbsp; </em></p>\n<ul>\n    <li><em>Bonne réponse ! Vous avez réussi à reconstituer les étapes de gestion de cet incident.</em></li>\n    <li><em>Mauvaise réponse. Essayez de reconstituer le déroulement complet d’un incident, depuis sa détection, en passant par la réponse de l’EDR jusqu’à l’amélioration des mesures de protection.</em></li>\n</ul>",
+                "functionalInstruction": "<p><em>[NDC] MVP a modifier quand le POI classement sera généralisé</em></p><p><em>Feedbacks&nbsp;:&nbsp; </em></p><ul>    <li><em>Bonne réponse ! Vous avez réussi à reconstituer les étapes de gestion de cet incident.</em></li>    <li><em>Mauvaise réponse. Essayez de reconstituer le déroulement complet d’un incident, depuis sa détection, en passant par la réponse de l’EDR jusqu’à l’amélioration des mesures de protection.</em></li></ul>",
                 "tagName": "mdp-classement",
                 "props": {
                   "passwords": [
@@ -1042,7 +1042,7 @@
                     "id": "2",
                     "content": "Une équipe cybersécurité capable d’analyser les incidents.",
                     "feedback": {
-                      "diagnosis": "<p>Oui, l’équipe cybersécurité est essentielle : elle analyse les alertes, comprend les incidents et décide des <strong>mesures à prendre</strong>. Elle transforme les traces techniques en décisions utiles.</p><p>Mais elle ne peut pas tout voir ni tout éviter seule. La protection commence aussi avec des gestes simples : <strong>signaler un doute</strong>, éviter un lien suspect ou ne pas ouvrir une pièce jointe malveillante.</p>"
+                      "diagnosis": "<p>Oui, l’équipe cybersécurité est essentielle&nbsp;: elle analyse les alertes, comprend les incidents et décide des <strong>mesures à prendre</strong>. Elle transforme les traces techniques en décisions utiles.</p><p>Mais elle ne peut pas tout voir ni tout éviter seule. La protection commence aussi avec des gestes simples&nbsp;: <strong>signaler un doute</strong>, éviter un lien suspect ou ne pas ouvrir une pièce jointe malveillante.</p>"
                     }
                   },
                   {
