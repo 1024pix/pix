@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Ended from 'mon-pix/components/campaign-participation-overview/card/ended';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -28,12 +28,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
         campaignTitle: 'My campaign',
         organizationName: 'My organization',
       });
-      this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       // when
-      const screen = await render(
-        hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
-      );
+      const screen = await render(<template><Ended @model={{campaignParticipationOverview}} /></template>);
       // then
       assert.ok(screen.getByRole('heading', { name: 'My organization' }));
       assert.ok(screen.getByText('My campaign'));
@@ -56,12 +53,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
           campaignCode: '12345',
           organizationName: 'My organization',
         });
-        this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
-        );
+        const screen = await render(<template><Ended @model={{campaignParticipationOverview}} /></template>);
 
         // then
         assert
@@ -82,12 +76,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
           campaignCode: '12345',
           organizationName: 'My organization',
         });
-        this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
-        );
+        const screen = await render(<template><Ended @model={{campaignParticipationOverview}} /></template>);
 
         // then
         assert
@@ -108,12 +99,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
           masteryRate: '0.20',
           totalStagesCount: 0,
         });
-        this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
-        );
+        const screen = await render(<template><Ended @model={{campaignParticipationOverview}} /></template>);
 
         // then
         assert.ok(screen.getByText('20 % de réussite'));
@@ -133,12 +121,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
           validatedStagesCount: 5,
           totalStagesCount: 7,
         });
-        this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
-        );
+        const screen = await render(<template><Ended @model={{campaignParticipationOverview}} /></template>);
 
         // then
         assert.ok(screen.getByText('4 étoiles sur 6'));
@@ -157,12 +142,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
           organizationName: 'My organization',
           canRetry: true,
         });
-        this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
-        );
+        const screen = await render(<template><Ended @model={{campaignParticipationOverview}} /></template>);
 
         // then
         assert.ok(screen.getByText(t('pages.campaign-participation-overview.card.retry')));
@@ -181,12 +163,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
           organizationName: 'My organization',
           canRetry: false,
         });
-        this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
-        );
+        const screen = await render(<template><Ended @model={{campaignParticipationOverview}} /></template>);
 
         // then
         assert.ok(screen.getByText(t('pages.campaign-participation-overview.card.see-more')));
