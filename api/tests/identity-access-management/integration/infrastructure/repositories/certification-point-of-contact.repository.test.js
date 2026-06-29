@@ -36,11 +36,11 @@ describe('Integration | Identity Access Management |  Repository | Certification
       id: 123,
       name: 'Centre Pro',
       type: CertificationCenter.types.PRO,
-      externalId: 'ABC123',
+      externalId: 'AbC123',
     });
     databaseBuilder.factory.buildOrganization({
       id: 1,
-      externalId: 'ABC123',
+      externalId: 'ABc123',
       isManagingStudents: false,
       type: Organization.types.SUP,
     });
@@ -161,14 +161,14 @@ describe('Integration | Identity Access Management |  Repository | Certification
   });
 
   describe('#getCertificationCenterAccess', function () {
-    it('returns a certification center access for the given ID', async function () {
+    it('returns a certification center access for the given ID (case insensitive)', async function () {
       // given
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
         type: CertificationCenter.types.PRO,
-        externalId: 'ONETWOTHREE',
+        externalId: 'ONEtwoTHREE',
       });
       databaseBuilder.factory.buildOrganization({
-        externalId: 'ONETWOTHREE',
+        externalId: 'ONETWOthree',
         isManagingStudents: false,
         type: Organization.types.PRO,
       });
@@ -294,7 +294,7 @@ describe('Integration | Identity Access Management |  Repository | Certification
     });
 
     context(
-      'when the certification center is related to an organization of the same type that manages students',
+      'when the certification center is related to an organization of the same type that manages students (case insensitive)',
       function () {
         it('returns a CertificationPointOfContact with isRelatedOrganizationManagingStudents as true', async function () {
           // given
