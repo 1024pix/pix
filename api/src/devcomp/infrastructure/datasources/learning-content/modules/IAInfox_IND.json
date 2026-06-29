@@ -126,7 +126,7 @@
               "element": {
                 "id": "767f73a1-8b25-4705-8c07-a9fa45b3f858",
                 "type": "qcm",
-                "instruction": "<p>Parmi les contenus suivants, lesquels ont le plus de chances d’apparaître sur son fil d’actualité ? (2 bonnes réponses)</p>",
+                "instruction": "<p>Parmi les contenus suivants, lesquels ont le plus de chances d’apparaître sur le fil d’actualité de Marine ? (2 bonnes réponses)</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
