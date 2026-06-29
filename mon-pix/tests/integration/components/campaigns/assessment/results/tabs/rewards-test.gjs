@@ -1,6 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Rewards from 'mon-pix/components/campaigns/assessment/results/evaluation-results-tabs/rewards';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
@@ -32,12 +32,10 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
       acquisitionPercentage: 70,
     });
 
-    this.set('badges', [badgeAcquired1, badgeAcquired2, badgeNotAcquired1, badgeNotAcquired2]);
+    const badges = [badgeAcquired1, badgeAcquired2, badgeNotAcquired1, badgeNotAcquired2];
 
     // when
-    const screen = await render(
-      hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
-    );
+    const screen = await render(<template><Rewards @badges={{badges}} /></template>);
 
     // then
     assert.dom(screen.getByRole('heading', { name: t('pages.skill-review.tabs.rewards.title') })).isVisible();
@@ -75,12 +73,10 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
         isCertifiable: false,
       });
 
-      this.set('badges', [notCertifiableBadge1, acquiredBadge, notCertifiableBadge2]);
+      const badges = [notCertifiableBadge1, acquiredBadge, notCertifiableBadge2];
 
       // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
-      );
+      const screen = await render(<template><Rewards @badges={{badges}} /></template>);
 
       // then
       const acquiredBadges = screen.getAllByRole('listitem', {
@@ -117,12 +113,10 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
         acquisitionPercentage: 33,
       });
 
-      this.set('badges', [notVisibleBadge1, notVisibleBadge2, alwaysVisibleBadge]);
+      const badges = [notVisibleBadge1, notVisibleBadge2, alwaysVisibleBadge];
 
       // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
-      );
+      const screen = await render(<template><Rewards @badges={{badges}} /></template>);
 
       // then
       const notAcquiredBadges = screen.getAllByRole('listitem', {
@@ -157,12 +151,10 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
         acquisitionPercentage: 60,
       });
 
-      this.set('badges', [notCertifiableBadge1, certifiableBadge, notCertifiableBadge2]);
+      const badges = [notCertifiableBadge1, certifiableBadge, notCertifiableBadge2];
 
       // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards @badges={{this.badges}} />`,
-      );
+      const screen = await render(<template><Rewards @badges={{badges}} /></template>);
 
       // then
       const notAcquiredBadges = screen.getAllByRole('listitem', {
