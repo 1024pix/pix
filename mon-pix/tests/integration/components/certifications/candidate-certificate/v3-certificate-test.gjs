@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import V3Certificate from 'mon-pix/components/certifications/candidate-certificate/v3-certificate';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -23,11 +23,9 @@ module('Integration | Component | Certifications | Candidate certificate | v3-ce
         pixScore: 31,
         maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-        <Certifications::CandidateCertificate::v3Certificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3Certificate @certificate={{certification}} /></template>);
 
       // then
       assert
@@ -61,11 +59,9 @@ module('Integration | Component | Certifications | Candidate certificate | v3-ce
         maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
         globalLevelLabel: 'Expert 1',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-        <Certifications::CandidateCertificate::v3Certificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3Certificate @certificate={{certification}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { level: 2, name: t('pages.certificate.congratulations') })).exists();
@@ -97,11 +93,9 @@ module('Integration | Component | Certifications | Candidate certificate | v3-ce
         maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
         acquiredComplementaryCertification: 'http://example.com/clea.svg',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-        <Certifications::CandidateCertificate::v3Certificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3Certificate @certificate={{certification}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { level: 2, name: t('pages.certificate.complementary.title') })).exists();
