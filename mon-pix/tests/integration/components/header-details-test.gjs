@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import HeaderDetails from 'mon-pix/components/certifications/certificate-information/header-details';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,14 +10,15 @@ module('Integration | Component | Certifications | Certificate information | Hea
   setupIntlRenderingTest(hooks);
 
   module('when certification is complete', function (hooks) {
-    let certification, screen;
+    const state = {};
+    let screen;
     let store;
 
     hooks.beforeEach(async function () {
       // given
       stubCurrentUserService(this.owner);
       store = this.owner.lookup('service:store');
-      certification = store.createRecord('certification', {
+      state.certification = store.createRecord('certification', {
         id: '1',
         birthdate: '2000-01-22',
         birthplace: 'Paris',
@@ -32,12 +33,9 @@ module('Integration | Component | Certifications | Certificate information | Hea
         commentForCandidate: 'Comment for candidate',
         version: 2,
       });
-      this.set('certification', certification);
 
       // when
-      screen = await render(
-        hbs`<Certifications::CertificateInformation::HeaderDetails @certificate={{this.certification}} />`,
-      );
+      screen = await render(<template><HeaderDetails @certificate={{state.certification}} /></template>);
     });
 
     test('should show the certification published date', function (assert) {
@@ -92,12 +90,9 @@ module('Integration | Component | Certifications | Certificate information | Hea
           commentForCandidate: 'Comment for candidate',
           version: 2,
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(
-          hbs`<Certifications::CertificateInformation::HeaderDetails @certificate={{this.certification}} />`,
-        );
+        const screen = await render(<template><HeaderDetails @certificate={{certification}} /></template>);
 
         // then
         assert.ok(
@@ -127,12 +122,9 @@ module('Integration | Component | Certifications | Certificate information | Hea
           commentForCandidate: 'Comment for candidate',
           version: 2,
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(
-          hbs`<Certifications::CertificateInformation::HeaderDetails @certificate={{this.certification}} />`,
-        );
+        const screen = await render(<template><HeaderDetails @certificate={{certification}} /></template>);
 
         // then
         assert.notOk(
@@ -164,12 +156,9 @@ module('Integration | Component | Certifications | Certificate information | Hea
         status: 'validated',
         commentForCandidate: 'Comment for candidate',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(
-        hbs`<Certifications::CertificateInformation::HeaderDetails @certificate={{this.certification}} />`,
-      );
+      const screen = await render(<template><HeaderDetails @certificate={{certification}} /></template>);
 
       // then
       assert.notOk(
