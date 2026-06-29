@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Steps from 'mon-pix/components/campaigns/assessment/tutorial/steps';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
@@ -12,7 +12,7 @@ module('Integration | Component |  Campaigns::Assessment::Tutorial | Steps', fun
   module('on init', function () {
     test('it should display the first step', async function (assert) {
       //  when
-      const screen = await render(hbs`<Campaigns::Assessment::Tutorial::Steps @campaignCode='campaignCode' />`);
+      const screen = await render(<template><Steps @campaignCode="campaignCode" /></template>);
 
       // then
       assert.dom(screen.getByText(t('pages.tutorial.pages.page0.title'))).exists();
@@ -29,7 +29,7 @@ module('Integration | Component |  Campaigns::Assessment::Tutorial | Steps', fun
   module('on next step action', function () {
     test('it should display the next step', async function (assert) {
       //  when
-      const screen = await render(hbs`<Campaigns::Assessment::Tutorial::Steps @campaignCode='campaignCode' />`);
+      const screen = await render(<template><Steps @campaignCode="campaignCode" /></template>);
       await click(screen.getByRole('button', { name: t('pages.tutorial.next') }));
 
       // then
@@ -47,7 +47,7 @@ module('Integration | Component |  Campaigns::Assessment::Tutorial | Steps', fun
   module('on last step', function () {
     test('it should display the last step', async function (assert) {
       //  when
-      const screen = await render(hbs`<Campaigns::Assessment::Tutorial::Steps @campaignCode='campaignCode' />`);
+      const screen = await render(<template><Steps @campaignCode="campaignCode" /></template>);
       await click(
         screen.getByRole('button', {
           name: t('pages.tutorial.dot-action-title', { stepNumber: 5, stepsCount: 5 }),
