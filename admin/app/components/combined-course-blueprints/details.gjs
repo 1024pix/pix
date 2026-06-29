@@ -59,6 +59,12 @@ export default class Details extends Component {
                 <SafeMarkdownToHtml @markdown={{@model.attestationLabel}} />
               </DescriptionList.Item>
 
+              {{#if @model.rewardRequirements}}
+                <DescriptionList.Item @label={{t "components.combined-course-blueprints.labels.reward-requirements"}}>
+                  <SafeMarkdownToHtml @markdown={{@model.rewardRequirements}} />
+                </DescriptionList.Item>
+              {{/if}}
+
               {{#if @model.description}}
                 <DescriptionList.Item @label={{t "components.combined-course-blueprints.labels.description"}}>
                   <SafeMarkdownToHtml @markdown={{@model.description}} />

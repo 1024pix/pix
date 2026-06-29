@@ -142,6 +142,10 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       //then
       assert.ok(screen.getByRole('heading', { name: 'Sélection des sujets' }));
+      assert.ok(
+        screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
+      );
+      assert.notOk(screen.queryByLabelText('Taux de réussite requis', { exact: false }));
     });
 
     test('it should save blueprint with selected tubes requirements when they are selected', async function (assert) {
@@ -256,6 +260,8 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         surveyLink: 'http://survey-link.fr',
         rewardId: 5,
         rewardType: 'ATTESTATION',
+        attestationLabel: 'attestation',
+        rewardRequirements: 'rewardRequirements',
       });
       const model = { blueprint };
 
@@ -293,6 +299,10 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         'http://updated-survey-link.fr',
       );
 
+      await fillIn(
+        screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
+        'Updated requirements',
+      );
       await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.update.updateButton') }));
 
       //then
@@ -309,12 +319,36 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       assert.strictEqual(blueprint.surveyLink, 'http://updated-survey-link.fr');
       assert.strictEqual(blueprint.rewardId, 5);
       assert.strictEqual(blueprint.rewardType, 'ATTESTATION');
+      assert.strictEqual(blueprint.rewardRequirements, 'Updated requirements');
       assert.ok(
         pixToastSuccessStub.calledOnceWith({
           message: t('components.combined-course-blueprints.update.notifications.success'),
         }),
       );
       sinon.assert.calledWithExactly(router.transitionTo, 'authenticated.combined-course-blueprints.list');
+    });
+    test('it should display reward requirements when reward exists', async function (assert) {
+      // given
+      const blueprint = {
+        id: 1,
+        name: 'name',
+        internalName: 'internalName',
+        attestationLabel: 'Label',
+        rewardRequirements: 'Atteindre tel niveau sur tel sujet',
+      };
+      const model = { blueprint };
+
+      //when
+      const screen = await render(
+        <template><CombinedCourseBlueprintForm @updateMode={{true}} @model={{model}} /></template>,
+      );
+
+      //then
+      assert
+        .dom(
+          screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
+        )
+        .hasValue('Atteindre tel niveau sur tel sujet');
     });
   });
 

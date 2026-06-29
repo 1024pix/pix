@@ -716,6 +716,7 @@
         "itemId": "Identifiant",
         "module": "Module",
         "name": "Nom externe",
+        "reward-requirements": "Description des critères d’obtention",
         "survey-link": "Url du questionnaire de fin de parcours",
         "target-profile": "Profil cible"
       },

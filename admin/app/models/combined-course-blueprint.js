@@ -7,6 +7,7 @@ export default class CombinedCourseBlueprint extends Model {
   @attr('string') description;
   @attr('string') attestationLabel;
   @attr() rewardId;
+  @attr('string') rewardRequirements;
   @attr('string') rewardType;
   @attr('string') surveyLink;
   @attr({ type: 'date', defaultValue: () => undefined }) createdAt;
