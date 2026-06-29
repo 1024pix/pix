@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import HexagonScore from 'mon-pix/components/hexagon-score';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -13,12 +13,12 @@ module('Integration | Component | hexagon-score', function (hooks) {
       // given
       const maxReachablePixScore = 100;
       const maxReachableLevel = 5;
-      this.set('maxReachablePixScore', maxReachablePixScore);
-      this.set('maxReachableLevel', maxReachableLevel);
 
       // when
       const screen = await render(
-        hbs`<HexagonScore @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`,
+        <template>
+          <HexagonScore @maxReachablePixScore={{maxReachablePixScore}} @maxReachableLevel={{maxReachableLevel}} />
+        </template>,
       );
 
       // then
@@ -28,16 +28,9 @@ module('Integration | Component | hexagon-score', function (hooks) {
     test('should display provided score in hexagon', async function (assert) {
       // given
       const pixScore = '777';
-      this.set('pixScore', pixScore);
 
       // when
-      const screen = await render(
-        hbs`<HexagonScore
-  @pixScore={{this.pixScore}}
-  @maxReachablePixScore={{this.maxReachablePixScore}}
-  @maxReachableLevel={{this.maxReachableLevel}}
-/>`,
-      );
+      const screen = await render(<template><HexagonScore @pixScore={{pixScore}} /></template>);
 
       // then
       assert.ok(screen.getByText(pixScore));
@@ -47,12 +40,12 @@ module('Integration | Component | hexagon-score', function (hooks) {
       // given
       const maxReachablePixScore = 100;
       const maxReachableLevel = 5;
-      this.set('maxReachablePixScore', maxReachablePixScore);
-      this.set('maxReachableLevel', maxReachableLevel);
 
       // when
       const screen = await render(
-        hbs`<HexagonScore @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`,
+        <template>
+          <HexagonScore @maxReachablePixScore={{maxReachablePixScore}} @maxReachableLevel={{maxReachableLevel}} />
+        </template>,
       );
 
       // then
