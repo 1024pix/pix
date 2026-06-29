@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ProgressBar from 'mon-pix/components/progress-bar';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -30,12 +30,14 @@ module('Integration | Component | progress-bar', function (hooks) {
         });
         mockAssessment.answers = answers;
 
-        this.set('assessment', mockAssessment);
-        this.set('currentChallengeNumber', 2);
+        const assessment = mockAssessment;
+        const currentChallengeNumber = 2;
 
         // when
         const screen = await render(
-          hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
+          <template>
+            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+          </template>,
         );
 
         // then
@@ -64,12 +66,14 @@ module('Integration | Component | progress-bar', function (hooks) {
         });
         mockAssessment.answers = [];
 
-        this.set('assessment', mockAssessment);
-        this.set('currentChallengeNumber', 0);
+        const assessment = mockAssessment;
+        const currentChallengeNumber = 0;
 
         // when
         await render(
-          hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
+          <template>
+            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+          </template>,
         );
 
         // then
@@ -97,12 +101,14 @@ module('Integration | Component | progress-bar', function (hooks) {
         });
         mockAssessment.answers = answers;
 
-        this.set('assessment', mockAssessment);
-        this.set('currentChallengeNumber', 2);
+        const assessment = mockAssessment;
+        const currentChallengeNumber = 2;
 
         // when
         const screen = await render(
-          hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
+          <template>
+            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+          </template>,
         );
 
         // then
@@ -137,12 +143,14 @@ module('Integration | Component | progress-bar', function (hooks) {
         });
         mockAssessment.answers = answers;
 
-        this.set('assessment', mockAssessment);
-        this.set('currentChallengeNumber', 2);
+        const assessment = mockAssessment;
+        const currentChallengeNumber = 2;
 
         // when
         const screen = await render(
-          hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
+          <template>
+            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+          </template>,
         );
 
         // then
@@ -172,12 +180,14 @@ module('Integration | Component | progress-bar', function (hooks) {
         });
         mockAssessment.answers = answers;
 
-        this.set('assessment', mockAssessment);
-        this.set('currentChallengeNumber', 2);
+        const assessment = mockAssessment;
+        const currentChallengeNumber = 2;
 
         // when
         const screen = await render(
-          hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
+          <template>
+            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+          </template>,
         );
 
         // then
@@ -200,12 +210,14 @@ module('Integration | Component | progress-bar', function (hooks) {
 
           mockAssessment.answers = answers;
 
-          this.set('assessment', mockAssessment);
-          this.set('currentChallengeNumber', 0);
+          const assessment = mockAssessment;
+          const currentChallengeNumber = 0;
 
           // when
           const screen = await render(
-            hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
+            <template>
+              <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+            </template>,
           );
 
           // then
@@ -228,12 +240,14 @@ module('Integration | Component | progress-bar', function (hooks) {
 
           mockAssessment.answers = answers;
 
-          this.set('assessment', mockAssessment);
-          this.set('currentChallengeNumber', 0);
+          const assessment = mockAssessment;
+          const currentChallengeNumber = 0;
 
           // when
           const screen = await render(
-            hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
+            <template>
+              <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+            </template>,
           );
 
           // then
