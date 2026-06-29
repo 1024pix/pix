@@ -786,7 +786,7 @@
                     "input": "0",
                     "display": "inline",
                     "placeholder": "",
-                    "ariaLabel": "",
+                    "ariaLabel": "sélectioner une étape",
                     "tolerances": [],
                     "options": [
                       {
@@ -819,7 +819,7 @@
                     "input": "10",
                     "display": "inline",
                     "placeholder": "",
-                    "ariaLabel": "",
+                    "ariaLabel": "sélectioner une étape",
                     "tolerances": [],
                     "options": [
                       {
@@ -852,7 +852,7 @@
                     "input": "20",
                     "display": "inline",
                     "placeholder": "",
-                    "ariaLabel": "",
+                    "ariaLabel": "sélectioner une étape",
                     "tolerances": [],
                     "options": [
                       {
@@ -885,7 +885,7 @@
                     "input": "30",
                     "display": "inline",
                     "placeholder": "",
-                    "ariaLabel": "",
+                    "ariaLabel": "sélectioner une étape",
                     "tolerances": [],
                     "options": [
                       {
