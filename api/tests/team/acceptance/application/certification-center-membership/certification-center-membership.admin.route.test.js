@@ -72,6 +72,33 @@ describe('Acceptance | Team | Application | Admin | Routes | certification-cente
       expect(response.result.data).to.have.lengthOf(1);
       expect(_.omit(response.result, 'included')).to.deep.equal(expectedUserMembership);
     });
+
+    context('Error cases', function () {
+      context('when user does not have a valid role', function () {
+        it('returns a 403 HTTP status code', async function () {
+          const user = databaseBuilder.factory.buildUser();
+          const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+          databaseBuilder.factory.buildCertificationCenterMembership({
+            certificationCenterId: certificationCenter.id,
+            userId: user.id,
+          });
+          const userWithoutRole = databaseBuilder.factory.buildUser();
+          await databaseBuilder.commit();
+
+          const request = {
+            method: 'GET',
+            url: `/api/admin/users/${user.id}/certification-center-memberships`,
+            headers: generateAuthenticatedUserRequestHeaders({ userId: userWithoutRole.id }),
+          };
+
+          // when
+          const { statusCode } = await server.inject(request);
+
+          // then
+          expect(statusCode).to.equal(403);
+        });
+      });
+    });
   });
 
   describe('PATCH /api/admin/certification-center-memberships/{id}', function () {
