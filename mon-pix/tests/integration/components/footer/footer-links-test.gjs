@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import FooterLinks from 'mon-pix/components/footer/footer-links';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -12,7 +12,7 @@ module('Integration | Component | Footer', function (hooks) {
 
   test('displays a navigation with a list of links', async function (assert) {
     // when
-    const screen = await render(hbs`<Footer::FooterLinks />`);
+    const screen = await render(<template><FooterLinks /></template>);
 
     // then
     assert.dom(screen.getByRole('navigation')).hasAttribute('aria-label', t('navigation.footer.label'));
@@ -32,7 +32,7 @@ module('Integration | Component | Footer', function (hooks) {
 
     test('displays the sitemap link', async function (assert) {
       // when
-      const screen = await render(hbs`<Footer::FooterLinks />`);
+      const screen = await render(<template><FooterLinks /></template>);
 
       // then
       assert.ok(screen.getByRole('link', { name: t('navigation.footer.sitemap') }));
@@ -42,7 +42,7 @@ module('Integration | Component | Footer', function (hooks) {
   module('when url does not have frenchDomainExtension', function () {
     test('does not display the student data policy', async function (assert) {
       // when
-      const screen = await render(hbs`<Footer::FooterLinks />}`);
+      const screen = await render(<template><FooterLinks /></template>);
 
       // then
       assert
@@ -59,7 +59,7 @@ module('Integration | Component | Footer', function (hooks) {
 
     test('displays the student data policy', async function (assert) {
       // when
-      const screen = await render(hbs`<Footer::FooterLinks />}`);
+      const screen = await render(<template><FooterLinks /></template>);
 
       // then
       assert.dom(screen.getByRole('link', { name: t('navigation.footer.student-data-protection-policy') })).exists();
@@ -70,7 +70,7 @@ module('Integration | Component | Footer', function (hooks) {
     module('when @size prop is not defined', function () {
       test('default size is small', async function (assert) {
         // when
-        const screen = await render(hbs`<Footer::FooterLinks />}`);
+        const screen = await render(<template><FooterLinks /></template>);
 
         // then
         assert.dom(screen.getByRole('list')).hasClass(/--small/);
@@ -80,7 +80,7 @@ module('Integration | Component | Footer', function (hooks) {
     module('when @size prop is "extra-small"', function () {
       test('size is "extra-small"', async function (assert) {
         // when
-        const screen = await render(hbs`<Footer::FooterLinks @size='extra-small' />}`);
+        const screen = await render(<template><FooterLinks @size="extra-small" /></template>);
 
         // then
         assert.dom(screen.getByRole('list')).hasClass(/--extra-small/);
@@ -92,7 +92,7 @@ module('Integration | Component | Footer', function (hooks) {
     module('when @textAlign prop is not defined', function () {
       test('there is no text align variant', async function (assert) {
         // when
-        const screen = await render(hbs`<Footer::FooterLinks />}`);
+        const screen = await render(<template><FooterLinks /></template>);
 
         // then
         assert.dom(screen.getByRole('list')).hasNoClass(/--align/);
@@ -102,7 +102,7 @@ module('Integration | Component | Footer', function (hooks) {
     module('when @textAlign prop is "right"', function () {
       test('text align is "right"', async function (assert) {
         // when
-        const screen = await render(hbs`<Footer::FooterLinks @textAlign='right' />}`);
+        const screen = await render(<template><FooterLinks @textAlign="right" /></template>);
 
         // then
         assert.dom(screen.getByRole('list')).hasClass(/--align-right/);
