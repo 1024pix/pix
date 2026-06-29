@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import EmailVerificationCode from 'mon-pix/components/user-account/email-verification-code';
 import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -14,12 +14,12 @@ module('Integration | Component | user-account | email-verification-code', funct
   module('resend code message', function () {
     test('does not display resend code message at the beginning', async function (assert) {
       // given
-      this.set('email', 'toto@example.net');
-      this.set('action', 'update-email');
+      const email = 'toto@example.net';
+      const actionType = 'update-email';
 
       // when
       const screen = await render(
-        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @action={{this.action}} />`,
+        <template><EmailVerificationCode @email={{email}} @action={{actionType}} /></template>,
       );
 
       // then
@@ -31,14 +31,11 @@ module('Integration | Component | user-account | email-verification-code', funct
       // given
       const email = 'toto@example.net';
       const password = 'pix123';
-      const action = 'update-email';
-      this.set('email', email);
-      this.set('password', password);
-      this.set('action', action);
+      const actionType = 'update-email';
 
       // when
       const screen = await render(
-        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} @action={{this.action}} />`,
+        <template><EmailVerificationCode @email={{email}} @password={{password}} @action={{actionType}} /></template>,
       );
 
       // then
@@ -54,20 +51,19 @@ module('Integration | Component | user-account | email-verification-code', funct
       // given
       const email = 'toto@example.net';
       const password = 'pix123';
-      const action = 'update-email';
-      this.set('email', email);
-      this.set('password', password);
-      this.set('action', action);
+      const actionType = 'update-email';
 
       const store = this.owner.lookup('service:store');
       store.createRecord = sinon.stub();
-      store.createRecord.withArgs('email-verification-code', { password, newEmail: email, action: action }).returns({
-        sendNewEmail: () => new Promise(() => {}),
-      });
+      store.createRecord
+        .withArgs('email-verification-code', { password, newEmail: email, action: actionType })
+        .returns({
+          sendNewEmail: () => new Promise(() => {}),
+        });
 
       // when
       const screen = await render(
-        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} @action={{this.action}} />`,
+        <template><EmailVerificationCode @email={{email}} @password={{password}} @action={{actionType}} /></template>,
       );
 
       await click(
@@ -89,21 +85,18 @@ module('Integration | Component | user-account | email-verification-code', funct
       // given
       const email = 'toto@example.net';
       const password = 'pix123';
-      const action = 'update-email';
-      this.set('email', email);
-      this.set('password', password);
-      this.set('action', action);
+      const actionType = 'update-email';
 
       const store = this.owner.lookup('service:store');
       const sendNewEmailStub = sinon.stub();
       store.createRecord = sinon.stub();
       store.createRecord
-        .withArgs('email-verification-code', { password, newEmail: email, action: action })
+        .withArgs('email-verification-code', { password, newEmail: email, action: actionType })
         .returns({ sendNewEmail: sendNewEmailStub });
 
       // when
       const screen = await render(
-        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} @action={{this.action}} />`,
+        <template><EmailVerificationCode @email={{email}} @password={{password}} @action={{actionType}} /></template>,
       );
 
       await click(
@@ -127,8 +120,8 @@ module('Integration | Component | user-account | email-verification-code', funct
       // given
       const store = this.owner.lookup('service:store');
       store.createRecord = sinon.stub();
-      this.set('email', 'toto@example.net');
-      const screen = await render(hbs`<UserAccount::EmailVerificationCode @email={{this.email}} />`);
+      const email = 'toto@example.net';
+      const screen = await render(<template><EmailVerificationCode @email={{email}} /></template>);
 
       // when
       await click(
@@ -148,17 +141,19 @@ module('Integration | Component | user-account | email-verification-code', funct
         const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
         const displayEmailUpdateMessage = sinon.stub();
-        this.set('disableEmailEditionMode', disableEmailEditionMode);
-        this.set('displayEmailUpdateMessage', displayEmailUpdateMessage);
-        this.set('email', 'toto@example.net');
+        const email = 'toto@example.net';
         const verifyCode = sinon.stub().throws({ errors: [{ code: 'INVALID_VERIFICATION_CODE' }] });
         store.createRecord = () => ({ verifyCode });
 
-        const screen = await render(hbs`<UserAccount::EmailVerificationCode
-  @email={{this.email}}
-  @disableEmailEditionMode={{this.disableEmailEditionMode}}
-  @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
-/>`);
+        const screen = await render(
+          <template>
+            <EmailVerificationCode
+              @email={{email}}
+              @disableEmailEditionMode={{disableEmailEditionMode}}
+              @displayEmailUpdateMessage={{displayEmailUpdateMessage}}
+            />
+          </template>,
+        );
 
         // when
         await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
@@ -181,9 +176,7 @@ module('Integration | Component | user-account | email-verification-code', funct
         const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
         const displayEmailUpdateMessage = sinon.stub();
-        this.set('disableEmailEditionMode', disableEmailEditionMode);
-        this.set('displayEmailUpdateMessage', displayEmailUpdateMessage);
-        this.set('email', 'toto@example.net');
+        const email = 'toto@example.net';
         const verifyCode = sinon.stub().throws({
           errors: [
             {
@@ -193,11 +186,15 @@ module('Integration | Component | user-account | email-verification-code', funct
         });
         store.createRecord = () => ({ verifyCode });
 
-        const screen = await render(hbs`<UserAccount::EmailVerificationCode
-  @email={{this.email}}
-  @disableEmailEditionMode={{this.disableEmailEditionMode}}
-  @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
-/>`);
+        const screen = await render(
+          <template>
+            <EmailVerificationCode
+              @email={{email}}
+              @disableEmailEditionMode={{disableEmailEditionMode}}
+              @displayEmailUpdateMessage={{displayEmailUpdateMessage}}
+            />
+          </template>,
+        );
 
         // when
         await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
@@ -222,9 +219,7 @@ module('Integration | Component | user-account | email-verification-code', funct
         const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
         const displayEmailUpdateMessage = sinon.stub();
-        this.set('disableEmailEditionMode', disableEmailEditionMode);
-        this.set('displayEmailUpdateMessage', displayEmailUpdateMessage);
-        this.set('email', 'toto@example.net');
+        const email = 'toto@example.net';
         const verifyCode = sinon.stub().throws({
           errors: [
             {
@@ -234,11 +229,15 @@ module('Integration | Component | user-account | email-verification-code', funct
         });
         store.createRecord = () => ({ verifyCode });
 
-        const screen = await render(hbs`<UserAccount::EmailVerificationCode
-  @email={{this.email}}
-  @disableEmailEditionMode={{this.disableEmailEditionMode}}
-  @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
-/>`);
+        const screen = await render(
+          <template>
+            <EmailVerificationCode
+              @email={{email}}
+              @disableEmailEditionMode={{disableEmailEditionMode}}
+              @displayEmailUpdateMessage={{displayEmailUpdateMessage}}
+            />
+          </template>,
+        );
 
         // when
         await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
@@ -261,17 +260,19 @@ module('Integration | Component | user-account | email-verification-code', funct
         const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
         const displayEmailUpdateMessage = sinon.stub();
-        this.set('disableEmailEditionMode', disableEmailEditionMode);
-        this.set('displayEmailUpdateMessage', displayEmailUpdateMessage);
-        this.set('email', 'toto@example.net');
+        const email = 'toto@example.net';
         const verifyCode = sinon.stub().throws({ errors: [{ status: '500' }] });
         store.createRecord = () => ({ verifyCode });
 
-        const screen = await render(hbs`<UserAccount::EmailVerificationCode
-  @email={{this.email}}
-  @disableEmailEditionMode={{this.disableEmailEditionMode}}
-  @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
-/>`);
+        const screen = await render(
+          <template>
+            <EmailVerificationCode
+              @email={{email}}
+              @disableEmailEditionMode={{disableEmailEditionMode}}
+              @displayEmailUpdateMessage={{displayEmailUpdateMessage}}
+            />
+          </template>,
+        );
 
         // when
         await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
