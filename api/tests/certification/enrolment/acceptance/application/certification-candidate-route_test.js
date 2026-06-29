@@ -4,7 +4,7 @@ import { createServer } from '../../../../../server.js';
 import { CandidateCreatedEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateCreatedEvent.js';
 import { CandidateNotCertifiableEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateNotCertifiableEvent.js';
 import { CandidateReconciledEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateReconciledEvent.js';
-import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
+import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
@@ -76,16 +76,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
               email: null,
               birthdate: '2000-10-10',
               'organization-learner-id': null,
-              subscriptions: [
-                {
-                  type: SUBSCRIPTION_TYPES.CORE,
-                  complementaryCertificationKey: null,
-                },
-                {
-                  type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-                  complementaryCertificationKey: Frameworks.CLEA,
-                },
-              ],
+              subscription: Frameworks.CLEA,
             },
           },
         },

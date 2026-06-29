@@ -3,8 +3,7 @@ import sinon from 'sinon';
 import { certificationCandidateController } from '../../../../../src/certification/enrolment/application/certification-candidate-controller.js';
 import { certificationCandidateRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/certification-candidate-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
-import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
@@ -32,12 +31,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         sex: 'F',
         'billing-mode': 'FREE',
         'prepayment-code': null,
-        subscriptions: [
-          {
-            complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-            type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-          },
-        ],
+        subscription: Frameworks.DROIT,
       };
     });
 
@@ -120,29 +114,6 @@ describe('Unit | Application | Sessions | Routes', function () {
           expect(response.statusCode).to.equal(400);
           const { errors } = JSON.parse(response.payload);
           expect(errors[0].detail).to.equals('"data.attributes.toto" is not allowed');
-        });
-      });
-
-      describe('when subscriptions in undefined', function () {
-        it('should return 400', async function () {
-          // given
-          sinon.stub(authorization, 'verifySessionAuthorization').returns(true);
-          sinon.stub(certificationCandidateController, 'addCandidate').returns('ok');
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
-
-          // when
-          const response = await httpTestServer.request('POST', '/api/sessions/1/certification-candidates', {
-            data: {
-              attributes: { ...correctAttributes, subscriptions: undefined },
-              type: 'certification-candidates',
-            },
-          });
-
-          // then
-          expect(response.statusCode).to.equal(400);
-          const { errors } = JSON.parse(response.payload);
-          expect(errors[0].detail).to.equals('"data.attributes.subscriptions" is required');
         });
       });
     });
