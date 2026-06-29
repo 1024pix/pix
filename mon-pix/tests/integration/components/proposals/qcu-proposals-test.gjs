@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import QcuProposals from 'mon-pix/components/proposals/qcu-proposals';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -27,17 +27,15 @@ module('Integration | Component | QCU proposals', function (hooks) {
     // -        https://guides.emberjs.com/v2.10.0/tutorial/autocomplete-component/
     test('should render as much radio buttons as proposals', async function (assert) {
       // given
-      this.set('proposals', proposals);
-      this.set('answers', answers);
-      this.set('answerChanged', answerChangedHandler);
+      const proposalsValue = proposals;
+      const answersValue = answers;
+      const answerChanged = answerChangedHandler;
 
       // when
       const screen = await render(
-        hbs`<Proposals::QcuProposals
-  @answers={{this.answers}}
-  @proposals={{this.proposals}}
-  @answerChanged={{this.answerChanged}}
-/>`,
+        <template>
+          <QcuProposals @answers={{answersValue}} @proposals={{proposalsValue}} @answerChanged={{answerChanged}} />
+        </template>,
       );
 
       // then
@@ -49,12 +47,12 @@ module('Integration | Component | QCU proposals', function (hooks) {
 
     test('should render as much radio buttons as proposals when there are many proposals', async function (assert) {
       // given
-      this.set('proposals', '- prop 1\n- prop 2\n- prop 3\n- prop 4\n- prop 5');
-      this.set('answerChanged', answerChangedHandler);
+      const proposalsValue = '- prop 1\n- prop 2\n- prop 3\n- prop 4\n- prop 5';
+      const answerChanged = answerChangedHandler;
 
       // when
       const screen = await render(
-        hbs`<Proposals::QcuProposals @proposals={{this.proposals}} @answerChanged={{this.answerChanged}} />`,
+        <template><QcuProposals @proposals={{proposalsValue}} @answerChanged={{answerChanged}} /></template>,
       );
 
       // then
@@ -63,17 +61,15 @@ module('Integration | Component | QCU proposals', function (hooks) {
 
     test('should check the radio button matching the given answer value', async function (assert) {
       // given
-      this.set('proposals', proposals);
-      this.set('answerValue', '2');
-      this.set('answerChanged', answerChangedHandler);
+      const proposalsValue = proposals;
+      const answerValue = '2';
+      const answerChanged = answerChangedHandler;
 
       // when
       const screen = await render(
-        hbs`<Proposals::QcuProposals
-  @answerValue={{this.answerValue}}
-  @proposals={{this.proposals}}
-  @answerChanged={{this.answerChanged}}
-/>`,
+        <template>
+          <QcuProposals @answerValue={{answerValue}} @proposals={{proposalsValue}} @answerChanged={{answerChanged}} />
+        </template>,
       );
 
       // then
@@ -84,17 +80,15 @@ module('Integration | Component | QCU proposals', function (hooks) {
 
     test('should not check any radio button when the given answer value is null', async function (assert) {
       // given
-      this.set('proposals', proposals);
-      this.set('answerValue', null);
-      this.set('answerChanged', answerChangedHandler);
+      const proposalsValue = proposals;
+      const answerValue = null;
+      const answerChanged = answerChangedHandler;
 
       // when
       const screen = await render(
-        hbs`<Proposals::QcuProposals
-  @answerValue={{this.answerValue}}
-  @proposals={{this.proposals}}
-  @answerChanged={{this.answerChanged}}
-/>`,
+        <template>
+          <QcuProposals @answerValue={{answerValue}} @proposals={{proposalsValue}} @answerChanged={{answerChanged}} />
+        </template>,
       );
 
       // then
@@ -103,17 +97,15 @@ module('Integration | Component | QCU proposals', function (hooks) {
 
     test('should not check any radio button when no answer value is given', async function (assert) {
       // given
-      this.set('proposals', proposals);
-      this.set('answerValue', '');
-      this.set('answerChanged', answerChangedHandler);
+      const proposalsValue = proposals;
+      const answerValue = '';
+      const answerChanged = answerChangedHandler;
 
       // when
       const screen = await render(
-        hbs`<Proposals::QcuProposals
-  @answerValue={{this.answerValue}}
-  @proposals={{this.proposals}}
-  @answerChanged={{this.answerChanged}}
-/>`,
+        <template>
+          <QcuProposals @answerValue={{answerValue}} @proposals={{proposalsValue}} @answerChanged={{answerChanged}} />
+        </template>,
       );
 
       // then
@@ -122,17 +114,19 @@ module('Integration | Component | QCU proposals', function (hooks) {
 
     test('should shuffle the proposals order when shuffled is true', async function (assert) {
       // given
-      this.set('proposals', proposals);
-      this.set('answerChanged', answerChangedHandler);
+      const proposalsValue = proposals;
+      const answerChanged = answerChangedHandler;
 
       // when
       const screen = await render(
-        hbs`<Proposals::QcuProposals
-  @proposals={{this.proposals}}
-  @shuffled={{true}}
-  @shuffleSeed={{64}}
-  @answerChanged={{this.answerChanged}}
-/>`,
+        <template>
+          <QcuProposals
+            @proposals={{proposalsValue}}
+            @shuffled={{true}}
+            @shuffleSeed={{64}}
+            @answerChanged={{answerChanged}}
+          />
+        </template>,
       );
 
       // then
