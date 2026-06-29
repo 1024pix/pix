@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import LoginForm from 'mon-pix/components/routes/login-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -14,7 +14,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
 
   test('should ask for login and password', async function (assert) {
     // when
-    const screen = await render(hbs`<Routes::LoginForm />`);
+    const screen = await render(<template><LoginForm /></template>);
 
     // then
     assert.dom(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ })).exists();
@@ -33,7 +33,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
     const sessionStub = stubSessionService(this.owner);
     sessionStub.authenticate.rejects(errorResponse);
 
-    const screen = await render(hbs`<Routes::LoginForm />`);
+    const screen = await render(<template><LoginForm /></template>);
     await fillIn(screen.getByLabelText(/Adresse e-mail ou identifiant/), 'pix@example.net');
     await fillIn(screen.getByLabelText(/Mot de passe/), 'Mauvais mot de passe');
 
@@ -47,7 +47,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
 
   test('should display password when user click', async function (assert) {
     // given
-    const screen = await render(hbs`<Routes::LoginForm />`);
+    const screen = await render(<template><LoginForm /></template>);
     const passwordInput = screen.getByLabelText(/Mot de passe/);
     await fillIn(passwordInput, 'pix123');
 
@@ -65,7 +65,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       sessionStub.authenticate.resolves();
 
       // when
-      const screen = await render(hbs`<Routes::LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
       await fillIn(screen.getByLabelText(/Mot de passe/), 'JeMeLoggue1024');
       await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
@@ -86,7 +86,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       sessionStub.authenticate.resolves();
 
       //  when
-      const screen = await render(hbs`<Routes::LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
       await fillIn(screen.getByLabelText(/Mot de passe/), 'JeMeLoggue1024');
       await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
@@ -110,7 +110,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
         },
       });
 
-      const screen = await render(hbs`<Routes::LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
       await fillIn(screen.getByLabelText(/Mot de passe/), 'Mauvais mot de passe');
 
@@ -132,7 +132,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
         },
       });
 
-      const screen = await render(hbs`<Routes::LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
       await fillIn(screen.getByLabelText(/Mot de passe/), 'Mauvais mot de passe');
 
@@ -154,7 +154,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
         },
       });
 
-      const screen = await render(hbs`<Routes::LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
       await fillIn(screen.getByLabelText(/Mot de passe/), 'Mauvais mot de passe');
 
@@ -192,7 +192,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       routerObserver.replaceWith = sinon.stub();
 
       // when
-      const screen = await render(hbs`<Routes::LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
       await fillIn(screen.getByLabelText(/Mot de passe/), 'Mauvais mot de passe');
       await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.login-form.button') }));
@@ -206,7 +206,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
   module('when external user IdToken exist', function (hooks) {
     const externalUserToken = 'ABCD';
 
-    let addGarAuthenticationMethodToUserStub;
+    const state = {};
 
     hooks.beforeEach(function () {
       class StoreStub extends Service {
@@ -221,7 +221,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       });
       sessionStub.authenticate.resolves();
 
-      addGarAuthenticationMethodToUserStub = sinon.stub();
+      state.addGarAuthenticationMethodToUserStub = sinon.stub();
     });
 
     test('should display the specific error message if update fails with http error 4xx', async function (assert) {
@@ -236,11 +236,12 @@ module('Integration | Component | routes/login-form', function (hooks) {
         ],
       };
 
-      addGarAuthenticationMethodToUserStub.rejects(apiReturn);
-      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+      state.addGarAuthenticationMethodToUserStub.rejects(apiReturn);
 
       const screen = await render(
-        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`,
+        <template>
+          <LoginForm @addGarAuthenticationMethodToUser={{state.addGarAuthenticationMethodToUserStub}} />
+        </template>,
       );
 
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
@@ -255,12 +256,12 @@ module('Integration | Component | routes/login-form', function (hooks) {
 
     test('should display the default error message if update fails with other http error', async function (assert) {
       // given
-      addGarAuthenticationMethodToUserStub.rejects({ errors: [{ status: 500 }] });
-
-      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+      state.addGarAuthenticationMethodToUserStub.rejects({ errors: [{ status: 500 }] });
 
       const screen = await render(
-        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`,
+        <template>
+          <LoginForm @addGarAuthenticationMethodToUser={{state.addGarAuthenticationMethodToUserStub}} />
+        </template>,
       );
 
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
@@ -284,14 +285,15 @@ module('Integration | Component | routes/login-form', function (hooks) {
         ],
       };
 
-      addGarAuthenticationMethodToUserStub.rejects(response);
-      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+      state.addGarAuthenticationMethodToUserStub.rejects(response);
 
       const routerObserver = this.owner.lookup('service:router');
       routerObserver.replaceWith = sinon.stub();
 
       const screen = await render(
-        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`,
+        <template>
+          <LoginForm @addGarAuthenticationMethodToUser={{state.addGarAuthenticationMethodToUserStub}} />
+        </template>,
       );
 
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
@@ -322,11 +324,12 @@ module('Integration | Component | routes/login-form', function (hooks) {
         ],
       };
 
-      addGarAuthenticationMethodToUserStub.rejects(apiReturn);
-      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+      state.addGarAuthenticationMethodToUserStub.rejects(apiReturn);
 
       const screen = await render(
-        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`,
+        <template>
+          <LoginForm @addGarAuthenticationMethodToUser={{state.addGarAuthenticationMethodToUserStub}} />
+        </template>,
       );
 
       await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail ou identifiant/ }), 'pix@example.net');
