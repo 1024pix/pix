@@ -94,11 +94,11 @@ export default class CreateForm extends Component {
     return this.args.campaign.externalIdType === '';
   }
 
-  get isTitleInputEnable() {
+  get displayTitleField() {
     return Boolean(this.args.campaign.course) && !this.isCombinedCourseGoal;
   }
 
-  get displayTitleField() {
+  get displayCampaignNameField() {
     return Boolean(this.args.campaign.course);
   }
 
@@ -319,7 +319,7 @@ export default class CreateForm extends Component {
         </FormField>
       {{/if}}
 
-      {{#if this.displayTitleField}}
+      {{#if this.displayCampaignNameField}}
         <FormField>
           <PixInput
             @id="campaign-name"
@@ -372,9 +372,7 @@ export default class CreateForm extends Component {
             </ExplanationCard>
 
           </:information>
-
         </FormField>
-
       {{/if}}
 
       {{#if this.isMultipleSendingEnabled}}
@@ -497,7 +495,7 @@ export default class CreateForm extends Component {
         </FormField>
       {{/if}}
 
-      {{#if this.isTitleInputEnable}}
+      {{#if this.displayTitleField}}
         <FormField>
           <PixInput
             @id="campaign-title"
