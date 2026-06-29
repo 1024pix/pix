@@ -2,15 +2,19 @@ import querystring from 'node:querystring';
 
 import sinon from 'sinon';
 
-import { createServer } from '../../../server.js';
-import { tokenController } from '../../../src/identity-access-management/application/token/token.controller.js';
-import { expect } from '../../test-helper.js';
+import { identityAccessManagementRoutes } from '../../../../src/identity-access-management/application/routes.js';
+import { tokenController } from '../../../../src/identity-access-management/application/token/token.controller.js';
+import { expect } from '../../../test-helper.js';
+import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
-describe('Integration | Identity Access Management | Application | Router', function () {
+describe('Integration | Identity Access Management | Application | Route | Token', function () {
+  let httpTestServer;
   let headers;
-  let server;
 
   beforeEach(async function () {
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(identityAccessManagementRoutes);
+
     headers = {
       'content-type': 'application/x-www-form-urlencoded',
     };
@@ -22,7 +26,6 @@ describe('Integration | Identity Access Management | Application | Router', func
         user_id: 'the-user-id',
       }),
     );
-    server = await createServer();
   });
 
   describe('POST /api/token', function () {
@@ -38,7 +41,7 @@ describe('Integration | Identity Access Management | Application | Router', func
         });
 
         // when
-        const response = await server.inject({ method, url, payload, auth: null, headers });
+        const response = await httpTestServer.requestObject({ method, url, payload, auth: null, headers });
 
         // then
         expect(response.statusCode).to.equal(400);
@@ -55,7 +58,7 @@ describe('Integration | Identity Access Management | Application | Router', func
         });
 
         // when
-        const response = await server.inject({ method, url, payload, auth: null, headers });
+        const response = await httpTestServer.requestObject({ method, url, payload, auth: null, headers });
 
         // then
         expect(response.statusCode).to.equal(400);
@@ -72,7 +75,7 @@ describe('Integration | Identity Access Management | Application | Router', func
           });
 
           // when
-          const response = await server.inject({ method, url, payload, auth: null, headers });
+          const response = await httpTestServer.requestObject({ method, url, payload, auth: null, headers });
 
           // then
           expect(response.statusCode).to.equal(400);
@@ -88,7 +91,7 @@ describe('Integration | Identity Access Management | Application | Router', func
           });
 
           // when
-          const response = await server.inject({ method, url, payload, auth: null, headers });
+          const response = await httpTestServer.requestObject({ method, url, payload, auth: null, headers });
 
           // then
           expect(response.statusCode).to.equal(400);
@@ -110,7 +113,7 @@ describe('Integration | Identity Access Management | Application | Router', func
           });
 
           // when
-          const response = await server.inject({ method, url, payload, auth: null, headers });
+          const response = await httpTestServer.requestObject({ method, url, payload, auth: null, headers });
 
           // then
           expect(response.statusCode).to.equal(415);
@@ -127,7 +130,7 @@ describe('Integration | Identity Access Management | Application | Router', func
           });
 
           // when
-          const response = await server.inject({ method, url, payload, auth: null, headers });
+          const response = await httpTestServer.requestObject({ method, url, payload, auth: null, headers });
 
           // then
           expect(response.statusCode).to.equal(200);

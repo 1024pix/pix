@@ -7,14 +7,12 @@ import { usecases } from '../../../../src/identity-access-management/domain/usec
 import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
-const routesUnderTest = identityAccessManagementRoutes[0];
-
 describe('Integration | Identity Access Management | Application | Route | lti', function () {
   let httpTestServer;
 
   beforeEach(async function () {
     httpTestServer = new HttpTestServer();
-    await httpTestServer.register(routesUnderTest);
+    await httpTestServer.register(identityAccessManagementRoutes);
   });
 
   describe('when query params are set and use case rejects', function () {
