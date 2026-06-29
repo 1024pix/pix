@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import Grid from 'mon-pix/components/campaign-participation-overview/grid';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -15,7 +15,7 @@ module('Integration | Component | CampaignParticipationOverview | Grid', functio
 
   test('should render component', async function (assert) {
     // when
-    await render(hbs`<CampaignParticipationOverview::Grid />}`);
+    await render(<template><Grid />}</template>);
 
     // then
     assert.dom('.campaign-participation-overview-grid').exists();
@@ -35,10 +35,9 @@ module('Integration | Component | CampaignParticipationOverview | Grid', functio
         campaignTitle: 'My campaign 2',
       }),
     ];
-    this.set('campaignParticipationOverviews', campaignParticipationOverviews);
 
     // when
-    await render(hbs`<CampaignParticipationOverview::Grid @model={{this.campaignParticipationOverviews}} />}`);
+    await render(<template><Grid @model={{campaignParticipationOverviews}} />}</template>);
 
     // then
     assert.strictEqual(findAll('.campaign-participation-overview-grid__item').length, 2);
