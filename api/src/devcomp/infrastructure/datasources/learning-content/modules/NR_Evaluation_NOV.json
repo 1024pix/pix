@@ -2,7 +2,7 @@
   "id": "6f79bd86-a169-41f4-8c98-6d20963cc3cd",
   "shortId": "32444579",
   "slug": "nr-evaluation-nov",
-  "title": "Empreinte carbone du numérique : c'est quoi ?",
+  "title": "Empreinte carbone du numérique : c’est quoi ?",
   "isBeta": true,
   "visibility": "public",
   "details": {
@@ -33,7 +33,7 @@
                 "id": "7ca08b2c-534e-4e33-96aa-5a8b9ec85e4a",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Benoît et Alice s’interrogent sur l’impact de leurs actions sur l'environnement.</p>",
+                "instruction": "<p>Benoît et Alice s’interrogent sur l’impact de leurs actions sur l’environnement.</p>",
                 "functionalInstruction": "",
                 "tagName": "message-conversation",
                 "props": {
@@ -67,7 +67,7 @@
                       "userName": "Benoît",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Mais comment savoir quelles actions émettent le plus de gaz à effet de serre ?"
+                      "content": "Mais comment savoir quelles actions émettent le plus de gaz à effet de serre ?"
                     },
                     {
                       "userName": "Alice",
@@ -113,7 +113,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-1.png",
                       "alt": "",
-                      "alternativeText": "<p>Activité : parcourir 100 kilomètres en voiture.</p><p>Gaz émis : dioxyde de carbone (CO2).</p>",
+                      "alternativeText": "<p>Activité&nbsp;: parcourir 100 kilomètres en voiture.</p><p>Gaz émis&nbsp;: dioxyde de carbone (CO2).</p>",
                       "legend": "",
                       "licence": ""
                     }
@@ -126,7 +126,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-2.png",
                       "alt": "",
-                      "alternativeText": "<p>Activité : produire 1 kg de viande de boeuf.</p><p>Gaz émis : méthane (CH4) et&nbsp;dioxyde de carbone (CO2).</p>",
+                      "alternativeText": "<p>Activité&nbsp;: produire 1 kg de viande de boeuf.</p><p>Gaz émis&nbsp;: méthane (CH4) et&nbsp;dioxyde de carbone (CO2).</p>",
                       "legend": "",
                       "licence": ""
                     }
@@ -139,7 +139,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-3.png",
                       "alt": "",
-                      "alternativeText": "<p>Activité : produire 100 kg de carottes.</p><p>Gaz émis : méthane (CH4) et protoxyde d'azote&nbsp;(NO2).</p>",
+                      "alternativeText": "<p>Activité&nbsp;: produire 100 kg de carottes.</p><p>Gaz émis&nbsp;: méthane (CH4) et protoxyde d’azote&nbsp;(NO2).</p>",
                       "legend": "",
                       "licence": ""
                     }
@@ -156,28 +156,28 @@
                     {
                       "id": "5c6cf576-1284-4591-b861-7b4ad3d8c96d",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Quels gaz à effet de serre est émis par un trajet en voiture ?<br></p>",
+                      "instruction": "<p>Quels gaz à effet de serre est émis par un trajet en voiture ?<br></p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "0",
                           "content": "oxygène (O)",
                           "feedback": {
-                            "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                            "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
                           }
                         },
                         {
                           "id": "1",
                           "content": "dioxyde de carbone (CO2)",
                           "feedback": {
-                            "diagnosis": "Bien vu ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                            "diagnosis": "Bien vu ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
                           }
                         },
                         {
                           "id": "2",
                           "content": "méthane (CH4)",
                           "feedback": {
-                            "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                            "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
                           }
                         }
                       ],
@@ -190,7 +190,7 @@
                     {
                       "id": "50d81f9c-5465-459b-aa9b-f79045acbe4d",
                       "type": "qcm",
-                      "instruction": "<p>Quels gaz à effet de serre sont émis par la production de carottes ?</p>",
+                      "instruction": "<p>Quels gaz à effet de serre sont émis par la production de carottes ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -199,7 +199,7 @@
                         },
                         {
                           "id": "1",
-                          "content": "protoxyde d'azote (NO2)"
+                          "content": "protoxyde d’azote (NO2)"
                         },
                         {
                           "id": "2",
@@ -216,12 +216,12 @@
                       ],
                       "feedbacks": {
                         "valid": {
-                          "state": "Bien vu !",
-                          "diagnosis": "La production de carottes émet du protoxyde d'azote (NO2) et du dioxyde de carbone (CO2)."
+                          "state": "Bien vu !",
+                          "diagnosis": "La production de carottes émet du protoxyde d’azote (NO2) et du dioxyde de carbone (CO2)."
                         },
                         "invalid": {
-                          "state": "Eh non !",
-                          "diagnosis": "La production de carottes émet du protoxyde d'azote (NO2) et du dioxyde de carbone (CO2)."
+                          "state": "Eh non !",
+                          "diagnosis": "La production de carottes émet du protoxyde d’azote (NO2) et du dioxyde de carbone (CO2)."
                         }
                       },
                       "solutions": [
@@ -250,7 +250,7 @@
                       "id": "931e6663-e3f9-440c-a493-9f156c777a50",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>☁️ Plusieurs gaz participent au réchauffement climatique, comme le dioxyde de carbone (CO₂), le méthane, le protoxyde d’azote, etc. Mais certains participent plus que d'autres au réchauffement climatique.</p>"
+                      "content": "<p>☁️ Plusieurs gaz participent au réchauffement climatique, comme le dioxyde de carbone (CO₂), le méthane, le protoxyde d’azote, etc. Mais certains participent plus que d’autres au réchauffement climatique.</p>"
                     }
                   ]
                 },
@@ -260,7 +260,7 @@
                       "id": "b6c741e0-c479-4595-be35-34e2eeaba573",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>🤔 C’est quoi l’empreinte carbone ?</strong></p><p>💡Le but de l’empreinte carbone est de <strong>calculer la quantité de gaz à effet de serre émise directement</strong> par une activité, en <strong>prenant en compte tous les gaz à effet de serre</strong> qui sont émis. L'empreinte carbone est exprimée en \"équivalent CO₂\", noté \"CO₂eq\".</p>"
+                      "content": "<p><strong>🤔 C’est quoi l’empreinte carbone ?</strong></p><p>💡Le but de l’empreinte carbone est de <strong>calculer la quantité de gaz à effet de serre émise directement</strong> par une activité, en <strong>prenant en compte tous les gaz à effet de serre</strong> qui sont émis. L’empreinte carbone est exprimée en \"équivalent CO₂\", noté \"CO₂eq\".</p>"
                     }
                   ]
                 },
@@ -331,7 +331,7 @@
                 "props": {
                   "image": {
                     "src": "https://assets.pix.org/modules/nr-evaluation-nov/draft-image-cliquable_nr-evaluation-nov.png",
-                    "alt": "Parcours d'un smaprthone de sa fabrication à son utilisation",
+                    "alt": "Parcours d’un smaprthone de sa fabrication à son utilisation",
                     "width": 0,
                     "height": 0
                   },
@@ -387,7 +387,7 @@
               "element": {
                 "id": "15aafc5f-d0bf-4cfb-8e59-e779654a82af",
                 "type": "qcm",
-                "instruction": "<p>D'après vous, quelles étapes de la vie de l'ordinateur de Benoît émettent des gaz à effet de serre ?</p>",
+                "instruction": "<p>D’après vous, quelles étapes de la vie de l’ordinateur de Benoît émettent des gaz à effet de serre ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -413,12 +413,12 @@
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "<p>Bien vu !<br></p>",
-                    "diagnosis": "<p><strong>Toutes les étapes</strong> de la vie de l'ordinateur de Benoît <strong>émettent des&nbsp;gaz à effet de serre</strong>.</p>"
+                    "state": "<p>Bien vu !<br></p>",
+                    "diagnosis": "<p><strong>Toutes les étapes</strong> de la vie de l’ordinateur de Benoît <strong>émettent des&nbsp;gaz à effet de serre</strong>.</p>"
                   },
                   "invalid": {
-                    "state": "<p>Eh non !<br></p>",
-                    "diagnosis": "<p>Toutes les étapes de la vie de l'ordinateur de Benoît émettent des&nbsp;gaz à effet de serre.</p>"
+                    "state": "<p>Eh non !<br></p>",
+                    "diagnosis": "<p>Toutes les étapes de la vie de l’ordinateur de Benoît émettent des&nbsp;gaz à effet de serre.</p>"
                   }
                 },
                 "solutions": [
@@ -455,7 +455,7 @@
                       "id": "fefda88b-c863-4cb5-9b78-b2b0b9500e23",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Le calcul de l'empreinte carbone est complexe et dépend de <strong>nombreux facteurs</strong>. Il est donc important de vérifier quelles <strong>activités</strong> et quelle <strong>période</strong> sont prises en compte dans ce calcul. 👀</p>"
+                      "content": "<p>Le calcul de l’empreinte carbone est complexe et dépend de <strong>nombreux facteurs</strong>. Il est donc important de vérifier quelles <strong>activités</strong> et quelle <strong>période</strong> sont prises en compte dans ce calcul. 👀</p>"
                     }
                   ]
                 },
@@ -465,7 +465,7 @@
                       "id": "f5ebfe06-d4f8-465c-afd7-ad7f6dc05a0e",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Dans le cadre du numérique, on peut calculer une empreinte carbone à différentes échelles&nbsp;: </p><ul><li><strong>à l’échelle d’un équipement</strong>, par exemple l’empreinte carbone d’un ordinateur ou d’un smartphone</li><li><strong>à l’échelle d’un individu</strong>, en additionnant les empreintes carbone de tous ses équipements et des services numériques qu’il utilise</li><li><strong>à l’échelle d’une entreprise, d'un logiciel, etc.</strong></li></ul>"
+                      "content": "<p>Dans le cadre du numérique, on peut calculer une empreinte carbone à différentes échelles&nbsp;: </p><ul><li><strong>à l’échelle d’un équipement</strong>, par exemple l’empreinte carbone d’un ordinateur ou d’un smartphone</li><li><strong>à l’échelle d’un individu</strong>, en additionnant les empreintes carbone de tous ses équipements et des services numériques qu’il utilise</li><li><strong>à l’échelle d’une entreprise, d’un logiciel, etc.</strong></li></ul>"
                     }
                   ]
                 }
@@ -514,7 +514,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec3_part1.png",
                       "alt": "",
-                      "alternativeText": "<p>Extrait du logiciel de calcul d’empreinte carbone.</p>\n<p>Empreintes carbone d'un smartphone</p>\n<ul>\n    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>\n    </ul><ul>\n<br></ul>",
+                      "alternativeText": "<p>Extrait du logiciel de calcul d’empreinte carbone.</p><p>Empreintes carbone d’un smartphone</p><ul>    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>    </ul><ul><br></ul>",
                       "legend": "",
                       "licence": ""
                     },
@@ -552,9 +552,15 @@
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec3_part2_v2.png",
                       "alt": "",
-                      "alternativeText": "<p>Extrait du logiciel de calcul d’empreinte carbone.</p>\n<p>Empreintes carbone des équipements numériques&nbsp;:</p>\n<ul>\n    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>\n    <li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li>\n    <li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li>\n</ul>\n\n",
+                      "alternativeText": "<p>Extrait du logiciel de calcul d’empreinte carbone.</p><p>Empreintes carbone des équipements numériques&nbsp;:</p><ul>    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>    <li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li>    <li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li></ul>",
                       "legend": "",
                       "licence": ""
+                    },
+                    {
+                      "id": "a940b0fc-f32e-4eb3-b9d7-af7c55f218bc",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Sources &nbsp;: <a href=\"https://librairie.ademe.fr/changement-climatique/7880-evaluation-de-l-impact-environnemental-du-numerique-en-france.html\" target=\"_blank\">Étude ADEME/ARCEP - Mise à jour 2025</a> et <a href=\"https://base-empreinte.ademe.fr/donnees/jeu-donnees\" target=\"_blank\">Base Empreinte&nbsp;ADEME</a>.</p>"
                     },
                     {
                       "id": "03c988e2-cde6-47fe-8341-b7d4dfb36a6b",
@@ -590,7 +596,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec3_part3.png",
                       "alt": "",
-                      "alternativeText": "<p>Extraits du logiciel de calcul d’empreinte carbone.</p>\n<p>Empreintes carbone des équipements numériques&nbsp;:</p>\n<ul>\n    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>\n    <li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li>\n    <li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li>\n</ul>\n<p>Empreintes carbone d’activités de référence&nbsp;:</p>\n<ul>\n    <li>4 allers-retours Paris-Berlin en TGV&nbsp;: 29,3kg&nbsp;CO₂eq</li>\n    <li>100kg de bananes&nbsp;: 90,9kg&nbsp;CO₂eq</li>\n    <li>Fabrication de&nbsp;10 jeans&nbsp;: 251kg&nbsp;CO₂eq</li>\n</ul>\n",
+                      "alternativeText": "<p>Extraits du logiciel de calcul d’empreinte carbone.</p><p>Empreintes carbone des équipements numériques&nbsp;:</p><ul>    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>    <li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li>    <li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li></ul><p>Empreintes carbone d’activités de référence&nbsp;:</p><ul>    <li>4 allers-retours Paris-Berlin en TGV&nbsp;: 29,3kg&nbsp;CO₂eq</li>    <li>100kg de bananes&nbsp;: 90,9kg&nbsp;CO₂eq</li>    <li>Fabrication de&nbsp;10 jeans&nbsp;: 251kg&nbsp;CO₂eq</li></ul>",
                       "legend": "",
                       "licence": ""
                     },
@@ -650,7 +656,7 @@
                       "id": "989597aa-693b-4791-98ac-03562231dca6",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>🤔 Mais l'empreinte carbone ne mesure que l'impact sur le réchauffement climatique ?</strong></p><p>En effet, c’est l’une des <strong>limites</strong> de l’empreinte carbone. Elle ne présente qu’un facteur d’impact environnemental&nbsp;: les <strong>émissions de gaz à effet de serre</strong>. Elle ne donne aucune information sur les <strong>autres impacts</strong> environnementaux, comme la raréfaction de l'<strong>eau douce</strong>, l'épuisement des <strong>ressources minérales et métalliques</strong>, l’acidification des océans, etc.</p>"
+                      "content": "<p><strong>🤔 Mais l’empreinte carbone ne mesure que l’impact sur le réchauffement climatique ?</strong></p><p>En effet, c’est l’une des <strong>limites</strong> de l’empreinte carbone. Elle ne présente qu’un facteur d’impact environnemental&nbsp;: les <strong>émissions de gaz à effet de serre</strong>. Elle ne donne aucune information sur les <strong>autres impacts</strong> environnementaux, comme la raréfaction de l’<strong>eau douce</strong>, l’épuisement des <strong>ressources minérales et métalliques</strong>, l’acidification des océans, etc.</p>"
                     }
                   ]
                 }
@@ -675,7 +681,7 @@
                 "id": "40c90095-fccd-42e9-aa92-0c565d891189",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>L’empreinte carbone estime l’<strong>impact d’une activité</strong> (comme regarder un film) ou de la <strong>construction d’un objet</strong> (comme un ordinateur) sur le <strong>réchauffement climatique</strong>.🌏</li><li>L'empreinte carbone permet de <strong>comparer différentes activités</strong>, numériques ou non, et de <strong>fixer des objectifs</strong> pour réduire les émissions.📐</li><li>Pour calculer l'empreinte carbone, on définit les activités, la période, puis on <strong>additionne les émissions de gaz à effet de serre</strong> associées.🤔</li><li>Mais elle a une limite importante&nbsp;: elle ne <strong>prend pas en compte d’autres impacts</strong>, comme la raréfaction de l'eau douce ou l'épuisement des ressources minérales.⚠️</li></ul>"
+                "content": "<ul><li>L’empreinte carbone estime l’<strong>impact d’une activité</strong> (comme regarder un film) ou de la <strong>construction d’un objet</strong> (comme un ordinateur) sur le <strong>réchauffement climatique</strong>.🌏</li><li>L’empreinte carbone permet de <strong>comparer différentes activités</strong>, numériques ou non, et de <strong>fixer des objectifs</strong> pour réduire les émissions.📐</li><li>Pour calculer l’empreinte carbone, on définit les activités, la période, puis on <strong>additionne les émissions de gaz à effet de serre</strong> associées.🤔</li><li>Mais elle a une limite importante&nbsp;: elle ne <strong>prend pas en compte d’autres impacts</strong>, comme la raréfaction de l’eau douce ou l’épuisement des ressources minérales.⚠️</li></ul>"
               }
             }
           ]
@@ -761,7 +767,7 @@
                 "id": "12230128-20b2-432c-9b20-bee86fc9f02f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le tableau suivant détaille l'empreinte carbone d'une télévision étape par étape. Consultez le puis classez les étapes.</p><table><thead><tr><th style=\"text-align:left\">Étape</th><th style=\"text-align:left\">Émission de gaz à effet de serre</th></tr></thead><tbody><tr><td style=\"text-align:left\">Assemblage et distribution</td><td style=\"text-align:left\">3,26 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Construction</td><td style=\"text-align:left\">325 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Fin de vie</td><td style=\"text-align:left\">11,9 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Usage pendant 10 ans</td><td style=\"text-align:left\">36,9 kg CO2eq</td></tr></tbody></table><p>Source des données : <a href=\"https://librairie.ademe.fr/changement-climatique/7880-evaluation-de-l-impact-environnemental-du-numerique-en-france.html\" target=\"_blank\">Étude ADEME/ARCEP - mise à jour 2025</a> et <a href=\"https://base-empreinte.ademe.fr/donnees/jeu-donnees\" target=\"_blank\">Base Empreinte ADEME</a></p>"
+                "content": "<p>Le tableau suivant détaille l’empreinte carbone d’une télévision étape par étape. Consultez le puis classez les étapes.</p><table><thead><tr><th style=\"text-align:left\">Étape</th><th style=\"text-align:left\">Émission de gaz à effet de serre</th></tr></thead><tbody><tr><td style=\"text-align:left\">Assemblage et distribution</td><td style=\"text-align:left\">3,26 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Construction</td><td style=\"text-align:left\">325 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Fin de vie</td><td style=\"text-align:left\">11,9 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Usage pendant 10 ans</td><td style=\"text-align:left\">36,9 kg CO2eq</td></tr></tbody></table><p>Source des données&nbsp;: <a href=\"https://librairie.ademe.fr/changement-climatique/7880-evaluation-de-l-impact-environnemental-du-numerique-en-france.html\" target=\"_blank\">Étude ADEME/ARCEP - mise à jour 2025</a> et <a href=\"https://base-empreinte.ademe.fr/donnees/jeu-donnees\" target=\"_blank\">Base Empreinte ADEME</a></p>"
               }
             },
             {
@@ -769,11 +775,11 @@
               "element": {
                 "id": "c872a6c5-ba72-4646-94e2-2cd3c041d4f9",
                 "type": "qrocm",
-                "instruction": "<p>Classez les étapes de la vie d'un smartphone, de celle qui émet le plus de gaz à effet serre à celle qui émet le moins de gaz à effet de serre.</p>",
+                "instruction": "<p>Classez les étapes de la vie d’un smartphone, de celle qui émet le plus de gaz à effet serre à celle qui émet le moins de gaz à effet de serre.</p>",
                 "proposals": [
                   {
                     "type": "text",
-                    "content": "<p>1 - Étape qui émet le plus de gaz à effet de serre : </p>"
+                    "content": "<p>1 - Étape qui émet le plus de gaz à effet de serre&nbsp;: </p>"
                   },
                   {
                     "type": "select",
@@ -872,7 +878,7 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>4 - Étape qui émets le moins de gaz à effet de serre : </p>"
+                    "content": "<br><p>4 - Étape qui émets le moins de gaz à effet de serre&nbsp;: </p>"
                   },
                   {
                     "type": "select",
@@ -906,12 +912,12 @@
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "Bonne réponse !",
-                    "diagnosis": "L'étape de construction d'une télévision représente la plus grande partie de ses émissions de gaz à effet de serre, suivi de l'étape d'usage, puis celle de fin de vie, puis celle d'assemblage et de distribution."
+                    "state": "Bonne réponse !",
+                    "diagnosis": "L’étape de construction d’une télévision représente la plus grande partie de ses émissions de gaz à effet de serre, suivi de l’étape d’usage, puis celle de fin de vie, puis celle d’assemblage et de distribution."
                   },
                   "invalid": {
-                    "state": "Mauvaise réponse !",
-                    "diagnosis": "Vous pouvez relire le tableau pour comprendre quelle quantité de gaz à effet de serre émettent les différentes étapes de la vie d'une télévision, et les classer de celle qui émet le plus de gaz à effet de serre à celle qui émet le moins de gaz à effet de serre."
+                    "state": "Mauvaise réponse !",
+                    "diagnosis": "Vous pouvez relire le tableau pour comprendre quelle quantité de gaz à effet de serre émettent les différentes étapes de la vie d’une télévision, et les classer de celle qui émet le plus de gaz à effet de serre à celle qui émet le moins de gaz à effet de serre."
                   }
                 }
               }
