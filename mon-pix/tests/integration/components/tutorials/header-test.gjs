@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Header from 'mon-pix/components/tutorials/header';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -10,7 +10,7 @@ module('Integration | Component | Tutorials | Header', function (hooks) {
 
   test('renders the header', async function (assert) {
     // when
-    const screen = await render(hbs`<Tutorials::Header />`);
+    const screen = await render(<template><Header /></template>);
 
     // then
     assert.ok(screen.getByRole('heading', { name: t('pages.user-tutorials.title') }));
@@ -22,7 +22,7 @@ module('Integration | Component | Tutorials | Header', function (hooks) {
   module('when shouldShowFilterButton is true', function () {
     test('should render filter button', async function (assert) {
       // when
-      const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{true}} />`);
+      const screen = await render(<template><Header @shouldShowFilterButton={{true}} /></template>);
 
       // then
       assert.ok(screen.getByRole('button', { name: 'Filtrer' }));
@@ -32,7 +32,7 @@ module('Integration | Component | Tutorials | Header', function (hooks) {
   module('when shouldShowFilterButton is false', function () {
     test('should render filter button', async function (assert) {
       // when
-      const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{false}} />`);
+      const screen = await render(<template><Header @shouldShowFilterButton={{false}} /></template>);
 
       // then
       assert.notOk(screen.queryByRole('button', { name: 'Filtrer' }));
