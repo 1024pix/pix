@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find, setupOnerror } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ItemCheckbox from 'mon-pix/components/user-tutorials/filters/item-checkbox';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -12,9 +12,9 @@ module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', func
   module('when no type param is provided', function () {
     test('should throw an error', async function (assert) {
       // given
-      this.set('item', { id: 'competencesId', name: 'Ma super compétence' });
-      this.set('currentFilters', { competences: [] });
-      this.set('handleFilterChange', () => {});
+      const item = { id: 'competencesId', name: 'Ma super compétence' };
+      const currentFilters = { competences: [] };
+      const handleFilterChange = () => {};
 
       let caughtError;
       setupOnerror((error) => {
@@ -23,11 +23,9 @@ module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', func
 
       // when
       await render(
-        hbs`<UserTutorials::Filters::ItemCheckbox
-  @item={{this.item}}
-  @currentFilters={{this.currentFilters}}
-  @handleFilterChange={{this.handleFilterChange}}
-/>`,
+        <template>
+          <ItemCheckbox @item={{item}} @currentFilters={{currentFilters}} @handleFilterChange={{handleFilterChange}} />
+        </template>,
       );
 
       // then
@@ -42,18 +40,20 @@ module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', func
   module('when currentFilters contains item', function () {
     test('should show checked checkbox', async function (assert) {
       // given
-      this.set('item', { id: 'competencesId', name: 'Ma super compétence' });
-      this.set('currentFilters', { competences: ['competencesId'] });
-      this.set('handleFilterChange', () => {});
+      const item = { id: 'competencesId', name: 'Ma super compétence' };
+      const currentFilters = { competences: ['competencesId'] };
+      const handleFilterChange = () => {};
 
       // when
       await render(
-        hbs`<UserTutorials::Filters::ItemCheckbox
-  @type='competences'
-  @item={{this.item}}
-  @currentFilters={{this.currentFilters}}
-  @handleFilterChange={{this.handleFilterChange}}
-/>`,
+        <template>
+          <ItemCheckbox
+            @type="competences"
+            @item={{item}}
+            @currentFilters={{currentFilters}}
+            @handleFilterChange={{handleFilterChange}}
+          />
+        </template>,
       );
 
       // then
@@ -64,18 +64,20 @@ module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', func
   module('when currentFilters not contains item', function () {
     test('should show not checked checkbox', async function (assert) {
       // given
-      this.set('item', { id: 'competencesId', name: 'Ma super compétence' });
-      this.set('currentFilters', { competences: [] });
-      this.set('handleFilterChange', () => {});
+      const item = { id: 'competencesId', name: 'Ma super compétence' };
+      const currentFilters = { competences: [] };
+      const handleFilterChange = () => {};
 
       // when
       await render(
-        hbs`<UserTutorials::Filters::ItemCheckbox
-  @type='competences'
-  @item={{this.item}}
-  @currentFilters={{this.currentFilters}}
-  @handleFilterChange={{this.handleFilterChange}}
-/>`,
+        <template>
+          <ItemCheckbox
+            @type="competences"
+            @item={{item}}
+            @currentFilters={{currentFilters}}
+            @handleFilterChange={{handleFilterChange}}
+          />
+        </template>,
       );
 
       // then
