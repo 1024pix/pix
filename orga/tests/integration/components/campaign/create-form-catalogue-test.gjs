@@ -13,13 +13,14 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   setupIntlRenderingTest(hooks);
 
   const data = {};
+  let store;
   const createCampaignSpy = (event) => {
     event.preventDefault();
   };
   const cancelSpy = () => {};
 
   hooks.beforeEach(function () {
-    const store = this.owner.lookup('service:store');
+    store = this.owner.lookup('service:store');
     const prescriber = store.createRecord('prescriber', {
       firstName: 'Adam',
       lastName: 'Troisjour',
@@ -65,7 +66,6 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
   test("it should display campaign's name", async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
     data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
     data.campaign.name = 'Campagne de test';
     data.campaign.type = 'ASSESSMENT';
@@ -176,7 +176,6 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
       test('it should fill course fields', async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
         const course = store.createRecord('course', {
           id: '1',
           name: 'Target profile 1',
@@ -311,7 +310,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       module('when the user has selected a course', function () {
         test('it should display informations about the course', async function (assert) {
           // given
-          const store = this.owner.lookup('service:store');
+
           const course = store.createRecord('course', {
             id: '1',
             name: 'targetProfile1',
@@ -345,7 +344,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         module('when the user wants to select another course', function () {
           test('it should redirect to /catalogue/targetProfile', async function (assert) {
             // given
-            const store = this.owner.lookup('service:store');
+
             data.campaign.course = store.createRecord('course', {
               id: '1',
               name: 'targetProfile1',
@@ -379,8 +378,37 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module(`when campaign is of type combined course`, function () {
+    test(`it should not display external id fields`, async function (assert) {
+      // given
+      data.campaign.type = 'COMBINED_COURSE';
+      data.campaign.course = store.createRecord('course', {
+        id: '1',
+        name: 'Mon schéma de parcours combiné',
+        type: 'blueprint',
+        nbModules: 3,
+        isSimplifiedAccess: true,
+      });
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(screen.queryByRole('radiogroup', { name: t('pages.campaign-creation.external-id-label.question-label') }))
+        .doesNotExist();
+    });
+
     test(`it should have checked combined course goal and not display owner fields`, async function (assert) {
-      const store = this.owner.lookup('service:store');
       const campaignType = {
         status: 'COMBINED_COURSE',
         purpose: 'pages.campaign-creation.purpose.combined-course',
@@ -416,7 +444,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
     test('it should redirect to /catalogue/blueprint', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
+
       data.campaign.course = store.createRecord('course', {
         id: '1',
         name: 'blueprint1',
@@ -578,7 +606,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   module('when user choose to create a campaign of type COMBINED_COURSE', () => {
     test('it should not display fields for campaign title and target profile', async function (assert) {
       // when
-      const store = this.owner.lookup('service:store');
+
       data.campaign.course = store.createRecord('course', {
         id: '1',
         name: 'Blueprint 1',
@@ -606,7 +634,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   test('it should fill external user ID selection (yes)', async function (assert) {
     // given
     data.campaign.externalIdLabel = 'Numéro étudiant';
-
+    data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
     // when
     const screen = await render(
       <template>
@@ -634,8 +662,8 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
   test('it should fill external user ID selection (no)', async function (assert) {
     // given
+    data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
     data.campaign.externalIdLabel = null;
-
     // when
     const screen = await render(
       <template>
@@ -660,6 +688,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
   module('when user has not chosen yet to ask or not an external user ID', function () {
     test('it should fill the default external user ID selection', async function (assert) {
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       // when
       const screen = await render(
         <template>
@@ -684,6 +713,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
     test('it should not display gdpr footnote', async function (assert) {
       // when
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       const screen = await render(
         <template>
           <CreateForm
@@ -704,6 +734,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   module('when user choose not to ask an external user ID', function () {
     test('it should not display gdpr footnote either', async function (assert) {
       // when
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       const screen = await render(
         <template>
           <CreateForm
@@ -725,6 +756,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   module('when user choose to ask an external user ID', function () {
     test('it should display gdpr footnote', async function (assert) {
       // when
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       const screen = await render(
         <template>
           <CreateForm
@@ -744,6 +776,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
     test('it set the external id as required', async function (assert) {
       // when
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       const screen = await render(
         <template>
           <CreateForm
@@ -763,6 +796,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     });
     test('it asks for external id type', async function (assert) {
       // when
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       const screen = await render(
         <template>
           <CreateForm
@@ -785,6 +819,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
     test('it updates campaign model when select a type', async function (assert) {
       // when
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       const screen = await render(
         <template>
           <CreateForm
@@ -851,7 +886,6 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
   test('it should send campaign creation action when submitted', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
 
     data.campaign.course = store.createRecord('course', { name: 'targetProfile1', id: '123', type: 'targetProfile' });
     const createCampaignSpy = sinon.stub();
@@ -921,7 +955,6 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   module('when there are errors', function () {
     test('it should display errors messages when the campaign purpose fields is empty', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
       const campaignWithErrors = EmberObject.create({
         errors: {
           type: [
@@ -955,7 +988,6 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
     test('it should display errors messages when the name, and external user id fields are empty', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
       const campaignWithErrors = EmberObject.create({
         errors: {
           name: [

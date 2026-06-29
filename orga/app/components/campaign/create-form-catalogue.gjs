@@ -101,6 +101,10 @@ export default class CreateForm extends Component {
     return Boolean(this.args.campaign.course);
   }
 
+  get displayExternalUserIdField() {
+    return Boolean(this.args.campaign.course) && !this.isCombinedCourseGoal;
+  }
+
   get displayOwnerField() {
     return this.isCampaignGoalAssessment || this.isCampaignGoalExam || this.isCampaignGoalProfileCollection;
   }
@@ -408,7 +412,7 @@ export default class CreateForm extends Component {
         </FormField>
       {{/if}}
 
-      {{#unless this.isCombinedCourseGoal}}
+      {{#if this.displayExternalUserIdField}}
         <FormField>
           <PixFieldset aria-labelledby="external-ids-label" role="radiogroup">
             <:title>{{t "pages.campaign-creation.external-id-label.question-label"}}</:title>
@@ -432,7 +436,7 @@ export default class CreateForm extends Component {
             </:content>
           </PixFieldset>
         </FormField>
-      {{/unless}}
+      {{/if}}
 
       {{#if this.wantIdPix}}
         <FormField>
