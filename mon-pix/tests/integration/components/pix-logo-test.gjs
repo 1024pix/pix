@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import PixLogo from 'mon-pix/components/pix-logo';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -10,7 +10,7 @@ module('Integration | Component | pix logo', function (hooks) {
 
   test('should display the logo', async function (assert) {
     // given & when
-    const screen = await render(hbs`<PixLogo />`);
+    const screen = await render(<template><PixLogo /></template>);
 
     // then
     assert.dom(screen.getByRole('link', { name: t('navigation.homepage') })).exists();
