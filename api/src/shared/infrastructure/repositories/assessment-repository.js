@@ -109,22 +109,6 @@ const completeByAssessmentId = function (assessmentId) {
   return _updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED });
 };
 
-const getByCertificationCandidateId = async function (certificationCandidateId) {
-  const knexConn = DomainTransaction.getConnection();
-  const assessment = await knexConn('assessments')
-    .select('assessments.*')
-    .innerJoin('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
-    .innerJoin('certification-candidates', function () {
-      this.on('certification-candidates.userId', 'certification-courses.userId').andOn(
-        'certification-candidates.sessionId',
-        'certification-courses.sessionId',
-      );
-    })
-    .where({ 'certification-candidates.id': certificationCandidateId })
-    .first();
-  return new Assessment({ ...assessment });
-};
-
 const ownedByUser = async function ({ id, userId = null }) {
   const knexConn = DomainTransaction.getConnection();
   const assessment = await knexConn('assessments').select('userId').where({ id }).first();
@@ -215,7 +199,6 @@ export {
   get,
   getByAssessmentIdAndUserId,
   getByCampaignParticipationIds,
-  getByCertificationCandidateId,
   getWithAnswers,
   ownedByUser,
   save,
