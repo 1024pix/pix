@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import AddEmailWithValidationForm from 'mon-pix/components/user-account/add-email-with-validation-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,7 +13,7 @@ module('Integration | Component | user-account | add-email-with-validation-form'
   module('when the user opens the add email form', function () {
     test('displays save and cancel button, and information message', async function (assert) {
       // when
-      const screen = await render(hbs`<UserAccount::AddEmailWithValidationForm />`);
+      const screen = await render(<template><AddEmailWithValidationForm /></template>);
 
       // then
       assert.ok(screen.getByRole('button', { name: t('common.actions.cancel') }));
@@ -32,10 +32,9 @@ module('Integration | Component | user-account | add-email-with-validation-form'
       test('calls disableEmailEditionMode', async function (assert) {
         // given
         const disableEmailEditionMode = sinon.stub();
-        this.set('disableEmailEditionMode', disableEmailEditionMode);
 
         const screen = await render(
-          hbs`<UserAccount::AddEmailWithValidationForm @disableEmailEditionMode={{this.disableEmailEditionMode}} />`,
+          <template><AddEmailWithValidationForm @disableEmailEditionMode={{disableEmailEditionMode}} /></template>,
         );
 
         // when
@@ -54,7 +53,7 @@ module('Integration | Component | user-account | add-email-with-validation-form'
           const invalidEmail = 'invalidEmail';
           const expectedInvalidEmailError = 'Votre adresse e-mail n’est pas valide.';
 
-          const screen = await render(hbs`<UserAccount::AddEmailWithValidationForm />`);
+          const screen = await render(<template><AddEmailWithValidationForm /></template>);
           const emailInput = screen.getByRole('textbox', { name: 'Adresse e-mail' });
 
           // when
@@ -78,18 +77,18 @@ module('Integration | Component | user-account | add-email-with-validation-form'
       // given
       const email = 'email@example.net';
       const password = 'Password123';
-      this.set('showVerificationCode', sinon.stub());
+      const showVerificationCode = sinon.stub();
       store.createRecord = () => ({ sendNewEmail: sinon.stub() });
 
       const screen = await render(
-        hbs`<UserAccount::AddEmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`,
+        <template><AddEmailWithValidationForm @showVerificationCode={{showVerificationCode}} /></template>,
       );
 
       // when
       await _fillInputsAndValidateNewEmail({ screen, t, email: email, password });
 
       // then
-      sinon.assert.calledOnce(this.showVerificationCode);
+      sinon.assert.calledOnce(showVerificationCode);
       assert.ok(true);
     });
 
@@ -101,9 +100,7 @@ module('Integration | Component | user-account | add-email-with-validation-form'
         sendNewEmail: sinon.stub().throws({ errors: [{ status: '400' }] }),
       });
 
-      const screen = await render(
-        hbs`<UserAccount::AddEmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`,
-      );
+      const screen = await render(<template><AddEmailWithValidationForm /></template>);
 
       // when
       await _fillInputsAndValidateNewEmail({ screen, t, email: email, password });
@@ -124,9 +121,7 @@ module('Integration | Component | user-account | add-email-with-validation-form'
         sendNewEmail: sinon.stub().throws({ errors: [{ status: '422', source: { pointer: 'attributes/email' } }] }),
       });
 
-      const screen = await render(
-        hbs`<UserAccount::AddEmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`,
-      );
+      const screen = await render(<template><AddEmailWithValidationForm /></template>);
 
       // when
       await _fillInputsAndValidateNewEmail({ screen, t, email: email, password });
@@ -149,9 +144,7 @@ module('Integration | Component | user-account | add-email-with-validation-form'
         sendNewEmail: sinon.stub().throws({ errors: [{ status: '422', source: { pointer: 'attributes/password' } }] }),
       });
 
-      const screen = await render(
-        hbs`<UserAccount::AddEmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`,
-      );
+      const screen = await render(<template><AddEmailWithValidationForm /></template>);
 
       // when
       await _fillInputsAndValidateNewEmail({ screen, t, email: email, password });
