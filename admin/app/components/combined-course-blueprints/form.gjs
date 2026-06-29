@@ -10,7 +10,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { eq, gt } from 'ember-truth-helpers';
+import { and, eq, gt, not, or } from 'ember-truth-helpers';
 import PixFieldset from 'pix-admin/components/ui/pix-fieldset';
 
 import RequirementTag from '../common/combined-courses/requirement-tag';
@@ -25,6 +25,7 @@ export default class CombinedCourseBlueprintForm extends Component {
   @tracked itemType = 'targetProfile';
   @tracked itemValue = '';
   @tracked blueprint;
+  @tracked selectedTubes;
 
   constructor() {
     super(...arguments);
@@ -280,20 +281,38 @@ export default class CombinedCourseBlueprintForm extends Component {
             @value={{this.blueprint.rewardId}}
             @onChange={{this.setAttestation}}
           />
+        {{/unless}}
 
+        {{#if (or (and (not @updateMode) this.blueprint.rewardId) (and @updateMode this.blueprint.attestationLabel))}}
+          <PixTextarea
+            @id="reward-requirements"
+            @value={{this.blueprint.rewardRequirements}}
+            {{on "change" (fn this.setData "rewardRequirements")}}
+            class="combined-course-page__input"
+            rows="5"
+          >
+            <:label>
+              {{t "components.combined-course-blueprints.labels.reward-requirements"}}
+            </:label>
+          </PixTextarea>
+        {{/if}}
+
+        {{#unless @updateMode}}
           {{#if this.blueprint.rewardId}}
             <TubesSelection @frameworks={{@model.frameworks}} @onChange={{this.updateTubes}} />
-            <PixInput
-              @id="blueprintThreshold"
-              class="combined-course-page__threshold"
-              type="number"
-              min="0"
-              max="100"
-              @requiredLabel={{t "common.forms.mandatory"}}
-              {{on "change" this.onThresholdChange}}
-            >
-              <:label>Taux de réussite requis</:label>
-            </PixInput>
+            {{#if this.selectedTubes.length}}
+              <PixInput
+                @id="blueprintThreshold"
+                class="combined-course-page__threshold"
+                type="number"
+                min="0"
+                max="100"
+                @requiredLabel={{t "common.forms.mandatory"}}
+                {{on "change" this.onThresholdChange}}
+              >
+                <:label>Taux de réussite requis</:label>
+              </PixInput>
+            {{/if}}
           {{/if}}
         {{/unless}}
 
