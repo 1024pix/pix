@@ -2,8 +2,8 @@ import '@ember/service';
 
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import UpdateScoRecordForm from 'mon-pix/components/account-recovery/update-sco-record-form';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -12,33 +12,37 @@ module('Integration | Component | account-recovery | update-sco-record', functio
   setupIntlRenderingTest(hooks);
 
   module('displays new reset password form', function (hooks) {
+    const state = {};
+
     hooks.beforeEach(async function () {
       const newEmail = 'philippe.example.net';
       const firstName = 'Philippe';
 
-      this.set('firstName', firstName);
-      this.set('email', newEmail);
+      state.firstName = firstName;
+      state.email = newEmail;
     });
 
     test('displays common content for all users', async function (assert) {
       // given
-      this.set('hasGarAuthenticationMethod', false);
-      this.set('hasScoUsername', false);
+      const hasGarAuthenticationMethod = false;
+      const hasScoUsername = false;
 
       // when
       const screen = await render(
-        hbs`<AccountRecovery::UpdateScoRecordForm
-  @firstName={{this.firstName}}
-  @email={{this.email}}
-  @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
-  @hasScoUsername={{this.hasScoUsername}}
-/>`,
+        <template>
+          <UpdateScoRecordForm
+            @firstName={{state.firstName}}
+            @email={{state.email}}
+            @hasGarAuthenticationMethod={{hasGarAuthenticationMethod}}
+            @hasScoUsername={{hasScoUsername}}
+          />
+        </template>,
       );
 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: t('pages.account-recovery.update-sco-record.welcome-message', { firstName: this.firstName }),
+          name: t('pages.account-recovery.update-sco-record.welcome-message', { firstName: state.firstName }),
         }),
       );
       assert.ok(screen.getByText(t('pages.account-recovery.update-sco-record.form.choose-password')));
@@ -65,17 +69,19 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
     test('displays no school connection removal warning when user has no school connections', async function (assert) {
       // given
-      this.set('hasGarAuthenticationMethod', false);
-      this.set('hasScoUsername', false);
+      const hasGarAuthenticationMethod = false;
+      const hasScoUsername = false;
 
       // when
       await render(
-        hbs`<AccountRecovery::UpdateScoRecordForm
-  @firstName={{this.firstName}}
-  @email={{this.email}}
-  @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
-  @hasScoUsername={{this.hasScoUsername}}
-/>`,
+        <template>
+          <UpdateScoRecordForm
+            @firstName={{state.firstName}}
+            @email={{state.email}}
+            @hasGarAuthenticationMethod={{hasGarAuthenticationMethod}}
+            @hasScoUsername={{hasScoUsername}}
+          />
+        </template>,
       );
 
       // then
@@ -85,8 +91,8 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
     test('displays specific removal warning when user has username and GAR authentication method', async function (assert) {
       // given
-      this.set('hasGarAuthenticationMethod', true);
-      this.set('hasScoUsername', true);
+      const hasGarAuthenticationMethod = true;
+      const hasScoUsername = true;
       const garConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.gar');
       const usernameConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.username');
       const newConnectionInfo = t('pages.account-recovery.update-sco-record.form.new-connection-info');
@@ -105,12 +111,14 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
       // when
       await render(
-        hbs`<AccountRecovery::UpdateScoRecordForm
-  @firstName={{this.firstName}}
-  @email={{this.email}}
-  @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
-  @hasScoUsername={{this.hasScoUsername}}
-/>`,
+        <template>
+          <UpdateScoRecordForm
+            @firstName={{state.firstName}}
+            @email={{state.email}}
+            @hasGarAuthenticationMethod={{hasGarAuthenticationMethod}}
+            @hasScoUsername={{hasScoUsername}}
+          />
+        </template>,
       );
 
       // then
@@ -120,8 +128,8 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
     test('displays specific removal warning when user has username and no GAR authentication method', async function (assert) {
       // given
-      this.set('hasGarAuthenticationMethod', false);
-      this.set('hasScoUsername', true);
+      const hasGarAuthenticationMethod = false;
+      const hasScoUsername = true;
 
       const usernameConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.username');
       const expectedRemovalNotice = t(
@@ -132,12 +140,14 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
       // when
       await render(
-        hbs`<AccountRecovery::UpdateScoRecordForm
-  @firstName={{this.firstName}}
-  @email={{this.email}}
-  @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
-  @hasScoUsername={{this.hasScoUsername}}
-/>`,
+        <template>
+          <UpdateScoRecordForm
+            @firstName={{state.firstName}}
+            @email={{state.email}}
+            @hasGarAuthenticationMethod={{hasGarAuthenticationMethod}}
+            @hasScoUsername={{hasScoUsername}}
+          />
+        </template>,
       );
 
       // then
@@ -147,8 +157,8 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
     test('displays specific removal warning when user has GAR authentication method and no username', async function (assert) {
       // given
-      this.set('hasGarAuthenticationMethod', true);
-      this.set('hasScoUsername', false);
+      const hasGarAuthenticationMethod = true;
+      const hasScoUsername = false;
       const garConnection = t('pages.account-recovery.update-sco-record.form.sco-connections.gar');
       const expectedRemovalNotice = t(
         'pages.account-recovery.update-sco-record.form.authentication-methods-removal-notice',
@@ -158,12 +168,14 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
       // when
       await render(
-        hbs`<AccountRecovery::UpdateScoRecordForm
-  @firstName={{this.firstName}}
-  @email={{this.email}}
-  @hasGarAuthenticationMethod={{this.hasGarAuthenticationMethod}}
-  @hasScoUsername={{this.hasScoUsername}}
-/>`,
+        <template>
+          <UpdateScoRecordForm
+            @firstName={{state.firstName}}
+            @email={{state.email}}
+            @hasGarAuthenticationMethod={{hasGarAuthenticationMethod}}
+            @hasScoUsername={{hasScoUsername}}
+          />
+        </template>,
       );
 
       // then
@@ -175,7 +187,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
   module('Form submission', function () {
     test('disables submission if password is not valid', async function (assert) {
       // given
-      const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
+      const screen = await render(<template><UpdateScoRecordForm /></template>);
 
       // when
       await fillIn(
@@ -192,7 +204,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
     test('disables submission if password is valid and cgu and data protection policy are not accepted', async function (assert) {
       // given
-      const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
+      const screen = await render(<template><UpdateScoRecordForm /></template>);
 
       // when
       await fillIn(
@@ -209,7 +221,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
     test('disables submission on form when is loading', async function (assert) {
       // given
-      const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm @isLoading={{true}} />`);
+      const screen = await render(<template><UpdateScoRecordForm @isLoading={{true}} /></template>);
 
       // when
       await fillIn(
@@ -227,7 +239,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
     test('enables submission if password is valid and cgu and data protection policy are accepted', async function (assert) {
       // given
-      const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
+      const screen = await render(<template><UpdateScoRecordForm /></template>);
 
       // when
       await fillIn(
@@ -249,7 +261,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
       test('does not display an error message on focus-out', async function (assert) {
         // given
         const validPassword = 'pix123A*';
-        const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
+        const screen = await render(<template><UpdateScoRecordForm /></template>);
         const passwordInput = screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'), {
           exact: false,
         });
@@ -268,12 +280,10 @@ module('Integration | Component | account-recovery | update-sco-record', functio
         // given
         const newEmail = 'philippe.example.net';
         const firstName = 'Philippe';
-        this.set('firstName', firstName);
-        this.set('email', newEmail);
         const invalidPassword = 'invalidpassword';
 
         const screen = await render(
-          hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}} />`,
+          <template><UpdateScoRecordForm @firstName={{firstName}} @email={{newEmail}} /></template>,
         );
         const passwordInput = screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'), {
           exact: false,
@@ -290,7 +300,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
       test('displays a required field error message on focus-out if password field is empty', async function (assert) {
         // given
         const password = '';
-        const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
+        const screen = await render(<template><UpdateScoRecordForm /></template>);
         const passwordInput = screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'), {
           exact: false,
         });
