@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ChallengeActions from 'mon-pix/components/challenge-actions';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -11,16 +11,20 @@ module('Integration | Component | challenge actions', function (hooks) {
 
   test('it should add a loading state to the button and disable the skip button', async function (assert) {
     // given
-    this.set('isValidateActionLoading', true);
-    this.set('isSkipActionLoading', false);
-    this.set('validateActionStub', () => sinon.promise());
+    const isValidateActionLoading = true;
+    const isSkipActionLoading = false;
+    const validateActionStub = () => sinon.promise();
 
     // when
-    const screen = await render(hbs`<ChallengeActions
-  @validateAnswer={{this.validateActionStub}}
-  @isValidateActionLoading={{this.isValidateActionLoading}}
-  @isSkipActionLoading={{this.isSkipActionLoading}}
-/>`);
+    const screen = await render(
+      <template>
+        <ChallengeActions
+          @validateAnswer={{validateActionStub}}
+          @isValidateActionLoading={{isValidateActionLoading}}
+          @isSkipActionLoading={{isSkipActionLoading}}
+        />
+      </template>,
+    );
 
     // then
     assert.dom(screen.getByLabelText(t('pages.challenge.actions.skip-go-to-next'))).hasAttribute('aria-disabled');
@@ -29,16 +33,20 @@ module('Integration | Component | challenge actions', function (hooks) {
 
   test('it should add a loading state to the button and disable the validate button', async function (assert) {
     // given
-    this.set('isValidateActionLoading', false);
-    this.set('isSkipActionLoading', true);
-    this.set('validateActionStub', () => sinon.promise());
+    const isValidateActionLoading = false;
+    const isSkipActionLoading = true;
+    const validateActionStub = () => sinon.promise();
 
     // when
-    const screen = await render(hbs`<ChallengeActions
-  @validateAnswer={{this.validateActionStub}}
-  @isValidateActionLoading={{this.isValidateActionLoading}}
-  @isSkipActionLoading={{this.isSkipActionLoading}}
-/>`);
+    const screen = await render(
+      <template>
+        <ChallengeActions
+          @validateAnswer={{validateActionStub}}
+          @isValidateActionLoading={{isValidateActionLoading}}
+          @isSkipActionLoading={{isSkipActionLoading}}
+        />
+      </template>,
+    );
 
     assert.dom(screen.getByLabelText(t('pages.challenge.actions.skip-go-to-next'))).hasAttribute('aria-disabled');
     assert.dom(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next'))).hasAttribute('aria-disabled');
@@ -47,12 +55,14 @@ module('Integration | Component | challenge actions', function (hooks) {
   module('Challenge has timed out', function () {
     test('should only display "continue" button', async function (assert) {
       // given
-      this.set('hasChallengeTimedOut', true);
-      this.set('validateActionStub', () => {});
+      const hasChallengeTimedOut = true;
+      const validateActionStub = () => {};
 
       // when
       await render(
-        hbs`<ChallengeActions @validateAnswer={{this.validateActionStub}} @hasChallengeTimedOut={{this.hasChallengeTimedOut}} />`,
+        <template>
+          <ChallengeActions @validateAnswer={{validateActionStub}} @hasChallengeTimedOut={{hasChallengeTimedOut}} />
+        </template>,
       );
 
       // then
@@ -67,20 +77,24 @@ module('Integration | Component | challenge actions', function (hooks) {
       module('when certification course version is 2', function () {
         test("should show certification focus out's error message", async function (assert) {
           // given
-          this.set('isCertification', true);
-          this.set('hasFocusedOutOfWindow', true);
-          this.set('hasChallengeTimedOut', false);
-          this.set('validateActionStub', () => {});
-          this.set('certificationVersion', 2);
+          const isCertification = true;
+          const hasFocusedOutOfWindow = true;
+          const hasChallengeTimedOut = false;
+          const validateActionStub = () => {};
+          const certificationVersion = 2;
 
           // when
-          await render(hbs`<ChallengeActions
-  @isCertification={{this.isCertification}}
-  @validateAnswer={{this.validateActionStub}}
-  @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
-  @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-  @certificationVersion={{this.certificationVersion}}
-/>`);
+          await render(
+            <template>
+              <ChallengeActions
+                @isCertification={{isCertification}}
+                @validateAnswer={{validateActionStub}}
+                @hasFocusedOutOfWindow={{hasFocusedOutOfWindow}}
+                @hasChallengeTimedOut={{hasChallengeTimedOut}}
+                @certificationVersion={{certificationVersion}}
+              />
+            </template>,
+          );
 
           // then
           assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
@@ -93,20 +107,24 @@ module('Integration | Component | challenge actions', function (hooks) {
         module('when the candidate does not need an accessibility adjustment', function () {
           test("should show a specific certification focus out's error message", async function (assert) {
             // given
-            this.set('isCertification', true);
-            this.set('hasFocusedOutOfWindow', true);
-            this.set('hasChallengeTimedOut', false);
-            this.set('validateActionStub', () => {});
-            this.set('certificationVersion', 3);
+            const isCertification = true;
+            const hasFocusedOutOfWindow = true;
+            const hasChallengeTimedOut = false;
+            const validateActionStub = () => {};
+            const certificationVersion = 3;
 
             // when
-            const screen = await render(hbs`<ChallengeActions
-  @isCertification={{this.isCertification}}
-  @validateAnswer={{this.validateActionStub}}
-  @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
-  @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-  @certificationVersion={{this.certificationVersion}}
-/>`);
+            const screen = await render(
+              <template>
+                <ChallengeActions
+                  @isCertification={{isCertification}}
+                  @validateAnswer={{validateActionStub}}
+                  @hasFocusedOutOfWindow={{hasFocusedOutOfWindow}}
+                  @hasChallengeTimedOut={{hasChallengeTimedOut}}
+                  @certificationVersion={{certificationVersion}}
+                />
+              </template>,
+            );
 
             // then
             assert
@@ -143,22 +161,26 @@ module('Integration | Component | challenge actions', function (hooks) {
         module('when the candidate needs an accessibility adjustment', function () {
           test("should show another specific certification focus out's error message", async function (assert) {
             // given
-            this.set('isCertification', true);
-            this.set('hasFocusedOutOfWindow', true);
-            this.set('hasChallengeTimedOut', false);
-            this.set('validateActionStub', () => {});
-            this.set('certificationVersion', 3);
-            this.set('isAdjustedCourseForAccessibility', true);
+            const isCertification = true;
+            const hasFocusedOutOfWindow = true;
+            const hasChallengeTimedOut = false;
+            const validateActionStub = () => {};
+            const certificationVersion = 3;
+            const isAdjustedCourseForAccessibility = true;
 
             // when
-            const screen = await render(hbs`<ChallengeActions
-  @isCertification={{this.isCertification}}
-  @validateAnswer={{this.validateActionStub}}
-  @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
-  @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-  @certificationVersion={{this.certificationVersion}}
-  @isAdjustedCourseForAccessibility={{this.isAdjustedCourseForAccessibility}}
-/>`);
+            const screen = await render(
+              <template>
+                <ChallengeActions
+                  @isCertification={{isCertification}}
+                  @validateAnswer={{validateActionStub}}
+                  @hasFocusedOutOfWindow={{hasFocusedOutOfWindow}}
+                  @hasChallengeTimedOut={{hasChallengeTimedOut}}
+                  @certificationVersion={{certificationVersion}}
+                  @isAdjustedCourseForAccessibility={{isAdjustedCourseForAccessibility}}
+                />
+              </template>,
+            );
 
             // then
             assert
@@ -197,18 +219,22 @@ module('Integration | Component | challenge actions', function (hooks) {
     module('when assessent is not of type certification', function () {
       test("should show default focus out's error message", async function (assert) {
         // given
-        this.set('isCertification', false);
-        this.set('hasFocusedOutOfWindow', true);
-        this.set('hasChallengeTimedOut', false);
-        this.set('validateActionStub', () => {});
+        const isCertification = false;
+        const hasFocusedOutOfWindow = true;
+        const hasChallengeTimedOut = false;
+        const validateActionStub = () => {};
 
         // when
-        await render(hbs`<ChallengeActions
-  @isCertification={{this.isCertification}}
-  @validateAnswer={{this.validateActionStub}}
-  @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
-  @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-/>`);
+        await render(
+          <template>
+            <ChallengeActions
+              @isCertification={{isCertification}}
+              @validateAnswer={{validateActionStub}}
+              @hasFocusedOutOfWindow={{hasFocusedOutOfWindow}}
+              @hasChallengeTimedOut={{hasChallengeTimedOut}}
+            />
+          </template>,
+        );
 
         // then
         assert.dom('[data-test="certification-focused-out-error-message"]').doesNotExist();
@@ -220,11 +246,11 @@ module('Integration | Component | challenge actions', function (hooks) {
   module('when a companion live alert exists', function () {
     test('should disable action buttons', async function (assert) {
       // given
-      this.set('hasOngoingCompanionLiveAlert', true);
+      const hasOngoingCompanionLiveAlert = true;
 
       // when
       const screen = await render(
-        hbs`<ChallengeActions @hasOngoingCompanionLiveAlert={{this.hasOngoingCompanionLiveAlert}} />`,
+        <template><ChallengeActions @hasOngoingCompanionLiveAlert={{hasOngoingCompanionLiveAlert}} /></template>,
       );
 
       // then
@@ -241,11 +267,11 @@ module('Integration | Component | challenge actions', function (hooks) {
   module('when a challenge live alert exists', function () {
     test('should disable action buttons', async function (assert) {
       // given
-      this.set('hasOngoingChallengeLiveAlert', true);
+      const hasOngoingChallengeLiveAlert = true;
 
       // when
       const screen = await render(
-        hbs`<ChallengeActions @hasOngoingChallengeLiveAlert={{this.hasOngoingChallengeLiveAlert}} />`,
+        <template><ChallengeActions @hasOngoingChallengeLiveAlert={{hasOngoingChallengeLiveAlert}} /></template>,
       );
 
       // then
