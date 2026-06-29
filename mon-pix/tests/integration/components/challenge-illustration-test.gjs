@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ChallengeIllustration from 'mon-pix/components/challenge-illustration';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -13,11 +13,11 @@ module('Integration | Component | challenge-illustration', function (hooks) {
     const imageSource = 'http://www.example.com/this-is-an-example.png';
     const imageAlternativeText = "texte alternatif à l'image";
 
-    this.set('src', imageSource);
-    this.set('alt', imageAlternativeText);
+    const src = imageSource;
+    const alt = imageAlternativeText;
 
     // when
-    const screen = await render(hbs`<ChallengeIllustration @src={{this.src}} @alt={{this.alt}} />`);
+    const screen = await render(<template><ChallengeIllustration @src={{src}} @alt={{alt}} /></template>);
 
     // then
     const hiddenImage = await screen.getByAltText(imageAlternativeText);
@@ -36,11 +36,11 @@ module('Integration | Component | challenge-illustration', function (hooks) {
     const imageSource = 'http://www.example.com/this-is-an-example.png';
     const imageAlternativeText = null;
 
-    this.set('src', imageSource);
-    this.set('alt', imageAlternativeText);
+    const src = imageSource;
+    const alt = imageAlternativeText;
 
     // when
-    const screen = await render(hbs`<ChallengeIllustration @src={{this.src}} @alt={{this.alt}} />`);
+    const screen = await render(<template><ChallengeIllustration @src={{src}} @alt={{alt}} /></template>);
 
     // then
     const hiddenImage = await screen.getByAltText('');
