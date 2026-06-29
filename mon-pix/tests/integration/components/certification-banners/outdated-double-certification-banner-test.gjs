@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import OutdatedDoubleCertificationBanner from 'mon-pix/components/certification-banners/outdated-double-certification-banner';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -17,12 +17,9 @@ module('Integration | Component | Certification Banners | Outdated Double Certif
         validatedDoubleCertification: false,
       };
 
-      this.set('outdatedDoubleCertification', outdatedDoubleCertification);
-      this.set('closeBanner', () => {});
-
       // when
       const screen = await render(
-        hbs`<CertificationBanners::OutdatedDoubleCertificationBanner @doubleCertification={{this.outdatedDoubleCertification}} />`,
+        <template><OutdatedDoubleCertificationBanner @doubleCertification={{outdatedDoubleCertification}} /></template>,
       );
 
       // then
