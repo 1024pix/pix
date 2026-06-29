@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import AssociateSupStudentForm from 'mon-pix/components/routes/organizations/invited/associate-sup-student-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -41,12 +41,8 @@ module('Integration | Component | routes/organizations/invited/associate-sup-stu
   module('when user fill the form correctly', function () {
     test('should save form', async function (assert) {
       // given
-      this.set('organizationId', organizationId);
       const screen = await render(
-        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
-  @campaignCode='CAMPAIGN1'
-  @organizationId={{this.organizationId}}
-/>`,
+        <template><AssociateSupStudentForm @campaignCode="CAMPAIGN1" @organizationId={{organizationId}} /></template>,
       );
 
       // when
@@ -60,12 +56,8 @@ module('Integration | Component | routes/organizations/invited/associate-sup-stu
 
     test('should transition to fill-in-participant-external-id', async function (assert) {
       // given
-      this.set('organizationId', organizationId);
       const screen = await render(
-        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
-  @campaignCode='CAMPAIGN1'
-  @organizationId={{this.organizationId}}
-/>`,
+        <template><AssociateSupStudentForm @campaignCode="CAMPAIGN1" @organizationId={{organizationId}} /></template>,
       );
 
       // when
@@ -85,12 +77,8 @@ module('Integration | Component | routes/organizations/invited/associate-sup-stu
     test('should display server error', async function (assert) {
       // given
       saveStub.rejects();
-      this.set('organizationId', organizationId);
       const screen = await render(
-        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
-  @campaignCode='CAMPAIGN1'
-  @organizationId={{this.organizationId}}
-/>`,
+        <template><AssociateSupStudentForm @campaignCode="CAMPAIGN1" @organizationId={{organizationId}} /></template>,
       );
 
       // when
@@ -108,12 +96,8 @@ module('Integration | Component | routes/organizations/invited/associate-sup-stu
   module('when the form data have errors', function () {
     test('should display an error when student number is not filled', async function (assert) {
       // given
-      this.set('organizationId', organizationId);
       const screen = await render(
-        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
-  @campaignCode='CAMPAIGN1'
-  @organizationId={{this.organizationId}}
-/>`,
+        <template><AssociateSupStudentForm @campaignCode="CAMPAIGN1" @organizationId={{organizationId}} /></template>,
       );
 
       // when
@@ -126,12 +110,8 @@ module('Integration | Component | routes/organizations/invited/associate-sup-stu
 
     test('should display an error when first name is not filled', async function (assert) {
       // given
-      this.set('organizationId', organizationId);
       const screen = await render(
-        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
-  @campaignCode='CAMPAIGN1'
-  @organizationId={{this.organizationId}}
-/>`,
+        <template><AssociateSupStudentForm @campaignCode="CAMPAIGN1" @organizationId={{organizationId}} /></template>,
       );
 
       // when
@@ -144,12 +124,8 @@ module('Integration | Component | routes/organizations/invited/associate-sup-stu
 
     test('should display an error when last name is not filled', async function (assert) {
       // given
-      this.set('organizationId', organizationId);
       const screen = await render(
-        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
-  @campaignCode='CAMPAIGN1'
-  @organizationId={{this.organizationId}}
-/>`,
+        <template><AssociateSupStudentForm @campaignCode="CAMPAIGN1" @organizationId={{organizationId}} /></template>,
       );
 
       // when
@@ -162,12 +138,8 @@ module('Integration | Component | routes/organizations/invited/associate-sup-stu
 
     test('should display an error when day of birth is not valid', async function (assert) {
       // given
-      this.set('organizationId', organizationId);
       const screen = await render(
-        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
-  @campaignCode='CAMPAIGN1'
-  @organizationId={{this.organizationId}}
-/>`,
+        <template><AssociateSupStudentForm @campaignCode="CAMPAIGN1" @organizationId={{organizationId}} /></template>,
       );
 
       // when
@@ -180,12 +152,8 @@ module('Integration | Component | routes/organizations/invited/associate-sup-stu
 
     test('should display an error when month of birth is not valid', async function (assert) {
       // given
-      this.set('organizationId', organizationId);
       const screen = await render(
-        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
-  @campaignCode='CAMPAIGN1'
-  @organizationId={{this.organizationId}}
-/>`,
+        <template><AssociateSupStudentForm @campaignCode="CAMPAIGN1" @organizationId={{organizationId}} /></template>,
       );
 
       // when
@@ -198,12 +166,8 @@ module('Integration | Component | routes/organizations/invited/associate-sup-stu
 
     test('should display an error when year of birth is not valid', async function (assert) {
       // given
-      this.set('organizationId', organizationId);
       const screen = await render(
-        hbs`<Routes::Organizations::Invited::AssociateSupStudentForm
-  @campaignCode='CAMPAIGN1'
-  @organizationId={{this.organizationId}}
-/>`,
+        <template><AssociateSupStudentForm @campaignCode="CAMPAIGN1" @organizationId={{organizationId}} /></template>,
       );
 
       // when
