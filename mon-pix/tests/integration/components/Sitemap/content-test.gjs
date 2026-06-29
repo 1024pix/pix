@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Content from 'mon-pix/components/sitemap/content';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,7 +13,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
 
   test('should display the sitemap menu with expected elements', async function (assert) {
     // given & when
-    const screen = await render(hbs`<Sitemap::Content />`);
+    const screen = await render(<template><Content /></template>);
 
     // then
     assert.dom(screen.getByRole('heading', { name: t('pages.sitemap.title') })).exists();
@@ -43,10 +43,9 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     const model = {
       scorecards: [scorecard1, scorecard2],
     };
-    this.set('model', model);
 
     // when
-    const screen = await render(hbs`<Sitemap::Content @model={{this.model}} />`);
+    const screen = await render(<template><Content @model={{model}} /></template>);
 
     // then
     assert.dom(screen.getByRole('link', { name: 'Name 1' })).exists();
@@ -59,7 +58,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     service.currentDomain = { getExtension: sinon.stub().returns(FRANCE_TLD), isFranceDomain: true };
 
     // when
-    const screen = await render(hbs`<Sitemap::Content />`);
+    const screen = await render(<template><Content /></template>);
 
     // then
     assert
@@ -73,7 +72,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
 
   test('should contain an external link to pix support home page', async function (assert) {
     // given & when
-    const screen = await render(hbs`<Sitemap::Content />`);
+    const screen = await render(<template><Content /></template>);
 
     // then
     assert
@@ -91,7 +90,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     service.currentDomain = { getExtension: sinon.stub().returns(FRANCE_TLD), isFranceDomain: true };
 
     // when
-    const screen = await render(hbs`<Sitemap::Content />`);
+    const screen = await render(<template><Content /></template>);
 
     // then
     assert
@@ -109,7 +108,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     service.currentDomain = { getExtension: sinon.stub().returns(FRANCE_TLD), isFranceDomain: true };
 
     // when
-    const screen = await render(hbs`<Sitemap::Content />`);
+    const screen = await render(<template><Content /></template>);
 
     // then
     assert
@@ -127,7 +126,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     service.currentDomain = { getExtension: sinon.stub().returns(FRANCE_TLD), isFranceDomain: true };
 
     // when
-    const screen = await render(hbs`<Sitemap::Content />`);
+    const screen = await render(<template><Content /></template>);
 
     // then
     assert
