@@ -2,7 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find, findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import QcmSolutionPanel from 'mon-pix/components/solution-panel/qcm-solution-panel';
 import { pshuffle } from 'mon-pix/utils/pshuffle';
 import { module, test } from 'qunit';
 
@@ -59,19 +59,20 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
           // Given
           answer = EmberObject.create(unCorrectAnswer);
           const solutionToDisplay = 'La bonne réponse est TADA !';
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('solutionToDisplay', solutionToDisplay);
-          this.set('challenge', challenge);
+          const answerArg = answer;
+          const solutionArg = solution;
+          const challengeArg = challenge;
 
           // When
           await render(
-            hbs`<SolutionPanel::QcmSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+            <template>
+              <QcmSolutionPanel
+                @answer={{answerArg}}
+                @challenge={{challengeArg}}
+                @solution={{solutionArg}}
+                @solutionToDisplay={{solutionToDisplay}}
+              />
+            </template>,
           );
 
           // Then
@@ -85,19 +86,20 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
           // Given
           answer = EmberObject.create(unCorrectAnswer);
           const solutionToDisplay = null;
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('solutionToDisplay', solutionToDisplay);
-          this.set('challenge', challenge);
+          const answerArg = answer;
+          const solutionArg = solution;
+          const challengeArg = challenge;
 
           // When
           await render(
-            hbs`<SolutionPanel::QcmSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+            <template>
+              <QcmSolutionPanel
+                @answer={{answerArg}}
+                @challenge={{challengeArg}}
+                @solution={{solutionArg}}
+                @solutionToDisplay={{solutionToDisplay}}
+              />
+            </template>,
           );
 
           // Then
@@ -112,19 +114,20 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
           // Given
           answer = EmberObject.create(correctAnswer);
           const solutionToDisplay = 'La bonne réponse est TADA !';
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('solutionToDisplay', solutionToDisplay);
-          this.set('challenge', challenge);
+          const answerArg = answer;
+          const solutionArg = solution;
+          const challengeArg = challenge;
 
           // When
           await render(
-            hbs`<SolutionPanel::QcmSolutionPanel
-  @answer={{this.answer}}
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+            <template>
+              <QcmSolutionPanel
+                @answer={{answerArg}}
+                @challenge={{challengeArg}}
+                @solution={{solutionArg}}
+                @solutionToDisplay={{solutionToDisplay}}
+              />
+            </template>,
           );
 
           // Then
@@ -135,13 +138,15 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
     test('should display the correct answer as ticked', async function (assert) {
       // Given
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('challenge', challenge);
+      const answerArg = answer;
+      const solutionArg = solution;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} />`,
+        <template>
+          <QcmSolutionPanel @answer={{answerArg}} @challenge={{challengeArg}} @solution={{solutionArg}} />
+        </template>,
       );
 
       // Then
@@ -157,13 +162,15 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
     test('should display an incorrect answer as not ticked', async function (assert) {
       //Given
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('challenge', challenge);
+      const answerArg = answer;
+      const solutionArg = solution;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} />`,
+        <template>
+          <QcmSolutionPanel @answer={{answerArg}} @challenge={{challengeArg}} @solution={{solutionArg}} />
+        </template>,
       );
 
       // Then
@@ -178,13 +185,15 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
       //Given
       answer = EmberObject.create(unCorrectAnswer);
 
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('challenge', challenge);
+      const answerArg = answer;
+      const solutionArg = solution;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} />`,
+        <template>
+          <QcmSolutionPanel @answer={{answerArg}} @challenge={{challengeArg}} @solution={{solutionArg}} />
+        </template>,
       );
 
       // Then
@@ -202,13 +211,15 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
       //Given
       answer = EmberObject.create(unCorrectAnswer);
 
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('challenge', challenge);
+      const answerArg = answer;
+      const solutionArg = solution;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} />`,
+        <template>
+          <QcmSolutionPanel @answer={{answerArg}} @challenge={{challengeArg}} @solution={{solutionArg}} />
+        </template>,
       );
 
       // Then
@@ -220,13 +231,15 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
     test('should display no clickable input', async function (assert) {
       //Given
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('challenge', challenge);
+      const answerArg = answer;
+      const solutionArg = solution;
+      const challengeArg = challenge;
 
       // When
       await render(
-        hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} />`,
+        <template>
+          <QcmSolutionPanel @answer={{answerArg}} @challenge={{challengeArg}} @solution={{solutionArg}} />
+        </template>,
       );
 
       // Then
@@ -241,9 +254,9 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
         // Given
         answer = EmberObject.create(correctAnswer);
         challenge.shuffled = true;
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('challenge', challenge);
+        const answerArg = answer;
+        const solutionArg = solution;
+        const challengeArg = challenge;
 
         const expectedAnswers = ['possibilite 1', 'possibilite 2', '', 'yon'];
 
@@ -251,7 +264,9 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
         // When
         await render(
-          hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} />`,
+          <template>
+            <QcmSolutionPanel @answer={{answerArg}} @challenge={{challengeArg}} @solution={{solutionArg}} />
+          </template>,
         );
 
         // Then
