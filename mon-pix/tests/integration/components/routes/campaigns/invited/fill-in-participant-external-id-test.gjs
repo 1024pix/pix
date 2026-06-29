@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import FillInParticipantExternalId from 'mon-pix/components/routes/campaigns/fill-in-participant-external-id';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,14 +10,11 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 module('Integration | Component | routes/campaigns/invited/fill-in-participant-external-id', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  let onSubmitStub;
-  let onCancelStub;
+  const state = {};
 
   hooks.beforeEach(function () {
-    onCancelStub = sinon.stub();
-    onSubmitStub = sinon.stub();
-    this.set('onSubmitStub', onSubmitStub);
-    this.set('onCancelStub', onCancelStub);
+    state.onCancelStub = sinon.stub();
+    state.onSubmitStub = sinon.stub();
   });
 
   module('when externalIdHelpImageUrl exists', function () {
@@ -27,15 +24,16 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
         externalIdHelpImageUrl: '/images/pix-logo.svg',
         alternativeTextToExternalIdHelpImage: 'alternative text',
       };
-      this.set('campaign', campaign);
 
       // given
       const screen = await render(
-        hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+        <template>
+          <FillInParticipantExternalId
+            @campaign={{campaign}}
+            @onSubmit={{state.onSubmitStub}}
+            @onCancel={{state.onCancelStub}}
+          />
+        </template>,
       );
 
       // then
@@ -50,15 +48,16 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
       const campaign = {
         externalIdHelpImageUrl: undefined,
       };
-      this.set('campaign', campaign);
 
       // given
       await render(
-        hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+        <template>
+          <FillInParticipantExternalId
+            @campaign={{campaign}}
+            @onSubmit={{state.onSubmitStub}}
+            @onCancel={{state.onCancelStub}}
+          />
+        </template>,
       );
 
       // then
@@ -73,13 +72,14 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
       externaIdType: 'STRING',
     };
 
-    this.set('campaign', campaign);
     const screen = await render(
-      hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+      <template>
+        <FillInParticipantExternalId
+          @campaign={{campaign}}
+          @onSubmit={{state.onSubmitStub}}
+          @onCancel={{state.onCancelStub}}
+        />
+      </template>,
     );
 
     // when
@@ -87,8 +87,8 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
     await click(screen.getByRole('button', { name: t('pages.fill-in-participant-external-id.buttons.continue') }));
 
     // then
-    assert.ok(onSubmitStub.called);
-    assert.ok(onCancelStub.notCalled);
+    assert.ok(state.onSubmitStub.called);
+    assert.ok(state.onCancelStub.notCalled);
   });
 
   test('should called on cancel button', async function (assert) {
@@ -98,21 +98,22 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
       externaIdType: 'STRING',
     };
 
-    this.set('campaign', campaign);
     const screen = await render(
-      hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+      <template>
+        <FillInParticipantExternalId
+          @campaign={{campaign}}
+          @onSubmit={{state.onSubmitStub}}
+          @onCancel={{state.onCancelStub}}
+        />
+      </template>,
     );
 
     // when
     await click(screen.getByRole('button', { name: t('pages.fill-in-participant-external-id.buttons.cancel') }));
 
     // then
-    assert.ok(onSubmitStub.notCalled);
-    assert.ok(onCancelStub.called);
+    assert.ok(state.onSubmitStub.notCalled);
+    assert.ok(state.onCancelStub.called);
   });
 
   module('when fill participant externalId', function () {
@@ -123,13 +124,14 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
         externaIdType: 'STRING',
       };
 
-      this.set('campaign', campaign);
       const screen = await render(
-        hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+        <template>
+          <FillInParticipantExternalId
+            @campaign={{campaign}}
+            @onSubmit={{state.onSubmitStub}}
+            @onCancel={{state.onCancelStub}}
+          />
+        </template>,
       );
 
       // when
@@ -153,13 +155,14 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
         externaIdType: 'STRING',
       };
 
-      this.set('campaign', campaign);
       const screen = await render(
-        hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+        <template>
+          <FillInParticipantExternalId
+            @campaign={{campaign}}
+            @onSubmit={{state.onSubmitStub}}
+            @onCancel={{state.onCancelStub}}
+          />
+        </template>,
       );
 
       // when
@@ -188,15 +191,16 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
             externalIdLabel: 'idpix',
             externaIdType,
           };
-          this.set('campaign', campaign);
 
           // given
           const screen = await render(
-            hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+            <template>
+              <FillInParticipantExternalId
+                @campaign={{campaign}}
+                @onSubmit={{state.onSubmitStub}}
+                @onCancel={{state.onCancelStub}}
+              />
+            </template>,
           );
           const input = screen.getByLabelText(/idpix/);
           assert.strictEqual(input.type, inputType);
@@ -210,15 +214,16 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
           externalIdLabel: 'idpix',
           externaIdType: 'EMAIL',
         };
-        this.set('campaign', campaign);
 
         // given
         const screen = await render(
-          hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+          <template>
+            <FillInParticipantExternalId
+              @campaign={{campaign}}
+              @onSubmit={{state.onSubmitStub}}
+              @onCancel={{state.onCancelStub}}
+            />
+          </template>,
         );
         const input = screen.getByLabelText(t('pages.signup.fields.email.help'), { exact: false });
         assert.ok(input);
@@ -228,15 +233,16 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
           externalIdLabel: 'idpix',
           externaIdType: 'STRING',
         };
-        this.set('campaign', campaign);
 
         // given
         const screen = await render(
-          hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+          <template>
+            <FillInParticipantExternalId
+              @campaign={{campaign}}
+              @onSubmit={{state.onSubmitStub}}
+              @onCancel={{state.onCancelStub}}
+            />
+          </template>,
         );
         const input = screen.queryByLabelText(t('pages.signup.fields.email.help'), { exact: false });
         assert.notOk(input);
@@ -261,15 +267,15 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
       });
 
       test(`initialize error and previous external id`, async function (assert) {
-        this.set('campaign', campaign);
-
         // given & when
         const screen = await render(
-          hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+          <template>
+            <FillInParticipantExternalId
+              @campaign={{campaign}}
+              @onSubmit={{state.onSubmitStub}}
+              @onCancel={{state.onCancelStub}}
+            />
+          </template>,
         );
 
         // then
@@ -279,15 +285,15 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
       });
 
       test(`remove error message when update input`, async function (assert) {
-        this.set('campaign', campaign);
-
         // given
         const screen = await render(
-          hbs`<Routes::Campaigns::FillInParticipantExternalId
-  @campaign={{this.campaign}}
-  @onSubmit={{this.onSubmitStub}}
-  @onCancel={{this.onCancelStub}}
-/>`,
+          <template>
+            <FillInParticipantExternalId
+              @campaign={{campaign}}
+              @onSubmit={{state.onSubmitStub}}
+              @onCancel={{state.onCancelStub}}
+            />
+          </template>,
         );
 
         // when
