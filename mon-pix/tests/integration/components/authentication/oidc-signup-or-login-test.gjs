@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import OidcSignupOrLogin from 'mon-pix/components/authentication/oidc-signup-or-login';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -12,8 +12,11 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | authentication | oidc-signup-or-login', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  const state = {};
+
   hooks.beforeEach(function () {
-    this.set('identityProviderSlug', 'oidc-partner');
+    for (const key of Object.keys(state)) delete state[key];
+    state.identityProviderSlug = 'oidc-partner';
 
     const oidcPartner = {
       id: 'OIDC_PARTNER',
@@ -35,16 +38,15 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
       lastName: 'TITEGOUTTE',
     };
 
-    this.set('userClaims', userClaims);
+    state.userClaims = userClaims;
   });
 
   test('should display heading', async function (assert) {
     // given & when
     const screen = await render(
-      hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @userClaims={{this.userClaims}}
-/>`,
+      <template>
+        <OidcSignupOrLogin @identityProviderSlug={{state.identityProviderSlug}} @userClaims={{state.userClaims}} />
+      </template>,
     ); // then
     assert.ok(
       screen.getByRole('heading', {
@@ -59,10 +61,9 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
       test('should display elements for OIDC identity provider', async function (assert) {
         // given & when
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @userClaims={{this.userClaims}}
-/>`,
+          <template>
+            <OidcSignupOrLogin @identityProviderSlug={{state.identityProviderSlug}} @userClaims={{state.userClaims}} />
+          </template>,
         );
 
         // then
@@ -94,7 +95,9 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
       test('diplays an error and no register form', async function (assert) {
         // given & when
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin @identityProviderSlug={{this.identityProviderSlug}} @userClaims={{null}} />`,
+          <template>
+            <OidcSignupOrLogin @identityProviderSlug={{state.identityProviderSlug}} @userClaims={{null}} />
+          </template>,
         );
 
         // then
@@ -128,7 +131,9 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
     test('displays some form elements', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Authentication::OidcSignupOrLogin @identityProviderSlug={{this.identityProviderSlug}} @userClaims={{null}} />`,
+        <template>
+          <OidcSignupOrLogin @identityProviderSlug={{state.identityProviderSlug}} @userClaims={{null}} />
+        </template>,
       ); // then
       assert.ok(
         screen.getByRole('heading', {
@@ -147,14 +152,16 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
       test('creates a session through the OIDC authenticator', async function (assert) {
         // given
         const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
-        this.set('authenticationKey', 'super-key');
+        state.authenticationKey = 'super-key';
 
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @authenticationKey={{this.authenticationKey}}
-  @userClaims={{this.userClaims}}
-/>`,
+          <template>
+            <OidcSignupOrLogin
+              @identityProviderSlug={{state.identityProviderSlug}}
+              @authenticationKey={{state.authenticationKey}}
+              @userClaims={{state.userClaims}}
+            />
+          </template>,
         );
 
         // when
@@ -177,11 +184,13 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
 
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @authenticationKey={{this.authenticationKey}}
-  @userClaims={{this.userClaims}}
-/>`,
+          <template>
+            <OidcSignupOrLogin
+              @identityProviderSlug={{state.identityProviderSlug}}
+              @authenticationKey={{state.authenticationKey}}
+              @userClaims={{state.userClaims}}
+            />
+          </template>,
         );
 
         // when
@@ -200,11 +209,13 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         sessionService.authenticate.rejects({ errors: [{ status: '401', code: 'EXPIRED_AUTHENTICATION_KEY' }] });
 
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @authenticationKey={{this.authenticationKey}}
-  @userClaims={{this.userClaims}}
-/>`,
+          <template>
+            <OidcSignupOrLogin
+              @identityProviderSlug={{state.identityProviderSlug}}
+              @authenticationKey={{state.authenticationKey}}
+              @userClaims={{state.userClaims}}
+            />
+          </template>,
         );
 
         // when
@@ -225,11 +236,13 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         });
 
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @authenticationKey={{this.authenticationKey}}
-  @userClaims={{this.userClaims}}
-/>`,
+          <template>
+            <OidcSignupOrLogin
+              @identityProviderSlug={{state.identityProviderSlug}}
+              @authenticationKey={{state.authenticationKey}}
+              @userClaims={{state.userClaims}}
+            />
+          </template>,
         );
 
         // when
@@ -250,11 +263,13 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         sessionService.authenticate.rejects({ errors: [{ status: '403', code: 'USER_IS_BLOCKED' }] });
 
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @authenticationKey={{this.authenticationKey}}
-  @userClaims={{this.userClaims}}
-/>`,
+          <template>
+            <OidcSignupOrLogin
+              @identityProviderSlug={{state.identityProviderSlug}}
+              @authenticationKey={{state.authenticationKey}}
+              @userClaims={{state.userClaims}}
+            />
+          </template>,
         );
 
         // when
@@ -273,11 +288,13 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         sessionService.authenticate.rejects({ errors: [{ status: '500', detail: 'some detail' }] });
 
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @authenticationKey={{this.authenticationKey}}
-  @userClaims={{this.userClaims}}
-/>`,
+          <template>
+            <OidcSignupOrLogin
+              @identityProviderSlug={{state.identityProviderSlug}}
+              @authenticationKey={{state.authenticationKey}}
+              @userClaims={{state.userClaims}}
+            />
+          </template>,
         );
 
         // when
@@ -295,14 +312,15 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
     test('trims the email value', async function (assert) {
       // given
       const onLogin = sinon.stub().resolves();
-      this.set('onLogin', onLogin);
 
       const screen = await render(
-        hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @userClaims={{null}}
-  @onLogin={{this.onLogin}}
-/>`,
+        <template>
+          <OidcSignupOrLogin
+            @identityProviderSlug={{state.identityProviderSlug}}
+            @userClaims={{null}}
+            @onLogin={{onLogin}}
+          />
+        </template>,
       );
 
       // when
@@ -325,7 +343,9 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
       test('displays an error', async function (assert) {
         // given
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin @identityProviderSlug={{this.identityProviderSlug}} @userClaims={{null}} />`,
+          <template>
+            <OidcSignupOrLogin @identityProviderSlug={{state.identityProviderSlug}} @userClaims={{null}} />
+          </template>,
         );
 
         // when
@@ -344,14 +364,15 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
     test('retrieves the existing pix account through the entered credentials', async function (assert) {
       // given
       const onLogin = sinon.stub().resolves();
-      this.set('onLogin', onLogin);
 
       const screen = await render(
-        hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @userClaims={{null}}
-  @onLogin={{this.onLogin}}
-/>`,
+        <template>
+          <OidcSignupOrLogin
+            @identityProviderSlug={{state.identityProviderSlug}}
+            @userClaims={{null}}
+            @onLogin={{onLogin}}
+          />
+        </template>,
       );
 
       // when
@@ -374,14 +395,15 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
       test('does not request the api for reconciliation', async function (assert) {
         // given
         const onLogin = sinon.stub().resolves();
-        this.set('onLogin', onLogin);
 
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @userClaims={{null}}
-  @onLogin={{this.onLogin}}
-/>`,
+          <template>
+            <OidcSignupOrLogin
+              @identityProviderSlug={{state.identityProviderSlug}}
+              @userClaims={{null}}
+              @onLogin={{onLogin}}
+            />
+          </template>,
         );
 
         // when
@@ -397,14 +419,15 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
       test('displays an error', async function (assert) {
         // given
         const onLogin = sinon.stub().rejects({ errors: [{ status: '401', code: 'EXPIRED_AUTHENTICATION_KEY' }] });
-        this.set('onLogin', onLogin);
 
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @userClaims={{null}}
-  @onLogin={{this.onLogin}}
-/>`,
+          <template>
+            <OidcSignupOrLogin
+              @identityProviderSlug={{state.identityProviderSlug}}
+              @userClaims={{null}}
+              @onLogin={{onLogin}}
+            />
+          </template>,
         );
 
         // when
@@ -424,14 +447,15 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
       test('displays an error', async function (assert) {
         // given
         const onLogin = sinon.stub().rejects({ errors: [{ status: '409' }] });
-        this.set('onLogin', onLogin);
 
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @userClaims={{null}}
-  @onLogin={{this.onLogin}}
-/>`,
+          <template>
+            <OidcSignupOrLogin
+              @identityProviderSlug={{state.identityProviderSlug}}
+              @userClaims={{null}}
+              @onLogin={{onLogin}}
+            />
+          </template>,
         );
 
         // when
@@ -451,14 +475,15 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
       test('displays a default error message', async function (assert) {
         // given
         const onLogin = sinon.stub().rejects({ errors: [{ status: '500' }] });
-        this.set('onLogin', onLogin);
 
         const screen = await render(
-          hbs`<Authentication::OidcSignupOrLogin
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @userClaims={{null}}
-  @onLogin={{this.onLogin}}
-/>`,
+          <template>
+            <OidcSignupOrLogin
+              @identityProviderSlug={{state.identityProviderSlug}}
+              @userClaims={{null}}
+              @onLogin={{onLogin}}
+            />
+          </template>,
         );
 
         // when
