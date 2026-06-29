@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import StudentInformationForm from 'mon-pix/components/account-recovery/student-information-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,7 +13,7 @@ module('Integration | Component | student-information-form', function (hooks) {
 
   test('should render a account recovery student information form', async function (assert) {
     // given / when
-    const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+    const screen = await render(<template><StudentInformationForm /></template>);
 
     // then
     assert.ok(
@@ -48,10 +48,9 @@ module('Integration | Component | student-information-form', function (hooks) {
     this.owner.register('service:store', StoreStubService);
     const submitStudentInformation = sinon.stub();
     submitStudentInformation.resolves();
-    this.set('submitStudentInformation', submitStudentInformation);
 
     const screen = await render(
-      hbs`<AccountRecovery::StudentInformationForm @submitStudentInformation={{this.submitStudentInformation}} />`,
+      <template><StudentInformationForm @submitStudentInformation={{submitStudentInformation}} /></template>,
     );
 
     // when
@@ -115,7 +114,7 @@ module('Integration | Component | student-information-form', function (hooks) {
       test('should not display an error message on focus-out', async function (assert) {
         // given
         const validIna = '1234567890A';
-        const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const screen = await render(<template><StudentInformationForm /></template>);
         const ineInaInput = screen.getByLabelText(
           t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
           { exact: false },
@@ -136,7 +135,7 @@ module('Integration | Component | student-information-form', function (hooks) {
       test('should not display an error message on focus-out even if there are leading or trailing spaces', async function (assert) {
         // given
         const validIna = '  1234567890A  ';
-        const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const screen = await render(<template><StudentInformationForm /></template>);
         const ineInaInput = screen.getByLabelText(
           t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
           { exact: false },
@@ -159,7 +158,7 @@ module('Integration | Component | student-information-form', function (hooks) {
       test('should display an invalid format error message on focus-out', async function (assert) {
         // given
         const invalidIneIna = '123ABCDEF';
-        const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const screen = await render(<template><StudentInformationForm /></template>);
         const ineInaInput = screen.getByLabelText(
           t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
           { exact: false },
@@ -180,7 +179,7 @@ module('Integration | Component | student-information-form', function (hooks) {
       test('should display a required field error message on focus-out if ine field is empty', async function (assert) {
         // given
         const emptyIneIna = '     ';
-        const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const screen = await render(<template><StudentInformationForm /></template>);
         const ineInaInput = screen.getByLabelText(
           t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
           { exact: false },
@@ -201,7 +200,7 @@ module('Integration | Component | student-information-form', function (hooks) {
   module('submit button', function () {
     test('should be disabled when the form is empty', async function (assert) {
       // given / when
-      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+      const screen = await render(<template><StudentInformationForm /></template>);
 
       // then
       assert
@@ -215,7 +214,7 @@ module('Integration | Component | student-information-form', function (hooks) {
 
     test('should stay disabled when some required fields are still empty', async function (assert) {
       // given
-      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+      const screen = await render(<template><StudentInformationForm /></template>);
 
       // when
       await fillIn(
@@ -250,7 +249,7 @@ module('Integration | Component | student-information-form', function (hooks) {
 
     test('should stay disabled when the ine or ina is invalid', async function (assert) {
       // given
-      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+      const screen = await render(<template><StudentInformationForm /></template>);
 
       // when
       await fillIn(
@@ -303,7 +302,7 @@ module('Integration | Component | student-information-form', function (hooks) {
 
     test('should be enabled when every field is valid', async function (assert) {
       // given
-      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+      const screen = await render(<template><StudentInformationForm /></template>);
 
       // when
       await fillIn(
@@ -358,10 +357,9 @@ module('Integration | Component | student-information-form', function (hooks) {
       // given
       const submitStudentInformation = sinon.stub();
       submitStudentInformation.resolves();
-      this.set('submitStudentInformation', submitStudentInformation);
 
       const screen = await render(
-        hbs`<AccountRecovery::StudentInformationForm @submitStudentInformation={{this.submitStudentInformation}} />`,
+        <template><StudentInformationForm @submitStudentInformation={{submitStudentInformation}} /></template>,
       );
 
       // when
@@ -423,7 +421,7 @@ module('Integration | Component | student-information-form', function (hooks) {
     test('should display a required field error message on focus-out if last name field is empty', async function (assert) {
       // given
       const emptyLastName = '     ';
-      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+      const screen = await render(<template><StudentInformationForm /></template>);
       const lastNameInput = screen.getByLabelText(
         new RegExp(t('pages.account-recovery.find-sco-record.student-information.form.last-name')),
         { exact: false },
@@ -444,7 +442,7 @@ module('Integration | Component | student-information-form', function (hooks) {
     test('should display a required field error message on focus-out if first name field is empty', async function (assert) {
       // given
       const emptyFirstName = '     ';
-      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+      const screen = await render(<template><StudentInformationForm /></template>);
       const firstNameInput = screen.getByLabelText(
         t('pages.account-recovery.find-sco-record.student-information.form.first-name'),
         { exact: false },
