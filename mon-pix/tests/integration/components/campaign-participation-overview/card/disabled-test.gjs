@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Disabled from 'mon-pix/components/campaign-participation-overview/card/disabled';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -26,12 +26,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
           organizationName: 'My organization',
           masteryRate: null,
         });
-        this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
-        );
+        const screen = await render(<template><Disabled @model={{campaignParticipationOverview}} /></template>);
 
         // then
         assert.ok(screen.getByRole('heading', { name: 'My organization' }));
@@ -54,12 +51,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
           organizationName: 'My organization',
           masteryRate: null,
         });
-        this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
-        );
+        const screen = await render(<template><Disabled @model={{campaignParticipationOverview}} /></template>);
 
         // then
         assert.notOk(screen.queryByRole('link', { name: 'Voir le détail' }));
@@ -79,12 +73,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
           organizationName: 'My organization',
           masteryRate: 0.56,
         });
-        this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
-        );
+        const screen = await render(<template><Disabled @model={{campaignParticipationOverview}} /></template>);
 
         // then
         assert.ok(screen.getByRole('link', { name: 'Voir le détail' }));
@@ -103,12 +94,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
             organizationName: 'My organization',
             masteryRate: 0.56,
           });
-          this.set('campaignParticipationOverview', campaignParticipationOverview);
 
           // when
-          const screen = await render(
-            hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
-          );
+          const screen = await render(<template><Disabled @model={{campaignParticipationOverview}} /></template>);
 
           // then
           assert.ok(screen.getByText('56 % de réussite'));
@@ -130,12 +118,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
             totalStagesCount: 4,
             validatedStagesCount: 2,
           });
-          this.set('campaignParticipationOverview', campaignParticipationOverview);
 
           // when
-          const screen = await render(
-            hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
-          );
+          const screen = await render(<template><Disabled @model={{campaignParticipationOverview}} /></template>);
 
           // then
           assert.ok(screen.getByText('1 étoile sur 3'));
