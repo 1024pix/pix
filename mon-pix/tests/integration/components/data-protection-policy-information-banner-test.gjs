@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import DataProtectionPolicyInformationBanner from 'mon-pix/components/data-protection-policy-information-banner';
 import ENV from 'mon-pix/config/environment';
 import Location from 'mon-pix/utils/location';
 import { module, test } from 'qunit';
@@ -23,7 +23,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
       stubSessionService(this.owner, { isAuthenticated: false });
 
       // when
-      const screen = await render(hbs`<DataProtectionPolicyInformationBanner />`);
+      const screen = await render(<template><DataProtectionPolicyInformationBanner /></template>);
 
       // then
       assert.dom(screen.queryByRole('alert')).doesNotExist();
@@ -49,7 +49,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
         stubCurrentUserService(this.owner, { shouldSeeDataProtectionPolicyInformationBanner: true });
 
         // when
-        const screen = await render(hbs`<DataProtectionPolicyInformationBanner />`);
+        const screen = await render(<template><DataProtectionPolicyInformationBanner /></template>);
 
         // then
         assert.dom(screen.queryByRole('alert')).doesNotExist();
@@ -71,7 +71,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
           stubCurrentUserService(this.owner, { shouldSeeDataProtectionPolicyInformationBanner: false });
 
           // when
-          const screen = await render(hbs`<DataProtectionPolicyInformationBanner />`);
+          const screen = await render(<template><DataProtectionPolicyInformationBanner /></template>);
 
           // then
           assert.dom(screen.queryByRole('alert')).doesNotExist();
@@ -93,7 +93,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
           _communicationBannerIsNotDisplayed();
 
           // when
-          const screen = await render(hbs`<DataProtectionPolicyInformationBanner />`);
+          const screen = await render(<template><DataProtectionPolicyInformationBanner /></template>);
 
           // then
           assert.dom(screen.getByRole('alert')).exists();
@@ -119,7 +119,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
               _communicationBannerIsNotDisplayed();
 
               // when
-              const screen = await render(hbs`<DataProtectionPolicyInformationBanner />`);
+              const screen = await render(<template><DataProtectionPolicyInformationBanner /></template>);
 
               // then
               assert
@@ -144,7 +144,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
               _communicationBannerIsNotDisplayed();
 
               // when
-              const screen = await render(hbs`<DataProtectionPolicyInformationBanner />`);
+              const screen = await render(<template><DataProtectionPolicyInformationBanner /></template>);
 
               // then
               assert
