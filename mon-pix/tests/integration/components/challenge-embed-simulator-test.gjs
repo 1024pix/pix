@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ChallengeEmbedSimulator from 'mon-pix/components/challenge-embed-simulator';
 import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -16,7 +16,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
   module('Acknowledgment overlay', function () {
     test('should be displayed when component has just been rendered', async function (assert) {
       // when
-      await render(hbs`<ChallengeEmbedSimulator />`);
+      await render(<template><ChallengeEmbedSimulator /></template>);
 
       // then
       assert.dom('.embed__acknowledgment-overlay').exists();
@@ -26,7 +26,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
   module('Launch simulator button', function () {
     test('should have text "Je lance l\'application"', async function (assert) {
       // when
-      const screen = await render(hbs`<ChallengeEmbedSimulator />`);
+      const screen = await render(<template><ChallengeEmbedSimulator /></template>);
 
       // then
       assert.ok(screen.getByText(t('pages.challenge.embed-simulator.actions.launch')));
@@ -34,7 +34,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
 
     test('should close the acknowledgment overlay when clicked', async function (assert) {
       // given
-      await render(hbs`<ChallengeEmbedSimulator />`);
+      await render(<template><ChallengeEmbedSimulator /></template>);
 
       // when
       await clickByLabel(t('pages.challenge.embed-simulator.actions.launch'));
@@ -47,7 +47,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
   module('Reload simulator button', function () {
     test('should have text "Réinitialiser"', async function (assert) {
       // when
-      await render(hbs`<ChallengeEmbedSimulator />`);
+      await render(<template><ChallengeEmbedSimulator /></template>);
 
       // then
       assert.strictEqual(find('.embed__reboot').textContent.trim(), 'Réinitialiser');
@@ -57,7 +57,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
   module('Blur effect on simulator panel', function () {
     test('should be active when component is first rendered', async function (assert) {
       // when
-      await render(hbs`<ChallengeEmbedSimulator />`);
+      await render(<template><ChallengeEmbedSimulator /></template>);
 
       // then
       assert.true(find('.embed__simulator').classList.contains('blurred'));
@@ -65,7 +65,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
 
     test('should be removed when simulator was launched', async function (assert) {
       // given
-      await render(hbs`<ChallengeEmbedSimulator />`);
+      await render(<template><ChallengeEmbedSimulator /></template>);
 
       // when
       await clickByLabel(t('pages.challenge.embed-simulator.actions.launch'));
@@ -80,14 +80,16 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
 
     hooks.beforeEach(async function () {
       // given
-      this.set('embedDocument', {
+      const embedDocument = {
         url: 'http://embed-simulator.url',
         title: 'Embed simulator',
         height: 200,
-      });
+      };
 
       // when
-      screen = await render(hbs`<ChallengeEmbedSimulator @embedDocument={{this.embedDocument}} @assessmentId='123' />`);
+      screen = await render(
+        <template><ChallengeEmbedSimulator @embedDocument={{embedDocument}} @assessmentId="123" /></template>,
+      );
     });
 
     test('should have an height that is the one defined in the referential', function (assert) {
@@ -238,28 +240,28 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
   module('allow clipboard-write', function () {
     test('it should allow `clipboard-write` when the embed origin is allowed ', async function (assert) {
       // given
-      this.set('embedDocument', {
+      const embedDocument = {
         url: `${ENV.APP.EMBED_ALLOWED_ORIGINS[0]}/embed-simulator.url`,
         title: 'Embed simulator',
         height: 200,
-      });
+      };
 
       // when
-      await render(hbs`<ChallengeEmbedSimulator @embedDocument={{this.embedDocument}} />`);
+      await render(<template><ChallengeEmbedSimulator @embedDocument={{embedDocument}} /></template>);
 
       // then
       assert.strictEqual(find('.embed__iframe').allow, 'clipboard-write');
     });
     test('it should not allow `clipboard-write` when the embed origin is not allowed', async function (assert) {
       // given
-      this.set('embedDocument', {
+      const embedDocument = {
         url: 'http://notAllowedOrigin/embed-simulator.url',
         title: 'Embed simulator',
         height: 200,
-      });
+      };
 
       // when
-      await render(hbs`<ChallengeEmbedSimulator @embedDocument={{this.embedDocument}} />`);
+      await render(<template><ChallengeEmbedSimulator @embedDocument={{embedDocument}} /></template>);
 
       // then
       assert.notOk(find('.embed__iframe').allow);
