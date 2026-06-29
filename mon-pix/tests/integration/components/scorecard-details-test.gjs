@@ -2,8 +2,8 @@ import { render, within } from '@1024pix/ember-testing-library';
 import { A } from '@ember/array';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ScorecardDetails from 'mon-pix/components/scorecard-details';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -11,6 +11,8 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | scorecard-details', function (hooks) {
   setupIntlRenderingTest(hooks);
+
+  const state = {};
 
   module('Component rendering', function () {
     test('should display the competence information', async function (assert) {
@@ -21,10 +23,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
         description: 'Scorecard description',
       });
 
-      this.set('scorecard', scorecard);
-
       // when
-      const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+      const screen = await render(<template><ScorecardDetails @scorecard={{scorecard}} /></template>);
 
       // then
       assert.ok(screen.getByRole('heading', { name: 'Scorecard name' }));
@@ -43,10 +43,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
         isProgressable: true,
       });
 
-      this.set('scorecard', scorecard);
-
       // when
-      const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+      const screen = await render(<template><ScorecardDetails @scorecard={{scorecard}} /></template>);
 
       // then
       const remainingPixToNextLevel = 2;
@@ -65,22 +63,18 @@ module('Integration | Component | scorecard-details', function (hooks) {
         isFinished: true,
       });
 
-      this.set('scorecard', scorecard);
-
       // when
-      const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+      const screen = await render(<template><ScorecardDetails @scorecard={{scorecard}} /></template>);
 
       // then
       assert.strictEqual(screen.getAllByText('–').length, 2);
     });
 
     module('When the user has finished a competence', function (hooks) {
-      let scorecard;
-
       hooks.beforeEach(function () {
         // given
         const store = this.owner.lookup('service:store');
-        scorecard = store.createRecord('scorecard', {
+        state.scorecard = store.createRecord('scorecard', {
           pixScoreAheadOfNextLevel: 7,
           level: 3,
           isFinished: true,
@@ -97,11 +91,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
       });
 
       test('should not display remainingPixToNextLevel', async function (assert) {
-        // given
-        this.set('scorecard', scorecard);
-
         // when
-        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        await render(<template><ScorecardDetails @scorecard={{state.scorecard}} /></template>);
 
         // then
         assert.dom('.scorecard-details-content-right__level-info').doesNotExist();
@@ -109,10 +100,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
       test('should not display a button', async function (assert) {
         // when
-        this.set('scorecard', scorecard);
-
-        // when
-        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(<template><ScorecardDetails @scorecard={{state.scorecard}} /></template>);
 
         // then
         assert.dom(screen.queryByRole('link', { name: 'Reprendre' })).doesNotExist();
@@ -121,13 +109,12 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
       test('should show the improving button if the remaining days before improving are equal to 0', async function (assert) {
         // given
-        scorecard.isImprovable = true;
-        scorecard.remainingDaysBeforeImproving = 0;
-        scorecard.pixScoreAheadOfNextLevel = 8;
+        state.scorecard.isImprovable = true;
+        state.scorecard.remainingDaysBeforeImproving = 0;
+        state.scorecard.pixScoreAheadOfNextLevel = 8;
 
         // when
-        this.set('scorecard', scorecard);
-        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(<template><ScorecardDetails @scorecard={{state.scorecard}} /></template>);
 
         // then
         assert.ok(screen.getByRole('button', t('pages.competence-details.actions.improve.label')));
@@ -140,11 +127,10 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const competenceEvaluation = this.owner.lookup('service:competence-evaluation');
         sinon.stub(competenceEvaluation, 'improve').resolves();
 
-        scorecard.isImprovable = true;
-        scorecard.remainingDaysBeforeImproving = 0;
-        scorecard.pixScoreAheadOfNextLevel = 8;
-        this.set('scorecard', scorecard);
-        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        state.scorecard.isImprovable = true;
+        state.scorecard.remainingDaysBeforeImproving = 0;
+        state.scorecard.pixScoreAheadOfNextLevel = 8;
+        const screen = await render(<template><ScorecardDetails @scorecard={{state.scorecard}} /></template>);
 
         // when
         await click(
@@ -152,12 +138,14 @@ module('Integration | Component | scorecard-details', function (hooks) {
         );
 
         // then
-        assert.ok(trackEventStub.calledWithExactly('improveCompetence', { competenceId: scorecard.competenceId }));
+        assert.ok(
+          trackEventStub.calledWithExactly('improveCompetence', { competenceId: state.scorecard.competenceId }),
+        );
         assert.ok(
           competenceEvaluation.improve.calledWithExactly({
             userId: 123,
-            competenceId: scorecard.competenceId,
-            scorecardId: scorecard.id,
+            competenceId: state.scorecard.competenceId,
+            scorecardId: state.scorecard.id,
           }),
         );
       });
@@ -167,10 +155,9 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const pixMetrics = this.owner.lookup('service:pix-metrics');
         const trackEventStub = sinon.stub(pixMetrics, 'trackEvent');
 
-        scorecard.isResettable = true;
-        scorecard.remainingDaysBeforeReset = 0;
-        this.set('scorecard', scorecard);
-        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        state.scorecard.isResettable = true;
+        state.scorecard.remainingDaysBeforeReset = 0;
+        const screen = await render(<template><ScorecardDetails @scorecard={{state.scorecard}} /></template>);
 
         // when
         await click(
@@ -179,17 +166,16 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const dialog = await screen.findByRole('dialog');
         await click(within(dialog).getByRole('button', { name: t('pages.competence-details.actions.reset.label') }));
         // then
-        assert.ok(trackEventStub.calledWithExactly('resetCompetence', { competenceId: scorecard.competenceId }));
+        assert.ok(trackEventStub.calledWithExactly('resetCompetence', { competenceId: state.scorecard.competenceId }));
       });
 
       test('should show the improving countdown if the remaining days before improving are different than 0', async function (assert) {
         // given
-        scorecard.remainingDaysBeforeImproving = 3;
-        scorecard.pixScoreAheadOfNextLevel = 3;
+        state.scorecard.remainingDaysBeforeImproving = 3;
+        state.scorecard.pixScoreAheadOfNextLevel = 3;
 
         // when
-        this.set('scorecard', scorecard);
-        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(<template><ScorecardDetails @scorecard={{state.scorecard}} /></template>);
 
         // then
         assert.ok(screen.getByText('Tenter le niveau supérieur dans'));
@@ -200,20 +186,18 @@ module('Integration | Component | scorecard-details', function (hooks) {
         hooks.beforeEach(function () {
           // given
           const store = this.owner.lookup('service:store');
-          const scorecard = store.createRecord('scorecard', {
+          state.scorecard = store.createRecord('scorecard', {
             pixScoreAheadOfNextLevel: 7,
             level: 5,
             isFinished: true,
             isFinishedWithMaxLevel: true,
             tutorials: [],
           });
-
-          this.set('scorecard', scorecard);
         });
 
         test('should not display remainingPixToNextLevel', async function (assert) {
           // when
-          await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+          await render(<template><ScorecardDetails @scorecard={{state.scorecard}} /></template>);
 
           // then
           assert.dom('.scorecard-details-content-right__level-info').doesNotExist();
@@ -221,7 +205,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
         test('should show congrats design', async function (assert) {
           // when
-          await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+          await render(<template><ScorecardDetails @scorecard={{state.scorecard}} /></template>);
 
           // then
           assert.dom('.competence-card__congrats').exists();
@@ -229,7 +213,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
         test('should not show the improving button', async function (assert) {
           // when
-          const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+          const screen = await render(<template><ScorecardDetails @scorecard={{state.scorecard}} /></template>);
 
           // then
           assert.dom(screen.queryByRole('button', { name: 'Retenter' })).doesNotExist();
@@ -246,10 +230,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
           isNotStarted: true,
         });
 
-        this.set('scorecard', scorecard);
-
         // when
-        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        await render(<template><ScorecardDetails @scorecard={{scorecard}} /></template>);
 
         // then
         assert.dom('.scorecard-details-content-right__score-container').doesNotExist();
@@ -265,10 +247,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
           isNotStarted: true,
         });
 
-        this.set('scorecard', scorecard);
-
         // when
-        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(<template><ScorecardDetails @scorecard={{scorecard}} /></template>);
 
         // then
         assert.ok(
@@ -291,10 +271,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
           isStarted: true,
         });
 
-        this.set('scorecard', scorecard);
-
         // when
-        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(<template><ScorecardDetails @scorecard={{scorecard}} /></template>);
 
         // then
         assert.ok(
@@ -315,10 +293,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
           isStarted: true,
         });
 
-        this.set('scorecard', scorecard);
-
         // when
-        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(<template><ScorecardDetails @scorecard={{scorecard}} /></template>);
 
         // then
         assert.dom(screen.queryByRole('heading', { name: 'Cultivez vos compétences', level: 2 })).doesNotExist();
@@ -361,10 +337,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
             tutorials,
           });
 
-          this.set('scorecard', scorecard);
-
           // when
-          const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+          const screen = await render(<template><ScorecardDetails @scorecard={{scorecard}} /></template>);
 
           // then
           assert.dom(screen.getByRole('heading', { name: 'Cultivez vos compétences', level: 2 })).exists();
