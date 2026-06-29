@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import LevelupNotif from 'mon-pix/components/levelup-notif';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -12,7 +12,7 @@ module('Integration | Component | levelup-notif', function (hooks) {
 
   test('renders', async function (assert) {
     //when
-    await render(hbs`<LevelupNotif />`);
+    await render(<template><LevelupNotif /></template>);
 
     //then
     assert.dom('.levelup__competence').exists();
@@ -20,20 +20,20 @@ module('Integration | Component | levelup-notif', function (hooks) {
 
   test('displays the new reached level and associated competence name', async function (assert) {
     // given
-    await render(hbs`<LevelupNotif />`);
+    await render(<template><LevelupNotif /></template>);
 
-    this.set('newLevel', 2);
-    this.set('model', {
+    const newLevel = 2;
+    const model = {
       title: "Mener une recherche et une veille d'information",
-    });
+    };
 
     // when
-    await render(hbs`<LevelupNotif @level={{this.newLevel}} @competenceName={{this.model.title}} />`);
+    await render(<template><LevelupNotif @level={{newLevel}} @competenceName={{model.title}} /></template>);
 
     // then
     assert.strictEqual(
       find('.levelup-competence__level').innerHTML,
-      t('pages.levelup-notif.obtained-level', { level: this.newLevel }),
+      t('pages.levelup-notif.obtained-level', { level: newLevel }),
     );
     assert.strictEqual(find('.levelup-competence__name').innerHTML, "Mener une recherche et une veille d'information");
   });
