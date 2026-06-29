@@ -6,8 +6,6 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
-import { COMPLEMENTARY_KEYS } from '../../../../models/subscription';
-
 export default class CandidateCreationModalComplementaryList extends Component {
   @service currentUser;
   @service intl;
@@ -17,17 +15,11 @@ export default class CandidateCreationModalComplementaryList extends Component {
   };
 
   firstInputLabel = () => {
-    return this.intl.t('common.forms.certification-labels.pix-certification');
+    return this.intl.t('common.forms.certification-labels.subscriptions.CORE');
   };
 
-  complementaryLabel = (complementaryCertificationHabilitation) => {
-    const { key, label } = complementaryCertificationHabilitation;
-
-    if (key === COMPLEMENTARY_KEYS.CLEA) {
-      return this.intl.t('common.forms.certification-labels.dual-certification-clea');
-    }
-
-    return label;
+  subscriptionLabel = (complementaryCertificationHabilitation) => {
+    return this.intl.t(`common.forms.certification-labels.subscriptions.${complementaryCertificationHabilitation.key}`);
   };
 
   <template>
@@ -38,16 +30,16 @@ export default class CandidateCreationModalComplementaryList extends Component {
             {{this.fieldsetLegend}}
           </PixLabel>
         </legend>
-        <PixRadioButton required name='subscriptions' {{on 'change' (fn @updateComplementaryCertification null)}}>
+        <PixRadioButton required name='subscription' {{on 'change' (fn @updateSubscription 'CORE')}}>
           <:label>{{this.firstInputLabel}}</:label>
         </PixRadioButton>
         {{#each @complementaryCertificationsHabilitations as |complementaryCertificationHabilitation|}}
           <PixRadioButton
             required
-            name='subscriptions'
-            {{on 'change' (fn @updateComplementaryCertification complementaryCertificationHabilitation)}}
+            name='subscription'
+            {{on 'change' (fn @updateSubscription complementaryCertificationHabilitation.key)}}
           >
-            <:label>{{this.complementaryLabel complementaryCertificationHabilitation}}</:label>
+            <:label>{{this.subscriptionLabel complementaryCertificationHabilitation}}</:label>
           </PixRadioButton>
         {{/each}}
       </fieldset>

@@ -14,7 +14,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
-import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from '../../../../models/subscription';
 import CandidateCreationModalComplementaryList from './candidate-creation-modal-complementary-list';
 
 const FRANCE_INSEE_CODE = '99100';
@@ -148,29 +147,13 @@ export default class CandidateCreationModal extends Component {
     }
   };
 
-  updateComplementaryCertification = (complementaryCertification) => {
-    if (complementaryCertification?.key) {
-      this.args.candidateData.subscriptions = [
-        {
-          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-          complementaryCertificationKey: complementaryCertification.key,
-        },
-      ];
-      if (complementaryCertification?.key === COMPLEMENTARY_KEYS.CLEA) {
-        this.args.candidateData.subscriptions.push({
-          complementaryCertificationKey: null,
-          type: SUBSCRIPTION_TYPES.CORE,
-        });
-      }
-    } else {
-      this.args.candidateData.subscriptions = [];
-    }
+  updateSubscription = (complementaryCertificationHabilitation) => {
+    this.args.candidateData.subscription = complementaryCertificationHabilitation;
   };
 
   onFormSubmit = async (event) => {
     event.preventDefault();
     this.isLoading = true;
-    const subscriptionsBeforeSaving = structuredClone(this.args.candidateData.subscriptions);
 
     try {
       const result = await this.args.saveCandidate(this.args.candidateData);
@@ -180,7 +163,6 @@ export default class CandidateCreationModal extends Component {
       }
     } finally {
       this.isLoading = false;
-      this.args.candidateData.subscriptions = subscriptionsBeforeSaving;
     }
   };
 
@@ -477,7 +459,7 @@ export default class CandidateCreationModal extends Component {
           {{#if this.complementaryCertificationsHabilitations.length}}
             <CandidateCreationModalComplementaryList
               @complementaryCertificationsHabilitations={{this.complementaryCertificationsHabilitations}}
-              @updateComplementaryCertification={{this.updateComplementaryCertification}}
+              @updateSubscription={{this.updateSubscription}}
             />
           {{/if}}
         </form>

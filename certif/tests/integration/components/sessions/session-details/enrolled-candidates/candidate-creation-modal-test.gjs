@@ -21,7 +21,7 @@ const emptyCandidateData = {
   birthInseeCode: '',
   sex: '',
   extraTimePercentage: '',
-  subscriptions: [],
+  subscription: '',
 };
 
 module(
@@ -35,8 +35,8 @@ module(
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
           habilitations: [
-            { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1' },
-            { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
+            { id: '0', label: 'Pix+ Droit', key: 'DROIT' },
+            { id: '1', label: 'Pix+ Professionnels de Santé', key: 'PRO_SANTE' },
           ],
         });
       }
@@ -144,7 +144,7 @@ module(
           externalId: '11AA2233',
           extraTimePercentage: '20',
           sex: 'F',
-          subscriptions: [],
+          subscription: 'CORE',
         };
 
         const closeModalStub = sinon.stub();
@@ -525,8 +525,8 @@ module(
 
         // then
         assert.dom(screen.getByRole('group', { name: 'Choix de la certification *' })).exists();
-        assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 1' })).exists();
-        assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 2' })).exists();
+        assert.dom(screen.getByRole('radio', { name: 'Pix+ Droit' })).exists();
+        assert.dom(screen.getByRole('radio', { name: 'Pix+ Professionnels de Santé' })).exists();
       });
     });
   },

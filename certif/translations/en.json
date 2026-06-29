@@ -112,16 +112,23 @@
           "ongoing": "In progress",
           "start": "Start"
         },
-        "dual-certification-clea": "Dual Certification Pix-CléA Numérique",
         "email-convocation": "Email for the convocation",
         "email-results": "Email of the prescriber (teacher, instructor), for the reception of the results",
         "external-id": "External user ID",
         "extratime": "Extra time",
         "extratime-percentage": "Extra time (%)",
-        "pix-certification": "Certification Pix",
         "prepayment-code": "Prepayment code",
         "pricing": "Pricing of Pix’s share",
-        "selected-subscriptions": "Selected certification"
+        "selected-subscriptions": "Selected certification",
+        "subscriptions": {
+          "CLEA": "Dual Certification Pix-CléA Numérique",
+          "CORE": "Pix certification",
+          "DROIT": "Pix+ Law",
+          "EDU_1ER_DEGRE": "Pix+ Édu 1st degree",
+          "EDU_2ND_DEGRE": "Pix+ Édu 2nd degree",
+          "EDU_CPE": "Pix+ Édu CPE",
+          "PRO_SANTE": "Pix+ Health Professionals"
+        }
       },
       "login": {
         "email": "Email address",
@@ -666,8 +673,13 @@
             },
             "empty": "Awaiting candidates",
             "subscriptions": {
-              "core": "Pix Certification",
-              "dual-core-clea": "Dual Certification Pix-CléA Numérique"
+              "CLEA": "Dual Certification Pix-CléA Numérique",
+              "CORE": "Pix certification",
+              "DROIT": "Pix+ Law",
+              "EDU_1ER_DEGRE": "Pix+ Édu 1st degree",
+              "EDU_2ND_DEGRE": "Pix+ Édu 2nd degree",
+              "EDU_CPE": "Pix+ Édu CPE",
+              "PRO_SANTE": "Pix+ Health Professionals"
             },
             "title": "Candidates' list",
             "with-details-description": "List of candidates enrolled in the session, ordered by birth name, with a link to see the candidate’s details and the possibility to delete a candidate in the last column.",

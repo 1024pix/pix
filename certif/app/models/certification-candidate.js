@@ -1,7 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr, hasMany } from '@ember-data/model';
-
-import { SUBSCRIPTION_TYPES } from './subscription';
+import Model, { attr } from '@ember-data/model';
 
 export default class CertificationCandidate extends Model {
   @service intl;
@@ -24,8 +22,6 @@ export default class CertificationCandidate extends Model {
   @attr('string') prepaymentCode;
   @attr('boolean') accessibilityAdjustmentNeeded;
   @attr('string') subscription;
-
-  @hasMany('subscription', { async: false, inverse: null }) subscriptions;
 
   get genderLabel() {
     const candidateGender = this.sex;
@@ -56,17 +52,7 @@ export default class CertificationCandidate extends Model {
     return '-';
   }
 
-  get subscriptionType() {
-    if (this.subscriptions.some((sub) => sub.isCore)) {
-      return SUBSCRIPTION_TYPES.CORE;
-    }
-    return SUBSCRIPTION_TYPES.COMPLEMENTARY;
-  }
-
-  hasDualCertificationSubscriptionCoreClea(centerHabilitations) {
-    if (this.subscription) return this.subscription === 'CLEA';
-    const hasCoreSubscription = this.subscriptions.some((sub) => sub.isCore);
-    const hasCleaSubscription = this.subscriptions.some((sub) => sub.isClea(centerHabilitations));
-    return hasCoreSubscription && hasCleaSubscription;
+  get hasCoreScopeSubscription() {
+    return this.subscription === 'CORE' || this.subscription === 'CLEA';
   }
 }

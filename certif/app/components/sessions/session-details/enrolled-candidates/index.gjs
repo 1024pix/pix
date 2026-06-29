@@ -13,7 +13,6 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
 import toNumber from 'lodash/toNumber';
-import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
 import dayjsUtcFormat from '../../../../helpers/dayjs-utc-format';
 import { formatPercentage } from '../../../../helpers/format-percentage';
@@ -207,18 +206,10 @@ export default class EnrolledCandidates extends Component {
   }
 
   _createCertificationCandidateRecord(certificationCandidateData) {
-    const subscriptions = certificationCandidateData.subscriptions;
-    delete certificationCandidateData.subscriptions;
-
-    if (subscriptions.length === 0) {
-      subscriptions.push({
-        type: SUBSCRIPTION_TYPES.CORE,
-        complementaryCertificationKey: null,
-      });
+    if (certificationCandidateData.subscription === '') {
+      certificationCandidateData.subscription = 'CORE';
     }
-
     return {
-      subscriptions,
       certificationCandidate: this.store.createRecord('certification-candidate', certificationCandidateData),
     };
   }
@@ -294,36 +285,12 @@ export default class EnrolledCandidates extends Component {
   }
 
   computeSubscriptionsText = (candidate) => {
-    const complementaryCertificationList = this.args.complementaryCertifications ?? [];
-
-    if (candidate.hasDualCertificationSubscriptionCoreClea(complementaryCertificationList)) {
-      return this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.dual-core-clea`);
-    }
-
-    if (candidate.subscription) {
-      if (candidate.subscription === 'CORE') {
-        return this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`);
-      }
-      const complementaryCertification = complementaryCertificationList.find((c) => c.key === candidate.subscription);
-      return complementaryCertification?.label || '-';
-    }
-
-    const subscriptionLabels = [];
-    for (const subscription of candidate.subscriptions) {
-      if (subscription.isCore) subscriptionLabels.unshift(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`));
-      else {
-        const candidateComplementaryCertification = complementaryCertificationList.find(
-          (c) => c.key === subscription.complementaryCertificationKey,
-        );
-        subscriptionLabels.push(candidateComplementaryCertification?.label || '-');
-      }
-    }
-    return subscriptionLabels.join(', ');
+    return this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.${candidate.subscription}`);
   };
 
   @action
-  isAccessibilityAdjustmentEnabled(subscriptionType) {
-    if (subscriptionType === SUBSCRIPTION_TYPES.CORE) return true;
+  isAccessibilityAdjustmentEnabled(hasCoreScopeSubscription) {
+    if (hasCoreScopeSubscription) return true;
     return this.featureToggles.featureToggles?.isPixPlusCandidateA11yEnabled;
   }
 
@@ -441,7 +408,7 @@ export default class EnrolledCandidates extends Component {
                     {{t 'pages.sessions.detail.candidates.list.actions.details.label'}}
                   </PixButton>
                 {{/unless}}
-                {{#if (this.isAccessibilityAdjustmentEnabled candidate.subscriptionType)}}
+                {{#if (this.isAccessibilityAdjustmentEnabled candidate.hasCoreScopeSubscription)}}
                   {{#if candidate.isLinked}}
                     <PixTooltip @position='left' @isInline={{true}} @id='tooltip-edit-student-button'>
                       <:triggerElement>
@@ -509,7 +476,6 @@ export default class EnrolledCandidates extends Component {
         @showModal={{this.shouldDisplayCertificationCandidateModal}}
         @closeModal={{this.closeCertificationCandidateDetailsModal}}
         @candidate={{this.certificationCandidateInDetailsModal}}
-        @complementaryCertifications={{@complementaryCertifications}}
         @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
       />
     {{/if}}

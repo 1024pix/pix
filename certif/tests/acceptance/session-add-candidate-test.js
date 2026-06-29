@@ -17,7 +17,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
       type: 'PRO',
       habilitations: [
-        { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2' },
+        { id: 1, label: 'Pix+ Droit', key: 'DROIT' },
         { id: 2, label: 'CléA Numérique', key: COMPLEMENTARY_KEYS.CLEA },
       ],
     });
@@ -53,7 +53,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     await click(screen.getByLabelText('Pays de naissance *'));
     await click(screen.getByText('Portugal'));
     await fillIn(screen.getByLabelText('Commune de naissance *'), 'Paris');
-    await click(screen.getByLabelText('Certif complémentaire 2'));
+    await click(screen.getByLabelText('Pix+ Droit'));
     await click(screen.getByLabelText('Certification Pix'));
     await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
@@ -77,13 +77,13 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     await click(screen.getByLabelText('Pays de naissance *'));
     await click(screen.getByText('Portugal'));
     await fillIn(screen.getByLabelText('Commune de naissance *'), 'Paris');
-    await click(screen.getByLabelText('Certif complémentaire 2'));
+    await click(screen.getByLabelText('Pix+ Droit'));
     await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
     // then
     assert.dom(screen.getByRole('cell', { name: 'Quatorze' })).exists();
     assert.dom(screen.getByRole('cell', { name: 'Louis' })).exists();
     assert.dom(screen.getByRole('cell', { name: '01/01/2000' })).exists();
-    assert.dom(screen.getByRole('cell', { name: 'Certif complémentaire 2' })).exists();
+    assert.dom(screen.getByRole('cell', { name: 'Pix+ Droit' })).exists();
   });
 });

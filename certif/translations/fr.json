@@ -112,16 +112,23 @@
           "ongoing": "En cours",
           "start": "Début"
         },
-        "dual-certification-clea": "Double Certification Pix-CléA Numérique",
         "email-convocation": "E-mail de convocation",
         "email-results": "E-mail du prescripteur (enseignant, formateur), pour la réception des résultats",
         "external-id": "Identifiant externe",
         "extratime": "Temps majoré",
         "extratime-percentage": "Temps majoré (%)",
-        "pix-certification": "Certification Pix",
         "prepayment-code": "Code de prépaiement",
         "pricing": "Tarification part Pix",
-        "selected-subscriptions": "Certification sélectionnée"
+        "selected-subscriptions": "Certification sélectionnée",
+        "subscriptions": {
+          "CLEA": "Double Certification Pix-CléA Numérique",
+          "CORE": "Certification Pix",
+          "DROIT": "Pix+ Droit",
+          "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
+          "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
+          "EDU_CPE": "Pix+ Édu CPE",
+          "PRO_SANTE": "Pix+ Professionnels de Santé"
+        }
       },
       "login": {
         "email": "Adresse e-mail",
@@ -666,8 +673,13 @@
             },
             "empty": "En attente de candidats",
             "subscriptions": {
-              "core": "Certification Pix",
-              "dual-core-clea": "Double Certification Pix-CléA Numérique"
+              "CLEA": "Double Certification Pix-CléA Numérique",
+              "CORE": "Certification Pix",
+              "DROIT": "Pix+ Droit",
+              "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
+              "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
+              "EDU_CPE": "Pix+ Édu CPE",
+              "PRO_SANTE": "Pix+ Professionnels de Santé"
             },
             "title": "Liste des candidats",
             "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.",
