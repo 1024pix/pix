@@ -130,7 +130,7 @@
                 "id": "df327be0-6c6c-40e2-b746-01dcd06addaa",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L'entreprise BCHX dispose de plus de 50 ordinateurs connectés à son réseau informatique.</p>\n<p>L’EDR de l’entreprise a récemment détecté un comportement suspect sur un des ordinateurs.</p>\n<p><em>[NDC]Image actuellement générée par IA, elle sera moins chargées dans la version définitive. <br>Inspiration interface EDR : https://www.youtube.com/watch?v=uAratnOEbWM (vers 4mn)<br>⚠️Il ne s’agit pas de montrer une interface totalement réaliste de l’EDR mais de se mettre à la place de ce que surveille l’EDR :&nbsp;</em><br></p>"
+                "content": "<p>L'entreprise BCHX dispose de plus de 50 ordinateurs connectés à son réseau informatique.</p>\n<p>L’EDR de l’entreprise a récemment détecté un comportement suspect sur un des ordinateurs.</p>\n<br><p><em>[NDC]Image actuellement générée par IA, elle sera moins chargées dans la version définitive. <br>Inspiration interface EDR : https://www.youtube.com/watch?v=uAratnOEbWM (vers 4mn)<br>⚠️Il ne s’agit pas de montrer une interface totalement réaliste de l’EDR mais de se mettre à la place de ce que surveille l’EDR :&nbsp;</em><br></p>"
               }
             },
             {
@@ -139,7 +139,7 @@
                 "id": "a5912fa9-004d-4d36-b913-17d220c37788",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Observez l’activité de cet ordinateur ci-dessous puis répondez à la question qui suit.&nbsp;<br></p>"
+                "content": "<p><strong>Observez l’activité de cet ordinateur ci-dessous puis répondez à la question qui suit.</strong></p>"
               }
             },
             {
@@ -149,7 +149,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/CY_Antivirus_AVA/chat-gpt-image-10-juin-2026-17_49_18.png",
                 "alt": "",
-                "alternativeText": "<p>Illustration montrant les différents paramètres d'un PC en temps réel. Sur ce PC, le nombre d'opération en cours est très élevé, il tente d'accéder à des fichier protégées et se connecte à des sites à l'étranger.&nbsp;</p>",
+                "alternativeText": "<p>Illustration montrant les différents paramètres d'un PC en temps réel. Sur ce PC, le nombre d'opération en cours est très élevé, il tente d'accéder à des fichier protégées et se connecte à des sites à l'étranger.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -159,7 +159,7 @@
               "element": {
                 "id": "1b7f1f91-14ce-4a7e-b091-ef394b69755a",
                 "type": "qcm",
-                "instruction": "<p>[Futur QCM découverte] Parmi les éléments suivants, lesquels indiquent une activité inhabituelle  sur un ordinateur ? </p>",
+                "instruction": "<p>Un comportement suspect se repère rarement avec un seul indice</p><p>[Futur QCM découverte] Parmi les éléments suivants, lesquels indiquent une activité inhabituelle ou suspecte sur un ordinateur ? </p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -190,11 +190,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "Bien vu !",
-                    "diagnosis": "<p>Certaines activités peuvent attirer l'attention car elles sortent du fonctionnement habituel d'un ordinateur : processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers, des connexions réseau inhabituelles ou encore une tentative d’accès à des données protégées.</p>\n<p>Un EDR <strong>surveille en continu l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire. Pour détecter <strong>un comportement suspect</strong>, un EDR croise alors plusieurs signaux.</p>"
+                    "diagnosis": "<p>Certaines activités peuvent attirer l'attention car elles sortent du fonctionnement habituel d'un ordinateur&nbsp;: processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers, des connexions réseau inhabituelles ou encore une tentative d’accès à des données protégées.</p>\n<p>Un EDR <strong>surveille en continu l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire. Pour détecter <strong>un comportement suspect</strong>, un EDR croise alors plusieurs signaux.</p>"
                   },
                   "invalid": {
                     "state": "Eh non !",
-                    "diagnosis": "<p>Certaines activités peuvent attirer l'attention car elles sortent du fonctionnement habituel d'un ordinateur : processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers, des connexions réseau inhabituelles ou encore une tentative d’accès à des données protégées.</p>\n<p>Un EDR <strong>surveille en continu l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire. Pour détecter <strong>un comportement suspect</strong>, un EDR croise alors plusieurs signaux.</p>"
+                    "diagnosis": "<p>Certaines activités peuvent attirer l'attention car elles sortent du fonctionnement habituel d'un ordinateur&nbsp;: processeur très sollicité, mémoire vive saturée, modifications rapides de fichiers, des connexions réseau inhabituelles ou encore une tentative d’accès à des données protégées.</p>\n<p>Un EDR <strong>surveille en continu l’activité des appareils</strong> pour repérer ce qui sort de l’ordinaire. Pour détecter <strong>un comportement suspect</strong>, un EDR croise alors plusieurs signaux.</p>"
                   }
                 },
                 "solutions": [
