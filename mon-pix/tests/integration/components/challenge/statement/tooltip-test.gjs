@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import Tooltip from 'mon-pix/components/challenge/statement/tooltip';
 import { module, test } from 'qunit';
 
 import { stubCurrentUserService } from '../../../../helpers/service-stubs';
@@ -19,12 +19,12 @@ module('Integration | Component | Tooltip', function (hooks) {
         // given
         stubCurrentUserService(this.owner, { hasSeenFocusedChallengeTooltip: false });
 
-        this.set('challenge', {
+        const challenge = {
           instruction: 'La consigne de mon test',
           id: 'rec_challenge',
           focused: true,
-        });
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} />`);
+        };
+        await render(<template><Tooltip @challenge={{challenge}} /></template>);
       });
 
       test('should render the tooltip with a confirmation button', async function (assert) {
@@ -48,12 +48,12 @@ module('Integration | Component | Tooltip', function (hooks) {
         // given
         stubCurrentUserService(this.owner, { hasSeenFocusedChallengeTooltip: true });
 
-        this.set('challenge', {
+        const challenge = {
           instruction: 'La consigne de mon test',
           id: 'rec_challenge',
           focused: true,
-        });
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} />`);
+        };
+        await render(<template><Tooltip @challenge={{challenge}} /></template>);
       });
 
       module('when the challenge starts', function () {
@@ -121,12 +121,12 @@ module('Integration | Component | Tooltip', function (hooks) {
         // given
         stubCurrentUserService(this.owner, { hasSeenOtherChallengesTooltip: false });
 
-        this.set('challenge', {
+        const challenge = {
           instruction: 'La consigne de mon test',
           id: 'rec_challenge',
           focused: false,
-        });
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} />`);
+        };
+        await render(<template><Tooltip @challenge={{challenge}} /></template>);
       });
 
       test('should render the tooltip with a confirmation button', async function (assert) {
@@ -150,12 +150,12 @@ module('Integration | Component | Tooltip', function (hooks) {
         // given
         stubCurrentUserService(this.owner, { hasSeenOtherChallengesTooltip: true });
 
-        this.set('challenge', {
+        const challenge = {
           instruction: 'La consigne de mon test',
           id: 'rec_challenge',
           focused: false,
-        });
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} />`);
+        };
+        await render(<template><Tooltip @challenge={{challenge}} /></template>);
       });
 
       module('when the challenge starts', function () {
