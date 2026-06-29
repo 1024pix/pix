@@ -87,7 +87,7 @@ export default class EnrolledCandidates extends Component {
       birthInseeCode: '',
       sex: '',
       extraTimePercentage: '',
-      subscriptions: [],
+      subscription: '',
       ...addedAttributes,
     });
   }
@@ -145,8 +145,7 @@ export default class EnrolledCandidates extends Component {
 
   @action
   async saveCertificationCandidate(certificationCandidateData) {
-    const { certificationCandidate, subscriptions } =
-      this._createCertificationCandidateRecord(certificationCandidateData);
+    const certificationCandidate = this.store.createRecord('certification-candidate', certificationCandidateData);
 
     if (this._hasDuplicate(certificationCandidate)) {
       this._handleDuplicateError(certificationCandidate);
@@ -155,7 +154,7 @@ export default class EnrolledCandidates extends Component {
 
     try {
       await certificationCandidate.save({
-        adapterOptions: { registerToSession: true, sessionId: this.args.sessionId, subscriptions },
+        adapterOptions: { registerToSession: true, sessionId: this.args.sessionId },
       });
       this.args.reloadCertificationCandidate();
       this.pixToast.sendSuccessNotification({
@@ -203,15 +202,6 @@ export default class EnrolledCandidates extends Component {
   @action
   closeEditCandidateModal() {
     this.shouldDisplayEditCertificationCandidateModal = false;
-  }
-
-  _createCertificationCandidateRecord(certificationCandidateData) {
-    if (certificationCandidateData.subscription === '') {
-      certificationCandidateData.subscription = 'CORE';
-    }
-    return {
-      certificationCandidate: this.store.createRecord('certification-candidate', certificationCandidateData),
-    };
   }
 
   _getErrorText({ status, errorResponse }) {

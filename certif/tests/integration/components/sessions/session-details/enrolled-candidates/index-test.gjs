@@ -159,18 +159,18 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     test('it should be possible to delete the candidate', async function (assert) {
       // given
       const certificationCandidates = [
-        _buildCertificationCandidate({ id: '1', subscriptions: [coreSubscription] }),
+        _buildCertificationCandidate({ id: '1', subscription: coreSubscription }),
         _buildCertificationCandidate({
           id: '2',
           firstName: 'Lara',
           lastName: 'Pafromage',
-          subscriptions: [coreSubscription],
+          subscription: coreSubscription,
         }),
         _buildCertificationCandidate({
           id: '3',
           firstName: 'Jean',
           lastName: 'Registre',
-          subscriptions: [coreSubscription],
+          subscriptions: coreSubscription,
         }),
       ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
@@ -204,7 +204,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     test('it display candidates with delete button disabled', async function (assert) {
       // given
       const certificationCandidates = [
-        _buildCertificationCandidate({ id: '1', subscriptions: [coreSubscription] }),
+        _buildCertificationCandidate({ id: '1', subscription: coreSubscription }),
         _buildCertificationCandidate({
           id: '2',
           firstName: 'Lara',
@@ -255,19 +255,19 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     test('it display candidates with an edit button', async function (assert) {
       // given
       const certificationCandidates = [
-        _buildCertificationCandidate({ id: '1', subscriptions: [coreSubscription] }),
+        _buildCertificationCandidate({ id: '1', subscription: coreSubscription }),
         _buildCertificationCandidate({
           id: '2',
           firstName: 'Lara',
           lastName: 'Pafromage',
           isLinked: true,
-          subscriptions: [coreSubscription],
+          subscription: coreSubscription,
         }),
         _buildCertificationCandidate({
           id: '3',
           firstName: 'Jean',
           lastName: 'Registre',
-          subscriptions: [coreSubscription],
+          subscription: coreSubscription,
         }),
       ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
@@ -297,7 +297,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       // given
       const candidate = _buildCertificationCandidate({
         accessibilityAdjustmentNeeded: true,
-        subscriptions: [coreSubscription],
+        subscription: coreSubscription,
       });
 
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
@@ -325,7 +325,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       // given
       const candidate = _buildCertificationCandidate({
         accessibilityAdjustmentNeeded: false,
-        subscriptions: [coreSubscription],
+        subscription: coreSubscription,
       });
 
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
@@ -373,7 +373,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
     test('it hides externalId and email column', async function (assert) {
       // given
-      const candidate = _buildCertificationCandidate({ subscriptions: [coreSubscription] });
+      const candidate = _buildCertificationCandidate({ subscription: coreSubscription });
       const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
@@ -420,7 +420,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
     test('it shows email columns', async function (assert) {
       // given
-      const candidate = _buildCertificationCandidate({ subscriptions: [coreSubscription] });
+      const candidate = _buildCertificationCandidate({ subscription: coreSubscription });
       const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
@@ -443,7 +443,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
   test('it should NOT display tooltip in the header of selected certification column', async function (assert) {
     //given
-    const candidate = _buildCertificationCandidate({ subscriptions: [coreSubscription] });
+    const candidate = _buildCertificationCandidate({ subscription: coreSubscription });
 
     const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
     const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
@@ -517,7 +517,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
             />
           </template>,
         );
-
+        debugger;
         // then
         assert.dom(screen.getByRole('button', { name: 'Editer le candidat Bob Taurial' })).exists();
         assert.dom(screen.queryByRole('button', { name: 'Editer le candidat Lana Taurial' })).doesNotExist();

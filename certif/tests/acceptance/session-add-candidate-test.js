@@ -39,7 +39,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     await authenticateSession(certificationPointOfContact.id);
   });
 
-  test('it should add a candidate without any complementary subscription', async function (assert) {
+  test('it should add a candidate with core subscription', async function (assert) {
     // given
     const screen = await visit(`/sessions/${sessionId}/candidats`);
 
@@ -52,7 +52,6 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     await click(screen.getByLabelText('Pays de naissance *'));
     await click(screen.getByText('Portugal'));
     await fillIn(screen.getByLabelText('Commune de naissance *'), 'Paris');
-    await click(screen.getByLabelText('Pix+ Droit'));
     await click(screen.getByLabelText('Certification Pix'));
     await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
