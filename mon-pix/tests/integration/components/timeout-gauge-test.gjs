@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import TimeoutGauge from 'mon-pix/components/timeout-gauge';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -15,7 +15,7 @@ module('Integration | Component | TimeoutGauge', function (hooks) {
   module('Component rendering', function () {
     test('renders', async function (assert) {
       // when
-      await render(hbs`<TimeoutGauge />`);
+      await render(<template><TimeoutGauge /></template>);
 
       // then
       assert.dom('.timeout-gauge').exists();
@@ -29,10 +29,10 @@ module('Integration | Component | TimeoutGauge', function (hooks) {
     ].forEach(({ allottedTime, expected }) => {
       test(`renders "${expected}" as remaining time when allotted time is ${allottedTime}s`, async function (assert) {
         // given
-        this.set('allottedTime', allottedTime);
+        const allottedTimeValue = allottedTime;
 
         // when
-        await render(hbs`<TimeoutGauge @allottedTime={{this.allottedTime}} />`);
+        await render(<template><TimeoutGauge @allottedTime={{allottedTimeValue}} /></template>);
 
         // then
         assert.strictEqual(find('[data-test="timeout-gauge-remaining"]').textContent.trim(), expected);
@@ -41,10 +41,10 @@ module('Integration | Component | TimeoutGauge', function (hooks) {
 
     test('renders a gauge progress at 0% width when no time has elapsed', async function (assert) {
       // given
-      this.set('allottedTime', 70);
+      const allottedTime = 70;
 
       // when
-      await render(hbs`<TimeoutGauge @allottedTime={{this.allottedTime}} />`);
+      await render(<template><TimeoutGauge @allottedTime={{allottedTime}} /></template>);
 
       // then
       assert.strictEqual(find('.timeout-gauge-progress').getAttribute('style'), 'width: 0%');
@@ -52,10 +52,10 @@ module('Integration | Component | TimeoutGauge', function (hooks) {
 
     test('renders a gauge progress at 0% width when allotted time is not numeric', async function (assert) {
       // given
-      this.set('allottedTime', '  ');
+      const allottedTime = '  ';
 
       // when
-      await render(hbs`<TimeoutGauge @allottedTime={{this.allottedTime}} />`);
+      await render(<template><TimeoutGauge @allottedTime={{allottedTime}} /></template>);
 
       // then
       assert.strictEqual(find('.timeout-gauge-progress').getAttribute('style'), 'width: 0%');
@@ -63,10 +63,10 @@ module('Integration | Component | TimeoutGauge', function (hooks) {
 
     test('renders a red clock if time is over', async function (assert) {
       // given
-      this.set('allottedTime', 0);
+      const allottedTime = 0;
 
       // when
-      await render(hbs`<TimeoutGauge @allottedTime={{this.allottedTime}} />`);
+      await render(<template><TimeoutGauge @allottedTime={{allottedTime}} /></template>);
 
       // then
       assert.dom(`.timeout-gauge-clock img[src="${RED_GAUGE_ICON_PATH}"]`).exists();
@@ -75,10 +75,10 @@ module('Integration | Component | TimeoutGauge', function (hooks) {
 
     test('renders a black clock if time is not over', async function (assert) {
       // given
-      this.set('allottedTime', 1);
+      const allottedTime = 1;
 
       // when
-      await render(hbs`<TimeoutGauge @allottedTime={{this.allottedTime}} />`);
+      await render(<template><TimeoutGauge @allottedTime={{allottedTime}} /></template>);
 
       // then
       assert.dom(`.timeout-gauge-clock img[src="${BLACK_GAUGE_ICON_PATH}"]`).exists();
