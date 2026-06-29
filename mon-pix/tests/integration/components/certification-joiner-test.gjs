@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import CertificationJoiner from 'mon-pix/components/certification-joiner';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,8 +13,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
   module('submit', function () {
     test('should create certificate candidate with trimmed first and last name', async function (assert) {
       // given
-      this.set('onStepChange', sinon.stub());
-      const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+      const onStepChange = sinon.stub();
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
       await _fillInputsToJoinSession({ screen, t });
 
@@ -38,8 +38,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
     test('should create certificate candidate with padded numbers in birthday', async function (assert) {
       // given
-      this.set('onStepChange', sinon.stub());
-      const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+      const onStepChange = sinon.stub();
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
       await _fillInputsToJoinSession({ screen, t });
 
@@ -64,8 +64,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
     test('should call the stepChange action when certification candidate creation is successful', async function (assert) {
       // given
       const stepChangeStub = sinon.stub();
-      this.set('onStepChange', stepChangeStub);
-      const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+      const onStepChange = stepChangeStub;
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
       await _fillInputsToJoinSession({ screen, t });
 
@@ -87,8 +87,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
     test('should display an error message if user has a language not supported by v3 certification', async function (assert) {
       // given
-      this.set('onStepChange', sinon.stub());
-      const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+      const onStepChange = sinon.stub();
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
       await _fillInputsToJoinSession({ screen, t });
 
@@ -115,8 +115,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
     test('should display an error message on student mismatch error', async function (assert) {
       // given
-      this.set('onStepChange', sinon.stub());
-      const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+      const onStepChange = sinon.stub();
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
       await _fillInputsToJoinSession({ screen, t });
 
@@ -148,8 +148,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
     test('should display an error message on account mismatch error', async function (assert) {
       // given
-      this.set('onStepChange', sinon.stub());
-      const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+      const onStepChange = sinon.stub();
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
       await _fillInputsToJoinSession({ screen, t });
 
@@ -180,8 +180,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
     test('should display an error message on candidate not found', async function (assert) {
       // given
-      this.set('onStepChange', sinon.stub());
-      const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+      const onStepChange = sinon.stub();
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
       await _fillInputsToJoinSession({ screen, t });
 
@@ -205,8 +205,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
     test('should display an error message on session not accessible', async function (assert) {
       // given
-      this.set('onStepChange', sinon.stub());
-      const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+      const onStepChange = sinon.stub();
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
       await _fillInputsToJoinSession({ screen, t });
 
@@ -229,8 +229,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
     module('when candidate has already been linked to another user in the session', function () {
       test('should display an error message', async function (assert) {
         // given
-        this.set('onStepChange', sinon.stub());
-        const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+        const onStepChange = sinon.stub();
+        const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
         await _fillInputsToJoinSession({ screen, t });
 
@@ -256,8 +256,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
     module('when certification center has no habilitation to hold the session', function () {
       test('should display an error message', async function (assert) {
         // given
-        this.set('onStepChange', sinon.stub());
-        const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+        const onStepChange = sinon.stub();
+        const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
         await _fillInputsToJoinSession({ screen, t });
 
@@ -280,8 +280,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
     test('should not call save again if form is already being submitted', async function (assert) {
       // given
-      this.set('onStepChange', sinon.stub());
-      const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+      const onStepChange = sinon.stub();
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
       await _fillInputsToJoinSession({ screen, t });
 
@@ -303,8 +303,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
     module('when candidate has a complementary subscription and is on wrong domain', function () {
       test('should display an error message', async function (assert) {
         // given
-        this.set('onStepChange', sinon.stub());
-        const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+        const onStepChange = sinon.stub();
+        const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
 
         await _fillInputsToJoinSession({ screen, t });
 
@@ -328,7 +328,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
   test('should display hint on session number input', async function (assert) {
     // given & when
-    const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+    const screen = await render(<template><CertificationJoiner @onStepChange={{this.onStepChange}} /></template>);
 
     // then
     assert.ok(screen.getByText(t('pages.certification-joiner.form.fields.session-number-information')));
@@ -336,7 +336,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
   test('should have inputs mandatory', async function (assert) {
     // given & when
-    const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+    const screen = await render(<template><CertificationJoiner @onStepChange={{this.onStepChange}} /></template>);
 
     // then
     assert
@@ -381,8 +381,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
     module('should not allow filling letters in birth date', function () {
       test('day', async function (assert) {
         // given
-        this.set('onStepChange', sinon.stub());
-        const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+        const onStepChange = sinon.stub();
+        const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
         const birthDayInput = screen.getByRole('spinbutton', {
           name: `${t('pages.certification-joiner.form.fields.birth-date')} ${t(
             'pages.certification-joiner.form.fields.birth-day',
@@ -398,8 +398,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
       test('month', async function (assert) {
         // given
-        this.set('onStepChange', sinon.stub());
-        const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+        const onStepChange = sinon.stub();
+        const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
         const birthMonthInput = screen.getByRole('spinbutton', {
           name: t('pages.certification-joiner.form.fields.birth-month'),
         });
@@ -413,8 +413,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
       test('year', async function (assert) {
         // given
-        this.set('onStepChange', sinon.stub());
-        const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+        const onStepChange = sinon.stub();
+        const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
         const birthYearInput = screen.getByRole('spinbutton', {
           name: t('pages.certification-joiner.form.fields.birth-year'),
         });
