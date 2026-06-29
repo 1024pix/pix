@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Card from 'mon-pix/components/campaign-participation-overview/card';
+import Ongoing from 'mon-pix/components/campaign-participation-overview/card/ongoing';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -19,12 +20,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ongoing
       campaignCode: 'CAMPAIGN',
       organizationName: 'My organization',
     });
-    this.set('campaignParticipationOverview', campaignParticipationOverview);
 
     // when
-    const screen = await render(
-      hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />`,
-    );
+    const screen = await render(<template><Card @model={{campaignParticipationOverview}} /></template>);
 
     // then
     assert.dom(screen.getByRole('link', { name: 'Reprendre le parcours My campaign' })).exists();
@@ -49,12 +47,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ongoing
         campaignCode: '12345',
         organizationName: 'My organization',
       });
-      this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       // when
-      const screen = await render(
-        hbs`<CampaignParticipationOverview::Card::Ongoing @model={{this.campaignParticipationOverview}} />`,
-      );
+      const screen = await render(<template><Ongoing @model={{campaignParticipationOverview}} /></template>);
 
       // then
       assert
@@ -82,12 +77,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ongoing
         campaignCode: '12345',
         organizationName: 'My organization',
       });
-      this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       // when
-      const screen = await render(
-        hbs`<CampaignParticipationOverview::Card::Ongoing @model={{this.campaignParticipationOverview}} />`,
-      );
+      const screen = await render(<template><Ongoing @model={{campaignParticipationOverview}} /></template>);
 
       // then
       assert
