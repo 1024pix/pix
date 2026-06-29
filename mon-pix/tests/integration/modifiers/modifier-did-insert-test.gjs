@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import modifierDidInsert from 'mon-pix/modifiers/modifier-did-insert';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,10 +10,13 @@ module('Integration | Modifier | did-insert', function (hooks) {
   test('should call the given action', async function (assert) {
     // given
     const actionStub = sinon.stub();
-    this.set('action', actionStub);
 
     // when
-    await render(hbs`<div {{modifier-did-insert this.action}}></div>`);
+    await render(
+      <template>
+        <div {{modifierDidInsert actionStub}}></div>
+      </template>,
+    );
 
     // then
     sinon.assert.called(actionStub);
