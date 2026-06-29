@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import EvaluationResultsTabs from 'mon-pix/components/campaigns/assessment/results/evaluation-results-tabs';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -18,25 +18,27 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
       const store = this.owner.lookup('service:store');
 
       const acquiredBadge = store.createRecord('badge', { isAcquired: true });
-      this.set('campaignParticipationResult', {
+      const campaignParticipationResult = {
         campaignParticipationBadges: [acquiredBadge],
         isShared: false,
-      });
+      };
 
       const training = store.createRecord('training', { duration: { days: 2 } });
-      this.set('trainings', [training]);
+      const trainings = [training];
 
       onResultsSharedStub = sinon.stub();
-      this.set('onResultsShared', onResultsSharedStub);
+      const onResultsShared = onResultsSharedStub;
 
       // when
       screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-  @trainings={{this.trainings}}
-  @onResultsShared={{this.onResultsShared}}
-  @isCampaignNotAutonomousCourseOrAbsoluteNovice={{true}}
-/>`,
+        <template>
+          <EvaluationResultsTabs
+            @campaignParticipationResult={{campaignParticipationResult}}
+            @trainings={{trainings}}
+            @onResultsShared={{onResultsShared}}
+            @isCampaignNotAutonomousCourseOrAbsoluteNovice={{true}}
+          />
+        </template>,
       );
     });
 
@@ -61,19 +63,21 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
       const store = this.owner.lookup('service:store');
       const acquiredBadge = store.createRecord('badge', { isAcquired: true });
 
-      this.set('campaignParticipationResult', {
+      const campaignParticipationResult = {
         campaignParticipationBadges: [acquiredBadge],
         competenceResults: [],
-      });
+      };
 
-      this.set('trainings', []);
+      const trainings = [];
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-  @trainings={{this.trainings}}
-/>`,
+        <template>
+          <EvaluationResultsTabs
+            @campaignParticipationResult={{campaignParticipationResult}}
+            @trainings={{trainings}}
+          />
+        </template>,
       );
 
       // then
@@ -92,20 +96,22 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
       // given
       const store = this.owner.lookup('service:store');
 
-      this.set('campaignParticipationResult', {
+      const campaignParticipationResult = {
         campaignParticipationBadges: [],
         competenceResults: [],
-      });
+      };
 
       const training = store.createRecord('training', { duration: { days: 2 } });
-      this.set('trainings', [training]);
+      const trainings = [training];
 
       // when
       screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-  @trainings={{this.trainings}}
-/>`,
+        <template>
+          <EvaluationResultsTabs
+            @campaignParticipationResult={{campaignParticipationResult}}
+            @trainings={{trainings}}
+          />
+        </template>,
       );
     });
 
@@ -127,19 +133,21 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
   module('when there are no rewards and no trainings', function () {
     test('it should not display the tabs component', async function (assert) {
       // given
-      this.set('trainings', []);
+      const trainings = [];
 
-      this.set('campaignParticipationResult', {
+      const campaignParticipationResult = {
         campaignParticipationBadges: [],
         competenceResults: [],
-      });
+      };
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-  @trainings={{this.trainings}}
-/>`,
+        <template>
+          <EvaluationResultsTabs
+            @campaignParticipationResult={{campaignParticipationResult}}
+            @trainings={{trainings}}
+          />
+        </template>,
       );
 
       // then
@@ -147,44 +155,52 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
     });
   });
   module('when in a combined course context', function (hooks) {
-    let screen;
     let onResultsSharedStub;
 
     hooks.beforeEach(async function () {
       // given
       const store = this.owner.lookup('service:store');
-      this.set('campaignParticipationResult', {
+      const campaignParticipationResult = {
         campaignParticipationBadges: [],
         isShared: false,
         competenceResults: [],
-      });
+      };
 
       const training = store.createRecord('training', { duration: { days: 2 } });
-      this.set('trainings', [training]);
+      const trainings = [training];
 
       onResultsSharedStub = sinon.stub();
-      this.set('onResultsShared', onResultsSharedStub);
+      const onResultsShared = onResultsSharedStub;
 
       // when
-      screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-  @trainings={{this.trainings}}
-  @onResultsShared={{this.onResultsShared}}
-  @isCampaignNotAutonomousCourseOrAbsoluteNovice={{true}}
-/>`,
+      await render(
+        <template>
+          <EvaluationResultsTabs
+            @campaignParticipationResult={{campaignParticipationResult}}
+            @trainings={{trainings}}
+            @onResultsShared={{onResultsShared}}
+            @isCampaignNotAutonomousCourseOrAbsoluteNovice={{true}}
+          />
+        </template>,
       );
     });
     test('it should not display trainings', async function (assert) {
       // given
-      this.set('trainings', []);
+      const campaignParticipationResult = {
+        campaignParticipationBadges: [],
+        isShared: false,
+        competenceResults: [],
+      };
+      const trainings = [];
 
       // when
-      screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-  @trainings={{this.trainings}}
-/>`,
+      const screen = await render(
+        <template>
+          <EvaluationResultsTabs
+            @campaignParticipationResult={{campaignParticipationResult}}
+            @trainings={{trainings}}
+          />
+        </template>,
       );
 
       // then
