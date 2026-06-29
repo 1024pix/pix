@@ -1,5 +1,7 @@
-import { Version } from '../../../../../../../src/certification/configuration/domain/models/Version.js';
-import { FRAMEWORK_HISTORY_STATUSES } from '../../../../../../../src/certification/configuration/domain/read-models/FrameworkHistoryEntry.js';
+import {
+  Version,
+  VERSION_STATUSES,
+} from '../../../../../../../src/certification/configuration/domain/models/Version.js';
 import {
   DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
   DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
@@ -17,7 +19,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
           expirationDate: new Date('2025-02-02'),
         });
 
-        expect(version.status).to.equal(FRAMEWORK_HISTORY_STATUSES.ARCHIVED);
+        expect(version.status).to.equal(VERSION_STATUSES.ARCHIVED);
       });
     });
 
@@ -28,7 +30,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
           expirationDate: null,
         });
 
-        expect(version.status).to.equal(FRAMEWORK_HISTORY_STATUSES.ACTIVE);
+        expect(version.status).to.equal(VERSION_STATUSES.ACTIVE);
       });
     });
 
@@ -39,7 +41,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
           expirationDate: null,
         });
 
-        expect(version.status).to.equal(FRAMEWORK_HISTORY_STATUSES.DRAFT);
+        expect(version.status).to.equal(VERSION_STATUSES.DRAFT);
       });
     });
   });

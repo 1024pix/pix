@@ -33,7 +33,6 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         challengesConfiguration,
       });
 
-      databaseBuilder.factory.buildComplementaryCertification({ key: version.scope });
       await databaseBuilder.commit();
 
       // when
@@ -51,7 +50,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           'competencesScoringConfiguration',
           'challengesConfiguration',
         )
-        .where({ scope: version.scope })
+        .where({ id: versionId })
         .first();
 
       expect(results).to.deep.equal({

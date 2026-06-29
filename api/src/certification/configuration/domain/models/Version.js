@@ -8,7 +8,12 @@ import {
 } from '../../../shared/domain/constants.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { SCOPES } from '../../../shared/domain/models/Scopes.js';
-import { FRAMEWORK_HISTORY_STATUSES } from '../read-models/FrameworkHistoryEntry.js';
+
+export const VERSION_STATUSES = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  ARCHIVED: 'ARCHIVED',
+};
 
 export class Version {
   static #schema = Joi.object({
@@ -26,7 +31,7 @@ export class Version {
     comments: Joi.string().allow(null).optional(),
     status: Joi.string()
       .required()
-      .valid(...Object.values(FRAMEWORK_HISTORY_STATUSES)),
+      .valid(...Object.values(VERSION_STATUSES)),
   });
 
   /**
@@ -69,9 +74,9 @@ export class Version {
   }
 
   #computeStatus() {
-    if (this.expirationDate) return FRAMEWORK_HISTORY_STATUSES.ARCHIVED;
-    if (this.startDate) return FRAMEWORK_HISTORY_STATUSES.ACTIVE;
-    return FRAMEWORK_HISTORY_STATUSES.DRAFT;
+    if (this.expirationDate) return VERSION_STATUSES.ARCHIVED;
+    if (this.startDate) return VERSION_STATUSES.ACTIVE;
+    return VERSION_STATUSES.DRAFT;
   }
 
   #validate() {
@@ -86,11 +91,11 @@ export class Version {
   }
 
   get isDraft() {
-    return this.status === FRAMEWORK_HISTORY_STATUSES.DRAFT;
+    return this.status === VERSION_STATUSES.DRAFT;
   }
 
   get isActive() {
-    return this.status === FRAMEWORK_HISTORY_STATUSES.ACTIVE;
+    return this.status === VERSION_STATUSES.ACTIVE;
   }
 
   static buildFromVersion({ scope, version }) {
@@ -115,6 +120,7 @@ export class Version {
       }),
       globalScoringConfiguration: version?.globalScoringConfiguration ?? [],
       competencesScoringConfiguration: version?.competencesScoringConfiguration ?? [],
+      status: version?.status ?? VERSION_STATUSES.DRAFT,
       comments: null,
     });
   }

@@ -1,5 +1,5 @@
 import { Version as VersionApi } from '../../../../../../src/certification/configuration/application/api/models/Version.js';
-import { Version } from '../../../../../../src/certification/configuration/domain/models/Version.js';
+import { Version, VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { buildFlashAlgorithmConfiguration } from '../../build-flash-algorithm-configuration.js';
 
@@ -13,6 +13,11 @@ export const buildVersion = ({
   globalScoringConfiguration = [],
   competencesScoringConfiguration = [],
   challengesConfiguration = {},
+  status = startDate && expirationDate
+    ? VERSION_STATUSES.ARCHIVED
+    : startDate && !expirationDate
+      ? VERSION_STATUSES.ACTIVE
+      : VERSION_STATUSES.DRAFT,
   comments = 'Some comments',
 } = {}) => {
   return new Version({
@@ -25,6 +30,7 @@ export const buildVersion = ({
     globalScoringConfiguration,
     competencesScoringConfiguration,
     challengesConfiguration: buildFlashAlgorithmConfiguration(challengesConfiguration),
+    status,
     comments,
   });
 };
@@ -39,6 +45,11 @@ buildVersion.api = ({
   globalScoringConfiguration,
   competencesScoringConfiguration,
   challengesConfiguration,
+  status = startDate && expirationDate
+    ? VERSION_STATUSES.ARCHIVED
+    : startDate && !expirationDate
+      ? VERSION_STATUSES.ACTIVE
+      : VERSION_STATUSES.DRAFT,
   comments = 'Some comments',
 } = {}) => {
   const baseVersion = new Version({
@@ -50,6 +61,7 @@ buildVersion.api = ({
     minimumAnswersRequiredToValidateACertification,
     globalScoringConfiguration,
     competencesScoringConfiguration,
+    status,
     comments,
     challengesConfiguration: buildFlashAlgorithmConfiguration(challengesConfiguration),
   });

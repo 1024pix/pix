@@ -1,3 +1,4 @@
+import { VERSION_STATUSES } from '../../../src/certification/configuration/domain/models/Version.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../src/certification/shared/domain/constants.js';
 import { SCOPES } from '../../../src/certification/shared/domain/models/Scopes.js';
 import { databaseBuffer } from '../database-buffer.js';
@@ -146,6 +147,7 @@ export const buildCertificationVersion = function ({
   competencesScoringConfiguration = defaultCompetencesScoringConfiguration,
   challengesConfiguration = defaultChallengesConfiguration,
   minimumAnswersRequiredToValidateACertification = 20,
+  status = VERSION_STATUSES.DRAFT,
   comments = 'Some comments',
 } = {}) {
   const finalChallengesConfiguration = {
@@ -164,6 +166,7 @@ export const buildCertificationVersion = function ({
       competencesScoringConfiguration: JSON.stringify(competencesScoringConfiguration),
       challengesConfiguration: JSON.stringify(finalChallengesConfiguration),
       minimumAnswersRequiredToValidateACertification,
+      status,
       comments,
     },
   });

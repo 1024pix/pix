@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { VERSION_STATUSES } from '../../../../../src/certification/configuration/domain/models/Version.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../src/certification/shared/domain/constants.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
@@ -72,7 +73,7 @@ export class CommonCertificationVersions {
 
         const currentVersion = await createVersion({
           databaseBuilder,
-          status: 'ACTIVE',
+          status: VERSION_STATUSES.ACTIVE,
           scope: SCOPES.PIX_PLUS_DROIT,
           assessmentDuration: 60,
           challengesConfiguration: CHALLENGES_CONFIGURATION,
@@ -117,7 +118,7 @@ export class CommonCertificationVersions {
 
         const currentVersion = await createVersion({
           databaseBuilder,
-          status: 'ACTIVE',
+          status: VERSION_STATUSES.ACTIVE,
           scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
           assessmentDuration: 90,
           challengesConfiguration: CHALLENGES_CONFIGURATION,
@@ -158,7 +159,7 @@ export class CommonCertificationVersions {
 
         const currentVersion = await createVersion({
           databaseBuilder,
-          status: 'ACTIVE',
+          status: VERSION_STATUSES.ACTIVE,
           scope: SCOPES.PIX_PLUS_EDU_2ND_DEGRE,
           assessmentDuration: 90,
           challengesConfiguration: CHALLENGES_CONFIGURATION,
@@ -265,7 +266,7 @@ export class CommonCertificationVersions {
   static async #createExpiredCoreVersion({ databaseBuilder }) {
     const expiredVersion = await createVersion({
       databaseBuilder,
-      status: 'ARCHIVED',
+      status: VERSION_STATUSES.ARCHIVED,
       scope: SCOPES.CORE,
       assessmentDuration: 105,
       challengesConfiguration: CHALLENGES_CONFIGURATION,
@@ -312,7 +313,7 @@ export class CommonCertificationVersions {
 
     const currentVersion = await createVersion({
       databaseBuilder,
-      status: 'ACTIVE',
+      status: VERSION_STATUSES.ACTIVE,
       scope: toFrameworkScope,
       assessmentDuration,
       challengesConfiguration: CHALLENGES_CONFIGURATION,

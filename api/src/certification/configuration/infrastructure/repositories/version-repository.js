@@ -6,7 +6,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
-import { Version } from '../../domain/models/Version.js';
+import { Version, VERSION_STATUSES } from '../../domain/models/Version.js';
 import { FrameworkHistoryEntry } from '../../domain/read-models/FrameworkHistoryEntry.js';
 
 /**
@@ -72,6 +72,7 @@ export async function create(version) {
         ? JSON.stringify(version.competencesScoringConfiguration)
         : null,
       challengesConfiguration: JSON.stringify(version.challengesConfiguration),
+      status: VERSION_STATUSES.DRAFT,
     })
     .returning('id');
 
