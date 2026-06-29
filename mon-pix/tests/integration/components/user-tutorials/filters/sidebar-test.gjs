@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Sidebar from 'mon-pix/components/user-tutorials/filters/sidebar';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -12,23 +12,20 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
   module('when isVisible param is true', function () {
     test('should show sidebar with areas', async function (assert) {
       // given
-      this.set('isVisible', true);
-      this.set('areas', [
+      const isVisible = true;
+      const areas = [
         { id: 'area1', title: 'Area 1' },
         { id: 'area2', title: 'Area 2' },
         { id: 'area3', title: 'Area 3' },
-      ]);
-      this.set('onSubmit', () => {});
-      this.set('onClose', () => {});
+      ];
+      const onSubmit = () => {};
+      const onClose = () => {};
 
       // when
       await render(
-        hbs`<UserTutorials::Filters::Sidebar
-  @isVisible={{this.isVisible}}
-  @onSubmit={{this.onSubmit}}
-  @onClose={{this.onClose}}
-  @areas={{this.areas}}
-/>`,
+        <template>
+          <Sidebar @isVisible={{isVisible}} @onSubmit={{onSubmit}} @onClose={{onClose}} @areas={{areas}} />
+        </template>,
       );
 
       // then
@@ -39,22 +36,18 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
     module('when filters is clicked', function () {
       test('should add it on selected filters', async function (assert) {
         // given
-        this.set('isVisible', true);
-        this.set('areas', [
+        const isVisible = true;
+        const areas = [
           { id: 'area1', title: 'Area 1', sortedCompetences: [{ id: 'competence1', name: 'Ma superbe compétence' }] },
-        ]);
-        this.set('onSubmit', () => {});
-        this.set('onSubmit', () => {});
-        this.set('onClose', () => {});
+        ];
+        const onSubmit = () => {};
+        const onClose = () => {};
 
         // when
         const screen = await render(
-          hbs`<UserTutorials::Filters::Sidebar
-  @isVisible={{this.isVisible}}
-  @onSubmit={{this.onSubmit}}
-  @onClose={{this.onClose}}
-  @areas={{this.areas}}
-/>`,
+          <template>
+            <Sidebar @isVisible={{isVisible}} @onSubmit={{onSubmit}} @onClose={{onClose}} @areas={{areas}} />
+          </template>,
         );
         await click(screen.getByRole('button', { name: 'Area 1' }));
         const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
@@ -69,20 +62,17 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
       module('when an already selected filter is clicked again', function () {
         test('should remove it from selected filters', async function (assert) {
           // given
-          this.set('isVisible', true);
-          this.set('areas', [
+          const isVisible = true;
+          const areas = [
             { id: 'area1', title: 'Area 1', sortedCompetences: [{ id: 'competence1', name: 'Ma superbe compétence' }] },
-          ]);
-          this.set('onSubmit', () => {});
-          this.set('onClose', () => {});
+          ];
+          const onSubmit = () => {};
+          const onClose = () => {};
 
           const screen = await render(
-            hbs`<UserTutorials::Filters::Sidebar
-  @isVisible={{this.isVisible}}
-  @onSubmit={{this.onSubmit}}
-  @onClose={{this.onClose}}
-  @areas={{this.areas}}
-/>`,
+            <template>
+              <Sidebar @isVisible={{isVisible}} @onSubmit={{onSubmit}} @onClose={{onClose}} @areas={{areas}} />
+            </template>,
           );
           await click(screen.getByRole('button', { name: 'Area 1' }));
           const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
@@ -101,21 +91,18 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
       module('when reset button is clicked', function () {
         test('should reset all filters', async function (assert) {
           // given
-          this.set('isVisible', true);
-          this.set('areas', [
+          const isVisible = true;
+          const areas = [
             { id: 'area1', title: 'Area 1', sortedCompetences: [{ id: 'competence1', name: 'Ma superbe compétence' }] },
-          ]);
-          this.set('onSubmit', () => {});
-          this.set('onClose', () => {});
+          ];
+          const onSubmit = () => {};
+          const onClose = () => {};
 
           // when
           const screen = await render(
-            hbs`<UserTutorials::Filters::Sidebar
-  @isVisible={{this.isVisible}}
-  @onSubmit={{this.onSubmit}}
-  @onClose={{this.onClose}}
-  @areas={{this.areas}}
-/>`,
+            <template>
+              <Sidebar @isVisible={{isVisible}} @onSubmit={{onSubmit}} @onClose={{onClose}} @areas={{areas}} />
+            </template>,
           );
           await click(screen.getByRole('button', { name: 'Area 1' }));
           const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
@@ -134,18 +121,16 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
   module('when isVisible param is false', function () {
     test('should not show sidebar', async function (assert) {
       // given
-      this.set('isVisible', false);
-      this.set('onSubmit', () => {});
-      this.set('onClose', () => {});
+      const isVisible = false;
+      const areas = undefined;
+      const onSubmit = () => {};
+      const onClose = () => {};
 
       // when
       const screen = await render(
-        hbs`<UserTutorials::Filters::Sidebar
-  @isVisible={{this.isVisible}}
-  @onSubmit={{this.onSubmit}}
-  @onClose={{this.onClose}}
-  @areas={{this.areas}}
-/>`,
+        <template>
+          <Sidebar @isVisible={{isVisible}} @onSubmit={{onSubmit}} @onClose={{onClose}} @areas={{areas}} />
+        </template>,
       );
 
       // then
