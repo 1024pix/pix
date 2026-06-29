@@ -2,7 +2,7 @@ import { EMPTY_CORRELATION_INFO } from '../../../../../src/shared/infrastructure
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
 import { JobRepository } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { expect } from '../../../../test-helper.js';
-import { catchErr } from '../../../../tooling/test-utils/error.js';
+import { catchErr } from '../../../test-utils/error.js';
 
 describe('Integration | Tooling | Expect Job', function () {
   beforeEach(async function () {

@@ -80,5 +80,5 @@ export default defineConfig([
     },
   },
   // Ignored files
-  globalIgnores(['tests/integration/tooling/db-schemalint.cjs']),
+  globalIgnores(['tests/tooling/db-schemalint.cjs']),
 ]);

@@ -42,7 +42,7 @@
     "db:seed": "NODE_OPTIONS=\"--max-old-space-size=380\" knex --knexfile db/knexfile.js seed:run",
     "db:reload": "npm run db:empty && npm run db:seed",
     "db:reset": "npm run db:prepare && npm run db:seed",
-    "db:schemalint": "schemalint --config tests/integration/tooling/db-schemalint.cjs",
+    "db:schemalint": "schemalint --config tests/tooling/db-schemalint.cjs",
     "doc:api:prescription": "node --env-file-if-exists=.env scripts/generate-api-documentation.js src/prescription > src/prescription/API.md",
     "doc:api:team": "node --env-file-if-exists=.env scripts/generate-api-documentation.js src/team > src/team/API.md",
     "doc:api:organizational-entities": "node --env-file-if-exists=.env scripts/generate-api-documentation.js src/organizational-entities > src/organizational-entities/API.md",
