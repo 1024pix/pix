@@ -118,7 +118,7 @@
                 "id": "2c4bd126-43b5-4b65-8f01-3f18f6a98b37",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voici les dernières publications auxquelles Marine a mis des mentions J’aime sur le réseau social. </p><p><strong>Observez ces publications, puis répondez à la question qui suit.</strong></p><p><br></p><p>[Les publications ci-dessous seront remplacées par une illustration]</p><p><br></p><ul>        <li>3 recettes faciles avec seulement 4 ingrédients 🍽️</li><li>Pourquoi tout le monde parle de cette série 👀</li>    <li>Course des 3 bosquets&nbsp;: le plus beau lever de soleil 🌄🤩</li>    <li>Gaufres, fruits frais et café glacé 🧇</li>    <li>Quand ton chien entend le mot «&nbsp;promenade&nbsp;» 🐶</li>    <li>Compilation des plus beaux buts de la semaine ⚽</li>    <li>Comment réussir des pâtes carbonara crémeuses 🍝</li>    <li>Renforcez vos abdos en 15 minutes par jour 🏋️</li></ul>"
+                "content": "<p>Voici le fil d'actualité de Marine sur le réseau social. Certaines publications lui ont plu et Marine y a mis une mention J'aime.</p><p><strong>Observez ces publications, puis répondez à la question qui suit.</strong></p><p><br></p><p>[Les publications ci-dessous seront remplacées par une illustration]</p><p><br></p><ul>        <li>3 recettes faciles avec seulement 4 ingrédients 🍽️ → Liké</li><li>Pourquoi tout le monde parle de cette série 👀</li>    <li>Course des 3 bosquets&nbsp;: le plus beau lever de soleil 🌄🤩</li>    <li>Gaufres, fruits frais et café glacé 🧇 → Liké</li>    <li>Quand ton chien entend le mot «&nbsp;promenade&nbsp;» 🐶</li>    <li>Compilation des plus beaux buts de la semaine ⚽ → Liké</li>    <li>Comment réussir des pâtes carbonara crémeuses 🍝 → Liké</li>    <li>Renforcez vos abdos en 15 minutes par jour 🏋️ → Liké</li></ul>"
               }
             },
             {
@@ -234,7 +234,7 @@
                 "id": "c3ee2c5b-031e-415a-bb94-d18836736a7c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Deux publications parlent du même sujet. Pourtant, l’une est massivement partagée alors que l’autre passe presque inaperçue.</p>\n<p><br></p>\n<p><strong>Observez&nbsp;les deux publications, puis répondez à la question qui suit.</strong></p><p><strong><br></strong></p>\n<p>[Les publications ci-dessous seront remplacées par une illustration]</p>\n<p><strong><br></strong></p>\n<h5>Publication A&nbsp;: </h5>\n<p>«&nbsp;Une étude montre qu’un manque de sommeil régulier peut avoir des effets sur la concentration.&nbsp;»&nbsp;📰</p>\n<p>👍 24 mentions “J’aime” / 💬 13 commentaires / ↪️ 12 partages</p>\n<p>Heure de publication&nbsp;: 21h24</p>\n<p><br></p>\n<h5>Publication B&nbsp;:&nbsp; </h5>\n<p>«&nbsp;Vous détruisez votre cerveau chaque nuit sans le savoir !&nbsp;» 😱</p><p>Créé avec l’IA ✨</p>\n<p>👍 17 487 mentions “J’aime” /💬 4 221 commentaires / ↪️ 12 093 partages</p>\n<p>Heure de publication&nbsp;: 8h12</p>"
+                "content": "<p>Deux publications parlent du même sujet. Pourtant, l’une est massivement partagée alors que l’autre passe presque inaperçue.</p>\n<p><br></p>\n<p><strong>Observez&nbsp;les deux publications, puis répondez à la question qui suit.</strong></p><p><strong><br></strong></p>\n<p>[Les publications ci-dessous seront remplacées par une illustration]</p>\n<p><strong><br></strong></p>\n<h5>Publication A&nbsp;: </h5>\n<p>«&nbsp;Une étude montre qu’un manque de sommeil régulier peut avoir des effets sur la concentration.&nbsp;»&nbsp;📰</p>\n<p>👍 24 mentions “J’aime” / 💬 13 commentaires / ↪️ 12 partages</p>\n<p>Heure de publication&nbsp;: 8h15</p>\n<p><br></p>\n<h5>Publication B&nbsp;:&nbsp; </h5>\n<p>«&nbsp;Vous détruisez votre cerveau chaque nuit sans le savoir !&nbsp;» 😱</p><p>Créé avec l’IA ✨</p>\n<p>👍 17 487 mentions “J’aime” /💬 4 221 commentaires / ↪️ 12 093 partages</p>\n<p>Heure de publication&nbsp;: 8h12</p>"
               }
             },
             {
@@ -249,21 +249,21 @@
                     "id": "0",
                     "content": "<p>Parce qu’elle provoque plus d’émotions et de curiosité.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Exact !</p>\n<p>Le titre de la publication B a été écrit pour susciter de l’inquiétude. Il attire immédiatement l’attention, <strong>provoque des émotions fortes</strong> et donne envie de cliquer, de commenter ou de partager. L’IA générative est souvent utilisée pour écrire des <strong>contenus sensationnels</strong>, comme ici avec l’article «&nbsp;Vous détruisez votre cerveau chaque nuit sans le savoir&nbsp;!&nbsp;».</p>\n<p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
+                      "diagnosis": "<p>Exact !</p><p>Le titre de la publication B a été écrit pour susciter de l’inquiétude. Il attire immédiatement l’attention, <strong>provoque des émotions fortes</strong> et donne envie de cliquer, de commenter ou de partager. L’IA générative est souvent utilisée pour écrire des <strong>contenus sensationnels</strong>, comme ici avec l’article «&nbsp;Vous détruisez votre cerveau chaque nuit sans le savoir&nbsp;!&nbsp;».</p>\n<p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
                     }
                   },
                   {
                     "id": "1",
                     "content": "<p>Parce qu’elle contient des informations plus fiables.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non.</p>\n<p>Les contenus les plus partagés ne sont pas toujours les plus fiables. Ici, c’est surtout le <strong>ton</strong> de la publication B qui <strong>provoque davantage d’émotions fortes</strong> et donc de réactions. L’IA générative est souvent utilisée pour créer ce type de contenu <strong>sensationnels</strong>.</p>\n<p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
+                      "diagnosis": "<p>Eh non.</p><p>Les contenus les plus partagés ne sont pas toujours les plus fiables. Ici, c’est surtout le <strong>ton</strong> de la publication B qui <strong>provoque davantage d’émotions fortes</strong> et donc de réactions. L’IA générative est souvent utilisée pour créer ce type de contenu <strong>sensationnels</strong>.</p>\n<p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Parce qu’elle a été publiée tôt le matin.</p>",
+                    "content": "<p>Parce qu’elle a été publiée en premier.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non.</p>\n<p>Les contenus les plus partagés ne sont pas toujours les plus fiables. Ici, c’est surtout le <strong>ton</strong> de la publication B qui <strong>provoque davantage d’émotions fortes</strong> et donc de réactions. L’IA générative est souvent utilisée pour créer ce type de contenu <strong>sensationnels</strong>.</p>\n<p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
+                      "diagnosis": "<p>Eh non.</p><p>Les deux publications ont presque été publiées à la même heure : ce n'est donc pas l'élément déterminant. Ici, c’est surtout le <strong>ton</strong> de la publication B qui <strong>provoque davantage d’émotions fortes</strong> et donc de réactions. L’IA générative est souvent utilisée pour créer ce type de contenu <strong>sensationnels</strong>.</p>\n<p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
                     }
                   },
                   {
@@ -436,7 +436,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>L’utilisation d’un <strong>logiciel d’IA générative</strong> permet de produire un <strong>grand nombre de contenus</strong>, souvent très réalistes notamment des <strong>deepfakes</strong> (hypertrucages).<br>Un créateur peut ainsi publier beaucoup plus de contenus en peu de temps.<br>Et comme ces deepfakes sont conçus pour attirer l’attention et faire réagir fortement les utilisateurs, ils sont <strong>mis en avant</strong> par les <strong>algorithmes de recommandation</strong> sans que leur fiabilité soit vérifiée.</p>"
+                  "diagnosis": "<p>L’utilisation d’un <strong>logiciel d’IA générative</strong> permet de produire un <strong>grand nombre de contenus</strong>, souvent très réalistes notamment des <strong>deepfakes</strong> (hypertrucages).<br>Un créateur peut ainsi publier beaucoup plus de contenus en peu de temps.<br>Et comme certains de ces deepfakes sont conçus pour attirer l’attention et faire réagir fortement les utilisateurs, ils sont <strong>mis en avant</strong> par les <strong>algorithmes de recommandation</strong> sans que leur fiabilité soit vérifiée.</p>"
                 }
               }
             }
