@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import OidcReconciliation from 'mon-pix/components/authentication/oidc-reconciliation';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -49,21 +49,23 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
     });
     oidcIdentityProvidersService.set('store', storeStub);
 
-    this.set('fullNameFromPix', 'Lloyd Pix');
-    this.set('fullNameFromExternalIdentityProvider', 'Lloyd Cé');
-    this.set('email', 'lloyidce@example.net');
-    this.set('identityProviderSlug', 'new-oidc-partner');
-    this.set('authenticationMethods', [{ identityProvider: 'FRANCE_CONNECT' }, { identityProvider: 'IMPOTS_GOUV' }]);
+    const fullNameFromPix = 'Lloyd Pix';
+    const fullNameFromExternalIdentityProvider = 'Lloyd Cé';
+    const email = 'lloyidce@example.net';
+    const identityProviderSlug = 'new-oidc-partner';
+    const authenticationMethods = [{ identityProvider: 'FRANCE_CONNECT' }, { identityProvider: 'IMPOTS_GOUV' }];
 
     //  when
     const screen = await render(
-      hbs`<Authentication::OidcReconciliation
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @authenticationMethods={{this.authenticationMethods}}
-  @fullNameFromPix={{this.fullNameFromPix}}
-  @fullNameFromExternalIdentityProvider={{this.fullNameFromExternalIdentityProvider}}
-  @email={{this.email}}
-/>`,
+      <template>
+        <OidcReconciliation
+          @identityProviderSlug={{identityProviderSlug}}
+          @authenticationMethods={{authenticationMethods}}
+          @fullNameFromPix={{fullNameFromPix}}
+          @fullNameFromExternalIdentityProvider={{fullNameFromExternalIdentityProvider}}
+          @email={{email}}
+        />
+      </template>,
     );
 
     // then
@@ -93,12 +95,14 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
     test('displays the username when it exists', async function (assert) {
       // given
       stubOidcStore(this.owner, []);
-      this.set('username', 'lloyd.ce1122');
-      this.set('authenticationMethods', []);
+      const username = 'lloyd.ce1122';
+      const authenticationMethods = [];
 
       // when
       const screen = await render(
-        hbs`<Authentication::OidcReconciliation @authenticationMethods={{this.authenticationMethods}} @username={{this.username}} />`,
+        <template>
+          <OidcReconciliation @authenticationMethods={{authenticationMethods}} @username={{username}} />
+        </template>,
       );
 
       // then
@@ -109,11 +113,11 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
     test('does not display the username when it does not exist', async function (assert) {
       // given
       stubOidcStore(this.owner, []);
-      this.set('authenticationMethods', []);
+      const authenticationMethods = [];
 
       // when
       const screen = await render(
-        hbs`<Authentication::OidcReconciliation @authenticationMethods={{this.authenticationMethods}} />`,
+        <template><OidcReconciliation @authenticationMethods={{authenticationMethods}} /></template>,
       );
 
       // then
@@ -125,11 +129,11 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
     test('does not display the email when it does not exist', async function (assert) {
       // given
       stubOidcStore(this.owner, []);
-      this.set('authenticationMethods', []);
+      const authenticationMethods = [];
 
       // when
       const screen = await render(
-        hbs`<Authentication::OidcReconciliation @authenticationMethods={{this.authenticationMethods}} />`,
+        <template><OidcReconciliation @authenticationMethods={{authenticationMethods}} /></template>,
       );
 
       // then
@@ -141,11 +145,11 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
     test('displays the GAR authentication method when it exists', async function (assert) {
       // given
       stubOidcStore(this.owner, []);
-      this.set('authenticationMethods', [{ identityProvider: 'GAR' }]);
+      const authenticationMethods = [{ identityProvider: 'GAR' }];
 
       // when
       const screen = await render(
-        hbs`<Authentication::OidcReconciliation @authenticationMethods={{this.authenticationMethods}} />`,
+        <template><OidcReconciliation @authenticationMethods={{authenticationMethods}} /></template>,
       );
 
       // then
@@ -155,11 +159,11 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
     test('does not display the GAR authentication method when it does not exist', async function (assert) {
       // given
       stubOidcStore(this.owner, []);
-      this.set('authenticationMethods', [{ identityProvider: 'OIDC' }]);
+      const authenticationMethods = [{ identityProvider: 'OIDC' }];
 
       // when
       const screen = await render(
-        hbs`<Authentication::OidcReconciliation @authenticationMethods={{this.authenticationMethods}} />`,
+        <template><OidcReconciliation @authenticationMethods={{authenticationMethods}} /></template>,
       );
 
       // then
@@ -172,14 +176,15 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
       // given
       stubOidcStore(this.owner, []);
       const toggleOidcReconciliation = sinon.stub();
-      this.set('authenticationMethods', []);
-      this.set('toggleOidcReconciliation', toggleOidcReconciliation);
+      const authenticationMethods = [];
 
       const screen = await render(
-        hbs`<Authentication::OidcReconciliation
-  @authenticationMethods={{this.authenticationMethods}}
-  @toggleOidcReconciliation={{this.toggleOidcReconciliation}}
-/>`,
+        <template>
+          <OidcReconciliation
+            @authenticationMethods={{authenticationMethods}}
+            @toggleOidcReconciliation={{toggleOidcReconciliation}}
+          />
+        </template>,
       );
 
       // when
@@ -194,14 +199,15 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
       // given
       stubOidcStore(this.owner, []);
       const toggleOidcReconciliation = sinon.stub();
-      this.set('authenticationMethods', []);
-      this.set('toggleOidcReconciliation', toggleOidcReconciliation);
+      const authenticationMethods = [];
 
       const screen = await render(
-        hbs`<Authentication::OidcReconciliation
-  @authenticationMethods={{this.authenticationMethods}}
-  @toggleOidcReconciliation={{this.toggleOidcReconciliation}}
-/>`,
+        <template>
+          <OidcReconciliation
+            @authenticationMethods={{authenticationMethods}}
+            @toggleOidcReconciliation={{toggleOidcReconciliation}}
+          />
+        </template>,
       );
 
       // when
@@ -218,16 +224,18 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
       // given
       stubOidcStore(this.owner, []);
       const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
-      this.set('authenticationMethods', []);
-      this.set('identityProviderSlug', 'super-idp');
-      this.set('authenticationKey', 'super-key');
+      const authenticationMethods = [];
+      const identityProviderSlug = 'super-idp';
+      const authenticationKey = 'super-key';
 
       const screen = await render(
-        hbs`<Authentication::OidcReconciliation
-  @authenticationMethods={{this.authenticationMethods}}
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @authenticationKey={{this.authenticationKey}}
-/>`,
+        <template>
+          <OidcReconciliation
+            @authenticationMethods={{authenticationMethods}}
+            @identityProviderSlug={{identityProviderSlug}}
+            @authenticationKey={{authenticationKey}}
+          />
+        </template>,
       );
 
       // when
@@ -248,16 +256,18 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
         stubOidcStore(this.owner, []);
         const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
         sessionService.authenticate.rejects({ errors: [{ status: '401', code: 'EXPIRED_AUTHENTICATION_KEY' }] });
-        this.set('authenticationMethods', []);
-        this.set('identityProviderSlug', 'super-idp');
-        this.set('authenticationKey', 'super-key');
+        const authenticationMethods = [];
+        const identityProviderSlug = 'super-idp';
+        const authenticationKey = 'super-key';
 
         const screen = await render(
-          hbs`<Authentication::OidcReconciliation
-  @authenticationMethods={{this.authenticationMethods}}
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @authenticationKey={{this.authenticationKey}}
-/>`,
+          <template>
+            <OidcReconciliation
+              @authenticationMethods={{authenticationMethods}}
+              @identityProviderSlug={{identityProviderSlug}}
+              @authenticationKey={{authenticationKey}}
+            />
+          </template>,
         );
 
         // when
@@ -272,16 +282,18 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
         stubOidcStore(this.owner, []);
         const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
         sessionService.authenticate.rejects({ errors: [{ status: '500' }] });
-        this.set('authenticationMethods', []);
-        this.set('identityProviderSlug', 'super-idp');
-        this.set('authenticationKey', 'super-key');
+        const authenticationMethods = [];
+        const identityProviderSlug = 'super-idp';
+        const authenticationKey = 'super-key';
 
         const screen = await render(
-          hbs`<Authentication::OidcReconciliation
-  @authenticationMethods={{this.authenticationMethods}}
-  @identityProviderSlug={{this.identityProviderSlug}}
-  @authenticationKey={{this.authenticationKey}}
-/>`,
+          <template>
+            <OidcReconciliation
+              @authenticationMethods={{authenticationMethods}}
+              @identityProviderSlug={{identityProviderSlug}}
+              @authenticationKey={{authenticationKey}}
+            />
+          </template>,
         );
 
         // when
