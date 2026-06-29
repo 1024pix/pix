@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Content from 'mon-pix/components/dashboard/content';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -27,14 +27,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       { withStoreStubbed: false },
     );
 
-    this.set('model', {
+    const model = {
       campaignParticipationOverviews: [],
       campaignParticipations: [],
       scorecards: [],
-    });
+    };
 
     // when
-    const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+    const screen = await render(<template><Content @model={{model}} /></template>);
 
     // then
     assert.dom(screen.getByRole('main')).exists();
@@ -54,14 +54,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       { withStoreStubbed: false },
     );
 
-    this.set('model', {
+    const model = {
       campaignParticipationOverviews: [],
       campaignParticipations: [],
       scorecards: [],
-    });
+    };
 
     // when
-    const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+    const screen = await render(<template><Content @model={{model}} /></template>);
 
     // then
     assert.dom(screen.getByRole('heading', { name: t('pages.dashboard.welcome', { firstName: 'Banana' }) })).exists();
@@ -91,14 +91,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         campaignTitle: 'My campaign',
         organizationName: 'My organization',
       });
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [campaignParticipationOverview],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { name: t('pages.dashboard.campaigns.title') })).exists();
@@ -107,14 +107,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
     test('should not render campaign participations when there is no campaign participation overviews', async function (assert) {
       // given
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.dom(screen.queryByRole('heading', { name: t('pages.dashboard.campaigns.title') })).doesNotExist();
@@ -140,14 +140,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
     test('should render competence-card when there is at least one competence-card not started', async function (assert) {
       // given
       const scorecard = { isNotStarted: true };
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [scorecard],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { name: t('pages.dashboard.recommended-competences.title') })).exists();
@@ -158,14 +158,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
     test('should not render competence-card when there is no competence-card', async function (assert) {
       // given
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert
@@ -186,14 +186,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { id: '4', index: '2.4', isNotStarted: true, name: 'Compétence 5' },
         { id: '6', index: '1.4', isNotStarted: true, name: 'Compétence 6' },
       ];
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards,
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.strictEqual(screen.getAllByRole('article').length, 4);
@@ -222,14 +222,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
     test('should render competence-card when there is at least one competence-card not started', async function (assert) {
       // given
       const scorecard = { isImprovable: true };
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [scorecard],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.ok(screen.getByText(t('pages.dashboard.improvable-competences.subtitle')));
@@ -237,14 +237,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
     test('should not render competence-card when there is no competence-card', async function (assert) {
       // given
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.notOk(screen.queryByText(t('pages.dashboard.improvable-competences.subtitle')));
@@ -260,14 +260,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { id: '4', index: '2.4', isImprovable: true, name: 'Compétence 5' },
         { id: '4', index: '1.4', isImprovable: true, name: 'Compétence 6' },
       ];
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards,
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.strictEqual(screen.getAllByRole('article').length, 4);
@@ -304,14 +304,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
     test('should render competence-card when there is at least one competence-card started', async function (assert) {
       // given
       const scorecard = { isStarted: true };
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [scorecard],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { name: t('pages.dashboard.started-competences.title') })).exists();
@@ -319,14 +319,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
     test('should not render competence-card when there is no competence-card', async function (assert) {
       // given
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert
@@ -344,14 +344,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { id: '4', index: '2.4', isStarted: true, name: 'Compétence 5' },
         { id: '4', index: '1.4', isStarted: true, name: 'Compétence 6' },
       ];
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards,
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
 
@@ -386,14 +386,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { withStoreStubbed: false },
       );
 
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Bonjour, découvrez votre tableau de bord.' })).exists();
@@ -413,14 +413,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { withStoreStubbed: false },
       );
 
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert
@@ -445,14 +445,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { withStoreStubbed: false },
       );
 
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert
@@ -474,14 +474,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { withStoreStubbed: false },
       );
 
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Bonjour, découvrez votre tableau de bord.' })).exists();
@@ -504,14 +504,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { withStoreStubbed: false },
       );
 
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert
@@ -533,17 +533,17 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { withStoreStubbed: false },
       );
 
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [
           { id: '1', index: '1.1', isStarted: true },
           { id: '2', index: '1.2', isStarted: true },
         ],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert
@@ -570,14 +570,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { withStoreStubbed: false },
       );
 
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.dom(screen.getByText(pixScore)).exists();
@@ -601,14 +601,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { withStoreStubbed: false },
       );
 
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.ok(screen.getByRole('link', { name: t('pages.dashboard.campaigns.resume.action') }));
@@ -628,14 +628,14 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         { withStoreStubbed: false },
       );
 
-      this.set('model', {
+      const model = {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
         scorecards: [],
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
+      const screen = await render(<template><Content @model={{model}} /></template>);
 
       // then
       assert.notOk(screen.queryByRole('link', { name: t('pages.dashboard.campaigns.resume.action') }));
