@@ -9,7 +9,11 @@ import {
   UnableToDetachParentOrganizationFromChildOrganization,
 } from '../../../../src/organizational-entities/domain/errors.js';
 import { OrganizationLearnerTypeNotFound } from '../../../../src/organizational-entities/domain/errors.js';
-import { HttpErrors } from '../../../../src/shared/application/errors/http-errors.js';
+import {
+  ConflictError,
+  NotFoundError,
+  UnprocessableEntityError,
+} from '../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Application | HttpErrorMapperConfiguration', function () {
@@ -25,7 +29,7 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new TagNotFoundError(meta));
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.NotFoundError);
+      expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal('Tag does not exist');
       expect(error.meta).to.equal(meta);
     });
@@ -44,7 +48,7 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new UnableToDetachParentOrganizationFromChildOrganization({ meta }));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('Unable to detach parent organization from child organization');
       expect(error.meta).to.equal(meta);
     });
@@ -63,7 +67,7 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new CountryNotFoundError({ meta }));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.NotFoundError);
+      expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal('Country not found');
       expect(error.meta).to.equal(meta);
     });
@@ -82,7 +86,7 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new OrganizationLearnerTypeNotFound({ meta }));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('Organization learner type does not exist');
       expect(error.meta).to.equal(meta);
     });
@@ -101,7 +105,7 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new NetworkAlreadyExistError({ meta }));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.ConflictError);
+      expect(error).to.be.instanceOf(ConflictError);
       expect(error.message).to.equal('Network already exists');
       expect(error.meta).to.equal(meta);
     });
@@ -120,7 +124,7 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new ParentOrganizationNotInNetworkError({ meta }));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('Parent organization not in network');
       expect(error.meta).to.equal(meta);
     });
@@ -139,7 +143,7 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new StructureNotFoundError({ meta }));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('Structure not found');
       expect(error.meta).to.equal(meta);
     });
@@ -158,7 +162,7 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new ArchiveOrganizationError({ meta }));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('Error during organization archiving');
       expect(error.meta).to.equal(meta);
     });

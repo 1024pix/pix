@@ -22,9 +22,13 @@ module(
 
       // then
       const trainingTitle = screen.getAllByText(training.title);
+      const button = screen.getByRole('button', {
+        name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
+      });
+
       assert.strictEqual(trainingTitle.length, 2);
       assert.dom(screen.getByText('Webinaire')).exists();
-      assert.dom(screen.getByText('1 jour et 2h')).exists();
+      assert.dom(within(button).getByText('1 jour et 2h')).exists();
     });
 
     module('when delivery mode is hybrid', function () {
@@ -184,7 +188,10 @@ module(
           const screen = await render(<template><TrainingCard @training={{training}} /></template>);
 
           // then
-          assert.dom(screen.getByText('3 jours et 1h')).exists();
+          const button = screen.getByRole('button', {
+            name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
+          });
+          assert.dom(within(button).getByText('3 jours et 1h')).exists();
         });
       });
     });

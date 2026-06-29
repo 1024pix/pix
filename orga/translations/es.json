@@ -1059,8 +1059,18 @@
       },
       "modal": {
         "associated-badges": "Insignias relacionadas",
+        "combined-course-content": {
+          "aria-label-duration": "Duración estimada: {duration} minutos",
+          "description": "Las rutas de aprendizaje combinan evaluaciones y módulos de aprendizaje personalizados, permitiendo adaptar la enseñanza al nivel de cada participante.",
+          "duration": "≈ {duration} min",
+          "module-info": "Los módulos se recomendarán a los participantes en función de sus resultados.",
+          "prescribed": "Prescrito",
+          "recommended": "Recomendado",
+          "step": "Paso {number}",
+          "title": "Rutas de aprendizaje"
+        },
         "max-level": "Nivel máx.",
-        "open-modal": "Ver detalles del cursos",
+        "open-modal": "Ver detalles del curso {name}",
         "select-course": "Seleccionar este curso",
         "tube-name-and-description": "Nombre y descripción del tema",
         "tube-unavailable": "Tema no disponible"

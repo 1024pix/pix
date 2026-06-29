@@ -12,10 +12,12 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
+import Training from 'mon-pix/models/training';
 
 import RegistrationCardTag from './registration-card-tag';
 
 export default class CardModal extends Component {
+  @service locale;
   @service store;
 
   @tracked isTrainingRecommendationRelevant = null;
@@ -25,6 +27,10 @@ export default class CardModal extends Component {
   constructor(...args) {
     super(...args);
     this.isTrainingRecommendationRelevant = this.args.training.isRelevant ?? null;
+  }
+
+  get formattedDuration() {
+    return Training.formatDuration({ locale: this.locale.currentLanguage, duration: this.args.training.duration });
   }
 
   get isPositiveFeedback() {
@@ -77,8 +83,7 @@ export default class CardModal extends Component {
                 <PixIcon @name="time" @ariaHidden={{true}} />
                 <dt>{{t "pages.skill-review.recommended-engine.modal.duration"}}</dt>
                 <dd class="results-recommendation-engine-training-card-modal-section__time-information--bold">
-                  <span>{{@training.formattedDays}}</span>
-                  <span>{{@training.formattedTime}}</span>
+                  <span>{{this.formattedDuration}}</span>
                 </dd>
               </dl>
             {{/if}}
@@ -92,7 +97,7 @@ export default class CardModal extends Component {
           </div>
         </div>
 
-        <PixAccordions {{on "click" (fn this.onModalAccordionClick "OBJECTIVES")}}>
+        <PixAccordions @isV2Version={{true}} {{on "click" (fn this.onModalAccordionClick "OBJECTIVES")}}>
           <:title>
             <h2>{{t "pages.skill-review.recommended-engine.modal.objectives"}}</h2>
           </:title>
@@ -112,7 +117,7 @@ export default class CardModal extends Component {
             </ul>
           </:content>
         </PixAccordions>
-        <PixAccordions {{on "click" (fn this.onModalAccordionClick "PROGRAM")}}>
+        <PixAccordions @isV2Version={{true}} {{on "click" (fn this.onModalAccordionClick "PROGRAM")}}>
           <:title>
             <h2>{{t "pages.skill-review.recommended-engine.modal.program"}}</h2>
           </:title>

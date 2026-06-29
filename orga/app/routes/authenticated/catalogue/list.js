@@ -38,7 +38,9 @@ export default class AuthenticatedCatalogueFilter extends Route {
     }
 
     if (blueprintId) {
-      // TODO use blueprint findRecord
+      currentCourse = await this.store.findRecord('combined-course-blueprint-overview', blueprintId, {
+        adapterOptions: { organizationId: this.currentUser.organization.id },
+      });
     }
 
     return { courses, currentCourse, type };

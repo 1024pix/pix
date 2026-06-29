@@ -11,6 +11,9 @@ describe('Integration | Repository | certification candidate for supervising', f
     describe('when certification candidate is found', function () {
       it('should return the certification candidate', async function () {
         // given
+        const versionId = databaseBuilder.factory.buildCertificationVersion({
+          assessmentDuration: 100,
+        }).id;
         const session = databaseBuilder.factory.buildSession();
         const user = databaseBuilder.factory.buildUser();
         const candidate = databaseBuilder.factory.buildCertificationCandidate({
@@ -19,12 +22,14 @@ describe('Integration | Repository | certification candidate for supervising', f
           sessionId: session.id,
           userId: user.id,
           authorizedToStart: false,
+          subscription: 'CORE',
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           userId: user.id,
           sessionId: session.id,
           createdAt: new Date('2022-10-01T14:00:00Z'),
+          versionId,
+          candidateId: candidate.id,
         });
         databaseBuilder.factory.buildAssessment({
           certificationCourseId: certificationCourse.id,
@@ -51,6 +56,7 @@ describe('Integration | Repository | certification candidate for supervising', f
             lastName: 'Joplin',
             assessmentStatus: 'started',
             startDateTime: new Date('2022-10-01T14:00:00Z'),
+            assessmentDuration: 100,
             stillValidBadgeAcquisitions: undefined,
           }),
         );

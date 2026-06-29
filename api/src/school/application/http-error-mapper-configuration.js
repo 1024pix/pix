@@ -1,10 +1,10 @@
-import { HttpErrors } from '../../shared/application/errors/http-errors.js';
+import { PreconditionFailedError } from '../../shared/application/errors/http-errors.js';
 import { NotInProgressAssessmentError } from '../domain/school-errors.js';
 
 const schoolDomainErrorMappingConfiguration = [
   {
     name: NotInProgressAssessmentError.name,
-    httpErrorFn: (error) => new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code, error.meta),
   },
 ];
 

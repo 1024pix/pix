@@ -122,9 +122,12 @@ Router.map(function () {
     });
 
     this.route('certification-frameworks', function () {
-      this.route('item', { path: '/:certification_framework_key' }, function () {
-        this.route('frameworks', function () {
+      this.route('certification-framework', { path: '/:certification_framework_key' }, function () {
+        this.route('versions', function () {
           this.route('new');
+          this.route('version', { path: '/:version_id' }, function () {
+            this.route('edit');
+          });
         });
         this.route('target-profile', function () {
           this.route('update', { path: '/:target_profile_id' });

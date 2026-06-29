@@ -123,12 +123,6 @@ class CertificationCandidateByPersonalInfoTooManyMatchesError extends DomainErro
   }
 }
 
-class CertificationCandidateDeletionError extends DomainError {
-  constructor(message = 'Echec lors de la suppression du candidat de certification.') {
-    super(message);
-  }
-}
-
 class CertificationCandidatePersonalInfoFieldMissingError extends DomainError {
   constructor(message = "Un ou plusieurs champs d'informations d'identité sont manquants.") {
     super(message);
@@ -690,12 +684,6 @@ class MultipleOrganizationLearnersWithDifferentNationalStudentIdError extends Do
   }
 }
 
-class UserNotAuthorizedToUpdateCampaignError extends DomainError {
-  constructor(message = "Cet utilisateur n'est pas autorisé à modifier cette campagne.") {
-    super(message);
-  }
-}
-
 class UserNotAuthorizedToUpdateResourceError extends DomainError {
   constructor(message = "Cet utilisateur n'est pas autorisé à mettre à jour la ressource.") {
     super(message);
@@ -1075,7 +1063,6 @@ export {
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CertificationCandidateDeletionError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
@@ -1168,7 +1155,6 @@ export {
   UserNotAuthorizedToGenerateUsernamePasswordError,
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToRemoveAuthenticationMethod,
-  UserNotAuthorizedToUpdateCampaignError,
   UserNotAuthorizedToUpdateEmailError,
   UserNotAuthorizedToUpdatePasswordError,
   UserNotAuthorizedToUpdateResourceError,

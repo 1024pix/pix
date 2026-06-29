@@ -21,46 +21,48 @@ export default class TargetProfileContent extends Component {
   }
 
   <template>
-    {{#each this.targetProfileCompetences as |competence|}}
-      <div class="course-modal__competence">
-        <h2>{{getTableName competence.index competence.name}}</h2>
-        <PixTable
-          @condensed={{true}}
-          @variant="orga"
-          @caption={{getTableName competence.index competence.name}}
-          @data={{competence.tubes}}
-        >
-          <:columns as |tube context|>
-            <PixTableColumn @context={{context}} class="course-modal__competence__description__column">
-              <:header>
-                {{t "pages.catalogue.modal.tube-name-and-description"}}
-              </:header>
-              <:cell>
-                <span class="course-modal__competence__description__title">
-                  {{tube.practicalTitle}}
-                </span>
-                <span class="course-modal__competence__description__text">
-                  {{tube.practicalDescription}}
-                </span>
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}} class="course-modal__competence__level__column">
-              <:header>
-                {{t "pages.catalogue.modal.max-level"}}
-              </:header>
-              <:cell>
-                <span class="course-modal__competence__level__data">
-                  {{#if tube.maxLevel}}
-                    {{tube.maxLevel}}
-                  {{else}}
-                    {{t "pages.catalogue.modal.tube-unavailable"}}
-                  {{/if}}
-                </span>
-              </:cell>
-            </PixTableColumn>
-          </:columns>
-        </PixTable>
-      </div>
-    {{/each}}
+    <div>
+      {{#each this.targetProfileCompetences as |competence|}}
+        <div class="course-modal__competence">
+          <h2>{{getTableName competence.index competence.name}}</h2>
+          <PixTable
+            @condensed={{true}}
+            @variant="orga"
+            @caption={{getTableName competence.index competence.name}}
+            @data={{competence.tubes}}
+          >
+            <:columns as |tube context|>
+              <PixTableColumn @context={{context}} class="course-modal__competence__description__column">
+                <:header>
+                  {{t "pages.catalogue.modal.tube-name-and-description"}}
+                </:header>
+                <:cell>
+                  <span class="course-modal__competence__description__title">
+                    {{tube.practicalTitle}}
+                  </span>
+                  <span class="course-modal__competence__description__text">
+                    {{tube.practicalDescription}}
+                  </span>
+                </:cell>
+              </PixTableColumn>
+              <PixTableColumn @context={{context}} class="course-modal__competence__level__column">
+                <:header>
+                  {{t "pages.catalogue.modal.max-level"}}
+                </:header>
+                <:cell>
+                  <span class="course-modal__competence__level__data">
+                    {{#if tube.maxLevel}}
+                      {{tube.maxLevel}}
+                    {{else}}
+                      {{t "pages.catalogue.modal.tube-unavailable"}}
+                    {{/if}}
+                  </span>
+                </:cell>
+              </PixTableColumn>
+            </:columns>
+          </PixTable>
+        </div>
+      {{/each}}
+    </div>
   </template>
 }

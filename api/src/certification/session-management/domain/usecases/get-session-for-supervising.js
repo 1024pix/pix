@@ -1,8 +1,5 @@
-import dayjs from 'dayjs';
-
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
-import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constants.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 
 /**
@@ -28,10 +25,6 @@ const getSessionForSupervising = async function ({
     { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
   );
 
-  sessionForSupervising.certificationCandidates.forEach((certificationCandidate) => {
-    _computeTheoricalEndDateTime(certificationCandidate);
-  });
-
   return sessionForSupervising;
 };
 
@@ -42,19 +35,10 @@ export { getSessionForSupervising };
  */
 function _computeDoubleCertificationEligibility(certificationBadgesService) {
   return async (candidate) => {
-    if (candidate.subscription && candidate.subscription !== Frameworks.CORE) {
+    if (candidate.subscription === Frameworks.CLEA) {
       candidate.stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
         userId: candidate.userId,
       });
     }
   };
-}
-
-function _computeTheoricalEndDateTime(candidate) {
-  const startDateTime = dayjs(candidate.startDateTime || null);
-  if (!startDateTime.isValid()) {
-    return;
-  }
-
-  candidate.theoricalEndDateTime = startDateTime.add(DEFAULT_SESSION_DURATION_MINUTES, 'minute').toDate();
 }

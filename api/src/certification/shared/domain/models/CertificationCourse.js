@@ -15,7 +15,9 @@ import { AlgorithmEngineVersion } from './AlgorithmEngineVersion.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
-export const V3_CERTIFICATION_AVAILABLE_LOCALES = ['fr-fr', 'fr'];
+const ENGLISH_LOCALE = 'en';
+
+export const V3_CERTIFICATION_AVAILABLE_LOCALES = ['fr-fr', 'fr', 'en'];
 
 export class CertificationCourse {
   /**
@@ -322,8 +324,10 @@ export class CertificationCourse {
     return AlgorithmEngineVersion.isV3(this._version);
   }
 
-  static isLanguageAvailableForV3Certification(candidateLanguage) {
+  static isLanguageAvailableForV3Certification(candidateLanguage, { isEnglishEnabled = false } = {}) {
     if (!candidateLanguage) return false;
+
+    if (candidateLanguage === ENGLISH_LOCALE && !isEnglishEnabled) return false;
 
     return V3_CERTIFICATION_AVAILABLE_LOCALES.includes(candidateLanguage);
   }

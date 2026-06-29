@@ -49,6 +49,41 @@ const register = async function (server) {
     },
     {
       method: 'GET',
+      path: '/api/admin/organization-learners',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+          },
+        ],
+        validate: {
+          query: Joi.object({
+            page: Joi.object({
+              size: Joi.number().integer().empty(''),
+              number: Joi.number().integer().empty(''),
+            }).default({}),
+            filter: Joi.object({
+              fullName: Joi.string().empty(''),
+              organizationId: Joi.number().integer().empty(''),
+            }).default({}),
+          }),
+        },
+        handler: learnerListController.findOrganizationLearnersForAdmin,
+        tags: ['api', 'admin', 'organization-learners'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés sur PixAdmin avec le rôle SuperAdmin, Certif, Support et Métier',
+          `- Récupération de tous les prescrits filtrables selon le nom et l'organizationId`,
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/divisions',
       config: {
         pre: [

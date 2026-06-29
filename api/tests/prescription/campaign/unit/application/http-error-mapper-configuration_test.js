@@ -6,7 +6,7 @@ import {
   OrganizationNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToCreateCampaignError,
 } from '../../../../../src/prescription/campaign/domain/errors.js';
-import { HttpErrors } from '../../../../../src/shared/application/errors/http-errors.js';
+import { ForbiddenError, PreconditionFailedError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Prescription | Campaign | Unit | Application | HttpErrorMapperConfiguration', function () {
@@ -20,7 +20,7 @@ describe('Prescription | Campaign | Unit | Application | HttpErrorMapperConfigur
     const error = httpErrorMapper.httpErrorFn(new CampaignParticipationDoesNotBelongToUser());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+    expect(error).to.be.instanceOf(ForbiddenError);
   });
 
   it('instantiates ForbiddenError when UserNotAuthorizedToCreateCampaignError', async function () {
@@ -33,7 +33,7 @@ describe('Prescription | Campaign | Unit | Application | HttpErrorMapperConfigur
     const error = httpErrorMapper.httpErrorFn(new UserNotAuthorizedToCreateCampaignError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+    expect(error).to.be.instanceOf(ForbiddenError);
   });
 
   it('instantiates ForbiddenError when OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError', async function () {
@@ -49,7 +49,7 @@ describe('Prescription | Campaign | Unit | Application | HttpErrorMapperConfigur
     );
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+    expect(error).to.be.instanceOf(ForbiddenError);
   });
 
   it('instantiates ForbiddenError when OrganizationNotAuthorizedToCreateCampaignError', async function () {
@@ -62,7 +62,7 @@ describe('Prescription | Campaign | Unit | Application | HttpErrorMapperConfigur
     const error = httpErrorMapper.httpErrorFn(new OrganizationNotAuthorizedToCreateCampaignError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+    expect(error).to.be.instanceOf(ForbiddenError);
   });
 
   it('instantiates PreconditionFailedError when DeletedCampaignError', async function () {
@@ -75,6 +75,6 @@ describe('Prescription | Campaign | Unit | Application | HttpErrorMapperConfigur
     const error = httpErrorMapper.httpErrorFn(new DeletedCampaignError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.PreconditionFailedError);
+    expect(error).to.be.instanceOf(PreconditionFailedError);
   });
 });

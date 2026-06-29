@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../src/certification/shared/domain/constants.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
@@ -73,6 +74,7 @@ export class CommonCertificationVersions {
           databaseBuilder,
           status: 'ACTIVE',
           scope: SCOPES.PIX_PLUS_DROIT,
+          assessmentDuration: 60,
           challengesConfiguration: CHALLENGES_CONFIGURATION,
           globalScoringConfiguration: [
             { bounds: { max: 0, min: -2.33 }, meshLevel: 0 },
@@ -117,6 +119,7 @@ export class CommonCertificationVersions {
           databaseBuilder,
           status: 'ACTIVE',
           scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
+          assessmentDuration: 90,
           challengesConfiguration: CHALLENGES_CONFIGURATION,
           globalScoringConfiguration: [{ bounds: { max: 8, min: 1 }, meshLevel: 0 }],
           competencesScoringConfiguration: null,
@@ -157,6 +160,7 @@ export class CommonCertificationVersions {
           databaseBuilder,
           status: 'ACTIVE',
           scope: SCOPES.PIX_PLUS_EDU_2ND_DEGRE,
+          assessmentDuration: 90,
           challengesConfiguration: CHALLENGES_CONFIGURATION,
           globalScoringConfiguration: [{ bounds: { max: 8, min: 1 }, meshLevel: 0 }],
           competencesScoringConfiguration: null,
@@ -248,6 +252,7 @@ export class CommonCertificationVersions {
       databaseBuilder,
       status: 'ARCHIVED',
       scope: SCOPES.CORE,
+      assessmentDuration: 105,
       challengesConfiguration: CHALLENGES_CONFIGURATION,
       globalScoringConfiguration: [{ bounds: { max: 8, min: 1 }, meshLevel: 0 }],
       competencesScoringConfiguration: null,
@@ -272,10 +277,27 @@ export class CommonCertificationVersions {
       frameworkName: fromLcmsFrameworkName,
     });
 
+    let assessmentDuration;
+    switch (toFrameworkScope) {
+      case SCOPES.PIX_PLUS_PRO_SANTE:
+      case SCOPES.PIX_PLUS_DROIT:
+        assessmentDuration = 60;
+        break;
+      case SCOPES.PIX_PLUS_EDU_1ER_DEGRE:
+      case SCOPES.PIX_PLUS_EDU_2ND_DEGRE:
+      case SCOPES.PIX_PLUS_EDU_CPE:
+        assessmentDuration = 90;
+        break;
+      default:
+        assessmentDuration = DEFAULT_SESSION_DURATION_MINUTES;
+        break;
+    }
+
     const currentVersion = await createVersion({
       databaseBuilder,
       status: 'ACTIVE',
       scope: toFrameworkScope,
+      assessmentDuration,
       challengesConfiguration: CHALLENGES_CONFIGURATION,
       globalScoringConfiguration: GLOBAL_SCORING_CONFIGURATION,
       competencesScoringConfiguration: COMPETENCES_SCORING_CONFIGURATION,

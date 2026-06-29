@@ -27,6 +27,22 @@ const register = async function (server) {
         tags: ['api', 'user-campaign-surveys'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{campaignId}/has-answered-survey',
+      config: {
+        handler: userCampaignSurveyController.verifyExistingUserCampaignSurvey,
+        validate: {
+          params: Joi.object({
+            campaignId: identifiersType.campaignId,
+          }),
+        },
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n- Vérifie si un utilisateur a déjà répondu à la question NPS pour une campagne',
+        ],
+        tags: ['api', 'user-campaign-surveys'],
+      },
+    },
   ]);
 };
 

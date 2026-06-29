@@ -30,7 +30,10 @@ export default class List extends Component {
             {{t "components.certification-frameworks.list.name"}}
           </:header>
           <:cell>
-            <LinkTo @route="authenticated.certification-frameworks.item" @model={{framework.frameworkKey}}>
+            <LinkTo
+              @route="authenticated.certification-frameworks.certification-framework"
+              @model={{framework.frameworkKey}}
+            >
               {{t framework.label}}
             </LinkTo>
           </:cell>

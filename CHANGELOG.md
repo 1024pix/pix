@@ -1,5 +1,50 @@
 # Pix Changelog
 
+# [5.442.0](https://github.com/1024pix/pix/compare/v5.441.0...v5.442.0) (2026-06-26)
+
+### :rocket: Amélioration
+
+- [#16642](https://github.com/1024pix/pix/pull/16642) Ajouter une route pour vérifier si un utilisateur a répondu au questionnaire NPS d'une campagne (PIX-23304)
+- [#16614](https://github.com/1024pix/pix/pull/16614) Création de la route pour récupérer les prescrits dans Pix Admin (PIX-23150)
+- [#16658](https://github.com/1024pix/pix/pull/16658) Partager les attestations des parcours combinés avec les organisations (PIX-21895)
+
+### :bug: Correction
+
+- [#16651](https://github.com/1024pix/pix/pull/16651) Répare un bug sur les labels d'attestations dans PixApp (PIX-23353)
+
+### :building_construction: Tech
+
+- [#16654](https://github.com/1024pix/pix/pull/16654) Déplacer les tests unitaires dans leurs contextes respectifs
+
+# [5.441.0](https://github.com/1024pix/pix/compare/v5.440.0...v5.441.0) (2026-06-26)
+
+### :rocket: Amélioration
+
+- [#16605](https://github.com/1024pix/pix/pull/16605) Afficher le détail d'un shéma de  parcours combiné (PIX-23270)
+- [#16615](https://github.com/1024pix/pix/pull/16615) Ajout des commentaires automatiques pour les Pix+ non obtenus (outre EDU)  (PIX-23271)
+- [#16634](https://github.com/1024pix/pix/pull/16634) Ajouter l'effet shadow sur les cartes de contenus formatifs (PIX-23296)
+- [#16624](https://github.com/1024pix/pix/pull/16624) Améliorer la modale d'une campagne de type moteur de recommandation (PIX-22963)
+- [#16652](https://github.com/1024pix/pix/pull/16652) Envoyer un event Plausible pour chaque contenu formatif affiché sur la page de résultats (PIX-23159)
+- [#16616](https://github.com/1024pix/pix/pull/16616) FRI Creation CYPhishing_IND_fr_BE
+- [#16656](https://github.com/1024pix/pix/pull/16656) Fri renommage de fichiers json
+- [#16626](https://github.com/1024pix/pix/pull/16626) Pouvoir enregistrer un NPS pour le moteur de recommandation (PIX-23302)
+- [#16631](https://github.com/1024pix/pix/pull/16631) Update IAGenImpact_AVA.json - modifs suite aux retours
+
+### :bug: Correction
+
+- [#16638](https://github.com/1024pix/pix/pull/16638) Rejeter les certifs v3 coeur avec 0 points actuellement valides (PIX-19378).
+
+### :building_construction: Tech
+
+- [#16648](https://github.com/1024pix/pix/pull/16648) Ajouter le commentaire d'invalidation de certificat sur les certifications Droit et Santé dans les tests E2E
+- [#16636](https://github.com/1024pix/pix/pull/16636) Exporter les serializers avec des exports nommés
+- [#16641](https://github.com/1024pix/pix/pull/16641) Ne pas importer depuis les fichiers de migration
+- [#16650](https://github.com/1024pix/pix/pull/16650) REFACTOR  des routes + ajout breadcrumb sur la liste des reférentiels de certification (PIX-23336)
+- [#16645](https://github.com/1024pix/pix/pull/16645) Supprime et/ou déplace les scripts dans leur contexte
+- [#16617](https://github.com/1024pix/pix/pull/16617) Supprimer le script import-user-last-logged-at
+- [#16644](https://github.com/1024pix/pix/pull/16644) Update scalingo stack to scalingo-26 for RAs
+- [#16640](https://github.com/1024pix/pix/pull/16640) Utiliser uniquement des exports nommés pour les erreurs Http.
+
 # [5.440.0](https://github.com/1024pix/pix/compare/v5.439.0...v5.440.0) (2026-06-25)
 
 ### :rocket: Amélioration

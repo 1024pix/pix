@@ -81,5 +81,36 @@ describe('Profile | Integration | Domain | Usecases | share-profile-reward', fun
         expect(organizationsProfileRewards[0].profileRewardId).to.equal(profileRewardId);
       });
     });
+
+    describe('if the organizationId is passed directly the reward belongs to the user', function () {
+      let profileRewardId;
+      let organizationId;
+      let userId;
+
+      before(async function () {
+        userId = databaseBuilder.factory.buildUser().id;
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        profileRewardId = databaseBuilder.factory.buildProfileReward({
+          rewardId: 1,
+          userId: userId,
+        }).id;
+
+        await databaseBuilder.commit();
+      });
+
+      it('should insert a new line in organization-profile-rewards table with the provided organizationId', async function () {
+        await usecases.shareProfileReward({
+          userId,
+          profileRewardId,
+          organizationId,
+        });
+
+        const organizationsProfileRewards = await knex('organizations-profile-rewards');
+
+        expect(organizationsProfileRewards).to.have.lengthOf(1);
+        expect(organizationsProfileRewards[0].profileRewardId).to.equal(profileRewardId);
+        expect(organizationsProfileRewards[0].organizationId).to.equal(organizationId);
+      });
+    });
   });
 });

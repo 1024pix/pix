@@ -485,74 +485,62 @@
       }
     },
     "certification-frameworks": {
+      "certification-framework": {
+        "create-button": "Create a new version of the certification framework",
+        "create-button-cancel-tooltip": "It is not possible to create a new version for this scope as a draft version already exists",
+        "details": {
+          "title": "Current certification framework details"
+        },
+        "history": {
+          "label": "Versions",
+          "statuses": {
+            "ACTIVE": "Active",
+            "ARCHIVED": "Archived",
+            "DRAFT": "Draft"
+          },
+          "table": {
+            "actions": {
+              "delete": "Delete version",
+              "edit": "Edit version",
+              "view": "View version details"
+            },
+            "caption": "Versions list in descending order",
+            "columns": {
+              "actions": "Actions",
+              "assessment-duration": "Duration (min)",
+              "expiration-date": "Expiration date",
+              "maximum-assessment-length": "Nb of questions",
+              "start-date": "Start date",
+              "status": "Status",
+              "version-id": "Version ID"
+            },
+            "empty": "This certification has no history"
+          },
+          "title": "Framework versions history"
+        },
+        "no-current-framework": "No certification framework is currently used.",
+        "tab": "Certification framework",
+        "version-detail-modal": {
+          "assessment-duration": "Duration:",
+          "comment": "Comment:",
+          "comment-save-error": "An error occurred while saving the comment.",
+          "comment-save-success": "The comment has been saved.",
+          "content": "Framework content:",
+          "expiration-date": "Expiration date:",
+          "locales": "Languages:",
+          "maximum-assessment-length": "Max nb of questions:",
+          "minimum-answers-required": "Min nb of answers:",
+          "parameters": "Framework parameters:",
+          "start-date": "Start date:",
+          "status": "Status:"
+        }
+      },
       "deletion-modal": {
         "action-button": "Confirm deletion",
         "content": "You are about to delete a certification version !!!!",
         "error-message": "An error has occured",
         "success-message": "That version has indeed been removed",
         "title": "Confirmation of version deletion"
-      },
-      "item": {
-        "certification-framework": "Certification framework",
-        "frameworks": {
-          "create-button": "Create a new version of the certification framework",
-          "create-button-cancel-tooltip": "It is not possible to create a new version for this scope as a draft version already exists",
-          "details": {
-            "title": "Current certification framework details"
-          },
-          "history": {
-            "label": "Versions",
-            "statuses": {
-              "ACTIVE": "Active",
-              "ARCHIVED": "Archived",
-              "DRAFT": "Draft"
-            },
-            "table": {
-              "actions": {
-                "delete": "Delete version",
-                "edit": "Edit version",
-                "view": "View version details"
-              },
-              "caption": "Versions list in descending order",
-              "columns": {
-                "actions": "Actions",
-                "assessment-duration": "Duration (min)",
-                "expiration-date": "Expiration date",
-                "maximum-assessment-length": "Nb of questions",
-                "start-date": "Start date",
-                "status": "Status",
-                "version-id": "Version ID"
-              },
-              "empty": "This certification has no history"
-            },
-            "title": "Framework versions history"
-          },
-          "new-version-form": {
-            "submit-button": "Submit the new version of the certification framework ",
-            "success-notification": "The new version of the certification framework  has been successfully created.",
-            "title": "Creating a new version of the certification framework for {frameworkLabel}"
-          },
-          "no-current-framework": "No certification framework is currently used.",
-          "tab": "Certification framework",
-          "version-detail-modal": {
-            "assessment-duration": "Duration:",
-            "comment": "Comment:",
-            "comment-save-error": "An error occurred while saving the comment.",
-            "comment-save-success": "The comment has been saved.",
-            "content": "Framework content:",
-            "expiration-date": "Expiration date:",
-            "locales": "Languages:",
-            "maximum-assessment-length": "Max nb of questions:",
-            "minimum-answers-required": "Min nb of answers:",
-            "parameters": "Framework parameters:",
-            "start-date": "Start date:",
-            "status": "Status:"
-          }
-        },
-        "navigation": {
-          "aria-label": "Navigation of the complementary certification section"
-        },
-        "target-profile": "Target profile"
       },
       "labels": {
         "CLEA": "CléA Numérique",
@@ -568,7 +556,11 @@
         "caption": "List of certification frameworks, including name and active version start date",
         "name": "Name"
       },
+      "navigation": {
+        "aria-label": "Navigation of the complementary certification section"
+      },
       "page-title": "Certification Frameworks",
+      "target-profile": "Target profile",
       "target-profiles": {
         "badges-list": {
           "caption": "Liste des badges certifiants liés au profil cible, comprenant l'identifiant unique, l'image associée, le niveau, le nombre de pix minimum pour l'obtenir et le nom du badge.",
@@ -595,7 +587,16 @@
           "title": "Historique des profils cibles rattachés"
         }
       },
-      "title": "All certification frameworks"
+      "title": "All certification frameworks",
+      "versions": {
+        "new": {
+          "submit-button": "Submit the new version of the certification framework ",
+          "success-notification": "The new version of the certification framework  has been successfully created.",
+          "title": "Creating a new version of the certification framework for {frameworkLabel}"
+        },
+        "page-title": "Creation of a new version of the certification in {scope} framework",
+        "title": "Creating a Certification Release"
+      }
     },
     "certifications": {
       "edu-results": {

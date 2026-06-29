@@ -1,4 +1,8 @@
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
+import {
+  CampaignCombinedCourseBlueprintItem,
+  ModuleCombinedCourseBlueprintItem,
+} from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintItem.js';
 import { Quest } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { combinedCourseBlueprintOverviewSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-overview-serializer.js';
 import { expect } from '../../../../test-helper.js';
@@ -19,21 +23,21 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprin
       quest,
     });
     combinedCourseBlueprint.items = [
-      { id: 1, name: 'Diagnostic' },
-      {
+      new CampaignCombinedCourseBlueprintItem({ id: 1, name: 'Diagnostic' }),
+      new ModuleCombinedCourseBlueprintItem({
         id: 2,
         name: 'Module 1',
         duration: 1,
         image: '/image.png',
         isRecommendable: true,
-      },
-      {
+      }),
+      new ModuleCombinedCourseBlueprintItem({
         id: 3,
         name: 'Module 2',
         duration: 2,
         image: '/image.png',
         isRecommendable: false,
-      },
+      }),
     ];
 
     // when
@@ -78,12 +82,14 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprin
           type: 'combined-course-blueprint-items',
           attributes: {
             name: 'Diagnostic',
+            type: 'evaluation',
           },
         },
         {
           id: '2',
           type: 'combined-course-blueprint-items',
           attributes: {
+            type: 'module',
             duration: 1,
             image: '/image.png',
             name: 'Module 1',
@@ -94,6 +100,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprin
           id: '3',
           type: 'combined-course-blueprint-items',
           attributes: {
+            type: 'module',
             duration: 2,
             image: '/image.png',
             name: 'Module 2',

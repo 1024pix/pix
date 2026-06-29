@@ -690,6 +690,20 @@ export default function routes() {
     return schema.combinedCourseStatistics.find(combinedCourseId);
   });
 
+  this.get('/organizations/:id/courses', (schema) => {
+    return schema.courses.all();
+  });
+
+  this.get('/organizations/:id/target-profiles/:targetProfileId', (schema, request) => {
+    const targetProfileId = request.params.targetProfileId;
+    return schema.targetProfileOverviews.find(targetProfileId);
+  });
+
+  this.get('/organizations/:id/combined-course-blueprints/:blueprintId', (schema, request) => {
+    const combinedCourseBlueprintId = request.params.blueprintId;
+    return schema.combinedCourseBlueprintOverviews.find(combinedCourseBlueprintId);
+  });
+
   this.get('/oidc/identity-providers/:cache_buster', () => {
     return {
       data: [

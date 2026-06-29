@@ -63,4 +63,32 @@ describe('Integration | Infrastructure | Repository | userCampaignSurveyReposito
       });
     });
   });
+
+  describe('#findByCampaignIdAndUserId', function () {
+    context('when a userCampaignSurvey exists for given campaignId and userId', function () {
+      it('should return the survey', async function () {
+        // given
+        const userCampaignSurvey = { userId, campaignId, satisfactionScore: 3 };
+        databaseBuilder.factory.buildUserCampaignSurvey(userCampaignSurvey);
+        await databaseBuilder.commit();
+
+        // when
+        const survey = await userCampaignSurveyRepository.findByCampaignIdAndUserId({ campaignId, userId });
+
+        // then
+        expect(survey).to.be.instanceOf(UserCampaignSurvey);
+        expect(survey).to.deep.equal(userCampaignSurvey);
+      });
+    });
+
+    context('when a userCampaignSurvey does not exist for given campaignId and userId', function () {
+      it('should return null', async function () {
+        // when
+        const survey = await userCampaignSurveyRepository.findByCampaignIdAndUserId({ campaignId, userId });
+
+        // then
+        expect(survey).to.be.null;
+      });
+    });
+  });
 });

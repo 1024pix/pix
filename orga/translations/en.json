@@ -1065,8 +1065,18 @@
       },
       "modal": {
         "associated-badges": "Related badges",
+        "combined-course-content": {
+          "aria-label-duration": "Estimated duration: {duration} minutes",
+          "description": "Learning courses combine assessments and personalised learning modules, enabling teaching to be tailored to each participant's level.",
+          "duration": "≈ {duration} min",
+          "module-info": "Modules will be recommended to participants based on their results.",
+          "prescribed": "Prescribed",
+          "recommended": "Recommended",
+          "step": "Step {number}",
+          "title": "Learning courses"
+        },
         "max-level": "Max level.",
-        "open-modal": "View course details",
+        "open-modal": "View {name} details",
         "select-course": "Select course",
         "tube-name-and-description": "Topic name and description",
         "tube-unavailable": "Unavailable topic"

@@ -15,6 +15,7 @@
   margin-block: auto;
 
   &__course-content {
+    display:flex;
     flex: 1;
     padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
     overflow-y: scroll;
@@ -116,6 +117,11 @@
 
     &__description {
       @extend %pix-body-m;
+
+      a {
+        color: var(--pix-orga-500);
+        text-decoration: underline;
+      }
     }
 
     &__badges-title {
@@ -142,8 +148,6 @@
     &__form-link {
       align-self: center;
       margin-top: var(--pix-spacing-6x);
-
-      // margin-bottom: var(--pix-spacing-8x);
     }
   }
 
@@ -161,6 +165,76 @@
       @extend %pix-body-s;
 
       text-align: center;
+    }
+  }
+}
+
+.combined-course-blueprint-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-8x);
+  margin-top: auto;
+  margin-bottom: auto;
+
+  &__info {
+    color: var(--pix-neutral-500);
+  }
+
+  &__steps {
+    display:flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-4x);
+  }
+}
+
+.combined-course-blueprint-step {
+  margin-bottom: var(--pix-spacing-4x);
+
+  &__description {
+    color: var(--pix-neutral-500);
+  }
+}
+
+.combined-course-blueprint-item {
+  display:flex;
+  gap: var(--pix-spacing-4x);
+  align-items: center;
+  padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+
+  &__icon {
+    display: flex;
+
+    img {
+    width: auto;
+    min-width: var(--pix-spacing-8x);
+    height: 42px;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__content {
+    flex-basis: auto;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+  }
+
+  &__description {
+    display:flex;
+    gap: var(--pix-spacing-4x);
+    color: var(--pix-neutral-500);
+  }
+
+  &-duration {
+    display:flex;
+    align-items: center;
+
+    &__icon {
+      width: 16px;
+      height: 16px;
     }
   }
 }

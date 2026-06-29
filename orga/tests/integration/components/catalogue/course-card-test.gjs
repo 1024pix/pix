@@ -156,7 +156,9 @@ module('Integration | Component | Catalogue::CourseCard', function (hooks) {
         const screen = await render(
           <template><CourseCard @course={{course}} @type="all" @selectCourse={{selectCourse}} /></template>,
         );
-        const link = screen.getByRole('link', { name: t('pages.catalogue.modal.open-modal') });
+        const link = screen.getByRole('link', {
+          name: t('pages.catalogue.modal.open-modal', { name: 'Ma super formation' }),
+        });
 
         // then
         assert.strictEqual(link.getAttribute('href'), '/catalogue/all?targetProfileId=1');
@@ -177,7 +179,9 @@ module('Integration | Component | Catalogue::CourseCard', function (hooks) {
         const screen = await render(
           <template><CourseCard @course={{course}} @type="all" @selectCourse={{selectCourse}} /></template>,
         );
-        const link = screen.getByRole('link', { name: t('pages.catalogue.modal.open-modal') });
+        const link = screen.getByRole('link', {
+          name: t('pages.catalogue.modal.open-modal', { name: 'Ma super formation' }),
+        });
 
         // then
         assert.strictEqual(link.getAttribute('href'), '/catalogue/all?blueprintId=2');

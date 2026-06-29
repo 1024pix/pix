@@ -1053,8 +1053,21 @@
       },
       "modal": {
         "associated-badges": "Badges associés",
-        "open-modal": "Voir le détail du parcours",
-        "select-course": "Sélectionner ce parcours"
+        "combined-course-content": {
+          "aria-label-duration": "Durée estimée : {duration} minutes",
+          "description": "Les parcours apprenants articulent des évaluations et des modules d'apprentissage personnalisés, permettant une adaptation pédagogique fondée sur le niveau de chaque participant.",
+          "duration": "≈ {duration} min",
+          "module-info": "Les modules seront recommandés aux participants en fonction de leurs résultats.",
+          "prescribed": "Prescrit",
+          "recommended": "Recommandé",
+          "step": "Étape n°{number}",
+          "title": "Parcours apprenants"
+        },
+        "max-level": "Niveau maximum",
+        "open-modal": "Voir le détail du parcours {name}",
+        "select-course": "Sélectionner ce parcours",
+        "tube-name-and-description": "Sujet et description",
+        "tube-unavailable": "Sujet indisponible"
       },
       "tab-filters": {
         "all": "Tous",

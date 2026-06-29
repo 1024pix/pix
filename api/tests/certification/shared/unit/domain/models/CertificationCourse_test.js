@@ -275,7 +275,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
     it('should be true if user language is available for certification', function () {
       // given
       const user = domainBuilder.buildUser({
-        lang: 'fr-fr',
+        lang: 'fr',
       });
 
       // when
@@ -296,6 +296,48 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
 
       //then
       expect(isAvailable).to.be.false;
+    });
+
+    context('when the english option is not provided', function () {
+      it('should be false for english', function () {
+        // when
+        const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification('en');
+
+        // then
+        expect(isAvailable).to.be.false;
+      });
+    });
+
+    context('when english is disabled', function () {
+      it('should be false for english', function () {
+        // when
+        const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification('en', {
+          isEnglishEnabled: false,
+        });
+
+        // then
+        expect(isAvailable).to.be.false;
+      });
+
+      it('should still be true for french', function () {
+        // when
+        const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification('fr', {
+          isEnglishEnabled: false,
+        });
+
+        // then
+        expect(isAvailable).to.be.true;
+      });
+    });
+
+    context('when english is enabled', function () {
+      it('should be true for english', function () {
+        // when
+        const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification('en', { isEnglishEnabled: true });
+
+        // then
+        expect(isAvailable).to.be.true;
+      });
     });
   });
 

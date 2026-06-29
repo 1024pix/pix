@@ -1,5 +1,15 @@
 import * as SharedDomainErrors from '../../domain/errors.js';
-import { HttpErrors } from './http-errors.js';
+import {
+  BadRequestError,
+  BaseHttpError,
+  ConflictError,
+  ForbiddenError,
+  NotFoundError,
+  PreconditionFailedError,
+  ServiceUnavailableError,
+  UnauthorizedError,
+  UnprocessableEntityError,
+} from './http-errors.js';
 
 const NOT_FOUND_ERRORS = [
   SharedDomainErrors.NotFoundError,
@@ -126,22 +136,19 @@ const SERVICE_UNAVAILABLE_ERRORS = [
 ];
 
 export function mapToHttpError(error) {
-  if (NOT_FOUND_ERRORS.some((E) => error instanceof E))
-    return new HttpErrors.NotFoundError(error.message, error.code, error.meta);
+  if (NOT_FOUND_ERRORS.some((E) => error instanceof E)) return new NotFoundError(error.message, error.code, error.meta);
   if (FORBIDDEN_ERRORS.some((E) => error instanceof E))
-    return new HttpErrors.ForbiddenError(error.message, error.code, error.meta);
-  if (CONFLICT_ERRORS.some((E) => error instanceof E))
-    return new HttpErrors.ConflictError(error.message, error.code, error.meta);
+    return new ForbiddenError(error.message, error.code, error.meta);
+  if (CONFLICT_ERRORS.some((E) => error instanceof E)) return new ConflictError(error.message, error.code, error.meta);
   if (PRECONDITION_FAILED_ERRORS.some((E) => error instanceof E))
-    return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
+    return new PreconditionFailedError(error.message, error.code, error.meta);
   if (BAD_REQUEST_ERRORS.some((E) => error instanceof E))
-    return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
+    return new BadRequestError(error.message, error.code, error.meta);
   if (UNPROCESSABLE_ENTITY_ERRORS.some((E) => error instanceof E))
-    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
+    return new UnprocessableEntityError(error.message, error.code, error.meta);
   if (UNAUTHORIZED_ERRORS.some((E) => error instanceof E))
-    return new HttpErrors.UnauthorizedError(error.message, error.code, error.meta);
-  if (SERVICE_UNAVAILABLE_ERRORS.some((E) => error instanceof E))
-    return new HttpErrors.ServiceUnavailableError(error.message);
+    return new UnauthorizedError(error.message, error.code, error.meta);
+  if (SERVICE_UNAVAILABLE_ERRORS.some((E) => error instanceof E)) return new ServiceUnavailableError(error.message);
 
-  return new HttpErrors.BaseHttpError(error.message);
+  return new BaseHttpError(error.message);
 }

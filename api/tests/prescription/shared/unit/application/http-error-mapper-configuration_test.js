@@ -1,6 +1,6 @@
 import { prescriptionDomainErrorMappingConfiguration } from '../../../../../src/prescription/shared/application/http-error-mapper-configuration.js';
 import { ArchivedCampaignError } from '../../../../../src/prescription/shared/domain/errors.js';
-import { HttpErrors } from '../../../../../src/shared/application/errors/http-errors.js';
+import { PreconditionFailedError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Prescription | Shared | Application | HttpErrorMapperConfiguration', function () {
@@ -15,7 +15,7 @@ describe('Unit | Prescription | Shared | Application | HttpErrorMapperConfigurat
       const error = httpErrorMapper.httpErrorFn(new ArchivedCampaignError());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.PreconditionFailedError);
+      expect(error).to.be.instanceOf(PreconditionFailedError);
       expect(error.message).to.equal('Cette campagne est déjà archivée.');
     });
   });

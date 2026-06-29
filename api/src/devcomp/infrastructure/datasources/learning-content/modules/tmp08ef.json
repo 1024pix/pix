@@ -6,7 +6,7 @@
   "isBeta": true,
   "visibility": "public",
   "details": {
-    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "image": "https://assets.pix.org/modules/IAGenFonction_AVA/picto_iagenfonction_ava.svg",
     "description": "<p>ChatGPT, Mistral, Dall-E : les systèmes d’Intelligence Artificielle (IA) générative sont de plus en plus utilisés par le grand public. Ce succès s’explique notamment par les prompts, ces commandes que l’on peut écrire simplement afin d’obtenir des résultats parfois bluffants. <span aria-hidden=\"true\">✨ </span> Mais ça n’a rien de magique… </p><br><p>Dans ce module, vous allez découvrir les coulisses du fonctionnement des prompts et comprendre comment les systèmes d’IA générative produisent leurs réponses en testant avec des exemples concrets.</p>",
     "duration": 10,
     "level": "independent",

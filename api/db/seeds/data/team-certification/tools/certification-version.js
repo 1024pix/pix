@@ -1,8 +1,5 @@
 import { Version } from '../../../../../src/certification/configuration/domain/models/Version.js';
-import {
-  DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
-  DEFAULT_SESSION_DURATION_MINUTES,
-} from '../../../../../src/certification/shared/domain/constants.js';
+import { DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION } from '../../../../../src/certification/shared/domain/constants.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 /**
  * @param {Object} params
@@ -14,6 +11,7 @@ export async function createVersion({
   databaseBuilder,
   status = 'DRAFT',
   scope = 'CORE',
+  assessmentDuration,
   challengesConfiguration,
   globalScoringConfiguration,
   competencesScoringConfiguration,
@@ -23,7 +21,7 @@ export async function createVersion({
     challengesConfiguration: new FlashAssessmentAlgorithmConfiguration(challengesConfiguration),
     globalScoringConfiguration,
     competencesScoringConfiguration,
-    assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
+    assessmentDuration,
     minimumAnswersRequiredToValidateACertification: DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
   });
 

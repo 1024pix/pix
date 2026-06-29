@@ -8,7 +8,10 @@ import {
   REQUIREMENT_TYPES,
 } from '../../quests/entities/Quest.js';
 import { buildRequirement, TYPES } from '../../quests/value-objects/Requirement.js';
-import { CombinedCourseBlueprintItem } from './CombinedCourseBlueprintItem.js';
+import {
+  CampaignCombinedCourseBlueprintItem,
+  ModuleCombinedCourseBlueprintItem,
+} from '../value-objects/CombinedCourseBlueprintItem.js';
 
 export class CombinedCourseBlueprint {
   constructor({
@@ -168,13 +171,13 @@ export class CombinedCourseBlueprint {
         const targetProfile = targetProfiles.find(
           (targetProfile) => targetProfile.id === parseInt(requirement.data.targetProfileId.data),
         );
-        return new CombinedCourseBlueprintItem({ id: targetProfile.id, name: targetProfile.name });
+        return new CampaignCombinedCourseBlueprintItem({ id: targetProfile.id, name: targetProfile.name });
       }
       if (requirement.requirement_type === TYPES.OBJECT.PASSAGES) {
         const module = modules.find((module) => module.id === requirement.data.moduleId.data);
         const recommendableModule = recommendableModules.find(({ moduleId }) => moduleId === module.id);
 
-        return new CombinedCourseBlueprintItem({
+        return new ModuleCombinedCourseBlueprintItem({
           id: module.id,
           name: module.title,
           duration: module.duration,

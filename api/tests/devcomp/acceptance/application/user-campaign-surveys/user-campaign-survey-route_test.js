@@ -39,4 +39,25 @@ describe('Acceptance | API | user-campaign-surveys', function () {
       expect(response.result.data.id).to.be.a('string');
     });
   });
+
+  describe('GET /api/campaigns/{campaignId}/has-answered-survey', function () {
+    it('should return true if user has already answered the survey', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignId = databaseBuilder.factory.buildCampaign().id;
+      databaseBuilder.factory.buildUserCampaignSurvey({ userId, campaignId, satisfactionScore: 5 });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/campaigns/${campaignId}/has-answered-survey`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.hasAnswered).to.be.true;
+    });
+  });
 });

@@ -9,7 +9,12 @@ import {
   SessionAlreadyPublishedError,
   SessionWithoutStartedCertificationError,
 } from '../../../../../src/certification/session-management/domain/errors.js';
-import { HttpErrors } from '../../../../../src/shared/application/errors/http-errors.js';
+import {
+  BadRequestError,
+  ConflictError,
+  ServiceUnavailableError,
+  UnauthorizedError,
+} from '../../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Session | Application | HttpErrorMapperConfiguration', function () {
@@ -26,7 +31,7 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new SessionWithoutStartedCertificationError(message, code));
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error).to.be.instanceOf(BadRequestError);
       expect(error.message).to.equal(message);
       expect(error.code).to.equal(code);
     });
@@ -45,7 +50,7 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new SessionAlreadyFinalizedError(message, code));
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.ConflictError);
+      expect(error).to.be.instanceOf(ConflictError);
       expect(error.message).to.equal(message);
       expect(error.code).to.equal(code);
     });
@@ -63,7 +68,7 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new SessionAlreadyPublishedError(message));
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error).to.be.instanceOf(BadRequestError);
       expect(error.message).to.equal(message);
     });
   });
@@ -81,7 +86,7 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new CertificationCenterIsArchivedError(message, code));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+      expect(error).to.be.instanceOf(UnauthorizedError);
       expect(error.message).to.equal(message);
       expect(error.code).to.equal(code);
     });
@@ -98,7 +103,7 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new InvalidSessionSupervisingLoginError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+      expect(error).to.be.instanceOf(UnauthorizedError);
       expect(error.message).to.equal(SESSION_SUPERVISING.INCORRECT_DATA.getMessage());
       expect(error.code).to.equal(SESSION_SUPERVISING.INCORRECT_DATA.code);
     });
@@ -115,7 +120,7 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new SendingEmailToRefererError(['test1@email.com', 'test2@email.com']));
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.ServiceUnavailableError);
+      expect(error).to.be.instanceOf(ServiceUnavailableError);
       expect(error.message).to.equal(
         "Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : test1@email.com, test2@email.com",
       );
@@ -135,7 +140,7 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       );
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.ServiceUnavailableError);
+      expect(error).to.be.instanceOf(ServiceUnavailableError);
       expect(error.message).to.equal(
         "Échec lors de l'envoi des résultats au(x) destinataire(s) : test1@email.com, test2@email.com",
       );

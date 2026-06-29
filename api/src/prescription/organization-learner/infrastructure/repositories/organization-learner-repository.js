@@ -12,6 +12,7 @@ import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/do
 import { ParticipantRepartition } from '../../domain/models/ParticipantRepartition.js';
 import { AttestationParticipantStatus } from '../../domain/read-models/AttestationParticipantStatus.js';
 import { OrganizationLearner } from '../../domain/read-models/OrganizationLearner.js';
+import { OrganizationLearnerOverviewForAdmin } from '../../domain/read-models/OrganizationLearnerOverviewForAdmin.js';
 
 function _buildIsCertifiable(queryBuilder, organizationLearnerId, knexConn) {
   queryBuilder
@@ -92,7 +93,7 @@ async function get({ organizationLearnerId }) {
   throw new NotFoundError(`Student not found for ID ${organizationLearnerId}`);
 }
 
-async function findPaginatedLearners({ organizationId, page, filter }) {
+async function findPaginatedLearnersByOrganizationId({ organizationId, page, filter }) {
   const knexConn = DomainTransaction.getConnection();
 
   const query = knexConn
@@ -123,6 +124,46 @@ async function findPaginatedLearners({ organizationId, page, filter }) {
   const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
 
   const learners = results.map((learner) => new OrganizationLearner(learner));
+
+  return { learners, pagination };
+}
+
+async function findPaginatedLearnersForAdmin({ page, filter }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const query = knexConn
+    .select(
+      'view-active-organization-learners.id as id',
+      'firstName',
+      'lastName',
+      'birthdate',
+      'division',
+      'group',
+      'nationalStudentId',
+      'userId',
+      'organizationId',
+      'organizations.name as organizationName',
+      'view-active-organization-learners.updatedAt as updatedAt',
+      'isDisabled',
+    )
+    .from('view-active-organization-learners')
+    .innerJoin('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
+    .orderByRaw('LOWER("firstName") ASC')
+    .orderByRaw('LOWER("lastName") ASC');
+
+  if (filter) {
+    const { fullName, organizationId } = filter;
+    if (fullName) {
+      filterByFullName(query, fullName, 'firstName', 'lastName');
+    }
+    if (organizationId) {
+      query.where({ organizationId });
+    }
+  }
+
+  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
+
+  const learners = results.map((learner) => new OrganizationLearnerOverviewForAdmin(learner));
 
   return { learners, pagination };
 }
@@ -515,7 +556,8 @@ export {
   findByUserId,
   findIdByUserIdAndOrganizationId,
   findPaginatedAttestationStatusForOrganizationLearnersAndKey,
-  findPaginatedLearners,
+  findPaginatedLearnersByOrganizationId,
+  findPaginatedLearnersForAdmin,
   findUserIdsFromFilters,
   get,
   getAttestationsForOrganizationLearnersAndKey,

@@ -1,6 +1,7 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { AttestationParticipantStatus } from '../../../../../../src/prescription/organization-learner/domain/read-models/AttestationParticipantStatus.js';
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
+import { OrganizationLearnerOverviewForAdmin } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerOverviewForAdmin.js';
 import { repositories } from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/index.js';
 import { User } from '../../../../../../src/profile/domain/models/User.js';
 import { NotFoundError, OrganizationLearnerNotFound } from '../../../../../../src/shared/domain/errors.js';
@@ -495,7 +496,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
     });
   });
 
-  describe('#findPaginatedLearners', function () {
+  describe('#findPaginatedLearnersByOrganizationId', function () {
     let organizationId;
 
     beforeEach(async function () {
@@ -518,7 +519,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+      const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({ organizationId });
 
       expect(result.learners).lengthOf(1);
       expect(result.learners[0]).instanceOf(OrganizationLearner);
@@ -540,7 +541,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+      const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({ organizationId });
 
       expect(result.learners).lengthOf(0);
     });
@@ -554,7 +555,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+      const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({ organizationId });
 
       expect(result.learners).lengthOf(0);
     });
@@ -572,7 +573,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+      const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({ organizationId });
 
       expect(result.learners).lengthOf(2);
     });
@@ -604,7 +605,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
         await databaseBuilder.commit();
 
-        const result = await organizationLearnerRepository.findPaginatedLearners({
+        const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({
           organizationId,
         });
 
@@ -629,7 +630,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
         await databaseBuilder.commit();
 
-        const result = await organizationLearnerRepository.findPaginatedLearners({
+        const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({
           organizationId,
         });
 
@@ -653,7 +654,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
         await databaseBuilder.commit();
 
-        const result = await organizationLearnerRepository.findPaginatedLearners({
+        const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({
           organizationId,
           page: {
             size: 1,
@@ -690,7 +691,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
           await databaseBuilder.commit();
 
-          const result = await organizationLearnerRepository.findPaginatedLearners({
+          const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({
             organizationId,
             page: {
               size: 1,
@@ -707,6 +708,223 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           });
           expect(result.learners).to.have.lengthOf(1);
           expect(result.learners[0].id).to.equal(rogueLearner.id);
+        });
+      });
+    });
+  });
+
+  describe('#findPaginatedLearnersForAdmin', function () {
+    let organization;
+
+    beforeEach(async function () {
+      organization = databaseBuilder.factory.buildOrganization();
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return disabled learner by default', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const learner = databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'afirstname',
+        lastName: 'lastname',
+        birthdate: '2000-01-01',
+        division: '3eB',
+        group: 'AB2',
+        nationalStudentId: '12345678910',
+        userId,
+        organizationId: organization.id,
+        updatedAt: '2026-01-01',
+        isDisabled: true,
+      });
+      const learner2 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        isDisabled: false,
+      });
+
+      await databaseBuilder.commit();
+
+      const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({ page: {} });
+
+      expect(result.learners).lengthOf(2);
+      expect(result.learners[0]).instanceOf(OrganizationLearnerOverviewForAdmin);
+      expect(result.learners[0]).to.be.deep.equal({
+        id: learner.id,
+        firstName: 'afirstname',
+        lastName: 'lastname',
+        birthdate: '2000-01-01',
+        division: '3eB',
+        group: 'AB2',
+        nationalStudentId: '12345678910',
+        userId,
+        organizationId: organization.id,
+        organizationName: organization.name,
+        updatedAt: new Date('2026-01-01'),
+        isDisabled: true,
+      });
+      expect(result.learners[1]).instanceOf(OrganizationLearnerOverviewForAdmin);
+      expect(result.learners[1].id).to.be.equal(learner2.id);
+    });
+
+    it('should not return deleted learner', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId: organization.id,
+        deletedAt: new Date(),
+        deletedBy: userId,
+      });
+
+      await databaseBuilder.commit();
+
+      const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({ page: {} });
+
+      expect(result.learners).lengthOf(0);
+    });
+
+    it('retrieve all active learners from specific organizationId', async function () {
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId: organization.id,
+      });
+
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId: organization.id,
+      });
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId: otherOrganizationId,
+      });
+
+      await databaseBuilder.commit();
+
+      const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+        filter: { organizationId: organization.id },
+        page: {},
+      });
+
+      expect(result.learners).lengthOf(2);
+    });
+
+    context('ordered learners without case sensitive', function () {
+      let firstLearner;
+
+      beforeEach(async function () {
+        firstLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'toto',
+          lastName: 'Gilgamesh',
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('orders by firstName', async function () {
+        const secondLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Tata',
+          lastName: 'Gilgamesh',
+        });
+        const thirdLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Toto',
+          lastName: 'Gulgamesh',
+        });
+
+        await databaseBuilder.commit();
+
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({ page: {} });
+
+        expect(result.learners).lengthOf(3);
+        expect(result.learners[0].id).to.equal(secondLearner.id);
+        expect(result.learners[1].id).to.equal(firstLearner.id);
+        expect(result.learners[2].id).to.equal(thirdLearner.id);
+      });
+
+      it('orders by lastName when firstName are identical', async function () {
+        const secondLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Toto',
+          lastName: 'Auberto',
+        });
+
+        const thirdLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Toto',
+          lastName: 'auberti',
+        });
+
+        await databaseBuilder.commit();
+
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({ page: {} });
+
+        expect(result.learners).lengthOf(3);
+        expect(result.learners[0].id).to.equal(thirdLearner.id);
+        expect(result.learners[1].id).to.equal(secondLearner.id);
+        expect(result.learners[2].id).to.equal(firstLearner.id);
+      });
+    });
+
+    context('Pagination', function () {
+      it('retrieve paginated all active learners', async function () {
+        databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId: organization.id,
+        });
+        databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId: organization.id,
+        });
+
+        await databaseBuilder.commit();
+
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+          page: {
+            size: 1,
+            number: 1,
+          },
+        });
+
+        expect(result.pagination).to.deep.equal({
+          page: 1,
+          pageSize: 1,
+          rowCount: 2,
+          pageCount: 2,
+        });
+      });
+
+      context('Filtering', function () {
+        it('retrieve filtered and paginated learners', async function () {
+          const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId: otherOrganizationId,
+            firstName: 'Zoé',
+            lastName: 'De Ségazan',
+          });
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId: organization.id,
+            firstName: 'Zoé',
+          });
+
+          const learner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId: organization.id,
+            firstName: 'Zoé',
+            lastName: 'De Ségazan',
+          });
+
+          await databaseBuilder.commit();
+
+          const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+            page: {
+              size: 1,
+              number: 1,
+            },
+            filter: { organizationId: organization.id, fullName: 'Zoé De Ségazan' },
+          });
+
+          expect(result.pagination).to.deep.equal({
+            page: 1,
+            pageSize: 1,
+            rowCount: 1,
+            pageCount: 1,
+          });
+          expect(result.learners).to.have.lengthOf(1);
+          expect(result.learners[0].id).to.equal(learner.id);
         });
       });
     });

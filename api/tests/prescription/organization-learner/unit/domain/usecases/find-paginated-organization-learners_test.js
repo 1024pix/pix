@@ -9,7 +9,7 @@ describe('Unit | UseCase | find-paginated-organisation-learners', function () {
     const organizationId = 1234;
 
     const organizationLearnerRepository = {
-      findPaginatedLearners: sinon.stub(),
+      findPaginatedLearnersByOrganizationId: sinon.stub(),
     };
 
     // when
@@ -21,7 +21,7 @@ describe('Unit | UseCase | find-paginated-organisation-learners', function () {
     });
 
     // then
-    expect(organizationLearnerRepository.findPaginatedLearners).to.have.been.calledWithExactly({
+    expect(organizationLearnerRepository.findPaginatedLearnersByOrganizationId).to.have.been.calledWithExactly({
       organizationId,
       page: { size: 1, number: 1 },
       filter: { 'Libellé classe': ['div'] },

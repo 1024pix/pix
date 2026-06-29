@@ -4,7 +4,7 @@ import {
   CouldNotDeleteLearnersError,
   SiecleXmlImportError,
 } from '../../../../../src/prescription/learner-management/domain/errors.js';
-import { HttpErrors } from '../../../../../src/shared/application/errors/http-errors.js';
+import { PreconditionFailedError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { CsvImportError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 
@@ -22,8 +22,8 @@ describe('Prescription | Learner Management | Unit | Application | HttpErrorMapp
 
     //then
     expect(error).to.be.deep.equal([
-      new HttpErrors.PreconditionFailedError(error1.message, error1.code),
-      new HttpErrors.PreconditionFailedError(error2.message, error2.code),
+      new PreconditionFailedError(error1.message, error1.code),
+      new PreconditionFailedError(error2.message, error2.code),
     ]);
   });
 
@@ -37,7 +37,7 @@ describe('Prescription | Learner Management | Unit | Application | HttpErrorMapp
     const error = httpErrorMapper.httpErrorFn(new CouldNotDeleteLearnersError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.PreconditionFailedError);
+    expect(error).to.be.instanceOf(PreconditionFailedError);
   });
 
   it('instantiates PreconditionFailedError when SiecleXmlImportError', async function () {
@@ -50,6 +50,6 @@ describe('Prescription | Learner Management | Unit | Application | HttpErrorMapp
     const error = httpErrorMapper.httpErrorFn(new SiecleXmlImportError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.PreconditionFailedError);
+    expect(error).to.be.instanceOf(PreconditionFailedError);
   });
 });

@@ -1055,8 +1055,18 @@
       },
       "modal": {
         "associated-badges": "Zugehörige Abzeichen",
+        "combined-course-content": {
+          "aria-label-duration": "Geschätzte Dauer: {duration} Minuten",
+          "description": "Lernpfade kombinieren Bewertungen und personalisierte Lernmodule, um das Unterrichten auf der Grundlage des Niveaus jedes Teilnehmers anzupassen.",
+          "duration": "≈ {duration} Min",
+          "module-info": "Module werden den Teilnehmern basierend auf ihren Ergebnissen empfohlen.",
+          "prescribed": "Vorgegeben",
+          "recommended": "Empfohlen",
+          "step": "Schritt {number}",
+          "title": "Lernpfade"
+        },
         "max-level": "Max. Stufe",
-        "open-modal": "Details zum Kurs anzeigen",
+        "open-modal": "Details zu {name} anzeigen",
         "select-course": "Diesen Kurs auswählen",
         "tube-name-and-description": "Name und Beschreibung des Themas",
         "tube-unavailable": "Thema nicht verfügbar"

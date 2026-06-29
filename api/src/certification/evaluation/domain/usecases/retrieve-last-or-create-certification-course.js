@@ -17,6 +17,7 @@ import {
   UnexpectedUserAccountError,
 } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
+import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import { SessionNotAccessible } from '../../../session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CenterHabilitationError } from '../../../shared/domain/errors.js';
@@ -104,8 +105,11 @@ export async function retrieveLastOrCreateCertificationCourse({
   });
 }
 
-function _validateUserLocale(userLanguage) {
-  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(userLanguage);
+async function _validateUserLocale(userLanguage) {
+  const isEnglishEnabled = await featureToggles.get('isCertificationInEnglishEnabled');
+  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(userLanguage, {
+    isEnglishEnabled,
+  });
 
   if (!isUserLanguageValid) {
     throw new LanguageNotSupportedError(userLanguage);
@@ -153,7 +157,7 @@ async function _startNewCertification({
   locale,
   clientTimezone,
 }) {
-  _validateUserLocale(locale);
+  await _validateUserLocale(locale);
 
   const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId: session.id });
 

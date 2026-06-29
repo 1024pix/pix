@@ -177,10 +177,10 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
     });
   });
 
-  module('for a "blueprint" type course', function () {
+  module('for a "combined-course-blueprint" type course', function () {
     test('it shows the course content', async function (assert) {
       //given
-      const currentCourse = store.createRecord('combined-course-blueprint', {
+      const currentCourse = store.createRecord('combined-course-blueprint-overview', {
         name: 'Ma super formation',
         description: 'description',
       });
@@ -196,6 +196,38 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       assert.dom(screen.getByText(currentCourse.name)).exists();
       assert.dom(screen.getByText(currentCourse.description)).exists();
       assert.dom(screen.getByText(t('pages.catalogue.card.tag.blueprint'))).exists();
+    });
+    test('it shows the blueprint items', async function (assert) {
+      //given
+      const itemEval = store.createRecord('combined-course-blueprint-item', {
+        name: 'Diagnostic',
+        type: 'evaluation',
+      });
+      const itemModule = store.createRecord('combined-course-blueprint-item', {
+        name: 'Le module IA',
+        type: 'module',
+        duration: 5,
+        isRecommendable: true,
+      });
+      const currentCourse = store.createRecord('combined-course-blueprint-overview', {
+        name: 'Le module EDU',
+        illustration: 'mon-image.svg',
+        description: 'description',
+        items: [itemEval, itemModule],
+      });
+
+      //when
+      const screen = await render(
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByText(t('pages.catalogue.modal.combined-course-content.step', { number: 1 }))).exists();
+      assert.dom(screen.getByText(itemEval.name)).exists();
+      assert.dom(screen.getByText(t('pages.catalogue.modal.combined-course-content.step', { number: 2 }))).exists();
+      assert.dom(screen.getByText(itemModule.name)).exists();
     });
   });
 
@@ -221,7 +253,6 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       assert.dom(screen.getByRole('img', { name: 'altBadge1' })).exists();
       assert.dom(screen.getByRole('img', { name: 'altBadge2' })).exists();
     });
-
     test('it hides badges section if there are none', async function (assert) {
       //given
       const currentCourse = store.createRecord('target-profile-overview', {
@@ -256,7 +287,6 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       // // then
       assert.dom(submitButton).hasAttribute('aria-disabled', 'false');
     });
-
     test('it disables campaign creation route button if not enough "places"', async function (assert) {
       //given
       const currentCourse = store.createRecord('target-profile-overview', { name: 'Ma super formation' });
@@ -266,6 +296,7 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       const screen = await render(
         <template><CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} /></template>,
       );
+
       const submitButton = await screen.getByText(t('pages.catalogue.modal.select-course'));
 
       // then

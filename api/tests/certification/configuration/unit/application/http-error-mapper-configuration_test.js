@@ -3,7 +3,7 @@ import {
   CertificationVersionDraftAlreadyExistError,
   InvalidScoWhitelistError,
 } from '../../../../../src/certification/configuration/domain/errors.js';
-import { HttpErrors } from '../../../../../src/shared/application/errors/http-errors.js';
+import { BadRequestError, UnprocessableEntityError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Configuration | Application | HttpErrorMapperConfiguration', function () {
@@ -18,7 +18,7 @@ describe('Unit | Certification | Configuration | Application | HttpErrorMapperCo
       const error = httpErrorMapper.httpErrorFn(new InvalidScoWhitelistError());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('La liste blanche contient des données invalides.');
     });
   });
@@ -34,7 +34,7 @@ describe('Unit | Certification | Configuration | Application | HttpErrorMapperCo
       const error = httpErrorMapper.httpErrorFn(new CertificationVersionDraftAlreadyExistError());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error).to.be.instanceOf(BadRequestError);
       expect(error.message).to.equal(
         "Il est interdit de créer une nouvelle version lorsqu'il y en a déjà une en cours d'édition",
       );

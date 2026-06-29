@@ -1056,8 +1056,18 @@
       },
       "modal": {
         "associated-badges": "Badge associati",
+        "combined-course-content": {
+          "aria-label-duration": "Durata stimata: {duration} minuti",
+          "description": "I percorsi di apprendimento combinano valutazioni e moduli di apprendimento personalizzati, consentendo un insegnamento adattato al livello di ogni partecipante.",
+          "duration": "≈ {duration} min",
+          "module-info": "I moduli saranno consigliati ai partecipanti in base ai loro risultati.",
+          "prescribed": "Prescritto",
+          "recommended": "Consigliato",
+          "step": "Passo {number}",
+          "title": "Percorsi di apprendimento"
+        },
         "max-level": "Livello max.",
-        "open-modal": "Visualizza i dettagli del percorso",
+        "open-modal": "Visualizza i dettagli del percorso {name}",
         "select-course": "Seleziona questo corso",
         "tube-name-and-description": "Nome e descrizione dell'argomento",
         "tube-unavailable": "Argomento non disponibile"

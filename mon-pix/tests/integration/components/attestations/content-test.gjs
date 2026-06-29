@@ -32,8 +32,8 @@ module('Integration | Component | Attestations | content', function (hooks) {
   test('it renders attestation cards for each attestation detail', async function (assert) {
     // given
     const attestationsDetails = [
-      { type: 'SIXTH_GRADE', obtainedAt: new Date('2025-01-15') },
-      { type: 'PARENTHOOD', obtainedAt: new Date('2025-03-20') },
+      { key: 'SIXTH_GRADE', obtainedAt: new Date('2025-01-15') },
+      { key: 'PARENTHOOD', obtainedAt: new Date('2025-03-20') },
     ];
 
     // when
@@ -69,7 +69,7 @@ module('Integration | Component | Attestations | content', function (hooks) {
     }
     this.owner.register('service:fileSaver', FileSaverStub);
 
-    const attestationsDetails = [{ type: 'SIXTH_GRADE', obtainedAt: new Date('2025-01-15') }];
+    const attestationsDetails = [{ key: 'SIXTH_GRADE', obtainedAt: new Date('2025-01-15') }];
 
     const screen = await render(
       <template><AttestationContent @attestationsDetails={{attestationsDetails}} /></template>,
@@ -93,7 +93,7 @@ module('Integration | Component | Attestations | content', function (hooks) {
     }
     this.owner.register('service:pixMetrics', PixMetricsStub);
 
-    const attestationsDetails = [{ type: 'SIXTH_GRADE', obtainedAt: new Date('2025-01-15') }];
+    const attestationsDetails = [{ key: 'SIXTH_GRADE', obtainedAt: new Date('2025-01-15') }];
 
     const screen = await render(
       <template><AttestationContent @attestationsDetails={{attestationsDetails}} /></template>,

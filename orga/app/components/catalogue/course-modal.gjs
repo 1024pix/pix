@@ -6,14 +6,18 @@ import { service } from '@ember/service';
 import { recordIdentifierFor } from '@ember-data/store';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
-import { eq, gt } from 'ember-truth-helpers';
+import { gt } from 'ember-truth-helpers';
+import SafeMarkdownToHtml from 'pix-orga/components/safe-markdown-to-html';
 
 import Badges from '../campaign/badges';
-import { COMBINED_COURSE_BLUEPRINT, getCourseInfo, TARGET_PROFILE_OVERVIEW } from './course-card.gjs';
+import { COMBINED_COURSE_BLUEPRINT_OVERVIEW, getCourseInfo, TARGET_PROFILE_OVERVIEW } from './course-card.gjs';
+import CombinedCourseBlueprintContent from './course-modal/combined-course-blueprint-content.gjs';
 import TargetProfileContent from './course-modal/target-profile-content.gjs';
 
 export default class CourseModal extends Component {
   @service currentUser;
+
+  id = crypto.randomUUID();
 
   get courseTypeInfo() {
     return getCourseInfo(this.courseType);
@@ -21,6 +25,14 @@ export default class CourseModal extends Component {
 
   get courseType() {
     return recordIdentifierFor(this.args.currentCourse).type;
+  }
+
+  get isTargetProfile() {
+    return this.courseType === TARGET_PROFILE_OVERVIEW;
+  }
+
+  get isCombinedCourseBlueprint() {
+    return this.courseType === COMBINED_COURSE_BLUEPRINT_OVERVIEW;
   }
 
   get hasReachedPlacesLimit() {
@@ -61,10 +73,10 @@ export default class CourseModal extends Component {
         aria-modal="true"
       >
         <div class="course-modal__course-content">
-          {{#if (eq this.courseType TARGET_PROFILE_OVERVIEW)}}
+          {{#if this.isTargetProfile}}
             <TargetProfileContent @currentCourse={{@currentCourse}} />
-          {{else if (eq this.courseType COMBINED_COURSE_BLUEPRINT)}}
-            {{! TODO BlueprintContent Component }}
+          {{else if this.isCombinedCourseBlueprint}}
+            <CombinedCourseBlueprintContent @combinedCourseBlueprint={{@currentCourse}} />
           {{/if}}
         </div>
         <div class="course-modal__course-details">
@@ -87,10 +99,11 @@ export default class CourseModal extends Component {
               {{t this.courseTypeInfo.label}}
             </PixTag>
             <h1 id="modal-title--{{this.id}}" class="course-modal__body__name">{{@currentCourse.name}}</h1>
-            <p
+            <SafeMarkdownToHtml
               id="modal-content--{{this.id}}"
               class="course-modal__body__description"
-            >{{@currentCourse.description}}</p>
+              @markdown={{@currentCourse.description}}
+            />
 
             {{#if (gt @currentCourse.badges.length 0)}}
               <h2 class="course-modal__body__badges-title">
@@ -111,15 +124,17 @@ export default class CourseModal extends Component {
             </PixButtonLink>
           </div>
           <div class="course-modal__footer">
-            <p class="course-modal__footer__text">
-              {{t this.courseLevelLabel}}
-              &nbsp;•&nbsp;
-              {{#if @currentCourse.isSimplifiedAccess}}
-                {{t "common.target-profile-details.simplified-access.without-account"}}
-              {{else}}
-                {{t "common.target-profile-details.simplified-access.with-account"}}
-              {{/if}}
-            </p>
+            {{#if this.isTargetProfile}}
+              <p class="course-modal__footer__text">
+                {{t this.courseLevelLabel}}
+                &nbsp;•&nbsp;
+                {{#if @currentCourse.isSimplifiedAccess}}
+                  {{t "common.target-profile-details.simplified-access.without-account"}}
+                {{else}}
+                  {{t "common.target-profile-details.simplified-access.with-account"}}
+                {{/if}}
+              </p>
+            {{/if}}
           </div>
         </div>
       </div>

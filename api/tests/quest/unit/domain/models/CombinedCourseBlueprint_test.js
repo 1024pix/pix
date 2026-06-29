@@ -1,7 +1,10 @@
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { CombinedCourseBlueprintItem } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprintItem.js';
 import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
+import {
+  CampaignCombinedCourseBlueprintItem,
+  ModuleCombinedCourseBlueprintItem,
+} from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintItem.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import { Quest } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
@@ -438,33 +441,33 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
 
       // then
       expect(combinedCourseBlueprint.items).deep.equal([
-        new CombinedCourseBlueprintItem({
+        new CampaignCombinedCourseBlueprintItem({
           id: firstTargetProfileId,
           name: 'Step1 Diag1',
         }),
-        new CombinedCourseBlueprintItem({
+        new ModuleCombinedCourseBlueprintItem({
           id: module1Id,
           name: 'Module 1',
           duration: 5,
           image: 'illustration.svg',
           isRecommendable: false,
         }),
-        new CombinedCourseBlueprintItem({
+        new ModuleCombinedCourseBlueprintItem({
           id: module2Id,
           name: 'Module 2',
           duration: 4,
           image: 'illustration.svg',
           isRecommendable: true,
         }),
-        new CombinedCourseBlueprintItem({
+        new CampaignCombinedCourseBlueprintItem({
           id: secondTargetProfileId,
           name: 'Step2 Diag1',
         }),
-        new CombinedCourseBlueprintItem({
+        new CampaignCombinedCourseBlueprintItem({
           id: thirdTargetProfileId,
           name: 'Step2 Diag2',
         }),
-        new CombinedCourseBlueprintItem({
+        new ModuleCombinedCourseBlueprintItem({
           id: module3Id,
           name: 'Module 3',
           duration: 3,

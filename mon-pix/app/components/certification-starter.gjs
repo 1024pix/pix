@@ -28,6 +28,7 @@ export default class CertificationStarter extends Component {
   @service intl;
   @service focusedCertificationChallengeWarningManager;
   @service pixCompanion;
+  @service featureToggles;
 
   @tracked inputAccessCode = '';
   @tracked apiErrorMessage = null;
@@ -66,13 +67,30 @@ export default class CertificationStarter extends Component {
     return !this.currentDomain.isFranceDomain;
   }
 
+  get isCertificationInEnglishEnabled() {
+    return Boolean(this.featureToggles.featureToggles?.isCertificationInEnglishEnabled);
+  }
+
+  get isLanguageSelectorDisabled() {
+    return !this.isCertificationInEnglishEnabled;
+  }
+
   get languageOptions() {
-    return [
+    const options = [
       {
         value: VALID_CERTIFICATION_LOCALES.FRENCH,
         label: this.intl.t('pages.certification-start.language-selector.options.french'),
       },
     ];
+
+    if (this.isCertificationInEnglishEnabled) {
+      options.push({
+        value: VALID_CERTIFICATION_LOCALES.ENGLISH,
+        label: this.intl.t('pages.certification-start.language-selector.options.english'),
+      });
+    }
+
+    return options;
   }
 
   get subscriptionLabel() {
@@ -203,15 +221,17 @@ export default class CertificationStarter extends Component {
             @options={{this.languageOptions}}
             @hideDefaultOption={{true}}
             @iconName="language"
-            @isDisabled={{true}}
+            @isDisabled={{this.isLanguageSelectorDisabled}}
           >
             <:label>{{t "pages.certification-start.language-selector.label"}}</:label>
             <:default as |language|>{{language.label}}</:default>
           </PixSelect>
 
-          <PixNotificationAlert @withIcon={{true}} @type="error" class="create-attestations__errors">
-            <p>{{t "pages.certification-start.language-selector.warning-message"}}</p>
-          </PixNotificationAlert>
+          {{#unless this.isCertificationInEnglishEnabled}}
+            <PixNotificationAlert @withIcon={{true}} @type="error">
+              <p>{{t "pages.certification-start.language-selector.warning-message"}}</p>
+            </PixNotificationAlert>
+          {{/unless}}
 
           <PixCheckbox
             @class="certification-start-form__lang-confirm-checkbox"
