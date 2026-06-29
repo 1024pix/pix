@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import V3PixPlusCertificate from 'mon-pix/components/certifications/shareable-certificate/v3-pix-plus-certificate';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -23,11 +23,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         certificationFramework: 'EDU_1ER_DEGRE',
         level: 'ADMISSIBLE',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
       // then
       assert.dom(screen.getAllByText(t('pages.certificate.valid-status'))[0]).exists();
@@ -55,11 +53,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           certificationFramework: 'EDU_1ER_DEGRE',
           level: 'ADMISSIBLE',
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+        const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
         assert.dom(screen.getByText(t('pages.certificate.frameworks.EDU.steps.1'))).exists();
@@ -79,11 +75,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           certificationFramework: 'EDU_1ER_DEGRE',
           level: 'EXPERT',
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+        const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
         assert.dom(screen.queryByText(t('pages.certificate.frameworks.EDU.steps.1'))).doesNotExist();
@@ -105,11 +99,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           certificationFramework: 'EDU_1ER_DEGRE',
           level: 'ADMISSIBLE',
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-            <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+        const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
         assert.dom(screen.getByRole('heading', { level: 3, name: t('pages.certificate.results.title') })).exists();
@@ -129,11 +121,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           certificationFramework: 'EDU_1ER_DEGRE',
           level: 'EXPERT',
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-            <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+        const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
         assert
@@ -157,11 +147,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           globalSummaryLabel: 'Summary label',
           globalDescriptionLabel: 'Description label',
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+        const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
         assert
@@ -187,16 +175,14 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           certificationFramework: 'EDU_1ER_DEGRE',
           level: 'ADMISSIBLE',
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+        const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
-        const subTitle = t('pages.certificate.frameworks.EDU.sub-title.admissible.candidate').replace(/ /g, ' ');
+        const subTitle = t('pages.certificate.frameworks.EDU.sub-title.admissible.candidate').replace(/ /g, ' ');
         assert
-          .dom(screen.getByRole('heading', { level: 2, name: (name) => name.replace(/ /g, ' ').includes(subTitle) }))
+          .dom(screen.getByRole('heading', { level: 2, name: (name) => name.replace(/ /g, ' ').includes(subTitle) }))
           .exists();
       });
 
@@ -214,19 +200,17 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           certificationFramework: 'EDU_1ER_DEGRE',
           level: 'EXPERT',
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+        const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
         const subTitle = t('pages.certificate.obtained-certification.candidate', {
           globalLevelLabel: t('pages.user-certifications.meshes.EDU_1ER_DEGRE.EXPERT'),
           frameworkLabel: t('pages.certification-frameworks.EDU_1ER_DEGRE'),
-        }).replace(/ /g, ' ');
+        }).replace(/ /g, ' ');
         assert
-          .dom(screen.getByRole('heading', { level: 2, name: (name) => name.replace(/ /g, ' ').includes(subTitle) }))
+          .dom(screen.getByRole('heading', { level: 2, name: (name) => name.replace(/ /g, ' ').includes(subTitle) }))
           .exists();
       });
     });
@@ -246,11 +230,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           certificationFramework: 'EDU_1ER_DEGRE',
           level: 'ADMISSIBLE',
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-            <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+        const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
         assert.dom(screen.getByText(t('pages.user-certifications.meshes.EDU_1ER_DEGRE.ADMISSIBLE'))).exists();
@@ -271,11 +253,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
           level: 'EXPERT',
           badgeUrl: 'https://example.com/badge.png',
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-            <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+        const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
         assert.dom(screen.queryByText(t('pages.user-certifications.meshes.EDU_1ER_DEGRE.EXPERT'))).doesNotExist();
@@ -301,11 +281,11 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         level: 'EXPERT',
         badgeUrl: 'https://example.com/badge.png',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} @context="user" />`);
+      const screen = await render(
+        <template><V3PixPlusCertificate @certificate={{certification}} @context="user" /></template>,
+      );
 
       // then
       assert.dom(screen.getByText(t('pages.certificate.congratulations'))).exists();
@@ -328,11 +308,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         badgeUrl: 'https://example.com/badge.png',
         verificationCode: 'P-ABC123',
       });
-      this.set('certification', certification);
 
       // when
-      await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} @context="user" />`);
+      await render(<template><V3PixPlusCertificate @certificate={{certification}} @context="user" /></template>);
 
       // then
       assert.dom('.download-pdf').exists();
@@ -353,11 +331,11 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         level: 'EXPERT',
         badgeUrl: 'https://example.com/badge.png',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} @context="user" />`);
+      const screen = await render(
+        <template><V3PixPlusCertificate @certificate={{certification}} @context="user" /></template>,
+      );
 
       // then
       assert
@@ -396,11 +374,11 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         certificationFramework: 'EDU_1ER_DEGRE',
         level: 'ADMISSIBLE',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} @context="user" />`);
+      const screen = await render(
+        <template><V3PixPlusCertificate @certificate={{certification}} @context="user" /></template>,
+      );
 
       // then
       const userSubTitle = t('pages.certificate.frameworks.EDU.sub-title.admissible.user').replace(/ /g, ' ');
@@ -432,11 +410,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         level: 'EXPERT',
         badgeUrl: 'https://example.com/badge.png',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
       // then
       assert.dom(screen.queryByText(t('pages.certificate.frameworks.EDU.steps.1'))).doesNotExist();
@@ -464,11 +440,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         globalSummaryLabel: 'Summary label',
         globalDescriptionLabel: 'Description label',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
       // then
       assert
@@ -494,11 +468,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         badgeUrl: 'https://example.com/badge.png',
         globalSummaryLabel: 'Summary label',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
       // then
       assert
@@ -520,11 +492,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         certificationFramework: 'DROIT',
         level: 'EXPERT',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-          <Certifications::ShareableCertificate::V3PixPlusCertificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
       // then
       assert
