@@ -19,10 +19,10 @@ export default {
       to: { path: '^db/migrations/(.*)' },
     },
     {
-      name: 'do-not-import-hapi-in-integration-tests',
+      name: 'do-not-import-hapi-or-server-in-integration-tests',
       severity: 'error',
       from: { path: '^tests/.*integration/(.*)' },
-      to: { path: '@hapi/hapi' },
+      to: { path: ['@hapi/hapi', '^server\\.js$'] },
     },
   ],
   options: {

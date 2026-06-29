@@ -51,18 +51,6 @@ export default defineConfig([
       'mocha/consistent-spacing-between-blocks': 'off',
     },
   },
-  {
-    files: ['tests/integration/application/**/*.js'],
-    rules: {
-      'n/no-restricted-import': [
-        'error',
-        [
-          { name: '../../../server', message: 'Please use http-server-test instead.' },
-          { name: '../../../../server', message: 'Please use http-server-test instead.' },
-        ],
-      ],
-    },
-  },
   // Overridden rules for "translations" files
   {
     files: ['translations/*.json'],
