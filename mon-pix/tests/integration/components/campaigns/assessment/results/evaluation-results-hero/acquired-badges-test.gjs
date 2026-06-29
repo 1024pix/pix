@@ -1,6 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import AcquiredBadges from 'mon-pix/components/campaigns/assessment/results/evaluation-results-hero/acquired-badges';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
@@ -25,12 +25,10 @@ module(
         title: 'Acquired badge 2',
       };
 
-      this.set('badges', [acquiredBadge1, acquiredBadge2]);
+      const badges = [acquiredBadge1, acquiredBadge2];
 
       // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::AcquiredBadges @acquiredBadges={{this.badges}} />`,
-      );
+      const screen = await render(<template><AcquiredBadges @acquiredBadges={{badges}} /></template>);
 
       // then
       const badgesTitle = screen.getByRole('heading', {
@@ -65,12 +63,10 @@ module(
         title: 'Acquired and certifiable badge',
       };
 
-      this.set('badges', [acquiredBadge, acquiredCertifiableBadge]);
+      const badges = [acquiredBadge, acquiredCertifiableBadge];
 
       // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::AcquiredBadges @acquiredBadges={{this.badges}} />`,
-      );
+      const screen = await render(<template><AcquiredBadges @acquiredBadges={{badges}} /></template>);
 
       // then
       const acquiredBadges = screen.getAllByRole('listitem');
