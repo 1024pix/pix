@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import V3Certificate from 'mon-pix/components/certifications/shareable-certificate/v3-certificate';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -24,11 +24,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-ce
         maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
         certificationFramework: 'CORE',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-        <Certifications::ShareableCertificate::v3Certificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3Certificate @certificate={{certification}} /></template>);
 
       // then
       assert
@@ -58,11 +56,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-ce
         globalLevelLabel: 'Expert 1',
         certificationFramework: 'CORE',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-        <Certifications::ShareableCertificate::v3Certificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3Certificate @certificate={{certification}} /></template>);
 
       // then
       const globalLevelLabels = screen.getAllByText(certification.globalLevelLabel);
@@ -84,11 +80,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-ce
         certificationCenter: 'Université de Lyon',
         certificationFramework: 'EDU_1ER_DEGRE',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-        <Certifications::ShareableCertificate::v3Certificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3Certificate @certificate={{certification}} /></template>);
 
       // then
       assert.dom(screen.getAllByText(t('pages.certificate.frameworks.EDU.status'))[0]).exists();
@@ -115,11 +109,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-ce
         acquiredComplementaryCertification: 'http://example.com/clea.svg',
         certificationFramework: 'CORE',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-        <Certifications::ShareableCertificate::v3Certificate @certificate={{this.certification}} />`);
+      const screen = await render(<template><V3Certificate @certificate={{certification}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { level: 2, name: t('pages.certificate.complementary.title') })).exists();
