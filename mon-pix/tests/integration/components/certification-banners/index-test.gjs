@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import CertificationBanners from 'mon-pix/components/certification-banners';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -19,17 +19,18 @@ module('Integration | Component | Certification Banners | index.js', function (h
           validatedDoubleCertification: false,
         },
       });
-      this.set('certificationEligibility', certificationEligibility);
-      this.set('fullName', 'Fifi Brindacier');
-      this.set('closeBanner', () => {});
+      const fullName = 'Fifi Brindacier';
+      const closeBanner = () => {};
 
       // when
       const screen = await render(
-        hbs`<CertificationBanners
-  @certificationEligibility={{this.certificationEligibility}}
-  @fullName={{this.fullName}}
-  @closeBanner={{this.closeBanner}}
-/>`,
+        <template>
+          <CertificationBanners
+            @certificationEligibility={{certificationEligibility}}
+            @fullName={{fullName}}
+            @closeBanner={{closeBanner}}
+          />
+        </template>,
       );
 
       // then
@@ -52,17 +53,18 @@ module('Integration | Component | Certification Banners | index.js', function (h
             validatedDoubleCertification: true,
           },
         });
-        this.set('certificationEligibility', certificationEligibility);
-        this.set('fullName', 'Fifi Brindacier');
-        this.set('closeBanner', () => {});
+        const fullName = 'Fifi Brindacier';
+        const closeBanner = () => {};
 
         // when
         const screen = await render(
-          hbs`<CertificationBanners
-  @certificationEligibility={{this.certificationEligibility}}
-  @fullName={{this.fullName}}
-  @closeBanner={{this.closeBanner}}
-/>`,
+          <template>
+            <CertificationBanners
+              @certificationEligibility={{certificationEligibility}}
+              @fullName={{fullName}}
+              @closeBanner={{closeBanner}}
+            />
+          </template>,
         );
 
         // then
@@ -91,17 +93,18 @@ module('Integration | Component | Certification Banners | index.js', function (h
             validatedDoubleCertification: false,
           },
         });
-        this.set('certificationEligibility', certificationEligibility);
-        this.set('fullName', 'Fifi Brindacier');
-        this.set('closeBanner', () => {});
+        const fullName = 'Fifi Brindacier';
+        const closeBanner = () => {};
 
         // when
         const screen = await render(
-          hbs`<CertificationBanners
-  @certificationEligibility={{this.certificationEligibility}}
-  @fullName={{this.fullName}}
-  @closeBanner={{this.closeBanner}}
-/>`,
+          <template>
+            <CertificationBanners
+              @certificationEligibility={{certificationEligibility}}
+              @fullName={{fullName}}
+              @closeBanner={{closeBanner}}
+            />
+          </template>,
         );
 
         // then
