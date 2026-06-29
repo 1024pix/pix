@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { hbs } from 'ember-cli-htmlbars';
+import CertificationBanner from 'mon-pix/components/certification-banner';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -13,6 +13,7 @@ module('Integration | Component | Certification Banner', function (hooks) {
     const lastName = 'jedusor';
     const fullName = 'Tom JEDUSOR';
     const certificationNumber = 100;
+    const state = {};
 
     hooks.beforeEach(function () {
       // given
@@ -21,13 +22,13 @@ module('Integration | Component | Certification Banner', function (hooks) {
         firstName,
         lastName,
       });
-      this.set('certificationNumber', certificationNumber);
-      this.set('certification', certification);
+      state.certificationNumber = certificationNumber;
+      state.certification = certification;
     });
 
     test('should render component with user fullName', async function (assert) {
       // when
-      const screen = await render(hbs`<CertificationBanner @certification={{this.certification}} />`);
+      const screen = await render(<template><CertificationBanner @certification={{state.certification}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { name: fullName })).exists();
@@ -35,7 +36,9 @@ module('Integration | Component | Certification Banner', function (hooks) {
 
     test('should render component with certificationNumber', async function (assert) {
       // when
-      const screen = await render(hbs`<CertificationBanner @certificationNumber={{this.certificationNumber}} />`);
+      const screen = await render(
+        <template><CertificationBanner @certificationNumber={{state.certificationNumber}} /></template>,
+      );
 
       // then
       assert.dom(screen.getByText('N° de certification')).exists();
