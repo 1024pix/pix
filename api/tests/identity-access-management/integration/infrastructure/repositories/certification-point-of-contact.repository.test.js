@@ -1,13 +1,13 @@
-import * as centerRepository from '../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
-import { AllowedCertificationCenterAccess } from '../../../../src/identity-access-management/domain/read-models/AllowedCertificationCenterAccess.js';
-import * as certificationPointOfContactRepository from '../../../../src/identity-access-management/infrastructure/repositories/certification-point-of-contact.repository.js';
-import { Organization } from '../../../../src/organizational-entities/domain/models/Organization.js';
-import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { CertificationCenter } from '../../../../src/shared/domain/models/CertificationCenter.js';
-import { expect } from '../../../test-helper.js';
-import { databaseBuilder } from '../../../tooling/databases.js';
-import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../tooling/test-utils/error.js';
+import * as centerRepository from '../../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
+import { AllowedCertificationCenterAccess } from '../../../../../src/identity-access-management/domain/read-models/AllowedCertificationCenterAccess.js';
+import * as certificationPointOfContactRepository from '../../../../../src/identity-access-management/infrastructure/repositories/certification-point-of-contact.repository.js';
+import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { CertificationCenter } from '../../../../../src/shared/domain/models/CertificationCenter.js';
+import { expect } from '../../../../test-helper.js';
+import { databaseBuilder } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Identity Access Management |  Repository | CertificationPointOfContact', function () {
   let userWithoutMembership;
