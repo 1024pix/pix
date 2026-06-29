@@ -3,8 +3,8 @@ import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import LearningMorePanel from 'mon-pix/components/learning-more-panel';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -15,17 +15,17 @@ module('Integration | Component | learning-more-panel', function (hooks) {
   module('when there is at least one learningMore item', function () {
     test('renders a list item when there is at least one learningMore item', async function (assert) {
       // given
-      this.set('learningMoreTutorials', [
+      const learningMoreTutorials = [
         {
           link: 'https://example.net/1',
           titre: 'Ceci est un tuto',
           duration: '20:00:00',
           format: 'video',
         },
-      ]);
+      ];
 
       // when
-      await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}} />`);
+      await render(<template><LearningMorePanel @learningMoreTutorials={{learningMoreTutorials}} /></template>);
 
       // then
       assert.dom('.learning-more-panel__container').exists({ count: 1 });
@@ -45,12 +45,10 @@ module('Integration | Component | learning-more-panel', function (hooks) {
           format: 'page',
         });
 
-        const tutorials = A([tuto1]);
-
-        this.set('learningMoreTutorials', tutorials);
+        const learningMoreTutorials = A([tuto1]);
 
         // when
-        await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}} />`);
+        await render(<template><LearningMorePanel @learningMoreTutorials={{learningMoreTutorials}} /></template>);
 
         // then
         assert.dom('.tutorial-card').exists({ count: 1 });
@@ -60,10 +58,10 @@ module('Integration | Component | learning-more-panel', function (hooks) {
 
   test('should not render a list when there is no LearningMore elements', async function (assert) {
     // given
-    this.set('learningMoreTutorials', null);
+    const learningMoreTutorials = null;
 
     // when
-    await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}} />`);
+    await render(<template><LearningMorePanel @learningMoreTutorials={{learningMoreTutorials}} /></template>);
 
     // then
     assert.dom('.learning-more-panel__container').doesNotExist();
