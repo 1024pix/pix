@@ -44,6 +44,7 @@ export default class CreateForm extends Component {
 
   get isMultipleSendingEnabled() {
     const isMulipleSendingsAllowed =
+      Boolean(this.args.campaign.course) &&
       this.isMultipleSendingAssessmentEnabled &&
       (this.isCampaignGoalAssessment || this.isCampaignGoalExam) &&
       !this.isCombinedCourseGoal;
@@ -94,7 +95,7 @@ export default class CreateForm extends Component {
   }
 
   get isTitleInputEnable() {
-    return (this.isCampaignGoalAssessment || this.isCampaignGoalExam) && !this.isCombinedCourseGoal;
+    return Boolean(this.args.campaign.course) && !this.isCombinedCourseGoal;
   }
 
   get displayTitleField() {
@@ -106,7 +107,10 @@ export default class CreateForm extends Component {
   }
 
   get displayOwnerField() {
-    return this.isCampaignGoalAssessment || this.isCampaignGoalExam || this.isCampaignGoalProfileCollection;
+    return (
+      Boolean(this.args.campaign.course) &&
+      (this.isCampaignGoalAssessment || this.isCampaignGoalExam || this.isCampaignGoalProfileCollection)
+    );
   }
 
   get displayCourseSelection() {

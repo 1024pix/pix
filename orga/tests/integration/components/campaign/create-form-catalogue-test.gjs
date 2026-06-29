@@ -128,9 +128,96 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         data.prescriber.features.CAMPAIGN_WITHOUT_USER_PROFILE = { active: true, params: null };
       });
 
+      test('hides owner field if no course are selected', async function () {
+        // given
+        data.campaign.type = campaignType.status;
+
+        // when
+        const screen = await render(
+          <template>
+            <CreateForm
+              @campaign={{data.campaign}}
+              @onSubmit={{createCampaignSpy}}
+              @onCancel={{cancelSpy}}
+              @errors={{data.errors}}
+              @membersSortedByFullName={{data.defaultMembers}}
+            />
+          </template>,
+        );
+
+        assert.dom(screen.queryByText(t('pages.campaign-creation.owner.info'))).doesNotExist();
+      });
+
+      test('hides multiple sendings field if no course are selected', async function () {
+        // given
+        data.campaign.type = campaignType.status;
+        data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = { active: true, params: null };
+        // when
+        const screen = await render(
+          <template>
+            <CreateForm
+              @campaign={{data.campaign}}
+              @onSubmit={{createCampaignSpy}}
+              @onCancel={{cancelSpy}}
+              @errors={{data.errors}}
+              @membersSortedByFullName={{data.defaultMembers}}
+            />
+          </template>,
+        );
+        assert
+          .dom(
+            screen.queryByRole('radiogroup', {
+              name: t('pages.campaign-creation.multiple-sendings.assessments.question-label'),
+            }),
+          )
+          .doesNotExist();
+      });
+
+      test('it should hides campaign title', async function (assert) {
+        // given
+        data.campaign.type = 'ASSESSMENT';
+        // when
+        const screen = await render(
+          <template>
+            <CreateForm
+              @campaign={{data.campaign}}
+              @onSubmit={{createCampaignSpy}}
+              @onCancel={{cancelSpy}}
+              @errors={{data.errors}}
+              @membersSortedByFullName={{data.defaultMembers}}
+            />
+          </template>,
+        );
+
+        assert
+          .dom(screen.queryByLabelText(t('pages.campaign-creation.test-title.label'), { exact: false }))
+          .doesNotExist();
+      });
+
+      test('should hides hide landing page until user select a course', async function () {
+        // when
+        const screen = await render(
+          <template>
+            <CreateForm
+              @campaign={{data.campaign}}
+              @onSubmit={{createCampaignSpy}}
+              @onCancel={{cancelSpy}}
+              @errors={{data.errors}}
+              @membersSortedByFullName={{data.defaultMembers}}
+            />
+          </template>,
+        );
+        // then
+        assert
+          .dom(screen.queryByLabelText(t('pages.campaign-creation.landing-page-text.label'), { exact: false }))
+          .doesNotExist();
+      });
+
       test(`it should have checked ${campaignType.status}`, async function (assert) {
         // given
         data.campaign.type = campaignType.status;
+        data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+
         // when
         const screen = await render(
           <template>
@@ -149,8 +236,11 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       });
 
       test("it should display owner fields and auto complete owner field with owner's full name", async function (assert) {
-        // when
+        // given
         data.campaign.type = campaignType.status;
+        data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+
+        // when
         const screen = await render(
           <template>
             <CreateForm
@@ -175,13 +265,8 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
       test('it should fill course fields', async function (assert) {
         // given
-        const course = store.createRecord('course', {
-          id: '1',
-          name: 'Target profile 1',
-          type: 'targetProfile',
-        });
         data.campaign.type = campaignType.status;
-        data.campaign.course = course;
+        data.campaign.course = store.createRecord('course', { type: 'targetProfile', name: 'yolo' });
 
         // when
         const screen = await render(
@@ -200,7 +285,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         assert
           .dom(
             screen.getByRole('heading', {
-              name: course.name,
+              name: data.campaign.course.name,
             }),
           )
           .exists();
@@ -208,10 +293,10 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
       test('it should fill multiple sendings fields', async function (assert) {
         // given
-        data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = { active: true, params: null };
         data.campaign.type = campaignType.status;
+        data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+        data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = { active: true, params: null };
         data.campaign.multipleSendings = true;
-
         // when
         const screen = await render(
           <template>
@@ -260,14 +345,12 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         assert.ok(testTitleSublabel);
         assert.ok(landingPageSublabel);
       });
-    });
-
-    module(`when user choose to create a campaign of type ${campaignType.status}`, function (hooks) {
-      hooks.beforeEach(function () {
-        data.prescriber.features.CAMPAIGN_WITHOUT_USER_PROFILE = { active: true, params: null };
-      });
 
       test('it should display fields for campaign title', async function (assert) {
+        // given
+        data.campaign.type = campaignType.status;
+        data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+
         // when
         const screen = await render(
           <template>
@@ -842,7 +925,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     // given
     data.campaign.type = 'ASSESSMENT';
     data.campaign.title = 'Mon titre de parcours';
-
+    data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
     // when
     const screen = await render(
       <template>
@@ -862,29 +945,11 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('landing page customization', function () {
-    test('should not display hide landing page info for combinedCourse', async function () {
+    test('should hides landing page info for combinedCourse', async function () {
       // given
       data.campaign.course = store.createRecord('course', { type: 'blueprint' });
       data.campaign.type = 'COMBINED_COURSE';
 
-      // when
-      const screen = await render(
-        <template>
-          <CreateForm
-            @campaign={{data.campaign}}
-            @onSubmit={{createCampaignSpy}}
-            @onCancel={{cancelSpy}}
-            @errors={{data.errors}}
-            @membersSortedByFullName={{data.defaultMembers}}
-          />
-        </template>,
-      );
-      // then
-      assert
-        .dom(screen.queryByLabelText(t('pages.campaign-creation.landing-page-text.label'), { exact: false }))
-        .doesNotExist();
-    });
-    test('should not display hide landing page until user select a course', async function () {
       // when
       const screen = await render(
         <template>
