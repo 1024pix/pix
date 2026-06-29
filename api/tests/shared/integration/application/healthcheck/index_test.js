@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 
-import { healthcheckController as healthCheckController } from '../../../../src/shared/application/healthcheck/healthcheck-controller.js';
-import { healthcheckRoute as moduleUnderTest } from '../../../../src/shared/application/healthcheck/index.js';
-import { expect } from '../../../test-helper.js';
-import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
+import { healthcheckController as healthCheckController } from '../../../../../src/shared/application/healthcheck/healthcheck-controller.js';
+import { healthcheckRoute as moduleUnderTest } from '../../../../../src/shared/application/healthcheck/index.js';
+import { expect } from '../../../../test-helper.js';
+import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Application | Route | healthcheckRouter', function () {
   let httpTestServer;
