@@ -14,7 +14,7 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
     server = await createServer();
   });
 
-  describe('PUT /admin/users/{id}/unblock', function () {
+  describe('PUT /api/admin/users/{id}/unblock', function () {
     it('unblocks user how has tried to many wrong password', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
@@ -43,9 +43,10 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
   });
 
   describe('GET /api/admin/users', function () {
-    let requestOptions;
+    let superAdmin;
 
     beforeEach(async function () {
+      superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.factory.buildUser({ firstName: 'Ann' });
       await databaseBuilder.factory.buildUser({ firstName: 'Anne' });
       await databaseBuilder.factory.buildUser({ firstName: 'Annie' });
@@ -53,23 +54,63 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
       await databaseBuilder.commit();
     });
 
+    it('should return a 200 status code response with JSON API serialized', async function () {
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: '/api/admin/users',
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.have.lengthOf(5);
+      expect(response.result.data[0].type).to.equal('users');
+      expect(response.result.meta).to.deep.equal({ page: 1, pageSize: 10, rowCount: 5, pageCount: 1 });
+    });
+
+    it('should return a 200 status code with paginated and filtered data', async function () {
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: '/api/admin/users?filter[firstName]=annie&page[number]=1&page[size]=1',
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.meta).to.deep.equal({ page: 1, pageSize: 1, rowCount: 1, pageCount: 1 });
+      expect(response.result.data).to.have.lengthOf(1);
+      expect(response.result.data[0].type).to.equal('users');
+    });
+
+    it('should return a 200 status code with empty result', async function () {
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: '/api/admin/users?filter[firstName]=foo&page[number]=1&page[size]=1',
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.meta).to.deep.equal({ page: 1, pageSize: 1, rowCount: 0, pageCount: 0 });
+      expect(response.result.data).to.have.lengthOf(0);
+    });
+
     context('When EXACT_QUERY type is settled', function () {
       context('When filters match a list of users', function () {
         it('retrieves this list of users', async function () {
           // given
-          const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-          await databaseBuilder.commit();
-
           const params =
             '?filter[firstName]=Ann' + '&page[number]=1&page[size]=25' + `&queryType=${QUERY_TYPES.EXACT_QUERY}`;
 
-          requestOptions = {
+          // when
+          const response = await server.inject({
             method: 'GET',
             url: `/api/admin/users${params}`,
             headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
-          };
-          // when
-          const response = await server.inject(requestOptions);
+          });
 
           // then
           const { result, statusCode } = response;
@@ -83,23 +124,55 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
       context('When filters match a list of users', function () {
         it('retrieves this list of users', async function () {
           // given
-          const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-          await databaseBuilder.commit();
-
           const params =
             '?filter[firstName]=Ann' + '&page[number]=1&page[size]=25' + `&queryType=${QUERY_TYPES.CONTAINS}`;
 
-          requestOptions = {
+          // when
+          const response = await server.inject({
             method: 'GET',
             url: `/api/admin/users${params}`,
             headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
-          };
-          // when
-          const response = await server.inject(requestOptions);
+          });
+
           // then
           const { result, statusCode } = response;
           expect(statusCode).to.equal(200);
           expect(result.data).to.have.lengthOf(3);
+        });
+      });
+    });
+
+    describe('When user is not authenticated', function () {
+      it('should respond with a 401 - unauthorized access', function () {
+        // given
+        // when
+        const promise = server.inject({
+          method: 'GET',
+          url: `/api/admin/users`,
+        });
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+    });
+
+    describe('When user has not role Super Admin', function () {
+      it('should respond with a 403 - forbidden access', function () {
+        // given
+        const nonSuperAdminUserId = 9999;
+
+        // when
+        const promise = server.inject({
+          method: 'GET',
+          url: `/api/admin/users`,
+          headers: generateAuthenticatedUserRequestHeaders({ userId: nonSuperAdminUserId }),
+        });
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
         });
       });
     });
@@ -202,7 +275,7 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
     });
   });
 
-  describe('GET /admin/users/{id}', function () {
+  describe('GET /api/admin/users/{id}', function () {
     let clock;
 
     beforeEach(async function () {
@@ -369,7 +442,7 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
     });
   });
 
-  describe('POST /admin/users/{id}/anonymize', function () {
+  describe('POST /api/admin/users/{id}/anonymize', function () {
     let superAdmin;
     let response;
     let userId;
