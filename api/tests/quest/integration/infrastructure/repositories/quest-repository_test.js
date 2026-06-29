@@ -16,6 +16,7 @@ describe('Quest | Integration | Repository | quest', function () {
         updatedAt: null,
         rewardType: REWARD_TYPES.ATTESTATION,
         rewardId: 1,
+        rewardRequirementsDescription: null,
         eligibilityRequirements: [],
         successRequirements: [],
       });
@@ -38,6 +39,7 @@ describe('Quest | Integration | Repository | quest', function () {
         createdAt,
         updatedAt: createdAt,
         rewardId: oldRewardId,
+        rewardRequirementsDescription: 'old description',
         eligibilityRequirements: [],
         successRequirements: [],
       });
@@ -46,6 +48,7 @@ describe('Quest | Integration | Repository | quest', function () {
         id: 1,
         rewardType: REWARD_TYPES.ATTESTATION,
         rewardId: newRewardId,
+        rewardRequirementsDescription: 'new description',
         eligibilityRequirements: [],
         successRequirements: [],
       });
@@ -63,6 +66,7 @@ describe('Quest | Integration | Repository | quest', function () {
       expect(resultQuest.createdAt.toString()).to.equal(createdAt.toString());
       expect(resultQuest.updatedAt).to.not.equal(questInDatabase.updatedAt);
       expect(resultQuest.rewardId).to.equal(newRewardId);
+      expect(resultQuest.rewardRequirementsDescription).to.equal('new description');
     });
   });
 

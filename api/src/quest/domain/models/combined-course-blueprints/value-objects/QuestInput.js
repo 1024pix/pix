@@ -54,13 +54,15 @@ const schema = Joi.object({
       otherwise: undefined,
     })
     .allow(null),
+  rewardRequirementsDescription: Joi.string().allow(null),
 });
 
 export class QuestInput {
-  constructor({ items, rewardId, rewardType, cappedTubeRequirements = [] } = {}) {
+  constructor({ items, rewardId, rewardType, rewardRequirementsDescription, cappedTubeRequirements = [] } = {}) {
     this.items = items;
     this.rewardId = rewardId;
     this.rewardType = rewardType;
+    this.rewardRequirementsDescription = rewardRequirementsDescription;
     this.cappedTubeRequirements = cappedTubeRequirements;
     this.#validate();
   }
@@ -97,6 +99,7 @@ export class QuestInput {
       successRequirements,
       rewardId: this.rewardId,
       rewardType: this.rewardType,
+      rewardRequirementsDescription: this.rewardRequirementsDescription,
     });
   }
 

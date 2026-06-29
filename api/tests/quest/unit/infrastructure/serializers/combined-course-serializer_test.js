@@ -18,6 +18,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
       combinedCourseItems: [{ campaignId: 1 }, { moduleId: 7 }],
       rewardId: 456,
       rewardType: REWARD_TYPES.ATTESTATION,
+      rewardRequirementsDescription: 'Description of reward requirements',
       baseSurveyUrl: 'http://link.to/survey',
     });
     await combinedCourseDetails.setEncryptedUrl();
@@ -75,6 +76,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
           attributes: {
             status: CombinedCourseRewardStatuses.OBTAINED,
             type: REWARD_TYPES.ATTESTATION,
+            'reward-requirements-description': 'Description of reward requirements',
             label: 'rewardLabel',
             'template-name': 'template-name',
             data: { id: 456, key: 'key', label: 'rewardLabel', obtainedAt, templateName: 'template-name' },

@@ -78,6 +78,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
         id: quest.id,
         rewardId: quest.rewardId,
         rewardType: quest.rewardType,
+        rewardRequirementsDescription: null,
         updatedAt: quest.updatedAt,
       },
     });
@@ -132,6 +133,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
         id: quest.id,
         rewardId: quest.rewardId,
         rewardType: quest.rewardType,
+        rewardRequirementsDescription: null,
         updatedAt: quest.updatedAt,
       },
     });
@@ -186,6 +188,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
         id: quest.id,
         rewardId: quest.rewardId,
         rewardType: quest.rewardType,
+        rewardRequirementsDescription: null,
         updatedAt: quest.updatedAt,
       },
     });

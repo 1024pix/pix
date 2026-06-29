@@ -29,6 +29,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
       combinedCourseItems: [{ campaignId: 2 }],
       rewardType: 'attestations',
       rewardId: 1,
+      rewardRequirementsDescription: 'Texte',
     });
     const attestationDetails = domainBuilder.buildAttestationUserDetail({
       obtainedAt: null,
@@ -46,6 +47,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
     expect(combinedCourseReward.label).equal('label TEST');
     expect(combinedCourseReward.templateName).equal('template-name');
     expect(combinedCourseReward.data).to.contains({ attestationKey: attestationDetails.attestationKey });
+    expect(combinedCourseReward.rewardRequirementsDescription).to.equal('Texte');
   });
 
   describe('#status', function () {

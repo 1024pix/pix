@@ -30,6 +30,7 @@ function buildCombinedCourseDetails({
   rewardId = null,
   rewardType = null,
   baseSurveyUrl,
+  rewardRequirementsDescription = null,
 } = {}) {
   const combinedCourse = buildCombinedCourse({ name, code, organizationId, questId, baseSurveyUrl });
 
@@ -69,6 +70,7 @@ function buildCombinedCourseDetails({
     rewardType,
     eligibilityRequirements: [],
     successRequirements: successRequirementsFromContents,
+    rewardRequirementsDescription: rewardRequirementsDescription,
   });
 
   const combinedCourseDetails = new CombinedCourseDetails(combinedCourse, quest, cryptoService);

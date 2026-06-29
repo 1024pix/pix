@@ -292,7 +292,16 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: expectedCombinedCourseBlueprint.organizationIds,
       });
-      expect(result.quest.toDTO()).to.deep.equal(quest);
+      expect(result.quest.toDTO()).to.deep.equal({
+        createdAt: quest.createdAt,
+        eligibilityRequirements: [],
+        successRequirements: [],
+        id: quest.id,
+        rewardId: quest.rewardId,
+        rewardType: quest.rewardType,
+        rewardRequirementsDescription: null,
+        updatedAt: quest.updatedAt,
+      });
     });
 
     it('should return combined course blueprint by its id when it is not shared', async function () {
@@ -318,7 +327,16 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: [],
       });
-      expect(result.quest.toDTO()).to.deep.equal(quest);
+      expect(result.quest.toDTO()).to.deep.equal({
+        createdAt: quest.createdAt,
+        eligibilityRequirements: [],
+        successRequirements: [],
+        id: quest.id,
+        rewardId: quest.rewardId,
+        rewardType: quest.rewardType,
+        rewardRequirementsDescription: null,
+        updatedAt: quest.updatedAt,
+      });
     });
 
     it('should return null when no results are found', async function () {
