@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import EligibleDoubleCertificationBanner from 'mon-pix/components/certification-banners/eligible-double-certification-banner';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -16,11 +16,10 @@ module('Integration | Component | Certification Banners | Eligible Double Certif
         isBadgeValid: true,
         validatedDoubleCertification: false,
       };
-      this.set('doubleCertification', doubleCertification);
 
       // when
       const screen = await render(
-        hbs`<CertificationBanners::EligibleDoubleCertificationBanner @doubleCertification={{this.doubleCertification}} />`,
+        <template><EligibleDoubleCertificationBanner @doubleCertification={{doubleCertification}} /></template>,
       );
 
       // then
