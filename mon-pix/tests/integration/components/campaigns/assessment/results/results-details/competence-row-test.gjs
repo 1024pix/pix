@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import CompetenceRow from 'mon-pix/components/campaigns/assessment/results/evaluation-results-tabs/results-details/competence-row';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
@@ -9,9 +9,9 @@ module(
   function (hooks) {
     setupIntlRenderingTest(hooks);
 
-    let screen;
+    const state = {};
 
-    hooks.beforeEach(async function () {
+    hooks.beforeEach(function () {
       const store = this.owner.lookup('service:store');
       this.owner.register('service:store', store);
 
@@ -23,19 +23,16 @@ module(
         masteryPercentage: 50,
       });
 
-      this.set('competenceResult', competenceResult);
-      this.set('total', null);
-
-      // when
-      screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::ResultsDetails::CompetenceRow
-  @competence={{this.competenceResult}}
-  @total={{this.total}}
-/>`,
-      );
+      state.competence = competenceResult;
+      state.total = null;
     });
 
     test('it should render competence content', async function (assert) {
+      // when
+      const screen = await render(
+        <template><CompetenceRow @competence={{state.competence}} @total={{state.total}} /></template>,
+      );
+
       // then
       assert.strictEqual(
         screen.getByRole('presentation').getAttribute('src'),
@@ -48,6 +45,11 @@ module(
 
     module('when there is no total stages count', function () {
       test('it should not display stars', async function (assert) {
+        // when
+        const screen = await render(
+          <template><CompetenceRow @competence={{state.competence}} @total={{state.total}} /></template>,
+        );
+
         // then
         assert.dom(screen.queryByText('1 étoile acquise sur 3')).doesNotExist();
       });
@@ -56,7 +58,12 @@ module(
     module('when there is a total stages count', function () {
       test('it should display stars', async function (assert) {
         // given
-        this.set('total', 3);
+        state.total = 3;
+
+        // when
+        const screen = await render(
+          <template><CompetenceRow @competence={{state.competence}} @total={{state.total}} /></template>,
+        );
 
         // then
         assert.dom(screen.getByText('1 étoile acquise sur 3')).exists();
