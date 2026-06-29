@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import PixToggleDeprecated from 'mon-pix/components/pix-toggle-deprecated';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -10,17 +10,18 @@ module('Integration | Component | pix-toggle-deprecated', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(async function () {
-    this.set('valueFirstLabel', 'valueFirstLabel');
-    this.set('valueSecondLabel', 'valueSecondLabel');
-    this.set('onToggle', function () {});
-    this.set('isFirstOn', 'true');
+    const valueFirstLabel = 'valueFirstLabel';
+    const valueSecondLabel = 'valueSecondLabel';
+    const onToggle = function () {};
 
     await render(
-      hbs`<PixToggleDeprecated
-  @onToggle={{this.onToggle}}
-  @valueFirstLabel={{this.valueFirstLabel}}
-  @valueSecondLabel={{this.valueSecondLabel}}
-/>`,
+      <template>
+        <PixToggleDeprecated
+          @onToggle={{onToggle}}
+          @valueFirstLabel={{valueFirstLabel}}
+          @valueSecondLabel={{valueSecondLabel}}
+        />
+      </template>,
     );
   });
 
