@@ -9,6 +9,7 @@ import { getBaseLocale } from '../../domain/services/locale-service.js';
 import * as network from '../../infrastructure/utils/network.js';
 import { redisMonitor } from '../../infrastructure/utils/redis-monitor.js';
 import { getChallengeLocale } from '../../infrastructure/utils/request-response-utils.js';
+import { featureToggles } from "../../infrastructure/feature-toggles/index.js";
 
 const get = function (request) {
   const locale = getChallengeLocale(request);
@@ -57,7 +58,15 @@ const checkForwardedOriginStatus = async function (request, h) {
   return h.response(forwardedOrigin).code(200);
 };
 
-const checkOsStatus = function () {
+const checkOsStatus = async function (_request, h) {
+  const isOsHealthcheckEnabled = await featureToggles.get(
+    "isOsHealthcheckEnabled",
+  );
+
+  if (!isOsHealthcheckEnabled) {
+    return h.response({}).code(404);
+  }
+
   return {
     type: os.type(),
     version: os.version(),
