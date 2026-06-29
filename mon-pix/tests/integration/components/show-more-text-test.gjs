@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ShowMoreText from 'mon-pix/components/show-more-text';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -13,13 +13,17 @@ module('Integration | Component | ShowMoreText', function (hooks) {
     let screen;
 
     hooks.beforeEach(async function () {
-      screen = await render(hbs`{{! template-lint-disable no-bare-strings }}
-<ShowMoreText>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget ultrices ultricies, nunc nisi
-    aliquam nisi, eu tincidunt nisl nisl eu nisl. Sed euismod, nisl eget ultrices ultricies, nunc nisi aliquam nisi, eu
-    tincidunt nisl nisl eu nisl. Sed euismod, nisl eget ultrices ultricies, nunc nisi aliquam nisi, eu tincidunt nisl
-    nisl eu nisl.</p>
-</ShowMoreText>`);
+      screen = await render(
+        <template>
+          {{! template-lint-disable no-bare-strings }}
+          <ShowMoreText>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget ultrices ultricies,
+              nunc nisi aliquam nisi, eu tincidunt nisl nisl eu nisl. Sed euismod, nisl eget ultrices ultricies, nunc
+              nisi aliquam nisi, eu tincidunt nisl nisl eu nisl. Sed euismod, nisl eget ultrices ultricies, nunc nisi
+              aliquam nisi, eu tincidunt nisl nisl eu nisl.</p>
+          </ShowMoreText>
+        </template>,
+      );
     });
 
     test('it should shrink text', async function (assert) {
@@ -54,10 +58,14 @@ module('Integration | Component | ShowMoreText', function (hooks) {
     let screen;
 
     hooks.beforeEach(async function () {
-      screen = await render(hbs`{{! template-lint-disable no-bare-strings }}
-<ShowMoreText>
-  <p>Lorem ipsum</p>
-</ShowMoreText>`);
+      screen = await render(
+        <template>
+          {{! template-lint-disable no-bare-strings }}
+          <ShowMoreText>
+            <p>Lorem ipsum</p>
+          </ShowMoreText>
+        </template>,
+      );
     });
 
     test('it should not shrink text', async function (assert) {
