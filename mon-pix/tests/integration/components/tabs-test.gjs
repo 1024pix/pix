@@ -1,10 +1,12 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, tab } from '@ember/test-helpers';
 import userEvent from '@testing-library/user-event';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Tabs from 'mon-pix/components/tabs';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+const state = {};
 
 module('Integration | Component | Tabs', function (hooks) {
   setupRenderingTest(hooks);
@@ -13,28 +15,32 @@ module('Integration | Component | Tabs', function (hooks) {
     let screen;
 
     hooks.beforeEach(async function () {
-      this.handleTabChange = sinon.spy();
+      state.handleTabChange = sinon.spy();
 
-      screen = await render(hbs`{{! template-lint-disable no-bare-strings }}
-<Tabs @ariaLabel='Sample tabs' @onTabChange={{this.handleTabChange}}>
-  <:tabs as |Tab|>
-    <Tab @index={{0}}>First tab label</Tab>
-    <Tab @index={{1}}>Second tab label</Tab>
-    <Tab @index={{2}}>Third tab label</Tab>
-  </:tabs>
+      screen = await render(
+        <template>
+          {{! template-lint-disable no-bare-strings }}
+          <Tabs @ariaLabel="Sample tabs" @onTabChange={{state.handleTabChange}}>
+            <:tabs as |Tab|>
+              <Tab @index={{0}}>First tab label</Tab>
+              <Tab @index={{1}}>Second tab label</Tab>
+              <Tab @index={{2}}>Third tab label</Tab>
+            </:tabs>
 
-  <:panels as |Panel|>
-    <Panel @index={{0}}>
-      <h2>First panel</h2>
-    </Panel>
-    <Panel @index={{1}}>
-      <h2>Second panel</h2>
-    </Panel>
-    <Panel @index={{2}}>
-      <h2>Third panel</h2>
-    </Panel>
-  </:panels>
-</Tabs>`);
+            <:panels as |Panel|>
+              <Panel @index={{0}}>
+                <h2>First panel</h2>
+              </Panel>
+              <Panel @index={{1}}>
+                <h2>Second panel</h2>
+              </Panel>
+              <Panel @index={{2}}>
+                <h2>Third panel</h2>
+              </Panel>
+            </:panels>
+          </Tabs>
+        </template>,
+      );
     });
 
     module('on first render', function () {
@@ -68,8 +74,8 @@ module('Integration | Component | Tabs', function (hooks) {
 
         assert.dom(screen.getByText('Second panel')).exists();
 
-        assert.ok(this.handleTabChange.calledOnce);
-        assert.ok(this.handleTabChange.calledWith(1));
+        assert.ok(state.handleTabChange.calledOnce);
+        assert.ok(state.handleTabChange.calledWith(1));
       });
     });
 
@@ -87,8 +93,8 @@ module('Integration | Component | Tabs', function (hooks) {
 
         assert.dom(screen.getByText('Second panel')).exists();
 
-        assert.ok(this.handleTabChange.calledOnce);
-        assert.ok(this.handleTabChange.calledWith(1));
+        assert.ok(state.handleTabChange.calledOnce);
+        assert.ok(state.handleTabChange.calledWith(1));
       });
     });
 
@@ -157,26 +163,30 @@ module('Integration | Component | Tabs', function (hooks) {
   module('with initialTabIndex', function () {
     test('it renders the tab with the given initial index', async function (assert) {
       // when
-      const screen = await render(hbs`{{! template-lint-disable no-bare-strings }}
-<Tabs @ariaLabel='Sample tabs' @initialTabIndex={{1}}>
-  <:tabs as |Tab|>
-    <Tab @index={{0}}>First tab label</Tab>
-    <Tab @index={{1}}>Second tab label</Tab>
-    <Tab @index={{2}}>Third tab label</Tab>
-  </:tabs>
+      const screen = await render(
+        <template>
+          {{! template-lint-disable no-bare-strings }}
+          <Tabs @ariaLabel="Sample tabs" @initialTabIndex={{1}}>
+            <:tabs as |Tab|>
+              <Tab @index={{0}}>First tab label</Tab>
+              <Tab @index={{1}}>Second tab label</Tab>
+              <Tab @index={{2}}>Third tab label</Tab>
+            </:tabs>
 
-  <:panels as |Panel|>
-    <Panel @index={{0}}>
-      <h2>First panel</h2>
-    </Panel>
-    <Panel @index={{1}}>
-      <h2>Second panel</h2>
-    </Panel>
-    <Panel @index={{2}}>
-      <h2>Third panel</h2>
-    </Panel>
-  </:panels>
-</Tabs>`);
+            <:panels as |Panel|>
+              <Panel @index={{0}}>
+                <h2>First panel</h2>
+              </Panel>
+              <Panel @index={{1}}>
+                <h2>Second panel</h2>
+              </Panel>
+              <Panel @index={{2}}>
+                <h2>Third panel</h2>
+              </Panel>
+            </:panels>
+          </Tabs>
+        </template>,
+      );
 
       // then
       assert.dom(screen.getByRole('tab', { name: 'First tab label' })).hasAttribute('aria-selected', 'false');
@@ -192,26 +202,30 @@ module('Integration | Component | Tabs', function (hooks) {
     module('when the first tab is fully visible', function () {
       test('it renders only the right arrow button on the tablist', async function (assert) {
         // when
-        const screen = await render(hbs`{{! template-lint-disable no-bare-strings }}
-<Tabs @ariaLabel='Sample tabs' @initialTabIndex={{0}}>
-  <:tabs as |Tab|>
-    <Tab @index={{0}}>First tab label First tab label First tab label</Tab>
-    <Tab @index={{1}}>Second tab label Second tab label Second tab label</Tab>
-    <Tab @index={{2}}>Third tab label Third tab label Third tab label</Tab>
-  </:tabs>
+        const screen = await render(
+          <template>
+            {{! template-lint-disable no-bare-strings }}
+            <Tabs @ariaLabel="Sample tabs" @initialTabIndex={{0}}>
+              <:tabs as |Tab|>
+                <Tab @index={{0}}>First tab label First tab label First tab label</Tab>
+                <Tab @index={{1}}>Second tab label Second tab label Second tab label</Tab>
+                <Tab @index={{2}}>Third tab label Third tab label Third tab label</Tab>
+              </:tabs>
 
-  <:panels as |Panel|>
-    <Panel @index={{0}}>
-      <h2>First panel</h2>
-    </Panel>
-    <Panel @index={{1}}>
-      <h2>Second panel</h2>
-    </Panel>
-    <Panel @index={{2}}>
-      <h2>Third panel</h2>
-    </Panel>
-  </:panels>
-</Tabs>`);
+              <:panels as |Panel|>
+                <Panel @index={{0}}>
+                  <h2>First panel</h2>
+                </Panel>
+                <Panel @index={{1}}>
+                  <h2>Second panel</h2>
+                </Panel>
+                <Panel @index={{2}}>
+                  <h2>Third panel</h2>
+                </Panel>
+              </:panels>
+            </Tabs>
+          </template>,
+        );
 
         await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for the render to finish
 
@@ -224,26 +238,30 @@ module('Integration | Component | Tabs', function (hooks) {
     module('when the scroll is not at edges', function () {
       test('it renders the left and right arrow buttons on the tablist', async function (assert) {
         // when
-        const screen = await render(hbs`{{! template-lint-disable no-bare-strings }}
-<Tabs @ariaLabel='Sample tabs' @initialTabIndex={{1}}>
-  <:tabs as |Tab|>
-    <Tab @index={{0}}>First tab label First tab label First tab label</Tab>
-    <Tab @index={{1}}>Second tab label Second tab label Second tab label</Tab>
-    <Tab @index={{2}}>Third tab label Third tab label Third tab label</Tab>
-  </:tabs>
+        const screen = await render(
+          <template>
+            {{! template-lint-disable no-bare-strings }}
+            <Tabs @ariaLabel="Sample tabs" @initialTabIndex={{1}}>
+              <:tabs as |Tab|>
+                <Tab @index={{0}}>First tab label First tab label First tab label</Tab>
+                <Tab @index={{1}}>Second tab label Second tab label Second tab label</Tab>
+                <Tab @index={{2}}>Third tab label Third tab label Third tab label</Tab>
+              </:tabs>
 
-  <:panels as |Panel|>
-    <Panel @index={{0}}>
-      <h2>First panel</h2>
-    </Panel>
-    <Panel @index={{1}}>
-      <h2>Second panel</h2>
-    </Panel>
-    <Panel @index={{2}}>
-      <h2>Third panel</h2>
-    </Panel>
-  </:panels>
-</Tabs>`);
+              <:panels as |Panel|>
+                <Panel @index={{0}}>
+                  <h2>First panel</h2>
+                </Panel>
+                <Panel @index={{1}}>
+                  <h2>Second panel</h2>
+                </Panel>
+                <Panel @index={{2}}>
+                  <h2>Third panel</h2>
+                </Panel>
+              </:panels>
+            </Tabs>
+          </template>,
+        );
 
         await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for the render to finish
 
@@ -257,26 +275,30 @@ module('Integration | Component | Tabs', function (hooks) {
     module('when the last tab is fully visible', function () {
       test('it renders only the left arrow button on the tablist', async function (assert) {
         // when
-        const screen = await render(hbs`{{! template-lint-disable no-bare-strings }}
-<Tabs @ariaLabel='Sample tabs' @initialTabIndex={{2}}>
-  <:tabs as |Tab|>
-    <Tab @index={{0}}>First tab label First tab label First tab label</Tab>
-    <Tab @index={{1}}>Second tab label Second tab label Second tab label</Tab>
-    <Tab @index={{2}}>Third tab label Third tab label Third tab label</Tab>
-  </:tabs>
+        const screen = await render(
+          <template>
+            {{! template-lint-disable no-bare-strings }}
+            <Tabs @ariaLabel="Sample tabs" @initialTabIndex={{2}}>
+              <:tabs as |Tab|>
+                <Tab @index={{0}}>First tab label First tab label First tab label</Tab>
+                <Tab @index={{1}}>Second tab label Second tab label Second tab label</Tab>
+                <Tab @index={{2}}>Third tab label Third tab label Third tab label</Tab>
+              </:tabs>
 
-  <:panels as |Panel|>
-    <Panel @index={{0}}>
-      <h2>First panel</h2>
-    </Panel>
-    <Panel @index={{1}}>
-      <h2>Second panel</h2>
-    </Panel>
-    <Panel @index={{2}}>
-      <h2>Third panel</h2>
-    </Panel>
-  </:panels>
-</Tabs>`);
+              <:panels as |Panel|>
+                <Panel @index={{0}}>
+                  <h2>First panel</h2>
+                </Panel>
+                <Panel @index={{1}}>
+                  <h2>Second panel</h2>
+                </Panel>
+                <Panel @index={{2}}>
+                  <h2>Third panel</h2>
+                </Panel>
+              </:panels>
+            </Tabs>
+          </template>,
+        );
 
         await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for the render to finish
 
@@ -289,26 +311,30 @@ module('Integration | Component | Tabs', function (hooks) {
     module('on right arrow button click', function () {
       test('it scrolls right', async function (assert) {
         // when
-        const screen = await render(hbs`{{! template-lint-disable no-bare-strings }}
-<Tabs @ariaLabel='Sample tabs' @initialTabIndex={{0}}>
-  <:tabs as |Tab|>
-    <Tab @index={{0}}>First tab label First tab label First tab label</Tab>
-    <Tab @index={{1}}>Second tab label Second tab label Second tab label</Tab>
-    <Tab @index={{2}}>Third tab label Third tab label Third tab label</Tab>
-  </:tabs>
+        const screen = await render(
+          <template>
+            {{! template-lint-disable no-bare-strings }}
+            <Tabs @ariaLabel="Sample tabs" @initialTabIndex={{0}}>
+              <:tabs as |Tab|>
+                <Tab @index={{0}}>First tab label First tab label First tab label</Tab>
+                <Tab @index={{1}}>Second tab label Second tab label Second tab label</Tab>
+                <Tab @index={{2}}>Third tab label Third tab label Third tab label</Tab>
+              </:tabs>
 
-  <:panels as |Panel|>
-    <Panel @index={{0}}>
-      <h2>First panel</h2>
-    </Panel>
-    <Panel @index={{1}}>
-      <h2>Second panel</h2>
-    </Panel>
-    <Panel @index={{2}}>
-      <h2>Third panel</h2>
-    </Panel>
-  </:panels>
-</Tabs>`);
+              <:panels as |Panel|>
+                <Panel @index={{0}}>
+                  <h2>First panel</h2>
+                </Panel>
+                <Panel @index={{1}}>
+                  <h2>Second panel</h2>
+                </Panel>
+                <Panel @index={{2}}>
+                  <h2>Third panel</h2>
+                </Panel>
+              </:panels>
+            </Tabs>
+          </template>,
+        );
 
         await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for the render to finish
 
@@ -325,26 +351,30 @@ module('Integration | Component | Tabs', function (hooks) {
     module('on left arrow button click', function () {
       test('it scrolls left', async function (assert) {
         // when
-        const screen = await render(hbs`{{! template-lint-disable no-bare-strings }}
-<Tabs @ariaLabel='Sample tabs' @initialTabIndex={{1}}>
-  <:tabs as |Tab|>
-    <Tab @index={{0}}>First tab label First tab label First tab label</Tab>
-    <Tab @index={{1}}>Second tab label Second tab label Second tab label</Tab>
-    <Tab @index={{2}}>Third tab label Third tab label Third tab label</Tab>
-  </:tabs>
+        const screen = await render(
+          <template>
+            {{! template-lint-disable no-bare-strings }}
+            <Tabs @ariaLabel="Sample tabs" @initialTabIndex={{1}}>
+              <:tabs as |Tab|>
+                <Tab @index={{0}}>First tab label First tab label First tab label</Tab>
+                <Tab @index={{1}}>Second tab label Second tab label Second tab label</Tab>
+                <Tab @index={{2}}>Third tab label Third tab label Third tab label</Tab>
+              </:tabs>
 
-  <:panels as |Panel|>
-    <Panel @index={{0}}>
-      <h2>First panel</h2>
-    </Panel>
-    <Panel @index={{1}}>
-      <h2>Second panel</h2>
-    </Panel>
-    <Panel @index={{2}}>
-      <h2>Third panel</h2>
-    </Panel>
-  </:panels>
-</Tabs>`);
+              <:panels as |Panel|>
+                <Panel @index={{0}}>
+                  <h2>First panel</h2>
+                </Panel>
+                <Panel @index={{1}}>
+                  <h2>Second panel</h2>
+                </Panel>
+                <Panel @index={{2}}>
+                  <h2>Third panel</h2>
+                </Panel>
+              </:panels>
+            </Tabs>
+          </template>,
+        );
 
         await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for the render to finish
 
