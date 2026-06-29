@@ -1,9 +1,9 @@
-import { getCompetenceLevel } from '../../../../src/evaluation/domain/services/get-competence-level.js';
-import { improveCompetenceEvaluation } from '../../../../src/evaluation/domain/usecases/improve-competence-evaluation.js';
-import * as competenceEvaluationRepository from '../../../../src/evaluation/infrastructure/repositories/competence-evaluation-repository.js';
-import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import { expect } from '../../../test-helper.js';
-import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { getCompetenceLevel } from '../../../../../src/evaluation/domain/services/get-competence-level.js';
+import { improveCompetenceEvaluation } from '../../../../../src/evaluation/domain/usecases/improve-competence-evaluation.js';
+import * as competenceEvaluationRepository from '../../../../../src/evaluation/infrastructure/repositories/competence-evaluation-repository.js';
+import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
+import { expect } from '../../../../test-helper.js';
+import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | UseCase | Improve Competence Evaluation', function () {
   const competenceId = 'recCompetenceId';
