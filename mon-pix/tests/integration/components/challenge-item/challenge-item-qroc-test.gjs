@@ -1,6 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ChallengeItemQroc from 'mon-pix/components/challenge-item/challenge-item-qroc';
 import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -10,24 +10,24 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Challenge item QROC', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  const state = {};
+
   hooks.beforeEach(function () {
-    this.set('assessment', {
+    state.assessment = {
       hasTimeoutChallenge: false,
-    });
+    };
   });
 
   test('should render the form', async function (assert) {
-    this.set('challenge', {
+    const challenge = {
       timer: false,
-    });
-    this.set('answer', null);
+    };
+    const answer = null;
 
     await render(
-      hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-/>`,
+      <template>
+        <ChallengeItemQroc @challenge={{challenge}} @answer={{answer}} @assessment={{state.assessment}} />
+      </template>,
     );
 
     assert.dom('.qroc-proposal').exists();
@@ -36,20 +36,18 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
   module('When format is a paragraph', function () {
     test('should display a textarea', async function (assert) {
       // given
-      this.set('challenge', {
+      const challenge = {
         timer: false,
         format: 'paragraphe',
         proposals: 'mon label: ${myInput}',
-      });
-      this.set('answer', {});
+      };
+      const answer = {};
 
       // when
       const screen = await render(
-        hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-/>`,
+        <template>
+          <ChallengeItemQroc @challenge={{challenge}} @answer={{answer}} @assessment={{state.assessment}} />
+        </template>,
       );
 
       // then
@@ -60,20 +58,18 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
   module('When format is a sentence', function () {
     test('should display an input', async function (assert) {
       // given
-      this.set('challenge', {
+      const challenge = {
         timer: false,
         format: 'phrase',
         proposals: 'mon label: ${myInput}',
-      });
-      this.set('answer', {});
+      };
+      const answer = {};
 
       // when
       const screen = await render(
-        hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-/>`,
+        <template>
+          <ChallengeItemQroc @challenge={{challenge}} @answer={{answer}} @assessment={{state.assessment}} />
+        </template>,
       );
 
       // then
@@ -85,20 +81,18 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
   module('When format is a number', function () {
     test('should display an input with number type', async function (assert) {
       // given
-      this.set('challenge', {
+      const challenge = {
         timer: false,
         format: 'nombre',
         proposals: 'mon label: ${myInput}',
-      });
-      this.set('answer', {});
+      };
+      const answer = {};
 
       // when
       const screen = await render(
-        hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-/>`,
+        <template>
+          <ChallengeItemQroc @challenge={{challenge}} @answer={{answer}} @assessment={{state.assessment}} />
+        </template>,
       );
 
       // then
@@ -115,20 +109,18 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
     ].forEach((data) => {
       test(`should display an input with expected size (${data.expectedSize}) when format is ${data.format}`, async function (assert) {
         // given
-        this.set('challenge', {
+        const challenge = {
           timer: false,
           format: data.format,
           proposals: 'mon label: ${myInput}',
-        });
-        this.set('answer', {});
+        };
+        const answer = {};
 
         // when
         const screen = await render(
-          hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-/>`,
+          <template>
+            <ChallengeItemQroc @challenge={{challenge}} @answer={{answer}} @assessment={{state.assessment}} />
+          </template>,
         );
 
         // then
@@ -148,20 +140,18 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
       module(`Component behavior when the user clicks on the ${data.inputType}:`, function () {
         test('should not display autocompletion answers', async function (assert) {
           // given
-          this.set('challenge', {
+          const challenge = {
             timer: false,
             format: data.format,
             proposals: 'mon label: ${myInput}',
-          });
-          this.set('answer', { value: '' });
+          };
+          const answer = { value: '' };
 
           // when
           const screen = await render(
-            hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-/>`,
+            <template>
+              <ChallengeItemQroc @challenge={{challenge}} @answer={{answer}} @assessment={{state.assessment}} />
+            </template>,
           );
 
           // then
@@ -172,20 +162,18 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
       module('Component behavior when user fill input of challenge:', function () {
         test('should display a value when a non-empty value is providing by user', async function (assert) {
           // given
-          this.set('challenge', {
+          const challenge = {
             timer: false,
             format: data.format,
             proposals: 'mon label: ${myInput}',
-          });
-          this.set('answer', { value: 'myValue' });
+          };
+          const answer = { value: 'myValue' };
 
           // when
           const screen = await render(
-            hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-/>`,
+            <template>
+              <ChallengeItemQroc @challenge={{challenge}} @answer={{answer}} @assessment={{state.assessment}} />
+            </template>,
           );
 
           // then
@@ -206,20 +194,18 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
         ].forEach(({ input, output }) => {
           test(`should display '' value ${input} is providing to component`, async function (assert) {
             // given
-            this.set('challenge', {
+            const challenge = {
               timer: false,
               format: data.format,
               proposals: 'mon label: ${myInput}',
-            });
-            this.set('answer', { value: input });
+            };
+            const answer = { value: input };
 
             // when
             const screen = await render(
-              hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-/>`,
+              <template>
+                <ChallengeItemQroc @challenge={{challenge}} @answer={{answer}} @assessment={{state.assessment}} />
+              </template>,
             );
 
             // then
@@ -233,20 +219,18 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
   module('when default value is defined in proposals', function () {
     test('should prefill input with default value', async function (assert) {
       // given
-      this.set('challenge', {
+      const challenge = {
         timer: false,
         format: 'mots',
         proposals: 'mon label: ${myInput value="c\'est prérempli !!!"}',
-      });
-      this.set('answer', {});
+      };
+      const answer = {};
 
       // when
       const screen = await render(
-        hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-/>`,
+        <template>
+          <ChallengeItemQroc @challenge={{challenge}} @answer={{answer}} @assessment={{state.assessment}} />
+        </template>,
       );
 
       // then
@@ -255,20 +239,18 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
     test('should prefill number input with default value', async function (assert) {
       // given
-      this.set('challenge', {
+      const challenge = {
         timer: false,
         format: 'nombre',
         proposals: 'mon label: ${myInput value=42}',
-      });
-      this.set('answer', {});
+      };
+      const answer = {};
 
       // when
       const screen = await render(
-        hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-/>`,
+        <template>
+          <ChallengeItemQroc @challenge={{challenge}} @answer={{answer}} @assessment={{state.assessment}} />
+        </template>,
       );
 
       // then
@@ -279,21 +261,21 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
   module('when the challenge is an auto-reply embed', function (hooks) {
     const originalEmbedAllowedOrigins = ENV.APP.EMBED_ALLOWED_ORIGINS;
 
+    const embedState = {};
+
     hooks.beforeEach(function () {
       ENV.APP.EMBED_ALLOWED_ORIGINS = [
         'https://epreuves.pix.fr',
         'https://1024pix.github.io',
         'https://*.review.pix.fr',
       ];
-      this.set('challenge', {
+      embedState.challenge = {
         autoReply: true,
         id: 'rec_123',
         timer: false,
-      });
-      this.set('answer', null);
-      this.answerValidated = sinon.stub().resolves();
-      this.set('answerValidated', this.answerValidated);
-      this.set('resetAllChallengeInfo', sinon.stub());
+      };
+      embedState.answerValidated = sinon.stub().resolves();
+      embedState.resetAllChallengeInfo = sinon.stub();
     });
 
     hooks.afterEach(function () {
@@ -303,13 +285,15 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
     test('should not display the proposal', async function (assert) {
       // when
       const screen = await render(
-        hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-  @answerValidated={{this.answerValidated}}
-  @resetAllChallengeInfo={{this.resetAllChallengeInfo}}
-/>`,
+        <template>
+          <ChallengeItemQroc
+            @challenge={{embedState.challenge}}
+            @answer={{null}}
+            @assessment={{state.assessment}}
+            @answerValidated={{embedState.answerValidated}}
+            @resetAllChallengeInfo={{embedState.resetAllChallengeInfo}}
+          />
+        </template>,
       );
 
       // then
@@ -353,13 +337,15 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
         test(`should set the auto-reply answer from ${title}`, async function (assert) {
           // given
           await render(
-            hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-  @answerValidated={{this.answerValidated}}
-  @resetAllChallengeInfo={{this.resetAllChallengeInfo}}
-/>`,
+            <template>
+              <ChallengeItemQroc
+                @challenge={{embedState.challenge}}
+                @answer={{null}}
+                @assessment={{state.assessment}}
+                @answerValidated={{embedState.answerValidated}}
+                @resetAllChallengeInfo={{embedState.resetAllChallengeInfo}}
+              />
+            </template>,
           );
 
           // when
@@ -367,8 +353,8 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
           await clickByName(t('pages.challenge.actions.validate-go-to-next'));
 
           // then
-          assert.true(this.answerValidated.calledOnce);
-          assert.strictEqual(this.answerValidated.firstCall.args[2], expectedAnswer);
+          assert.true(embedState.answerValidated.calledOnce);
+          assert.strictEqual(embedState.answerValidated.firstCall.args[2], expectedAnswer);
         });
       });
     });
@@ -387,13 +373,15 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
         test(`should not set the auto-reply answer when ${title}`, async function (assert) {
           // given
           const screen = await render(
-            hbs`<ChallengeItem::ChallengeItemQroc
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-  @answerValidated={{this.answerValidated}}
-  @resetAllChallengeInfo={{this.resetAllChallengeInfo}}
-/>`,
+            <template>
+              <ChallengeItemQroc
+                @challenge={{embedState.challenge}}
+                @answer={{null}}
+                @assessment={{state.assessment}}
+                @answerValidated={{embedState.answerValidated}}
+                @resetAllChallengeInfo={{embedState.resetAllChallengeInfo}}
+              />
+            </template>,
           );
 
           // when
@@ -401,7 +389,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
           await clickByName(t('pages.challenge.actions.validate-go-to-next'));
 
           // then
-          assert.true(this.answerValidated.notCalled);
+          assert.true(embedState.answerValidated.notCalled);
           assert.dom(screen.getByText(t('pages.challenge.skip-error-message.qroc-auto-reply'))).exists();
         });
       });
