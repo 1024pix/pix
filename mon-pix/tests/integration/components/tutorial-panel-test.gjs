@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import TutorialPanel from 'mon-pix/components/tutorial-panel';
 import { module, test } from 'qunit';
 
 import { stubCurrentUserService } from '../../helpers/service-stubs';
@@ -13,11 +13,11 @@ module('Integration | Component | Tutorial Panel', function (hooks) {
   module('when there is no hint and no tutorial', function () {
     test('should not render the hint container', async function (assert) {
       // given
-      this.set('hint', null);
-      this.set('tutorials', null);
+      const hint = null;
+      const tutorials = null;
 
       // when
-      await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
+      await render(<template><TutorialPanel @hint={{hint}} @tutorials={{tutorials}} /></template>);
 
       // then
       assert.dom('.tutorial-panel').exists();
@@ -26,11 +26,11 @@ module('Integration | Component | Tutorial Panel', function (hooks) {
 
     test('should not render the hint container when hint and tutorials are empty arrays', async function (assert) {
       // given
-      this.set('hint', []);
-      this.set('tutorials', []);
+      const hint = [];
+      const tutorials = [];
 
       // when
-      await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
+      await render(<template><TutorialPanel @hint={{hint}} @tutorials={{tutorials}} /></template>);
 
       // then
       assert.dom('.tutorial-panel__hint-container').doesNotExist();
@@ -39,14 +39,16 @@ module('Integration | Component | Tutorial Panel', function (hooks) {
 
   module('when the result is not ok', function () {
     module('and a hint is present', function (hooks) {
+      const state = {};
+
       hooks.beforeEach(function () {
-        this.set('hint', 'Ceci est un indice.');
-        this.set('tutorials', []);
+        state.hint = 'Ceci est un indice.';
+        state.tutorials = [];
       });
 
       test('should render the hint', async function (assert) {
         // when
-        await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
+        await render(<template><TutorialPanel @hint={{state.hint}} @tutorials={{state.tutorials}} /></template>);
 
         // then
         assert.dom('.tutorial-panel').exists();
@@ -60,18 +62,20 @@ module('Integration | Component | Tutorial Panel', function (hooks) {
     });
 
     module('and a tutorial is present', function (hooks) {
+      const state = {};
+
       hooks.beforeEach(function () {
         const store = this.owner.lookup('service:store');
 
-        this.set('hint', 'Ceci est un indice');
-        this.set('tutorials', [
+        state.hint = 'Ceci est un indice';
+        state.tutorials = [
           store.createRecord('tutorial', {
             title: 'Ceci est un tuto',
             duration: '20:00:00',
             link: 'https://example.com',
             format: 'page',
           }),
-        ]);
+        ];
       });
 
       module('when the user is logged in', function () {
@@ -80,7 +84,7 @@ module('Integration | Component | Tutorial Panel', function (hooks) {
           stubCurrentUserService(this.owner, { firstName: 'Banana', lastName: 'Split' });
 
           // when
-          await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
+          await render(<template><TutorialPanel @hint={{state.hint}} @tutorials={{state.tutorials}} /></template>);
 
           // then
           assert.dom('.tutorial-card').exists();
@@ -99,7 +103,7 @@ module('Integration | Component | Tutorial Panel', function (hooks) {
           stubCurrentUserService(this.owner, { isAuthenticated: false });
 
           // when
-          await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
+          await render(<template><TutorialPanel @hint={{state.hint}} @tutorials={{state.tutorials}} /></template>);
 
           // then
           assert.dom('.tutorial-card').exists();
@@ -111,15 +115,14 @@ module('Integration | Component | Tutorial Panel', function (hooks) {
     });
 
     module('and more than three tutorials are present', function (hooks) {
+      const state = {};
+
       hooks.beforeEach(function () {
         const store = this.owner.lookup('service:store');
 
-        this.set('hint', null);
-        this.set(
-          'tutorials',
-          ['recTuto1', 'recTuto2', 'recTuto3', 'recTuto4'].map((id) =>
-            store.createRecord('tutorial', { title: id, link: 'https://example.com', format: 'page' }),
-          ),
+        state.hint = null;
+        state.tutorials = ['recTuto1', 'recTuto2', 'recTuto3', 'recTuto4'].map((id) =>
+          store.createRecord('tutorial', { title: id, link: 'https://example.com', format: 'page' }),
         );
       });
 
@@ -128,7 +131,7 @@ module('Integration | Component | Tutorial Panel', function (hooks) {
         stubCurrentUserService(this.owner, { isAuthenticated: false });
 
         // when
-        await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
+        await render(<template><TutorialPanel @hint={{state.hint}} @tutorials={{state.tutorials}} /></template>);
 
         // then
         assert.dom('.tutorial-card').exists({ count: 3 });
