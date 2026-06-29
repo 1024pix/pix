@@ -45,6 +45,7 @@ export async function buildCoreVersion(knex: Knex) {
       scope: 'CORE',
       startDate: new Date('2024-10-19'),
       expirationDate: null,
+      status: 'ACTIVE',
       assessmentDuration: 120,
       minimumAnswersRequiredToValidateACertification: 20,
       globalScoringConfiguration:
