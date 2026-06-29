@@ -15,6 +15,7 @@
 @use 'authenticated/certifications/certification/informations' as *;
 @use 'authenticated/certification-center/index' as *;
 @use 'authenticated/networks/get' as *;
+@use 'authenticated/organization-learners/list' as *;
 @use 'authenticated/organizations/get' as *;
 @use 'authenticated/organizations/all-tags' as *;
 @use 'authenticated/sessions/list' as *;

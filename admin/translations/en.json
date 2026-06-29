@@ -872,6 +872,25 @@
       },
       "title": "Prescribed information"
     },
+    "organization-learners": {
+      "list-table": {
+        "caption": "List of learners from organisations. Contains first name, surname, date of birth, INE, class, organisation and associated user ID.",
+        "headers": {
+          "active": "Active",
+          "birthdate": "Birthdate",
+          "division-group": "Group/division",
+          "first-name": "First Name",
+          "inactive": "Inactif",
+          "last-name": "Last Name",
+          "national-student-id": "INE",
+          "organization": "Organization",
+          "updated-at": "Updated at",
+          "user-id": "User ID"
+        },
+        "view-organization": "View organization",
+        "view-user": "View user"
+      }
+    },
     "organizations": {
       "all-tags": {
         "recently-used-tags": "List of tags recently used with {tagName}"
