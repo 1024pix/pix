@@ -52,10 +52,6 @@ export default defineConfig([
     },
   },
   {
-    files: ['tests/integration/**/*.js'],
-    rules: { 'n/no-restricted-import': ['error', ['@hapi/hapi']] },
-  },
-  {
     files: ['tests/integration/application/**/*.js'],
     rules: {
       'n/no-restricted-import': [
