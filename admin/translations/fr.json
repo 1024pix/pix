@@ -1667,6 +1667,10 @@
         "team": "Équipe"
       }
     },
+    "organization-learners-list": {
+      "main-title": "Liste des prescrits",
+      "page-title": "Prescrits"
+    },
     "organization-network": {
       "notifications": {
         "error": {

@@ -1654,6 +1654,10 @@
         "team": "Team"
       }
     },
+    "organization-learners-list": {
+      "main-title": "Learners list",
+      "page-title": "Learners"
+    },
     "organization-network": {
       "notifications": {
         "error": {
