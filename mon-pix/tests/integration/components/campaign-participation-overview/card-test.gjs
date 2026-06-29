@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import Card from 'mon-pix/components/campaign-participation-overview/card';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -19,12 +19,8 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
         organizationName: 'My organization',
       });
 
-      this.set('campaignParticipationOverview', campaignParticipationOverview);
-
       // when
-      const screen = await render(
-        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`,
-      );
+      const screen = await render(<template><Card @model={{campaignParticipationOverview}} />}</template>);
 
       // then
       assert.dom(screen.getByText('En cours')).exists();
@@ -44,12 +40,8 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
         masteryPercentage: 20,
       });
 
-      this.set('campaignParticipationOverview', campaignParticipationOverview);
-
       // when
-      const screen = await render(
-        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`,
-      );
+      const screen = await render(<template><Card @model={{campaignParticipationOverview}} />}</template>);
 
       // then
       assert.dom(screen.getByText('Terminé')).exists();
@@ -68,12 +60,8 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
         organizationName: 'My organization',
       });
 
-      this.set('campaignParticipationOverview', campaignParticipationOverview);
-
       // when
-      const screen = await render(
-        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`,
-      );
+      const screen = await render(<template><Card @model={{campaignParticipationOverview}} />}</template>);
 
       // then
       assert.dom(screen.getByText('Inactif')).exists();
