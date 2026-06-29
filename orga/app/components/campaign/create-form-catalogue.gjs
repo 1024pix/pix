@@ -94,31 +94,28 @@ export default class CreateForm extends Component {
     return this.args.campaign.externalIdType === '';
   }
 
-  get displayTitleField() {
-    return Boolean(this.args.campaign.course) && !this.isCombinedCourseGoal;
-  }
-
   get displayCampaignNameField() {
-    return Boolean(this.args.campaign.course);
-  }
-
-  get displayExternalUserIdField() {
-    return Boolean(this.args.campaign.course) && !this.isCombinedCourseGoal;
+    return Boolean(this.args.campaign.course) || this.isCampaignGoalProfileCollection;
   }
 
   get displayOwnerField() {
-    return (
-      Boolean(this.args.campaign.course) &&
-      (this.isCampaignGoalAssessment || this.isCampaignGoalExam || this.isCampaignGoalProfileCollection)
-    );
+    return (Boolean(this.args.campaign.course) && !this.isCombinedCourseGoal) || this.isCampaignGoalProfileCollection;
+  }
+
+  get displayExternalUserIdField() {
+    return (Boolean(this.args.campaign.course) && !this.isCombinedCourseGoal) || this.isCampaignGoalProfileCollection;
   }
 
   get displayCourseSelection() {
     return !this.isCampaignGoalProfileCollection;
   }
 
-  get displayLandingPageInfo() {
+  get displayTitleField() {
     return Boolean(this.args.campaign.course) && !this.isCombinedCourseGoal;
+  }
+
+  get displayLandingPageInfo() {
+    return (Boolean(this.args.campaign.course) && !this.isCombinedCourseGoal) || this.isCampaignGoalProfileCollection;
   }
 
   get catalogueCourseSelectionTab() {

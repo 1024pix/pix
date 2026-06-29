@@ -143,8 +143,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
     test('it should allow to create a campaign of type PROFILES_COLLECTION and redirect to the newly created campaign', async function (assert) {
       // given
       const screen = await visit('/campagnes/creation-catalogue');
-      await fillByLabel('Nom de la campagne *', 'Ma Campagne');
       await clickByName('Collecter les profils Pix des participants');
+      await fillByLabel('Nom de la campagne *', 'Ma Campagne');
       const externalIdentifier = screen
         .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })
         .closest('fieldset');
