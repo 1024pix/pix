@@ -92,6 +92,7 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
       const attestation = store.createRecord('combined-course-reward', {
         status: 'NOT_OBTAINED',
         type: 'attestation',
+        requirementsDescription: 'Description des conditions',
         label: 'Parentalité',
         templateName: 'parentalite',
         data: { key: 'PARENTHOOD' },
@@ -114,7 +115,41 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
       assert.ok(tag.getAttribute('class').includes('pix-tag pix-tag--error'));
 
       assert.ok(screen.getByText(t('pages.combined-courses.rewards.not-obtained.details.title')));
-      assert.notOk(screen.queryByText(t('pages.combined-courses.rewards.not-obtained.details.text')));
+      assert.ok(screen.getByText('Description des conditions'));
+      assert
+        .dom(screen.getByRole('img', { name: 'attestation-image-not-obtained' }))
+        .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')
+        .hasAttribute('class', 'attestation__picto--not-obtained');
+    });
+
+    test('should not display reward requirements description if not defined', async function (assert) {
+      //given
+      const attestation = store.createRecord('combined-course-reward', {
+        status: 'NOT_OBTAINED',
+        type: 'attestation',
+        label: 'Parentalité',
+        templateName: 'parentalite',
+        data: { key: 'PARENTHOOD' },
+      });
+
+      //when
+      const screen = await render(<template><Attestation @attestation={{attestation}} /></template>);
+
+      //then
+      assert.ok(
+        screen.getByRole('heading', {
+          name:
+            t('pages.combined-courses.rewards.title') +
+            ' Parentalité ' +
+            t('pages.combined-courses.rewards.not-obtained.status'),
+        }),
+      );
+
+      const tag = screen.getByText(t('pages.combined-courses.rewards.not-obtained.status'));
+      assert.ok(tag.getAttribute('class').includes('pix-tag pix-tag--error'));
+
+      assert.ok(screen.getByText(t('pages.combined-courses.rewards.not-obtained.details.title')));
+      assert.notOk(await screen.queryByText('Description des conditions'));
       assert
         .dom(screen.getByRole('img', { name: 'attestation-image-not-obtained' }))
         .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')
@@ -125,6 +160,42 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
   module('if attestation is in progress', function () {
     [{ status: 'STARTED' }, { status: 'NOT_STARTED' }].forEach(({ status }) => {
       test('should display all details', async function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
+        const attestation = store.createRecord('combined-course-reward', {
+          status,
+          type: 'attestation',
+          label: 'Parentalité',
+          requirementsDescription: 'Description des conditions',
+          templateName: 'parentalite',
+          data: { key: 'PARENTHOOD' },
+        });
+
+        //when
+        const screen = await render(<template><Attestation @attestation={{attestation}} /></template>);
+
+        //then
+        assert.ok(
+          screen.getByRole('heading', {
+            name:
+              t('pages.combined-courses.rewards.title') +
+              ' Parentalité ' +
+              t('pages.combined-courses.rewards.in-progress.status'),
+          }),
+        );
+
+        const tag = screen.getByText(t('pages.combined-courses.rewards.in-progress.status'));
+        assert.ok(tag.getAttribute('class').includes('pix-tag pix-tag--grey'));
+
+        assert.ok(screen.getByText(t('pages.combined-courses.rewards.in-progress.details.title')));
+        assert.ok(screen.getByText('Description des conditions'));
+        assert
+          .dom(screen.getByRole('img', { name: 'attestation-image-in-progress' }))
+          .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')
+          .hasAttribute('class', 'attestation__picto--in-progress');
+      });
+
+      test('should not display reward requirements description if not defined', async function (assert) {
         //given
         const store = this.owner.lookup('service:store');
         const attestation = store.createRecord('combined-course-reward', {
@@ -152,7 +223,7 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
         assert.ok(tag.getAttribute('class').includes('pix-tag pix-tag--grey'));
 
         assert.ok(screen.getByText(t('pages.combined-courses.rewards.in-progress.details.title')));
-        assert.notOk(screen.queryByText(t('pages.combined-courses.rewards.in-progress.details.text')));
+        assert.notOk(await screen.queryByText('Description des conditions'));
         assert
           .dom(screen.getByRole('img', { name: 'attestation-image-in-progress' }))
           .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')
