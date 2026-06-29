@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ChallengeContent from 'mon-pix/components/challenge/content';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -18,36 +18,32 @@ module('Integration | Component | Challenge | Content', function (hooks) {
       router.transitionTo = sinon.stub();
 
       const store = this.owner.lookup('service:store');
-      this.set(
-        'challenge',
-        store.createRecord('challenge', {
-          type: 'QROC',
-          timer: false,
-          format: 'phrase',
-          proposals: '${myInput}',
-        }),
-      );
-      this.set('answer', null);
-      this.set(
-        'assessment',
-        store.createRecord('assessment', {
-          certificationCourse: store.createRecord('certification-course'),
-          type: 'CERTIFICATION',
-          answers: [],
-        }),
-      );
-      this.set('fakeFunction', () => {});
+      const challenge = store.createRecord('challenge', {
+        type: 'QROC',
+        timer: false,
+        format: 'phrase',
+        proposals: '${myInput}',
+      });
+      const answer = null;
+      const assessment = store.createRecord('assessment', {
+        certificationCourse: store.createRecord('certification-course'),
+        type: 'CERTIFICATION',
+        answers: [],
+      });
+      const fakeFunction = () => {};
 
       // when
       screen = await render(
-        hbs`<Challenge::Content
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @assessment={{this.assessment}}
-  @hideOutOfFocusBorder={{this.fakeFunction}}
-  @showOutOfFocusBorder={{this.fakeFunction}}
-  @resetAllChallengeInfo={{this.fakeFunction}}
-/>`,
+        <template>
+          <ChallengeContent
+            @challenge={{challenge}}
+            @answer={{answer}}
+            @assessment={{assessment}}
+            @hideOutOfFocusBorder={{fakeFunction}}
+            @showOutOfFocusBorder={{fakeFunction}}
+            @resetAllChallengeInfo={{fakeFunction}}
+          />
+        </template>,
       );
     });
 
