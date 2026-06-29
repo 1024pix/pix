@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import Cards from 'mon-pix/components/tutorials/cards';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -11,10 +11,9 @@ module('Integration | Component | Tutorials | Cards', function (hooks) {
   test('renders no cards if there are no tutorials', async function (assert) {
     // given
     const tutorials = [];
-    this.set('tutorials', tutorials);
 
     // when
-    await render(hbs`<Tutorials::Cards @tutorials={{this.tutorials}} />`);
+    await render(<template><Cards @tutorials={{tutorials}} /></template>);
 
     // then
     assert.dom('.user-tutorials-content__cards').exists();
@@ -43,10 +42,9 @@ module('Integration | Component | Tutorials | Cards', function (hooks) {
       isSaved: true,
     };
     const tutorials = [tutorial1, tutorial2];
-    this.set('tutorials', tutorials);
 
     // when
-    await render(hbs`<Tutorials::Cards @tutorials={{this.tutorials}} />`);
+    await render(<template><Cards @tutorials={{tutorials}} /></template>);
 
     // then
     assert.dom('.user-tutorials-content__cards').exists();
