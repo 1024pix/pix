@@ -2,7 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ResultItem from 'mon-pix/components/result-item';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -10,7 +10,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 module('Integration | Component | result-item', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('Component rendering', function (hooks) {
+  module('Component rendering', function () {
     const providedChallengeInstruction =
       "Un QCM propose plusieurs choix, l'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)";
 
@@ -34,17 +34,14 @@ module('Integration | Component | result-item', function (hooks) {
       },
     });
 
-    hooks.beforeEach(function () {
-      this.set('index', 0);
-      return this.set('openComparisonWindow', () => {});
-    });
+    const openComparisonWindow = () => {};
 
     test('should exist', async function (assert) {
       // given
-      this.set('answer', '');
+      const answerValue = '';
 
       // when
-      await render(hbs`<ResultItem @answer={{this.answer}} />`);
+      await render(<template><ResultItem @answer={{answerValue}} /></template>);
 
       // then
       assert.dom('.result-item').exists();
@@ -52,10 +49,12 @@ module('Integration | Component | result-item', function (hooks) {
 
     test('should render the challenge instruction', async function (assert) {
       // given
-      this.set('answer', answer);
+      const answerValue = answer;
 
       // when
-      await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails={{this.openComparisonWindow}} />`);
+      await render(
+        <template><ResultItem @answer={{answerValue}} @openAnswerDetails={{openComparisonWindow}} /></template>,
+      );
 
       // then
       const expectedChallengeInstruction = "Un QCM propose plusieurs choix, l'utilisateur peut en choisir plusieurs";
@@ -65,19 +64,23 @@ module('Integration | Component | result-item', function (hooks) {
 
     test('should render a button when QCM', async function (assert) {
       // given
-      this.set('answer', answer);
+      const answerValue = answer;
 
-      await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails={{this.openComparisonWindow}} />`);
+      await render(
+        <template><ResultItem @answer={{answerValue}} @openAnswerDetails={{openComparisonWindow}} /></template>,
+      );
       // Then
       assert.deepEqual(find('.result-item__correction-button').textContent.trim(), 'Réponses et tutos');
     });
 
     test('should render a tooltip with an image', async function (assert) {
       // given
-      this.set('answer', answer);
+      const answerValue = answer;
 
       // when
-      await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails={{this.openComparisonWindow}} />`);
+      await render(
+        <template><ResultItem @answer={{answerValue}} @openAnswerDetails={{openComparisonWindow}} /></template>,
+      );
 
       // Then
       assert.ok(find('.result-item__icon--red'));
@@ -92,10 +95,12 @@ module('Integration | Component | result-item', function (hooks) {
       test(`should display a relevant result icon when the result of the answer is "${data.status}"`, async function (assert) {
         // given
         answer.set('result', data.status);
-        this.set('answer', answer);
+        const answerValue = answer;
 
         // when
-        await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails={{this.openComparisonWindow}} />`);
+        await render(
+          <template><ResultItem @answer={{answerValue}} @openAnswerDetails={{openComparisonWindow}} /></template>,
+        );
 
         // then
         assert.dom(`.result-item__icon--${data.color}`).exists();
