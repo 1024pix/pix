@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ResultsDetails from 'mon-pix/components/campaigns/assessment/results/evaluation-results-tabs/results-details';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
@@ -29,12 +29,10 @@ module('Integration | Components | Campaigns | Assessment | EvaluationResultsTab
       name: 'Competence area 2',
     });
 
-    this.set('competenceResults', [competenceResultArea1, competenceResultArea1bis, competenceResultArea2]);
+    const competenceResults = [competenceResultArea1, competenceResultArea1bis, competenceResultArea2];
 
     // when
-    screen = await render(
-      hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::ResultsDetails @competenceResults={{this.competenceResults}} />`,
-    );
+    screen = await render(<template><ResultsDetails @competenceResults={{competenceResults}} /></template>);
   });
 
   test('it should render tab title and description', async function (assert) {
