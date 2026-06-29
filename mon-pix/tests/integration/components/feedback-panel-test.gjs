@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import FeedbackPanel from 'mon-pix/components/feedback-panel';
 import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
 
@@ -23,12 +23,11 @@ module('Integration | Component | feedback-panel', function (hooks) {
   }
 
   module('Default rendering', function (hooks) {
-    hooks.beforeEach(async function () {
-      const assessment = { id: 'assessment_id' };
-      const challenge = { id: 'challenge_id' };
+    const state = {};
 
-      this.set('assessment', assessment);
-      this.set('challenge', challenge);
+    hooks.beforeEach(async function () {
+      state.assessment = { id: 'assessment_id' };
+      state.challenge = { id: 'challenge_id' };
 
       this.owner.unregister('service:store');
       this.owner.register('service:store', StoreStub);
@@ -36,7 +35,9 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
     test('should not display the feedback form', async function (assert) {
       // given & when
-      const screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
+      const screen = await render(
+        <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
+      );
 
       // then
       assert
@@ -48,7 +49,9 @@ module('Integration | Component | feedback-panel', function (hooks) {
       let screen;
 
       hooks.beforeEach(async function () {
-        screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
+        screen = await render(
+          <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
+        );
 
         await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
@@ -127,7 +130,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should display a second dropdown with the list of questions when category have a nested level', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
+          <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
         );
 
         // when
@@ -154,7 +157,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should directly display the message box and the submit button when category has a textarea', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
+          <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
         );
 
         // when
@@ -183,7 +186,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should directly display the tuto without the textbox or the send button when category has a tutorial', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
+          <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
         );
 
         // when
@@ -210,7 +213,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should show the correct feedback action when selecting two different categories', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
+          <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
         );
         await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
@@ -238,7 +241,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should hide the second dropdown when category has fewer levels after a deeper category', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
+          <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
         );
         await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
@@ -282,7 +285,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should display tutorial with textarea with selecting related category and subcategory', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
+          <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
         );
         await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
@@ -326,13 +329,15 @@ module('Integration | Component | feedback-panel', function (hooks) {
   });
 
   module('When assessment is not of type certification', function (hooks) {
+    const state = {};
+
     hooks.beforeEach(function () {
-      this.assessment = {};
+      state.assessment = {};
     });
 
     test('should display the feedback panel', async function (assert) {
       // given & when
-      const screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} />`);
+      const screen = await render(<template><FeedbackPanel @assessment={{state.assessment}} /></template>);
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' })).exists();
@@ -340,7 +345,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
     test('should toggle the form view when clicking on the toggle link', async function (assert) {
       // given
-      const screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} />`);
+      const screen = await render(<template><FeedbackPanel @assessment={{state.assessment}} /></template>);
 
       // when
       await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
@@ -365,14 +370,13 @@ module('Integration | Component | feedback-panel', function (hooks) {
       // given
       const assessment = { id: 'assessment_id' };
       const challenge = { id: 'challenge_id' };
-
-      this.set('assessment', assessment);
-      this.set('challenge', challenge);
-      this.set('alwaysOpenForm', true);
+      const alwaysOpenForm = true;
 
       // when
       const screen = await render(
-        hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`,
+        <template>
+          <FeedbackPanel @assessment={{assessment}} @challenge={{challenge}} @alwaysOpenForm={{alwaysOpenForm}} />
+        </template>,
       );
 
       // then
@@ -386,14 +390,13 @@ module('Integration | Component | feedback-panel', function (hooks) {
       // given
       const assessment = { id: 'assessment_id' };
       const challenge = { id: 'challenge_id' };
-
-      this.set('assessment', assessment);
-      this.set('challenge', challenge);
-      this.set('alwaysOpenForm', true);
+      const alwaysOpenForm = true;
 
       // when
       const screen = await render(
-        hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`,
+        <template>
+          <FeedbackPanel @assessment={{assessment}} @challenge={{challenge}} @alwaysOpenForm={{alwaysOpenForm}} />
+        </template>,
       );
 
       // then
@@ -405,17 +408,18 @@ module('Integration | Component | feedback-panel', function (hooks) {
   });
 
   module('When FeedbackPanel is rendered initially closed (e.g. in a challenge)', function (hooks) {
-    hooks.beforeEach(async function () {
-      const assessment = { id: 'assessment_id' };
-      const challenge = { id: 'challenge_id' };
+    const state = {};
 
-      this.set('assessment', assessment);
-      this.set('challenge', challenge);
+    hooks.beforeEach(async function () {
+      state.assessment = { id: 'assessment_id' };
+      state.challenge = { id: 'challenge_id' };
     });
 
     test('should display the "form" view', async function (assert) {
       // given
-      const screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
+      const screen = await render(
+        <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
+      );
       await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
       // then
@@ -426,7 +430,9 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
     test('should be able to hide the form view', async function (assert) {
       // given
-      const screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
+      const screen = await render(
+        <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
+      );
       await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
       // when
@@ -442,8 +448,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
   module('Error management', function () {
     test('should not display error if "form" view (with error) was closed and re-opened', async function (assert) {
       // given
-      this.assessment = {};
-      const screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} />`);
+      const assessment = {};
+      const screen = await render(<template><FeedbackPanel @assessment={{assessment}} /></template>);
       await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
       await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
