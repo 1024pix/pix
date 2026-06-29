@@ -97,6 +97,10 @@ export default class CreateForm extends Component {
     return (this.isCampaignGoalAssessment || this.isCampaignGoalExam) && !this.isCombinedCourseGoal;
   }
 
+  get displayTitleField() {
+    return Boolean(this.args.campaign.course);
+  }
+
   get displayOwnerField() {
     return this.isCampaignGoalAssessment || this.isCampaignGoalExam || this.isCampaignGoalProfileCollection;
   }
@@ -182,29 +186,6 @@ export default class CreateForm extends Component {
         <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark">*</abbr>
         {{t "common.form.mandatory-fields"}}
       </p>
-
-      <FormField>
-        <PixInput
-          @id="campaign-name"
-          @name="campaign-name"
-          @requiredLabel={{t "common.form.mandatory-fields-title"}}
-          type="text"
-          class="input"
-          maxlength="255"
-          {{on "change" (fn this.onChangeCampaignValue "name")}}
-          @value={{@campaign.name}}
-          required={{true}}
-          aria-required={{true}}
-        >
-          <:label>{{t "pages.campaign-creation.name.label"}}</:label>
-        </PixInput>
-
-        {{#if @errors.name}}
-          <div class="form__error error-message">
-            {{displayCampaignErrors @errors.name}}
-          </div>
-        {{/if}}
-      </FormField>
 
       <FormField>
         <:default>
@@ -323,6 +304,31 @@ export default class CreateForm extends Component {
               </div>
             {{/if}}
           </:default>
+        </FormField>
+      {{/if}}
+
+      {{#if this.displayTitleField}}
+        <FormField>
+          <PixInput
+            @id="campaign-name"
+            @name="campaign-name"
+            @requiredLabel={{t "common.form.mandatory-fields-title"}}
+            type="text"
+            class="input"
+            maxlength="255"
+            {{on "change" (fn this.onChangeCampaignValue "name")}}
+            @value={{@campaign.name}}
+            required={{true}}
+            aria-required={{true}}
+          >
+            <:label>{{t "pages.campaign-creation.name.label"}}</:label>
+          </PixInput>
+
+          {{#if @errors.name}}
+            <div class="form__error error-message">
+              {{displayCampaignErrors @errors.name}}
+            </div>
+          {{/if}}
         </FormField>
       {{/if}}
 

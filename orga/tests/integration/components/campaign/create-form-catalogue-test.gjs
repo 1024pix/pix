@@ -56,15 +56,19 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     );
 
     // then
-    assert.dom(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false })).exists();
+    const fieldset = screen.getByRole('radiogroup', { name: t('pages.campaign-creation.purpose.label') });
+
+    assert.strictEqual(within(fieldset).getAllByRole('radio').length, 3);
     assert.dom('button[type="submit"]').exists();
-    assert.dom('input[type=text]').hasAttribute('maxLength', '255');
     assert.dom('textarea').hasAttribute('maxLength', '5000');
   });
 
   test("it should display campaign's name", async function (assert) {
     // given
+    const store = this.owner.lookup('service:store');
+    data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
     data.campaign.name = 'Campagne de test';
+    data.campaign.type = 'ASSESSMENT';
 
     // when
     const screen = await render(
@@ -915,8 +919,43 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when there are errors', function () {
-    test('it should display errors messages when the name, the campaign purpose and the external user id fields are empty', async function (assert) {
+    test('it should display errors messages when the campaign purpose fields is empty', async function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
+      const campaignWithErrors = EmberObject.create({
+        errors: {
+          type: [
+            {
+              message: 'CAMPAIGN_PURPOSE_IS_REQUIRED',
+            },
+          ],
+        },
+      });
+
+      data.errors = campaignWithErrors.errors;
+
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+      data.campaign.type = 'ASSESSMENT';
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+      await clickByName(t('pages.campaign-creation.yes'));
+      // then
+      assert.dom(screen.getByText(t('api-error-messages.campaign-creation.purpose-required'))).exists();
+    });
+
+    test('it should display errors messages when the name, and external user id fields are empty', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
       const campaignWithErrors = EmberObject.create({
         errors: {
           name: [
@@ -929,16 +968,13 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
               message: 'EXTERNAL_USER_ID_IS_REQUIRED',
             },
           ],
-          type: [
-            {
-              message: 'CAMPAIGN_PURPOSE_IS_REQUIRED',
-            },
-          ],
         },
       });
 
       data.errors = campaignWithErrors.errors;
 
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+      data.campaign.type = 'ASSESSMENT';
       // when
       const screen = await render(
         <template>
@@ -955,7 +991,6 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
       // then
       assert.dom(screen.getByText(t('api-error-messages.campaign-creation.name-required'))).exists();
-      assert.dom(screen.getByText(t('api-error-messages.campaign-creation.purpose-required'))).exists();
       assert.dom(screen.getByText(t('api-error-messages.campaign-creation.external-user-id-required'))).exists();
     });
 
