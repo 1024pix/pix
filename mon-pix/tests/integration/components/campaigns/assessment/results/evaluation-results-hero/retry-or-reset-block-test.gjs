@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import RetryOrResetBlock from 'mon-pix/components/campaigns/assessment/results/evaluation-results-hero/retry-or-reset-block';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -11,6 +11,7 @@ module(
   'Integration | Components | Campaigns | Assessment | Results | Evaluation Results Hero | Retry or reset block',
   function (hooks) {
     let clock;
+    const state = {};
 
     setupIntlRenderingTest(hooks);
 
@@ -23,15 +24,14 @@ module(
 
     test('displays a title, a description and a message', async function (assert) {
       // given
-      this.set('campaign', {});
-      this.set('campaignParticipationResult', { canRetry: true, canReset: false });
+      const campaign = {};
+      const campaignParticipationResult = { canRetry: true, canReset: false };
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::RetryOrResetBlock
-  @campaign={{this.campaign}}
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-/>`,
+        <template>
+          <RetryOrResetBlock @campaign={{campaign}} @campaignParticipationResult={{campaignParticipationResult}} />
+        </template>,
       );
 
       // then
@@ -50,19 +50,18 @@ module(
     module('when user retry the assessment but delay before retrying is not passed', function () {
       test('displays a disabled button', async function (assert) {
         // given
-        this.set('campaign', { code: 'CODECAMPAIGN' });
-        this.set('campaignParticipationResult', {
+        const campaign = { code: 'CODECAMPAIGN' };
+        const campaignParticipationResult = {
           canRetry: true,
           canReset: false,
           remainingSecondsBeforeRetrying: '90',
-        });
+        };
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::RetryOrResetBlock
-  @campaign={{this.campaign}}
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-/>`,
+          <template>
+            <RetryOrResetBlock @campaign={{campaign}} @campaignParticipationResult={{campaignParticipationResult}} />
+          </template>,
         );
 
         // then
@@ -77,19 +76,18 @@ module(
 
       test('should display remaining time', async function (assert) {
         // given
-        this.set('campaign', { code: 'CODECAMPAIGN' });
-        this.set('campaignParticipationResult', {
+        const campaign = { code: 'CODECAMPAIGN' };
+        const campaignParticipationResult = {
           canRetry: true,
           canReset: false,
           remainingSecondsBeforeRetrying: '90',
-        });
+        };
 
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::RetryOrResetBlock
-  @campaign={{this.campaign}}
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-/>`,
+          <template>
+            <RetryOrResetBlock @campaign={{campaign}} @campaignParticipationResult={{campaignParticipationResult}} />
+          </template>,
         );
         // then
         assert.ok(
@@ -102,17 +100,19 @@ module(
 
     module('when user can only retry the assessment', function (hooks) {
       hooks.beforeEach(function () {
-        this.set('campaign', { code: 'CODECAMPAIGN' });
-        this.set('campaignParticipationResult', { canRetry: true, canReset: false });
+        state.campaign = { code: 'CODECAMPAIGN' };
+        state.campaignParticipationResult = { canRetry: true, canReset: false };
       });
 
       test('displays a retry link and not reset button', async function (assert) {
         // when
         const screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::RetryOrResetBlock
-  @campaign={{this.campaign}}
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-/>`,
+          <template>
+            <RetryOrResetBlock
+              @campaign={{state.campaign}}
+              @campaignParticipationResult={{state.campaignParticipationResult}}
+            />
+          </template>,
         );
 
         // then
@@ -131,15 +131,17 @@ module(
 
       hooks.beforeEach(async function () {
         // given
-        this.set('campaign', { code: 'CODECAMPAIGN', targetProfileName: 'targetProfileName' });
-        this.set('campaignParticipationResult', { canRetry: false, canReset: true });
+        state.campaign = { code: 'CODECAMPAIGN', targetProfileName: 'targetProfileName' };
+        state.campaignParticipationResult = { canRetry: false, canReset: true };
 
         // when
         screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::RetryOrResetBlock
-  @campaign={{this.campaign}}
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-/>`,
+          <template>
+            <RetryOrResetBlock
+              @campaign={{state.campaign}}
+              @campaignParticipationResult={{state.campaignParticipationResult}}
+            />
+          </template>,
         );
       });
 
@@ -174,15 +176,17 @@ module(
 
       hooks.beforeEach(async function () {
         // given
-        this.set('campaign', { code: 'CODECAMPAIGN', targetProfileName: 'targetProfileName' });
-        this.set('campaignParticipationResult', { canRetry: true, canReset: true });
+        state.campaign = { code: 'CODECAMPAIGN', targetProfileName: 'targetProfileName' };
+        state.campaignParticipationResult = { canRetry: true, canReset: true };
 
         // when
         screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsHero::RetryOrResetBlock
-  @campaign={{this.campaign}}
-  @campaignParticipationResult={{this.campaignParticipationResult}}
-/>`,
+          <template>
+            <RetryOrResetBlock
+              @campaign={{state.campaign}}
+              @campaignParticipationResult={{state.campaignParticipationResult}}
+            />
+          </template>,
         );
       });
 
