@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ScoSignupOrLogin from 'mon-pix/components/routes/sco-signup-or-login';
 import { module, test } from 'qunit';
 
 import { clickByLabel } from '../../../helpers/click-by-label';
@@ -8,14 +8,15 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Routes | routes/sco-signup-or-login', function (hooks) {
   setupIntlRenderingTest(hooks);
-  hooks.beforeEach(function () {
-    this.set('toggleFormsVisibility', '');
-  });
+
+  const toggleFormsVisibility = '';
 
   test('should display the organization name the user is invited to', async function (assert) {
     // when
     await render(
-      hbs`<Routes::ScoSignupOrLogin @organizationName='Organization Aztec' @toggleFormsVisibility='toggleFormsVisibility' />`,
+      <template>
+        <ScoSignupOrLogin @organizationName="Organization Aztec" @toggleFormsVisibility={{toggleFormsVisibility}} />
+      </template>,
     );
 
     // then
@@ -25,7 +26,9 @@ module('Integration | Routes | routes/sco-signup-or-login', function (hooks) {
   test('should contain an open register form and closed login form', async function (assert) {
     // when
     await render(
-      hbs`<Routes::ScoSignupOrLogin @displayScoSignupForm={{true}} @toggleFormsVisibility='toggleFormsVisibility' />`,
+      <template>
+        <ScoSignupOrLogin @displayScoSignupForm={{true}} @toggleFormsVisibility={{toggleFormsVisibility}} />
+      </template>,
     );
 
     // then
@@ -36,7 +39,9 @@ module('Integration | Routes | routes/sco-signup-or-login', function (hooks) {
   test('should open the login panel and close the register panel when clicking on login button', async function (assert) {
     // given
     await render(
-      hbs`<Routes::ScoSignupOrLogin @displayScoSignupForm={{false}} @toggleFormsVisibility='toggleFormsVisibility' />`,
+      <template>
+        <ScoSignupOrLogin @displayScoSignupForm={{false}} @toggleFormsVisibility={{toggleFormsVisibility}} />
+      </template>,
     );
 
     // when
