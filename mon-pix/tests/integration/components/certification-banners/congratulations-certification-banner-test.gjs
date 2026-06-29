@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import CongratulationsCertificationBanner from 'mon-pix/components/certification-banners/congratulations-certification-banner';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -10,15 +10,17 @@ module('Integration | Component | Certification Banners | Congratulations Certif
   test('renders a banner indicating the user certifiability', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    this.set('fullName', 'Fifi Brindacier');
-    this.set('certificationEligibility', store.createRecord('is-certifiable', {}));
+    const fullName = 'Fifi Brindacier';
+    const certificationEligibility = store.createRecord('is-certifiable', {});
 
     // when
     const screen = await render(
-      hbs`<CertificationBanners::CongratulationsCertificationBanner
-  @fullName={{this.fullName}}
-  @certificationEligibility={{this.certificationEligibility}}
-/>`,
+      <template>
+        <CongratulationsCertificationBanner
+          @fullName={{fullName}}
+          @certificationEligibility={{certificationEligibility}}
+        />
+      </template>,
     );
 
     // then
@@ -29,15 +31,17 @@ module('Integration | Component | Certification Banners | Congratulations Certif
     test('should not display double certification information', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      this.set('fullName', 'Fifi Brindacier');
-      this.set('certificationEligibility', store.createRecord('is-certifiable', { 'is-certifiable': true }));
+      const fullName = 'Fifi Brindacier';
+      const certificationEligibility = store.createRecord('is-certifiable', { 'is-certifiable': true });
 
       // when
       const screen = await render(
-        hbs`<CertificationBanners::CongratulationsCertificationBanner
-  @fullName={{this.fullName}}
-  @certificationEligibility={{this.certificationEligibility}}
-/>`,
+        <template>
+          <CongratulationsCertificationBanner
+            @fullName={{fullName}}
+            @certificationEligibility={{certificationEligibility}}
+          />
+        </template>,
       );
 
       // then
