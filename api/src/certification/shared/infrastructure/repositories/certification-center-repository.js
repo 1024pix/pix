@@ -28,9 +28,10 @@ export async function getBySessionId({ sessionId }) {
 }
 
 export async function findByExternalId({ externalId }) {
-  const certificationCenterWithHabilitationsData = await certificationCenterWithHabilitationsBaseQuery().where({
-    'certification-centers.externalId': externalId,
-  });
+  const certificationCenterWithHabilitationsData = await certificationCenterWithHabilitationsBaseQuery().whereRaw(
+    'LOWER("certification-centers"."externalId") = ?',
+    [externalId.toLowerCase()],
+  );
 
   if (certificationCenterWithHabilitationsData.length === 0) {
     return null;

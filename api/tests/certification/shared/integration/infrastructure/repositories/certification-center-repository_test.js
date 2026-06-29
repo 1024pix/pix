@@ -231,11 +231,10 @@ describe('Certification | Shared | Integration | Repository | Certification Cent
 
   describe('#findByExternalId', function () {
     context('the certification center is found', function () {
-      it('should return the certification center', async function () {
+      it('should return the certification center (case insensitive)', async function () {
         // given
-        const externalId = 'EXTERNAL_ID';
         databaseBuilder.factory.buildCertificationCenter({
-          externalId,
+          externalId: 'EXTErnaL_ID',
           id: 1,
           name: 'Certif center to return by external Id',
           type: 'SUP',
@@ -246,7 +245,7 @@ describe('Certification | Shared | Integration | Repository | Certification Cent
           id: 1,
           name: 'Certif center to return by external Id',
           type: CertificationCenter.types.SUP,
-          externalId: 'EXTERNAL_ID',
+          externalId: 'EXTErnaL_ID',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           updatedAt: now,
           archivedAt: null,
@@ -255,7 +254,9 @@ describe('Certification | Shared | Integration | Repository | Certification Cent
         await databaseBuilder.commit();
 
         // when
-        const certificationCenter = await certificationCenterRepository.findByExternalId({ externalId });
+        const certificationCenter = await certificationCenterRepository.findByExternalId({
+          externalId: 'exTERNaL_ID',
+        });
 
         // then
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
