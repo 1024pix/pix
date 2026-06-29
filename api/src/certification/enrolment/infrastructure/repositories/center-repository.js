@@ -75,7 +75,11 @@ export async function findActiveScoOrganizationId({ certificationCenterId }) {
 
   const [activeOrganizationId] = await knexConn('organizations')
     .pluck('organizations.id')
-    .innerJoin('certification-centers', 'certification-centers.externalId', 'organizations.externalId')
+    .innerJoin(
+      'certification-centers',
+      knexConn.raw('LOWER("certification-centers"."externalId")'),
+      knexConn.raw('LOWER("organizations"."externalId")'),
+    )
     .where({
       'certification-centers.id': certificationCenterId,
       'certification-centers.type': CERTIFICATION_CENTER_TYPES.SCO,

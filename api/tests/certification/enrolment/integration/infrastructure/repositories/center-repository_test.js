@@ -149,23 +149,23 @@ describe('Integration | Certification |  Center | Repository | center-repository
 
   describe('#findActiveScoOrganizationId', function () {
     context('when the certification center has an active linked organization', function () {
-      it('should return the linked organization id', async function () {
+      it('should return the linked organization id (case insensitive', async function () {
         // given
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
           type: CertificationCenter.types.SCO,
-          externalId: 'EXTERNALABC',
+          externalId: 'exTernAlAbC',
         });
 
         databaseBuilder.factory.buildOrganization({
           type: CertificationCenter.types.SCO,
-          externalId: certificationCenter.externalId,
+          externalId: 'EXTErnalABc',
           archivedAt: new Date(),
           archivedBy: databaseBuilder.factory.buildUser().id,
         });
 
         const activeOrganization = databaseBuilder.factory.buildOrganization({
           type: CertificationCenter.types.SCO,
-          externalId: certificationCenter.externalId,
+          externalId: 'EXTErnalABc',
           archivedAt: null,
           archivedBy: null,
         });
