@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import EvaluationResults from 'mon-pix/components/routes/campaigns/assessment/evaluation-results';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
@@ -10,6 +10,7 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
   setupIntlRenderingTest(hooks);
 
   let screen;
+  const state = {};
 
   hooks.beforeEach(async function () {
     // given
@@ -19,16 +20,16 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
       title: 'Campaign title',
     });
 
-    this.set('model', {
+    state.model = {
       campaign,
       campaignParticipationResult: { campaignParticipationBadges: [], competenceResults: [], reload: () => {} },
       trainings: [],
-    });
+    };
   });
 
   test('it should display a header', async function (assert) {
     // when
-    screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+    screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
 
     // then
     assert.dom(screen.getByRole('heading', { name: /Campaign title/ })).exists();
@@ -36,7 +37,7 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
 
   test('it should display a hero', async function (assert) {
     // when
-    screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+    screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
 
     assert.dom(screen.getByText(/Merci pour votre participation !/)).exists();
   });
@@ -44,10 +45,10 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
   module('when the campaign has trainings or badges', function () {
     test('it should display a tablist', async function (assert) {
       // given
-      this.model.trainings = [{ duration: { days: 1, hours: 1, minutes: 1 } }];
+      state.model.trainings = [{ duration: { days: 1, hours: 1, minutes: 1 } }];
 
       // when
-      screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+      screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
 
       // then
       assert.dom(screen.getByRole('tablist', { name: t('pages.skill-review.tabs.aria-label') })).exists();
@@ -57,16 +58,16 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
   module('when the has trainings', function (hooks) {
     hooks.beforeEach(async function () {
       // given
-      this.model.showTrainings = true;
-      this.model.trainings = [{ duration: { days: 1, hours: 1, minutes: 1 } }];
-      this.model.campaignParticipationResult.competenceResults = [Symbol('competences')];
+      state.model.showTrainings = true;
+      state.model.trainings = [{ duration: { days: 1, hours: 1, minutes: 1 } }];
+      state.model.campaignParticipationResult.competenceResults = [Symbol('competences')];
     });
 
     test('it should display the training button', async function (assert) {
       // when
-      this.model.showTrainings = false;
+      state.model.showTrainings = false;
 
-      screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+      screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
 
       // then
       assert.notOk(
@@ -76,10 +77,10 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
     });
 
     test('when the training button is clicked, it should set trainings tab active', async function (assert) {
-      this.model.showTrainings = false;
+      state.model.showTrainings = false;
 
       // when
-      screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+      screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
 
       // then
       await click(screen.getByRole('button', { name: t('pages.skill-review.hero.see-trainings') }));
@@ -89,27 +90,27 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
     });
     module('when the campaign is part of a combined course', function (hooks) {
       hooks.afterEach(async function () {
-        this.model.showTrainings = true;
-        this.model.campaign.customResultPageButtonUrl = undefined;
+        state.model.showTrainings = true;
+        state.model.campaign.customResultPageButtonUrl = undefined;
       });
       test('it should not display modal before show assessment result', async function (assert) {
-        this.model.showTrainings = false;
-        this.model.campaign.customResultPageButtonUrl = 'https://app.pix.fr/parcours/COMBINIX1';
-        screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+        state.model.showTrainings = false;
+        state.model.campaign.customResultPageButtonUrl = 'https://app.pix.fr/parcours/COMBINIX1';
+        screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
         assert.notOk(
           screen.queryByRole('dialog', { name: t('pages.skill-review.tabs.trainings.shared-results-modal.title') }),
         );
       });
       test('it should not display trainings tab', async function (assert) {
-        this.model.showTrainings = false;
-        this.model.campaign.customResultPageButtonUrl = 'https://app.pix.fr/parcours/COMBINIX1';
-        screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+        state.model.showTrainings = false;
+        state.model.campaign.customResultPageButtonUrl = 'https://app.pix.fr/parcours/COMBINIX1';
+        screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
         assert.notOk(screen.queryByRole('tab', { name: t('pages.skill-review.tabs.trainings.tab-label') }));
       });
       test('it should not display trainings information and button in the hero', async function (assert) {
-        this.model.showTrainings = false;
-        this.model.campaign.customResultPageButtonUrl = 'https://app.pix.fr/parcours/COMBINIX1';
-        screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+        state.model.showTrainings = false;
+        state.model.campaign.customResultPageButtonUrl = 'https://app.pix.fr/parcours/COMBINIX1';
+        screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
         assert.notOk(screen.queryByText(t('pages.skill-review.hero.explanations.trainings')));
         assert.notOk(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') }));
       });
