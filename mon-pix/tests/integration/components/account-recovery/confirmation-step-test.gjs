@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ConfirmationStep from 'mon-pix/components/account-recovery/confirmation-step';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -20,12 +20,13 @@ module('Integration | Component | confirmation-step', function (hooks) {
       email: 'philippe.auguste@example.net',
       latestOrganizationName: 'Collège George-Besse, Loches',
     });
-    this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
 
     // when
-    const screen = await render(hbs`<AccountRecovery::ConfirmationStep
-  @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-/>`);
+    const screen = await render(
+      <template>
+        <ConfirmationStep @studentInformationForAccountRecovery={{studentInformationForAccountRecovery}} />
+      </template>,
+    );
 
     // then
     assert
@@ -68,12 +69,13 @@ module('Integration | Component | confirmation-step', function (hooks) {
         email: 'philippe.auguste@example.net',
         latestOrganizationName: 'Collège George-Besse, Loches',
       });
-      this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
 
       // when
-      const screen = await render(hbs`<AccountRecovery::ConfirmationStep
-  @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-/>`);
+      const screen = await render(
+        <template>
+          <ConfirmationStep @studentInformationForAccountRecovery={{studentInformationForAccountRecovery}} />
+        </template>,
+      );
 
       // then
       assert
@@ -91,15 +93,17 @@ module('Integration | Component | confirmation-step', function (hooks) {
       email: 'philippe.auguste@example.net',
       latestOrganizationName: 'Collège George-Besse, Loches',
     });
-    this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
     const cancelAccountRecovery = sinon.stub();
-    this.set('cancelAccountRecovery', cancelAccountRecovery);
 
     // when
-    const screen = await render(hbs`<AccountRecovery::ConfirmationStep
-  @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-  @cancelAccountRecovery={{this.cancelAccountRecovery}}
-/>`);
+    const screen = await render(
+      <template>
+        <ConfirmationStep
+          @studentInformationForAccountRecovery={{studentInformationForAccountRecovery}}
+          @cancelAccountRecovery={{cancelAccountRecovery}}
+        />
+      </template>,
+    );
     await click(
       screen.getByRole('button', {
         name: t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'),
@@ -120,15 +124,17 @@ module('Integration | Component | confirmation-step', function (hooks) {
       email: 'philippe.auguste@example.net',
       latestOrganizationName: 'Collège George-Besse, Loches',
     });
-    this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
     const continueAccountRecoveryBackupEmailConfirmation = sinon.stub();
-    this.set('continueAccountRecoveryBackupEmailConfirmation', continueAccountRecoveryBackupEmailConfirmation);
 
     // when
-    const screen = await render(hbs`<AccountRecovery::ConfirmationStep
-  @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-  @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
-/>`);
+    const screen = await render(
+      <template>
+        <ConfirmationStep
+          @studentInformationForAccountRecovery={{studentInformationForAccountRecovery}}
+          @continueAccountRecoveryBackupEmailConfirmation={{continueAccountRecoveryBackupEmailConfirmation}}
+        />
+      </template>,
+    );
 
     // then
     const confirmButton = screen.getByRole('button', {
@@ -147,15 +153,17 @@ module('Integration | Component | confirmation-step', function (hooks) {
       email: 'philippe.auguste@example.net',
       latestOrganizationName: 'Collège George-Besse, Loches',
     });
-    this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
     const continueAccountRecoveryBackupEmailConfirmation = sinon.stub();
-    this.set('continueAccountRecoveryBackupEmailConfirmation', continueAccountRecoveryBackupEmailConfirmation);
 
     // when
-    const screen = await render(hbs`<AccountRecovery::ConfirmationStep
-  @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-  @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
-/>`);
+    const screen = await render(
+      <template>
+        <ConfirmationStep
+          @studentInformationForAccountRecovery={{studentInformationForAccountRecovery}}
+          @continueAccountRecoveryBackupEmailConfirmation={{continueAccountRecoveryBackupEmailConfirmation}}
+        />
+      </template>,
+    );
     await click(
       screen.getByRole('checkbox', {
         name: t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'),
