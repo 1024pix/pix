@@ -282,7 +282,7 @@
                       "id": "8516972f-cce3-4582-8945-3134a4721fce",
                       "type": "text",
                       "tag": "context",
-                      "content": "<p>Le site web boeufcharentais.pix.org subit une cyberattaque. Depuis hier, le site entier a été remplacé par une grande photo d’abattoir.</p>"
+                      "content": "<p>Le site web <u>boeufcharentais.pix.org</u> subit une cyberattaque. Depuis hier, le site entier a été remplacé par une grande photo d’abattoir.</p>"
                     },
                     {
                       "id": "81d4fa72-2577-4766-88f5-400e08e0763d",
@@ -294,28 +294,28 @@
                           "id": "1",
                           "content": "<p>Défendre des idées.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement. Les auteurs de la cyberattaque semblent vouloir faire passer un message. En remplaçant le site par une photo d’abattoir, ils cherchent probablement à dénoncer les pratiques des abattoirs.</p>"
+                            "diagnosis": "<p>Effectivement.<br>Les auteurs de la cyberattaque semblent vouloir <strong>faire passer un message</strong>. En remplaçant le site par une photo d’abattoir, ils cherchent probablement à dénoncer les pratiques des abattoirs.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Rechercher la reconnaissance personnelle.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Pas tout à fait. Ici, les auteurs ne cherchent pas à montrer leurs compétences ou à se faire connaître. Le contenu affiché sur le site donne plutôt un message&nbsp;: ils cherchent probablement à dénoncer les pratiques des abattoirs.</p>"
+                            "diagnosis": "<p>Pas tout à fait.<br>Ici, les auteurs ne cherchent pas à montrer leurs compétences ou à se faire connaître. Le contenu affiché sur le site cherche plutôt à <strong>faire passer un message</strong>&nbsp;: ils souhaitent probablement dénoncer les pratiques des abattoirs.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Faire de l’espionnage industriel.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Pas vraiment. L’espionnage industriel, c’est voler des informations confidentielles dans une entreprise. Ici, rien n’a été volé au site web, mais il a été remplacé par une image qui porte un message&nbsp;: la motivation semble être de dénoncer les pratiques des abattoirs.</p>"
+                            "diagnosis": "<p>Pas vraiment.<br>L’espionnage industriel, c’est voler des informations confidentielles dans une entreprise. Ici, rien n’a été volé au site web, mais il a été remplacé par une image qui veut <strong>faire passer un message</strong>&nbsp;: ils cherchent probablement à dénoncer les pratiques des abattoirs.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Les auteurs de la cyberattaque semblent vouloir faire passer un message. En remplaçant le site par une photo d’abattoir, ils cherchent probablement à dénoncer les pratiques des abattoirs.</p>"
+                            "diagnosis": "<p>Les auteurs de la cyberattaque semblent vouloir <strong>faire passer un message</strong>. En remplaçant le site par une photo d’abattoir, ils cherchent probablement à dénoncer les pratiques des abattoirs.</p>"
                           }
                         }
                       ],
@@ -341,28 +341,28 @@
                           "id": "1",
                           "content": "<p>Défendre des idées.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Pas tout à fait. Dans cette situation, les auteurs ne cherchent pas à faire passer un message ou à défendre une cause.&nbsp; Ils volent les plans confidentiels d’un futur smartphone pour les revendre à des concurrents&nbsp;: cela correspond à de l’espionnage industriel.</p>"
+                            "diagnosis": "<p>Pas tout à fait.<br>Dans cette situation, les auteurs ne cherchent pas à faire passer un message ou à défendre une cause.&nbsp; Ils <strong>volent les plans confidentiels</strong> d’un futur smartphone pour les <strong>revendre à des concurrents</strong>&nbsp;: cela correspond à de <strong>l’espionnage industriel</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Rechercher la reconnaissance personnelle.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Pas vraiment. La recherche de reconnaissance consiste plutôt à revendiquer une attaque pour prouver ses compétences. Ici, les auteurs de la cyberattaque volent les plans confidentiels d’un futur smartphone pour les revendre à des concurrents&nbsp;: cela correspond à de l’espionnage industriel.</p>"
+                            "diagnosis": "<p>Pas vraiment.<br>La recherche de reconnaissance consiste plutôt à revendiquer une attaque pour prouver ses compétences. Ici, les auteurs de la cyberattaque <strong>volent les plans confidentiels</strong> d’un futur smartphone pour les <strong>revendre à des concurrents</strong>&nbsp;: cela correspond à de <strong>l’espionnage industriel</strong>.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Faire de l’espionnage industriel.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement, les auteurs de la cyberattaque volent les plans confidentiels d’un futur smartphone pour les revendre à des concurrents&nbsp;: cela correspond à de l’espionnage industriel.</p>"
+                            "diagnosis": "<p>Effectivement, les auteurs de la cyberattaque <strong>volent les plans confidentiels</strong> d’un futur smartphone pour les <strong>revendre à des concurrents</strong>&nbsp;: cela correspond à de <strong>l’espionnage industriel</strong>.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Les auteurs de la cyberattaque volent les plans confidentiels d’un futur smartphone pour les revendre à des concurrents&nbsp;: cela correspond à de l’espionnage industriel.</p>"
+                            "diagnosis": "<p>Les auteurs de la cyberattaque <strong>volent les plans confidentiels</strong> d’un futur smartphone pour les <strong>revendre à des concurrents</strong>&nbsp;: cela correspond à de <strong>l’espionnage industriel</strong>.</p>"
                           }
                         }
                       ],
@@ -388,28 +388,28 @@
                           "id": "1",
                           "content": "<p>Défendre des idées.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Pas tout à fait. Une attaque contre un État peut parfois servir à défendre des idées politiques. Mais ici, la situation insiste surtout sur le fait que les auteurs revendiquent l’attaque&nbsp;: ils cherchent sûrement à être reconnus ou remarqués.</p>"
+                            "diagnosis": "<p>Pas tout à fait. Une attaque contre un État peut parfois servir à défendre des idées politiques. Mais ici, la situation insiste surtout sur le fait que les auteurs revendiquent l’attaque&nbsp;: ils cherchent sûrement à <strong>être reconnus ou remarqués</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Rechercher la reconnaissance personnelle.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement. Les auteurs revendiquent la cyberattaque&nbsp;: ils veulent que l’on sache qu’ils en sont responsables. Ils cherchent sûrement à être reconnus ou remarqués.</p>"
+                            "diagnosis": "<p>Effectivement.<br>Les auteurs revendiquent la cyberattaque&nbsp;: ils veulent que l’on sache qu’ils en sont responsables. Ils cherchent sûrement à <strong>être reconnus ou remarqués</strong>.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Faire de l’espionnage industriel.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Pas vraiment. L’espionnage industriel vise plutôt à voler des informations confidentielles dans une entreprise. Ici, les auteurs bloquent des systèmes informatiques et revendiquent leur action&nbsp;: ils cherchent sûrement à être reconnus ou remarqués.</p>"
+                            "diagnosis": "<p>Pas vraiment.<br>L’espionnage industriel vise plutôt à voler des informations confidentielles dans une entreprise. Ici, les auteurs bloquent des systèmes informatiques et revendiquent leur action&nbsp;: ils cherchent sûrement à <strong>être reconnus ou remarqués</strong>.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Les auteurs revendiquent la cyberattaque&nbsp;: ils veulent que l’on sache qu’ils en sont responsables. Ils cherchent sûrement à être reconnus ou remarqués.</p>"
+                            "diagnosis": "<p>Les auteurs revendiquent la cyberattaque&nbsp;: ils veulent que l’on sache qu’ils en sont responsables. Ils cherchent sûrement à <strong>être reconnus ou remarqués</strong>.</p>"
                           }
                         }
                       ],
@@ -513,11 +513,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Effectivement !</p>",
-                    "diagnosis": "<p>Cette cyberattaque peut avoir des conséquences aussi bien pour les utilisateurs que pour le réseau social.<br>Les utilisateurs peuvent recevoir des mails d’arnaque crédibles car les auteurs disposent de certaines informations personnelles. Ces données peuvent aussi servir pour usurper leur identité.<br>Le réseau social, lui, risque de perdre la confiance de ses utilisateurs, car leurs données personnelles ont été volées.</p>"
+                    "diagnosis": "<p>Cette cyberattaque peut avoir des <strong>conséquences</strong> aussi bien pour les utilisateurs que pour le réseau social.</p><ul><li>Les utilisateurs peuvent recevoir des <strong>mails d’arnaque crédibles</strong> car les auteurs disposent de certaines informations personnelles. Ces données peuvent aussi servir pour <strong>usurper leur identité</strong>.</li><li>Le réseau social, lui, risque de <strong>perdre la confiance de ses utilisateurs</strong>, car leurs données personnelles ont été volées.</li></ul>"
                   },
                   "invalid": {
                     "state": "<p>Eh non.<br></p>",
-                    "diagnosis": "<p>Cette cyberattaque peut avoir des conséquences aussi bien pour les utilisateurs que pour le réseau social.<br>Les utilisateurs peuvent recevoir des mails d’arnaque crédibles car les auteurs disposent de certaines informations personnelles. Ces données peuvent aussi servir pour usurper leur identité.<br>Le réseau social, lui, risque de perdre la confiance de ses utilisateurs, car leurs données personnelles ont été volées.</p>"
+                    "diagnosis": "<p>Cette cyberattaque peut avoir des <strong>conséquences</strong> aussi bien pour les utilisateurs que pour le réseau social.</p><ul><li>Les utilisateurs peuvent recevoir des <strong>mails d’arnaque crédibles</strong> car les auteurs disposent de certaines informations personnelles. Ces données peuvent aussi servir pour <strong>usurper leur identité</strong>.</li><li>Le réseau social, lui, risque de <strong>perdre la confiance de ses utilisateurs</strong>, car leurs données personnelles ont été volées.</li></ul>"
                   }
                 },
                 "solutions": [
@@ -540,7 +540,7 @@
                 "id": "8e6a0b7f-1231-4c7b-8689-4f9a6aafa0b6",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une cyberattaque est une menace importante, elle peut avoir des<strong> conséquences très graves</strong>&nbsp;: </p><ul><li><strong>Pour les part</strong><strong>iculiers </strong>: perte d’argent, usurpation d’identité ou diffusion d’informations personnelles. </li><li><strong>Pour les o</strong><strong>rganisations et entreprises </strong>: interruption d’activité, perte financière, vol d’informations confidentielles, atteinte à la réputation, perte de confiance des clients ou des partenaires. 🏢</li><li><strong>Pour la so</strong><strong>ciété </strong>: perturbation des services essentiels, comme les hôpitaux, les transports, les réseaux d’énergie ou les administrations publiques. 🌍</li></ul><p>Les auteurs de cyberattaques de grande ampleur sont souvent membres de<strong> groupes organisés</strong>.<br>Ces groupes<strong> ont </strong>des <strong>ressources</strong>, des <strong>outils </strong>et du <strong>temps </strong>pour mener des attaques à grande échelle.<br><br></p>"
+                "content": "<p>Une cyberattaque est une menace importante, elle peut avoir des<strong> conséquences très graves</strong>&nbsp;: </p><ul><li><strong>Pour les part</strong><strong>iculiers </strong>: perte d’argent, usurpation d’identité ou diffusion d’informations personnelles. 🙍</li><li><strong>Pour les organisations et entreprises </strong>: interruption d’activité, perte financière, vol d’informations confidentielles, atteinte à la réputation, perte de confiance des clients ou des partenaires. 🏢</li><li><strong>Pour la so</strong><strong>ciété </strong>: perturbation des services essentiels, comme les hôpitaux, les transports, les réseaux d’énergie ou les administrations publiques. 🌍</li></ul><p>Les auteurs de cyberattaques de grande ampleur sont souvent membres de<strong> groupes organisés</strong>.</p><p><br>Ces groupes<strong> ont </strong>des <strong>ressources</strong>, des <strong>outils </strong>et du <strong>temps </strong>pour mener des attaques à grande échelle.<br><br></p>"
               }
             }
           ]
@@ -722,7 +722,7 @@
                       "id": "6992680f-df05-46eb-ba40-ab804444f053",
                       "type": "text",
                       "tag": "context",
-                      "content": "<p>Grâce à une cyberattaque, des informations confidentielles sur un nouveau produit sont volées dans une entreprise.</p>"
+                      "content": "<p>Lors d'une cyberattaque, des informations sur un médicament pas encore mis en vente sont volées à un grand laboratoire.</p>"
                     },
                     {
                       "id": "6d7fdaf6-7e78-4d49-b28a-0aa0a94eb6ae",
@@ -735,7 +735,7 @@
                           "content": "<p>Obtenir une rançon.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Ici, les auteurs cherchent surtout des informations utiles sur l’entreprise.</p>"
+                            "diagnosis": "<p>Demandez-vous ce qui a été volé au laboratoire et pourquoi.</p>"
                           }
                         },
                         {
@@ -743,7 +743,7 @@
                           "content": "<p>Faire passer un message politique.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.<br></p>",
-                            "diagnosis": "<p>Ici, les auteurs cherchent surtout des informations utiles sur l’entreprise.</p>"
+                            "diagnosis": "<p>Demandez-vous ce qui a été volé au laboratoire et pourquoi.</p>"
                           }
                         },
                         {
@@ -751,7 +751,7 @@
                           "content": "<p>Faire de l’espionnage industriel.</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !&nbsp;🎉</p>",
-                            "diagnosis": "<p>Le vol d’informations confidentielles peut servir à espionner une entreprise.</p>"
+                            "diagnosis": "<p>Le vol d’informations confidentielles peut servir à espionner une entreprise, une administration ou un état.</p>"
                           }
                         }
                       ],
