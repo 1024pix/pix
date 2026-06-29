@@ -2,23 +2,23 @@
 /* eslint ember/require-tagless-components: 0 */
 
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setBreakpoint } from 'ember-responsive/test-support';
+import ProfileContent from 'mon-pix/components/profile-content';
 import { module, test } from 'qunit';
 
 import { stubSessionService } from '../../helpers/service-stubs.js';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
+const state = {};
+
 module('Integration | Component | Profile-content', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('On component rendering', function (hooks) {
-    let model;
-
     hooks.beforeEach(function () {
       stubSessionService(this.owner, { isAuthenticated: true });
 
-      model = {
+      state.model = {
         profile: {
           pixScore: '34',
           get: () => 7,
@@ -55,8 +55,7 @@ module('Integration | Component | Profile-content', function (hooks) {
       test('should be rendered in tablet/desktop mode with big cards', async function (assert) {
         // when
         setBreakpoint('tablet');
-        this.set('model', model);
-        await render(hbs`<ProfileContent @model={{this.model}} @media={{this.media}} />`);
+        await render(<template><ProfileContent @model={{state.model}} /></template>);
 
         // then
         assert.dom('.competence-card').exists();
@@ -69,8 +68,7 @@ module('Integration | Component | Profile-content', function (hooks) {
       test('should be rendered in mobile mode with small cards', async function (assert) {
         // when
         setBreakpoint('mobile');
-        this.set('model', model);
-        await render(hbs`<ProfileContent @model={{this.model}} @media={{this.media}} />`);
+        await render(<template><ProfileContent @model={{state.model}} /></template>);
 
         // then
         assert.dom('.competence-card').exists();
