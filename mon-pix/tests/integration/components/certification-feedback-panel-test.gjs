@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import CertificationFeedbackPanel from 'mon-pix/components/certification-feedback-panel';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -16,9 +16,9 @@ module('Integration | Component | certification-feedback-panel', function (hooks
       const mockAssessment = store.createRecord('assessment', {
         state: 'started',
       });
-      this.set('assessment', mockAssessment);
+      const assessment = mockAssessment;
 
-      const screen = await render(hbs`<CertificationFeedbackPanel @assessment={{this.assessment}} />`);
+      const screen = await render(<template><CertificationFeedbackPanel @assessment={{assessment}} /></template>);
 
       // then
       assert.dom(screen.queryByText('Êtes-vous sûr(e) de vouloir signaler un problème ?')).doesNotExist();
@@ -32,14 +32,15 @@ module('Integration | Component | certification-feedback-panel', function (hooks
         const mockAssessment = store.createRecord('assessment', {
           hasOngoingChallengeLiveAlert: false,
         });
-        this.set('assessment', mockAssessment);
-        this.set('submitLiveAlert', submitLiveAlert);
+        const assessment = mockAssessment;
         const screen = await render(
-          hbs`<CertificationFeedbackPanel
-  @submitLiveAlert={{this.submitLiveAlert}}
-  @assessment={{this.assessment}}
-  @isEnabled={{true}}
-/>`,
+          <template>
+            <CertificationFeedbackPanel
+              @submitLiveAlert={{submitLiveAlert}}
+              @assessment={{assessment}}
+              @isEnabled={{true}}
+            />
+          </template>,
         );
 
         // when
@@ -57,15 +58,16 @@ module('Integration | Component | certification-feedback-panel', function (hooks
           // given
           const store = this.owner.lookup('service:store');
           const submitLiveAlert = sinon.stub();
-          this.set('submitLiveAlert', submitLiveAlert);
 
           const mockAssessment = store.createRecord('assessment', {
             hasOngoingChallengeLiveAlert: true,
           });
-          this.set('assessment', mockAssessment);
+          const assessment = mockAssessment;
 
           const screen = await render(
-            hbs`<CertificationFeedbackPanel @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}} />`,
+            <template>
+              <CertificationFeedbackPanel @submitLiveAlert={{submitLiveAlert}} @assessment={{assessment}} />
+            </template>,
           );
 
           // then
@@ -82,15 +84,17 @@ module('Integration | Component | certification-feedback-panel', function (hooks
         test('should display a refresh button', async function (assert) {
           const store = this.owner.lookup('service:store');
           const submitLiveAlertActions = sinon.stub();
-          this.set('submitLiveAlert', submitLiveAlertActions);
+          const submitLiveAlert = submitLiveAlertActions;
 
           const mockAssessment = store.createRecord('assessment', {
             hasOngoingChallengeLiveAlert: true,
           });
-          this.set('assessment', mockAssessment);
+          const assessment = mockAssessment;
 
           const screen = await render(
-            hbs`<CertificationFeedbackPanel @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}} />`,
+            <template>
+              <CertificationFeedbackPanel @submitLiveAlert={{submitLiveAlert}} @assessment={{assessment}} />
+            </template>,
           );
 
           // then
