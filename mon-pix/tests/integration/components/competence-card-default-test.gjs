@@ -3,7 +3,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import CompetenceCardDefault from 'mon-pix/components/competence-card-default';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -25,10 +25,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
     test('should render component', async function (assert) {
       // given
       const scorecard = { area };
-      this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+      await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
 
       // then
       assert.dom('.competence-card').exists();
@@ -37,10 +36,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
     test('should display the competence card header with scorecard color', async function (assert) {
       // given
       const scorecard = { area };
-      this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+      await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
 
       // then
       assert.ok(find('.competence-card__wrapper').getAttribute('class').includes('competence-card__wrapper--jaffa'));
@@ -49,10 +47,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
     test('should display the area name', async function (assert) {
       // given
       const scorecard = { area: EmberObject.create({ code: 1, title: 'First Area' }) };
-      this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+      await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
 
       // then
       assert.strictEqual(find('.competence-card__area-name').textContent, scorecard.area.title);
@@ -61,10 +58,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
     test('should display the competence name', async function (assert) {
       // given
       const scorecard = { area, name: 'First Competence' };
-      this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+      await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
 
       // then
       assert.strictEqual(find('.competence-card__competence-name').textContent, scorecard.name);
@@ -73,10 +69,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
     test('should display the level', async function (assert) {
       // given
       const scorecard = { area, level: 3 };
-      this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+      await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
 
       // then
       assert.strictEqual(find('.score-label').textContent, 'niveau');
@@ -87,10 +82,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
       test('should show the button "Commencer"', async function (assert) {
         // given
         const scorecard = { area, level: 3, isFinished: false, isStarted: false };
-        this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+        await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
 
         // then
         assert.ok(find('.competence-card__button').textContent.includes('Commencer'));
@@ -101,10 +95,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
       test('should show the button "Reprendre"', async function (assert) {
         // given
         const scorecard = { area, level: 3, isFinished: false, isStarted: true };
-        this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+        await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
 
         // then
         assert.ok(find('.competence-card__button').textContent.includes('Reprendre'));
@@ -114,10 +107,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
         hooks.beforeEach(async function () {
           // given
           const scorecard = { area, isFinishedWithMaxLevel: false, isStarted: true };
-          this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+          await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
         });
 
         test('should not show congrats design', function (assert) {
@@ -136,10 +128,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
       test('should show the improving button when there is no remaining days before improving', async function (assert) {
         // given
         const scorecard = { area, level: 3, isFinished: true, isStarted: false, remainingDaysBeforeImproving: 0 };
-        this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+        await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
 
         // then
         assert.dom('.competence-card__button').exists();
@@ -171,8 +162,7 @@ module('Integration | Component | competence-card-default', function (hooks) {
           isStarted: false,
           remainingDaysBeforeImproving: 0,
         };
-        this.set('scorecard', scorecard);
-        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+        await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
 
         // when
         await click('.competence-card__button');
@@ -185,10 +175,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
       test('should show the improving countdown when there is some remaining days before improving', async function (assert) {
         // given
         const scorecard = { area, level: 3, isFinished: true, isStarted: false, remainingDaysBeforeImproving: 3 };
-        this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+        await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
 
         // then
         assert.dom('.competence-card-interactions__improvement-countdown').exists();
@@ -199,10 +188,9 @@ module('Integration | Component | competence-card-default', function (hooks) {
         hooks.beforeEach(async function () {
           // given
           const scorecard = { area, isFinishedWithMaxLevel: true };
-          this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+          await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
         });
 
         test('should show congrats design', function (assert) {
