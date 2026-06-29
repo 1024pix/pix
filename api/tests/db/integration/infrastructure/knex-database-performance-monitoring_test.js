@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { config } from '../../../src/shared/config.js';
-import { executeInContext, getInContext } from '../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../test-helper.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { config } from '../../../../src/shared/config.js';
+import { executeInContext, getInContext } from '../../../../src/shared/infrastructure/execution-context-manager.js';
+import { expect } from '../../../test-helper.js';
 const selectQuery = knex.raw('SELECT 1 as value');
 
 describe('Integration | Infrastructure | knex-database-performance-monitoring', function () {

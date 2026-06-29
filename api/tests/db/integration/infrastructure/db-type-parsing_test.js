@@ -1,5 +1,5 @@
-import { expect } from '../../test-helper.js';
-import { datamartKnex, datawarehouseKnex, knex } from '../../tooling/databases.js';
+import { expect } from '../../../test-helper.js';
+import { datamartKnex, datawarehouseKnex, knex } from '../../../tooling/databases.js';
 
 describe('Integration | DB | db-type-parsing', function () {
   describe('JSON and JSONB parsing', function () {

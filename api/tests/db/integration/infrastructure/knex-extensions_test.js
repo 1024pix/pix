@@ -1,5 +1,5 @@
-import { expect } from '../../test-helper.js';
-import { databaseBuilder, knex } from '../../tooling/databases.js';
+import { expect } from '../../../test-helper.js';
+import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | knex-extensions', function () {
   context('QueryBuilder extension - whereInArray', function () {
