@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Badge from 'mon-pix/components/campaigns/assessment/results/evaluation-results-tabs/rewards/badge';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
@@ -20,12 +20,10 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
         isCertifiable: false,
       });
 
-      this.set('badge', acquiredBadge);
+      const badge = acquiredBadge;
 
       // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
-      );
+      const screen = await render(<template><Badge @badge={{badge}} /></template>);
 
       // then
       assert.dom(screen.getByRole('listitem', { name: t('pages.skill-review.badge-card.acquired-full') })).isVisible();
@@ -46,12 +44,8 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
           isAcquired: true,
         });
 
-        this.set('badge', badge);
-
         // when
-        const screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
-        );
+        const screen = await render(<template><Badge @badge={{badge}} /></template>);
 
         // then
         assert.dom(screen.getByRole('link', { name: 'markdown link' })).isVisible();
@@ -68,12 +62,10 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
           isCertifiable: true,
         });
 
-        this.set('badge', certifiableBadge);
+        const badge = certifiableBadge;
 
         // when
-        const screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
-        );
+        const screen = await render(<template><Badge @badge={{badge}} /></template>);
 
         // then
         assert.dom(screen.getByText(t('pages.skill-review.badge-card.certifiable'))).isVisible();
@@ -94,12 +86,10 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
         acquisitionPercentage: 60,
       });
 
-      this.set('badge', notAcquiredBadge);
+      const badge = notAcquiredBadge;
 
       // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
-      );
+      const screen = await render(<template><Badge @badge={{badge}} /></template>);
 
       // then
       assert
@@ -123,12 +113,10 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
           acquisitionPercentage: 60,
         });
 
-        this.set('badge', certifiableBadge);
+        const badge = certifiableBadge;
 
         // when
-        const screen = await render(
-          hbs`<Campaigns::Assessment::Results::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
-        );
+        const screen = await render(<template><Badge @badge={{badge}} /></template>);
 
         // then
         assert.dom(screen.getByText(t('pages.skill-review.badge-card.certifiable'))).isVisible();
