@@ -388,7 +388,7 @@
                           "id": "1",
                           "content": "<p>Défendre des idées.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Pas tout à fait. Une attaque contre un État peut parfois servir à défendre des idées politiques. Mais ici, la situation insiste surtout sur le fait que les auteurs revendiquent l’attaque&nbsp;: ils cherchent sûrement à <strong>être reconnus ou remarqués</strong>.</p>"
+                            "diagnosis": "<p>Pas tout à fait.<br> Une attaque contre un État peut parfois servir à défendre des idées politiques. Mais ici, la situation insiste surtout sur le fait que les auteurs revendiquent l’attaque&nbsp;: ils cherchent sûrement à <strong>être reconnus ou remarqués</strong>.</p>"
                           }
                         },
                         {
@@ -432,7 +432,7 @@
                 "id": "09189183-b657-442d-95ad-f4723d864adb",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Certains auteurs de cyberattaques ne cherchent pas à gagner de l’argent, ils ont d’autres motivations&nbsp;:&nbsp;</p><ul><li>des<strong> idéaux politiques</strong>, <strong>sociaux </strong>ou <strong>éthiques</strong>, ✊️</li><li>la <strong>recherche de reconnaissance personnelle</strong>, 🏆️</li><li>de l’<strong>espionnage industriel</strong>. 🥷</li></ul><p>Ces cyberattaques visent souvent des organisations, des entreprises, des services publics ou des États. <br><br></p>"
+                "content": "<p>Certains auteurs de cyberattaques ne cherchent pas à gagner de l’argent, ils ont d’autres motivations&nbsp;:&nbsp;</p><ul><li>des<strong> idéaux politiques</strong>, <strong>sociaux </strong>ou <strong>éthiques</strong>, ✊️</li><li>la <strong>recherche de reconnaissance personnelle</strong>, 🏆️</li><li>de l’<strong>espionnage industriel</strong>. 🥷</li></ul><p><br>Ces cyberattaques visent souvent des organisations, des entreprises, des services publics ou des États. <br><br></p>"
               }
             }
           ]
@@ -540,7 +540,7 @@
                 "id": "8e6a0b7f-1231-4c7b-8689-4f9a6aafa0b6",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une cyberattaque est une menace importante, elle peut avoir des<strong> conséquences très graves</strong>&nbsp;: </p><ul><li><strong>Pour les part</strong><strong>iculiers </strong>: perte d’argent, usurpation d’identité ou diffusion d’informations personnelles. 🙍</li><li><strong>Pour les organisations et entreprises </strong>: interruption d’activité, perte financière, vol d’informations confidentielles, atteinte à la réputation, perte de confiance des clients ou des partenaires. 🏢</li><li><strong>Pour la so</strong><strong>ciété </strong>: perturbation des services essentiels, comme les hôpitaux, les transports, les réseaux d’énergie ou les administrations publiques. 🌍</li></ul><p>Les auteurs de cyberattaques de grande ampleur sont souvent membres de<strong> groupes organisés</strong>.</p><p><br>Ces groupes<strong> ont </strong>des <strong>ressources</strong>, des <strong>outils </strong>et du <strong>temps </strong>pour mener des attaques à grande échelle.<br><br></p>"
+                "content": "<p>Une cyberattaque est une menace importante, elle peut avoir des<strong> conséquences très graves</strong>&nbsp;: </p><ul><li><strong>Pour les part</strong><strong>iculiers </strong>: perte d’argent, usurpation d’identité ou diffusion d’informations personnelles. 🙍</li><li><strong>Pour les organisations et entreprises </strong>: interruption d’activité, perte financière, vol d’informations confidentielles, atteinte à la réputation, perte de confiance des clients ou des partenaires. 🏢</li><li><strong>Pour la so</strong><strong>ciété </strong>: perturbation des services essentiels, comme les hôpitaux, les transports, les réseaux d’énergie ou les administrations publiques. 🌍</li></ul><p><br>Les auteurs de cyberattaques de grande ampleur sont souvent membres de<strong> groupes organisés</strong>.</p><p>Ces groupes<strong> ont </strong>des <strong>ressources</strong>, des <strong>outils </strong>et du <strong>temps </strong>pour mener des attaques à grande échelle.<br><br></p>"
               }
             }
           ]
@@ -751,7 +751,7 @@
                           "content": "<p>Faire de l’espionnage industriel.</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !&nbsp;🎉</p>",
-                            "diagnosis": "<p>Le vol d’informations confidentielles peut servir à espionner une entreprise, une administration ou un état.</p>"
+                            "diagnosis": "<p>Le vol d’informations confidentielles peut servir à espionner une entreprise, une administration ou un État.</p>"
                           }
                         }
                       ],
