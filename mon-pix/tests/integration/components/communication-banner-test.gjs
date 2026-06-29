@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import CommunicationBanner from 'mon-pix/components/communication-banner';
 import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 
@@ -24,7 +24,7 @@ module('Integration | Component | communication-banner', function (hooks) {
     ENV.APP.BANNER_TYPE = '';
 
     // when
-    await render(hbs`<CommunicationBanner />`);
+    await render(<template><CommunicationBanner /></template>);
 
     // then
     assert.dom('.pix-banner-alert').doesNotExist();
@@ -36,7 +36,7 @@ module('Integration | Component | communication-banner', function (hooks) {
     ENV.APP.BANNER_TYPE = 'information';
 
     // when
-    await render(hbs`<CommunicationBanner />`);
+    await render(<template><CommunicationBanner /></template>);
 
     // then
     assert.dom('.pix-banner-alert--information').exists();
