@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import CandidateGlobalLevel from 'mon-pix/components/certifications/certificate-information/candidate-global-level';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -23,11 +23,9 @@ module('Integration | Component | Certifications | Certificate information | can
         pixScore: 12,
         maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-      <Certifications::CertificateInformation::candidateGlobalLevel @certificate={{this.certification}} />`);
+      const screen = await render(<template><CandidateGlobalLevel @certificate={{certification}} /></template>);
 
       // then
       assert
@@ -63,11 +61,9 @@ module('Integration | Component | Certifications | Certificate information | can
         globalSummaryLabel: 'Expert de tous les domaines, Pix vous dit bravo !',
         level: '7',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-        <Certifications::CertificateInformation::candidateGlobalLevel @certificate={{this.certification}} />`);
+      const screen = await render(<template><CandidateGlobalLevel @certificate={{certification}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { name: t('pages.certificate.global.labels.level'), level: 2 })).exists();
