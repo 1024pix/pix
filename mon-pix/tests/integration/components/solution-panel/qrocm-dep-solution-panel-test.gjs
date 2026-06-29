@@ -2,8 +2,8 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find, findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import QrocmDepSolutionPanel from 'mon-pix/components/solution-panel/qrocm-dep-solution-panel';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -58,27 +58,31 @@ const buildComponentArguments = (
   };
 };
 
-const renderComponent = () =>
-  render(
-    hbs`<SolutionPanel::QrocmDepSolutionPanel
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @answer={{this.answer}}
-  @answersEvaluation={{this.answersEvaluation}}
-  @solutionsWithoutGoodAnswers={{this.solutionsWithoutGoodAnswers}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
-  );
-
 module('Integration | Component | QROCm dep solution panel', function (hooks) {
   setupIntlRenderingTest(hooks);
+
+  const state = {};
+
+  const renderComponent = () =>
+    render(
+      <template>
+        <QrocmDepSolutionPanel
+          @challenge={{state.challenge}}
+          @solution={{state.solution}}
+          @answer={{state.answer}}
+          @answersEvaluation={{state.answersEvaluation}}
+          @solutionsWithoutGoodAnswers={{state.solutionsWithoutGoodAnswers}}
+          @solutionToDisplay={{state.solutionToDisplay}}
+        />
+      </template>,
+    );
 
   FORMATS.forEach(({ format, input }) => {
     module(`When challenge is "${format}" format`, function () {
       module('When challenge is successful', function (hooks) {
         hooks.beforeEach(async function () {
           // Given
-          this.setProperties(buildComponentArguments(format, CHALLENGE_OK_FLAG));
+          Object.assign(state, buildComponentArguments(format, CHALLENGE_OK_FLAG));
           // When
           await renderComponent();
         });
@@ -99,7 +103,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       module('When challenge is skipped', function () {
         test('should display the solutionToDisplay if exist', async function (assert) {
           // Given
-          this.setProperties(buildComponentArguments(format, CHALLENGE_SKIPPED_FLAG, true, true));
+          Object.assign(state, buildComponentArguments(format, CHALLENGE_SKIPPED_FLAG, true, true));
           // When
           await renderComponent();
           // Then
@@ -109,7 +113,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         module('When there are more solution than proposals', function (hooks) {
           hooks.beforeEach(async function () {
             // Given
-            this.setProperties(buildComponentArguments(format, CHALLENGE_SKIPPED_FLAG, true));
+            Object.assign(state, buildComponentArguments(format, CHALLENGE_SKIPPED_FLAG, true));
             // When
             await renderComponent();
           });
@@ -142,7 +146,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         module('When there are as many solutions as proposals', function (hooks) {
           hooks.beforeEach(async function () {
             // Given
-            this.setProperties(buildComponentArguments(format, CHALLENGE_SKIPPED_FLAG, false));
+            Object.assign(state, buildComponentArguments(format, CHALLENGE_SKIPPED_FLAG, false));
             // When
             await renderComponent();
           });
@@ -161,7 +165,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       module('When challenge is failed', function () {
         test('should display the solutionToDisplay if exist', async function (assert) {
           // Given
-          this.setProperties(buildComponentArguments(format, CHALLENGE_KO_FLAG, true, true));
+          Object.assign(state, buildComponentArguments(format, CHALLENGE_KO_FLAG, true, true));
           // When
           await renderComponent();
           // Then
@@ -171,7 +175,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         module('When there are more solution than proposals', function (hooks) {
           hooks.beforeEach(async function () {
             // Given
-            this.setProperties(buildComponentArguments(format, CHALLENGE_KO_FLAG, true));
+            Object.assign(state, buildComponentArguments(format, CHALLENGE_KO_FLAG, true));
             // When
             await renderComponent();
           });
@@ -209,7 +213,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         module('When there are as many solutions as proposals', function (hooks) {
           hooks.beforeEach(async function () {
             // Given
-            this.setProperties(buildComponentArguments(format, CHALLENGE_KO_FLAG, false));
+            Object.assign(state, buildComponentArguments(format, CHALLENGE_KO_FLAG, false));
             // When
             await renderComponent();
           });
@@ -230,7 +234,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
   module('When format is a paragraph', function () {
     test('should display a disabled textarea', async function (assert) {
       // Given
-      this.setProperties(buildComponentArguments(FORMATS[2].format));
+      Object.assign(state, buildComponentArguments(FORMATS[2].format));
       // When
       await renderComponent();
       // Then
@@ -245,7 +249,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
   module('When format is a sentence', function () {
     test('should display a disabled input', async function (assert) {
       // Given
-      this.setProperties(buildComponentArguments(FORMATS[1].format));
+      Object.assign(state, buildComponentArguments(FORMATS[1].format));
       // When
       await renderComponent();
       // Then
@@ -260,7 +264,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
   module('When format is neither a paragraph nor a sentence', function () {
     test(`should display a disabled input with expected size`, async function (assert) {
       // Given
-      this.setProperties(buildComponentArguments(FORMATS[3].format));
+      Object.assign(state, buildComponentArguments(FORMATS[3].format));
       // When
       await renderComponent();
       // Then
@@ -275,21 +279,21 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
 
   module('When solutions are numbers and challenge skipped', function (hooks) {
     hooks.beforeEach(function () {
-      this.solution = 'el1:\n- 2\nel2:\n- 3';
-      this.solutionsWithoutGoodAnswers = [];
-      this.answer = EmberObject.create({
+      state.solution = 'el1:\n- 2\nel2:\n- 3';
+      state.solutionsWithoutGoodAnswers = [];
+      state.answer = EmberObject.create({
         id: 'answer_id',
         value: SKIPPED_VALUE,
         result: CHALLENGE_SKIPPED_FLAG,
         assessment: EmberObject.create({ id: 'assessment_id' }),
       });
-      this.challenge = EmberObject.create({
+      state.challenge = EmberObject.create({
         id: 'challengeId',
         proposals: 'Numéros des éléments : ${el1 options=["1", "2", "3"]} ${el2 options=["1", "2", "3"]}',
         format: FORMATS[0].format,
       });
-      this.answersEvaluation = [false, false];
-      this.solutionToDisplay = null;
+      state.answersEvaluation = [false, false];
+      state.solutionToDisplay = null;
     });
 
     test('it should display solution panel', async function (assert) {
