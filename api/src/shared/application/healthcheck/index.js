@@ -36,7 +36,7 @@ const register = async function (server) {
       config: {
         auth: false,
         handler: healthcheckController.checkForwardedOriginStatus,
-        notes: ['- **Cette route est publique**\n' + '- Récupération de l\'origine HTTP de l\'application appelante\n'],
+        notes: ['- **Cette route est publique**\n' + "- Récupération de l'origine HTTP de l'application appelante\n"],
         tags: ['api', 'healthcheck'],
       },
     },

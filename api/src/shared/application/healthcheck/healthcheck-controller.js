@@ -1,5 +1,6 @@
-import Boom from '@hapi/boom';
 import os from 'node:os';
+
+import Boom from '@hapi/boom';
 
 import { databaseConnections } from '../../../../db/database-connections.js';
 import packageJSON from '../../../../package.json' with { type: 'json' };
