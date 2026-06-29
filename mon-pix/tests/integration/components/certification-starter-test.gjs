@@ -1,8 +1,9 @@
+/* eslint-disable ember/template-no-let-reference */
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import CertificationStarter from 'mon-pix/components/certification-starter';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,8 +11,8 @@ import { clickByLabel } from '../../helpers/click-by-label';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const tWithoutTags = (key, options) => t(key, options).replace(/<[^>]+>/g, '');
-
-const renderComponent = () => render(hbs`<CertificationStarter @model={{this.model}} />`);
+let model;
+const renderComponent = () => render(<template><CertificationStarter @model={{model}} /></template>);
 
 const getSubmitButton = (screen) => screen.getByRole('button', { name: t('pages.certification-start.actions.submit') });
 
@@ -37,13 +38,17 @@ const stubCertificationInEnglish = (owner, isEnabled) =>
 
 const setCertificationCandidate = (context, attributes) => {
   const store = context.owner.lookup('service:store');
-  context.set('model', {
+  model = {
     certificationCandidate: store.createRecord('certification-candidate', attributes),
-  });
+  };
 };
 
 module('Integration | Component | certification-starter', function (hooks) {
   setupIntlRenderingTest(hooks);
+
+  hooks.beforeEach(function () {
+    model = undefined;
+  });
 
   module('certification language selection', function () {
     module('when on France domain (pix.fr)', function (hooks) {
@@ -286,9 +291,9 @@ module('Integration | Component | certification-starter', function (hooks) {
           stubFranceDomain(this.owner, false);
           stubCertificationInEnglish(this.owner, true);
 
-          this.set('model', {
+          model = {
             certificationCandidate: { hasStartedTest: false, sessionId: 123 },
-          });
+          };
           const screen = await renderComponent();
           await fillAccessCode(screen, 'ABC123');
           await click(screen.getByRole('button', { name: 'Langue de certification' }));
@@ -331,9 +336,9 @@ module('Integration | Component | certification-starter', function (hooks) {
 
         stubFranceDomain(this.owner, false);
 
-        this.set('model', {
+        model = {
           certificationCandidate: { hasStartedTest: false, sessionId: 123 },
-        });
+        };
 
         // when
         const screen = await renderComponent();
@@ -371,9 +376,9 @@ module('Integration | Component | certification-starter', function (hooks) {
 
           stubFranceDomain(this.owner, false);
 
-          this.set('model', {
+          model = {
             certificationCandidate: { hasStartedTest: false, sessionId: 123 },
-          });
+          };
         });
 
         test('should not notify pix companion', async function (assert) {
@@ -492,9 +497,9 @@ module('Integration | Component | certification-starter', function (hooks) {
           module('when the certification centre has no habilitation to hold the session', function () {
             test('should display the appropriate error message', async function (assert) {
               // given
-              this.set('model', {
+              model = {
                 certificationCandidate: { hasStartedTest: false, sessionId: 123, subscription: 'DROIT' },
-              });
+              };
               this.certificationCourse.save.rejects({
                 errors: [{ status: '403', code: 'CENTER_HABILITATION_ERROR' }],
               });
@@ -588,3 +593,4 @@ module('Integration | Component | certification-starter', function (hooks) {
     });
   });
 });
+/* eslint-enable ember/template-no-let-reference */
