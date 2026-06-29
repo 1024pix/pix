@@ -2,8 +2,8 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find, findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import QrocmIndSolutionPanel from 'mon-pix/components/solution-panel/qrocm-ind-solution-panel';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -37,6 +37,8 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
   });
   const solution = 'key1:\n- rightAnswer1\n' + 'key2:\n- rightAnswer20\n- rightAnswer21\n' + 'key3 :\n- rightAnswer3';
 
+  const state = {};
+
   [
     { format: 'petit', input: INPUT },
     { format: 'phrase', input: SENTENCE },
@@ -48,17 +50,22 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 
       hooks.beforeEach(async function () {
         // given
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('challenge', challenge);
-        this.challenge.set('format', data.format);
+        state.answer = answer;
+        state.solution = solution;
+        state.challenge = challenge;
+        state.solutionToDisplay = undefined;
+        challenge.set('format', data.format);
 
         // when
-        screen = await render(hbs`<SolutionPanel::QrocmIndSolutionPanel
-  @answer={{this.answer}}
-  @solution={{this.solution}}
-  @challenge={{this.challenge}}
-/>`);
+        screen = await render(
+          <template>
+            <QrocmIndSolutionPanel
+              @answer={{state.answer}}
+              @solution={{state.solution}}
+              @challenge={{state.challenge}}
+            />
+          </template>,
+        );
       });
 
       test('should display the labels', function (assert) {
@@ -137,14 +144,16 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
         test('should display the solutionToDisplay if exist', async function (assert) {
           // when
           const solutionToDisplay = 'Ceci est la solution !';
-          this.set('solutionToDisplay', solutionToDisplay);
+          state.solutionToDisplay = solutionToDisplay;
           await render(
-            hbs`<SolutionPanel::QrocmIndSolutionPanel
-  @challenge={{this.challenge}}
-  @solution={{this.solution}}
-  @answer={{this.answer}}
-  @solutionToDisplay={{this.solutionToDisplay}}
-/>`,
+            <template>
+              <QrocmIndSolutionPanel
+                @challenge={{state.challenge}}
+                @solution={{state.solution}}
+                @answer={{state.answer}}
+                @solutionToDisplay={{state.solutionToDisplay}}
+              />
+            </template>,
           );
 
           // then
@@ -183,9 +192,9 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 
   module('When format is neither a paragraph nor a phrase', function (hooks) {
     hooks.beforeEach(function () {
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('challenge', challenge);
+      state.answer = answer;
+      state.solution = solution;
+      state.challenge = challenge;
     });
 
     test(`should display a disabled input with size based on the length of the value`, async function (assert) {
@@ -193,11 +202,9 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
       //when
       await render(
-        hbs`<SolutionPanel::QrocmIndSolutionPanel
-  @challenge={{this.challenge}}
-  @answer={{this.answer}}
-  @solution={{this.solution}}
-/>`,
+        <template>
+          <QrocmIndSolutionPanel @challenge={{state.challenge}} @answer={{state.answer}} @solution={{state.solution}} />
+        </template>,
       );
       //then
 
@@ -212,20 +219,18 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 
   module('When format is a paragraph', function (hooks) {
     hooks.beforeEach(function () {
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('challenge', challenge);
-      this.challenge.set('format', 'paragraphe');
+      state.answer = answer;
+      state.solution = solution;
+      state.challenge = challenge;
+      challenge.set('format', 'paragraphe');
     });
 
     test('should display a disabled textarea', async function (assert) {
       // when
       await render(
-        hbs`<SolutionPanel::QrocmIndSolutionPanel
-  @answer={{this.answer}}
-  @solution={{this.solution}}
-  @challenge={{this.challenge}}
-/>`,
+        <template>
+          <QrocmIndSolutionPanel @answer={{state.answer}} @solution={{state.solution}} @challenge={{state.challenge}} />
+        </template>,
       );
 
       // then
@@ -239,20 +244,18 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 
   module('When format is a sentence', function (hooks) {
     hooks.beforeEach(function () {
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('challenge', challenge);
-      this.challenge.set('format', 'phrase');
+      state.answer = answer;
+      state.solution = solution;
+      state.challenge = challenge;
+      challenge.set('format', 'phrase');
     });
 
     test('should display a disabled input', async function (assert) {
       // when
       await render(
-        hbs`<SolutionPanel::QrocmIndSolutionPanel
-  @answer={{this.answer}}
-  @solution={{this.solution}}
-  @challenge={{this.challenge}}
-/>`,
+        <template>
+          <QrocmIndSolutionPanel @answer={{state.answer}} @solution={{state.solution}} @challenge={{state.challenge}} />
+        </template>,
       );
 
       // then
@@ -273,20 +276,18 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
         assessment,
         challenge,
       });
-      this.set('answer', skippedAnswer);
-      this.set('solution', solution);
-      this.set('challenge', challenge);
-      this.challenge.set('format', 'petit');
+      state.answer = skippedAnswer;
+      state.solution = solution;
+      state.challenge = challenge;
+      challenge.set('format', 'petit');
     });
 
     test('should display "Pas de réponse" for every input with a skipped aria-label', async function (assert) {
       // when
       await render(
-        hbs`<SolutionPanel::QrocmIndSolutionPanel
-  @answer={{this.answer}}
-  @solution={{this.solution}}
-  @challenge={{this.challenge}}
-/>`,
+        <template>
+          <QrocmIndSolutionPanel @answer={{state.answer}} @solution={{state.solution}} @challenge={{state.challenge}} />
+        </template>,
       );
 
       // then
