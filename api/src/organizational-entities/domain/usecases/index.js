@@ -94,6 +94,7 @@ import { createNetwork } from './create-network.usecase.js';
 import { createOrganization } from './create-organization.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from './create-organizations-with-tags-and-target-profiles.usecase.js';
 import { createTag } from './create-tag.js';
+import { detachCertificationCenterFromOrganization } from './detach-certification-center-from-organization.usecase.js';
 import { detachParentOrganizationFromOrganization } from './detach-parent-organization-from-organization.usecase.js';
 import { findAllAdministrationTeams } from './find-all-administration-teams.usecase.js';
 import { findAllOrganizationLearnerTypes } from './find-all-organization-learner-types.refactor.js';
@@ -132,6 +133,7 @@ const usecasesWithoutInjectedDependencies = {
   createOrganization,
   createOrganizationsWithTagsAndTargetProfiles,
   createTag,
+  detachCertificationCenterFromOrganization,
   detachParentOrganizationFromOrganization,
   findPaginatedFilteredNetworks,
   findAllTags,
@@ -163,6 +165,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {addOrganizationFeatureInBatch} addOrganizationFeatureInBatch
  * @property {createCertificationCenter} createCertificationCenter
  * @property {createTag} createTag
+ * @property {detachCertificationCenterFromOrganization} detachCertificationCenterFromOrganization
  * @property {detachParentOrganizationFromOrganization} detachParentOrganizationFromOrganization
  * @property {findPaginatedFilteredCertificationCenters} findPaginatedFilteredCertificationCenters
  * @property {findAttachedOrganizationsForAdmin} findAttachedOrganizationsForAdmin
