@@ -121,7 +121,6 @@ describe('Unit | Application | Service | register-candidate-participation', func
       // then
       expect(usecases.verifyCandidateReconciliationRequirements).to.have.been.calledWithExactly({
         candidate: unlinkedCandidate,
-        sessionId,
       });
     });
 

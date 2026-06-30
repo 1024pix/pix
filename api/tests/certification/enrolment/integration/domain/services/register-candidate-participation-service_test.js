@@ -1,5 +1,3 @@
-import sinon from 'sinon';
-
 import { services } from '../../../../../../src/certification/enrolment/application/services/index.js';
 import { normalize } from '../../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { expect } from '../../../../../test-helper.js';
@@ -29,19 +27,12 @@ describe('Integration | Application | Service | register-candidate-participation
         certificationCandidateId: certificationCandidate.id,
         complementaryCertificationId: 1234,
       });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: 1234,
+      });
 
       await databaseBuilder.commit();
-
-      const placementProfileService = {
-        getPlacementProfile: sinon.stub(),
-      };
-
-      placementProfileService.getPlacementProfile
-        .withArgs({
-          userId: certificationCandidate.userId,
-          limitDate: certificationCandidate.reconciledAt,
-        })
-        .resolves({ isCertifiable: sinon.stub().returns(false) });
 
       // when
       await catchErr(services.registerCandidateParticipation)({
@@ -55,11 +46,11 @@ describe('Integration | Application | Service | register-candidate-participation
       });
 
       // then
-      const candidate = await knex('certification-candidates')
+      const [candidate] = await knex('certification-candidates')
         .select('userId', 'reconciledAt')
         .where({ id: certificationCandidate.id });
-      expect(candidate.userId).to.be.undefined;
-      expect(candidate.reconciledAt).to.be.undefined;
+      expect(candidate.userId).to.be.null;
+      expect(candidate.reconciledAt).to.be.null;
     });
   });
 });

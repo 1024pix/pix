@@ -1,6 +1,8 @@
 import sinon from 'sinon';
 
 import { verifyCandidateIdentity } from '../../../../../../src/certification/enrolment/domain/usecases/verify-candidate-identity.js';
+import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { types } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
@@ -388,6 +390,98 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     });
 
     context('when reconciliation is non-existent on all sides', function () {
+      context('when matching candidate has a complementary subscription', function () {
+        context('when the certification center is not habilitated for the subscription', function () {
+          it('should throw a CenterHabilitationError holding the subscription framework', async function () {
+            // given
+            userRepository.get.withArgs({ id: userId }).resolves(
+              domainBuilder.certification.enrolment.buildUser({
+                id: userId,
+                lang: 'fr',
+              }),
+            );
+            sessionRepository.get.withArgs({ id: sessionId }).resolves(
+              domainBuilder.certification.enrolment.buildSession({
+                id: sessionId,
+                certificationCenterId,
+              }),
+            );
+            centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
+              domainBuilder.certification.enrolment.buildCenter({
+                id: certificationCenterId,
+                habilitations: [],
+                matchingOrganization: null,
+              }),
+            );
+            candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
+              domainBuilder.certification.enrolment.buildCandidate({
+                firstName,
+                lastName,
+                userId: null,
+                birthdate,
+                subscription: Frameworks.DROIT,
+                subscriptions: [domainBuilder.certification.enrolment.buildComplementarySubscription()],
+              }),
+            ]);
+
+            // when
+            const error = await catchErr(verifyCandidateIdentity)({
+              ...dependencies,
+            });
+
+            // then
+            expect(error).to.be.instanceof(CenterHabilitationError);
+            expect(error.meta).to.deep.equal({ framework: Frameworks.DROIT });
+          });
+        });
+
+        context('when the certification center is habilitated for the subscription', function () {
+          it('should return the candidate', async function () {
+            // given
+            const matchingCandidate = domainBuilder.certification.enrolment.buildCandidate({
+              firstName,
+              lastName,
+              userId: null,
+              birthdate,
+              subscription: Frameworks.DROIT,
+              subscriptions: [domainBuilder.certification.enrolment.buildComplementarySubscription()],
+            });
+            userRepository.get.withArgs({ id: userId }).resolves(
+              domainBuilder.certification.enrolment.buildUser({
+                id: userId,
+                lang: 'fr',
+              }),
+            );
+            sessionRepository.get.withArgs({ id: sessionId }).resolves(
+              domainBuilder.certification.enrolment.buildSession({
+                id: sessionId,
+                certificationCenterId,
+              }),
+            );
+            centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
+              domainBuilder.certification.enrolment.buildCenter({
+                id: certificationCenterId,
+                habilitations: [
+                  domainBuilder.certification.enrolment.buildHabilitation({
+                    key: Frameworks.DROIT,
+                  }),
+                ],
+                matchingOrganization: null,
+              }),
+            );
+            candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([matchingCandidate]);
+
+            // when
+            const result = await verifyCandidateIdentity({
+              ...dependencies,
+            });
+
+            // then
+            expect(result).to.deep.equal(matchingCandidate);
+          });
+        });
+      });
+
       context('when it is a session sco / is managing students', function () {
         context('when matching candidate is not related to a reconcilied learner', function () {
           it('should throw a MatchingReconciledStudentNotFoundError', async function () {
