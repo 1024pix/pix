@@ -824,7 +824,7 @@ module('Integration | Component | certification-starter', function (hooks) {
               sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
 
               this.set('model', {
-                certificationCandidate: { hasStartedTest: false, sessionId: 123 },
+                certificationCandidate: { hasStartedTest: false, sessionId: 123, subscription: 'DROIT' },
               });
               const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
               await fillIn(
@@ -846,7 +846,7 @@ module('Integration | Component | certification-starter', function (hooks) {
               await clickByLabel(t('pages.certification-start.actions.submit'));
 
               // then
-              assert.ok(screen.getByText(t('pages.certification-joiner.error-messages.missing-center-habilitation')));
+              assert.ok(screen.getByText('Vous êtes inscrit à la certification Pix+ Droit.', { exact: false }));
             });
           });
         });

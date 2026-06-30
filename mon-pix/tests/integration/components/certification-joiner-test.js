@@ -265,7 +265,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
         const saveStub = sinon.stub();
         saveStub
           .withArgs({ adapterOptions: { joinSession: true, sessionId: '123456' } })
-          .throws({ errors: [{ status: '403', code: 'CENTER_HABILITATION_ERROR' }] });
+          .throws({ errors: [{ status: '403', code: 'CENTER_HABILITATION_ERROR', meta: { framework: 'DROIT' } }] });
         const createRecordMock = sinon.mock();
         createRecordMock.returns({ save: saveStub, deleteRecord: function () {} });
         store.createRecord = createRecordMock;
@@ -274,7 +274,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
         await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
         // then
-        assert.ok(screen.getByText(t('pages.certification-joiner.error-messages.missing-center-habilitation')));
+        assert.ok(screen.getByText('Vous êtes inscrit à la certification Pix+ Droit.', { exact: false }));
       });
     });
 

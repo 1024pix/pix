@@ -887,7 +887,7 @@
         },
         "language-not-supported": "La certificación Pix aún no está disponible en {userLanguage}. '<br>' Los idiomas disponibles actualmente para la certificación son: {availableLanguages}. '<br>' Puedes elegir otro idioma en la página",
         "language-not-supported-link": "Mi cuenta",
-        "missing-center-habilitation": "No puedes unirte a la sesión. El centro de certificación no está autorizado para realizar esta certificación.",
+        "missing-center-habilitation": "Estás inscrito en la certificación {subscription}. '<br><br><strong>'Tu centro de certificación ya no está autorizado para realizar esta certificación'</strong>'. '<br><br>' Por favor, ponte en contacto con tu supervisor.",
         "session-not-accessible": "La sesión a la que intentas unirte ya no está disponible.",
         "wrong-account": "La información introducida corresponde a un candidato registrado en la sesión y que ya está conectado con otra cuenta. Comprueba que te has conectado con la cuenta que inició la certificación.",
         "wrong-account-sco": "Actualmente estás utilizando una cuenta que no está vinculada a tu centro. Conéctate a la cuenta con la que completaste tus test o pide ayuda al supervisor.",

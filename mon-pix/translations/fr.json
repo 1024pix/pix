@@ -887,7 +887,7 @@
         },
         "language-not-supported": "La certification Pix n'est pas encore disponible en {userLanguage}. '<br>' Les langues disponibles actuellement pour passer la certification sont : {availableLanguages}. '<br>' Vous pouvez choisir une autre langue depuis la page ",
         "language-not-supported-link": "Mon compte",
-        "missing-center-habilitation": "Vous ne pouvez pas rejoindre la session. Le centre de certification n'est pas habilité à vous faire passer cette certification.",
+        "missing-center-habilitation": "Vous êtes inscrit à la certification {subscription}. '<br><br><strong>'Votre centre de certification n'est plus habilité à faire passer cette certification'</strong>'. '<br><br>' Merci de vous rapprocher de votre surveillant.",
         "session-not-accessible": "La session que vous tentez de rejoindre n'est plus accessible.",
         "wrong-account": "Les informations saisies correspondent à un(e) candidat(e) inscrit(e) à la session et déjà connecté(e) avec un autre compte. Vérifiez que vous êtes connecté(e) au compte qui a démarré la certification.",
         "wrong-account-sco": "Vous utilisez actuellement un compte qui n'est pas lié à votre établissement.\nConnectez vous au compte avec lequel vous avez effectué vos parcours ou demandez de l'aide au surveillant.",

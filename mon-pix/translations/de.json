@@ -887,7 +887,7 @@
         },
         "language-not-supported": "Die Pix-Zertifizierung ist derzeit nicht in {userLanguage} verfügbar. '<br>' Die derzeit verfügbaren Sprachen, um die Zertifizierung zu absolvieren, sind : {availableLanguages}. '<br>' Du kannst eine andere Sprache von der Seite",
         "language-not-supported-link": "Mein Konto",
-        "missing-center-habilitation": "Du kannst nicht an der Testung teilnehmen. Die Zertifizierungsstelle ist nicht berechtigt, dich zu dieser Zertifizierung zuzulassen.",
+        "missing-center-habilitation": "Du bist für die Zertifizierung {subscription} angemeldet. '<br><br><strong>'Deine Zertifizierungsstelle ist nicht mehr berechtigt, diese Zertifizierung abzunehmen'</strong>'. '<br><br>' Bitte wende dich an deine Aufsichtsperson.",
         "session-not-accessible": "Die Testung, an der du versuchst teilzunehmen, ist nicht mehr zugänglich.",
         "wrong-account": "Die eingegebenen Informationen beziehen sich auf einen Kandidaten/eine Kandidatin, der/die sich für die Testung angemeldet hat und bereits mit einem anderen Konto angemeldet ist. Vergewissere dich, dass du mit dem Konto verbunden bist, das die Zertifizierung gestartet hat.",
         "wrong-account-sco": "Du verwendest derzeit ein Konto, das nicht mit deiner Organisation verknüpft ist.\nMelde dich bei dem Konto an, mit dem du deine Laufwege absolviert hast, oder bitte die Aufsichtsperson um Hilfe.",

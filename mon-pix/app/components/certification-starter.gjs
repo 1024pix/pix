@@ -178,7 +178,9 @@ export default class CertificationStarter extends Component {
     if (ERROR_MESSAGE_KEYS[statusCode]) {
       this.apiErrorMessage = this.intl.t(ERROR_MESSAGE_KEYS[statusCode]);
     } else if (statusCode === '403' && FORBIDDEN_ERROR_MESSAGE_KEYS[errorCode]) {
-      this.apiErrorMessage = this.intl.t(FORBIDDEN_ERROR_MESSAGE_KEYS[errorCode]);
+      const interpolationValues =
+        errorCode === 'CENTER_HABILITATION_ERROR' ? { subscription: this.subscriptionLabel, htmlSafe: true } : {};
+      this.apiErrorMessage = this.intl.t(FORBIDDEN_ERROR_MESSAGE_KEYS[errorCode], interpolationValues);
     } else {
       this.technicalErrorInformation = `${error.message} ${error.stack}`;
       this.apiErrorMessage = this.intl.t('pages.certification-start.error-messages.generic');

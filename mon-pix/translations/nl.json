@@ -887,7 +887,7 @@
         },
         "language-not-supported": "Pix-certificering is nog niet beschikbaar in het {userLanguage}. '<br>' De talen die momenteel beschikbaar zijn voor certificering zijn: {availableLanguages}. '<br>' Je kunt een andere taal kiezen op de pagina",
         "language-not-supported-link": "Mijn account",
-        "missing-center-habilitation": "U kunt niet deelnemen aan de sessie. Het certificeringscentrum is niet bevoegd om u deze certificering te laten afleggen.",
+        "missing-center-habilitation": "Je bent ingeschreven voor de certificering {subscription}. '<br><br><strong>'Je certificeringscentrum is niet langer bevoegd om deze certificering af te nemen'</strong>'. '<br><br>' Neem contact op met je toezichthouder.",
         "session-not-accessible": "De sessie die u probeert te bezoeken is niet langer toegankelijk.",
         "wrong-account": "De ingevoerde informatie komt overeen met een kandidaat die is geregistreerd voor de sessie en al is ingelogd met een ander account. Controleer of u bent aangemeld bij het account waarmee de certificering is gestart.",
         "wrong-account-sco": "Je gebruikt momenteel een account dat niet aan je school is gekoppeld.\nLog in op het account waarmee je je cursussen hebt afgerond of vraag de toezichthouder om hulp.",

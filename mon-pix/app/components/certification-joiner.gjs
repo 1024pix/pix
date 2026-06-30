@@ -277,7 +277,6 @@ export default class CertificationJoiner extends Component {
                   {{this.errorMessageLink.label}}
                   <PixIcon @name="openNew" @title={{t "navigation.external-link-title"}} />
                 </a>
-
               {{/if}}
             </PixNotificationAlert>
           </div>
@@ -336,9 +335,11 @@ const ERROR_HANDLERS = [
   },
   {
     match: (error) => error.status === '403' && error.code === 'CENTER_HABILITATION_ERROR',
-    handle(component) {
+    handle(component, error) {
+      const subscription = component.intl.t(`pages.certification-frameworks.${error.meta?.framework}`);
       component.errorMessage = component.intl.t(
         'pages.certification-joiner.error-messages.missing-center-habilitation',
+        { subscription, htmlSafe: true },
       );
     },
   },
