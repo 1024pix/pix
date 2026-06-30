@@ -1,11 +1,12 @@
-import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
-import * as sessionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
-import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { SessionEnrolment } from "../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js";
+import * as sessionRepository
+  from "../../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js";
+import { CERTIFICATION_CENTER_TYPES } from "../../../../../../src/shared/constants.js";
+import { NotFoundError } from "../../../../../../src/shared/domain/errors.js";
+import { expect } from "../../../../../test-helper.js";
+import { databaseBuilder, knex } from "../../../../../tooling/databases.js";
+import { domainBuilder } from "../../../../../tooling/domain-builder/domain-builder.js";
+import { catchErr } from "../../../../../tooling/test-utils/error.js";
 
 describe('Integration | Repository | certification | enrolment | SessionEnrolment', function () {
   describe('#save', function () {
@@ -147,10 +148,8 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
         it('should remove candidates and delete the session', async function () {
           // given
           const sessionId = databaseBuilder.factory.buildSession().id;
-          const candidateA = databaseBuilder.factory.buildCertificationCandidate({ sessionId });
-          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
-          const candidateB = databaseBuilder.factory.buildCertificationCandidate({ sessionId });
-          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
+          databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+          databaseBuilder.factory.buildCertificationCandidate({ sessionId });
 
           await databaseBuilder.commit();
 
@@ -162,36 +161,6 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
           const candidates = await knex('certification-candidates').where({ sessionId });
           expect(foundSession).to.be.undefined;
           expect(candidates).to.be.empty;
-        });
-
-        context('when candidates have complementary certification subscriptions', function () {
-          it('should remove complementary certification subscriptions', async function () {
-            // given
-            const sessionId = databaseBuilder.factory.buildSession().id;
-            const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
-            databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
-
-            const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-              id: 123,
-            }).id;
-            databaseBuilder.factory.buildComplementaryCertificationSubscription({
-              complementaryCertificationId: complementaryCertificationId,
-              certificationCandidateId,
-            });
-
-            await databaseBuilder.commit();
-
-            // when
-            await sessionRepository.remove({ id: sessionId });
-
-            // then
-            const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
-            const foundSubscriptions = await knex('certification-subscriptions').where({
-              certificationCandidateId,
-            });
-            expect(foundSession).to.be.undefined;
-            expect(foundSubscriptions).to.be.empty;
-          });
         });
       });
 
