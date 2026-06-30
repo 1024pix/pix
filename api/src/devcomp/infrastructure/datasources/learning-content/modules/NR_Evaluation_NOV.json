@@ -539,6 +539,12 @@
                       "licence": ""
                     },
                     {
+                      "id": "a940b0fc-f32e-4eb3-b9d7-af7c55f218bc",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Source &nbsp;: <a href=\"https://impactco2.fr/outils/numerique\" target=\"_blank\">Mesurer l'impact carbone des appareils numériques - ADEME</a>, juin 2026.</p>"
+                    },
+                    {
                       "id": "15c7f1a1-e92a-4558-a51f-6fa960c7fa0c",
                       "type": "qcu",
                       "instruction": "<p>Pour un smartphone, quelle étape émet le plus de gaz à effet de serre ?</p>",
@@ -619,6 +625,12 @@
                       "alternativeText": "<p>Extraits du logiciel de calcul d’empreinte carbone.</p><p>Empreintes carbone des équipements numériques&nbsp;:</p><ul>    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>    <li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li>    <li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li></ul><p>Empreintes carbone d’activités de référence&nbsp;:</p><ul>    <li>4 allers-retours Paris-Berlin en TGV&nbsp;: 29,3kg&nbsp;CO₂eq</li>    <li>100kg de bananes&nbsp;: 90,9kg&nbsp;CO₂eq</li>    <li>Fabrication de&nbsp;10 jeans&nbsp;: 251kg&nbsp;CO₂eq</li></ul>",
                       "legend": "",
                       "licence": ""
+                    },
+                    {
+                      "id": "a940b0fc-f32e-4eb3-b9d7-af7c55f218bc",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Source &nbsp;: <a href=\"https://impactco2.fr/outils/numerique\" target=\"_blank\">Mesurer l'impact carbone des appareils numériques - ADEME</a>, juin 2026.</p>"
                     },
                     {
                       "id": "020f2752-2a1a-4ab3-a4a0-ffcdcbbaa06d",
@@ -975,21 +987,21 @@
                     "id": "0",
                     "content": "<p>Calculer l’empreinte carbone de mes activités numériques.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bonne idée ! Connaître l’empreinte carbone de ses activités permet de mieux <strong>prioriser ses actions</strong> pour <strong>réduire ses émissions de gaz à effet de serre</strong>.</br> Vous pouvez, par exemple, utiliser ce <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">simulateur de l’ADEME</a> pour estimer l’empreinte carbone de vos appareils numériques.</p>"
+                      "diagnosis": "<p>Bonne idée ! Connaître l’empreinte carbone de ses activités permet de mieux <strong>prioriser ses actions</strong> pour <strong>réduire ses émissions de gaz à effet de serre</strong>.</p><p>Vous pouvez, par exemple, utiliser ce <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">simulateur de l’ADEME</a> pour estimer l’empreinte carbone de vos appareils numériques.</p>"
                     }
                   },
                   {
                     "id": "1",
                     "content": "<p>Comparer l’empreinte carbone de mon ordinateur avec celle de mon alimentation ou de mes loisirs.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bonne idée. Comparer l’empreinte carbone de plusieurs activités peut aider à les <strong>comprendre<strong>, et à <strong>prioriser ses actions</strong> pour <strong>réduire les émissions de gaz à effet de serre</strong>.</br> Vous pouvez, par exemple, utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation ou de vos loisirs.</p>"
+                      "diagnosis": "<p>Bonne idée. Comparer l’empreinte carbone de plusieurs activités peut aider à les <strong>comprendre</strong>, et à <strong>prioriser ses actions</strong> pour <strong>réduire les émissions de gaz à effet de serre</strong>.</p><p>Vous pouvez, par exemple, utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation ou de vos loisirs.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Éviter d’acheter un nouvel ordinateur si je n’en ai pas vraiment besoin.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Très bonne idée ! Comme nous avons pu le voir, <strong>fabriquer un ordinateur émet des gaz à effet de serre</strong>. On peut éviter ces émissions en n’achetant pas de nouvel ordinateur.<br>Par ailleurs, vous pouvez aussi utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation.</p>"
+                      "diagnosis": "<p>Très bonne idée ! Comme nous avons pu le voir, <strong>fabriquer un ordinateur émet des gaz à effet de serre</strong>. On peut éviter ces émissions en n’achetant pas de nouvel ordinateur.</p><p>Par ailleurs, vous pouvez aussi utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation.</p>"
                     }
                   }
                 ]
