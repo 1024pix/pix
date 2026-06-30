@@ -201,9 +201,6 @@ const configuration = (function () {
         },
       },
     },
-    account: {
-      passwordValidationPattern: '^(?=.*\\p{Lu})(?=.*\\p{Ll})(?=.*\\d).{8,}$',
-    },
     anonymous: {
       accessTokenLifespanMs: ms(process.env.ANONYMOUS_ACCESS_TOKEN_LIFESPAN || '4h'),
     },
