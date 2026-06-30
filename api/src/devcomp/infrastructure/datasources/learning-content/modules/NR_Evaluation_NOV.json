@@ -103,136 +103,160 @@
               }
             },
             {
+              "type": "element",
+              "element": {
+                "id": "5c426cd7-e859-4cff-bbf4-6dc659229474",
+                "type": "custom",
+                "title": "",
+                "instruction": "<p>Parcourez les activités humaines suivantes pour découvrir quels gaz à \neffet de serre elles émettent, puis répondez aux questions.</p>",
+                "functionalInstruction": "",
+                "tagName": "pix-carousel",
+                "props": {
+                  "type": "image",
+                  "slides": [
+                    {
+                      "title": "",
+                      "description": "",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-1.png",
+                        "alt": "<p>Activité&nbsp;: parcourir 100 kilomètres en voiture.</p><p>Gaz émis&nbsp;: dioxyde de carbone (CO2).</p>"
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "",
+                      "description": "",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-2.png",
+                        "alt": "<p>Activité&nbsp;: produire 1 kg de viande de boeuf.</p><p>Gaz émis&nbsp;: méthane (CH4) et&nbsp;dioxyde de carbone (CO2).</p>"
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "",
+                      "description": "",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-3.png",
+                        "alt": "<p>Activité&nbsp;: produire 100 kg de carottes.</p><p>Gaz émis&nbsp;: méthane (CH4) et protoxyde d’azote&nbsp;(NO2).</p>"
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    }
+                  ],
+                  "randomSlides": false,
+                  "titleLevel": 0,
+                  "disableAnimation": false,
+                  "disableStyleAroundImage": false,
+                  "enableLoop": false,
+                  "imageTextDisplay": ""
+                }
+              }
+            },
+            {
+              "id": "b0817ab6-c731-4548-9835-f65f6544cafe",
+              "type": "text",
+              "tag": " ",
+              "content": "<p>Répondez aux questions suivantes.</p>"
+            },
+            {
               "type": "stepper",
-              "instruction": "<p>Parcourez les activités humaines suivantes pour découvrir quels gaz à effet de serre elles émettent, puis répondez aux questions.</p>",
+              "instruction": "",
               "steps": [
                 {
                   "elements": [
                     {
-                      "id": "59b8ff08-6197-4e96-9d96-caea37e36a96",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-1.png",
-                      "alt": "",
-                      "alternativeText": "<p>Activité&nbsp;: parcourir 100 kilomètres en voiture.</p><p>Gaz émis&nbsp;: dioxyde de carbone (CO2).</p>",
-                      "legend": "",
-                      "licence": ""
+                      "id": "5c6cf576-1284-4591-b861-7b4ad3d8c96d",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Quels gaz à effet de serre est émis par un trajet en voiture ?<br></p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "0",
+                          "content": "oxygène (O)",
+                          "feedback": {
+                            "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                          }
+                        },
+                        {
+                          "id": "1",
+                          "content": "dioxyde de carbone (CO2)",
+                          "feedback": {
+                            "diagnosis": "Bien vu ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "méthane (CH4)",
+                          "feedback": {
+                            "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                          }
+                        }
+                      ],
+                      "solution": "1"
                     }
                   ]
                 },
                 {
                   "elements": [
                     {
-                      "id": "4ae54e1b-d0b0-4ab8-a62d-24a87c114ffd",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-2.png",
-                      "alt": "",
-                      "alternativeText": "<p>Activité&nbsp;: produire 1 kg de viande de boeuf.</p><p>Gaz émis&nbsp;: méthane (CH4) et&nbsp;dioxyde de carbone (CO2).</p>",
-                      "legend": "",
-                      "licence": ""
-                    }
-                  ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "98eb039c-c246-4588-91db-d46562fe1c1b",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-3.png",
-                      "alt": "",
-                      "alternativeText": "<p>Activité&nbsp;: produire 100 kg de carottes.</p><p>Gaz émis&nbsp;: méthane (CH4) et protoxyde d’azote&nbsp;(NO2).</p>",
-                      "legend": "",
-                      "licence": ""
+                      "id": "50d81f9c-5465-459b-aa9b-f79045acbe4d",
+                      "type": "qcm",
+                      "instruction": "<p>Quels gaz à effet de serre sont émis par la production de carottes ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "0",
+                          "content": "dioxyde de carbone (CO2)"
+                        },
+                        {
+                          "id": "1",
+                          "content": "protoxyde d’azote (NO2)"
+                        },
+                        {
+                          "id": "2",
+                          "content": "dioxyde de soufre (SO2)"
+                        },
+                        {
+                          "id": "3",
+                          "content": "méthane (CH4)"
+                        },
+                        {
+                          "id": "4",
+                          "content": "Je ne sais pas."
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "Bien vu !",
+                          "diagnosis": "La production de carottes émet du protoxyde d’azote (NO2) et du dioxyde de carbone (CO2)."
+                        },
+                        "invalid": {
+                          "state": "Eh non !",
+                          "diagnosis": "La production de carottes émet du protoxyde d’azote (NO2) et du dioxyde de carbone (CO2)."
+                        }
+                      },
+                      "solutions": [
+                        "1",
+                        "3"
+                      ]
                     }
                   ]
                 }
               ]
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "b0817ab6-c731-4548-9835-f65f6544cafe",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Répondez aux questions suivantes.</p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "5c6cf576-1284-4591-b861-7b4ad3d8c96d",
-                "type": "qcu-discovery",
-                "instruction": "<p>Quels gaz à effet de serre est émis par un trajet en voiture ?<br></p>",
-                "hasShortProposals": false,
-                "proposals": [
-                  {
-                    "id": "0",
-                    "content": "oxygène (O)",
-                    "feedback": {
-                      "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
-                    }
-                  },
-                  {
-                    "id": "1",
-                    "content": "dioxyde de carbone (CO2)",
-                    "feedback": {
-                      "diagnosis": "Bien vu ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
-                    }
-                  },
-                  {
-                    "id": "2",
-                    "content": "méthane (CH4)",
-                    "feedback": {
-                      "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
-                    }
-                  }
-                ],
-                "solution": "1"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "50d81f9c-5465-459b-aa9b-f79045acbe4d",
-                "type": "qcm",
-                "instruction": "<p>Quels gaz à effet de serre sont émis par la production de carottes ?</p>",
-                "hasShortProposals": false,
-                "proposals": [
-                  {
-                    "id": "0",
-                    "content": "dioxyde de carbone (CO2)"
-                  },
-                  {
-                    "id": "1",
-                    "content": "protoxyde d’azote (NO2)"
-                  },
-                  {
-                    "id": "2",
-                    "content": "dioxyde de soufre (SO2)"
-                  },
-                  {
-                    "id": "3",
-                    "content": "méthane (CH4)"
-                  },
-                  {
-                    "id": "4",
-                    "content": "Je ne sais pas."
-                  }
-                ],
-                "feedbacks": {
-                  "valid": {
-                    "state": "Bien vu !",
-                    "diagnosis": "La production de carottes émet du protoxyde d’azote (NO2) et du dioxyde de carbone (CO2)."
-                  },
-                  "invalid": {
-                    "state": "Eh non !",
-                    "diagnosis": "La production de carottes émet du protoxyde d’azote (NO2) et du dioxyde de carbone (CO2)."
-                  }
-                },
-                "solutions": [
-                  "1",
-                  "3"
-                ]
-              }
             }
           ]
         },
