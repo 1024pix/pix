@@ -93,62 +93,90 @@ export function createParquetArrayBuffer(rangeStart, batchAnswersToBeDeleted, as
 }
 
 function _createArrayBufferFromAnswers(answersToBeDeleted) {
+  const ids = new Array(answersToBeDeleted.length);
+  const values = new Array(answersToBeDeleted.length);
+  const results = new Array(answersToBeDeleted.length);
+  const assessmentIds = new Array(answersToBeDeleted.length);
+  const challengeIds = new Array(answersToBeDeleted.length);
+  const createdAts = new Array(answersToBeDeleted.length);
+  const updatedAts = new Array(answersToBeDeleted.length);
+  const timeouts = new Array(answersToBeDeleted.length);
+  const resultsDetails = new Array(answersToBeDeleted.length);
+  const timeSpents = new Array(answersToBeDeleted.length);
+  const areFocusedOut = new Array(answersToBeDeleted.length);
+
+  for (let i = 0; i < answersToBeDeleted.length; i++) {
+    const answer = answersToBeDeleted[i];
+
+    ids[i] = BigInt(answer.id);
+    values[i] = answer.value ?? '';
+    results[i] = answer.result ?? '';
+    assessmentIds[i] = answer.assessmentId;
+    challengeIds[i] = answer.challengeId ?? '';
+    createdAts[i] = answer.createdAt;
+    updatedAts[i] = answer.updatedAt;
+    timeouts[i] = answer.timeout ?? null;
+    resultsDetails[i] = answer.resultDetails ?? null;
+    timeSpents[i] = answer.timeSpent ?? 0;
+    areFocusedOut[i] = answer.isFocusedOut ?? false;
+  }
+
   return parquetWriteBuffer({
     rowGroupSize: 5,
     columnData: [
       {
         name: 'id',
-        data: answersToBeDeleted.map(({ id }) => BigInt(id)),
+        data: ids,
         type: 'INT64',
       },
       {
         name: 'value',
-        data: answersToBeDeleted.map(({ value }) => value ?? ''),
+        data: values,
         type: 'STRING',
       },
       {
         name: 'result',
-        data: answersToBeDeleted.map(({ result }) => result ?? ''),
+        data: results,
         type: 'STRING',
       },
       {
         name: 'assessmentId',
-        data: answersToBeDeleted.map(({ assessmentId }) => assessmentId),
+        data: assessmentIds,
         type: 'INT32',
       },
       {
         name: 'challengeId',
-        data: answersToBeDeleted.map(({ challengeId }) => challengeId ?? ''),
+        data: challengeIds,
         type: 'STRING',
       },
       {
         name: 'createdAt',
-        data: answersToBeDeleted.map(({ createdAt }) => createdAt),
+        data: createdAts,
         type: 'TIMESTAMP',
       },
       {
         name: 'updatedAt',
-        data: answersToBeDeleted.map(({ updatedAt }) => updatedAt),
+        data: updatedAts,
         type: 'TIMESTAMP',
       },
       {
         name: 'timeout',
-        data: answersToBeDeleted.map(({ timeout }) => timeout ?? null),
+        data: timeouts,
         type: 'INT32',
       },
       {
         name: 'resultDetails',
-        data: answersToBeDeleted.map(({ resultDetails }) => resultDetails ?? null),
+        data: resultsDetails,
         type: 'STRING',
       },
       {
         name: 'timeSpent',
-        data: answersToBeDeleted.map(({ timeSpent }) => timeSpent ?? 0),
+        data: timeSpents,
         type: 'INT32',
       },
       {
         name: 'isFocusedOut',
-        data: answersToBeDeleted.map(({ isFocusedOut }) => isFocusedOut ?? false),
+        data: areFocusedOut,
         type: 'BOOLEAN',
       },
       {
