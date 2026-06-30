@@ -42,7 +42,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     data.errors = {};
   });
 
-  test('it should contain inputs, attributes and validation button', async function (assert) {
+  test('it display campaign goals', async function (assert) {
     // when
     const screen = await render(
       <template>
@@ -58,9 +58,46 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
     // then
     const fieldset = screen.getByRole('radiogroup', { name: t('pages.campaign-creation.purpose.label') });
-
     assert.strictEqual(within(fieldset).getAllByRole('radio').length, 3);
-    assert.dom('button[type="submit"]').exists();
+  });
+
+  test('it disables the the submit button if no course (other than profile collection) is selected', async function () {
+    // when
+    const screen = await render(
+      <template>
+        <CreateForm
+          @campaign={{data.campaign}}
+          @onSubmit={{createCampaignSpy}}
+          @onCancel={{cancelSpy}}
+          @errors={{data.errors}}
+          @membersSortedByFullName={{data.defaultMembers}}
+        />
+      </template>,
+    );
+
+    // then
+    const button = screen.getByRole('button', { name: t('pages.campaign-creation.actions.create') });
+    assert.dom(button).hasAria('disabled', 'true');
+  });
+
+  test('it enables the the submit button profile collection is selected', async function () {
+    data.campaign.type = 'PROFILES_COLLECTION';
+    // when
+    const screen = await render(
+      <template>
+        <CreateForm
+          @campaign={{data.campaign}}
+          @onSubmit={{createCampaignSpy}}
+          @onCancel={{cancelSpy}}
+          @errors={{data.errors}}
+          @membersSortedByFullName={{data.defaultMembers}}
+        />
+      </template>,
+    );
+
+    // then
+    const button = screen.getByRole('button', { name: t('pages.campaign-creation.actions.create') });
+    assert.dom(button).doesNotHaveAria('disabled');
   });
 
   test("it should display campaign's name", async function (assert) {

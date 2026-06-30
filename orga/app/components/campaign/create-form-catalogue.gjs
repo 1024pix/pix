@@ -66,6 +66,9 @@ export default class CreateForm extends Component {
     }
   }
 
+  get isSubmitDisabled() {
+    return !(this.isCampaignGoalProfileCollection || this.args.campaign.course);
+  }
   get isCreateCampaignOfTypeExamEnabled() {
     return this.currentUser.prescriber.enableCampaignWithoutUserProfile;
   }
@@ -526,7 +529,7 @@ export default class CreateForm extends Component {
           {{t "common.actions.cancel"}}
         </PixButton>
 
-        <PixButton @type="submit">
+        <PixButton @type="submit" @isDisabled={{this.isSubmitDisabled}}>
           {{t "pages.campaign-creation.actions.create"}}
         </PixButton>
       </div>
