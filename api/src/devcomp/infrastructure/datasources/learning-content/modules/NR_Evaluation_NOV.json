@@ -580,7 +580,7 @@
                       "id": "a940b0fc-f32e-4eb3-b9d7-af7c55f218bc",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Sources &nbsp;: <a href=\"https://librairie.ademe.fr/changement-climatique/7880-evaluation-de-l-impact-environnemental-du-numerique-en-france.html\" target=\"_blank\">Étude ADEME/ARCEP - Mise à jour 2025</a> et <a href=\"https://base-empreinte.ademe.fr/donnees/jeu-donnees\" target=\"_blank\">Base Empreinte&nbsp;ADEME</a>.</p>"
+                      "content": "<p>Source &nbsp;: <a href=\"https://impactco2.fr/outils/numerique\" target=\"_blank\">Mesurer l'impact carbone des appareils numériques - ADEME</a>, juin 2026.</p>"
                     },
                     {
                       "id": "03c988e2-cde6-47fe-8341-b7d4dfb36a6b",
@@ -787,7 +787,7 @@
                 "id": "12230128-20b2-432c-9b20-bee86fc9f02f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le tableau suivant détaille l’empreinte carbone d’une télévision étape par étape. Consultez le puis classez les étapes.</p><table><thead><tr><th style=\"text-align:left\">Étape</th><th style=\"text-align:left\">Émission de gaz à effet de serre</th></tr></thead><tbody><tr><td style=\"text-align:left\">Assemblage et distribution</td><td style=\"text-align:left\">3,26 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Construction</td><td style=\"text-align:left\">325 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Usage pendant 10 ans</td><td style=\"text-align:left\">36,9 kg CO2eq</td></tr></tbody></table><p>Source des données&nbsp;: <a href=\"https://librairie.ademe.fr/changement-climatique/7880-evaluation-de-l-impact-environnemental-du-numerique-en-france.html\" target=\"_blank\">Étude ADEME/ARCEP - mise à jour 2025</a> et <a href=\"https://base-empreinte.ademe.fr/donnees/jeu-donnees\" target=\"_blank\">Base Empreinte ADEME</a></p>"
+                "content": "<p>Le tableau suivant détaille l’empreinte carbone d’une télévision étape par étape. Consultez le puis classez les étapes.</p><table><thead><tr><th style=\"text-align:left\">Étape</th><th style=\"text-align:left\">Émission de gaz à effet de serre</th></tr></thead><tbody><tr><td style=\"text-align:left\">Assemblage et distribution</td><td style=\"text-align:left\">3,26 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Construction</td><td style=\"text-align:left\">325 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Usage pendant 10 ans</td><td style=\"text-align:left\">36,9 kg CO2eq</td></tr></tbody></table><p>Source des données&nbsp;: <a href=\"https://impactco2.fr/outils/numerique\" target=\"_blank\">Mesurer l'impact carbone des appareils numériques - ADEME</a>, juin 2026.</p>"
               }
             },
             {
