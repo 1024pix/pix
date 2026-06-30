@@ -768,7 +768,7 @@
                 "id": "12230128-20b2-432c-9b20-bee86fc9f02f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le tableau suivant détaille l’empreinte carbone d’une télévision étape par étape. Consultez le puis classez les étapes.</p><table><thead><tr><th style=\"text-align:left\">Étape</th><th style=\"text-align:left\">Émission de gaz à effet de serre</th></tr></thead><tbody><tr><td style=\"text-align:left\">Assemblage et distribution</td><td style=\"text-align:left\">3,26 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Construction</td><td style=\"text-align:left\">325 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Fin de vie</td><td style=\"text-align:left\">11,9 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Usage pendant 10 ans</td><td style=\"text-align:left\">36,9 kg CO2eq</td></tr></tbody></table><p>Source des données&nbsp;: <a href=\"https://librairie.ademe.fr/changement-climatique/7880-evaluation-de-l-impact-environnemental-du-numerique-en-france.html\" target=\"_blank\">Étude ADEME/ARCEP - mise à jour 2025</a> et <a href=\"https://base-empreinte.ademe.fr/donnees/jeu-donnees\" target=\"_blank\">Base Empreinte ADEME</a></p>"
+                "content": "<p>Le tableau suivant détaille l’empreinte carbone d’une télévision étape par étape. Consultez le puis classez les étapes.</p><table><thead><tr><th style=\"text-align:left\">Étape</th><th style=\"text-align:left\">Émission de gaz à effet de serre</th></tr></thead><tbody><tr><td style=\"text-align:left\">Assemblage et distribution</td><td style=\"text-align:left\">3,26 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Construction</td><td style=\"text-align:left\">325 kg CO2eq</td></tr><tr><td style=\"text-align:left\">Usage pendant 10 ans</td><td style=\"text-align:left\">36,9 kg CO2eq</td></tr></tbody></table><p>Source des données&nbsp;: <a href=\"https://librairie.ademe.fr/changement-climatique/7880-evaluation-de-l-impact-environnemental-du-numerique-en-france.html\" target=\"_blank\">Étude ADEME/ARCEP - mise à jour 2025</a> et <a href=\"https://base-empreinte.ademe.fr/donnees/jeu-donnees\" target=\"_blank\">Base Empreinte ADEME</a></p>"
               }
             },
             {
@@ -800,10 +800,6 @@
                       },
                       {
                         "id": "2",
-                        "content": "fin de vie"
-                      },
-                      {
-                        "id": "3",
                         "content": "usage"
                       }
                     ],
@@ -833,15 +829,11 @@
                       },
                       {
                         "id": "12",
-                        "content": "fin de vie"
-                      },
-                      {
-                        "id": "13",
                         "content": "usage"
                       }
                     ],
                     "solutions": [
-                      "13"
+                      "12"
                     ]
                   },
                   {
@@ -866,15 +858,11 @@
                       },
                       {
                         "id": "22",
-                        "content": "fin de vie"
-                      },
-                      {
-                        "id": "23",
                         "content": "usage"
                       }
                     ],
                     "solutions": [
-                      "22"
+                      "20"
                     ]
                   },
                   {
@@ -899,10 +887,6 @@
                       },
                       {
                         "id": "32",
-                        "content": "fin de vie"
-                      },
-                      {
-                        "id": "33",
                         "content": "usage"
                       }
                     ],
@@ -914,7 +898,7 @@
                 "feedbacks": {
                   "valid": {
                     "state": "Bonne réponse !",
-                    "diagnosis": "L’étape de construction d’une télévision représente la plus grande partie de ses émissions de gaz à effet de serre, suivi de l’étape d’usage, puis celle de fin de vie, puis celle d’assemblage et de distribution."
+                    "diagnosis": "L’étape de construction d’une télévision représente la plus grande partie de ses émissions de gaz à effet de serre, suivie de l’étape d’usage, puis celle d’assemblage et de distribution."
                   },
                   "invalid": {
                     "state": "Mauvaise réponse !",
