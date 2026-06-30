@@ -750,7 +750,7 @@
                   },
                   {
                     "id": "d149a835-03ec-4014-bd4a-508816fcb0a8",
-                    "text": "Supprimer automatiquement un fichier inconnu.",
+                    "text": "Supprimer automatiquement tous les fichiers inconnus.",
                     "image": {
                       "url": "",
                       "altText": ""
