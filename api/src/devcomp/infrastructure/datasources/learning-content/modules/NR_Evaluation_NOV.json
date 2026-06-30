@@ -913,7 +913,7 @@
               "element": {
                 "id": "2d7bca14-6e70-49ee-9fce-80671e60946d",
                 "type": "qcm",
-                "instruction": "<p>Que permet l’empreinte carbone ? Sélectionnez les bonnes réponses.</p>",
+                "instruction": "<p>Que permet l’empreinte carbone ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -979,21 +979,21 @@
                     "id": "0",
                     "content": "<p>Calculer l’empreinte carbone de mes activités numériques.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Feedback&nbsp;: Bonne idée ! Connaître l’empreinte carbone de ses activités permet de mieux prioriser ses actions pour réduire ses émissions de gaz à effet de serre. Vous pouvez, par exemple, utiliser ce <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">simulateur de l’ADEME</a> pour estimer l’empreinte carbone de vos appareils numériques.</p>"
+                      "diagnosis": "<p>Bonne idée ! Connaître l’empreinte carbone de ses activités permet de mieux <strong>prioriser ses actions</strong> pour <strong>réduire ses émissions de gaz à effet de serre</strong>.</br> Vous pouvez, par exemple, utiliser ce <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">simulateur de l’ADEME</a> pour estimer l’empreinte carbone de vos appareils numériques.</p>"
                     }
                   },
                   {
                     "id": "1",
                     "content": "<p>Comparer l’empreinte carbone de mon ordinateur avec celle de mon alimentation ou de mes loisirs.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bonne idée. Comparer l’empreinte carbone de plusieurs activités peut aider à les comprendre, et à prioriser ses actions pour réduire les émissions de gaz à effet de serre.&nbsp; Vous pouvez, par exemple, utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation ou de vos loisirs.</p>"
+                      "diagnosis": "<p>Bonne idée. Comparer l’empreinte carbone de plusieurs activités peut aider à les <strong>comprendre<strong>, et à <strong>prioriser ses actions</strong> pour <strong>réduire les émissions de gaz à effet de serre</strong>.</br> Vous pouvez, par exemple, utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation ou de vos loisirs.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Éviter d’acheter un nouvel ordinateur si je n’en ai pas vraiment besoin.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Très bonne idée ! Comme nous avons pu le voir, fabriquer un ordinateur émet des gaz à effet de serre. On peut éviter ces émissions en n’achetant pas de nouvel ordinateur.<br>Par ailleurs, vous pouvez aussi utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation.</p>"
+                      "diagnosis": "<p>Très bonne idée ! Comme nous avons pu le voir, <strong>fabriquer un ordinateur émet des gaz à effet de serre</strong>. On peut éviter ces émissions en n’achetant pas de nouvel ordinateur.<br>Par ailleurs, vous pouvez aussi utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation.</p>"
                     }
                   }
                 ]
