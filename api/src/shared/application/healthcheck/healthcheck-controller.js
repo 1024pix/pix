@@ -1,12 +1,16 @@
+import os from 'node:os';
+
 import Boom from '@hapi/boom';
 
 import { databaseConnections } from '../../../../db/database-connections.js';
 import packageJSON from '../../../../package.json' with { type: 'json' };
 import { config } from '../../config.js';
 import { getBaseLocale } from '../../domain/services/locale-service.js';
+import { featureToggles } from '../../infrastructure/feature-toggles/index.js';
 import * as network from '../../infrastructure/utils/network.js';
 import { redisMonitor } from '../../infrastructure/utils/redis-monitor.js';
 import { getChallengeLocale } from '../../infrastructure/utils/request-response-utils.js';
+import { NotFoundError } from '../errors/http-errors.js';
 
 const get = function (request) {
   const locale = getChallengeLocale(request);
@@ -55,6 +59,22 @@ const checkForwardedOriginStatus = async function (request, h) {
   return h.response(forwardedOrigin).code(200);
 };
 
-const healthcheckController = { get, checkDbStatus, checkRedisStatus, checkForwardedOriginStatus };
+const checkOsStatus = async function () {
+  const isOsHealthcheckEnabled = await featureToggles.get('isOsHealthcheckEnabled');
+
+  if (!isOsHealthcheckEnabled) {
+    throw new NotFoundError();
+  }
+
+  return {
+    type: os.type(),
+    version: os.version(),
+    platform: os.platform(),
+    release: os.release(),
+    arch: os.arch(),
+  };
+};
+
+const healthcheckController = { get, checkDbStatus, checkRedisStatus, checkForwardedOriginStatus, checkOsStatus };
 
 export { healthcheckController };

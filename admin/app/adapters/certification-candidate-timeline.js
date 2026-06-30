@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class CertificationCandidateTimelineAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForQueryRecord(query) {
     const { candidateId } = query;
     if (candidateId) {

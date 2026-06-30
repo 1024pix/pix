@@ -16,7 +16,9 @@ const get = async function ({ id }) {
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       address: 'sessions.address',
-      certificationCandidates: knexConn.raw(`
+      certificationCandidates: knexConn
+        .select(
+          knexConn.raw(`
         json_agg(json_build_object(
           'userId', "certification-candidates"."userId",
           'firstName', "certification-candidates"."firstName",
@@ -27,6 +29,7 @@ const get = async function ({ id }) {
           'authorizedToStart', "certification-candidates"."authorizedToStart",
           'assessmentStatus', "assessments"."state",
           'startDateTime', "certification-courses"."createdAt",
+          'assessmentDuration', "certification_versions"."assessmentDuration",
           'challengeLiveAlert', json_build_object(
             'type', 'challenge',
             'status', "certification-challenge-live-alerts".status,
@@ -42,29 +45,28 @@ const get = async function ({ id }) {
           'subscription', "certification-candidates"."subscription"
         ) order by "certification-companion-live-alerts".status, "certification-challenge-live-alerts".status, lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
     `),
+        )
+        .from('certification-candidates')
+        .leftJoin('certification-courses', 'certification-courses.candidateId', 'certification-candidates.id')
+        .leftJoin('certification_versions', 'certification_versions.id', 'certification-courses.versionId')
+        .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
+        .leftJoin('certification-challenge-live-alerts', function () {
+          this.on('certification-challenge-live-alerts.assessmentId', '=', 'assessments.id').andOnVal(
+            'certification-challenge-live-alerts.status',
+            '=',
+            CertificationChallengeLiveAlertStatus.ONGOING,
+          );
+        })
+        .leftJoin('certification-companion-live-alerts', function () {
+          this.on('certification-companion-live-alerts.assessmentId', '=', 'assessments.id').andOnVal(
+            'certification-companion-live-alerts.status',
+            '=',
+            CertificationCompanionLiveAlertStatus.ONGOING,
+          );
+        })
+        .whereRaw('"certification-candidates"."sessionId" = sessions.id'),
     })
     .from('sessions')
-    .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
-    .leftJoin('certification-courses', function () {
-      this.on('certification-courses.sessionId', '=', 'sessions.id');
-      this.on('certification-courses.userId', '=', 'certification-candidates.userId');
-    })
-    .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .leftJoin('certification-challenge-live-alerts', function () {
-      this.on('certification-challenge-live-alerts.assessmentId', '=', 'assessments.id').andOnVal(
-        'certification-challenge-live-alerts.status',
-        '=',
-        CertificationChallengeLiveAlertStatus.ONGOING,
-      );
-    })
-    .leftJoin('certification-companion-live-alerts', function () {
-      this.on('certification-companion-live-alerts.assessmentId', '=', 'assessments.id').andOnVal(
-        'certification-companion-live-alerts.status',
-        '=',
-        CertificationCompanionLiveAlertStatus.ONGOING,
-      );
-    })
-    .groupBy('sessions.id')
     .where({ 'sessions.id': id })
     .first();
   if (!results) {
@@ -76,9 +78,10 @@ const get = async function ({ id }) {
 export { get };
 
 function _toDomain(results) {
-  const certificationCandidates = results.certificationCandidates
-    .filter((candidate) => candidate?.id !== null)
-    .map((candidate) => new CertificationCandidateForSupervising(candidate));
+  const certificationCandidates =
+    results.certificationCandidates
+      ?.filter((candidate) => candidate?.id !== null)
+      ?.map((candidate) => new CertificationCandidateForSupervising(candidate)) ?? [];
 
   return new SessionForSupervising({
     ...results,

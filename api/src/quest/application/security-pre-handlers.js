@@ -55,10 +55,10 @@ export async function checkParticipationBelongsToCombinedCourse(request, h) {
 }
 
 export async function checkCombinedCourseBlueprintBelongsToOrganization(request, h) {
-  const { organizationId, combinedCourseBlueprintId } = request.params;
+  const { organizationId, blueprintId } = request.params;
   try {
     const isCombinedCourseBlueprintInOrganization = await usecases.isCombinedCourseBlueprintInOrganization({
-      combinedCourseBlueprintId,
+      combinedCourseBlueprintId: blueprintId,
       organizationId,
     });
     if (isCombinedCourseBlueprintInOrganization) {
@@ -96,4 +96,5 @@ export default {
   checkUserCanManageCombinedCourse,
   checkParticipationBelongsToCombinedCourse,
   checkCombinedCoursesFeatureIsEnabled,
+  checkCombinedCourseBlueprintBelongsToOrganization,
 };

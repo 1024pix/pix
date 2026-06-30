@@ -1,8 +1,10 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { trackedSet } from '@ember/reactive/collections';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -16,7 +18,7 @@ export default class ModuleQcmDeclarative extends ModuleElement {
   @service modulixPreviewMode;
   @service passageEvents;
 
-  @tracked selectedProposalIds = new Set();
+  selectedProposalIds = trackedSet();
   @tracked shouldDisplayFeedback = false;
   @tracked reportInfo = {};
   @tracked isAnswering = false;
@@ -30,12 +32,17 @@ export default class ModuleQcmDeclarative extends ModuleElement {
     return this.isSubmitted || this.isAnswering;
   }
 
+  get userResponse() {
+    return [...this.selectedProposalIds];
+  }
+
   get canValidateElement() {
-    return false;
+    return this.selectedProposalIds.size > 0;
   }
 
   @action
   checkboxSelected(proposalId) {
+    if (this.disableInput) return;
     if (this.selectedProposalIds.has(proposalId)) {
       this.selectedProposalIds.delete(proposalId);
     } else {
@@ -46,11 +53,17 @@ export default class ModuleQcmDeclarative extends ModuleElement {
   @action
   async onAnswer(event) {
     event.preventDefault();
-    this.isAnswering = true;
-    const answer = [...this.selectedProposalIds];
     super.onAnswer(event);
 
+    if (this.shouldDisplayRequiredMessage === true) {
+      return;
+    }
+
+    this.isAnswering = true;
+    const answer = [...this.selectedProposalIds];
+
     await this.waitFor(VERIFY_RESPONSE_DELAY);
+
     await this.args.onAnswer({ element: this.element });
     this.reportInfo = {
       answer: answer.join(', '),
@@ -63,9 +76,17 @@ export default class ModuleQcmDeclarative extends ModuleElement {
       type: 'QCM_DECLARATIVE_ANSWERED',
       data: {
         elementId: this.element.id,
-        answer,
+        answer: answer.join(', '),
       },
     });
+  }
+
+  @action
+  getProposalState(proposalId) {
+    if (this.selectedProposalIds.has(proposalId)) {
+      return 'declarative-selected';
+    }
+    return 'declarative';
   }
 
   waitFor(duration) {
@@ -87,9 +108,10 @@ export default class ModuleQcmDeclarative extends ModuleElement {
         <div role="region" class="element-qcm-declarative__{{this.proposalsStyle}}">
           {{#each this.element.proposals as |proposal|}}
             <PixCheckbox
-              name={{this.proposal.id}}
+              name={{proposal.id}}
               @isDisabled={{this.disableInput}}
               @variant="modulix"
+              @state={{this.getProposalState proposal.id}}
               {{on "click" (fn this.checkboxSelected proposal.id)}}
             >
               <:label>{{htmlUnsafe proposal.content}}</:label>
@@ -103,6 +125,13 @@ export default class ModuleQcmDeclarative extends ModuleElement {
             </div>
           {{/if}}
         </div>
+        {{#if this.shouldDisplayRequiredMessage}}
+          <div class="element-qcm-declarative__required-field-missing">
+            <PixNotificationAlert role="alert" @type="error" @withIcon={{true}}>
+              {{t "pages.modulix.verification-precondition-failed-alert.qcm-declarative"}}
+            </PixNotificationAlert>
+          </div>
+        {{/if}}
         {{#unless this.isSubmitted}}
           <PixButton class="element-qcm-declarative--submit" @triggerAction={{this.onAnswer}}>{{t
               "pages.modulix.buttons.activity.submit"

@@ -1,4 +1,8 @@
-import { HttpErrors } from '../../../../src/shared/application/errors/http-errors.js';
+import {
+  ConflictError,
+  ForbiddenError,
+  UnprocessableEntityError,
+} from '../../../../src/shared/application/errors/http-errors.js';
 import { teamDomainErrorMappingConfiguration } from '../../../../src/team/application/http-error-mapper-configuration.js';
 import {
   AdminMemberError,
@@ -22,7 +26,7 @@ describe('Unit | Team | Application | HttpErrorMapperConfiguration', function ()
     const error = httpErrorMapper.httpErrorFn(new AdminMemberError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+    expect(error).to.be.instanceOf(UnprocessableEntityError);
   });
 
   it('instantiates UnprocessableEntityError when UncancellableOrganizationInvitationError', async function () {
@@ -35,7 +39,7 @@ describe('Unit | Team | Application | HttpErrorMapperConfiguration', function ()
     const error = httpErrorMapper.httpErrorFn(new UncancellableOrganizationInvitationError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+    expect(error).to.be.instanceOf(UnprocessableEntityError);
   });
 
   it('instantiates UnprocessableEntityError when AlreadyExistingAdminMemberError', async function () {
@@ -48,7 +52,7 @@ describe('Unit | Team | Application | HttpErrorMapperConfiguration', function ()
     const error = httpErrorMapper.httpErrorFn(new AlreadyExistingAdminMemberError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+    expect(error).to.be.instanceOf(UnprocessableEntityError);
   });
 
   it('instantiates UnprocessableEntityError when OrganizationArchivedError', async function () {
@@ -61,7 +65,7 @@ describe('Unit | Team | Application | HttpErrorMapperConfiguration', function ()
     const error = httpErrorMapper.httpErrorFn(new OrganizationArchivedError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+    expect(error).to.be.instanceOf(UnprocessableEntityError);
     expect(error.message).to.equal("L'organisation est archivée.");
   });
 
@@ -75,7 +79,7 @@ describe('Unit | Team | Application | HttpErrorMapperConfiguration', function ()
     const error = httpErrorMapper.httpErrorFn(new AlreadyAcceptedOrCancelledInvitationError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.ConflictError);
+    expect(error).to.be.instanceOf(ConflictError);
     expect(error.message).to.equal('The invitation has already been accepted or cancelled');
   });
 
@@ -89,7 +93,7 @@ describe('Unit | Team | Application | HttpErrorMapperConfiguration', function ()
     const error = httpErrorMapper.httpErrorFn(new UserHasNoOrganizationMembershipError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+    expect(error).to.be.instanceOf(ForbiddenError);
     expect(error.message).to.equal('User is not member of any organization');
   });
 
@@ -103,7 +107,7 @@ describe('Unit | Team | Application | HttpErrorMapperConfiguration', function ()
     const error = httpErrorMapper.httpErrorFn(new UserNotMemberOfOrganizationError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+    expect(error).to.be.instanceOf(UnprocessableEntityError);
     expect(error.message).to.equal("L'utilisateur n'est pas membre de l'organisation.");
   });
 });

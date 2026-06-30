@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { BadRequestError, sendJsonApiError } from '../../../shared/application/errors/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import * as localeService from '../../../shared/domain/services/locale-service.js';
+import { getSupportedLanguages, getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { QUERY_TYPES } from '../../domain/constants/user-query.js';
 import { userAdminController } from './user.admin.controller.js';
@@ -106,9 +106,9 @@ export const userAdminRoutes = [
             attributes: Joi.object({
               'first-name': Joi.string().required(),
               'last-name': Joi.string().required(),
-              lang: Joi.string().valid(...localeService.getSupportedLanguages()),
+              lang: Joi.string().valid(...getSupportedLanguages()),
               locale: Joi.string()
-                .valid(...localeService.getSupportedLocales())
+                .valid(...getSupportedLocales())
                 .allow(null),
               email: Joi.string().allow(null),
               username: Joi.string().allow(null),
@@ -125,7 +125,8 @@ export const userAdminRoutes = [
               'has-seen-focused-challenge-tooltip': Joi.boolean().allow(null),
               'has-seen-new-dashboard-info': Joi.boolean().allow(null),
               'has-seen-other-challenges-tooltip': Joi.boolean().allow(null),
-              'last-terms-of-service-validated-at': Joi.string().allow(null),
+              'pix-app-terms-of-service-accepted': Joi.boolean().allow(null),
+              'last-pix-app-terms-of-service-validated-at': Joi.string().allow(null),
               'pix-orga-terms-of-service-accepted': Joi.boolean().allow(null),
               'last-pix-orga-terms-of-service-validated-at': Joi.string().allow(null),
               'pix-certif-terms-of-service-accepted': Joi.boolean().allow(null),

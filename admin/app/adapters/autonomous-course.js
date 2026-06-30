@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class AutonomousCourseAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   updateRecord(store, type, snapshot) {
     const data = {};
     const serializer = store.serializerFor(type.modelName);

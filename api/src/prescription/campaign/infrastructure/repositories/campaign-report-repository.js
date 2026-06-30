@@ -161,6 +161,20 @@ const findPaginatedFilteredByOrganizationId = async function ({
   return { models: campaignReports, meta: { ...pagination, hasCampaigns } };
 };
 
+const findAllPaginatedSummariesByOrganizationId = async function ({ organizationId, page }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const query = knexConn('campaigns')
+    .select('id', 'name', 'code', 'type', 'createdAt', 'archivedAt')
+    .where({ organizationId })
+    .whereNull('deletedAt')
+    .orderBy('createdAt', 'DESC');
+
+  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
+
+  return { models: results, meta: pagination };
+};
+
 function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName, isOwnedByMe }, userId) {
   if (name) {
     qb.whereILike('campaigns.name', `%${name}%`);
@@ -178,4 +192,4 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName,
   }
 }
 
-export { findMasteryRates, findPaginatedFilteredByOrganizationId, get };
+export { findAllPaginatedSummariesByOrganizationId, findMasteryRates, findPaginatedFilteredByOrganizationId, get };

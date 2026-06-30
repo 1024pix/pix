@@ -4,7 +4,7 @@ import { CombinedCourseStatuses } from '../../../../../src/prescription/shared/d
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
-import * as combinedCourseSerializer from '../../../../../src/quest/infrastructure/serializers/combined-course-serializer.js';
+import { combinedCourseSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-serializer.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
@@ -63,9 +63,6 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
             type: COMBINED_COURSE_ITEM_TYPES.MODULE,
             redirection: 'encryptedCombinedCourseUrl',
             'is-completed': false,
-            'mastery-rate': null,
-            'validated-stages-count': null,
-            'total-stages-count': null,
             'is-locked': true,
             duration: 10,
             image: 'emile7',

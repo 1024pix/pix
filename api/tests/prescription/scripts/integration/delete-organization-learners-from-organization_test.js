@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';
 import { DeleteOrganizationLearnersFromOrganizationScript } from '../../../../src/prescription/scripts/delete-organization-learners-from-organization.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
@@ -270,9 +269,8 @@ describe('Script | Prod | Delete Organization Learners From Organization', funct
         .first();
       const participationResult = await knex('campaign-participations').where({ id: campaignParticipation.id }).first();
       const assessmentResult = await knex('assessments').where({ id: assessmentId }).first();
-      const anonymizedRecommendedTrainingResults = await knex(USER_RECOMMENDED_TRAININGS_TABLE_NAME).whereNull(
-        'campaignParticipationId',
-      );
+      const anonymizedRecommendedTrainingResults =
+        await knex('user-recommended-trainings').whereNull('campaignParticipationId');
 
       expect(organizationLearnerResult.userId).to.equal(null);
       expect(participationResult.userId).to.equal(null);
@@ -313,9 +311,8 @@ describe('Script | Prod | Delete Organization Learners From Organization', funct
       const organizationLearnerResult = await knex('organization-learners').where({ organizationId }).first();
       const participationResult = await knex('campaign-participations').where({ organizationLearnerId }).first();
       const assessmentResult = await knex('assessments').where({ id: assessmentId }).first();
-      const anonymizedRecommendedTrainingResults = await knex(USER_RECOMMENDED_TRAININGS_TABLE_NAME).whereNull(
-        'campaignParticipationId',
-      );
+      const anonymizedRecommendedTrainingResults =
+        await knex('user-recommended-trainings').whereNull('campaignParticipationId');
       expect(organizationLearnerResult.firstName).to.not.equal('');
       expect(organizationLearnerResult.lastName).to.not.equal('');
       expect(participationResult.participantExternalId).to.be.not.null;

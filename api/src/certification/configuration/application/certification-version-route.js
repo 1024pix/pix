@@ -3,13 +3,33 @@ import BaseJoi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { Frameworks } from '../../shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../shared/domain/models/Scopes.js';
 import { certificationVersionController } from './certification-version-controller.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
-const register = async function (server) {
+async function register(server) {
   server.route([
+    {
+      method: 'GET',
+      path: '/api/certifications/{framework}/info',
+      config: {
+        validate: {
+          params: Joi.object({
+            framework: Joi.string()
+              .required()
+              .valid(...Object.values(Frameworks)),
+          }),
+        },
+        handler: certificationVersionController.getInfo,
+        tags: ['api', 'mon-pix'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle permet de récupérer les informations générales concernant un test de certification',
+        ],
+      },
+    },
     {
       method: 'GET',
       path: '/api/admin/certification-versions/{certificationVersionId}',
@@ -112,7 +132,7 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/frameworks/{scope}/version',
+      path: '/api/admin/certification-versions',
       config: {
         pre: [
           {
@@ -125,29 +145,26 @@ const register = async function (server) {
           },
         ],
         validate: {
-          params: Joi.object({
-            scope: Joi.string()
-              .required()
-              .valid(...Object.values(SCOPES)),
-          }),
           payload: Joi.object({
             data: {
               attributes: {
                 tubeIds: Joi.array().items(identifiersType.tubeId).min(1).unique().required(),
+                scope: Joi.string()
+                  .required()
+                  .valid(...Object.values(SCOPES)),
               },
             },
           }),
         },
-        handler: certificationVersionController.createCertificationVersion,
+        handler: certificationVersionController.createDraft,
         tags: ['api', 'admin'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
-          'Elle permet de créer une nouvelle version de référentiel de certification',
+          "Elle permet de créer un nouveau millésime draft d'un référentiel de certification",
         ],
       },
     },
   ]);
-};
+}
 
-const name = 'certification/configuration/certification-versions-api';
-export { name, register };
+export const certificationVersionRoute = { name: 'certification/configuration/certification-versions-api', register };

@@ -1,4 +1,3 @@
-import { ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME } from '../../../../../db/migrations/20241118134739_create-organizations-profile-rewards-table.js';
 import { OrganizationProfileReward } from '../../../../../src/profile/domain/models/OrganizationProfileReward.js';
 import {
   getByOrganizationId,
@@ -20,7 +19,7 @@ describe('Profile | Integration | Infrastructure | Repository | organizations-pr
       await save({ organizationId: organization.id, profileRewardId: profileReward.id });
 
       // then
-      const organizationProfileReward = await knex(ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME).where({
+      const organizationProfileReward = await knex('organizations-profile-rewards').where({
         organizationId: organization.id,
         profileRewardId: profileReward.id,
       });
@@ -43,11 +42,9 @@ describe('Profile | Integration | Infrastructure | Repository | organizations-pr
       await save({ organizationId: organization.id, profileRewardId: otherProfileReward.id });
 
       // then
-      const organizationProfileReward = await knex(ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME)
-        .select('profileRewardId')
-        .where({
-          organizationId: organization.id,
-        });
+      const organizationProfileReward = await knex('organizations-profile-rewards').select('profileRewardId').where({
+        organizationId: organization.id,
+      });
       expect(organizationProfileReward).to.have.lengthOf(2);
       expect(organizationProfileReward).to.have.deep.members([
         { profileRewardId: profileReward.id },
@@ -69,7 +66,7 @@ describe('Profile | Integration | Infrastructure | Repository | organizations-pr
       await save({ organizationId: organization.id, profileRewardId: profileReward.id });
 
       // then
-      const organizationProfileReward = await knex(ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME).where({
+      const organizationProfileReward = await knex('organizations-profile-rewards').where({
         organizationId: organization.id,
         profileRewardId: profileReward.id,
       });

@@ -1,11 +1,10 @@
 import sinon from 'sinon';
 
-import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';
 import { CampaignBelongsToCombinedCourseError } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignParticipationLoggerContext } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { PIX_ADMIN } from '../../../../../../src/shared/domain/constants.js';
 import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
@@ -178,7 +177,7 @@ describe('Integration | UseCases | delete-campaign', function () {
         });
 
         //then
-        const userRecommendedTrainingAnonymized = await knex(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+        const userRecommendedTrainingAnonymized = await knex('user-recommended-trainings')
           .where('id', userRecommendedTrainingId)
           .first();
 

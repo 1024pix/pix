@@ -38,7 +38,9 @@ export default class AuthenticatedCatalogueFilter extends Route {
     }
 
     if (blueprintId) {
-      // TODO use blueprint findRecord
+      currentCourse = await this.store.findRecord('combined-course-blueprint-overview', blueprintId, {
+        adapterOptions: { organizationId: this.currentUser.organization.id },
+      });
     }
 
     return { courses, currentCourse, type };
@@ -50,5 +52,12 @@ export default class AuthenticatedCatalogueFilter extends Route {
       this.store.unloadAll('course');
     }
     this.#currentOrgaId = orgId;
+  }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('targetProfileId', null);
+      controller.set('blueprintId', null);
+    }
   }
 }

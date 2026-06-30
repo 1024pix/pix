@@ -67,5 +67,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/session-management/jury-comment-api';
-export { name, register };
+export const juryCommentRoute = { name: 'certification/session-management/jury-comment-api', register };

@@ -6,7 +6,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import { authenticate } from '../../helpers/authentication';
-import { waitForDialog } from '../../helpers/wait-for';
+import { waitForDialog, waitForDialogClose } from '../../helpers/wait-for';
 
 module('Acceptance | User-tutorials | Recommended', function (hooks) {
   setupApplicationTest(hooks);
@@ -99,7 +99,9 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
         // then
         assert.strictEqual(currentURL(), '/mes-tutos/recommandes?competences=1&pageNumber=1');
         assert.dom('.tutorial-card').exists({ count: 1 });
-        assert.dom('.pix-sidebar--hidden').exists();
+
+        await waitForDialogClose();
+        assert.dom(screen.queryByRole('dialog', { name: 'Filtrer' })).doesNotExist();
       });
 
       module('when user access again to tutorials recommended page', function () {

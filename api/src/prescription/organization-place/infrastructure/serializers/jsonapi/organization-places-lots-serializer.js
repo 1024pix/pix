@@ -8,4 +8,4 @@ const serialize = function (places) {
   }).serialize(places);
 };
 
-export { serialize };
+export const organizationPlacesLotsSerializer = { serialize };

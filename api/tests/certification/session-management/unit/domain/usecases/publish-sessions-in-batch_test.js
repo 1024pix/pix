@@ -7,18 +7,13 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Unit | UseCase | publish-sessions-in-batch', function () {
   let sessionPublicationService;
-  let certificationRepository,
-    finalizedSessionRepository,
-    sessionManagementRepository,
-    certificationCenterRepository,
-    sharedSessionRepository;
+  let certificationRepository, finalizedSessionRepository, sessionManagementRepository, certificationCenterRepository;
 
   beforeEach(function () {
     certificationRepository = Symbol('certificationRepository');
     finalizedSessionRepository = Symbol('finalizedSessionRepository');
     sessionManagementRepository = Symbol('sessionManagementRepository');
     certificationCenterRepository = {};
-    sharedSessionRepository = {};
 
     sessionPublicationService = {
       publishSession: sinon.stub(),
@@ -52,7 +47,6 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       certificationCenterRepository,
       finalizedSessionRepository,
       sessionManagementRepository,
-      sharedSessionRepository,
       sessionPublicationService,
     });
 
@@ -63,7 +57,6 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       certificationRepository,
       finalizedSessionRepository,
       sessionManagementRepository,
-      sharedSessionRepository,
     });
     expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
       session: session1,
@@ -78,7 +71,6 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       publishedAt,
       certificationRepository,
       finalizedSessionRepository,
-      sharedSessionRepository,
       sessionManagementRepository,
     });
     expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
@@ -105,7 +97,6 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
           certificationRepository,
           finalizedSessionRepository,
           sessionManagementRepository,
-          sharedSessionRepository,
         })
         .rejects(new Error('an error'));
       sessionPublicationService.publishSession
@@ -121,7 +112,6 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         certificationRepository,
         finalizedSessionRepository,
         sessionManagementRepository,
-        sharedSessionRepository,
         sessionPublicationService,
       });
 
@@ -131,7 +121,6 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         certificationRepository,
         finalizedSessionRepository,
         sessionManagementRepository,
-        sharedSessionRepository,
       });
       expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
         session: session2,
@@ -157,7 +146,6 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
           certificationRepository,
           finalizedSessionRepository,
           sessionManagementRepository,
-          sharedSessionRepository,
         })
         .rejects(error1);
       sessionPublicationService.publishSession
@@ -167,7 +155,6 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
           certificationRepository,
           finalizedSessionRepository,
           sessionManagementRepository,
-          sharedSessionRepository,
         })
         .rejects(error2);
 
@@ -180,7 +167,6 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         certificationCenterRepository,
         finalizedSessionRepository,
         sessionManagementRepository,
-        sharedSessionRepository,
         sessionPublicationService,
       });
 

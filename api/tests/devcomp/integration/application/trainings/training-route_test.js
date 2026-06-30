@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { trainingController } from '../../../../../src/devcomp/application/trainings/training-controller.js';
-import * as moduleUnderTest from '../../../../../src/devcomp/application/trainings/training-route.js';
+import { trainingRoute as moduleUnderTest } from '../../../../../src/devcomp/application/trainings/training-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
@@ -1138,6 +1138,72 @@ describe('Integration | Devcomp | Application | Trainings | Router | training-ro
 
           // then
           expect(result.statusCode).to.equal(400);
+        });
+      });
+
+      describe('when optional reco engine fields are null', function () {
+        it('should return 200 and accept null values', async function () {
+          // given
+          sinon.stub(trainingController, 'update').returns('ok');
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const payload = {
+            data: {
+              attributes: {
+                'editor-logo-url': 'https://assets.pix.org/contenu-formatif/editeur/pix-logo.svg',
+                description: null,
+                objectives: null,
+                program: null,
+                'delivery-mode': null,
+                'registration-required': null,
+              },
+            },
+          };
+
+          // when
+          const result = await httpTestServer.request('PATCH', '/api/admin/trainings/12344', payload);
+
+          // then
+          expect(result.statusCode).to.equal(200);
+          sinon.assert.calledOnce(trainingController.update);
+        });
+      });
+
+      describe('when optional reco engine fields are empty strings', function () {
+        it('should return 200 and accept empty string values', async function () {
+          // given
+          sinon.stub(trainingController, 'update').returns('ok');
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const payload = {
+            data: {
+              attributes: {
+                'editor-logo-url': 'https://assets.pix.org/contenu-formatif/editeur/pix-logo.svg',
+                description: '',
+                objectives: '',
+                program: '',
+              },
+            },
+          };
+
+          // when
+          const result = await httpTestServer.request('PATCH', '/api/admin/trainings/12344', payload);
+
+          // then
+          expect(result.statusCode).to.equal(200);
+          sinon.assert.calledOnce(trainingController.update);
         });
       });
 

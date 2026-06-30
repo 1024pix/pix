@@ -1,6 +1,6 @@
 import { AssessmentDtoFactory } from '../../domain/models/AssessmentDtoFactory.js';
 import { sharedUsecases } from '../../domain/usecases/index.js';
-import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
+import { assessmentSerializer } from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import { extractUserIdFromRequest, getChallengeLocale } from '../../infrastructure/utils/request-response-utils.js';
 
 const getAssessmentWithNextChallenge = async function (

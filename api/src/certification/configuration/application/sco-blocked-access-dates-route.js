@@ -7,7 +7,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { ScoOrganizationTagName } from '../domain/models/ScoOrganizationTagName.js';
 import { scoBlockedAccessDatesController } from './sco-blocked-access-dates-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'PATCH',
@@ -64,7 +64,9 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
-const name = 'certification/configuration/sco-blocked-access-dates-api';
-export { name, register };
+export const scoBlockedAccessDatesRoute = {
+  name: 'certification/configuration/sco-blocked-access-dates-api',
+  register,
+};

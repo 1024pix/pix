@@ -39,4 +39,4 @@ const serialize = function (areas, { withoutThematics = false } = {}) {
   }).serialize(areas);
 };
 
-export { serialize };
+export const frameworkAreasSerializer = { serialize };

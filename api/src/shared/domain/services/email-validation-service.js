@@ -8,5 +8,3 @@ export const validateEmailSyntax = (email) => {
   const { error } = emailSchema.validate({ email });
   return !error;
 };
-
-export default { validateEmailSyntax };

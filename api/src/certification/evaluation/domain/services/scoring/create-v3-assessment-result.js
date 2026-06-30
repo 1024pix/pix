@@ -1,4 +1,4 @@
-import { isEduFramework } from '../../../../shared/domain/models/Frameworks.js';
+import { hasCoreScope, isEduFramework } from '../../../../shared/domain/models/Frameworks.js';
 import { AssessmentResultFactory } from '../../models/factories/AssessmentResultFactory.js';
 
 export function createV3AssessmentResult({
@@ -18,7 +18,7 @@ export function createV3AssessmentResult({
   certificationFramework,
 }) {
   if (toBeCancelled) {
-    return AssessmentResultFactory.buildCancelledAssessmentResult({
+    return AssessmentResultFactory.buildCancelledByJuryAssessmentResult({
       juryId,
       pixScore: null,
       assessmentId,
@@ -74,6 +74,16 @@ export function createV3AssessmentResult({
       reachedMeshIndex,
       versionId,
       certificationFramework,
+    });
+  }
+
+  if (!hasCoreScope(certificationFramework) && !isEduFramework(certificationFramework) && reachedMeshIndex === null) {
+    return AssessmentResultFactory.buildRejectedNotObtainedPixPlusAssessmentResult({
+      assessmentId,
+      juryId,
+      capacity,
+      reachedMeshIndex,
+      versionId,
     });
   }
 

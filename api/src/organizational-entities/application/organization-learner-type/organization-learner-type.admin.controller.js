@@ -1,5 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as organizationLearnerTypeSerializer from '../../infrastructure/serializers/jsonapi/organization-learner-type/organization-learner-type-serializer.js';
+import { organizationLearnerTypeSerializer } from '../../infrastructure/serializers/jsonapi/organization-learner-type/organization-learner-type-serializer.js';
 
 const findAllOrganizationLearnerTypes = async function (
   request,

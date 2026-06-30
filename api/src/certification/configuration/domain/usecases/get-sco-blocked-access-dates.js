@@ -7,7 +7,6 @@
  * @param {ScoBlockedAccessDatesRepository} paramsScoBlockedAccessDatesRepository
  * @returns {Promise<Array<ScoBlockedAccessDate>>}
  */
-
-export const getScoBlockedAccessDates = async ({ ScoBlockedAccessDatesRepository }) => {
+export async function getScoBlockedAccessDates({ ScoBlockedAccessDatesRepository }) {
   return ScoBlockedAccessDatesRepository.getScoBlockedAccessDates();
-};
+}

@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import * as moduleUnderTest from '../../../../../../src/evaluation/application/scorecards/index.js';
+import { scorecardsRoute as moduleUnderTest } from '../../../../../../src/evaluation/application/scorecards/index.js';
 import { stageCollectionController } from '../../../../../../src/prescription/stages/application/stage-collections/stage-collection-controller.js';
 import { expect } from '../../../../../test-helper.js';
 import { HttpTestServer } from '../../../../../tooling/server/http-test-server.js';

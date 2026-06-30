@@ -2,7 +2,7 @@ import { generateCSVTemplate } from '../../shared/infrastructure/serializers/csv
 import { extractUserIdFromRequest } from '../../shared/infrastructure/utils/request-response-utils.js';
 import { QUEST_HEADER } from '../domain/constants.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as questResultSerializer from '../infrastructure/serializers/quest-result-serializer.js';
+import { questResultSerializer } from '../infrastructure/serializers/quest-result-serializer.js';
 
 const getQuestResults = async function (request, h, dependencies = { questResultSerializer }) {
   const { campaignParticipationId } = request.params;

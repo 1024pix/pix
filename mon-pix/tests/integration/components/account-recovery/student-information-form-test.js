@@ -198,6 +198,227 @@ module('Integration | Component | student-information-form', function (hooks) {
     });
   });
 
+  module('submit button', function () {
+    test('should be disabled when the form is empty', async function (assert) {
+      // given / when
+      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('button', {
+            name: t('pages.account-recovery.find-sco-record.student-information.form.submit'),
+          }),
+        )
+        .hasAttribute('aria-disabled');
+    });
+
+    test('should stay disabled when some required fields are still empty', async function (assert) {
+      // given
+      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+
+      // when
+      await fillIn(
+        screen.getByLabelText(t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), {
+          exact: false,
+        }),
+        '1234567890A',
+      );
+      await fillIn(
+        screen.getByLabelText(t('pages.account-recovery.find-sco-record.student-information.form.first-name'), {
+          exact: false,
+        }),
+        'Gaston',
+      );
+      await fillIn(
+        screen.getByLabelText(
+          new RegExp(t('pages.account-recovery.find-sco-record.student-information.form.last-name')),
+          { exact: false },
+        ),
+        'Lagaffe',
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('button', {
+            name: t('pages.account-recovery.find-sco-record.student-information.form.submit'),
+          }),
+        )
+        .hasAttribute('aria-disabled');
+    });
+
+    test('should stay disabled when the ine or ina is invalid', async function (assert) {
+      // given
+      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+
+      // when
+      await fillIn(
+        screen.getByLabelText(t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), {
+          exact: false,
+        }),
+        'ABCDE',
+      );
+      await fillIn(
+        screen.getByLabelText(t('pages.account-recovery.find-sco-record.student-information.form.first-name'), {
+          exact: false,
+        }),
+        'Gaston',
+      );
+      await fillIn(
+        screen.getByLabelText(
+          new RegExp(t('pages.account-recovery.find-sco-record.student-information.form.last-name')),
+          { exact: false },
+        ),
+        'Lagaffe',
+      );
+      await fillIn(
+        screen.getByRole('spinbutton', {
+          name: t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'),
+        }),
+        15,
+      );
+      await fillIn(
+        screen.getByRole('spinbutton', {
+          name: t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'),
+        }),
+        5,
+      );
+      await fillIn(
+        screen.getByRole('spinbutton', {
+          name: t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'),
+        }),
+        2000,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('button', {
+            name: t('pages.account-recovery.find-sco-record.student-information.form.submit'),
+          }),
+        )
+        .hasAttribute('aria-disabled');
+    });
+
+    test('should be enabled when every field is valid', async function (assert) {
+      // given
+      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+
+      // when
+      await fillIn(
+        screen.getByLabelText(t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), {
+          exact: false,
+        }),
+        '123456789BB',
+      );
+      await fillIn(
+        screen.getByLabelText(t('pages.account-recovery.find-sco-record.student-information.form.first-name'), {
+          exact: false,
+        }),
+        'Gaston',
+      );
+      await fillIn(
+        screen.getByLabelText(
+          new RegExp(t('pages.account-recovery.find-sco-record.student-information.form.last-name')),
+          { exact: false },
+        ),
+        'Lagaffe',
+      );
+      await fillIn(
+        screen.getByRole('spinbutton', {
+          name: t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'),
+        }),
+        15,
+      );
+      await fillIn(
+        screen.getByRole('spinbutton', {
+          name: t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'),
+        }),
+        5,
+      );
+      await fillIn(
+        screen.getByRole('spinbutton', {
+          name: t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'),
+        }),
+        2000,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('button', {
+            name: t('pages.account-recovery.find-sco-record.student-information.form.submit'),
+          }),
+        )
+        .doesNotHaveAttribute('aria-disabled');
+    });
+
+    test('should format a single-digit birthdate before submitting', async function (assert) {
+      // given
+      const submitStudentInformation = sinon.stub();
+      submitStudentInformation.resolves();
+      this.set('submitStudentInformation', submitStudentInformation);
+
+      const screen = await render(
+        hbs`<AccountRecovery::StudentInformationForm @submitStudentInformation={{this.submitStudentInformation}} />`,
+      );
+
+      // when
+      await fillIn(
+        screen.getByLabelText(t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), {
+          exact: false,
+        }),
+        '123456789BB',
+      );
+      await fillIn(
+        screen.getByLabelText(t('pages.account-recovery.find-sco-record.student-information.form.first-name'), {
+          exact: false,
+        }),
+        'Gaston',
+      );
+      await fillIn(
+        screen.getByLabelText(
+          new RegExp(t('pages.account-recovery.find-sco-record.student-information.form.last-name')),
+          { exact: false },
+        ),
+        'Lagaffe',
+      );
+      await fillIn(
+        screen.getByRole('spinbutton', {
+          name: t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'),
+        }),
+        2,
+      );
+      await fillIn(
+        screen.getByRole('spinbutton', {
+          name: t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'),
+        }),
+        5,
+      );
+      await fillIn(
+        screen.getByRole('spinbutton', {
+          name: t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'),
+        }),
+        2004,
+      );
+      await click(
+        screen.getByRole('button', {
+          name: t('pages.account-recovery.find-sco-record.student-information.form.submit'),
+        }),
+      );
+
+      // then
+      sinon.assert.calledWithExactly(submitStudentInformation, {
+        ineIna: '123456789BB',
+        firstName: 'Gaston',
+        lastName: 'Lagaffe',
+        birthdate: '2004-05-02',
+      });
+      assert.ok(true);
+    });
+  });
+
   module('last name field', function () {
     test('should display a required field error message on focus-out if last name field is empty', async function (assert) {
       // given

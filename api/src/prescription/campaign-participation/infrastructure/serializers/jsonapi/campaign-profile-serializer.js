@@ -30,4 +30,4 @@ const serialize = function (campaignProfile) {
   }).serialize(campaignProfile);
 };
 
-export { serialize };
+export const campaignProfileSerializer = { serialize };

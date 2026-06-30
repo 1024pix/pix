@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 QUESTIONS"
+            "strong-text": "{maximumAssessmentLength} QUESTIONS"
           },
           "paragraphs": {
-            "1": "The certification includes '<strong>'32 questions'</strong>'.",
+            "1": "The certification includes '<strong>'{maximumAssessmentLength} questions'</strong>'.",
             "2": "You have '<strong>'{duration}'</strong>' maximum to answer*",
             "3": "*Except those entitled to extra time",
-            "4": "If you answer '<strong>'less than 20 questions, we won't be able to give you a score'</strong>'."
+            "4": "If you answer '<strong>'less than {minimumAssessmentLength} questions, we won't be able to give you a score'</strong>'."
           },
           "title": "How is the certification exam conducted ?"
         },
@@ -977,10 +977,11 @@
         "options": {
           "english": "English - EN",
           "french": "French - FR"
-        }
+        },
+        "warning-message": "Due to technical problems, the Pix Certification is momentarily unavailable in English. We apologize for any inconvenience caused."
       },
       "link-to-user-certification": "See my certificates",
-      "non-eligible-subscription": "You are not eligible to {complementarySubscriptionLabel}. However, you can still take your Pix Certification.",
+      "non-eligible-subscription": "You are not eligible to {subscriptionLabel}. However, you can still take your Pix Certification.",
       "title": "Join a certification session"
     },
     "certifications-list": {
@@ -1312,22 +1313,20 @@
       "rewards": {
         "in-progress": {
           "details": {
-            "text": "Depending on your level at the end of the course, a certificate of completion may be issued.",
-            "title": "Complete all the courses to earn your attestation"
+            "title": "Complete your course to earn your attestation"
           },
           "status": "Pending"
         },
         "not-obtained": {
           "details": {
-            "text": "Unfortunately, the results obtained on the courses you completed do not meet the requirements for issuing your attestation",
-            "title": "Understand why"
+            "title": "Unfortunately, you did not meet the conditions to obtain the attestation"
           },
           "status": "Not obtained"
         },
         "obtained": {
           "details": {
-            "text": "Download your certificate of completion! This document is also available in your Pix account.",
-            "title": "Where can I find it?"
+            "text": "You can download your attestation now or find it in your Pix account.",
+            "title": "You have obtained your attestation!"
           },
           "link": "Download my attestation",
           "status": "Obtained"
@@ -1912,6 +1911,7 @@
       },
       "verification-precondition-failed-alert": {
         "qcm": "To validate, select at least two answers.",
+        "qcm-declarative": "To submit, select at least one answer.",
         "qcu": "To validate, select an answer.",
         "qrocm": "To validate, please complete all response fields."
       }
@@ -2342,29 +2342,38 @@
       }
     },
     "terms-of-service": {
+      "actions": {
+        "accept": "Accept and continue",
+        "decline": "Refuse and quit",
+        "document-link": "Read the terms and conditions"
+      },
       "cgu": "I agree to the '<a href=\"https://pix.org/en/terms-and-conditions\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
       "form": {
         "button": "Continue",
         "error-message": "Please agree to the terms and conditions of use."
       },
       "message": "We have updated our terms and conditions of use. Please agree to them in order to continue your experience on Pix.",
-      "title": "Terms and conditions of use"
+      "requested": {
+        "message": "To continue using Pix, we invite you to read and accept our General Terms and Conditions.",
+        "title": "Please accept our General Terms and Conditions (TCS)"
+      },
+      "title": "Terms and conditions of use",
+      "update-requested": {
+        "message": "We have updated our TCS. Review the changes and accept them to continue.",
+        "title": "Important update to the General Terms and Conditions (TCS)"
+      }
     },
     "timed-challenge-instructions": {
       "action": "Start",
       "primary": "You have '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' to complete the next question.",
-      "secondary": "You can continue answering after this, but the question will not be marked as correct.",
-      "time": {
-        "and": " and ",
-        "minutes": "{minutes, plural, =0 {} =1 {# minute} other {# minutes}}",
-        "seconds": "{seconds, plural, =0 {} =1 {# second} other {# seconds}}"
-      }
+      "secondary": "You can continue answering after this, but the question will not be marked as correct."
     },
     "training": {
       "editor": "Training provided by",
       "type": {
         "autoformation": "Autoformation customised test",
         "e-learning": "E-Learning",
+        "external-service": "External service",
         "formation": "Training",
         "hybrid-training": "Hybrid training",
         "in-person-training": "In person training",
@@ -2406,6 +2415,18 @@
       "title": "Campaign tutorial"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "audio",
+        "frise": "timeline",
+        "image": "image",
+        "jeu": "game",
+        "outil": "tool",
+        "page": "page",
+        "pdf": "pdf",
+        "site": "website",
+        "slide": "slideshow",
+        "video": "video"
+      },
       "info": "These tutorial links have been suggested by Pix users.",
       "title": "For better results next time"
     },

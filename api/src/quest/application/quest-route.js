@@ -112,5 +112,4 @@ const register = async function (server) {
     },
   ]);
 };
-const name = 'quest/quest-api';
-export { name, register };
+export const questRoute = { name: 'quest/quest-api', register };

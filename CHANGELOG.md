@@ -1,5 +1,228 @@
 # Pix Changelog
 
+# [5.445.0](https://github.com/1024pix/pix/compare/v5.444.0...v5.445.0) (2026-06-30)
+
+### :rocket: Amélioration
+
+- [#16585](https://github.com/1024pix/pix/pull/16585) Afficher la nouvelle page d'acceptation des CGU
+- [#16669](https://github.com/1024pix/pix/pull/16669) Ajout d'une colonne rewardRequirementsDescription dans la table quests
+- [#16665](https://github.com/1024pix/pix/pull/16665) Ajouter un endpoint pour rattacher un centre de certification à une organisation (PIX-22632)
+- [#16677](https://github.com/1024pix/pix/pull/16677) MDX-238 CY_Antivirus_AVA correction orthotypo
+
+### :bug: Correction
+
+- [#16655](https://github.com/1024pix/pix/pull/16655) Afficher les informations correctes de certification sur les pages d'information avant d'entrer en certification (durée d'examen, nombre de questions, etc...) (PIX-21304)
+
+### :building_construction: Tech
+
+- [#16604](https://github.com/1024pix/pix/pull/16604) :recycle: Exploration d'une règle pour forcer la forme de déclaration de function (pix-23385)
+- [#16682](https://github.com/1024pix/pix/pull/16682) Afficher le chemin relative au fichier de test dans la CI
+- [#16683](https://github.com/1024pix/pix/pull/16683) Ajout de deux index, les deux sur "LOWER(externalId)" des tables "certification-centers" et "organizations"
+- [#16674](https://github.com/1024pix/pix/pull/16674) Déplacer les tests d'integration dans leurs contextes
+- [#16678](https://github.com/1024pix/pix/pull/16678) Pouvoir exécuter les tests dans un ordre aléatoire
+- [#16671](https://github.com/1024pix/pix/pull/16671) Remplace les règles no-restricted-import d'ESLint par des règles de dependency cruiser.
+- [#16659](https://github.com/1024pix/pix/pull/16659) Supprimer les test unitaires des composants PixApp (PIX-23371).
+
+# [5.444.0](https://github.com/1024pix/pix/compare/v5.443.0...v5.444.0) (2026-06-29)
+
+### :rocket: Amélioration
+
+- [#16660](https://github.com/1024pix/pix/pull/16660) Créa Cyber Généralités Novice
+- [#16639](https://github.com/1024pix/pix/pull/16639) Permettre la création d'une campagne à partir d'un parcours du catalogue (PIX-22919)
+
+### :building_construction: Tech
+
+- [#16653](https://github.com/1024pix/pix/pull/16653) Ajoute un healtcheck avec les informations de l'OS
+- [#16664](https://github.com/1024pix/pix/pull/16664) Déplacer les tests d'acceptance dans leurs contextes
+
+# [5.443.0](https://github.com/1024pix/pix/compare/v5.442.0...v5.443.0) (2026-06-29)
+
+### :rocket: Amélioration
+
+- [#16625](https://github.com/1024pix/pix/pull/16625) Afficher l'organisation lié à un centre de certification (PIX-22631)
+- [#16663](https://github.com/1024pix/pix/pull/16663) Ajout des visuels pour l'attestation NR (PIX-23365)
+- [#16646](https://github.com/1024pix/pix/pull/16646) Ajouter un feature-toggle pour l'activation de la certif en anglais (PIX-23361)
+- [#16668](https://github.com/1024pix/pix/pull/16668) MDX-142 IA_Infox_IND Corrections suite à la relecture expert
+- [#16563](https://github.com/1024pix/pix/pull/16563) MDX-238 CY_Antivirus_AVA 1er inte
+- [#16661](https://github.com/1024pix/pix/pull/16661) Mise à jour des wordings d'attestation des parcours combinés (PIX-23359)
+- [#16643](https://github.com/1024pix/pix/pull/16643) Se servir de la durée d'examen associé au millésime pour calculer la date de fin théorique de la fin du test du candidat sur l'espace Surveillant (PIX-23332)
+
+### :bug: Correction
+
+- [#16662](https://github.com/1024pix/pix/pull/16662) Ne pas essayer de créer des campagnes ou de recommander des modules si le parcours combiné n'a que des modules (PIX-23324)
+
+### :building_construction: Tech
+
+- [#16657](https://github.com/1024pix/pix/pull/16657) Aligner les fichiers de traductions (PIX-23348)
+- [#16670](https://github.com/1024pix/pix/pull/16670) Ne pas faire les clics sur la liste déroulante du choix de langue en entrée de certif tant que la liste est désactivée pendant le rétablissement de la certification anglaise
+- [#16647](https://github.com/1024pix/pix/pull/16647) Récupération des compétences par ID pour le scoring des certifications (PIX-23280).
+
+# [5.442.0](https://github.com/1024pix/pix/compare/v5.441.0...v5.442.0) (2026-06-26)
+
+### :rocket: Amélioration
+
+- [#16642](https://github.com/1024pix/pix/pull/16642) Ajouter une route pour vérifier si un utilisateur a répondu au questionnaire NPS d'une campagne (PIX-23304)
+- [#16614](https://github.com/1024pix/pix/pull/16614) Création de la route pour récupérer les prescrits dans Pix Admin (PIX-23150)
+- [#16658](https://github.com/1024pix/pix/pull/16658) Partager les attestations des parcours combinés avec les organisations (PIX-21895)
+
+### :bug: Correction
+
+- [#16651](https://github.com/1024pix/pix/pull/16651) Répare un bug sur les labels d'attestations dans PixApp (PIX-23353)
+
+### :building_construction: Tech
+
+- [#16654](https://github.com/1024pix/pix/pull/16654) Déplacer les tests unitaires dans leurs contextes respectifs
+
+# [5.441.0](https://github.com/1024pix/pix/compare/v5.440.0...v5.441.0) (2026-06-26)
+
+### :rocket: Amélioration
+
+- [#16605](https://github.com/1024pix/pix/pull/16605) Afficher le détail d'un shéma de  parcours combiné (PIX-23270)
+- [#16615](https://github.com/1024pix/pix/pull/16615) Ajout des commentaires automatiques pour les Pix+ non obtenus (outre EDU)  (PIX-23271)
+- [#16634](https://github.com/1024pix/pix/pull/16634) Ajouter l'effet shadow sur les cartes de contenus formatifs (PIX-23296)
+- [#16624](https://github.com/1024pix/pix/pull/16624) Améliorer la modale d'une campagne de type moteur de recommandation (PIX-22963)
+- [#16652](https://github.com/1024pix/pix/pull/16652) Envoyer un event Plausible pour chaque contenu formatif affiché sur la page de résultats (PIX-23159)
+- [#16616](https://github.com/1024pix/pix/pull/16616) FRI Creation CYPhishing_IND_fr_BE
+- [#16656](https://github.com/1024pix/pix/pull/16656) Fri renommage de fichiers json
+- [#16626](https://github.com/1024pix/pix/pull/16626) Pouvoir enregistrer un NPS pour le moteur de recommandation (PIX-23302)
+- [#16631](https://github.com/1024pix/pix/pull/16631) Update IAGenImpact_AVA.json - modifs suite aux retours
+
+### :bug: Correction
+
+- [#16638](https://github.com/1024pix/pix/pull/16638) Rejeter les certifs v3 coeur avec 0 points actuellement valides (PIX-19378).
+
+### :building_construction: Tech
+
+- [#16648](https://github.com/1024pix/pix/pull/16648) Ajouter le commentaire d'invalidation de certificat sur les certifications Droit et Santé dans les tests E2E
+- [#16636](https://github.com/1024pix/pix/pull/16636) Exporter les serializers avec des exports nommés
+- [#16641](https://github.com/1024pix/pix/pull/16641) Ne pas importer depuis les fichiers de migration
+- [#16650](https://github.com/1024pix/pix/pull/16650) REFACTOR  des routes + ajout breadcrumb sur la liste des reférentiels de certification (PIX-23336)
+- [#16645](https://github.com/1024pix/pix/pull/16645) Supprime et/ou déplace les scripts dans leur contexte
+- [#16617](https://github.com/1024pix/pix/pull/16617) Supprimer le script import-user-last-logged-at
+- [#16644](https://github.com/1024pix/pix/pull/16644) Update scalingo stack to scalingo-26 for RAs
+- [#16640](https://github.com/1024pix/pix/pull/16640) Utiliser uniquement des exports nommés pour les erreurs Http.
+
+# [5.440.0](https://github.com/1024pix/pix/compare/v5.439.0...v5.440.0) (2026-06-25)
+
+### :rocket: Amélioration
+
+- [#16581](https://github.com/1024pix/pix/pull/16581) Afficher le centre de certification rattaché à une organisation (PIX-22629)
+- [#16603](https://github.com/1024pix/pix/pull/16603) Bloquer le bouton de création de version d'une certification si un brouillon est déjà en cours d'élaboration (PIX-23273)
+- [#16623](https://github.com/1024pix/pix/pull/16623) Créer la table user-campaign-surveys pour stocker le NPS (PIX-23301).
+- [#16608](https://github.com/1024pix/pix/pull/16608) Permettre de réinitialiser les résultats d'une campagne de type moteur de recommandation (PIX-23021)
+
+### :bug: Correction
+
+- [#16629](https://github.com/1024pix/pix/pull/16629) Afficher l'ID de l'organisation en erreur lors du rattachement à un réseau (PIX-23130)
+- [#16632](https://github.com/1024pix/pix/pull/16632) Utiliser la bonne version de node dans security.yml
+
+### :building_construction: Tech
+
+- [#16635](https://github.com/1024pix/pix/pull/16635) Corriger les erreur d'export knip
+- [#16628](https://github.com/1024pix/pix/pull/16628) Ne pas faire les clics sur la liste déroulante du choix de langue en entrée de certif tant que la liste est désactivée pendant le rétablissement de la certification anglaise
+- [#16627](https://github.com/1024pix/pix/pull/16627) Ranger le reste des models du domain quest, suite et fin
+- [#16621](https://github.com/1024pix/pix/pull/16621) Récupération des challenges anglais non joués en certif coeur (PIX-23293).
+- [#16637](https://github.com/1024pix/pix/pull/16637) Supprime le code lié à la gestion des accusés de traitement du CPF.
+- [#16630](https://github.com/1024pix/pix/pull/16630) Supprime les chargements de attestations depuis le service currentUser
+- [#16574](https://github.com/1024pix/pix/pull/16574) Supprimer des modèles et repositories de certification/shared (PIX-23231)
+
+### :arrow_up: Montée de version
+
+- [#16633](https://github.com/1024pix/pix/pull/16633) Update pix-ui (mon-pix)
+
+# [5.439.0](https://github.com/1024pix/pix/compare/v5.438.0...v5.439.0) (2026-06-24)
+
+### :rocket: Amélioration
+
+- [#16566](https://github.com/1024pix/pix/pull/16566) Créer une route pour récupérer l'organisation liée à un centre de certification (PIX-22630)
+- [#16618](https://github.com/1024pix/pix/pull/16618) RangerFichiersIND - relecture edito 1
+- [#16620](https://github.com/1024pix/pix/pull/16620) Récompense l'utilisateur qui a rempli l'exigence de sujets cappés dans un Parcours Combinés (PIX-21718).
+
+# [5.438.0](https://github.com/1024pix/pix/compare/v5.437.0...v5.438.0) (2026-06-24)
+
+### :rocket: Amélioration
+
+- [#16593](https://github.com/1024pix/pix/pull/16593) Ajout des wordings sur les certificats Pix+ ProSanté (PIX-22934)
+- [#16607](https://github.com/1024pix/pix/pull/16607) Créa module Virus_AVA
+- [#16606](https://github.com/1024pix/pix/pull/16606) Harmoniser les appels à l'api legalDocuments depuis la route api/admin/users/{id} (PIX-23262)
+- [#16583](https://github.com/1024pix/pix/pull/16583) MDX-123 MoteurRechInfo_NOV1 Corrections suite à la relecture équipe
+- [#16612](https://github.com/1024pix/pix/pull/16612) Modifs suite aux panels interne et externe du module CYPhishing_NOV
+- [#16587](https://github.com/1024pix/pix/pull/16587) Pouvoir sélectionner des critères de sujets cappés à la création d'un blueprint (PIX-21717)
+- [#16597](https://github.com/1024pix/pix/pull/16597) Tmp ia gen fonction ava jro panels
+
+### :building_construction: Tech
+
+- [#16601](https://github.com/1024pix/pix/pull/16601) Ajout de la propriété `competenceId` aux configurations de niveau par compétence (PIX-21753).
+- [#16594](https://github.com/1024pix/pix/pull/16594) Optimiser les performances de la route des parcours autonomes (PIX-XXXX)
+- [#16611](https://github.com/1024pix/pix/pull/16611) Refactor remove useless preinstall
+- [#16600](https://github.com/1024pix/pix/pull/16600) Suppression de fonctions et de repositories non utilisés
+
+# [5.437.0](https://github.com/1024pix/pix/compare/v5.436.0...v5.437.0) (2026-06-23)
+
+### :rocket: Amélioration
+
+- [#16564](https://github.com/1024pix/pix/pull/16564) Afficher les informations du moteur de reco (PIX-23119).
+- [#16578](https://github.com/1024pix/pix/pull/16578) Ajout d'un statut d'annulation manuelle de certification (PIX-23188).
+- [#16610](https://github.com/1024pix/pix/pull/16610) Bloquer le passage des certifs en EN (PIX-23288).
+- [#16505](https://github.com/1024pix/pix/pull/16505) MDX-17 Biais_AVA integration retours JRO
+- [#16596](https://github.com/1024pix/pix/pull/16596) Ne pas proposer de transcription pour les short vidéo qui n'en ont pas (PIX-23184)
+- [#16602](https://github.com/1024pix/pix/pull/16602) Permettre de patcher les modules contenus dans la release (PIX-23286) 
+- [#16553](https://github.com/1024pix/pix/pull/16553) Récupérer les CGU de l'utilisateur sur Pix Admin en passant par le nouveau modèle (PIX-21747)
+- [#16584](https://github.com/1024pix/pix/pull/16584) Utiliser le nouveau modèle des CGU quand un utilisateur récupère son compte (sortie du SCO) (PIX-23228)
+
+### :bug: Correction
+
+- [#16579](https://github.com/1024pix/pix/pull/16579) Corriger les accents mal encodés dans les prénoms des tables certification-courses/candidates (PIX-23223).
+- [#16609](https://github.com/1024pix/pix/pull/16609) Écouter les erreurs pg-boss côté client pour éviter le crash du web
+
+### :building_construction: Tech
+
+- [#16599](https://github.com/1024pix/pix/pull/16599) Ajouter un test pour vérifier que le feedback est bien envoyé pour un QCM declaratif (PIX-23194).
+- [#16560](https://github.com/1024pix/pix/pull/16560) Retirer les lectures vers la table depuis le repo partagé certification-candidate (PIX-22975)
+- [#16591](https://github.com/1024pix/pix/pull/16591) Suppression de security pre-handlers non utilisés
+- [#16582](https://github.com/1024pix/pix/pull/16582) Supprimer le taux de couverture de organizations/{id}/campaigns (PIX-23241)
+- [#16588](https://github.com/1024pix/pix/pull/16588) Toujours utiliser les imports nommés pour le locale service
+- [#16586](https://github.com/1024pix/pix/pull/16586) Traduire le format des tutoriels (PIX-22431)
+
+# [5.436.0](https://github.com/1024pix/pix/compare/v5.435.0...v5.436.0) (2026-06-22)
+
+### :rocket: Amélioration
+
+- [#16592](https://github.com/1024pix/pix/pull/16592) Afficher une illustration spécifique par format de contenu formatif (PIX-22792)
+- [#16589](https://github.com/1024pix/pix/pull/16589) Ajouter l'illustration de trophée dans le header de la page de resultat (PIX-23236).
+- [#16534](https://github.com/1024pix/pix/pull/16534) Ajouter un endpoint permettant de récupérer le détail d'un blueprint appartenant à une organisation (PIX-23018)
+- [#16562](https://github.com/1024pix/pix/pull/16562) IA-RAG-modif
+- [#16575](https://github.com/1024pix/pix/pull/16575) Permettre au super admin de créer une version draft d'une certification (PIX-23002)
+- [#16571](https://github.com/1024pix/pix/pull/16571) QCM déclaratif : Mettre à jour Pix-Checkbox (PIX-23189)
+
+### :building_construction: Tech
+
+- [#16569](https://github.com/1024pix/pix/pull/16569) Corriger les erreurs remontées par knip
+- [#16577](https://github.com/1024pix/pix/pull/16577) Exporter les routes avec des exports nommés
+- [#16572](https://github.com/1024pix/pix/pull/16572) Filtrer les knowledge elements sur les skills du profil cible lors de l'export CSV des résultats de campagne (PIX-XXXX)
+- [#16590](https://github.com/1024pix/pix/pull/16590) Mise à jour de la liste des versions lors de l'ajout d'un draft (PIX-23256)
+- [#16595](https://github.com/1024pix/pix/pull/16595) Ne pas exécuter la CI à tous les changements de label
+- [#16576](https://github.com/1024pix/pix/pull/16576) Supprimer la dépendance tracked-build-ins sur Pix App (PIX-23243)
+
+# [5.435.0](https://github.com/1024pix/pix/compare/v5.434.0...v5.435.0) (2026-06-19)
+
+### :rocket: Amélioration
+
+- [#16556](https://github.com/1024pix/pix/pull/16556) Permettre la création et la mise à jour d'un contenu formatif pour le moteur de recommandations (PIX-23118)
+
+### :bug: Correction
+
+- [#16570](https://github.com/1024pix/pix/pull/16570) Ajustement des textes dans les PDF de certif (PIX-23195)
+- [#16567](https://github.com/1024pix/pix/pull/16567) Corriger le fait de pouvoir récupérer l'historique de la certification CléA dans le menu des référentiels de certification sur PixAdmin (PIX-23229)
+- [#16573](https://github.com/1024pix/pix/pull/16573) Ne pas construire une url de questionnaire de fin de parcours si on n'a pas d'url de base pour le blueprint (PIX-23233)
+
+### :building_construction: Tech
+
+- [#16544](https://github.com/1024pix/pix/pull/16544) :recycle: Utilise une déclaration de fonction plutôt qu'assigner une fonction a une constante
+- [#16580](https://github.com/1024pix/pix/pull/16580) Changement dans les seeds de l'utilisation de usecase pour des factory (PIX-23235)
+
+# [5.434.0](https://github.com/1024pix/pix/compare/v5.433.0...v5.434.0) (2026-06-18)
+
 # [5.433.0](https://github.com/1024pix/pix/compare/v5.432.0...v5.433.0) (2026-06-17)
 
 # [5.432.0](https://github.com/1024pix/pix/compare/v5.431.0...v5.432.0) (2026-06-16)

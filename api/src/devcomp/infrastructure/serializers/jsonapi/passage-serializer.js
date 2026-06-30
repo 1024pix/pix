@@ -8,4 +8,4 @@ function serialize(passage) {
   }).serialize(passage);
 }
 
-export { serialize };
+export const passageSerializer = { serialize };

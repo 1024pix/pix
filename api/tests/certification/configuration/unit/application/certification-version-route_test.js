@@ -1,13 +1,43 @@
 import sinon from 'sinon';
 
 import { certificationVersionController } from '../../../../../src/certification/configuration/application/certification-version-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/configuration/application/certification-version-route.js';
+import { certificationVersionRoute as moduleUnderTest } from '../../../../../src/certification/configuration/application/certification-version-route.js';
+import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Certification | Configuration | Application | Router | certification-version-route', function () {
+  describe('GET /api/certifications/{framework}/info', function () {
+    context('when the user is not authenticated', function () {
+      it('should reject access', async function () {
+        const httpTestServer = new HttpTestServer();
+        httpTestServer.setupAuthentication();
+        sinon.stub(certificationVersionController, 'getInfo').returns('ok');
+        await httpTestServer.register(moduleUnderTest);
+
+        const response = await httpTestServer.request('GET', `/api/certifications/${Frameworks.CORE}/info`);
+
+        expect(response.statusCode).to.equal(401);
+        sinon.assert.notCalled(certificationVersionController.getInfo);
+      });
+    });
+
+    context('when the framework parameter is invalid', function () {
+      it('should return 400 HTTP status code when framework is not valid', async function () {
+        const httpTestServer = new HttpTestServer();
+        sinon.stub(certificationVersionController, 'getInfo').returns('ok');
+        await httpTestServer.register(moduleUnderTest);
+
+        const response = await httpTestServer.request('GET', '/api/certifications/zouzou/info');
+
+        expect(response.statusCode).to.equal(400);
+        sinon.assert.notCalled(certificationVersionController.getInfo);
+      });
+    });
+  });
+
   describe('GET /api/admin/certification-versions/{certificationVersionId}', function () {
     describe('when the user authenticated has no role', function () {
       it('should return 403 HTTP status code', async function () {
@@ -196,44 +226,63 @@ describe('Unit | Certification | Configuration | Application | Router | certific
     });
   });
 
-  describe('POST /api/admin/frameworks/{scope}/version', function () {
-    describe('when the user authenticated has no role', function () {
+  describe('POST /api/admin/certification-versions', function () {
+    context('when the user authenticated has no role', function () {
       it('should return 403 HTTP status code', async function () {
         // given
         sinon
           .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
           .returns((request, h) => h.response().code(403).takeover());
-        sinon.stub(certificationVersionController, 'createCertificationVersion').returns('ok');
+        sinon.stub(certificationVersionController, 'createDraft').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request('POST', `/api/admin/frameworks/${SCOPES.CORE}/version`, {
-          data: { attributes: { tubeIds: ['tubeId'] } },
+        const response = await httpTestServer.request('POST', `/api/admin/certification-versions`, {
+          data: { attributes: { tubeIds: ['tubeId'], scope: SCOPES.CORE } },
         });
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(certificationVersionController.createCertificationVersion);
+        sinon.assert.notCalled(certificationVersionController.createDraft);
       });
     });
 
-    describe('when the scope is invalid', function () {
+    context('when trying to create a draft for CLEA', function () {
       it('should return 400 HTTP status code', async function () {
         // given
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').callsFake(() => () => true);
-        sinon.stub(certificationVersionController, 'createCertificationVersion').returns('ok');
+        sinon.stub(certificationVersionController, 'createDraft').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request('POST', '/api/admin/frameworks/INVALID_SCOPE/version', {
-          data: { attributes: { tubeIds: ['tubeId'] } },
+        const response = await httpTestServer.request('POST', `/api/admin/certification-versions`, {
+          data: { attributes: { tubeIds: ['tubeId'], scope: 'CLEA' } },
         });
 
         // then
         expect(response.statusCode).to.equal(400);
-        sinon.assert.notCalled(certificationVersionController.createCertificationVersion);
+        sinon.assert.notCalled(certificationVersionController.createDraft);
+      });
+    });
+
+    Object.values(SCOPES).forEach((scope) => {
+      it(`should return OK HTTP status code with framework ${scope}`, async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').callsFake(() => () => true);
+        sinon.stub(certificationVersionController, 'createDraft').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('POST', `/api/admin/certification-versions`, {
+          data: { attributes: { tubeIds: ['tubeId'], scope } },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        sinon.assert.calledOnce(certificationVersionController.createDraft);
       });
     });
   });

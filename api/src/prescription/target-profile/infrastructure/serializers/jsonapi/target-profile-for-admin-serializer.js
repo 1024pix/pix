@@ -108,4 +108,4 @@ const serialize = function ({ targetProfile, filter }) {
   }).serialize(targetProfile);
 };
 
-export { serialize };
+export const targetProfileForAdminSerializer = { serialize };

@@ -5,7 +5,7 @@ import { getBaseLocale } from '../../domain/services/locale-service.js';
 import { getI18n } from '../../infrastructure/i18n/i18n.js';
 import { getChallengeLocale } from '../../infrastructure/utils/request-response-utils.js';
 import { mapToHttpError } from './error-manager.js';
-import { HttpErrors } from './http-errors.js';
+import { BaseHttpError, InvalidEntityError, sendJsonApiError } from './http-errors.js';
 
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
 
@@ -19,8 +19,8 @@ export class HapiErrorMapper {
   handle(request, h) {
     const { response } = request;
 
-    if (response instanceof HttpErrors.BaseHttpError) {
-      return HttpErrors.sendJsonApiError(response, h);
+    if (response instanceof BaseHttpError) {
+      return sendJsonApiError(response, h);
     }
 
     if (response instanceof EntityValidationError) {
@@ -29,12 +29,12 @@ export class HapiErrorMapper {
       const jsonApiError = response.invalidAttributes?.map((invalidAttribute) =>
         this.#formatInvalidAttribute(language, response.meta, invalidAttribute),
       );
-      return HttpErrors.sendJsonApiError(jsonApiError ?? new HttpErrors.InvalidEntityError(), h);
+      return sendJsonApiError(jsonApiError ?? new InvalidEntityError(), h);
     }
 
     if (response instanceof DomainError) {
       const httpError = this.#registry.mapToError(response) ?? mapToHttpError(response);
-      return HttpErrors.sendJsonApiError(httpError, h);
+      return sendJsonApiError(httpError, h);
     }
     return h.continue;
   }
@@ -50,7 +50,7 @@ export class HapiErrorMapper {
   }
 
   #formatUndefinedAttribute({ message, locale, meta }) {
-    return new HttpErrors.InvalidEntityError({
+    return new InvalidEntityError({
       message: this.#translateMessage(locale, message),
       code: undefined,
       meta,
@@ -61,7 +61,7 @@ export class HapiErrorMapper {
 
   #formatRelationship({ attribute, message, locale, meta }) {
     const relationship = attribute.replace('Id', '');
-    return new HttpErrors.InvalidEntityError({
+    return new InvalidEntityError({
       message: this.#translateMessage(locale, message),
       code: undefined,
       meta,
@@ -73,7 +73,7 @@ export class HapiErrorMapper {
   }
 
   #formatAttribute({ attribute, message, locale, meta }) {
-    return new HttpErrors.InvalidEntityError({
+    return new InvalidEntityError({
       message: this.#translateMessage(locale, message),
       code: undefined,
       meta,

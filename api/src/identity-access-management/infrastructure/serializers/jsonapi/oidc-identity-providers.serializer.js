@@ -30,4 +30,4 @@ const serialize = function (oidcIdentityProviders) {
   }).serialize(oidcIdentityProviders);
 };
 
-export { serialize };
+export const oidcIdentityProvidersSerializer = { serialize };

@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-management-serializer.js';
+import { campaignManagementSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-management-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -9,7 +9,7 @@ describe('Unit | Serializer | JSONAPI | campaign-management-serializer', functio
       const campaignManagement = domainBuilder.buildCampaignManagement();
 
       // when
-      const json = serializer.serialize(campaignManagement);
+      const json = campaignManagementSerializer.serialize(campaignManagement);
 
       // then
       expect(json).to.deep.equal({

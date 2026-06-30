@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import uniq from 'lodash/uniq';
 
 export default class TrainingDetailsTargetProfilesController extends Controller {
-  @service('store') store;
+  @service store;
   @service router;
   @service featureToggles;
   @tracked targetProfilesToAttach = '';

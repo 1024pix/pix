@@ -1,5 +1,3 @@
-import { NotFoundError } from '../../../../shared/domain/errors.js';
-
 /**
  * Certification scopes
  * @readonly
@@ -13,17 +11,3 @@ export const SCOPES = Object.freeze({
   PIX_PLUS_EDU_CPE: 'EDU_CPE',
   PIX_PLUS_PRO_SANTE: 'PRO_SANTE',
 });
-
-/**
- * Finds a scope by its name.
- * @param {string} name - The name of the scope to find.
- * @returns {string} The scope value.
- * @throws {NotFoundError} If the scope is not found.
- */
-export function getScopeByName(name) {
-  const scope = Object.values(SCOPES).find((value) => value === name);
-  if (!scope) {
-    throw new NotFoundError(`Scope with name "${name}" not found.`);
-  }
-  return scope;
-}

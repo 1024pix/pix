@@ -16,4 +16,4 @@ const serialize = function (presentationSteps) {
   }).serialize(presentationSteps);
 };
 
-export { serialize };
+export const presentationStepsSerializer = { serialize };

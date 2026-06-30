@@ -59,5 +59,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'school/school-api';
-export { name, register };
+export const schoolRoute = { name: 'school/school-api', register };

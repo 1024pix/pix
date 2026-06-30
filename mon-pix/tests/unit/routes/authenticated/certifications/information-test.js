@@ -13,30 +13,39 @@ module('Unit | Route | Certifications | Information', function (hooks) {
 
       const certificationCandidate = store.createRecord('certification-candidate', {
         id: '1234',
+        subscription: 'anySub',
       });
-      const findRecordStub = sinon.stub().resolves(certificationCandidate);
+      const certificationInfo = store.createRecord('certification-info', {
+        id: 'anySub',
+      });
+      const findRecordStub = sinon.stub();
+      findRecordStub.withArgs('certification-candidate', 1234).resolves(certificationCandidate);
+      findRecordStub.withArgs('certification-info', 'anySub').resolves(certificationInfo);
       const storeStub = Service.create({ findRecord: findRecordStub });
       const route = this.owner.lookup('route:authenticated/certifications.information');
       route.set('store', storeStub);
 
       // when
-      const model = await route.model(1234);
+      const model = await route.model({ certification_candidate_id: 1234 });
 
       // then
-      assert.deepEqual(model, certificationCandidate);
+      assert.deepEqual(model, {
+        certificationCandidate,
+        certificationInfo,
+      });
     });
 
     module('when no candidate exist', function () {
       test('should return to certification form', async function (assert) {
         // given
-        const findRecordStub = sinon.stub().resolves();
+        const findRecordStub = sinon.stub().rejects(new Error('404 not found'));
         const storeStub = Service.create({ findRecord: findRecordStub });
         const route = this.owner.lookup('route:authenticated/certifications.information');
         route.set('store', storeStub);
         route.router = { replaceWith: sinon.stub() };
 
         // when
-        await route.model(1234);
+        await route.model({ certification_candidate_id: 1234 });
 
         // then
         sinon.assert.calledWith(route.router.replaceWith, 'authenticated.certifications.join');

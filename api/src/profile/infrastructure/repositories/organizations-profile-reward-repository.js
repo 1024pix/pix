@@ -1,11 +1,10 @@
-import { ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME } from '../../../../db/migrations/20241118134739_create-organizations-profile-rewards-table.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { batchUpdate } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { OrganizationProfileReward } from '../../domain/models/OrganizationProfileReward.js';
 
 export const save = async ({ organizationId, profileRewardId }) => {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn(ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME)
+  await knexConn('organizations-profile-rewards')
     .insert({
       organizationId,
       profileRewardId,
@@ -21,7 +20,7 @@ export const save = async ({ organizationId, profileRewardId }) => {
  */
 export const removeInBatch = async (organizationProfileRewards) => {
   await batchUpdate({
-    tableName: ORGANIZATIONS_PROFILE_REWARDS_TABLE_NAME,
+    tableName: 'organizations-profile-rewards',
     primaryKeyName: 'id',
     rows: organizationProfileRewards.map((organizationProfileReward) => ({
       id: organizationProfileReward.id,

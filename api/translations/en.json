@@ -623,6 +623,10 @@
   },
   "jury": {
     "comment": {
+      "CANCELLED_BY_JURY": {
+        "candidate": "At least one technical issue, reported to your invigilator during the certification session, has affected the quality of the certification exam. We are unfortunately unable to assess a reliable score or to deliver a certificat. The certification has been cancelled, the specifier of your certification exam (if applicable), has been informed.",
+        "organization": "At least one technical issue, reported by this candidate to the invigilator of the certification session, has affected the quality of the certification exam. We are unable to certify them, their certification has been cancelled. the specifier of your certification exam (if applicable), has been informed. This information may lead you to proposing another certification session for this candidate."
+      },
       "CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON": {
         "candidate": "At least one technical issue, reported to your invigilator during the certification session, has affected the quality of the certification exam. Due to the number of questions to which you haven't been able to answer in the proper exam conditions, we are unfortunately unable to assess a reliable score or to deliver a certificat. The certification has been cancelled, the specifier of your certification exam (if applicable), has been informed.",
         "organization": "At least one technical issue, reported by this candidate to the invigilator of the certification session, has affected the quality of the certification exam. We are unable to certify them, their certification has been cancelled. the specifier of your certification exam (if applicable), has been informed. This information may lead you to proposing another certification session for this candidate."
@@ -654,6 +658,10 @@
       "REJECTED_EDU_NOT_ELIGIBLE": {
         "candidate": "Your results do not make you eligible for the Pix+ Édu certification. You can keep progressing on Pix and try again during a future session.",
         "organization": "The candidate is not eligible for the Pix+ Édu certification."
+      },
+      "REJECTED_PIX_PLUS_NOT_OBTAINED": {
+        "candidate": "The results obtained do not allow the validation of your certification. You need to consolidate your knowledge to enhance these skills.",
+        "organization": "The results obtained do not allow the validation of the Pix+ certification. The candidate needs to consolidate their knowledge to enhance these skills."
       }
     }
   },

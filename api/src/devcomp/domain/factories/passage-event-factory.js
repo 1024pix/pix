@@ -5,6 +5,7 @@ import {
   EmbedAnsweredEvent,
   EmbedRetriedEvent,
   QCMAnsweredEvent,
+  QCMDeclarativeAnsweredEvent,
   QCMRetriedEvent,
   QCUAnsweredEvent,
   QCUDeclarativeAnsweredEvent,
@@ -87,6 +88,8 @@ class PassageEventFactory {
         return new QROCMAnsweredEvent(eventData);
       case 'QCM_ANSWERED':
         return new QCMAnsweredEvent(eventData);
+      case 'QCM_DECLARATIVE_ANSWERED':
+        return new QCMDeclarativeAnsweredEvent(eventData);
       case 'QCM_RETRIED':
         return new QCMRetriedEvent(eventData);
       case 'QCU_ANSWERED':

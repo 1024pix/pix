@@ -1,10 +1,10 @@
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer.js';
+import { campaignParticipationsCountsByStatusSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-participations-counts-by-status-serializer', function () {
   describe('#serialize', function () {
     it('should convert a participations count by stage model object into JSON API data', function () {
-      const json = serializer.serialize({
+      const json = campaignParticipationsCountsByStatusSerializer.serialize({
         campaignId: 1,
         started: 1,
         shared: 1,

@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class UserLoginAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForUpdateRecord(id) {
     return `${this.host}/${this.namespace}/users/${id}`;
   }

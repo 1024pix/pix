@@ -39,4 +39,4 @@ const serialize = function (challenges) {
   return new Serializer('challenge', config).serialize(challenges);
 };
 
-export { config, serialize };
+export const challengeSerializer = { config, serialize };

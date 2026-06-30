@@ -1,6 +1,6 @@
 import { Answer } from '../../../../../../src/evaluation/domain/models/Answer.js';
 import { SimulationParameters } from '../../../../../../src/evaluation/domain/models/SimulationParameters.js';
-import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/smart-random-simulator-serializer.js';
+import { smartRandomSimulatorSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/smart-random-simulator-serializer.js';
 import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { Skill } from '../../../../../../src/shared/domain/models/Skill.js';
@@ -54,7 +54,7 @@ describe('Unit | Serializer | JSONAPI | smart-random-simulator-serializer', func
 
     it('should convert JSON API data into an object', async function () {
       // when
-      const simulatorParameters = await serializer.deserialize(jsonAnswer);
+      const simulatorParameters = await smartRandomSimulatorSerializer.deserialize(jsonAnswer);
 
       // then
       expect(simulatorParameters).to.be.instanceOf(SimulationParameters);

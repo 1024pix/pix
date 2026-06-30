@@ -1,4 +1,4 @@
-import * as organizationMemberIdentitySerializer from '../../../team/infrastructure/serializers/jsonapi/organization-member-identity.serializer.js';
+import { organizationMemberIdentitySerializer } from '../../../team/infrastructure/serializers/jsonapi/organization-member-identity.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 export const getOrganizationMemberIdentities = async function (

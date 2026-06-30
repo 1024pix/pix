@@ -1,4 +1,8 @@
-import { HttpErrors } from '../../../shared/application/errors/http-errors.js';
+import {
+  ConflictError,
+  NotFoundError,
+  UnprocessableEntityError,
+} from '../../../shared/application/errors/http-errors.js';
 import {
   CertificateGenerationError,
   MoreThanOneMatchingCertificationError,
@@ -8,18 +12,18 @@ import {
 const parcoursupDomainErrorMappingConfiguration = [
   {
     name: MoreThanOneMatchingCertificationError.name,
-    httpErrorFn: (error) => new HttpErrors.ConflictError(error.message),
+    httpErrorFn: (error) => new ConflictError(error.message),
   },
 ];
 
 const resultsDomainErrorMappingConfiguration = [
   {
     name: NoCertificationResultForDivision.name,
-    httpErrorFn: (error) => new HttpErrors.NotFoundError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new NotFoundError(error.message, error.code, error.meta),
   },
   {
     name: CertificateGenerationError.name,
-    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
+    httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
   },
 ];
 

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import * as mailCheck from '../../../../shared/mail/infrastructure/services/mail-check.js';
+import { mailCheck } from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../shared/domain/constants/sessions-errors.js';

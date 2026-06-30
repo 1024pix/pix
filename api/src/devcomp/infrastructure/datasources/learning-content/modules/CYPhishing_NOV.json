@@ -290,8 +290,8 @@
                 "id": "02db90dd-7977-43cd-bcd9-5b63343fc5ef",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Pour chaque notification de message ci-dessous, devinez pour qui l’escroc essaye de se faire passer.</p>",
-                "functionalInstruction": "Cliquez sur chaque notification pour la catégoriser.",
+                "instruction": "<p>Pour chaque notification de message ci-dessous, indiquez pour qui l’escroc essaye de se faire passer.</p>",
+                "functionalInstruction": "Cliquez sur chaque notification, puis choisissez une catégorie.",
                 "tagName": "phishing-notification",
                 "props": {
                   "notifications": [
@@ -315,7 +315,7 @@
                     },
                     {
                       "icon": "arobase",
-                      "sender": "Squizee",
+                      "sender": "Céline Doin",
                       "content": "Concours pour mes abonnés ! ",
                       "category": "Célébrité",
                       "time": {
@@ -333,7 +333,7 @@
                     },
                     {
                       "icon": "letter",
-                      "sender": "service@electricite.com",
+                      "sender": "service-client@telephone.com",
                       "content": "Alerte facture impayée ! ",
                       "category": "Entreprise",
                       "time": {
@@ -517,7 +517,7 @@
                       "minutes": -5
                     }
                   },
-                  "username": "Xavier",
+                  "username": "Enzo",
                   "responseChoices": [
                     {
                       "content": "Réponds STOP au SMS, ça va le bloquer.",
@@ -592,7 +592,7 @@
                       "userName": "Enzo",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Bien joué ! Tu n’es pas tombée dans le piège. 👏 "
+                      "content": "Ouf ! Tu n’es pas tombée dans le piège. 👏 "
                     },
                     {
                       "userName": "Yvette",
@@ -631,9 +631,9 @@
               "element": {
                 "id": "32ed31f7-6d00-4c70-a4e7-da26e59617fe",
                 "type": "image",
-                "url": "https://assets.pix.org/modules/CYPhishingNov/infographie-recap.svg",
+                "url": "https://assets.pix.org/modules/CYPhishingNov/cy-phishing-nov-infographie-recap-fond-blanc.svg",
                 "alt": "Infographie décrite en détail dans l’alternative textuelle",
-                "alternativeText": "<p>Un dessin représentant une personne tenant un smartphone. Sur l’écran du téléphone, un message est affiché avec un lien vers une page web.<br>Trois encadrés de texte, reliés au téléphone, expliquent&nbsp;:</p><ul><li>«&nbsp;Ils cherchent à gagner votre confiance, en utilisant l’identité d’un proche ou d’un service public connu.&nbsp;»</li><li>«&nbsp;Ils invitent à agir, souvent en cliquant sur un lien.&nbsp;»</li><li>«&nbsp;Ils utilisent vos émotions pour vous faire réagir rapidement.&nbsp;»</li></ul><p>Liste de recommandations avec le titre&nbsp;: «&nbsp;Trois conseils pour éviter de tomber dans le piège&nbsp;»</p><ul><li>Conseil 1&nbsp;: prenez le temps de réfléchir avant d’agir.</li><li> Conseil 2&nbsp;: ne communiquez pas d’informations personnelles.</li><li>Conseil 3&nbsp;: ne cliquez pas sur le lien, ne répondez pas.</li></ul>",
+                "alternativeText": "<p>Un dessin représentant une personne tenant un smartphone. Sur l’écran du téléphone, un message est affiché avec un lien vers une page web.<br>Trois encadrés de texte, reliés au téléphone, expliquent&nbsp;:</p><ul><li>«&nbsp;Ils cherchent à gagner votre confiance, en utilisant l’identité d’un proche ou d’un service public connu.&nbsp;»</li><li>«&nbsp;Ils invitent à agir, souvent en cliquant sur un lien.&nbsp;»</li><li>«&nbsp;Ils utilisent vos émotions pour vous faire réagir rapidement.&nbsp;»</li></ul><p>Liste de recommandations avec le titre&nbsp;: «&nbsp;Trois conseils pour éviter de tomber dans le piège&nbsp;»</p><ol><li>Prenez le temps de réfléchir avant d’agir.</li><li>Ne communiquez pas d’informations personnelles.</li><li>Ne cliquez pas sur le lien, ne répondez pas.</li></ol>",
                 "legend": "",
                 "licence": ""
               }

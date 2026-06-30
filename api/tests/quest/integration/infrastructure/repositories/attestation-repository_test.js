@@ -1,4 +1,4 @@
-import { Attestation } from '../../../../../src/quest/domain/models/Attestation.js';
+import { Attestation } from '../../../../../src/quest/domain/models/profile/entities/Attestation.js';
 import * as attestationRepository from '../../../../../src/quest/infrastructure/repositories/attestation-repository.js';
 import { AttestationStorage } from '../../../../../src/quest/infrastructure/storage/attestation-storage.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';

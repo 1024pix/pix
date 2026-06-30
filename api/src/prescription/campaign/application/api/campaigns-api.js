@@ -180,6 +180,33 @@ export const findAllForOrganization = async (payload) => {
 };
 
 /**
+ * @typedef CampaignSummaryListPayload
+ * @type {object}
+ * @property {number} organizationId
+ * @property {PageDefinition} page
+ */
+
+/**
+ * @function
+ * @name findAllSummariesForOrganization
+ * @description Lists an organization's campaigns with only their core attributes (no participation
+ * counts, owner or target profile joins).
+ *
+ * @param {CampaignSummaryListPayload} payload
+ * @returns {Promise<CampaignListResponse>}
+ */
+export const findAllSummariesForOrganization = async (payload) => {
+  const { models: campaigns, meta } = await usecases.findPaginatedOrganizationCampaignSummaries({
+    organizationId: payload.organizationId,
+    page: payload.page,
+  });
+
+  const campaignsList = campaigns.map((campaign) => new CampaignListItem(campaign));
+
+  return { models: campaignsList, meta };
+};
+
+/**
  * @function
  * @name findCampaignSkillIdsForCampaignParticipations
  *

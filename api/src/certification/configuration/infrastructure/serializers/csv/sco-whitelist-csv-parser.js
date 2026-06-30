@@ -7,7 +7,7 @@ import { getDataBuffer } from '../../../../../shared/infrastructure/utils/buffer
 import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
 import { ScoWhitelistCsvHeader } from './sco-whitelist-csv-header.js';
 
-export const extractExternalIds = async (file) => {
+export async function extractExternalIds(file) {
   const stream = createReadStream(file);
   const buffer = await getDataBuffer(stream);
   try {
@@ -18,10 +18,10 @@ export const extractExternalIds = async (file) => {
   } finally {
     fs.unlink(file);
   }
-};
+}
 
-const _extractIds = (buffer) => {
+function _extractIds(buffer) {
   const columns = new ScoWhitelistCsvHeader();
   const campaignIdsCsv = new CsvParser(buffer, columns);
   return campaignIdsCsv.parse();
-};
+}

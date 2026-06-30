@@ -8,7 +8,7 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AssessmentDtoFactory } from '../../../shared/domain/models/AssessmentDtoFactory.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
-import * as assessmentSerializer from '../../../shared/infrastructure/serializers/jsonapi/assessment-serializer.js';
+import { assessmentSerializer } from '../../../shared/infrastructure/serializers/jsonapi/assessment-serializer.js';
 import * as llmChatSerializer from '../../../shared/infrastructure/serializers/llm-chat-serializer.js';
 import {
   extractUserIdFromRequest,
@@ -16,7 +16,7 @@ import {
 } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { Answer } from '../../domain/models/Answer.js';
 import { evaluationUsecases } from '../../domain/usecases/index.js';
-import * as competenceEvaluationSerializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
+import { competenceEvaluationSerializer } from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 
 async function shareProfileRewardWithOrganization(campaignParticipationId, userId) {
   const questResults = await questUsecases.getQuestResultsForCampaignParticipation({

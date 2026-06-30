@@ -7,7 +7,7 @@ const findStudentsForEnrolment = async function ({
   filter,
   centerRepository,
   organizationLearnerRepository,
-  certificationCandidateRepository,
+  candidateRepository,
 }) {
   const organizationId = await centerRepository.findActiveScoOrganizationId({ certificationCenterId });
 
@@ -20,19 +20,17 @@ const findStudentsForEnrolment = async function ({
     filter,
     organizationId,
   });
-  const certificationCandidates = await certificationCandidateRepository.findBySessionId(sessionId);
+  const candidates = await candidateRepository.findBySessionId({ sessionId });
   return {
-    data: _buildStudentsForEnrolment({ students: paginatedStudents.data, certificationCandidates }),
+    data: _buildStudentsForEnrolment({ students: paginatedStudents.data, candidates }),
     pagination: paginatedStudents.pagination,
   };
 };
 
 export { findStudentsForEnrolment };
 
-function _buildStudentsForEnrolment({ students, certificationCandidates }) {
-  return students.map((student) =>
-    StudentForEnrolment.fromStudentsAndCertificationCandidates({ student, certificationCandidates }),
-  );
+function _buildStudentsForEnrolment({ students, candidates }) {
+  return students.map((student) => StudentForEnrolment.fromStudentsAndCandidates({ student, candidates }));
 }
 
 function _emptyResponse(page) {

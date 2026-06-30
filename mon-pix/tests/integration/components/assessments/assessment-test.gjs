@@ -72,6 +72,47 @@ module('Integration | Component | Assessments | assessments', function (hooks) {
     });
   });
 
+  module('when the companion is blocked', function () {
+    test('it creates a companion live alert and reloads the assessment', async function (assert) {
+      // given
+      let blockListener;
+      class PixCompanionStub extends Service {
+        addEventListener = sinon.stub().callsFake((eventName, listener) => {
+          if (eventName === 'block') blockListener = listener;
+        });
+        removeEventListener = sinon.stub();
+        startCheckingExtensionIsEnabled = sinon.stub();
+        stopCheckingExtensionIsEnabled = sinon.stub();
+        isExtensionEnabled = true;
+      }
+
+      this.owner.register('service:pix-companion', PixCompanionStub);
+
+      const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('assessment');
+      const createCompanionLiveAlertStub = sinon.stub(adapter, 'createCompanionLiveAlert');
+
+      const assessment = { id: '123', isCertification: true, reload: sinon.stub() };
+      const title = 'Première question';
+
+      await render(
+        <template>
+          <Assessments @assessment={{assessment}}>
+            <h1>{{title}}</h1>
+          </Assessments>
+        </template>,
+      );
+
+      // when
+      await blockListener();
+
+      // then
+      sinon.assert.calledOnceWithExactly(createCompanionLiveAlertStub, { assessmentId: '123' });
+      sinon.assert.calledOnce(assessment.reload);
+      assert.ok(true);
+    });
+  });
+
   module('when extension is disabled', function () {
     test('it displays companion blocker page', async function (assert) {
       // given

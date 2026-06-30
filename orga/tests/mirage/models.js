@@ -20,6 +20,7 @@ export default {
     organization: belongsTo('organization'),
     stages: hasMany('stage'),
     targetProfile: belongsTo('targetProfile'),
+    course: belongsTo('course'),
   }),
   campaignAnalysis: Model.extend({
     campaignTubeRecommendations: hasMany('campaignTubeRecommendation'),
@@ -78,6 +79,10 @@ export default {
   competence: Model.extend({
     thematics: hasMany('thematic'),
   }),
+  course: Model.extend(),
+  combinedCourseBlueprintItem: Model.extend(),
+  combinedCourseBlueprintOverview: Model.extend({ items: hasMany('combinedCourseBlueprintItem') }),
+  targetProfileOverview: Model.extend({ badges: hasMany('badge'), frameworks: hasMany('framework') }),
   dependentUser: Model.extend(),
   division: Model.extend(),
   featureToggle: Model.extend(),

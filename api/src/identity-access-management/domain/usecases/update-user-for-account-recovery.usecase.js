@@ -5,32 +5,34 @@ import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
  * @param {{
  *   password: string,
  *   temporaryKey: string,
- *   accountRecoveryDemandRepository: AccountRecoveryDemandRepository,
- *   authenticationMethodRepository: AuthenticationMethodRepository,
- *   userRepository: UserRepository,
- *   cryptoService: CryptoService,
  *   scoAccountRecoveryService: ScoAccountRecoveryService,
+ *   accountRecoveryDemandRepository: AccountRecoveryDemandRepository,
+ *   cryptoService: CryptoService,
+ *   authenticationMethodRepository: AuthenticationMethodRepository,
+ *   legalDocumentApiRepository, LegalDocumentApiRepository,
+ *   userRepository: UserRepository,
  * }} params
  * @return {Promise<void>}
  */
 export const updateUserForAccountRecovery = async function ({
   password,
   temporaryKey,
-  userRepository,
-  authenticationMethodRepository,
-  accountRecoveryDemandRepository,
   scoAccountRecoveryService,
+  accountRecoveryDemandRepository,
   cryptoService,
+  authenticationMethodRepository,
+  legalDocumentApiRepository,
+  userRepository,
 }) {
   const { userId, newEmail } = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
     temporaryKey,
     accountRecoveryDemandRepository,
     userRepository,
   });
+
   const hashedPassword = await cryptoService.hashPassword(password);
 
   const hasAnAuthenticationMethodFromPix = await authenticationMethodRepository.hasIdentityProviderPIX({ userId });
-
   if (hasAnAuthenticationMethodFromPix) {
     await authenticationMethodRepository.updatePassword({
       userId,
@@ -50,22 +52,21 @@ export const updateUserForAccountRecovery = async function ({
     });
   }
 
-  const now = new Date();
-  const userValuesToUpdate = {
-    username: null,
-    cgu: true,
-    email: newEmail,
-    emailConfirmedAt: now,
-    lastTermsOfServiceValidatedAt: now,
-  };
   await authenticationMethodRepository.removeByUserIdAndIdentityProvider({
     userId,
     identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
   });
 
+  await legalDocumentApiRepository.acceptPixAppTos({ userId });
+
   await userRepository.updateWithEmailConfirmed({
     id: userId,
-    userAttributes: userValuesToUpdate,
+    userAttributes: {
+      username: null,
+      email: newEmail,
+      emailConfirmedAt: new Date(),
+    },
   });
+
   await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey);
 };

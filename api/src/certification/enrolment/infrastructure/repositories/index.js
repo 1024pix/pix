@@ -1,7 +1,6 @@
 import * as dataProtectionOfficerRepository from '../../../../organizational-entities/infrastructure/repositories/data-protection-officer.repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as sessionManagementRepository from '../../../session-management/infrastructure/repositories/session-management-repository.js';
-import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
@@ -22,7 +21,6 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {centerRepository} CenterRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {sessionRepository} SessionRepository
- * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
@@ -37,7 +35,6 @@ import * as sessionRepository from './session-repository.js';
 const repositoriesWithoutInjectedDependencies = {
   candidateRepository,
   centerRepository,
-  certificationCandidateRepository,
   certificationCenterRepository,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,

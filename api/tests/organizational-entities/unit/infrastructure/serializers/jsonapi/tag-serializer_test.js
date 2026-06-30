@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/tag-serializer.js';
+import { tagSerializer } from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/tag-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -19,7 +19,7 @@ describe('Unit | Organizational Entities | Serializer | JSONAPI | tag', function
       };
 
       // when
-      const json = serializer.serialize(tag);
+      const json = tagSerializer.serialize(tag);
 
       // then
       expect(json).to.deep.equal(expectedSerializedTag);

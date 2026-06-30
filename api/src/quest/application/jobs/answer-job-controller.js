@@ -1,7 +1,7 @@
 import { JobController, JobGroup } from '../../../shared/application/jobs/job-controller.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { temporaryStorage } from '../../../shared/infrastructure/key-value-storages/index.js';
-import { AnswerJob } from '../../domain/models/AnwserJob.js';
+import { AnswerJob } from '../../domain/models/quests/events/AnwserJob.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 const profileRewardTemporaryStorage = temporaryStorage.withPrefix('profile-rewards:');

@@ -55,7 +55,8 @@
 
   &__field {
     display: flex;
-    align-items: center;
+    gap: var(--pix-spacing-9x);
+    align-items: start;
     justify-content: space-between;
 
     &:not(:last-child) {
@@ -77,5 +78,8 @@
       text-decoration: underline;
     }
   }
-}
 
+  &__list {
+    list-style-type: disc;
+  }
+}

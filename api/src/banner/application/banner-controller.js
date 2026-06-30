@@ -1,5 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as informationBannerSerializer from '../infrastructure/serializers/jsonapi/information-banner-serializer.js';
+import { informationBannerSerializer } from '../infrastructure/serializers/jsonapi/information-banner-serializer.js';
 
 const getInformationBanner = async function (request) {
   const { target: id } = request.params;

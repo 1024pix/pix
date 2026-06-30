@@ -157,5 +157,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/results/certificate-api';
-export { name, register };
+export const certificateRoute = { name: 'certification/results/certificate-api', register };

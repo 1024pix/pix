@@ -8,4 +8,4 @@ const serialize = function (moduleMetadataList) {
   }).serialize(moduleMetadataList);
 };
 
-export { serialize };
+export const moduleMetadataSerializer = { serialize };

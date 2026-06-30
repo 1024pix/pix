@@ -1,5 +1,5 @@
 import { CampaignAssessmentParticipation } from '../../../../../../../src/prescription/campaign-participation/domain/models/CampaignAssessmentParticipation.js';
-import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
+import { campaignAssessmentParticipationSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../../../test-helper.js';
@@ -93,7 +93,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
 
       it('should convert a CampaignAssessmentParticipation model object into JSON API data', function () {
         // when
-        const json = serializer.serialize(modelCampaignAssessmentParticipation);
+        const json = campaignAssessmentParticipationSerializer.serialize(modelCampaignAssessmentParticipation);
 
         // then
         expect(json).to.deep.equal(expectedJsonApi);
@@ -166,7 +166,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
 
       it('should convert a CampaignAssessmentParticipation model object into JSON API data', function () {
         // when
-        const json = serializer.serialize(modelCampaignAssessmentParticipation);
+        const json = campaignAssessmentParticipationSerializer.serialize(modelCampaignAssessmentParticipation);
 
         // then
         expect(json).to.deep.equal(expectedJsonApi);

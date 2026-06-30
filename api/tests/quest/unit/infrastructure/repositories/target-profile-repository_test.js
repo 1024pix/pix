@@ -1,12 +1,12 @@
 import sinon from 'sinon';
 
-import { TargetProfile } from '../../../../../src/quest/domain/models/TargetProfile.js';
+import { TargetProfile } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/TargetProfile.js';
 import * as targetProfileRepository from '../../../../../src/quest/infrastructure/repositories/target-profile-repository.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | target-profile', function () {
   describe('#findByIds', function () {
-    it('should call getById method from targetProfileApi', async function () {
+    it('should call getByIds method from targetProfileApi', async function () {
       // given
       const firstTargetProfileId = 1;
       const secondTargetProfileId = 2;
@@ -21,10 +21,12 @@ describe('Quest | Unit | Infrastructure | Repositories | target-profile', functi
         internalName: 'targetProfileInternalName2',
       });
       const targetProfilesApiStub = {
-        getById: sinon.stub(),
+        getByIds: sinon.stub(),
       };
-      targetProfilesApiStub.getById.withArgs(firstTargetProfileId).resolves(expectedFirstTargetProfile);
-      targetProfilesApiStub.getById.withArgs(secondTargetProfileId).resolves(expectedSecondTargetProfile);
+      targetProfilesApiStub.getByIds
+        .withArgs([firstTargetProfileId, secondTargetProfileId])
+        .resolves([expectedFirstTargetProfile, expectedSecondTargetProfile]);
+
       // when
       const result = await targetProfileRepository.findByIds({
         ids: [firstTargetProfileId, secondTargetProfileId],

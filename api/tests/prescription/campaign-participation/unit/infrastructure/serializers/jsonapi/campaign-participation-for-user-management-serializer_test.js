@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer.js';
+import { campaignParticipationForUserManagementSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -21,7 +21,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-for-user-manageme
       participationForUserManagement.setIsFromCombinedCourse(true);
 
       // when
-      const json = serializer.serialize([participationForUserManagement]);
+      const json = campaignParticipationForUserManagementSerializer.serialize([participationForUserManagement]);
 
       // then
       expect(json).to.deep.equal({

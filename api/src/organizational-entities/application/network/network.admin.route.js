@@ -149,5 +149,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'organizational-entities/network-admin';
-export { name, register };
+export const networkAdminRoute = { name: 'organizational-entities/network-admin', register };

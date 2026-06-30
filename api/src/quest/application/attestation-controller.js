@@ -1,6 +1,6 @@
 import { Readable } from 'node:stream';
 
-import * as attestationSerializer from '../../profile/infrastructure/serializers/jsonapi/attestation-serializer.js';
+import { attestationSerializer } from '../../profile/infrastructure/serializers/jsonapi/attestation-serializer.js';
 import { BadRequestError } from '../../shared/application/errors/http-errors.js';
 import { usecases } from '../domain/usecases/index.js';
 

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { learningContentController } from '../../../../src/learning-content/application/learning-content-controller.js';
-import * as moduleUnderTest from '../../../../src/learning-content/application/learning-content-route.js';
+import { learningContentRoute as moduleUnderTest } from '../../../../src/learning-content/application/learning-content-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
@@ -60,6 +60,7 @@ describe('Unit | Route | learning-content-route', function () {
         'challenges',
         'tutorials',
         'courses',
+        'modules',
       ].forEach((modelName) => {
         it('should reach the controller', async function () {
           // given
@@ -67,8 +68,8 @@ describe('Unit | Route | learning-content-route', function () {
             'PATCH',
             `/api/cache/${modelName}/recXYZ1234`,
             {
-              id: 'recChallengeId',
-              param: 'updatedModelParam',
+              id: 'recXYZ1234',
+              attr: 'updatedModelAttr',
             },
             null,
             { authorization: 'some.access.token' },

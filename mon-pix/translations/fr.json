@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 QUESTIONS"
+            "strong-text": "{maximumAssessmentLength} QUESTIONS"
           },
           "paragraphs": {
-            "1": "Le test de certification est composé de '<strong>'32 questions'</strong>'",
+            "1": "Le test de certification est composé de '<strong>'{maximumAssessmentLength} questions'</strong>'",
             "2": "Vous avez au maximum '<strong>'{duration}'</strong>' pour y répondre*",
             "3": "*hors éventuel temps majoré",
-            "4": "Si vous traitez '<strong>'moins de 20 questions, nous ne serons pas en mesure de vous délivrer un score'</strong>'."
+            "4": "Si vous traitez '<strong>'moins de {minimumAssessmentLength} questions, nous ne serons pas en mesure de vous délivrer un score'</strong>'."
           },
           "title": "Comment se passe le test de certification ?"
         },
@@ -977,10 +977,11 @@
         "options": {
           "english": "anglais - EN",
           "french": "français - FR"
-        }
+        },
+        "warning-message": "Suite un à problème technique, la Certification Pix est momentanément indisponible en anglais. Nous nous excusons pour la gêne occassionnée."
       },
       "link-to-user-certification": "Voir mes certifications",
-      "non-eligible-subscription": "Vous n'êtes pas éligible à {complementarySubscriptionLabel}. Vous pouvez néanmoins passer votre certification Pix.",
+      "non-eligible-subscription": "Vous n'êtes pas éligible à {subscriptionLabel}. Vous pouvez néanmoins passer votre certification Pix.",
       "title": "Rejoindre une session de certification"
     },
     "certifications-list": {
@@ -1312,22 +1313,20 @@
       "rewards": {
         "in-progress": {
           "details": {
-            "text": "En fonction de votre niveau en fin de parcours, une attestation de réussite pourra être délivrée.",
-            "title": "Terminez tous les parcours pour obtenir votre attestation"
+            "title": "Finalisez votre parcours pour obtenir votre attestation"
           },
           "status": "En cours"
         },
         "not-obtained": {
           "details": {
-            "text": "Malheureusement les résultats obtenus sur les parcours réalisés ne permettent pas de valider l’obtention de votre attestation",
-            "title": "Comprendre pourquoi"
+            "title": "Malheureusement, vous n’avez pas rempli les conditions pour obtenir l’attestation"
           },
           "status": "Non obtenue"
         },
         "obtained": {
           "details": {
-            "text": "Téléchargez votre attestation de réussite ! Ce document est également disponible dans votre compte Pix.",
-            "title": "Où la retrouver ?"
+            "text": "Vous pouvez télécharger votre attestation dès maintenant ou la retrouver dans votre compte Pix.",
+            "title": "Vous avez obtenu votre attestation !"
           },
           "link": "Je télécharge mon attestation",
           "status": "Obtenue"
@@ -1912,6 +1911,7 @@
       },
       "verification-precondition-failed-alert": {
         "qcm": "Pour valider, sélectionnez au moins deux réponses.",
+        "qcm-declarative": "Pour soumettre, sélectionnez au moins une réponse.",
         "qcu": "Pour valider, sélectionnez une réponse.",
         "qrocm": "Pour valider, veuillez remplir tous les champs réponse."
       }
@@ -2342,29 +2342,38 @@
       }
     },
     "terms-of-service": {
+      "actions": {
+        "accept": "Accepter et continuer",
+        "decline": "Refuser et quitter",
+        "document-link": "Lire les conditions d'utilisations"
+      },
       "cgu": "J'accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'conditions d'utilisation de Pix'</a>'",
       "form": {
         "button": "Je continue",
         "error-message": "Vous devez accepter les conditions d’utilisation de Pix."
       },
       "message": "Nous avons mis à jour nos conditions d'utilisation. Veuillez les accepter afin de pouvoir continuer votre expérience sur Pix.",
-      "title": "Conditions d'utilisation"
+      "requested": {
+        "message": "Pour continuer à utiliser Pix, nous vous invitions à lire et accepter nos Conditions Générales d'Utilisation.",
+        "title": "Veuillez accepter nos Conditions Générales d'Utilisation (CGU)"
+      },
+      "title": "Conditions d'utilisation",
+      "update-requested": {
+        "message": "Nous avons actualisé nos CGU. Consultez les changements et acceptez-les pour continuer.",
+        "title": "Mise à jour importante des Conditions Générales d'Utilisation (CGU)"
+      }
     },
     "timed-challenge-instructions": {
       "action": "Commencer",
       "primary": "Vous disposerez de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' pour réussir la question suivante.",
-      "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie.",
-      "time": {
-        "and": " et ",
-        "minutes": "{minutes, plural, =0 {} =1 {# minute} other {# minutes}}",
-        "seconds": "{seconds, plural, =0 {} =1 {# seconde} other {# secondes}}"
-      }
+      "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
     },
     "training": {
       "editor": "Contenu formatif proposé par",
       "type": {
         "autoformation": "Parcours d'autoformation",
         "e-learning": "Formation à distance",
+        "external-service": "Service externe",
         "formation": "Formation",
         "hybrid-training": "Formation hybride",
         "in-person-training": "Formation en présentiel",
@@ -2406,6 +2415,18 @@
       "title": "Didacticiel de la campagne"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "audio",
+        "frise": "frise",
+        "image": "image",
+        "jeu": "jeu",
+        "outil": "outil",
+        "page": "page",
+        "pdf": "pdf",
+        "site": "site",
+        "slide": "diaporama",
+        "video": "vidéo"
+      },
       "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix.",
       "title": "Pour réussir la prochaine fois"
     },

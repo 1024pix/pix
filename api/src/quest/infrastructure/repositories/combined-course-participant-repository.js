@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../../shared/domain/errors.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
-import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
+import { OrganizationLearner } from '../../domain/models/prescription/entities/OrganizationLearner.js';
 
 export async function getOrCreateNewOrganizationLearner({ organizationLearner, userId, organizationId }) {
   const existingOrganizationLearner = await findOrganizationLearner({ userId, organizationId });

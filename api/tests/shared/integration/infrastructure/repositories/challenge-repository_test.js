@@ -3,6 +3,7 @@ import nock from 'nock';
 import { ValidatorQCM } from '../../../../../src/evaluation/domain/models/ValidatorQCM.js';
 import { ValidatorQCU } from '../../../../../src/evaluation/domain/models/ValidatorQCU.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -1373,201 +1374,91 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findValidatedBySkills', function () {
-    context('when locale is not defined', function () {
-      it('should throw an Error', async function () {
-        // when
-        const err = await catchErr(challengeRepository.findValidatedBySkills)(domainBuilder.buildSkill());
-
-        // then
-        expect(err.message).to.equal('Locale shall be defined');
+  describe('#findValidatedIdsByTubeIdsAndLocales', function () {
+    it('returns challenge IDS that belong to given tube IDS and are of the languages given in parameters', async function () {
+      databaseBuilder.factory.learningContent.build({
+        skills: [
+          { id: 'skillOk1', tubeId: 'tubeOk1', status: 'actif' },
+          { id: 'skillOk2', tubeId: 'tubeOk2', status: 'actif' },
+        ],
+        challenges: [
+          { id: 'challengeOk1', skillId: 'skillOk1', locales: [FRENCH_SPOKEN], status: 'validé' },
+          { id: 'challengeOk2', skillId: 'skillOk2', locales: [FRENCH_SPOKEN], status: 'validé' },
+          { id: 'challengeKo3', skillId: 'skillOk2', locales: [ENGLISH_SPOKEN], status: 'validé' },
+        ],
       });
+      await databaseBuilder.commit();
+
+      const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(
+        ['tubeOk1', 'tubeOk2'],
+        [FRENCH_SPOKEN],
+      );
+
+      expect(challengeIds).to.deep.equal(['challengeOk1', 'challengeOk2']);
     });
 
-    context('when locale is defined', function () {
-      context('when no operative challenges found for given locale', function () {
-        it('should return an empty array', async function () {
-          // given
-          const skill00 = domainBuilder.buildSkill({
-            ...skillData00_tube00competence00_actif,
-            difficulty: skillData00_tube00competence00_actif.level,
-            hint: skillData00_tube00competence00_actif.hint_i18n.fr,
-          });
-
-          // when
-          const challenges = await challengeRepository.findValidatedBySkills([skill00], 'catalan');
-
-          // then
-          expect(challenges).to.deep.equal([]);
-        });
+    it('ignores valid challenges when not in given tube IDS', async function () {
+      databaseBuilder.factory.learningContent.build({
+        skills: [
+          { id: 'skillOk', tubeId: 'tubeOk', status: 'actif' },
+          { id: 'skillNotInTubeIds', tubeId: 'someOtherTube', status: 'actif' },
+        ],
+        challenges: [
+          { id: 'challengeOk', skillId: 'skillOk', locales: [FRENCH_SPOKEN], status: 'validé' },
+          { id: 'challengeNotInTubeIds', skillId: 'skillNotInTubeIds', locales: [FRENCH_SPOKEN], status: 'validé' },
+        ],
       });
+      await databaseBuilder.commit();
 
-      context('when operative challenges are found for given locale', function () {
-        it('should return the challenges', async function () {
-          // given
-          const skills = [
-            domainBuilder.buildSkill({
-              ...skillData00_tube00competence00_actif,
-              difficulty: skillData00_tube00competence00_actif.level,
-              hint: skillData00_tube00competence00_actif.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData02_tube02competence01_perime,
-              difficulty: skillData02_tube02competence01_perime.level,
-              hint: skillData02_tube02competence01_perime.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData01_tube01competence00_actif,
-              difficulty: skillData01_tube01competence00_actif.level,
-              hint: skillData01_tube01competence00_actif.hint_i18n.fr,
-            }),
-          ];
+      const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(['tubeOk'], [FRENCH_SPOKEN]);
 
-          // when
-          const challenges = await challengeRepository.findValidatedBySkills(skills, 'en');
+      expect(challengeIds).to.deep.equal(['challengeOk']);
+    });
 
-          // then
-          expect(challenges).to.deep.equal([
-            domainBuilder.buildChallenge({
-              ...challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson,
-              blindnessCompatibility:
-                challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.accessibility1,
-              colorBlindnessCompatibility:
-                challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.accessibility2,
-              focused: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.focusable,
-              discriminant: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.alpha,
-              difficulty: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.id,
-                  type: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.type,
-                  value: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.solution,
-                  isT1Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t1Status,
-                  isT2Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t2Status,
-                  isT3Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...skillData00_tube00competence00_actif,
-                difficulty: skillData00_tube00competence00_actif.level,
-                hint: skillData00_tube00competence00_actif.hint_i18n.fr,
-              }),
-            }),
-            domainBuilder.buildChallenge({
-              ...challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson,
-              blindnessCompatibility:
-                challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.accessibility1,
-              colorBlindnessCompatibility:
-                challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.accessibility2,
-              focused: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.focusable,
-              discriminant: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.alpha,
-              difficulty: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.id,
-                  type: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.type,
-                  value: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.solution,
-                  isT1Enabled: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.t1Status,
-                  isT2Enabled: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.t2Status,
-                  isT3Enabled: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...skillData01_tube01competence00_actif,
-                difficulty: skillData01_tube01competence00_actif.level,
-                hint: skillData01_tube01competence00_actif.hint_i18n.fr,
-              }),
-            }),
-          ]);
-        });
-
-        it('should avoid duplicates', async function () {
-          // given
-          const skills = [
-            domainBuilder.buildSkill({
-              ...skillData00_tube00competence00_actif,
-              difficulty: skillData00_tube00competence00_actif.level,
-              hint: skillData00_tube00competence00_actif.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData02_tube02competence01_perime,
-              difficulty: skillData02_tube02competence01_perime.level,
-              hint: skillData02_tube02competence01_perime.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData01_tube01competence00_actif,
-              difficulty: skillData01_tube01competence00_actif.level,
-              hint: skillData01_tube01competence00_actif.hint_i18n.fr,
-            }),
-            domainBuilder.buildSkill({
-              ...skillData00_tube00competence00_actif,
-              difficulty: skillData00_tube00competence00_actif.level,
-              hint: skillData00_tube00competence00_actif.hint_i18n.fr,
-            }),
-          ];
-
-          // when
-          const challenges = await challengeRepository.findValidatedBySkills(skills, 'en');
-
-          // then
-          expect(challenges).to.deep.equal([
-            domainBuilder.buildChallenge({
-              ...challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson,
-              blindnessCompatibility:
-                challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.accessibility1,
-              colorBlindnessCompatibility:
-                challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.accessibility2,
-              focused: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.focusable,
-              discriminant: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.alpha,
-              difficulty: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.id,
-                  type: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.type,
-                  value: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.solution,
-                  isT1Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t1Status,
-                  isT2Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t2Status,
-                  isT3Enabled: challengeData01_skill00_qcu_valide_flashCompatible_fren_withEmbedJson.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...skillData00_tube00competence00_actif,
-                difficulty: skillData00_tube00competence00_actif.level,
-                hint: skillData00_tube00competence00_actif.hint_i18n.fr,
-              }),
-            }),
-            domainBuilder.buildChallenge({
-              ...challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson,
-              blindnessCompatibility:
-                challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.accessibility1,
-              colorBlindnessCompatibility:
-                challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.accessibility2,
-              focused: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.focusable,
-              discriminant: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.alpha,
-              difficulty: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.delta,
-              validator: new ValidatorQCU({
-                solution: domainBuilder.buildSolution({
-                  id: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.id,
-                  type: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.type,
-                  value: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.solution,
-                  isT1Enabled: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.t1Status,
-                  isT2Enabled: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.t2Status,
-                  isT3Enabled: challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson.t3Status,
-                  qrocBlocksTypes: {},
-                }),
-              }),
-              skill: domainBuilder.buildSkill({
-                ...skillData01_tube01competence00_actif,
-                difficulty: skillData01_tube01competence00_actif.level,
-                hint: skillData01_tube01competence00_actif.hint_i18n.fr,
-              }),
-            }),
-          ]);
-        });
+    it('ignores valid challenges when not in given locales', async function () {
+      databaseBuilder.factory.learningContent.build({
+        skills: [{ id: 'skillOk', tubeId: 'tubeOk', status: 'actif' }],
+        challenges: [
+          { id: 'challengeOkFr', skillId: 'skillOk', locales: [FRENCH_SPOKEN], status: 'validé' },
+          { id: 'challengeOkEn', skillId: 'skillOk', locales: [ENGLISH_SPOKEN], status: 'validé' },
+          { id: 'challengeOkNl', skillId: 'skillOk', locales: ['nl'], status: 'validé' },
+        ],
       });
+      await databaseBuilder.commit();
+
+      const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(
+        ['tubeOk'],
+        [FRENCH_SPOKEN, 'nl'],
+      );
+
+      expect(challengeIds).to.deep.equal(['challengeOkFr', 'challengeOkNl']);
+    });
+
+    it('ignores challenges when skill is not active', async function () {
+      databaseBuilder.factory.learningContent.build({
+        skills: [{ id: 'skillKo', tubeId: 'tubeOk', status: 'archivé' }],
+        challenges: [{ id: 'challengeOkFr', skillId: 'skillOk', locales: [FRENCH_SPOKEN], status: 'validé' }],
+      });
+      await databaseBuilder.commit();
+
+      const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(['tubeOk'], [FRENCH_SPOKEN]);
+
+      expect(challengeIds).to.deep.equal([]);
+    });
+
+    it('ignores challenges when challenge is not validated', async function () {
+      databaseBuilder.factory.learningContent.build({
+        skills: [{ id: 'skillOk', tubeId: 'tubeOk', status: 'actif' }],
+        challenges: [
+          { id: 'challengeOk', skillId: 'skillOk', locales: [FRENCH_SPOKEN], status: 'validé' },
+          { id: 'challengeKo', skillId: 'skillOk', locales: [FRENCH_SPOKEN], status: 'archivé' },
+        ],
+      });
+      await databaseBuilder.commit();
+
+      const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(['tubeOk'], [FRENCH_SPOKEN]);
+
+      expect(challengeIds).to.deep.equal(['challengeOk']);
     });
   });
 });

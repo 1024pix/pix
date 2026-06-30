@@ -10,14 +10,16 @@ import { CombinedCourseDetails } from '../../../../../../src/quest/domain/models
 import { CombinedCourseReward } from '../../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
 import { CombinedCourseParticipation } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 import {
-  COMBINED_COURSE_ITEM_TYPES,
-  CombinedCourseItem,
-} from '../../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
-import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+} from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import {
+  CampaignCombinedCourseItem,
+  COMBINED_COURSE_ITEM_TYPES,
+  ModuleCombinedCourseItem,
+  TrainingCombinedCourseItem,
+} from '../../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -250,7 +252,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
         // then
         expect(combinedCourseDetails.items).to.deep.equal([
-          new CombinedCourseItem({
+          new CampaignCombinedCourseItem({
             id: 2,
             reference: 'ABCDIAG2',
             title: 'diagnostique2',
@@ -280,7 +282,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
         // then
         expect(combinedCourseDetails.items).to.deep.equal([
-          new CombinedCourseItem({
+          new CampaignCombinedCourseItem({
             id: 7,
             reference: 'ABCDIAG7',
             title: 'diagnostique7',
@@ -322,7 +324,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
         // then
         expect(combinedCourseDetails.items).to.deep.equal([
-          new CombinedCourseItem({
+          new ModuleCombinedCourseItem({
             id: 'abcdefgh1',
             reference: 'slugabcdefgh1',
             title: 'titleabcdefgh1',
@@ -366,7 +368,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
         // then
         expect(combinedCourseDetails.items).to.deep.equal([
-          new CombinedCourseItem({
+          new CampaignCombinedCourseItem({
             id: 777,
             reference: 'ABCDIAG777',
             title: 'diagnostique777',
@@ -410,7 +412,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
         // then
         expect(combinedCourseDetails.items).to.deep.equal([
-          new CombinedCourseItem({
+          new CampaignCombinedCourseItem({
             id: 777,
             title: 'diagnostique777',
             reference: 'ABCDIAG777',
@@ -422,7 +424,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             validatedStagesCount: null,
             isLocked: false,
           }),
-          new CombinedCourseItem({
+          new ModuleCombinedCourseItem({
             id: 'ebcde1',
             reference: 'slugebcde1',
             title: 'titleebcde1',
@@ -502,7 +504,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
           // then
           expect(combinedCourseDetails.items).to.deep.equal([
-            new CombinedCourseItem({
+            new CampaignCombinedCourseItem({
               id: 777,
               reference: 'ABCDIAG777',
               title: 'diagnostique777',
@@ -514,7 +516,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               isCompleted: false,
               isLocked: false,
             }),
-            new CombinedCourseItem({
+            new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
               reference: 888,
               type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
@@ -562,7 +564,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
           // then
           expect(combinedCourseDetails.items).to.deep.equal([
-            new CombinedCourseItem({
+            new CampaignCombinedCourseItem({
               id: 777,
               reference: 'ABCDIAG777',
               title: 'diagnostique777',
@@ -574,13 +576,13 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               isCompleted: false,
               isLocked: false,
             }),
-            new CombinedCourseItem({
+            new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
               reference: 888,
               type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
               isLocked: true,
             }),
-            new CombinedCourseItem({
+            new CampaignCombinedCourseItem({
               id: 999,
               reference: 'ABCDIAG999',
               title: 'diagnostique999',
@@ -591,7 +593,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               validatedStagesCount: null,
               isLocked: true,
             }),
-            new CombinedCourseItem({
+            new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 101,
               reference: 101,
               type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
@@ -624,7 +626,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
           // then
           expect(combinedCourseDetails.items).to.deep.equal([
-            new CombinedCourseItem({
+            new CampaignCombinedCourseItem({
               id: 777,
               reference: 'ABCDIAG777',
               title: 'diagnostique777',
@@ -635,7 +637,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               isCompleted: false,
               isLocked: false,
             }),
-            new CombinedCourseItem({
+            new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
               reference: 888,
               type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
@@ -681,7 +683,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
           // then
           expect(combinedCourseDetails.items).to.deep.equal([
-            new CombinedCourseItem({
+            new CampaignCombinedCourseItem({
               id: 777,
               reference: 'ABCDIAG777',
               title: 'diagnostique777',
@@ -693,7 +695,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               isCompleted: false,
               isLocked: false,
             }),
-            new CombinedCourseItem({
+            new ModuleCombinedCourseItem({
               id: 'abcdef1',
               reference: 'slugabcdef1',
               title: 'titleabcdef1',
@@ -705,7 +707,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               isLocked: true,
               shortId: 'short-abcdef1',
             }),
-            new CombinedCourseItem({
+            new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
               reference: 888,
               type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
@@ -743,7 +745,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
       // then
       expect(combinedCourseDetails.items).to.deep.equal([
-        new CombinedCourseItem({
+        new CampaignCombinedCourseItem({
           id: 2,
           reference: 'ABCDIAG2',
           title: 'diagnostique2',
@@ -755,7 +757,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: true,
           isLocked: false,
         }),
-        new CombinedCourseItem({
+        new CampaignCombinedCourseItem({
           id: 3,
           reference: 'ABCDIAG3',
           title: 'diagnostique3',
@@ -767,7 +769,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: false,
           isLocked: false,
         }),
-        new CombinedCourseItem({
+        new ModuleCombinedCourseItem({
           id: 'abc2de',
           duration: 10,
           reference: 'slugabc2de',
@@ -906,7 +908,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
       // then
       expect(combinedCourseDetails.items).to.deep.equal([
-        new CombinedCourseItem({
+        new CampaignCombinedCourseItem({
           id: 3,
           reference: 'ABCDIAG3',
           title: 'diagnostique3',
@@ -916,7 +918,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: true,
           isLocked: false,
         }),
-        new CombinedCourseItem({
+        new ModuleCombinedCourseItem({
           id: 'abcde3',
           reference: 'slugabcde3',
           title: 'titleabcde3',
@@ -928,7 +930,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isLocked: false,
           shortId: 'short-abcde3',
         }),
-        new CombinedCourseItem({
+        new ModuleCombinedCourseItem({
           id: 'abcde4',
           reference: 'slugabcde4',
           title: 'titleabcde4',
@@ -940,7 +942,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isLocked: false,
           shortId: 'short-abcde4',
         }),
-        new CombinedCourseItem({
+        new CampaignCombinedCourseItem({
           id: 2,
           reference: 'ABCDIAG2',
           title: 'diagnostique2',
@@ -950,7 +952,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: true,
           isLocked: false,
         }),
-        new CombinedCourseItem({
+        new ModuleCombinedCourseItem({
           id: 'abcde1',
           reference: 'slugabcde1',
           title: 'titleabcde1',
@@ -962,7 +964,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isLocked: false,
           shortId: 'short-abcde1',
         }),
-        new CombinedCourseItem({
+        new ModuleCombinedCourseItem({
           id: 'abcde2',
           reference: 'slugabcde2',
           title: 'titleabcde2',
@@ -1088,6 +1090,30 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         // then
         expect(combinedCourseDetails.surveyUrl).to.deep.equal('https://link.to/survey?participationId=1');
       });
+
+      it('should return surveyUrl only if baseSurveyUrl is defined', async function () {
+        // given & when
+        const combinedCourseParticipation = {
+          status: CombinedCourseParticipationStatuses.COMPLETED,
+          id: 1,
+        };
+        const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
+          name,
+          code,
+          organizationId,
+          questId,
+          combinedCourseItems: [{ campaignId: 3, targetProfileId: 999 }, { moduleId: 'abcde1' }],
+          cryptoService,
+          baseSurveyUrl: null,
+        });
+
+        await combinedCourseDetails.setEncryptedUrl();
+
+        combinedCourseDetails.setDataAndGenerateItems({ participation: combinedCourseParticipation });
+
+        // then
+        expect(combinedCourseDetails.surveyUrl).to.be.null;
+      });
     });
   });
 
@@ -1139,16 +1165,94 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
       const result = combinedCourseDetails.updateItemsFromPassages(passages);
 
       expect(result).to.be.instanceOf(CombinedCourseDetails);
-      expect(result.items[0]).to.be.instanceOf(CombinedCourseItem);
-      expect(result.items[0].type).to.equal(COMBINED_COURSE_ITEM_TYPES.CAMPAIGN);
+      expect(result.items[0]).to.be.instanceOf(CampaignCombinedCourseItem);
       expect(result.items[0].isCompleted).to.be.true;
 
-      expect(result.items[1]).to.be.instanceOf(CombinedCourseItem);
-      expect(result.items[2]).to.be.instanceOf(CombinedCourseItem);
+      expect(result.items[1]).to.be.instanceOf(ModuleCombinedCourseItem);
+      expect(result.items[2]).to.be.instanceOf(ModuleCombinedCourseItem);
       expect(result.items[1].id).to.equal('abc123');
       expect(result.items[2].id).to.equal('abcde1');
       expect(result.items[1].isCompleted).to.be.true;
       expect(result.items[2].isCompleted).to.be.false;
+    });
+  });
+
+  describe('#isSuccessful', function () {
+    it('should only evaluate the completion of recommended modules to user specifically', async function () {
+      // given && when
+      const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
+        name,
+        code,
+        organizationId,
+        questId,
+        combinedCourseItems: [
+          { campaignId: 777, targetProfileId: 888 },
+          { moduleId: 'abcdef1' },
+          { moduleId: 'abcdef2' },
+        ],
+        cryptoService,
+      });
+
+      const dataForQuest = domainBuilder.buildCombinedCourseDataForQuest({
+        campaignParticipations: [{ campaignId: 777, status: CampaignParticipationStatuses.SHARED }],
+        passages: [
+          {
+            referenceId: 'abcdef2',
+            isTerminated: true,
+          },
+        ],
+      });
+
+      combinedCourseDetails.setRecommandableModuleIds([
+        { moduleId: 'abcdef2', targetProfileIds: [888] },
+        { moduleId: 'abcdef1', targetProfileIds: [888] },
+      ]);
+      await combinedCourseDetails.setEncryptedUrl();
+      combinedCourseDetails.setDataAndGenerateItems({
+        recommendedModuleIdsForUser: [{ moduleId: 'abcdef2' }],
+        dataForQuest,
+      });
+
+      // then
+      expect(combinedCourseDetails.isSuccessful()).to.be.true;
+    });
+    it('should return false when recommended modules is not fulfilled', async function () {
+      // given && when
+      const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
+        name,
+        code,
+        organizationId,
+        questId,
+        combinedCourseItems: [
+          { campaignId: 777, targetProfileId: 888 },
+          { moduleId: 'abcdef1' },
+          { moduleId: 'abcdef2' },
+        ],
+        cryptoService,
+      });
+
+      const dataForQuest = domainBuilder.buildCombinedCourseDataForQuest({
+        campaignParticipations: [{ campaignId: 777, status: CampaignParticipationStatuses.SHARED }],
+        passages: [
+          {
+            referenceId: 'abcdef2',
+            isTerminated: true,
+          },
+        ],
+      });
+
+      combinedCourseDetails.setRecommandableModuleIds([
+        { moduleId: 'abcdef2', targetProfileIds: [888] },
+        { moduleId: 'abcdef1', targetProfileIds: [888] },
+      ]);
+      await combinedCourseDetails.setEncryptedUrl();
+      combinedCourseDetails.setDataAndGenerateItems({
+        recommendedModuleIdsForUser: [{ moduleId: 'abcdef1' }, { moduleId: 'abcdef2' }],
+        dataForQuest,
+      });
+
+      // then
+      expect(combinedCourseDetails.isSuccessful()).to.be.false;
     });
   });
 });

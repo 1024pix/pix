@@ -30,7 +30,7 @@ describe('Profile | Integration | Domain | get-attestation-details', function ()
 
       expect(results).lengthOf(1);
       expect(results[0].obtainedAt).to.deep.equal(new Date('2024-07-07'));
-      expect(results[0].type).to.equal(attestation.key);
+      expect(results[0].key).to.equal(attestation.key);
     });
 
     it('should return empty user does not have profileReward', async function () {

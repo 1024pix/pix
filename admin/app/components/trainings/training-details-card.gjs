@@ -2,8 +2,9 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
-import { localeCategories, typeCategories } from '../../models/training';
+import { deliveryModeCategories, localeCategories, typeCategories } from '../../models/training';
 import Card from '../card';
+import SafeMarkdownToHtml from '../safe-markdown-to-html';
 
 export default class TrainingDetailsCard extends Component {
   @service url;
@@ -27,6 +28,14 @@ export default class TrainingDetailsCard extends Component {
 
   get typeLabel() {
     return typeCategories[this.args.training.type];
+  }
+
+  get deliveryModeLabel() {
+    return deliveryModeCategories[this.args.training.deliveryMode];
+  }
+
+  get formattedObjectives() {
+    return this.args.training.objectives?.split(';').filter(Boolean) ?? [];
   }
 
   <template>
@@ -90,6 +99,59 @@ export default class TrainingDetailsCard extends Component {
                 (t "pages.trainings.training.details.status-label.enabled")
                 (t "pages.trainings.training.details.status-label.disabled")
               }}</span>
+          </div>
+        </div>
+      </Card>
+
+      <Card
+        class="admin-form__card training-details__card"
+        @title={{t "pages.trainings.training.details.recommendationEngine"}}
+      >
+        <div class="training-details__block">
+          <div class="training-details__field">
+            <span class="training-details__label">{{t
+                "pages.trainings.training.form.recommendation-engine.description.label"
+              }}</span>
+            <span class="training-details__value"><SafeMarkdownToHtml
+                class="target-profile-details__description"
+                @markdown={{@training.description}}
+              /></span>
+          </div>
+          <div class="training-details__field">
+            <span class="training-details__label">
+              {{t "pages.trainings.training.form.recommendation-engine.program.label"}}
+            </span>
+            <span class="training-details__value">{{@training.program}}</span>
+          </div>
+        </div>
+        <div class="training-details__block">
+          <div class="training-details__field">
+            <span class="training-details__label">{{t
+                "pages.trainings.training.form.recommendation-engine.delivery-mode.label"
+              }}</span>
+            <span class="training-details__value">
+              {{this.deliveryModeLabel}}
+            </span>
+          </div>
+          <div class="training-details__field">
+            <span class="training-details__label">{{t
+                "pages.trainings.training.form.recommendation-engine.registration-required.label"
+              }}</span>
+            <span class="training-details__value">{{if
+                @training.registrationRequired
+                (t "common.words.yes")
+                (t "common.words.no")
+              }}</span>
+          </div>
+          <div class="training-details__field">
+            <span class="training-details__label">
+              {{t "pages.trainings.training.form.recommendation-engine.objectives.label"}}
+            </span>
+            <ul class="training-details__value training-details__list">
+              {{#each this.formattedObjectives as |objective|}}
+                <li>{{objective}}</li>
+              {{/each}}
+            </ul>
           </div>
         </div>
       </Card>

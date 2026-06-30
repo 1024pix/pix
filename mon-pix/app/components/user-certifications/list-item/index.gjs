@@ -27,7 +27,7 @@ export default class ListItem extends Component {
   }
 
   get shouldDisplayFramework() {
-    return !this.isPublished || this.args.certificateSummary.status === CERTIFICATE_STATUSES.CANCELLED;
+    return !this.isPublished;
   }
 
   get frameworkName() {

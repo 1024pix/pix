@@ -47,6 +47,10 @@ export default class ModulixShortVideoElement extends ModuleElement {
     this.modalIsOpen = false;
   }
 
+  get hasTranscriptionText() {
+    return Boolean(this.args.element.transcription);
+  }
+
   <template>
     <div class="element-short-video">
       {{#if this.shouldShowFallback}}
@@ -64,9 +68,11 @@ export default class ModulixShortVideoElement extends ModuleElement {
           {{on "error" this.onVideoError}}
         ></video>
       {{/if}}
-      <PixButton @variant="tertiary" @triggerAction={{this.showModal}}>
-        {{t "pages.modulix.buttons.element.transcription"}}
-      </PixButton>
+      {{#if this.hasTranscriptionText}}
+        <PixButton @variant="tertiary" @triggerAction={{this.showModal}}>
+          {{t "pages.modulix.buttons.element.transcription"}}
+        </PixButton>
+      {{/if}}
       <PixModal
         @title={{t "pages.modulix.modals.transcription.title"}}
         @showModal={{this.modalIsOpen}}

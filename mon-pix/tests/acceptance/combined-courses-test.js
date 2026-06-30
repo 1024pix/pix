@@ -21,8 +21,7 @@ module('Acceptance | CombinedCourses', function (hooks) {
     });
     server.create('verified-code', { id: 'COMBINIX1', type: 'combined-course' });
     prescritUser = server.create('user', 'withEmail', {
-      mustValidateTermsOfService: false,
-      lastTermsOfServiceValidatedAt: null,
+      pixAppTermsOfServiceStatus: 'accepted',
     });
     await authenticate(prescritUser);
   });

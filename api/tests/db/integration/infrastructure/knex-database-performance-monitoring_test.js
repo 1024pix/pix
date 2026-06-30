@@ -1,0 +1,45 @@
+import sinon from 'sinon';
+
+import { knex } from '../../../../db/knex-database-connection.js';
+import { config } from '../../../../src/shared/config.js';
+import { executeInContext, getInContext } from '../../../../src/shared/infrastructure/execution-context-manager.js';
+import { expect } from '../../../test-helper.js';
+const selectQuery = knex.raw('SELECT 1 as value');
+
+describe('Integration | Infrastructure | knex-database-performance-monitoring', function () {
+  context('when knex monitoring is disabled', function () {
+    beforeEach(async function () {
+      sinon.stub(config.logging, 'enableKnexPerformanceMonitoring').value(false);
+    });
+
+    it('should store query count in context, but not the total time spent', async function () {
+      // when
+      const metrics = await executeInContext({}, async () => {
+        await selectQuery;
+        return getInContext('metrics');
+      });
+
+      // then
+      expect(metrics.knexQueryCount).to.equal(1);
+      expect(metrics.knexTotalTimeSpent).to.not.exist;
+    });
+  });
+
+  context('when knex monitoring is enabled', function () {
+    beforeEach(async function () {
+      sinon.stub(config.logging, 'enableKnexPerformanceMonitoring').value(true);
+    });
+
+    it('should store query count and total time spent in context', async function () {
+      // when
+      const metrics = await executeInContext({}, async () => {
+        await selectQuery;
+        return getInContext('metrics');
+      });
+
+      // then
+      expect(metrics.knexQueryCount).to.equal(1);
+      expect(metrics.knexTotalTimeSpent).to.be.above(0);
+    });
+  });
+});

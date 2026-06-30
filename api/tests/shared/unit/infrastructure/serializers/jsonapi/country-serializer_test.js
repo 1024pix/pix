@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/country-serializer.js';
+import { countrySerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/country-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -18,7 +18,7 @@ describe('Unit | Shared | Serializers | country-serializer', function () {
       ];
 
       // when
-      const json = serializer.serialize(countries);
+      const json = countrySerializer.serialize(countries);
 
       // then
       expect(json).to.deep.equal({

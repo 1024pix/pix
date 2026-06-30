@@ -1,6 +1,6 @@
 import { legalDocumentsDomainErrorMappingConfiguration } from '../../../../../src/legal-documents/application/http-error-mapper-configuration.js';
 import { LegalDocumentInvalidDateError } from '../../../../../src/legal-documents/domain/errors.js';
-import { HttpErrors } from '../../../../../src/shared/application/errors/http-errors.js';
+import { UnprocessableEntityError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Legal Documents | Application | HttpErrorMapperConfiguration', function () {
@@ -15,7 +15,7 @@ describe('Unit | Legal Documents | Application | HttpErrorMapperConfiguration', 
       const error = httpErrorMapper.httpErrorFn(new LegalDocumentInvalidDateError());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
     });
   });
 });

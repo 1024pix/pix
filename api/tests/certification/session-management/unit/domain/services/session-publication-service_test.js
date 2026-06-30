@@ -1,10 +1,10 @@
 import sinon from 'sinon';
 
-import { SessionAlreadyPublishedError } from '../../../../../../src/certification/session-management/domain/errors.js';
 import {
   CertificationCourseNotPublishableError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
+  SessionAlreadyPublishedError,
 } from '../../../../../../src/certification/session-management/domain/errors.js';
 import { FinalizedSession } from '../../../../../../src/certification/session-management/domain/models/FinalizedSession.js';
 import {
@@ -21,7 +21,6 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
   const sessionId = 123;
   let certificationRepository,
     sessionManagementRepository,
-    sharedSessionRepository,
     finalizedSessionRepository,
     certificationCenterRepository,
     mailService;
@@ -40,21 +39,17 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
     originalSession;
 
   beforeEach(function () {
-    candidateWithRecipient1 = domainBuilder.buildCertificationCandidate({
+    candidateWithRecipient1 = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
       resultRecipientEmail: recipient1,
-      subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
     });
-    candidateWithRecipient2 = domainBuilder.buildCertificationCandidate({
+    candidateWithRecipient2 = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
       resultRecipientEmail: recipient2,
-      subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
     });
-    candidate2WithRecipient2 = domainBuilder.buildCertificationCandidate({
+    candidate2WithRecipient2 = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
       resultRecipientEmail: recipient2WithUpperCases,
-      subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
     });
-    candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
+    candidateWithNoRecipient = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
       resultRecipientEmail: null,
-      subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
     });
     originalSession = domainBuilder.certification.sessionManagement.buildSessionManagement({
       id: sessionId,
@@ -84,16 +79,14 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
           publishCertificationCourses: sinon.stub(),
         };
         sessionManagementRepository = {
+          get: sinon.stub(),
           updatePublishedAt: sinon.stub(),
-        };
-        sharedSessionRepository = {
-          getWithCertificationCandidates: sinon.stub(),
         };
         finalizedSessionRepository = {
           get: sinon.stub(),
           save: sinon.stub(),
         };
-        sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(originalSession);
+        sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(originalSession);
       });
 
       context('when the session is already published', function () {
@@ -103,8 +96,8 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
             id: 'sessionId',
             publishedAt: new Date(),
           });
-          const sharedSessionRepository = { getWithCertificationCandidates: sinon.stub() };
-          sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
+          const sessionManagementRepository = { get: sinon.stub() };
+          sessionManagementRepository.get.withArgs({ id: 'sessionId' }).resolves(session);
 
           // when
           const error = await catchErr(publishSession)({
@@ -113,7 +106,6 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
             certificationRepository: undefined,
             finalizedSessionRepository: undefined,
             sessionManagementRepository,
-            sharedSessionRepository,
           });
 
           // then
@@ -144,7 +136,6 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
             certificationRepository,
             finalizedSessionRepository,
             sessionManagementRepository,
-            sharedSessionRepository,
           });
 
           // then
@@ -163,8 +154,8 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
             id: 'sessionId',
             publishedAt: null,
           });
-          const sharedSessionRepository = { getWithCertificationCandidates: sinon.stub() };
-          sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
+          const sessionManagementRepository = { get: sinon.stub() };
+          sessionManagementRepository.get.withArgs({ id: 'sessionId' }).resolves(session);
           certificationRepository.getStatusesBySessionId
             .withArgs('sessionId')
             .resolves([{ pixCertificationStatus: AssessmentResult.status.ERROR }]);
@@ -176,7 +167,6 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
             certificationRepository,
             finalizedSessionRepository: undefined,
             sessionManagementRepository,
-            sharedSessionRepository,
           });
 
           // then
@@ -191,8 +181,8 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
             id: 'sessionId',
             publishedAt: null,
           });
-          const sharedSessionRepository = { getWithCertificationCandidates: sinon.stub() };
-          sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
+          const sessionManagementRepository = { get: sinon.stub() };
+          sessionManagementRepository.get.withArgs({ id: 'sessionId' }).resolves(session);
           certificationRepository.getStatusesBySessionId
             .withArgs('sessionId')
             .resolves([{ pixCertificationStatus: null }]);
@@ -204,7 +194,6 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
             certificationRepository,
             finalizedSessionRepository: undefined,
             sessionManagementRepository,
-            sharedSessionRepository,
           });
 
           // then
@@ -356,8 +345,7 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
     context('when there is no results recipient', function () {
       it('should leave resultSentToPrescriberAt untouched', async function () {
         // given
-        const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+        const candidateWithNoRecipient = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
           resultRecipientEmail: null,
         });
         const sessionWithoutResultsRecipient = domainBuilder.certification.sessionManagement.buildSessionManagement({
@@ -391,20 +379,17 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
         const userId1 = 101;
         const userId2 = 102;
         const userId3 = 103;
-        const candidateWhoStarted1 = domainBuilder.buildCertificationCandidate({
+        const candidateWhoStarted1 = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
           userId: userId1,
           resultRecipientEmail: 'started1@example.net',
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
-        const candidateWhoStarted2 = domainBuilder.buildCertificationCandidate({
+        const candidateWhoStarted2 = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
           userId: userId2,
           resultRecipientEmail: 'started2@example.net',
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
-        const candidateWhoDidNotStart = domainBuilder.buildCertificationCandidate({
+        const candidateWhoDidNotStart = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
           userId: userId3,
           resultRecipientEmail: 'not-started@example.net',
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
 
         const sessionWithMixedCandidates = domainBuilder.certification.sessionManagement.buildSessionManagement({
@@ -447,9 +432,8 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
       context('when there is a referer', function () {
         it('should send an email to the referer', async function () {
           // given
-          const candidate = domainBuilder.buildCertificationCandidate({
+          const candidate = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
             resultRecipientEmail: 'candidate@example.net',
-            subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
           });
           const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
             certificationCenterId: 101,
@@ -497,9 +481,8 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
         context('when an email sending attempt fails', function () {
           it('should throw an error', async function () {
             // given
-            const candidate = domainBuilder.buildCertificationCandidate({
+            const candidate = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
               resultRecipientEmail: 'candidate@example.net',
-              subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
             });
             const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
               certificationCenterId: 101,

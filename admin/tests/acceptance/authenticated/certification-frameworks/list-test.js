@@ -62,7 +62,10 @@ module('Acceptance | Certification frameworks | list', function (hooks) {
     test('it should redirect to the certification framework details on click', async function (assert) {
       // given
       server.create('certification-framework', { id: 'CORE' });
-      server.create('certification-consolidated-framework', { id: 'CORE' });
+      server.create('framework-history', {
+        id: 'CORE',
+        history: [],
+      });
 
       const screen = await visit('/certification-frameworks');
 
@@ -70,7 +73,7 @@ module('Acceptance | Certification frameworks | list', function (hooks) {
       await click(screen.getByRole('link', { name: t('components.certification-frameworks.labels.CORE') }));
 
       // then
-      assert.strictEqual(currentURL(), '/certification-frameworks/CORE/framework');
+      assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
     });
   });
 });

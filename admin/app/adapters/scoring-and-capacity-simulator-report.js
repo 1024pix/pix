@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class ScoringAndCapacitySimulatorReportAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   getSimulatorResult({ score, capacity, date }) {
     let data;
     if (score) {

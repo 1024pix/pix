@@ -180,6 +180,4 @@ const register = async (server) => {
   ]);
 };
 
-const name = 'prescription/organization-place/organization-place-api';
-
-export { name, register };
+export const organizationPlaceRoute = { name: 'prescription/organization-place/organization-place-api', register };

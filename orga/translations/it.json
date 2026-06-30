@@ -68,13 +68,7 @@
     "certification": {
       "message": "'<strong>'Certificazioni:'</strong>' non dimenticate di '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finalizzare le sessioni in Pix Certif'</a>' e poi scaricare i certificati tramite la scheda \"Certificazioni\" prima dell'inizio del nuovo anno scolastico {year}."
     },
-    "ia": {
-      "message": "I nuovi percorsi di apprendimento Pix sull'IA sono disponibili nel vostro spazio Pix Orga! Sono obbligatori per gli alunni delle 4e, 2de (generale e tecnologica) e del 1° anno del PAC, con un'implementazione graduale negli anni scolastici 2025-2026 e 2026-2027.",
-      "step1": "Consultate '<'a href='https://cloud.pix.fr/s/rrkLPMS5dYGKRQ9' title='kit di implementazione IA' class='link link--banner link--bold link--underlined' '>'il kit di implementazione'</a>'",
-      "step2": "Registratevi per il '<'a href='https://app.livestorm.co/pix-1/parcours-intelligence-artificielle-enseignement-scolaire?utm_source=pixorga' class='link link--banner link--bold link--underlined' '>'webinar'</a>'."
-    },
     "import": {
-      "ia-message": "🚀 '<'a href='https://cloud.pix.fr/s/rrkLPMS5dYGKRQ9' class='link link--banner link--bold link--underlined' '>'Nuovo: scopri il kit di implementazione dei percorsi di apprendimento IA'</a>'",
       "message": "Fasi chiave dell'anno scolastico :",
       "step1a": "Implementare : '<'a href='https://cloud.pix.fr/s/TBF97QzSni7SWpc' title='Guida scarica risultati' class='link link--banner link--bold link--underlined' '>'scarica risultati'</a>' certificazione e",
       "step1b": "Importazione",
@@ -242,6 +236,9 @@
         "placeholder": "Gruppi"
       },
       "loading": "Caricamento...",
+      "participantExternalId": {
+        "label": "Ricerca di identificatore esterno"
+      },
       "placeholder": "-- Seleziona...",
       "title": "Filtri"
     },
@@ -752,6 +749,8 @@
       "combined-course-blueprints-label": "Seleziona un percorso di apprendimento",
       "combined-course-blueprints-list-label": "Seleziona un percorso di apprendimento",
       "copy-of": "Copia di",
+      "course-label": "Seleziona un corso",
+      "course-selection-label": "Selezionare un corso",
       "external-id-label": {
         "label": "Formulazione dell'identificatore",
         "question-label": "Desiderate richiedere un identificatore esterno?",
@@ -1056,8 +1055,21 @@
       },
       "modal": {
         "associated-badges": "Badge associati",
-        "open-modal": "Visualizza i dettagli del corso",
-        "select-course": "Seleziona questo corso"
+        "combined-course-content": {
+          "aria-label-duration": "Durata stimata: {duration} minuti",
+          "description": "I percorsi di apprendimento combinano valutazioni e moduli di apprendimento personalizzati, consentendo un insegnamento adattato al livello di ogni partecipante.",
+          "duration": "≈ {duration} min",
+          "module-info": "I moduli saranno consigliati ai partecipanti in base ai loro risultati.",
+          "prescribed": "Prescritto",
+          "recommended": "Consigliato",
+          "step": "Passo {number}",
+          "title": "Percorsi di apprendimento"
+        },
+        "max-level": "Livello max.",
+        "open-modal": "Visualizza i dettagli del percorso {name}",
+        "select-course": "Seleziona questo corso",
+        "tube-name-and-description": "Nome e descrizione dell'argomento",
+        "tube-unavailable": "Argomento non disponibile"
       },
       "tab-filters": {
         "all": "Tutti",
@@ -1504,6 +1516,11 @@
         },
         "column": {
           "checkbox": "Selezionare/Deselezionare {firstname} {lastname}",
+          "division": {
+            "ariaLabelDefaultSort": "La tabella non è al momento ordinata per classe. Cliccare per ordinare in ordine alfabetico.",
+            "ariaLabelSortDown": "La tabella è suddivisa per classe in ordine alfabetico inverso. Cliccare per ordinare l'alfabeto.",
+            "ariaLabelSortUp": "La tabella è suddivisa per classe in ordine alfabetico. Cliccare per ordinare in ordine alfabetico inverso."
+          },
           "first-name": "Nome",
           "is-certifiable": {
             "label": "Certificazione"

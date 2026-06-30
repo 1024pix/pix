@@ -1,5 +1,5 @@
+import { OrganizationLearnerParticipation } from '../models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { COMBINED_COURSE_ITEM_TYPES } from '../models/combined-course-participations/value-objects/CombinedCourseItem.js';
-import { OrganizationLearnerParticipation } from '../models/OrganizationLearnerParticipation.js';
 
 export async function updateCombinedCourseProgress({
   userId,
@@ -9,7 +9,8 @@ export async function updateCombinedCourseProgress({
   organizationLearnerPrescriptionRepository,
   organizationLearnerParticipationRepository,
   combinedCourseDetailsService,
-  rewardRepository,
+  profileRewardRepository,
+  successRepository,
 }) {
   const combinedCourse = await combinedCourseRepository.getByCode({ code });
   const organizationLearnerId = await organizationLearnerPrescriptionRepository.findIdByUserIdAndOrganizationId({
@@ -44,6 +45,17 @@ export async function updateCombinedCourseProgress({
   const isCombinedCourseCompleted = await updatedCombinedCourseDetails.items.every((item) => item.isCompleted);
 
   if (isCombinedCourseCompleted) {
+    const success = await successRepository.find({
+      userId,
+      campaignParticipationIds: updatedCombinedCourseDetails.quest.findCampaignParticipationIdsContributingToQuest(
+        updatedCombinedCourseDetails.dataForQuest,
+      ),
+      targetProfileIds:
+        updatedCombinedCourseDetails.quest.findTargetProfileIdsWithoutCampaignParticipationContributingToQuest(
+          updatedCombinedCourseDetails.dataForQuest,
+        ),
+    });
+    updatedCombinedCourseDetails.dataForQuest.success = success;
     updatedCombinedCourseDetails.participation.complete();
     const organizationLearnerParticipation = OrganizationLearnerParticipation.buildFromCombinedCourse(
       updatedCombinedCourseDetails.participation,
@@ -51,9 +63,10 @@ export async function updateCombinedCourseProgress({
     await combinedCourseParticipationRepository.update(organizationLearnerParticipation.fieldsForUpdate);
 
     if (updatedCombinedCourseDetails.isSuccessful() && combinedCourse.quest.rewardId) {
-      await rewardRepository.reward({
+      await profileRewardRepository.reward({
         userId,
         rewardId: combinedCourse.quest.rewardId,
+        organizationId: combinedCourse.organizationId,
       });
     }
   }

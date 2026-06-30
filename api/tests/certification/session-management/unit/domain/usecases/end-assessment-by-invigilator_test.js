@@ -18,9 +18,7 @@ describe('Unit | UseCase | end-assessment-by-invigilator', function () {
   context('when assessment is already completed', function () {
     it('should not end the assessment', async function () {
       // when
-      const certificationCandidateId = domainBuilder.buildCertificationCandidate({
-        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
-      }).id;
+      const certificationCandidateId = domainBuilder.certification.sessionManagement.buildCertificationCandidate().id;
       const completedCertificationAssessment = domainBuilder.buildCertificationAssessment({
         state: Assessment.states.COMPLETED,
       });
@@ -42,9 +40,7 @@ describe('Unit | UseCase | end-assessment-by-invigilator', function () {
   context('when assessment is not completed', function () {
     it('should end the assessment', async function () {
       // when
-      const certificationCandidateId = domainBuilder.buildCertificationCandidate({
-        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
-      }).id;
+      const certificationCandidateId = domainBuilder.certification.sessionManagement.buildCertificationCandidate().id;
       const startedCertificationAssessment = domainBuilder.buildCertificationAssessment({
         state: Assessment.states.STARTED,
       });

@@ -5,5 +5,5 @@ import Content from 'mon-pix/components/attestations/content';
 <template>
   {{pageTitle (t "pages.attestations.title")}}
 
-  <Content />
+  <Content @attestationsDetails={{@model}} />
 </template>

@@ -277,4 +277,40 @@ describe('Unit | API | Campaigns', function () {
       });
     });
   });
+
+  describe('#findAllSummariesForOrganization', function () {
+    it('should return a paginated campaign summary list from organizationId', async function () {
+      // given
+      const organizationId = Symbol('organizationId');
+      const page = Symbol('page');
+      const meta = Symbol('meta');
+
+      const campaignInformation1 = {
+        id: 777,
+        code: 'SOMETHING',
+        name: 'Godzilla',
+        type: 'ASSESSMENT',
+        createdAt: new Date('2020-01-01'),
+        archivedAt: new Date('2023-01-01'),
+      };
+
+      sinon
+        .stub(usecases, 'findPaginatedOrganizationCampaignSummaries')
+        .withArgs({ organizationId, page })
+        .resolves({ models: [campaignInformation1], meta });
+
+      // when
+      const result = await campaignApi.findAllSummariesForOrganization({ organizationId, page });
+
+      // then
+      const firstCampaignListItem = result.models[0];
+      expect(result.meta).to.be.equal(meta);
+      expect(firstCampaignListItem).not.to.be.instanceOf(CampaignReport);
+      expect(firstCampaignListItem.id).to.be.equal(campaignInformation1.id);
+      expect(firstCampaignListItem.name).to.be.equal(campaignInformation1.name);
+      expect(firstCampaignListItem.createdAt).to.be.equal(campaignInformation1.createdAt);
+      expect(firstCampaignListItem.archivedAt).to.be.equal(campaignInformation1.archivedAt);
+      expect(firstCampaignListItem.tubes).to.be.undefined;
+    });
+  });
 });

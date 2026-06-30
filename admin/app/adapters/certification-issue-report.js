@@ -1,10 +1,10 @@
 import ApplicationAdapter from './application';
 
 export default class CertificationIssueReportAdapter extends ApplicationAdapter {
-  namespace = 'api/';
+  namespace = 'api';
 
   urlForUpdateRecord(certificationIssueReportId) {
-    return `${this.host}/api/certification-issue-reports/${certificationIssueReportId}`;
+    return `${this.host}/${this.namespace}/certification-issue-reports/${certificationIssueReportId}`;
   }
 
   updateRecord(store, type, snapshot) {

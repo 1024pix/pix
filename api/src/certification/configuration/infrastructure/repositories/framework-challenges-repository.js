@@ -25,24 +25,20 @@ export async function getByVersionId({ versionId }) {
 }
 
 /**
- * @param {Array<CertificationFrameworksChallenge>} challenges
- * @returns {Promise<void>}
+ * @param {CertificationFrameworksChallenge[]} certificationChallenges
+ * @returns {Promise<Array<string>>}
+ * @throws {NotFoundError}
  */
-export async function update(challenges) {
+export async function create(certificationChallenges) {
   const knexConn = DomainTransaction.getConnection();
+  const certificationChallengesData = certificationChallenges.map((certificationChallenge) => ({
+    versionId: certificationChallenge.versionId,
+    challengeId: certificationChallenge.challengeId,
+    discriminant: certificationChallenge.discriminant,
+    difficulty: certificationChallenge.difficulty,
+  }));
 
-  // Note: cannot do onConflict.merge here because ['versionId', 'challengeId'] has no composite index
-  for (const { versionId, discriminant, difficulty, challengeId } of challenges) {
-    await knexConn('certification-frameworks-challenges')
-      .update({
-        discriminant,
-        difficulty,
-      })
-      .where({
-        versionId,
-        challengeId,
-      });
-  }
+  await knexConn.batchInsert('certification-frameworks-challenges', certificationChallengesData);
 }
 
 function _toDomain({ certificationFrameworksChallengesDTO }) {

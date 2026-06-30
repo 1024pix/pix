@@ -1,9 +1,7 @@
-import _ from 'lodash';
-
 import { createServer } from '../../../../../server.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { expect } from '../../../../test-helper.js';
-import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
+import { databaseBuilder } from '../../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Configuration | Acceptance | API | complementary-certification-route', function () {
@@ -242,77 +240,6 @@ describe('Certification | Configuration | Acceptance | API | complementary-certi
             ],
           },
         },
-      });
-    });
-  });
-
-  describe('PATCH /api/admin/complementary-certifications/{complementaryCertificationKey}/consolidated-framework', function () {
-    it('should return 200 HTTP status code and update framework with calibration', async function () {
-      // given
-      const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-
-      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-      const certificationVersion = databaseBuilder.factory.buildCertificationVersion({
-        scope: complementaryCertification.key,
-      });
-      const certificationFrameworkChallenge = databaseBuilder.factory.buildCertificationFrameworksChallenge({
-        challengeId: 'recChallengeId',
-        versionId: certificationVersion.id,
-      });
-
-      await databaseBuilder.commit();
-
-      const calibration = datamartBuilder.factory.buildCalibration({
-        scope: 'DROIT',
-        status: 'VALIDATED',
-      });
-      const otherCalibration = datamartBuilder.factory.buildCalibration({
-        scope: 'DROIT',
-        status: 'VALIDATED',
-      });
-      const activeCalibratedChallenge = datamartBuilder.factory.buildDatamartActiveCalibratedChallenge({
-        calibrationId: calibration.id,
-        challengeId: 'recChallengeId',
-        alpha: 3.3,
-        delta: 4.4,
-      });
-      datamartBuilder.factory.buildDatamartActiveCalibratedChallenge({
-        calibrationId: otherCalibration.id,
-        challengeId: 'recChallengeId',
-        alpha: 3.1,
-        delta: 6.4,
-      });
-      await datamartBuilder.commit();
-
-      const options = {
-        method: 'PATCH',
-        url: '/api/admin/complementary-certifications/consolidated-framework',
-        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
-        payload: {
-          data: {
-            attributes: {
-              versionId: certificationVersion.id,
-              calibrationId: calibration.id,
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-
-      const certificationFrameworksChallenges = await knex('certification-frameworks-challenges').where({
-        versionId: certificationVersion.id,
-      });
-      expect(certificationFrameworksChallenges).to.have.length(1);
-      expect(_.omit(certificationFrameworksChallenges[0], 'id', 'createdAt')).to.deep.equal({
-        discriminant: activeCalibratedChallenge.alpha,
-        difficulty: activeCalibratedChallenge.delta,
-        challengeId: certificationFrameworkChallenge.challengeId,
-        versionId: certificationVersion.id,
       });
     });
   });

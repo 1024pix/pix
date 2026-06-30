@@ -10,4 +10,4 @@ const serialize = function ({ attestationParticipantsStatus, pagination }) {
   }).serialize(attestationParticipantsStatus);
 };
 
-export { serialize };
+export const attestationParticipantsStatusSerializer = { serialize };

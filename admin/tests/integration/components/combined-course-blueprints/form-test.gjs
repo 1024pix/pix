@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CombinedCourseBlueprintForm from 'pix-admin/components/combined-course-blueprints/form';
@@ -23,17 +23,26 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
       const findRecordStub = sinon.stub(store, 'findRecord');
-      const attestations = [
-        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
-        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
-      ];
       findRecordStub
         .withArgs('module', 'module-123')
         .resolves({ id: 'full-id-module-123', shortId: 'module-123', title: 'module 123' });
       findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
 
+      const attestations = [
+        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
+      ];
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        },
+      ];
+      const model = { attestations, frameworks };
+
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm @attestations={{attestations}} /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
@@ -84,7 +93,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       //then
       assert.ok(screen.getByRole('heading', { name: t('components.combined-course-blueprints.create.title') }));
       assert.ok(findRecordStub.calledTwice);
-      assert.ok(blueprintStub.save.calledOnce);
+      sinon.assert.calledOnceWith(blueprintStub.save, { adapterOptions: null });
       assert.strictEqual(blueprintStub.name, 'name');
       assert.strictEqual(blueprintStub.internalName, 'internalName');
       assert.deepEqual(blueprintStub.content, [
@@ -102,6 +111,127 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         }),
       );
       sinon.assert.calledWithExactly(router.transitionTo, 'authenticated.combined-course-blueprints.list');
+    });
+
+    test('it should display tubes selection component only if the user selects an attestation', async function (assert) {
+      //given
+      const attestations = [
+        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
+      ];
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        },
+      ];
+      const model = { attestations, frameworks };
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+      //then
+      assert.notOk(await screen.queryByRole('heading', { name: 'Sélection des sujets' }));
+
+      //when
+      await click(
+        screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+      );
+      await screen.findByRole('listbox');
+
+      await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+      //then
+      assert.ok(screen.getByRole('heading', { name: 'Sélection des sujets' }));
+    });
+
+    test('it should save blueprint with selected tubes requirements when they are selected', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const blueprint = store.createRecord('combined-course-blueprint', {
+        id: 1,
+        name: 'name',
+      });
+      sinon.stub(blueprint, 'save');
+      blueprint.save.resolves();
+
+      const attestations = [
+        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
+      ];
+
+      const tube = store.createRecord('tube', {
+        id: 'tubeId1',
+        name: '@tubeName1',
+        practicalTitle: 'Tube 1',
+        skills: [],
+        level: 8,
+      });
+
+      const thematic = store.createRecord('thematic', {
+        id: 'thematicId',
+        name: 'Thématique',
+        tubes: [tube],
+      });
+
+      const competence = store.createRecord('competence', {
+        id: 'competenceId',
+        index: '1',
+        name: 'Titre competence',
+        thematics: [thematic],
+      });
+
+      const area = store.createRecord('area', {
+        id: 'areaId',
+        title: 'Titre domaine',
+        code: 1,
+        competences: [competence],
+      });
+
+      const framework = store.createRecord('framework', {
+        id: 'frameworkId',
+        name: 'Pix',
+        areas: [area],
+      });
+
+      const model = {
+        attestations,
+        frameworks: [framework],
+        blueprint,
+      };
+
+      //when
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+      await click(
+        screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+      );
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+      assert.ok(screen.getByRole('heading', { name: 'Sélection des sujets' }));
+      await clickByName('1 · Titre domaine');
+      await clickByName('1 Titre competence');
+      await clickByName(/Sélection du niveau du sujet suivant : Tube/);
+      const tubesListbox = await within(
+        screen.getByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ }),
+      ).findByRole('listbox');
+      await click(within(tubesListbox).getByRole('option', { name: '4' }));
+      await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '75');
+
+      await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
+
+      //then
+      sinon.assert.calledOnceWith(blueprint.save, {
+        adapterOptions: {
+          cappedTubeRequirements: [
+            {
+              tubes: [{ tubeId: 'tubeId1', level: 4 }],
+              threshold: '75',
+            },
+          ],
+        },
+      });
     });
   });
 
@@ -127,6 +257,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         rewardId: 5,
         rewardType: 'ATTESTATION',
       });
+      const model = { blueprint };
 
       sinon.stub(blueprint, 'save');
       blueprint.save.resolves();
@@ -135,7 +266,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       //when
       const screen = await render(
-        <template><CombinedCourseBlueprintForm @updateMode={{true}} @model={{blueprint}} /></template>,
+        <template><CombinedCourseBlueprintForm @updateMode={{true}} @model={{model}} /></template>,
       );
 
       await fillIn(
@@ -188,6 +319,15 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
   });
 
   module('error cases', function () {
+    const frameworks = [
+      {
+        id: 123,
+        name: 'Pix',
+        areas: [],
+      },
+    ];
+    const model = { frameworks };
+
     test('it should display a generic error message', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -199,7 +339,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
 
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
 
@@ -227,7 +367,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
 
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
 
@@ -261,7 +401,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
 
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
 
@@ -299,7 +439,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         .rejects({ errors: [{ status: '404', detail: 'Le profil cible est introuvable' }] });
 
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
@@ -329,7 +469,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       findRecordStub.withArgs('module').rejects({ errors: [{ status: '404', detail: 'Le module est introuvable' }] });
 
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await click(screen.getByLabelText(t('components.combined-course-blueprints.labels.module')));
       await fillIn(
@@ -360,7 +500,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       findRecordStub.withArgs('target-profile').rejects();
 
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
@@ -388,8 +528,18 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         .withArgs('module', 'module123')
         .resolves({ id: 'full-id-module123', shortId: 'module123', title: 'module 123' });
       findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
+
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        },
+      ];
+      const model = { frameworks };
+
       //when
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
@@ -417,9 +567,19 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       const findRecordStub = sinon.stub(store, 'findRecord');
 
       findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
+
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        },
+      ];
+      const model = { frameworks };
+
       //when
 
-      const screen = await render(<template><CombinedCourseBlueprintForm /></template>);
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),

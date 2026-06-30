@@ -89,4 +89,5 @@ const deserialize = function (json) {
 /**
  * @typedef UserSerializer
  */
-export { deserialize, serialize };
+
+export const userSerializer = { deserialize, serialize };

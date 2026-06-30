@@ -4,7 +4,11 @@ import {
   ProfileRewardCantBeSharedError,
   RewardTypeDoesNotExistError,
 } from '../../../../src/profile/domain/errors.js';
-import { HttpErrors } from '../../../../src/shared/application/errors/http-errors.js';
+import {
+  BadRequestError,
+  NotFoundError,
+  PreconditionFailedError,
+} from '../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Profile | Unit | Application | HttpErrorMapperConfiguration', function () {
@@ -18,7 +22,7 @@ describe('Profile | Unit | Application | HttpErrorMapperConfiguration', function
     const error = httpErrorMapper.httpErrorFn(new AttestationNotFoundError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.NotFoundError);
+    expect(error).to.be.instanceOf(NotFoundError);
   });
 
   it('instantiates PreconditionFailedError when ProfileRewardCantBeShared', async function () {
@@ -31,7 +35,7 @@ describe('Profile | Unit | Application | HttpErrorMapperConfiguration', function
     const error = httpErrorMapper.httpErrorFn(new ProfileRewardCantBeSharedError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.PreconditionFailedError);
+    expect(error).to.be.instanceOf(PreconditionFailedError);
   });
 
   it('instantiates BadRequestError when RewardTypeDoesNotExistError', async function () {
@@ -44,6 +48,6 @@ describe('Profile | Unit | Application | HttpErrorMapperConfiguration', function
     const error = httpErrorMapper.httpErrorFn(new RewardTypeDoesNotExistError());
 
     //then
-    expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+    expect(error).to.be.instanceOf(BadRequestError);
   });
 });

@@ -1,4 +1,4 @@
-export const USER_RECOMMENDED_TRAININGS_TABLE_NAME = 'user-recommended-trainings';
+const USER_RECOMMENDED_TRAININGS_TABLE_NAME = 'user-recommended-trainings';
 
 const up = function (knex) {
   return knex.schema.createTable(USER_RECOMMENDED_TRAININGS_TABLE_NAME, (t) => {

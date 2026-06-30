@@ -14,5 +14,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'banner/banner-api';
-export { name, register };
+export const bannerRoute = { name: 'banner/banner-api', register };

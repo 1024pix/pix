@@ -20,12 +20,13 @@ const serialize = function (usersDetailsForAdmin) {
       'email',
       'username',
       'cgu',
+      'pixAppTermsOfServiceAccepted',
       'pixOrgaTermsOfServiceAccepted',
       'pixCertifTermsOfServiceAccepted',
       'createdAt',
       'lang',
       'locale',
-      'lastTermsOfServiceValidatedAt',
+      'lastPixAppTermsOfServiceValidatedAt',
       'lastPixOrgaTermsOfServiceValidatedAt',
       'lastPixCertifTermsOfServiceValidatedAt',
       'lastLoggedAt',
@@ -133,7 +134,6 @@ const serializeForUpdate = function (usersDetailsForAdmin) {
       'username',
       'lang',
       'locale',
-      'cgu',
       'pixOrgaTermsOfServiceAccepted',
       'pixCertifTermsOfServiceAccepted',
       'organizationLearners',
@@ -181,4 +181,4 @@ const deserialize = function (json) {
   });
 };
 
-export { deserialize, serialize, serializeForUpdate };
+export const userDetailsForAdminSerializer = { deserialize, serialize, serializeForUpdate };

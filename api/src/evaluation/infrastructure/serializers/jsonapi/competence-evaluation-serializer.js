@@ -26,4 +26,4 @@ const serialize = function (competenceEvaluations) {
   }).serialize(competenceEvaluations);
 };
 
-export { serialize };
+export const competenceEvaluationSerializer = { serialize };

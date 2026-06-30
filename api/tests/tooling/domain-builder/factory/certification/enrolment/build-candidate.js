@@ -29,6 +29,7 @@ const buildCandidate = function ({
   accessibilityAdjustmentNeeded,
   subscription = Frameworks.CORE,
   hasStartedTest = false,
+  doubleCertificationEligibility = false,
 } = {}) {
   return new Candidate({
     id,
@@ -58,6 +59,7 @@ const buildCandidate = function ({
     accessibilityAdjustmentNeeded,
     subscription,
     hasStartedTest,
+    doubleCertificationEligibility,
   });
 };
 

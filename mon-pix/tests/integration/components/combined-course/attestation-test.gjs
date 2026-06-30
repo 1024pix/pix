@@ -114,7 +114,7 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
       assert.ok(tag.getAttribute('class').includes('pix-tag pix-tag--error'));
 
       assert.ok(screen.getByText(t('pages.combined-courses.rewards.not-obtained.details.title')));
-      assert.ok(screen.getByText(t('pages.combined-courses.rewards.not-obtained.details.text')));
+      assert.notOk(screen.queryByText(t('pages.combined-courses.rewards.not-obtained.details.text')));
       assert
         .dom(screen.getByRole('img', { name: 'attestation-image-not-obtained' }))
         .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')
@@ -152,7 +152,7 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
         assert.ok(tag.getAttribute('class').includes('pix-tag pix-tag--grey'));
 
         assert.ok(screen.getByText(t('pages.combined-courses.rewards.in-progress.details.title')));
-        assert.ok(screen.getByText(t('pages.combined-courses.rewards.in-progress.details.text')));
+        assert.notOk(screen.queryByText(t('pages.combined-courses.rewards.in-progress.details.text')));
         assert
           .dom(screen.getByRole('img', { name: 'attestation-image-in-progress' }))
           .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')

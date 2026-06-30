@@ -1,6 +1,5 @@
-import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
+import { candidateSerializer } from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../../test-helper.js';
@@ -19,7 +18,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const result = serializer.serializeId(candidateId);
+      const result = candidateSerializer.serializeId(candidateId);
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
@@ -51,7 +50,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         organizationLearnerId: 999,
         authorizedToStart: false,
         complementaryCertificationId: null,
-        billingMode: CertificationCandidate.BILLING_MODES.FREE,
+        billingMode: BILLING_MODES.FREE,
         prepaymentCode: null,
         hasSeenCertificationInstructions: false,
         subscriptions: [],
@@ -101,7 +100,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const deserializedCandidate = await serializer.deserialize(candidateJsonApiData);
+      const deserializedCandidate = await candidateSerializer.deserialize(candidateJsonApiData);
 
       // then
       expect(deserializedCandidate).to.deepEqualInstance(
@@ -142,7 +141,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         extraTimePercentage: null,
         userId: null,
         organizationLearnerId: null,
-        billingMode: CertificationCandidate.BILLING_MODES.PAID,
+        billingMode: BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
         subscriptions: [],
         subscription: Frameworks.PRO_SANTE,
@@ -161,12 +160,13 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
             'session-id': candidate.sessionId,
             'has-started-test': false,
             subscription: candidate.subscription,
+            'double-certification-eligibility': false,
           },
         },
       };
 
       // when
-      const jsonApi = serializer.serializeForParticipation(candidate);
+      const jsonApi = candidateSerializer.serializeForParticipation(candidate);
 
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);
@@ -192,7 +192,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         extraTimePercentage: null,
         userId: null,
         organizationLearnerId: null,
-        billingMode: CertificationCandidate.BILLING_MODES.PAID,
+        billingMode: BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
         subscription: Frameworks.PRO_SANTE,
         hasSeenCertificationInstructions: true,
@@ -228,7 +228,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const jsonApi = serializer.serialize(candidate);
+      const jsonApi = candidateSerializer.serialize(candidate);
 
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);
@@ -255,7 +255,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         extraTimePercentage: null,
         userId: 159,
         organizationLearnerId: null,
-        billingMode: CertificationCandidate.BILLING_MODES.PAID,
+        billingMode: BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
         hasSeenCertificationInstructions: true,
         subscription: Frameworks.DROIT,
@@ -275,7 +275,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const jsonApi = serializer.serializeForSession(sessionCandidate);
+      const jsonApi = candidateSerializer.serializeForSession(sessionCandidate);
 
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);

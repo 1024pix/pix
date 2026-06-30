@@ -209,8 +209,36 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/certification-centers/{certificationCenterId}/organizations',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+        },
+        handler: (request) => certificationCenterAdminController.findAttachedOrganizationsForAdmin(request),
+        tags: ['api', 'organizational-entities', 'certification-centers'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN, CERTIF, SUPPORT ou METIER permettant un accès à l'application d'administration de Pix**\n" +
+            '- Elle permet la récuperation des informations de ou des organisations rattachées au centre de certification.',
+        ],
+      },
+    },
   ]);
 };
 
-const name = 'organizational-entities/certification-center-admin';
-export { name, register };
+export const certificationCenterAdminRoute = { name: 'organizational-entities/certification-center-admin', register };

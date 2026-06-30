@@ -183,7 +183,6 @@ describe('Integration | Repository | Autonomous Course', function () {
           pageCount: 0,
           pageSize: 2,
           rowCount: 0,
-          hasCampaigns: false,
         });
       });
     });
@@ -215,7 +214,6 @@ describe('Integration | Repository | Autonomous Course', function () {
           pageCount: 3,
           pageSize: 2,
           rowCount: 6,
-          hasCampaigns: true,
         });
       });
     });

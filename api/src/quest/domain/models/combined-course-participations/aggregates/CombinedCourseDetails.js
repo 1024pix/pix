@@ -7,8 +7,14 @@ import { cryptoService as injectedCryptoService } from '../../../../../shared/do
 import { CombinedCourse } from '../../combined-courses/entities/CombinedCourse.js';
 import { DataForQuest } from '../../quests/aggregates/DataForQuest.js';
 import { Eligibility } from '../../quests/aggregates/Eligibility.js';
+import { Quest, REQUIREMENT_TYPES } from '../../quests/entities/Quest.js';
 import { TYPES } from '../../quests/value-objects/Requirement.js';
-import { COMBINED_COURSE_ITEM_TYPES, CombinedCourseItem } from '../value-objects/CombinedCourseItem.js';
+import {
+  CampaignCombinedCourseItem,
+  COMBINED_COURSE_ITEM_TYPES,
+  ModuleCombinedCourseItem,
+  TrainingCombinedCourseItem,
+} from '../value-objects/CombinedCourseItem.js';
 import { CombinedCourseParticipationDetails } from './CombinedCourseParticipationDetails.js';
 import { CombinedCourseReward } from './CombinedCourseReward.js';
 
@@ -107,11 +113,10 @@ export class CombinedCourseDetails extends CombinedCourse {
     totalStagesCount,
     validatedStagesCount,
   }) {
-    return new CombinedCourseItem({
+    return new CampaignCombinedCourseItem({
       id: campaign.id,
       reference: campaign.code,
       title: campaign.title,
-      type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
       masteryRate: isCompleted ? masteryRate : null,
       participationStatus,
       isCompleted,
@@ -122,11 +127,10 @@ export class CombinedCourseDetails extends CombinedCourse {
   }
 
   #createModuleCombinedCourseItem(module, participationStatus, isCompleted, isLocked) {
-    return new CombinedCourseItem({
+    return new ModuleCombinedCourseItem({
       id: module.id,
       reference: module.slug,
       title: module.title,
-      type: COMBINED_COURSE_ITEM_TYPES.MODULE,
       redirection: this.#combinedCourseUrl,
       participationStatus,
       isCompleted,
@@ -137,15 +141,14 @@ export class CombinedCourseDetails extends CombinedCourse {
     });
   }
 
-  #createFormationCombinedCourseItem(targetProfileId) {
-    return new CombinedCourseItem({
+  #createTrainingCombinedCourseItem(targetProfileId) {
+    return new TrainingCombinedCourseItem({
       id: 'formation_' + this.quest.id + '_' + targetProfileId,
       reference: targetProfileId,
-      type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
     });
   }
 
-  #createFormationCombinedCourseItemIfNeeded(recommendableModule, targetProfileIdsThatNeedAFormationItem) {
+  #createTrainingCombinedCourseItemIfNeeded(recommendableModule, targetProfileIdsThatNeedAFormationItem) {
     const targetProfileId = targetProfileIdsThatNeedAFormationItem.find((targetProfileIdOfCampaign) =>
       recommendableModule.targetProfileIds.includes(targetProfileIdOfCampaign),
     );
@@ -158,7 +161,7 @@ export class CombinedCourseDetails extends CombinedCourse {
     });
     if (shouldBeInFormationItem) {
       if (!hasFormationItem) {
-        return this.#createFormationCombinedCourseItem(targetProfileId);
+        return this.#createTrainingCombinedCourseItem(targetProfileId);
       } else {
         return undefined;
       }
@@ -267,7 +270,7 @@ export class CombinedCourseDetails extends CombinedCourse {
           continue;
         }
 
-        const formationCombinedCourseItem = this.#createFormationCombinedCourseItemIfNeeded(
+        const formationCombinedCourseItem = this.#createTrainingCombinedCourseItemIfNeeded(
           recommendableModule,
           targetProfileIdsThatNeedAFormationItem,
         );
@@ -292,10 +295,36 @@ export class CombinedCourseDetails extends CombinedCourse {
   }
 
   isSuccessful() {
-    return this.quest.isSuccessful(this.dataForQuest);
+    const successRequirements = this.quest.successRequirements.filter((successRequirements) => {
+      return (
+        successRequirements.requirement_type === REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS ||
+        successRequirements.requirement_type === REQUIREMENT_TYPES.CAPPED_TUBES ||
+        (successRequirements.requirement_type === REQUIREMENT_TYPES.OBJECT.PASSAGES &&
+          this.items.find((item) => item.id === successRequirements.data.moduleId.data))
+      );
+    });
+    const quest = new Quest({
+      id: this.quest.id,
+      createdAt: this.quest.createdAt,
+      updatedAt: this.quest.updatedAt,
+      rewardId: this.quest.rewardId,
+      rewardType: this.quest.rewardType,
+      eligibilityRequirements: this.quest.eligibilityRequirements,
+      successRequirements,
+    });
+
+    return quest.isSuccessful(this.dataForQuest);
   }
 
   get surveyUrl() {
-    return this.#participation ? `${this.baseSurveyUrl}?participationId=${this.#participation.id}` : this.baseSurveyUrl;
+    if (!this.baseSurveyUrl) {
+      return null;
+    }
+
+    if (this.#participation) {
+      return `${this.baseSurveyUrl}?participationId=${this.#participation.id}`;
+    }
+
+    return this.baseSurveyUrl;
   }
 }

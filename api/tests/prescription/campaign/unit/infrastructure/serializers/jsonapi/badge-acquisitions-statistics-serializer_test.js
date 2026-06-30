@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/badge-acquisitions-statistics-serializer.js';
+import { badgeAcquisitionsStatisticsSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/badge-acquisitions-statistics-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | badge-acquisitions-statistics-serializer', function () {
   describe('#serialize', function () {
@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | badge-acquisitions-statistics-serializer
       const badge1 = Symbol('badge1');
       const badge2 = Symbol('badge2');
 
-      const json = serializer.serialize({
+      const json = badgeAcquisitionsStatisticsSerializer.serialize({
         campaignId: 1,
         data: [
           { badge: badge1, percentage: 12, count: 1 },

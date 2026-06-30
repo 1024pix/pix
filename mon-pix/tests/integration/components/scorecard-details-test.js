@@ -153,6 +153,13 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
         // then
         assert.ok(trackEventStub.calledWithExactly('improveCompetence', { competenceId: scorecard.competenceId }));
+        assert.ok(
+          competenceEvaluation.improve.calledWithExactly({
+            userId: 123,
+            competenceId: scorecard.competenceId,
+            scorecardId: scorecard.id,
+          }),
+        );
       });
 
       test('should track reset competence button click', async function (assert) {
@@ -327,6 +334,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
             tubeName: '@first_tube',
             tubePracticalTitle: 'Practical Title',
             duration: '00:15:10',
+            format: 'video',
           });
           const tuto2 = store.createRecord('tutorial', {
             title: 'Tuto 2.1',
@@ -334,6 +342,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
             tubeName: '@second_tube',
             tubePracticalTitle: 'Practical Title 1',
             duration: '00:04:00',
+            format: 'page',
           });
           const tuto3 = store.createRecord('tutorial', {
             title: 'Tuto 2.2',
@@ -341,6 +350,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
             tubeName: '@second_tube',
             tubePracticalTitle: 'Practical Title',
             duration: '00:04:00',
+            format: 'page',
           });
 
           const tutorials = A([tuto1, tuto2, tuto3]);

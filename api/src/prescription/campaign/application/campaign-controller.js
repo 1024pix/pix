@@ -1,9 +1,9 @@
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as campaignResultLevelsPerTubesAndCompetencesSerializer from '../infrastructure/serializers/jsonapi/campaign-result-levels-per-tubes-and-competences-serializer.js';
-import * as divisionSerializer from '../infrastructure/serializers/jsonapi/division-serializer.js';
-import * as groupSerializer from '../infrastructure/serializers/jsonapi/group-serializer.js';
-import * as presentationStepsSerializer from '../infrastructure/serializers/jsonapi/presentation-steps-serializer.js';
+import { campaignResultLevelsPerTubesAndCompetencesSerializer } from '../infrastructure/serializers/jsonapi/campaign-result-levels-per-tubes-and-competences-serializer.js';
+import { divisionSerializer } from '../infrastructure/serializers/jsonapi/division-serializer.js';
+import { groupSerializer } from '../infrastructure/serializers/jsonapi/group-serializer.js';
+import { presentationStepsSerializer } from '../infrastructure/serializers/jsonapi/presentation-steps-serializer.js';
 
 const division = async function (request) {
   const { userId } = request.auth.credentials;

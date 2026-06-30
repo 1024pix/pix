@@ -42,5 +42,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/enrolment/certification-centers-session-students-api';
-export { name, register };
+export const certificationCenterRoute = {
+  name: 'certification/enrolment/certification-centers-session-students-api',
+  register,
+};

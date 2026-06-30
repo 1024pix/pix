@@ -28,9 +28,13 @@ export default class Attestation extends Component {
   }
 
   get mainContentDetails() {
+    const status = this.args.attestation.computedStatus;
     return {
-      information: this.intl.t(`pages.combined-courses.rewards.${this.args.attestation.computedStatus}.details.title`),
-      text: this.intl.t(`pages.combined-courses.rewards.${this.args.attestation.computedStatus}.details.text`),
+      information: this.intl.t(`pages.combined-courses.rewards.${status}.details.title`),
+      text:
+        status === REWARD_STATUSES.OBTAINED
+          ? this.intl.t(`pages.combined-courses.rewards.${status}.details.text`)
+          : null,
     };
   }
 
@@ -87,8 +91,10 @@ const AttestationDetails = <template>
 
     <p>
       <em class="attestation-details__information">{{@information}}</em>
-      <br />
-      {{@text}}
+      {{#if @text}}
+        <br />
+        {{@text}}
+      {{/if}}
     </p>
   </section>
 </template>;

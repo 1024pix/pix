@@ -7,7 +7,7 @@
 // If your migrations target `answers` or `knowledge-elements`
 // contact @team-captains, because automatic migrations are not active on `pix-datawarehouse-production`
 // this may prevent data replication to succeed the day after your migration is deployed on `pix-api-production`
-export const ATTESTATIONS_TABLE_NAME = 'attestations';
+const ATTESTATIONS_TABLE_NAME = 'attestations';
 
 const up = async function (knex) {
   await knex.schema.createTable(ATTESTATIONS_TABLE_NAME, function (table) {

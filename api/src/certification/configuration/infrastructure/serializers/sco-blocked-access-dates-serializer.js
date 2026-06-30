@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-export const serialize = function (scoBlockedAccessDate) {
+export function serialize(scoBlockedAccessDate) {
   return new Serializer('sco-blocked-access-dates', {
     attributes: ['reopeningDate'],
     transform: (record) => {
@@ -12,4 +12,4 @@ export const serialize = function (scoBlockedAccessDate) {
       };
     },
   }).serialize(scoBlockedAccessDate);
-};
+}

@@ -1,13 +1,16 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
-import { click, find } from '@ember/test-helpers';
+import { click, fillIn, find } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import { VERIFY_RESPONSE_DELAY } from 'mon-pix/components/module/component/element';
 import ModuleQcmDeclarative from 'mon-pix/components/module/element/qcm-declarative';
+import { categoriesKey } from 'mon-pix/models/module-issue-report';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { waitForDialog } from '../../../helpers/wait-for';
 
 module('Integration | Component | Module | QcmDeclarative', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -44,7 +47,7 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
     assert.dom(submitButton).exists();
   });
 
-  module('when user clicks on several propositions', function () {
+  module('when user clicks on several propositions and submit', function () {
     test('should disable interaction, call action, send an event when submit button is clicked, then display feedback and hide submit button', async function (assert) {
       // given
       const onAnswerStub = sinon.stub();
@@ -82,6 +85,61 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
       assert.dom(screen.getByText('Signaler')).exists();
     });
 
+    test('should display selected proposals with declarative-selected state and unselected proposals with declarative state', async function (assert) {
+      // given
+      const onAnswerStub = sinon.stub();
+      const passageEventService = this.owner.lookup('service:passageEvents');
+      sinon.stub(passageEventService, 'record');
+      const qcmDeclarativeElement = _getQcmDeclarativeElement();
+      const { proposals } = qcmDeclarativeElement;
+
+      const screen = await render(
+        <template><ModuleQcmDeclarative @element={{qcmDeclarativeElement}} @onAnswer={{onAnswerStub}} /></template>,
+      );
+
+      const proposal1Element = screen.getByLabelText(proposals[0].content);
+      const proposal2Element = screen.getByLabelText(proposals[1].content);
+      await click(proposal1Element);
+
+      // when
+      const submitButton = screen.getByRole('button', { name: 'Soumettre ma sélection' });
+      await click(submitButton);
+
+      // then - state is determined by selectedProposalIds, correct before timer resolves
+      assert.dom(proposal1Element.closest('label')).hasClass('pix-label-wrapped--state-modulix-declarative-selected');
+      assert.dom(proposal2Element.closest('label')).hasClass('pix-label-wrapped--state-modulix-declarative');
+
+      await clock.tickAsync(VERIFY_RESPONSE_DELAY);
+    });
+
+    test('should not change proposal state when clicking a checkbox after submission', async function (assert) {
+      // given
+      const onAnswerStub = sinon.stub();
+      const passageEventService = this.owner.lookup('service:passageEvents');
+      sinon.stub(passageEventService, 'record');
+      const qcmDeclarativeElement = _getQcmDeclarativeElement();
+      const { proposals } = qcmDeclarativeElement;
+
+      const screen = await render(
+        <template><ModuleQcmDeclarative @element={{qcmDeclarativeElement}} @onAnswer={{onAnswerStub}} /></template>,
+      );
+
+      const proposal1Element = screen.getByLabelText(proposals[0].content);
+      const proposal2Element = screen.getByLabelText(proposals[1].content);
+      await click(proposal1Element);
+      const submitButton = screen.getByRole('button', { name: 'Soumettre ma sélection' });
+      await click(submitButton);
+      await clock.tickAsync(VERIFY_RESPONSE_DELAY);
+
+      // when - clicking after submission
+      await click(proposal1Element);
+      await click(proposal2Element);
+
+      // then - states must not have changed
+      assert.dom(proposal1Element.closest('label')).hasClass('pix-label-wrapped--state-modulix-declarative-selected');
+      assert.dom(proposal2Element.closest('label')).hasClass('pix-label-wrapped--state-modulix-declarative');
+    });
+
     test('it should record a passage-event', async function (assert) {
       // given
       const passageEventService = this.owner.lookup('service:passageEvents');
@@ -89,12 +147,15 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
       const onAnswerStub = sinon.stub();
 
       const qcmDeclarativeElement = _getQcmDeclarativeElement();
+      const { proposals } = qcmDeclarativeElement;
 
       // when
       const screen = await render(
         <template><ModuleQcmDeclarative @element={{qcmDeclarativeElement}} @onAnswer={{onAnswerStub}} /></template>,
       );
       const submitButton = screen.getByRole('button', { name: 'Soumettre ma sélection' });
+      const proposal1Element = screen.getByLabelText(proposals[0].content);
+      await click(proposal1Element);
       await submitButton.click();
       await clock.tickAsync(VERIFY_RESPONSE_DELAY + 10);
 
@@ -106,10 +167,31 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
         type: 'QCM_DECLARATIVE_ANSWERED',
         data: {
           elementId: qcmDeclarativeElement.id,
-          answer: [],
+          answer: '1',
         },
       });
       assert.ok(true);
+    });
+  });
+
+  module('when no proposal is selected', function () {
+    test('should display an error message when submit button is clicked', async function (assert) {
+      // given
+      const onAnswerStub = sinon.stub();
+      const qcmDeclarativeElement = _getQcmDeclarativeElement();
+
+      const screen = await render(
+        <template><ModuleQcmDeclarative @element={{qcmDeclarativeElement}} @onAnswer={{onAnswerStub}} /></template>,
+      );
+
+      // when
+      const submitButton = screen.getByRole('button', { name: 'Soumettre ma sélection' });
+      await click(submitButton);
+      await clock.tickAsync(VERIFY_RESPONSE_DELAY);
+
+      // then
+      assert.dom(screen.getByRole('alert')).exists();
+      sinon.assert.notCalled(onAnswerStub);
     });
   });
 
@@ -119,6 +201,7 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
       class PreviewModeServiceStub extends Service {
         isEnabled = true;
       }
+
       this.owner.register('service:modulixPreviewMode', PreviewModeServiceStub);
       const qcmDeclarativeElement = _getQcmDeclarativeElement();
 
@@ -129,6 +212,57 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
 
       // then
       assert.dom(screen.getByText(feedback.diagnosis)).exists();
+    });
+  });
+
+  module('when user clicks on report button', function () {
+    test('should send report with correct element id, selected answers, category and comment', async function (assert) {
+      // given
+      const passageEventService = this.owner.lookup('service:passageEvents');
+      sinon.stub(passageEventService, 'record');
+      const issueReportService = this.owner.lookup('service:moduleIssueReport');
+      const issueReportRecordStub = sinon.stub(issueReportService, 'record').resolves();
+      const qcmDeclarativeElement = _getQcmDeclarativeElement();
+      const onAnswerStub = sinon.stub();
+      const comment = "Il y a une faute d'orthographe dans la question";
+
+      // when
+      const screen = await render(
+        <template>
+          <div id="modal-container"></div>
+          <ModuleQcmDeclarative @element={{qcmDeclarativeElement}} @onAnswer={{onAnswerStub}} />
+        </template>,
+      );
+      const proposal1Element = screen.getByLabelText(qcmDeclarativeElement.proposals[0].content);
+      const proposal3Element = screen.getByLabelText(qcmDeclarativeElement.proposals[2].content);
+      await click(proposal1Element);
+      await click(proposal3Element);
+      await click(screen.getByRole('button', { name: 'Soumettre ma sélection' }));
+
+      await clock.tickAsync(VERIFY_RESPONSE_DELAY + 10);
+
+      await click(screen.getByRole('button', { name: t('pages.modulix.issue-report.aria-label') }));
+      await waitForDialog();
+
+      assert.dom(screen.getByRole('dialog')).exists();
+      assert.dom(screen.getByRole('heading', { name: t('pages.modulix.issue-report.modal.title'), level: 1 })).exists();
+
+      await fillIn(
+        screen.getByRole('textbox', { name: t('pages.modulix.issue-report.modal.textarea-label') }),
+        comment,
+      );
+      await click(screen.getByRole('button', { name: t('common.actions.send') }));
+
+      assert.dom(await screen.findByText(t('pages.modulix.issue-report.modal.confirmation-message.success'))).exists();
+
+      // then
+      sinon.assert.calledOnceWithExactly(issueReportRecordStub, {
+        elementId: qcmDeclarativeElement.id,
+        answer: `${qcmDeclarativeElement.proposals[0].id}, ${qcmDeclarativeElement.proposals[2].id}`,
+        categoryKey: categoriesKey.QUESTION_ISSUE,
+        comment,
+      });
+      assert.ok(true);
     });
   });
 
@@ -151,6 +285,7 @@ module('Integration | Component | Module | QcmDeclarative', function (hooks) {
 });
 
 function _getQcmDeclarativeElement(hasShortProposals = false) {
+  const id = '0db62236-a758-4fbb-bbca-16d63d92ad6e';
   const instruction = '<p>Lesquels de ces oiseaux croisez-vous près de chez vous ?</p>';
   const complementaryInstruction = 'Sélectionnez la ou les réponses de votre choix.';
 
@@ -176,5 +311,5 @@ function _getQcmDeclarativeElement(hasShortProposals = false) {
     diagnosis: 'Vous en avez de la chance !',
   };
 
-  return { instruction, hasShortProposals, complementaryInstruction, proposals, feedback };
+  return { id, instruction, hasShortProposals, complementaryInstruction, proposals, feedback };
 }

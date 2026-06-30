@@ -1,5 +1,5 @@
 import * as challengeToPlayRepository from '../../infrastructure/repositories/challenge-to-play-repository.js';
-import * as challengeToPlaySerializer from '../../infrastructure/serializers/jsonapi/challenge-to-play-serializer.js';
+import { challengeToPlaySerializer } from '../../infrastructure/serializers/jsonapi/challenge-to-play-serializer.js';
 
 /**
  * @function

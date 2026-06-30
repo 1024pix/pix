@@ -1,10 +1,8 @@
-const getComplementaryCertificationForTargetProfileAttachmentRepository = async function ({
+export async function getComplementaryCertificationForTargetProfileAttachmentRepository({
   complementaryCertificationId,
   complementaryCertificationForTargetProfileAttachmentRepository,
 }) {
   return complementaryCertificationForTargetProfileAttachmentRepository.getById({
     complementaryCertificationId,
   });
-};
-
-export { getComplementaryCertificationForTargetProfileAttachmentRepository };
+}

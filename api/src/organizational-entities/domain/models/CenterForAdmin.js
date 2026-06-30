@@ -1,6 +1,6 @@
 import { CERTIFICATION_CENTER_TYPES } from '../../../shared/domain/constants.js';
 
-class CenterForAdmin {
+export class CenterForAdmin {
   /**
    * @param {Object} params
    * @param {Object} params.center
@@ -41,8 +41,6 @@ class CenterForAdmin {
   isHabilitated(key) {
     return this.habilitations.some((habilitation) => habilitation.key === key);
   }
+
+  static types = CERTIFICATION_CENTER_TYPES;
 }
-
-CenterForAdmin.types = CERTIFICATION_CENTER_TYPES;
-
-export { CenterForAdmin, CERTIFICATION_CENTER_TYPES as types };

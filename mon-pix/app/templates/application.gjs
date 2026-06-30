@@ -32,9 +32,13 @@ export default class ApplicationTemplate extends Component {
       this.router.currentRouteName.startsWith('authentication.') ||
       this.router.currentRouteName.startsWith('inscription.') ||
       this.router.currentRouteName.startsWith('account-recovery.') ||
-      ['not-connected', 'cgu', 'reset-password', 'password-reset-demand', 'update-expired-password'].includes(
-        this.router.currentRouteName,
-      );
+      [
+        'not-connected',
+        'terms-of-service',
+        'reset-password',
+        'password-reset-demand',
+        'update-expired-password',
+      ].includes(this.router.currentRouteName);
 
     const isEvaluationPages =
       this.router.currentRouteName.startsWith('assessments.') ||

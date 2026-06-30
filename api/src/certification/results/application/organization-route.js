@@ -36,5 +36,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/results/organization-api';
-export { name, register };
+export const organizationRoute = { name: 'certification/results/organization-api', register };

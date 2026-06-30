@@ -1,6 +1,6 @@
 import { evaluationDomainErrorMappingConfiguration } from '../../../../../src/certification/evaluation/application/http-error-mapper-configuration.js';
 import { NextChallengeAlreadyComputingError } from '../../../../../src/certification/evaluation/domain/errors.js';
-import { HttpErrors } from '../../../../../src/shared/application/errors/http-errors.js';
+import { LockedError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Evaluation | Application | HttpErrorMapperConfiguration', function () {
@@ -15,7 +15,7 @@ describe('Unit | Certification | Evaluation | Application | HttpErrorMapperConfi
       const error = httpErrorMapper.httpErrorFn(new NextChallengeAlreadyComputingError());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.LockedError);
+      expect(error).to.be.instanceOf(LockedError);
       expect(error.message).to.equal('Une nouvelle épreuve est en cours de calcul');
     });
   });

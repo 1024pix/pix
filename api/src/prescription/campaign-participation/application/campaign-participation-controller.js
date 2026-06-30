@@ -1,16 +1,16 @@
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
-import * as campaignResultLevelsPerTubesAndCompetencesSerializer from '../../campaign/infrastructure/serializers/jsonapi/campaign-result-levels-per-tubes-and-competences-serializer.js';
+import { campaignResultLevelsPerTubesAndCompetencesSerializer } from '../../campaign/infrastructure/serializers/jsonapi/campaign-result-levels-per-tubes-and-competences-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as anonymisedCampaignAssessmentSerializer from '../infrastructure/serializers/jsonapi/anonymised-campaign-assessment-serializer.js';
-import * as availableCampaignParticipationsSerializer from '../infrastructure/serializers/jsonapi/available-campaign-participation-serializer.js';
-import * as campaignAssessmentParticipationResultSerializer from '../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
-import * as campaignAssessmentParticipationSerializer from '../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
-import * as campaignParticipationOverviewSerializer from '../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
-import * as campaignParticipationSerializer from '../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
-import * as campaignParticipationStatisticsSerializer from '../infrastructure/serializers/jsonapi/campaign-participation-statistics-serializer.js';
-import * as campaignProfileSerializer from '../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
-import * as participantResultSerializer from '../infrastructure/serializers/jsonapi/participant-result-serializer.js';
-import * as participationForCampaignManagementSerializer from '../infrastructure/serializers/jsonapi/participation-for-campaign-management-serializer.js';
+import { anonymisedCampaignAssessmentSerializer } from '../infrastructure/serializers/jsonapi/anonymised-campaign-assessment-serializer.js';
+import { availableCampaignParticipationSerializer } from '../infrastructure/serializers/jsonapi/available-campaign-participation-serializer.js';
+import { campaignAssessmentParticipationResultSerializer } from '../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
+import { campaignAssessmentParticipationSerializer } from '../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
+import { campaignParticipationOverviewSerializer } from '../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
+import { campaignParticipationSerializer } from '../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
+import { campaignParticipationStatisticsSerializer } from '../infrastructure/serializers/jsonapi/campaign-participation-statistics-serializer.js';
+import { campaignProfileSerializer } from '../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
+import { participantResultSerializer } from '../infrastructure/serializers/jsonapi/participant-result-serializer.js';
+import { participationForCampaignManagementSerializer } from '../infrastructure/serializers/jsonapi/participation-for-campaign-management-serializer.js';
 
 const getUserCampaignParticipationToCampaign = function (
   request,
@@ -132,7 +132,7 @@ const updateParticipantExternalId = async function (request, h) {
 const getCampaignParticipationsForOrganizationLearner = async function (
   request,
   h,
-  dependencies = { availableCampaignParticipationsSerializer },
+  dependencies = { availableCampaignParticipationsSerializer: availableCampaignParticipationSerializer },
 ) {
   const { campaignId, organizationLearnerId } = request.params;
   const availableCampaignParticipations = await usecases.getCampaignParticipationsForOrganizationLearner({

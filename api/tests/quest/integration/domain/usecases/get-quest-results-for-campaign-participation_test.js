@@ -1,9 +1,9 @@
-import { QuestResult } from '../../../../../src/quest/domain/models/QuestResult.js';
 import {
   CRITERION_COMPARISONS,
   REQUIREMENT_COMPARISONS,
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
+import { QuestResult } from '../../../../../src/quest/domain/models/quests/value-objects/QuestResult.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';

@@ -1,5 +1,5 @@
-import * as organizationLearnerFeatures from './application/organization-learner-features-route.js';
+import { organizationLearnerFeaturesRoute } from './application/organization-learner-features-route.js';
 
-const organizationLearnerFeatureRoutes = [organizationLearnerFeatures];
+const organizationLearnerFeatureRoutes = [organizationLearnerFeaturesRoute];
 
 export { organizationLearnerFeatureRoutes };

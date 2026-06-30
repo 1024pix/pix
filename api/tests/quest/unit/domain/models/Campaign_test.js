@@ -1,4 +1,4 @@
-import { Campaign } from '../../../../../src/quest/domain/models/Campaign.js';
+import { Campaign } from '../../../../../src/quest/domain/models/combined-courses/entities/Campaign.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Campaign ', function () {

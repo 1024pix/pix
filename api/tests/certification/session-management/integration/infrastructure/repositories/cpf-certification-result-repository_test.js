@@ -369,38 +369,6 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       });
     });
   });
-
-  describe('#updateCertificationImportStatus', function () {
-    it('should update certification import status', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationCourse({ id: 123 });
-      databaseBuilder.factory.buildCertificationCoursesCpfInfos({
-        certificationCourseId: 123,
-        importStatus: CpfImportStatus.ERROR,
-      });
-      databaseBuilder.factory.buildCertificationCourse({ id: 456 });
-      databaseBuilder.factory.buildCertificationCoursesCpfInfos({
-        certificationCourseId: 456,
-        importStatus: CpfImportStatus.ERROR,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      await cpfCertificationResultRepository.updateCertificationImportStatus({
-        certificationCourseIds: [123, 456],
-        cpfImportStatus: CpfImportStatus.PENDING,
-      });
-
-      // then
-      const certificationCourses = await knex('certification-courses-cpf-infos')
-        .select('certificationCourseId', 'importStatus')
-        .orderBy('id');
-      expect(certificationCourses).to.deep.equal([
-        { certificationCourseId: 123, importStatus: CpfImportStatus.PENDING },
-        { certificationCourseId: 456, importStatus: CpfImportStatus.PENDING },
-      ]);
-    });
-  });
 });
 
 function createCertificationCourseWithCompetenceMarks({

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { V3CertificationScoring } from '../../../../../../src/certification/evaluation/domain/models/V3CertificationScoring.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Evaluation | Unit | Domain | Models | V3CertificationScoring', function () {
@@ -66,10 +66,11 @@ describe('Certification | Evaluation | Unit | Domain | Models | V3CertificationS
   describe('#fromConfigurations', function () {
     it('should return a valid V3CertificationScoring', function () {
       const area = domainBuilder.buildArea();
-      const competence = domainBuilder.buildCompetence({ areaId: area.id });
+      const competence = domainBuilder.buildCompetence({ id: 'myCompetenceId', areaId: area.id });
+
       const competenceForScoringConfiguration = [
         {
-          competence: competence.index,
+          competenceId: competence.id,
           values: [
             {
               competenceLevel: 0,

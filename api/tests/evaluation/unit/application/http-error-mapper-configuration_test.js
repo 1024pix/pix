@@ -1,6 +1,6 @@
 import { evaluationDomainErrorMappingConfiguration } from '../../../../src/evaluation/application/http-error-mapper-configuration.js';
 import { AlreadyRatedAssessmentError } from '../../../../src/evaluation/domain/errors.js';
-import { HttpErrors } from '../../../../src/shared/application/errors/http-errors.js';
+import { PreconditionFailedError } from '../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Evaluation | Application | HttpErrorMapperConfiguration', function () {
@@ -15,7 +15,7 @@ describe('Unit | Evaluation | Application | HttpErrorMapperConfiguration', funct
       const error = httpErrorMapper.httpErrorFn(new AlreadyRatedAssessmentError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.PreconditionFailedError);
+      expect(error).to.be.instanceOf(PreconditionFailedError);
     });
   });
 });

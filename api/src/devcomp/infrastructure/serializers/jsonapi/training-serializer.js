@@ -11,7 +11,7 @@ const serializeForAdmin = function (training = {}, meta) {
       duration.minutes = duration.minutes || 0;
       return structuredClone({
         ...record,
-        objectives: record.objectives.join(';'),
+        objectives: record.objectives?.join(';') ?? null,
         isRecommendable: record.isRecommendable,
       });
     },
@@ -134,7 +134,10 @@ const deserialize = function (payload) {
   return new Deserializer({
     keyForAttribute: 'camelCase',
     transform(deserializedTraining) {
-      const objectives = deserializedTraining.objectives?.split(';').map((objective) => objective.trim());
+      const objectives = deserializedTraining.objectives
+        ?.split(';')
+        .map((objective) => objective.trim())
+        .filter(Boolean);
       const duration = deserializedTraining.duration;
       if (!duration) return { ...deserializedTraining, objectives };
 
@@ -148,4 +151,4 @@ const deserialize = function (payload) {
   }).deserialize(payload);
 };
 
-export { deserialize, serialize, serializeForAdmin };
+export const trainingSerializer = { deserialize, serialize, serializeForAdmin };

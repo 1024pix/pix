@@ -61,7 +61,12 @@ export default class CurrentSessionService extends SessionService {
   }
 
   requireAuthenticationAndApprovedTermsOfService(transition, authenticationRoute) {
-    if (this.isAuthenticated && this.currentUser.user.mustValidateTermsOfService) {
+    const mustRedirectToTos =
+      this.session.isAuthenticated &&
+      (this.currentUser.user.pixAppTermsOfServiceStatus === 'requested' ||
+        this.currentUser.user.pixAppTermsOfServiceStatus === 'update-requested');
+
+    if (mustRedirectToTos) {
       this.attemptedTransition = transition;
       this.router.transitionTo('terms-of-service');
     }

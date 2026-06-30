@@ -51,4 +51,4 @@ function serialize(module) {
   }).serialize(module);
 }
 
-export { serialize };
+export const moduleSerializer = { serialize };

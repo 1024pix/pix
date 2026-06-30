@@ -104,11 +104,17 @@ function findPaginatedFilteredOrganizations(schema) {
   return json;
 }
 
+function getOrganizationAttachedCertificationCenters(schema, request) {
+  const organizationId = request.params.id;
+  return schema.attachedCertificationCenters.where({ organizationId });
+}
+
 export {
   archiveOrganization,
   findOrganizationCampaigns,
   findPaginatedFilteredOrganizations,
   findPaginatedOrganizationMemberships,
+  getOrganizationAttachedCertificationCenters,
   getOrganizationInvitations,
   getOrganizationPlaces,
   getOrganizationPlacesStatistics,

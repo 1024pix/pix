@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import * as serializer from '../../../../../src/school/infrastructure/serializers/challenge-serializer.js';
+import { challengeSerializer } from '../../../../../src/school/infrastructure/serializers/challenge-serializer.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | challenge-serializer', function () {
@@ -35,7 +35,7 @@ describe('Unit | Serializer | challenge-serializer', function () {
       });
 
       // when
-      const json = serializer.serialize(challenge);
+      const json = challengeSerializer.serialize(challenge);
 
       // then
       expect(json).to.deep.equal({

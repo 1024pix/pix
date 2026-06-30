@@ -6,7 +6,12 @@ import {
   CsvWithNoSessionDataError,
   InvalidCertificationReportForFinalization,
 } from '../../../../../src/certification/shared/domain/errors.js';
-import { HttpErrors } from '../../../../../src/shared/application/errors/http-errors.js';
+import {
+  BadRequestError,
+  ForbiddenError,
+  NotFoundError,
+  UnprocessableEntityError,
+} from '../../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Shared | Application | HttpErrorMapperConfiguration', function () {
@@ -22,7 +27,7 @@ describe('Unit | Certification | Shared | Application | HttpErrorMapperConfigura
       const error = httpErrorMapper.httpErrorFn(new CertificationCourseUpdateError(message));
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error).to.be.instanceOf(BadRequestError);
       expect(error.message).to.equal(message);
     });
   });
@@ -39,7 +44,7 @@ describe('Unit | Certification | Shared | Application | HttpErrorMapperConfigura
       const error = httpErrorMapper.httpErrorFn(new InvalidCertificationReportForFinalization(message));
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error).to.be.instanceOf(BadRequestError);
       expect(error.message).to.equal(message);
     });
   });
@@ -55,7 +60,7 @@ describe('Unit | Certification | Shared | Application | HttpErrorMapperConfigura
       const error = httpErrorMapper.httpErrorFn(new CenterHabilitationError());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+      expect(error).to.be.instanceOf(ForbiddenError);
       expect(error.message).to.equal(
         'This certification center has no habilitation for the given complementary certification.',
       );
@@ -74,7 +79,7 @@ describe('Unit | Certification | Shared | Application | HttpErrorMapperConfigura
       const error = httpErrorMapper.httpErrorFn(new CertificationCandidateNotFoundError());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.NotFoundError);
+      expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal('No candidate found');
       expect(error.code).to.equal('CANDIDATE_NOT_FOUND');
     });
@@ -91,7 +96,7 @@ describe('Unit | Certification | Shared | Application | HttpErrorMapperConfigura
       const error = httpErrorMapper.httpErrorFn(new CsvWithNoSessionDataError());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('No session data in csv');
       expect(error.code).to.equal('CSV_DATA_REQUIRED');
     });

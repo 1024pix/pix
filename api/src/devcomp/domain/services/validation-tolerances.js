@@ -45,10 +45,4 @@ function applyTolerances(string, enabledTolerances) {
   return result;
 }
 
-export {
-  applyPreTreatmentForTolerance,
-  applyTolerances,
-  normalizeAndRemoveAccents,
-  removeSpecialCharacters,
-  tolerances,
-};
+export { applyPreTreatmentForTolerance, applyTolerances, normalizeAndRemoveAccents, removeSpecialCharacters };

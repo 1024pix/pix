@@ -1,7 +1,8 @@
 export class AttestationDetail {
-  constructor({ id, type, obtainedAt } = {}) {
+  constructor({ id, obtainedAt, label, key } = {}) {
     this.id = id;
-    this.type = type;
     this.obtainedAt = obtainedAt;
+    this.label = label;
+    this.key = key;
   }
 }

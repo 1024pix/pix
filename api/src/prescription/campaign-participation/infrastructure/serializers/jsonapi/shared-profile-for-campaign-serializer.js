@@ -34,4 +34,4 @@ const serialize = function (sharedProfileForCampaign = {}) {
   }).serialize(sharedProfileForCampaign);
 };
 
-export { serialize };
+export const sharedProfileForCampaignSerializer = { serialize };

@@ -1,6 +1,5 @@
 import { createServer } from '../../../../../server.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
-import { CertificationCandidate } from '../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -39,7 +38,7 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
           birthINSEECode: '75115',
           birthPostalCode: null,
           birthCity: null,
-          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          billingMode: BILLING_MODES.FREE,
           subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
         userId = databaseBuilder.factory.buildUser().id;
@@ -188,7 +187,7 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
           birthINSEECode: '75115',
           birthPostalCode: null,
           birthCity: null,
-          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          billingMode: BILLING_MODES.FREE,
           subscriptions: [],
         });
         userId = databaseBuilder.factory.buildUser().id;

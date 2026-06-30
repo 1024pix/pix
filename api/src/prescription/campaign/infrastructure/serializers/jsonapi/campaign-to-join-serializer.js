@@ -39,4 +39,4 @@ const serialize = function (campaignsToJoin) {
   }).serialize(campaignsToJoin);
 };
 
-export { serialize };
+export const campaignToJoinSerializer = { serialize };

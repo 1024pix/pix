@@ -75,5 +75,4 @@ const register = async function (server) {
     },
   ]);
 };
-const name = 'school/assessment-pix1d-api';
-export { name, register };
+export const assessmentRoute = { name: 'school/assessment-pix1d-api', register };

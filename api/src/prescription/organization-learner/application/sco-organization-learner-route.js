@@ -234,5 +234,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'prescription/organization-learner/sco-organization-learner-api';
-export { name, register };
+export const scoOrganizationLearnerRoute = {
+  name: 'prescription/organization-learner/sco-organization-learner-api',
+  register,
+};

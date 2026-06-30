@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/network/network.serializer.js';
+import { networkSerializer } from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/network/network.serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -28,7 +28,7 @@ describe('Unit | Infrastructure | Serializers | JsonApi |  Network | network-ser
       };
 
       // when
-      const json = serializer.serialize(network);
+      const json = networkSerializer.serialize(network);
 
       // then
       expect(json).to.deep.equal(expectedSerializedNetwork);
@@ -40,7 +40,7 @@ describe('Unit | Infrastructure | Serializers | JsonApi |  Network | network-ser
       const meta = { page: 1, pageSize: 10, rowCount: 1, pageCount: 1 };
 
       // when
-      const json = serializer.serialize([network], meta);
+      const json = networkSerializer.serialize([network], meta);
 
       // then
       expect(json.meta).to.deep.equal(meta);
@@ -67,7 +67,7 @@ describe('Unit | Infrastructure | Serializers | JsonApi |  Network | network-ser
       };
 
       // when
-      const deserializedData = serializer.deserialize(jsonApiFormData);
+      const deserializedData = networkSerializer.deserialize(jsonApiFormData);
 
       // then
       expect(deserializedData).to.deep.equal({

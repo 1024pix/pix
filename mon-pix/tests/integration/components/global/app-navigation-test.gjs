@@ -1,8 +1,10 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { settled } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import AppNavigation from 'mon-pix/components/global/app-navigation';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import { stubCurrentUserService } from '../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -73,6 +75,91 @@ module('Integration | Component | Global | App Navigation', function (hooks) {
           // then
           const nav = screen.getByLabelText('navigation principale');
           assert.dom(within(nav).getByRole('link', { name: t('navigation.main.trainings') })).exists();
+        });
+      });
+
+      module('attestation nav item', function (hooks) {
+        const userId = '123';
+        const cacheKey = `pix-has-attestations-${userId}`;
+
+        hooks.afterEach(function () {
+          localStorage.removeItem(cacheKey);
+        });
+
+        module('when localStorage has the cache set', function (hooks) {
+          hooks.beforeEach(function () {
+            localStorage.setItem(cacheKey, 'true');
+          });
+
+          test('it shows the attestation nav item without calling the store', async function (assert) {
+            // given
+            const findAllStub = sinon.stub();
+            class StoreStub extends Service {
+              findAll = findAllStub;
+            }
+            this.owner.register('service:store', StoreStub);
+            stubCurrentUserService(
+              this.owner,
+              { id: userId, firstName: 'Banana', lastName: 'Split', email: 'banana.split@example.net' },
+              { withStoreStubbed: true },
+            );
+
+            // when
+            const screen = await render(<template><AppNavigation /></template>);
+
+            // then
+            const nav = screen.getByLabelText('navigation principale');
+            assert.dom(within(nav).getByRole('link', { name: t('navigation.main.attestations') })).exists();
+            sinon.assert.notCalled(findAllStub);
+          });
+        });
+
+        module('when localStorage does not have the cache', function () {
+          test('shows the attestation nav item when user has attestations and caches the result', async function (assert) {
+            // given
+            const findAllStub = sinon.stub().resolves([{ id: '1' }]);
+            class StoreStub extends Service {
+              findAll = findAllStub;
+            }
+            this.owner.register('service:store', StoreStub);
+            stubCurrentUserService(
+              this.owner,
+              { id: userId, firstName: 'Banana', lastName: 'Split', email: 'banana.split@example.net' },
+              { withStoreStubbed: true },
+            );
+
+            // when
+            const screen = await render(<template><AppNavigation /></template>);
+            await settled();
+
+            // then
+            const nav = screen.getByLabelText('navigation principale');
+            assert.dom(within(nav).getByRole('link', { name: t('navigation.main.attestations') })).exists();
+            assert.strictEqual(localStorage.getItem(cacheKey), 'true');
+          });
+
+          test('does not show the attestation nav item when user has no attestations', async function (assert) {
+            // given
+            const findAllStub = sinon.stub().resolves([]);
+            class StoreStub extends Service {
+              findAll = findAllStub;
+            }
+            this.owner.register('service:store', StoreStub);
+            stubCurrentUserService(
+              this.owner,
+              { id: userId, firstName: 'Banana', lastName: 'Split', email: 'banana.split@example.net' },
+              { withStoreStubbed: true },
+            );
+
+            // when
+            const screen = await render(<template><AppNavigation /></template>);
+            await settled();
+
+            // then
+            const nav = screen.getByLabelText('navigation principale');
+            assert.dom(within(nav).queryByRole('link', { name: t('navigation.main.attestations') })).doesNotExist();
+            assert.strictEqual(localStorage.getItem(cacheKey), null);
+          });
         });
       });
     });

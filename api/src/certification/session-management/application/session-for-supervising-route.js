@@ -34,5 +34,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/session-management/session-for-supervising-api';
-export { name, register };
+export const sessionForSupervisingRoute = {
+  name: 'certification/session-management/session-for-supervising-api',
+  register,
+};

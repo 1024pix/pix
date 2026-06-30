@@ -10,7 +10,21 @@ for await (const file of glob('src/**/dependencies.json')) {
 }
 
 export default {
-  forbidden: buildForbiddenRules(contexts),
+  forbidden: [
+    ...buildForbiddenRules(contexts),
+    {
+      name: 'do-not-import-migrations',
+      severity: 'error',
+      from: { path: '^(.*)' },
+      to: { path: '^db/migrations/(.*)' },
+    },
+    {
+      name: 'do-not-import-hapi-or-server-in-integration-tests',
+      severity: 'error',
+      from: { path: '^tests/.*integration/(.*)' },
+      to: { path: ['@hapi/hapi', '^server\\.js$'] },
+    },
+  ],
   options: {
     doNotFollow: { path: 'node_modules' },
   },

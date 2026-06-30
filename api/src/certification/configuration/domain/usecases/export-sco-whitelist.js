@@ -8,6 +8,6 @@
  * @param {CenterRepository} params.centerRepository
  * @returns {Promise<Array<Center>>}
  */
-export const exportScoWhitelist = async ({ centerRepository }) => {
+export async function exportScoWhitelist({ centerRepository }) {
   return centerRepository.getWhitelist();
-};
+}

@@ -1,5 +1,5 @@
 import { Course } from '../../../../../../src/evaluation/domain/models/Course.js';
-import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/course-serializer.js';
+import { courseSerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/course-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | course-serializer', function () {
@@ -13,7 +13,7 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function () {
       });
 
       // when
-      const json = serializer.serialize(course);
+      const json = courseSerializer.serialize(course);
 
       // then
       expect(json).to.deep.equal({

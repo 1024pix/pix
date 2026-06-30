@@ -108,4 +108,25 @@ module('Integration | Component | Module | ShortVideo', function (hooks) {
       elementId: shortVideoId,
     });
   });
+
+  module('when the component does not have a transcription text', function () {
+    test('it should hide the transcription button', async function (assert) {
+      // given
+      const url = 'https://assets.pix.org/modules/placeholder-video.mp4';
+
+      const shortVideoId = 'id';
+      const shortVideoElement = {
+        id: shortVideoId,
+        url,
+        title: 'title',
+        transcription: '',
+      };
+
+      //  when
+      const screen = await render(<template><ModulixShortVideo @element={{shortVideoElement}} /></template>);
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Afficher la transcription' })).doesNotExist();
+    });
+  });
 });

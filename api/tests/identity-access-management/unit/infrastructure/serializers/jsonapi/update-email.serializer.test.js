@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/update-email.serializer.js';
+import { updateEmailSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/update-email.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | update-email-serializer', function () {
@@ -10,7 +10,7 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
       };
 
       // when
-      const json = serializer.serialize(updatedUserAttributes);
+      const json = updateEmailSerializer.serialize(updatedUserAttributes);
 
       // then
       const expectedJsonApi = {

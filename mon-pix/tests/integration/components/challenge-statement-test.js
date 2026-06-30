@@ -754,6 +754,53 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         assert.strictEqual(findAll('.challenge-statement__file-option-label')[1].textContent.trim(), 'fichier .odt');
       });
 
+      test('should display attachments using the preferred formats first, then the others', async function (assert) {
+        // given
+        addChallengeToContext(this, {
+          attachments: ['https://dl.airtable.com/test.odp', 'https://dl.airtable.com/test.docx'],
+          hasAttachment: true,
+          hasSingleAttachment: false,
+          hasMultipleAttachments: true,
+          id: 'rec_challenge',
+        });
+        addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));
+
+        // when
+        await renderChallengeStatement(this);
+
+        // then
+        const labels = findAll('.challenge-statement__file-option-label');
+        assert.strictEqual(labels[0].textContent.trim(), 'fichier .docx');
+        assert.strictEqual(labels[1].textContent.trim(), 'fichier .odp');
+      });
+
+      test('should display the attachments ordered alphabetically in each group', async function (assert) {
+        // given
+        addChallengeToContext(this, {
+          attachments: [
+            'https://dl.airtable.com/test1.ods',
+            'https://dl.airtable.com/test2.odp',
+            'https://dl.airtable.com/test3.pptx',
+            'https://dl.airtable.com/test6.docx',
+          ],
+          hasAttachment: true,
+          hasSingleAttachment: false,
+          hasMultipleAttachments: true,
+          id: 'rec_challenge',
+        });
+        addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));
+
+        // when
+        await renderChallengeStatement(this);
+
+        // then
+        const labels = findAll('.challenge-statement__file-option-label');
+        assert.strictEqual(labels[0].textContent.trim(), 'fichier .docx');
+        assert.strictEqual(labels[1].textContent.trim(), 'fichier .pptx');
+        assert.strictEqual(labels[2].textContent.trim(), 'fichier .odp');
+        assert.strictEqual(labels[3].textContent.trim(), 'fichier .ods');
+      });
+
       test('should select first attachment as default selected radio button', async function (assert) {
         // given
         addChallengeToContext(this, challenge);
@@ -869,6 +916,27 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
       // then
       assert.dom('.challenge-embed-simulator').exists();
+    });
+
+    test('should pass the embed document url, title and height to the simulator', async function (assert) {
+      // given
+      addChallengeToContext(this, {
+        hasValidEmbedDocument: true,
+        embedUrl: 'https://challenge-embed.url',
+        embedTitle: 'Challenge embed document title',
+        embedHeight: 300,
+        id: 'rec_123',
+      });
+      addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));
+
+      // when
+      await renderChallengeStatement(this);
+
+      // then
+      const iframe = find('.embed__iframe');
+      assert.strictEqual(iframe.getAttribute('src'), 'https://challenge-embed.url');
+      assert.strictEqual(iframe.getAttribute('title'), 'Challenge embed document title');
+      assert.ok(iframe.getAttribute('style').includes('height: 300px'));
     });
 
     test('should not be displayed when the challenge does not have a valid Embed object', async function (assert) {

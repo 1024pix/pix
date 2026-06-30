@@ -58,7 +58,7 @@ class CampaignParticipation {
 /**
  * @class
  */
-class AssessmentCampaignParticipation extends CampaignParticipation {
+export class AssessmentCampaignParticipation extends CampaignParticipation {
   /**
    * @param {AssessmentCampaignParticipationArgs} args
    */
@@ -77,7 +77,7 @@ class AssessmentCampaignParticipation extends CampaignParticipation {
  * @property {number} pixScore
  */
 
-class ProfilesCollectionCampaignParticipation extends CampaignParticipation {
+export class ProfilesCollectionCampaignParticipation extends CampaignParticipation {
   /**
    * @param {ProfilesCollectionCampaignParticipationArgs} args
    */
@@ -88,7 +88,7 @@ class ProfilesCollectionCampaignParticipation extends CampaignParticipation {
   }
 }
 
-class Badge {
+export class Badge {
   constructor({ id, key, title, imageUrl, message, altMessage, isAcquired, acquisitionPercentage }) {
     this.id = id;
     this.key = key;
@@ -111,7 +111,7 @@ class Badge {
  * @property {number} reachedLevel
  *
  */
-class TubeCoverage {
+export class TubeCoverage {
   /**
    * @param {object} args
    * @param {string} args.id
@@ -132,11 +132,3 @@ class TubeCoverage {
     this.reachedLevel = reachedLevel;
   }
 }
-
-export {
-  AssessmentCampaignParticipation,
-  Badge,
-  CampaignParticipation,
-  ProfilesCollectionCampaignParticipation,
-  TubeCoverage,
-};

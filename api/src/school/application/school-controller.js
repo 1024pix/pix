@@ -1,6 +1,6 @@
-import * as divisionSerializer from '../../prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
+import { divisionSerializer } from '../../prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as schoolSerializer from '../infrastructure/serializers/school-serializer.js';
+import { schoolSerializer } from '../infrastructure/serializers/school-serializer.js';
 
 const getSchool = async function (request) {
   const { code } = request.query;

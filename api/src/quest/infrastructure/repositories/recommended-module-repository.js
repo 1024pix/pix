@@ -1,4 +1,4 @@
-import { RecommendedModule } from '../../domain/models/RecommendedModule.js';
+import { RecommendedModule } from '../../domain/models/combined-course-participations/value-objects/RecommendedModule.js';
 
 export const findIdsByTargetProfileIds = async ({ targetProfileIds, recommendedModulesApi }) => {
   const recommendedModules = await recommendedModulesApi.findByTargetProfileIds({ targetProfileIds });

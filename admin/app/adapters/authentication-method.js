@@ -13,7 +13,7 @@ export default class AuthenticationMethodAdapter extends ApplicationAdapter {
         },
       };
 
-      const url = `${this.host}/${this.namespace}/admin/users/${snapshot.adapterOptions.originUserId}/authentication-methods/${snapshot.id}`;
+      const url = `${this.host}/${this.namespace}/users/${snapshot.adapterOptions.originUserId}/authentication-methods/${snapshot.id}`;
 
       return this.ajax(url, 'POST', payload);
     }

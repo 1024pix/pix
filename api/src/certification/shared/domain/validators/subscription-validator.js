@@ -15,11 +15,9 @@ const subscriptionSchema = Joi.object({
   }),
 });
 
-function validate(subscription) {
+export function validate(subscription) {
   const { error } = subscriptionSchema.validate(subscription);
   if (error) {
     throw new TypeError(error);
   }
 }
-
-export { subscriptionSchema, validate };

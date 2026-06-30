@@ -70,7 +70,7 @@ async function get({ autonomousCourseId, campaignApi }) {
  * @returns {Promise<{autonomousCourses: Array<CampaignListItem>, meta: { page: number, pageSize: number, rowCount: number, pageCount: number} }>} returns a paginated list of autonomous courses
  */
 const findAllPaginated = async function ({ page, campaignApi }) {
-  const { models: autonomousCourses, meta } = await campaignApi.findAllForOrganization({
+  const { models: autonomousCourses, meta } = await campaignApi.findAllSummariesForOrganization({
     organizationId: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
     page,
   });

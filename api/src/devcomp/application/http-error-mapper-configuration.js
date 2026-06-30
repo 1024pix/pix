@@ -1,4 +1,8 @@
-import { HttpErrors } from '../../shared/application/errors/http-errors.js';
+import {
+  BadGatewayError,
+  PreconditionFailedError,
+  UnprocessableEntityError,
+} from '../../shared/application/errors/http-errors.js';
 import {
   ElementInstantiationError,
   ModuleDoesNotExistError,
@@ -11,31 +15,31 @@ const devcompDomainErrorMappingConfiguration = [
   {
     name: ModuleDoesNotExistError.name,
     httpErrorFn: (error) => {
-      return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
+      return new UnprocessableEntityError(error.message, error.code, error.meta);
     },
   },
   {
     name: ModuleInstantiationError.name,
     httpErrorFn: (error) => {
-      return new HttpErrors.BadGatewayError(error.message, error.code, error.meta);
+      return new BadGatewayError(error.message, error.code, error.meta);
     },
   },
   {
     name: ElementInstantiationError.name,
     httpErrorFn: (error) => {
-      return new HttpErrors.BadGatewayError(error.message, error.code, error.meta);
+      return new BadGatewayError(error.message, error.code, error.meta);
     },
   },
   {
     name: PassageDoesNotExistError.name,
     httpErrorFn: (error) => {
-      return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
+      return new UnprocessableEntityError(error.message, error.code, error.meta);
     },
   },
   {
     name: PassageTerminatedError.name,
     httpErrorFn: (error) => {
-      return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
+      return new PreconditionFailedError(error.message, error.code, error.meta);
     },
   },
 ];

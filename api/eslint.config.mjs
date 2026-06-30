@@ -51,22 +51,6 @@ export default defineConfig([
       'mocha/consistent-spacing-between-blocks': 'off',
     },
   },
-  {
-    files: ['tests/integration/**/*.js'],
-    rules: { 'n/no-restricted-import': ['error', ['@hapi/hapi']] },
-  },
-  {
-    files: ['tests/integration/application/**/*.js'],
-    rules: {
-      'n/no-restricted-import': [
-        'error',
-        [
-          { name: '../../../server', message: 'Please use http-server-test instead.' },
-          { name: '../../../../server', message: 'Please use http-server-test instead.' },
-        ],
-      ],
-    },
-  },
   // Overridden rules for "translations" files
   {
     files: ['translations/*.json'],
@@ -79,6 +63,12 @@ export default defineConfig([
       ...i18nJsonPlugin.configs.recommended.rules,
     },
   },
+  {
+    files: ['src/certification/configuration/**/*.{js,mjs}'],
+    rules: {
+      'func-style': ['error', 'declaration'],
+    },
+  },
   // Ignored files
-  globalIgnores(['tests/integration/tooling/db-schemalint.cjs']),
+  globalIgnores(['tests/tooling/db-schemalint.cjs']),
 ]);

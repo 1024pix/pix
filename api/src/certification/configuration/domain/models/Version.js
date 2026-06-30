@@ -1,12 +1,23 @@
 import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import {
+  DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
+  DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
+  DEFAULT_SESSION_DURATION_MINUTES,
+} from '../../../shared/domain/constants.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { SCOPES } from '../../../shared/domain/models/Scopes.js';
 
+export const VERSION_STATUSES = {
+  DRAFT: 'draft',
+  ACTIVE: 'active',
+  ARCHIVED: 'archived',
+};
+
 export class Version {
   static #schema = Joi.object({
-    id: Joi.number().optional(),
+    id: Joi.number().allow(null).optional(),
     scope: Joi.string()
       .required()
       .valid(...Object.values(SCOPES)),
@@ -18,6 +29,9 @@ export class Version {
     competencesScoringConfiguration: Joi.array().allow(null).optional(),
     challengesConfiguration: Joi.object().instance(FlashAssessmentAlgorithmConfiguration).required(),
     comments: Joi.string().allow(null).optional(),
+    status: Joi.string()
+      .required()
+      .valid(...Object.values(VERSION_STATUSES)),
   });
 
   /**
@@ -55,7 +69,14 @@ export class Version {
     this.competencesScoringConfiguration = competencesScoringConfiguration;
     this.challengesConfiguration = challengesConfiguration;
     this.comments = comments === '' ? null : comments;
+    this.status = this.#computeStatus();
     this.#validate();
+  }
+
+  #computeStatus() {
+    if (this.expirationDate) return VERSION_STATUSES.ARCHIVED;
+    if (this.startDate) return VERSION_STATUSES.ACTIVE;
+    return VERSION_STATUSES.DRAFT;
   }
 
   #validate() {
@@ -67,5 +88,40 @@ export class Version {
 
   update({ comments }) {
     this.comments = comments;
+  }
+
+  get isDraft() {
+    return this.status === VERSION_STATUSES.DRAFT;
+  }
+
+  get isActive() {
+    return this.status === VERSION_STATUSES.ACTIVE;
+  }
+
+  static buildFromVersion({ scope, version }) {
+    return new Version({
+      id: null,
+      scope,
+      startDate: null,
+      expirationDate: null,
+      assessmentDuration: version?.assessmentDuration ?? DEFAULT_SESSION_DURATION_MINUTES,
+      minimumAnswersRequiredToValidateACertification:
+        version?.minimumAnswersRequiredToValidateACertification ??
+        DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
+      challengesConfiguration: new FlashAssessmentAlgorithmConfiguration({
+        challengesBetweenSameCompetence: version?.challengesConfiguration?.challengesBetweenSameCompetence ?? 0,
+        maximumAssessmentLength: version?.challengesConfiguration?.maximumAssessmentLength ?? 32,
+        variationPercent: version?.challengesConfiguration?.variationPercent ?? 1,
+        defaultCandidateCapacity: version?.challengesConfiguration?.defaultCandidateCapacity ?? 0,
+        defaultProbabilityToPickChallenge:
+          version?.challengesConfiguration?.defaultProbabilityToPickChallenge ?? DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
+        limitToOneQuestionPerTube: version?.challengesConfiguration?.limitToOneQuestionPerTube ?? true,
+        enablePassageByAllCompetences: version?.challengesConfiguration?.enablePassageByAllCompetences ?? true,
+      }),
+      globalScoringConfiguration: version?.globalScoringConfiguration ?? [],
+      competencesScoringConfiguration: version?.competencesScoringConfiguration ?? [],
+      status: version?.status ?? VERSION_STATUSES.DRAFT,
+      comments: null,
+    });
   }
 }

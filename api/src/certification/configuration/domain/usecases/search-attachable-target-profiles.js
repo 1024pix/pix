@@ -8,8 +8,6 @@
  * @param {string} [params.searchTerm]
  * @param {AttachableTargetProfileRepository} params.attachableTargetProfileRepository
  */
-const searchAttachableTargetProfiles = async function ({ searchTerm, attachableTargetProfileRepository }) {
+export async function searchAttachableTargetProfiles({ searchTerm, attachableTargetProfileRepository }) {
   return attachableTargetProfileRepository.find({ searchTerm });
-};
-
-export { searchAttachableTargetProfiles };
+}

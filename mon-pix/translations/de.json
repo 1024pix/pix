@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 FRAGEN"
+            "strong-text": "{maximumAssessmentLength} FRAGEN"
           },
           "paragraphs": {
-            "1": "Der Zertifizierungstest besteht aus '<strong>'32 Fragen'</strong>'.",
+            "1": "Der Zertifizierungstest besteht aus '<strong>'{maximumAssessmentLength} Fragen'</strong>'.",
             "2": "Du hast maximal '<strong>'{duration}'</strong>' Zeit, um darauf zu antworten*.",
             "3": "*ohne eventuelle Zeitzuschläge",
-            "4": "Wenn du '<strong>'weniger als 20 Fragen bearbeitest, können wir dir keine Punktzahl ausstellen'</strong>'."
+            "4": "Wenn du '<strong>'weniger als {minimumAssessmentLength} Fragen bearbeitest, können wir dir keine Punktzahl ausstellen'</strong>'."
           },
           "title": "Wie läuft der Zertifizierungstest ab?"
         },
@@ -977,10 +977,11 @@
         "options": {
           "english": "Englisch - EN",
           "french": "Französisch - FR"
-        }
+        },
+        "warning-message": "Aufgrund eines technischen Problems ist die Pix-Zertifizierung vorübergehend nicht auf Englisch verfügbar. Wir entschuldigen uns für die Unannehmlichkeiten."
       },
       "link-to-user-certification": "Meine Zertifizierungen ansehen",
-      "non-eligible-subscription": "Du bist nicht für {complementarySubscriptionLabel} qualifiziert. Du aknnst dennoch deine Pix-Zertifizierung ablegen.",
+      "non-eligible-subscription": "Du bist nicht für {subscriptionLabel} qualifiziert. Du aknnst dennoch deine Pix-Zertifizierung ablegen.",
       "title": "An einer Zertifizierungstestung teilnehmen"
     },
     "certifications-list": {
@@ -1312,22 +1313,20 @@
       "rewards": {
         "in-progress": {
           "details": {
-            "text": "Je nach Ihrem Leistungsstand am Ende des Kurses kann eine Teilnahmebescheinigung ausgestellt werden.",
-            "title": "Schließe alle Kurse ab, um dein Zertifikat zu erhalten"
+            "title": "Schließen Sie Ihren Kurs ab, um Ihre Bescheinigung zu erhalten"
           },
           "status": "Steht noch aus"
         },
         "not-obtained": {
           "details": {
-            "text": "Leider lassen die auf den absolvierten Strecken erzielten Ergebnisse keine Bestätigung des Erwerbs Ihrer Bescheinigung zu",
-            "title": "Den Grund verstehen"
+            "title": "Leider haben Sie die Voraussetzungen für den Erhalt der Bescheinigung nicht erfüllt"
           },
           "status": "Nicht erhalten"
         },
         "obtained": {
           "details": {
-            "text": "Laden Sie Ihre Teilnahmebescheinigung herunter! Dieses Dokument finden Sie auch in Ihrem Pix-Konto.",
-            "title": "Wo findet man das?"
+            "text": "Sie können Ihre Bescheinigung jetzt herunterladen oder in Ihrem Pix-Konto finden.",
+            "title": "Sie haben Ihre Bescheinigung erhalten!"
           },
           "link": "Ich lade meine Bescheinigung herunter",
           "status": "Erhalten"
@@ -1912,6 +1911,7 @@
       },
       "verification-precondition-failed-alert": {
         "qcm": "Wähle zum Bestätigen mindestens zwei Antworten aus.",
+        "qcm-declarative": "Wähle zum Absenden mindestens eine Antwort aus.",
         "qcu": "Zum Bestätigen wähle eine Antwort aus.",
         "qrocm": "Fülle zum Bestätigen bitte alle Antwortfelder aus."
       }
@@ -2342,29 +2342,38 @@
       }
     },
     "terms-of-service": {
+      "actions": {
+        "accept": "Akzeptieren und fortfahren",
+        "decline": "Ablehnen und beenden",
+        "document-link": "Lesen Sie die Nutzungsbedingungen"
+      },
       "cgu": "Ich akzeptiere die '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'Nutzungsbedingungen für Pix'</a>'.",
       "form": {
         "button": "Fortfahren",
         "error-message": "Bitte akzeptiere die Nutzungsbedingungen von Pix."
       },
       "message": "Wir haben unsere Nutzungsbedingungen aktualisiert. Bitte akzeptiere sie, damit du deine Arbeit auf Pix fortsetzen kannst.",
-      "title": "Bedingungen für die Nutzung"
+      "requested": {
+        "message": "Um Pix weiterhin nutzen zu können, laden wir dich ein, unsere Allgemeinen Geschäftsbedingungen zu lesen und zu akzeptieren.",
+        "title": "Bitte akzeptieren Sie unsere Allgemeinen Geschäftsbedingungen (AGB)"
+      },
+      "title": "Bedingungen für die Nutzung",
+      "update-requested": {
+        "message": "Wir haben unsere AGB aktualisiert. Überprüfen Sie die Änderungen und akzeptieren Sie sie, um fortzufahren.",
+        "title": "Wichtige Aktualisierung der Allgemeinen Geschäftsbedingungen (AGB)"
+      }
     },
     "timed-challenge-instructions": {
       "action": "Start",
       "primary": "Du hast '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' zur Verfügung, um die nächste Frage zu bestehen.",
-      "secondary": "Du kannst danach weiter machen, aber die Frage gilt nicht als bestanden.",
-      "time": {
-        "and": " und",
-        "minutes": "{minutes, plural, =0 {} =1 {# Minute} other {# Minuten}}",
-        "seconds": "{seconds, plural, =0 {} =1 {# Sekunden} other {# Sekunden}}"
-      }
+      "secondary": "Du kannst danach weiter machen, aber die Frage gilt nicht als bestanden."
     },
     "training": {
       "editor": "Formativer Inhalt vorgeschlagen von",
       "type": {
         "autoformation": "Selbstständiger Lernpfad",
         "e-learning": "Fernunterricht",
+        "external-service": "Externer Dienst",
         "formation": "Ausbildung",
         "hybrid-training": "Hybride Ausbildung",
         "in-person-training": "Präsenzschulungen",
@@ -2406,6 +2415,18 @@
       "title": "Tutorial zur Kampagne"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "Audio",
+        "frise": "Zeitstrahl",
+        "image": "Bild",
+        "jeu": "Spiel",
+        "outil": "Tool",
+        "page": "Seite",
+        "pdf": "PDF",
+        "site": "Website",
+        "slide": "Diashow",
+        "video": "Video"
+      },
       "info": "Diese Links zu den Tutorials wurden von Pix-Nutzern vorgeschlagen.",
       "title": "Damit es beim nächsten Mal klappt"
     },

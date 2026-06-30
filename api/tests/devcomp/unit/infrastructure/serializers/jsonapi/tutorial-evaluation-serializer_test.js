@@ -1,5 +1,5 @@
 import { TutorialEvaluation } from '../../../../../../src/devcomp/domain/models/TutorialEvaluation.js';
-import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/tutorial-evaluation-serializer.js';
+import { tutorialEvaluationSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/tutorial-evaluation-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-evaluation-serializer', functio
           },
         };
         // when
-        const json = serializer.serialize(tutorialEvaluation);
+        const json = tutorialEvaluationSerializer.serialize(tutorialEvaluation);
 
         // then
         expect(json).to.be.deep.equal(expectedJsonTutorialEvaluation);
@@ -74,7 +74,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-evaluation-serializer', functio
           ],
         };
         // when
-        const json = serializer.serialize(tutorialEvaluation);
+        const json = tutorialEvaluationSerializer.serialize(tutorialEvaluation);
 
         // then
         expect(json).to.be.deep.equal(expectedJsonTutorialEvaluation);
@@ -99,7 +99,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-evaluation-serializer', functio
       };
 
       // when
-      const tutorialEvaluation = serializer.deserialize(jsonTutorialEvaluation);
+      const tutorialEvaluation = tutorialEvaluationSerializer.deserialize(jsonTutorialEvaluation);
 
       // then
       expect(tutorialEvaluation).to.be.instanceOf(TutorialEvaluation);

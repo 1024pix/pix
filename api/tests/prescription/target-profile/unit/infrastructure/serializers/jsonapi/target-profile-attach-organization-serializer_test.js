@@ -1,10 +1,10 @@
-import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
+import { targetProfileAttachOrganizationSerializer } from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-attach-organization-serializer', function () {
   describe('#serialize', function () {
     it('should convert a target profile attach organization object to JSON API data', function () {
-      const json = serializer.serialize({
+      const json = targetProfileAttachOrganizationSerializer.serialize({
         targetProfileId: 1,
         attachedIds: [1, 5],
         duplicatedIds: [8, 9],

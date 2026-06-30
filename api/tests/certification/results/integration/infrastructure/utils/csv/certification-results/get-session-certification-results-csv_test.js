@@ -1,3 +1,6 @@
+import sinon from 'sinon';
+
+import { SessionForResultsSharing } from '../../../../../../../../src/certification/results/domain/read-models/SessionForResultsSharing.js';
 import { getSessionCertificationResultsCsv } from '../../../../../../../../src/certification/results/infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { AlgorithmEngineVersion } from '../../../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -10,12 +13,18 @@ const i18n = getI18n();
 const translate = i18n.__;
 
 describe('Certification | Results | Integration | Infrastructure | Utils | certification-results | get-session-certification-results-csv', function () {
+  let sessionForResultsSharingRepository;
+
+  beforeEach(function () {
+    sessionForResultsSharingRepository = { get: sinon.stub() };
+  });
+
   context('#getSessionCertificationResultsCsv', function () {
     context('v2', function () {
       context('when no certification has passed complementary certifications', function () {
         it('should return correct csvContent without complementary certification informations', async function () {
           // given
-          const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
+          const sessionData = domainBuilder.certification.sessionManagement.buildSessionManagement({
             id: 777,
             certificationCenter: 'CentreCertif',
           });
@@ -47,7 +56,20 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           const certificationResults = [certifResult];
 
           // when
-          const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+          sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+            new SessionForResultsSharing({
+              id: sessionData.id,
+              date: sessionData.date,
+              time: sessionData.time,
+              certificationCenter: sessionData.certificationCenter,
+            }),
+          );
+          const result = await getSessionCertificationResultsCsv({
+            sessionId: sessionData.id,
+            certificationResults,
+            i18n,
+            sessionForResultsSharingRepository,
+          });
 
           // then
           const expectedFilename = '20210101_1430_resultats_session_777.csv';
@@ -62,7 +84,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           context('when the reason is insufficient correct answers', function () {
             it('should return correct csvContent with auto jury comment for organization', async function () {
               // given
-              const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
+              const sessionData = domainBuilder.certification.sessionManagement.buildSessionManagement({
                 id: 777,
                 certificationCenter: 'CentreCertif',
               });
@@ -91,7 +113,20 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
               const certificationResults = [certificationResult];
 
               // when
-              const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+              sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+                new SessionForResultsSharing({
+                  id: sessionData.id,
+                  date: sessionData.date,
+                  time: sessionData.time,
+                  certificationCenter: sessionData.certificationCenter,
+                }),
+              );
+              const result = await getSessionCertificationResultsCsv({
+                sessionId: sessionData.id,
+                certificationResults,
+                i18n,
+                sessionForResultsSharingRepository,
+              });
 
               // then
               const expectedFilename = '20210101_1430_resultats_session_777.csv';
@@ -107,7 +142,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
         context('when the reason is not enough answers', function () {
           it('should return correct csvContent with auto jury comment for organization', async function () {
             // given
-            const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
+            const sessionData = domainBuilder.certification.sessionManagement.buildSessionManagement({
               id: 777,
               certificationCenter: 'CentreCertif',
             });
@@ -136,7 +171,20 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
             const certificationResults = [automaticallyRejectedCertificationResult];
 
             // when
-            const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+            sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+              new SessionForResultsSharing({
+                id: sessionData.id,
+                date: sessionData.date,
+                time: sessionData.time,
+                certificationCenter: sessionData.certificationCenter,
+              }),
+            );
+            const result = await getSessionCertificationResultsCsv({
+              sessionId: sessionData.id,
+              certificationResults,
+              i18n,
+              sessionForResultsSharingRepository,
+            });
 
             // then
             const expectedFilename = '20210101_1430_resultats_session_777.csv';
@@ -152,7 +200,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
       context('when certification is cancelled', function () {
         it('should return correct csvContent with cancelled status and dashes as Pix scores', async function () {
           // given
-          const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
+          const sessionData = domainBuilder.certification.sessionManagement.buildSessionManagement({
             id: 777,
             certificationCenter: 'CentreCertif',
           });
@@ -181,7 +229,20 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           const certificationResults = [certifResult];
 
           // when
-          const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+          sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+            new SessionForResultsSharing({
+              id: sessionData.id,
+              date: sessionData.date,
+              time: sessionData.time,
+              certificationCenter: sessionData.certificationCenter,
+            }),
+          );
+          const result = await getSessionCertificationResultsCsv({
+            sessionId: sessionData.id,
+            certificationResults,
+            i18n,
+            sessionForResultsSharingRepository,
+          });
 
           // then
           const expectedFilename = '20210101_1430_resultats_session_777.csv';
@@ -196,7 +257,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
       context('when at least one certification course is in error', function () {
         it('should return correct csvContent with error status and dashes as Pix scores', async function () {
           // given
-          const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
+          const sessionData = domainBuilder.certification.sessionManagement.buildSessionManagement({
             id: 777,
             certificationCenter: 'CentreCertif',
           });
@@ -224,7 +285,20 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           const certificationResults = [certifResult];
 
           // when
-          const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+          sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+            new SessionForResultsSharing({
+              id: sessionData.id,
+              date: sessionData.date,
+              time: sessionData.time,
+              certificationCenter: sessionData.certificationCenter,
+            }),
+          );
+          const result = await getSessionCertificationResultsCsv({
+            sessionId: sessionData.id,
+            certificationResults,
+            i18n,
+            sessionForResultsSharingRepository,
+          });
 
           // then
           const expectedFilename = '20210101_1430_resultats_session_777.csv';
@@ -239,7 +313,7 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
       context('when there are several complementary certifications', function () {
         it('should return correct csvContent with complementary informations', async function () {
           // given
-          const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
+          const sessionData = domainBuilder.certification.sessionManagement.buildSessionManagement({
             id: 777,
             certificationCenter: 'CentreCertif',
           });
@@ -278,7 +352,20 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           const certificationResults = [certifResult];
 
           // when
-          const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+          sessionForResultsSharingRepository.get.withArgs(sessionData.id).resolves(
+            new SessionForResultsSharing({
+              id: sessionData.id,
+              date: sessionData.date,
+              time: sessionData.time,
+              certificationCenter: sessionData.certificationCenter,
+            }),
+          );
+          const result = await getSessionCertificationResultsCsv({
+            sessionId: sessionData.id,
+            certificationResults,
+            i18n,
+            sessionForResultsSharingRepository,
+          });
 
           // then
           const expectedFilename = '20210101_1430_resultats_session_777.csv';
@@ -301,6 +388,14 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
           time: '15:00:00',
           certificationCenter: 'Université des Pixous',
         });
+        sessionForResultsSharingRepository.get.withArgs(session.id).resolves(
+          new SessionForResultsSharing({
+            id: session.id,
+            date: session.date,
+            time: session.time,
+            certificationCenter: session.certificationCenter,
+          }),
+        );
         baseCertificationData = {
           id: 20,
           firstName: 'Buffy',
@@ -341,7 +436,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -369,7 +465,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -397,7 +494,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -436,7 +534,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
               // when
               const result = await getSessionCertificationResultsCsv({
-                session,
+                sessionId: session.id,
+                sessionForResultsSharingRepository,
                 certificationResults: [certificationResult],
                 i18n,
               });
@@ -476,7 +575,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -504,7 +604,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -535,7 +636,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -574,7 +676,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
               // when
               const result = await getSessionCertificationResultsCsv({
-                session,
+                sessionId: session.id,
+                sessionForResultsSharingRepository,
                 certificationResults: [certificationResult],
                 i18n,
               });
@@ -612,7 +715,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -635,7 +739,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -662,7 +767,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -690,7 +796,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
               // when
               const result = await getSessionCertificationResultsCsv({
-                session,
+                sessionId: session.id,
+                sessionForResultsSharingRepository,
                 certificationResults: [certificationResult],
                 i18n,
               });
@@ -728,7 +835,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -751,7 +859,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -774,7 +883,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
             // when
             const result = await getSessionCertificationResultsCsv({
-              session,
+              sessionId: session.id,
+              sessionForResultsSharingRepository,
               certificationResults: [certificationResult],
               i18n,
             });
@@ -803,7 +913,8 @@ describe('Certification | Results | Integration | Infrastructure | Utils | certi
 
               // when
               const result = await getSessionCertificationResultsCsv({
-                session,
+                sessionId: session.id,
+                sessionForResultsSharingRepository,
                 certificationResults: [certificationResult],
                 i18n,
               });

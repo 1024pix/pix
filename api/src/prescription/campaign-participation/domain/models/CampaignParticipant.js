@@ -4,7 +4,7 @@ import {
 } from '../../../../shared/domain/errors.js';
 import { EntityValidationError, ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
-import * as emailValidationService from '../../../../shared/domain/services/email-validation-service.js';
+import { validateEmailSyntax } from '../../../../shared/domain/services/email-validation-service.js';
 import { OrganizationLearner } from '../../../learner-management/domain/models/OrganizationLearner.js';
 import { CampaignExternalIdTypes, CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import { CampaignParticipation } from './CampaignParticipation.js';
@@ -148,7 +148,7 @@ class CampaignParticipant {
   #isTypeEmailInvalidExternalId(externalId) {
     return (
       this.campaignToStartParticipation.externalIdType === CampaignExternalIdTypes.EMAIL &&
-      !emailValidationService.validateEmailSyntax(externalId)
+      !validateEmailSyntax(externalId)
     );
   }
 }

@@ -27,7 +27,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
           capacity,
           reachedMeshIndex,
           versionId,
-          status: AssessmentResult.status.CANCELLED,
           competenceMarks,
           isRejectedForFraud: false,
           isAbortReasonTechnical: false,
@@ -36,7 +35,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
         });
 
         //then
-        expect(assessmentResult.status).to.equal(AssessmentResult.status.CANCELLED);
+        expect(assessmentResult.status).to.equal(AssessmentResult.status.CANCELLED_BY_JURY);
         expect(assessmentResult.pixScore).to.be.null;
         expect(assessmentResult.competenceMarks).to.deep.equal([]);
         expect(assessmentResult.capacity).to.be.null;
@@ -241,7 +240,37 @@ describe('Unit | Certification | Evaluation | Domain | Services | Create V3 Asse
             //then
             const juryComment = domainBuilder.certification.shared.buildJuryComment.candidate({
               commentByAutoJury: AutoJuryCommentKeys.REJECTED_EDU_NOT_ELIGIBLE,
-              translationParams: { scopeKey: 'EDU_1ER_DEGRE' },
+            });
+            expect(assessmentResult.status).to.equal(AssessmentResult.status.REJECTED);
+            expect(assessmentResult.commentForCandidate).to.deep.equal(juryComment);
+            expect(assessmentResult.pixScore).to.be.null;
+            expect(assessmentResult.reachedMeshIndex).to.be.null;
+          });
+        });
+
+        context('when the certification framework is a Pix+ (DROIT, PRO_SANTE)', function () {
+          it('should return a rejected AssessmentResult with the REJECTED_PIX_PLUS_NOT_OBTAINED auto-jury comment', function () {
+            //when
+            const assessmentResult = createV3AssessmentResult({
+              toBeCancelled: false,
+              allAnswers: answers,
+              assessmentId: 123,
+              pixScore: null,
+              capacity,
+              reachedMeshIndex: null,
+              versionId,
+              status: AssessmentResult.status.REJECTED,
+              competenceMarks,
+              isRejectedForFraud: false,
+              isAbortReasonTechnical: false,
+              juryId: 123,
+              minimumAnswersRequiredToValidateACertification,
+              certificationFramework: Frameworks.DROIT,
+            });
+
+            //then
+            const juryComment = domainBuilder.certification.shared.buildJuryComment.candidate({
+              commentByAutoJury: AutoJuryCommentKeys.REJECTED_PIX_PLUS_NOT_OBTAINED,
             });
             expect(assessmentResult.status).to.equal(AssessmentResult.status.REJECTED);
             expect(assessmentResult.commentForCandidate).to.deep.equal(juryComment);

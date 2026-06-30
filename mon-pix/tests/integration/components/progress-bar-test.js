@@ -41,6 +41,39 @@ module('Integration | Component | progress-bar', function (hooks) {
         // then
         assert.ok(screen.getByText('Question 3 / 5'));
         assert.dom('.progress-bar-container').exists();
+        // one step is rendered for each of the maxStepsNumber steps
+        assert.dom('.progress-bar-step').exists({ count: 5 });
+        // each step has a gradient background applied
+        document.querySelectorAll('.progress-bar-step').forEach((step) => {
+          assert.ok(step.getAttribute('style').startsWith('background:'));
+        });
+        // the progression width reflects the current step index (2 / 5)
+        assert.dom('.progress-bar-progression').hasAttribute('style', 'width: 50.85%;');
+      });
+
+      test('should display the initial progression width when on the first step', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+
+        const mockAssessment = store.createRecord('assessment', {
+          type: 'CAMPAIGN',
+          showChallengeStepper: true,
+          showGlobalProgression: false,
+          hasCheckpoints: true,
+          showQuestionCounter: true,
+        });
+        mockAssessment.answers = [];
+
+        this.set('assessment', mockAssessment);
+        this.set('currentChallengeNumber', 0);
+
+        // when
+        await render(
+          hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
+        );
+
+        // then
+        assert.dom('.progress-bar-progression').hasAttribute('style', 'width: 16px;');
       });
     });
     module('when should not show the question counter inside the progress bar', function () {

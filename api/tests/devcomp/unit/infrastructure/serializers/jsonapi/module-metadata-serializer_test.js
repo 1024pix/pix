@@ -1,5 +1,5 @@
 import { ModuleMetadata } from '../../../../../../src/devcomp/domain/models/module/ModuleMetadata.js';
-import * as moduleMetadataSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-metadata-serializer.js';
+import { moduleMetadataSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-metadata-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleMetadataSerializer', function () {

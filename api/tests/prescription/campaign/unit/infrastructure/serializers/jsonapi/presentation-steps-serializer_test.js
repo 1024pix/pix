@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/presentation-steps-serializer.js';
+import { presentationStepsSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/presentation-steps-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -29,7 +29,7 @@ describe('Unit | Serializer | JSONAPI | Campaign Presentation Steps Serializer',
       const presentationSteps = { customLandingPageText, competences, badges };
 
       // when
-      const json = serializer.serialize(presentationSteps);
+      const json = presentationStepsSerializer.serialize(presentationSteps);
 
       // then
       expect(json).to.deep.equal({

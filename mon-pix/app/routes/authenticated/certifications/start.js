@@ -6,10 +6,10 @@ export default class StartRoute extends Route {
   @service router;
 
   async model(params) {
-    const [certificationCandidate, certificationCandidateSubscription] = await Promise.all([
-      this.store.findRecord('certification-candidate', params.certification_candidate_id),
-      this.store.findRecord('certification-candidate-subscription', params.certification_candidate_id),
-    ]);
+    const certificationCandidate = await this.store.findRecord(
+      'certification-candidate',
+      params.certification_candidate_id,
+    );
 
     const hasSeenCertificationInstructions = certificationCandidate?.hasSeenCertificationInstructions;
 
@@ -17,6 +17,6 @@ export default class StartRoute extends Route {
       this.router.replaceWith('authenticated.certifications.information', params.certification_candidate_id);
     }
 
-    return { certificationCandidate, certificationCandidateSubscription };
+    return { certificationCandidate };
   }
 }

@@ -28,4 +28,4 @@ const serialize = function (verifiedCode) {
   }).serialize(verifiedCode);
 };
 
-export { serialize };
+export const verifiedCodeSerializer = { serialize };

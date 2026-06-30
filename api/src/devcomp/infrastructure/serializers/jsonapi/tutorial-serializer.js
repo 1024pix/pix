@@ -31,4 +31,4 @@ const serialize = function (tutorial = {}, pagination) {
   }).serialize(tutorial);
 };
 
-export { serialize };
+export const tutorialSerializer = { serialize };

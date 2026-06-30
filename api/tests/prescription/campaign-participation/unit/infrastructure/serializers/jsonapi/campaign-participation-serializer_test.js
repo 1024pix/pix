@@ -1,5 +1,5 @@
 import { CampaignParticipation } from '../../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
-import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
+import { campaignParticipationSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { expect } from '../../../../../../test-helper.js';
 
@@ -67,7 +67,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
 
     it('should convert a CampaignParticipation model object into JSON API data', function () {
       // when
-      const json = serializer.serialize(campaignParticipation);
+      const json = campaignParticipationSerializer.serialize(campaignParticipation);
 
       // then
       expect(json).to.deep.equal(expectedSerializedCampaignParticipation);
@@ -96,7 +96,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       };
 
       // when
-      const campaignParticipation = await serializer.deserialize(jsonAnswer);
+      const campaignParticipation = await campaignParticipationSerializer.deserialize(jsonAnswer);
 
       // then
       expect(campaignParticipation).to.be.instanceOf(CampaignParticipation);

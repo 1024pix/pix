@@ -34,8 +34,8 @@ const deserialize = function (payload) {
   };
 };
 
-export { deserialize, serialize };
-
 function _cleanValue(value) {
   return value?.replaceAll('\u0000', '');
 }
+
+export const activityAnswerSerializer = { deserialize, serialize };

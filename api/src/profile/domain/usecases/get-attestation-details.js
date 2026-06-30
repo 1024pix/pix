@@ -7,6 +7,11 @@ export async function getAttestationDetails({ profileRewards = [], rewardReposit
       rewardType: profileReward.rewardType,
     });
 
-    return new AttestationDetail({ id: profileReward.id, obtainedAt: profileReward.createdAt, type: reward.key });
+    return new AttestationDetail({
+      id: profileReward.id,
+      obtainedAt: profileReward.createdAt,
+      label: reward.label,
+      key: reward.key,
+    });
   });
 }

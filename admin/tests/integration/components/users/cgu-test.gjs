@@ -16,8 +16,8 @@ module('Integration | Component | cgu', function (hooks) {
   test('displays correct Terms of Service status for Pix App, Pix Orga and Pix Certif', async function (assert) {
     //Given
 
-    const cgu = true;
-    const lastTermsOfServiceValidatedAt = new Date('2021-12-10');
+    const pixAppTermsOfServiceAccepted = true;
+    const lastPixAppTermsOfServiceValidatedAt = new Date('2021-12-10');
     const pixOrgaTermsOfServiceAccepted = true;
     const lastPixOrgaTermsOfServiceValidatedAt = null;
     const pixCertifTermsOfServiceAccepted = false;
@@ -45,8 +45,8 @@ module('Integration | Component | cgu', function (hooks) {
     const screen = await render(
       <template>
         <Cgu
-          @lastTermsOfServiceValidatedAt={{lastTermsOfServiceValidatedAt}}
-          @cgu={{cgu}}
+          @lastPixAppTermsOfServiceValidatedAt={{lastPixAppTermsOfServiceValidatedAt}}
+          @pixAppTermsOfServiceAccepted={{pixAppTermsOfServiceAccepted}}
           @lastPixOrgaTermsOfServiceValidatedAt={{lastPixOrgaTermsOfServiceValidatedAt}}
           @pixOrgaTermsOfServiceAccepted={{pixOrgaTermsOfServiceAccepted}}
           @lastPixCertifTermsOfServiceValidatedAt={{lastPixCertifTermsOfServiceValidatedAt}}

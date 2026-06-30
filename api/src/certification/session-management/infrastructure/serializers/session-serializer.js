@@ -1,6 +1,5 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import isEmpty from '../../../../shared/infrastructure/utils/is-empty.js';
 import { SessionManagement } from '../../domain/models/SessionManagement.js';
 
 const { Serializer } = jsonapiSerializer;
@@ -51,10 +50,6 @@ export function deserialize(json) {
     hasJoiningIssue: attributes['has-joining-issue'],
     version: attributes['version'],
   });
-
-  if (isEmpty(result.examinerGlobalComment?.trim())) {
-    result.examinerGlobalComment = SessionManagement.NO_EXAMINER_GLOBAL_COMMENT;
-  }
 
   return result;
 }

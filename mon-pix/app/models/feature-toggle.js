@@ -8,4 +8,5 @@ export default class FeatureToggle extends Model {
   @attr('boolean') areCombinedCoursesEnabled;
   @attr('array') disabledLocalesInFrontend;
   @attr('boolean') isSessionLogoutEnabled;
+  @attr('boolean') isCertificationInEnglishEnabled;
 }

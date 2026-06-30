@@ -1,5 +1,5 @@
 import { User } from '../../../../../../src/identity-access-management/domain/models/User.js';
-import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-for-admin.serializer.js';
+import { userForAdminSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-for-admin.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Serializer | JSONAPI | user-for-admin', function () {
@@ -64,7 +64,7 @@ describe('Unit | Identity Access Management | Serializer | JSONAPI | user-for-ad
         };
 
         // when
-        const json = serializer.serialize(userModelObject);
+        const json = userForAdminSerializer.serialize(userModelObject);
 
         // then
         expect(json).to.be.deep.equal(expectedSerializedUser);

@@ -23,7 +23,9 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         const options = {
           method: 'GET',
           url: `/api/admin/combined-course-blueprints`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+          headers: generateAuthenticatedUserRequestHeaders({
+            userId: superAdmin.id,
+          }),
         };
 
         // when
@@ -40,7 +42,9 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
     context('when user is admin ', function () {
       it('should create a combined course blueprint', async function () {
         // given
-        const attestation = databaseBuilder.factory.buildAttestation({ key: ATTESTATIONS.SIXTH_GRADE });
+        const attestation = databaseBuilder.factory.buildAttestation({
+          key: ATTESTATIONS.SIXTH_GRADE,
+        });
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
         await databaseBuilder.commit();
 
@@ -55,13 +59,16 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
               'reward-id': attestation.id,
               'reward-type': 'ATTESTATION',
               content: [{ type: 'module', value: 'e67ec5d0', shortId: 'short-e67ec5d0' }],
+              'capped-tube-requirements': [{ threshold: 20, tubes: [{ tubeId: 'tube1', level: 5 }] }],
             },
           },
         };
         const options = {
           method: 'POST',
           url: `/api/admin/combined-course-blueprints`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+          headers: generateAuthenticatedUserRequestHeaders({
+            userId: superAdmin.id,
+          }),
           payload,
         };
 
@@ -86,7 +93,9 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         const options = {
           method: 'GET',
           url: `/api/admin/combined-course-blueprints/${combinedCourseBlueprint.id}`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+          headers: generateAuthenticatedUserRequestHeaders({
+            userId: superAdmin.id,
+          }),
         };
 
         // when
@@ -112,7 +121,9 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         const options = {
           method: 'DELETE',
           url: `/api/admin/combined-course-blueprints/${combinedCourseBlueprintId}/organizations/${organizationId}`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+          headers: generateAuthenticatedUserRequestHeaders({
+            userId: superAdmin.id,
+          }),
         };
 
         // when
@@ -153,7 +164,9 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         const options = {
           method: 'POST',
           url: `/api/admin/combined-course-blueprints/${combinedCourseBlueprintId}/organizations`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+          headers: generateAuthenticatedUserRequestHeaders({
+            userId: superAdmin.id,
+          }),
           payload,
         };
 
@@ -229,7 +242,9 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         const options = {
           method: 'PATCH',
           url: `/api/admin/combined-course-blueprints/${combinedCourseBlueprintId}`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+          headers: generateAuthenticatedUserRequestHeaders({
+            userId: superAdmin.id,
+          }),
           payload,
         };
 
@@ -239,6 +254,42 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         // then
         expect(response.statusCode).to.equal(204);
       });
+    });
+  });
+
+  describe('GET /api/organizations/{organizationId}/combined-course-blueprints/{blueprintId}', function () {
+    let user;
+    let organization;
+    let combinedCourseBlueprint;
+
+    beforeEach(async function () {
+      user = databaseBuilder.factory.buildUser({});
+      organization = databaseBuilder.factory.buildOrganization({});
+      databaseBuilder.factory.buildMembership({
+        userId: user.id,
+        organizationId: organization.id,
+      });
+      combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint();
+      databaseBuilder.factory.buildCombinedCourseBlueprintShare({
+        combinedCourseBlueprintId: combinedCourseBlueprint.id,
+        organizationId: organization.id,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return 200', async function () {
+      const options = {
+        method: 'GET',
+        url: `/api/organizations/${organization.id}/combined-course-blueprints/${combinedCourseBlueprint.id}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

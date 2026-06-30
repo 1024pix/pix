@@ -1,6 +1,6 @@
-import * as adminTargetProfileRoutes from './application/admin-target-profile-route.js';
-import * as targetargetProfileRoutes from './application/target-profile-route.js';
+import { adminTargetProfileRoute } from './application/admin-target-profile-route.js';
+import { targetProfileRoute } from './application/target-profile-route.js';
 
-const targetProfileRoutes = [adminTargetProfileRoutes, targetargetProfileRoutes];
+const targetProfileRoutes = [adminTargetProfileRoute, targetProfileRoute];
 
 export { targetProfileRoutes };

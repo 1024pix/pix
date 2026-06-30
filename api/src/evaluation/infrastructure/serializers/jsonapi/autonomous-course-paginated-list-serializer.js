@@ -9,4 +9,4 @@ const serialize = function (autonomousCourses, meta) {
   }).serialize(autonomousCourses);
 };
 
-export { serialize };
+export const autonomousCoursePaginatedListSerializer = { serialize };

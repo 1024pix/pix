@@ -1,8 +1,12 @@
 import { UserNotFoundError } from '../../../shared/domain/errors.js';
-import * as errorSerializer from '../../../shared/infrastructure/serializers/jsonapi/validation-error-serializer.js';
+import { validationErrorSerializer } from '../../../shared/infrastructure/serializers/jsonapi/validation-error-serializer.js';
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 
-const verifyById = function (request, h, dependencies = { userRepository, errorSerializer }) {
+const verifyById = function (
+  request,
+  h,
+  dependencies = { userRepository, errorSerializer: validationErrorSerializer },
+) {
   return dependencies.userRepository.get(request.params.id).catch((err) => {
     if (err instanceof UserNotFoundError) {
       const serializedError = dependencies.errorSerializer.serialize(new UserNotFoundError().getErrorMessage());

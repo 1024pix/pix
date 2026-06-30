@@ -2,9 +2,9 @@ import lodash from 'lodash';
 
 const { has } = lodash;
 
-import { AlreadyRegisteredEmailError } from '../../../../src/shared/domain/errors.js';
 import {
   AlreadyRegisteredEmailAndUsernameError,
+  AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
 } from '../../../../src/shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLoggingJob.js';

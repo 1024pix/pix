@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/badge-criterion-serializer.js';
+import { badgeCriterionSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/badge-criterion-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | badge-criterion-serializer', function () {
@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | badge-criterion-serializer', function ()
       };
 
       // when
-      const badgeCriterion = await serializer.deserialize(jsonTraining);
+      const badgeCriterion = await badgeCriterionSerializer.deserialize(jsonTraining);
 
       // then
       expect(badgeCriterion).to.deep.equal({

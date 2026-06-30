@@ -1,5 +1,5 @@
 import { TargetProfileForSpecifier } from '../../../../../../../src/prescription/target-profile/domain/read-models/TargetProfileForSpecifier.js';
-import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-for-specifier-serializer.js';
+import { targetProfileForSpecifierSerializer } from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-for-specifier-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-for-specifier-serializer', function () {
@@ -37,7 +37,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-specifier-serializer'
         meta,
       };
 
-      const serializedTargetProfile = serializer.serialize(targetProfile, meta);
+      const serializedTargetProfile = targetProfileForSpecifierSerializer.serialize(targetProfile, meta);
 
       return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile);
     });

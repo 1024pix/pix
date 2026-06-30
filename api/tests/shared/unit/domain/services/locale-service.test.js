@@ -1,11 +1,20 @@
-import * as localeService from '../../../../../src/shared/domain/services/locale-service.js';
+import {
+  fallbackChallengeLocales,
+  getBaseLocale,
+  getDefaultChallengeLocale,
+  getDefaultLocale,
+  getNearestChallengeLocale,
+  getNearestSupportedLocale,
+  getSupportedLanguages,
+  isFranceLocale,
+} from '../../../../../src/shared/domain/services/locale-service.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Service | Locale', function () {
   describe('getSupportedLanguages', function () {
     it('returns languages computed from the supported locales', function () {
       // when
-      const result = localeService.getSupportedLanguages();
+      const result = getSupportedLanguages();
 
       // then
       expect(result).to.deep.equal(['de', 'en', 'es', 'fr', 'nl', 'it']);
@@ -19,7 +28,7 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
         const name = 'fr-FR';
 
         // when
-        const locale = localeService.getNearestSupportedLocale(name);
+        const locale = getNearestSupportedLocale(name);
 
         // then
         expect(locale).to.equal('fr-FR');
@@ -32,7 +41,7 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
         const name = 'fr-fr';
 
         // when
-        const locale = localeService.getNearestSupportedLocale(name);
+        const locale = getNearestSupportedLocale(name);
 
         // then
         expect(locale).to.equal('fr-FR');
@@ -45,7 +54,7 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
         const name = 'fr-CA';
 
         // when
-        const locale = localeService.getNearestSupportedLocale(name);
+        const locale = getNearestSupportedLocale(name);
 
         // then
         expect(locale).to.equal('fr');
@@ -58,7 +67,7 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
         const name = 'br_FR';
 
         // when
-        const locale = localeService.getNearestSupportedLocale(name);
+        const locale = getNearestSupportedLocale(name);
 
         // then
         expect(locale).to.equal('fr');
@@ -71,7 +80,7 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
         const name = 'anInvalidLocaleName';
 
         // when
-        const locale = localeService.getNearestSupportedLocale(name);
+        const locale = getNearestSupportedLocale(name);
 
         // then
         expect(locale).to.equal('fr');
@@ -89,7 +98,7 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
       ].forEach(({ locale, expectedBaseLocale }) => {
         it(`returns the corresponding base locale ${expectedBaseLocale} for ${locale}`, function () {
           // given / when
-          const baseLocale = localeService.getBaseLocale(locale);
+          const baseLocale = getBaseLocale(locale);
 
           // then
           expect(baseLocale).to.equal(expectedBaseLocale);
@@ -101,10 +110,10 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
       ['fr_FR', 'yo-yo-yo', null].forEach((invalidLocale) => {
         it(`returns the default base locale for ${invalidLocale}`, function () {
           // given / when
-          const baseLocale = localeService.getBaseLocale(invalidLocale);
+          const baseLocale = getBaseLocale(invalidLocale);
 
           // then
-          const defaultBaseLocale = new Intl.Locale(localeService.getDefaultLocale()).language;
+          const defaultBaseLocale = new Intl.Locale(getDefaultLocale()).language;
           expect(baseLocale).to.equal(defaultBaseLocale);
         });
       });
@@ -116,10 +125,10 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
       ['fr-fr', 'fr-FR'].forEach((franceLocale) => {
         it(`returns true for ${franceLocale}`, function () {
           // given / when
-          const isFranceLocale = localeService.isFranceLocale(franceLocale);
+          const result = isFranceLocale(franceLocale);
 
           // then
-          expect(isFranceLocale).to.be.true;
+          expect(result).to.be.true;
         });
       });
     });
@@ -128,10 +137,10 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
       ['fr', 'en', 'en-GB', null].forEach((franceLocale) => {
         it(`returns true for ${franceLocale}`, function () {
           // given / when
-          const isFranceLocale = localeService.isFranceLocale(franceLocale);
+          const result = isFranceLocale(franceLocale);
 
           // then
-          expect(isFranceLocale).to.be.false;
+          expect(result).to.be.false;
         });
       });
     });
@@ -144,10 +153,10 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
         const locale = null;
 
         // when
-        const challengeLocale = localeService.getNearestChallengeLocale(locale);
+        const challengeLocale = getNearestChallengeLocale(locale);
 
         // then
-        expect(challengeLocale).to.equal(localeService.getDefaultChallengeLocale());
+        expect(challengeLocale).to.equal(getDefaultChallengeLocale());
       });
     });
 
@@ -163,7 +172,7 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
       ].forEach(({ locale, expectedChallengeLocale }) => {
         it(`returns the challenge locale: ${expectedChallengeLocale} for locale: ${locale}`, function () {
           // when
-          const challengeLocale = localeService.getNearestChallengeLocale(locale);
+          const challengeLocale = getNearestChallengeLocale(locale);
 
           // then
           expect(challengeLocale).to.equal(expectedChallengeLocale);
@@ -178,7 +187,7 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
       const locale = 'fr';
 
       // when
-      const result = localeService.fallbackChallengeLocales(locale);
+      const result = fallbackChallengeLocales(locale);
 
       // then
       expect(result).to.deep.equal(['fr']);
@@ -189,7 +198,7 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
       const locale = 'fr-FR';
 
       // when
-      const result = localeService.fallbackChallengeLocales(locale);
+      const result = fallbackChallengeLocales(locale);
 
       // then
       expect(result).to.deep.equal(['fr-FR', 'fr']);

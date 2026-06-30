@@ -1,7 +1,7 @@
-export const STAGE_ACQUISITIONS_TABLE_NAME = 'stage-acquisitions';
-export const USER_ID_COLUMN = 'userId';
-export const STAGE_ID_COLUMN = 'stageId';
-export const CAMPAIGN_PARTICIPATION_ID_COLUMN = 'campaignParticipationId';
+const STAGE_ACQUISITIONS_TABLE_NAME = 'stage-acquisitions';
+const USER_ID_COLUMN = 'userId';
+const STAGE_ID_COLUMN = 'stageId';
+const CAMPAIGN_PARTICIPATION_ID_COLUMN = 'campaignParticipationId';
 
 const up = async function (knex) {
   await knex.schema.createTable(STAGE_ACQUISITIONS_TABLE_NAME, function (table) {

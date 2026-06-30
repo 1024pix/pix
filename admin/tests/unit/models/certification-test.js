@@ -290,6 +290,40 @@ module('Unit | Model | certification', function (hooks) {
     });
   });
 
+  module('#isCertificationCancelled', function () {
+    test('it should return true when status is cancelled', function (assert) {
+      // given
+      const certification = store.createRecord('certification', {
+        status: assessmentResultStatus.CANCELLED,
+      });
+
+      // then
+      assert.true(certification.isCertificationCancelled);
+    });
+
+    test('it should return true when status is cancelled_by_jury', function (assert) {
+      // given
+      const certification = store.createRecord('certification', {
+        status: assessmentResultStatus.CANCELLED_BY_JURY,
+      });
+
+      // then
+      assert.true(certification.isCertificationCancelled);
+    });
+
+    [assessmentResultStatus.VALIDATED, assessmentResultStatus.REJECTED, assessmentResultStatus.ERROR].forEach(
+      (status) => {
+        test(`it should return false when status is ${status}`, function (assert) {
+          // given
+          const certification = store.createRecord('certification', { status });
+
+          // then
+          assert.false(certification.isCertificationCancelled);
+        });
+      },
+    );
+  });
+
   module('#wasBornInFrance', function () {
     test('it should return true when candidate was born in France', function (assert) {
       // given

@@ -1,7 +1,7 @@
 import { usecases } from '../domain/usecases/index.js';
 import * as complementaryCertificationBadgeSerializer from '../infrastructure/serializers/complementary-certification-badge-serializer.js';
 
-const attachTargetProfile = async function (request, h, dependencies = { complementaryCertificationBadgeSerializer }) {
+async function attachTargetProfile(request, h, dependencies = { complementaryCertificationBadgeSerializer }) {
   const { userId } = request.auth.credentials;
   const { complementaryCertificationId } = request.params;
   const { targetProfileId, notifyOrganizations, complementaryCertificationBadges } =
@@ -25,9 +25,8 @@ const attachTargetProfile = async function (request, h, dependencies = { complem
   }
 
   return h.response().code(204);
-};
+}
 
-const attachTargetProfileController = {
+export const attachTargetProfileController = {
   attachTargetProfile,
 };
-export { attachTargetProfileController };

@@ -8,4 +8,4 @@ const serialize = function (progression) {
   }).serialize(progression);
 };
 
-export { serialize };
+export const progressionSerializer = { serialize };

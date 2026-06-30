@@ -45,6 +45,21 @@ class FakePgBoss {
 }
 
 describe('Unit | JobClient', function () {
+  context('#initialize', function () {
+    it('registers an error listener on the client instance to prevent process crash', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      sinon.stub(pgBossStub, 'on');
+
+      // when
+      const jobClient = new JobClient();
+      await jobClient.initialize({ jobGroups: [JobGroup.DEFAULT], worker: false }, () => pgBossStub);
+
+      // then
+      expect(pgBossStub.on).to.have.been.calledWith('error');
+    });
+  });
+
   context('#registerJobs', function () {
     it('should register AuditLoggingJob', async function () {
       // given

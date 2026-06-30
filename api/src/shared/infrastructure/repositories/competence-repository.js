@@ -46,13 +46,6 @@ export async function findByRecordIds({ competenceIds, locale }) {
     .map((competenceDto) => toDomain({ competenceDto, locale }));
 }
 
-export async function findByAreaId({ areaId, locale }) {
-  const cacheKey = `findByAreaId({ areaId: ${areaId}, locale: ${locale} })`;
-  const findByAreaIdCallback = (knex) => knex.where('areaId', areaId).orderBy('id');
-  const competenceDtos = await getInstance().find(cacheKey, findByAreaIdCallback);
-  return competenceDtos.map((competenceDto) => toDomain({ competenceDto, locale }));
-}
-
 export function clearCache(id) {
   return getInstance().clearCache(id);
 }

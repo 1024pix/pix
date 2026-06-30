@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/passage-event-serializer.js';
+import { passageEventSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/passage-event-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | PassageEventSerializer', function () {
@@ -29,7 +29,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | PassageEvent
       };
 
       // when
-      const results = await serializer.deserialize(json);
+      const results = await passageEventSerializer.deserialize(json);
 
       // then
       expect(results).to.deep.equal([

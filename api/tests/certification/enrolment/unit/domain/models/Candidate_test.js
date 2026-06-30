@@ -1,6 +1,6 @@
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
+import { BILLING_MODES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
-import { CertificationCandidate } from '../../../../../../src/certification/shared/domain/models/CertificationCandidate.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CertificationCandidatesError } from '../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
@@ -40,7 +40,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       organizationLearnerId: 999,
       authorizedToStart: false,
       complementaryCertificationId: null,
-      billingMode: CertificationCandidate.BILLING_MODES.FREE,
+      billingMode: BILLING_MODES.FREE,
       prepaymentCode: null,
       hasSeenCertificationInstructions: false,
     };
@@ -469,7 +469,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
           const candidate = domainBuilder.certification.enrolment.buildCandidate({
             ...candidateData,
             billingMode,
-            prepaymentCode: billingMode === CertificationCandidate.BILLING_MODES.PREPAID ? '12345' : undefined,
+            prepaymentCode: billingMode === BILLING_MODES.PREPAID ? '12345' : undefined,
           });
 
           // when
@@ -741,8 +741,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
                 ...candidateData,
                 billingMode,
               });
-              candidate.prepaymentCode =
-                billingMode === CertificationCandidate.BILLING_MODES.PREPAID ? '12345' : undefined;
+              candidate.prepaymentCode = billingMode === BILLING_MODES.PREPAID ? '12345' : undefined;
 
               // when
               const report = candidate.validateForMassSessionImport();

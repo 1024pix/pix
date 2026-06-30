@@ -11,7 +11,7 @@ import Steps from 'mon-pix/components/certification-instructions/steps';
       <h1 class="instructions-header__title">{{t "pages.certification-instructions.title"}}</h1>
     </header>
     <PixBlock @shadow="heavy" class="instructions-step">
-      <Steps @candidate={{@controller.model}} />
+      <Steps @candidate={{@model.certificationCandidate}} @certificationInfo={{@model.certificationInfo}} />
     </PixBlock>
   </main>
 </template>

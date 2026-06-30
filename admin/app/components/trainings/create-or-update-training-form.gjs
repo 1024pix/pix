@@ -2,7 +2,9 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
+import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import PixTextArea from '@1024pix/pix-ui/components/pix-textarea';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -14,7 +16,7 @@ import { eq } from 'ember-truth-helpers';
 import set from 'lodash/set';
 import ENV from 'pix-admin/config/environment';
 
-import { optionsLocaleList, optionsTypeList } from '../../models/training';
+import { optionsLocaleList, optionsModeList, optionsTypeList } from '../../models/training';
 import Card from '../card';
 
 class Form {
@@ -31,8 +33,28 @@ class Form {
   @tracked editorLogoUrl;
   @tracked editorName;
   @tracked isDisabled;
+  @tracked deliveryMode;
+  @tracked registrationRequired;
+  @tracked description;
+  @tracked objectives;
+  @tracked program;
 
-  constructor({ title, internalTitle, link, type, duration, locales, editorLogoUrl, editorName, isDisabled } = {}) {
+  constructor({
+    title,
+    internalTitle,
+    link,
+    type,
+    duration,
+    locales,
+    editorLogoUrl,
+    editorName,
+    isDisabled,
+    deliveryMode,
+    registrationRequired,
+    description,
+    objectives,
+    program,
+  } = {}) {
     this.title = title || null;
     this.internalTitle = internalTitle || null;
     this.link = link || null;
@@ -42,6 +64,11 @@ class Form {
     this.editorLogoUrl = editorLogoUrl || null;
     this.editorName = editorName || null;
     this.isDisabled = isDisabled || false;
+    this.deliveryMode = deliveryMode || null;
+    this.registrationRequired = registrationRequired || false;
+    this.description = description || null;
+    this.objectives = objectives ? objectives.split(';').join(';\n') : null;
+    this.program = program || null;
   }
 }
 
@@ -59,6 +86,7 @@ export default class CreateOrUpdateTrainingForm extends Component {
     super(...arguments);
     this.optionsTypeList = optionsTypeList;
     this.optionsLocaleList = optionsLocaleList;
+    this.optionsModeList = optionsModeList;
     this.form = new Form(this.args.model);
     this.loadModules();
   }
@@ -85,6 +113,11 @@ export default class CreateOrUpdateTrainingForm extends Component {
   @action
   toggleIsDisabled() {
     set(this.form, 'isDisabled', !this.form.isDisabled);
+  }
+
+  @action
+  toggleRegistrationRequired() {
+    this.form.registrationRequired = !this.form.registrationRequired;
   }
 
   @action
@@ -115,7 +148,6 @@ export default class CreateOrUpdateTrainingForm extends Component {
   @action
   async onSubmit(event) {
     event.preventDefault();
-
     const training = {
       title: this.form.title,
       internalTitle: this.form.internalTitle,
@@ -126,6 +158,11 @@ export default class CreateOrUpdateTrainingForm extends Component {
       editorName: this.form.editorName,
       isDisabled: this.form.isDisabled,
       editorLogoUrl: this.form.editorLogoUrl,
+      deliveryMode: this.form.deliveryMode,
+      registrationRequired: this.form.registrationRequired,
+      description: this.form.description,
+      objectives: this.form.objectives,
+      program: this.form.program,
     };
 
     try {
@@ -285,6 +322,49 @@ export default class CreateOrUpdateTrainingForm extends Component {
               <:label>Mettre en pause</:label>
             </PixCheckbox>
           {{/if}}
+        </Card>
+        <Card class="admin-form__card" @title={{t "pages.trainings.training.form.recommendation-engine.card-title"}}>
+          <PixSelect
+            @placeholder={{t "pages.trainings.training.form.recommendation-engine.delivery-mode.placeholder"}}
+            @value={{this.form.deliveryMode}}
+            @options={{this.optionsModeList}}
+            @onChange={{fn this.updateSelect "deliveryMode"}}
+          >
+            <:label>{{t "pages.trainings.training.form.recommendation-engine.delivery-mode.label"}}</:label>
+          </PixSelect>
+          <PixSegmentedControl
+            @toggled={{this.form.registrationRequired}}
+            @onChange={{this.toggleRegistrationRequired}}
+          >
+            <:label>{{t "pages.trainings.training.form.recommendation-engine.registration-required.label"}}</:label>
+            <:viewA>{{t "common.words.no"}}</:viewA>
+            <:viewB>{{t "common.words.yes"}}</:viewB>
+          </PixSegmentedControl>
+          <PixTextArea
+            @id="trainingDescription"
+            rows="4"
+            value={{this.form.description}}
+            {{on "change" (fn this.updateForm "description")}}
+          >
+            <:label>{{t "pages.trainings.training.form.recommendation-engine.description.label"}}</:label>
+          </PixTextArea>
+          <PixTextArea
+            @id="trainingObjectives"
+            @subLabel={{t "pages.trainings.training.form.recommendation-engine.objectives.sub-label"}}
+            rows="6"
+            value={{this.form.objectives}}
+            {{on "change" (fn this.updateForm "objectives")}}
+          >
+            <:label>{{t "pages.trainings.training.form.recommendation-engine.objectives.label"}}</:label>
+          </PixTextArea>
+          <PixTextArea
+            @id="trainingProgram"
+            rows="6"
+            value={{this.form.program}}
+            {{on "change" (fn this.updateForm "program")}}
+          >
+            <:label>{{t "pages.trainings.training.form.recommendation-engine.program.label"}}</:label>
+          </PixTextArea>
         </Card>
       </section>
       <section class="admin-form__actions">

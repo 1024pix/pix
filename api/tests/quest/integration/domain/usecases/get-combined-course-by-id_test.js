@@ -1,5 +1,5 @@
+import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseDetails } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js';
-import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';

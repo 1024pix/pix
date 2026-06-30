@@ -83,5 +83,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'prescription/campaign/campaign-stats-api';
-export { name, register };
+export const campaignStatsRoute = { name: 'prescription/campaign/campaign-stats-api', register };

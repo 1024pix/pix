@@ -68,6 +68,13 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
             { bounds: { max: -4, min: -8 }, meshLevel: 0 },
             { bounds: { max: 8, min: -4 }, meshLevel: 1 },
           ],
+          competencesScoringConfiguration: [
+            {
+              competence: '1.1',
+              competenceId: 'recCompetence0',
+              values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+            },
+          ],
           minimumAnswersRequiredToValidateACertification: 1,
         });
 
@@ -207,6 +214,13 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
           globalScoringConfiguration: [
             { bounds: { max: -4, min: -8 }, meshLevel: 0 },
             { bounds: { max: 8, min: -4 }, meshLevel: 1 },
+          ],
+          competencesScoringConfiguration: [
+            {
+              competence: '1.1',
+              competenceId: 'recCompetence0',
+              values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+            },
           ],
           minimumAnswersRequiredToValidateACertification: 1,
         });

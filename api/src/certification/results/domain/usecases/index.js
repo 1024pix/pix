@@ -2,7 +2,6 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as sessionEnrolmentRepository from '../../../enrolment/infrastructure/repositories/session-repository.js';
 import * as sharedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
-import * as sharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificateSummaryRepository from '../../infrastructure/repositories/certificate-summary-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
@@ -11,42 +10,10 @@ import * as certificationParcoursupRepository from '../../infrastructure/reposit
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
+import * as resultRecipientRepository from '../../infrastructure/repositories/result-recipient-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
-
-/**
- * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
- *
- * @typedef {certificationResultRepository} CertificationResultRepository
- * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
- * @typedef {certificationCourseRepository} CertificationCourseRepository
- * @typedef {sharedCertificationCourseRepository} SharedCertificationCourseRepository
- * @typedef {certificateRepository} CertificateRepository
- * @typedef {certificationParcoursupRepository} CertificationParcoursupRepository
- * @typedef {certificationReportRepository} CertificationReportRepository
- * @typedef {cleaCertifiedCandidateRepository} CleaCertifiedCandidateRepository
- * @typedef {sessionEnrolmentRepository} SessionEnrolmentRepository
- * @typedef {sharedSessionRepository} SharedSessionRepository
- * @typedef {certificationLivretScolaireRepository} CertificationLivretScolaireRepository
- * @typedef {competenceTreeRepository} CompetenceTreeRepository
- * @typedef {certificateSummaryRepository} CertificateSummaryRepository
- **/
-
-const dependencies = {
-  certificationCourseRepository,
-  sharedCertificationCourseRepository,
-  certificationResultRepository,
-  scoCertificationCandidateRepository,
-  certificateRepository,
-  certificationParcoursupRepository,
-  certificationReportRepository,
-  cleaCertifiedCandidateRepository,
-  sessionEnrolmentRepository,
-  sharedSessionRepository,
-  competenceTreeRepository,
-  certificationLivretScolaireRepository,
-  certificateSummaryRepository,
-};
-
+import * as sessionForResultsSharingRepository from '../../infrastructure/repositories/session-for-results-sharing-repository.js';
+import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { findCertificatesForDivision } from './find-certificates-for-division.js';
 import { findCertificationAttestationsForDivision } from './find-certification-attestations-for-division.js';
 import { findUserCertificateSummaries } from './find-user-certificate-summaries.js';
@@ -65,6 +32,41 @@ import { getSessionResults } from './get-session-results.js';
 import { getSessionResultsByResultRecipientEmail } from './get-session-results-by-result-recipient-email.js';
 import { getShareableCertificate } from './get-shareable-certificate.js';
 
+/**
+ * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
+ *
+ * @typedef {certificationResultRepository} CertificationResultRepository
+ * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
+ * @typedef {certificationCourseRepository} CertificationCourseRepository
+ * @typedef {sharedCertificationCourseRepository} SharedCertificationCourseRepository
+ * @typedef {certificateRepository} CertificateRepository
+ * @typedef {certificationParcoursupRepository} CertificationParcoursupRepository
+ * @typedef {certificationReportRepository} CertificationReportRepository
+ * @typedef {cleaCertifiedCandidateRepository} CleaCertifiedCandidateRepository
+ * @typedef {sessionEnrolmentRepository} SessionEnrolmentRepository
+ * @typedef {resultRecipientRepository} resultRecipientRepository
+ * @typedef {certificationLivretScolaireRepository} CertificationLivretScolaireRepository
+ * @typedef {competenceTreeRepository} CompetenceTreeRepository
+ * @typedef {certificateSummaryRepository} CertificateSummaryRepository
+ **/
+
+const dependencies = {
+  certificationCourseRepository,
+  sharedCertificationCourseRepository,
+  certificationResultRepository,
+  scoCertificationCandidateRepository,
+  certificateRepository,
+  certificationParcoursupRepository,
+  certificationReportRepository,
+  cleaCertifiedCandidateRepository,
+  sessionEnrolmentRepository,
+  resultRecipientRepository,
+  sessionForResultsSharingRepository,
+  competenceTreeRepository,
+  certificationLivretScolaireRepository,
+  certificateSummaryRepository,
+};
+
 const usecasesWithoutInjectedDependencies = {
   findCertificatesForDivision,
   findCertificationAttestationsForDivision,
@@ -80,6 +82,7 @@ const usecasesWithoutInjectedDependencies = {
   getPrivateCertificate,
   getScoCertificationResultsByDivision,
   getSessionCertificationReports,
+  getSessionCertificationResultsCsv,
   getSessionResultsByResultRecipientEmail,
   getSessionResults,
   getShareableCertificate,

@@ -1,10 +1,12 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import { stubSessionService } from '../../../helpers/service-stubs.js';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | authentication | oidc-signup-or-login', function (hooks) {
@@ -137,6 +139,339 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
       assert.ok(screen.getByRole('textbox', { name: t('pages.oidc-signup-or-login.login-form.email') }));
       assert.ok(screen.getByRole('link', { name: t('pages.sign-in.forgotten-password') }));
       assert.ok(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.login-form.button') }));
+    });
+  });
+
+  module('when registering', function () {
+    module('when terms of service are accepted and registration succeeds', function () {
+      test('creates a session through the OIDC authenticator', async function (assert) {
+        // given
+        const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
+        this.set('authenticationKey', 'super-key');
+
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @authenticationKey={{this.authenticationKey}}
+  @userClaims={{this.userClaims}}
+/>`,
+        );
+
+        // when
+        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
+
+        // then
+        sinon.assert.calledWith(sessionService.authenticate, 'authenticator:oidc', {
+          authenticationKey: 'super-key',
+          identityProviderSlug: 'oidc-partner',
+          hostSlug: 'users',
+        });
+        assert.ok(true);
+      });
+    });
+
+    module('when terms of service are not accepted', function () {
+      test('displays an error and does not create a session', async function (assert) {
+        // given
+        const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
+
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @authenticationKey={{this.authenticationKey}}
+  @userClaims={{this.userClaims}}
+/>`,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
+
+        // then
+        assert.ok(await screen.findByText(t('pages.oidc-signup-or-login.error.error-message')));
+        sinon.assert.notCalled(sessionService.authenticate);
+      });
+    });
+
+    module('when authentication key has expired', function () {
+      test('displays an error', async function (assert) {
+        // given
+        const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
+        sessionService.authenticate.rejects({ errors: [{ status: '401', code: 'EXPIRED_AUTHENTICATION_KEY' }] });
+
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @authenticationKey={{this.authenticationKey}}
+  @userClaims={{this.userClaims}}
+/>`,
+        );
+
+        // when
+        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
+
+        // then
+        assert.ok(await screen.findByText(t('pages.oidc-signup-or-login.error.expired-authentication-key')));
+      });
+    });
+
+    module('when user account is temporarily blocked', function () {
+      test('displays an error', async function (assert) {
+        // given
+        const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
+        sessionService.authenticate.rejects({
+          errors: [{ status: '403', code: 'USER_IS_TEMPORARY_BLOCKED', meta: { blockingDurationMs: 60000 } }],
+        });
+
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @authenticationKey={{this.authenticationKey}}
+  @userClaims={{this.userClaims}}
+/>`,
+        );
+
+        // when
+        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
+
+        // then
+        assert.ok(
+          await screen.findByText(/votre compte Pix est bloqué temporairement pendant 1 minutes/, { exact: false }),
+        );
+      });
+    });
+
+    module('when user account is blocked', function () {
+      test('displays an error', async function (assert) {
+        // given
+        const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
+        sessionService.authenticate.rejects({ errors: [{ status: '403', code: 'USER_IS_BLOCKED' }] });
+
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @authenticationKey={{this.authenticationKey}}
+  @userClaims={{this.userClaims}}
+/>`,
+        );
+
+        // when
+        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
+
+        // then
+        assert.ok(await screen.findByText(/Votre compte est bloqué/, { exact: false }));
+      });
+    });
+
+    module('when an unexpected error occurs', function () {
+      test('displays a default error message without the error details', async function (assert) {
+        // given
+        const sessionService = stubSessionService(this.owner, { isAuthenticated: false });
+        sessionService.authenticate.rejects({ errors: [{ status: '500', detail: 'some detail' }] });
+
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @authenticationKey={{this.authenticationKey}}
+  @userClaims={{this.userClaims}}
+/>`,
+        );
+
+        // when
+        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
+
+        // then
+        assert.ok(await screen.findByText(/Impossible de se connecter/, { exact: false }));
+        assert.notOk(screen.queryByText('some detail'));
+      });
+    });
+  });
+
+  module('when validating the login email', function () {
+    test('trims the email value', async function (assert) {
+      // given
+      const onLogin = sinon.stub().resolves();
+      this.set('onLogin', onLogin);
+
+      const screen = await render(
+        hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @userClaims={{null}}
+  @onLogin={{this.onLogin}}
+/>`,
+      );
+
+      // when
+      await fillIn(
+        screen.getByRole('textbox', { name: t('pages.oidc-signup-or-login.login-form.email') }),
+        '   glace@aleau.net   ',
+      );
+      await fillIn(screen.getByLabelText(t('pages.oidc-signup-or-login.login-form.password')), 'pix123');
+      await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.login-form.button') }));
+
+      // then
+      sinon.assert.calledWith(onLogin, {
+        enteredEmail: 'glace@aleau.net',
+        enteredPassword: 'pix123',
+      });
+      assert.ok(true);
+    });
+
+    module('when email is invalid', function () {
+      test('displays an error', async function (assert) {
+        // given
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin @identityProviderSlug={{this.identityProviderSlug}} @userClaims={{null}} />`,
+        );
+
+        // when
+        await fillIn(
+          screen.getByRole('textbox', { name: t('pages.oidc-signup-or-login.login-form.email') }),
+          'glace@aleau',
+        );
+
+        // then
+        assert.ok(await screen.findByText(t('pages.oidc-signup-or-login.error.invalid-email')));
+      });
+    });
+  });
+
+  module('when logging in', function () {
+    test('retrieves the existing pix account through the entered credentials', async function (assert) {
+      // given
+      const onLogin = sinon.stub().resolves();
+      this.set('onLogin', onLogin);
+
+      const screen = await render(
+        hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @userClaims={{null}}
+  @onLogin={{this.onLogin}}
+/>`,
+      );
+
+      // when
+      await fillIn(
+        screen.getByRole('textbox', { name: t('pages.oidc-signup-or-login.login-form.email') }),
+        'glace.alo@example.net',
+      );
+      await fillIn(screen.getByLabelText(t('pages.oidc-signup-or-login.login-form.password')), 'pix123');
+      await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.login-form.button') }));
+
+      // then
+      sinon.assert.calledWith(onLogin, {
+        enteredEmail: 'glace.alo@example.net',
+        enteredPassword: 'pix123',
+      });
+      assert.ok(true);
+    });
+
+    module('when the form is invalid', function () {
+      test('does not request the api for reconciliation', async function (assert) {
+        // given
+        const onLogin = sinon.stub().resolves();
+        this.set('onLogin', onLogin);
+
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @userClaims={{null}}
+  @onLogin={{this.onLogin}}
+/>`,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.login-form.button') }));
+
+        // then
+        sinon.assert.notCalled(onLogin);
+        assert.ok(true);
+      });
+    });
+
+    module('when authentication key has expired', function () {
+      test('displays an error', async function (assert) {
+        // given
+        const onLogin = sinon.stub().rejects({ errors: [{ status: '401', code: 'EXPIRED_AUTHENTICATION_KEY' }] });
+        this.set('onLogin', onLogin);
+
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @userClaims={{null}}
+  @onLogin={{this.onLogin}}
+/>`,
+        );
+
+        // when
+        await fillIn(
+          screen.getByRole('textbox', { name: t('pages.oidc-signup-or-login.login-form.email') }),
+          'glace.alo@example.net',
+        );
+        await fillIn(screen.getByLabelText(t('pages.oidc-signup-or-login.login-form.password')), 'pix123');
+        await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.login-form.button') }));
+
+        // then
+        assert.ok(await screen.findByText(t('pages.oidc-signup-or-login.error.expired-authentication-key')));
+      });
+    });
+
+    module('when there is an account conflict', function () {
+      test('displays an error', async function (assert) {
+        // given
+        const onLogin = sinon.stub().rejects({ errors: [{ status: '409' }] });
+        this.set('onLogin', onLogin);
+
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @userClaims={{null}}
+  @onLogin={{this.onLogin}}
+/>`,
+        );
+
+        // when
+        await fillIn(
+          screen.getByRole('textbox', { name: t('pages.oidc-signup-or-login.login-form.email') }),
+          'glace.alo@example.net',
+        );
+        await fillIn(screen.getByLabelText(t('pages.oidc-signup-or-login.login-form.password')), 'pix123');
+        await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.login-form.button') }));
+
+        // then
+        assert.ok(await screen.findByText(t('pages.oidc-signup-or-login.error.account-conflict')));
+      });
+    });
+
+    module('when an unexpected error occurs', function () {
+      test('displays a default error message', async function (assert) {
+        // given
+        const onLogin = sinon.stub().rejects({ errors: [{ status: '500' }] });
+        this.set('onLogin', onLogin);
+
+        const screen = await render(
+          hbs`<Authentication::OidcSignupOrLogin
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @userClaims={{null}}
+  @onLogin={{this.onLogin}}
+/>`,
+        );
+
+        // when
+        await fillIn(
+          screen.getByRole('textbox', { name: t('pages.oidc-signup-or-login.login-form.email') }),
+          'glace.alo@example.net',
+        );
+        await fillIn(screen.getByLabelText(t('pages.oidc-signup-or-login.login-form.password')), 'pix123');
+        await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.login-form.button') }));
+
+        // then
+        assert.ok(await screen.findByText(/Impossible de se connecter/, { exact: false }));
+      });
     });
   });
 });

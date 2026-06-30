@@ -18,6 +18,7 @@ import {
 } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
+import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -637,6 +638,105 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 // then
                 expect(certificationCourseRepository.save).not.to.have.been.called;
                 expect(error).to.be.instanceOf(LanguageNotSupportedError);
+              });
+            });
+
+            context('when the locale is english and the english certification feature is disabled', function () {
+              it('should not create a certification', async function () {
+                // given
+                sinon.stub(featureToggles, 'get').withArgs('isCertificationInEnglishEnabled').resolves(false);
+                const userId = 2;
+
+                const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
+                  id: 1,
+                  accessCode: 'accessCode',
+                  version: 3,
+                });
+                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+
+                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
+                  userId,
+                  sessionId: 1,
+                  authorizedToStart: true,
+                  subscriptionFramework: Frameworks.CORE,
+                });
+                candidateRepository.findByUserIdAndSessionId
+                  .withArgs({ sessionId: 1, userId })
+                  .resolves(foundCandidate);
+
+                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                  .withArgs({ userId, sessionId: 1 })
+                  .resolves(null);
+
+                const certificationCenter = domainBuilder.buildCertificationCenter({
+                  habilitations: [],
+                });
+                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+
+                // when
+                const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+                  sessionId: 1,
+                  accessCode: 'accessCode',
+                  userId,
+                  locale: 'en',
+                  ...injectables,
+                });
+
+                // then
+                expect(certificationCourseRepository.save).not.to.have.been.called;
+                expect(error).to.be.instanceOf(LanguageNotSupportedError);
+              });
+            });
+
+            context('when the locale is english and the english certification feature is enabled', function () {
+              it('should create a certification', async function () {
+                // given
+                sinon.stub(featureToggles, 'get').withArgs('isCertificationInEnglishEnabled').resolves(true);
+                const userId = 2;
+
+                const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
+                  id: 1,
+                  accessCode: 'accessCode',
+                  version: 3,
+                });
+                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+
+                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
+                  userId,
+                  sessionId: 1,
+                  authorizedToStart: true,
+                  subscriptionFramework: Frameworks.CORE,
+                  reconciledAt,
+                });
+                candidateRepository.findByUserIdAndSessionId
+                  .withArgs({ sessionId: 1, userId })
+                  .resolves(foundCandidate);
+
+                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                  .withArgs({ userId, sessionId: 1 })
+                  .resolves(null);
+
+                const certificationCenter = domainBuilder.buildCertificationCenter({
+                  habilitations: [],
+                });
+                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+
+                const savedCertificationCourse = domainBuilder.buildCertificationCourse({ lang: 'en' });
+                certificationCourseRepository.save.resolves(savedCertificationCourse);
+                assessmentRepository.save.resolves(domainBuilder.buildAssessment());
+
+                // when
+                const { created } = await retrieveLastOrCreateCertificationCourse({
+                  sessionId: 1,
+                  accessCode: 'accessCode',
+                  userId,
+                  locale: 'en',
+                  ...injectables,
+                });
+
+                // then
+                expect(created).to.be.true;
+                expect(certificationCourseRepository.save).to.have.been.calledOnce;
               });
             });
 

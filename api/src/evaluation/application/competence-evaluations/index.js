@@ -42,5 +42,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'evaluation/competence-evaluations-api';
-export { name, register };
+export const competenceEvaluationsRoute = { name: 'evaluation/competence-evaluations-api', register };

@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class CertificationCandidateAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForQuery(query) {
     const sessionId = query.sessionId;
     if (sessionId) {

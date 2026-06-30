@@ -6,7 +6,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
-import { Version } from '../../domain/models/Version.js';
+import { Version, VERSION_STATUSES } from '../../domain/models/Version.js';
 import { FrameworkHistoryEntry } from '../../domain/read-models/FrameworkHistoryEntry.js';
 
 /**
@@ -41,32 +41,21 @@ export async function getById({ id }) {
 /**
  * @param {object} params
  * @param {SCOPES} params.scope
- * @returns {Promise<Version|null>}
+ * @returns {Promise<Version[]>}
  */
-export async function findActiveByScope({ scope }) {
+export async function findAllByScope({ scope }) {
   const knexConn = DomainTransaction.getConnection();
 
-  const versionData = await knexConn('certification_versions')
-    .select('*')
-    .where({ scope })
-    .whereNull('expirationDate')
-    .whereNotNull('startDate')
-    .first();
+  const dtosVersion = await knexConn('certification_versions').select('*').where({ scope }).orderBy('id');
 
-  if (!versionData) {
-    return null;
-  }
-
-  return _toDomain(versionData);
+  return dtosVersion.map(_toDomain);
 }
 
 /**
- * @param {object} params
- * @param {Version} params.version
- * @param {Array<Challenge>} params.challenges
+ * @param {Version} version
  * @returns {Promise<number>} versionId
  */
-export async function create({ version, challenges }) {
+export async function create(version) {
   const knexConn = DomainTransaction.getConnection();
 
   const [{ id }] = await knexConn('certification_versions')
@@ -83,17 +72,9 @@ export async function create({ version, challenges }) {
         ? JSON.stringify(version.competencesScoringConfiguration)
         : null,
       challengesConfiguration: JSON.stringify(version.challengesConfiguration),
+      status: VERSION_STATUSES.DRAFT,
     })
     .returning('id');
-
-  const challengesDTO = challenges.map((challenge) => ({
-    challengeId: challenge.id,
-    versionId: id,
-  }));
-
-  await knexConn
-    .batchInsert('certification-frameworks-challenges', challengesDTO)
-    .transacting(knexConn.isTransaction ? knexConn : null);
 
   return id;
 }
@@ -135,7 +116,7 @@ export async function deleteVersion(id) {
   await knexConn('certification_versions').where({ id }).del();
 }
 
-const _toFrameworkHistoryEntry = ({ id, startDate, expirationDate, assessmentDuration, challengesConfiguration }) => {
+function _toFrameworkHistoryEntry({ id, startDate, expirationDate, assessmentDuration, challengesConfiguration }) {
   return new FrameworkHistoryEntry({
     id,
     startDate,
@@ -143,9 +124,9 @@ const _toFrameworkHistoryEntry = ({ id, startDate, expirationDate, assessmentDur
     assessmentDuration,
     maximumAssessmentLength: challengesConfiguration.maximumAssessmentLength,
   });
-};
+}
 
-const _toDomain = ({
+function _toDomain({
   id,
   scope,
   startDate,
@@ -156,7 +137,7 @@ const _toDomain = ({
   competencesScoringConfiguration,
   challengesConfiguration,
   comments,
-}) => {
+}) {
   return new Version({
     id,
     scope,
@@ -177,4 +158,4 @@ const _toDomain = ({
       defaultProbabilityToPickChallenge: challengesConfiguration.defaultProbabilityToPickChallenge,
     }),
   });
-};
+}

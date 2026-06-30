@@ -68,32 +68,11 @@ const markCertificationToExport = async function ({ startDate, endDate, limit, o
     });
 };
 
-const updateCertificationImportStatus = async function ({ certificationCourseIds, cpfImportStatus }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  return knexConn('certification-courses-cpf-infos')
-    .update({ importStatus: cpfImportStatus, updatedAt: knexConn.fn.now() })
-    .whereIn('certificationCourseId', certificationCourseIds);
-};
-
-const updateCpfInfos = async function ({ cpfInfos }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  return knexConn('certification-courses-cpf-infos')
-    .update({ importStatus: cpfInfos.importStatus, updatedAt: knexConn.fn.now() })
-    .where({
-      certificationCourseId: cpfInfos.certificationCourseId,
-      filename: cpfInfos.filename,
-    });
-};
-
 export {
   countExportableCertificationCoursesByTimeRange,
   findByBatchId,
   markCertificationCoursesAsExported,
   markCertificationToExport,
-  updateCertificationImportStatus,
-  updateCpfInfos,
 };
 
 function _selectCpfCertificationResults(qb) {

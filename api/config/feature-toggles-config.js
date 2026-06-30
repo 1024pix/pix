@@ -23,13 +23,6 @@ export default {
     defaultValue: true,
     tags: ['team-prescription', 'frontend'],
   },
-  isAnonymizationWithDeletionEnabled: {
-    type: 'boolean',
-    description: 'Used to enable anonymization and deletion on prescriber context',
-    defaultValue: false,
-    devDefaultValues: { test: true, reviewApp: true },
-    tags: ['team-prescription', 'pix-api', 'backend'],
-  },
   isSelfAccountDeletionEnabled: {
     description: 'Toggle self account deletion feature',
     type: 'boolean',
@@ -136,5 +129,18 @@ export default {
     defaultValue: false,
     devDefaultValues: { test: true, reviewApp: true },
     tags: ['team-certif', 'pix-api', 'backend'],
+  },
+  isOsHealthcheckEnabled: {
+    type: 'boolean',
+    description: 'Enable the OS healthcheck endpoint',
+    defaultValue: false,
+    tags: ['backend', 'pix-api'],
+  },
+  isCertificationInEnglishEnabled: {
+    type: 'boolean',
+    description: 'Enable English as an available language for Pix certification',
+    defaultValue: false,
+    devDefaultValues: { test: true, reviewApp: true },
+    tags: ['frontend', 'backend', 'team-certif', 'pix-app', 'pix-api'],
   },
 };

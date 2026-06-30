@@ -50,4 +50,4 @@ const serialize = function (targetProfiles) {
   }).serialize(targetProfiles);
 };
 
-export { serialize };
+export const targetProfileOverviewSerializer = { serialize };

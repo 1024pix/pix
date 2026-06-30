@@ -11,7 +11,10 @@ import {
 } from './handlers/autonomous-courses';
 import { updateBadgeCriterion } from './handlers/badge-criteria';
 import { findPaginatedFilteredCampaignParticipations } from './handlers/campaign-participations';
-import { findPaginatedFilteredCertificationCenters } from './handlers/certification-centers';
+import {
+  findCertificationCenterAttachedOrganizations,
+  findPaginatedFilteredCertificationCenters,
+} from './handlers/certification-centers';
 import { attachCombinedCourseBlueprintToOrganizations } from './handlers/combined-course-blueprint.js';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import { findFrameworkAreas } from './handlers/frameworks';
@@ -25,6 +28,7 @@ import {
   findOrganizationCampaigns,
   findPaginatedFilteredOrganizations,
   findPaginatedOrganizationMemberships,
+  getOrganizationAttachedCertificationCenters,
   getOrganizationInvitations,
   getOrganizationPlaces,
   getOrganizationPlacesStatistics,
@@ -110,6 +114,18 @@ export default function routes() {
     const certificationVersion = schema.certificationVersions.find(certificationVersionId);
     const params = JSON.parse(request.requestBody);
     return certificationVersion.update(params.data.attributes);
+  });
+
+  this.delete('/admin/certification-versions/:id', (schema, request) => {
+    const certificationVersions = schema.certificationVersions.all();
+    const certificationVersionToDelete = certificationVersions.filter((version) => version.id === request.params.id);
+    certificationVersionToDelete.destroy();
+
+    const frameworkHistory = schema.frameworkHistories.first();
+
+    frameworkHistory.update({
+      history: frameworkHistory.attrs.history.filter((version) => version.id !== Number(request.params.id)),
+    });
   });
 
   this.get('/admin/certification-frameworks', (schema) => {
@@ -334,6 +350,7 @@ export default function routes() {
 
     return certificationCenterMembership;
   });
+  this.get('/admin/certification-centers/:id/organizations', findCertificationCenterAttachedOrganizations);
 
   this.get('/admin/users/:id/certification-courses', (schema, request) => {
     const userId = request.params.id;
@@ -390,6 +407,7 @@ export default function routes() {
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
   this.get('/admin/organizations/:id/places', getOrganizationPlaces);
   this.get('/admin/organizations/:id/places-statistics', getOrganizationPlacesStatistics);
+  this.get('/admin/organizations/:id/certification-centers', getOrganizationAttachedCertificationCenters);
   this.get('/admin/organizations/:id/statistics', getOrganizationStatistics);
   this.post('/admin/organizations/:id/archive', archiveOrganization);
 
@@ -586,10 +604,6 @@ export default function routes() {
     return new Response(204);
   });
 
-  this.get('admin/certification-frameworks/:scope/active-consolidated-framework', (schema, request) => {
-    return schema.certificationConsolidatedFrameworks.find(request.params.scope);
-  });
-
   this.get('admin/certification-frameworks/:scope/target-profiles', (schema, request) => {
     const framework = schema.certificationFrameworks.findBy({ name: request.params.scope });
     return {
@@ -604,16 +618,8 @@ export default function routes() {
     };
   });
 
-  this.get('admin/certification-frameworks/:scope/framework-history', (_, request) => {
-    return {
-      data: {
-        id: request.params.scope,
-        type: 'framework-histories',
-        attributes: {
-          history: [],
-        },
-      },
-    };
+  this.get('admin/certification-frameworks/:scope/framework-history', (schema) => {
+    return schema.frameworkHistories.first();
   });
 
   this.put('/admin/sessions/:id/comment', (schema, request) => {

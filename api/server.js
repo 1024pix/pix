@@ -55,7 +55,7 @@ const certificationRoutes = [
   scoBlockedAccessDatesRoutes,
   scoWhitelistRoutes,
   certificationEvaluationRoutes,
-];
+].flat();
 
 const prescriptionRoutes = [
   learnerManagementRoutes,
@@ -65,12 +65,13 @@ const prescriptionRoutes = [
   campaignRoutes,
   organizationPlaceRoutes,
   campaignParticipationsRoutes,
-];
+].flat();
 
 installHapiHook();
 
 const { logOpsMetrics, port, logging } = config;
-const createServer = async () => {
+
+export const createServer = async () => {
   const server = await createBareServer();
 
   // initialisation of Datadog link for metrics publication
@@ -225,42 +226,45 @@ const setupAuthentication = function (server) {
   server.auth.default(serverAuthentication.strategies.jwtUser.name);
 };
 
-const setupRoutesAndPlugins = async function (server) {
-  const configuration = [].concat(
-    plugins,
-    identityAccessManagementRoutes,
-    organizationalEntitiesRoutes,
-    sharedRoutes,
-    profileRoutes,
-    questRoutes,
-    evaluationRoutes,
-    ...stagesModuleRoutes,
-    devcompRoutes,
-    schoolRoutes,
-    teamRoutes,
-    learningContentRoutes,
-    ...certificationRoutes,
-    ...prescriptionRoutes,
-    bannerRoutes,
-    ...announcementRoutes,
-    llmRoutes,
-    {
-      name: 'root',
-      register: async function (server) {
-        server.route([
-          {
-            method: 'GET',
-            path: '/',
-            config: {
-              auth: false,
-              handler: (_, h) => h.response().code(204),
-            },
-          },
-        ]);
+const rootRoute = {
+  name: 'root',
+  register: async function (server) {
+    server.route([
+      {
+        method: 'GET',
+        path: '/',
+        config: {
+          auth: false,
+          handler: (_, h) => h.response().code(204),
+        },
       },
-    },
+    ]);
+  },
+};
+
+const setupRoutesAndPlugins = async function (server) {
+  await server.register(
+    [
+      plugins,
+      identityAccessManagementRoutes,
+      organizationalEntitiesRoutes,
+      sharedRoutes,
+      profileRoutes,
+      questRoutes,
+      evaluationRoutes,
+      stagesModuleRoutes,
+      devcompRoutes,
+      schoolRoutes,
+      teamRoutes,
+      learningContentRoutes,
+      certificationRoutes,
+      prescriptionRoutes,
+      bannerRoutes,
+      announcementRoutes,
+      llmRoutes,
+      rootRoute,
+    ].flat(),
   );
-  await server.register(configuration);
 };
 
 const setupOpenApiSpecification = async function (server) {
@@ -268,5 +272,3 @@ const setupOpenApiSpecification = async function (server) {
     await server.register(...swaggerRegisterArgs);
   }
 };
-
-export { createServer };

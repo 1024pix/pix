@@ -1,4 +1,4 @@
-import { AnswerJob } from '../../../../../src/quest/domain/models/AnwserJob.js';
+import { AnswerJob } from '../../../../../src/quest/domain/models/quests/events/AnwserJob.js';
 import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

@@ -35,26 +35,10 @@ export async function findActiveByTubeId(tubeId) {
   return skillDtos.map(toDomain);
 }
 
-export async function findOperativeByTubeId(tubeId) {
-  const cacheKey = `findOperativeByTubeId(${tubeId})`;
-  const findOperativeByTubeIdCallback = (knex) =>
-    knex.where({ tubeId }).whereIn('status', OPERATIVE_STATUSES).orderBy('id');
-  const skillDtos = await getInstance().find(cacheKey, findOperativeByTubeIdCallback);
-  return skillDtos.map(toDomain);
-}
-
 export async function findActiveByCompetenceId(competenceId) {
   const cacheKey = `findActiveByCompetenceId(${competenceId})`;
   const findActiveByCompetenceIdCallback = (knex) => knex.where({ competenceId, status: ACTIVE_STATUS }).orderBy('id');
   const skillDtos = await getInstance().find(cacheKey, findActiveByCompetenceIdCallback);
-  return skillDtos.map(toDomain);
-}
-
-export async function findOperativeByCompetenceId(competenceId) {
-  const cacheKey = `findOperativeByCompetenceId(${competenceId})`;
-  const findOperativeByCompetenceIdCallback = (knex) =>
-    knex.where({ competenceId }).whereIn('status', OPERATIVE_STATUSES).orderBy('id');
-  const skillDtos = await getInstance().find(cacheKey, findOperativeByCompetenceIdCallback);
   return skillDtos.map(toDomain);
 }
 

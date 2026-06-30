@@ -4,6 +4,7 @@ export const shareProfileReward = async function ({
   userId,
   profileRewardId,
   campaignParticipationId,
+  organizationId,
   profileRewardRepository,
   organizationProfileRewardRepository,
   campaignParticipationRepository,
@@ -14,10 +15,13 @@ export const shareProfileReward = async function ({
     throw new ProfileRewardCantBeSharedError();
   }
 
-  const campaign = await campaignParticipationRepository.getCampaignByParticipationId({ campaignParticipationId });
+  if (campaignParticipationId) {
+    organizationId = await campaignParticipationRepository.getCampaignByParticipationId({ campaignParticipationId })
+      .organizationId;
+  }
 
   await organizationProfileRewardRepository.save({
-    organizationId: campaign.organizationId,
+    organizationId,
     profileRewardId,
   });
 };

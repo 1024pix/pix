@@ -40,7 +40,7 @@ export class CampaignListItem {
   }
 }
 
-export class CampaignTubeCoverage {
+class CampaignTubeCoverage {
   /**
    * @typedef CampaignTubeCoverageArgs
    * @type {object}

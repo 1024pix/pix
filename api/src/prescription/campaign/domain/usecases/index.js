@@ -101,6 +101,7 @@ import { findCampaignSkillIdsForCampaignParticipations } from './find-campaign-s
 import { findPaginatedCampaignManagements } from './find-paginated-campaign-managements.js';
 import { findPaginatedCampaignParticipantActivities } from './find-paginated-campaign-participant-activities.js';
 import { findPaginatedFilteredOrganizationCampaigns } from './find-paginated-filtered-organization-campaigns.js';
+import { findPaginatedOrganizationCampaignSummaries } from './find-paginated-organization-campaign-summaries.js';
 import { getCampaign } from './get-campaign.js';
 import { getCampaignByCode } from './get-campaign-by-code.js';
 import { getCampaignManagement } from './get-campaign-management.js';
@@ -139,6 +140,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedCampaignManagements,
   findPaginatedCampaignParticipantActivities,
   findPaginatedFilteredOrganizationCampaigns,
+  findPaginatedOrganizationCampaignSummaries,
   getCampaignByCode,
   getCampaignManagement,
   getCampaignOfCampaignParticipation,

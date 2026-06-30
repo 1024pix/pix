@@ -14,4 +14,4 @@ const serialize = function (authenticationContent) {
   }).serialize(authenticationContent);
 };
 
-export { serialize };
+export const userOidcAuthenticationRequestSerializer = { serialize };

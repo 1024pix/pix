@@ -1,6 +1,6 @@
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { AdminCombinedCourseBlueprintDetails } from '../../../../../src/quest/domain/models/AdminCombinedCourseBlueprintDetails.js';
-import { QuestInput } from '../../../../../src/quest/domain/models/QuestInput.js';
+import { AdminCombinedCourseBlueprintDetails } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/AdminCombinedCourseBlueprintDetails.js';
+import { QuestInput } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/QuestInput.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails ', function () {

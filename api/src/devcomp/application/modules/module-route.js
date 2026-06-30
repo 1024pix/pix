@@ -34,5 +34,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'devcomp/modules-api';
-export { name, register };
+export const moduleRoute = { name: 'devcomp/modules-api', register };

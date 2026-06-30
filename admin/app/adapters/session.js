@@ -2,7 +2,7 @@ import ApplicationAdapter from './application';
 
 export default class SessionAdapter extends ApplicationAdapter {
   urlForQuery() {
-    return `${this.host}/${this.namespace}/admin/sessions`;
+    return `${this.host}/${this.namespace}/sessions`;
   }
 
   findHasMany(store, snapshot, url, relationship) {
@@ -19,15 +19,15 @@ export default class SessionAdapter extends ApplicationAdapter {
   }
 
   urlForFindRecord(id) {
-    return `${this.host}/${this.namespace}/admin/sessions/${id}`;
+    return `${this.host}/${this.namespace}/sessions/${id}`;
   }
 
   urlForUpdateRecord(id) {
-    return `${this.host}/${this.namespace}/admin/sessions/${id}`;
+    return `${this.host}/${this.namespace}/sessions/${id}`;
   }
 
   getDownloadLink({ id, lang }) {
-    const link = `${this.host}/${this.namespace}/admin/sessions/${id}/generate-results-download-link?lang=${lang}`;
+    const link = `${this.host}/${this.namespace}/sessions/${id}/generate-results-download-link?lang=${lang}`;
     return this.ajax(link, 'GET');
   }
 

@@ -39,6 +39,7 @@ export class Candidate {
     subscriptions = [],
     accessibilityAdjustmentNeeded,
     hasStartedTest = false,
+    doubleCertificationEligibility = false,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -67,6 +68,7 @@ export class Candidate {
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
     this.reconciledAt = reconciledAt;
     this.hasStartedTest = hasStartedTest;
+    this.doubleCertificationEligibility = doubleCertificationEligibility;
     this.isLinked = Boolean(userId);
   }
 
@@ -161,12 +163,22 @@ export class Candidate {
     }
   }
 
-  convertExtraTimePercentageToDecimal() {
-    this.extraTimePercentage = this.extraTimePercentage / 100;
+  static translateBillingMode({ billingMode, translate }) {
+    switch (billingMode) {
+      case 'FREE':
+        return translate('candidate-list-template.billing-mode.free');
+      case 'PAID':
+        return translate('candidate-list-template.billing-mode.paid');
+      case 'PREPAID':
+        return translate('candidate-list-template.billing-mode.prepaid');
+      case null:
+      default:
+        return '';
+    }
   }
 
-  hasComplementarySubscription() {
-    return this.subscriptions.some((subscription) => subscription.isComplementary());
+  convertExtraTimePercentageToDecimal() {
+    this.extraTimePercentage = this.extraTimePercentage / 100;
   }
 
   hasCoreFrameworkSubscription() {

@@ -1,7 +1,7 @@
 import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { evaluationUsecases as usecases } from '../../domain/usecases/index.js';
-import * as autonomousCoursePaginatedListSerializer from '../../infrastructure/serializers/jsonapi/autonomous-course-paginated-list-serializer.js';
-import * as autonomousCourseSerializer from '../../infrastructure/serializers/jsonapi/autonomous-course-serializer.js';
+import { autonomousCoursePaginatedListSerializer } from '../../infrastructure/serializers/jsonapi/autonomous-course-paginated-list-serializer.js';
+import { autonomousCourseSerializer } from '../../infrastructure/serializers/jsonapi/autonomous-course-serializer.js';
 
 const save = async (request, h, dependencies = { usecases, autonomousCourseSerializer }) => {
   const userId = extractUserIdFromRequest(request);

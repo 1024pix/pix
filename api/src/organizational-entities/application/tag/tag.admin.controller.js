@@ -1,5 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as tagSerializer from '../../infrastructure/serializers/jsonapi/tag-serializer.js';
+import { tagSerializer } from '../../infrastructure/serializers/jsonapi/tag-serializer.js';
 
 const findAllTags = async function (request, h, dependencies = { tagSerializer }) {
   const organizationsTags = await usecases.findAllTags();

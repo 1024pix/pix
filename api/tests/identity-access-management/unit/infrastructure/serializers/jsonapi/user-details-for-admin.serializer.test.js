@@ -1,5 +1,6 @@
 import { LastUserApplicationConnection } from '../../../../../../src/identity-access-management/domain/models/LastUserApplicationConnection.js';
-import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
+import { userDetailsForAdminSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
+import { STATUS } from '../../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -13,7 +14,6 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
         createdAt: now,
         lang: 'fr',
         locale: 'fr-FR',
-        lastTermsOfServiceValidatedAt: now,
         lastPixOrgaTermsOfServiceValidatedAt: now,
         lastPixCertifTermsOfServiceValidatedAt: now,
         lastLoggedAt: now,
@@ -39,9 +39,18 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
           }),
         ],
       });
+      const pixAppTosAcceptedAt = new Date('2024-03-01');
+      const pixOrgaTosAcceptedAt = new Date('2025-06-07');
+      const pixAppTosStatus = { status: STATUS.ACCEPTED, documentPath: '/tos/v2.pdf', acceptedAt: pixAppTosAcceptedAt };
+      const pixOrgaTosStatus = {
+        status: STATUS.ACCEPTED,
+        documentPath: '/tos/v4.pdf',
+        acceptedAt: pixOrgaTosAcceptedAt,
+      };
+      userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
 
       // when
-      const json = serializer.serialize(userDetailsForAdmin);
+      const json = userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
 
       // then
       expect(json).to.be.deep.equal({
@@ -54,11 +63,12 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'created-at': userDetailsForAdmin.createdAt,
             cgu: userDetailsForAdmin.cgu,
             'pix-orga-terms-of-service-accepted': userDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
+            'pix-app-terms-of-service-accepted': userDetailsForAdmin.pixAppTermsOfServiceAccepted,
             'pix-certif-terms-of-service-accepted': userDetailsForAdmin.pixCertifTermsOfServiceAccepted,
             lang: 'fr',
             locale: 'fr-FR',
-            'last-terms-of-service-validated-at': now,
-            'last-pix-orga-terms-of-service-validated-at': now,
+            'last-pix-app-terms-of-service-validated-at': pixAppTosAcceptedAt,
+            'last-pix-orga-terms-of-service-validated-at': pixOrgaTosAcceptedAt,
             'last-pix-certif-terms-of-service-validated-at': now,
             'last-logged-at': now,
             'email-confirmed-at': now,
@@ -184,7 +194,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
       });
 
       // when
-      const json = serializer.serializeForUpdate(modelObject);
+      const json = userDetailsForAdminSerializer.serializeForUpdate(modelObject);
 
       // then
       expect(json).to.be.deep.equal({
@@ -194,7 +204,6 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'last-name': modelObject.lastName,
             email: modelObject.email,
             username: modelObject.username,
-            cgu: modelObject.cgu,
             lang: 'fr',
             locale: 'fr-FR',
             'pix-orga-terms-of-service-accepted': modelObject.pixOrgaTermsOfServiceAccepted,
@@ -269,7 +278,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
       };
 
       // when
-      const user = serializer.deserialize(jsonUser);
+      const user = userDetailsForAdminSerializer.deserialize(jsonUser);
 
       // then
       expect(user.firstName).to.equal('Luke');

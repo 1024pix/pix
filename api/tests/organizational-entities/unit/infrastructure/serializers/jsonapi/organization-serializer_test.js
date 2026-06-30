@@ -1,6 +1,6 @@
 import { Organization } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../../../../src/organizational-entities/domain/models/Tag.js';
-import * as serializer from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
+import { organizationSerializer } from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -26,7 +26,7 @@ describe('Unit | Serializer | organization-serializer', function () {
       const meta = { some: 'meta' };
 
       // when
-      const serializedOrganization = serializer.serialize(organization, meta);
+      const serializedOrganization = organizationSerializer.serialize(organization, meta);
 
       // then
       expect(serializedOrganization).to.deep.equal({
@@ -131,7 +131,7 @@ describe('Unit | Serializer | organization-serializer', function () {
       };
 
       // when
-      const organization = serializer.deserialize(jsonApiOrganization);
+      const organization = organizationSerializer.deserialize(jsonApiOrganization);
 
       // then
       const expectedOrganization = new Organization({
@@ -189,7 +189,7 @@ describe('Unit | Serializer | organization-serializer', function () {
       };
 
       // when
-      const organization = serializer.deserialize(jsonApiOrganization);
+      const organization = organizationSerializer.deserialize(jsonApiOrganization);
 
       // then
       const expectedTag1 = new Tag({ id: parseInt(tagAttributes1.id) });

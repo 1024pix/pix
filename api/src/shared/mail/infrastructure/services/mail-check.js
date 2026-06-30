@@ -17,4 +17,4 @@ const clearResolveMx = function () {
   resolveMx = resolver.resolveMx.bind(resolver);
 };
 
-export { assertEmailDomainHasMx, clearResolveMx, setResolveMx };
+export const mailCheck = { assertEmailDomainHasMx, clearResolveMx, setResolveMx };

@@ -5,7 +5,7 @@ import { getLatestParticipationSharedForOneLearner } from './helpers/get-latest-
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
-const TIMEOUT = 3000;
+const TIMEOUT = 6000;
 
 const getParticipationsActivityByDate = async function (campaignId) {
   const knexConn = DomainTransaction.getConnection();

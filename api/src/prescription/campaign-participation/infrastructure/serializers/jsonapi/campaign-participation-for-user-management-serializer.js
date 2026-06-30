@@ -19,4 +19,4 @@ const serialize = function (campaignParticipation) {
   }).serialize(campaignParticipation);
 };
 
-export { serialize };
+export const campaignParticipationForUserManagementSerializer = { serialize };

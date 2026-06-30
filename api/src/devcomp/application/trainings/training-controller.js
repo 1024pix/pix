@@ -1,9 +1,9 @@
-import * as targetProfileSummaryForAdminSerializer from '../../../prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
+import { targetProfileSummaryForAdminSerializer } from '../../../prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
-import * as trainingSummarySerializer from '../../infrastructure/serializers/jsonapi/training-summary-serializer.js';
-import * as trainingTriggerSerializer from '../../infrastructure/serializers/jsonapi/training-trigger-serializer.js';
+import { trainingSerializer } from '../../infrastructure/serializers/jsonapi/training-serializer.js';
+import { trainingSummarySerializer } from '../../infrastructure/serializers/jsonapi/training-summary-serializer.js';
+import { trainingTriggerSerializer } from '../../infrastructure/serializers/jsonapi/training-trigger-serializer.js';
 
 const findPaginatedTrainingSummaries = async function (request, h, dependencies = { trainingSummarySerializer }) {
   const { filter, page } = request.query;

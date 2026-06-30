@@ -1,4 +1,4 @@
-import { BaseChallenge, STATUSES as ORIGINAL_STATUSES } from '../../../shared/domain/models/BaseChallenge.js';
+import { BaseChallenge } from '../../../shared/domain/models/BaseChallenge.js';
 
 /**
  * @class ChallengeToPlay
@@ -35,4 +35,3 @@ export class ChallengeToPlay extends BaseChallenge {
     this.webComponentProps = webComponentProps;
   }
 }
-export const STATUSES = ORIGINAL_STATUSES;

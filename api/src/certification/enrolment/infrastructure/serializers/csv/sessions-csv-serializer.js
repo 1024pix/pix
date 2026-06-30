@@ -269,4 +269,4 @@ function _generateUniqueKey({ address, room, date, time }) {
   return address + room + date + time;
 }
 
-export { deserializeForSessionsImport };
+export const sessionsCsvSerializer = { deserializeForSessionsImport };

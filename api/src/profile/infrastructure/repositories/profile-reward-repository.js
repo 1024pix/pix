@@ -1,9 +1,6 @@
-import { PROFILE_REWARDS_TABLE_NAME } from '../../../../db/migrations/20240820101213_add-profile-rewards-table.js';
 import { REWARD_TYPES } from '../../../quest/domain/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ProfileReward } from '../../domain/models/ProfileReward.js';
-
-const ATTESTATIONS_TABLE_NAME = 'attestations';
 
 /**
  * @param {Object} args
@@ -14,7 +11,7 @@ const ATTESTATIONS_TABLE_NAME = 'attestations';
  */
 export const save = async ({ userId, rewardId, rewardType = REWARD_TYPES.ATTESTATION }) => {
   const knexConnection = await DomainTransaction.getConnection();
-  await knexConnection(PROFILE_REWARDS_TABLE_NAME)
+  await knexConnection('profile-rewards')
     .insert({
       userId,
       rewardId,
@@ -31,7 +28,7 @@ export const save = async ({ userId, rewardId, rewardType = REWARD_TYPES.ATTESTA
  */
 export const getByUserId = async ({ userId }) => {
   const knexConnection = await DomainTransaction.getConnection();
-  const profileRewards = await knexConnection(PROFILE_REWARDS_TABLE_NAME).where({ userId });
+  const profileRewards = await knexConnection('profile-rewards').where({ userId });
   return profileRewards.map(toDomain);
 };
 
@@ -42,7 +39,7 @@ export const getByUserId = async ({ userId }) => {
  */
 export const getById = async ({ profileRewardId }) => {
   const knexConnection = await DomainTransaction.getConnection();
-  const profileReward = await knexConnection(PROFILE_REWARDS_TABLE_NAME).where({ id: profileRewardId }).first();
+  const profileReward = await knexConnection('profile-rewards').where({ id: profileRewardId }).first();
 
   return profileReward ? toDomain(profileReward) : null;
 };
@@ -54,7 +51,7 @@ export const getById = async ({ profileRewardId }) => {
  */
 export const getByIds = async ({ profileRewardIds }) => {
   const knexConnection = await DomainTransaction.getConnection();
-  const profileRewards = await knexConnection(PROFILE_REWARDS_TABLE_NAME).whereIn('id', profileRewardIds);
+  const profileRewards = await knexConnection('profile-rewards').whereIn('id', profileRewardIds);
 
   return profileRewards.map(toDomain);
 };
@@ -67,11 +64,11 @@ export const getByIds = async ({ profileRewardIds }) => {
  */
 export const getByAttestationKeyAndUserIds = async ({ attestationKey, userIds }) => {
   const knexConnection = await DomainTransaction.getConnection();
-  const profileRewards = await knexConnection(PROFILE_REWARDS_TABLE_NAME)
-    .select(PROFILE_REWARDS_TABLE_NAME + '.*')
-    .join(ATTESTATIONS_TABLE_NAME, ATTESTATIONS_TABLE_NAME + '.id', PROFILE_REWARDS_TABLE_NAME + '.rewardId')
+  const profileRewards = await knexConnection('profile-rewards')
+    .select('profile-rewards.*')
+    .join('attestations', 'attestations.id', 'profile-rewards.rewardId')
     .whereIn('userId', userIds)
-    .where(ATTESTATIONS_TABLE_NAME + '.key', attestationKey)
+    .where('attestations.key', attestationKey)
     .orderBy('id');
   return profileRewards.map(toDomain);
 };

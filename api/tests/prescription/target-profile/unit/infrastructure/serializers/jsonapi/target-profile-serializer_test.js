@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-serializer.js';
+import { targetProfileSerializer } from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import { TargetProfile } from '../../../../../../../src/shared/domain/models/TargetProfile.js';
 import { expect } from '../../../../../../test-helper.js';
 
@@ -29,7 +29,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
       };
 
       // when
-      const serializedTargetProfile = serializer.serialize(targetProfile, meta);
+      const serializedTargetProfile = targetProfileSerializer.serialize(targetProfile, meta);
 
       // then
       return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile);
@@ -39,7 +39,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
   describe('#serializeId', function () {
     it('should return a serialized target profile to JSONAPI with only ID filled', function () {
       // when
-      const serializedTargetProfile = serializer.serializeId(123);
+      const serializedTargetProfile = targetProfileSerializer.serializeId(123);
 
       // then
       const expectedTargetProfileSerialized = {
@@ -73,7 +73,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
       };
 
       // when
-      const deserializedTargetProfileCreationCommand = serializer.deserialize(json);
+      const deserializedTargetProfileCreationCommand = targetProfileSerializer.deserialize(json);
 
       // then
       const expectedTargetProfileCreationCommand = {

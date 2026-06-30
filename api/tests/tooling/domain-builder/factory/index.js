@@ -37,10 +37,8 @@ import { buildCertifiableBadgeAcquisition } from './build-certifiable-badge-acqu
 import { buildCertificationAssessment } from './build-certification-assessment.js';
 import { buildCertificationAssessmentScore } from './build-certification-assessment-score.js';
 import { buildCertificationAttestation } from './build-certification-attestation.js';
-import { buildCertificationCandidate } from './build-certification-candidate.js';
 import { buildCertificationCandidateForAttendanceSheet } from './build-certification-candidate-for-attendance-sheet.js';
 import { buildCertificationCandidateForSupervising } from './build-certification-candidate-for-supervising.js';
-import { buildCertificationCandidateSubscription } from './build-certification-candidate-subscription.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterInvitation } from './build-certification-center-invitation.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
@@ -154,6 +152,7 @@ import { buildTube } from './build-tube.js';
 import { buildTutorial } from './build-tutorial.js';
 import { buildTutorialForUser } from './build-tutorial-for-user.js';
 import { buildUser } from './build-user.js';
+import { buildUserCampaignSurvey } from './build-user-campaign-survey.js';
 import { buildUserCompetence } from './build-user-competence.js';
 import { buildUserDetailsForAdmin } from './build-user-details-for-admin.js';
 import { buildUserOrgaSettings } from './build-user-orga-settings.js';
@@ -169,6 +168,7 @@ import { buildComplementaryCertificationBadge } from './certification/complement
 import { buildActiveCalibratedChallenge } from './certification/configuration/build-active-calibrated-challenge.js';
 import { buildCenter as buildConfigurationCenter } from './certification/configuration/build-center.js';
 import { buildCertificationFrameworksChallenge } from './certification/configuration/build-certification-frameworks-challenge.js';
+import { buildCertificationInfo } from './certification/configuration/build-certification-info.js';
 import { buildFrameworkHistoryEntry } from './certification/configuration/build-framework-history-entry.js';
 import {
   buildScoBlockedAccessDateCollege,
@@ -206,6 +206,8 @@ import { buildComplementaryCertificationScoringWithComplementaryReferential } fr
 import { buildSession } from './certification/evaluation/build-session.js';
 import { buildCertificateMeshLevel } from './certification/results/build-certificate-mesh-level.js';
 import { buildCertificateSummary } from './certification/results/build-certificate-summary.js';
+import { buildResultRecipient } from './certification/results/build-result-recipient.js';
+import { buildSessionForResultsSharing } from './certification/results/build-session-for-results-sharing.js';
 import { buildCertificate } from './certification/results/build-v3-certification-attestation.js';
 import { buildCertificationResult as parcoursupCertificationResult } from './certification/results/parcoursup/build-certification-result.js';
 import { buildCompetence as parcoursupCompetence } from './certification/results/parcoursup/build-competence.js';
@@ -257,6 +259,7 @@ const certification = {
     buildCenter: buildConfigurationCenter,
     buildCertificationFrameworksChallenge,
     buildFrameworkHistoryEntry,
+    buildCertificationInfo,
     buildVersion: buildConfigurationVersion,
     buildScoBlockedAccessDateCollege,
     buildScoBlockedAccessDateLycee,
@@ -310,6 +313,8 @@ const certification = {
     buildCertificateMeshLevel,
     buildCertificate,
     buildCertificateSummary,
+    buildResultRecipient,
+    buildSessionForResultsSharing,
     parcoursup: {
       buildCertificationResult: parcoursupCertificationResult,
       buildCompetence: parcoursupCompetence,
@@ -404,10 +409,8 @@ export {
   buildCertificationAssessment,
   buildCertificationAssessmentScore,
   buildCertificationAttestation,
-  buildCertificationCandidate,
   buildCertificationCandidateForAttendanceSheet,
   buildCertificationCandidateForSupervising,
-  buildCertificationCandidateSubscription,
   buildCertificationCenter,
   buildCertificationCenterInvitation,
   buildCertificationCenterMembership,
@@ -526,6 +529,7 @@ export {
   buildTutorial,
   buildTutorialForUser,
   buildUser,
+  buildUserCampaignSurvey,
   buildUserCompetence,
   buildUserDetailsForAdmin,
   buildUserOrgaSettings,

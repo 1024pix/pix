@@ -11,4 +11,4 @@ const serialize = function (country) {
   }).serialize(country);
 };
 
-export { serialize };
+export const countrySerializer = { serialize };

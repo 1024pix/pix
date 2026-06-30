@@ -8,4 +8,4 @@ const serialize = function (activity) {
   }).serialize(activity);
 };
 
-export { serialize };
+export const activitySerializer = { serialize };

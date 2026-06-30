@@ -7,7 +7,7 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
   @service session;
 
   host = ENV.APP.API_HOST;
-  namespace = 'api';
+  namespace = 'api/admin';
 
   get headers() {
     const headers = {};

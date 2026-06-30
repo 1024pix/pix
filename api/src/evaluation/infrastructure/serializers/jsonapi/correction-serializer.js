@@ -52,4 +52,4 @@ const serialize = function (correction) {
   }).serialize(correction);
 };
 
-export { serialize };
+export const correctionSerializer = { serialize };

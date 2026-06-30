@@ -116,4 +116,4 @@ function serializeLine(lineArray) {
 
 const csvHelper = { checkCsvHeader, parseCsvWithHeader, parseCsvData, readCsvFile };
 
-export { checkCsvHeader, csvHelper, parseCsvData, parseCsvWithHeader, serializeLine, streamCsv };
+export { checkCsvHeader, csvHelper, parseCsvWithHeader, serializeLine, streamCsv };

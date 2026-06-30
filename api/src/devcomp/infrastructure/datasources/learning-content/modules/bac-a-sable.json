@@ -123,6 +123,44 @@
                 {
                   "elements": [
                     {
+                    "id": "0401cef4-871e-40a3-876b-5d7571f8b556",
+                    "type": "qcm-declarative",
+                    "instruction": "<p>Quels sont tes petits plaisirs de la vie ?</p>",
+                    "hasShortProposals": false,
+                    "proposals": [
+                      {
+                        "id": "1",
+                        "content": "Manger les cookies glacés de Clément"
+                      },
+                      {
+                        "id": "2",
+                        "content": "Regarder un match de foot avec Eric"
+                      },
+                      {
+                        "id": "3",
+                        "content": "Se faire coacher au marathon par Matthias"
+                      },
+                      {
+                        "id": "4",
+                        "content": "Observer Andreia dessiner dans Slack"
+                      },
+                      {
+                        "id": "5",
+                        "content": "Ecouter du reggae avec Nico"
+                      },
+                      {
+                        "id": "6",
+                        "content": "Descendre une pente en ski de fond avec Julie"
+                      }
+                    ],
+                    "feedback": {
+                      "diagnosis": "<p>C'est sûr, c'est un vrai kiff !</p>"
+                    }
+                  }]
+                },
+                {
+                  "elements": [
+                    {
                       "id": "71de6394-ff88-4de3-8834-a40057a50ff4",
                       "type": "qcu",
                       "instruction": "<p>Pix évalue 16 compétences numériques différentes.</p>",

@@ -1,6 +1,6 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as organizationImportDetailSerializer from '../infrastructure/serializers/jsonapi/organization-import-detail-serializer.js';
-import * as organizationLearnerImportFormatSerializer from '../infrastructure/serializers/jsonapi/organization-learner-import-format-serializer.js';
+import { organizationImportDetailSerializer } from '../infrastructure/serializers/jsonapi/organization-import-detail-serializer.js';
+import { organizationLearnerImportFormatSerializer } from '../infrastructure/serializers/jsonapi/organization-learner-import-format-serializer.js';
 
 const getOrganizationImportStatus = async function (request, h, dependencies = { organizationImportDetailSerializer }) {
   const { organizationId } = request.params;

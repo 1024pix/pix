@@ -9,4 +9,4 @@ const serialize = function (filters) {
   }).serialize(filters);
 };
 
-export { serialize };
+export const organizationLearnerFilterSerializer = { serialize };

@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import * as moduleUnderTest from '../../../../../src/prescription/organization-place/application/organization-place-route.js';
+import { organizationPlaceRoute as moduleUnderTest } from '../../../../../src/prescription/organization-place/application/organization-place-route.js';
 import { usecases } from '../../../../../src/prescription/organization-place/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
@@ -19,7 +19,6 @@ describe('Integration | Application | organization-place-controller', function (
 
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     sandbox.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
-    sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToSupOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');

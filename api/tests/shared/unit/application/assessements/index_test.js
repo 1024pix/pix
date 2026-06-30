@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
 import { assessmentController } from '../../../../../src/shared/application/assessments/assessment-controller.js';
-import * as moduleUnderTest from '../../../../../src/shared/application/assessments/index.js';
+import { assessmentsRoute as moduleUnderTest } from '../../../../../src/shared/application/assessments/index.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

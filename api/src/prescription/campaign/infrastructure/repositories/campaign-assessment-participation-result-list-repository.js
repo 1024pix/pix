@@ -1,4 +1,3 @@
-import { STAGE_ACQUISITIONS_TABLE_NAME } from '../../../../../db/migrations/20230721114848_create-stage_acquisitions-table.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
@@ -236,7 +235,7 @@ const buildCampaignAssessmentParticipationResultList = async (results, stageColl
 const getAcquiredStages = (campaignParticipationId) => {
   const knexConn = DomainTransaction.getConnection();
 
-  return knexConn(STAGE_ACQUISITIONS_TABLE_NAME).select('*').where({ campaignParticipationId });
+  return knexConn('stage-acquisitions').select('*').where({ campaignParticipationId });
 };
 
 const getAcquiredBadges = (campaignParticipationId) => {

@@ -44,12 +44,6 @@ class AssessmentLackOfChallengesError extends AssessmentEndedError {
   }
 }
 
-class AssessmentResultNotCreatedError extends DomainError {
-  constructor(message = "L'assessment result n'a pas pu être généré.") {
-    super(message);
-  }
-}
-
 class AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError extends DomainError {
   constructor() {
     super('Autonomous course requires a target profile with simplified access.');
@@ -129,12 +123,6 @@ class CertificationCandidateByPersonalInfoTooManyMatchesError extends DomainErro
   }
 }
 
-class CertificationCandidateDeletionError extends DomainError {
-  constructor(message = 'Echec lors de la suppression du candidat de certification.') {
-    super(message);
-  }
-}
-
 class CertificationCandidatePersonalInfoFieldMissingError extends DomainError {
   constructor(message = "Un ou plusieurs champs d'informations d'identité sont manquants.") {
     super(message);
@@ -162,15 +150,6 @@ class CertificationCenterMembershipCreationError extends DomainError {
 class CertificationCenterMembershipDisableError extends DomainError {
   constructor(message = 'Erreur lors de la mise à jour du membership de centre de certification.') {
     super(message);
-  }
-}
-
-class CertificationAlgorithmVersionError extends DomainError {
-  constructor(
-    message = 'La version de la certification ne permet pas de réaliser cette opération',
-    code = 'CERTIFICATION_USING_INCORRECT_ALGORITHM_VERSION',
-  ) {
-    super(message, code);
   }
 }
 
@@ -705,12 +684,6 @@ class MultipleOrganizationLearnersWithDifferentNationalStudentIdError extends Do
   }
 }
 
-class UserNotAuthorizedToUpdateCampaignError extends DomainError {
-  constructor(message = "Cet utilisateur n'est pas autorisé à modifier cette campagne.") {
-    super(message);
-  }
-}
-
 class UserNotAuthorizedToUpdateResourceError extends DomainError {
   constructor(message = "Cet utilisateur n'est pas autorisé à mettre à jour la ressource.") {
     super(message);
@@ -1075,7 +1048,6 @@ export {
   AssessmentEndedError,
   AssessmentLackOfChallengesError,
   AssessmentNotCompletedError,
-  AssessmentResultNotCreatedError,
   AuditLoggerApiError,
   AuthenticationMethodAlreadyExistsError,
   AuthenticationMethodNotFoundError,
@@ -1088,11 +1060,9 @@ export {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   CertificateVerificationCodeGenerationTooManyTrials,
-  CertificationAlgorithmVersionError,
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CertificationCandidateDeletionError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
@@ -1185,7 +1155,6 @@ export {
   UserNotAuthorizedToGenerateUsernamePasswordError,
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToRemoveAuthenticationMethod,
-  UserNotAuthorizedToUpdateCampaignError,
   UserNotAuthorizedToUpdateEmailError,
   UserNotAuthorizedToUpdatePasswordError,
   UserNotAuthorizedToUpdateResourceError,

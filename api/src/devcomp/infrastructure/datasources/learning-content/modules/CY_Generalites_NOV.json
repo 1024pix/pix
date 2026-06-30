@@ -1,0 +1,874 @@
+{
+  "id": "379f0ea9-8b3d-40cd-8a0d-a6ce38dd42ae",
+  "shortId": "70f0f3bb",
+  "slug": "cyberattaque-definition",
+  "title": "C’est quoi une cyberattaque ?",
+  "isBeta": true,
+  "visibility": "public",
+  "details": {
+    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "description": "<p>Les actualités parlent souvent d’entreprises victimes de cyberattaques. Mais qu’est-ce que ça veut dire ?<br>Dans ce module, vous allez découvrir ce qu’est une cyberattaque, ce que cherchent les auteurs de cyberattaque et qui peut être visé. <br><br></p>",
+    "duration": 10,
+    "level": "novice",
+    "objectives": [
+      "<p>Identifier les principales motivations des auteurs de cyberattaque</p>",
+      "<p>Savoir qui peut être victime d’une cyberattaque</p>",
+      "<p>Comprendre que des auteurs de cyberattaque peuvent agir en groupes</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "sections": [
+    {
+      "id": "3c604646-4be9-4387-9692-48a092b5b7a2",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "929f7bb5-abd0-4c18-ba22-9aae50035ab0",
+          "type": "discovery",
+          "title": "Accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "2c1e80ff-8cf7-4403-b9ab-1b0e5cc9f529",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Susana et Tobias échangent quelques messages.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "19a78896-6e87-4cb5-be78-85cfc73943f1",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "",
+                  "messages": [
+                    {
+                      "userName": "Susana",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "T’as vu, il paraît que notre mairie a subi une cyberattaque."
+                    },
+                    {
+                      "userName": "Tobias",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Une cyberattaque ? C’est quoi ?  Quelqu’un a fait exploser les ordinateurs de la mairie ?"
+                    },
+                    {
+                      "userName": "Susana",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Mais non, c’est pas une attaque au sens violent. Ça veut dire que les systèmes informatiques de la ville ont été utilisés par des pirates informatiques."
+                    },
+                    {
+                      "userName": "Tobias",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Mais on habite même pas au bord de la mer, ils viennent d’où ces pirates ?"
+                    },
+                    {
+                      "userName": "Susana",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Haha ! On les appelle les pirates mais ils n’ont pas de bateau, ce sont des gens qui utilisent l’informatique pour faire des choses illégales. "
+                    }
+                  ],
+                  "animationSpeed": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "6f435abb-0307-40fd-83e6-866330554a4c",
+          "type": "transition",
+          "title": "Transition accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "ee73c45d-aff9-48a1-80bc-9deecc2ec112",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Alors, c’est quoi une cyberattaque ?</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a77d15eb-0649-48a1-a235-dc961e76e52a",
+      "type": "explore-to-understand",
+      "grains": [
+        {
+          "id": "dccc7f9b-9bd9-483d-9e52-b940f0ffa8dc",
+          "type": "discovery",
+          "title": "Découverte 1",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "<p>Pour chacune des situations suivantes, répondez à la question.</p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "cb16c340-5ca3-48bc-b546-1789bd45f097",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/cy_generalites_nov/felix.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "90bb6af7-bafc-426b-889a-11c12bbb5f69",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>L’ordinateur de Félix a subi une cyberattaque. Les auteurs de la cyberattaque ont pu prendre le contrôle de son appareil, et ils en ont profité pour vider son compte en banque.</p>"
+                    },
+                    {
+                      "id": "f4b56353-d009-48a3-a178-510868f9a2fa",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Qui est la victime de cette cyberattaque ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Un particulier&nbsp;: Félix</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Exactement ! Ici la <strong>victime </strong>de la cyberattaque <strong>est une </strong><strong>personne </strong>: Félix.&nbsp;<br></p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Une entreprise&nbsp;: la banque<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non. Ici la <strong>victime </strong>de la cyberattaque<strong> est une personne </strong>: Félix.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Ici la <strong>victime </strong>de la cyberattaque<strong> est une personne </strong>: Félix.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "f1f6d8ca-787d-4c88-8021-344893203c5e",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/cy_generalites_nov/mona.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "d1f31716-8453-40aa-96d2-54cb86102ca7",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>L’assurance de Mona a été victime d’une cyberattaque. Les pirates ont volé les noms, mails et numéros de téléphone des clients. Ces informations ont ensuite été revendues pour voler l’identité des assurés.</p>"
+                    },
+                    {
+                      "id": "3d04d91f-d62b-4793-9463-4a8db9cbc300",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Quel est le but des auteurs de cette cyberattaque ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Bloquer le fonctionnement de l’assurance.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non. Les auteurs de cette cyberattaque ont attaqué l’<strong>entreprise d’assurance </strong>et volé les données de Mona et des autres assurés. Leur but est d’<strong>obtenir de l’argent</strong> en revendant ces données.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Obtenir de l’argent.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Exactement ! Les auteurs de cette cyberattaque ont attaqué l’<strong>entreprise d’assurance </strong>et volé les données de Mona et des autres assurés. Leur but est d’<strong>obtenir de l’argent</strong> en revendant ces données.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Les auteurs de cette cyberattaque ont attaqué l’<strong>entreprise d’assurance </strong>et volé les données de Mona et des autres assurés. Leur but est d’<strong>obtenir de l’argent</strong> en revendant ces données.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "f0948e7c-dd77-486c-981a-9cf80b873e9d",
+          "type": "short-lesson",
+          "title": "Leçon 1",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "c95b327e-79cf-4b9c-99f0-cc398822f39a",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Une <strong>cyberattaque </strong>est un ensemble d’<strong>actions illégales</strong> visant un ou plusieurs systèmes informatiques dans un <strong>but malveillant</strong>.&nbsp;☠️ </p><p>La <strong>victime </strong>peut être n’importe qui&nbsp;: un particulier, une entreprise, une administration, une association ou même un État.</p><p>Dans la plupart des cas, les auteurs de cyberattaques cherchent à obtenir un <strong>gain financier</strong>&nbsp;: voler des informations bancaires, demander une rançon ou obtenir un transfert d’argent. 💸</p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "77a9a543-f890-40e1-9a89-9eba9fdf6610",
+                      "type": "text",
+                      "tag": "did-you-know",
+                      "content": "<p>Vos <strong>données personnelles volées</strong> pendant les cyberattaques sont <strong>précieuses </strong>pour les pirates informatiques. 💎<br>Ils peuvent les <strong>revendre </strong>ou <strong>s’en servir</strong> eux-même, par exemple pour usurper des identités ou créer des arnaques personnalisées.</p>"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "371cc9f5-6f3e-4dd4-ae3d-6895ee670e85",
+          "type": "transition",
+          "title": "Transition 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "42bbc673-1fa0-4056-a6c8-24f5ef827e68",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Mais tous les auteurs de cyberattaque ne sont pas intéressés par le gain financier. Découvrez d’autres motivations possibles.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "669bc6b9-0597-48c3-bdc6-ae8ea18dcc1a",
+          "type": "discovery",
+          "title": "Découverte 2",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "<p>Pour chacune des situations suivantes, indiquez la motivation des auteurs de la cyberattaque.</p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "8516972f-cce3-4582-8945-3134a4721fce",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Le site web <u>boeufcharentais.pix.org</u> subit une cyberattaque. Depuis hier, le site entier a été remplacé par une grande photo d’abattoir.</p>"
+                    },
+                    {
+                      "id": "81d4fa72-2577-4766-88f5-400e08e0763d",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Selon vous, quelle est la motivation des auteurs de la cyberattaque ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Défendre des idées.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Effectivement.<br>Les auteurs de la cyberattaque semblent vouloir <strong>faire passer un message</strong>. En remplaçant le site par une photo d’abattoir, ils cherchent probablement à dénoncer les pratiques des abattoirs.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Rechercher la reconnaissance personnelle.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Pas tout à fait.<br>Ici, les auteurs ne cherchent pas à montrer leurs compétences ou à se faire connaître. Le contenu affiché sur le site cherche plutôt à <strong>faire passer un message</strong>&nbsp;: ils souhaitent probablement dénoncer les pratiques des abattoirs.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Faire de l’espionnage industriel.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Pas vraiment.<br>L’espionnage industriel, c’est voler des informations confidentielles dans une entreprise. Ici, rien n’a été volé au site web, mais il a été remplacé par une image qui veut <strong>faire passer un message</strong>&nbsp;: ils cherchent probablement à dénoncer les pratiques des abattoirs.</p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Les auteurs de la cyberattaque semblent vouloir <strong>faire passer un message</strong>. En remplaçant le site par une photo d’abattoir, ils cherchent probablement à dénoncer les pratiques des abattoirs.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "22b4ba76-0a16-4d7b-ac56-9ee991dea2c2",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Un grand groupe électronique a subi une cyberattaque, les auteurs ont récupéré les plans de leur futur smartphone pour les revendre à leurs concurrents.</p>"
+                    },
+                    {
+                      "id": "d2130578-2de0-454b-b389-7070f3a4ee91",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Selon vous, quelle est la motivation des auteurs de la cyberattaque ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Défendre des idées.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Pas tout à fait.<br>Dans cette situation, les auteurs ne cherchent pas à faire passer un message ou à défendre une cause.&nbsp; Ils <strong>volent les plans confidentiels</strong> d’un futur smartphone pour les <strong>revendre à des concurrents</strong>&nbsp;: cela correspond à de <strong>l’espionnage industriel</strong>.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Rechercher la reconnaissance personnelle.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Pas vraiment.<br>La recherche de reconnaissance consiste plutôt à revendiquer une attaque pour prouver ses compétences. Ici, les auteurs de la cyberattaque <strong>volent les plans confidentiels</strong> d’un futur smartphone pour les <strong>revendre à des concurrents</strong>&nbsp;: cela correspond à de <strong>l’espionnage industriel</strong>.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Faire de l’espionnage industriel.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Effectivement, les auteurs de la cyberattaque <strong>volent les plans confidentiels</strong> d’un futur smartphone pour les <strong>revendre à des concurrents</strong>&nbsp;: cela correspond à de <strong>l’espionnage industriel</strong>.</p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Les auteurs de la cyberattaque <strong>volent les plans confidentiels</strong> d’un futur smartphone pour les <strong>revendre à des concurrents</strong>&nbsp;: cela correspond à de <strong>l’espionnage industriel</strong>.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "f9719722-2f82-4dd3-85e4-f89a4822d3d3",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Deux auteurs de cyberattaques revendiquent l’attaque qui a bloqué pendant 15 minutes plusieurs systèmes informatiques de l’État. Ils expliquent avoir agi pour montrer leurs compétences et se faire connaître.</p>"
+                    },
+                    {
+                      "id": "a2710787-abbb-421e-b074-65ccebf12270",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Selon vous, quelle est la motivation des auteurs de la cyberattaque ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Défendre des idées.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Pas tout à fait.<br> Une attaque contre un État peut parfois servir à défendre des idées politiques. Mais ici, la situation insiste surtout sur le fait que les auteurs revendiquent l’attaque&nbsp;: ils cherchent sûrement à <strong>être reconnus ou remarqués</strong>.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Rechercher la reconnaissance personnelle.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Effectivement.<br>Les auteurs revendiquent la cyberattaque&nbsp;: ils veulent que l’on sache qu’ils en sont responsables. Ils cherchent sûrement à <strong>être reconnus ou remarqués</strong>.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Faire de l’espionnage industriel.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Pas vraiment.<br>L’espionnage industriel vise plutôt à voler des informations confidentielles dans une entreprise. Ici, les auteurs bloquent des systèmes informatiques et revendiquent leur action&nbsp;: ils cherchent sûrement à <strong>être reconnus ou remarqués</strong>.</p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Les auteurs revendiquent la cyberattaque&nbsp;: ils veulent que l’on sache qu’ils en sont responsables. Ils cherchent sûrement à <strong>être reconnus ou remarqués</strong>.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bf0c7d5e-3d96-48f3-875c-5c5a2cd9bb73",
+          "type": "short-lesson",
+          "title": "Leçon 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "09189183-b657-442d-95ad-f4723d864adb",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Certains auteurs de cyberattaques ne cherchent pas à gagner de l’argent, ils ont d’autres motivations&nbsp;:&nbsp;</p><ul><li>des<strong> idéaux politiques</strong>, <strong>sociaux </strong>ou <strong>éthiques</strong>, ✊️</li><li>la <strong>recherche de reconnaissance personnelle</strong>, 🏆️</li><li>de l’<strong>espionnage industriel</strong>. 🥷</li></ul><p><br>Ces cyberattaques visent souvent des organisations, des entreprises, des services publics ou des États. <br><br></p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "b02e18c2-c098-4957-9fdd-ba7a6dfeeff7",
+          "type": "transition",
+          "title": "Transition 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "565d01ca-9d53-41ec-a509-66ab8aaec50f",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Vous connaissez maintenant les principales motivations des auteurs de cyberattaques. Découvrez à présent les conséquences que ces cyberattaques peuvent avoir sur les victimes.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "6da50c0d-99e8-40fe-8ba4-eeb6f89d2cc4",
+          "type": "discovery",
+          "title": "Découverte 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "743302f8-b60c-4be8-a295-08b2a6f23c9a",
+                "type": "custom",
+                "title": "",
+                "instruction": "<p>Lisez l’article puis répondez à la question.<br></p>",
+                "functionalInstruction": "",
+                "tagName": "pix-article",
+                "props": {
+                  "titleLevel": 2,
+                  "articleTitle": "Cyberattaque sur un réseau social : des millions d’utilisateurs concernés",
+                  "author": "Les brèves du numérique",
+                  "date": "26/06/2025",
+                  "paragraphs": [
+                    "Les données personnelles de millions d’utilisateurs d’un réseau social ont été volées lors d’une cyberattaque. Les informations volées comprennent les noms, prénoms, noms d’utilisateur, adresses mail et photos de profil.",
+                    "Les personnes concernées par ce vol risquent de recevoir un mail dans les prochains jours. Il est recommandé de faire preuve de vigilance face aux tentatives d’arnaque qui utiliseraient ces données volées."
+                  ],
+                  "highlightedSentence": "",
+                  "colorOfHighlightSentence": ""
+                }
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "22ae41f2-2582-4553-ba48-8e1753da420a",
+                "type": "qcm",
+                "instruction": "<p>Selon vous, quelles sont les conséquences de cette cyberattaque ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Le réseau social ne retrouvera pas les données de ses utilisateurs.</p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Les utilisateurs peuvent subir des tentatives d’arnaques personnalisées.</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Les utilisateurs vont tous recevoir un mail avec leurs données.</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Le réseau social risque de perdre la confiance de ses utilisateurs.</p>"
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>Les données volées peuvent être utilisées pour usurper l’identité des utilisateurs.</p>"
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Effectivement !</p>",
+                    "diagnosis": "<p>Cette cyberattaque peut avoir des <strong>conséquences</strong> aussi bien pour les utilisateurs que pour le réseau social.</p><ul><li>Les utilisateurs peuvent recevoir des <strong>mails d’arnaque crédibles</strong> car les auteurs disposent de certaines informations personnelles. Ces données peuvent aussi servir pour <strong>usurper leur identité</strong>.</li><li>Le réseau social, lui, risque de <strong>perdre la confiance de ses utilisateurs</strong>, car leurs données personnelles ont été volées.</li></ul>"
+                  },
+                  "invalid": {
+                    "state": "<p>Eh non.<br></p>",
+                    "diagnosis": "<p>Cette cyberattaque peut avoir des <strong>conséquences</strong> aussi bien pour les utilisateurs que pour le réseau social.</p><ul><li>Les utilisateurs peuvent recevoir des <strong>mails d’arnaque crédibles</strong> car les auteurs disposent de certaines informations personnelles. Ces données peuvent aussi servir pour <strong>usurper leur identité</strong>.</li><li>Le réseau social, lui, risque de <strong>perdre la confiance de ses utilisateurs</strong>, car leurs données personnelles ont été volées.</li></ul>"
+                  }
+                },
+                "solutions": [
+                  "2",
+                  "4",
+                  "5"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "438c8aeb-ebf0-4f72-8681-9c54ac969046",
+          "type": "short-lesson",
+          "title": "Leçon 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "8e6a0b7f-1231-4c7b-8689-4f9a6aafa0b6",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Une cyberattaque est une menace importante, elle peut avoir des<strong> conséquences très graves</strong>&nbsp;: </p><ul><li><strong>Pour les part</strong><strong>iculiers </strong>: perte d’argent, usurpation d’identité ou diffusion d’informations personnelles. 🙍</li><li><strong>Pour les organisations et entreprises </strong>: interruption d’activité, perte financière, vol d’informations confidentielles, atteinte à la réputation, perte de confiance des clients ou des partenaires. 🏢</li><li><strong>Pour la so</strong><strong>ciété </strong>: perturbation des services essentiels, comme les hôpitaux, les transports, les réseaux d’énergie ou les administrations publiques. 🌍</li></ul><p><br>Les auteurs de cyberattaques de grande ampleur sont souvent membres de<strong> groupes organisés</strong>.</p><p>Ces groupes<strong> ont </strong>des <strong>ressources</strong>, des <strong>outils </strong>et du <strong>temps </strong>pour mener des attaques à grande échelle.<br><br></p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10b1bf2b-cb0f-43c6-bc14-5832e4e12141",
+      "type": "retain-the-essentials",
+      "grains": [
+        {
+          "id": "415836c6-d489-4ca2-be2a-181a7cdceb9f",
+          "type": "summary",
+          "title": "Récap",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "90ac5905-a0ae-4cb0-b267-d17abe0b9109",
+                "type": "text",
+                "tag": " ",
+                "content": "<ul><li>Une <strong>cyberattaque </strong>est un ensemble d’<strong>actions illégales</strong> visant un ou plusieurs <strong>systèmes informatiques</strong> dans un <strong>but malveillant</strong>. ☠️</li><li>Les <strong>victimes </strong>peuvent être des particuliers, une organisation, une entreprise ou même un État.</li><li>La plupart des cyberattaques ont une<strong> motivation financière</strong>.💸</li><li>Mais d’<strong>autres motivations</strong> existent comme la <strong>défense d’idéaux politiques</strong> ou l’<strong>espionnage industriel</strong> par exemple.</li><li>Certains auteurs de cyberattaques font partie de <strong>réseaux</strong> et de <strong>groupes organisés</strong>, avec <strong>beaucoup de ressources</strong>.</li></ul>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "220a4f69-8d5c-4bdc-82f9-4ac2c0e52c8d",
+      "type": "practise",
+      "grains": [
+        {
+          "id": "4beaa655-3f82-4071-a60c-b703f898b511",
+          "type": "transition",
+          "title": "Transition activité",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "198ed754-a383-4a7a-96eb-fe4e50517d17",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voyons si vous avez retenu l’essentiel.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "32306857-2270-4c36-a650-10160d5eefcd",
+          "type": "activity",
+          "title": "Activité 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "104bc796-157a-4888-9786-6824336c0928",
+                "type": "qab",
+                "instruction": "<p>Pour chacune des affirmations suivantes, indiquez si elle est vraie ou fausse.</p>",
+                "cards": [
+                  {
+                    "id": "140df8ae-236e-40ad-896a-753f0a1a9137",
+                    "text": "Une cyberattaque c’est détruire du matériel informatique par accident.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "2c781c87-84bc-4c44-8321-f1f44915ef86",
+                    "text": "Une cyberattaque peut demander beaucoup de temps, de compétences et de ressources. ",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "0b0c36a1-aef5-430b-9d03-2079cf64e49b",
+                    "text": "Une cyberattaque peut viser une personne, une entreprise ou une administration.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "ec62d8f0-860d-4bd6-9eb1-da8c22f16397",
+                    "text": "Une cyberattaque peut avoir des conséquences graves pour les victimes.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "4dcb844d-a98f-4f39-9d21-cde4cc69afa1",
+                    "text": "Une cyberattaque est toujours menée par une personne seule. ",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": ""
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "c9ad1d87-ec07-4d3c-a270-771e6aa0e5b8",
+          "type": "activity",
+          "title": "Activité 2",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "<p>Pour chacune des situations suivantes, sélectionnez la motivation principale des auteurs de cyberattaques.</p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "2ffd1025-fdba-42b5-8500-2ffedd8f7ce2",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Une entreprise reçoit un message&nbsp;: ses fichiers sont bloqués. Pour les récupérer, elle doit payer une somme d’argent.</p>"
+                    },
+                    {
+                      "id": "dcb9489e-7f18-4514-8efd-b54df37554a5",
+                      "type": "qcu",
+                      "instruction": "<p>Quel est l’objectif des auteurs de la cyberattaque ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Obtenir une rançon.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !&nbsp;🎉</p>",
+                            "diagnosis": "<p>Les auteurs cherchent ici à obtenir de l’argent en échange du déblocage des fichiers.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Faire passer un message politique.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.<br></p>",
+                            "diagnosis": "<p>Demandez-vous ce que les auteurs cherchent à obtenir de la victime.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Faire de l’espionnage industriel.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.<br></p>",
+                            "diagnosis": "<p>Demandez-vous ce que les auteurs cherchent à obtenir de la victime.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "6992680f-df05-46eb-ba40-ab804444f053",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Lors d'une cyberattaque, des informations sur un médicament pas encore mis en vente sont volées à un grand laboratoire.</p>"
+                    },
+                    {
+                      "id": "6d7fdaf6-7e78-4d49-b28a-0aa0a94eb6ae",
+                      "type": "qcu",
+                      "instruction": "<p>Quel est l’objectif des auteurs de la cyberattaque ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Obtenir une rançon.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Demandez-vous ce qui a été volé au laboratoire et pourquoi.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Faire passer un message politique.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.<br></p>",
+                            "diagnosis": "<p>Demandez-vous ce qui a été volé au laboratoire et pourquoi.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Faire de l’espionnage industriel.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !&nbsp;🎉</p>",
+                            "diagnosis": "<p>Le vol d’informations confidentielles peut servir à espionner une entreprise, une administration ou un État.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "2f9307bd-2872-48c8-b67c-922641ad65ed",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Un site officiel devient inaccessible après une attaque revendiquée par un groupe qui veut défendre une cause.</p>"
+                    },
+                    {
+                      "id": "9e666c6c-5329-4ccf-9add-5e4666681ab4",
+                      "type": "qcu",
+                      "instruction": "<p>Quel est l’objectif des auteurs de la cyberattaque ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Obtenir une rançon.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Observez pourquoi le groupe revendique l’attaque.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Faire passer un message politique.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !&nbsp;🎉</p>",
+                            "diagnosis": "<p>L’attaque sert ici à défendre une cause et à attirer l’attention.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Faire de l’espionnage industriel.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Observez pourquoi le groupe revendique l’attaque.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a38424d0-9425-461c-89fc-db1cfae275e1",
+      "type": "go-further",
+      "grains": [
+        {
+          "id": "30c1891d-a3bf-4749-9530-d927bcd0da11",
+          "type": "challenge",
+          "title": "Transfert",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "f341da13-2c18-4c5d-8329-1adcec88b621",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Vous apprenez qu’un site sur lequel vous avez un compte a subi une cyberattaque. Certaines de vos données personnelles ont été volées.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "7c0abb43-06fd-43aa-8e11-9d221ba0727a",
+                "type": "qcu-declarative",
+                "instruction": "<p>Que faites-vous ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Je me renseigne auprès du site pour savoir quelles données ont été volées.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>C’est une bonne réaction. Les informations publiées par le site peuvent vous aider à comprendre quelles données ont été volées et quels risques surveiller dans les jours suivants. Les auteurs de cyberattaques peuvent utiliser vos données personnelles pour créer des messages d’arnaque très crédibles.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Je fais attention aux mails et aux messages que je reçois dans les jours suivants.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>C’est une bonne réaction. Des auteurs de cyberattaque peuvent utiliser vos données personnelles pour créer des messages d’arnaque très crédibles. Par exemple, un message peut utiliser votre nom ou votre adresse pour paraître sérieux.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je change le mot de passe de mon compte sur ce site.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>C’est une bonne réaction. Modifier votre mot de passe permet de sécuriser votre compte, surtout si des données ont été volées. Il faudra aussi faire attention aux messages suspects dans les jours suivants. Les auteurs de cyberattaques peuvent utiliser vos données personnelles pour créer des messages d’arnaque très crédibles.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Je préviens mes proches si je pense qu’ils peuvent aussi être concernés.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>C’est une bonne réaction. Si d’autres personnes utilisent le même site, elles peuvent aussi être concernées par le vol. Les prévenir peut les aider à faire attention aux messages suspects. Les auteurs de cyberattaques peuvent utiliser les données personnelles pour créer des messages d’arnaque très crédibles.</p>"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "glossary": []
+}

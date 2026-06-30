@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/anonymised-campaign-assessment-serializer.js';
+import { anonymisedCampaignAssessmentSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/anonymised-campaign-assessment-serializer.js';
 import { Assessment } from '../../../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
@@ -15,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | anonymised-campaign-assessment-serialize
       });
 
       // when
-      const json = serializer.serialize([assessment]);
+      const json = anonymisedCampaignAssessmentSerializer.serialize([assessment]);
 
       // then
       expect(json).to.deep.equal({

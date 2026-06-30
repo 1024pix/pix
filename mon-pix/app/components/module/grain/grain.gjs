@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { action } from '@ember/object';
+import { trackedSet } from '@ember/reactive/collections';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -9,12 +10,11 @@ import { eq } from 'ember-truth-helpers';
 import Element from 'mon-pix/components/module/component/element';
 import Stepper from 'mon-pix/components/module/component/stepper';
 import didInsert from 'mon-pix/modifiers/modifier-did-insert';
-import { TrackedSet } from 'tracked-built-ins';
 
 export default class ModuleGrain extends Component {
   @service modulixAutoScroll;
   @service intl;
-  @tracked answeredElements = new TrackedSet();
+  @tracked answeredElements = trackedSet();
   @tracked isSkipButtonDisabled = false;
 
   grain = this.args.grain;

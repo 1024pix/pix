@@ -8,7 +8,7 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
@@ -1195,6 +1195,58 @@ describe('Integration | Repository | Campaign-Report', function () {
         expect(models).lengthOf(0);
         expect(meta.hasCampaigns).false;
       });
+    });
+  });
+
+  describe('#findAllPaginatedSummariesByOrganizationId', function () {
+    let organizationId;
+
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization({}).id;
+      await databaseBuilder.commit();
+    });
+
+    it('should return a lightweight paginated list ordered by createdAt DESC', async function () {
+      // given
+      const oldest = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        name: 'Oldest',
+        createdAt: new Date('2020-01-01'),
+      });
+      const newest = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        name: 'Newest',
+        createdAt: new Date('2023-01-01'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const { models, meta } = await campaignReportRepository.findAllPaginatedSummariesByOrganizationId({
+        organizationId,
+        page: { number: 1, size: 10 },
+      });
+
+      // then
+      expect(models.map(({ id }) => id)).to.deep.equal([newest.id, oldest.id]);
+      expect(models[0]).to.have.all.keys('id', 'name', 'code', 'type', 'createdAt', 'archivedAt');
+      expect(meta).to.deep.equal({ page: 1, pageCount: 1, pageSize: 10, rowCount: 2 });
+    });
+
+    it('should exclude deleted campaigns', async function () {
+      // given
+      databaseBuilder.factory.buildCampaign({ organizationId, deletedAt: new Date() });
+      const kept = databaseBuilder.factory.buildCampaign({ organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const { models, meta } = await campaignReportRepository.findAllPaginatedSummariesByOrganizationId({
+        organizationId,
+        page: { number: 1, size: 10 },
+      });
+
+      // then
+      expect(models.map(({ id }) => id)).to.deep.equal([kept.id]);
+      expect(meta.rowCount).to.equal(1);
     });
   });
 });

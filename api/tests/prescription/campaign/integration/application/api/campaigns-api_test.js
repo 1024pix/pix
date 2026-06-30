@@ -7,7 +7,7 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { ORGANIZATION_FEATURE, PIX_ADMIN } from '../../../../../../src/shared/domain/constants.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';

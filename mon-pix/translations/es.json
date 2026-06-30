@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 PREGUNTAS"
+            "strong-text": "{maximumAssessmentLength} PREGUNTAS"
           },
           "paragraphs": {
-            "1": "La prueba de certificación consta de '<strong>'32 preguntas'</strong>'.",
+            "1": "La prueba de certificación consta de '<strong>'{maximumAssessmentLength} preguntas'</strong>'.",
             "2": "Tienes un máximo de '<strong>'{duration}'</strong>' para responder*.",
             "3": "*excluyendo cualquier tiempo adicional",
-            "4": "Si completas '<strong>'menos de 20 preguntas, no podremos emitir una puntuación'</strong>'."
+            "4": "Si completas '<strong>'menos de {minimumAssessmentLength} preguntas, no podremos emitir una puntuación'</strong>'."
           },
           "title": "¿Cómo funciona la prueba de certificación?"
         },
@@ -977,10 +977,11 @@
         "options": {
           "english": "inglés - EN",
           "french": "francés - FR"
-        }
+        },
+        "warning-message": "Debido a un problema técnico, la Certificación Pix no está disponible temporalmente en inglés. Nos disculpamos por las molestias ocasionadas."
       },
       "link-to-user-certification": "Ver mis certificaciones",
-      "non-eligible-subscription": "No eres elegible para {complementarySubscriptionLabel}. Sin embargo, puedes presentarte a la certificación Pix.",
+      "non-eligible-subscription": "No eres elegible para {subscriptionLabel}. Sin embargo, puedes presentarte a la certificación Pix.",
       "title": "Unirse a una sesión de certificación"
     },
     "certifications-list": {
@@ -1312,22 +1313,20 @@
       "rewards": {
         "in-progress": {
           "details": {
-            "text": "En función de tu nivel al finalizar el curso, se te podrá expedir un certificado de superación.",
-            "title": "Completa todos los cursos para obtener tu certificado"
+            "title": "Completa tu curso para obtener tu certificado"
           },
           "status": "Pendiente"
         },
         "not-obtained": {
           "details": {
-            "text": "Por desgracia, los resultados obtenidos en las pruebas realizadas no permiten validar la obtención de su certificado",
-            "title": "Entender el motivo"
+            "title": "Lamentablemente, no has cumplido las condiciones para obtener el certificado"
           },
           "status": "No obtenido"
         },
         "obtained": {
           "details": {
-            "text": "¡Descarga tu certificado de aprobación! Este documento también está disponible en tu cuenta Pix.",
-            "title": "¿Dónde se puede encontrar eso?"
+            "text": "Puedes descargar tu certificado ahora mismo o encontrarlo en tu cuenta Pix.",
+            "title": "¡Has obtenido tu certificado!"
           },
           "link": "Descargaré mi certificado",
           "status": "Obtenido"
@@ -1912,6 +1911,7 @@
       },
       "verification-precondition-failed-alert": {
         "qcm": "Para validar, selecciona al menos dos respuestas.",
+        "qcm-declarative": "Para enviar, selecciona al menos una respuesta.",
         "qcu": "Para validar, selecciona una respuesta.",
         "qrocm": "Para validar, rellena todos los campos de respuesta."
       }
@@ -2342,29 +2342,38 @@
       }
     },
     "terms-of-service": {
+      "actions": {
+        "accept": "Aceptar y continuar",
+        "decline": "Rechazar y salir",
+        "document-link": "Leer las condiciones de uso"
+      },
       "cgu": "Acepto las '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'condiciones de uso de Pix'</a>'",
       "form": {
         "button": "Continuar",
         "error-message": "Debes aceptar las condiciones de uso de Pix."
       },
       "message": "Hemos actualizado nuestras condiciones de uso. Por favor, acéptalas para continuar con tu experiencia Pix.",
-      "title": "Condiciones de uso"
+      "requested": {
+        "message": "Para continuar usando Pix, te invitamos a leer y aceptar nuestras Condiciones Generales de Uso.",
+        "title": "Por favor, acepta nuestras Condiciones Generales de Uso (CGU)"
+      },
+      "title": "Condiciones de uso",
+      "update-requested": {
+        "message": "Hemos actualizado nuestras CGU. Revisa los cambios y acéptalos para continuar.",
+        "title": "Actualización importante de las Condiciones Generales de Uso (CGU)"
+      }
     },
     "timed-challenge-instructions": {
       "action": "Empezar",
       "primary": "Dispondrás de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' para superar la siguiente pregunta.",
-      "secondary": "Podrás seguir respondiendo después, pero la pregunta no se considerará acertada.",
-      "time": {
-        "and": " y ",
-        "minutes": "{minutes, plural, =0 {} =1 {# minuto} other {# minutos}}",
-        "seconds": "{seconds, plural, =0 {} =1 {# segundo} other {# segundos}}"
-      }
+      "secondary": "Podrás seguir respondiendo después, pero la pregunta no se considerará acertada."
     },
     "training": {
       "editor": "Contenido formativo propuesto por",
       "type": {
         "autoformation": "Test de autoformación",
         "e-learning": "Formación a distancia",
+        "external-service": "Servicio externo",
         "formation": "Formación",
         "hybrid-training": "Formación híbrida",
         "in-person-training": "Formación presencial",
@@ -2406,6 +2415,18 @@
       "title": "Tutorial de la campaña"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "audio",
+        "frise": "línea de tiempo",
+        "image": "imagen",
+        "jeu": "juego",
+        "outil": "herramienta",
+        "page": "página",
+        "pdf": "pdf",
+        "site": "sitio web",
+        "slide": "presentación",
+        "video": "video"
+      },
       "info": "Estos enlaces a tutoriales han sido sugeridos por usuarios de Pix.",
       "title": "Para acertar la próxima vez"
     },

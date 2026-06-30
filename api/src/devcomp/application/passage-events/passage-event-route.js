@@ -38,5 +38,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'devcomp/passage-events-api';
-export { name, register };
+export const passageEventRoute = { name: 'devcomp/passage-events-api', register };

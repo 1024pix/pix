@@ -1,5 +1,5 @@
 import { TargetProfileOverview } from '../../../../../../../src/prescription/target-profile/domain/models/TargetProfileOverview.js';
-import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-overview-serializer.js';
+import { targetProfileOverviewSerializer } from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-overview-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { buildThematic } from '../../../../../../tooling/domain-builder/factory/build-thematic.js';
@@ -69,7 +69,7 @@ describe('Unit | Serializer | JSONAPI | targetProfileOverview', function () {
       });
 
       // when
-      const serializedTargetProfile = serializer.serialize(
+      const serializedTargetProfile = targetProfileOverviewSerializer.serialize(
         new TargetProfileOverview({ ...targetProfile, frameworks: [framework] }),
       );
 

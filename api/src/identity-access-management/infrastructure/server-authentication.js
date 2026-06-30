@@ -9,7 +9,7 @@ import {
 } from '../../shared/infrastructure/authentication-strategy-names.js';
 import { logger } from '../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin } from '../../shared/infrastructure/utils/network.js';
-import { revokedUserAccessRepository } from '../infrastructure/repositories/revoked-user-access.repository.js';
+import { revokedUserAccessRepository } from './repositories/revoked-user-access.repository.js';
 
 const schemes = {
   jwt: {

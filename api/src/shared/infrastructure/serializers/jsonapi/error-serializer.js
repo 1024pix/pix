@@ -37,4 +37,4 @@ const serialize = function (infrastructureError) {
   );
 };
 
-export { serialize };
+export const errorSerializer = { serialize };

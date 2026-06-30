@@ -59,5 +59,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'announcements-api';
-export { name, register };
+export const announcementRoute = { name: 'announcements-api', register };

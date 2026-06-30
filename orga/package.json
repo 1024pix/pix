@@ -1,6 +1,6 @@
 {
   "name": "pix-orga",
-  "version": "5.433.0",
+  "version": "5.445.0",
   "private": false,
   "description": "Plateforme en ligne de gestion de campagne d'évaluation",
   "license": "AGPL-3.0",
@@ -32,7 +32,6 @@
     "lint:scss:fix": "npm run lint:scss -- --fix",
     "lint:translations": "eslint --format node_modules/eslint-plugin-i18n-json/formatter.js translations",
     "lint:translations:fix": "npm run lint:translations -- --fix",
-    "preinstall": "npx check-engine",
     "dev": "vite",
     "start": "vite",
     "test": "ember exam --path dist --config-file ./testem.cjs",

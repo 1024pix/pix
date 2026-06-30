@@ -1,4 +1,4 @@
-import { CombinedCourseStatistics } from '../models/CombinedCourseStatistics.js';
+import { CombinedCourseStatistics } from '../models/combined-courses/value-objects/CombinedCourseStatistics.js';
 
 export const getCombinedCourseStatistics = async ({ combinedCourseId, combinedCourseParticipationRepository }) => {
   const allCombinedCourseParticipations = await combinedCourseParticipationRepository.findByCombinedCourseIds({

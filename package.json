@@ -1,6 +1,6 @@
 {
   "name": "pix",
-  "version": "5.433.0",
+  "version": "5.445.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques",
   "license": "AGPL-3.0",
@@ -59,7 +59,6 @@
     "lint:scripts": "eslint --ignore-pattern **/compose.yaml scripts",
     "lint:yaml": "eslint --fix .circleci/*.yml .github/**/*.yaml",
     "lint:docs": "find ./docs -type f -name '*.md' | xargs -L1 markdown-link-check --quiet --config ./docs/link--check-config.json ",
-    "preinstall": "npx check-engine",
     "dev:team-certif": "run-p --print-label dev:api dev:mon-pix dev:certif dev:admin",
     "dev:admin": "cd admin && npm run dev",
     "dev:api": "cd api && npm run dev",

@@ -80,6 +80,10 @@ import HeadInformation from 'pix-admin/components/organizations/head-information
       <LinkTo @route="authenticated.organizations.get.statistics" @model={{@model}}>
         {{t "pages.organization.navbar.statistics"}}
       </LinkTo>
+
+      <LinkTo @route="authenticated.organizations.get.attached-certification-centers" @model={{@model}}>
+        {{t "pages.organization.navbar.attached-certification-center"}}
+      </LinkTo>
     </PixTabs>
 
     {{outlet}}

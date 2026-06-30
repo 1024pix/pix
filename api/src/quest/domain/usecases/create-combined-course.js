@@ -1,5 +1,5 @@
 import { ForbiddenAccess, NotFoundError } from '../../../shared/domain/errors.js';
-import { Campaign } from '../models/Campaign.js';
+import { Campaign } from '../models/combined-courses/entities/Campaign.js';
 
 export const createCombinedCourse = async ({
   combinedCourseForCreation,
@@ -37,9 +37,11 @@ export const createCombinedCourse = async ({
   const targetProfileIds = combinedCourseBlueprint.targetProfileIds ?? [];
   const targetProfiles = await targetProfileRepository.findByIds({ ids: targetProfileIds });
   const campaignsToCreate = [];
-  const recommendableModules = await recommendedModuleRepository.findIdsByTargetProfileIds({
-    targetProfileIds,
-  });
+  const recommendableModules = targetProfileIds.length
+    ? await recommendedModuleRepository.findIdsByTargetProfileIds({
+        targetProfileIds,
+      })
+    : [];
 
   for (const targetProfile of targetProfiles) {
     const campaignForCombinedCourse = Campaign.buildCampaignForCombinedCourse({
@@ -55,9 +57,9 @@ export const createCombinedCourse = async ({
     campaignsToCreate.push(campaignForCombinedCourse);
   }
 
-  const createdCampaigns = await campaignRepository.save({
-    campaigns: campaignsToCreate,
-  });
+  const createdCampaigns = campaignsToCreate.length
+    ? await campaignRepository.save({ campaigns: campaignsToCreate })
+    : [];
 
   const combinedCourse = combinedCourseBlueprint.toCombinedCourse({
     name: combinedCourseForCreation.name,

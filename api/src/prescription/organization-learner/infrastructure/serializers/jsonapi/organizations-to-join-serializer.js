@@ -25,4 +25,4 @@ const serialize = function (organizations) {
   }).serialize(organizations);
 };
 
-export { serialize };
+export const organizationsToJoinSerializer = { serialize };

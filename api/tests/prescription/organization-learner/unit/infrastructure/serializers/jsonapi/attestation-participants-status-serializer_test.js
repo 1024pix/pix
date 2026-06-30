@@ -1,5 +1,5 @@
 import { AttestationParticipantStatus } from '../../../../../../../src/prescription/organization-learner/domain/read-models/AttestationParticipantStatus.js';
-import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/attestation-participants-status-serializer.js';
+import { attestationParticipantsStatusSerializer } from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/attestation-participants-status-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | attestation-participants-status-serializer', function () {
@@ -41,7 +41,7 @@ describe('Unit | Serializer | JSONAPI | attestation-participants-status-serializ
       };
 
       // when
-      const json = serializer.serialize({ attestationParticipantsStatus, pagination });
+      const json = attestationParticipantsStatusSerializer.serialize({ attestationParticipantsStatus, pagination });
 
       // then
       expect(json).to.deep.equal(expectedData);

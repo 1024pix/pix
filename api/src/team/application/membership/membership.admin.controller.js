@@ -1,6 +1,6 @@
-import * as membershipSerializer from '../../../shared/infrastructure/serializers/jsonapi/membership.serializer.js';
+import { membershipSerializer } from '../../../shared/infrastructure/serializers/jsonapi/membership.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
+import { userOrganizationForAdminSerializer } from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
 
 const findPaginatedFilteredMembershipsForAdmin = async function (request) {
   const organizationId = request.params.id;

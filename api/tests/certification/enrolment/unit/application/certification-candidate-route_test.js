@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { certificationCandidateController } from '../../../../../src/certification/enrolment/application/certification-candidate-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/enrolment/application/certification-candidate-route.js';
+import { certificationCandidateRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/certification-candidate-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';

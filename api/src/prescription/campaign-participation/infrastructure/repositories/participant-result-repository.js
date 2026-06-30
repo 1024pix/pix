@@ -225,18 +225,4 @@ async function _isOrganizationLearnerActive(userId, campaignId) {
   return !organizationLearner?.isDisabled;
 }
 
-async function getCampaignParticipationStatus({ userId, campaignId }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  const participationStatus = await knexConn('campaign-participations')
-    .select('status')
-    .where({ campaignId, userId, isImproved: false })
-    .first();
-
-  if (!participationStatus) {
-    throw new NotFoundError(`Participation not found for user ${userId} and campaign ${campaignId}`);
-  }
-  return participationStatus.status;
-}
-
-export { get, getCampaignParticipationStatus };
+export { get };

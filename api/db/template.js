@@ -19,7 +19,7 @@ const COLUMN_NAME = 'authorId';
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-const up = async function (knex) {
+export async function up(knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table
       .integer(COLUMN_NAME)
@@ -27,16 +27,14 @@ const up = async function (knex) {
       .references('author.id')
       .comment("Book author identifier - see 'author' table");
   });
-};
+}
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-const down = async function (knex) {
+export async function down(knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME);
   });
-};
-
-export { down, up };
+}

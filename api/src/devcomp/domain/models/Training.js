@@ -1,10 +1,4 @@
-const modes = {
-  HYBRID: 'hybrid',
-  ONSITE: 'onSite',
-  REMOTE: 'remote',
-};
-
-class Training {
+export class Training {
   constructor({
     id,
     title,
@@ -48,8 +42,10 @@ class Training {
 
     return this.trainingTriggers.every((trainingTrigger) => trainingTrigger.isFulfilled({ knowledgeElements, skills }));
   }
+
+  static modes = {
+    HYBRID: 'hybrid',
+    ONSITE: 'onSite',
+    REMOTE: 'remote',
+  };
 }
-
-Training.modes = modes;
-
-export { modes, Training };

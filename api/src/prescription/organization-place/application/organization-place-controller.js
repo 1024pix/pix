@@ -1,8 +1,8 @@
 import { usecases } from '../domain/usecases/index.js';
 import * as dataOrganizationPlacesStatisticsSerializer from '../infrastructure/serializers/json/data-organization-places-statistics-serializer.js';
-import * as organizationPlacesLotManagementSerializer from '../infrastructure/serializers/jsonapi/organization-places-lot-management-serializer.js';
-import * as organizationPlacesLotsSerializer from '../infrastructure/serializers/jsonapi/organization-places-lots-serializer.js';
-import * as organizationPlacesStatisticsSerializer from '../infrastructure/serializers/jsonapi/organization-places-statistics-serializer.js';
+import { organizationPlacesLotManagementSerializer } from '../infrastructure/serializers/jsonapi/organization-places-lot-management-serializer.js';
+import { organizationPlacesLotsSerializer } from '../infrastructure/serializers/jsonapi/organization-places-lots-serializer.js';
+import { organizationPlacesStatisticsSerializer } from '../infrastructure/serializers/jsonapi/organization-places-statistics-serializer.js';
 
 const createOrganizationPlacesLot = async function (
   request,

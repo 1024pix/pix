@@ -1,5 +1,5 @@
 import { UserOrgaSettings } from '../../../../../../src/team/domain/models/UserOrgaSettings.js';
-import * as serializer from '../../../../../../src/team/infrastructure/serializers/jsonapi/user-orga-settings.serializer.js';
+import { userOrgaSettingsSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/user-orga-settings.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -90,7 +90,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
       };
 
       // when
-      const json = serializer.serialize(userOrgaSettings);
+      const json = userOrgaSettingsSerializer.serialize(userOrgaSettings);
 
       // then
       expect(json).to.deep.equal(expectedSerializedUserOrgaSettings);
@@ -101,7 +101,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings();
 
       // when
-      const json = serializer.serialize(userOrgaSettings);
+      const json = userOrgaSettingsSerializer.serialize(userOrgaSettings);
 
       // then
       expect(json.data.relationships.organization.data.type).to.equal('organizations');
@@ -120,7 +120,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings();
 
       // when
-      const json = serializer.serialize(userOrgaSettings);
+      const json = userOrgaSettingsSerializer.serialize(userOrgaSettings);
 
       // then
       expect(json.data.relationships.user.data.type).to.equal('users');
@@ -139,7 +139,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
       userOrgaSettings.currentOrganization = null;
 
       // when
-      const json = serializer.serialize(userOrgaSettings);
+      const json = userOrgaSettingsSerializer.serialize(userOrgaSettings);
 
       // then
       expect(json.data.relationships.organization.data).to.be.null;
@@ -151,7 +151,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
       userOrgaSettings.user = undefined;
 
       // when
-      const json = serializer.serialize(userOrgaSettings);
+      const json = userOrgaSettingsSerializer.serialize(userOrgaSettings);
 
       // then
       expect(json.data.relationships.user).to.be.undefined;

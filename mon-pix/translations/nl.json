@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 VRAGEN"
+            "strong-text": "{maximumAssessmentLength} VRAGEN"
           },
           "paragraphs": {
-            "1": "De certificeringstest bestaat uit '<strong>'32 vragen'</strong>'.",
+            "1": "De certificeringstest bestaat uit '<strong>'{maximumAssessmentLength} vragen'</strong>'.",
             "2": "Je hebt maximaal '<strong>'{duration}'</strong>' om te reageren*.",
             "3": "*exclusief eventuele extra tijd",
-            "4": "Als je '<strong>'minder dan 20 vragen invult, kunnen we je geen score geven'</strong>'."
+            "4": "Als je '<strong>'minder dan {minimumAssessmentLength} vragen invult, kunnen we je geen score geven'</strong>'."
           },
           "title": "Hoe werkt de certificeringstest?"
         },
@@ -977,10 +977,11 @@
         "options": {
           "english": "Engels - EN",
           "french": "Frans - FR"
-        }
+        },
+        "warning-message": "Vanwege een technisch probleem is de Pix-certificering tijdelijk niet beschikbaar in het Engels. Onze excuses voor het ongemak."
       },
       "link-to-user-certification": "Bekijk mijn certificaten",
-      "non-eligible-subscription": "Je komt niet in aanmerking voor {complementarySubscriptionLabel}. Je kunt echter wel je Pix-certificering behalen.",
+      "non-eligible-subscription": "Je komt niet in aanmerking voor {subscriptionLabel}. Je kunt echter wel je Pix-certificering behalen.",
       "title": "Doe mee aan een certificeringssessie"
     },
     "certifications-list": {
@@ -1312,22 +1313,20 @@
       "rewards": {
         "in-progress": {
           "details": {
-            "text": "Afhankelijk van uw niveau aan het einde van de opleiding kan een certificaat van succes worden uitgereikt.",
-            "title": "Voltooi alle parcours om je certificaat te behalen"
+            "title": "Voltooi je parcours om je certificaat te behalen"
           },
           "status": "Behandeling"
         },
         "not-obtained": {
           "details": {
-            "text": "Helaas kunnen we op basis van de behaalde resultaten op de afgelegde parcoursen niet bevestigen dat u uw certificaat hebt behaald",
-            "title": "De reden begrijpen"
+            "title": "Helaas heb je niet aan de voorwaarden voldaan om het certificaat te behalen"
           },
           "status": "Niet behaald"
         },
         "obtained": {
           "details": {
-            "text": "Download je certificaat van succes! Dit document is ook beschikbaar in je Pix-account.",
-            "title": "Waar is ze te vinden?"
+            "text": "Je kunt je certificaat nu downloaden of terugvinden in je Pix-account.",
+            "title": "Je hebt je certificaat behaald!"
           },
           "link": "Ik download mijn verklaring",
           "status": "Behaald"
@@ -1912,6 +1911,7 @@
       },
       "verification-precondition-failed-alert": {
         "qcm": "Selecteer ten minste twee antwoorden om te bevestigen.",
+        "qcm-declarative": "Selecteer ten minste één antwoord om te verzenden.",
         "qcu": "Selecteer een antwoord om te bevestigen.",
         "qrocm": "Vul alle antwoordvelden in om te bevestigen."
       }
@@ -2342,29 +2342,38 @@
       }
     },
     "terms-of-service": {
+      "actions": {
+        "accept": "Accepteer en ga verder",
+        "decline": "Weiger en sluit af",
+        "document-link": "Lees de gebruiksvoorwaarden"
+      },
       "cgu": "Ik ga akkoord met de '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'gebruiksvoorwaarden van Pix'</a>'.",
       "form": {
         "button": "Ik ga verder",
         "error-message": "Je moet de gebruiksvoorwaarden van Pix accepteren."
       },
       "message": "We hebben onze gebruiksvoorwaarden bijgewerkt. Accepteer ze om je Pix-ervaring voort te zetten.",
-      "title": "Gebruiksvoorwaarden"
+      "requested": {
+        "message": "Om Pix te kunnen blijven gebruiken, nodigen we je uit om onze Algemene Voorwaarden te lezen en te accepteren.",
+        "title": "Accepteer alstublieft onze Algemene Voorwaarden (AV)"
+      },
+      "title": "Gebruiksvoorwaarden",
+      "update-requested": {
+        "message": "We hebben onze AV bijgewerkt. Controleer de wijzigingen en accepteer ze om door te gaan.",
+        "title": "Belangrijke update van de Algemene Voorwaarden (AV)"
+      }
     },
     "timed-challenge-instructions": {
       "action": "Beginnen",
       "primary": "Je hebt '<span class=\"timed-challenge-instructies__time\">'{time}'</span>' om de volgende vraag te beantwoorden.",
-      "secondary": "Daarna kun je nog antwoorden, maar wordt de opdracht niet als voltooid beschouwd.",
-      "time": {
-        "and": " en ",
-        "minutes": "{minutes, plural, =0 {} =1 {# minuut} other {# minuten}}",
-        "seconds": "{seconds, plural, =0 {} =1 {# seconde} other {# seconden}}"
-      }
+      "secondary": "Daarna kun je nog antwoorden, maar wordt de opdracht niet als voltooid beschouwd."
     },
     "training": {
       "editor": "Inhoud van de training voorgesteld door",
       "type": {
         "autoformation": "Zelftrainingscursussen",
         "e-learning": "Afstandsonderwijs",
+        "external-service": "Externe dienst",
         "formation": "Opleiding",
         "hybrid-training": "Hybride training",
         "in-person-training": "Persoonlijke training",
@@ -2406,6 +2415,18 @@
       "title": "Campagne handleiding"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "audio",
+        "frise": "tijdlijn",
+        "image": "afbeelding",
+        "jeu": "spel",
+        "outil": "tool",
+        "page": "pagina",
+        "pdf": "pdf",
+        "site": "website",
+        "slide": "diavoorstelling",
+        "video": "video"
+      },
       "info": "Deze links naar tutorials zijn voorgesteld door Pix-gebruikers.",
       "title": "Om de volgende keer te slagen"
     },

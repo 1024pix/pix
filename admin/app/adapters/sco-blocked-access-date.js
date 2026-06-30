@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class ScoBlockedAccessDatesAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForFindAll() {
     return `${this.host}/${this.namespace}/sco-blocked-access-dates`;
   }

@@ -1,8 +1,3 @@
-import {
-  CAMPAIGN_PARTICIPATION_ID_COLUMN,
-  STAGE_ACQUISITIONS_TABLE_NAME,
-  STAGE_ID_COLUMN,
-} from '../../../../../db/migrations/20230721114848_create-stage_acquisitions-table.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { StageAcquisition } from '../../domain/models/StageAcquisition.js';
 
@@ -31,9 +26,7 @@ const toDomain = (stageAcquisitionData) =>
  */
 const buildSelectAllQuery = () => {
   const knexConnection = DomainTransaction.getConnection();
-  return knexConnection(STAGE_ACQUISITIONS_TABLE_NAME)
-    .select(`${STAGE_ACQUISITIONS_TABLE_NAME}.*`)
-    .from(STAGE_ACQUISITIONS_TABLE_NAME);
+  return knexConnection('stage-acquisitions').select('stage-acquisitions.*').from('stage-acquisitions');
 };
 
 /**
@@ -42,7 +35,7 @@ const buildSelectAllQuery = () => {
  * @returns Promise<StageAcquisition[]>
  */
 const getByCampaignParticipations = async (campaignParticipationsIds) =>
-  toDomain(await buildSelectAllQuery().whereIn(CAMPAIGN_PARTICIPATION_ID_COLUMN, campaignParticipationsIds));
+  toDomain(await buildSelectAllQuery().whereIn('campaignParticipationId', campaignParticipationsIds));
 
 /**
  * @param {number} campaignParticipationsId
@@ -50,7 +43,7 @@ const getByCampaignParticipations = async (campaignParticipationsIds) =>
  * @returns {Promise<StageAcquisition[]>}
  */
 const getByCampaignParticipation = async (campaignParticipationsId) =>
-  toDomain(await buildSelectAllQuery().where(CAMPAIGN_PARTICIPATION_ID_COLUMN, campaignParticipationsId));
+  toDomain(await buildSelectAllQuery().where('campaignParticipationId', campaignParticipationsId));
 
 /**
  * @param {number} campaignParticipationsId
@@ -59,9 +52,9 @@ const getByCampaignParticipation = async (campaignParticipationsId) =>
  */
 const getStageIdsByCampaignParticipation = async (campaignParticipationsId) => {
   const knexConnection = DomainTransaction.getConnection();
-  return knexConnection(STAGE_ACQUISITIONS_TABLE_NAME)
-    .where(CAMPAIGN_PARTICIPATION_ID_COLUMN, campaignParticipationsId)
-    .pluck(STAGE_ID_COLUMN);
+  return knexConnection('stage-acquisitions')
+    .where('campaignParticipationId', campaignParticipationsId)
+    .pluck('stageId');
 };
 
 /**
@@ -76,7 +69,7 @@ const saveStages = async (stages, campaignParticipationId) => {
     stageId: stage.id,
     campaignParticipationId,
   }));
-  return knexConnection(STAGE_ACQUISITIONS_TABLE_NAME).insert(acquiredStages);
+  return knexConnection('stage-acquisitions').insert(acquiredStages);
 };
 
 /**

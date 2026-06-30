@@ -176,4 +176,4 @@ const deserialize = function (json) {
   });
 };
 
-export { deserialize, serialize, serializeForAdmin };
+export const membershipSerializer = { deserialize, serialize, serializeForAdmin };

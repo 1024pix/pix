@@ -8,7 +8,6 @@ export default class User extends Model {
   @attr('string') username;
   @attr('string') password;
   @attr('boolean') cgu;
-  @attr('boolean') mustValidateTermsOfService;
   @attr('boolean') hasSeenAssessmentInstructions;
   @attr('boolean') hasSeenNewDashboardInfo;
   @attr('boolean') hasSeenFocusedChallengeTooltip;
@@ -21,6 +20,8 @@ export default class User extends Model {
   @attr('boolean') isAnonymous;
   @attr('boolean') shouldSeeDataProtectionPolicyInformationBanner;
   @attr('boolean') emailConfirmed;
+  @attr('string') pixAppTermsOfServiceStatus;
+  @attr('string') pixAppTermsOfServiceDocumentPath;
   // eslint-disable-next-line ember/no-empty-attrs
   @attr() lastDataProtectionPolicySeenAt;
 

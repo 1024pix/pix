@@ -1,5 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as scoOrganizationParticipantsSerializer from '../infrastructure/serializers/jsonapi/sco-organization-participants-serializer.js';
+import { scoOrganizationParticipantsSerializer } from '../infrastructure/serializers/jsonapi/sco-organization-participants-serializer.js';
 import { mapCertificabilityByLabel } from './../../shared/application/helpers.js';
 
 const findPaginatedFilteredScoParticipants = async function (

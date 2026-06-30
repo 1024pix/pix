@@ -585,11 +585,10 @@ jobs:
           at: ~/pix
       - run:
           name: Test
-          command: npm run test:api:unit
+          command: npm run test:api:unit -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
           environment:
             NODE_ENV: test
-            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
-            MOCHA_REPORTER: mocha-junit-reporter
+            MOCHA_REPORTER: xunit
           when: always
       - store_test_results:
           path: /home/circleci/test-results
@@ -635,7 +634,7 @@ jobs:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
       - run:
           name: Test
-          command: npm run test:api:integration
+          command: npm run test:api:integration -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
           environment:
             NODE_ENV: test
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
@@ -645,8 +644,7 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
             TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
             TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
-            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
-            MOCHA_REPORTER: mocha-junit-reporter
+            MOCHA_REPORTER: xunit
             MOCHA_RETRIES: 2
           when: always
       - store_test_results:
@@ -692,7 +690,7 @@ jobs:
           command: |
             circleci tests glob 'tests/**/acceptance/**/*test.js' |
             circleci tests split --split-by=filesize |
-            xargs npm run test:api:path --
+            xargs npm run test:api:path -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
           environment:
             NODE_ENV: test
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
@@ -702,8 +700,7 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
             TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
             TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
-            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
-            MOCHA_REPORTER: mocha-junit-reporter
+            MOCHA_REPORTER: xunit
             MOCHA_RETRIES: 2
           when: always
       - store_test_results:

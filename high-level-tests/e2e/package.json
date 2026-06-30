@@ -1,6 +1,6 @@
 {
   "name": "pix-e2e",
-  "version": "2.433.0",
+  "version": "2.445.0",
   "description": "Permet d'exécuter des tests de bout en bout sur la plateforme Pix",
   "homepage": "https://github.com/1024pix/pix#readme",
   "author": "GIP Pix",
@@ -27,7 +27,6 @@
     "cy:test:open:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test run-p start:api start:mon-pix start:orga cy:open",
     "db:empty": "cd ../../api && npm run db:empty",
     "db:initialize": "cd ../../api && npm run db:prepare",
-    "preinstall": "npx check-engine",
     "start:api": "cd ../../api && DATABASE_URL=postgresql://postgres@localhost/pix_test npm run start:watch",
     "start:mon-pix": "cd ../../mon-pix && npm start",
     "start:orga": "cd ../../orga && npm start",

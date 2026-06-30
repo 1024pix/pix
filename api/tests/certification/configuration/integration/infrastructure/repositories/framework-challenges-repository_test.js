@@ -80,41 +80,24 @@ describe('Certification | Configuration | Integration | Repository | framework-c
     });
   });
 
-  describe('#update', function () {
-    it('should update framework challenges with calibration data', async function () {
+  describe('#create', function () {
+    it('persists the certification challenges', async function () {
       // given
       const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-      const version = databaseBuilder.factory.buildCertificationVersion({
+      const versionId = databaseBuilder.factory.buildCertificationVersion({
         scope: complementaryCertification.key,
-      });
-
-      databaseBuilder.factory.buildCertificationFrameworksChallenge({
-        versionId: version.id,
-        challengeId: 'rec123',
-        discriminant: null,
-        difficulty: null,
-        complementaryCertificationKey: complementaryCertification.key,
-      });
-
-      databaseBuilder.factory.buildCertificationFrameworksChallenge({
-        versionId: version.id,
-        challengeId: 'rec456',
-        discriminant: null,
-        difficulty: null,
-        complementaryCertificationKey: complementaryCertification.key,
-      });
-
+      }).id;
       await databaseBuilder.commit();
 
       const challenges = [
         domainBuilder.certification.configuration.buildCertificationFrameworksChallenge({
-          versionId: version.id,
+          versionId,
           challengeId: 'rec123',
           discriminant: 1.5,
           difficulty: 2.0,
         }),
         domainBuilder.certification.configuration.buildCertificationFrameworksChallenge({
-          versionId: version.id,
+          versionId,
           challengeId: 'rec456',
           discriminant: 2.5,
           difficulty: 3.0,
@@ -122,20 +105,28 @@ describe('Certification | Configuration | Integration | Repository | framework-c
       ];
 
       // when
-      await frameworkChallengesRepository.update(challenges);
+      await frameworkChallengesRepository.create(challenges);
 
       // then
-      const updatedChallenges = await knex('certification-frameworks-challenges')
-        .where({ versionId: version.id })
+      const createdChallenges = await knex('certification-frameworks-challenges')
+        .select(['versionId', 'challengeId', 'discriminant', 'difficulty'])
+        .where({ versionId })
         .orderBy('challengeId');
 
-      expect(updatedChallenges).to.have.lengthOf(2);
-      expect(updatedChallenges[0].challengeId).to.equal('rec123');
-      expect(updatedChallenges[0].discriminant).to.equal(1.5);
-      expect(updatedChallenges[0].difficulty).to.equal(2.0);
-      expect(updatedChallenges[1].challengeId).to.equal('rec456');
-      expect(updatedChallenges[1].discriminant).to.equal(2.5);
-      expect(updatedChallenges[1].difficulty).to.equal(3.0);
+      expect(createdChallenges).to.deepEqualArray([
+        {
+          versionId,
+          challengeId: 'rec123',
+          discriminant: 1.5,
+          difficulty: 2.0,
+        },
+        {
+          versionId,
+          challengeId: 'rec456',
+          discriminant: 2.5,
+          difficulty: 3.0,
+        },
+      ]);
     });
   });
 });

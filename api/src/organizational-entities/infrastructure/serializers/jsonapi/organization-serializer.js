@@ -72,4 +72,4 @@ const deserialize = function (json) {
   return organization;
 };
 
-export { deserialize, serialize };
+export const organizationSerializer = { deserialize, serialize };

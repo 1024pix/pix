@@ -1,5 +1,5 @@
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../../../../src/prescription/campaign/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
+import { campaignProfilesCollectionParticipationSummarySerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participation-summary-serializer', function () {
@@ -39,7 +39,10 @@ describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participati
       };
 
       // when
-      const result = serializer.serialize({ data: participationSummary, pagination: meta });
+      const result = campaignProfilesCollectionParticipationSummarySerializer.serialize({
+        data: participationSummary,
+        pagination: meta,
+      });
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);

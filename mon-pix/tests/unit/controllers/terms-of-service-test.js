@@ -16,25 +16,13 @@ module('Unit | Controller | terms-of-service', function (hooks) {
     test('it should save the acceptance date of the last terms of service', async function (assert) {
       // when
       controller.isTermsOfServiceValidated = true;
-      controller.showErrorTermsOfServiceNotSelected = false;
 
       await controller.send('submit');
 
       // then
       sinon.assert.calledWith(controller.currentUser.user.save, { adapterOptions: { acceptPixTermsOfService: true } });
       sinon.assert.calledWith(controller.router.transitionTo, '');
-      assert.false(controller.showErrorTermsOfServiceNotSelected);
       assert.ok(true);
-    });
-
-    test('it should show an error to user to validate terms of service ', async function (assert) {
-      // when
-      controller.isTermsOfServiceValidated = false;
-      controller.showErrorTermsOfServiceNotSelected = false;
-      await controller.send('submit');
-
-      // then
-      assert.true(controller.showErrorTermsOfServiceNotSelected);
     });
   });
 });

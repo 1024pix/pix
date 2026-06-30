@@ -28,4 +28,4 @@ const deserialize = async function (jsonApiData) {
   return new CertificationReport(deserializedReport);
 };
 
-export { deserialize, serialize };
+export const certificationReportSerializer = { deserialize, serialize };

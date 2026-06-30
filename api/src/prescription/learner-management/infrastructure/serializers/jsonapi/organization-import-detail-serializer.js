@@ -9,4 +9,4 @@ const serialize = function (organizationImportDetail, meta) {
   }).serialize(organizationImportDetail);
 };
 
-export { serialize };
+export const organizationImportDetailSerializer = { serialize };

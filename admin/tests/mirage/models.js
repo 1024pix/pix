@@ -4,6 +4,8 @@ import adminMember from './models/admin-member';
 import administrationTeam from './models/administration-team';
 import area from './models/area';
 import attachableTargetProfile from './models/attachable-target-profile';
+import attachedCertificationCenter from './models/attached-certification-center';
+import attachedOrganization from './models/attached-organization';
 import attestation from './models/attestation.js';
 import authenticationMethod from './models/authentication-method';
 import autonomousCourse from './models/autonomous-course';
@@ -20,7 +22,6 @@ import certificationCenter from './models/certification-center';
 import certificationCenterInvitation from './models/certification-center-invitation';
 import certificationCenterMembership from './models/certification-center-membership';
 import certificationChallengesForAdministration from './models/certification-challenges-for-administration';
-import certificationConsolidatedFramework from './models/certification-consolidated-framework';
 import certificationDetails from './models/certification-details';
 import certificationFramework from './models/certification-framework';
 import certificationIssueReport from './models/certification-issue-report';
@@ -80,6 +81,8 @@ export default {
   administrationTeam,
   area,
   attachableTargetProfile,
+  attachedCertificationCenter,
+  attachedOrganization,
   attestation,
   authenticationMethod,
   autonomousCourse,
@@ -96,7 +99,6 @@ export default {
   certificationCenterInvitation,
   certificationCenterMembership,
   certificationChallengesForAdministration,
-  certificationConsolidatedFramework,
   certificationDetails,
   certificationFramework,
   certificationIssueReport,

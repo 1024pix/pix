@@ -140,6 +140,22 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
     certificationVersionId = databaseBuilder.factory.buildCertificationVersion({
       challengesConfiguration: { maximumAssessmentLength: 10 },
       minimumAnswersRequiredToValidateACertification: 10,
+      competencesScoringConfiguration: [
+        {
+          competence: '1.1',
+          competenceId: 'recCompetence0',
+          values: [
+            { bounds: { max: -2, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
+            { bounds: { max: -1, min: -2 }, competenceLevel: 1 },
+            { bounds: { max: 0.5, min: -1 }, competenceLevel: 2 },
+            { bounds: { max: 1, min: 0.5 }, competenceLevel: 3 },
+            { bounds: { max: 2, min: 1 }, competenceLevel: 4 },
+            { bounds: { max: 3, min: 2 }, competenceLevel: 5 },
+            { bounds: { max: 4, min: 3 }, competenceLevel: 6 },
+            { bounds: { max: Number.MAX_SAFE_INTEGER, min: 4 }, competenceLevel: 7 },
+          ],
+        },
+      ],
     }).id;
 
     await databaseBuilder.commit();
@@ -336,6 +352,13 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
         challengesConfiguration: { maximumAssessmentLength: 10 },
         minimumAnswersRequiredToValidateACertification: 10,
         globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: 10, max: 20 } }],
+        competencesScoringConfiguration: [
+          {
+            competence: '1.1',
+            competenceId: 'recCompetence0',
+            values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+          },
+        ],
       });
 
       const session = databaseBuilder.factory.buildSession({
@@ -393,6 +416,86 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
       expect(results[0].status).to.equal('rejected');
     });
   });
+
+  context(
+    'when certification is a Pix+ (DROIT, PRO_SANTE) and the candidate does not reach the minimum mesh',
+    function () {
+      let certifiableUserId, certificationCourseId, completedCertificationAssessmentId, droitCertificationVersion;
+
+      beforeEach(async function () {
+        const limitDate = new Date('2025-01-01T00:00:00Z');
+        certifiableUserId = databaseBuilder.factory.buildUser().id;
+
+        droitCertificationVersion = databaseBuilder.factory.buildCertificationVersion({
+          scope: Frameworks.DROIT,
+          challengesConfiguration: { maximumAssessmentLength: 10 },
+          minimumAnswersRequiredToValidateACertification: 10,
+          globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: 10, max: 20 } }],
+          competencesScoringConfiguration: [
+            {
+              competence: '1.1',
+              competenceId: 'recCompetence0',
+              values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+            },
+          ],
+        });
+
+        const session = databaseBuilder.factory.buildSession({
+          version: AlgorithmEngineVersion.V3,
+        });
+
+        const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: session.id,
+          userId: certifiableUserId,
+          subscription: droitCertificationVersion.scope,
+        }).id;
+
+        certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: session.id,
+          userId: certifiableUserId,
+          createdAt: limitDate,
+          version: AlgorithmEngineVersion.V3,
+          candidateId,
+          versionId: droitCertificationVersion.id,
+          framework: droitCertificationVersion.scope,
+        }).id;
+
+        completedCertificationAssessmentId = databaseBuilder.factory.buildAssessment({
+          certificationCourseId,
+          userId: certifiableUserId,
+          state: Assessment.states.COMPLETED,
+          type: Assessment.types.CERTIFICATION,
+          createdAt: limitDate,
+        }).id;
+
+        _buildInvalidAnswersAndCertificationChallenges({
+          assessmentId: completedCertificationAssessmentId,
+          certificationCourseId,
+          versionId: droitCertificationVersion.id,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should persist an auto-jury comment REJECTED_PIX_PLUS_NOT_OBTAINED on the assessment result', async function () {
+        // given
+        const event = new CertificationCompletedJob({
+          certificationCourseId,
+          locale: FRENCH_SPOKEN,
+        });
+
+        // when
+        await usecases.scoreV3Certification({ certificationCourseId, event });
+
+        // then
+        const results = await knex('assessment-results').where({ assessmentId: completedCertificationAssessmentId });
+        expect(results).to.have.lengthOf(1);
+        expect(results[0].commentByAutoJury).to.equal('REJECTED_PIX_PLUS_NOT_OBTAINED');
+        expect(results[0].reachedMeshIndex).to.be.null;
+        expect(results[0].status).to.equal('rejected');
+      });
+    },
+  );
 
   context('when certification is a Double Certification', function () {
     let certifiableUserId,

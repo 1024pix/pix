@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { finalizeController } from '../../../../../src/certification/session-management/application/finalize-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/session-management/application/finalize-route.js';
+import { finalizeRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/finalize-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

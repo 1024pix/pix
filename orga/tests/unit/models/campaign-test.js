@@ -122,79 +122,147 @@ module('Unit | Model | campaign', function (hooks) {
   });
 
   module('#setType', function () {
-    test('set default to false multiple sending to false on ASSESSMENT type', function (assert) {
-      //given
-      const store = this.owner.lookup('service:store');
+    module('when switching type is ASSESSMENT', function () {
+      test('set multiple sending to false', function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
 
-      const model = store.createRecord('campaign', {
-        multipleSendings: true,
+        const model = store.createRecord('campaign', {
+          multipleSendings: true,
+        });
+
+        //when
+        model.setType('ASSESSMENT');
+
+        assert.false(model.multipleSendings);
+        assert.strictEqual(model.type, 'ASSESSMENT');
       });
 
-      //when
-      model.setType('ASSESSMENT');
+      test('it should reset course if it is a blueprint', function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
 
-      assert.false(model.multipleSendings);
-      assert.strictEqual(model.type, 'ASSESSMENT');
+        const model = store.createRecord('campaign', {
+          course: store.createRecord('course', { type: 'blueprint' }),
+        });
+
+        //when
+        model.setType('ASSESSMENT');
+
+        //then
+        assert.strictEqual(model.course, null);
+      });
     });
 
-    test('set default to false multiple sending on EXAM type', function (assert) {
-      //given
-      const store = this.owner.lookup('service:store');
+    module('when switching type is EXAM', function () {
+      test('set multiple sending to false', function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
 
-      const model = store.createRecord('campaign', {
-        multipleSendings: true,
+        const model = store.createRecord('campaign', {
+          multipleSendings: true,
+        });
+
+        //when
+        model.setType('EXAM');
+
+        assert.false(model.multipleSendings);
+        assert.strictEqual(model.type, 'EXAM');
       });
 
-      //when
-      model.setType('EXAM');
+      test('it should reset course if it is a blueprint', function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
 
-      assert.false(model.multipleSendings);
-      assert.strictEqual(model.type, 'EXAM');
+        const model = store.createRecord('campaign', {
+          course: store.createRecord('course', { type: 'blueprint' }),
+        });
+
+        //when
+        model.setType('EXAM');
+
+        //then
+        assert.strictEqual(model.course, null);
+      });
     });
 
-    test('set default to true multiple sending on PROFILES_COLLECTION type', function (assert) {
-      //given
-      const store = this.owner.lookup('service:store');
+    module('when switching type is PROFILES_COLLECTION', function () {
+      test('set multiple sending to true', function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
 
-      const model = store.createRecord('campaign', {
-        multipleSendings: false,
+        const model = store.createRecord('campaign', {
+          multipleSendings: false,
+        });
+
+        //when
+        model.setType('PROFILES_COLLECTION');
+
+        assert.true(model.multipleSendings);
+        assert.strictEqual(model.type, 'PROFILES_COLLECTION');
       });
 
-      //when
-      model.setType('PROFILES_COLLECTION');
+      test('set default to null target profile', function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
 
-      assert.true(model.multipleSendings);
-      assert.strictEqual(model.type, 'PROFILES_COLLECTION');
+        const model = store.createRecord('campaign', {
+          targetProfileId: 18,
+        });
+
+        //when
+        model.setType('PROFILES_COLLECTION');
+
+        assert.strictEqual(model.targetProfileId, null);
+        assert.strictEqual(model.type, 'PROFILES_COLLECTION');
+      });
+
+      test('set default to null title', function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
+
+        const model = store.createRecord('campaign', {
+          title: 'wahout',
+        });
+
+        //when
+        model.setType('PROFILES_COLLECTION');
+
+        assert.strictEqual(model.title, null);
+        assert.strictEqual(model.type, 'PROFILES_COLLECTION');
+      });
+
+      test('it should reset course', function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
+
+        const model = store.createRecord('campaign', {
+          course: store.createRecord('course', { type: 'blueprint' }),
+        });
+
+        //when
+        model.setType('PROFILES_COLLECTION');
+
+        //then
+        assert.strictEqual(model.course, null);
+      });
     });
 
-    test('set default to null target profile on PROFILES_COLLECTION type', function (assert) {
-      //given
-      const store = this.owner.lookup('service:store');
+    module('when switching type is COMBINED_COURSE', function () {
+      test('it should reset course if it is a target profile', function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
 
-      const model = store.createRecord('campaign', {
-        targetProfileId: 18,
+        const model = store.createRecord('campaign', {
+          course: store.createRecord('course', { type: 'targetProfile' }),
+        });
+
+        //when
+        model.setType('COMBINED_COURSE');
+
+        //then
+        assert.strictEqual(model.course, null);
       });
-
-      //when
-      model.setType('PROFILES_COLLECTION');
-
-      assert.strictEqual(model.targetProfileId, null);
-      assert.strictEqual(model.type, 'PROFILES_COLLECTION');
-    });
-
-    test('set default to null title on PROFILES_COLLECTION type', function (assert) {
-      //given
-      const store = this.owner.lookup('service:store');
-
-      const model = store.createRecord('campaign', {
-        title: 'wahout',
-      });
-
-      //when
-      model.setType('PROFILES_COLLECTION');
-
-      assert.strictEqual(model.title, null);
-      assert.strictEqual(model.type, 'PROFILES_COLLECTION');
     });
   });
 

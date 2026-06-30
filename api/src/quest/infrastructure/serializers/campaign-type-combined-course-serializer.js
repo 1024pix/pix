@@ -8,4 +8,4 @@ const serialize = function (campaign) {
   }).serialize(campaign);
 };
 
-export { serialize };
+export const campaignTypeCombinedCourseSerializer = { serialize };

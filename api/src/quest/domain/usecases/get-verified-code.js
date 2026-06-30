@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 import { CombinedCoursesDisabledError } from '../errors.js';
-import { VerifiedCode } from '../models/VerifiedCode.js';
+import { VerifiedCode } from '../models/prescription/value-objects/VerifiedCode.js';
 
 export const getVerifiedCode = async ({ code, campaignRepository, combinedCourseRepository }) => {
   try {

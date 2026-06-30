@@ -50,19 +50,6 @@ export class JobClient {
             persistWarnings: config.pgBoss.persistWarnings,
             warningRetentionDays: 30,
           });
-
-      this.#pgBoss.on('error', (err) => {
-        logger.error({ event: 'pg-boss-error', err }, 'PGBOSS ERROR');
-      });
-      this.#pgBoss.on('warning', ({ message, data }) => {
-        logger.warn({ event: 'pg-boss-warning', data }, message);
-      });
-      this.#pgBoss.on('wip', (data) => {
-        logger.info({ event: 'pg-boss-wip', data }, 'PGBOSS WIP');
-      });
-
-      await this.#pgBoss.start();
-      await this.#registerJobs(jobGroups);
     } else {
       this.#pgBoss = pgBossFactory
         ? pgBossFactory()
@@ -72,7 +59,22 @@ export class JobClient {
             supervise: false,
             schedule: false,
           });
-      await this.#pgBoss.start();
+    }
+
+    this.#pgBoss.on('error', (err) => {
+      logger.error({ event: 'pg-boss-error', err }, 'PGBOSS ERROR');
+    });
+    this.#pgBoss.on('warning', ({ message, data }) => {
+      logger.warn({ event: 'pg-boss-warning', data }, message);
+    });
+    this.#pgBoss.on('wip', (data) => {
+      logger.info({ event: 'pg-boss-wip', data }, 'PGBOSS WIP');
+    });
+
+    await this.#pgBoss.start();
+
+    if (worker) {
+      await this.#registerJobs(jobGroups);
     }
 
     this.#isInitialized = true;

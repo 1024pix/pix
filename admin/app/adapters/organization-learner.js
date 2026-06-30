@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class OrganizationLearnerAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForDeleteRecord(id, _, snapshot) {
     return `${this.host}/${this.namespace}/organizations/${snapshot.attr('organizationId')}/organization-learners/${id}`;
   }

@@ -126,8 +126,6 @@ const deserialize = function (json) {
   });
 };
 
-export { deserialize, serialize };
-
 function _includeCourse(assessments) {
   if (Array.isArray(assessments)) {
     return assessments.length && assessments[0].course;
@@ -135,3 +133,5 @@ function _includeCourse(assessments) {
 
   return assessments.course ? true : false;
 }
+
+export const assessmentSerializer = { deserialize, serialize };

@@ -1,4 +1,3 @@
-import { service } from '@ember/service';
 import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class Training extends Model {
@@ -50,34 +49,23 @@ export default class Training extends Model {
     return this.duration.days || this.duration.hours || this.duration.minutes;
   }
 
-  get formattedDuration() {
-    const daysPart = this.formattedDays;
-    const timePart = this.formattedTime;
+  static formatDuration({ locale, duration }) {
+    const { days, hours, minutes } = duration || {};
 
-    if (daysPart && timePart)
-      return `${daysPart} ${this.intl.t('pages.skill-review.recommended-engine.training-card.duration.and')} ${timePart}`;
-    return daysPart || timePart;
+    if (!days && !hours && !minutes) {
+      return '';
+    }
+
+    let options = { style: 'narrow' };
+
+    if (days) {
+      options = { style: 'long', ...(hours && { hours: 'narrow' }), ...(minutes && { minutes: 'narrow' }) };
+    }
+
+    const formatter = new Intl.DurationFormat(locale, options);
+    const result = formatter.format({ days, hours, minutes });
+    const resultWithWhitespaceRemoved = result.replaceAll(' ', '');
+
+    return days ? result : resultWithWhitespaceRemoved;
   }
-
-  get formattedDays() {
-    const { days } = this.duration;
-
-    return days
-      ? `${days} ${this.intl.t('pages.skill-review.recommended-engine.training-card.duration.days', { count: days })}`
-      : '';
-  }
-
-  get formattedTime() {
-    const { hours, minutes } = this.duration;
-
-    const formattedHours = hours
-      ? `${hours}${this.intl.t('pages.skill-review.recommended-engine.training-card.duration.hours')}`
-      : '';
-    const formattedMinutes = minutes
-      ? `${minutes}${this.intl.t('pages.skill-review.recommended-engine.training-card.duration.minutes')}`
-      : '';
-    return [formattedHours, formattedMinutes].filter(Boolean).join('');
-  }
-
-  @service intl;
 }

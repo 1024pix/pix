@@ -12,7 +12,7 @@ import { ComplementaryCertificationTargetProfileHistory } from '../models/Comple
  *
  * @returns {Promise<ComplementaryCertificationTargetProfileHistory>} all target profiles than were applicable for this complementary certification
  */
-const getComplementaryCertificationTargetProfileHistory = async function ({
+export async function getComplementaryCertificationTargetProfileHistory({
   complementaryCertificationKey,
   targetProfileHistoryRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
@@ -40,6 +40,4 @@ const getComplementaryCertificationTargetProfileHistory = async function ({
       ...detachedTargetProfileHistoryByComplementaryCertification,
     ],
   });
-};
-
-export { getComplementaryCertificationTargetProfileHistory };
+}

@@ -16,7 +16,7 @@
       "size": "S"
     }
   },
-  "stack": "scalingo-24",
+  "stack": "scalingo-26",
   "addons": [
     {
       "plan": "postgresql:postgresql-starter-512"

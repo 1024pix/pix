@@ -7,7 +7,11 @@ import {
   MoreThanOneMatchingCertificationError,
   NoCertificationResultForDivision,
 } from '../../../../../src/certification/results/domain/errors.js';
-import { HttpErrors } from '../../../../../src/shared/application/errors/http-errors.js';
+import {
+  ConflictError,
+  NotFoundError,
+  UnprocessableEntityError,
+} from '../../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Results | Application | HttpErrorMapperConfiguration', function () {
@@ -22,7 +26,7 @@ describe('Unit | Certification | Results | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new MoreThanOneMatchingCertificationError());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.ConflictError);
+      expect(error).to.be.instanceOf(ConflictError);
       expect(error.message).to.equal('More than one candidate found for current search parameters');
     });
   });
@@ -38,7 +42,7 @@ describe('Unit | Certification | Results | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new NoCertificationResultForDivision());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.NotFoundError);
+      expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal('Aucun résultat de certification pour cette classe.');
     });
   });
@@ -54,7 +58,7 @@ describe('Unit | Certification | Results | Application | HttpErrorMapperConfigur
       const error = httpErrorMapper.httpErrorFn(new CertificateGenerationError());
 
       //then
-      expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('An error has occurred during PDF generation');
     });
   });

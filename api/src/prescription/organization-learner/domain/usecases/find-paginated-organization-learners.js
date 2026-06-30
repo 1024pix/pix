@@ -4,7 +4,7 @@ const findPaginatedOrganizationLearners = async function ({
   filter,
   organizationLearnerRepository,
 }) {
-  return organizationLearnerRepository.findPaginatedLearners({ organizationId, page, filter });
+  return organizationLearnerRepository.findPaginatedLearnersByOrganizationId({ organizationId, page, filter });
 };
 
 export { findPaginatedOrganizationLearners };

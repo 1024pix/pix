@@ -47,6 +47,21 @@ export const getById = async (id) => {
 
 /**
  * @function
+ * @name getByIds
+ *
+ * @param {Array<number>} targetProfileIds
+ * @returns {Promise<TargetProfile[]>}
+ */
+export const getByIds = async (targetProfileIds) => {
+  const targetProfiles = await usecases.getTargetProfiles({
+    targetProfileIds,
+  });
+
+  return targetProfiles.map((targetProfile) => new TargetProfile(targetProfile));
+};
+
+/**
+ * @function
  * @name findSkillByTargetProfileIds
  *
  * @param {Array<number>} targetProfilsIds

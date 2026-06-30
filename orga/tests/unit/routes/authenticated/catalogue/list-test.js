@@ -166,4 +166,19 @@ module('Unit | Route | authenticated/catalogue/list', function (hooks) {
       assert.ok(store.unloadAll.notCalled);
     });
   });
+
+  module('resetController', function () {
+    test('should reset targetProfileId and blueprintId when isExiting is true', function (assert) {
+      // given
+      const route = this.owner.lookup('route:authenticated/catalogue/list');
+      const controller = { set: sinon.stub() };
+
+      // when
+      route.resetController(controller, true);
+
+      // then
+      assert.true(controller.set.firstCall.calledWithExactly('targetProfileId', null));
+      assert.true(controller.set.secondCall.calledWithExactly('blueprintId', null));
+    });
+  });
 });

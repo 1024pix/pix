@@ -36,4 +36,4 @@ const serialize = function (combinedCourse) {
   }).serialize(combinedCourse);
 };
 
-export { serialize };
+export const combinedCourseDetailsSerializer = { serialize };

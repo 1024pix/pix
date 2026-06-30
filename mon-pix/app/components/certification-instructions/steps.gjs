@@ -15,14 +15,6 @@ import StepOne from './step-one';
 import StepThree from './step-three';
 import StepTwo from './step-two';
 
-const PIX_PLUS_DURATIONS = {
-  DROIT: 60,
-  PRO_SANTE: 60,
-  EDU: 90,
-};
-
-const PIX_STANDARD_DURATION = 105;
-
 export default class Steps extends Component {
   @service intl;
   @tracked pageId = 1;
@@ -93,25 +85,8 @@ export default class Steps extends Component {
     });
   }
 
-  get certificationDurationInMinutes() {
-    const subscription = this.args.candidate.subscription;
-
-    switch (subscription) {
-      case 'DROIT':
-        return PIX_PLUS_DURATIONS.DROIT;
-      case 'PRO_SANTE':
-        return PIX_PLUS_DURATIONS.PRO_SANTE;
-      case 'EDU_1ER_DEGRE':
-      case 'EDU_2ND_DEGRE':
-      case 'EDU_CPE':
-        return PIX_PLUS_DURATIONS.EDU;
-      default:
-        return PIX_STANDARD_DURATION;
-    }
-  }
-
   get durationLegend() {
-    const minutes = this.certificationDurationInMinutes;
+    const minutes = this.args.certificationInfo.assessmentDuration;
     const { hours, remainingMinutes } = this._formatDuration(minutes);
 
     if (hours === 0) {
@@ -124,7 +99,7 @@ export default class Steps extends Component {
   }
 
   get durationText() {
-    const minutes = this.certificationDurationInMinutes;
+    const minutes = this.args.certificationInfo.assessmentDuration;
     const { hours, remainingMinutes } = this._formatDuration(minutes);
 
     if (hours === 0) {
@@ -185,7 +160,12 @@ export default class Steps extends Component {
       />
     {{/if}}
     {{#if (eq this.pageId 2)}}
-      <StepTwo @durationLegend={{this.durationLegend}} @durationText={{this.durationText}} />
+      <StepTwo
+        @durationLegend={{this.durationLegend}}
+        @durationText={{this.durationText}}
+        @maximumAssessmentLength={{@certificationInfo.maximumAssessmentLength}}
+        @minimumAssessmentLength={{@certificationInfo.minimumAssessmentLength}}
+      />
     {{/if}}
     {{#if (eq this.pageId 3)}}
       <StepThree />

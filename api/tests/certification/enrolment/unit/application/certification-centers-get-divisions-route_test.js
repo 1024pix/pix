@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import * as moduleUnderTest from '../../../../../src/certification/enrolment/application/certification-centers-get-divisions-route.js';
+import { certificationCentersGetDivisionsRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/certification-centers-get-divisions-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

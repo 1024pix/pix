@@ -20,4 +20,4 @@ const serialize = function (results) {
   }).serialize(results);
 };
 
-export { serialize };
+export const campaignCollectiveResultSerializer = { serialize };

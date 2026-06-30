@@ -32,4 +32,4 @@ const serialize = function (combinedCourseParticipation) {
   }).serialize(combinedCourseParticipation);
 };
 
-export { serialize };
+export const combinedCourseParticipationDetailSerializer = { serialize };

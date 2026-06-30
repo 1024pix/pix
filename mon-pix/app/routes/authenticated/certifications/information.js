@@ -6,15 +6,20 @@ export default class InformationRoute extends Route {
   @service router;
 
   async model(params) {
-    const certificationCandidate = await this.store.findRecord(
-      'certification-candidate',
-      params.certification_candidate_id,
-    );
-
-    if (!certificationCandidate) {
-      this.router.replaceWith('authenticated.certifications.join');
+    let certificationCandidate;
+    try {
+      certificationCandidate = await this.store.findRecord(
+        'certification-candidate',
+        params.certification_candidate_id,
+      );
+    } catch {
+      return this.router.replaceWith('authenticated.certifications.join');
     }
 
-    return certificationCandidate;
+    const certificationInfo = await this.store.findRecord('certification-info', certificationCandidate.subscription);
+    return {
+      certificationCandidate,
+      certificationInfo,
+    };
   }
 }

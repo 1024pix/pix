@@ -5,6 +5,6 @@ import { getCsvContent } from '../../../../../shared/infrastructure/utils/csv/wr
  * @param {Array<Center>} params.centers
  * @returns {Promise<string>}
  */
-export const serialize = async ({ centers }) => {
+export async function serialize({ centers }) {
   return getCsvContent({ data: centers, fileHeaders: [{ label: 'externalId', value: 'externalId' }] });
-};
+}

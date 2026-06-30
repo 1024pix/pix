@@ -53,6 +53,7 @@ Router.map(function () {
         this.route('invitations');
         this.route('network');
         this.route('statistics');
+        this.route('attached-certification-centers');
       });
     });
 
@@ -90,6 +91,7 @@ Router.map(function () {
       this.route('get', { path: '/:certification_center_id' }, function () {
         this.route('team', { path: '/' });
         this.route('invitations');
+        this.route('attached-organizations');
       });
       this.route('list');
       this.route('new');
@@ -121,9 +123,12 @@ Router.map(function () {
     });
 
     this.route('certification-frameworks', function () {
-      this.route('item', { path: '/:certification_framework_key' }, function () {
-        this.route('framework', function () {
-          this.route('new-version');
+      this.route('certification-framework', { path: '/:certification_framework_key' }, function () {
+        this.route('versions', function () {
+          this.route('new');
+          this.route('version', { path: '/:version_id' }, function () {
+            this.route('edit');
+          });
         });
         this.route('target-profile', function () {
           this.route('update', { path: '/:target_profile_id' });

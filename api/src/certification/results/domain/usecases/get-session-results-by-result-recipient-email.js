@@ -1,22 +1,14 @@
-import _ from 'lodash';
-
 const getSessionResultsByResultRecipientEmail = async function ({
   sessionId,
   resultRecipientEmail,
-  sharedSessionRepository,
   certificationResultRepository,
+  resultRecipientRepository,
 }) {
-  const session = await sharedSessionRepository.getWithCertificationCandidates({ id: sessionId });
-  const certificationCandidateIdsForResultRecipient = _(session.certificationCandidates)
-    .filter((candidate) => candidate.resultRecipientEmail?.toLowerCase() === resultRecipientEmail.toLowerCase())
-    .map('id')
-    .value();
+  const resultRecipient = await resultRecipientRepository.get({ sessionId, resultRecipientEmail });
 
-  const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({
-    certificationCandidateIds: certificationCandidateIdsForResultRecipient,
+  return await certificationResultRepository.findByCertificationCandidateIds({
+    certificationCandidateIds: resultRecipient.candidateIds,
   });
-
-  return { session, certificationResults };
 };
 
 export { getSessionResultsByResultRecipientEmail };

@@ -1,6 +1,5 @@
 import lodash from 'lodash';
 
-import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
@@ -195,7 +194,7 @@ async function findPaginatedByUserId({ userId, locale, page }) {
   const baseQuery = knexConn(TABLE_NAME)
     .select('trainings.*', 'isRelevant')
     .distinct('trainings.id')
-    .join(USER_RECOMMENDED_TRAININGS_TABLE_NAME, 'trainings.id', 'trainingId')
+    .join('user-recommended-trainings', 'trainings.id', 'trainingId')
     .where({ userId, isDisabled: false })
     .whereRaw('? = ANY(locales)', locale)
     .orderBy('id', 'asc');

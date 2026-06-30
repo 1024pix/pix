@@ -761,6 +761,30 @@ module('Integration | Component | routes/sco-signup-form', function (hooks) {
       });
     });
   });
+
+  module('reset form', function () {
+    test('should reset the form and go back to the reconciliation step when clicking on "It is not me"', async function (assert) {
+      // given
+      const screen = await render(hbs`<Routes::ScoSignupForm />`);
+      await fillInputReconciliationForm({ screen, t });
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.button-form') }));
+
+      // the create account step is displayed
+      assert.dom(screen.getByLabelText(PASSWORD_INPUT_LABEL, { exact: false })).exists();
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.sco-signup-or-login.signup-form.not-me') }));
+
+      // then
+      assert.dom(screen.queryByLabelText(PASSWORD_INPUT_LABEL, { exact: false })).doesNotExist();
+      assert
+        .dom(screen.queryByRole('button', { name: t('pages.sco-signup-or-login.signup-form.not-me') }))
+        .doesNotExist();
+      assert.dom(screen.getByLabelText(/Prénom/, { exact: false })).hasValue('');
+      assert.dom(screen.getByLabelText(/Nom/, { exact: false })).hasValue('');
+      assert.dom(screen.getByLabelText(/Prénom/, { exact: false })).isNotDisabled();
+    });
+  });
 });
 
 async function fillInputReconciliationForm({ screen, t }) {

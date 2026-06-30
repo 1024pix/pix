@@ -1,5 +1,5 @@
 import { Training } from '../../../../../../src/devcomp/domain/models/Training.js';
-import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
+import { trainingSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -324,10 +324,21 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       };
 
       // when
-      const json = serializer.serializeForAdmin(training);
+      const json = trainingSerializer.serializeForAdmin(training);
 
       // then
       expect(json).to.deep.equal(expectedSerializedTraining);
+    });
+
+    it('should serialize objectives as null when objectives is null', function () {
+      // given
+      const training = domainBuilder.buildTrainingForAdmin({ objectives: null });
+
+      // when
+      const json = trainingSerializer.serializeForAdmin(training);
+
+      // then
+      expect(json.data.attributes.objectives).to.be.null;
     });
   });
 
@@ -370,7 +381,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       };
 
       // when
-      const json = serializer.serialize(training);
+      const json = trainingSerializer.serialize(training);
 
       // then
       expect(json).to.deep.equal(expectedSerializedTraining);
@@ -422,7 +433,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
       };
 
       // when
-      const json = serializer.serialize(training, meta);
+      const json = trainingSerializer.serialize(training, meta);
 
       // then
       expect(json).to.deep.equal(expectedSerializedTraining);
@@ -447,13 +458,13 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
             'delivery-mode': Training.modes.REMOTE,
             program: 'Programme',
             'registration-required': false,
-            objectives: 'Objectif 1          ;  Objectif 2',
+            objectives: 'Objectif 1          ;\n;;;  Objectif 2 ; Objectif 3',
           },
         },
       };
 
       // when
-      const training = await serializer.deserialize(jsonTraining);
+      const training = await trainingSerializer.deserialize(jsonTraining);
 
       // then
       expect(training).to.deep.equal({
@@ -468,8 +479,44 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
         deliveryMode: Training.modes.REMOTE,
         registrationRequired: false,
         program: 'Programme',
-        objectives: ['Objectif 1', 'Objectif 2'],
+        objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
       });
+    });
+
+    it('should filter empty objectives caused by trailing semicolon', async function () {
+      // given
+      const jsonTraining = {
+        data: {
+          type: 'training',
+          attributes: {
+            objectives: 'Objectif 1;Objectif 2;',
+          },
+        },
+      };
+
+      // when
+      const training = await trainingSerializer.deserialize(jsonTraining);
+
+      // then
+      expect(training.objectives).to.deep.equal(['Objectif 1', 'Objectif 2']);
+    });
+
+    it('should filter empty objectives caused by multiple consecutive semicolons', async function () {
+      // given
+      const jsonTraining = {
+        data: {
+          type: 'training',
+          attributes: {
+            objectives: 'Objectif 1;\n;\n;;;;Objectif 2;;;Objectif 3;\n;;',
+          },
+        },
+      };
+
+      // when
+      const training = await trainingSerializer.deserialize(jsonTraining);
+
+      // then
+      expect(training.objectives).to.deep.equal(['Objectif 1', 'Objectif 2', 'Objectif 3']);
     });
 
     [
@@ -502,7 +549,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
         };
 
         // when
-        const deserializedTraining = await serializer.deserialize(jsonTraining);
+        const deserializedTraining = await trainingSerializer.deserialize(jsonTraining);
 
         // then
         expect(deserializedTraining.duration).to.deep.equal(expectedDuration);

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { organizationAdminController } from '../../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
-import * as organizationAdminRoutes from '../../../../../src/organizational-entities/application/organization/organization.admin.route.js';
+import { organizationAdminRoute as organizationAdminRoutes } from '../../../../../src/organizational-entities/application/organization/organization.admin.route.js';
 import {
   DpoEmailInvalid,
   FeatureNotFound,

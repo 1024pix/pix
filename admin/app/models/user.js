@@ -14,12 +14,13 @@ export default class User extends Model {
   @attr() email;
   @attr() username;
   @attr('boolean') cgu;
+  @attr('boolean') pixAppTermsOfServiceAccepted;
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
   @attr('boolean') pixCertifTermsOfServiceAccepted;
   @attr() lang;
   @attr() locale;
   @attr() createdAt;
-  @attr() lastTermsOfServiceValidatedAt;
+  @attr() lastPixAppTermsOfServiceValidatedAt;
   @attr() lastPixOrgaTermsOfServiceValidatedAt;
   @attr() lastPixCertifTermsOfServiceValidatedAt;
   @attr() lastLoggedAt;

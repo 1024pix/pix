@@ -1,5 +1,6 @@
 import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
@@ -258,7 +259,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     });
 
     module('tab navigation', function () {
-      test('should show Équipe and Invitations tab', async function (assert) {
+      test('should show Équipe, Invitations tab and Attached Orga tabs', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const certificationCenter = server.create('certification-center', {
@@ -275,11 +276,30 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         // then
         const certificationCenterNavigation = within(
           screen.getByRole('navigation', {
-            name: 'Navigation de la section centre de certification',
+            name: t('pages.certification-centers.get.navbar.aria-label'),
           }),
         );
-        assert.dom(certificationCenterNavigation.getByRole('link', { name: /Équipe/ })).exists();
-        assert.dom(certificationCenterNavigation.getByRole('link', { name: /Invitations/ })).exists();
+        assert
+          .dom(
+            certificationCenterNavigation.getByRole('link', {
+              name: (text) => text.includes(t('pages.certification-centers.get.navbar.team')),
+            }),
+          )
+          .exists();
+        assert
+          .dom(
+            certificationCenterNavigation.getByRole('link', {
+              name: (text) => text.includes(t('pages.certification-centers.get.navbar.invitations')),
+            }),
+          )
+          .exists();
+        assert
+          .dom(
+            certificationCenterNavigation.getByRole('link', {
+              name: t('pages.certification-centers.get.navbar.attached-organizations'),
+            }),
+          )
+          .exists();
       });
 
       test('should display the number of active members in the Équipe tab', async function (assert) {

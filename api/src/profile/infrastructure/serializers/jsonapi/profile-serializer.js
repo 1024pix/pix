@@ -53,4 +53,4 @@ const serialize = function (profile = {}) {
   }).serialize(profile);
 };
 
-export { serialize };
+export const profileSerializer = { serialize };

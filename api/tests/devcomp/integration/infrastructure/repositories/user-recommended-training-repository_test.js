@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import sinon from 'sinon';
 
-import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';
 import { UserRecommendedTraining } from '../../../../../src/devcomp/domain/read-models/UserRecommendedTraining.js';
 import * as userRecommendedTrainingRepository from '../../../../../src/devcomp/infrastructure/repositories/user-recommended-training-repository.js';
 import { deleteCampaignParticipationIds } from '../../../../../src/devcomp/infrastructure/repositories/user-recommended-training-repository.js';
@@ -24,7 +23,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       await userRecommendedTrainingRepository.save(userRecommendedTraining);
 
       // then
-      const persistedUserRecommendedTraining = await knex(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+      const persistedUserRecommendedTraining = await knex('user-recommended-trainings')
         .where({
           userId: userRecommendedTraining.userId,
           trainingId: userRecommendedTraining.trainingId,
@@ -55,7 +54,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       expect(async () => {
         await saveSameUserRecommendedTraining();
 
-        const updatedUserRecommendedTraining = await knex(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+        const updatedUserRecommendedTraining = await knex('user-recommended-trainings')
           .where({
             id: userRecommendedTraining.id,
           })
@@ -459,7 +458,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       });
 
       // then
-      const updatedUserRecommendedTrainings = await knex(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+      const updatedUserRecommendedTrainings = await knex('user-recommended-trainings')
         .select('userId', 'campaignParticipationId')
         .where('updatedAt', now);
 
@@ -475,7 +474,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
         },
       ]);
 
-      const otherRecommendedTrainings = await knex(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+      const otherRecommendedTrainings = await knex('user-recommended-trainings')
         .select('userId', 'campaignParticipationId', 'updatedAt')
         .where('updatedAt', '!=', now);
 

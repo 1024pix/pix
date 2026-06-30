@@ -8,19 +8,19 @@ import { serialize } from '../infrastructure/serializers/sco-blocked-access-date
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const updateScoBlockedAccessDate = async function (request, h) {
+async function updateScoBlockedAccessDate(request, h) {
   const scoOrganizationTagName = request.params.key;
   const dateString = request.payload.data.attributes.value;
   const reopeningDate = dayjs.tz(dateString, 'Europe/Paris').toDate();
   await usecases.updateScoBlockedAccessDate({ scoOrganizationTagName, reopeningDate });
   return h.response().code(200);
-};
+}
 
-const getScoBlockedAccessDates = async function (request, h) {
+async function getScoBlockedAccessDates(request, h) {
   const scoBlockedAccessDates = await usecases.getScoBlockedAccessDates();
 
   return h.response(await serialize(scoBlockedAccessDates)).code(200);
-};
+}
 
 export const scoBlockedAccessDatesController = {
   updateScoBlockedAccessDate,

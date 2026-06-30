@@ -21,4 +21,4 @@ const serialize = function (organizationLearner) {
   }).serialize(organizationLearner);
 };
 
-export { serialize };
+export const organizationLearnerSerializer = { serialize };

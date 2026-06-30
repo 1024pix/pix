@@ -46,4 +46,4 @@ const serialize = function (results, isCampaignParticipation = false) {
   }).serialize(results);
 };
 
-export { serialize };
+export const campaignResultLevelsPerTubesAndCompetencesSerializer = { serialize };

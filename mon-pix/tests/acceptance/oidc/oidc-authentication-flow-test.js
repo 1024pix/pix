@@ -71,8 +71,7 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
             email: 'lloyd.ce@example.net',
             password: 'pix123',
             cgu: true,
-            mustValidateTermsOfService: false,
-            lastTermsOfServiceValidatedAt: new Date(),
+            pixAppTermsOfServiceStatus: 'accepted',
           });
           const screen = await visit('/connexion/oidc-partner?code=code&state=state');
 

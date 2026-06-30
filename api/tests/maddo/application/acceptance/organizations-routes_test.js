@@ -2,8 +2,6 @@ import { createMaddoServer } from '../../../../server.maddo.js';
 import { Campaign } from '../../../../src/maddo/domain/models/Campaign.js';
 import { Organization } from '../../../../src/maddo/domain/models/Organization.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../tooling/test-utils/http-server.js';
@@ -97,32 +95,6 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
       });
       databaseBuilder.factory.buildCampaign({ organizationId: orgaNotInJurisdiction.id });
 
-      const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
-      const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
-      const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
-      const tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
-      const skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId: tube.id, status: 'actif' }).id;
-
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign1InJurisdiction.id, skillId });
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildMembership({ organizationId: orgaNotInJurisdiction.id, userId });
-
-      const participationUser = databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign1InJurisdiction.id,
-        userId,
-      });
-
-      const ke = databaseBuilder.factory.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId,
-        userId: participationUser.userId,
-      });
-
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        campaignParticipationId: participationUser.id,
-        snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
-      });
-
       await databaseBuilder.commit();
 
       const options = {
@@ -152,16 +124,6 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
           code: campaign1InJurisdiction.code,
           createdAt: campaign1InJurisdiction.createdAt,
           archivedAt: campaign1InJurisdiction.archivedAt,
-          tubes: [
-            {
-              id: tube.id,
-              competenceId,
-              maxLevel: 2,
-              meanLevel: 2,
-              practicalDescription: tube.practicalDescription_i18n['fr'],
-              practicalTitle: tube.practicalTitle_i18n['fr'],
-            },
-          ],
         }),
       ]);
     });
@@ -211,34 +173,9 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
           organizationId: orgaInJurisdiction.id,
           targetProfileId: targetProfile.id,
         });
-        const campaign2InJurisdiction = databaseBuilder.factory.buildCampaign({
+
+        databaseBuilder.factory.buildCampaign({
           organizationId: orgaInJurisdiction.id,
-        });
-
-        const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
-        const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
-        const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
-        const tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
-        const skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId: tube.id, status: 'actif' }).id;
-
-        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign1InJurisdiction.id, skillId });
-        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign2InJurisdiction.id, skillId });
-        const userId = databaseBuilder.factory.buildUser().id;
-
-        const participationUser = databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaign1InJurisdiction.id,
-          userId,
-        });
-
-        const ke = databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
-          skillId,
-          userId: participationUser.userId,
-        });
-
-        databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          campaignParticipationId: participationUser.id,
-          snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
         });
 
         await databaseBuilder.commit();
@@ -265,91 +202,6 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
             code: campaign1InJurisdiction.code,
             createdAt: campaign1InJurisdiction.createdAt,
             archivedAt: campaign1InJurisdiction.archivedAt,
-            tubes: [
-              {
-                id: tube.id,
-                competenceId,
-                maxLevel: 2,
-                meanLevel: 2,
-                practicalDescription: tube.practicalDescription_i18n['fr'],
-                practicalTitle: tube.practicalTitle_i18n['fr'],
-              },
-            ],
-          }),
-        ]);
-      });
-    });
-
-    context('language negociation', function () {
-      it('should return translated tube title and description', async function () {
-        // given
-        const locale = 'en';
-        const targetProfile = databaseBuilder.factory.buildTargetProfile();
-        const campaignInJurisdiction = databaseBuilder.factory.buildCampaign({
-          organizationId: orgaInJurisdiction.id,
-          targetProfileId: targetProfile.id,
-        });
-
-        const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
-        const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
-        const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
-        const tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
-        const skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId: tube.id, status: 'actif' }).id;
-
-        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaignInJurisdiction.id, skillId });
-        const userId = databaseBuilder.factory.buildUser().id;
-
-        const participationUser = databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaignInJurisdiction.id,
-          userId,
-        });
-
-        const ke = databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
-          skillId,
-          userId: participationUser.userId,
-        });
-
-        databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          campaignParticipationId: participationUser.id,
-          snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
-        });
-
-        await databaseBuilder.commit();
-
-        const options = {
-          method: 'GET',
-          url: `/api/organizations/${orgaInJurisdiction.id}/campaigns?page[number]=1&page[size]=1`,
-          headers: {
-            authorization: generateValidRequestAuthorizationHeaderForApplication(clientId, 'pix-client', 'campaigns'),
-            cookie: `locale=${locale}`,
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.campaigns).to.deep.equal([
-          new Campaign({
-            id: campaignInJurisdiction.id,
-            name: campaignInJurisdiction.name,
-            type: campaignInJurisdiction.type,
-            targetProfileName: targetProfile.name,
-            code: campaignInJurisdiction.code,
-            createdAt: campaignInJurisdiction.createdAt,
-            archivedAt: campaignInJurisdiction.archivedAt,
-            tubes: [
-              {
-                id: tube.id,
-                competenceId,
-                maxLevel: 2,
-                meanLevel: 2,
-                practicalDescription: tube.practicalDescription_i18n.en,
-                practicalTitle: tube.practicalTitle_i18n.en,
-              },
-            ],
           }),
         ]);
       });

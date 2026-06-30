@@ -38,6 +38,7 @@ function _findPaginatedAndFilteredRecommendedTutorials(schema, request) {
       schema.tutorials.create({
         link: 'https://example.net/',
         name: `Le tuto de la compétence ${competenceFilters[0]}`,
+        format: 'page',
       }),
     ];
   } else {

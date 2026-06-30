@@ -520,6 +520,10 @@
       "REJECTED_EDU_NOT_ELIGIBLE": {
         "candidate": "Je resultaten maken je niet in aanmerking komend voor de Pix+ Édu-certificering. Je kunt op Pix verdere vooruitgang boeken en het opnieuw proberen tijdens een volgende sessie.",
         "organization": "De kandidaat komt niet in aanmerking voor de Pix+ Édu-certificering."
+      },
+      "REJECTED_PIX_PLUS_NOT_OBTAINED": {
+        "candidate": "De behaalde resultaten laten de validatie van uw certificering niet toe. U moet uw kennis consolideren om deze competenties te valoriseren.",
+        "organization": "De behaalde resultaten laten de validatie van de Pix+-certificering niet toe. De kandidaat moet zijn kennis consolideren om deze competenties te valoriseren."
       }
     }
   },

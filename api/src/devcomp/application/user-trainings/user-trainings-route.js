@@ -32,5 +32,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'devcomp/users-api';
-export { name, register };
+export const userTrainingsRoute = { name: 'devcomp/users-api', register };

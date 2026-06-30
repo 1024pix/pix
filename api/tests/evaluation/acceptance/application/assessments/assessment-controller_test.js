@@ -6,7 +6,6 @@ import nock from 'nock';
 import sinon from 'sinon';
 import { MockAgent, setGlobalDispatcher } from 'undici';
 
-import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';
 import { createServer } from '../../../../../server.js';
 import { CertificationCompletedJob } from '../../../../../src/certification/evaluation/domain/events/CertificationCompleted.js';
 import { TrainingTrigger } from '../../../../../src/devcomp/domain/models/TrainingTrigger.js';
@@ -612,7 +611,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
         });
 
         // then
-        const recommendedTraining = await knex(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+        const recommendedTraining = await knex('user-recommended-trainings')
           .where({
             userId: user.id,
             trainingId: training.id,

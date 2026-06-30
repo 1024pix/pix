@@ -21,4 +21,4 @@ const serialize = function ({ organizationParticipants, meta }) {
   }).serialize(organizationParticipants);
 };
 
-export { serialize };
+export const organizationParticipantsSerializer = { serialize };

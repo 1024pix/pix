@@ -38,5 +38,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/results/certification-results-user-api';
-export { name, register };
+export const userRoute = { name: 'certification/results/certification-results-user-api', register };

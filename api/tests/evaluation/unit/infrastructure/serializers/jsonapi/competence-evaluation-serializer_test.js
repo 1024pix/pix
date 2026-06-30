@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
+import { competenceEvaluationSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -36,7 +36,7 @@ describe('Unit | Serializer | JSONAPI | competence-evaluation-serializer', funct
       };
 
       // when
-      const json = serializer.serialize(competenceEvaluation);
+      const json = competenceEvaluationSerializer.serialize(competenceEvaluation);
 
       // then
       expect(json).to.deep.equal(expectedSerializedCompetenceEvaluation);

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { userController } from '../../../../../src/certification/results/application/user-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/results/application/user-route.js';
+import { userRoute as moduleUnderTest } from '../../../../../src/certification/results/application/user-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

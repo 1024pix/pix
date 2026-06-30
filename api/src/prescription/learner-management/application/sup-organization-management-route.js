@@ -184,5 +184,7 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'prescription/learner-management/sup-organization-management-api';
-export { name, register };
+export const supOrganizationManagementRoute = {
+  name: 'prescription/learner-management/sup-organization-management-api',
+  register,
+};

@@ -150,6 +150,18 @@ class StructureNotFoundError extends DomainError {
   }
 }
 
+class UnableToAttachCertificationCenterToOrganization extends DomainError {
+  constructor({
+    code = 'UNABLE_TO_ATTACH_CERTIFICATION_CENTER_TO_ORGANIZATION',
+    message = 'Unable to attach certification center to organization',
+    meta,
+  } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 export {
   AdministrationTeamNotFound,
   ArchiveCertificationCentersInBatchError,
@@ -166,6 +178,7 @@ export {
   ParentOrganizationNotInNetworkError,
   StructureNotFoundError,
   TagNotFoundError,
+  UnableToAttachCertificationCenterToOrganization,
   UnableToAttachChildOrganizationToParentOrganizationError,
   UnableToDetachParentOrganizationFromChildOrganization,
 };

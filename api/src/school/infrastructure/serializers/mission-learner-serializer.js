@@ -7,4 +7,4 @@ const serialize = function ({ missionLearners, pagination }) {
   }).serialize(missionLearners);
 };
 
-export { serialize };
+export const missionLearnerSerializer = { serialize };

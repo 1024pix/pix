@@ -1,5 +1,5 @@
 import { OrganizationLearnerImportFormat } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationLearnerImportFormat.js';
-import { serialize } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/jsonapi/organization-learner-import-format-serializer.js';
+import { organizationLearnerImportFormatSerializer } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/jsonapi/organization-learner-import-format-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-learner-import-format-serializer', function () {
@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-import-format-seria
         createdAt,
       });
 
-      expect(serialize(organizationImport)).deep.equal({
+      expect(organizationLearnerImportFormatSerializer.serialize(organizationImport)).deep.equal({
         data: {
           type: 'organization-learner-import-formats',
           id: '123',

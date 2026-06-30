@@ -48,6 +48,7 @@ class CampaignAssessmentExport {
     },
   ) {
     this.stream.write(this.#buildHeader());
+    const targetedSkillIds = this.learningContent.skills.map((skill) => skill.id);
     const campaignParticipationInfoChunks = _.chunk(
       campaignParticipationInfos,
       constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
@@ -84,6 +85,7 @@ class CampaignAssessmentExport {
               return { userId, campaignParticipationId };
             }),
             fetchFromSnapshot: this.campaign.isExam,
+            skillIds: targetedSkillIds,
           });
 
         const csvLines = campaignParticipationInfoChunk.map((campaignParticipationInfo) =>

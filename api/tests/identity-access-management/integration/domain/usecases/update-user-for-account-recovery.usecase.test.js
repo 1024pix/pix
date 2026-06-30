@@ -2,10 +2,15 @@ import sinon from 'sinon';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
+import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
+
+const { PIX_APP } = LegalDocumentService.VALUES;
+const { TOS } = LegalDocumentType.VALUES;
 
 describe('Integration | Identity Access Management | Domain | UseCase | update-user-for-account-recovery', function () {
   context('when domain transaction throw an error', function () {
@@ -151,12 +156,17 @@ describe('Integration | Identity Access Management | Domain | UseCase | update-u
       });
     });
 
-    it('updates user values', async function () {
+    it('updates Pix App terms of service', async function () {
       // given
+      const legalDocumentVersionId = databaseBuilder.factory.buildLegalDocumentVersion({
+        service: PIX_APP,
+        type: TOS,
+      }).id;
+
       const password = 'pix123';
-      const user = databaseBuilder.factory.buildUser({ email: 'oldEmail@example.net' });
+      const userId = databaseBuilder.factory.buildUser({ email: 'oldEmail@example.net' }).id;
       const accountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({
-        userId: user.id,
+        userId,
         oldEmail: 'oldEmail@example.net',
         newEmail: 'newEmail@example.net',
       });
@@ -169,7 +179,16 @@ describe('Integration | Identity Access Management | Domain | UseCase | update-u
       });
 
       // then
-      const foundUser = await knex('users').where({ id: user.id }).first();
+
+      // New document acceptance
+      const legalDocumentVersionUserAcceptance = await knex('legal-document-version-user-acceptances')
+        .select()
+        .where({ legalDocumentVersionId, userId })
+        .first();
+      expect(legalDocumentVersionUserAcceptance).to.exist;
+
+      // Legacy document acceptance
+      const foundUser = await knex('users').where({ id: userId }).first();
       expect(foundUser.cgu).to.be.true;
       expect(foundUser).to.include({ email: 'newemail@example.net' });
       expect(foundUser.emailConfirmedAt).to.deep.equal(now);

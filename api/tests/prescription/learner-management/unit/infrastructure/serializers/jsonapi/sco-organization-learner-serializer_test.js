@@ -1,5 +1,5 @@
 import { OrganizationLearner } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
-import * as serializer from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
+import { scoOrganizationLearnerSerializer } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', function () {
@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
       };
 
       // when
-      const json = serializer.serializeIdentity(organizationLearner);
+      const json = scoOrganizationLearnerSerializer.serializeIdentity(organizationLearner);
 
       // then
       expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
@@ -57,7 +57,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
       };
 
       // when
-      const json = serializer.serializeWithUsernameGeneration(organizationLearner);
+      const json = scoOrganizationLearnerSerializer.serializeWithUsernameGeneration(organizationLearner);
 
       // then
       expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
@@ -82,7 +82,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
       };
 
       // when
-      const json = serializer.serializeExternal(organizationLearner);
+      const json = scoOrganizationLearnerSerializer.serializeExternal(organizationLearner);
 
       // then
       expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
@@ -110,7 +110,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
       };
 
       // when
-      const json = serializer.serializeCredentialsForDependent(organizationLearner);
+      const json = scoOrganizationLearnerSerializer.serializeCredentialsForDependent(organizationLearner);
 
       // then
       expect(json).to.deep.equal(expectedSerializedOrganizationLearner);

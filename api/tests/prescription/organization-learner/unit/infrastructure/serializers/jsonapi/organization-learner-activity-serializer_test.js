@@ -1,6 +1,6 @@
 import { OrganizationLearnerActivity } from '../../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerActivity.js';
 import { OrganizationLearnerParticipation } from '../../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerParticipation.js';
-import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organization-learner-activity-serializer.js';
+import { organizationLearnerActivitySerializer } from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organization-learner-activity-serializer.js';
 import { CampaignTypes } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { expect } from '../../../../../../test-helper.js';
 
@@ -49,7 +49,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
         ],
       });
       // when
-      const json = serializer.serialize(organizationLearnerActivity);
+      const json = organizationLearnerActivitySerializer.serialize(organizationLearnerActivity);
 
       // then
       expect(json).to.deep.equal({

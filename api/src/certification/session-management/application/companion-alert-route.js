@@ -5,7 +5,7 @@ import { responseObjectErrorDoc } from '../../../shared/infrastructure/open-api-
 import { assessmentInvigilatorAuthorization } from '../../shared/application/pre-handlers/session-invigilator-authorization.js';
 import { companionAlertController } from './companion-alert-controller.js';
 
-export function register(server) {
+function register(server) {
   server.route([
     {
       method: 'PATCH',
@@ -48,4 +48,5 @@ export function register(server) {
   ]);
 }
 
-export const name = 'certification/session-management/session-management-companion-alert-api';
+const name = 'certification/session-management/session-management-companion-alert-api';
+export const companionAlertRoute = { name, register };

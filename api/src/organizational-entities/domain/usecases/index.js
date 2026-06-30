@@ -87,6 +87,7 @@ import { archiveCertificationCenter } from './archive-certification-center.useca
 import { archiveCertificationCentersInBatch } from './archive-certification-centers-in-batch.usecase.js';
 import { archiveOrganization } from './archive-organization.usecase.js';
 import { archiveOrganizationsInBatch } from './archive-organizations-in-batch.usecase.js';
+import { attachCertificationCenterToOrganization } from './attach-certification-center-to-organization.usecase.js';
 import { attachChildOrganizationToOrganizationUsecase } from './attach-child-organization-to-organization.usecase.js';
 import { createCertificationCenter } from './create-certification-center.usecase.js';
 import { createNetwork } from './create-network.usecase.js';
@@ -98,6 +99,7 @@ import { findAllAdministrationTeams } from './find-all-administration-teams.usec
 import { findAllOrganizationLearnerTypes } from './find-all-organization-learner-types.refactor.js';
 import { findAllTags } from './find-all-tags.usecase.js';
 import { findAttachedCertificationCenterForAdmin } from './find-attached-certification-center-for-admin.usecase.js';
+import { findAttachedOrganizationsForAdmin } from './find-attached-organizations-for-admin.usecase.js';
 import { findChildrenOrganizations } from './find-children-organizations.usecase.js';
 import { findOrganizationFeatures } from './find-organization-features.js';
 import { findPaginatedFilteredCertificationCenters } from './find-paginated-filtered-certification-centers.usecase.js';
@@ -123,6 +125,7 @@ const usecasesWithoutInjectedDependencies = {
   archiveCertificationCentersInBatch,
   archiveOrganization,
   archiveOrganizationsInBatch,
+  attachCertificationCenterToOrganization,
   attachChildOrganizationToOrganization: attachChildOrganizationToOrganizationUsecase,
   createCertificationCenter,
   createNetwork,
@@ -133,6 +136,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredNetworks,
   findAllTags,
   findAttachedCertificationCenterForAdmin,
+  findAttachedOrganizationsForAdmin,
   findChildrenOrganizations,
   findOrganizationFeatures,
   findPaginatedFilteredCertificationCenters,
@@ -154,12 +158,15 @@ const usecasesWithoutInjectedDependencies = {
 };
 /**
  * @typedef OrganizationalEntitiesUsecases
- * @property {addOrganizationFeatureInBatch} addOrganizationFeatureInBatch
  * @property {attachChildOrganizationToOrganizationUsecase} attachChildOrganizationToOrganization
+ * @property {attachCertificationCenterToOrganization} attachCertificationCenterToOrganization
+ * @property {addOrganizationFeatureInBatch} addOrganizationFeatureInBatch
  * @property {createCertificationCenter} createCertificationCenter
  * @property {createTag} createTag
  * @property {detachParentOrganizationFromOrganization} detachParentOrganizationFromOrganization
  * @property {findPaginatedFilteredCertificationCenters} findPaginatedFilteredCertificationCenters
+ * @property {findAttachedOrganizationsForAdmin} findAttachedOrganizationsForAdmin
+ * @property {findAttachedCertificationCenterForAdmin} findAttachedCertificationCenterForAdmin
  * @property {getOrganizationDetails} getOrganizationDetails
  * @property {getOrganizationStatistics} getOrganizationStatistics
  * @property {getNetworkDetails} getNetworkDetails

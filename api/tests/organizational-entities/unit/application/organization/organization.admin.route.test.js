@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { organizationAdminController } from '../../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
-import * as moduleUnderTest from '../../../../../src/organizational-entities/application/organization/organization.admin.route.js';
+import { organizationAdminRoute as moduleUnderTest } from '../../../../../src/organizational-entities/application/organization/organization.admin.route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -188,6 +188,58 @@ describe('Unit | Organizational Entities | Application | route | Admin | organiz
           // then
           expect(response.statusCode).to.equal(200);
           sinon.assert.calledOnce(organizationAdminController.findAttachedCertificationCenterForAdmin);
+        });
+      });
+    });
+  });
+
+  describe('POST /api/admin/organizations/{id}/attach-certification-centers', function () {
+    describe('when the user authenticated has no role', function () {
+      it('returns a 403 HTTP status code', async function () {
+        // given
+        securityPreHandlers.hasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
+
+        sinon.stub(organizationAdminController, 'attachCertificationCenter');
+
+        const payload = { certificationCenterId: 42 };
+
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          '/api/admin/organizations/1/attach-certification-centers',
+          payload,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(organizationAdminController.attachCertificationCenter);
+      });
+    });
+
+    const authorizedRoles = [
+      { role: 'SuperAdmin', stub: 'checkAdminMemberHasRoleSuperAdmin' },
+      { role: 'Support', stub: 'checkAdminMemberHasRoleSupport' },
+      { role: 'Certif', stub: 'checkAdminMemberHasRoleCertif' },
+      { role: 'Metier', stub: 'checkAdminMemberHasRoleMetier' },
+    ];
+
+    authorizedRoles.forEach(({ role, stub }) => {
+      describe(`when the user has ${role} role`, function () {
+        it('should call controller method', async function () {
+          // given
+          sinon.stub(securityPreHandlers, stub).callsFake((request, h) => h.response(true));
+          securityPreHandlers.hasAtLeastOneAccessOf.callsFake((_handlers) => {
+            return () => true;
+          });
+          sinon.stub(organizationAdminController, 'attachCertificationCenter').returns('ok');
+
+          const payload = { certificationCenterId: 42 };
+
+          // when
+          await httpTestServer.request('POST', '/api/admin/organizations/1/attach-certification-centers', payload);
+
+          // then
+          sinon.assert.called(organizationAdminController.attachCertificationCenter);
         });
       });
     });

@@ -34,7 +34,7 @@ function injectDefaults(defaults, targetFn) {
  * @param {DependenciesToInject} dependencies - An object of dependencies to inject.
  * @returns {Inject<ObjectToBeInjected, DependenciesToInject>} The input object, but functions now only require dependencies that haven't been injected.
  */
-function injectDependencies(toBeInjected, dependencies) {
+export function injectDependencies(toBeInjected, dependencies) {
   return _.mapValues(toBeInjected, (value) => {
     if (_.isFunction(value)) {
       return _.partial(injectDefaults, dependencies, value)();
@@ -43,5 +43,3 @@ function injectDependencies(toBeInjected, dependencies) {
     }
   });
 }
-
-export { injectDefaults, injectDependencies };

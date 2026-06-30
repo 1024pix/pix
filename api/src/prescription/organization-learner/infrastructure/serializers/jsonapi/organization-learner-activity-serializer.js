@@ -33,4 +33,4 @@ const serialize = function (organizationLearnerActivity) {
   }).serialize(organizationLearnerActivity);
 };
 
-export { serialize };
+export const organizationLearnerActivitySerializer = { serialize };

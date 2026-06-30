@@ -1,8 +1,8 @@
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as frameworkWithSkillsSerializer from '../infrastructure/serializers/jsonapi/framework-with-skills-serializer.js';
-import * as targetProfileForSpecifierSerializer from '../infrastructure/serializers/jsonapi/target-profile-for-specifier-serializer.js';
-import * as targetProfileOverviewSerializer from '../infrastructure/serializers/jsonapi/target-profile-overview-serializer.js';
+import { frameworkWithSkillsSerializer } from '../infrastructure/serializers/jsonapi/framework-with-skills-serializer.js';
+import { targetProfileForSpecifierSerializer } from '../infrastructure/serializers/jsonapi/target-profile-for-specifier-serializer.js';
+import { targetProfileOverviewSerializer } from '../infrastructure/serializers/jsonapi/target-profile-overview-serializer.js';
 
 const findTargetProfiles = async function (request, h, dependencies = { targetProfileForSpecifierSerializer }) {
   const organizationId = request.params.organizationId;
@@ -23,7 +23,8 @@ const findLearningContentsByOrganizationId = async function (
 
 const getTargetProfileOverview = async function (request, _, dependencies = { targetProfileOverviewSerializer }) {
   const targetProfileId = request.params.targetProfileId;
-  const targetProfile = await usecases.getTargetProfileOverview({ targetProfileId });
+  const locale = getChallengeLocale(request);
+  const targetProfile = await usecases.getTargetProfileOverview({ targetProfileId, locale });
   return dependencies.targetProfileOverviewSerializer.serialize(targetProfile);
 };
 

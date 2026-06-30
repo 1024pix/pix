@@ -51,7 +51,19 @@ export class LegalDocumentStatus {
     });
   }
 
+  static notApplicable() {
+    return new LegalDocumentStatus({
+      status: STATUS.NOT_APPLICABLE,
+      acceptedAt: null,
+      documentPath: null,
+    });
+  }
+
   static notFound() {
-    return new LegalDocumentStatus({ status: STATUS.REQUESTED, acceptedAt: null, documentPath: null });
+    return new LegalDocumentStatus({
+      status: STATUS.REQUESTED,
+      acceptedAt: null,
+      documentPath: null,
+    });
   }
 }

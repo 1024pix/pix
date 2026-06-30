@@ -23,10 +23,6 @@ module('Integration | Component | certification-starter', function (hooks) {
           sinon.stub(currentDomainService, 'isFranceDomain').get(() => true);
           const store = this.owner.lookup('service:store');
           this.set('model', {
-            certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-              enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-              doubleCertificationEligibility: false,
-            }),
             certificationCandidate: store.createRecord('certification-candidate', {
               hasStartedTest: false,
             }),
@@ -59,10 +55,6 @@ module('Integration | Component | certification-starter', function (hooks) {
           sinon.stub(currentDomainService, 'isFranceDomain').get(() => true);
           const store = this.owner.lookup('service:store');
           this.set('model', {
-            certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-              enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-              doubleCertificationEligibility: false,
-            }),
             certificationCandidate: store.createRecord('certification-candidate', {
               hasStartedTest: false,
             }),
@@ -104,10 +96,6 @@ module('Integration | Component | certification-starter', function (hooks) {
           sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
           const store = this.owner.lookup('service:store');
           this.set('model', {
-            certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-              enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-              doubleCertificationEligibility: false,
-            }),
             certificationCandidate: store.createRecord('certification-candidate', {
               hasStarted: false,
             }),
@@ -126,31 +114,56 @@ module('Integration | Component | certification-starter', function (hooks) {
           );
         });
 
-        test('should be possible to update the selected language', async function (assert) {
-          // given
-          const currentDomainService = this.owner.lookup('service:currentDomain');
-          sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
-          const store = this.owner.lookup('service:store');
-          this.set('model', {
-            certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-              enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-              doubleCertificationEligibility: false,
-            }),
-            certificationCandidate: store.createRecord('certification-candidate', {
-              hasStartedTest: false,
-            }),
+        module('when certification in english is enabled', function () {
+          test('should be possible to update the selected language', async function (assert) {
+            // given
+            const currentDomainService = this.owner.lookup('service:currentDomain');
+            sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
+            const featureTogglesService = this.owner.lookup('service:feature-toggles');
+            sinon.stub(featureTogglesService, 'featureToggles').get(() => ({ isCertificationInEnglishEnabled: true }));
+            const store = this.owner.lookup('service:store');
+            this.set('model', {
+              certificationCandidate: store.createRecord('certification-candidate', {
+                hasStartedTest: false,
+              }),
+            });
+
+            const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
+
+            // when
+            await click(screen.getByRole('button', { name: 'Langue de certification' }));
+            await click(screen.getByText('anglais - EN'));
+
+            // then
+            assert.ok(
+              screen.getByRole('button', { name: 'Langue de certification' }).textContent.includes('anglais - EN'),
+            );
+            assert.notOk(screen.queryByText(t('pages.certification-start.language-selector.warning-message')));
           });
+        });
 
-          const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
+        module('when certification in english is disabled', function () {
+          test('should display the language selector as disabled and a a warning message', async function (assert) {
+            // given
+            const currentDomainService = this.owner.lookup('service:currentDomain');
+            sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
+            const featureTogglesService = this.owner.lookup('service:feature-toggles');
+            sinon.stub(featureTogglesService, 'featureToggles').get(() => ({ isCertificationInEnglishEnabled: false }));
+            const store = this.owner.lookup('service:store');
+            this.set('model', {
+              certificationCandidate: store.createRecord('certification-candidate', {
+                hasStartedTest: false,
+              }),
+            });
 
-          // when
-          await click(screen.getByRole('button', { name: 'Langue de certification' }));
-          await click(screen.getByText('anglais - EN'));
+            // when
+            const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
 
-          // then
-          assert.ok(
-            screen.getByRole('button', { name: 'Langue de certification' }).textContent.includes('anglais - EN'),
-          );
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Langue de certification' })).hasAttribute('aria-disabled');
+            assert.notOk(screen.queryByText('anglais - EN'));
+            assert.ok(screen.getByText(t('pages.certification-start.language-selector.warning-message')));
+          });
         });
 
         module('when the language confirmation checkbox is not checked and code filled', function () {
@@ -160,10 +173,6 @@ module('Integration | Component | certification-starter', function (hooks) {
             sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
             const store = this.owner.lookup('service:store');
             this.set('model', {
-              certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-                enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-                doubleCertificationEligibility: false,
-              }),
               certificationCandidate: store.createRecord('certification-candidate', {
                 hasStartedTest: false,
               }),
@@ -197,10 +206,6 @@ module('Integration | Component | certification-starter', function (hooks) {
             sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
             const store = this.owner.lookup('service:store');
             this.set('model', {
-              certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-                enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-                doubleCertificationEligibility: false,
-              }),
               certificationCandidate: store.createRecord('certification-candidate', {
                 hasStartedTest: false,
               }),
@@ -229,10 +234,6 @@ module('Integration | Component | certification-starter', function (hooks) {
             sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
             const store = this.owner.lookup('service:store');
             this.set('model', {
-              certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-                enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-                doubleCertificationEligibility: false,
-              }),
               certificationCandidate: store.createRecord('certification-candidate', {
                 hasStartedTest: false,
               }),
@@ -269,10 +270,6 @@ module('Integration | Component | certification-starter', function (hooks) {
           sinon.stub(currentDomainService, 'isFranceDomain').get(() => true);
           const store = this.owner.lookup('service:store');
           this.set('model', {
-            certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-              enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-              doubleCertificationEligibility: false,
-            }),
             certificationCandidate: store.createRecord('certification-candidate', {
               hasStartedTest: true,
             }),
@@ -291,10 +288,6 @@ module('Integration | Component | certification-starter', function (hooks) {
           sinon.stub(currentDomainService, 'isFranceDomain').get(() => true);
           const store = this.owner.lookup('service:store');
           this.set('model', {
-            certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-              enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-              doubleCertificationEligibility: false,
-            }),
             certificationCandidate: store.createRecord('certification-candidate', {
               hasStartedTest: true,
             }),
@@ -318,10 +311,6 @@ module('Integration | Component | certification-starter', function (hooks) {
             sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
             const store = this.owner.lookup('service:store');
             this.set('model', {
-              certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-                enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-                doubleCertificationEligibility: false,
-              }),
               certificationCandidate: store.createRecord('certification-candidate', {
                 hasStartedTest: true,
               }),
@@ -355,10 +344,6 @@ module('Integration | Component | certification-starter', function (hooks) {
             sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
             const store = this.owner.lookup('service:store');
             this.set('model', {
-              certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-                enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-                doubleCertificationEligibility: false,
-              }),
               certificationCandidate: store.createRecord('certification-candidate', {
                 hasStartedTest: true,
               }),
@@ -396,10 +381,6 @@ module('Integration | Component | certification-starter', function (hooks) {
         sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
         const store = this.owner.lookup('service:store');
         this.set('model', {
-          certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-            enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-            doubleCertificationEligibility: false,
-          }),
           certificationCandidate: store.createRecord('certification-candidate', {
             hasStarted: false,
           }),
@@ -464,9 +445,11 @@ module('Integration | Component | certification-starter', function (hooks) {
           const currentDomainService = this.owner.lookup('service:currentDomain');
           sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
 
+          const featureTogglesService = this.owner.lookup('service:feature-toggles');
+          sinon.stub(featureTogglesService, 'featureToggles').get(() => ({ isCertificationInEnglishEnabled: true }));
+
           this.set('model', {
-            certificationCandidateSubscription: { sessionId: 123 },
-            certificationCandidate: { hasStartedTest: false },
+            certificationCandidate: { hasStartedTest: false, sessionId: 123 },
           });
           const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
           await fillIn(
@@ -521,8 +504,7 @@ module('Integration | Component | certification-starter', function (hooks) {
         sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
 
         this.set('model', {
-          certificationCandidateSubscription: { sessionId: 123 },
-          certificationCandidate: { hasStartedTest: false },
+          certificationCandidate: { hasStartedTest: false, sessionId: 123 },
         });
 
         // when
@@ -581,8 +563,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
 
           this.set('model', {
-            certificationCandidateSubscription: { sessionId: 123 },
-            certificationCandidate: { hasStartedTest: false },
+            certificationCandidate: { hasStartedTest: false, sessionId: 123 },
           });
           const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
           await fillIn(
@@ -633,8 +614,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
 
           this.set('model', {
-            certificationCandidateSubscription: { sessionId: 123 },
-            certificationCandidate: { hasStartedTest: false },
+            certificationCandidate: { hasStartedTest: false, sessionId: 123 },
           });
           const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
           await fillIn(
@@ -684,8 +664,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
 
           this.set('model', {
-            certificationCandidateSubscription: { sessionId: 123 },
-            certificationCandidate: { hasStartedTest: false },
+            certificationCandidate: { hasStartedTest: false, sessionId: 123 },
           });
           const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
           await fillIn(
@@ -736,8 +715,7 @@ module('Integration | Component | certification-starter', function (hooks) {
             sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
 
             this.set('model', {
-              certificationCandidateSubscription: { sessionId: 123 },
-              certificationCandidate: { hasStartedTest: false },
+              certificationCandidate: { hasStartedTest: false, sessionId: 123 },
             });
             const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
             await fillIn(
@@ -791,8 +769,7 @@ module('Integration | Component | certification-starter', function (hooks) {
             sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
 
             this.set('model', {
-              certificationCandidateSubscription: { sessionId: 123 },
-              certificationCandidate: { hasStartedTest: false },
+              certificationCandidate: { hasStartedTest: false, sessionId: 123 },
             });
             const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
             await fillIn(
@@ -847,8 +824,7 @@ module('Integration | Component | certification-starter', function (hooks) {
               sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
 
               this.set('model', {
-                certificationCandidateSubscription: { sessionId: 123 },
-                certificationCandidate: { hasStartedTest: false },
+                certificationCandidate: { hasStartedTest: false, sessionId: 123 },
               });
               const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
               await fillIn(
@@ -903,8 +879,7 @@ module('Integration | Component | certification-starter', function (hooks) {
             sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
 
             this.set('model', {
-              certificationCandidateSubscription: { sessionId: 123 },
-              certificationCandidate: { hasStartedTest: false },
+              certificationCandidate: { hasStartedTest: false, sessionId: 123 },
             });
             const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
             await fillIn(
@@ -941,12 +916,9 @@ module('Integration | Component | certification-starter', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         this.set('model', {
-          certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-            enrolledDoubleCertificationLabel: null,
-            doubleCertificationEligibility: false,
-          }),
           certificationCandidate: store.createRecord('certification-candidate', {
-            hasStarted: false,
+            subscription: 'CORE',
+            doubleCertificationEligibility: false,
           }),
         });
 
@@ -965,12 +937,9 @@ module('Integration | Component | certification-starter', function (hooks) {
           // given
           const store = this.owner.lookup('service:store');
           this.set('model', {
-            certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-              enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-              doubleCertificationEligibility: true,
-            }),
             certificationCandidate: store.createRecord('certification-candidate', {
-              hasStarted: false,
+              subscription: 'CLEA',
+              doubleCertificationEligibility: true,
             }),
           });
 
@@ -979,7 +948,7 @@ module('Integration | Component | certification-starter', function (hooks) {
 
           // then
           assert.ok(screen.getByText(t('pages.certification-start.core-and-complementary-subscriptions')));
-          assert.ok(screen.getByText('Certif complémentaire 1'));
+          assert.ok(screen.getByText('CLéA Numérique'));
           assert.notOk(screen.queryByText('Vous n’êtes pas éligible à'));
         });
       });
@@ -989,12 +958,9 @@ module('Integration | Component | certification-starter', function (hooks) {
           // given
           const store = this.owner.lookup('service:store');
           this.set('model', {
-            certificationCandidateSubscription: store.createRecord('certification-candidate-subscription', {
-              enrolledDoubleCertificationLabel: 'Certif complémentaire 1',
-              doubleCertificationEligibility: false,
-            }),
             certificationCandidate: store.createRecord('certification-candidate', {
-              hasStarted: false,
+              subscription: 'CLEA',
+              doubleCertificationEligibility: false,
             }),
           });
 
@@ -1004,7 +970,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           // then
           assert.ok(
             screen.getByText(
-              "Vous n'êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix.",
+              "Vous n'êtes pas éligible à CLéA Numérique. Vous pouvez néanmoins passer votre certification Pix.",
             ),
           );
           assert.ok(screen.queryByText(t('pages.certification-start.core-and-complementary-subscriptions')));

@@ -1,9 +1,9 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as badgeAcquisitionsStatisticsSerializer from '../infrastructure/serializers/jsonapi/badge-acquisitions-statistics-serializer.js';
-import * as participationsByStageSerializer from '../infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer.js';
-import * as participationsByDaySerializer from '../infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer.js';
-import * as participationsByStatusSerializer from '../infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer.js';
-import * as participationsCountByMasteryRateSerializer from '../infrastructure/serializers/jsonapi/participations-count-by-mastery-rate.js';
+import { badgeAcquisitionsStatisticsSerializer } from '../infrastructure/serializers/jsonapi/badge-acquisitions-statistics-serializer.js';
+import { campaignParticipationsCountByStageSerializer } from '../infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer.js';
+import { campaignParticipationsCountsByDaySerializer } from '../infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer.js';
+import { campaignParticipationsCountsByStatusSerializer } from '../infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer.js';
+import { participationsCountByMasteryRateSerializer } from '../infrastructure/serializers/jsonapi/participations-count-by-mastery-rate.js';
 
 const getParticipationsByStage = async function (request) {
   const { userId } = request.auth.credentials;
@@ -11,7 +11,7 @@ const getParticipationsByStage = async function (request) {
 
   const participationsByStage = await usecases.getCampaignParticipationsCountByStage({ userId, campaignId });
 
-  return participationsByStageSerializer.serialize({
+  return campaignParticipationsCountByStageSerializer.serialize({
     campaignId,
     data: participationsByStage,
   });
@@ -23,7 +23,7 @@ const getParticipationsByStatus = async function (request) {
 
   const participantsCounts = await usecases.getCampaignParticipationsCountsByStatus({ userId, campaignId });
 
-  return participationsByStatusSerializer.serialize({
+  return campaignParticipationsCountsByStatusSerializer.serialize({
     campaignId,
     ...participantsCounts,
   });
@@ -34,7 +34,7 @@ const getParticipationsByDay = async function (request) {
 
   const participantsCounts = await usecases.getCampaignParticipationsActivityByDay({ userId, campaignId });
 
-  return participationsByDaySerializer.serialize({
+  return campaignParticipationsCountsByDaySerializer.serialize({
     campaignId,
     ...participantsCounts,
   });

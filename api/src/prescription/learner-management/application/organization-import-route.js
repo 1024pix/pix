@@ -98,6 +98,4 @@ const register = async (server) => {
   ]);
 };
 
-const name = 'prescription/learner-management/organization-import-api';
-
-export { name, register };
+export const organizationImportRoute = { name: 'prescription/learner-management/organization-import-api', register };

@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { USER_RECOMMENDED_TRAININGS_TABLE_NAME } from '../../../../../../db/migrations/20221017085933_create-user-recommended-trainings.js';
 import { ANONYMIZATION_RULE } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import {
@@ -496,7 +495,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
       });
 
       //then
-      const userRecommendedTrainingAnonymized = await knex(USER_RECOMMENDED_TRAININGS_TABLE_NAME)
+      const userRecommendedTrainingAnonymized = await knex('user-recommended-trainings')
         .where('id', userRecommendedTrainingId)
         .first();
 

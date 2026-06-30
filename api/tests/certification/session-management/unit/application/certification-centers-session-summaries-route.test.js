@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { certificationCenterController } from '../../../../../src/certification/session-management/application/certification-centers-session-summaries-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/session-management/application/certification-centers-session-summaries-route.js';
+import { certificationCentersSessionSummariesRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/certification-centers-session-summaries-route.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

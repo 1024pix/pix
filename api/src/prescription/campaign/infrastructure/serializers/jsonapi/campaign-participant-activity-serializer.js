@@ -17,4 +17,4 @@ const serialize = function ({ campaignParticipantsActivities, pagination }) {
   }).serialize(campaignParticipantsActivities);
 };
 
-export { serialize };
+export const campaignParticipantActivitySerializer = { serialize };

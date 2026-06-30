@@ -6,11 +6,11 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { escapeFileName } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { stageUsecases } from '../../stages/domain/usecases/index.js';
 import { usecases as prescriptionTargetProfileUsecases } from '../domain/usecases/index.js';
-import * as targetProfileAttachOrganizationSerializer from '../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
-import * as targetProfileDetachOrganizationsSerializer from '../infrastructure/serializers/jsonapi/target-profile-detach-organizations-serializer.js';
-import * as targetProfileForAdminSerializer from '../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
-import * as targetProfileSerializer from '../infrastructure/serializers/jsonapi/target-profile-serializer.js';
-import * as targetProfileSummaryForAdminSerializer from '../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
+import { targetProfileAttachOrganizationSerializer } from '../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
+import { targetProfileDetachOrganizationsSerializer } from '../infrastructure/serializers/jsonapi/target-profile-detach-organizations-serializer.js';
+import { targetProfileForAdminSerializer } from '../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
+import { targetProfileSerializer } from '../infrastructure/serializers/jsonapi/target-profile-serializer.js';
+import { targetProfileSummaryForAdminSerializer } from '../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import * as learningContentPDFPresenter from './presenter/pdf/learning-content-pdf-presenter.js';
 
 const getTargetProfileForAdmin = async function (request, h, dependencies = { targetProfileForAdminSerializer }) {

@@ -1,4 +1,4 @@
-import { HttpErrors } from '../../application/errors/http-errors.js';
+import { BadRequestError } from '../../application/errors/http-errors.js';
 
 const PIX_APP_APPLICATION_NAME = 'app';
 const PIX_ADMIN_APPLICATION_NAME = 'admin';
@@ -110,7 +110,7 @@ export class RequestedApplication {
   }
 }
 
-export class ForwardedOriginError extends HttpErrors.BadRequestError {
+export class ForwardedOriginError extends BadRequestError {
   constructor(message) {
     super(message);
   }

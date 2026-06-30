@@ -31,12 +31,16 @@ export default class CampaignAdapter extends ApplicationAdapter {
 
     if (payload.data.attributes.type === 'COMBINED_COURSE') {
       payload.data.relationships['combined-course-blueprint'] = {
-        data: { id: snapshot.record.combinedCourseBlueprint.id },
+        data: { id: snapshot.record.combinedCourseBlueprint?.id || snapshot.record.course?.id },
       };
       const url = `${this.host}/${this.namespace}/combined-courses`;
 
       return this.ajax(url, 'POST', { data: payload });
     } else {
+      payload.data.relationships['target-profile'] = {
+        data: { id: snapshot.record.targetProfile?.id || snapshot.record.course?.id },
+      };
+
       const url = `${this.host}/${this.namespace}/campaigns`;
 
       return this.ajax(url, 'POST', { data: payload });

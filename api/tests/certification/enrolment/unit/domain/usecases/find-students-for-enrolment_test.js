@@ -10,7 +10,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
   const certificationCenterId = 1;
   const userId = 'userId';
   let organization;
-  let centerRepository, organizationLearnerRepository, certificationCandidateRepository;
+  let centerRepository, organizationLearnerRepository, candidateRepository;
 
   beforeEach(async function () {
     centerRepository = {
@@ -19,7 +19,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
     organizationLearnerRepository = {
       findByOrganizationIdAndUpdatedAtOrderByDivision: sinon.stub(),
     };
-    certificationCandidateRepository = {
+    candidateRepository = {
       findBySessionId: sinon.stub(),
     };
     const externalId = 'AAA111';
@@ -44,7 +44,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
           page: { size: 10, number: 1 },
           centerRepository,
           organizationLearnerRepository,
-          certificationCandidateRepository,
+          candidateRepository,
         });
 
         // then
@@ -55,18 +55,17 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
       });
     });
 
-    it('should return all students, enrolled or enrolable, regarding a session', async function () {
+    it('should return all students, enrolled or enrollable, regarding a session', async function () {
       // given
       const sessionId = 3;
       const enrolledStudent = domainBuilder.buildOrganizationLearner({ id: 10, organization, division: '3A' });
       const enrolableStudents = _.times(5, (iteration) =>
         domainBuilder.buildOrganizationLearner({ id: iteration, organization }),
       );
-      const certificationCandidates = [
-        domainBuilder.buildCertificationCandidate({
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
           sessionId,
           organizationLearnerId: enrolledStudent.id,
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         }),
       ];
       organizationLearnerRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
@@ -75,7 +74,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
           data: [enrolledStudent, ...enrolableStudents],
           pagination: { page: 1, pageSize: 10, rowCount: 5, pageCount: 1 },
         });
-      certificationCandidateRepository.findBySessionId.withArgs(sessionId).resolves(certificationCandidates);
+      candidateRepository.findBySessionId.withArgs({ sessionId }).resolves(candidates);
 
       // when
       const studentsFounds = await findStudentsForEnrolment({
@@ -86,7 +85,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
         filter: { divisions: ['3A'] },
         centerRepository,
         organizationLearnerRepository,
-        certificationCandidateRepository,
+        candidateRepository,
       });
 
       // then
@@ -119,7 +118,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
           filter: {},
           centerRepository,
           organizationLearnerRepository,
-          certificationCandidateRepository,
+          candidateRepository,
         });
 
         // then

@@ -1,5 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as missionLearnerSerializer from '../infrastructure/serializers/mission-learner-serializer.js';
+import { missionLearnerSerializer } from '../infrastructure/serializers/mission-learner-serializer.js';
 
 const findPaginatedMissionLearners = async function (request) {
   const { organizationId, missionId } = request.params;

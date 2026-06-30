@@ -68,6 +68,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'prescription/organization-learner/sup-learner-list-api';
-
-export { name, register };
+export const supLearnerListRoute = { name: 'prescription/organization-learner/sup-learner-list-api', register };

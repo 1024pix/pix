@@ -10,6 +10,7 @@ import {
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../../../src/shared/domain/errors.js';
+import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -125,6 +126,28 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       // then
       expect(error).to.be.instanceof(LanguageNotSupportedError);
       expect(error.message).to.equal('Given language is not supported : "Le blop blop martien du sud"');
+    });
+  });
+
+  context('when the user language is english and the english certification feature is disabled', function () {
+    it('should throw a LanguageNotSupportedError', async function () {
+      // given
+      sinon.stub(featureToggles, 'get').withArgs('isCertificationInEnglishEnabled').resolves(false);
+      userRepository.get.withArgs({ id: userId }).resolves(
+        domainBuilder.certification.enrolment.buildUser({
+          id: userId,
+          lang: 'en',
+        }),
+      );
+
+      // when
+      const error = await catchErr(verifyCandidateIdentity)({
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.instanceof(LanguageNotSupportedError);
+      expect(error.message).to.equal('Given language is not supported : "en"');
     });
   });
 

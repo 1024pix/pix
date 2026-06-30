@@ -38,13 +38,13 @@ export class V3CertificationScoring {
     versionId,
   }) {
     const competencesForScoring =
-      competenceForScoringConfiguration?.map(({ competence: competenceCode, values }) => {
-        const competence = competenceList.find(({ index: code }) => code === competenceCode);
+      competenceForScoringConfiguration?.map(({ competenceId, values }) => {
+        const competence = competenceList.find(({ id }) => id === competenceId);
         const area = allAreas.find((area) => area.id === competence.areaId);
         return new CompetenceForScoring({
           competenceId: competence.id,
           areaCode: area.code,
-          competenceCode,
+          competenceCode: competence.index,
           intervals: values,
         });
       }) || [];

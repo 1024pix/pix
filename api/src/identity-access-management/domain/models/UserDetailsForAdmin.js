@@ -1,39 +1,34 @@
-import * as localeService from '../../../shared/domain/services/locale-service.js';
+import { STATUS } from '../../../legal-documents/domain/models/LegalDocumentStatus.js';
+import { getNearestSupportedLocale } from '../../../shared/domain/services/locale-service.js';
 
 class UserDetailsForAdmin {
-  constructor(
-    {
-      id,
-      cgu,
-      username,
-      firstName,
-      lastName,
-      email,
-      pixOrgaTermsOfServiceAccepted,
-      pixCertifTermsOfServiceAccepted,
-      organizationLearners,
-      authenticationMethods,
-      createdAt,
-      updatedAt,
-      lang,
-      locale,
-      lastTermsOfServiceValidatedAt,
-      lastPixOrgaTermsOfServiceValidatedAt,
-      lastPixCertifTermsOfServiceValidatedAt,
-      lastLoggedAt,
-      emailConfirmedAt,
-      userLogin,
-      hasBeenAnonymised,
-      hasBeenAnonymisedBy,
-      anonymisedByFirstName,
-      anonymisedByLastName,
-      isPixAgent,
-      lastApplicationConnections,
-    } = {},
-    dependencies = { localeService },
-  ) {
+  constructor({
+    id,
+    username,
+    firstName,
+    lastName,
+    email,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    organizationLearners,
+    authenticationMethods,
+    createdAt,
+    updatedAt,
+    lang,
+    locale,
+    lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt,
+    lastLoggedAt,
+    emailConfirmedAt,
+    userLogin,
+    hasBeenAnonymised,
+    hasBeenAnonymisedBy,
+    anonymisedByFirstName,
+    anonymisedByLastName,
+    isPixAgent,
+    lastApplicationConnections,
+  } = {}) {
     this.id = id;
-    this.cgu = cgu;
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
@@ -44,8 +39,7 @@ class UserDetailsForAdmin {
     this.authenticationMethods = authenticationMethods;
     this.createdAt = createdAt;
     this.lang = lang;
-    this.locale = dependencies.localeService.getNearestSupportedLocale(locale);
-    this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
+    this.locale = getNearestSupportedLocale(locale);
     this.lastPixOrgaTermsOfServiceValidatedAt = lastPixOrgaTermsOfServiceValidatedAt;
     this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
     this.lastLoggedAt = lastLoggedAt;
@@ -64,6 +58,15 @@ class UserDetailsForAdmin {
     return this.anonymisedByFirstName && this.anonymisedByLastName
       ? `${this.anonymisedByFirstName} ${this.anonymisedByLastName}`
       : null;
+  }
+
+  setTosStatus({ pixAppTosStatus, pixOrgaTosStatus }) {
+    this.cgu = pixAppTosStatus.status === STATUS.ACCEPTED || pixAppTosStatus.status === STATUS.UPDATE_REQUESTED;
+    this.pixAppTermsOfServiceAccepted = pixAppTosStatus.status === STATUS.ACCEPTED;
+    this.lastPixAppTermsOfServiceValidatedAt = pixAppTosStatus.acceptedAt;
+
+    this.pixOrgaTermsOfServiceAccepted = pixOrgaTosStatus.status === STATUS.ACCEPTED;
+    this.lastPixOrgaTermsOfServiceValidatedAt = pixOrgaTosStatus.acceptedAt;
   }
 }
 

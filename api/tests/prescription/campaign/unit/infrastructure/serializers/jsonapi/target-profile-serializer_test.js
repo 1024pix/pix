@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/target-profile-serializer.js';
+import { targetProfileSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import { TargetProfile } from '../../../../../../../src/shared/domain/models/TargetProfile.js';
 import { expect } from '../../../../../../test-helper.js';
 
@@ -24,7 +24,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
       };
 
       // when
-      const serializedTargetProfile = serializer.serialize(targetProfile);
+      const serializedTargetProfile = targetProfileSerializer.serialize(targetProfile);
 
       // then
       return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile);

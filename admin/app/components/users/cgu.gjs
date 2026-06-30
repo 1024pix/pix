@@ -8,23 +8,26 @@ export default class Cgu extends Component {
   @service intl;
 
   get userHasValidatePixAppTermsOfService() {
-    return this._formatValidatedTermsOfServiceText(this.args.lastTermsOfServiceValidatedAt, this.args.cgu);
+    return this._formatValidatedTermsOfServiceText(
+      this.args.pixAppTermsOfServiceAccepted,
+      this.args.lastPixAppTermsOfServiceValidatedAt,
+    );
   }
 
   get userHasValidatePixOrgaTermsOfService() {
     return this._formatValidatedTermsOfServiceText(
-      this.args.lastPixOrgaTermsOfServiceValidatedAt,
       this.args.pixOrgaTermsOfServiceAccepted,
+      this.args.lastPixOrgaTermsOfServiceValidatedAt,
     );
   }
 
   get userHasValidatePixCertifTermsOfService() {
     return this._formatValidatedTermsOfServiceText(
-      this.args.lastPixCertifTermsOfServiceValidatedAt,
       this.args.pixCertifTermsOfServiceAccepted,
+      this.args.lastPixCertifTermsOfServiceValidatedAt,
     );
   }
-  _formatValidatedTermsOfServiceText(date, hasValidatedTermsOfService) {
+  _formatValidatedTermsOfServiceText(hasValidatedTermsOfService, date) {
     if (!hasValidatedTermsOfService) {
       return this.intl.t('components.users.user-detail-personal-information.cgu.validation.status.non-validated');
     }

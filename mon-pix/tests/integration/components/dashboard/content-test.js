@@ -40,6 +40,33 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
     assert.dom(screen.getByRole('main')).exists();
   });
 
+  test('should display the welcome message with the user firstname', async function (assert) {
+    // given
+    stubCurrentUserService(
+      this.owner,
+      {
+        firstName: 'Banana',
+        lastName: 'Split',
+        email: 'banana.split@example.net',
+        hasSeenNewDashboardInfo: false,
+        profile: { pixScore },
+      },
+      { withStoreStubbed: false },
+    );
+
+    this.set('model', {
+      campaignParticipationOverviews: [],
+      campaignParticipations: [],
+      scorecards: [],
+    });
+
+    // when
+    const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+
+    // then
+    assert.dom(screen.getByRole('heading', { name: t('pages.dashboard.welcome', { firstName: 'Banana' }) })).exists();
+  });
+
   module('campaign-participation-overview rendering', function (hooks) {
     hooks.beforeEach(function () {
       stubCurrentUserService(

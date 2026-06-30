@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { config } from '../../../../../src/shared/config.js';
-import * as localeService from '../../../../../src/shared/domain/services/locale-service.js';
+import { getDefaultLocale } from '../../../../../src/shared/domain/services/locale-service.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
@@ -112,10 +112,10 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
       const user = new User(undefined);
 
       // when
-      user.changeLocale(null, { localeService });
+      user.changeLocale(null);
 
       // then
-      expect(user.locale).to.equal(localeService.getDefaultLocale());
+      expect(user.locale).to.equal(getDefaultLocale());
     });
 
     context('when user has no locale', function () {
@@ -129,9 +129,9 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
         const locale3 = 'fr-BE';
 
         // when
-        user1.changeLocale(locale1, { localeService });
-        user2.changeLocale(locale2, { localeService });
-        user3.changeLocale(locale3, { localeService });
+        user1.changeLocale(locale1);
+        user2.changeLocale(locale2);
+        user3.changeLocale(locale3);
 
         // then
         expect(user1.locale).to.equal('fr');
@@ -159,7 +159,7 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
         const user = new User({ locale: 'nl-BE' });
 
         // when
-        user.changeLocale('fr-FR', { localeService });
+        user.changeLocale('fr-FR');
 
         // then
         expect(user.locale).to.equal('fr-FR');

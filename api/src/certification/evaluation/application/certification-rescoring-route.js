@@ -34,5 +34,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/evaluation/certification-rescoring-api';
-export { name, register };
+export const certificationRescoringRoute = { name: 'certification/evaluation/certification-rescoring-api', register };

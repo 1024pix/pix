@@ -1,6 +1,6 @@
 import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
-import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
+import { mailCheck as mailCheckImplementation } from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/candidates-import/candidates-import-transformation-structures.js';

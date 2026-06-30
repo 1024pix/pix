@@ -1,8 +1,9 @@
 import sinon from 'sinon';
 
-import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { combinedCourseBlueprintController } from '../../../../src/quest/application/combined-course-blueprint-controller.js';
-import * as combinedCourseBlueprintRoute from '../../../../src/quest/application/combined-course-blueprint-route.js';
+import { combinedCourseBlueprintRoute } from '../../../../src/quest/application/combined-course-blueprint-route.js';
+import questSecurityPreHandlers from '../../../../src/quest/application/security-pre-handlers.js';
+import { REWARD_TYPES } from '../../../../src/quest/domain/constants.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
@@ -52,8 +53,10 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
             'internal-name': 'Mon schéma de parcours combiné',
             description: 'La description combinix',
             illustration: 'illustration.svg',
-            'attestation-key': ATTESTATIONS.SIXTH_GRADE,
+            'reward-id': 1,
+            'reward-type': REWARD_TYPES.ATTESTATION,
             content: [{ type: 'module', value: 'e67ec5d0', shortId: 'short-e67ec5d0' }],
+            'capped-tube-requirements': [{ threshold: 20, tubes: [{ tubeId: 'tube1', level: 5 }] }],
           },
         },
       };
@@ -189,6 +192,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
       expect(securityPreHandlers.checkOrganizationAccess).to.have.been.called;
     });
   });
+
   describe('PATCH /api/admin/combined-course-blueprints/{combinedCourseBlueprintId}', function () {
     it('should call prehandler', async function () {
       // given
@@ -229,6 +233,85 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
         securityPreHandlers.checkAdminMemberHasRoleSupport,
         securityPreHandlers.checkAdminMemberHasRoleCertif,
       ]);
+    });
+  });
+
+  describe('GET /api/organizations/{organizationId}/combined-course-blueprints/{blueprintId}', function () {
+    it('should call findOverviewById', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').resolves(() => true);
+      sinon.stub(questSecurityPreHandlers, 'checkCombinedCourseBlueprintBelongsToOrganization').resolves(() => true);
+      sinon.stub(combinedCourseBlueprintController, 'findOverviewById').callsFake((_, h) => h.response());
+
+      const httpTestServer = new HttpTestServer();
+      httpTestServer.setupAuthentication();
+      await httpTestServer.register(combinedCourseBlueprintRoute);
+
+      // when
+      await httpTestServer.request(
+        'GET',
+        '/api/organizations/456/combined-course-blueprints/789',
+        null,
+        null,
+        generateAuthenticatedUserRequestHeaders({ userId: 123 }),
+      );
+
+      // then
+      expect(combinedCourseBlueprintController.findOverviewById).to.have.been.called;
+    });
+
+    describe('when the user does not belong to the organization', function () {
+      it('should return 403', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'checkUserBelongsToOrganization')
+          .callsFake((request, h) => h.response().code(403).takeover());
+        sinon.stub(questSecurityPreHandlers, 'checkCombinedCourseBlueprintBelongsToOrganization').resolves(() => true);
+        sinon.stub(combinedCourseBlueprintController, 'findOverviewById').callsFake((_, h) => h.response());
+
+        const httpTestServer = new HttpTestServer();
+        httpTestServer.setupAuthentication();
+        await httpTestServer.register(combinedCourseBlueprintRoute);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/organizations/456/combined-course-blueprints/789',
+          null,
+          null,
+          generateAuthenticatedUserRequestHeaders({ userId: 123 }),
+        );
+
+        // then
+        expect(response.statusCode).equal(403);
+      });
+    });
+
+    describe('when the combined course blueprint does not belong to the organization', function () {
+      it('should return 403', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').resolves(() => true);
+        sinon
+          .stub(questSecurityPreHandlers, 'checkCombinedCourseBlueprintBelongsToOrganization')
+          .callsFake((request, h) => h.response().code(403).takeover());
+        sinon.stub(combinedCourseBlueprintController, 'findOverviewById').callsFake((_, h) => h.response());
+
+        const httpTestServer = new HttpTestServer();
+        httpTestServer.setupAuthentication();
+        await httpTestServer.register(combinedCourseBlueprintRoute);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/organizations/456/combined-course-blueprints/789',
+          null,
+          null,
+          generateAuthenticatedUserRequestHeaders({ userId: 123 }),
+        );
+
+        // then
+        expect(response.statusCode).equal(403);
+      });
     });
   });
 });

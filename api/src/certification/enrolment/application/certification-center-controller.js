@@ -1,6 +1,6 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as divisionSerializer from '../infrastructure/serializers/division-serializer.js';
-import * as studentCertificationSerializer from '../infrastructure/serializers/student-certification-serializer.js';
+import { divisionSerializer } from '../infrastructure/serializers/division-serializer.js';
+import { studentCertificationSerializer } from '../infrastructure/serializers/student-certification-serializer.js';
 
 const getStudents = async function (request) {
   const certificationCenterId = request.params.certificationCenterId;

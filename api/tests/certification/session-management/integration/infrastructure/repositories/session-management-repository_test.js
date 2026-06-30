@@ -11,10 +11,13 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
     let session;
     let expectedSessionValues;
     let sessionCreator;
+    let userForCandidate;
+    let certificationCandidate;
 
     beforeEach(async function () {
       // given
       sessionCreator = databaseBuilder.factory.buildUser({});
+      userForCandidate = databaseBuilder.factory.buildUser({});
       session = databaseBuilder.factory.buildSession({
         certificationCenter: 'Tour Gamma',
         address: 'rue de Bercy',
@@ -25,6 +28,11 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
         description: 'CertificationPix pour les jeunes',
         accessCode: 'NJR10',
         createdBy: sessionCreator.id,
+      });
+      certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+        sessionId: session.id,
+        userId: userForCandidate.id,
+        reconciledAt: new Date(),
       });
       expectedSessionValues = {
         id: session.id,
@@ -37,6 +45,14 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
         description: session.description,
         accessCode: session.accessCode,
         createdBy: sessionCreator.id,
+        certificationCandidates: [
+          {
+            id: certificationCandidate.id,
+            userId: certificationCandidate.userId,
+            reconciledAt: certificationCandidate.reconciledAt,
+            resultRecipientEmail: certificationCandidate.resultRecipientEmail,
+          },
+        ],
       };
       await databaseBuilder.commit();
     });
@@ -47,7 +63,7 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
 
       // then
       expect(actualSession).to.be.instanceOf(SessionManagement);
-      expect(actualSession, 'date').to.deep.includes(expectedSessionValues);
+      expect(actualSession).to.deep.includes(expectedSessionValues);
     });
 
     it('should return a Not found error when no session was found', async function () {

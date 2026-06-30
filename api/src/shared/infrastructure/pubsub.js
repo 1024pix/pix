@@ -21,7 +21,7 @@ let publishClient;
 /** @type {import('ioredis').Redis} */
 let subscribeClient;
 
-export function getPubSub() {
+function getPubSub() {
   if (pubSub) return pubSub;
 
   try {

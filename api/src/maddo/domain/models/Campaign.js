@@ -1,5 +1,5 @@
 export class Campaign {
-  constructor({ id, name, type, targetProfileName, code, archivedAt, createdAt, tubes }) {
+  constructor({ id, name, type, targetProfileName, code, archivedAt, createdAt }) {
     this.id = id;
     this.name = name;
     this.type = type;
@@ -7,6 +7,5 @@ export class Campaign {
     this.code = code;
     this.createdAt = createdAt;
     this.archivedAt = archivedAt;
-    this.tubes = tubes;
   }
 }

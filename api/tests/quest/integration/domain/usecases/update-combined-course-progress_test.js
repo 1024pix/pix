@@ -3,15 +3,16 @@ import sinon from 'sinon';
 
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { repositories } from '../../../../../src/quest/infrastructure/repositories/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 
 describe('Integration | Quest | Domain | UseCases | update-combined-course-progress', function () {
   let clock;
@@ -97,9 +98,60 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
           userId,
           organizationId,
         } = databaseBuilder.factory.buildOrganizationLearner();
+        const skillId = 'web1';
+        const tubeId = 'recTube1';
+        const competenceId = 'recAbe382T0e1337';
+        const competence = {
+          id: competenceId,
+          areaId: 'recvoGdo7z2z7pXWa',
+        };
+        const area = {
+          id: 'recvoGdo7z2z7pXWa',
+          competenceIds: [competenceId],
+        };
+        const learningContent = [
+          {
+            ...area,
+            competences: [
+              {
+                ...competence,
+                tubes: [
+                  {
+                    id: tubeId,
+                    skills: [
+                      {
+                        id: skillId,
+                        level: 1,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ];
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
+        databaseBuilder.factory.learningContent.build(learningContentObjects);
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId,
+          competenceId,
+          userId,
+        });
+        const campaignId = databaseBuilder.factory.buildCampaign().id;
+        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId });
         const reward = databaseBuilder.factory.buildAttestation();
         const { id: rewardQuestId } = databaseBuilder.factory.buildQuestForCombinedCourse({
-          successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()],
+          successRequirements: [
+            CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO(),
+            CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO(),
+            {
+              requirement_type: 'cappedTubes',
+              data: {
+                threshold: 100,
+                cappedTubes: [{ tubeId, level: 1 }],
+              },
+            },
+          ],
           rewardType: REWARD_TYPES.ATTESTATION,
           rewardId: reward.id,
         });
@@ -124,11 +176,12 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
           updatedAt: new Date('2022-01-01'),
           status: OrganizationLearnerParticipationStatuses.STARTED,
         });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId, userId });
         await databaseBuilder.commit();
 
         await usecases.updateCombinedCourseProgress({ userId, code });
 
-        const profileRewards = await repositories.rewardRepository.getByUserId({ userId });
+        const profileRewards = await repositories.profileRewardRepository.getByUserId({ userId });
 
         expect(profileRewards[0].rewardType).to.equal(REWARD_TYPES.ATTESTATION);
         expect(profileRewards[0].rewardId).to.equal(reward.id);
@@ -173,7 +226,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
         await usecases.updateCombinedCourseProgress({ userId, code });
 
         // then
-        const profileRewards = await repositories.rewardRepository.getByUserId({ userId });
+        const profileRewards = await repositories.profileRewardRepository.getByUserId({ userId });
         expect(profileRewards).to.be.empty;
       });
     });

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { AnswerJobController } from '../../../../src/quest/application/jobs/answer-job-controller.js';
-import { AnswerJob } from '../../../../src/quest/domain/models/AnwserJob.js';
+import { AnswerJob } from '../../../../src/quest/domain/models/quests/events/AnwserJob.js';
 import { usecases } from '../../../../src/quest/domain/usecases/index.js';
 import { JobGroup } from '../../../../src/shared/application/jobs/job-controller.js';
 import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';

@@ -1,6 +1,6 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
-const getOrganizationUserEmailByCampaignTargetProfileId = async function (targetProfileId) {
+export async function getOrganizationUserEmailByCampaignTargetProfileId(targetProfileId) {
   const knexConn = DomainTransaction.getConnection();
 
   return knexConn('campaigns')
@@ -10,6 +10,4 @@ const getOrganizationUserEmailByCampaignTargetProfileId = async function (target
     .where({ targetProfileId })
     .distinct()
     .pluck('users.email');
-};
-
-export { getOrganizationUserEmailByCampaignTargetProfileId };
+}

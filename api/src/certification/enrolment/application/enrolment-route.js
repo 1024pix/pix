@@ -83,5 +83,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/enrolment/enrolment-api';
-export { name, register };
+export const enrolmentRoute = { name: 'certification/enrolment/enrolment-api', register };

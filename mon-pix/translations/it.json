@@ -812,13 +812,13 @@
         },
         "2": {
           "legend": {
-            "strong-text": "32 DOMANDE"
+            "strong-text": "{maximumAssessmentLength} DOMANDE"
           },
           "paragraphs": {
-            "1": "Il test di certificazione è composto da '<strong>'32 domande'</strong>'",
+            "1": "Il test di certificazione è composto da '<strong>'{maximumAssessmentLength} domande'</strong>'",
             "2": "Hai un massimo di '<strong>'{duration}'</strong>' per rispondere*.",
             "3": "*escluso il tempo supplementare",
-            "4": "Se si completano '<strong>'meno di 20 domande, non sarà possibile assegnare un punteggio'</strong>'."
+            "4": "Se si completano '<strong>'meno di {minimumAssessmentLength} domande, non sarà possibile assegnare un punteggio'</strong>'."
           },
           "title": "Come funziona il test di certificazione?"
         },
@@ -977,10 +977,11 @@
         "options": {
           "english": "inglese - EN",
           "french": "francese - FR"
-        }
+        },
+        "warning-message": "A causa di un problema tecnico, la Certificazione Pix è temporaneamente non disponibile in inglese. Ci scusiamo per l'inconveniente."
       },
       "link-to-user-certification": "Vedi le mie certificazioni",
-      "non-eligible-subscription": "Non si ha diritto a {complementarySubscriptionLabel}. È tuttavia possibile ottenere la certificazione Pix.",
+      "non-eligible-subscription": "Non si ha diritto a {subscriptionLabel}. È tuttavia possibile ottenere la certificazione Pix.",
       "title": "Partecipa a una sessione di certificazione"
     },
     "certifications-list": {
@@ -1312,22 +1313,20 @@
       "rewards": {
         "in-progress": {
           "details": {
-            "text": "A seconda del livello raggiunto al termine del corso, potrà essere rilasciato un attestato di completamento.",
-            "title": "Completa tutti i percorsi per ottenere il tuo attestato"
+            "title": "Completa il tuo percorso per ottenere il tuo attestato"
           },
           "status": "In attesa"
         },
         "not-obtained": {
           "details": {
-            "text": "Purtroppo, i risultati ottenuti nei percorsi svolti non consentono di confermare il rilascio del certificato",
-            "title": "Capire il motivo"
+            "title": "Purtroppo, non hai soddisfatto le condizioni per ottenere l'attestato"
           },
           "status": "Non ottenuto"
         },
         "obtained": {
           "details": {
-            "text": "Scarica il tuo attestato di superamento dell'esame! Questo documento è disponibile anche nel tuo account Pix.",
-            "title": "Dove si trova?"
+            "text": "Puoi scaricare il tuo attestato adesso o trovarlo nel tuo account Pix.",
+            "title": "Hai ottenuto il tuo attestato!"
           },
           "link": "Scarico il mio certificato",
           "status": "Ottenuto"
@@ -1912,6 +1911,7 @@
       },
       "verification-precondition-failed-alert": {
         "qcm": "Per confermare, seleziona almeno due risposte.",
+        "qcm-declarative": "Per inviare, seleziona almeno una risposta.",
         "qcu": "Per confermare, seleziona una risposta.",
         "qrocm": "Per convalidare, compila tutti i campi di risposta."
       }
@@ -2342,29 +2342,38 @@
       }
     },
     "terms-of-service": {
+      "actions": {
+        "accept": "Accetta e continua",
+        "decline": "Rifiuta e esci",
+        "document-link": "Leggi le condizioni d'uso"
+      },
       "cgu": "Accetto i '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'termini e condizioni d'uso di Pix'</a>'.",
       "form": {
         "button": "Continua",
         "error-message": "È necessario accettare le condizioni d'uso di Pix."
       },
       "message": "Abbiamo aggiornato le nostre condizioni d'uso. Ti preghiamo di accettarle per continuare la tua esperienza su Pix.",
-      "title": "Termini e condizioni d'uso"
+      "requested": {
+        "message": "Per continuare a utilizzare Pix, ti invitiamo a leggere e accettare i nostri Termini e Condizioni Generali.",
+        "title": "Si prega di accettare i nostri Termini e Condizioni Generali (TCS)"
+      },
+      "title": "Termini e condizioni d'uso",
+      "update-requested": {
+        "message": "Abbiamo aggiornato i nostri TCS. Esamina le modifiche e accettale per continuare.",
+        "title": "Aggiornamento importante dei Termini e Condizioni Generali (TCS)"
+      }
     },
     "timed-challenge-instructions": {
       "action": "Inizia",
       "primary": "Avrete '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' per passare alla domanda successiva.",
-      "secondary": "È possibile continuare a rispondere anche in seguito, ma la domanda non sarà considerata come riuscita.",
-      "time": {
-        "and": " e",
-        "minutes": "{minutes, plural, =0 {} =1 {# minuti} other {# minuti}}",
-        "seconds": "{seconds, plural, =0 {} =1 {# secondi} other {# secondi}}."
-      }
+      "secondary": "È possibile continuare a rispondere anche in seguito, ma la domanda non sarà considerata come riuscita."
     },
     "training": {
       "editor": "Contenuti formativi proposti da",
       "type": {
         "autoformation": "Corsi di autoformazione",
         "e-learning": "Formazione a distanza",
+        "external-service": "Servizio esterno",
         "formation": "Formazione",
         "hybrid-training": "Formazione ibrida",
         "in-person-training": "Formazione faccia a faccia",
@@ -2406,6 +2415,18 @@
       "title": "Tutorial della campagna"
     },
     "tutorial-panel": {
+      "format": {
+        "audio": "audio",
+        "frise": "linea del tempo",
+        "image": "immagine",
+        "jeu": "gioco",
+        "outil": "strumento",
+        "page": "pagina",
+        "pdf": "pdf",
+        "site": "sito web",
+        "slide": "presentazione",
+        "video": "video"
+      },
       "info": "Questi link alle esercitazioni sono stati suggeriti dagli utenti di Pix.",
       "title": "Per avere successo la prossima volta"
     },

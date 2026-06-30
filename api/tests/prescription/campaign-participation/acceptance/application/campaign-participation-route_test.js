@@ -2,7 +2,7 @@ import times from 'lodash/times.js';
 import sinon from 'sinon';
 
 import { createServer } from '../../../../../server.js';
-import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { constants } from '../../../../../src/shared/domain/constants.js';
 import { SCOPES } from '../../../../../src/shared/domain/models/BadgeDetails.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';

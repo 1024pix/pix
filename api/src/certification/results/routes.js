@@ -1,17 +1,17 @@
-import * as certificate from './application/certificate-route.js';
-import * as certificationReports from './application/certification-reports-route.js';
-import * as certificationResults from './application/certification-results-route.js';
-import * as livretScolaire from './application/livret-scolaire-route.js';
-import * as organization from './application/organization-route.js';
-import * as user from './application/user-route.js';
+import { certificateRoute } from './application/certificate-route.js';
+import { certificationReportsRoute } from './application/certification-reports-route.js';
+import { certificationResultsRoute } from './application/certification-results-route.js';
+import { livretScolaireRoute } from './application/livret-scolaire-route.js';
+import { organizationRoute } from './application/organization-route.js';
+import { userRoute } from './application/user-route.js';
 
 const certificationResultRoutes = [
-  certificationReports,
-  certificationResults,
-  certificate,
-  livretScolaire,
-  organization,
-  user,
+  certificationReportsRoute,
+  certificationResultsRoute,
+  certificateRoute,
+  livretScolaireRoute,
+  organizationRoute,
+  userRoute,
 ];
 
 export { certificationResultRoutes };

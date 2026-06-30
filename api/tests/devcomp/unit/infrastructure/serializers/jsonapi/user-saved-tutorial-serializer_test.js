@@ -1,5 +1,5 @@
 import { UserSavedTutorial } from '../../../../../../src/devcomp/domain/models/UserSavedTutorial.js';
-import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
+import { userSavedTutorialSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | user-saved-tutorial-serializer', functio
           },
         };
         // when
-        const json = serializer.serialize(userSavedTutorial);
+        const json = userSavedTutorialSerializer.serialize(userSavedTutorial);
 
         // then
         expect(json).to.be.deep.equal(expectedJsonUserSavedTutorial);
@@ -55,7 +55,7 @@ describe('Unit | Serializer | JSONAPI | user-saved-tutorial-serializer', functio
           },
         };
         // when
-        const json = serializer.serialize(userSavedTutorial);
+        const json = userSavedTutorialSerializer.serialize(userSavedTutorial);
 
         // then
         expect(json).to.be.deep.equal(expectedJsonUserSavedTutorial);
@@ -78,7 +78,7 @@ describe('Unit | Serializer | JSONAPI | user-saved-tutorial-serializer', functio
       };
 
       // when
-      const userSavedTutorial = serializer.deserialize(jsonUserSavedTutorial);
+      const userSavedTutorial = userSavedTutorialSerializer.deserialize(jsonUserSavedTutorial);
 
       // then
       expect(userSavedTutorial).to.be.instanceOf(UserSavedTutorial);

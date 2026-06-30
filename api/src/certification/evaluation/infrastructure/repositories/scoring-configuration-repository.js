@@ -33,7 +33,7 @@ export const getLatestByDateAndLocale = async ({ locale, date }) => {
 
 export const getLatestByVersion = async ({ version }) => {
   const allAreas = await areaRepository.list();
-  const competenceList = await competenceRepository.listPixCompetencesOnly();
+  const competenceList = await competenceRepository.list();
 
   return V3CertificationScoring.fromConfigurations({
     competenceForScoringConfiguration: version.competencesScoringConfiguration,

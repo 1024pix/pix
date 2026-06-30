@@ -1,5 +1,4 @@
 export function getVersionNumber(date = new Date()) {
-  const pad = (n) => String(n).padStart(2, '0');
   return (
     date.getUTCFullYear().toString() +
     pad(date.getUTCMonth() + 1) +
@@ -8,4 +7,8 @@ export function getVersionNumber(date = new Date()) {
     pad(date.getUTCMinutes()) +
     pad(date.getSeconds())
   );
+}
+
+function pad(n) {
+  return String(n).padStart(2, '0');
 }

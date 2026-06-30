@@ -35,5 +35,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certification/session-management/unfinalize-api';
-export { name, register };
+export const unfinalizeRoute = { name: 'certification/session-management/unfinalize-api', register };

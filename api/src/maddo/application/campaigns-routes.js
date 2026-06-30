@@ -133,5 +133,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'maddo/maddo-campaigns-api';
-export { name, register };
+export const campaignsRoute = { name: 'maddo/maddo-campaigns-api', register };

@@ -1,10 +1,10 @@
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer.js';
+import { campaignParticipationsCountsByDaySerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-participations-counts-by-day-serializer', function () {
   describe('#serialize', function () {
     it('should convert a participations count by day object into JSON API data', function () {
-      const json = serializer.serialize({
+      const json = campaignParticipationsCountsByDaySerializer.serialize({
         campaignId: 1,
         startedParticipations: [{ day: '2021-06-01', count: 1 }],
         sharedParticipations: [{ day: '2021-06-01', count: 1 }],

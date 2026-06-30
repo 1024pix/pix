@@ -1,5 +1,8 @@
-import { COURSE_ITEM_TYPES, CourseItem } from '../../../../../src/quest/domain/models/CourseItem.js';
-import * as courseSerializer from '../../../../../src/quest/infrastructure/serializers/course-serializer.js';
+import {
+  COURSE_ITEM_TYPES,
+  CourseItem,
+} from '../../../../../src/quest/domain/models/combined-courses/value-objects/CourseItem.js';
+import { courseSerializer } from '../../../../../src/quest/infrastructure/serializers/course-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | course', function () {

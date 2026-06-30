@@ -18,4 +18,4 @@ const serialize = function (adminCombinedCourseBlueprintDetails) {
   }).serialize(adminCombinedCourseBlueprintDetails);
 };
 
-export { serialize };
+export const adminCombinedCourseBlueprintDetailsSerializer = { serialize };

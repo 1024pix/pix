@@ -26,12 +26,7 @@ async function findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skillI
   return keCollection.latestUniqNonResetKnowledgeElements;
 }
 
-const findUniqByUserIds = async function ({ userIds }) {
-  if (userIds.length === 0) return [];
-
-  const knexConn = DomainTransaction.getConnection();
-  const knowledgeElementRows = await knexConn(tableName).whereIn('userId', userIds);
-
+const groupUniqKnowledgeElementsByUserId = ({ userIds, knowledgeElementRows }) => {
   const knowledgeElementsByUserId = new Map(userIds.map((userId) => [userId, []]));
   for (const row of knowledgeElementRows) {
     knowledgeElementsByUserId.get(row.userId)?.push(new KnowledgeElement(row));
@@ -44,6 +39,24 @@ const findUniqByUserIds = async function ({ userIds }) {
       knowledgeElements: keCollection.latestUniqNonResetKnowledgeElements,
     };
   });
+};
+
+const findUniqByUserIds = async function ({ userIds }) {
+  if (userIds.length === 0) return [];
+
+  const knexConn = DomainTransaction.getConnection();
+  const knowledgeElementRows = await knexConn(tableName).whereIn('userId', userIds);
+
+  return groupUniqKnowledgeElementsByUserId({ userIds, knowledgeElementRows });
+};
+
+const findUniqByUserIdsAndSkillIds = async function ({ userIds, skillIds }) {
+  if (userIds.length === 0) return [];
+
+  const knexConn = DomainTransaction.getConnection();
+  const knowledgeElementRows = await knexConn(tableName).whereIn('userId', userIds).whereIn('skillId', skillIds);
+
+  return groupUniqKnowledgeElementsByUserId({ userIds, knowledgeElementRows });
 };
 
 const batchSave = async function ({ knowledgeElements }) {
@@ -59,16 +72,6 @@ const batchSave = async function ({ knowledgeElements }) {
 
 const findUniqByUserId = function ({ userId, limitDate, skillIds }) {
   return findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skillIds });
-};
-
-const findUniqByUserIdAndAssessmentId = async function ({ userId, assessmentId }) {
-  const query = _findByUserIdAndLimitDateQuery({ userId });
-  const knowledgeElementRows = await query.where({ assessmentId });
-
-  const keCollection = new KnowledgeElementCollection(
-    knowledgeElementRows.map((knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow)),
-  );
-  return keCollection.latestUniqNonResetKnowledgeElements;
 };
 
 const findUniqByUserIdAndCompetenceId = async function ({ userId, competenceId }) {
@@ -102,11 +105,10 @@ const findInvalidatedAndDirectByUserId = async function ({ userId }) {
 
 export {
   batchSave,
-  findAssessedByUserIdAndLimitDateQuery,
   findInvalidatedAndDirectByUserId,
   findUniqByUserId,
-  findUniqByUserIdAndAssessmentId,
   findUniqByUserIdAndCompetenceId,
   findUniqByUserIdGroupedByCompetenceId,
   findUniqByUserIds,
+  findUniqByUserIdsAndSkillIds,
 };

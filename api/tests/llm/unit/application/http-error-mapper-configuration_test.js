@@ -12,7 +12,15 @@ import {
   PromptAlreadyOngoingError,
   TooLargeMessageInputError,
 } from '../../../../src/llm/domain/errors.js';
-import { HttpErrors } from '../../../../src/shared/application/errors/http-errors.js';
+import {
+  BadRequestError,
+  ConflictError,
+  ForbiddenError,
+  InternalServerError,
+  NotFoundError,
+  PayloadTooLargeError,
+  ServiceUnavailableError,
+} from '../../../../src/shared/application/errors/http-errors.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () {
@@ -27,7 +35,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new ChatNotFoundError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.NotFoundError);
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 
@@ -42,7 +50,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new MaxPromptsReachedError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+      expect(error).to.be.instanceOf(ForbiddenError);
     });
   });
 
@@ -57,7 +65,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new ChatForbiddenError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+      expect(error).to.be.instanceOf(ForbiddenError);
     });
   });
 
@@ -72,7 +80,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new PromptAlreadyOngoingError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.ConflictError);
+      expect(error).to.be.instanceOf(ConflictError);
     });
   });
 
@@ -87,7 +95,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new ConfigurationNotFoundError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error).to.be.instanceOf(BadRequestError);
     });
   });
 
@@ -102,7 +110,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new NoUserIdProvidedError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error).to.be.instanceOf(BadRequestError);
     });
   });
 
@@ -117,7 +125,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new NoAttachmentNeededError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error).to.be.instanceOf(BadRequestError);
     });
   });
 
@@ -132,7 +140,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new NoAttachmentNorMessageProvidedError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error).to.be.instanceOf(BadRequestError);
     });
   });
 
@@ -147,7 +155,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new LLMApiError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.ServiceUnavailableError);
+      expect(error).to.be.instanceOf(ServiceUnavailableError);
     });
   });
 
@@ -162,7 +170,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new IncorrectMessagesOrderingError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.InternalServerError);
+      expect(error).to.be.instanceOf(InternalServerError);
     });
   });
 
@@ -177,7 +185,7 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
       const error = httpErrorMapper.httpErrorFn(new TooLargeMessageInputError());
 
       // then
-      expect(error).to.be.instanceOf(HttpErrors.PayloadTooLargeError);
+      expect(error).to.be.instanceOf(PayloadTooLargeError);
     });
   });
 });

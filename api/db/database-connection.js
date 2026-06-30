@@ -11,6 +11,7 @@ import {
 } from '../src/shared/infrastructure/execution-context-manager.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 import { configureConnectionExtension, disableTypeCastingForJsonTypes } from './knex-extensions.js';
+import { PGSQL_DUPLICATE_DATABASE_ERROR } from './pgsql-errors.js';
 
 const { logging } = config;
 
@@ -21,6 +22,56 @@ export class DatabaseConnection {
 
   static databaseUrlFromConfig(knexConfig) {
     return knexConfig?.connection?.connectionString ? new URL(knexConfig.connection.connectionString) : null;
+  }
+
+  static configForDbManagement(knexConfig) {
+    const connectionUrl = DatabaseConnection.databaseUrlFromConfig(knexConfig);
+    const databaseName = connectionUrl.pathname.slice(1);
+    connectionUrl.pathname = '/postgres';
+
+    const knex = Knex({
+      ...knexConfig,
+      connection: {
+        ...knexConfig.connection,
+        connectionString: connectionUrl.href,
+      },
+    });
+
+    return { knex, databaseName };
+  }
+
+  static async createDatabaseFromConfig(knexConfig) {
+    const { knex, databaseName } = DatabaseConnection.configForDbManagement(knexConfig);
+
+    try {
+      await knex.raw('CREATE DATABASE ??', databaseName);
+      logger.info(`Database ${databaseName} created`);
+    } catch (error) {
+      if (error.code === PGSQL_DUPLICATE_DATABASE_ERROR) {
+        logger.info(`Database ${databaseName} already created`);
+      } else {
+        logger.error(`Database creation failed: ${error}`);
+      }
+    } finally {
+      await knex.destroy();
+    }
+  }
+
+  static async dropDatabaseFromConfig(knexConfig, { withForce = false }) {
+    const { knex, databaseName } = DatabaseConnection.configForDbManagement(knexConfig);
+
+    try {
+      await knex.raw('DROP DATABASE ??', `${databaseName}${withForce ? ' WITH (FORCE)' : ''}`);
+      logger.info(`Database ${databaseName} dropped`);
+    } catch (error) {
+      if (error.code === PGSQL_DUPLICATE_DATABASE_ERROR) {
+        logger.info(`Database ${databaseName} does not exist`);
+      } else {
+        logger.error(`Database drop failed: ${error}`);
+      }
+    } finally {
+      await knex.destroy();
+    }
   }
 
   constructor(knexConfig) {

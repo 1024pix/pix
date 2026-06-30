@@ -159,19 +159,6 @@ const markAsCancelled = async function ({ id }) {
 /**
  * @param {Object} params
  * @param {number} params.certificationCenterId
- * @param {date} params.updatedAt
- */
-const markAsCancelledByCertificationCenter = async function ({ certificationCenterId, updatedAt }) {
-  const knexConn = DomainTransaction.getConnection();
-  await knexConn
-    .from('certification-center-invitations')
-    .where({ certificationCenterId, status: CertificationCenterInvitation.StatusType.PENDING })
-    .update({ status: CertificationCenterInvitation.StatusType.CANCELLED, updatedAt });
-};
-
-/**
- * @param {Object} params
- * @param {number} params.certificationCenterId
  */
 const deleteInvitationsByCertificationCenterId = async function ({ certificationCenterId }) {
   const knexConn = DomainTransaction.getConnection();
@@ -208,7 +195,6 @@ export {
   get,
   getByIdAndCode,
   markAsCancelled,
-  markAsCancelledByCertificationCenter,
   update,
   updateModificationDate,
 };

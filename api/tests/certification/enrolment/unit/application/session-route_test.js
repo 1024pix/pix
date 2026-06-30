@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { sessionController } from '../../../../../src/certification/enrolment/application/session-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/enrolment/application/session-route.js';
+import { sessionRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/session-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';

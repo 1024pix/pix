@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { SCO_MANAGING_ORGANIZATION_ID } from '../../common/constants.js';
 import { CAMPAIGN_SCO_COMBINED_COURSE_ID, SIXTH_GRADE_REWARD_ID } from '../constants.js';
 

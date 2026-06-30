@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-result-levels-per-tubes-and-competences-serializer.js';
+import { campaignResultLevelsPerTubesAndCompetencesSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-result-levels-per-tubes-and-competences-serializer.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-result-levels-per-tubes-and-competences-serializer', function () {
@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | campaign-result-levels-per-tubes-and-com
     it('should convert CampaignResultLevelPerTubesAndCompetences acquisitions statistics into JSON API data', function () {
       const campaignId = 1;
       const model = domainBuilder.prescription.campaign.buildCampaignResultLevelsPerTubesAndCompetences();
-      const json = serializer.serialize(model);
+      const json = campaignResultLevelsPerTubesAndCompetencesSerializer.serialize(model);
 
       expect(json).to.deep.equal({
         data: {
@@ -69,7 +69,7 @@ describe('Unit | Serializer | JSONAPI | campaign-result-levels-per-tubes-and-com
 
     it('should serialize with correct type in case of campaign participation', function () {
       const model = domainBuilder.prescription.campaign.buildCampaignResultLevelsPerTubesAndCompetences();
-      const json = serializer.serialize(model, true);
+      const json = campaignResultLevelsPerTubesAndCompetencesSerializer.serialize(model, true);
       expect(json.data.type).to.equal('campaign-participation-levels-per-tubes-and-competences');
     });
   });

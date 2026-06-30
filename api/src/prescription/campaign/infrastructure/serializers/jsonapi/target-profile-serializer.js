@@ -9,4 +9,4 @@ const serialize = function (targetProfiles, meta) {
   }).serialize(targetProfiles);
 };
 
-export { serialize };
+export const targetProfileSerializer = { serialize };

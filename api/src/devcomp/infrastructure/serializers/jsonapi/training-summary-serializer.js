@@ -16,4 +16,4 @@ const serialize = function (trainingSummaries, meta) {
   }).serialize(trainingSummaries);
 };
 
-export { serialize };
+export const trainingSummarySerializer = { serialize };

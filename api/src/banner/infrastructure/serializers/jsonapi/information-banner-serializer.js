@@ -13,4 +13,4 @@ const serialize = function (informationBanner) {
   }).serialize(informationBanner);
 };
 
-export { serialize };
+export const informationBannerSerializer = { serialize };

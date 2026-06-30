@@ -1,5 +1,5 @@
 import * as targetProfileSummaryForAdminRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-summary-for-admin-repository.js';
-import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { TargetProfile } from '../../../../../../src/shared/domain/models/TargetProfile.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';

@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organizations-to-join-serializer.js';
+import { organizationsToJoinSerializer } from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organizations-to-join-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -9,7 +9,7 @@ describe('Unit | Serializer | JSONAPI | organization-to-join-serializer', functi
         identityProvider: 'GAR',
       });
 
-      const json = serializer.serialize(organizationToJoin);
+      const json = organizationsToJoinSerializer.serialize(organizationToJoin);
 
       expect(json).to.deep.equal({
         data: {

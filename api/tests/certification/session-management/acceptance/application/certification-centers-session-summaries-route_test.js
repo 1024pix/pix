@@ -12,6 +12,54 @@ describe('Certification | Session Management | Acceptance | Application | Route 
   });
 
   describe('GET /api/certification-centers/{id}/session-summaries', function () {
+    it('should return 200 with serialized sessions summaries', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+      databaseBuilder.factory.buildSession({
+        id: 123,
+        address: 'ici',
+        room: 'labas',
+        date: '2021-05-05',
+        time: '17:00:00',
+        examiner: 'Jeanine',
+        finalizedAt: null,
+        publishedAt: null,
+        certificationCenterId,
+      });
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId: 123 });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+      await databaseBuilder.commit();
+      const request = {
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+        method: 'GET',
+        url: `/api/certification-centers/${certificationCenterId}/session-summaries?page[number]=1&page[size]=10`,
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal([
+        {
+          type: 'session-summaries',
+          id: '123',
+          attributes: {
+            address: 'ici',
+            room: 'labas',
+            date: '2021-05-05',
+            time: '17:00:00',
+            examiner: 'Jeanine',
+            'enrolled-candidates-count': 1,
+            'effective-candidates-count': 0,
+            status: 'created',
+          },
+        },
+      ]);
+    });
+
     it('should return 200 with paginated session summaries', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { SharedProfileForCampaign } from '../../../../../../../src/prescription/campaign-participation/domain/read-models/SharedProfileForCampaign.js';
-import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
+import { sharedProfileForCampaignSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -154,7 +154,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
       };
 
       // when
-      const json = serializer.serialize(profileSharedForCampaign);
+      const json = sharedProfileForCampaignSerializer.serialize(profileSharedForCampaign);
 
       // then
       expect(json).to.deep.equal(expectedSharedProfileForCampaign);

@@ -1,7 +1,7 @@
 import { normalize } from '../../../shared/infrastructure/utils/string-utils.js';
 import { usecases } from '../domain/usecases/index.js';
-import { serializeForParticipation } from '../infrastructure/serializers/candidate-serializer.js';
-import * as sessionSerializer from '../infrastructure/serializers/session-serializer.js';
+import { candidateSerializer } from '../infrastructure/serializers/candidate-serializer.js';
+import { sessionSerializer } from '../infrastructure/serializers/session-serializer.js';
 import { services } from './services/index.js';
 
 const createSession = async function (request, _h, dependencies = { sessionSerializer }) {
@@ -57,7 +57,7 @@ const createCandidateParticipation = async function (request, h) {
     normalizeStringFnc: normalize,
   });
 
-  return h.response(serializeForParticipation(candidate)).created();
+  return h.response(candidateSerializer.serializeForParticipation(candidate)).created();
 };
 
 const sessionController = {

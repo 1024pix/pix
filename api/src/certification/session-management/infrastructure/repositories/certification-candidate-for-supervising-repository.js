@@ -10,11 +10,10 @@ const get = async function ({ certificationCandidateId }) {
       'certification-candidates.*',
       'assessments.state AS assessmentStatus',
       'certification-courses.createdAt AS startDateTime',
+      'certification_versions.assessmentDuration AS assessmentDuration',
     )
-    .leftJoin('certification-courses', function () {
-      this.on('certification-courses.sessionId', '=', 'certification-candidates.sessionId');
-      this.on('certification-courses.userId', '=', 'certification-candidates.userId');
-    })
+    .leftJoin('certification-courses', 'certification-candidates.id', 'certification-courses.candidateId')
+    .leftJoin('certification_versions', 'certification_versions.id', 'certification-courses.versionId')
     .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .where({ 'certification-candidates.id': certificationCandidateId })
     .first();

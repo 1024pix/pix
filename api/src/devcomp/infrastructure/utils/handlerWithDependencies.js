@@ -1,8 +1,8 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as elementAnswerSerializer from '../serializers/jsonapi/element-answer-serializer.js';
-import * as moduleSerializer from '../serializers/jsonapi/module-serializer.js';
-import * as passageEventSerializer from '../serializers/jsonapi/passage-event-serializer.js';
-import * as passageSerializer from '../serializers/jsonapi/passage-serializer.js';
+import { elementAnswerSerializer } from '../serializers/jsonapi/element-answer-serializer.js';
+import { moduleSerializer } from '../serializers/jsonapi/module-serializer.js';
+import { passageEventSerializer } from '../serializers/jsonapi/passage-event-serializer.js';
+import { passageSerializer } from '../serializers/jsonapi/passage-serializer.js';
 
 const dependencies = {
   usecases,

@@ -741,18 +741,6 @@
       },
       "title": "Analysis"
     },
-    "campaign-combined-courses": {
-      "empty": "No learning courses found for this campaign",
-      "table": {
-        "column": {
-          "code": "Course code",
-          "name": "Course name",
-          "participants": "Number of participants"
-        },
-        "description": "List of learning courses associated with this campaign"
-      },
-      "title": "Learning courses"
-    },
     "campaign-creation": {
       "actions": {
         "create": "Create a campaign",
@@ -761,6 +749,8 @@
       "combined-course-blueprints-label": "Select a learning course",
       "combined-course-blueprints-list-label": "Select a learning course",
       "copy-of": "Copy of",
+      "course-label": "Select a course",
+      "course-selection-label": "Select a course",
       "external-id-label": {
         "label": "external user ID label",
         "question-label": "Do you need an external user ID?",
@@ -1065,8 +1055,21 @@
       },
       "modal": {
         "associated-badges": "Related badges",
-        "open-modal": "View course details",
-        "select-course": "Select course"
+        "combined-course-content": {
+          "aria-label-duration": "Estimated duration: {duration} minutes",
+          "description": "Learning courses combine assessments and personalised learning modules, enabling teaching to be tailored to each participant's level.",
+          "duration": "≈ {duration} min",
+          "module-info": "Modules will be recommended to participants based on their results.",
+          "prescribed": "Prescribed",
+          "recommended": "Recommended",
+          "step": "Step {number}",
+          "title": "Learning courses"
+        },
+        "max-level": "Max level.",
+        "open-modal": "View {name} details",
+        "select-course": "Select course",
+        "tube-name-and-description": "Topic name and description",
+        "tube-unavailable": "Unavailable topic"
       },
       "tab-filters": {
         "all": "All",
@@ -1135,7 +1138,6 @@
         }
       }
     },
-    "combined-course-blueprints-list-label": "Sélectionnez un schéma de parcours",
     "combined-courses": {
       "empty-state": "No learning course available at the moment.",
       "table": {

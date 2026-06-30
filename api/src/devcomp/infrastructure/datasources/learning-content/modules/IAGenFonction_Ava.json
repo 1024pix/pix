@@ -7,13 +7,13 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/IAGenFonction_AVA/picto_iagenfonction_ava.svg",
-    "description": "<p>À leurs débuts, les IA génératives ne savaient que générer du texte.&nbsp;Elles peuvent maintenant calculer, produire des graphiques, du code ou encore interagir avec d’autres logiciels !</p><br><p>Dans ce module, vous allez découvrir le secret qui se cache derrière ces nouvelles capacités&nbsp;: ces logiciels d’IA font appel à des outils.</p>",
+    "description": "<p>À leurs débuts, les logiciels d’intelligence artificielle (IA) générative ne savaient générer que du texte. Ils peuvent maintenant calculer, produire des graphiques, du code ou encore interagir avec d’autres logiciels !</p><p>Dans ce module, vous allez découvrir le secret qui se cache derrière ces nouvelles capacités&nbsp;: ces logiciels d’IA générative font appel à des outils.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
-      "<p>Comprendre à quoi servent les appels d’outils dans les logiciels d’IA&nbsp;</p>",
-      "Comprendre le fonctionnement des appels d’outils par les logiciels d’IA",
-      "Identifier des situations dans lesquelles l’appel d’outil par le logiciel d’IA est utile"
+      "<p>Comprendre à quoi servent les appels d’outils dans les logiciels d’IA générative</p>",
+      "<p>Comprendre le fonctionnement des appels d’outils par les logiciels d’IA générative</p>",
+      "<p>Identifier des situations dans lesquelles l’appel d’outil par le logiciel d’IA générative est utile</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -25,7 +25,7 @@
         {
           "id": "93444833-7b39-42be-bd0b-f0b4341209f0",
           "type": "discovery",
-          "title": "Conversation sur l’évolution des IA conversationnelles",
+          "title": "Conversation sur l’évolution des IA génératives",
           "components": [
             {
               "type": "element",
@@ -43,7 +43,7 @@
                       "userName": "Yasmine",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "J’ai demandé à l’IA de l’aide pour les travaux : estimer le nombre de litres de peinture dont on aura besoin pour le salon, faire des simulations du rendu final, demander les dernières tendances en décoration... C’est génial ! 🤩"
+                      "content": "J’ai demandé à l’IA de l’aide pour les travaux : estimer le nombre de litres de peinture dont on aura besoin pour le salon, faire des simulations du rendu final, demander les dernières tendances en décoration… C’est génial ! 🤩"
                     },
                     {
                       "userName": "Steven",
@@ -89,7 +89,7 @@
         {
           "id": "10af043e-6b82-435b-a859-3d74285dd00d",
           "type": "discovery",
-          "title": "L’intérêt de l’appel d’outil : Comparaison avec et sans outils",
+          "title": "L’intérêt de l’appel d’outil : comparaison avec et sans outils",
           "components": [
             {
               "type": "element",
@@ -97,7 +97,7 @@
                 "id": "540b867d-1e06-496c-a9e9-425c2012fef8",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Yasmine aimerait trouver des objets en brocante pour décorer une fois les travaux terminés.</p><p>Elle a posé la même question à deux logiciels d’IA conversationnelle différents.</p><br><p>Observez la différence entre ces deux réponses.</p>"
+                "content": "<p>Yasmine aimerait trouver des objets en brocante pour décorer une fois les travaux terminés.</p><p>Elle a posé la même question à deux logiciels d’IA générative. </p><p>Observez les différences entre ces deux réponses puis répondez à la question qui suit.</p>"
               }
             },
             {
@@ -112,11 +112,11 @@
                 "props": {
                   "conversation1": {
                     "title": "Exemple 1",
-                    "llmName": "ChatPix"
+                    "llmName": "IA générative n°1 "
                   },
                   "conversation2": {
                     "title": "Exemple 2",
-                    "llmName": "ChatPix"
+                    "llmName": "IA générative n°2"
                   },
                   "userName": "Yasmine",
                   "messages": [
@@ -143,14 +143,14 @@
               "element": {
                 "id": "d0207bf0-7267-4877-a80d-adfda8f6d7e5",
                 "type": "qcu-discovery",
-                "instruction": "À votre avis, dans quel exemple le logiciel d’IA conversationnelle a-t-il fait appel à un outil ?",
+                "instruction": "<p>À votre avis, dans quel exemple l’IA générative&nbsp; fait-elle appel à un outil ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "L’exemple 1",
                     "feedback": {
-                      "diagnosis": "<p>Eh non  ! Cette réponse est moins précise que l’autre.</p><p> Les réponses données par les IA génératives se sont améliorées grâce aux <strong>appels d’outils</strong>, par exemple ici, la <strong>recherche sur internet</strong>, utilisée dans l’exemple 2.</p>"
+                      "diagnosis": "<p>Eh non ! Cette réponse est moins précise que l’autre.</p><p> Les réponses données par les IA génératives se sont améliorées grâce aux <strong>appels d’outils</strong>, par exemple ici, la <strong>recherche sur internet</strong>, utilisée dans l’exemple 2.</p>"
                     }
                   },
                   {
@@ -188,7 +188,7 @@
                       "id": "e7fcc562-2f50-4e49-8c20-9297175e15e3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>En faisant <strong>appel à des outils</strong>, autrement dit des <strong>logiciels externes</strong>, les logiciels d’IA étendent leurs capacités au-delà de leur propre environnement et peuvent réaliser d’<strong>autres actions</strong> sur l’ordinateur ou dans le monde réel.</p><p> En anglais, on appelle cette capacité le «&nbsp;tool calling » ou «&nbsp;fonction calling&nbsp;».<br></p>"
+                      "content": "<p>En faisant <strong>appel à des outils</strong>, autrement dit des <strong>logiciels externes</strong>, les logiciels d’IA générative étendent leurs capacités au-delà de leur propre environnement et peuvent réaliser d’<strong>autres actions</strong>.</p><p> En anglais, on appelle cette capacité le «&nbsp;tool calling » ou «&nbsp;function calling&nbsp;».<br></p>"
                     }
                   ]
                 },
@@ -198,7 +198,7 @@
                       "id": "7df2eef2-779e-4dca-a954-c4ca258994da",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Quelles tâches peuvent maintenant faire les IA conversationnelles grâce à ces outils ?</h5><br><p> Par exemple, elles peuvent&nbsp;: </p><ul><li>chercher sur internet, 🌐&nbsp;</li><li>réaliser des calculs exacts, 🔢</li><li>produire  un support de présentation, 🖼️    <br></li><li>générer et exécuter du code informatique, 🧑‍💻    <br></li><li>envoyer des mails, 📧    <br></li><li>ajouter un événement à un agenda 📅</li><li>faire une réservation  ou une commande sur internet …&nbsp;🛒</li></ul>"
+                      "content": "<h5>Quelles tâches peuvent maintenant faire les IA génératives grâce à ces outils ?</h5><br><p>Ces IA génératives peuvent par exemple&nbsp;: </p><ul><li>chercher sur internet, 🌐&nbsp;</li><li>réaliser des calculs exacts, 🔢</li><li>produire un support de présentation, 🖼️    <br></li><li>générer et exécuter du code informatique, 🧑‍💻    <br></li><li>envoyer des mails, 📧    <br></li><li>ajouter un événement à un agenda, 📅</li><li>faire une réservation ou une commande sur internet, etc.&nbsp;🛒</li></ul>"
                     }
                   ]
                 },
@@ -208,7 +208,7 @@
                       "id": "564e660c-e65c-43d0-a77c-fffdd39106ec",
                       "type": "text",
                       "tag": "did-you-know",
-                      "content": "<p>En plus de réaliser de nouvelles tâches dans le monde numérique, dans certains cas, les logiciels d’IA conversationnelle peuvent être connectés à des systèmes du monde physique. 🔌 <br> Ainsi, le logiciel d’IA peut devenir une interface pour allumer une lumière, mettre en route le chauffage, actionner un bras robotisé, etc. 🦾</p>"
+                      "content": "<p>En plus de réaliser de nouvelles tâches dans le monde numérique, dans certains cas, les logiciels d’IA conversationnelle peuvent être connectés à des systèmes du monde physique. 🔌 <br> Ainsi, un logiciel d’IA peut devenir une interface pour allumer une lumière, mettre en route le chauffage, actionner un bras robotisé, etc. 🦾</p>"
                     }
                   ]
                 }
@@ -243,7 +243,7 @@
                 "id": "d8c78172-4027-44f7-abe4-c316d4da0925",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Yasmine utilise un logiciel d’IA&nbsp;: ChatPix 3.0.</p><p> Le<strong> prompt système</strong> est l’instruction  donnée au logiciel d’IA pour définir son comportement et les outils qu’il peut mobiliser. Il n’est pas visible des utilisateurs.</p><p><strong>Analysez&nbsp;le prompt  de ChatPix 3.0 ci-dessous puis répondez aux questions.</strong></p><blockquote><code>Tu es un assistant doté de plusieurs outils externes. <br>Tu disposes des outils suivants&nbsp;: <br>- l’application de musique&nbsp;: pour lancer ou arrêter une musique, <br>- la calculatrice&nbsp;: pour effectuer des calculs numériques.<br> <br> Règles d’utilisation&nbsp;: <br>1. Si l’utilisateur demande explicitement le&nbsp; lancement ou l’arrêt d’une musique, tu DOIS appeler l’outil `application de musique`.<br> <br>2. Si la demande peut être résolue par un calcul mathématique,&nbsp;tu DOIS appeler l’outil `calculatrice`. <br>3. Si aucun outil n’est approprié, réponds normalement en texte.<br> <br> Lorsque tu appelles un outil&nbsp;: <br>- Ne produis aucun texte explicatif <br>- Retourne uniquement l’appel d’outil au format JSON valid<br><br><br></code><br></blockquote>"
+                "content": "<p>Yasmine utilise un logiciel d’IA générative&nbsp;: ChatPix 3.0.</p><p> Le<strong> prompt système</strong> est l’instruction donnée au logiciel d’IA pour définir son comportement et les outils qu’il peut utiliser. Il n’est pas visible des utilisateurs comme Yasmine.</p><p><strong>Analysez&nbsp;le prompt système de ChatPix 3.0 ci-dessous puis répondez aux questions.</strong></p><blockquote><code>Tu es un assistant doté de plusieurs outils externes. <br>Tu disposes des outils suivants&nbsp;: <br>- l’application de musique&nbsp;: pour lancer ou arrêter une musique, <br>- la calculatrice&nbsp;: pour effectuer des calculs numériques.<br> <br> Règles d’utilisation&nbsp;: <br>1. Si l’utilisateur demande explicitement le&nbsp; lancement ou l’arrêt d’une musique, tu DOIS appeler l’outil `application de musique`.<br> <br>2. Si la demande peut être résolue par un calcul mathématique,&nbsp;tu DOIS appeler l’outil `calculatrice`. <br>3. Si aucun outil n’est approprié, réponds normalement en texte.<br> <br> Lorsque tu appelles un outil&nbsp;: <br>- Ne produis aucun texte explicatif.<br>- Envoie la requête à l’outil dans&nbsp;un format adapté.</code><br></blockquote>"
               }
             },
             {
@@ -256,14 +256,14 @@
                       "id": "a898285f-1976-4273-a7a8-3c1b7ecf9f53",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>Yasmine envoie une demande, sous la forme d’un prompt, à ChatPix 3.0, le logiciel d’IA défini ci-dessus.</p>",
+                      "instruction": "<p>Yasmine envoie une demande, sous la forme d’un prompt, au logiciel d’IA générative<strong> ChatPix 3.0</strong>.</p>",
                       "functionalInstruction": "",
                       "tagName": "llm-messages",
                       "props": {
                         "messages": [
                           {
                             "direction": "outbound",
-                            "content": "Combien de litres de peinture sont nécessaires pour peindre un salon carré, dont les murs font 2,5 m en hauteur, 5 m de longueur, pour 3 couches de peinture avec une peinture de rendement 10 m²/L/couche ?"
+                            "content": "Combien de litres de peinture sont nécessaires pour peindre un salon carré, dont les murs font 2,5 m en hauteur, 5 m de longueur, pour 3 couches de peinture avec une peinture de rendement 10 m2/L/couche ?"
                           }
                         ]
                       }
@@ -271,7 +271,7 @@
                     {
                       "id": "5d883cf5-5796-4c14-b2ee-8c5e458b40f2",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Quel outil peut être utilisé par ChatPix 3.0 pour répondre à cette demande ?&nbsp;</p>",
+                      "instruction": "<p>D’après le prompt système, quel outil peut être utilisé par ChatPix 3.0 pour répondre à la demande de Yasmine ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -320,14 +320,14 @@
                       "id": "d51c484f-4e0f-424d-8d4e-4b22587a5260",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>Yasmine envoie le prompt suivant à ChatPix 3.0, défini ci-dessus.</p>",
+                      "instruction": "<p>Yasmine envoie un autre prompt à <strong>ChatPix 3.0</strong>.</p>",
                       "functionalInstruction": "",
                       "tagName": "llm-messages",
                       "props": {
                         "messages": [
                           {
                             "direction": "outbound",
-                            "content": "Ajoute à mon agenda le rendez-vous avec le cuisiniste qui aura lieu samedi prochain à 10h."
+                            "content": "Ajoute à mon agenda le rendez-vous avec le cuisiniste qui aura lieu samedi prochain à 10 h."
                           }
                         ]
                       }
@@ -335,7 +335,7 @@
                     {
                       "id": "e99bf18b-14df-4e78-ae8d-8b756f704898",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Quel outil peut être utilisé par ChatPix 3.0 pour répondre à cette demande ?&nbsp;</p>",
+                      "instruction": "<p>D’après le prompt système, quel outil peut être utilisé par ChatPix 3.0 pour répondre à cette nouvelle demande de Yasmine ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -370,7 +370,7 @@
                           "id": "5",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>En fait, aucun outil ne va être utilisé !</p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>cet outil n’est pas configuré </strong> dans le prompt système ChatPix 3.0.</p>"
+                            "diagnosis": "<p>En fait, aucun outil ne va être utilisé !</p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>cet outil n’est pas configuré </strong> dans le prompt système de ChatPix 3.0.</p>"
                           }
                         }
                       ],
@@ -397,7 +397,7 @@
                       "id": "582588be-aeba-495e-9eaf-fb4b703ade17",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Les développeurs configurent les logiciels d’IA pour faire appel à des outils. Pour cela, ils définissent les <strong>paramètres </strong>de l’outil dans le prompt système&nbsp;. Ils décrivent pour chaque outil&nbsp;: son nom, son contexte d’utilisation (objectif, finalité), ses valeurs d’entrées, le format de la réponse attendue, etc.&nbsp;</p>"
+                      "content": "<p>Les développeurs configurent les logiciels d’IA pour faire appel à des outils. Pour cela, les développeurs définissent les <strong>paramètres </strong>des outils dans un <strong>prompt système</strong> et décrivent pour chaque outil&nbsp;: son nom, son contexte d’utilisation (objectif, finalité), ses valeurs d’entrées, le format de la réponse attendue, etc.</p>"
                     }
                   ]
                 },
@@ -407,7 +407,7 @@
                       "id": "116f00ef-b0ee-4df5-ab5e-eadd4be5a31b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Mais que peut faire l’utilisateur dans la configuration de ces outils ?</h5><br><p> ✅ Dans certains cas, des <strong>accès </strong>doivent être autorisés par l’utilisateur (ex.&nbsp;: autoriser l’accès à la boîte mail, à un agenda, un cloud, etc.)&nbsp;</p>"
+                      "content": "<h5>Mais que peut faire l’utilisateur dans la configuration de ces outils ?</h5><br><p> ✅ Dans certains cas, des <strong>accès </strong>doivent être autorisés par l’utilisateur (exemple&nbsp;: autoriser l’accès à la boîte mail, à un agenda, un cloud, etc.)&nbsp;</p>"
                     }
                   ]
                 },
@@ -417,12 +417,12 @@
                       "id": "44b2fa86-5471-4083-ae6e-6ccad3ce6db1",
                       "type": "text",
                       "tag": " ",
-                      "content": "⚙️Dans certaines IA conversationnelles, l’utilisateur peut choisir d’<strong>activer des outils disponibles</strong> pour une conversation."
+                      "content": "⚙️ Dans certaines IA conversationnelles, l’utilisateur peut choisir d’<strong>activer des outils disponibles</strong> pour une conversation."
                     },
                     {
                       "id": "139efa7a-48f4-476f-88d6-1fd440588231",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGenFonctionAva/capture-mistral-activer-outil.png",
+                      "url": "https://assets.pix.org/modules/IAGenFonction_AVA/mistral-outil.png",
                       "alt": "Capture d’écran de l’interface de Mistral",
                       "alternativeText": "",
                       "legend": "Sur Mistral, il est possible d’activer ou de désactiver certains outils dans une conversation.",
@@ -436,16 +436,7 @@
                       "id": "c80fea48-c2fd-4eee-900f-9acf88be2fee",
                       "type": "text",
                       "tag": " ",
-                      "content": "🔧 De plus, un utilisateur expérimenté peut également <strong>ajouter des outils </strong>supplémentaires, par lui-même."
-                    },
-                    {
-                      "id": "4c0ca799-cea7-46ef-a9f0-e9c4214591c1",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGenFonctionAva/capture-chat-gpt-ajout-outil.png",
-                      "alt": "Capture d’écran de l’interface de ChatGPT",
-                      "alternativeText": "",
-                      "legend": "Sur ChatGPT, il est possible de configurer l’ajout d’outils personnalisés.",
-                      "licence": ""
+                      "content": "<p>🔧 Un utilisateur expérimenté peut également <strong>ajouter des outils </strong>supplémentaires, par lui-même.</p>"
                     }
                   ]
                 }
@@ -464,7 +455,7 @@
                 "id": "7831fafa-8342-49ad-b93d-8c46106966ab",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une fois les outils définis,&nbsp;que se passe-t-il exactement lorsque nous faisons une demande à l’IA ?</p><p>C’est ce que nous allons voir dans cette dernière partie.</p>"
+                "content": "<p>Une fois les outils définis,&nbsp;que se passe-t-il exactement lorsque nous faisons une demande à l’IA ?</p><p>C’est ce que nous allons voir.</p>"
               }
             }
           ]
@@ -480,7 +471,7 @@
                 "id": "ac63719a-64dc-425d-b8cd-e3a7441830b0",
                 "type": "custom",
                 "title": "Le prompt de Yasmine",
-                "instruction": "<p>Yasmine a fait une demande à un logiciel d’IA conversationnelle.</p>",
+                "instruction": "<p>Yasmine a fait une demande, sous la forme d’un prompt, à un logiciel d’IA générative.</p>",
                 "functionalInstruction": "",
                 "tagName": "llm-messages",
                 "props": {
@@ -506,35 +497,35 @@
                     {
                       "id": "1904da0e-efb2-4470-bcbe-8e8d3435b468",
                       "type": "qcu-discovery",
-                      "instruction": "<p>À&nbsp;votre avis, quelle partie du prompt permet d’identifier l’outil nécessaire au logiciel d’IA conversationnel ?</p>",
+                      "instruction": "<p>À&nbsp;votre avis, quelle partie du prompt permet d’identifier l’outil nécessaire au logiciel d’IA générative ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>J’habite à Jolieville,<br></p>",
+                          "content": "<p>J’habite à Jolieville<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>L’expression «&nbsp;<strong>est-ce que la météo&nbsp;»&nbsp;</strong>permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong> </p><p>Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil. </p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est l’expression «&nbsp;<strong>est-ce que la météo&nbsp;» </strong>qui&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong> </p><p>Lors de la génération de la réponse, le<strong> logiciel d’IA décide de faire appel ou non à un outil. </strong>L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil. </p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>et je veux refaire ma terrasse.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non !</strong></p><p>L’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>»&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p> Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est l’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>» qui permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p> Lors de la génération de la réponse,<strong> le logiciel d’IA décide de faire appel ou non à un outil.</strong> L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Est-ce que la météo<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !&nbsp;</p><p>Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                            "diagnosis": "<p><strong>Bien vu !&nbsp;</strong></p><p>Lors de la génération de la réponse, le <strong>logiciel d’IA décide de faire appel ou non à un outil. </strong>L’utilisateur peut aussi demander&nbsp;explicitement dans son prompt l’utilisation d’un outil.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>permettra de le faire ce week-end ?<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p> L’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>»&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>  Lors de la génération, le logiciel d’IA décide de faire appel ou non à un outil. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p> C’est l’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>» qui permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>  Lors de la génération de la réponse, <strong>le logiciel d’IA décide de faire appel ou non à un outil</strong>. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
                           }
                         }
                       ],
@@ -548,7 +539,7 @@
                       "id": "838dd2fd-5a2c-462c-b93a-b230dadc4e62",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Le logiciel d’IA analyse le prompt et identifie l’outil pertinent.</p><p>L’outil pertinent identifié ici est un logiciel qui se connecte aux informations d’un service externe de météo (Météo France, AEMET, National Weather Service, etc. )</p>"
+                      "content": "<p>Le logiciel d’IA <strong>analyse le prompt</strong> qu’il reçoit et <strong>identifie l’outil </strong>pertinent à utiliser pour y répondre.</p><p>L’outil pertinent identifié ici est un logiciel qui se connecte aux informations d’un service externe de <strong>météo </strong>(Météo France, AEMET, National Weather Service, etc.).</p>"
                     },
                     {
                       "id": "d81c2f6a-7811-4ed5-8959-70fd4ed60bd2",
@@ -578,7 +569,7 @@
                     {
                       "id": "36f8d720-4607-4bbd-8b36-161f782e8f70",
                       "type": "qrocm",
-                      "instruction": "Quelle est la requête que le logiciel d’IA conversationnel va envoyer pour répondre à la demande ?",
+                      "instruction": "<p>Quelle est la requête que le logiciel d’IA générative va envoyer à l’outil pour répondre à la demande de Yasmine ?</p>",
                       "proposals": [
                         {
                           "type": "text",
@@ -592,15 +583,15 @@
                           "type": "select",
                           "input": "outil",
                           "display": "inline",
-                          "placeholder": "- Sélectionnez -",
-                          "ariaLabel": "- Sélectionnez -",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "- Sélectionner -",
                           "tolerances": [
                             ""
                           ],
                           "options": [
                             {
                               "id": "1",
-                              "content": "\"météo\","
+                              "content": "\"ce week-end\","
                             },
                             {
                               "id": "2",
@@ -608,11 +599,11 @@
                             },
                             {
                               "id": "3",
-                              "content": "\"ce week-end\","
+                              "content": "\"météo\","
                             }
                           ],
                           "solutions": [
-                            "1"
+                            "3"
                           ]
                         },
                         {
@@ -623,13 +614,13 @@
                           "type": "select",
                           "input": "localisation",
                           "display": "inline",
-                          "placeholder": "- Sélectionnez -",
-                          "ariaLabel": "- Sélectionnez -",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "- Sélectionner -",
                           "tolerances": [],
                           "options": [
                             {
                               "id": "1",
-                              "content": "\"météo\","
+                              "content": "\"ce week-end\","
                             },
                             {
                               "id": "2",
@@ -637,7 +628,7 @@
                             },
                             {
                               "id": "3",
-                              "content": "\"ce week-end\","
+                              "content": "\"météo\","
                             }
                           ],
                           "solutions": [
@@ -652,25 +643,25 @@
                           "type": "select",
                           "input": "date",
                           "display": "inline",
-                          "placeholder": "- Sélectionnez -",
-                          "ariaLabel": "- Sélectionnez -",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "- Sélectionner -",
                           "tolerances": [],
                           "options": [
                             {
                               "id": "1",
-                              "content": "\"météo\""
+                              "content": "\"ce week-end\","
                             },
                             {
                               "id": "2",
-                              "content": "\"Jolieville\""
+                              "content": "\"Jolieville\","
                             },
                             {
                               "id": "3",
-                              "content": "\"ce week-end\""
+                              "content": "\"météo\","
                             }
                           ],
                           "solutions": [
-                            "3"
+                            "1"
                           ]
                         },
                         {
@@ -680,12 +671,12 @@
                       ],
                       "feedbacks": {
                         "valid": {
-                          "state": "Bien vu !&nbsp;",
+                          "state": "<p><strong>Bien vu !&nbsp;</strong></p>",
                           "diagnosis": "<p>Le logiciel a choisi l’<strong>outil Météo</strong>&nbsp;et lui a transmis l’information du lieu et de la date recherchés. Ces informations sont les <strong>arguments </strong>de la requête.</p><br>"
                         },
                         "invalid": {
-                          "state": "Eh non !",
-                          "diagnosis": "<p>Le logiciel a choisi l’<strong>outil Météo</strong> (en anglais \"weather\")&nbsp;et lui a transmis l’information du lieu et de la date recherchés. Ces informations sont les <strong>arguments </strong>de la requête.</p>"
+                          "state": "<p><strong>Eh non !</strong></p>",
+                          "diagnosis": "<p>Le logiciel a choisi l’<strong>outil Météo</strong>&nbsp;et lui a transmis l’information du lieu et de la date recherchés. Ces informations sont les <strong>arguments </strong>de la requête.</p>"
                         }
                       }
                     }
@@ -697,7 +688,7 @@
                       "id": "8d039074-9bcf-4c83-bcb8-e277963d5ba3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’outil traite la requête et renvoie la réponse.<br></p>"
+                      "content": "<p>L’outil Météo traite la requête transmise par l’IA générative et lui envoie une réponse.</p>"
                     },
                     {
                       "id": "d0ad2b49-770f-437e-8b00-ef2d6530bd67",
@@ -716,40 +707,40 @@
                       "id": "f9fe4d5a-1c3d-41d4-8c6c-5ca58f8912f0",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Voici la réponse que renvoie l’outil Météo au logiciel d’IA générative.</p><br><blockquote><code>{ &nbsp;<br>&nbsp;\"condition\": \"ensoleillé\", &nbsp;&nbsp;<br>\"temperature\": 30 <br>}</code></blockquote><br>"
+                      "content": "<p>L’outil Météo envoie au logiciel d’IA générative la réponse suivante&nbsp;:</p><br><blockquote><code>{ \"condition\": \"ensoleillé\", &nbsp;&nbsp;<br>&nbsp; \"temperature\": 30 }</code></blockquote>"
                     },
                     {
                       "id": "894da3c4-c063-4b77-8930-4d3bdd375d7b",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Laquelle de ces réponses Yasmine a-t-elle le plus de chance de recevoir à sa demande concernant les travaux de sa terrasse ?</p>",
+                      "instruction": "<p>Quelle réponse à son prompt, qui concernait les travaux de sa terrasse, Yasmine a-t-elle le plus de chance de recevoir de la part du logiciel d’IA générative ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "condition&nbsp;: ensoleillé ; temperature&nbsp;: 30",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non, cette proposition n’est que l’information envoyée par l’outil Météo.</strong> </p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les données de l’outil Météo transmises au logiciel d’IA générative, celui-ci les utilise pour générer sa réponse. </p><p>Donc, la bonne réponse était&nbsp;:&nbsp; “Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp; Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.”</p>"
+                            "diagnosis": "<p><strong>Non, cette proposition n’est que l’information envoyée par l’outil Météo.</strong></p><p>L’objectif de Yasmine est de vérifier si la météo permettra de refaire sa terrasse ce week-end. </p><p>Une fois <strong>les données de l’outil Météo transmises au logiciel d’IA</strong> générative, celui-ci les utilise pour <strong>générer sa réponse.</strong> </p><p>Donc, la bonne réponse était&nbsp;:&nbsp; «&nbsp;Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment&nbsp;[...]&nbsp;».</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Ce week-end à Jolieville, le soleil sera au rendez-vous avec une température autour de 30°.",
+                          "content": "<p>Ce week-end à Jolieville, le soleil sera au rendez-vous avec une température autour de 30 °.</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non , cette proposition ne répond pas à la question de Yasmine.</strong> </p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les données de l’outil Météo transmises au logiciel d’IA générative, celui-ci les utilise pour générer sa réponse. </p><p>Donc, la bonne réponse était&nbsp;:&nbsp; “Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp; Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.”</p>"
+                            "diagnosis": "<p><strong>Non, cette proposition ne répond pas à la question de Yasmine.</strong> </p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois<strong> les données de l’outil Météo transmises au logiciel d’IA générative, </strong>celui-ci les utilise<strong> pour générer sa réponse.</strong> </p><p>Donc, la bonne réponse était&nbsp;:&nbsp; «&nbsp;Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment&nbsp;[...]&nbsp;».</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp; Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.</p>",
+                          "content": "<p>Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp;Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les données de l’outil Météo transmises au logiciel d’IA générative, celui-ci les utilise pour générer sa réponse.</p>"
+                            "diagnosis": "<p><strong>Bien vu !</strong></p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les<strong> données de l’outil Météo transmises au logiciel d’IA </strong>générative, celui-ci les utilise pour <strong>générer sa réponse.</strong></p>"
                           }
                         },
                         {
                           "id": "4",
-                          "content": "Je ne sais pas.",
+                          "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les données de l’outil Météo transmises au logiciel d’IA générative, celui-ci les utilise pour générer sa réponse.</p><p>Donc, la bonne réponse était&nbsp;: “Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp; Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.”</p>"
+                            "diagnosis": "<p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois <strong>les données de l’outil Météo transmises au logiciel d’IA</strong> générative, celui-ci les utilise<strong> pour générer sa réponse.</strong></p><p>Donc, la bonne réponse était&nbsp;: «&nbsp;Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment [...]&nbsp;».</p>"
                           }
                         }
                       ],
@@ -772,7 +763,7 @@
                 "id": "18c439bf-63ae-4ddb-9fa7-82c2b4db17c3",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>En résumé, voici un schéma montrant comment un logiciel d’IA génère une réponse en faisant appel à un outil.</p>"
+                "content": "<p>Pour résumer, le schéma suivant montre comment un logiciel d’IA générative répond à un prompt en faisant appel à un outil.</p>"
               }
             },
             {
@@ -782,7 +773,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/IAGenFonction_AVA/schema_ia_outils_global.svg",
                 "alt": "Schéma des étapes de la génération d’une réponse d’un logiciel d’IA conversationnelle qui fait appel à un outil.",
-                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie l’outil.</p><p>L'IA générative transmet la requête à&nbsp; l’outil.</p><p>L’outil envoie la réponse à l’IA générative.</p><p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p><p>L’IA générative génère la réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
+                "alternativeText": "<p>L’IA générative analyse le prompt, puis identifie un outil.</p><p>L’IA générative transmet une requête à l’outil.</p><p>L’outil envoie une réponse à l’IA générative.</p><p>L’IA générative intègre la réponse de l’outil dans le contexte du prompt.</p><p>L’IA générative génère une réponse à l’utilisateur grâce au prompt et à la réponse de l’outil.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -793,7 +784,7 @@
                 "id": "b88d46da-1c84-442c-a481-b3b9998e58a2",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>⚠️Point de vigilance&nbsp;:&nbsp;</strong></p><p>Ce n’est pas parce qu’un logiciel d’IA générative fait appel à un outil qu’il devient infaillible&nbsp;: il peut toujours halluciner, se tromper d’outils ou d’informations à lui envoyer. Restez vigilant avec les résultats obtenus.</p>"
+                "content": "<p><strong>⚠️Point de vigilance&nbsp;:&nbsp;</strong></p><p>Ce n’est pas parce qu’un logiciel d’IA générative fait appel à un outil qu’il devient infaillible&nbsp;: le logiciel d’IA générative peut toujours halluciner, se tromper d’outil ou envoyer à un outil de mauvaises informations. Restez vigilants et vérifiez les résultats obtenus.</p>"
               }
             }
           ]
@@ -863,7 +854,7 @@
                 "id": "8454a04e-e0aa-432f-97da-72c94c43e3e5",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>🤔À leur lancement, les logiciels IA générative conversationnelle grand public avaient beaucoup de <strong>limites </strong>: ils généraient principalement du texte, faisaient des erreurs dans les calculs, n’avaient pas d’accès aux informations en temps réel, etc.</li><li>🧰Pour dépasser ces limites, les développeurs ont mis en place des <strong>outils </strong>que les logiciels d’IA peuvent appeler pour faire davantage d’<strong>actions&nbsp;</strong>en interagissant avec d’autres logiciels&nbsp;: calculer, exécuter du <strong>code informatique</strong>, générer un support de <strong>présentation</strong>, etc.<br></li><li>⚙️Ce mécanisme, appelé<strong> appel d’outils</strong> (tool calling), repose sur une liste d’outils définis à l’avance par les développeurs.</li><li>🎯 Pour traiter une demande, le logiciel d’IA identifie les <strong>outils </strong> utiles, leur adresse des <strong>requêtes </strong>et intègre les résultats dans le prompt pour générer une réponse adaptée.</li></ul><br>"
+                "content": "<ul>    <li>À leur lancement, les logiciels d’IA générative de texte avaient beaucoup de <strong>limites </strong>: ils généraient principalement du texte, faisaient des erreurs dans les calculs, n’avaient pas d’accès aux informations en temps réel, etc.&nbsp;🤔</li>    <li>Pour dépasser ces limites, les développeurs ont mis en place des <strong>outils </strong>que les logiciels d’IA peuvent appeler pour faire davantage d’<strong>actions&nbsp;</strong>en interagissant avec d’autres logiciels&nbsp;: calculer, exécuter du <strong>code informatique</strong>, générer un support de <strong>présentation</strong>, etc.&nbsp;</li>    <li>Ce mécanisme, appelé<strong> appel d’outils</strong> (tool calling), repose sur une liste d’outils définis à l’avance par les développeurs.&nbsp;⚙️</li>    <li>Pour traiter une demande, un logiciel d’IA identifie des <strong>outils </strong> utiles. Il leur transmet des <strong>requêtes </strong>et intègre les résultats dans le prompt pour générer une réponse adaptée.&nbsp;🎯</li></ul><br>"
               }
             },
             {
@@ -873,7 +864,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/IAGenFonction_AVA/recap_outils_fond_jaune.svg",
                 "alt": "Schéma récapitulatif des outils intégrés dans les logiciels d’IA conversationnelle",
-                "alternativeText": "<p>L’IA générative peut générer du texte.&nbsp;</p><p>Elle peut aussi faire appel à des outils.</p><p>Parmi ces outils, des services tiers comme la calculatrice, la boîte mail, l’agenda, la génération d’image, la météo, la recherche sur internet, etc.</p>",
+                "alternativeText": "<p>Une IA générative peut générer du texte.&nbsp;</p><p>Elle peut aussi faire appel à des outils.</p><p>Parmi ces outils, il y a des services tiers comme la calculatrice, la boîte mail, l’agenda, la génération d’image, la météo, la recherche sur internet, etc.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -889,7 +880,7 @@
         {
           "id": "ecfd38fc-a225-48f5-ab8f-8faa173eb870",
           "type": "activity",
-          "title": "Activité #1 : Comprendre l’utilité des appels d’outils dans les logiciels d’IA génératives",
+          "title": "Activité #1 : Comprendre l’utilité des appels d’outils dans les logiciels d’IA générative",
           "components": [
             {
               "type": "element",
@@ -899,7 +890,7 @@
                 "isCompletionRequired": false,
                 "title": "ChatPix pour tester",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmlfcrotr00004z01vw5daup4",
-                "instruction": "<p>Testez ce logiciel d’IA générative pour déduire les outils auxquels il a accès puis répondez aux questions.</p>",
+                "instruction": "<p>Testez le logiciel d’IA générative ci-dessous pour déduire les outils auxquels il a accès puis répondez aux questions.</p>",
                 "solution": "",
                 "height": 550
               }
@@ -919,8 +910,8 @@
                     "type": "select",
                     "input": "rechercheImage",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez - ",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner - ",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [
                       ""
                     ],
@@ -940,14 +931,14 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>La production de graphique&nbsp;:&nbsp;</p>"
+                    "content": "<br><p>La production de graphiques&nbsp;:&nbsp;</p>"
                   },
                   {
                     "type": "select",
                     "input": "productionGraphique",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez - ",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner - ",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -967,11 +958,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "Bonne réponse !",
-                    "diagnosis": "Effectivement, ce logiciel d’IA n’a accès à aucun de ces outils."
+                    "diagnosis": "<p>Effectivement, ce logiciel d’IA générative n’a accès à aucun de ces outils.</p>"
                   },
                   "invalid": {
                     "state": "Mauvaise réponse !",
-                    "diagnosis": "<p> Avez-vous testé avec un prompt pour chaque situation ?</p><ul><li>Pour la recherche sur internet&nbsp;: avez-vous posé à l’IA une question d’actualité ?<ul><li>Par exemple, quelle équipe a remporté le dernier championnat du monde de water-polo  ?</li></ul></li><li>Pour la production de graphique&nbsp;: avez-vous demandé à l’IA de représenter des données chiffrées sous une forme visuelle ?<ul><li>Par exemple&nbsp;: Fais un graphique comparant les températures de Kinshasa et Montréal.</li></ul></li></ul>"
+                    "diagnosis": "<p> Avez-vous testé avec un prompt pour chaque situation ?</p><ul><li><strong>Pour la recherche sur internet</strong>&nbsp;: avez-vous posé à l’IA <strong>une question d’actualité ?</strong><p>Par exemple&nbsp;: «&nbsp;Quelle équipe a remporté le dernier championnat du monde de water-polo ?&nbsp;».</p></li><li><strong>Pour la production de graphiques&nbsp;:</strong> avez-vous demandé à l’IA de <strong>représenter des données chiffrées sous une forme visuelle ?</strong><p>Par exemple&nbsp;: «&nbsp;Fais un graphique comparant les températures de Kinshasa et Montréal.&nbsp;».</p></li></ul>"
                   }
                 }
               }
@@ -981,14 +972,14 @@
         {
           "id": "6bd84116-4619-4670-ab4e-45654bd13102",
           "type": "activity",
-          "title": "Identifier des situations où l’appel d’outil par le logiciel d’IA est nécessaire",
+          "title": "Identifier des situations où l’appel d’outils par le logiciel d’IA est nécessaire",
           "components": [
             {
               "type": "element",
               "element": {
                 "id": "d14eac04-d14f-42aa-a61a-b914fcfb11e1",
                 "type": "qab",
-                "instruction": "<p>Pour chaque prompt suivant, dites s’il encourage à faire appel à un outil.</p>",
+                "instruction": "<p>Pour chaque prompt suivant, dites s’il encourage le logiciel d’IA générative à faire appel à un outil.</p>",
                 "cards": [
                   {
                     "id": "5cabf99b-be7e-459a-a2d2-7e021df91abe",
@@ -1025,7 +1016,7 @@
                   },
                   {
                     "id": "0650a8e4-4f44-4d3a-b5a5-2eb588c7eedb",
-                    "text": "Cite des sources d’articles récents concernant la législation en vigueur concernant l’efficacité énergétique dans les maisons. ",
+                    "text": "Cite des sources d’articles récents concernant la législation en vigueur sur l’efficacité énergétique dans les maisons. ",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -1036,7 +1027,7 @@
                   },
                   {
                     "id": "75ad5ac8-377f-4101-94b7-266dd141308e",
-                    "text": "Je veux faire une terrasse de 4m sur 3m avec des lames de terrasse de pin au format  L.240 x l.12 cm. Combien faut-il que j’en achète ? ",
+                    "text": "Je veux faire une terrasse de 4 m sur 3 m avec des lames de terrasse en pin au format  L.240 x l.12 cm. Combien faut-il que j’en achète ? ",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -1047,7 +1038,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>Le logiciel d’IA conversationnelle va avoir besoin de faire appel à des outils&nbsp;:</p><ul><li> la <strong>commande en ligne </strong>pour l’achat de l’escabeau et des rouleaux de peinture,</li><li>la <strong>recherche sur internet</strong> pour donner des sources,&nbsp;</li><li> et la <strong>calculatrice </strong>pour l’estimation du nombre de lames pour la terrasse.</li></ul>"
+                  "diagnosis": "<p>Le logiciel d’IA générative va avoir besoin de faire appel à des outils&nbsp;:</p><ul><li> la <strong>commande en ligne </strong>pour l’achat d’un escabeau et des rouleaux de peinture,</li><li>la <strong>recherche sur internet</strong> pour donner des sources,&nbsp;</li><li> et la <strong>calculatrice </strong>pour une estimation du nombre de lames pour la terrasse.</li></ul>"
                 }
               }
             }
@@ -1069,8 +1060,8 @@
                     "type": "select",
                     "input": "classementetape2",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -1102,8 +1093,8 @@
                     "type": "select",
                     "input": "classementetape3",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -1135,8 +1126,8 @@
                     "type": "select",
                     "input": "classementetape4",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -1168,8 +1159,8 @@
                     "type": "select",
                     "input": "classementetape5",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -1201,8 +1192,8 @@
                     "type": "select",
                     "input": "classementetape6",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez -",
-                    "ariaLabel": "- Sélectionnez -",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "- Sélectionner -",
                     "tolerances": [],
                     "options": [
                       {
@@ -1261,12 +1252,12 @@
               "element": {
                 "id": "65220197-b2bf-4f2d-ad5d-7d6ef8d11070",
                 "type": "qcu-declarative",
-                "instruction": "<p>Vous en savez maintenant davantage sur les appels à des outils.</p><p>Que pouvez-vous dire de leurs usages&nbsp; dans votre utilisation de l’IA ?<br></p>",
+                "instruction": "<p>Vous en savez maintenant davantage sur les appels à des outils.</p><p> Que pouvez-vous dire de ces appels à des outils dans votre utilisation de l’IA ?<br><br></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>J’ai déjà fait appel à des outils en utilisant un prompt.<br></p>",
+                    "content": "<p>J’ai déjà envoyé des prompts qui faisaient appel à des outils.</p>",
                     "feedback": {
                       "diagnosis": "<p>C’est probable, ils sont très utilisés !<br></p>"
                     }

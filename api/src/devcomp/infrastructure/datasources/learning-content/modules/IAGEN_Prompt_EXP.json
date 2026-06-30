@@ -9,7 +9,7 @@
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
     "description": "<p>Les IA génératives produisent leurs réponses à partir de connaissances apprises lors de l’entraînement et du contexte fourni dans la demande. Ce module analyse leurs limites face aux informations récentes, internes ou métier, puis présente l’enrichissement de contexte et le RAG (à définir), qui permet de récupérer des extraits pertinents dans une base documentaire avant de générer une réponse.</p>",
     "duration": 10,
-    "level": "novice",
+    "level": "expert",
     "objectives": [
       "<p>Identifier les limites des connaissances d’une IA générative</p>",
       "<p>Expliquer le fonctionnement du RAG</p>",
@@ -46,25 +46,25 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Car les conditions d’entrée dans le pays où Raphaël veut aller ont changé récemment.</p>"
+                    "content": "<p>Les conditions d’entrée dans le pays ont changé récemment et les informations utilisées par l’IA n’étaient plus à jour.</p>"
                   },
                   {
                     "id": "2",
-                    "content": "<p>L’IA n’a pas utilisé les bons documents comme source. </p>"
+                    "content": "<p>L’IA a récupéré des informations provenant de sources peu fiables ou inadaptées.</p>"
                   },
                   {
                     "id": "3",
-                    "content": "<p>Les sources récupérées par le logiciel d’IA générative sont ambiguës, incomplètes ou mal adaptées à la demande de Raphaël.</p>"
+                    "content": "<p>Les documents récupérés par l’IA étaient incomplets, ambigus ou peu pertinents pour répondre à la question.</p>"
                   }
                 ],
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bien vu !&nbsp;<br></p>",
-                    "diagnosis": "<p>Toutes les réponses étaient bonnes.</p><p>Une réponse d’IA générative peut être claire et convaincante, sans être correcte. L’erreur peut venir des connaissances disponibles, des documents retrouvés avant la réponse, ou de leur interprétation. </p><p>Pour l’évaluer, il faut donc savoir sur quelles informations l’IA s’appuie réellement.</p>"
+                    "diagnosis": "<p>Toutes les réponses étaient bonnes.</p><p>Une réponse d’IA générative peut être claire et convaincante, sans être correcte. L’erreur peut venir des connaissances disponibles, des documents retrouvés avant la réponse, ou de leur interprétation. </p><p>Pour l’évaluer, il faut donc savoir sur quelles informations le logiciel d’IA s’appuie réellement.</p>"
                   },
                   "invalid": {
                     "state": "<p>Eh non !<br></p>",
-                    "diagnosis": "<p>Toutes les réponses étaient bonnes.</p><p>Une réponse d’IA générative peut être claire et convaincante, sans être correcte. L’erreur peut venir des connaissances disponibles, des documents retrouvés avant la réponse, ou de leur interprétation. </p><p>Pour l’évaluer, il faut donc savoir sur quelles informations l’IA s’appuie réellement.</p>"
+                    "diagnosis": "<p>Toutes les réponses étaient bonnes.</p><p>Une réponse d’IA générative peut être claire et convaincante, sans être correcte. L’erreur peut venir des connaissances disponibles, des documents retrouvés avant la réponse, ou de leur interprétation. </p><p>Pour l’évaluer, il faut donc savoir sur quelles informations le logiciel d’IA s’appuie réellement.</p>"
                   }
                 },
                 "solutions": [
@@ -87,7 +87,7 @@
                 "id": "2693ae05-9c57-4ac9-9ccf-bc0eba3387d2",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voyons maintenant ce que l’IA sait par défaut… Et ce qu’elle ne peut pas deviner.</p>"
+                "content": "<p>Voyons maintenant sur quelles informations l’IA peut s’appuyer par défaut… et quelles informations lui manquent.</p>"
               }
             }
           ]
@@ -114,7 +114,7 @@
             },
             {
               "type": "stepper",
-              "instruction": "<p>Pour chaque situation, indiquez si une IA <strong>sans ajout de contexte supplémentaire</strong> peut répondre avec justesse.</p>",
+              "instruction": "<p>Pour chaque situation, indiquez si une IA <strong>sans ajout de contexte supplémentaire</strong> peut répondre de façon pertinente.</p>",
               "steps": [
                 {
                   "elements": [
@@ -196,33 +196,6 @@
                       "solution": "2"
                     }
                   ]
-                },
-                {
-                  "elements": [
-                    {
-                      "id": "f00e4e5c-782c-4d1c-8dc2-cca954a88391",
-                      "type": "qcu-discovery",
-                      "instruction": "<p><strong>Cite l’article exact du règlement intérieur de BioChoux qui explique la politique de vacances.</strong></p>",
-                      "hasShortProposals": true,
-                      "proposals": [
-                        {
-                          "id": "1",
-                          "content": "Oui",
-                          "feedback": {
-                            "diagnosis": "<p>Pas exactement.</p><p>Demander une citation exacte suppose que l’IA ait accès au texte de référence. Sans ce texte, elle peut formuler une réponse crédible, mais elle ne peut pas garantir l’exactitude de la citation.</p>"
-                          }
-                        },
-                        {
-                          "id": "2",
-                          "content": "Non",
-                          "feedback": {
-                            "diagnosis": "<p>Bien vu.</p><p>Demander une citation exacte suppose que l’IA ait accès au texte de référence. Sans ce texte, elle peut formuler une réponse crédible, mais elle ne peut pas garantir l’exactitude de la citation. Pour ce type de demande, la source documentaire est indispensable.</p>"
-                          }
-                        }
-                      ],
-                      "solution": "2"
-                    }
-                  ]
                 }
               ]
             }
@@ -239,7 +212,7 @@
                 "id": "69792f59-037b-49ad-a528-8d77841ae282",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour produire une réponse, une <strong>IA générative</strong> s’appuie principalement sur deux éléments&nbsp;:</p><ul>  <li>les <strong>connaissances apprises pendant son entraînement</strong>&nbsp;;</li>  <li>les <strong>informations données par l’utilisateur</strong> dans la discussion.</li></ul><p>Par défaut, elle ne connaît donc pas les informations qui ne lui ont pas été fournies. C’est le cas, par exemple, des <strong>documents internes</strong>, des <strong>procédures propres à une organisation</strong>, des <strong>connaissances métiers spécifiques</strong>, des <strong>données confidentielles</strong>, ou encore des <strong>informations très récentes ou peu diffusées</strong>.</p><p>C’est pourquoi une IA peut produire une réponse <strong>claire et convaincante</strong>, mais malgré tout <strong>incomplète</strong>, <strong>obsolète</strong> ou <strong>déconnectée du contexte réel</strong>.</p>"
+                "content": "<p>Pour produire une réponse, un logiciel d’IA générative s’appuie principalement sur deux éléments&nbsp;:</p><ul>  <li>les <strong>les informations intégrées au modèle lors de son entraînement</strong>&nbsp;;</li>  <li>les <strong>informations données par l’utilisateur</strong> dans la discussion.</li></ul><p>Par défaut, le logiciel d’IA générative n’a donc pas accès aux informations qui ne lui ont pas été fournies. C’est le cas, par exemple, des <strong>documents internes</strong>, des <strong>procédures propres à une organisation</strong>, des <strong>connaissances métiers spécifiques</strong>, des <strong>données confidentielles</strong>, ou encore des <strong>informations très récentes ou peu diffusées</strong>.</p><p>C’est pourquoi un logiciel d’IA générative peut produire une réponse <strong>claire et convaincante</strong>, mais malgré tout <strong>incomplète</strong>, <strong>obsolète</strong> ou <strong>déconnectée du contexte réel</strong>.</p>"
               }
             },
             {
@@ -280,7 +253,7 @@
                 "id": "b9f84ce5-451f-42db-8769-3ed53078778c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Raphaël a besoin de refaire son passeport.&nbsp;</p><p>Il trouve <a href=\"https://assets.pix.org/draft/modules/IA_Prompt_EXP/mairie_joliville_dossier_usagers.pdf\" target=\"_blank\">ce document</a> sur le site de la mairie de sa ville et pour gagner du temps il le donne à lire à un logiciel d’IA générative en le mettant en pièce jointe de son prompt.&nbsp;</p>"
+                "content": "<p>Raphaël a besoin de refaire son passeport.&nbsp;</p><p>Il trouve le document des procédures administratives sur le site de la mairie de sa ville. Pour gagner du temps, il  donne ce très long document à lire à un logiciel d’IA générative en le mettant en pièce jointe de son prompt.&nbsp;</p>"
               }
             },
             {
@@ -296,7 +269,7 @@
                   "messages": [
                     {
                       "direction": "outbound",
-                      "content": "Voici la brochure de ma mairie, tu peux me dire si ils font les passeports ?"
+                      "content": "Voici la brochure de ma mairie, tu peux me dire si la mairie fait les passeports ?"
                     },
                     {
                       "direction": "outbound",
@@ -313,36 +286,52 @@
             {
               "type": "element",
               "element": {
-                "id": "9f51b13f-96ce-4aec-b2c2-b28091c67bb4",
-                "type": "qcu-discovery",
-                "instruction": "<p>Pouvez-vous faire confiance à la réponse de l’IA ?</p>",
-                "hasShortProposals": true,
-                "proposals": [
-                  {
-                    "id": "1",
-                    "content": "Oui",
-                    "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp;</p><p>Dans les documents fournis, une information importante à la page 11 indiquait que la mairie ne traitait pas les demandes de passeport.</p><p>Mais cette information était noyée parmi de nombreux contenus. L’IA a repéré des mots comme <strong>état civil</strong>, <strong>documents d’identité</strong> ou <strong>mairie</strong>, puis a généralisé trop vite.</p><p>Ce cas montre qu’<strong>ajouter plus de contexte ne garantit pas une meilleure réponse</strong>. Un contexte trop large peut même <strong>diluer l’information importante</strong>.</p>"
-                    }
-                  },
-                  {
-                    "id": "2",
-                    "content": "Non",
-                    "feedback": {
-                      "diagnosis": "<p>Bien vu !&nbsp;</p><p>Dans les documents fournis, une information importante à la page 11 indiquait que la mairie ne traitait pas les demandes de passeport.</p><p>Mais cette information était noyée parmi de nombreux contenus. L’IA a repéré des mots comme <strong>état civil</strong>, <strong>documents d’identité</strong> ou <strong>mairie</strong>, puis a généralisé trop vite.</p><p>Ce cas montre qu’<strong>ajouter plus de contexte ne garantit pas une meilleure réponse</strong>. Un contexte trop large peut même <strong>diluer l’information importante</strong>.</p>"
-                    }
-                  }
-                ],
-                "solution": "2"
+                "id": "c92ea957-e391-4848-a552-c1bde9b16627",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Seulement, dans le document de la mairie, il est indiqué&nbsp;: «&nbsp;<em>la mairie ne traite pas les demandes de passeport ; elles se font uniquement dans les mairies équipéesd’un dispositif de recueil. Joliville peut orienter les usagers vers les communes voisines habilitées.&nbsp;»</em></p>"
               }
             },
             {
               "type": "element",
               "element": {
-                "id": "6ed93205-e0ff-4f69-af31-82c5a0a4897e",
-                "type": "expand",
-                "title": "Indice",
-                "content": "<p>Si comme Raphaël, vous ne voulez pas lire le document en entier, regardez seulement la page 11.<br></p>"
+                "id": "9f51b13f-96ce-4aec-b2c2-b28091c67bb4",
+                "type": "qcm",
+                "instruction": "<p>Bien que l’information correcte soit présente dans le document fourni, le logiciel d’IA générative répond de manière erronée. Comment cela peut-il s’expliquer ? <br>(plusieurs réponses possibles)</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Le passage pertinent du document n’a pas été récupéré par le système.</p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Le modèle a privilégié une connaissance générale (\"les mairies avec un service d’état civil gèrent souvent les passeports\") plutôt que l’information spécifique contenue dans le document.</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Le logiciel a récupéré l’information pertinente mais l’a mal interprétée.</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Le logiciel d’IA générative ne peut pas analyser le contenu d’un document PDF joint à une conversation.</p>"
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Bien vu !&nbsp;<br></p>",
+                    "diagnosis": "<p>Même lorsque l’information est présente dans un document, un logiciel d’IA générative peut ne pas la récupérer correctement ou mal l’interpréter. Il peut alors produire une réponse erronée.</p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Pas tout à fait.&nbsp;<br></p>",
+                    "diagnosis": "<p>Les logiciels d’IA générative sont capables d’analyser des documents joints. L’erreur vient plutôt de la façon dont le logiciel d’IA générative a exploité les informations du document&nbsp;: il a ignoré ou mal interprété le passage concernant les passeports.</p>"
+                  }
+                },
+                "solutions": [
+                  "1",
+                  "2",
+                  "3"
+                ]
               }
             }
           ]
@@ -358,7 +347,7 @@
                 "id": "df62b439-fd58-4112-b3db-b1290432a6db",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand une IA n’a pas les informations nécessaires, on peut lui fournir du <strong>contexte</strong>&nbsp;: un extrait, un document ou des informations complémentaires.</p><p>Cela peut améliorer la réponse, car l’IA utilise alors des éléments fournis au moment de la demande, et pas seulement ses connaissances générales.</p><p>Cependant, dans un document long ou dense, une information <strong>très précise</strong> peut être difficile à repérer.</p><p>Elle peut se retrouver <strong>diluée</strong> parmi des contenus proches, mais moins pertinents. L’IA risque alors de s’appuyer sur des indices généraux plutôt que sur le passage exact.</p>"
+                "content": "<p>Quand une IA n’a pas les informations nécessaires, on peut lui fournir du <strong>contexte</strong>&nbsp;: un extrait, un document ou des informations complémentaires. Cela peut améliorer la réponse, car l’IA utilise alors des éléments fournis au moment de la demande, et pas seulement ses connaissances générales.<br><br></p><p>Cependant, dans un document long ou dense, une information <strong>très précise</strong> peut être difficile à repérer.</p><p>Elle peut se retrouver <strong>diluée</strong> parmi des contenus proches, mais moins pertinents. L’IA risque alors de s’appuyer sur des indices généraux plutôt que sur le passage exact.</p>"
               }
             }
           ]
@@ -390,7 +379,7 @@
                 "id": "2bee4397-0d5e-4e50-892d-bdc2ad55f3d4",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour comprendre comment une IA peut retrouver les bons passages avant de répondre, regardez attentivement la vidéo, puis répondez à la question.</p>"
+                "content": "<p>Pour comprendre comment une IA peut retrouver les bons passages avant de répondre, regardez attentivement la vidéo, puis répondez à la question.<br><br></p>"
               }
             },
             {
@@ -460,15 +449,6 @@
                 "tag": " ",
                 "content": "<p>Le <strong>RAG</strong>, pour <em>Retrieval-Augmented Generation</em>, permet à une IA générative de s’appuyer sur une <strong>base documentaire</strong> avant de produire sa réponse.</p><p>Son objectif est de générer une réponse <strong>plus précise</strong>, <strong>plus contextualisée</strong> et mieux ancrée dans les <strong>sources disponibles</strong>.</p><p>Il repose sur trois étapes&nbsp;:</p><ul>  <li><strong>Récupération</strong>&nbsp;: le système cherche les passages les plus pertinents dans la base documentaire.</li>  <li><strong>Augmentation</strong>&nbsp;: ces passages sont ajoutés au prompt transmis à l’IA.</li>  <li><strong>Génération</strong>&nbsp;: l’IA produit une réponse à partir de ce contexte enrichi.</li></ul><p>Le RAG est particulièrement utile dans les usages professionnels, car il permet de relier l’IA à des <strong>sources choisies</strong>&nbsp;: procédures internes, notes métier, documentation technique, etc.</p>"
               }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "aa2928c9-8a87-4b66-9a22-52910aa55c49",
-                "type": "text",
-                "tag": "further-information",
-                "content": "<p>Dans certains projets, on fournit aussi à l’IA une <strong>fiche de référence</strong>&nbsp;: sigles, abréviations, vocabulaire métier ou synonymes courants.</p><p>Cette fiche aide le système à faire le lien entre les mots utilisés par les utilisateurs et ceux présents dans la documentation.</p>"
-              }
             }
           ]
         },
@@ -524,7 +504,7 @@
                 "id": "9ae64d9e-464d-427c-90c8-f9ec56276e7b",
                 "type": "text",
                 "tag": "did-you-know",
-                "content": "<p>De plus en plus d’entreprises utilisent des IA privées, connectées à leurs propres documents ou données. </p>"
+                "content": "<p>Certaines entreprises déploient leur propre IA basée sur le RAG. Développée pour leurs usages et connectée à leurs données internes, cette IA peut répondre à des questions sur les informations de l’organisation.</p>"
               }
             }
           ]
@@ -559,7 +539,7 @@
       "grains": [
         {
           "id": "5c40197e-1a8c-4374-b3a9-312c25d7cd9a",
-          "type": "short-lesson",
+          "type": "activity",
           "title": "Activité 1",
           "components": [
             {
@@ -613,14 +593,14 @@
                   },
                   {
                     "id": "d2f4a9c3-7c5e-4c2d-8b8f-21a9d6f0b814",
-                    "text": "Dans un système RAG, l’IA reçoit uniquement les passages jugés pertinents, et non toute la base documentaire.",
+                    "text": "Avec un système RAG, l’IA consulte toute la base documentaire avant de répondre.",
                     "image": {
                       "url": "",
                       "altText": ""
                     },
                     "proposalA": "Vrai",
                     "proposalB": "Faux",
-                    "solution": "A"
+                    "solution": "B"
                   },
                   {
                     "id": "e9c7b4a2-3f6e-4b9a-a1d8-74c5e2f0a639",
@@ -789,131 +769,120 @@
           ]
         },
         {
-          "id": "43dac7ab-7460-4ff9-ad23-b2067fb8d0ea",
+          "id": "c5595326-c5ae-4496-9030-dd14a8f0d1a9",
           "type": "activity",
-          "title": "Activité 3",
+          "title": "Activité 3bis",
           "components": [
             {
-              "type": "element",
-              "element": {
-                "id": "7d2a470d-7040-4d1f-86b2-0a1b3a9cd79f",
-                "type": "custom",
-                "title": "",
-                "instruction": "<p>Regardez ces 4 conversations avec une IA générative et répondez à la question.</p>",
-                "functionalInstruction": "",
-                "tagName": "pix-carousel",
-                "props": {
-                  "type": "image",
-                  "slides": [
+              "type": "stepper",
+              "instruction": "<p>Pour chacune des situations suivantes, dites si le logiciel d’IA générative a utilisé une technique de RAG ou non. <br></p>",
+              "steps": [
+                {
+                  "elements": [
                     {
-                      "title": "Conversation 1",
-                      "description": "En général, il faut prévenir le support ou votre responsable. Les procédures varient selon les organisations.",
-                      "displayWidth": 100,
-                      "image": {
-                        "src": "https://assets.pix.org/draft/flamingo.jpg",
-                        "alt": ""
-                      },
-                      "license": {
-                        "name": "",
-                        "attribution": "",
-                        "url": ""
-                      }
+                      "id": "cdc59359-d642-4aac-a664-58a3e7986169",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Yanis joint à son prompt une citation longue d’un document.</p>"
                     },
                     {
-                      "title": "Conversation 2",
-                      "description": "D’après la procédure interne « Déclaration d’incident », vous devez remplir le formulaire support et préciser l’urgence. Sources consultées : procédure interne, guide utilisateurs.",
-                      "displayWidth": 100,
-                      "image": {
-                        "src": "https://assets.pix.org/draft/flamingo.jpg",
-                        "alt": ""
-                      },
-                      "license": {
-                        "name": "",
-                        "attribution": "",
-                        "url": ""
-                      }
-                    },
-                    {
-                      "title": "Conversation 3",
-                      "description": "Je ne dispose pas d’informations sur votre organisation, mais je peux proposer une méthode générale.",
-                      "displayWidth": 100,
-                      "image": {
-                        "src": "https://assets.pix.org/draft/flamingo.jpg",
-                        "alt": ""
-                      },
-                      "license": {
-                        "name": "",
-                        "attribution": "",
-                        "url": ""
-                      }
-                    },
-                    {
-                      "title": "Conversation 4",
-                      "description": "Je ne sais pas.",
-                      "displayWidth": 100,
-                      "image": {
-                        "src": "https://assets.pix.org/draft/flamingo.jpg",
-                        "alt": ""
-                      },
-                      "license": {
-                        "name": "",
-                        "attribution": "",
-                        "url": ""
-                      }
+                      "id": "4e67f7fc-aa7f-440e-b895-ad855820b3cd",
+                      "type": "qcu",
+                      "instruction": "<p>À votre avis, le logiciel d’IA générative utilise-t-il le RAG ici ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>RAG<br></p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.<br></p>",
+                            "diagnosis": "<p>Dans cette situation, l’utilisateur fournit lui-même le texte à l’IA. Il n’y a pas d’étape de recherche ou de récupération d’information par le système qui sont des caractéristiques du RAG.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Pas de RAG<br></p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !&nbsp;<br></p>",
+                            "diagnosis": "<p>L’information est directement fournie dans le prompt par Yanis. L’IA n’a pas eu besoin de rechercher des informations dans une source externe et d’utiliser une technique de RAG.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
                     }
-                  ],
-                  "randomSlides": false,
-                  "titleLevel": 0,
-                  "disableAnimation": false,
-                  "disableStyleAroundImage": false,
-                  "enableLoop": false,
-                  "imageTextDisplay": ""
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "612b8b45-2b82-4657-ada1-acdffd3b03ca",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Un chatbot d’assistance recherche des informations dans une FAQ en ligne avant de répondre à l’utilisateur.</p>"
+                    },
+                    {
+                      "id": "7a98876b-cc8a-4874-8178-9966f1997589",
+                      "type": "qcu",
+                      "instruction": "<p>À votre avis, le logiciel d’IA générative utilise-t-il le RAG ici ?<br></p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "RAG",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !<br></p>",
+                            "diagnosis": "<p>Le logiciel d’IA générative se repose sur une base d’informations avant de générer sa réponse.<br></p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Pas de RAG",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse. <br></p>",
+                            "diagnosis": "<p>La consultation d’une FAQ et donc d’une base d’information avant de générer une réponse est bien une technique de RAG.<br></p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "a205c658-4c04-422f-b1c3-b78f161dac1f",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Avant de répondre, un assistant IA consulte la base documentaire interne d’une entreprise pour retrouver la procédure de remboursement des frais.</p>"
+                    },
+                    {
+                      "id": "f9b78fc5-bb83-4921-9a44-81c2ca781f2f",
+                      "type": "qcu",
+                      "instruction": "<p>À votre avis, le logiciel d’IA générative utilise-t-il le RAG ici ?</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "RAG",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !&nbsp;<br></p>",
+                            "diagnosis": "<p>En effet,&nbsp;le logiciel d’IA générative consulte une source d’information externe avant de répondre&nbsp;: c’est un exemple de RAG.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Pas de RAG",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.<br></p>",
+                            "diagnosis": "<p>La réponse de l’IA générative est produite après une recherche dans la documentation de l’entreprise.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
                 }
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "d3ad0532-d807-40a0-a940-ebf46c756847",
-                "type": "qcu",
-                "instruction": "<p>Parmi ces réponses d’IA, dans quelle conversation l’IA a-t-elle utilisé le RAG ?</p>",
-                "hasShortProposals": false,
-                "proposals": [
-                  {
-                    "id": "1",
-                    "content": "<p>La conversation 1</p>",
-                    "feedback": {
-                      "state": "<p>Pas tout à fait.</p>",
-                      "diagnosis": "<p>Cette réponse reste générale. Elle ne montre pas que l’IA s’appuie sur des documents retrouvés avant de répondre.</p>"
-                    }
-                  },
-                  {
-                    "id": "2",
-                    "content": "<p>La conversation 2</p>",
-                    "feedback": {
-                      "state": "<p>Bien vu !</p>",
-                      "diagnosis": "<p>La réponse de la conversation 2 utilise le RAG&nbsp;: l’IA s’appuie sur des documents retrouvés avant de répondre, comme la procédure interne et le guide utilisateurs. Elle ne répond pas seulement avec des connaissances générales.</p>"
-                    }
-                  },
-                  {
-                    "id": "3",
-                    "content": "<p>La conversation 3</p>",
-                    "feedback": {
-                      "state": "<p>Pas tout à fait.</p>",
-                      "diagnosis": "<p>Cette réponse indique justement que l’IA ne dispose pas d’informations propres à l’organisation. Elle propose seulement une méthode générale.</p>"
-                    }
-                  },
-                  {
-                    "id": "4",
-                    "content": "<p>La conversation 4</p>",
-                    "feedback": {
-                      "state": "<p>Pas tout à fait.</p>",
-                      "diagnosis": "<p>Cette réponse ne s’appuie sur aucun document et ne fournit aucune source. Elle ne montre donc pas l’usage du RAG.</p>"
-                    }
-                  }
-                ],
-                "solution": "2"
-              }
+              ]
             }
           ]
         }
@@ -940,7 +909,7 @@
                     "id": "1",
                     "content": "<p>Oui</p>",
                     "feedback": {
-                      "diagnosis": "<p>Le RAG peut être très utile pour obtenir des réponses plus précises, surtout quand vous travaillez avec des documents récents, internes ou spécialisés.</p><p>Pour aller plus loin, vous pouvez consulter des tutoriels sur des outils comme <strong>NotebookLM</strong>, <strong>ChatGPT</strong>, <strong>Gemini</strong> ou <strong>Le Chat de Mistral</strong>.</p><p><strong>Attention&nbsp;:</strong> n’ajoutez pas de données personnelles, confidentielles ou secrètes dans un outil d’IA en ligne si vous n’êtes pas certain du cadre d’usage.</p>"
+                      "diagnosis": "<p>Le RAG peut être très utile pour obtenir des réponses plus précises, surtout quand vous travaillez avec des documents récents, internes ou spécialisés.</p><p>Pour aller plus loin, vous pouvez consulter des tutoriels sur des outils comme <strong>NotebookLM</strong>, <strong>ChatGPT</strong>, <strong>Gemini</strong> ou <strong>Le Chat de Mistral</strong>.</p>"
                     }
                   },
                   {

@@ -1,10 +1,10 @@
-import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-detach-organizations-serializer.js';
+import { targetProfileDetachOrganizationsSerializer } from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-detach-organizations-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-detach-organizations-serializer', function () {
   describe('#serialize', function () {
     it('should convert a target profile detach organizations object to JSON API data', function () {
-      const json = serializer.serialize({
+      const json = targetProfileDetachOrganizationsSerializer.serialize({
         targetProfileId: 1,
         detachedOrganizationIds: [1, 5],
       });

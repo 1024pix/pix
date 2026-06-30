@@ -3,6 +3,7 @@ import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find, findAll } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -117,6 +118,10 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
             const noAnswerSolutionBlockList = findAll(SOLUTION_BLOCK);
             assert.strictEqual(noAnswerSolutionBlockList.length, 1);
           });
+          test('should display the formatted examples of good answers at the bottom', async function (assert) {
+            // Then
+            assert.ok(find(SOLUTION_TEXT).textContent.includes('solution1 ou solution2 ou...'));
+          });
           test('should display the empty answer with the default message "Pas de réponse" in italic', async function (assert) {
             // Then
             const firstAnswerInputContainer = findAll(ANSWER)[0];
@@ -124,6 +129,14 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
             assert.ok(firstAnswerInput);
             assert.strictEqual(firstAnswerInput.value, EMPTY_DEFAULT_MESSAGE);
             assert.true(firstAnswerInputContainer.classList.contains('correction-qroc-box-answer--aband'));
+          });
+          test('should set the "skipped" aria-label on the empty answer input', async function (assert) {
+            // Then
+            const firstAnswerInput = findAll(input)[0];
+            assert.strictEqual(
+              firstAnswerInput.getAttribute('aria-label'),
+              t('pages.comparison-window.results.a11y.skipped-answer'),
+            );
           });
         });
         module('When there are as many solutions as proposals', function (hooks) {
@@ -173,6 +186,18 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
             const secondAnswerInput = findAll(ANSWER)[1];
             assert.ok(secondAnswerInput);
             assert.true(secondAnswerInput.classList.contains('correction-qroc-box-answer--wrong'));
+          });
+          test('should set the "good-answer" and "wrong-answer" aria-labels on the inputs', async function (assert) {
+            // Then
+            const inputs = findAll(input);
+            assert.strictEqual(
+              inputs[0].getAttribute('aria-label'),
+              t('pages.comparison-window.results.a11y.good-answer'),
+            );
+            assert.strictEqual(
+              inputs[1].getAttribute('aria-label'),
+              t('pages.comparison-window.results.a11y.wrong-answer'),
+            );
           });
           test('should display correction at the bottom', async function (assert) {
             // Then

@@ -1,5 +1,5 @@
 import { StudentForEnrolment } from '../../../../../../src/certification/enrolment/domain/read-models/StudentForEnrolment.js';
-import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/student-certification-serializer.js';
+import { studentCertificationSerializer } from '../../../../../../src/certification/enrolment/infrastructure/serializers/student-certification-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -28,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | student-certification-serializer', funct
       };
 
       // when
-      const json = serializer.serialize(studentEnrolmentReadmodel);
+      const json = studentCertificationSerializer.serialize(studentEnrolmentReadmodel);
 
       // then
       expect(json).to.deep.equal(expectedSerializedStudent);

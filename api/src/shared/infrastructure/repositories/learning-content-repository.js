@@ -2,23 +2,23 @@ import Dataloader from 'dataloader';
 
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { LearningContentCache } from '../caches/learning-content-cache.js';
-import { createHistogram } from '../metrics/metrics.js';
+import { Metrics } from '../metrics/metrics.js';
 import { child, SCOPES } from '../utils/logger.js';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
 
 const metrics = {
-  read: createHistogram({
+  read: Metrics.createHistogram({
     name: 'lc_read',
     help: 'Learning content entities read count',
     labelNames: ['table', 'cache'],
   }),
-  cacheMiss: createHistogram({
+  cacheMiss: Metrics.createHistogram({
     name: 'lc_cachemiss',
     help: 'Learning content cache miss count',
     labelNames: ['table', 'cache'],
   }),
-  cachePenalty: createHistogram({
+  cachePenalty: Metrics.createHistogram({
     name: 'lc_cachepenalty',
     help: 'Learning content cache penalty',
     labelNames: ['table', 'cache'],

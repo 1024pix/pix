@@ -9,4 +9,4 @@ const serialize = function (students, pagination) {
   }).serialize(students);
 };
 
-export { serialize };
+export const studentCertificationSerializer = { serialize };

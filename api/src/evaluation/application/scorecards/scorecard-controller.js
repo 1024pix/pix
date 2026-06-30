@@ -1,12 +1,12 @@
 // TODO Bounded context violation
 import { usecases as devCompUsecases } from '../../../devcomp/domain/usecases/index.js';
 // TODO Bounded context violation
-import * as tutorialSerializer from '../../../devcomp/infrastructure/serializers/jsonapi/tutorial-serializer.js';
+import { tutorialSerializer } from '../../../devcomp/infrastructure/serializers/jsonapi/tutorial-serializer.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../shared/domain/errors.js';
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { Scorecard } from '../../domain/models/Scorecard.js';
 import { evaluationUsecases } from '../../domain/usecases/index.js';
-import * as scorecardSerializer from '../../infrastructure/serializers/jsonapi/scorecard-serializer.js';
+import { scorecardSerializer } from '../../infrastructure/serializers/jsonapi/scorecard-serializer.js';
 
 const getScorecard = function (request, h, dependencies = { scorecardSerializer }) {
   const locale = getChallengeLocale(request);

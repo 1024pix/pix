@@ -1,47 +1,48 @@
 import dayjs from 'dayjs';
 import lodash from 'lodash';
 
-import * as localeService from '../../../shared/domain/services/locale-service.js';
+import {
+  coerceLanguage,
+  getDefaultLocale,
+  getNearestSupportedLocale,
+} from '../../../shared/domain/services/locale-service.js';
 import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 const { toLower } = lodash;
 
 class User {
-  constructor(
-    {
-      id,
-      cgu,
-      createdAt,
-      pixCertifTermsOfServiceAccepted,
-      email,
-      emailConfirmedAt,
-      username,
-      firstName,
-      knowledgeElements,
-      lastName,
-      lastTermsOfServiceValidatedAt,
-      lastPixCertifTermsOfServiceValidatedAt,
-      lastDataProtectionPolicySeenAt,
-      hasSeenAssessmentInstructions,
-      hasSeenNewDashboardInfo,
-      hasSeenFocusedChallengeTooltip,
-      hasSeenOtherChallengesTooltip,
-      mustValidateTermsOfService,
-      lang,
-      locale,
-      isAnonymous,
-      memberships = [],
-      pixScore,
-      scorecards = [],
-      updatedAt,
-      campaignParticipations = [],
-      authenticationMethods = [],
-      hasBeenAnonymised,
-      hasBeenAnonymisedBy,
-    } = {},
-    dependencies = { localeService },
-  ) {
+  constructor({
+    id,
+    cgu,
+    createdAt,
+    pixCertifTermsOfServiceAccepted,
+    email,
+    emailConfirmedAt,
+    username,
+    firstName,
+    knowledgeElements,
+    lastName,
+    lastTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt,
+    lastDataProtectionPolicySeenAt,
+    hasSeenAssessmentInstructions,
+    hasSeenNewDashboardInfo,
+    hasSeenFocusedChallengeTooltip,
+    hasSeenOtherChallengesTooltip,
+    mustValidateTermsOfService,
+    lang,
+    locale,
+    isAnonymous,
+    memberships = [],
+    pixScore,
+    scorecards = [],
+    updatedAt,
+    campaignParticipations = [],
+    authenticationMethods = [],
+    hasBeenAnonymised,
+    hasBeenAnonymisedBy,
+  } = {}) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -61,8 +62,8 @@ class User {
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
     this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
     this.knowledgeElements = knowledgeElements;
-    this.lang = dependencies.localeService.coerceLanguage(lang);
-    this.locale = dependencies.localeService.getNearestSupportedLocale(locale);
+    this.lang = coerceLanguage(lang);
+    this.locale = getNearestSupportedLocale(locale);
     this.isAnonymous = isAnonymous;
     this.pixScore = pixScore;
     this.memberships = memberships;
@@ -94,13 +95,13 @@ class User {
     return pixAuthenticationMethod ? pixAuthenticationMethod.authenticationComplement?.password : null;
   }
 
-  changeLocale(newLocale, dependencies = { localeService }) {
+  changeLocale(newLocale) {
     if (!newLocale) {
-      this.locale = dependencies.localeService.getDefaultLocale();
+      this.locale = getDefaultLocale();
       return true;
     }
     if (!this.locale || this.locale !== newLocale) {
-      this.locale = dependencies.localeService.getNearestSupportedLocale(newLocale);
+      this.locale = getNearestSupportedLocale(newLocale);
       return true;
     }
 

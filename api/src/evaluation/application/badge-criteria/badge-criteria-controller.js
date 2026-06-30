@@ -1,5 +1,5 @@
 import { evaluationUsecases as usecases } from '../../domain/usecases/index.js';
-import * as badgeCriterionSerializer from '../../infrastructure/serializers/jsonapi/badge-criterion-serializer.js';
+import { badgeCriterionSerializer } from '../../infrastructure/serializers/jsonapi/badge-criterion-serializer.js';
 
 const updateCriterion = async (request, h, dependencies = { usecases, badgeCriterionSerializer }) => {
   const badgeCriterionId = request.params.badgeCriterionId;

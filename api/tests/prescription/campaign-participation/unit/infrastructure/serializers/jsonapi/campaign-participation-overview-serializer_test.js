@@ -1,5 +1,5 @@
 import { CampaignParticipationOverview } from '../../../../../../../src/prescription/campaign-participation/domain/read-models/CampaignParticipationOverview.js';
-import * as serializer from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
+import { campaignParticipationOverviewSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
@@ -55,7 +55,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
 
     it('should convert a CampaignParticipation model object into JSON API data', function () {
       // when
-      const json = serializer.serialize(campaignParticipationOverview);
+      const json = campaignParticipationOverviewSerializer.serialize(campaignParticipationOverview);
 
       // then
       expect(json).to.deep.equal(expectedSerializedCampaignParticipationOverview);
@@ -76,7 +76,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       });
 
       // when
-      const json = serializer.serialize(campaignParticipationOverview);
+      const json = campaignParticipationOverviewSerializer.serialize(campaignParticipationOverview);
 
       // then
       expect(json.data.attributes['can-retry']).to.be.true;
@@ -97,7 +97,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       });
 
       // when
-      const json = serializer.serialize(campaignParticipationOverview);
+      const json = campaignParticipationOverviewSerializer.serialize(campaignParticipationOverview);
 
       // then
       expect(json.data.attributes['can-retry']).to.be.false;

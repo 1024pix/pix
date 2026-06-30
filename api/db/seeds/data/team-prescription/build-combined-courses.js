@@ -1,6 +1,6 @@
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
-import { CombinedCourseBlueprint } from '../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
-import { OrganizationLearnerParticipationTypes } from '../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+import { CombinedCourseBlueprint } from '../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
+import { OrganizationLearnerParticipationTypes } from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { buildCombinedCourseBlueprint } from '../../../database-builder/factory/build-combined-course-blueprint.js';
 import { buildCombinedCourseBlueprintShare } from '../../../database-builder/factory/build-combined-course-blueprint-share.js';

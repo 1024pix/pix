@@ -37,4 +37,4 @@ function serialize(validationErrors) {
   };
 }
 
-export { serialize };
+export const validationErrorSerializer = { serialize };

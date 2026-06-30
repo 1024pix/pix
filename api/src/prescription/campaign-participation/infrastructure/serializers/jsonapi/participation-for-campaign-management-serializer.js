@@ -21,4 +21,4 @@ const serialize = function (participationsForCampaignManagement, meta) {
   }).serialize(participationsForCampaignManagement);
 };
 
-export { serialize };
+export const participationForCampaignManagementSerializer = { serialize };

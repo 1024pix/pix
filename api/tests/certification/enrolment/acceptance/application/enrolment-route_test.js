@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { createServer } from '../../../../../server.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
+import { mailCheck } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
@@ -235,7 +235,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
       server = await createServer();
       resolveMx = sinon.stub();
       resolveMx.resolves();
-      setResolveMx(resolveMx);
+      mailCheck.setResolveMx(resolveMx);
 
       // given
       user = databaseBuilder.factory.buildUser();
@@ -279,7 +279,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
     });
 
     afterEach(async function () {
-      clearResolveMx();
+      mailCheck.clearResolveMx();
     });
 
     context('The user can access the session', function () {

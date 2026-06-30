@@ -1,7 +1,7 @@
 import { createReadStream } from 'node:fs';
 
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
-import * as emailValidationService from '../../../shared/domain/services/email-validation-service.js';
+import { validateEmailSyntax } from '../../../shared/domain/services/email-validation-service.js';
 import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
 import { getDataBuffer } from '../../../shared/infrastructure/utils/buffer.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
@@ -94,7 +94,7 @@ function _validateAllDtos(
       });
     }
 
-    if (dto.dataProtectionOfficerEmail && !emailValidationService.validateEmailSyntax(dto.dataProtectionOfficerEmail)) {
+    if (dto.dataProtectionOfficerEmail && !validateEmailSyntax(dto.dataProtectionOfficerEmail)) {
       throw new DpoEmailInvalid({
         meta: {
           organizationId: dto.id,

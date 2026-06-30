@@ -1,7 +1,7 @@
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../quest/domain/models/OrganizationLearnerParticipation.js';
+} from '../../../../quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { constants } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';

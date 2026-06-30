@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { schoolController } from '../../../../src/school/application/school-controller.js';
-import * as moduleUnderTest from '../../../../src/school/application/school-route.js';
+import { schoolRoute as moduleUnderTest } from '../../../../src/school/application/school-route.js';
 import schoolSecurityPreHandlers from '../../../../src/school/application/security-pre-handlers.js';
 import { Division } from '../../../../src/school/domain/models/Division.js';
 import { usecases } from '../../../../src/school/domain/usecases/index.js';

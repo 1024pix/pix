@@ -1,8 +1,8 @@
-import * as attestationRoute from './application/attestation-route.js';
-import * as combinedCourseBlueprintRoute from './application/combined-course-blueprint-route.js';
-import * as combinedCourseRoute from './application/combined-course-route.js';
-import * as questRoute from './application/quest-route.js';
-import * as verifiedCodeRoute from './application/verified-code-route.js';
+import { attestationRoute } from './application/attestation-route.js';
+import { combinedCourseBlueprintRoute } from './application/combined-course-blueprint-route.js';
+import { combinedCourseRoute } from './application/combined-course-route.js';
+import { questRoute } from './application/quest-route.js';
+import { verifiedCodeRoute } from './application/verified-code-route.js';
 
 const questRoutes = [
   combinedCourseRoute,

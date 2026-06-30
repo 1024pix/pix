@@ -160,6 +160,7 @@ describe('Certification | Session-management | Acceptance | Application | Routes
           competencesScoringConfiguration: [
             {
               competence: 'index Compétence A',
+              competenceId: 'index Compétence A',
               values: [
                 {
                   bounds: {
@@ -256,7 +257,7 @@ describe('Certification | Session-management | Acceptance | Application | Routes
         const cancelledAssessmentResult = await knex('assessment-results')
           .where({
             assessmentId: assessment.id,
-            status: AssessmentResult.status.CANCELLED,
+            status: AssessmentResult.status.CANCELLED_BY_JURY,
             juryId: juryMember.id,
           })
           .first();
@@ -288,6 +289,7 @@ describe('Certification | Session-management | Acceptance | Application | Routes
         competencesScoringConfiguration: [
           {
             competence: 'index Compétence A',
+            competenceId: 'index Compétence A',
             values: [
               {
                 bounds: {

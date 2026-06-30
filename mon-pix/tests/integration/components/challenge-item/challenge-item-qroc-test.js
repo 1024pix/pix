@@ -1,6 +1,9 @@
-import { render } from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
+import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -270,6 +273,138 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
       // then
       assert.strictEqual(screen.getByRole('spinbutton', { name: 'mon label:' }).value, '42');
+    });
+  });
+
+  module('when the challenge is an auto-reply embed', function (hooks) {
+    const originalEmbedAllowedOrigins = ENV.APP.EMBED_ALLOWED_ORIGINS;
+
+    hooks.beforeEach(function () {
+      ENV.APP.EMBED_ALLOWED_ORIGINS = [
+        'https://epreuves.pix.fr',
+        'https://1024pix.github.io',
+        'https://*.review.pix.fr',
+      ];
+      this.set('challenge', {
+        autoReply: true,
+        id: 'rec_123',
+        timer: false,
+      });
+      this.set('answer', null);
+      this.answerValidated = sinon.stub().resolves();
+      this.set('answerValidated', this.answerValidated);
+      this.set('resetAllChallengeInfo', sinon.stub());
+    });
+
+    hooks.afterEach(function () {
+      ENV.APP.EMBED_ALLOWED_ORIGINS = originalEmbedAllowedOrigins;
+    });
+
+    test('should not display the proposal', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<ChallengeItem::ChallengeItemQroc
+  @challenge={{this.challenge}}
+  @answer={{this.answer}}
+  @assessment={{this.assessment}}
+  @answerValidated={{this.answerValidated}}
+  @resetAllChallengeInfo={{this.resetAllChallengeInfo}}
+/>`,
+      );
+
+      // then
+      assert.dom('.qroc-proposal').doesNotExist();
+      assert.strictEqual(screen.queryByRole('textbox'), null);
+    });
+
+    module('when the event message is from Pix', function () {
+      [
+        {
+          title: 'a string from an allowed origin',
+          event: { data: 'magicWord', origin: 'https://epreuves.pix.fr' },
+          expectedAnswer: 'magicWord',
+        },
+        {
+          title: 'a JSON string from an allowed origin',
+          event: { data: '{ "answer": "magicWord", "from": "pix"}', origin: 'https://epreuves.pix.fr' },
+          expectedAnswer: 'magicWord',
+        },
+        {
+          title: 'a numeric string from an allowed origin',
+          event: { data: '2', origin: 'https://epreuves.pix.fr' },
+          expectedAnswer: '2',
+        },
+        {
+          title: 'an object from an allowed origin',
+          event: { data: { answer: 'magicWord', from: 'pix' }, origin: 'https://epreuves.pix.fr' },
+          expectedAnswer: 'magicWord',
+        },
+        {
+          title: 'an object from the preview origin',
+          event: { data: { answer: 'magicWord', from: 'pix' }, origin: 'https://1024pix.github.io' },
+          expectedAnswer: 'magicWord',
+        },
+        {
+          title: 'an object from an origin allowed via a wildcard',
+          event: { data: { answer: 'magicWord', from: 'pix' }, origin: 'https://test-pr14.review.pix.fr' },
+          expectedAnswer: 'magicWord',
+        },
+      ].forEach(({ title, event, expectedAnswer }) => {
+        test(`should set the auto-reply answer from ${title}`, async function (assert) {
+          // given
+          await render(
+            hbs`<ChallengeItem::ChallengeItemQroc
+  @challenge={{this.challenge}}
+  @answer={{this.answer}}
+  @assessment={{this.assessment}}
+  @answerValidated={{this.answerValidated}}
+  @resetAllChallengeInfo={{this.resetAllChallengeInfo}}
+/>`,
+          );
+
+          // when
+          window.dispatchEvent(new MessageEvent('message', event));
+          await clickByName(t('pages.challenge.actions.validate-go-to-next'));
+
+          // then
+          assert.true(this.answerValidated.calledOnce);
+          assert.strictEqual(this.answerValidated.firstCall.args[2], expectedAnswer);
+        });
+      });
+    });
+
+    module('when the event message is not from Pix', function () {
+      [
+        {
+          title: 'the origin is not allowed',
+          event: { data: { answer: 'magicWord', from: 'pix' }, origin: 'https://epreuves.fake.fr' },
+        },
+        {
+          title: 'the data object does not come from pix',
+          event: { data: { answer: 'magicWord' }, origin: 'https://epreuves.fake.fr' },
+        },
+      ].forEach(({ title, event }) => {
+        test(`should not set the auto-reply answer when ${title}`, async function (assert) {
+          // given
+          const screen = await render(
+            hbs`<ChallengeItem::ChallengeItemQroc
+  @challenge={{this.challenge}}
+  @answer={{this.answer}}
+  @assessment={{this.assessment}}
+  @answerValidated={{this.answerValidated}}
+  @resetAllChallengeInfo={{this.resetAllChallengeInfo}}
+/>`,
+          );
+
+          // when
+          window.dispatchEvent(new MessageEvent('message', event));
+          await clickByName(t('pages.challenge.actions.validate-go-to-next'));
+
+          // then
+          assert.true(this.answerValidated.notCalled);
+          assert.dom(screen.getByText(t('pages.challenge.skip-error-message.qroc-auto-reply'))).exists();
+        });
+      });
     });
   });
 });

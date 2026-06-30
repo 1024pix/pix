@@ -80,6 +80,30 @@ module('Integration | Component | competence-card-mobile', function (hooks) {
       assert.strictEqual(find('.score-value').textContent, scorecard.level.toString());
     });
 
+    test('should display a dash for the level when it is zero', async function (assert) {
+      // given
+      const scorecard = { area, isNotStarted: false, level: 0 };
+      this.set('scorecard', scorecard);
+
+      // when
+      await render(hbs`<CompetenceCardMobile @scorecard={{this.scorecard}} />`);
+
+      // then
+      assert.strictEqual(find('.score-value').textContent, '–');
+    });
+
+    test('should not display any level when the competence is not started', async function (assert) {
+      // given
+      const scorecard = { area, isNotStarted: true, level: null };
+      this.set('scorecard', scorecard);
+
+      // when
+      await render(hbs`<CompetenceCardMobile @scorecard={{this.scorecard}} />`);
+
+      // then
+      assert.strictEqual(find('.score-value').textContent, '');
+    });
+
     module('when user can continue the competence', function () {
       module('and the user has reached the maximum level', function (hooks) {
         hooks.beforeEach(async function () {

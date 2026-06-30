@@ -69,6 +69,7 @@ Router.map(function () {
         this.route('all-campaigns', { path: '/toutes' });
       });
       this.route('new', { path: '/creation' });
+      this.route('new-catalogue', { path: '/creation-catalogue' });
       this.route('update', { path: '/:campaign_id/modification' });
       this.route(
         'participant-assessment',

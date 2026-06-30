@@ -80,4 +80,37 @@ describe('Unit | Application | Target Profile | target-profile-controller', func
       expect(result).to.equal(serializedFrameworks);
     });
   });
+
+  describe('#getTargetProfileOverview', function () {
+    it('should fetch and return a target profile, serialized as JSONAPI', async function () {
+      // given
+      const locale = 'en';
+      const targetProfileId = 123;
+      const targetProfileOverview = Symbol('targetProfileOverview');
+      const serializedTargetProfileOverview = Symbol('serializedTargetProfileOverview');
+      const targetProfileOverviewSerializer = {
+        serialize: sinon.stub(),
+      };
+      sinon.stub(usecases, 'getTargetProfileOverview');
+
+      const request = {
+        params: { targetProfileId },
+        state: { locale },
+      };
+
+      usecases.getTargetProfileOverview.withArgs({ targetProfileId, locale: 'en' }).resolves(targetProfileOverview);
+
+      targetProfileOverviewSerializer.serialize
+        .withArgs(targetProfileOverview)
+        .returns(serializedTargetProfileOverview);
+
+      // when
+      const result = await targetProfileController.getTargetProfileOverview(request, hFake, {
+        targetProfileOverviewSerializer,
+      });
+
+      // then
+      expect(result).to.equal(serializedTargetProfileOverview);
+    });
+  });
 });

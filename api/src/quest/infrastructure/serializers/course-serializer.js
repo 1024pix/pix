@@ -16,4 +16,4 @@ const serialize = function (courseItems) {
   }).serialize(courseItems);
 };
 
-export { serialize };
+export const courseSerializer = { serialize };

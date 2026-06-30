@@ -1,5 +1,5 @@
 import { TargetProfileForAdmin } from '../../../../../../../src/prescription/target-profile/domain/models/TargetProfileForAdmin.js';
-import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
+import { targetProfileForAdminSerializer } from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -573,7 +573,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
       };
 
       // when
-      const serializedTargetProfile = serializer.serialize({ targetProfile, filter: null });
+      const serializedTargetProfile = targetProfileForAdminSerializer.serialize({ targetProfile, filter: null });
 
       // then
       expect(serializedTargetProfile).to.deep.equal(expectedSerializedTargetProfile);
@@ -629,7 +629,10 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
         };
 
         // when
-        const serializedTargetProfile = serializer.serialize({ targetProfile, filter: { badges: 'certifiable' } });
+        const serializedTargetProfile = targetProfileForAdminSerializer.serialize({
+          targetProfile,
+          filter: { badges: 'certifiable' },
+        });
 
         // then
         expect(serializedTargetProfile).to.deep.equal(expectedSerializedTargetProfile);

@@ -8,7 +8,7 @@ import { AttachableTargetProfile } from '../../domain/models/AttachableTargetPro
  * @param {string} [params.searchTerm]
  * @returns {Promise<Array<AttachableTargetProfile>>}
  */
-const find = async function ({ searchTerm } = {}) {
+export async function find({ searchTerm } = {}) {
   const knexConn = DomainTransaction.getConnection();
   const targetProfiles = await knexConn('target-profiles')
     .select('target-profiles.id', 'target-profiles.name')
@@ -22,9 +22,7 @@ const find = async function ({ searchTerm } = {}) {
     .orderBy('target-profiles.id', 'DESC');
 
   return _toDomain(targetProfiles);
-};
-
-export { find };
+}
 
 function _searchByCriteria({ builder, searchTerm }) {
   if (!isBlank(searchTerm)) {

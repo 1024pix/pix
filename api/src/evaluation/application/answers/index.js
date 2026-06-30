@@ -109,5 +109,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'evaluation/answers-api';
-export { name, register };
+export const answersRoute = { name: 'evaluation/answers-api', register };

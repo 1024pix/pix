@@ -10,6 +10,7 @@ import * as trainingRepository from './training-repository.js';
 import * as trainingTriggerRepository from './training-trigger-repository.js';
 import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
 import * as tutorialRepository from './tutorial-repository.js';
+import * as userCampaignSurveyRepository from './user-campaign-survey-repository.js';
 import * as userRecommendedTrainingRepository from './user-recommended-training-repository.js';
 import * as userSavedTutorialRepository from './user-saved-tutorial-repository.js';
 
@@ -23,6 +24,7 @@ const repositoriesWithoutInjectedDependencies = {
   trainingRepository,
   trainingTriggerRepository,
   userRecommendedTrainingRepository,
+  userCampaignSurveyRepository,
   userSavedTutorialRepository,
   tutorialRepository,
   tutorialEvaluationRepository,

@@ -33,4 +33,4 @@ function serialize(elementAnswer) {
   }).serialize(elementAnswer);
 }
 
-export { serialize };
+export const elementAnswerSerializer = { serialize };

@@ -458,6 +458,7 @@ describe('Certification | Evaluation | Acceptance | scoring-and-capacity-simulat
             competencesScoringConfiguration: [
               {
                 competence: '1.1',
+                competenceId: 'recCompetence0',
                 values: [
                   { bounds: { max: -2, min: -8 }, competenceLevel: 0 },
                   { bounds: { max: -0.5, min: -2 }, competenceLevel: 1 },

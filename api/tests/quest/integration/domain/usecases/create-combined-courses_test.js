@@ -1,6 +1,6 @@
 import iconv from 'iconv-lite';
 
-import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { CsvImportError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';

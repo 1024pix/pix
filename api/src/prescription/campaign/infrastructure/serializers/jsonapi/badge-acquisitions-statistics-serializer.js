@@ -15,4 +15,4 @@ const serialize = (model) =>
     },
   }).serialize(model);
 
-export { serialize };
+export const badgeAcquisitionsStatisticsSerializer = { serialize };

@@ -1,5 +1,4 @@
 import { ATTESTATIONS } from '../../../src/profile/domain/constants.js';
-import { ATTESTATIONS_TABLE_NAME } from '../../migrations/20240820101115_add-attestations-table.js';
 import { databaseBuffer } from '../database-buffer.js';
 
 const buildAttestation = function ({
@@ -18,7 +17,7 @@ const buildAttestation = function ({
   };
 
   return databaseBuffer.pushInsertable({
-    tableName: ATTESTATIONS_TABLE_NAME,
+    tableName: 'attestations',
     values,
   });
 };

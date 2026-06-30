@@ -17,7 +17,7 @@ import { Separator } from '../../../../../../src/devcomp/domain/models/element/S
 import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
 import { Video } from '../../../../../../src/devcomp/domain/models/element/Video.js';
 import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
-import * as moduleSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-serializer.js';
+import { moduleSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerializer', function () {

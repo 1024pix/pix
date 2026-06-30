@@ -72,7 +72,23 @@ const findAttachedByOrganizationId = async (organizationId) => {
   );
 };
 
-export { archive, findAttachedByOrganizationId, save, update };
+/**
+ * @type {function}
+ * @param {object} params
+ * @param {number} params.certificationCenterId
+ * @return {Promise<boolean>}
+ */
+const exists = async function ({ certificationCenterId }) {
+  const knexConnection = DomainTransaction.getConnection();
+  const certificationCenter = await knexConnection('certification-centers')
+    .select('id')
+    .where({ id: certificationCenterId })
+    .first();
+
+  return Boolean(certificationCenter);
+};
+
+export { archive, exists, findAttachedByOrganizationId, save, update };
 
 function _toDomainCenterForAdmin(certificationCenterDTO) {
   return new CenterForAdmin({

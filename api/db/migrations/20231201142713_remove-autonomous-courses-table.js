@@ -1,11 +1,20 @@
-import { up as autonomousCoursesTableCreation } from './20231030144246_create_autonomous_courses.js';
-
 const TABLE_NAME = 'autonomous-courses';
 
 const up = async function (knex) {
   await knex.schema.dropTable(TABLE_NAME);
 };
 
-const down = autonomousCoursesTableCreation;
+const down = function (knex) {
+  return knex.schema.createTable(TABLE_NAME, (t) => {
+    t.increments().primary();
+    t.integer('organizationId').notNullable().unsigned().references('organizations.id');
+    t.integer('targetProfileId').notNullable().unsigned().references('target-profiles.id');
+    t.integer('campaignId').notNullable().unsigned().references('campaigns.id');
+    t.string('publicTitle').notNullable();
+    t.string('internalTitle').notNullable();
+    t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
+    t.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now());
+  });
+};
 
 export { down, up };

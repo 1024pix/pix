@@ -1,6 +1,6 @@
-import { HttpErrors } from '../../../shared/application/errors/http-errors.js';
+import { ServiceUnavailableError } from '../../../shared/application/errors/http-errors.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
-import * as errorSerializer from '../../../shared/infrastructure/serializers/jsonapi/error-serializer.js';
+import { errorSerializer } from '../../../shared/infrastructure/serializers/jsonapi/error-serializer.js';
 
 export async function checkLLMChatIsEnabled(request, h) {
   try {
@@ -15,6 +15,6 @@ export async function checkLLMChatIsEnabled(request, h) {
 }
 
 function replyServiceNotAvailableError(h) {
-  const error = new HttpErrors.ServiceUnavailableError();
+  const error = new ServiceUnavailableError();
   return h.response(errorSerializer.serialize(error)).code(error.status).takeover();
 }

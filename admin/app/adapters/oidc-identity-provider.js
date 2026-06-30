@@ -1,6 +1,8 @@
 import ApplicationAdapter from './application';
 
 export default class OidcIdentityProviderAdapter extends ApplicationAdapter {
+  namespace = 'api';
+
   urlForFindAll(_, snapshot) {
     if (snapshot.adapterOptions?.readyIdentityProviders) {
       return `${this.host}/${this.namespace}/oidc/identity-providers`;

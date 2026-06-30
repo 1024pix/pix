@@ -1,4 +1,4 @@
-class AreaForAdmin {
+export class AreaForAdmin {
   constructor({ id, frameworkId, title, code, color, allCompetences, allThematics, allTubes, allSkills }) {
     this.id = id;
     this.frameworkId = frameworkId;
@@ -166,5 +166,3 @@ class SkillForAdmin {
     this.difficulty = difficulty;
   }
 }
-
-export { AreaForAdmin, CompetenceForAdmin, SkillForAdmin, ThematicForAdmin, TubeForAdmin };

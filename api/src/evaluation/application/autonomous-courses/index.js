@@ -166,5 +166,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'evaluation/autonomous-courses-api';
-export { name, register };
+export const autonomousCoursesRoute = { name: 'evaluation/autonomous-courses-api', register };

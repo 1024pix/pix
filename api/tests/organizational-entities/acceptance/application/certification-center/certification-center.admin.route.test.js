@@ -540,4 +540,32 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
       });
     });
   });
+
+  describe('GET /api/admin/certification-centers/{certificationCenterId}/attached-organizations', function () {
+    it('should return the organizations attached to a given certification center and http code 200', async function () {
+      // given
+      const server = await createServer();
+
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      databaseBuilder.factory.buildOrganizationWithStructure({
+        certificationCenterId: certificationCenter.id,
+      });
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/admin/certification-centers/${certificationCenter.id}/organizations`,
+        headers: generateAuthenticatedUserRequestHeaders({
+          userId: superAdmin.id,
+        }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data[0].type).to.equal('attached-organizations');
+    });
+  });
 });

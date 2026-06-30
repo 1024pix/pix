@@ -4,6 +4,7 @@ export const CERTIFICATE_STATUSES = {
   WAITING_FOR_RESULTS: 'WAITING_FOR_RESULTS',
   REJECTED: 'REJECTED',
   CANCELLED: 'CANCELLED',
+  CANCELLED_BY_JURY: 'CANCELLED_BY_JURY',
   VALIDATED: 'VALIDATED',
 };
 
@@ -41,7 +42,7 @@ export default class CertificateSummary extends Model {
   }
 
   get isCancelled() {
-    return this.status === CERTIFICATE_STATUSES.CANCELLED;
+    return this.status === CERTIFICATE_STATUSES.CANCELLED || this.status === CERTIFICATE_STATUSES.CANCELLED_BY_JURY;
   }
 
   get isWaitingForResults() {

@@ -11,4 +11,4 @@ const serialize = function (features) {
   }).serialize(features);
 };
 
-export { serialize };
+export const featureToggleSerializer = { serialize };

@@ -36,5 +36,4 @@ const register = async function (server) {
   server.route(routes);
 };
 
-const name = 'certification/evaluation/evaluation-live-alert-api';
-export { name, register };
+export const liveAlertRoute = { name: 'certification/evaluation/evaluation-live-alert-api', register };

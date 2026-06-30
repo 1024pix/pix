@@ -19,4 +19,4 @@ const deserialize = function (json) {
   });
 };
 
-export { deserialize, serialize };
+export const userSavedTutorialSerializer = { deserialize, serialize };

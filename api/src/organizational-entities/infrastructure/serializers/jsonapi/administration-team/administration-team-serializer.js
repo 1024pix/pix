@@ -8,4 +8,4 @@ const serialize = function (administrationTeam) {
   }).serialize(administrationTeam);
 };
 
-export { serialize };
+export const administrationTeamSerializer = { serialize };

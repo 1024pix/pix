@@ -47,5 +47,4 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'school/activity-answers-api';
-export { name, register };
+export const activityAnswerRoute = { name: 'school/activity-answers-api', register };

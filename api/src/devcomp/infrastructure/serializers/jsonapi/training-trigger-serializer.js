@@ -53,4 +53,4 @@ const deserialize = function (payload) {
   }).deserialize(payload);
 };
 
-export { deserialize, serialize };
+export const trainingTriggerSerializer = { deserialize, serialize };

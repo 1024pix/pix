@@ -13,7 +13,8 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content en
     challengeRepository,
     courseRepository,
     tutorialRepository,
-    missionRepository;
+    missionRepository,
+    moduleRepository;
   let repositories;
   let repositoriesByModel;
 
@@ -57,6 +58,10 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content en
       save: sinon.stub().rejects('should not be called'),
       clearCache: sinon.stub().rejects('should not be called'),
     };
+    moduleRepository = {
+      save: sinon.stub().rejects('should not be called'),
+      clearCache: sinon.stub().rejects('should not be called'),
+    };
     repositories = {
       frameworkRepository,
       areaRepository,
@@ -68,6 +73,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content en
       courseRepository,
       tutorialRepository,
       missionRepository,
+      moduleRepository,
     };
     repositoriesByModel = {
       frameworks: frameworkRepository,
@@ -80,6 +86,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content en
       courses: courseRepository,
       tutorials: tutorialRepository,
       missions: missionRepository,
+      modules: moduleRepository,
     };
   });
 
@@ -95,6 +102,7 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content en
       { modelName: 'courses', hasCache: true },
       { modelName: 'tutorials', hasCache: true },
       { modelName: 'missions', hasCache: true },
+      { modelName: 'modules', hasCache: true },
     ].forEach(({ modelName, hasCache }) => {
       describe(`when model is ${modelName}`, function () {
         const recordId = 'recId';

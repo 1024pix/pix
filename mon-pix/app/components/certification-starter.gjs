@@ -28,6 +28,7 @@ export default class CertificationStarter extends Component {
   @service intl;
   @service focusedCertificationChallengeWarningManager;
   @service pixCompanion;
+  @service featureToggles;
 
   @tracked inputAccessCode = '';
   @tracked apiErrorMessage = null;
@@ -66,27 +67,38 @@ export default class CertificationStarter extends Component {
     return !this.currentDomain.isFranceDomain;
   }
 
+  get isCertificationInEnglishEnabled() {
+    return Boolean(this.featureToggles.featureToggles?.isCertificationInEnglishEnabled);
+  }
+
+  get isLanguageSelectorDisabled() {
+    return !this.isCertificationInEnglishEnabled;
+  }
+
   get languageOptions() {
-    return [
+    const options = [
       {
         value: VALID_CERTIFICATION_LOCALES.FRENCH,
         label: this.intl.t('pages.certification-start.language-selector.options.french'),
       },
-      {
+    ];
+
+    if (this.isCertificationInEnglishEnabled) {
+      options.push({
         value: VALID_CERTIFICATION_LOCALES.ENGLISH,
         label: this.intl.t('pages.certification-start.language-selector.options.english'),
-      },
-    ];
+      });
+    }
+
+    return options;
   }
 
-  get complementarySubscriptionLabel() {
-    return this.args.model.certificationCandidateSubscription.enrolledDoubleCertificationLabel;
+  get subscriptionLabel() {
+    return this.intl.t(`pages.certification-frameworks.${this.args.model.certificationCandidate.subscription}`);
   }
 
   get eligibilityState() {
-    return this.args.model.certificationCandidateSubscription.isEligibleToDoubleCertification
-      ? 'eligible'
-      : 'non-eligible';
+    return this.args.model.certificationCandidate.isEligibleToDoubleCertification ? 'eligible' : 'non-eligible';
   }
 
   @action
@@ -130,7 +142,7 @@ export default class CertificationStarter extends Component {
 
     const newCertificationCourse = this.store.createRecord('certification-course', {
       accessCode: this.accessCode,
-      sessionId: this.args.model.certificationCandidateSubscription.sessionId,
+      sessionId: this.args.model.certificationCandidate.sessionId,
       locale: this.selectedLanguage,
     });
     try {
@@ -177,7 +189,7 @@ export default class CertificationStarter extends Component {
     <section class="certification-starter">
       <h1 class="certification-start-page__title">{{t "pages.certification-start.first-title"}}</h1>
 
-      {{#if @model.certificationCandidateSubscription.displaySubscriptionInformation}}
+      {{#if @model.certificationCandidate.isRegisteredToDoubleCertification}}
         <div class="certification-starter-subscriptions">
           <div class="certification-starter-subscriptions-container">
             <p class="certification-starter-subscriptions-container-title">
@@ -190,15 +202,12 @@ export default class CertificationStarter extends Component {
                 @ariaHidden={{true}}
                 class="certification-starter-subscriptions-container-items__{{this.eligibilityState}}-icon"
               />
-              {{this.complementarySubscriptionLabel}}
+              {{this.subscriptionLabel}}
             </span>
           </div>
-          {{#unless @model.certificationCandidateSubscription.isEligibleToDoubleCertification}}
+          {{#unless @model.certificationCandidate.isEligibleToDoubleCertification}}
             <PixNotificationAlert @type="warning" @withIcon={{true}}>
-              {{t
-                "pages.certification-start.non-eligible-subscription"
-                complementarySubscriptionLabel=this.complementarySubscriptionLabel
-              }}
+              {{t "pages.certification-start.non-eligible-subscription" subscriptionLabel=this.subscriptionLabel}}
             </PixNotificationAlert>
           {{/unless}}
         </div>
@@ -212,10 +221,17 @@ export default class CertificationStarter extends Component {
             @options={{this.languageOptions}}
             @hideDefaultOption={{true}}
             @iconName="language"
+            @isDisabled={{this.isLanguageSelectorDisabled}}
           >
             <:label>{{t "pages.certification-start.language-selector.label"}}</:label>
             <:default as |language|>{{language.label}}</:default>
           </PixSelect>
+
+          {{#unless this.isCertificationInEnglishEnabled}}
+            <PixNotificationAlert @withIcon={{true}} @type="error">
+              <p>{{t "pages.certification-start.language-selector.warning-message"}}</p>
+            </PixNotificationAlert>
+          {{/unless}}
 
           <PixCheckbox
             @class="certification-start-form__lang-confirm-checkbox"

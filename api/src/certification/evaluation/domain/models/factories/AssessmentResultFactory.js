@@ -122,6 +122,30 @@ export class AssessmentResultFactory {
     });
   }
 
+  static buildCancelledByJuryAssessmentResult({
+    pixScore,
+    reproducibilityRate,
+    assessmentId,
+    juryId,
+    competenceMarks,
+    capacity,
+    reachedMeshIndex,
+    versionId,
+  }) {
+    return this.#buildWithAutoJuryComment({
+      autoJuryCommentKey: AutoJuryCommentKeys.CANCELLED_BY_JURY,
+      status: AssessmentResult.status.CANCELLED_BY_JURY,
+      pixScore,
+      reproducibilityRate,
+      assessmentId,
+      juryId,
+      competenceMarks,
+      capacity,
+      reachedMeshIndex,
+      versionId,
+    });
+  }
+
   static buildFraud({
     pixScore,
     reproducibilityRate,
@@ -219,6 +243,27 @@ export class AssessmentResultFactory {
   static buildRejectedNotEligibleEduAssessmentResult({ assessmentId, juryId, capacity, reachedMeshIndex, versionId }) {
     return this.#buildWithAutoJuryComment({
       autoJuryCommentKey: AutoJuryCommentKeys.REJECTED_EDU_NOT_ELIGIBLE,
+      status: AssessmentResult.status.REJECTED,
+      pixScore: null,
+      reproducibilityRate: null,
+      assessmentId,
+      juryId,
+      competenceMarks: [],
+      capacity,
+      reachedMeshIndex,
+      versionId,
+    });
+  }
+
+  static buildRejectedNotObtainedPixPlusAssessmentResult({
+    assessmentId,
+    juryId,
+    capacity,
+    reachedMeshIndex,
+    versionId,
+  }) {
+    return this.#buildWithAutoJuryComment({
+      autoJuryCommentKey: AutoJuryCommentKeys.REJECTED_PIX_PLUS_NOT_OBTAINED,
       status: AssessmentResult.status.REJECTED,
       pixScore: null,
       reproducibilityRate: null,

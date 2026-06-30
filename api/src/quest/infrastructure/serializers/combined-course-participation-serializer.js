@@ -22,4 +22,4 @@ const serialize = function (combinedCourseParticipations, meta) {
   }).serialize(combinedCourseParticipations);
 };
 
-export { serialize };
+export const combinedCourseParticipationSerializer = { serialize };

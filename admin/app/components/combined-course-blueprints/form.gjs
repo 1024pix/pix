@@ -14,6 +14,7 @@ import { eq, gt } from 'ember-truth-helpers';
 import PixFieldset from 'pix-admin/components/ui/pix-fieldset';
 
 import RequirementTag from '../common/combined-courses/requirement-tag';
+import TubesSelection from '../common/tubes-selection';
 import SelectAttestation from './select-attestation';
 
 export default class CombinedCourseBlueprintForm extends Component {
@@ -27,7 +28,7 @@ export default class CombinedCourseBlueprintForm extends Component {
 
   constructor() {
     super(...arguments);
-    this.blueprint = this.args.model ?? this.store.createRecord('combined-course-blueprint');
+    this.blueprint = this.args.model.blueprint ?? this.store.createRecord('combined-course-blueprint');
     this.router.on('routeWillChange', () => {
       if (this.blueprint.hasDirtyAttributes && !this.blueprint.isSaving) {
         this.blueprint.unloadRecord();
@@ -93,7 +94,11 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   async save() {
     try {
-      await this.blueprint.save();
+      await this.blueprint.save({
+        adapterOptions: this.selectedTubes
+          ? { cappedTubeRequirements: [{ tubes: this.selectedTubes, threshold: this.threshold }] }
+          : null,
+      });
       this.pixToast.sendSuccessNotification({
         message: this.args.updateMode
           ? this.intl.t('components.combined-course-blueprints.update.notifications.success')
@@ -146,6 +151,19 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   removeRequirement({ type, value }) {
     this.blueprint.content = this.blueprint.content.filter((item) => item.value !== value || item.type !== type);
+  }
+
+  @action
+  updateTubes(tubes) {
+    this.selectedTubes = tubes.map(({ id, level }) => ({
+      tubeId: id,
+      level,
+    }));
+  }
+
+  @action
+  onThresholdChange(e) {
+    this.threshold = e.target.value;
   }
 
   <template>
@@ -258,10 +276,25 @@ export default class CombinedCourseBlueprintForm extends Component {
 
         {{#unless @updateMode}}
           <SelectAttestation
-            @attestations={{@attestations}}
+            @attestations={{@model.attestations}}
             @value={{this.blueprint.rewardId}}
             @onChange={{this.setAttestation}}
           />
+
+          {{#if this.blueprint.rewardId}}
+            <TubesSelection @frameworks={{@model.frameworks}} @onChange={{this.updateTubes}} />
+            <PixInput
+              @id="blueprintThreshold"
+              class="combined-course-page__threshold"
+              type="number"
+              min="0"
+              max="100"
+              @requiredLabel={{t "common.forms.mandatory"}}
+              {{on "change" this.onThresholdChange}}
+            >
+              <:label>Taux de réussite requis</:label>
+            </PixInput>
+          {{/if}}
         {{/unless}}
 
         <PixInput

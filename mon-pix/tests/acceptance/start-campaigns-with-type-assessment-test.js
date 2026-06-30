@@ -19,7 +19,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
 
   hooks.beforeEach(function () {
     this.server.schema.users.create({
-      mustValidateTermsOfService: true,
+      pixAppTermsOfServiceStatus: 'requested',
     });
   });
 
@@ -28,8 +28,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
 
     hooks.beforeEach(function () {
       prescritUser = server.create('user', 'withEmail', {
-        mustValidateTermsOfService: false,
-        lastTermsOfServiceValidatedAt: null,
+        pixAppTermsOfServiceStatus: 'accepted',
       });
     });
 

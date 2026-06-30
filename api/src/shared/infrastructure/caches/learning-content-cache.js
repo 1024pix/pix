@@ -1,11 +1,11 @@
-import { createGauge } from '../metrics/metrics.js';
+import { Metrics } from '../metrics/metrics.js';
 import { getTopic } from '../pubsub.js';
 import { child, SCOPES } from '../utils/logger.js';
 
 const logger = child('learningcontent:cache', { event: SCOPES.LEARNING_CONTENT });
 
 const metrics = {
-  cacheSize: createGauge({
+  cacheSize: Metrics.createGauge({
     name: 'lc_cachesize',
     help: 'Learning content cache size',
     labelNames: ['table', 'cache'],

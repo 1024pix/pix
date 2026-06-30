@@ -48,5 +48,4 @@ const register = async (server) => {
   ]);
 };
 
-const name = 'certification/evaluation/scenario-simulator-api';
-export { name, register };
+export const scenarioSimulatorRoute = { name: 'certification/evaluation/scenario-simulator-api', register };

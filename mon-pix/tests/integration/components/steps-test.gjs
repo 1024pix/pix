@@ -14,9 +14,12 @@ module('Integration | Component | steps', function (hooks) {
       test('should display instructions', async function (assert) {
         // given
         const candidate = { subscription: 'CORE' };
+        const certificationInfo = { assessmentDuration: 90, maximumAssessmentLength: 50, minimumAssessmentLength: 10 };
 
         // when
-        const screen = await render(<template><Steps @candidate={{candidate}} /></template>);
+        const screen = await render(
+          <template><Steps @candidate={{candidate}} @certificationInfo={{certificationInfo}} /></template>,
+        );
 
         // then
         assert
@@ -43,9 +46,12 @@ module('Integration | Component | steps', function (hooks) {
       test('should not display the previous button', async function (assert) {
         // given
         const candidate = { subscription: 'CORE' };
+        const certificationInfo = { assessmentDuration: 90, maximumAssessmentLength: 50, minimumAssessmentLength: 10 };
 
         // when
-        const screen = await render(<template><Steps @candidate={{candidate}} /></template>);
+        const screen = await render(
+          <template><Steps @candidate={{candidate}} @certificationInfo={{certificationInfo}} /></template>,
+        );
 
         // then
         assert
@@ -60,9 +66,12 @@ module('Integration | Component | steps', function (hooks) {
       test('should display instructions', async function (assert) {
         // given
         const candidate = { subscription: 'CORE' };
+        const certificationInfo = { assessmentDuration: 90, maximumAssessmentLength: 50, minimumAssessmentLength: 10 };
 
         // when
-        const screen = await render(<template><Steps @candidate={{candidate}} /></template>);
+        const screen = await render(
+          <template><Steps @candidate={{candidate}} @certificationInfo={{certificationInfo}} /></template>,
+        );
         await click(
           screen.getByRole('button', { name: t('pages.certification-instructions.buttons.continuous.aria-label') }),
         );
@@ -91,9 +100,12 @@ module('Integration | Component | steps', function (hooks) {
       test('should display instructions', async function (assert) {
         // given
         const candidate = { subscription: 'CORE' };
+        const certificationInfo = { assessmentDuration: 90, maximumAssessmentLength: 50, minimumAssessmentLength: 10 };
 
         // when
-        const screen = await render(<template><Steps @candidate={{candidate}} /></template>);
+        const screen = await render(
+          <template><Steps @candidate={{candidate}} @certificationInfo={{certificationInfo}} /></template>,
+        );
         await click(
           screen.getByRole('button', { name: t('pages.certification-instructions.buttons.continuous.aria-label') }),
         );
@@ -132,9 +144,12 @@ module('Integration | Component | steps', function (hooks) {
       test('should display instructions', async function (assert) {
         // given
         const candidate = { subscription: 'CORE' };
+        const certificationInfo = { assessmentDuration: 90, maximumAssessmentLength: 50, minimumAssessmentLength: 10 };
 
         // when
-        const screen = await render(<template><Steps @candidate={{candidate}} /></template>);
+        const screen = await render(
+          <template><Steps @candidate={{candidate}} @certificationInfo={{certificationInfo}} /></template>,
+        );
         for (let i = 0; i < 3; i++) {
           await click(
             screen.getByRole('button', { name: t('pages.certification-instructions.buttons.continuous.aria-label') }),
@@ -161,9 +176,12 @@ module('Integration | Component | steps', function (hooks) {
       test('should display information', async function (assert) {
         // given
         const candidate = { subscription: 'CORE' };
+        const certificationInfo = { assessmentDuration: 90, maximumAssessmentLength: 50, minimumAssessmentLength: 10 };
 
         // when
-        const screen = await render(<template><Steps @candidate={{candidate}} /></template>);
+        const screen = await render(
+          <template><Steps @candidate={{candidate}} @certificationInfo={{certificationInfo}} /></template>,
+        );
         await _goToLastPage(screen);
 
         // then
@@ -191,7 +209,11 @@ module('Integration | Component | steps', function (hooks) {
       test('should change the continue aria label button', async function (assert) {
         // given
         const candidate = { subscription: 'CORE' };
-        const screen = await render(<template><Steps @candidate={{candidate}} /></template>);
+        const certificationInfo = { assessmentDuration: 90, maximumAssessmentLength: 50, minimumAssessmentLength: 10 };
+
+        const screen = await render(
+          <template><Steps @candidate={{candidate}} @certificationInfo={{certificationInfo}} /></template>,
+        );
 
         // when
         await _goToLastPage(screen);
@@ -209,7 +231,10 @@ module('Integration | Component | steps', function (hooks) {
       test('should disable the continue button', async function (assert) {
         // given
         const candidate = { subscription: 'CORE' };
-        const screen = await render(<template><Steps @candidate={{candidate}} /></template>);
+        const certificationInfo = { assessmentDuration: 90, maximumAssessmentLength: 50, minimumAssessmentLength: 10 };
+        const screen = await render(
+          <template><Steps @candidate={{candidate}} @certificationInfo={{certificationInfo}} /></template>,
+        );
 
         // when
         await _goToLastPage(screen);
@@ -228,7 +253,14 @@ module('Integration | Component | steps', function (hooks) {
         test('should enable the continue button', async function (assert) {
           // given
           const candidate = { subscription: 'CORE' };
-          const screen = await render(<template><Steps @candidate={{candidate}} /></template>);
+          const certificationInfo = {
+            assessmentDuration: 90,
+            maximumAssessmentLength: 50,
+            minimumAssessmentLength: 10,
+          };
+          const screen = await render(
+            <template><Steps @candidate={{candidate}} @certificationInfo={{certificationInfo}} /></template>,
+          );
           await _goToLastPage(screen);
 
           // when
@@ -254,7 +286,10 @@ module('Integration | Component | steps', function (hooks) {
       test('should display the previous button', async function (assert) {
         // given
         const candidate = { subscription: 'CORE' };
-        const screen = await render(<template><Steps @candidate={{candidate}} /></template>);
+        const certificationInfo = { assessmentDuration: 90, maximumAssessmentLength: 50, minimumAssessmentLength: 10 };
+        const screen = await render(
+          <template><Steps @candidate={{candidate}} @certificationInfo={{certificationInfo}} /></template>,
+        );
 
         // when
         await click(

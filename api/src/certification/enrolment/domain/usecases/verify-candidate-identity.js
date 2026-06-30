@@ -14,6 +14,7 @@ import {
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../shared/domain/errors.js';
+import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
 
 /**
@@ -38,7 +39,10 @@ export const verifyCandidateIdentity = async ({
 }) => {
   const user = await userRepository.get({ id: userId });
 
-  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(user.lang);
+  const isEnglishEnabled = await featureToggles.get('isCertificationInEnglishEnabled');
+  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(user.lang, {
+    isEnglishEnabled,
+  });
   if (!isUserLanguageValid) {
     throw new LanguageNotSupportedError(user.lang);
   }

@@ -3,9 +3,8 @@ const unpublishSession = async function ({
   certificationRepository,
   sessionManagementRepository,
   finalizedSessionRepository,
-  sharedSessionRepository,
 }) {
-  const session = await sharedSessionRepository.getWithCertificationCandidates({ id: sessionId });
+  const session = await sessionManagementRepository.get({ id: sessionId });
 
   await certificationRepository.unpublishCertificationCoursesBySessionId({ sessionId });
 
@@ -15,7 +14,7 @@ const unpublishSession = async function ({
 
   await _updateFinalizedSession(finalizedSessionRepository, sessionId);
 
-  return sharedSessionRepository.getWithCertificationCandidates({ id: sessionId });
+  return sessionManagementRepository.get({ id: sessionId });
 };
 
 export { unpublishSession };

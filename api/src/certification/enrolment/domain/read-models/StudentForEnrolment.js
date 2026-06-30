@@ -8,8 +8,8 @@ class StudentForEnrolment {
     this.isEnrolled = isEnrolled;
   }
 
-  static fromStudentsAndCertificationCandidates({ student, certificationCandidates }) {
-    const isEnrolled = certificationCandidates.some((candidate) => candidate.organizationLearnerId === student.id);
+  static fromStudentsAndCandidates({ student, candidates }) {
+    const isEnrolled = candidates.some((candidate) => candidate.organizationLearnerId === student.id);
 
     return new StudentForEnrolment({
       id: student.id,

@@ -1,4 +1,5 @@
 import { UserDetailsForAdmin } from '../../../../src/identity-access-management/domain/models/UserDetailsForAdmin.js';
+import { STATUS } from '../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 
 const buildUserDetailsForAdmin = function ({
   id = 123,
@@ -6,16 +7,12 @@ const buildUserDetailsForAdmin = function ({
   lastName = 'Philippe',
   email = 'louis.philippe@example.net',
   username = 'jean.bono1234',
-  cgu = true,
   pixCertifTermsOfServiceAccepted = false,
-  pixOrgaTermsOfServiceAccepted = false,
   isAuthenticatedFromGAR = false,
   createdAt,
   updatedAt,
   lang = 'fr',
   locale,
-  lastTermsOfServiceValidatedAt,
-  lastPixOrgaTermsOfServiceValidatedAt,
   lastPixCertifTermsOfServiceValidatedAt,
   lastLoggedAt,
   emailConfirmedAt,
@@ -26,22 +23,20 @@ const buildUserDetailsForAdmin = function ({
   hasBeenAnonymisedBy = null,
   isPixAgent = false,
   lastApplicationConnections,
+  pixAppTosStatus = { status: STATUS.ACCEPTED, acceptedAt: null },
+  pixOrgaTosStatus = { status: STATUS.ACCEPTED, acceptedAt: null },
 } = {}) {
-  return new UserDetailsForAdmin({
+  const userDetailsForAdmin = new UserDetailsForAdmin({
     id,
     firstName,
     lastName,
     email,
     username,
-    cgu,
-    pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
     createdAt,
     updatedAt,
     lang,
     locale,
-    lastTermsOfServiceValidatedAt,
-    lastPixOrgaTermsOfServiceValidatedAt,
     lastPixCertifTermsOfServiceValidatedAt,
     lastLoggedAt,
     emailConfirmedAt,
@@ -54,6 +49,8 @@ const buildUserDetailsForAdmin = function ({
     isPixAgent,
     lastApplicationConnections,
   });
+  userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
+  return userDetailsForAdmin;
 };
 
 export { buildUserDetailsForAdmin };

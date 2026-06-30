@@ -74,6 +74,10 @@
       }
     }
   }
+
+  &__required-field-missing {
+    margin-top: var(--pix-spacing-4x);
+  }
 }
 
 .element-qcm-declarative-feedback {

@@ -13,7 +13,7 @@ import * as stageRepository from '../../../../../../src/prescription/stages/infr
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+} from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';

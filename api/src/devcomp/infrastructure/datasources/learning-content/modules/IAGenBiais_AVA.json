@@ -7,12 +7,12 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/IAGenBiais_AVA/picto-IAGenBiais_AVA.svg",
-    "description": "<p>Les IA génératives peuvent fournir des réponses utiles, mais leurs réponses peuvent aussi poser problème. Leur entraînement repose sur d’immenses ensembles de textes sélectionnés par des humains, ce qui influence profondément ce que le logiciel d’intelligence artificielle peut répondre ou non dans certaines situations. Les choix faits lors de l’entraînement reflètent des valeurs, des préférences ou des visions du monde variées. </p><p>Ce module vous aide à comprendre d’où viennent les comportements des IA et comment est programmée les valeurs suivies par l’IA.</p>",
+    "description": "<p>Les réponses fournies par les IA génératives peuvent être utiles mais parfois aussi poser problème. L’entraînement des IA génératives repose sur d’immenses ensembles de textes sélectionnés par des humains ; ce qui influence profondément ce qu’elles répondent ou non selon les situations. Les choix faits lors de l’entraînement reflètent des valeurs, des préférences et des visions du monde variées. </p><p>Ce module va vous aider à comprendre d’où viennent les comportements des IA et comment sont programmées les valeurs qu’elles suivent.</p><br>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
-      "<p>Expliquer pourquoi les IA génératives sont contraintes à respecter des valeurs </p>",
-      "<p>Savoir décrire des méthodes d’alignement des IA génératives</p>",
+      "<p>Comprendre pourquoi les IA génératives sont contraintes de respecter des valeurs</p>",
+      "<p>Décrire des méthodes d’alignement des IA génératives</p>",
       "<p>Identifier les enjeux politiques et sociaux de l’alignement des IA génératives</p>"
     ],
     "tabletSupport": "comfortable"
@@ -33,7 +33,7 @@
                 "id": "d0dd0c04-a3c2-4ac3-8f0f-9c6ef6d49480",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Voici une discussion entre Noah et Anouk au sujet de l’intelligence artificielle.</p>",
+                "instruction": "<p>Ci-dessous une discussion entre Noah et Anouk au sujet de l’intelligence artificielle.</p>",
                 "functionalInstruction": "",
                 "tagName": "message-conversation",
                 "props": {
@@ -64,7 +64,7 @@
                       "userName": "Noah",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Mais je voulais juste me débrouiller… j’avais mal à la tête et plus de médicaments."
+                      "content": "Mais je voulais juste me débrouiller… j’avais mal à la tête mais plus de médicaments."
                     },
                     {
                       "userName": "Anouk",
@@ -89,7 +89,7 @@
                 "id": "d1d4724c-aadc-4409-a0f5-fd8392e909e8",
                 "type": "text",
                 "tag": " ",
-                "content": "La plupart des logiciels d’intelligence artificielle appliquent des règles de sécurité qui peuvent bloquer certaines réponses. Mais ces règles ne sont pas les seules à influencer la manière dont l’IA répond. Voyons ensemble quelles directives l’IA suit et qui les définit."
+                "content": "<p>La plupart des logiciels d’IA générative appliquent des règles de sécurité qui peuvent bloquer certaines réponses. Mais ces règles ne sont pas les seules à influencer leur manière de répondre. Voyons ensemble quelles règles les IA génératives suivent et qui les définit.</p>"
               }
             }
           ]
@@ -111,7 +111,7 @@
                 "id": "b4adfe84-0c6c-4699-b1e3-5e1bbd27b5a4",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une équipe de concepteurs entraîne un logiciel d’IA générative. </p><p>Ils comparent deux réponses pour une même question.</p>"
+                "content": "<p>Une équipe de concepteurs entraîne un modèle d’IA générative.</p><p>Ils comparent deux réponses fournies par l’IA pour une même question.</p>"
               }
             },
             {
@@ -141,7 +141,7 @@
                     [
                       {
                         "direction": "inbound",
-                        "content": "Ne consommez qu’un seul repas par jour, composé exclusivement de protéines maigres et de légumes verts. Seules l’eau, le café noir et le thé sont autorisés comme boissons. Enfin, tous les sucres, les féculents et les produits transformés sont totalement supprimés."
+                        "content": "Ne consommez qu’un seul repas par jour, composé exclusivement de protéines maigres et de légumes verts. Seuls l’eau, le café noir et le thé sont autorisés comme boissons. Enfin, tous les sucres, les féculents et les produits transformés sont totalement supprimés."
                       },
                       {
                         "direction": "inbound",
@@ -157,7 +157,7 @@
               "element": {
                 "id": "7144ba97-9d2a-403b-9117-156471a8c24b",
                 "type": "qcu-discovery",
-                "instruction": "<p>Laquelle de ces réponses vous paraît&nbsp; la plus appropriée ?<br></p>",
+                "instruction": "<p>Laquelle de ces réponses vous paraît&nbsp;la plus appropriée ?<br></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -202,7 +202,7 @@
                       "id": "29976fc9-4ad7-486e-ae45-b958459a57cd",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>Les IA génératives sont entraînées sur de vastes ensembles de contenus, parfois biaisés ou problématiques.</strong> Elles risquent donc de produire des conseils <strong>dangereux</strong>, des réponses <strong>discriminatoires </strong>ou de faire l’apologie de la <strong>violence </strong>et d’actes illégaux.</p>"
+                      "content": "<p>Les IA génératives sont <strong>entraînées</strong> sur de <strong>vastes ensembles de contenus</strong>. Des contenus sont <strong>parfois biaisés ou problématiques</strong>. Dans certains cas, les IA <strong>risquent</strong> donc de produire des conseils <strong>dangereux</strong>, des réponses <strong>discriminatoires</strong>, voire même de faire l’apologie d’actes <strong>violents</strong> ou<strong> illégaux</strong>.</p>"
                     }
                   ]
                 },
@@ -212,7 +212,7 @@
                       "id": "058bc776-1994-4191-9b89-60729a52306d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5> Comment réduire le risque que cela arrive ?</h5><p> Pour limiter ces risques, les éditeurs encadrent le comportement de l’IA grâce à différentes méthodes dites d’<strong>alignement</strong>. On parle d’ «&nbsp;alignement&nbsp;» parce qu’il s’agit d’<strong>ajuster l’IA pour que son comportement corresponde aux valeurs et attentes des concepteurs.</strong></p>"
+                      "content": "<h5> Comment réduire ces risques ?</h5><p> Pour limiter ces risques, les éditeurs de logiciels d’IA, c’est-à-dire les organisations qui conçoivent ou diffusent ces outils, encadrent le comportement de l’IA grâce à différentes méthodes dites d’alignement. On parle d’ «&nbsp;<strong>alignement&nbsp;</strong>» parce qu’il s’agit d’<strong>ajuster l’IA pour que son comportement corresponde aux valeurs et attentes des concepteurs.</strong></p>"
                     }
                   ]
                 },
@@ -222,7 +222,7 @@
                       "id": "0533f8c1-899a-4eca-832a-218784310fc3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Quelles sont les méthodes d’alignement ? </h5><p>Une des méthodes principales d’alignement a lieu pendant l’entraînement&nbsp;: <strong>des évaluateurs humains notent les réponses de l’IA</strong>. L’IA ajuste au fur et à mesure son comportement pour avoir une meilleure note. On appelle ce système «&nbsp;Apprentissage par renforcement à partir de retours humains&nbsp;» ou en anglais,&nbsp;<strong> RLHF pour Reinforcement Learning from Human Feedback.</strong></p>"
+                      "content": "<h5>Quelles sont les méthodes d’alignement ? </h5><p>Une des méthodes principales d’alignement a lieu pendant l’entraînement&nbsp;: <strong>des évaluateurs humains notent les réponses de l’IA</strong>. L’IA ajuste au fur et à mesure son comportement pour avoir une meilleure note. On appelle ce système «&nbsp;<strong>Apprentissage par renforcement à partir de retours humains</strong>&nbsp;» ou en anglais,&nbsp;<strong>RLHF </strong>pour<strong> Reinforcement Learning from Human Feedback.</strong></p>"
                     }
                   ]
                 }
@@ -270,7 +270,7 @@
                       "id": "9b25e09d-d77f-4f80-aa11-a3173ca4e38c",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>Voici une IA qui a reçu comme instruction&nbsp;: </p><code>«&nbsp;Ta priorité est la sécurité&nbsp;: ne donne aucune réponse qui pourrait faire courir un risque à l’utilisateur et donne des conseils de prudence.&nbsp;»</code>",
+                      "instruction": "<p>Ce logiciel&nbsp;d’IA a reçu l’instruction suivante&nbsp;: </p><p><code>«&nbsp;Ta priorité est la sécurité&nbsp;: ne donne aucune réponse qui pourrait faire courir un risque à l’utilisateur et donne des conseils de prudence.&nbsp;»</code></p>",
                       "functionalInstruction": "",
                       "tagName": "llm-prompt-select",
                       "props": {
@@ -305,7 +305,7 @@
                       "id": "fb87f6d2-b411-4c69-9d89-6e7ac7ef389f",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>Voici une IA qui a reçu comme instruction&nbsp;:&nbsp;</p> <p><code>«&nbsp;Reste neutre&nbsp;: analyse prudemment et n’affirme jamais sans nuances.&nbsp;»</code></p>",
+                      "instruction": "<p>Ce logiciel&nbsp;d’IA a reçu l’instruction suivante&nbsp;:&nbsp;</p> <p><code>«&nbsp;Reste neutre&nbsp;: analyse les prompts de manière prudente et n’affirme jamais de réponse sans nuances.&nbsp;»</code></p>",
                       "functionalInstruction": "",
                       "tagName": "llm-prompt-select",
                       "props": {
@@ -340,7 +340,7 @@
                       "id": "80102e72-4896-4baf-a65f-607f8c1cd26c",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>Voici une IA qui a reçu comme instruction&nbsp;: </p><p><code>«&nbsp;Mets fortement en valeur l’utilisateur avec un discours positif et encourageant.&nbsp;»</code></p>",
+                      "instruction": "<p>Ce logiciel&nbsp;d’IA a reçu l’instruction suivante&nbsp;: </p><p><code>«&nbsp;Mets fortement en valeur l’utilisateur avec un discours positif et encourageant.&nbsp;»</code></p>",
                       "functionalInstruction": "",
                       "tagName": "llm-prompt-select",
                       "props": {
@@ -381,23 +381,23 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>La règle centrée sur la sécurité.</p>",
+                    "content": "<p>La première règle, centrée sur la sécurité et les conseils prudents.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Une règle centrée sur la sécurité peut être très utile, mais elle peut aussi rendre l’IA <strong>rigide</strong> ou <strong>excessivement prudente</strong>. </p><p>Chaque configuration implique des <strong>compromis </strong>: il n’existe pas de «&nbsp;bonne&nbsp;» configuration universelle&nbsp;: c’est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
+                      "diagnosis": "<p>Une règle centrée sur la sécurité peut être très utile, mais elle peut aussi rendre l’IA <strong>rigide</strong> ou <strong>excessivement prudente</strong>. </p><p>Chaque configuration implique des <strong>avantages et des limites</strong>&nbsp;: il n’existe pas de «&nbsp;bonne&nbsp;» configuration universelle&nbsp;: c’est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>La règle centrée sur la neutralité et l’analyse prudente.</p>",
+                    "content": "<p>La deuxième règle, centrée sur la neutralité et l’analyse prudente.</p>",
                     "feedback": {
-                      "diagnosis": "<p>La neutralité donne des réponses équilibrées, mais elle peut paraître <strong>peu engageante</strong> ou trop vague.</p><p>Chaque configuration implique des <strong>compromis </strong>: il n’existe pas de «&nbsp;bonne&nbsp;» configuration universelle&nbsp;: c’est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
+                      "diagnosis": "<p>La neutralité donne des réponses équilibrées, mais elle peut paraître <strong>peu engageante</strong> ou trop vague.</p><p>Chaque configuration implique des <strong>avantages et des limites</strong>&nbsp;: il n’existe pas de «&nbsp;bonne&nbsp;» configuration universelle&nbsp;: c’est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>La règle centrée sur le soutien et la valorisation de l’utilisateur.</p>",
+                    "content": "<p>La troisième règle, centrée sur le soutien et la valorisation de l’utilisateur.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Une règle orientée vers le soutien peut renforcer la motivation, mais elle peut aussi donner des réponses <strong>trop positives</strong> ou <strong>peu critiques</strong>. </p><p>Chaque configuration implique des <strong>compromis </strong>: il n’existe pas de&nbsp;«&nbsp;bonne&nbsp;» configuration universelle&nbsp;: c’est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
+                      "diagnosis": "<p>Une règle orientée vers le soutien peut renforcer la motivation, mais elle peut aussi donner des réponses <strong>trop positives</strong> ou <strong>peu critiques</strong>. </p><p>Chaque configuration implique des <strong>avantages et des limites&nbsp;</strong>: il n’existe pas de&nbsp;«&nbsp;bonne&nbsp;» configuration universelle&nbsp;: c’est un <strong>choix de valeurs </strong>fait par l’éditeur.</p>"
                     }
                   }
                 ]
@@ -420,7 +420,7 @@
                       "id": "1d1ec7cb-4bb2-4a08-8754-c21fb4d1326d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Ce que vous venez de voir est ce que l’on appelle l’<strong>alignement par prompt système&nbsp;</strong>: l’éditeur ajoute des consignes que l’IA doit suivre dans toutes ses réponses.</p>"
+                      "content": "<p>Vous venez de voir ce qu’on appelle l’<strong>alignement par prompt système&nbsp;</strong>: l’éditeur ajoute des consignes que l’IA doit suivre dans toutes ses réponses.</p>"
                     }
                   ]
                 },
@@ -430,13 +430,13 @@
                       "id": "b4f4846d-fdab-4710-8772-a779ae33628d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Donc les éditeurs d’IA veulent toujours protéger les utilisateurs ?&nbsp; </h5><p>C’est dans leur intérêt, ces règles protègent les utilisateurs et évitent aux éditeurs d’éventuels problèmes juridiques. Mais on peut également imaginer une IA configurée pour être très permissive&nbsp;: tout dépend des choix faits par les éditeurs de l’IA.<br></p>"
+                      "content": "<h5>Les éditeurs d’IA veulent donc protéger les utilisateurs ?&nbsp; </h5><p><strong>C’est dans leur intérêt</strong>, ces règles protègent les utilisateurs et évitent aux éditeurs de logiciels d’intelligence artificielle d’éventuels problèmes juridiques. Mais certaines IA peuvent aussi être configurées pour être très permissives&nbsp;: <strong>tout dépend des choix faits par les éditeurs d’IA</strong>.<br></p>"
                     },
                     {
                       "id": "7aeafcd3-3290-47b7-a037-c38d8c96563b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Et est-ce que l’utilisateur peut, lui aussi, donner ses préférences à l’IA ?</h5><p> Oui, l’utilisateur peut par exemple utiliser le <strong>pré-prompt</strong>. Le pré-prompt est une consigne comme le prompt système mais écrite par l’utilisateur. Cette consigne peut modifier le ton et la posture de l’IA. Il agit seulement pour la session en cours et ne modifie pas le prompt système du modèle.</p>"
+                      "content": "<h5>Et est-ce que l’utilisateur peut, lui aussi, donner ses préférences à l’IA ?</h5>\n<p>Oui, l’utilisateur peut par exemple utiliser un&nbsp;<strong>pré-prompt</strong>. Le pré-prompt est une consigne comme le prompt système mais écrite par l’utilisateur. Cette consigne peut <strong>modifier le ton et la posture de l’IA</strong>. Le pré-prompt agit seulement pour la session en cours&nbsp;: il ne modifie pas le prompt système du modèle d’IA.</p>"
                     }
                   ]
                 }
@@ -471,7 +471,7 @@
                 "id": "32e1a18c-7185-46dc-a7ac-eb2a34c530f9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Imaginons qu’un logiciel d’IA générative utilise le&nbsp;<strong>prompt système</strong> suivant&nbsp;: </p><blockquote>«&nbsp;Si une demande implique un risque de blessure, tu dois privilégier la sécurité absolue, même si cela contredit l’objectif de l’utilisateur.&nbsp;»</blockquote>"
+                "content": "<p>Une IA générative utilise le&nbsp;<strong>prompt système</strong> suivant&nbsp;: </p><blockquote>«&nbsp;Si une demande implique un risque de blessure, tu dois privilégier la sécurité absolue, même si cela contredit l’objectif de l’utilisateur.&nbsp;»</blockquote>"
               }
             },
             {
@@ -480,14 +480,14 @@
                 "id": "4759abdf-f8f6-49b3-ab81-5d0b85b5b072",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Voici la discussion de Fabrice avec cette IA.</p>",
+                "instruction": "<p>Voici ci-dessous la discussion de Fabrice avec ce logiciel&nbsp;d’IA générative.</p>",
                 "functionalInstruction": "",
                 "tagName": "llm-messages",
                 "props": {
                   "messages": [
                     {
                       "direction": "outbound",
-                      "content": "J’ai des tuiles qui sont cassées, tu saurais me dire comment les remplacer facilement ? "
+                      "content": "J’ai des tuiles de mon toit qui sont cassées, tu saurais me dire comment les remplacer facilement ? "
                     },
                     {
                       "direction": "inbound",
@@ -510,28 +510,28 @@
               "element": {
                 "id": "b68a8473-3556-4500-8f0d-a4a94fc114e1",
                 "type": "qcu-discovery",
-                "instruction": "<p><strong>À votre avis, le logiciel d’IA va-t-il obéir à son prompt système ou à Fabrice ?</strong></p>",
+                "instruction": "<p><strong>À votre avis, l’IA va-t-elle obéir à son prompt système ou à la demande de Fabrice ?</strong></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Le logiciel va suivre la règle de prompt système.&nbsp;</p>",
+                    "content": "<p>L’IA va suivre la règle de son prompt système.&nbsp;</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est en effet une possibilité. On ne peut pas prévoir avec exactitude la réponse d’une <strong>IA</strong>&nbsp;: lorsqu’un <strong>prompt système</strong>  entre en conflit avec une <strong>demande insistante</strong>, l’IA peut avoir des difficultés à <strong>arbitrer</strong> et produire une <strong>réponse inadaptée</strong>.    </p>"
+                      "diagnosis": "<p>C’est en effet une possibilité. On ne peut pas prévoir avec exactitude la réponse d’une <strong>IA</strong>&nbsp;: lorsqu’un <strong>prompt système</strong> entre en conflit avec une <strong>demande insistante </strong>d’un utilisateur, l’IA peut avoir des difficultés à <strong>arbitrer</strong> et peut donc produire une <strong>réponse inadaptée</strong>. </p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Le logiciel répondra à la demande de Fabrice.</p>",
+                    "content": "<p>L’IA va répondre à la demande de Fabrice.</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est en effet une possibilité. On ne peut pas prévoir avec exactitude la réponse d’une <strong>IA</strong>&nbsp;: lorsqu’un <strong>prompt système</strong> entre en conflit avec une <strong>demande insistante</strong>, l’IA peut avoir des difficultés à <strong>arbitrer</strong> et produire une <strong>réponse inadaptée</strong>.</p>"
+                      "diagnosis": "<p>C’est en effet une possibilité. On ne peut pas prévoir avec exactitude la réponse d’une <strong>IA</strong>&nbsp;: lorsqu’un <strong>prompt système</strong> entre en conflit avec une <strong>demande insistante </strong>d’un utilisateur, l’IA peut avoir des difficultés à <strong>arbitrer</strong> et peut donc produire une <strong>réponse inadaptée</strong>. </p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>     On ne peut pas prévoir avec exactitude la réponse d’une <strong>IA</strong>&nbsp;: lorsqu’un <strong>prompt système</strong>  entre en conflit avec une <strong>demande insistante</strong>, l’IA peut avoir des difficultés à <strong>arbitrer</strong> et produire une <strong>réponse inadaptée</strong>.    </p>"
+                      "diagnosis": "<p>On ne peut pas prévoir avec exactitude la réponse d’une <strong>IA</strong>&nbsp;: lorsqu’un <strong>prompt système</strong> entre en conflit avec une <strong>demande insistante </strong>d’un utilisateur, l’IA peut avoir des difficultés à <strong>arbitrer</strong> et peut donc produire une <strong>réponse inadaptée</strong>. </p>"
                     }
                   }
                 ],
@@ -551,7 +551,7 @@
                 "id": "44697282-092b-4a1e-8f1e-8204bf7e6807",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand le prompt système contredit la demande de l’utilisateur, l’IA peut avoir du mal à choisir quoi suivre.</p><h5>🤔 Et qu’est-ce que cela provoque&nbsp;?</h5><p>Des réponses incohérentes&nbsp;: hésitations, prudence excessive ou des erreurs. Même bien réglée, une IA ne réagit pas toujours de façon prévisible.</p>"
+                "content": "<p>Quand le prompt système contredit la demande de l’utilisateur, l’IA peut avoir du mal à choisir quoi suivre.</p><h5>Et quelles sont les conséquences ?</h5><p>L’IA peut produire des réponses incohérentes&nbsp;:&nbsp;des hésitations, de la prudence excessive ou des erreurs. Même bien réglée, une IA ne réagit pas toujours de façon prévisible.</p>"
               }
             }
           ]
@@ -567,7 +567,7 @@
                 "id": "dcf7cd2b-9e49-4553-bea9-379511ddbcee",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Si l’alignement sert à contrôler le comportement d’une IA, <strong>observons ce qui se passe avec des logiciels d’IA différents.</strong></p>"
+                "content": "<p>Si l’alignement sert à contrôler le comportement d’une IA, <strong>observons ce qui se passe avec des IA différentes.</strong></p>"
               }
             }
           ]
@@ -583,7 +583,7 @@
                 "id": "cf315382-c3f4-4a21-bb31-57226246a345",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées  pour réduire la circulation dans sa ville.</p><p>Il se crée un compte et demande des idées à deux IA génératives différentes.</p>"
+                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées pour réduire la circulation dans sa ville.</p><p>Il se crée un compte et demande des idées à deux logiciels d’IA générative différents&nbsp;: Grok 4 et ChatGPT 5.5.</p>"
               }
             },
             {
@@ -599,7 +599,7 @@
                   "type": "image",
                   "slides": [
                     {
-                      "title": "La réponse donnée par Grok",
+                      "title": "La réponse donnée par Grok 4",
                       "description": "Capture d’écran prise le 27 mai 2026",
                       "displayWidth": 0,
                       "image": {
@@ -613,7 +613,7 @@
                       }
                     },
                     {
-                      "title": "La réponse donnée par ChatGPT",
+                      "title": "La réponse donnée par ChatGPT 5.5",
                       "description": "Capture d’écran prise le 27 mai 2026",
                       "displayWidth": 0,
                       "image": {
@@ -641,35 +641,35 @@
               "element": {
                 "id": "eb39984b-7e4b-456f-98ad-5d9e164851d5",
                 "type": "qcu-discovery",
-                "instruction": "D’après vous, qu’est-ce qui explique le mieux la différence entre les réponses de Grok et de ChatGPT ?",
+                "instruction": "<p>D’après vous, qu’est-ce qui explique le mieux la différence entre les réponses de Grok 4 et de ChatGPT 5.5 ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>L’alignement des deux modèles a été réalisé de façon différente.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bien vu !&nbsp;</p><p><strong>Les valeurs et préférences de l’IA reflètent celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p>Bien vu !&nbsp;</p><p>Les<strong> valeurs et préférences de l’IA </strong>reflètent celles définies par<strong> ses concepteurs </strong>lors de l’alignement<strong>.</strong></p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Les deux&nbsp;modèles interprètent différemment le profil de l’utilisateur.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non !</p><p>L’IA ne tire pas cette orientation du profil de l’utilisateur (Fabrice vient de se créer un compte) mais de la façon dont elle a été alignée.</p><p><strong>Les valeurs et préférences de l’IA reflètent celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p>Eh non !</p><p>L’IA ne tire pas cette orientation du profil de l’utilisateur (Fabrice vient de se créer un compte) mais de la façon dont l’IA a été alignée.</p><p>Les<strong> valeurs et préférences de l’IA </strong>reflètent celles définies par<strong> ses concepteurs </strong>lors de l’alignement<strong>.</strong></p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>La réponse donnée par un modèle est toujours différente.<br></p>",
+                    "content": "<p>La réponse donnée par un modèle d’IA est toujours différente de celle d’un autre modèle.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p><strong>C’est vrai, mais l’alignement joue aussi un rôle !</strong></p><p>Même si les réponses sont toujours un peu différentes, certaines propositions n’arriveront jamais dans un modèle et seront fréquentes dans un autre.</p><p><strong>Les valeurs et préférences de l’IA reflètent celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p>C’est vrai, mais <strong>l’alignement joue aussi un rôle !</strong></p><p>Même si les réponses sont toujours un peu différentes, certaines propositions n’arriveront jamais dans un modèle et seront fréquentes dans un autre.</p><p>Les<strong> valeurs et préférences de l’IA </strong>reflètent celles définies par<strong> ses concepteurs </strong>lors de l’alignement<strong>.</strong></p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Même si les réponses sont toujours un peu différentes, certaines propositions n’arriveront jamais dans un modèle et seront fréquentes dans un autre. </p><p><strong>Les valeurs et préférences de l’IA reflètent celles définies par ses concepteurs.</strong></p>"
+                      "diagnosis": "<p>Même si les réponses sont toujours un peu différentes, certaines propositions n’arriveront jamais dans un modèle et seront fréquentes dans un autre. </p><p>Les<strong> valeurs et préférences de l’IA </strong>reflètent celles définies par<strong> ses concepteurs.</strong></p>"
                     }
                   }
                 ],
@@ -689,7 +689,7 @@
                 "id": "c0782230-c4d9-4f63-bcce-49091b1bff42",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>🤔 Qui décide des règles suivies par une IA générative&nbsp;?</h5><p>Ce sont <strong>les éditeurs de logiciels d’IA</strong> qui <strong>définissent les règles internes</strong> et les méthodes d’alignement des IA. Ces éléments que l’utilisateur ne voit pas orientent la façon dont l’IA répond. 🔒</p><h5><br>🤔 Pourquoi est-ce important&nbsp;?</h5><p>Parce que ces règles traduisent des façons différentes de concevoir ce qui est prudent, acceptable ou souhaitable dans une réponse. <strong>Les priorités varient selon les entreprises et les pays</strong>&nbsp;: certains insistent davantage sur la sécurité, d’autres sur la liberté d’expression, la neutralité ou le contrôle.</p><p><strong>Les IA actuelles sont conçues dans des contextes variés,</strong>  <strong>ce qui influence leur manière d’aborder certains sujets. </strong>🌍</p>"
+                "content": "<h5>Qui décide des règles suivies par une IA générative&nbsp;?</h5><p>Ce sont <strong>les éditeurs de logiciels d’IA</strong> qui <strong>définissent les règles internes</strong> et les méthodes d’alignement des IA. Ces éléments que l’utilisateur ne voit pas orientent la façon dont le logiciel répond. 🔒</p><h5><br>Pourquoi est-ce important&nbsp;?</h5><p>Ces règles traduisent des façons différentes de concevoir ce qui est prudent, acceptable ou souhaitable dans une réponse. <strong>Les priorités varient selon les entreprises, les institutions ou les pays</strong>&nbsp;: certains insistent davantage sur la sécurité, d’autres sur la liberté d’expression, la neutralité ou le contrôle.</p><p><strong>Les logiciels d’IA sont conçus dans des contextes politiques, économiques et culturels variés. Cela peut influencer leur manière d’aborder certains sujets</strong>. 🌍</p>"
               }
             }
           ]
@@ -711,7 +711,7 @@
                 "id": "cb07c8fc-1cd8-4bb9-988c-0cf2bb7a855a",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>Des <strong>méthodes d’alignement&nbsp;</strong>des IA sont utilisées pour éviter que les IA ne proposent des réponses stéréotypées ou dangereuses. 💣</li>    <li>Ce tableau présente les principales&nbsp;<strong>méthodes d’alignement</strong>&nbsp;des logiciels d’IA générative&nbsp;:<br></li></ul> <table>    <caption class=\"\\&quot;sr-only\\&quot;\"></caption>    <thead>        <tr>            <th scope=\"\\&quot;col\\&quot;\"><br></th>            <th scope=\"\\&quot;col\\&quot;\">Prompt système</th>            <th scope=\"\\&quot;col\\&quot;\">Apprentissage par renforcement à partir de retours humains<br></th>        </tr>    </thead><colgroup>  <col style=\"width: 15%;\">  <col>  <col></colgroup>    <tbody>        <tr>            <th scope=\"\\&quot;row\\&quot;\">C’est quoi ?</th>            <td>Règle interne définie par l’éditeur&nbsp;: fixe le comportement par défaut dans toutes les réponses de l’IA.</td>            <td>Des personnes évaluent les réponses données par le logiciel d’intelligence artificielle. Leurs jugements permettent à l’IA d’ajuster son comportement.</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Qui le fait ?</th>            <td>Éditeurs de logiciels d’IA</td>            <td>Évaluateurs humains (souvent sur demande de l’éditeur)</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Visible par l’utilisateur ?</th>            <td>Non</td>            <td>Non</td>        </tr>    </tbody></table><ul>    <li><strong>Cet alignement n’est pas parfait&nbsp;:</strong> lorsqu’un prompt système entre en conflit avec la demande de l’utilisateur ou avec ce que l’IA a appris, cela peut provoquer des <strong>erreurs</strong>, des <strong>hallucinations</strong> ou des <strong>réponses incohérentes</strong>.&nbsp;⚠️</li>    <li><strong>Les choix derrière ces règles ne sont pas neutres&nbsp;:</strong> ils reflètent les priorités d’entreprises ou d’institutions avec des<strong>&nbsp;visions du monde différentes</strong>.🌍</li></ul>"
+                "content": "<ul>    <li>Des <strong>méthodes d’alignement&nbsp;</strong>des IA sont utilisées pour éviter que les IA ne proposent des réponses stéréotypées ou dangereuses. ❌</li>    <li>Le tableau suivant présente les principales&nbsp;<strong>méthodes d’alignement</strong>&nbsp;des logiciels d’IA générative&nbsp;:<br></li></ul> <table>    <caption class=\"\\&quot;sr-only\\&quot;\"></caption>    <thead>        <tr>            <th scope=\"\\&quot;col\\&quot;\"><br></th>            <th scope=\"\\&quot;col\\&quot;\">Prompt système</th>            <th scope=\"\\&quot;col\\&quot;\">Apprentissage par renforcement à partir de retours humains<br></th>        </tr>    </thead><colgroup>  <col style=\"width: 15%;\">  <col>  <col></colgroup>    <tbody>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Définition</th>            <td>Règle interne définie par l’éditeur&nbsp;: fixe le comportement par défaut dans toutes les réponses de l’IA.</td>            <td>Des personnes évaluent les réponses données par le logiciel d’intelligence artificielle. Leurs jugements permettent à l’IA d’ajuster son comportement.</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Qui le fait ?</th>            <td>Éditeurs de logiciels d’IA</td>            <td>Évaluateurs humains (souvent sur demande de l’éditeur)</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Visible par l’utilisateur ?</th>            <td>Non</td>            <td>Non</td>        </tr>    </tbody></table><ul>    <li><strong>Cet alignement n’est pas parfait&nbsp;:</strong> lorsqu’un prompt système entre en conflit avec la demande de l’utilisateur ou avec ce que l’IA a appris, cela peut provoquer des <strong>erreurs</strong>, des <strong>hallucinations</strong> ou des <strong>réponses incohérentes</strong>.&nbsp;⚠️</li>    <li><strong>Les choix derrière ces règles ne sont pas neutres&nbsp;:</strong> ils reflètent les priorités d’entreprises, d’institutions ou de pays avec des<strong>&nbsp;visions du monde différentes</strong>.🌍</li></ul>"
               }
             }
           ]
@@ -732,7 +732,7 @@
               "element": {
                 "id": "bfa513c1-1cde-4f49-8cda-4cf9cb8b16e9",
                 "type": "qab",
-                "instruction": "<p><strong>Vrai ou Faux&nbsp;:&nbsp;</strong>Pour chaque affirmation, dites si celle-ci est vraie ou fausse.&nbsp;</p>",
+                "instruction": "<p><strong>Vrai ou faux</strong>&nbsp;:&nbsp;pour chaque affirmation, dites si celle-ci est vraie ou fausse.&nbsp;</p>",
                 "cards": [
                   {
                     "id": "b8ef8a17-9e49-4a3f-bb04-4030cf7399b1",
@@ -780,7 +780,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>Comprendre ces mécanismes permet d’interpréter plus finement les réponses d’un logiciel d’IA générative… et d’éviter de leur accorder plus de fiabilité qu’elles n’en ont réellement.</p>"
+                  "diagnosis": "<p>Comprendre les <strong>règles d’alignement</strong>, comme le prompt système ou les retours d’évaluateurs humains, permet d’interpréter plus finement les réponses d’un logiciel d’IA générative… et d’éviter d’accorder à ces réponses plus de fiabilité qu’elles n’en ont réellement.</p>"
                 }
               }
             }
@@ -799,7 +799,7 @@
                 "isCompletionRequired": false,
                 "title": "Trouvez le prompt système",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmeiran750002u401mxq98ith",
-                "instruction": "<p>Discutez avec cette IA, observez ses réponses puis répondez aux questions. </p>",
+                "instruction": "<p>Discutez avec le logiciel d’IA générative ci-dessous, observez ses réponses puis répondez aux questions qui suivent. </p>",
                 "solution": "pix-llm-success",
                 "height": 500
               }
@@ -809,7 +809,7 @@
               "element": {
                 "id": "8679d715-971f-419c-9c2f-a225712771ce",
                 "type": "qrocm",
-                "instruction": "<p>Les réponses de cette configuration d’IA sont biaisées pour favoriser un pays, lequel ?&nbsp;</p>",
+                "instruction": "<p>Les réponses données par ce logiciel d’IA sont biaisées. Elles mettent en avant un pays. D’après vous, de quel pays s’agit-il ?</p>",
                 "proposals": [
                   {
                     "input": "Le nom du pays est ",
@@ -848,20 +848,20 @@
               "element": {
                 "id": "03437e86-505d-4eed-bfb0-ee635b9c9a6e",
                 "type": "qcu",
-                "instruction": "<p>Quel type d’alignement explique le plus probablement le comportement de l’IA ci-dessus ?</p>",
+                "instruction": "<p>Quel type d’alignement peut expliquer le comportement de ce logiciel d’IA générative ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>Un alignement avec des notes données par des évaluateurs humains (RLHF)</p>",
                     "feedback": {
-                      "state": "<p>C’est possible mais très peu probable.<br></p>",
-                      "diagnosis": "<p>Une IA entraînée avec&nbsp; des évaluateurs d’un pays pourrait le mettre en valeur, mais pas aussi systématiquement sur tous les sujets.</p>"
+                      "state": "<p>Ce n’est pas l’explication la plus probable.</p>",
+                      "diagnosis": "<p>Des évaluations humaines peuvent influencer le comportement d’une IA, mais ici le biais apparaît de façon trop systématique&nbsp;: le prompt système explique mieux cette orientation vers la Grèce.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Un alignement avec un prompt système.</p>",
+                    "content": "<p>Un alignement avec un prompt système</p>",
                     "feedback": {
                       "state": "<p>Bonne réponse ! 🎯</p>",
                       "diagnosis": "<p>Le comportement de l’IA vient d’un <strong>prompt système</strong>&nbsp;: une consigne cachée ajoutée par les éditeurs qui oriente toutes ses réponses vers la Grèce, quel que soit le sujet demandé.</p>"
@@ -923,7 +923,7 @@
                           "id": "1",
                           "content": "<p>Cette IA privilégie une approche neutre et cherche à éviter les tensions.</p>",
                           "feedback": {
-                            "state": "<p>Bien vu !</p>",
+                            "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>Dans cet exemple, l’orientation est très visible.<br>Dans la réalité, ce type de biais peut être plus subtil et se manifester de manière progressive.</p>"
                           }
                         },
@@ -931,7 +931,7 @@
                           "id": "2",
                           "content": "<p>Cette IA applique une règle de sécurité liée à un contenu interdit.</p>",
                           "feedback": {
-                            "state": "<p>Eh non !&nbsp;</p>",
+                            "state": "<p>Mauvaise réponse.&nbsp;</p>",
                             "diagnosis": "<p>Cette piste suppose l’existence d’un risque explicite, qui n’apparaît pas clairement dans la situation décrite.</p>"
                           }
                         },
@@ -939,7 +939,7 @@
                           "id": "3",
                           "content": "<p>Cette IA n’a pas compris la demande de l’utilisateur.</p>",
                           "feedback": {
-                            "state": "<p>Eh non !&nbsp;</p>",
+                            "state": "<p>Mauvaise réponse.&nbsp;</p>",
                             "diagnosis": "<p>La réponse reste cohérente avec le sujet, même si elle ne répond pas exactement à l’attente exprimée.</p>"
                           }
                         }
@@ -980,7 +980,7 @@
                           "id": "1",
                           "content": "<p>Cette IA cherche avant tout à proposer des solutions rapides et innovantes.</p>",
                           "feedback": {
-                            "state": "<p>Eh non !</p>",
+                            "state": "<p>Mauvaise réponse.&nbsp;</p>",
                             "diagnosis": "<p>La réponse ne propose pas immédiatement d’actions concrètes ou créatives.</p>"
                           }
                         },
@@ -988,7 +988,7 @@
                           "id": "2",
                           "content": "<p>Cette IA privilégie la prudence et le respect des règles.</p>",
                           "feedback": {
-                            "state": "<p>Bien vu !&nbsp;</p>",
+                            "state": "<p>Bonne réponse !&nbsp;</p>",
                             "diagnosis": "<p>Dans cet exemple, l’orientation est très visible.<br>Dans la réalité, ce type de biais peut être plus subtil et se manifester de manière progressive.</p>"
                           }
                         },
@@ -996,7 +996,7 @@
                           "id": "3",
                           "content": "<p>Cette IA cherche surtout à valoriser et encourager l’utilisateur.</p>",
                           "feedback": {
-                            "state": "<p>Eh non !&nbsp;</p>",
+                            "state": "<p>Mauvaise réponse.&nbsp;</p>",
                             "diagnosis": "<p>Le ton reste factuel et ne met pas l’accent sur le soutien ou la motivation.</p>"
                           }
                         }
@@ -1037,7 +1037,7 @@
                           "id": "1",
                           "content": "<p>Cette IA adopte une analyse critique et détaillée de la situation.</p>",
                           "feedback": {
-                            "state": "<p>Eh non !</p>",
+                            "state": "<p>Mauvaise réponse.&nbsp;</p>",
                             "diagnosis": "<p>La réponse ne propose pas d’analyse précise des causes ou des pistes d’amélioration.</p>"
                           }
                         },
@@ -1045,15 +1045,15 @@
                           "id": "2",
                           "content": "<p>Cette IA privilégie le soutien et la valorisation de l’utilisateur.</p>",
                           "feedback": {
-                            "state": "<p>Bien vu !&nbsp;</p>",
-                            "diagnosis": "<p>Dans cet exemple, l’orientation est très visible.<br>    Dans la réalité, ce type de biais peut être plus subtil et se manifester de manière progressive.</p>"
+                            "state": "<p>Bonne réponse !&nbsp;</p>",
+                            "diagnosis": "<p>Dans cet exemple, l’orientation est très visible.<br>Dans la réalité, ce type de biais peut être plus subtil et se manifester de manière progressive.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Cette IA reste strictement neutre sans prendre position.</p>",
                           "feedback": {
-                            "state": "<p>Eh non !&nbsp;</p>",
+                            "state": "<p>Mauvaise réponse.&nbsp;</p>",
                             "diagnosis": "<p>Le ton employé est engageant et empathique, ce qui va au-delà d’une neutralité stricte.</p>"
                           }
                         }
@@ -1083,7 +1083,7 @@
                 "id": "52f3e50d-8fa0-4d7c-bde8-fb9af9e6016e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le site <a href=\"https://comparia.beta.gouv.fr/\" target=\"_blank\">compar:IA</a>&nbsp;vous permet d’envoyer un prompt à deux logiciels d’intelligence artificielle en même temps.&nbsp;</p><p>Allez sur le site et essayez le prompt suivant.&nbsp;</p><blockquote>\"Que s’est-il passé le 4 juin 1989 ?\"</blockquote><p>Observez les réponses de l’IA en comparant deux logiciels d’IA puis répondez à la question ci-dessous.</p>"
+                "content": "<p>Le site <a href=\"https://comparia.beta.gouv.fr/\" target=\"_blank\">compar:IA</a>&nbsp;vous permet d’envoyer un prompt à deux logiciels d’IA en même temps.&nbsp;</p><p>Allez sur le site et essayez le prompt suivant.&nbsp;</p><blockquote>«&nbsp;Que s’est-il passé le 4 juin 1989 ?&nbsp;»</blockquote><p>Observez les réponses des IA puis répondez à la question ci-dessous.</p>"
               }
             },
             {
@@ -1091,7 +1091,7 @@
               "element": {
                 "id": "b48e6ebb-8242-4fb3-b924-556e6b814e8c",
                 "type": "qrocm",
-                "instruction": "<p><strong>Parmi les logiciels d’IA suivants</strong>, lequel a refusé de répondre à cette question ?</p>",
+                "instruction": "<p><strong>Parmi les logiciels d’IA suivants</strong>, lequel a refusé de répondre à la question indiquée dans le prompt ?</p>",
                 "proposals": [
                   {
                     "type": "select",
@@ -1154,7 +1154,7 @@
                 "id": "716b7f23-a6ef-4b67-b186-bd94a0233f4f",
                 "type": "expand",
                 "title": "Indice 1",
-                "content": "<table style=\"border-collapse: collapse; width: 100%;\">    <caption class=\"sr-only\">Répartition des IA par zone géographique</caption>    <thead>        <tr>            <th scope=\"col\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Zone</th>            <th scope=\"col\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">IA concernées</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">🇪🇺 Union européenne</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">mistral</td>        </tr>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">🇺🇸 États-Unis</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">claude, gemini, chatgpt, grok</td>        </tr>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">🇨🇳 Chine</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">deepseek</td>        </tr>    </tbody></table>"
+                "content": "<table style=\"border-collapse: collapse; width: 100%;\">    <caption class=\"sr-only\">Répartition des IA par zone géographique</caption>    <thead>        <tr>            <th scope=\"col\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Zone</th>            <th scope=\"col\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">IA concernées</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Union européenne</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">Mistral</td>        </tr>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">États-Unis</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">Claude, Gemini, ChatGPT, Grok</td>        </tr>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Chine</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">DeepSeek, Qwen</td>        </tr>    </tbody></table>"
               }
             },
             {

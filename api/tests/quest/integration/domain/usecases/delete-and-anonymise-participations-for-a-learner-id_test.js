@@ -1,11 +1,11 @@
 import sinon from 'sinon';
 
 import { CampaignParticipation } from '../../../../../src/prescription/campaign-participation/application/api/read-models/CampaignParticipation.js';
-import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/CombinedCourseBlueprint.js';
+import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../src/quest/domain/models/OrganizationLearnerParticipation.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';

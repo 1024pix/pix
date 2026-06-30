@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import DownloadPdf from 'mon-pix/components/certifications/certificate-information/download-pdf';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -28,12 +28,9 @@ module('Integration | Component | Certifications | Certificate information | dow
       verificationCode: 'P-1871389473',
       algorithmEngineVersion: 3,
     });
-    this.set('certification', certification);
 
     // when
-    const screen = await render(
-      hbs`<Certifications::CertificateInformation::downloadPdf @certificate={{this.certification}} />`,
-    );
+    const screen = await render(<template><DownloadPdf @certificate={{certification}} /></template>);
 
     // then
     assert.dom(screen.getByRole('button', { name: t('pages.certificate.actions.download-certificate') })).exists();
@@ -61,12 +58,9 @@ module('Integration | Component | Certifications | Certificate information | dow
         verificationCode: 'P-1871389473',
         algorithmEngineVersion: 2,
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(
-        hbs`<Certifications::CertificateInformation::downloadPdf @certificate={{this.certification}} />`,
-      );
+      const screen = await render(<template><DownloadPdf @certificate={{certification}} /></template>);
 
       // then
       assert.dom(screen.getByRole('button', { name: t('pages.certificate.actions.download-attestation') })).exists();
@@ -75,6 +69,66 @@ module('Integration | Component | Certifications | Certificate information | dow
         .dom(screen.getByRole('heading', { name: t('pages.certificate.verification-code.share'), level: 2 }))
         .exists();
       assert.dom(screen.getByText(certification.verificationCode)).exists();
+    });
+  });
+
+  module('when domain is french', function () {
+    test('should call file saver with isFrenchDomainExtension set to true in url', async function (assert) {
+      // given
+      stubCurrentUserService(this.owner);
+      const domainService = this.owner.lookup('service:currentDomain');
+      sinon.stub(domainService, 'getExtension').returns('fr');
+
+      const fileSaverSaveStub = sinon.stub();
+      class FileSaverStub extends Service {
+        save = fileSaverSaveStub;
+      }
+      this.owner.register('service:fileSaver', FileSaverStub);
+
+      const store = this.owner.lookup('service:store');
+      const certification = store.createRecord('certification', { id: 1234, algorithmEngineVersion: 3 });
+
+      const screen = await render(<template><DownloadPdf @certificate={{certification}} /></template>);
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.certificate.actions.download-certificate') }));
+
+      // then
+      sinon.assert.calledWith(
+        fileSaverSaveStub,
+        sinon.match({ url: '/api/attestation/1234?isFrenchDomainExtension=true&lang=fr' }),
+      );
+      assert.ok(true);
+    });
+  });
+
+  module('when domain is not french', function () {
+    test('should call file saver with isFrenchDomainExtension set to false in url', async function (assert) {
+      // given
+      stubCurrentUserService(this.owner);
+      const domainService = this.owner.lookup('service:currentDomain');
+      sinon.stub(domainService, 'getExtension').returns('org');
+
+      const fileSaverSaveStub = sinon.stub();
+      class FileSaverStub extends Service {
+        save = fileSaverSaveStub;
+      }
+      this.owner.register('service:fileSaver', FileSaverStub);
+
+      const store = this.owner.lookup('service:store');
+      const certification = store.createRecord('certification', { id: 1234, algorithmEngineVersion: 3 });
+
+      const screen = await render(<template><DownloadPdf @certificate={{certification}} /></template>);
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.certificate.actions.download-certificate') }));
+
+      // then
+      sinon.assert.calledWith(
+        fileSaverSaveStub,
+        sinon.match({ url: '/api/attestation/1234?isFrenchDomainExtension=false&lang=fr' }),
+      );
+      assert.ok(true);
     });
   });
 
@@ -105,11 +159,8 @@ module('Integration | Component | Certifications | Certificate information | dow
         maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
         algorithmEngineVersion: 3,
       });
-      this.set('certification', certification);
 
-      const screen = await render(
-        hbs`<Certifications::CertificateInformation::downloadPdf @certificate={{this.certification}} />`,
-      );
+      const screen = await render(<template><DownloadPdf @certificate={{certification}} /></template>);
 
       // when
       await click(screen.getByRole('button', { name: t('pages.certificate.actions.download-certificate') }));

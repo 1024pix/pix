@@ -1,5 +1,5 @@
 import { SupOrganizationParticipant } from '../../../../../../../src/prescription/organization-learner/domain/read-models/SupOrganizationParticipant.js';
-import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/sup-organization-participants-serializer.js';
+import { supOrganizationParticipantsSerializer } from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/sup-organization-participants-serializer.js';
 import { CampaignParticipationStatuses as campaignParticipationsStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { expect } from '../../../../../../test-helper.js';
 
@@ -86,7 +86,7 @@ describe('Unit | Serializer | JSONAPI | sup-organization-participants-serializer
       };
 
       // when
-      const json = serializer.serialize({ supOrganizationParticipants, meta });
+      const json = supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
 
       // then
       expect(json).to.deep.equal(expectedJSON);

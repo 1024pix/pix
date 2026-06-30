@@ -1,5 +1,5 @@
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
-import * as validationErrorSerializer from '../../../shared/infrastructure/serializers/jsonapi/validation-error-serializer.js';
+import { validationErrorSerializer } from '../../../shared/infrastructure/serializers/jsonapi/validation-error-serializer.js';
 import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 
 const verify = function (request, h, dependencies = { assessmentRepository, validationErrorSerializer }) {

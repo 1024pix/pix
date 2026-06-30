@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
+import { targetProfileSummaryForAdminSerializer } from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -26,7 +26,10 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
       const meta = { page: 1, pageSize: 3, pageCount: 1, rowCount: 2 };
 
       // when
-      const serializedTargetProfileSummaries = serializer.serialize(targetProfileSummaries, meta);
+      const serializedTargetProfileSummaries = targetProfileSummaryForAdminSerializer.serialize(
+        targetProfileSummaries,
+        meta,
+      );
 
       // then
       expect(serializedTargetProfileSummaries).to.deep.equal({

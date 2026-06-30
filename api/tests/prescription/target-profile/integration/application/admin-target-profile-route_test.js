@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { targetProfileController } from '../../../../../src/prescription/target-profile/application/admin-target-profile-controller.js';
-import * as moduleUnderTest from '../../../../../src/prescription/target-profile/application/admin-target-profile-route.js';
+import { adminTargetProfileRoute as moduleUnderTest } from '../../../../../src/prescription/target-profile/application/admin-target-profile-route.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';

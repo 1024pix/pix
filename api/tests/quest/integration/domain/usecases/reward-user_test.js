@@ -1,4 +1,3 @@
-import { PROFILE_REWARDS_TABLE_NAME } from '../../../../../db/migrations/20240820101213_add-profile-rewards-table.js';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import {
   CRITERION_COMPARISONS,
@@ -155,7 +154,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         await usecases.rewardUser({ userId });
 
         // then
-        const profileRewards = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId });
+        const profileRewards = await knex('profile-rewards').where({ userId });
         expect(profileRewards).to.have.lengthOf(1);
         expect(profileRewards[0].userId).to.equal(userId);
       });
@@ -165,7 +164,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         await usecases.rewardUser({ userId, buildCampaignParticipation: false });
 
         // then
-        const profileRewards = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId });
+        const profileRewards = await knex('profile-rewards').where({ userId });
         expect(profileRewards).to.have.lengthOf(1);
         expect(profileRewards[0].userId).to.equal(userId);
       });
@@ -250,7 +249,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         await usecases.rewardUser({ userId });
 
         // then
-        const profileRewards = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId });
+        const profileRewards = await knex('profile-rewards').where({ userId });
         expect(profileRewards).to.have.lengthOf(1);
       });
     });
@@ -265,7 +264,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         await usecases.rewardUser({ userId });
 
         // then
-        const profileRewards = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId });
+        const profileRewards = await knex('profile-rewards').where({ userId });
         expect(profileRewards).to.have.lengthOf(0);
       });
     });
@@ -280,7 +279,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         await usecases.rewardUser({ userId });
 
         // then
-        const profileRewards = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId });
+        const profileRewards = await knex('profile-rewards').where({ userId });
         expect(profileRewards).to.have.lengthOf(0);
       });
     });
@@ -295,7 +294,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         await usecases.rewardUser({ userId });
 
         // then
-        const profileRewards = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId });
+        const profileRewards = await knex('profile-rewards').where({ userId });
         expect(profileRewards).to.have.lengthOf(1);
         expect(profileRewards[0].userId).to.equal(userId);
       });

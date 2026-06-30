@@ -1,5 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as administrationTeamSerializer from '../../infrastructure/serializers/jsonapi/administration-team/administration-team-serializer.js';
+import { administrationTeamSerializer } from '../../infrastructure/serializers/jsonapi/administration-team/administration-team-serializer.js';
 
 const findAllAdministrationTeams = async function (request, h, dependencies = { administrationTeamSerializer }) {
   const administrationTeams = await usecases.findAllAdministrationTeams();

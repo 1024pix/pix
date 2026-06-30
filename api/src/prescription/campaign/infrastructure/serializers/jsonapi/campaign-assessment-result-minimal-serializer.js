@@ -27,4 +27,4 @@ const serialize = function ({ participations, pagination }) {
   }).serialize(participations);
 };
 
-export { serialize };
+export const campaignAssessmentResultMinimalSerializer = { serialize };

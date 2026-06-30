@@ -8,4 +8,4 @@ const serialize = function (usersAnonymizedDetailsForAdmin) {
   }).serialize(usersAnonymizedDetailsForAdmin);
 };
 
-export { serialize };
+export const userLoginSerializer = { serialize };

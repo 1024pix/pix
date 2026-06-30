@@ -39,4 +39,4 @@ const serialize = function (campaignManagement, meta) {
   }).serialize(campaignManagement);
 };
 
-export { serialize };
+export const campaignManagementSerializer = { serialize };

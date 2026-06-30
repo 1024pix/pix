@@ -9,4 +9,4 @@ const serialize = function (targetProfileSummaries, meta) {
   }).serialize(targetProfileSummaries);
 };
 
-export { serialize };
+export const targetProfileSummaryForAdminSerializer = { serialize };
