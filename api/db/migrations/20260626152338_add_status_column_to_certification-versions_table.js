@@ -13,9 +13,9 @@ export async function up(knex) {
   await knex.raw(
     `UPDATE public.certification_versions \
       SET status = CASE \
-      WHEN "startDate" is null AND "expirationDate" is null THEN 'DRAFT' \
-      WHEN "startDate" is not null AND "expirationDate" is null THEN 'ACTIVE' \
-      WHEN "startDate" is not null AND "expirationDate" is not null THEN 'ARCHIVED' \
+      WHEN "startDate" is null AND "expirationDate" is null THEN 'draft' \
+      WHEN "startDate" is not null AND "expirationDate" is null THEN 'active' \
+      WHEN "startDate" is not null AND "expirationDate" is not null THEN 'archived' \
       END`,
   );
 
@@ -24,7 +24,7 @@ export async function up(knex) {
       .string(COLUMN_NAME)
       .alter()
       .notNullable()
-      .comment('Column that can contain "DRAFT", "ACTIVE" or "ARCHIVED" values');
+      .comment('Column that can contain "draft", "active" or "archived" values');
   });
 }
 

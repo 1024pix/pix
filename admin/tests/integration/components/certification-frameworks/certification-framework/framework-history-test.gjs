@@ -24,7 +24,7 @@ module(
         expirationDate: null,
         assessmentDuration: 90,
         maximumAssessmentLength: 32,
-        status: 'DRAFT',
+        status: 'draft',
       };
       activeFrameworkItem = {
         id: 456,
@@ -32,7 +32,7 @@ module(
         expirationDate: null,
         assessmentDuration: 90,
         maximumAssessmentLength: 32,
-        status: 'ACTIVE',
+        status: 'active',
       };
       archivedFrameworkItem = {
         id: 123,
@@ -40,7 +40,7 @@ module(
         expirationDate: new Date('2021-06-15'),
         assessmentDuration: 105,
         maximumAssessmentLength: 32,
-        status: 'ARCHIVED',
+        status: 'archived',
       };
     });
 
@@ -67,13 +67,13 @@ module(
 
       assert.dom(screen.getByRole('cell', { name: `${draftFrameworkItem.id}` })).exists();
       assert
-        .dom(screen.getByText(t('components.certification-frameworks.certification-framework.history.statuses.DRAFT')))
+        .dom(screen.getByText(t('components.certification-frameworks.certification-framework.history.statuses.draft')))
         .hasClass('pix-tag--tertiary');
 
       assert.dom(screen.getByRole('cell', { name: `${activeFrameworkItem.id}` })).exists();
       assert.dom(screen.getByRole('cell', { name: intl.formatDate(activeFrameworkItem.startDate) })).exists();
       assert
-        .dom(screen.getByText(t('components.certification-frameworks.certification-framework.history.statuses.ACTIVE')))
+        .dom(screen.getByText(t('components.certification-frameworks.certification-framework.history.statuses.active')))
         .hasClass('pix-tag--success');
 
       assert.dom(screen.getByRole('cell', { name: `${archivedFrameworkItem.id}` })).exists();
@@ -81,7 +81,7 @@ module(
       assert.dom(screen.getByRole('cell', { name: intl.formatDate(archivedFrameworkItem.expirationDate) })).exists();
       assert
         .dom(
-          screen.getByText(t('components.certification-frameworks.certification-framework.history.statuses.ARCHIVED')),
+          screen.getByText(t('components.certification-frameworks.certification-framework.history.statuses.archived')),
         )
         .hasClass('pix-tag--secondary');
     });

@@ -505,9 +505,9 @@
         "history": {
           "label": "Versions",
           "statuses": {
-            "ACTIVE": "Active",
-            "ARCHIVED": "Archived",
-            "DRAFT": "Draft"
+            "active": "Active",
+            "archived": "Archived",
+            "draft": "Draft"
           },
           "table": {
             "actions": {

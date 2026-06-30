@@ -17,7 +17,7 @@ import { formatMinutes } from 'pix-admin/utils/date';
 
 import CertificationVersionDetailModal from './modal/certification-version-detail-modal';
 
-const STATUS_COLORS = { ACTIVE: 'success', DRAFT: 'tertiary', ARCHIVED: 'secondary' };
+const STATUS_COLORS = { active: 'success', draft: 'tertiary', archived: 'secondary' };
 
 export default class FrameworkHistory extends Component {
   @service store;
@@ -166,7 +166,7 @@ export default class FrameworkHistory extends Component {
                   "components.certification-frameworks.certification-framework.history.table.actions.edit"
                 }}
                 @iconName="edit"
-                @isDisabled={{not (eq version.status "DRAFT")}}
+                @isDisabled={{not (eq version.status "draft")}}
               />
               <PixIconButton
                 @triggerAction={{fn this.showDeleteVersionModal version.id}}
@@ -174,7 +174,7 @@ export default class FrameworkHistory extends Component {
                   "components.certification-frameworks.certification-framework.history.table.actions.delete"
                 }}
                 @iconName="delete"
-                @isDisabled={{not (eq version.status "DRAFT")}}
+                @isDisabled={{not (eq version.status "draft")}}
               />
             </:cell>
           </PixTableColumn>

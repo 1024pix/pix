@@ -513,9 +513,9 @@
         "history": {
           "label": "Versions",
           "statuses": {
-            "ACTIVE": "Actif",
-            "ARCHIVED": "Archivé",
-            "DRAFT": "En cours d'édition"
+            "active": "Actif",
+            "archived": "Archivé",
+            "draft": "En cours d'édition"
           },
           "table": {
             "actions": {

@@ -21,7 +21,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ACTIVE',
+          status: 'active',
         },
         {
           id: 14,
@@ -29,7 +29,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'DRAFT',
+          status: 'draft',
         },
       ],
     });
@@ -41,7 +41,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ACTIVE',
+          status: 'active',
         },
       ],
     });
@@ -175,7 +175,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
                 expirationDate: null,
                 assessmentDuration: 10,
                 maximumAssessmentLength: 30,
-                status: 'DRAFT',
+                status: 'draft',
               },
             ],
           });
@@ -185,6 +185,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
             expirationDate: null,
             assessmentDuration: 10,
             maximumAssessmentLength: 30,
+            status: 'draft',
           });
         });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);

@@ -12,7 +12,7 @@ import { formatMinutes } from 'pix-admin/utils/date';
 import FrameworkContentDetails from './framework-content-details';
 import VersionComment from './version-comment';
 
-const STATUS_COLORS = { ACTIVE: 'success', DRAFT: 'tertiary', ARCHIVED: 'secondary' };
+const STATUS_COLORS = { active: 'success', draft: 'tertiary', archived: 'secondary' };
 
 export default class CertificationVersionDetailModal extends Component {
   @service intl;

@@ -39,7 +39,7 @@ module(
         <template>
           <CertificationVersionDetailModal
             @version={{version}}
-            @status="ACTIVE"
+            @status="active"
             @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{true}}
@@ -61,7 +61,7 @@ module(
         <template>
           <CertificationVersionDetailModal
             @version={{version}}
-            @status="ACTIVE"
+            @status="active"
             @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{true}}
@@ -71,7 +71,7 @@ module(
 
       // then
       assert
-        .dom(screen.getByText(t('components.certification-frameworks.certification-framework.history.statuses.ACTIVE')))
+        .dom(screen.getByText(t('components.certification-frameworks.certification-framework.history.statuses.active')))
         .exists();
     });
 
@@ -85,7 +85,7 @@ module(
         <template>
           <CertificationVersionDetailModal
             @version={{version}}
-            @status="ACTIVE"
+            @status="active"
             @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{true}}
@@ -120,7 +120,7 @@ module(
         <template>
           <CertificationVersionDetailModal
             @version={{version}}
-            @status="ACTIVE"
+            @status="active"
             @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{true}}
@@ -142,7 +142,7 @@ module(
         <template>
           <CertificationVersionDetailModal
             @version={{version}}
-            @status="ACTIVE"
+            @status="active"
             @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{true}}
@@ -171,7 +171,7 @@ module(
         <template>
           <CertificationVersionDetailModal
             @version={{version}}
-            @status="ACTIVE"
+            @status="active"
             @frameworkKey="CORE"
             @onClose={{onClose}}
             @showModal={{false}}

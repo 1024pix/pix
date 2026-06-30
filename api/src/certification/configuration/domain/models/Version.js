@@ -10,9 +10,9 @@ import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/mo
 import { SCOPES } from '../../../shared/domain/models/Scopes.js';
 
 export const VERSION_STATUSES = {
-  DRAFT: 'DRAFT',
-  ACTIVE: 'ACTIVE',
-  ARCHIVED: 'ARCHIVED',
+  DRAFT: 'draft',
+  ACTIVE: 'active',
+  ARCHIVED: 'archived',
 };
 
 export class Version {

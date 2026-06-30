@@ -23,7 +23,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ACTIVE',
+          status: 'active',
         },
         {
           id: 123,
@@ -31,7 +31,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           expirationDate: new Date('2023-10-11'),
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ARCHIVED',
+          status: 'archived',
         },
         {
           id: 789,
@@ -39,7 +39,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'DRAFT',
+          status: 'draft',
         },
       ],
     });
@@ -124,7 +124,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ACTIVE',
+          status: 'active',
         },
         {
           id: 14,
@@ -132,7 +132,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'DRAFT',
+          status: 'draft',
         },
       ],
     });
@@ -142,7 +142,6 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
 
     // when
     const screen = await visit('/certification-frameworks/DROIT/');
-
     const button = await screen.findByRole('link', {
       name: t('components.certification-frameworks.certification-framework.create-button'),
       exact: false,

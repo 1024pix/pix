@@ -1,7 +1,7 @@
 export const FRAMEWORK_HISTORY_STATUSES = {
-  DRAFT: 'DRAFT',
-  ACTIVE: 'ACTIVE',
-  ARCHIVED: 'ARCHIVED',
+  DRAFT: 'draft',
+  ACTIVE: 'active',
+  ARCHIVED: 'archived',
 };
 
 export class FrameworkHistoryEntry {

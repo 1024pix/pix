@@ -18,7 +18,7 @@ module('Acceptance | Certification Frameworks | certification-frameworks | versi
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ACTIVE',
+          status: 'active',
         },
       ],
     });

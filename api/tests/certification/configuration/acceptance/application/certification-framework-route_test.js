@@ -1,4 +1,5 @@
 import { createServer } from '../../../../../server.js';
+import { VERSION_STATUSES } from '../../../../../src/certification/configuration/domain/models/Version.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../test-helper.js';
@@ -140,7 +141,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               expirationDate: newerVersion.expirationDate,
               assessmentDuration: newerVersion.assessmentDuration,
               maximumAssessmentLength: JSON.parse(newerVersion.challengesConfiguration).maximumAssessmentLength,
-              status: 'ACTIVE',
+              status: VERSION_STATUSES.ACTIVE,
             },
             {
               id: olderVersion.id,
@@ -148,7 +149,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               expirationDate: olderVersion.expirationDate,
               assessmentDuration: olderVersion.assessmentDuration,
               maximumAssessmentLength: JSON.parse(olderVersion.challengesConfiguration).maximumAssessmentLength,
-              status: 'ARCHIVED',
+              status: VERSION_STATUSES.ARCHIVED,
             },
           ],
         },
