@@ -154,7 +154,7 @@
                       "tagName": "pix-article",
                       "props": {
                         "titleLevel": 0,
-                        "articleTitle": "",
+                        "articleTitle": "DIRECTIVE (UE) 2019/790 (extrait)",
                         "author": "PARLEMENT EUROPÉEN ET CONSEIL DE L’UNION EUROPÉENNE",
                         "date": "17 avril 2019",
                         "paragraphs": [
@@ -380,7 +380,7 @@
                           "size": 200,
                           "display": "inline",
                           "placeholder": "- Compléter -",
-                          "ariaLabel": "",
+                          "ariaLabel": "- Compléter -",
                           "tolerances": [
                             "t1"
                           ],
@@ -395,7 +395,7 @@
                           "size": 200,
                           "display": "inline",
                           "placeholder": "- Compléter -",
-                          "ariaLabel": "",
+                          "ariaLabel": "- Compléter -",
                           "tolerances": [
                             "t1"
                           ],
@@ -410,7 +410,7 @@
                           "size": 200,
                           "display": "inline",
                           "placeholder": "- Compléter -",
-                          "ariaLabel": "",
+                          "ariaLabel": "- Compléter -",
                           "tolerances": [
                             "t1"
                           ],
@@ -594,7 +594,7 @@
               "element": {
                 "id": "a5cc07b5-a3b2-45e6-bd59-9f6cdd6d4c6c",
                 "type": "qab",
-                "instruction": "",
+                "instruction": "Pour chacune des phrases ci-dessous, indiquez si elle est vraie ou fausse.",
                 "cards": [
                   {
                     "id": "9f17deb3-ff8b-4a63-9c13-ab91adbea7b1",
