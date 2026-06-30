@@ -1,6 +1,5 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
-import XRegExp from 'xregexp';
 
 import {
   BadRequestError,
@@ -10,6 +9,7 @@ import {
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
+import { UsernameSchema } from '../../../shared/domain/validators/username-validator.js';
 import { scoOrganizationLearnerController } from './sco-organization-learner-controller.js';
 
 const Joi = BaseJoi.extend(JoiDate);
@@ -66,7 +66,7 @@ const register = async function (server) {
                 'redirection-url': Joi.string().uri().empty(null).required(),
                 password: PasswordSchema.required(),
                 'with-username': Joi.boolean().required(),
-                username: Joi.string().pattern(XRegExp('^([a-z]+[.]+[a-z]+[0-9]{4})$')).allow(null),
+                username: UsernameSchema.allow(null),
               },
             },
           }),
