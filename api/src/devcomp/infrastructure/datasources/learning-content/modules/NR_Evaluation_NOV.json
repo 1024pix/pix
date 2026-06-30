@@ -612,7 +612,7 @@
                           "content": "<p>la fabrication d’un smartphone</p>",
                           "feedback": {
                             "state": "<p>Eh oui !</p>",
-                            "diagnosis": "<p>La fabrication de 10 jeans plus de gaz à effet de serre que celle d’un smartphone.</p>"
+                            "diagnosis": "<p>La fabrication de 10 jeans émet plus de gaz à effet de serre que celle d’un smartphone.</p>"
                           }
                         },
                         {
@@ -620,7 +620,7 @@
                           "content": "<p>la fabrication de 10 jeans</p>",
                           "feedback": {
                             "state": "<p>Bien vu !</p>",
-                            "diagnosis": "<p>La fabrication de 10 jeans plus de gaz à effet de serre que celle d’un smartphone.</p>"
+                            "diagnosis": "<p>La fabrication de 10 jeans émet plus de gaz à effet de serre que celle d’un smartphone.</p>"
                           }
                         }
                       ],
