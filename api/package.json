@@ -154,7 +154,6 @@
     "samlify": "^2.8.5",
     "sax": "^1.2.4",
     "saxpath": "^0.6.5",
-    "schemalint": "^2.0.0",
     "undici": "8.4.1",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "xml-buffer-tostring": "^0.2.0",
@@ -185,6 +184,7 @@
     "npm-run-all2": "^9.0.0",
     "oxfmt": "^0.54.0",
     "pdfjs-dist": "^6.0.0",
+    "schemalint": "^2.3.2",
     "sinon": "^22.0.0",
     "sinon-chai": "^4.0.0"
   },
