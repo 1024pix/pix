@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class UserAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForFindRecord(id) {
     return `${this.host}/${this.namespace}/users/${id}`;
   }

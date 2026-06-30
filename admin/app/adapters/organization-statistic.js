@@ -5,6 +5,6 @@ export default class OrganizationStatisticsAdapter extends ApplicationAdapter {
     const { organizationId } = query;
     delete query.organizationId;
 
-    return `${this.host}/${this.namespace}/admin/organizations/${organizationId}/statistics`;
+    return `${this.host}/${this.namespace}/organizations/${organizationId}/statistics`;
   }
 }

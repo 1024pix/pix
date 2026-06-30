@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class TrainingSummaryAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForQuery(query) {
     if (query.targetProfileId) {
       const targetProfileId = query.targetProfileId;

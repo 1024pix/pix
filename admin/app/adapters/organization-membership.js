@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class OrganizationMembershipAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForQuery(query) {
     if (query.filter?.organizationId) {
       const { organizationId } = query.filter;

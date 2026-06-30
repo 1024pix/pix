@@ -2,15 +2,15 @@ import ApplicationAdapter from './application';
 
 export default class CertificationDetails extends ApplicationAdapter {
   urlForFindRecord(id) {
-    return `${this.host}/${this.namespace}/admin/certifications/${id}/details`;
+    return `${this.host}/${this.namespace}/certifications/${id}/details`;
   }
 
   urlForNeutralizeChallenge() {
-    return `${this.host}/${this.namespace}/admin/certification/neutralize-challenge`;
+    return `${this.host}/${this.namespace}/certification/neutralize-challenge`;
   }
 
   urlForDeneutralizeChallenge() {
-    return `${this.host}/${this.namespace}/admin/certification/deneutralize-challenge`;
+    return `${this.host}/${this.namespace}/certification/deneutralize-challenge`;
   }
 
   updateRecord(store, type, snapshot) {

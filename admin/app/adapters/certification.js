@@ -2,43 +2,43 @@ import ApplicationAdapter from './application';
 
 export default class Certification extends ApplicationAdapter {
   urlForFindRecord(id) {
-    return `${this.host}/${this.namespace}/admin/certifications/${id}`;
+    return `${this.host}/${this.namespace}/certifications/${id}`;
   }
 
   urlForUpdateJuryComment(id) {
-    return `${this.host}/${this.namespace}/admin/certification-courses/${id}/assessment-results`;
+    return `${this.host}/${this.namespace}/certification-courses/${id}/assessment-results`;
   }
 
   urlForUpdateRecord(certificationCourseId) {
-    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}`;
+    return `${this.host}/${this.namespace}/certification-courses/${certificationCourseId}`;
   }
 
   urlForCancelCertification(certificationCourseId) {
-    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}/cancel`;
+    return `${this.host}/${this.namespace}/certification-courses/${certificationCourseId}/cancel`;
   }
 
   urlForUncancelCertification(certificationCourseId) {
-    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}/uncancel`;
+    return `${this.host}/${this.namespace}/certification-courses/${certificationCourseId}/uncancel`;
   }
 
   urlForRejectCertification(certificationCourseId) {
-    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}/reject`;
+    return `${this.host}/${this.namespace}/certification-courses/${certificationCourseId}/reject`;
   }
 
   urlForUnrejectCertification(certificationCourseId) {
-    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}/unreject`;
+    return `${this.host}/${this.namespace}/certification-courses/${certificationCourseId}/unreject`;
   }
 
   urlForEduExternalJuryResult(certificationCourseId) {
-    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}/edu-v3-external-jury-result`;
+    return `${this.host}/${this.namespace}/certification-courses/${certificationCourseId}/edu-v3-external-jury-result`;
   }
 
   urlForEditJuryLevel() {
-    return `${this.host}/${this.namespace}/admin/complementary-certification-course-results`;
+    return `${this.host}/${this.namespace}/complementary-certification-course-results`;
   }
 
   rescoreCertification({ certificationCourseId }) {
-    const path = `${this.host}/${this.namespace}/admin/certifications/${certificationCourseId}/rescore`;
+    const path = `${this.host}/${this.namespace}/certifications/${certificationCourseId}/rescore`;
     return this.ajax(path, 'POST');
   }
 

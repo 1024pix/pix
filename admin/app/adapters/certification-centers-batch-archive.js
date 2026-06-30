@@ -4,7 +4,7 @@ export default class CertificationCentersBatchArchiveAdapter extends Application
   archiveCertificationCenters(files) {
     if (!files || files.length === 0) return;
 
-    const url = `${this.host}/${this.namespace}/admin/certification-centers/batch-archive`;
+    const url = `${this.host}/${this.namespace}/certification-centers/batch-archive`;
     return this.ajax(url, 'POST', { data: files[0] });
   }
 }

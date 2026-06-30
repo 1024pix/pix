@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class StageAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   deleteRecord(store, type, snapshot) {
     const data = {};
     const serializer = store.serializerFor(type.modelName);

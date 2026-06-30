@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class StageCollectionAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   updateRecord(store, type, snapshot) {
     const { adapterOptions } = snapshot;
     const payload = this.serialize(snapshot);

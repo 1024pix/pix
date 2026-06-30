@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class TrainingTriggerAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForCreateRecord(modelName, { adapterOptions }) {
     const { trainingId } = adapterOptions;
 
