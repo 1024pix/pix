@@ -114,6 +114,10 @@ export default class CertificationStarter extends Component {
   @action
   handleAccessCodeInput(event) {
     this.inputAccessCode = event.target.value;
+
+    if (this.apiErrorMessage || this.validationErrorMessage) {
+      this.clearErrorMessage();
+    }
   }
 
   @action
@@ -260,7 +264,6 @@ export default class CertificationStarter extends Component {
             @value={{this.inputAccessCode}}
             @validationStatus={{this.validationStatus}}
             @errorMessage={{this.validationErrorMessage}}
-            {{on "keyup" this.clearErrorMessage}}
             {{on "input" this.handleAccessCodeInput}}
           />
         </div>

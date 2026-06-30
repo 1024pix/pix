@@ -637,6 +637,59 @@ module('Integration | Component | certification-starter', function (hooks) {
           assert.ok(screen.getByText('Ce code n’existe pas ou n’est plus valide.'));
         });
 
+        test('should clear the error only when the access code is edited', async function (assert) {
+          // given
+          const replaceWithStub = sinon.stub();
+
+          class RouterServiceStub extends Service {
+            replaceWith = replaceWithStub;
+          }
+
+          this.owner.register('service:router', RouterServiceStub);
+          const createRecordStub = sinon.stub();
+
+          class StoreStubService extends Service {
+            createRecord = createRecordStub;
+          }
+
+          this.owner.register('service:store', StoreStubService);
+          const certificationCourse = {
+            id: '123',
+            save: sinon.stub(),
+            deleteRecord: sinon.stub(),
+          };
+          createRecordStub.returns(certificationCourse);
+
+          const currentDomainService = this.owner.lookup('service:currentDomain');
+          sinon.stub(currentDomainService, 'isFranceDomain').get(() => false);
+
+          this.set('model', {
+            certificationCandidate: { hasStartedTest: false, sessionId: 123 },
+          });
+          const screen = await render(hbs`<CertificationStarter @model={{this.model}} />`);
+          const accessCodeInput = screen.getByRole('textbox', {
+            name: `${t('pages.certification-start.access-code')} *`,
+          });
+          await fillIn(accessCodeInput, 'ABC123');
+          await click(
+            screen.getByRole('checkbox', {
+              name: tWithoutTags('pages.certification-start.language-selector.confirmation-label'),
+            }),
+          );
+          certificationCourse.save.rejects({ errors: [{ status: '404' }] });
+
+          await clickByLabel(t('pages.certification-start.actions.submit'));
+          assert.ok(screen.getByText('Ce code n’existe pas ou n’est plus valide.'));
+
+          await triggerEvent(accessCodeInput, 'keyup');
+
+          assert.ok(screen.getByText('Ce code n’existe pas ou n’est plus valide.'));
+
+          await fillIn(accessCodeInput, 'XYZ789');
+
+          assert.notOk(screen.queryByText('Ce code n’existe pas ou n’est plus valide.'));
+        });
+
         test('should display the appropriate error message when error status is 412', async function (assert) {
           // given
           const replaceWithStub = sinon.stub();
