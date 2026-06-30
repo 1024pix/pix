@@ -35,19 +35,6 @@ export default class CertificationCandidateAdapter extends ApplicationAdapter {
     return url;
   }
 
-  createRecord(store, type, snapshot) {
-    const { adapterOptions } = snapshot;
-
-    if (adapterOptions) {
-      const payload = this.serialize(snapshot);
-      const url = this.urlForCreateRecord('certification-candidate', { adapterOptions: snapshot.adapterOptions });
-
-      return this.ajax(url, 'POST', { data: payload });
-    }
-
-    return super.createRecord(...arguments);
-  }
-
   updateRecord({ candidate, sessionId }) {
     const certificationCandidateId = candidate.id;
     const payload = {
