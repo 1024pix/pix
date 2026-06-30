@@ -23,13 +23,6 @@ export default {
     defaultValue: true,
     tags: ['team-prescription', 'frontend'],
   },
-  isAnonymizationWithDeletionEnabled: {
-    type: 'boolean',
-    description: 'Used to enable anonymization and deletion on prescriber context',
-    defaultValue: false,
-    devDefaultValues: { test: true, reviewApp: true },
-    tags: ['team-prescription', 'pix-api', 'backend'],
-  },
   isSelfAccountDeletionEnabled: {
     description: 'Toggle self account deletion feature',
     type: 'boolean',
