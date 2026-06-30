@@ -1,7 +1,7 @@
 // @ts-check
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
+import { DomainTransaction } from "../../../../shared/domain/DomainTransaction.js";
+import { NotFoundError } from "../../../../shared/domain/errors.js";
+import { SessionEnrolment } from "../../domain/models/SessionEnrolment.js";
 
 /**
  * @function
@@ -111,9 +111,6 @@ export async function update(session) {
 export async function remove({ id }) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('invigilator_accesses').where({ sessionId: id }).del();
-  await knexConn('certification-subscriptions')
-    .whereIn('certificationCandidateId', knexConn('certification-candidates').select('id').where({ sessionId: id }))
-    .del();
   await knexConn('certification-candidates').where({ sessionId: id }).del();
   const nbSessionsDeleted = await knexConn('sessions').where({ id }).del();
   if (nbSessionsDeleted === 0) throw new NotFoundError();
