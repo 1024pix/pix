@@ -35,7 +35,7 @@ export async function createDraft({
   const locales = scope === SCOPES.CORE ? [FRENCH_SPOKEN, ENGLISH_SPOKEN, FRENCH_FRANCE] : [FRENCH_FRANCE];
   const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(tubeIds, locales);
 
-  const draftVersion = Version.buildFromVersion({
+  const draftVersion = Version.buildDraftFromActiveVersion({
     scope,
     version: activeVersion,
   });

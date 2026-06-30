@@ -1,5 +1,4 @@
-import { Version } from '../../../../../../src/certification/configuration/domain/models/Version.js';
-import { FRAMEWORK_HISTORY_STATUSES } from '../../../../../../src/certification/configuration/domain/read-models/FrameworkHistoryEntry.js';
+import { Version, VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import * as versionRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/version-repository.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -379,7 +378,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         startDate: new Date('2024-03-15'),
         assessmentDuration: 90,
         challengesConfiguration: version1Config,
-        status: FRAMEWORK_HISTORY_STATUSES.ACTIVE,
+        status: VERSION_STATUSES.ACTIVE,
       });
       const version2Config = { maximumAssessmentLength: 2 };
       const version2 = databaseBuilder.factory.buildCertificationVersion({
@@ -387,7 +386,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         startDate: null,
         assessmentDuration: 80,
         challengesConfiguration: version2Config,
-        status: FRAMEWORK_HISTORY_STATUSES.DRAFT,
+        status: VERSION_STATUSES.DRAFT,
       });
       const version3Config = { maximumAssessmentLength: 3 };
       const version3 = databaseBuilder.factory.buildCertificationVersion({
@@ -396,14 +395,14 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         expirationDate: new Date('2024-03-14'),
         assessmentDuration: 50,
         challengesConfiguration: version3Config,
-        status: FRAMEWORK_HISTORY_STATUSES.ARCHIVED,
+        status: VERSION_STATUSES.ARCHIVED,
       });
       databaseBuilder.factory.buildCertificationVersion({
         scope: otherScope,
         startDate: new Date('2025-06-21'),
         assessmentDuration: 60,
         challengesConfiguration: { maximumAssessmentLength: 4 },
-        status: FRAMEWORK_HISTORY_STATUSES.ACTIVE,
+        status: VERSION_STATUSES.ACTIVE,
       });
 
       await databaseBuilder.commit();
@@ -419,7 +418,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           expirationDate: version2.expirationDate,
           assessmentDuration: version2.assessmentDuration,
           maximumAssessmentLength: version2Config.maximumAssessmentLength,
-          status: FRAMEWORK_HISTORY_STATUSES.DRAFT,
+          status: VERSION_STATUSES.DRAFT,
         }),
         domainBuilder.certification.configuration.buildFrameworkHistoryEntry({
           id: version1.id,
@@ -427,7 +426,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           expirationDate: version1.expirationDate,
           assessmentDuration: version1.assessmentDuration,
           maximumAssessmentLength: version1Config.maximumAssessmentLength,
-          status: FRAMEWORK_HISTORY_STATUSES.ACTIVE,
+          status: VERSION_STATUSES.ACTIVE,
         }),
         domainBuilder.certification.configuration.buildFrameworkHistoryEntry({
           id: version3.id,
@@ -435,7 +434,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           expirationDate: version3.expirationDate,
           assessmentDuration: version3.assessmentDuration,
           maximumAssessmentLength: version3Config.maximumAssessmentLength,
-          status: FRAMEWORK_HISTORY_STATUSES.ARCHIVED,
+          status: VERSION_STATUSES.ARCHIVED,
         }),
       ]);
     });

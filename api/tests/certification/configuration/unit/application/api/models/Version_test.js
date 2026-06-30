@@ -12,45 +12,11 @@ import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | Application | Api | Models | Version', function () {
-  describe('#constructor', function () {
-    context('when the version has an expiration date', function () {
-      it('builds an archived version', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          expirationDate: new Date('2025-02-02'),
-        });
-
-        expect(version.status).to.equal(VERSION_STATUSES.ARCHIVED);
-      });
-    });
-
-    context('when the version has no expiration date but only a start date', function () {
-      it('builds an active version', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          startDate: new Date('2025-02-02'),
-          expirationDate: null,
-        });
-
-        expect(version.status).to.equal(VERSION_STATUSES.ACTIVE);
-      });
-    });
-
-    context('when the version has no expiration date nor start date', function () {
-      it('builds a draft version', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          startDate: null,
-          expirationDate: null,
-        });
-
-        expect(version.status).to.equal(VERSION_STATUSES.DRAFT);
-      });
-    });
-  });
-
   describe('#isDraft', function () {
     context('when the version is archived', function () {
       it('return false', function () {
         const version = domainBuilder.certification.configuration.buildVersion({
-          expirationDate: new Date('2025-02-02'),
+          status: VERSION_STATUSES.ARCHIVED,
         });
 
         expect(version.isDraft).to.be.false;
@@ -60,8 +26,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
     context('when the version is active', function () {
       it('return false', function () {
         const version = domainBuilder.certification.configuration.buildVersion({
-          startDate: new Date('2025-02-02'),
-          expirationDate: null,
+          status: VERSION_STATUSES.ACTIVE,
         });
 
         expect(version.isDraft).to.be.false;
@@ -71,8 +36,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
     context('when the version is draft', function () {
       it('return true', function () {
         const version = domainBuilder.certification.configuration.buildVersion({
-          startDate: null,
-          expirationDate: null,
+          status: VERSION_STATUSES.DRAFT,
         });
 
         expect(version.isDraft).to.be.true;
@@ -84,7 +48,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
     context('when the version is archived', function () {
       it('return false', function () {
         const version = domainBuilder.certification.configuration.buildVersion({
-          expirationDate: new Date('2025-02-02'),
+          status: VERSION_STATUSES.ARCHIVED,
         });
 
         expect(version.isActive).to.be.false;
@@ -94,8 +58,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
     context('when the version is active', function () {
       it('return true', function () {
         const version = domainBuilder.certification.configuration.buildVersion({
-          startDate: new Date('2025-02-02'),
-          expirationDate: null,
+          status: VERSION_STATUSES.ACTIVE,
         });
 
         expect(version.isActive).to.be.true;
@@ -105,8 +68,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
     context('when the version is draft', function () {
       it('return false', function () {
         const version = domainBuilder.certification.configuration.buildVersion({
-          startDate: null,
-          expirationDate: null,
+          status: VERSION_STATUSES.DRAFT,
         });
 
         expect(version.isActive).to.be.false;
@@ -114,7 +76,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
     });
   });
 
-  describe('#static buildFromVersion', function () {
+  describe('#static buildDraftFromActiveVersion', function () {
     context('when a base version is provided', function () {
       it('returns a newly created Version model based on attributes of the base version', function () {
         const baseVersion = domainBuilder.certification.configuration.buildVersion({
@@ -135,10 +97,14 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
             defaultCandidateCapacity: 11,
             defaultProbabilityToPickChallenge: 11,
           }),
+          status: VERSION_STATUSES.ACTIVE,
           comments: 'Some ignored value',
         });
 
-        const newVersion = Version.buildFromVersion({ scope: SCOPES.PIX_PLUS_PRO_SANTE, version: baseVersion });
+        const newVersion = Version.buildDraftFromActiveVersion({
+          scope: SCOPES.PIX_PLUS_PRO_SANTE,
+          version: baseVersion,
+        });
 
         expect(newVersion).to.deepEqualInstance(
           domainBuilder.certification.configuration.buildVersion({
@@ -159,6 +125,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
               defaultCandidateCapacity: 11,
               defaultProbabilityToPickChallenge: 11,
             }),
+            status: VERSION_STATUSES.DRAFT,
             comments: null,
           }),
         );
@@ -167,7 +134,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
 
     context('when no base version is provided', function () {
       it('returns a newly created Version model built on default values', function () {
-        const newVersion = Version.buildFromVersion({ scope: SCOPES.PIX_PLUS_PRO_SANTE, version: null });
+        const newVersion = Version.buildDraftFromActiveVersion({ scope: SCOPES.PIX_PLUS_PRO_SANTE, version: null });
 
         expect(newVersion).to.deepEqualInstance(
           domainBuilder.certification.configuration.buildVersion({
@@ -189,6 +156,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
               defaultCandidateCapacity: 0,
               defaultProbabilityToPickChallenge: DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
             }),
+            status: VERSION_STATUSES.DRAFT,
             comments: null,
           }),
         );

@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 
 import { CertificationVersionDraftAlreadyExistError } from '../../../../../../src/certification/configuration/domain/errors.js';
+import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { createDraft } from '../../../../../../src/certification/configuration/domain/usecases/create-draft.js';
 import {
   DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
@@ -78,6 +79,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
           startDate: new Date('2024-01-01'),
           expirationDate: null,
           assessmentDuration: 111,
+          status: VERSION_STATUSES.ACTIVE,
           minimumAnswersRequiredToValidateACertification: 222,
           globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -1.4 } }],
           competencesScoringConfiguration: [
@@ -111,6 +113,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
             scope: SCOPES.CORE,
             startDate: null,
             expirationDate: null,
+            status: VERSION_STATUSES.DRAFT,
             assessmentDuration: 111,
             minimumAnswersRequiredToValidateACertification: 222,
             globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -1.4 } }],

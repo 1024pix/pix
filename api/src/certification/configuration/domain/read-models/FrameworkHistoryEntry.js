@@ -1,9 +1,3 @@
-export const FRAMEWORK_HISTORY_STATUSES = {
-  DRAFT: 'draft',
-  ACTIVE: 'active',
-  ARCHIVED: 'archived',
-};
-
 export class FrameworkHistoryEntry {
   constructor({ id, startDate, expirationDate, assessmentDuration, maximumAssessmentLength, status }) {
     this.id = id;

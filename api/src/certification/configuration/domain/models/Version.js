@@ -94,7 +94,7 @@ export class Version {
     return this.status === VERSION_STATUSES.ACTIVE;
   }
 
-  static buildFromVersion({ scope, version }) {
+  static buildDraftFromActiveVersion({ scope, version }) {
     return new Version({
       id: null,
       scope,
@@ -116,7 +116,7 @@ export class Version {
       }),
       globalScoringConfiguration: version?.globalScoringConfiguration ?? [],
       competencesScoringConfiguration: version?.competencesScoringConfiguration ?? [],
-      status: version?.status ?? VERSION_STATUSES.DRAFT,
+      status: VERSION_STATUSES.DRAFT,
       comments: null,
     });
   }
