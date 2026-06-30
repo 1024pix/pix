@@ -297,11 +297,18 @@
                 ],
                 "solution": "1"
               }
-            },
+            }
+          ]
+        },
+        {
+          "id": "3d59d30e-983b-4563-bd47-82a6819ab507",
+          "type": "discovery",
+          "title": "Découverte 2 part 2",
+          "components": [
             {
               "type": "element",
               "element": {
-                "id": "c6ff54eb-05a8-4d97-9fb2-85fbbd3b0d2e",
+                "id": "3280c90f-94ae-47ed-b6b6-10232d0ab95f",
                 "type": "text",
                 "tag": " ",
                 "content": "<p>Voyons plus concrètement comment Alba peut exprimer son droit d’opposition.</p>"
