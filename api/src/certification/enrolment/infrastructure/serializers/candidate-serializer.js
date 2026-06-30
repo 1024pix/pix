@@ -15,7 +15,17 @@ async function deserialize(json) {
     id: deserializedCandidate?.id ? parseInt(deserializedCandidate?.id) : null,
     firstName: deserializedCandidate.firstName.trim(),
     lastName: deserializedCandidate.lastName.trim(),
+    subscription: _resolveSubscription(deserializedCandidate, json),
   });
+}
+
+function _resolveSubscription(deserializedCandidate, json) {
+  if (deserializedCandidate.subscription) {
+    return deserializedCandidate.subscription;
+  }
+  const subscriptions = json?.data?.attributes?.subscriptions;
+  const complementary = subscriptions.find((s) => s.type === 'COMPLEMENTARY');
+  return complementary?.complementaryCertificationKey ?? 'CORE';
 }
 
 function deserializeForEdition({ candidateId, candidateData }) {
