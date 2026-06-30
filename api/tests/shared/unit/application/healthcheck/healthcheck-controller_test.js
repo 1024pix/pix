@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 
 import { healthcheckController } from '../../../../../src/shared/application/healthcheck/healthcheck-controller.js';
+import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { redisMonitor } from '../../../../../src/shared/infrastructure/utils/redis-monitor.js';
 import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
@@ -54,12 +55,23 @@ describe('Unit | Controller | healthcheckController', function () {
   });
 
   describe('#checkOsStatus', function () {
-    it('should reply with OS information', function () {
+    it('should reply with OS information if feature toggle is true', async function () {
+      // given
+      sinon.stub(featureToggles, 'get').resolves(true);
+
       // when
-      const response = healthcheckController.checkOsStatus();
+      const response = await healthcheckController.checkOsStatus();
 
       // then
       expect(response).to.include.keys('type', 'version', 'platform', 'release', 'arch');
+    });
+
+    it('should throw a NotFound error if feature toggle is false', async function () {
+      // given
+      sinon.stub(featureToggles, 'get').resolves(false);
+
+      // when
+      await expect(healthcheckController.checkOsStatus()).to.be.eventually.rejected;
     });
   });
 });

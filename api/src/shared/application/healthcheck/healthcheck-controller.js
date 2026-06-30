@@ -6,10 +6,11 @@ import { databaseConnections } from '../../../../db/database-connections.js';
 import packageJSON from '../../../../package.json' with { type: 'json' };
 import { config } from '../../config.js';
 import { getBaseLocale } from '../../domain/services/locale-service.js';
+import { featureToggles } from '../../infrastructure/feature-toggles/index.js';
 import * as network from '../../infrastructure/utils/network.js';
 import { redisMonitor } from '../../infrastructure/utils/redis-monitor.js';
 import { getChallengeLocale } from '../../infrastructure/utils/request-response-utils.js';
-import { featureToggles } from "../../infrastructure/feature-toggles/index.js";
+import { NotFoundError } from '../errors/http-errors.js';
 
 const get = function (request) {
   const locale = getChallengeLocale(request);
@@ -58,13 +59,11 @@ const checkForwardedOriginStatus = async function (request, h) {
   return h.response(forwardedOrigin).code(200);
 };
 
-const checkOsStatus = async function (_request, h) {
-  const isOsHealthcheckEnabled = await featureToggles.get(
-    "isOsHealthcheckEnabled",
-  );
+const checkOsStatus = async function () {
+  const isOsHealthcheckEnabled = await featureToggles.get('isOsHealthcheckEnabled');
 
   if (!isOsHealthcheckEnabled) {
-    return h.response({}).code(404);
+    throw new NotFoundError();
   }
 
   return {

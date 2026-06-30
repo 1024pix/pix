@@ -46,10 +46,9 @@ const register = async function (server) {
         auth: false,
         handler: healthcheckController.checkOsStatus,
         tags: ['api', 'healthcheck'],
-      }
+      },
     },
   ]);
-
 };
 
 export const healthcheckRoute = { name: 'shared/healthcheck-api', register };
