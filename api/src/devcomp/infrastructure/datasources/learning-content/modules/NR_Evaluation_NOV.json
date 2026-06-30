@@ -115,7 +115,7 @@
                   "type": "image",
                   "slides": [
                     {
-                      "title": "",
+                      "title": "Parcourir 100 km en voiture.",
                       "description": "",
                       "displayWidth": 0,
                       "image": {
@@ -129,7 +129,7 @@
                       }
                     },
                     {
-                      "title": "",
+                      "title": "Produire 1 kg de viande de boeuf.",
                       "description": "",
                       "displayWidth": 0,
                       "image": {
@@ -143,7 +143,7 @@
                       }
                     },
                     {
-                      "title": "",
+                      "title": "Produire 100 kg de carottes.",
                       "description": "",
                       "displayWidth": 0,
                       "image": {
