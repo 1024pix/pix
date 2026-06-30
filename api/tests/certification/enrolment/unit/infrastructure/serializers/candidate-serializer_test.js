@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
+import { candidateSerializer } from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
 import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../../test-helper.js';
@@ -17,7 +17,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const result = serializer.serializeId(candidateId);
+      const result = candidateSerializer.serializeId(candidateId);
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
@@ -56,7 +56,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
     });
 
-    it('should deserialize correctly candidate', async function () {
+    it('should deserialize correctly candidate with new subscription string format', async function () {
       // given
       const candidateJsonApiData = {
         data: {
@@ -90,14 +90,41 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const deserializedCandidate = await serializer.deserialize(candidateJsonApiData);
+      const deserializedCandidate = await candidateSerializer.deserialize(candidateJsonApiData);
 
       // then
       expect(deserializedCandidate).to.deepEqualInstance(
-        domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-        }),
+        domainBuilder.certification.enrolment.buildCandidate({ ...candidateData }),
       );
+    });
+
+    it('should deserialize correctly candidate with legacy subscriptions array format', async function () {
+      // given
+      const candidateJsonApiData = {
+        data: {
+          type: 'certification-candidates',
+          id: null,
+          attributes: {
+            'first-name': candidateData.firstName,
+            'last-name': candidateData.lastName,
+            sex: candidateData.sex,
+            'birth-country': candidateData.birthCountry,
+            'birth-insee-code': candidateData.birthINSEECode,
+            birthdate: candidateData.birthdate,
+            'billing-mode': candidateData.billingMode,
+            subscriptions: [
+              { type: SUBSCRIPTION_TYPES.COMPLEMENTARY, complementaryCertificationKey: Frameworks.PRO_SANTE },
+              { type: SUBSCRIPTION_TYPES.CORE, complementaryCertificationKey: null },
+            ],
+          },
+        },
+      };
+
+      // when
+      const deserializedCandidate = await candidateSerializer.deserialize(candidateJsonApiData);
+
+      // then
+      expect(deserializedCandidate.subscription).to.equal(Frameworks.PRO_SANTE);
     });
   });
 
@@ -146,7 +173,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const jsonApi = serializer.serializeForParticipation(candidate);
+      const jsonApi = candidateSerializer.serializeForParticipation(candidate);
 
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);
@@ -208,7 +235,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const jsonApi = serializer.serialize(candidate);
+      const jsonApi = candidateSerializer.serialize(candidate);
 
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);
@@ -255,7 +282,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
 
       // when
-      const jsonApi = serializer.serializeForSession(sessionCandidate);
+      const jsonApi = candidateSerializer.serializeForSession(sessionCandidate);
 
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);
