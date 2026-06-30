@@ -1,10 +1,7 @@
 import Joi from 'joi';
-import XRegExp from 'xregexp';
 
-import { config } from '../../../shared/config.js';
+import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
 import { passwordController } from './password.controller.js';
-
-const { passwordValidationPattern } = config.account;
 
 export const passwordRoutes = [
   {
@@ -55,7 +52,7 @@ export const passwordRoutes = [
           data: {
             attributes: {
               'password-reset-token': Joi.string().required(),
-              'new-password': Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+              'new-password': PasswordSchema.required(),
             },
             type: Joi.string(),
           },

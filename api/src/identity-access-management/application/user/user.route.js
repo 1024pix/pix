@@ -1,15 +1,12 @@
 import Joi from 'joi';
-import XRegExp from 'xregexp';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { config } from '../../../shared/config.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { getSupportedLanguages, getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
 import { userController } from './user.controller.js';
 import { userVerification } from './user-existence-verification-pre-handler.js';
-
-const { passwordValidationPattern } = config.account;
 
 export const userRoutes = [
   {
@@ -231,11 +228,7 @@ export const userRoutes = [
           id: identifiersType.userId,
         }),
         payload: Joi.object({
-          data: {
-            attributes: {
-              password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
-            },
-          },
+          data: { attributes: { password: PasswordSchema.required() } },
         }),
       },
       notes: [
