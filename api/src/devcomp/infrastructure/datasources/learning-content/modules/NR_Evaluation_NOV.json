@@ -429,10 +429,6 @@
                   {
                     "id": "3",
                     "content": "<p>aucune</p>"
-                  },
-                  {
-                    "id": "4",
-                    "content": "<p>Je ne sais pas.</p>"
                   }
                 ],
                 "feedbacks": {
@@ -524,7 +520,7 @@
                 "id": "0d19d441-4265-4f1f-b516-76dbe5b69829",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour cela, il liste tous les équipements informatiques qu’il possède et saisit la liste dans un logiciel de calcul d’empreinte carbone. Observez les résultats fournis par le logiciel pour répondre aux questions ci-dessous.</p>"
+                "content": "<p>Pour cela, il utilise un logiciel de calcul d’empreinte carbone. Observez les résultats fournis par le logiciel pour répondre aux questions ci-dessous.</p>"
               }
             },
             {
