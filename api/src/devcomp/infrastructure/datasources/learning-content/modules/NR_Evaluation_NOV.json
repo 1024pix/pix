@@ -167,10 +167,13 @@
               }
             },
             {
-              "id": "b0817ab6-c731-4548-9835-f65f6544cafe",
-              "type": "text",
-              "tag": " ",
-              "content": "<p>Répondez aux questions suivantes.</p>"
+              "type": "element",
+              "element": {
+                "id": "b0817ab6-c731-4548-9835-f65f6544cafe",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Répondez aux questions suivantes.</p>"
+              }
             },
             {
               "type": "stepper",
