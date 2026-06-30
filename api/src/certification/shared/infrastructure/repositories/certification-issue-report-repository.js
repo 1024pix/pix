@@ -1,7 +1,3 @@
-import lodash from 'lodash';
-
-const { omit } = lodash;
-
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
@@ -9,9 +5,12 @@ import { CertificationIssueReport } from '../../domain/models/CertificationIssue
 const save = async function ({ certificationIssueReport }) {
   const knexConn = DomainTransaction.getConnection();
 
+  //eslint-disable-next-line no-unused-vars
+  const { isImpactful, ...certificationIssueReportWithoutIsImpactful } = certificationIssueReport;
+
   const [data] = await knexConn
     .from('certification-issue-reports')
-    .insert(omit(certificationIssueReport, ['isImpactful']))
+    .insert(certificationIssueReportWithoutIsImpactful)
     .onConflict(['id'])
     .merge()
     .returning('*');

@@ -1,5 +1,4 @@
 import jsonapiSerializer from 'jsonapi-serializer';
-import _ from 'lodash';
 
 const { Serializer, Deserializer } = jsonapiSerializer;
 
@@ -8,13 +7,9 @@ import { isValidDate } from '../../../../shared/infrastructure/utils/date-utils.
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
 import { NO_EXAMINER_COMMENT } from '../../../shared/domain/models/CertificationReport.js';
 
-const serializeFromCertificationCourse = function (certificationCourse) {
+export function serializeFromCertificationCourse(certificationCourse) {
   return new Serializer('certifications', {
-    transform: (certificationCourse) => {
-      return {
-        ..._.omit(certificationCourse.toDTO(), 'maxReachableLevelOnCertificationDate'),
-      };
-    },
+    transform: (certificationCourse) => certificationCourse.toDTO(),
     attributes: [
       'firstName',
       'lastName',
@@ -22,15 +17,14 @@ const serializeFromCertificationCourse = function (certificationCourse) {
       'birthdate',
       'sex',
       'externalId',
-      'maxReachableLevelOnCertificationDate',
       'birthINSEECode',
       'birthPostalCode',
       'birthCountry',
     ],
   }).serialize(certificationCourse);
-};
+}
 
-const deserializeCertificationCandidateModificationCommand = async function (json, certificationCourseId, userId) {
+export async function deserializeCertificationCandidateModificationCommand(json, certificationCourseId, userId) {
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
   const deserializedRawCommand = await deserializer.deserialize(json);
   if (deserializedRawCommand.birthdate) {
@@ -39,22 +33,20 @@ const deserializeCertificationCandidateModificationCommand = async function (jso
     }
   }
   return {
-    ..._.pick(deserializedRawCommand, [
-      'firstName',
-      'lastName',
-      'birthplace',
-      'birthdate',
-      'birthCountry',
-      'birthPostalCode',
-      'sex',
-    ]),
+    firstName: deserializedRawCommand.firstName,
+    lastName: deserializedRawCommand.lastName,
+    birthplace: deserializedRawCommand.birthplace,
+    birthdate: deserializedRawCommand.birthdate,
+    birthCountry: deserializedRawCommand.birthCountry,
+    birthPostalCode: deserializedRawCommand.birthPostalCode,
+    sex: deserializedRawCommand.sex,
     birthINSEECode: deserializedRawCommand.birthInseeCode,
     userId,
     certificationCourseId,
   };
-};
+}
 
-const deserialize = function (json) {
+export function deserialize(json) {
   const birthdate = json.data.attributes.birthdate;
 
   return new Deserializer({ keyForAttribute: 'camelCase' }).deserialize(json).then((certification) => {
@@ -71,12 +63,10 @@ const deserialize = function (json) {
     }
     return certificationDomainModel;
   });
-};
-
-export { deserialize, deserializeCertificationCandidateModificationCommand, serializeFromCertificationCourse };
+}
 
 function _isOmitted(aString) {
-  return _.isUndefined(aString);
+  return aString === undefined;
 }
 
 function _hasNoExaminerComment(aString) {
