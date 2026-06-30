@@ -160,7 +160,6 @@
     "xml-buffer-tostring": "^0.2.0",
     "xml2js": "^0.6.0",
     "xmlbuilder2": "^4.0.0",
-    "xregexp": "^5.1.1",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
