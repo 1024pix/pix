@@ -1,11 +1,12 @@
-import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
-import * as candidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/candidate-repository.js';
-import { CertificationCandidateNotFoundError } from '../../../../../../src/certification/shared/domain/errors.js';
-import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { expect } from '../../../../../test-helper.js';
-import { databaseBuilder } from '../../../../../tooling/databases.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { Candidate } from "../../../../../../src/certification/enrolment/domain/models/Candidate.js";
+import * as candidateRepository
+  from "../../../../../../src/certification/enrolment/infrastructure/repositories/candidate-repository.js";
+import { CertificationCandidateNotFoundError } from "../../../../../../src/certification/shared/domain/errors.js";
+import { Frameworks } from "../../../../../../src/certification/shared/domain/models/Frameworks.js";
+import { expect } from "../../../../../test-helper.js";
+import { databaseBuilder } from "../../../../../tooling/databases.js";
+import { domainBuilder } from "../../../../../tooling/domain-builder/domain-builder.js";
+import { catchErr } from "../../../../../tooling/test-utils/error.js";
 
 describe('Integration | Certification | Enrolment | Repository | Candidate', function () {
   describe('#get', function () {
@@ -140,15 +141,9 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
         const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
           firstName: 'toto',
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
         await databaseBuilder.commit();
         const certificationCandidateToUpdate = domainBuilder.certification.enrolment.buildCandidate({
           ...certificationCandidate,
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildCoreSubscription({
-              certificationCandidateId: certificationCandidate.id,
-            }),
-          ],
         });
         certificationCandidateToUpdate.firstName = 'tutu';
 
@@ -165,16 +160,10 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
 
       it('should update its subscription', async function () {
         // given
-        const droitCertification = databaseBuilder.factory.buildComplementaryCertification({ key: Frameworks.DROIT });
-        databaseBuilder.factory.buildComplementaryCertification({ key: Frameworks.EDU_1ER_DEGRE });
         const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
           subscription: Frameworks.DROIT,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
-        databaseBuilder.factory.buildComplementaryCertificationSubscription({
-          certificationCandidateId: certificationCandidate.id,
-          complementaryCertificationId: droitCertification.id,
-        });
+
         await databaseBuilder.commit();
 
         const candidateToUpdate = domainBuilder.certification.enrolment.buildCandidate({
@@ -211,8 +200,6 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
   describe('#save', function () {
     it("should insert session's candidates in DB with their subscriptions", async function () {
       // given
-      databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
-      databaseBuilder.factory.buildComplementaryCertification.droit({}).id;
       const sessionId = databaseBuilder.factory.buildSession({}).id;
       await databaseBuilder.commit();
       const candidateA = domainBuilder.certification.enrolment.buildCandidate({
@@ -220,12 +207,6 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
         lastName: 'Lapraline',
         accessibilityAdjustmentNeeded: true,
         sessionId,
-        subscriptions: [
-          domainBuilder.certification.enrolment.buildCoreSubscription(),
-          domainBuilder.certification.enrolment.buildComplementarySubscription({
-            complementaryCertificationKey: Frameworks.CLEA,
-          }),
-        ],
         subscription: Frameworks.CLEA,
       });
       const candidateB = domainBuilder.certification.enrolment.buildCandidate({
@@ -233,18 +214,12 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
         lastName: 'Lenougat',
         accessibilityAdjustmentNeeded: true,
         sessionId,
-        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
       });
       const candidateC = domainBuilder.certification.enrolment.buildCandidate({
         firstName: 'Loulou',
         lastName: 'Lapistache',
         sessionId,
         accessibilityAdjustmentNeeded: false,
-        subscriptions: [
-          domainBuilder.certification.enrolment.buildComplementarySubscription({
-            complementaryCertificationKey: Frameworks.DROIT,
-          }),
-        ],
         subscription: Frameworks.DROIT,
       });
 
