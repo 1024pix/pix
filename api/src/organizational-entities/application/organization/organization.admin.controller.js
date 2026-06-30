@@ -215,6 +215,14 @@ const attachCertificationCenter = async function (request, h) {
   return h.response().code(204);
 };
 
+const detachCertificationCenter = async function (request, h) {
+  const { organizationId } = request.params;
+
+  await usecases.detachCertificationCenterFromOrganization({ organizationId });
+
+  return h.response().code(204);
+};
+
 const organizationAdminController = {
   getTemplateForAddTagsToOrganizations,
   addTagsToOrganizations,
@@ -227,6 +235,7 @@ const organizationAdminController = {
   getOrganizationPlacesStatistics,
   attachChildOrganization,
   detachParentOrganization,
+  detachCertificationCenter,
   getTemplateForAddOrganizationFeatureInBatch,
   addOrganizationFeatureInBatch,
   getOrganizationDetails,

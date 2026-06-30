@@ -244,4 +244,48 @@ describe('Unit | Organizational Entities | Application | route | Admin | organiz
       });
     });
   });
+
+  describe('POST /api/admin/organizations/{id}/detach-certification-center', function () {
+    describe('when the user authenticated has no role', function () {
+      it('returns a 403 HTTP status code', async function () {
+        // given
+        securityPreHandlers.hasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
+
+        sinon.stub(organizationAdminController, 'detachCertificationCenter');
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/admin/organizations/1/detach-certification-center');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(organizationAdminController.detachCertificationCenter);
+      });
+    });
+
+    const authorizedRoles = [
+      { role: 'SuperAdmin', stub: 'checkAdminMemberHasRoleSuperAdmin' },
+      { role: 'Support', stub: 'checkAdminMemberHasRoleSupport' },
+      { role: 'Certif', stub: 'checkAdminMemberHasRoleCertif' },
+      { role: 'Metier', stub: 'checkAdminMemberHasRoleMetier' },
+    ];
+
+    authorizedRoles.forEach(({ role, stub }) => {
+      describe(`when the user has ${role} role`, function () {
+        it('should call controller method', async function () {
+          // given
+          sinon.stub(securityPreHandlers, stub).callsFake((request, h) => h.response(true));
+          securityPreHandlers.hasAtLeastOneAccessOf.callsFake((_handlers) => {
+            return () => true;
+          });
+          sinon.stub(organizationAdminController, 'detachCertificationCenter').returns('ok');
+
+          // when
+          await httpTestServer.request('POST', '/api/admin/organizations/1/detach-certification-center');
+
+          // then
+          sinon.assert.called(organizationAdminController.detachCertificationCenter);
+        });
+      });
+    });
+  });
 });

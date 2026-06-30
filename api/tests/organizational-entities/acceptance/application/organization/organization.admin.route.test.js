@@ -1696,6 +1696,37 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('POST /api/admin/organizations/{id}/detach-certification-center', function () {
+    it('should detach a certification center from a given organization and return http code 204', async function () {
+      // given
+      const server = await createServer();
+
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
+        certificationCenterId: certificationCenterId,
+      });
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'POST',
+        url: `/api/admin/organizations/${organization.id}/detach-certification-center`,
+        headers: generateAuthenticatedUserRequestHeaders({
+          userId: superAdmin.id,
+        }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const organizationFactStructure = await knex('fct_structures')
+        .where({ organization_id: organization.id })
+        .first();
+      expect(organizationFactStructure.certification_center_id).to.be.null;
+      expect(response.statusCode).to.equal(204);
+    });
+  });
 });
 
 function _createMultipartPayload({ boundary, filename, fieldName, contentType, content }) {
