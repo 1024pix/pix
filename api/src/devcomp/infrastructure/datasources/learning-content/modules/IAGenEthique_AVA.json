@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>On en entend beaucoup parler&nbsp;: entre le développement de l’IA et le respect du droit d’auteur, la bataille fait rage.</p><p>Ce module propose des repères simples pour comprendre ces enjeux juridiques et éthiques, ainsi que les débats actuels au sujet.<br></p>",
+    "description": "<p>On en entend beaucoup parler&nbsp;: entre le développement de l’IA et le respect du droit d’auteur, la bataille fait rage.</p><p>Ce module propose des repères simples pour comprendre ces enjeux juridiques et éthiques, quelques aspects techniques, ainsi que les débats actuels sur ce sujet .<br></p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
