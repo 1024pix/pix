@@ -157,7 +157,7 @@ test(
           userDataProSanteSubscription.birthMonth +
           '/' +
           userDataProSanteSubscription.birthYear,
-        'Certification sélectionnée': 'Pix+ Professionnels de santé',
+        'Certification sélectionnée': 'Pix+ Professionnels de Santé',
       });
     });
 
