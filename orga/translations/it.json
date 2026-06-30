@@ -1073,9 +1073,9 @@
       },
       "tab-filters": {
         "all": "Tutti",
-        "blueprints": "Percorsi di apprendimento",
+        "blueprints": "Apprendimento",
         "label": "Tipo di percorso",
-        "target-profiles": "Percorsi"
+        "target-profiles": "Valutazione"
       },
       "title": "Catalogo dei percorsi"
     },

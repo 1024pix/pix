@@ -1073,9 +1073,9 @@
       },
       "tab-filters": {
         "all": "Alle",
-        "blueprints": "Lernpfade",
+        "blueprints": "Lernen",
         "label": "Kurstyp",
-        "target-profiles": "Kurse"
+        "target-profiles": "Assessment"
       },
       "title": "Kurskatalog"
     },

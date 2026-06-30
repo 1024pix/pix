@@ -1073,9 +1073,9 @@
       },
       "tab-filters": {
         "all": "Todos",
-        "blueprints": "Rutas de aprendizaje",
+        "blueprints": "Aprendizaje",
         "label": "Tipo de curso",
-        "target-profiles": "Cursos"
+        "target-profiles": "Evaluación"
       },
       "title": "Catálogo de cursos"
     },

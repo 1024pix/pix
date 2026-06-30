@@ -1073,9 +1073,9 @@
       },
       "tab-filters": {
         "all": "Tous",
-        "blueprints": "Parcours apprenants",
+        "blueprints": "Apprentissage",
         "label": "Type de parcours",
-        "target-profiles": "Parcours"
+        "target-profiles": "Évaluation"
       },
       "title": "Catalogue de parcours"
     },

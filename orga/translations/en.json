@@ -1073,9 +1073,9 @@
       },
       "tab-filters": {
         "all": "All",
-        "blueprints": "Learning courses",
+        "blueprints": "Learning",
         "label": "Course type",
-        "target-profiles": "Courses"
+        "target-profiles": "Assessment"
       },
       "title": "Courses catalogue"
     },
