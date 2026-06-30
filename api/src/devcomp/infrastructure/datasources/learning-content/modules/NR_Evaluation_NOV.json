@@ -43,7 +43,7 @@
                       "userName": "Benoît",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Tu savais que manger, se déplacer, se chauffer … Toutes nos actions ont un impact sur le dérèglement climatique ? 😱"
+                      "content": "Tu savais que manger, se déplacer, se chauffer… toutes nos actions ont un impact sur le dérèglement climatique ? 😱"
                     },
                     {
                       "userName": "Alice",
@@ -73,7 +73,7 @@
                       "userName": "Alice",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Eh bien une manière de savoir est de regarder son empreinte carbone. 💡"
+                      "content": "Eh bien, une manière de savoir est de regarder son empreinte carbone. 💡"
                     }
                   ],
                   "animationSpeed": 12
@@ -236,10 +236,6 @@
                         {
                           "id": "3",
                           "content": "méthane (CH4)"
-                        },
-                        {
-                          "id": "4",
-                          "content": "Je ne sais pas."
                         }
                       ],
                       "feedbacks": {
@@ -375,7 +371,7 @@
                         "x": 8,
                         "y": 58
                       },
-                      "info": "L’ordinateur de Benoît est d’abord fabriqué dans une usine. Cela nécessite beaucoup d’énergie et de matières premières, ce qui émet des gaz à effet de serre (dioxyde de carbone).",
+                      "info": "L’ordinateur de Benoît est d’abord fabriqué dans une usine. Cela nécessite beaucoup d’énergie et de matières premières.",
                       "tooltipPosition": "bottom"
                     },
                     {
@@ -389,7 +385,7 @@
                         "x": -50,
                         "y": -40
                       },
-                      "info": "Une fois fabriqué, l’ordinateur de Benoît est transporté jusque chez lui, en bateau puis en camion. Ces transports émettent également des gaz à effet de serre.",
+                      "info": "Une fois fabriqué, l’ordinateur de Benoît est transporté jusque chez lui, en bateau puis en camion.",
                       "tooltipPosition": "bottom"
                     },
                     {
@@ -403,7 +399,7 @@
                         "x": 28,
                         "y": -25
                       },
-                      "info": "Benoît doit recharger régulièrement la batterie de son ordinateur. Cela consomme de l’électricité, produite dans une centrale électrique qui émet des gaz à effet de serre.",
+                      "info": "Benoît doit recharger régulièrement la batterie de son ordinateur. Cela consomme de l’électricité, produite dans une centrale électrique.",
                       "tooltipPosition": "bottom"
                     }
                   ]
@@ -807,14 +803,14 @@
                 "proposals": [
                   {
                     "type": "text",
-                    "content": "<p>1 - Étape qui émet le plus de gaz à effet de serre&nbsp;: </p>"
+                    "content": "<p>1 - </p>"
                   },
                   {
                     "type": "select",
                     "input": "0",
                     "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "sélectioner une étape",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "sélectionner une étape",
                     "tolerances": [],
                     "options": [
                       {
@@ -842,8 +838,8 @@
                     "type": "select",
                     "input": "10",
                     "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "sélectioner une étape",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "sélectionner une étape",
                     "tolerances": [],
                     "options": [
                       {
@@ -871,8 +867,8 @@
                     "type": "select",
                     "input": "20",
                     "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "sélectioner une étape",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "sélectionner une étape",
                     "tolerances": [],
                     "options": [
                       {
@@ -890,35 +886,6 @@
                     ],
                     "solutions": [
                       "20"
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<br><p>4 - Étape qui émets le moins de gaz à effet de serre&nbsp;: </p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "30",
-                    "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "sélectioner une étape",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "30",
-                        "content": "assemblage et distribution"
-                      },
-                      {
-                        "id": "31",
-                        "content": "construction"
-                      },
-                      {
-                        "id": "32",
-                        "content": "usage"
-                      }
-                    ],
-                    "solutions": [
-                      "30"
                     ]
                   }
                 ],
