@@ -155,11 +155,73 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentPart
     it('keeps only once each badge', function () {
       // when
       const campaignAssessmentParticipationResultMinimal = new CampaignAssessmentParticipationResultMinimal({
-        badges: [{ id: 1 }, { id: 1 }, { id: 2 }, { id: 2 }, { id: 3 }, { id: 3 }, { id: 3 }],
+        badges: [
+          {
+            id: 1,
+            title: 'title 1',
+            altMessage: 'altMessage 1',
+            imageUrl: 'imageUrl 1',
+          },
+          {
+            id: 1,
+            title: 'title 1',
+            altMessage: 'altMessage 1',
+            imageUrl: 'imageUrl 1',
+          },
+          {
+            id: 2,
+            title: 'title 2',
+            altMessage: 'altMessage 2',
+            imageUrl: 'imageUrl 2',
+          },
+          {
+            id: 2,
+            title: 'title 2',
+            altMessage: 'altMessage 2',
+            imageUrl: 'imageUrl 2',
+          },
+          {
+            id: 3,
+            title: 'title 3',
+            altMessage: 'altMessage 3',
+            imageUrl: 'imageUrl 3',
+          },
+          {
+            id: 3,
+            title: 'title 3',
+            altMessage: 'altMessage 3',
+            imageUrl: 'imageUrl 3',
+          },
+          {
+            id: 3,
+            title: 'title 3',
+            altMessage: 'altMessage 3',
+            imageUrl: 'imageUrl 3',
+          },
+        ],
       });
 
       // then
-      expect(campaignAssessmentParticipationResultMinimal.badges).to.exactlyContain([{ id: 1 }, { id: 2 }, { id: 3 }]);
+      expect(campaignAssessmentParticipationResultMinimal.badges).to.exactlyContain([
+        {
+          id: 1,
+          title: 'title 1',
+          altMessage: 'altMessage 1',
+          imageUrl: 'imageUrl 1',
+        },
+        {
+          id: 2,
+          title: 'title 2',
+          altMessage: 'altMessage 2',
+          imageUrl: 'imageUrl 2',
+        },
+        {
+          id: 3,
+          title: 'title 3',
+          altMessage: 'altMessage 3',
+          imageUrl: 'imageUrl 3',
+        },
+      ]);
     });
   });
 });
