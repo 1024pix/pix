@@ -13,17 +13,16 @@ export async function evaluateAndSaveAnswer({
   certificationChallengeLiveAlertRepository,
   sharedChallengeRepository,
 }) {
-  const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
+  if (answer.isEmpty) {
+    throw new EmptyAnswerError();
+  }
 
+  const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
   if (!assessmentSheet) {
     throw new NotFoundError(`No certification test found with id ${certificationCourseId}`);
   }
 
   assessmentSheet.checkIfCandidateCanAnswer({ answer, userId });
-
-  if (!answer.hasValue && !answer.hasTimedOut) {
-    throw new EmptyAnswerError();
-  }
 
   const challenge = await sharedChallengeRepository.get(answer.challengeId);
   const ongoingOrValidatedCertificationChallengeLiveAlert =

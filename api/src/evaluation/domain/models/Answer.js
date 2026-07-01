@@ -62,6 +62,10 @@ class Answer {
     return Boolean(this.value);
   }
 
+  get isEmpty() {
+    return !this.hasValue && !this.hasTimedOut;
+  }
+
   setTimeSpentFrom({ now, lastQuestionDate }) {
     this.timeSpent = Math.ceil((now.getTime() - lastQuestionDate.getTime()) / 1000);
   }

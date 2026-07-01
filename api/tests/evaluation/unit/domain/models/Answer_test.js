@@ -190,6 +190,32 @@ describe('Unit | Domain | Models | Answer', function () {
     });
   });
 
+  describe('#isEmpty', function () {
+    it('should return true when the answer has neither value nor timeout', function () {
+      // given
+      const answer = domainBuilder.buildAnswer({ value: '', timeout: null });
+
+      // when / then
+      expect(answer.isEmpty).to.be.true;
+    });
+
+    it('should return false when the answer has a value', function () {
+      // given
+      const answer = domainBuilder.buildAnswer({ value: 'super réponse', timeout: null });
+
+      // when / then
+      expect(answer.isEmpty).to.be.false;
+    });
+
+    it('should return false when the answer has timed out', function () {
+      // given
+      const answer = domainBuilder.buildAnswer({ value: '', timeout: -1 });
+
+      // when / then
+      expect(answer.isEmpty).to.be.false;
+    });
+  });
+
   describe('#setTimeSpentFrom', function () {
     it('should return the computed time spent on a challenge', function () {
       // given

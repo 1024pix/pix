@@ -33,7 +33,7 @@ export async function saveAndCorrectAnswerForCampaign({
   if (assessment.lastChallengeId && assessment.lastChallengeId !== answer.challengeId) {
     throw new ChallengeNotAskedError();
   }
-  if (!answer.hasValue && !answer.hasTimedOut) {
+  if (answer.isEmpty) {
     throw new EmptyAnswerError();
   }
 
