@@ -7,6 +7,7 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candidate', function () {
   let candidateRepository;
   let dependencies;
+  let eventAdapter;
   let clock;
   let now;
   const userId = 2;
@@ -15,9 +16,15 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candid
     candidateRepository = {
       update: sinon.stub(),
     };
+
+    eventAdapter = {
+      onCandidateReconciled: sinon.stub(),
+    };
+
     dependencies = {
       userId,
       candidateRepository,
+      eventAdapter,
     };
 
     now = new Date('2019-01-01T05:06:07Z');
@@ -48,6 +55,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candid
     expect(candidateRepository.update).to.have.been.calledWith(candidate);
     expect(candidate.userId).to.equal(userId);
     expect(candidate.reconciledAt).to.deep.equal(now);
+    expect(eventAdapter.onCandidateReconciled).to.have.been.calledWithExactly({ candidate });
     expect(result).to.deep.equal(candidate);
   });
 });
