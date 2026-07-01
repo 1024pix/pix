@@ -37,6 +37,7 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
     it('throws a NotFound error', async function () {
       const err = await catchErr(evaluateAndSaveAnswer)({
         certificationCourseId: 123,
+        answer: domainBuilder.buildAnswer({ challengeId: challengeIdToAnswer }),
       });
 
       expect(err).to.deepEqualInstance(new NotFoundError('No certification test found with id 123'));
@@ -60,6 +61,7 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
         const err = await catchErr(evaluateAndSaveAnswer)({
           certificationCourseId,
           userId: userId + 1,
+          answer: domainBuilder.buildAnswer({ challengeId: challengeIdToAnswer }),
         });
 
         expect(err).to.deepEqualInstance(
@@ -91,6 +93,7 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
           const err = await catchErr(evaluateAndSaveAnswer)({
             certificationCourseId,
             userId,
+            answer: domainBuilder.buildAnswer({ challengeId: challengeIdToAnswer }),
           });
 
           expect(err).to.deepEqualInstance(new CertificationEndedByInvigilatorError());
@@ -114,6 +117,7 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
           const err = await catchErr(evaluateAndSaveAnswer)({
             certificationCourseId,
             userId,
+            answer: domainBuilder.buildAnswer({ challengeId: challengeIdToAnswer }),
           });
 
           expect(err).to.deepEqualInstance(new CertificationEndedByFinalizationError());

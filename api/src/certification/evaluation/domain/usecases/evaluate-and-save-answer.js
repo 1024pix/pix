@@ -9,7 +9,6 @@ export async function evaluateAndSaveAnswer({
   answerRepository,
   assessmentSheetRepository,
   correctionApi,
-  candidateRepository,
   certificationChallengeLiveAlertRepository,
   sharedChallengeRepository,
 }) {
@@ -24,27 +23,23 @@ export async function evaluateAndSaveAnswer({
 
   assessmentSheet.checkIfCandidateCanAnswer({ answer, userId });
 
-  const challenge = await sharedChallengeRepository.get(answer.challengeId);
-  const ongoingOrValidatedCertificationChallengeLiveAlert =
+  const hasActiveLiveAlert =
     await certificationChallengeLiveAlertRepository.getOngoingOrValidatedByChallengeIdAndAssessmentId({
-      challengeId: challenge.id,
+      challengeId: answer.challengeId,
       assessmentId: assessmentSheet.assessmentId,
     });
-
-  if (ongoingOrValidatedCertificationChallengeLiveAlert) {
+  if (hasActiveLiveAlert) {
     throw new ForbiddenAccess('An alert has been set.');
   }
 
-  const certificationCandidate = await candidateRepository.findByAssessmentId({
-    assessmentId: assessmentSheet.assessmentId,
-  });
+  const challenge = await sharedChallengeRepository.get(answer.challengeId);
   const correctedAnswer = correctionApi.correctAnswer({
+    isCertificationEvaluation: true,
     challenge,
     answer,
     challengeSubmittedAt: assessmentSheet.lastQuestionDate,
     hasChallengeBeenFocusedOut: assessmentSheet.hasLastQuestionBeenFocusedOut(),
-    isCertificationEvaluation: true,
-    accessibilityAdjustmentNeeded: certificationCandidate.accessibilityAdjustmentNeeded,
+    accessibilityAdjustmentNeeded: assessmentSheet.accessibilityAdjustmentNeeded,
     forceOKAnswer,
   });
 
