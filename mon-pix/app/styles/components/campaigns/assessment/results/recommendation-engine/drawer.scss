@@ -20,33 +20,43 @@
   }
 }
 
+@keyframes thank-you-enter {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+}
+
 .results-recommendation-engine-drawer {
-  interpolate-size: allow-keywords;
   position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  gap: var(--pix-spacing-1x);
-  align-items: center;
+  z-index: 900;
   padding: var(--pix-spacing-16x, 64px) var(--pix-spacing-10x) var(--pix-spacing-6x) var(--pix-spacing-10x);
-  background: linear-gradient(180deg, rgb(255 255 255 / 0%) 0%, rgb(97 63 221 / 30%) 60%, rgb(97 63 221 / 45%) 100%), linear-gradient(180deg, rgb(255 255 255 / 0%) 0%, var(--pix-neutral-0) 31.73%);
-  transition: height 0.35s ease;
-  animation: drawer-slide-up 0.4s ease-out;
+  background: linear-gradient(180deg, rgb(var(--pix-neutral-0-inline), 0%) 0%, rgb(var(--pix-primary-500-inline), 30%) 60%, rgb(var(--pix-primary-500-inline), 45%) 100%), linear-gradient(180deg, rgb(var(--pix-neutral-0-inline), 0%) 0%, var(--pix-neutral-0) 31.73%);
+
+  @media (not (prefers-reduced-motion: reduce)) {
+    transition: height 0.35s ease;
+    animation: drawer-slide-up 0.4s ease-out;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-1x);
+    align-items: center;
+    text-align: center;
+  }
 
   &__statement {
     @extend %pix-title-xs;
 
-    text-align: center;
+    width: 100%;
   }
 
   &__instruction {
     @extend %pix-body-s;
-
-    margin-top: calc(-1 * var(--pix-spacing-1x));
-    text-align: center;
   }
 
   &__emojis {
@@ -67,7 +77,10 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    transition: transform 0.2s ease;
+
+    @media (not (prefers-reduced-motion: reduce)) {
+      transition: transform 0.2s ease;
+    }
 
     &:hover {
       transform: scale(1.267);
@@ -85,7 +98,9 @@
   }
 
   &--hiding {
-    animation: drawer-slide-down 0.4s ease-in;
+    @media (not (prefers-reduced-motion: reduce)) {
+      animation: drawer-slide-down 0.4s ease-in;
+    }
   }
 
   &__thank-you {
@@ -93,11 +108,9 @@
     flex-direction: column;
     gap: var(--pix-spacing-2x);
     align-items: center;
-    transition: transform 0.3s ease, opacity 0.3s ease;
 
-    @starting-style {
-      transform: translateY(8px);
-      opacity: 0;
+    @media (not (prefers-reduced-motion: reduce)) {
+      animation: thank-you-enter 0.3s ease;
     }
   }
 
@@ -116,8 +129,6 @@
   &__thank-you-subtitle {
     @extend %pix-body-s;
 
-    margin-top: calc(-1 * var(--pix-spacing-1x));
     text-align: center;
   }
-
 }

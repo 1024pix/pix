@@ -72,7 +72,7 @@ module(
 
       // then
       assert
-        .dom(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide') }))
+        .dom(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide-aria-label') }))
         .isVisible();
     });
 
@@ -98,7 +98,7 @@ module(
       });
     });
 
-    module('when user clicks hide', function () {
+    module('when user clicks on "hide" button', function () {
       test('it calls onHide', async function (assert) {
         // given
         const onHideStub = sinon.stub();
@@ -108,7 +108,9 @@ module(
         );
 
         // when
-        await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide') }));
+        await click(
+          screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide-aria-label') }),
+        );
 
         // then
         sinon.assert.calledOnce(onHideStub);

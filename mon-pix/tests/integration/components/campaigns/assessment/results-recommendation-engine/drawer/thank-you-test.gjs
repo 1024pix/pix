@@ -32,7 +32,9 @@ module(
       const screen = await render(<template><ThankYou @onClose={{noop}} /></template>);
 
       // then
-      assert.dom(screen.getByRole('button', { name: t('common.actions.close') })).isVisible();
+      assert
+        .dom(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide-aria-label') }))
+        .isVisible();
     });
 
     module('when user clicks the close button', function () {
@@ -42,7 +44,9 @@ module(
         const screen = await render(<template><ThankYou @onClose={{onCloseStub}} /></template>);
 
         // when
-        await click(screen.getByRole('button', { name: t('common.actions.close') }));
+        await click(
+          screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide-aria-label') }),
+        );
 
         // then
         sinon.assert.calledOnce(onCloseStub);

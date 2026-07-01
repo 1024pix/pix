@@ -2261,6 +2261,7 @@
             "very-satisfied": "I love it"
           },
           "hide": "Hide",
+          "hide-aria-label": "Hide the feedback panel for training content recommendations",
           "instruction": "Click on an emoji to give your feedback.",
           "statement": "I appreciate the content recommended to me to go further.",
           "thank-you": {

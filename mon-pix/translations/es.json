@@ -2261,6 +2261,7 @@
             "very-satisfied": "Me encanta"
           },
           "hide": "Ocultar",
+          "hide-aria-label": "Ocultar el panel de comentarios de las recomendaciones de contenidos formativos",
           "instruction": "Haz clic en un emoji para dar tu opinión.",
           "statement": "Aprecio los contenidos que me recomiendan para ir más lejos.",
           "thank-you": {

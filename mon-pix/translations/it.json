@@ -2261,6 +2261,7 @@
             "very-satisfied": "Lo adoro"
           },
           "hide": "Nascondi",
+          "hide-aria-label": "Nascondi il pannello di feedback per le raccomandazioni sui contenuti formativi",
           "instruction": "Clicca su un emoji per dare il tuo parere.",
           "statement": "Apprezzo i contenuti consigliati per andare oltre.",
           "thank-you": {

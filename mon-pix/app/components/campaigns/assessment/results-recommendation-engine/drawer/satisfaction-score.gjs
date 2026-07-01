@@ -20,30 +20,35 @@ export default class SatisfactionScore extends Component {
   }
 
   <template>
-    <p class="results-recommendation-engine-drawer__statement">
-      {{t "pages.skill-review.recommended-engine.drawer.statement"}}
-    </p>
-    <p class="results-recommendation-engine-drawer__instruction">
-      {{t "pages.skill-review.recommended-engine.drawer.instruction"}}
-    </p>
-    <div
-      class="results-recommendation-engine-drawer__emojis"
-      role="group"
-      aria-label={{t "pages.skill-review.recommended-engine.drawer.statement"}}
-    >
-      {{#each EMOJIS as |item|}}
-        <button
-          type="button"
-          class="results-recommendation-engine-drawer__emoji-button"
-          aria-label={{t item.labelKey}}
-          {{on "click" (fn this.selectScore item.score)}}
+    <form>
+      <fieldset class="results-recommendation-engine-drawer__form">
+        <legend class="results-recommendation-engine-drawer__statement">
+          {{t "pages.skill-review.recommended-engine.drawer.statement"}}
+        </legend>
+        <p class="results-recommendation-engine-drawer__instruction">
+          {{t "pages.skill-review.recommended-engine.drawer.instruction"}}
+        </p>
+        <div class="results-recommendation-engine-drawer__emojis">
+          {{#each EMOJIS as |satisfaction|}}
+            <button
+              type="button"
+              class="results-recommendation-engine-drawer__emoji-button"
+              aria-label={{t satisfaction.labelKey}}
+              {{on "click" (fn this.selectScore satisfaction.score)}}
+            >
+              <span aria-hidden="true">{{satisfaction.emoji}}</span>
+            </button>
+          {{/each}}
+        </div>
+        <PixButton
+          @variant="tertiary"
+          @iconAfter="close"
+          @triggerAction={{@onHide}}
+          aria-label={{t "pages.skill-review.recommended-engine.drawer.hide-aria-label"}}
         >
-          <span aria-hidden="true">{{item.emoji}}</span>
-        </button>
-      {{/each}}
-    </div>
-    <PixButton @variant="tertiary" @iconAfter="close" @triggerAction={{@onHide}}>
-      {{t "pages.skill-review.recommended-engine.drawer.hide"}}
-    </PixButton>
+          {{t "pages.skill-review.recommended-engine.drawer.hide"}}
+        </PixButton>
+      </fieldset>
+    </form>
   </template>
 }

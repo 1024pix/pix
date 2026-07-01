@@ -63,13 +63,15 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
     });
   });
 
-  module('when user clicks hide', function () {
+  module('when user clicks on "hide" button', function () {
     test('the drawer is removed', async function (assert) {
       // given
       const screen = await render(<template><Drawer @campaignId={{1}} /></template>);
 
       // when
-      await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide') }));
+      await click(
+        screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide-aria-label') }),
+      );
       await triggerEvent(document.querySelector('.results-recommendation-engine-drawer'), 'animationend', {
         animationName: 'drawer-slide-down',
       });
@@ -90,7 +92,9 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
       );
 
       // when
-      await click(screen.getByRole('button', { name: t('common.actions.close') }));
+      await click(
+        screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide-aria-label') }),
+      );
       await triggerEvent(document.querySelector('.results-recommendation-engine-drawer'), 'animationend', {
         animationName: 'drawer-slide-down',
       });

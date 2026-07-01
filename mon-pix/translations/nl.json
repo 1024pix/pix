@@ -2261,6 +2261,7 @@
             "very-satisfied": "Ik ben er dol op"
           },
           "hide": "Verbergen",
+          "hide-aria-label": "Het feedbackpaneel voor aanbevelingen voor trainingsinhoud verbergen",
           "instruction": "Klik op een emoji om uw mening te geven.",
           "statement": "Ik waardeer de aanbevolen inhoud om verder te gaan.",
           "thank-you": {

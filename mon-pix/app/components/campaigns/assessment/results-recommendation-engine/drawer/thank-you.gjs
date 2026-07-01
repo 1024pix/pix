@@ -11,9 +11,14 @@ export default class ThankYou extends Component {
   }
 
   <template>
-    <div class="results-recommendation-engine-drawer__thank-you" tabindex="-1" {{modifierDidInsert this.focusOnInsert}}>
+    <div
+      role="status"
+      class="results-recommendation-engine-drawer__thank-you"
+      tabindex="-1"
+      {{modifierDidInsert this.focusOnInsert}}
+    >
       <img
-        src="/images/illustrations/results/send-feedback.webp"
+        src="/images/illustrations/results/sent-feedback.webp"
         alt=""
         aria-hidden="true"
         class="results-recommendation-engine-drawer__thank-you-icon"
@@ -24,7 +29,11 @@ export default class ThankYou extends Component {
       <p class="results-recommendation-engine-drawer__thank-you-subtitle">
         {{t "pages.skill-review.recommended-engine.drawer.thank-you.subtitle"}}
       </p>
-      <PixButton @variant="primary" @triggerAction={{@onClose}}>
+      <PixButton
+        @variant="primary"
+        @triggerAction={{@onClose}}
+        aria-label={{t "pages.skill-review.recommended-engine.drawer.hide-aria-label"}}
+      >
         {{t "common.actions.close"}}
       </PixButton>
     </div>
