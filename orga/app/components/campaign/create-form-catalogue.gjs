@@ -44,10 +44,7 @@ export default class CreateForm extends Component {
 
   get isMultipleSendingEnabled() {
     const isMulipleSendingsAllowed =
-      Boolean(this.args.campaign.course) &&
-      this.isMultipleSendingAssessmentEnabled &&
-      (this.isCampaignGoalAssessment || this.isCampaignGoalExam) &&
-      !this.isCombinedCourseGoal;
+      Boolean(this.args.campaign.course) && this.isMultipleSendingAssessmentEnabled && !this.isCombinedCourseGoal;
 
     return this.isCampaignGoalProfileCollection || isMulipleSendingsAllowed;
   }
