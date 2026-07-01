@@ -6,6 +6,9 @@ export default class AttachedCertificationCenter extends Route {
 
   async model() {
     const organization = this.modelFor('authenticated.organizations.get');
-    return this.store.query('attached-certification-center', { organizationId: organization.id });
+    const attachedCertificationCenters = await this.store.query('attached-certification-center', {
+      organizationId: organization.id,
+    });
+    return { attachedCertificationCenters, organizationId: organization.id };
   }
 }
