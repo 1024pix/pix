@@ -18,16 +18,19 @@ module('Unit | Route | authenticated/organizations/get/attached-certification-ce
   module('#model', function () {
     test('it calls store.query with the organizationId and returns the certification centers with the organizationId', async function (assert) {
       // given
-      const certificationCenters = [{ id: '1', name: 'Centre Pix' }];
-      route.modelFor = sinon.stub().returns({ id: '42' });
-      route.store = { query: sinon.stub().resolves(certificationCenters) };
+      const organization = { id: '42' };
+      const attachedCertificationCenters = [{ id: '1', name: 'Centre Pix' }];
+      route.modelFor = sinon.stub().returns(organization);
+      route.store = { query: sinon.stub().resolves(attachedCertificationCenters) };
 
       // when
       const result = await route.model();
 
       // then
-      sinon.assert.calledWith(route.store.query, 'attached-certification-center', { organizationId: '42' });
-      assert.deepEqual(result, { attachedCertificationCenters: certificationCenters, organizationId: '42' });
+      sinon.assert.calledWith(route.store.query, 'attached-certification-center', {
+        organizationId: organization.id,
+      });
+      assert.deepEqual(result, { attachedCertificationCenters, organizationId: '42' });
     });
   });
 });

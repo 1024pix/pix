@@ -8,7 +8,9 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import AttachedCertificationCenterForm from 'pix-admin/components/organizations/attached-certification-centers/attach-certification-center-form';
 import ENV from 'pix-admin/config/environment';
+import { organizationRequestsBuilder } from 'pix-admin/requests-builders/organization-requests-builder';
 
 export default class AttachedCertificationCenter extends Component {
   @service intl;
@@ -18,8 +20,8 @@ export default class AttachedCertificationCenter extends Component {
 
   @tracked showDetachModal = false;
 
-  get certificationCenterToDetach() {
-    return this.args.attachedCertificationCenters.firstObject;
+  get attachedCertificationCenter() {
+    return this.args.attachedCertificationCenters[0];
   }
 
   @action
@@ -30,6 +32,47 @@ export default class AttachedCertificationCenter extends Component {
   @action
   closeDetachModal() {
     this.showDetachModal = false;
+  }
+
+  @action
+  async handleAttachCertificationCenter(certificationCenterId) {
+    const attachCertificationCenterRequest = organizationRequestsBuilder.buildAttachCertificationCenterRequest({
+      organizationId: this.args.organizationId,
+      certificationCenterId,
+    });
+
+    try {
+      await this.requestManager.request(attachCertificationCenterRequest);
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t('components.organizations.attached-certification-center.notifications.attach-success'),
+      });
+      this.router.refresh(this.router.currentRouteName);
+    } catch (responseError) {
+      const error = responseError?.errors?.[0];
+      let message;
+
+      switch (error?.code) {
+        case 'NON_EXISTING_CERTIFICATION_CENTER':
+          message = this.intl.t(
+            'components.organizations.attached-certification-center.notifications.errors.NON_EXISTING_CERTIFICATION_CENTER',
+            { certificationCenterId: error.meta.certificationCenterId },
+          );
+          break;
+        case 'ALREADY_ATTACHED_CERTIFICATION_CENTER':
+          message = this.intl.t(
+            'components.organizations.attached-certification-center.notifications.errors.ALREADY_ATTACHED_CERTIFICATION_CENTER',
+            {
+              certificationCenterId: error.meta.certificationCenterId,
+              alreadyAttachedOrganizationId: error.meta.alreadyAttachedOrganizationId,
+            },
+          );
+          break;
+        default:
+          message = this.intl.t('common.notifications.generic-error');
+      }
+
+      this.pixToast.sendErrorNotification({ message });
+    }
   }
 
   @action
@@ -53,7 +96,7 @@ export default class AttachedCertificationCenter extends Component {
   }
 
   <template>
-    {{#if @attachedCertificationCenters.length}}
+    {{#if this.attachedCertificationCenter}}
       <PixTable
         @variant="admin"
         @caption={{t "components.organizations.attached-certification-center.table.caption"}}
@@ -87,7 +130,8 @@ export default class AttachedCertificationCenter extends Component {
         </:columns>
       </PixTable>
     {{else}}
-      <p>{{t "components.organizations.attached-certification-center.empty"}}</p>
+      <AttachedCertificationCenterForm @onFormSubmitted={{this.handleAttachCertificationCenter}} />
+
     {{/if}}
 
     <PixModal
@@ -100,7 +144,7 @@ export default class AttachedCertificationCenter extends Component {
         <p>
           {{t
             "components.organizations.attached-certification-center.actions.detach.confirm-modal-message"
-            certificationCenterName=this.certificationCenterToDetach.name
+            certificationCenterName=this.attachedCertificationCenter.name
             htmlSafe=true
           }}
         </p>
