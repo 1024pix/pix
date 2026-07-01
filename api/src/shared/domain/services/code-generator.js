@@ -1,26 +1,17 @@
-import randomString from 'randomstring';
+import { generateCode } from '../../infrastructure/utils/code-generator.js';
 
-function generate(repository, pendingList = []) {
-  const letters = randomString.generate({
-    length: 6,
-    charset: 'alphabetic',
-    capitalization: 'uppercase',
-    readable: true,
-  });
-  const numbers = randomString.generate({ length: 3, charset: 'numeric', readable: true });
+async function generate(repository, pendingList = [], dependencies = { generateCode }) {
+  const letters = dependencies.generateCode(6, 'alphaSafe').toUpperCase();
+  const numbers = dependencies.generateCode(3, 'numericSafe');
 
   const generatedCode = letters.concat(numbers);
 
   if (pendingList.includes(generatedCode)) {
-    return generate(repository, pendingList);
+    return generate(repository, pendingList, dependencies);
   }
 
-  return repository.isCodeAvailable({ code: generatedCode }).then((isCodeAvailable) => {
-    if (isCodeAvailable) {
-      return Promise.resolve(generatedCode);
-    }
-    return generate(repository, pendingList);
-  });
+  const isCodeAvailable = await repository.isCodeAvailable({ code: generatedCode });
+  return isCodeAvailable ? generatedCode : generate(repository, pendingList, dependencies);
 }
 
 export { generate };
