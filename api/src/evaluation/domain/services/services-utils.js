@@ -1,5 +1,6 @@
-import { ALL_TREATMENTS } from '../../../shared/domain/constants.js';
 import { isCloseEnoughToOneOf } from '../../../shared/domain/services/string-similarity-service.js';
+
+const ALL_TREATMENTS = ['t1', 't2', 't3'];
 
 export function getEnabledTreatments(shouldApplyTreatments, deactivations) {
   return shouldApplyTreatments ? ALL_TREATMENTS.filter((treatment) => !deactivations[treatment]) : [];
