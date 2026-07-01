@@ -20,7 +20,6 @@ import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
  * @param {UserRepository} params.userRepository
  * @param {EmailRepository} params.emailRepository
  * @param {CryptoService} params.cryptoService
- * @param {*} params.codeUtils
  */
 const sendVerificationCode = async function ({
   userId,
@@ -33,7 +32,6 @@ const sendVerificationCode = async function ({
   userEmailRepository,
   emailRepository,
   cryptoService,
-  codeUtils,
 }) {
   const user = await userRepository.get(userId);
 

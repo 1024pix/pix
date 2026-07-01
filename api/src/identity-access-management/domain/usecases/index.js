@@ -22,7 +22,6 @@ import { adminMemberRepository } from '../../../shared/infrastructure/repositori
 import { auditLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
-import * as codeUtils from '../../../shared/infrastructure/utils/code-utils.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
 import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
@@ -108,7 +107,7 @@ const utils = {
   httpAgent,
 };
 
-const dependencies = Object.assign({ config, codeUtils }, repositories, services, validators, utils);
+const dependencies = Object.assign({ config }, repositories, services, validators, utils);
 
 import { acceptPixAppTermsOfService } from './accept-pix-app-terms-of-service.usecase.js';
 import { acceptPixCertifTermsOfService } from './accept-pix-certif-terms-of-service.usecase.js';
