@@ -1,21 +1,11 @@
-import _ from 'lodash';
-import randomString from 'randomstring';
+import { generateCode } from '../../../shared/infrastructure/utils/code-generator.js';
 
-const generateSimplePassword = function () {
-  const letterPart = randomString.generate({
-    length: 6,
-    charset: 'abcdefghjkmnpqrstuvwxyz',
-    capitalization: 'lowercase',
-  });
-  const numberPart = _.padStart(_.random(99), 2, '0');
+export function generateSimplePassword() {
+  const letterPart = generateCode(6, 'alphaSafe').toLowerCase();
+  const numberPart = generateCode(2, 'numeric').padStart(2, '0');
   return `${letterPart}${numberPart}`;
-};
+}
 
-const generateComplexPassword = function () {
-  return randomString.generate({
-    length: 32,
-    charset: 'alphanumeric',
-  });
-};
-
-export { generateComplexPassword, generateSimplePassword };
+export function generateComplexPassword(dependencies = { generateCode }) {
+  return dependencies.generateCode(32, 'alphanumeric');
+}
