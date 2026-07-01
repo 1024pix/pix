@@ -78,6 +78,7 @@ export class ConvertUsersPixAppCguData extends Script {
     return knexConnection('users')
       .select('users.id', 'users.lastTermsOfServiceValidatedAt')
       .where('users.cgu', true)
+      .where('users.hasBeenAnonymised', false)
       .whereNotExists(
         knexConnection
           .select(1)

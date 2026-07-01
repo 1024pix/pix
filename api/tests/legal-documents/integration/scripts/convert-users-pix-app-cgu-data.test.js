@@ -158,6 +158,26 @@ describe('Integration | Legal documents | Scripts | convert-users-pix-app-cgu-da
       });
     });
 
+    context('when a user has been anonymised', function () {
+      it('does not migrate the anonymised user', async function () {
+        // given
+        databaseBuilder.factory.buildUser({
+          cgu: true,
+          hasBeenAnonymised: true,
+          lastTermsOfServiceValidatedAt: new Date('2021-01-01'),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const script = new ConvertUsersPixAppCguData();
+        const options = { dryRun: false, batchSize: 1, throttleDelay: 0 };
+        await script.handle({ options, logger });
+
+        // then
+        expect(logger.info).to.have.been.calledWith('Total users migrated: 0');
+      });
+    });
+
     context('when no legal document is found', function () {
       it('throws an error', async function () {
         // given
