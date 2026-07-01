@@ -913,7 +913,19 @@
             "success": "Le centre de certification a été détaché avec succès."
           }
         },
+        "attach-form": {
+          "input-label": "Rattacher un centre de certification",
+          "input-sublabel": "ID du centre",
+          "name": "Rattacher un centre de certification"
+        },
         "empty": "Aucun centre de certification rattaché.",
+        "notifications": {
+          "attach-success": "Le centre de certification a bien été rattaché à l'organisation.",
+          "errors": {
+            "ALREADY_ATTACHED_CERTIFICATION_CENTER": "Le centre de certification {certificationCenterId} est déjà rattaché à l'organisation {alreadyAttachedOrganizationId}.",
+            "NON_EXISTING_CERTIFICATION_CENTER": "Le centre de certification {certificationCenterId} n'existe pas."
+          }
+        },
         "table": {
           "caption": "Centre de certification rattaché à l'organisation.",
           "headers": {

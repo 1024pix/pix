@@ -905,7 +905,19 @@
             "success": "The certification center has been successfully detached."
           }
         },
+        "attach-form": {
+          "input-label": "Attach a certification center",
+          "input-sublabel": "ID of the center",
+          "name": "Attach a certification center"
+        },
         "empty": "No certification center attached.",
+        "notifications": {
+          "attach-success": "The certification center has been successfully attached to the organization.",
+          "errors": {
+            "ALREADY_ATTACHED_CERTIFICATION_CENTER": "Certification center {certificationCenterId} is already attached to organisation {alreadyAttachedOrganizationId}.",
+            "NON_EXISTING_CERTIFICATION_CENTER": "Certification center {certificationCenterId} does not exist."
+          }
+        },
         "table": {
           "caption": "Certification center attached to the organisation.",
           "headers": {
