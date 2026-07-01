@@ -319,8 +319,7 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
             publishedAt: '2022-01-01',
           }).id;
           const userId = databaseBuilder.factory.buildUser().id;
-          const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
-          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+          databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             sessionId,
             userId,
@@ -359,8 +358,7 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
           publishedAt: null,
         }).id;
         const userId = databaseBuilder.factory.buildUser().id;
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           sessionId,
           userId,
@@ -396,8 +394,7 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const userId = databaseBuilder.factory.buildUser().id;
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           sessionId,
           userId,
@@ -433,8 +430,7 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const userId = databaseBuilder.factory.buildUser().id;
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
 
         await databaseBuilder.commit();
 
@@ -468,8 +464,7 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
         // given
         const sessionId = databaseBuilder.factory.buildSession({}).id;
         const userId = databaseBuilder.factory.buildUser().id;
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
         databaseBuilder.factory.buildCertificationCourse({
           sessionId,
           userId,

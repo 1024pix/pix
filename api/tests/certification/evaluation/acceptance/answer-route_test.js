@@ -65,7 +65,6 @@ async function _setupTestData(databaseBuilder, { competenceId, doesCandidateNeed
     userId,
     accessibilityAdjustmentNeeded: doesCandidateNeedAccessibilityAdjustment,
   });
-  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
   const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
     userId,

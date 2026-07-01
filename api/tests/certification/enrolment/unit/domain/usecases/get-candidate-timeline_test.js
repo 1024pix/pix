@@ -265,7 +265,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
           const candidate = domainBuilder.certification.enrolment.buildCandidate({
             userId: 222,
             reconciledAt: new Date(),
-            subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
           });
           candidateRepository.get.resolves(candidate);
           const placementProfile = domainBuilder.buildPlacementProfile();
@@ -305,7 +304,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
             domainBuilder.certification.enrolment.buildCandidate({
               userId: 222,
               reconciledAt: new Date(),
-              subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
             }),
           );
           const certificationCourse = domainBuilder.buildCertificationCourse({

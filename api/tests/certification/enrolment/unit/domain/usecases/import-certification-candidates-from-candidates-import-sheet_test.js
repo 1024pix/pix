@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 
 import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../../../src/certification/enrolment/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { CandidateAlreadyLinkedToUserError } from '../../../../../../src/shared/domain/errors.js';
@@ -108,12 +109,8 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         it('should add the certification candidates', async function () {
           // given
           const odsBuffer = 'buffer';
-          const complementaryCertification = domainBuilder.certification.shared.buildComplementaryCertification();
           const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildCoreSubscription(),
-              domainBuilder.certification.shared.buildComplementaryCertification({ ...complementaryCertification }),
-            ],
+            subscription: Frameworks.DROIT,
           });
           const candidates = [candidate];
 

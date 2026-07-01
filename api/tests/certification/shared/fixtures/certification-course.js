@@ -129,9 +129,8 @@ const buildKnowledgeElementsFromAnswers = ({ answers, challenges, userId }) => {
   });
 };
 
-export const createSuccessfulCertificationCourse = async ({ candidateId, userId, certificationCourse }) => {
+export const createSuccessfulCertificationCourse = async ({ userId, certificationCourse }) => {
   const { challenges } = createLearningContent();
-  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateId });
 
   const assessment = databaseBuilder.factory.buildAssessment({
     userId,

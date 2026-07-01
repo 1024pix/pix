@@ -76,7 +76,6 @@ describe('Certification | Session-management | Acceptance | Application | Routes
           sessionId: session.id,
           candidateId: candidate.id,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         const assessment = databaseBuilder.factory.buildAssessment({
           id: 456,
           type: Assessment.types.CERTIFICATION,

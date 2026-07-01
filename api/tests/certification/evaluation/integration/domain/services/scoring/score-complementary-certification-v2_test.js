@@ -364,13 +364,6 @@ function _buildComplementaryCertificationCourse({
     assessmentId: resultAssessmentId,
     status: 'validated',
   });
-  databaseBuilder.factory.buildComplementaryCertificationSubscription({
-    certificationCandidateId,
-    complementaryCertificationId,
-  });
-  databaseBuilder.factory.buildCoreSubscription({
-    certificationCandidateId,
-  });
 }
 
 function _buildComplementaryCertificationBadge({

@@ -28,8 +28,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
         publishedAt: null,
         certificationCenterId,
       });
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId: 123 });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+      databaseBuilder.factory.buildCertificationCandidate({ sessionId: 123 });
       await databaseBuilder.commit();
       const request = {
         headers: generateAuthenticatedUserRequestHeaders({ userId }),

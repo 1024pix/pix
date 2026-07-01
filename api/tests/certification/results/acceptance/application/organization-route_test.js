@@ -36,7 +36,6 @@ describe('Certification | Results | Acceptance | Application | Routes | organiza
         organizationLearnerId: organizationLearner.id,
         sessionId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         id: 20484096,
         userId: candidate.userId,
@@ -59,7 +58,6 @@ describe('Certification | Results | Acceptance | Application | Routes | organiza
         organizationLearnerId: organizationLearnerDidNotComeToTheSession.id,
         sessionId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateDidNotComeToTheSession.id });
       databaseBuilder.factory.buildCertificationCourse({
         sessionId: candidateDidNotComeToTheSession.sessionId,
         isPublished: true,

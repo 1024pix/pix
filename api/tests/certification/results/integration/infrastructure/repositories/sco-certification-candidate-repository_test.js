@@ -19,7 +19,6 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         sessionId,
         organizationLearnerId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         lastName: candidate.lastName,
@@ -53,7 +52,6 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         sessionId,
         organizationLearnerId: nonDisabledOrganizationLearnerId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: nonDisabledCandidate.id });
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         lastName: nonDisabledCandidate.lastName,
@@ -72,7 +70,6 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         sessionId,
         organizationLearnerId: disabledOrganizationLearnerId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: disabledCandidate.id });
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         lastName: disabledCandidate.lastName,
@@ -109,7 +106,6 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         sessionId,
         organizationLearnerId: aOrganizationLearnerId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateFromTheGivenDivision.id });
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         lastName: candidateFromTheGivenDivision.lastName,
@@ -123,7 +119,6 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         sessionId,
         organizationLearnerId: anotherOrganizationLearnerId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateFromAnotherDivision.id });
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         lastName: candidateFromAnotherDivision.lastName,
@@ -168,7 +163,6 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         sessionId,
         organizationLearnerId: aOrganizationLearnerId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: thirdInAlphabeticOrderCandidate.id });
 
       const firstInAlphabeticOrderCandidate = databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Smith',
@@ -176,7 +170,6 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         sessionId,
         organizationLearnerId: yetAnotherOrganizationLearnerId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: firstInAlphabeticOrderCandidate.id });
 
       const secondInAlphabeticOrderCandidate = databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Smith',
@@ -184,7 +177,6 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         sessionId,
         organizationLearnerId: anotherOrganizationLearnerId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: secondInAlphabeticOrderCandidate.id });
 
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
@@ -250,7 +242,6 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         ...candidate,
         sessionId: sessionIdTwo,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateThatEnteredTheSession.id });
       databaseBuilder.factory.buildCertificationCourse({
         sessionId: candidateThatEnteredTheSession.sessionId,
         lastName: candidateThatEnteredTheSession.lastName,
@@ -290,12 +281,10 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
           ...candidate,
           sessionId: unpublishedSessionId,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateFromUnpublishedSession.id });
         const candidateFromPublishedSession = databaseBuilder.factory.buildCertificationCandidate({
           ...candidate,
           sessionId: sessionPublishedId,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateFromPublishedSession.id });
         databaseBuilder.factory.buildCertificationCourse({
           sessionId: unpublishedSessionId,
           lastName: candidateFromUnpublishedSession.lastName,
@@ -345,9 +334,7 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
           ...candidate,
           sessionId: sessionIdOne,
         });
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: candidateLinkedToTheFirstSession.id,
-        });
+
         databaseBuilder.factory.buildCertificationCourse({
           createdAt: firstCertificationCourseStartDate,
           sessionId: candidateLinkedToTheFirstSession.sessionId,
@@ -362,9 +349,7 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
           ...candidate,
           sessionId: sessionIdTwo,
         });
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: candidateLinkedToTheSecondSession.id,
-        });
+
         databaseBuilder.factory.buildCertificationCourse({
           createdAt: secondCertificationCourseStartDate,
           sessionId: candidateLinkedToTheSecondSession.sessionId,

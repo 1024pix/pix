@@ -15,13 +15,9 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       // given
       databaseBuilder.factory.buildCertificationCenter({ id: 345 });
       databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+      databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121, subscription: 'DROIT' });
       databaseBuilder.factory.buildComplementaryCertification({ id: 99 });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: candidate.id,
-        complementaryCertificationId: 99,
-      });
+
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildInvigilatorAccess({ userId, sessionId: 121 });
       await databaseBuilder.commit();

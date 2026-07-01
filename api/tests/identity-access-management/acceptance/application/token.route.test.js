@@ -1,14 +1,14 @@
 import querystring from 'node:querystring';
 
 import { createServer } from '../../../../server.js';
+import { UserAccessToken } from '../../../../src/identity-access-management/domain/models/UserAccessToken.js';
+import { config } from '../../../../src/shared/config.js';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { generateInjectOptions } from '../../../tooling/test-utils/http-server.js';
 
 const { ROLES } = PIX_ADMIN;
-import { UserAccessToken } from '../../../../src/identity-access-management/domain/models/UserAccessToken.js';
-import { config } from '../../../../src/shared/config.js';
 
 describe('Acceptance | Identity Access Management | Route | Token', function () {
   let server;
@@ -168,8 +168,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
         // given
         databaseBuilder.factory.buildCertificationCenter({ id: 345 });
         databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
         databaseBuilder.factory.buildInvigilatorAccess({ userId, sessionId: 121 });
         await databaseBuilder.commit();
 
