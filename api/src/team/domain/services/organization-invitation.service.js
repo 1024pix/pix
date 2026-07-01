@@ -1,5 +1,3 @@
-import randomString from 'randomstring';
-
 import * as mailService from '../../../../src/shared/domain/services/mail-service.js';
 import {
   SendingEmailError,
@@ -7,6 +5,7 @@ import {
   SendingEmailToInvalidEmailAddressError,
 } from '../../../shared/domain/errors.js';
 import { Membership } from '../../../shared/domain/models/Membership.js';
+import { generateCode } from '../../../shared/infrastructure/utils/code-generator.js';
 
 /**
  * @param {Object} params
@@ -194,5 +193,5 @@ export const organizationInvitationService = {
 };
 
 const _generateCode = () => {
-  return randomString.generate({ length: 10, capitalization: 'uppercase' });
+  return generateCode(10, 'alphanumeric').toUpperCase();
 };
