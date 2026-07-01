@@ -101,7 +101,7 @@
                 "id": "b0722cda-34d4-49c5-ba40-597a51a34837",
                 "type": "text",
                 "tag": " ",
-                "content": "<p> Mais ça veut dire quoi un appareil vulnérable ? De quoi protège la mise à jour ?</p>"
+                "content": "<p> Mais ça veut dire quoi un appareil vulnérable&nbsp;? De quoi protège la mise à jour&nbsp;?</p>"
               }
             }
           ]
@@ -141,7 +141,7 @@
                     {
                       "id": "2ceaae89-4551-47f8-bf47-ba0aed6d864b",
                       "type": "qcu-discovery",
-                      "instruction": "<p>À votre avis, dans cette situation, est-ce que l’application Photos de Ruben présente une vulnérabilité logicielle ?</p>",
+                      "instruction": "<p>À votre avis, dans cette situation, est-ce que l’application Photos de Ruben présente une vulnérabilité logicielle&nbsp;?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -265,7 +265,7 @@
                 "id": "72617e89-2dae-4ca4-9ff7-ce099c90e5ad",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Dans la plupart des cas, une <strong>vulnérabilité logicielle</strong> ne se voit pas quand on utilise l'appareil. Ce sont des <strong>faiblesses de conception</strong> (erreurs, maladresses, oublis) <strong>dans le code informatique</strong>d'appareils, de logiciels ou d’applications.<br>Un logiciel peut<strong> fonctionner normalement en apparence</strong> pour l’utilisateur, pendant qu’un pirate informatique l’<strong>exploite de manière malveillante</strong>. ☠️</p>"
+                "content": "<p>Dans la plupart des cas, une <strong>vulnérabilité logicielle</strong> ne se voit pas quand on utilise l'appareil. Ce sont des <strong>faiblesses de conception</strong> (erreurs, maladresses, oublis) <strong>dans le code informatique</strong>d'appareils, de logiciels ou d’applications.<br>Un logiciel peut<strong> fonctionner normalement en apparence</strong> pour l’utilisateur, pendant qu’un pirate informatique l’<strong>exploite de manière malveillante</strong>.&nbsp;☠️</p>"
               }
             },
             {
@@ -290,7 +290,7 @@
                 "id": "cae1160e-c08b-4dc8-ab4d-68ec0ea348ca",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Ça veut dire quoi « exploiter une vulnérabilité logicielle » ? Quels sont les risques pour les utilisateurs ? <br>Voyons cela plus en détails avec un exemple.</p>"
+                "content": "<p>Ça veut dire quoi «&nbsp;exploiter une vulnérabilité logicielle&nbsp;»&nbsp;? Quels sont les risques pour les utilisateurs&nbsp;? <br>Voyons cela plus en détails avec un exemple.</p>"
               }
             }
           ]
@@ -379,7 +379,7 @@
                 "id": "db1d980b-b08e-4389-8d37-a8e5e93cb704",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>💡 Un antivirus ne peut pas détecter les vulnérabilités logicielles. Son rôle est de protéger votre appareil contre l’installation de logiciels malveillants connus. Il est donc probable que votre antivirus ne vous protège pas contre toutes les conséquences d’une vulnérabilité logicielle.</p>"
+                "content": "<p>💡&nbsp;Un antivirus ne peut pas détecter les vulnérabilités logicielles. Son rôle est de protéger votre appareil contre l’installation de logiciels malveillants connus. Il est donc probable que votre antivirus ne vous protège pas contre toutes les conséquences d’une vulnérabilité logicielle.</p>"
               }
             }
           ]
@@ -528,7 +528,7 @@
                   ]
                 },
                 {
-                  "elements": [                    
+                  "elements": [
                     {
                       "id": "6af8d4e6-07ff-472d-90f3-c77b84a6906f",
                       "type": "qcu-discovery",
@@ -610,7 +610,7 @@
                 "id": "a99933ab-f64f-40c8-ac12-b3af834935d9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les mises à jour permettent de corriger des vulnérabilités et protéger vos appareils. <br>Encore faut-il que les utilisateurs les installent !</p>"
+                "content": "<p>Les mises à jour permettent de corriger des vulnérabilités et protéger vos appareils. <br>Encore faut-il que les utilisateurs les installent&nbsp;!</p>"
               }
             }
           ]
@@ -860,7 +860,7 @@
                 "id": "d80d568b-d4d9-41f0-8082-101da70e606b",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>Les logiciels que nous utilisons au quotidien sur nos différents appareils peuvent présenter des faiblesses de conception, appelées <strong>vulnérabilités logicielles</strong>. 🚨&nbsp;&nbsp;<br></li><li>Un jeu du chat et de la souris a lieu entre les éditeurs de logiciels et les pirates informatiques pour détecter les vulnérabilités. 🐈‍⬛ 🐁 <ul><li>Les pirates informatiques cherchent à trouver ces vulnérabilités pour les <strong>exploiter à des fins malveillantes</strong>. ☠️</li><li>Les éditeurs de logiciels <strong>corrigent ces vulnérabilités logicielles</strong> en publiant des <strong>mises à jour</strong>. ⛑️<br></li></ul><li>Pour<strong> protéger vos appareils</strong> et ceux des autres, il est essentiel d’<strong>effectuer les mises à jour</strong> logicielles fréquemment sur ses appareils, ou d’activer les mises à jour automatiques. 🔄</li></ul>"
+                "content": "<ul><li>Les logiciels que nous utilisons au quotidien sur nos différents appareils peuvent présenter des faiblesses de conception, appelées <strong>vulnérabilités logicielles</strong>. 🚨&nbsp;&nbsp;<br></li><li>Un jeu du chat et de la souris a lieu entre les éditeurs de logiciels et les pirates informatiques pour détecter les vulnérabilités. 🐈‍⬛ 🐁 <ul><li>Les pirates informatiques cherchent à trouver ces vulnérabilités pour les <strong>exploiter à des fins malveillantes</strong>. ☠️</li><li>Les éditeurs de logiciels <strong>corrigent ces vulnérabilités logicielles</strong> en publiant des <strong>mises à jour</strong>. ⛑️<br></li></ul></li><li>Pour<strong> protéger vos appareils</strong> et ceux des autres, il est essentiel d’<strong>effectuer les mises à jour</strong> logicielles fréquemment sur ses appareils, ou d’activer les mises à jour automatiques. 🔄</li></ul>"
               }
             }
           ]
@@ -998,87 +998,131 @@
                     "content": "<p>La vulnérabilité Follina est </p>"
                   },
                   {
+                    "type": "select",
                     "input": "1",
-                    "type": "input",
-                    "inputType": "text",
-                    "size": 27,
                     "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "Remplir le champ",
-                    "tolerances": [
-                      "t1",
-                      "t2",
-                      "t3"
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "Sélectionner",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "un accès non autorisé"
+                      },
+                      {
+                        "id": "2",
+                        "content": "une faiblesse de conception"
+                      },
+                      {
+                        "id": "3",
+                        "content": "une mise à jour"
+                      },
+                      {
+                        "id": "4",
+                        "content": "des actions malveillantes"
+                      }
                     ],
                     "solutions": [
-                      "une faiblesse de conception",
-                      "faiblesse de conception"
+                      "2"
                     ]
                   },
                   {
                     "type": "text",
-                    "content": "<p>présente dans certains programmes de Microsoft.</p><p>En exploitant cette vulnérabilité, des pirates informatiques ont obtenu </p>"
+                    "content": "<p>présente dans certains programmes de Microsoft.</p>\n<p> En exploitant cette vulnérabilité, des pirates informatiques ont obtenu </p>"
                   },
                   {
+                    "type": "select",
                     "input": "2",
-                    "type": "input",
-                    "inputType": "text",
-                    "size": 21,
                     "display": "inline",
-                    "placeholder": "",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "Remplir le champ",
-                    "tolerances": [
-                      "t1",
-                      "t2",
-                      "t3"
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "un accès non autorisé"
+                      },
+                      {
+                        "id": "2",
+                        "content": "une faiblesse de conception"
+                      },
+                      {
+                        "id": "3",
+                        "content": "une mise à jour"
+                      },
+                      {
+                        "id": "4",
+                        "content": "des actions malveillantes"
+                      }
                     ],
                     "solutions": [
-                      "un accès non autorisé",
-                      "accès non autorisé"
+                      "1"
                     ]
                   },
                   {
                     "type": "text",
-                    "content": "<p>à des appareils. </p><p>Cet accès a permis aux pirates informatiques de réaliser </p>"
+                    "content": "<p>à des appareils.</p>\n<p>Cet accès a permis aux pirates informatiques de réaliser </p>"
                   },
                   {
+                    "type": "select",
                     "input": "3",
-                    "type": "input",
-                    "inputType": "text",
-                    "size": 25,
                     "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "Remplir le champ",
-                    "tolerances": [
-                      "t1",
-                      "t2",
-                      "t3"
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "Sélectionner",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "un accès non autorisé"
+                      },
+                      {
+                        "id": "2",
+                        "content": "une faiblesse de conception"
+                      },
+                      {
+                        "id": "3",
+                        "content": "une mise à jour"
+                      },
+                      {
+                        "id": "4",
+                        "content": "des actions malveillantes"
+                      }
                     ],
                     "solutions": [
-                      "des actions malveillantes",
-                      "actions malveillantes"
+                      "4"
                     ]
                   },
                   {
                     "type": "text",
-                    "content": "<p>sur de nombreux appareils. </p><p>Pour corriger cette vulnérabilité, Microsoft a publié </p>"
+                    "content": "<p>sur de nombreux appareils. </p>\n<p> Pour corriger cette vulnérabilité, Microsoft a publié </p>"
                   },
                   {
+                    "type": "select",
                     "input": "4",
-                    "type": "input",
-                    "inputType": "text",
-                    "size": 15,
                     "display": "inline",
-                    "placeholder": "",
-                    "ariaLabel": "Remplir le champ",
-                    "tolerances": [
-                      "t1",
-                      "t2",
-                      "t3"
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "Sélectionner",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "un accès non autorisé"
+                      },
+                      {
+                        "id": "2",
+                        "content": "une faiblesse de conception"
+                      },
+                      {
+                        "id": "3",
+                        "content": "une mise à jour"
+                      },
+                      {
+                        "id": "4",
+                        "content": "des actions malveillantes"
+                      }
                     ],
                     "solutions": [
-                      "une mise à jour",
-                      "mise à jour"
+                      "3"
                     ]
                   },
                   {
