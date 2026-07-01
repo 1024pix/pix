@@ -5,7 +5,6 @@ import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { Response } from 'miragejs';
-import { COMPLEMENTARY_KEYS } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -108,7 +107,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
               server.create('allowed-certification-center-access', {
                 id: 1,
-                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+                habilitations: [{ key: 'CLEA' }],
               });
               await authenticateSession(certificationPointOfContact.id);
 
@@ -152,7 +151,7 @@ module('Acceptance | authenticated | team', function (hooks) {
                 server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
                 server.create('allowed-certification-center-access', {
                   id: 1,
-                  habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+                  habilitations: [{ key: 'CLEA' }],
                 });
                 await authenticateSession(certificationPointOfContact.id);
 
@@ -186,7 +185,7 @@ module('Acceptance | authenticated | team', function (hooks) {
                   server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false, role: 'MEMBER' });
                   server.create('allowed-certification-center-access', {
                     id: 1,
-                    habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+                    habilitations: [{ key: 'CLEA' }],
                   });
                   await authenticateSession(certificationPointOfContact.id);
 
@@ -227,7 +226,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               );
               server.create('allowed-certification-center-access', {
                 id: 1,
-                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+                habilitations: [{ key: 'CLEA' }],
               });
               await authenticateSession(certificationPointOfContact.id);
 
@@ -249,7 +248,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               );
               server.create('allowed-certification-center-access', {
                 id: 1,
-                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+                habilitations: [{ key: 'CLEA' }],
               });
               await authenticateSession(certificationPointOfContact.id);
 
@@ -284,7 +283,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               server.create('member', { firstName: 'Jean', lastName: 'Ticipe', isReferer: false });
               server.create('allowed-certification-center-access', {
                 id: 1,
-                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+                habilitations: [{ key: 'CLEA' }],
               });
               await authenticateSession(certificationPointOfContact.id);
 
@@ -491,7 +490,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
               server.create('allowed-certification-center-access', {
                 id: 1,
-                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+                habilitations: [{ key: 'CLEA' }],
               });
               await authenticateSession(certificationPointOfContact.id);
 
@@ -523,7 +522,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               server.create('member', { firstName: 'Jean', lastName: 'Ticipe', isReferer: false });
               server.create('allowed-certification-center-access', {
                 id: 1,
-                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+                habilitations: [{ key: 'CLEA' }],
               });
               await authenticateSession(certificationPointOfContact.id);
 

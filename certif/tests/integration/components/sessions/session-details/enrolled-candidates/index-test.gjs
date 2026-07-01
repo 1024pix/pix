@@ -1,13 +1,13 @@
-import { render } from "@1024pix/ember-testing-library";
-import Service from "@ember/service";
-import { click } from "@ember/test-helpers";
-import { t } from "ember-intl/test-support";
-import EnrolledCandidates from "pix-certif/components/sessions/session-details/enrolled-candidates";
-import { module, test } from "qunit";
-import sinon from "sinon";
+import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
+import EnrolledCandidates from 'pix-certif/components/sessions/session-details/enrolled-candidates';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
-import { stubFeatureTogglesService } from "../../../../../helpers/service-stubs";
-import setupIntlRenderingTest from "../../../../../helpers/setup-intl-rendering";
+import { stubFeatureTogglesService } from '../../../../../helpers/service-stubs';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates', function (hooks) {
   setupIntlRenderingTest(hooks);

@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import { COMPLEMENTARY_KEYS } from 'pix-certif/models/subscription';
 
 export default class AuthenticatedTeamListRoute extends Route {
   @service currentUser;
@@ -20,7 +19,7 @@ export default class AuthenticatedTeamListRoute extends Route {
 
     const hasCleaHabilitation = this.store
       .peekRecord('allowed-certification-center-access', certificationCenterId)
-      .habilitations?.some((habilitation) => habilitation.key === COMPLEMENTARY_KEYS.CLEA);
+      .habilitations?.some((habilitation) => habilitation.key === 'CLEA');
 
     return {
       invitations,

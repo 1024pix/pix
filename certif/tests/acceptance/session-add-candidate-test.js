@@ -2,7 +2,6 @@ import { visit } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
-import { COMPLEMENTARY_KEYS } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
@@ -18,7 +17,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
       type: 'PRO',
       habilitations: [
         { id: 1, label: 'Pix+ Droit', key: 'DROIT' },
-        { id: 2, label: 'CléA Numérique', key: COMPLEMENTARY_KEYS.CLEA },
+        { id: 2, label: 'CléA Numérique', key: 'CLEA' },
       ],
     });
     const certificationPointOfContact = server.create('certification-point-of-contact', {
