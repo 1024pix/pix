@@ -1,7 +1,5 @@
-import levenshtein from 'fast-levenshtein';
-
-import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../shared/domain/constants.js';
 import { AnswerStatus } from '../../../shared/domain/models/AnswerStatus.js';
+import { isCloseEnoughToOneOf } from '../../../shared/domain/services/string-similarity-service.js';
 import { _ } from '../../../shared/infrastructure/utils/lodash-utils.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { useLevenshteinRatio } from './services-utils.js';
@@ -84,16 +82,6 @@ function _applyTolerancesToAnswers(answers, enabledTolerances, qrocBlocksTypes =
   return treatedAnswers;
 }
 
-function _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants) {
-  let smallestLevenshteinDistance = answer.length;
-  for (const variant of solutionVariants) {
-    const levenshteinDistance = levenshtein.get(answer, variant);
-    smallestLevenshteinDistance = Math.min(smallestLevenshteinDistance, levenshteinDistance);
-  }
-  const ratio = smallestLevenshteinDistance / answer.length;
-  return ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE;
-}
-
 function _areAnswersComparableToSolutions(answers, solutions) {
   for (const answerKey in answers) {
     const solutionVariants = solutions[answerKey];
@@ -116,7 +104,7 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTolerances, qroc
     const solutionVariants = solutions[answerKey];
 
     if (useLevenshteinRatio(enabledTolerances[answerKey]) && qrocBlocksTypes[answerKey] !== 'select') {
-      results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
+      results[answerKey] = isCloseEnoughToOneOf(answer, solutionVariants);
     } else if (solutionVariants) {
       results[answerKey] = solutionVariants.includes(answer);
     }
