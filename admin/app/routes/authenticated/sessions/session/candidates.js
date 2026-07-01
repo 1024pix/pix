@@ -7,8 +7,9 @@ export default class CandidatesRoute extends Route {
 
   async model() {
     const session = this.modelFor('authenticated.sessions.session');
-    return this.store.query('certification-candidate', {
+    const certificationCandidates = await this.store.query('certification-candidate', {
       sessionId: session.id,
     });
+    return { session, certificationCandidates };
   }
 }

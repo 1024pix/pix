@@ -1738,18 +1738,18 @@
         },
         "caption": "Candidats",
         "empty-result": "No result",
-        "subscriptions": {
+        "pix-plus-format": {
           "complementary": "PIX certification / {pixPlusLabel} complementary",
-          "core": "Pix Certification",
-          "dual-core-clea": "Double Certification PIX/CléA Numérique",
-          "pix-plus": "{pixPlusLabel} certification",
-          "pix-plus-label": {
-            "DROIT": "Pix+ Law",
-            "EDU_1ER_DEGRE": "Pix+ Edu Primary School",
-            "EDU_2ND_DEGRE": "Pix+ Edu Secondary School",
-            "EDU_CPE": "Pix+ Edu CPE",
-            "PRO_SANTE": "Pix+ Pro Health"
-          }
+          "pix-plus": "{pixPlusLabel} certification"
+        },
+        "subscriptions": {
+          "CLEA": "Double Certification PIX/CléA Numérique",
+          "CORE": "Pix Certification",
+          "DROIT": "Pix+ Law",
+          "EDU_1ER_DEGRE": "Pix+ Edu Primary School",
+          "EDU_2ND_DEGRE": "Pix+ Edu Secondary School",
+          "EDU_CPE": "Pix+ Edu CPE",
+          "PRO_SANTE": "Pix+ Pro Health"
         }
       },
       "informations": {
