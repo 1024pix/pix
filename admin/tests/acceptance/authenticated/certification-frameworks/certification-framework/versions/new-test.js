@@ -194,7 +194,11 @@ module('Acceptance | Certification Framework | item | Framework | new', function
         await click(screen.getByRole('button', { name: 'Créer la nouvelle version du référentiel de certification' }));
 
         assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/versions/77/edit');
-        assert.dom(screen.getByText('form'));
+        assert.dom(
+          screen.getByText(
+            t('components.certification-frameworks.certification-framework.versions.page-title', { scope: 'DROIT' }),
+          ),
+        );
 
         await click(screen.getByRole('link', { name: 'DROIT' }));
         assert.strictEqual(currentURL(), '/certification-frameworks/DROIT');

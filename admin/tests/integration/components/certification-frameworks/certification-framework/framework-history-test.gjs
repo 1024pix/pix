@@ -1,4 +1,4 @@
-import { render, within } from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import FrameworkHistory from 'pix-admin/components/certification-frameworks/certification-framework/framework-history';
 import { module, test } from 'qunit';
@@ -88,7 +88,7 @@ module(
 
     test('it opens the detail modal when clicking the view button', async function (assert) {
       // given
-      sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version'));
+      sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version', { id: 999 }));
       const frameworkHistory = store.createRecord('framework-history', {
         history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
       });
@@ -98,36 +98,11 @@ module(
         <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
       );
 
-      await click(
-        screen.getAllByRole('button', {
-          name: t('components.certification-frameworks.certification-framework.history.table.actions.view'),
-        })[0],
-      );
+      await clickByName('Voir les détails de la version 999');
 
       // then
       sinon.assert.calledOnceWithExactly(store.findRecord, 'certification-version', draftFrameworkItem.id);
       assert.dom(screen.getByRole('dialog')).exists();
-    });
-
-    test('it displays the framework label as the modal title', async function (assert) {
-      // given
-      sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version'));
-      const frameworkHistory = store.createRecord('framework-history', {
-        history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
-      });
-
-      // when
-      const screen = await render(
-        <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
-      );
-
-      await click(
-        screen.getAllByRole('button', {
-          name: t('components.certification-frameworks.certification-framework.history.table.actions.view'),
-        })[0],
-      );
-
-      // then
       assert.dom(screen.getByRole('heading', { name: t('components.certification-frameworks.labels.CORE') })).exists();
     });
 
@@ -154,11 +129,7 @@ module(
         <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
       );
 
-      await click(
-        screen.getAllByRole('button', {
-          name: t('components.certification-frameworks.certification-framework.history.table.actions.view'),
-        })[0],
-      );
+      await clickByName('Voir les détails de la version 999');
       assert.dom(screen.getByRole('dialog')).exists();
 
       // when
@@ -168,18 +139,13 @@ module(
       assert.dom(screen.queryByRole('dialog')).exists();
     });
 
-    module('deletion', function (hooks) {
-      let deleteButtonName;
-      hooks.beforeEach(() => {
-        deleteButtonName = t(
-          'components.certification-frameworks.certification-framework.history.table.actions.delete',
-        );
-      });
-
-      test('it should not be possible to delete an ACTIVE or ARCHIVED version', async function (assert) {
+    module('deletion', function () {
+      test('it should only be possible to delete Draft version', async function (assert) {
         const frameworkHistory = store.createRecord('framework-history', {
           history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
         });
+        const certificationVersion = store.createRecord('certification-version', { id: draftFrameworkItem.id });
+        sinon.stub(store, 'findRecord').resolves(certificationVersion);
 
         // when
         const screen = await render(
@@ -187,38 +153,14 @@ module(
         );
 
         // then
-        assert.strictEqual(screen.getAllByRole('button', { name: deleteButtonName }).length, 3);
+        assert
+          .dom(screen.getByRole('button', { name: 'Supprimer la version 999' }))
+          .doesNotHaveAttribute('aria-disabled');
+        assert.dom(screen.getByRole('button', { name: 'Supprimer la version 123' })).hasAttribute('aria-disabled');
+        assert.dom(screen.getByRole('button', { name: 'Supprimer la version 456' })).hasAttribute('aria-disabled');
 
-        assert.dom(screen.getAllByRole('button', { name: deleteButtonName })[0]).doesNotHaveAttribute('aria-disabled');
-        assert.dom(screen.getAllByRole('button', { name: deleteButtonName })[1]).hasAttribute('aria-disabled');
-        assert.dom(screen.getAllByRole('button', { name: deleteButtonName })[2]).hasAttribute('aria-disabled');
-      });
-
-      test('it should be possible to only delete a DRAFT version', async function (assert) {
-        // given
-        const certificationVersion = store.createRecord('certification-version', { id: draftFrameworkItem.id });
-        sinon.stub(store, 'findRecord').resolves(certificationVersion);
-        sinon.stub(certificationVersion, 'destroyRecord').resolves();
-        const frameworkHistory = store.createRecord('framework-history', {
-          history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
-        });
-
-        const screen = await render(
-          <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
-        );
-
-        const [, row1, row2, row3] = await screen.getAllByRole('row');
-
-        const draftDeleteButton = within(row1).getByRole('button', { name: deleteButtonName });
-        const activeDeleteButton = within(row2).getByRole('button', { name: deleteButtonName });
-        const archivedDeleteButton = within(row3).getByRole('button', { name: deleteButtonName });
-
-        assert.dom(draftDeleteButton).doesNotHaveAttribute('aria-disabled');
-        assert.dom(activeDeleteButton).hasAttribute('aria-disabled');
-        assert.dom(archivedDeleteButton).hasAttribute('aria-disabled');
-
-        await click(draftDeleteButton);
-        await click(screen.getByText('Confirmer la suppression'));
+        await click(screen.getByRole('button', { name: 'Supprimer la version 999' }));
+        assert.dom(screen.getByText('Confirmer la suppression')).exists();
       });
 
       module('when deletion is a success', function () {
@@ -237,7 +179,7 @@ module(
           );
 
           // when
-          await click(screen.getAllByRole('button', { name: deleteButtonName })[0]);
+          await click(screen.getByRole('button', { name: 'Supprimer la version 999' }));
           await click(screen.getByText('Confirmer la suppression'));
 
           // then
@@ -262,7 +204,7 @@ module(
           );
 
           // when
-          await click(screen.getAllByRole('button', { name: deleteButtonName })[0]);
+          await click(screen.getByRole('button', { name: 'Supprimer la version 999' }));
           await click(screen.getByText('Confirmer la suppression'));
 
           // then

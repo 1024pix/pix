@@ -23,6 +23,7 @@ export default class FrameworkHistory extends Component {
   @service store;
   @service intl;
   @service pixToast;
+  @service router;
 
   @tracked selectedVersion = null;
   @tracked selectedVersionStatus = null;
@@ -77,6 +78,14 @@ export default class FrameworkHistory extends Component {
     } finally {
       this.closeDeleteVersionModal();
     }
+  }
+
+  @action
+  editVersion(versionId) {
+    this.router.transitionTo(
+      'authenticated.certification-frameworks.certification-framework.versions.version.edit',
+      versionId,
+    );
   }
 
   <template>
@@ -157,13 +166,15 @@ export default class FrameworkHistory extends Component {
                 @triggerAction={{fn this.viewVersion version.id version.status}}
                 @ariaLabel={{t
                   "components.certification-frameworks.certification-framework.history.table.actions.view"
+                  id=version.id
                 }}
                 @iconName="eye"
               />
               <PixIconButton
-                @triggerAction={{this.editVersion}}
+                @triggerAction={{this.editVersion version.id}}
                 @ariaLabel={{t
                   "components.certification-frameworks.certification-framework.history.table.actions.edit"
+                  id=version.id
                 }}
                 @iconName="edit"
                 @isDisabled={{not (eq version.status "draft")}}
@@ -172,6 +183,7 @@ export default class FrameworkHistory extends Component {
                 @triggerAction={{fn this.showDeleteVersionModal version.id}}
                 @ariaLabel={{t
                   "components.certification-frameworks.certification-framework.history.table.actions.delete"
+                  id=version.id
                 }}
                 @iconName="delete"
                 @isDisabled={{not (eq version.status "draft")}}
