@@ -42,7 +42,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     data.errors = {};
   });
 
-  test('it display campaign goals', async function (assert) {
+  test('it displays campaign goals', async function (assert) {
     // when
     const screen = await render(
       <template>
@@ -61,7 +61,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     assert.strictEqual(within(fieldset).getAllByRole('radio').length, 3);
   });
 
-  test('it disables the the submit button if no course (other than profile collection) is selected', async function () {
+  test('it disables the submit button if no course (other than profile collection) is selected', async function () {
     // when
     const screen = await render(
       <template>
@@ -80,7 +80,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     assert.dom(button).hasAria('disabled', 'true');
   });
 
-  test('it enables the the submit button profile collection is selected', async function () {
+  test('it enables the submit button profile collection is selected', async function () {
     data.campaign.type = 'PROFILES_COLLECTION';
     // when
     const screen = await render(
@@ -100,7 +100,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     assert.dom(button).doesNotHaveAria('disabled');
   });
 
-  test("it should display campaign's name", async function (assert) {
+  test("it displays campaign's name", async function (assert) {
     // given
     data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
     data.campaign.name = 'Campagne de test';
@@ -124,7 +124,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       .hasValue('Campagne de test');
   });
 
-  test('[a11y] it should display a message that some inputs are required', async function (assert) {
+  test('[a11y] it displays a message that some inputs are required', async function (assert) {
     // when
     const screen = await render(
       <template>
@@ -165,7 +165,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         data.prescriber.features.CAMPAIGN_WITHOUT_USER_PROFILE = { active: true, params: null };
       });
 
-      test('hides owner field if no course are selected', async function () {
+      test('it hides owner field if no course selected', async function () {
         // given
         data.campaign.type = campaignType.status;
 
@@ -185,7 +185,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         assert.dom(screen.queryByText(t('pages.campaign-creation.owner.info'))).doesNotExist();
       });
 
-      test('hides multiple sendings field if no course are selected', async function () {
+      test('it hides multiple sendings field if no course selected', async function () {
         // given
         data.campaign.type = campaignType.status;
         data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = { active: true, params: null };
@@ -210,7 +210,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
           .doesNotExist();
       });
 
-      test('it should hides campaign title', async function (assert) {
+      test('it hides campaign title until user select a course', async function (assert) {
         // given
         data.campaign.type = 'ASSESSMENT';
         // when
@@ -231,7 +231,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
           .doesNotExist();
       });
 
-      test('should hides hide landing page until user select a course', async function () {
+      test('it hides landing page until user select a course', async function () {
         // when
         const screen = await render(
           <template>
@@ -250,7 +250,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
           .doesNotExist();
       });
 
-      test(`it should have checked ${campaignType.status}`, async function (assert) {
+      test(`it has ${campaignType.status} checked`, async function (assert) {
         // given
         data.campaign.type = campaignType.status;
         data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
@@ -272,7 +272,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         assert.dom(screen.getByLabelText(t(campaignType.purpose))).isChecked();
       });
 
-      test("it should display owner fields and auto complete owner field with owner's full name", async function (assert) {
+      test("it displays owner fields and auto complete owner field with owner's full name", async function (assert) {
         // given
         data.campaign.type = campaignType.status;
         data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
@@ -300,7 +300,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         assert.dom(screen.getByRole('option', { name: 'Adam Troisjour', selected: true })).exists();
       });
 
-      test('it should fill course fields', async function (assert) {
+      test('it fills course fields', async function (assert) {
         // given
         data.campaign.type = campaignType.status;
         data.campaign.course = store.createRecord('course', { type: 'targetProfile', name: 'yolo' });
@@ -328,7 +328,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
           .exists();
       });
 
-      test('it should fill multiple sendings fields', async function (assert) {
+      test('it fills multiple sendings fields', async function (assert) {
         // given
         data.campaign.type = campaignType.status;
         data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
@@ -354,7 +354,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
       });
 
-      test('it should explain which informations will be visible to organization-learners', async function () {
+      test('it explains which informations will be visible to organization-learners', async function () {
         // given
         data.campaign.type = campaignType.status;
         data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
@@ -383,7 +383,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         assert.ok(landingPageSublabel);
       });
 
-      test('it should display fields for campaign title', async function (assert) {
+      test('it displays fields for campaign title', async function (assert) {
         // given
         data.campaign.type = campaignType.status;
         data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
@@ -407,7 +407,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         assert.dom(screen.getByText(t('pages.campaign-creation.purpose.label'))).exists();
       });
 
-      test(`it should display the purpose explanation of an ${campaignType.status} campaign`, async function (assert) {
+      test(`it displays the purpose explanation of an ${campaignType.status} campaign`, async function (assert) {
         // when
         const screen = await render(
           <template>
@@ -427,7 +427,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       });
 
       module('when the user has selected a course', function () {
-        test('it should display informations about the course', async function (assert) {
+        test('it displays informations about the course', async function (assert) {
           // given
 
           const course = store.createRecord('course', {
@@ -461,7 +461,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         });
 
         module('when the user wants to select another course', function () {
-          test('it should redirect to /catalogue/targetProfile', async function (assert) {
+          test('it redirects to /catalogue/targetProfile', async function (assert) {
             // given
 
             data.campaign.course = store.createRecord('course', {
@@ -497,7 +497,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module(`when campaign is of type combined course`, function () {
-    test(`it should not display external id fields`, async function (assert) {
+    test(`it not displays external id fields`, async function (assert) {
       // given
       data.campaign.type = 'COMBINED_COURSE';
       data.campaign.course = store.createRecord('course', {
@@ -527,7 +527,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         .doesNotExist();
     });
 
-    test(`it should have checked combined course goal and not display owner fields`, async function (assert) {
+    test(`it has combined course goal checked and not display owner fields`, async function (assert) {
       const campaignType = {
         status: 'COMBINED_COURSE',
         purpose: 'pages.campaign-creation.purpose.combined-course',
@@ -561,7 +561,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       assert.dom(screen.queryByText(t('pages.campaign-creation.owner.title'))).doesNotExist();
     });
 
-    test('it should redirect to /catalogue/blueprint', async function (assert) {
+    test('it redirects to /catalogue/blueprint', async function (assert) {
       // given
 
       data.campaign.course = store.createRecord('course', {
@@ -593,7 +593,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     });
   });
 
-  test('should not display EXAM type when feature is not enable', async function () {
+  test('it not displays EXAM type when feature is not enable', async function () {
     // given
     data.prescriber.features.CAMPAIGN_WITHOUT_USER_PROFILE = { active: false, params: null };
 
@@ -614,7 +614,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when campaign is of type PROFILES_COLLECTION', function () {
-    test('it should have checked PROFILES_COLLECTION', async function (assert) {
+    test('it has PROFILES_COLLECTION checked', async function (assert) {
       // given
       data.campaign.type = 'PROFILES_COLLECTION';
 
@@ -634,7 +634,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.profiles-collection'))).isChecked();
     });
 
-    test('it should fill multiple sendings fields', async function (assert) {
+    test('it fills multiple sendings fields', async function (assert) {
       // given
       data.campaign.type = 'PROFILES_COLLECTION';
       data.campaign.multipleSendings = true;
@@ -661,7 +661,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when user choose to create a campaign of type PROFILES_COLLECTION', () => {
-    test('it should not display fields for campaign title and target profile', async function (assert) {
+    test('it not displays fields for campaign title and target profile', async function (assert) {
       // when
       const screen = await render(
         <template>
@@ -681,7 +681,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       assert.dom(screen.queryByText(t('pages.campaign-creation.target-profiles-list-label'))).doesNotExist();
     });
 
-    test('it should display fields for enabling multiple sendings', async function (assert) {
+    test('it displays fields for enabling multiple sendings', async function (assert) {
       // when
       const screen = await render(
         <template>
@@ -701,7 +701,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       assert.dom(screen.getByText(t('pages.campaign-creation.multiple-sendings.profiles.info'))).exists();
     });
 
-    test('it should display the purpose explanation of a profiles collection campaign', async function (assert) {
+    test('it displays the purpose explanation of a profiles collection campaign', async function (assert) {
       // when
       const screen = await render(
         <template>
@@ -723,7 +723,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when user choose to create a campaign of type COMBINED_COURSE', () => {
-    test('it should not display fields for campaign title and target profile', async function (assert) {
+    test('it not displays fields for campaign title and target profile', async function (assert) {
       // when
 
       data.campaign.course = store.createRecord('course', {
@@ -750,7 +750,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     });
   });
 
-  test('it should fill external user ID selection (yes)', async function (assert) {
+  test('it fills external user ID selection (yes)', async function (assert) {
     // given
     data.campaign.externalIdLabel = 'Numéro étudiant';
     data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
@@ -779,7 +779,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       .hasValue('Numéro étudiant');
   });
 
-  test('it should fill external user ID selection (no)', async function (assert) {
+  test('it fills external user ID selection (no)', async function (assert) {
     // given
     data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
     data.campaign.externalIdLabel = null;
@@ -806,7 +806,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when user has not chosen yet to ask or not an external user ID', function () {
-    test('it should fill the default external user ID selection', async function (assert) {
+    test('it fills the default external user ID selection', async function (assert) {
       data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       // when
       const screen = await render(
@@ -830,7 +830,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       assert.dom(within(externalIdentifier).getByLabelText(t('pages.campaign-creation.yes'))).isNotChecked();
     });
 
-    test('it should not display gdpr footnote', async function (assert) {
+    test('it not displays gdpr footnote', async function (assert) {
       // when
       data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       const screen = await render(
@@ -851,7 +851,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when user choose not to ask an external user ID', function () {
-    test('it should not display gdpr footnote either', async function (assert) {
+    test('it not displays gdpr footnote either', async function (assert) {
       // when
       data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       const screen = await render(
@@ -873,7 +873,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when user choose to ask an external user ID', function () {
-    test('it should display gdpr footnote', async function (assert) {
+    test('it displays gdpr footnote', async function (assert) {
       // when
       data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       const screen = await render(
@@ -893,7 +893,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       assert.dom(screen.getByText(t('pages.campaign-creation.legal-warning'))).exists();
     });
 
-    test('it set the external id as required', async function (assert) {
+    test('it sets the external id as required', async function (assert) {
       // when
       data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
       const screen = await render(
@@ -958,7 +958,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     });
   });
 
-  test('it should fill campaign title', async function (assert) {
+  test('it fills campaign title', async function (assert) {
     // given
     data.campaign.type = 'ASSESSMENT';
     data.campaign.title = 'Mon titre de parcours';
@@ -982,7 +982,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('landing page customization', function () {
-    test('should hides landing page info for combinedCourse', async function () {
+    test('it hides landing page info for combinedCourse', async function () {
       // given
       data.campaign.course = store.createRecord('course', { type: 'blueprint' });
       data.campaign.type = 'COMBINED_COURSE';
@@ -1006,7 +1006,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     });
   });
 
-  test('it should fill campaign landing page text', async function (assert) {
+  test('it fills campaign landing page text', async function (assert) {
     // given
     data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
     data.campaign.type = 'ASSESSMENT';
@@ -1029,7 +1029,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       .hasValue('Mon texte de landing page');
   });
 
-  test('it should send campaign creation action when submitted', async function (assert) {
+  test('it sends campaign creation action when submitted', async function (assert) {
     // given
 
     data.campaign.course = store.createRecord('course', { name: 'targetProfile1', id: '123', type: 'targetProfile' });
@@ -1057,7 +1057,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     assert.ok(true);
   });
 
-  test('it should not display the explanation of automatic compute certificability if the feature is not activated', async function (assert) {
+  test('it not displays the explanation of automatic compute certificability if the feature is not activated', async function (assert) {
     // when
     const screen = await render(
       <template>
@@ -1076,7 +1076,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     assert.dom(screen.queryByRole('link', { name: 'Élèves' })).doesNotExist();
   });
 
-  test('it should display the explanation of automatic compute certificability if the feature is activated', async function (assert) {
+  test('it displays the explanation of automatic compute certificability if the feature is activated', async function (assert) {
     // when
     data.prescriber.features.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY = { active: true, params: null };
 
@@ -1098,7 +1098,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when there are errors', function () {
-    test('it should display errors messages when the campaign purpose fields is empty', async function (assert) {
+    test('it displays errors messages when the campaign purpose fields is empty', async function (assert) {
       // given
       const campaignWithErrors = EmberObject.create({
         errors: {
@@ -1131,7 +1131,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       assert.dom(screen.getByText(t('api-error-messages.campaign-creation.purpose-required'))).exists();
     });
 
-    test('it should display errors messages when the name, and external user id fields are empty', async function (assert) {
+    test('it displays errors messages when the name, and external user id fields are empty', async function (assert) {
       // given
       const campaignWithErrors = EmberObject.create({
         errors: {
@@ -1172,7 +1172,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     });
 
     ['targetProfile', 'blueprint'].forEach((error) => {
-      test(`it should display error message when the ${error} course field is empty`, async function (assert) {
+      test(`it displays error message when the ${error} course field is empty`, async function (assert) {
         // given
         const campaignWithErrors = EmberObject.create({
           errors: {
