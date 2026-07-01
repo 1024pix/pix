@@ -6,8 +6,7 @@ import {
   isNumeric,
   splitIntoWordsAndRemoveBackspaces,
 } from '../../../../shared/infrastructure/utils/string-utils.js';
-import { getEnabledTreatments, useLevenshteinRatio } from '../services-utils.js';
-import { validateAnswer } from '../string-comparison-service.js';
+import { getEnabledTreatments, isAnswerValid } from '../services-utils.js';
 import { applyPreTreatments, applyTreatments } from '../validation-treatments.js';
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 const { every, isEmpty, isString, map } = lodash;
@@ -55,7 +54,5 @@ function _getAnswerStatusFromStringMatching(answer, solutions, deactivations, sh
   const treatedAnswer = applyTreatments(applyPreTreatments(answer), enabledTreatments);
   const treatedSolutions = map(solutions, (solution) => applyTreatments(solution, enabledTreatments));
 
-  return validateAnswer(treatedAnswer, treatedSolutions, useLevenshteinRatio(enabledTreatments))
-    ? AnswerStatus.OK
-    : AnswerStatus.KO;
+  return isAnswerValid(treatedAnswer, treatedSolutions, enabledTreatments) ? AnswerStatus.OK : AnswerStatus.KO;
 }
