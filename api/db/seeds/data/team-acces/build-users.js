@@ -1,3 +1,4 @@
+import { REAL_PIX_SUPER_ADMIN_ID } from '../common/constants.js';
 import { OIDC_PROVIDER_EXAMPLE_NET_IDENTITY_PROVIDER } from './constants.js';
 
 function _buildUsers(databaseBuilder) {
@@ -82,9 +83,21 @@ function _buildGarUser(databaseBuilder) {
   });
 }
 
+function _buildAnonymisedUser(databaseBuilder) {
+  databaseBuilder.factory.buildUser({
+    firstName: '(anonymised)',
+    lastName: '(anonymised)',
+    email: null,
+    username: null,
+    hasBeenAnonymised: true,
+    hasBeenAnonymisedBy: REAL_PIX_SUPER_ADMIN_ID,
+  });
+}
+
 export function buildUsers(databaseBuilder) {
   _buildUsers(databaseBuilder);
   _buildOidcUser(databaseBuilder);
   _buildUserWithPoleEmploiAuthenticationMethod(databaseBuilder);
   _buildGarUser(databaseBuilder);
+  _buildAnonymisedUser(databaseBuilder);
 }
