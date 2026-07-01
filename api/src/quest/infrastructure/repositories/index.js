@@ -16,22 +16,22 @@ import { injectDependencies } from '../../../shared/infrastructure/utils/depende
 import { AttestationStorage } from '../storage/attestation-storage.js';
 import * as attestationRepository from './attestation-repository.js';
 import * as campaignParticipationRepository from './campaign-participation-repository.js';
-import * as campaignRepository from './campaign-repository.js';
 import * as combinedCourseBlueprintShareRepository from './combined-course-blueprint-share-repository.js';
+import * as targetProfileRepository from './combined-course-blueprints/target-profile-repository.js';
 import * as combinedCourseDetailsRepository from './combined-course-details-repository.js';
 import * as combinedCourseParticipantRepository from './combined-course-participant-repository.js';
-import * as combinedCourseParticipationRepository from './combined-course-participation-repository.js';
-import * as combinedCourseRepository from './combined-course-repository.js';
+import * as combinedCourseParticipationRepository from './combined-course-participations/combined-course-participation-repository.js';
+import * as organizationLearnerParticipationRepository from './combined-course-participations/organization-learner-participation-repository.js';
+import * as campaignRepository from './combined-courses/campaign-repository.js';
+import * as combinedCourseRepository from './combined-courses/combined-course-repository.js';
+import * as moduleRepository from './combined-courses/module-repository.js';
 import * as courseRepository from './course-repository.js';
 import * as eligibilityRepository from './eligibility-repository.js';
-import * as moduleRepository from './module-repository.js';
-import * as organizationLearnerParticipationRepository from './organization-learner-participation-repository.js';
 import * as profileRewardRepository from './profile-reward-repository.js';
 import * as questRepository from './quest-repository.js';
 import * as recommendedModuleRepository from './recommended-module-repository.js';
 import * as rewardRepository from './reward-repository.js';
 import * as successRepository from './success-repository.js';
-import * as targetProfileRepository from './target-profile-repository.js';
 import * as userRepository from './user-repository.js';
 
 const profileRewardTemporaryStorage = temporaryStorage.withPrefix('profile-rewards:');

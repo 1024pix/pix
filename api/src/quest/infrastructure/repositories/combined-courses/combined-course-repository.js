@@ -1,8 +1,8 @@
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../shared/domain/errors.js';
-import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
-import { CombinedCourse } from '../../domain/models/combined-courses/entities/CombinedCourse.js';
-import { Quest } from '../../domain/models/quests/entities/Quest.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { CombinedCourse } from '../../../domain/models/combined-courses/entities/CombinedCourse.js';
+import { Quest } from '../../../domain/models/quests/entities/Quest.js';
 
 const getByCode = async ({ code }) => {
   const knexConn = DomainTransaction.getConnection();

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { TargetProfile } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/TargetProfile.js';
-import * as targetProfileRepository from '../../../../../src/quest/infrastructure/repositories/target-profile-repository.js';
+import * as targetProfileRepository from '../../../../../src/quest/infrastructure/repositories/combined-course-blueprints/target-profile-repository.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | target-profile', function () {

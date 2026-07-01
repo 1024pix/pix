@@ -1,4 +1,4 @@
-import { Module } from '../../domain/models/combined-courses/entities/Module.js';
+import { Module } from '../../../domain/models/combined-courses/entities/Module.js';
 
 export const getByIds = async ({ moduleIds, modulesApi }) => {
   const modules = await modulesApi.getModulesByIds({ moduleIds });

@@ -1,13 +1,13 @@
 import difference from 'lodash/difference.js';
 
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../shared/domain/errors.js';
-import { CombinedCourseBlueprint } from '../../domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { Quest } from '../../domain/models/quests/entities/Quest.js';
-import * as questRepository from './quest-repository.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { CombinedCourseBlueprint } from '../../../domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
+import { Quest } from '../../../domain/models/quests/entities/Quest.js';
+import * as questRepository from '../quest-repository.js';
 
 /**
- * @returns {Promise<import('../../domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js').CombinedCourseBlueprint[]>}
+ * @returns {Promise<import('../../../domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js').CombinedCourseBlueprint[]>}
  */
 
 export async function findAll() {

@@ -1,4 +1,4 @@
-import { findByCampaignId } from '../../../../quest/infrastructure/repositories/combined-course-repository.js';
+import { findByCampaignId } from '../../../../quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
 
 const getCampaign = async function ({
   campaignId,

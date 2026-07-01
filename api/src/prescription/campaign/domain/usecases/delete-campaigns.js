@@ -1,4 +1,4 @@
-import * as CombinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-course-repository.js';
+import * as CombinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
 import { CLIENTS, PIX_ORGA } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { AuditLoggingJob } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';

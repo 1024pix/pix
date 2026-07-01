@@ -4,7 +4,7 @@ import * as membershipRepository from '../../../shared/infrastructure/repositori
 import * as organizationFeatureRepository from '../../../shared/infrastructure/repositories/organization-feature-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
-import * as combinedCourseBlueprintRepository from '../../infrastructure/repositories/combined-course-blueprint-repository.js';
+import * as combinedCourseBlueprintRepository from '../../infrastructure/repositories/combined-course-blueprints/combined-course-blueprint-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import combinedCourseDetailsService from '../services/combined-course-details-service.js';

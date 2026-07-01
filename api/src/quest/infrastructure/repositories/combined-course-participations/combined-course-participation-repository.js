@@ -1,12 +1,12 @@
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { filterByFullName } from '../../../shared/infrastructure/utils/filter-utils.js';
-import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
-import { CombinedCourseParticipation } from '../../domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
+import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { CombinedCourseParticipation } from '../../../domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 
 export const save = async function ({ organizationLearnerId, combinedCourseId }) {
   const knexConnection = DomainTransaction.getConnection();
