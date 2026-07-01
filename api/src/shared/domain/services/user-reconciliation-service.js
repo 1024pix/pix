@@ -4,19 +4,18 @@ import fp from 'lodash/fp.js';
 const { pipe } = fp;
 import randomString from 'randomstring';
 
-import { isOneStringCloseEnoughFromMultipleStrings } from '../../../evaluation/domain/services/string-comparison-service.js';
 import {
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
 } from '../../../evaluation/domain/services/validation-treatments.js';
-import { LEVENSHTEIN_DISTANCE_MAX_RATE, STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
   AlreadyRegisteredUsernameError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../errors.js';
-import { areTwoStringsCloseEnough } from './string-comparison-service.js';
+import { isCloseEnough, isCloseEnoughToOneOf } from './string-similarity-service.js';
 
 const STRICT_MATCH_RATIO = 0;
 
@@ -29,10 +28,7 @@ export function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user
     standardizedUser,
     STRICT_MATCH_RATIO,
   );
-  return (
-    foundUserId ||
-    _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, LEVENSHTEIN_DISTANCE_MAX_RATE)
-  );
+  return foundUserId || _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser);
 }
 
 export async function findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser({
@@ -195,22 +191,17 @@ function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, sta
       .filter(_candidateHasSimilarLastName(standardizedUser, maxAcceptableRatio));
 }
 
-function _candidateHasSimilarFirstName(
-  { firstName: userFirstName },
-  candidateGivenName,
-  maxAcceptableRatio = LEVENSHTEIN_DISTANCE_MAX_RATE,
-) {
+function _candidateHasSimilarFirstName({ firstName: userFirstName }, candidateGivenName, maxAcceptableRatio) {
   return (candidate) =>
-    candidate[candidateGivenName] &&
-    areTwoStringsCloseEnough(userFirstName, candidate[candidateGivenName], maxAcceptableRatio);
+    candidate[candidateGivenName] && isCloseEnough(userFirstName, candidate[candidateGivenName], maxAcceptableRatio);
 }
 
-function _candidateHasSimilarLastName({ lastName }, maxAcceptableRatio = LEVENSHTEIN_DISTANCE_MAX_RATE) {
+function _candidateHasSimilarLastName({ lastName }, maxAcceptableRatio) {
   return (candidate) => {
     const candidatesLastName = [candidate.lastName, candidate.preferredLastName].filter(
       (candidateLastName) => candidateLastName,
     );
-    return isOneStringCloseEnoughFromMultipleStrings(lastName, candidatesLastName, maxAcceptableRatio);
+    return isCloseEnoughToOneOf(lastName, candidatesLastName, maxAcceptableRatio);
   };
 }
 
