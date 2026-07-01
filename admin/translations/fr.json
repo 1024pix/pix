@@ -904,10 +904,19 @@
         "recently-used-tags": "Liste de tags récemment utilisés avec {tagName}"
       },
       "attached-certification-center": {
+        "actions": {
+          "detach": {
+            "button": "Détacher",
+            "confirm-modal-message": "Êtes-vous sûr de vouloir détacher le centre de certification <strong>{certificationCenterName}</strong> de cette organisation ?",
+            "confirm-modal-title": "Détacher un centre de certification",
+            "success": "Le centre de certification a été détaché avec succès."
+          }
+        },
         "empty": "Aucun centre de certification rattaché.",
         "table": {
           "caption": "Centre de certification rattaché à l'organisation.",
           "headers": {
+            "actions": "Actions",
             "external-id": "Identifiant externe",
             "id": "ID du centre",
             "name": "Nom du centre de certification rattaché"

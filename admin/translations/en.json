@@ -896,10 +896,19 @@
         "recently-used-tags": "List of tags recently used with {tagName}"
       },
       "attached-certification-center": {
+        "actions": {
+          "detach": {
+            "button": "Detach",
+            "confirm-modal-message": "Are you sure you want to detach the certification center <strong>{certificationCenterName}</strong> from this organization?",
+            "confirm-modal-title": "Detach a certification center",
+            "success": "The certification center has been successfully detached."
+          }
+        },
         "empty": "No certification center attached.",
         "table": {
           "caption": "Certification center attached to the organisation.",
           "headers": {
+            "actions": "Actions",
             "external-id": "External ID",
             "id": "ID",
             "name": "Name"
