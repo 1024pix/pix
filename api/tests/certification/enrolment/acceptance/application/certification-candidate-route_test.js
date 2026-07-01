@@ -6,7 +6,7 @@ import { CandidateNotCertifiableEvent } from '../../../../../src/certification/e
 import { CandidateReconciledEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateReconciledEvent.js';
 import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
+import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

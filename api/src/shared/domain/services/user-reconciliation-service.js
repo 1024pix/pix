@@ -7,8 +7,8 @@ import {
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
 } from '../../../evaluation/domain/services/validation-treatments.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../../constants.js';
 import { generateCode } from '../../infrastructure/utils/code-generator.js';
-import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
   AlreadyRegisteredUsernameError,
   NotFoundError,

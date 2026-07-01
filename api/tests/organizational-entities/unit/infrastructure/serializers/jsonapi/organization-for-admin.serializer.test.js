@@ -3,7 +3,7 @@ import { Organization } from '../../../../../../src/organizational-entities/doma
 import { OrganizationForAdmin } from '../../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../../../../../src/organizational-entities/domain/models/OrganizationLearnerType.js';
 import { organizationForAdminSerializer } from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
-import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/constants.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

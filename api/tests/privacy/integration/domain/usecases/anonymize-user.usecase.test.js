@@ -5,7 +5,7 @@ import { refreshTokenRepository } from '../../../../../src/identity-access-manag
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { usecases } from '../../../../../src/privacy/domain/usecases/index.js';
-import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
+import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../src/shared/infrastructure/execution-context-manager.js';

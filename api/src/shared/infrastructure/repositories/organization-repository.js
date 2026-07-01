@@ -1,6 +1,6 @@
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../organizational-entities/domain/models/Tag.js';
-import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';
 

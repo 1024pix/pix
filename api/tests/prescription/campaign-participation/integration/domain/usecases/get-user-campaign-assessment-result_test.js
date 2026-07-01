@@ -6,7 +6,7 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/domain/constants.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { SCOPES } from '../../../../../../src/shared/domain/models/BadgeDetails.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';

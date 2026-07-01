@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 import { OrganizationLearner } from '../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
 import * as organizationLearnerRepository from '../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { OrganizationLearnerNotFound, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';

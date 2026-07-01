@@ -5,7 +5,6 @@ import * as userRepository from '../../../../identity-access-management/infrastr
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import * as organizationsProfileRewardRepository from '../../../../profile/infrastructure/repositories/organizations-profile-reward-repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
-import * as userReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
 import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import { auditLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
@@ -68,7 +67,6 @@ const dependencies = {
   studentRepository,
   supOrganizationLearnerRepository,
   userRecommendedTrainingRepository,
-  userReconciliationService,
   userRepository,
   validateGenericFileJobRepository,
   validateFregataFileJobRepository,

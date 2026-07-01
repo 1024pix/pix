@@ -1,5 +1,5 @@
 import { config } from '../../../../shared/config.js';
-import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/constants.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 

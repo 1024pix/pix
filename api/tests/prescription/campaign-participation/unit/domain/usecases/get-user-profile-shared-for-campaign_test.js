@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { Scorecard } from '../../../../../../src/evaluation/domain/models/Scorecard.js';
 import { getSharedCampaignParticipationProfile } from '../../../../../../src/prescription/campaign-participation/domain/usecases/get-shared-campaign-participation-profile.js';
-import { constants } from '../../../../../../src/shared/domain/constants.js';
+import { constants } from '../../../../../../src/shared/constants.js';
 import { NoCampaignParticipationForUserAndCampaign } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';

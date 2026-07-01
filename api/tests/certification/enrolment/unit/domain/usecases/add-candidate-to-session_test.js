@@ -5,7 +5,7 @@ import { BILLING_MODES } from '../../../../../../src/certification/shared/domain
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,

@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 
+import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../../shared/domain/DomainTransaction.js';
-import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../../shared/infrastructure/constants.js';
 import { SiecleParser } from '../../../infrastructure/serializers/xml/siecle-parser.js';
 import { SiecleFileStreamer } from '../../../infrastructure/utils/xml/siecle-file-streamer.js';
 import { OrganizationLearner } from '../../models/OrganizationLearner.js';

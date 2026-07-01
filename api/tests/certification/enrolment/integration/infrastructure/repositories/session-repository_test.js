@@ -1,6 +1,6 @@
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import * as sessionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';

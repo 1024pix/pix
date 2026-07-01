@@ -1,5 +1,5 @@
 import { OrganizationLearnerParticipationTypes } from '../../../../quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { constants } from '../../../../shared/domain/constants.js';
+import { constants } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';

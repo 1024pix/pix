@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 
 import { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../shared/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { InvalidInputDataError } from '../../../shared/domain/errors.js';
 import {
@@ -11,7 +12,6 @@ import {
 } from '../../../shared/domain/errors.js';
 import { OrganizationTag } from '../../../shared/domain/models/OrganizationTag.js';
 import { generateAvailableAccessCode } from '../../../shared/domain/services/access-code-generator.js';
-import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../shared/infrastructure/constants.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
 import { ParentOrganizationNotInNetworkError } from '../errors.js';

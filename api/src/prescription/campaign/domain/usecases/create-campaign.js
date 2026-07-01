@@ -1,7 +1,7 @@
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../errors.js';
 
-const createCampaign = withTransaction(async function ({
+export const createCampaign = withTransaction(async function ({
   campaign,
   userRepository,
   campaignAdministrationRepository,
@@ -42,5 +42,3 @@ async function _checkUserIsAMemberOfOrganization({ userRepository, organizationI
     );
   }
 }
-
-export { createCampaign };

@@ -1,5 +1,5 @@
 import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
-import { STUDENT_RECONCILIATION_ERRORS } from '../../../shared/domain/constants.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../../../shared/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
   AlreadyRegisteredEmailError,

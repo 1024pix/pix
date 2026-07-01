@@ -3,7 +3,7 @@
  * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  */
 import { Organization } from '../../../../organizational-entities/domain/models/Organization.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Center, MatchingOrganization } from '../../domain/models/Center.js';

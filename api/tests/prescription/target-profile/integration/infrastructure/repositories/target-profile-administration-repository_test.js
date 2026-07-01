@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { knex as datamartKnex } from '../../../../../../datamart/knex-database-connection.js';
 import { TargetProfileForAdmin } from '../../../../../../src/prescription/target-profile/domain/models/TargetProfileForAdmin.js';
 import * as targetProfileAdministrationRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
-import { constants } from '../../../../../../src/shared/domain/constants.js';
+import { constants } from '../../../../../../src/shared/constants.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError, ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { TargetProfile } from '../../../../../../src/shared/domain/models/TargetProfile.js';

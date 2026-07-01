@@ -3,7 +3,7 @@ import {
   OrganizationLearnerNotFound,
   UserNotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
-import { ORGANIZATION_FEATURE } from '../../../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';

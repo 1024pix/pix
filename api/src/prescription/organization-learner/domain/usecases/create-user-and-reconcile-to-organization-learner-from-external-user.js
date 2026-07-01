@@ -3,7 +3,7 @@ import { AuthenticationMethod } from '../../../../identity-access-management/dom
 import { User } from '../../../../identity-access-management/domain/models/User.js';
 import { UserAccessToken } from '../../../../identity-access-management/domain/models/UserAccessToken.js';
 import { UserReconciliationSamlIdToken } from '../../../../identity-access-management/domain/models/UserReconciliationSamlIdToken.js';
-import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/domain/constants.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ObjectValidationError } from '../../../../shared/domain/errors.js';
 

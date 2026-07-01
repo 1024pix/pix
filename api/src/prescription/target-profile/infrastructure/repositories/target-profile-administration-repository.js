@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { knex as datamartKnex } from '../../../../../datamart/knex-database-connection.js';
 import { TargetProfileForAdmin } from '../../../../prescription/target-profile/domain/models/TargetProfileForAdmin.js';
-import { constants } from '../../../../shared/domain/constants.js';
+import { constants } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError, ObjectValidationError } from '../../../../shared/domain/errors.js';
 import { BadgeCriterion, BadgeDetails, CappedTube, SCOPES } from '../../../../shared/domain/models/BadgeDetails.js';

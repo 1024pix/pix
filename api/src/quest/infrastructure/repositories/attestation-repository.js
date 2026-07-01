@@ -1,4 +1,4 @@
-import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';

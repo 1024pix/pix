@@ -6,7 +6,7 @@ import { Campaign } from '../../../../../../src/prescription/campaign/domain/mod
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { deleteExternalIdLabelFromCampaigns } from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignExternalIdTypes, CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/constants.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

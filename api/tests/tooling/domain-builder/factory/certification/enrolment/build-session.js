@@ -1,6 +1,6 @@
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 
 const buildSession = function ({
   id = 123,

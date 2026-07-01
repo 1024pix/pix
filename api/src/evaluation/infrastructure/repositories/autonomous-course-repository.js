@@ -1,4 +1,4 @@
-import { constants } from '../../../shared/domain/constants.js';
+import { AUTONOMOUS_COURSES_ORGANIZATION_ID } from '../../../shared/constants.js';
 import { AutonomousCourse } from '../../domain/models/AutonomousCourse.js';
 
 /**
@@ -11,7 +11,7 @@ const save = async function ({ autonomousCourse, campaignApi }) {
     name: autonomousCourse.internalTitle,
     title: autonomousCourse.publicTitle,
     targetProfileId: autonomousCourse.targetProfileId,
-    organizationId: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+    organizationId: AUTONOMOUS_COURSES_ORGANIZATION_ID,
     creatorId: autonomousCourse.ownerId,
     customLandingPageText: autonomousCourse.customLandingPageText,
   });
@@ -71,7 +71,7 @@ async function get({ autonomousCourseId, campaignApi }) {
  */
 const findAllPaginated = async function ({ page, campaignApi }) {
   const { models: autonomousCourses, meta } = await campaignApi.findAllSummariesForOrganization({
-    organizationId: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+    organizationId: AUTONOMOUS_COURSES_ORGANIZATION_ID,
     page,
   });
   return { autonomousCourses, meta };

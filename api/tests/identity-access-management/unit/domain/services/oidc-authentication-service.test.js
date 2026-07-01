@@ -6,7 +6,7 @@ import { AuthenticationMethod } from '../../../../../src/identity-access-managem
 import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
-import { OIDC_ERRORS } from '../../../../../src/shared/domain/constants.js';
+import { OIDC_ERRORS } from '../../../../../src/shared/constants.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { OidcError, OidcMissingFieldsError } from '../../../../../src/shared/domain/errors.js';
 import { AuthenticationSessionContent } from '../../../../../src/shared/domain/models/AuthenticationSessionContent.js';

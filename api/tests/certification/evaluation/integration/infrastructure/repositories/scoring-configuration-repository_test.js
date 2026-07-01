@@ -4,7 +4,7 @@ import {
   getLatestByVersion,
 } from '../../../../../../src/certification/evaluation/infrastructure/repositories/scoring-configuration-repository.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { PIX_ORIGIN } from '../../../../../../src/shared/domain/constants.js';
+import { PIX_ORIGIN } from '../../../../../../src/shared/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';

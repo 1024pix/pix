@@ -6,7 +6,7 @@ import ms from 'ms';
 import * as client from 'openid-client';
 
 import { config } from '../../../shared/config.js';
-import { OIDC_ERRORS } from '../../../shared/domain/constants.js';
+import { OIDC_ERRORS } from '../../../shared/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { OidcError, OidcMissingFieldsError } from '../../../shared/domain/errors.js';
 import { AuthenticationSessionContent } from '../../../shared/domain/models/AuthenticationSessionContent.js';

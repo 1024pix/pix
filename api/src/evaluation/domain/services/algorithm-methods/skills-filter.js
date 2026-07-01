@@ -2,7 +2,7 @@ import {
   DEFAULT_LEVEL_FOR_FIRST_CHALLENGE,
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
   MAX_LEVEL_TO_BE_AN_EASY_TUBE,
-} from '../../../../shared/domain/constants.js';
+} from '../../../../shared/constants.js';
 import { STEPS_NAMES } from '../../models/SmartRandomStep.js';
 import { logPredictedLevel, logStep } from '../smart-random-log-service.js';
 

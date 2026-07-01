@@ -1,4 +1,4 @@
-import { CLIENTS, PIX_ADMIN, PIX_ORGA } from '../../../shared/domain/constants.js';
+import { CLIENTS, PIX_ADMIN, PIX_ORGA } from '../../../shared/constants.js';
 import { usecases } from '../domain/usecases/index.js';
 import { organizationLearnerFilterSerializer } from '../infrastructure/serializers/jsonapi/organization-learner-filter-serializer.js';
 import { scoOrganizationLearnerSerializer } from '../infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';

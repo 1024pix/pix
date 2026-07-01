@@ -1,7 +1,7 @@
 import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
 import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
-import { CAMPAIGN_FEATURES } from '../../shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../shared/constants.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 
 export class EnableRecommendationEngineFeatureForCampaignsScript extends Script {

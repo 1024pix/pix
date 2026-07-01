@@ -7,7 +7,7 @@ import {
   CampaignTypes,
 } from '../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
+import { constants } from '../../../../../src/shared/constants.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';

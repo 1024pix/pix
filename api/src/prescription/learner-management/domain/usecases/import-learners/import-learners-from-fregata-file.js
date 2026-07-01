@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 
+import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../../shared/constants.js';
 import { withTransaction } from '../../../../../shared/domain/DomainTransaction.js';
-import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../../shared/infrastructure/constants.js';
 import { FregataParser } from '../../../infrastructure/serializers/csv/parsers/fregata-parser.js';
 import { ScoOrganizationLearnerSet } from '../../models/ScoOrganizationLearnerSet.js';
 

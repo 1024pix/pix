@@ -1,7 +1,5 @@
-import sinon from 'sinon';
-
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
+import { constants } from '../../../../../src/shared/constants.js';
 import {
   NotFoundError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
@@ -14,8 +12,6 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Usecases | Save autonomous course', function () {
   beforeEach(async function () {
-    sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
     databaseBuilder.factory.buildTargetProfile({ id: 1 });
 
     const learningContent = domainBuilder.buildCampaignLearningContent.withSimpleContent();

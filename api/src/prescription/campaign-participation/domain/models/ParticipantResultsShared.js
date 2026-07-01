@@ -1,5 +1,5 @@
 import { calculatePixScore } from '../../../../evaluation/domain/services/scoring/scoring-service.js';
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../shared/domain/constants.js';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../shared/constants.js';
 import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
 const MAX_PIX_SCORE = MAX_REACHABLE_PIX_BY_COMPETENCE * 16;
 

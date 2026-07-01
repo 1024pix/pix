@@ -6,7 +6,7 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { constants } from '../../../../../../src/shared/domain/constants.js';
+import { constants } from '../../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';

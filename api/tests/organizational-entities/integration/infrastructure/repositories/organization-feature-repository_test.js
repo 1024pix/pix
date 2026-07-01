@@ -1,7 +1,7 @@
 import { FeatureNotFound, OrganizationNotFound } from '../../../../../src/organizational-entities/domain/errors.js';
 import { OrganizationFeatureItem } from '../../../../../src/organizational-entities/domain/models/OrganizationFeatureItem.js';
 import * as organizationFeatureRepository from '../../../../../src/organizational-entities/infrastructure/repositories/organization-feature-repository.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

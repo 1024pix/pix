@@ -1,5 +1,5 @@
 import * as CampaignProfileRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-profile-repository.js';
-import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/domain/constants.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { expect } from '../../../../../test-helper.js';

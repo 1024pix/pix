@@ -1,6 +1,6 @@
 import { createServer } from '../../../../../server.js';
 import * as organizationPlacesCategories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

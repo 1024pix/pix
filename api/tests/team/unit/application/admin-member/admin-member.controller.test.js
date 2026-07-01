@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
+import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { adminMemberController } from '../../../../../src/team/application/admin-member/admin-member.controller.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';

@@ -3,7 +3,7 @@
  */
 
 import { types } from '../../../../organizational-entities/domain/models/Organization.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/constants.js';
 import { CenterTypes } from './CenterTypes.js';
 
 export class Center {

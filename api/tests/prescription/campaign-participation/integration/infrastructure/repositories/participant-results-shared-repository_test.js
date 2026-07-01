@@ -1,6 +1,6 @@
 import { participantResultsSharedRepository } from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/participant-results-shared-repository.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../../src/shared/domain/constants.js';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../../src/shared/constants.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 

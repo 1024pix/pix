@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { organizationLearnersController } from './organization-learners-controller.js';
 

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
 import { CompetenceEvaluation } from '../../../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/domain/constants.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/constants.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';

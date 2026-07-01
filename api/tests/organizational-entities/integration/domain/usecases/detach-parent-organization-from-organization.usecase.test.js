@@ -1,6 +1,6 @@
 import { UnableToDetachParentOrganizationFromChildOrganization } from '../../../../../src/organizational-entities/domain/errors.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';

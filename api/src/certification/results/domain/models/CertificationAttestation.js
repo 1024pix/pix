@@ -1,4 +1,4 @@
-import { COMPETENCES_COUNT, PIX_COUNT_BY_LEVEL } from '../../../../shared/domain/constants.js';
+import { COMPETENCES_COUNT, PIX_COUNT_BY_LEVEL } from '../../../../shared/constants.js';
 
 class CertificationAttestation {
   constructor({

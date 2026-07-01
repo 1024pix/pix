@@ -1,6 +1,6 @@
 import { createServer } from '../../../../../server.js';
 import { CenterTypes } from '../../../../../src/certification/configuration/domain/models/CenterTypes.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

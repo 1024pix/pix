@@ -1,5 +1,5 @@
 import { createServer } from '../../../../server.js';
-import { constants } from '../../../../src/shared/domain/constants.js';
+import { constants } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';

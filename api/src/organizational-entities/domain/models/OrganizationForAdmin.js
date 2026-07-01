@@ -2,7 +2,7 @@ import Joi from 'joi';
 import differenceBy from 'lodash/differenceBy.js';
 import isEmpty from 'lodash/isEmpty.js';
 
-import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 import { FeatureParamsNotProcessable } from '../errors.js';
 import { DataProtectionOfficer } from './DataProtectionOfficer.js';
 import { Network } from './Network.js';

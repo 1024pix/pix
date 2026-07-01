@@ -1,8 +1,6 @@
-import sinon from 'sinon';
-
 import { AutonomousCourse } from '../../../../../src/evaluation/domain/models/AutonomousCourse.js';
 import { repositories } from '../../../../../src/evaluation/infrastructure/repositories/index.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
+import { constants } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
@@ -10,7 +8,6 @@ describe('Integration | Repository | Autonomous Course', function () {
   describe('#save', function () {
     it('save a new autonomous course', async function () {
       // given
-      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: organizationId } = databaseBuilder.factory.buildOrganization({
         id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
@@ -44,7 +41,6 @@ describe('Integration | Repository | Autonomous Course', function () {
   describe('#update', function () {
     it('updates an existing record', async function () {
       // given
-      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: organizationId } = databaseBuilder.factory.buildOrganization({
         id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
@@ -99,7 +95,6 @@ describe('Integration | Repository | Autonomous Course', function () {
           ],
         };
         databaseBuilder.factory.learningContent.build(learningContent);
-        sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({
           id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
         });
@@ -149,7 +144,6 @@ describe('Integration | Repository | Autonomous Course', function () {
     let targetProfileId;
 
     beforeEach(async function () {
-      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
       const { id: userId } = databaseBuilder.factory.buildUser();
 
       const organization = databaseBuilder.factory.buildOrganization({

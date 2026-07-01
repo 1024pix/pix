@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { createServer } from '../../../../../server.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
+import { constants } from '../../../../../src/shared/constants.js';
 import { SCOPES } from '../../../../../src/shared/domain/models/BadgeDetails.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';

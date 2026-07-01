@@ -1,9 +1,8 @@
-import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } from '../../certification/shared/domain/constants.js';
-import { config } from '../config.js';
+import { config } from './config.js';
 
-const MAX_FILE_SIZE_UPLOAD = 1048576 * 20; // 20 Mb
+export const MAX_FILE_SIZE_UPLOAD = 1048576 * 20; // 20 Mb
 
-const ORGANIZATION_FEATURE = {
+export const ORGANIZATION_FEATURE = {
   MISSIONS_MANAGEMENT: {
     key: 'MISSIONS_MANAGEMENT',
     description: "Permet l'affichage de la page des missions sur PixOrga",
@@ -58,7 +57,7 @@ const ORGANIZATION_FEATURE = {
   },
 };
 
-const CAMPAIGN_FEATURES = {
+export const CAMPAIGN_FEATURES = {
   EXTERNAL_ID: {
     key: 'EXTERNAL_ID',
     description: "Permet d'activer la saisie d'un identifiant externe lors de la participation à une campagne",
@@ -69,7 +68,7 @@ const CAMPAIGN_FEATURES = {
   },
 };
 
-const VALIDATION_ERRORS = {
+export const VALIDATION_ERRORS = {
   FIELD_DATE_FORMAT: 'FIELD_DATE_FORMAT',
   FIELD_BAD_VALUES: 'FIELD_BAD_VALUES',
   FIELD_NOT_STRING: 'FIELD_NOT_STRING',
@@ -84,31 +83,31 @@ const VALIDATION_ERRORS = {
   UNICITY_COLUMNS_REQUIRED: 'UNICITY_COLUMNS_REQUIRED',
 };
 
-const PIX_COUNT_BY_LEVEL = 8;
-const COMPETENCES_COUNT = 16;
-const MAX_REACHABLE_PIX_BY_COMPETENCE = config.features.maxReachableLevel * PIX_COUNT_BY_LEVEL;
-const MAX_REACHABLE_SCORE = 895;
+export const PIX_COUNT_BY_LEVEL = 8;
+export const COMPETENCES_COUNT = 16;
+export const MAX_REACHABLE_PIX_BY_COMPETENCE = config.features.maxReachableLevel * PIX_COUNT_BY_LEVEL;
+export const MAX_REACHABLE_SCORE = 895;
 
-const MAX_REACHABLE_LEVEL = config.features.maxReachableLevel;
-const MAX_REACHABLE_PIX_SCORE = MAX_REACHABLE_PIX_BY_COMPETENCE * COMPETENCES_COUNT;
-const MAX_MASTERY_RATE = 1;
-const MINIMUM_DELAY_IN_DAYS_FOR_RESET = config.features.dayBeforeCompetenceResetV2;
-const MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = config.features.dayBeforeImproving;
-const MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = config.features.dayBeforeRetrying;
+export const MAX_REACHABLE_LEVEL = config.features.maxReachableLevel;
+export const MAX_REACHABLE_PIX_SCORE = MAX_REACHABLE_PIX_BY_COMPETENCE * COMPETENCES_COUNT;
+export const MAX_MASTERY_RATE = 1;
+export const MINIMUM_DELAY_IN_DAYS_FOR_RESET = config.features.dayBeforeCompetenceResetV2;
+export const MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = config.features.dayBeforeImproving;
+export const MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = config.features.dayBeforeRetrying;
 
-const MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY = 5;
-const MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY = 1;
-const MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED = 80;
+export const MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY = 5;
+export const MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY = 1;
+export const MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED = 80;
 
-const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
-const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
-const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
+export const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
+export const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
+export const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
 
-const PIX_ORIGIN = 'Pix';
+export const PIX_ORIGIN = 'Pix';
 
-const AUTONOMOUS_COURSES_ORGANIZATION_ID = config.autonomousCourse.autonomousCoursesOrganizationId || 0;
+export const AUTONOMOUS_COURSES_ORGANIZATION_ID = config.autonomousCourse.autonomousCoursesOrganizationId || 0;
 
-const STUDENT_RECONCILIATION_ERRORS = {
+export const STUDENT_RECONCILIATION_ERRORS = {
   RECONCILIATION: {
     IN_OTHER_ORGANIZATION: {
       email: { shortCode: 'R11', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
@@ -140,20 +139,48 @@ const STUDENT_RECONCILIATION_ERRORS = {
   },
 };
 
-const OIDC_ERRORS = {
+export const OIDC_ERRORS = {
   USER_INFO: {
     missingFields: { shortCode: 'OIDC01', code: 'USER_INFO_MISSING_FIELDS' },
     badResponseFormat: { shortCode: 'OIDC02', code: 'USER_INFO_BAD_RESPONSE_FORMAT' },
   },
 };
 
-const CERTIFICATION_CENTER_TYPES = {
+export const CERTIFICATION_CENTER_TYPES = {
   SUP: 'SUP',
   SCO: 'SCO',
   PRO: 'PRO',
 };
 
-const constants = {
+export const PIX_ADMIN = {
+  NOT_ALLOWED_MSG: "Vous n'avez pas les droits pour vous connecter.",
+  ROLES: {
+    CERTIF: 'CERTIF',
+    METIER: 'METIER',
+    SUPER_ADMIN: 'SUPER_ADMIN',
+    SUPPORT: 'SUPPORT',
+  },
+};
+
+export const PIX_ORGA = {
+  ROLES: {
+    ADMIN: 'ORGA_ADMIN',
+  },
+};
+
+export const CLIENTS = {
+  SCRIPT: 'SCRIPT',
+  ADMIN: 'PIX_ADMIN',
+  ORGA: 'PIX_ORGA',
+};
+
+export const CONCURRENCY_HEAVY_OPERATIONS = config.infra.concurrencyForHeavyOperations;
+
+export const ORGANIZATION_LEARNER_CHUNK_SIZE = config.infra.chunkSizeForOrganizationLearnerDataProcessing;
+
+export const CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING = config.infra.chunkSizeForCampaignResultProcessing;
+
+export const constants = {
   AUTONOMOUS_COURSES_ORGANIZATION_ID,
   CERTIFICATION_CENTER_TYPES,
   COMPETENCES_COUNT,
@@ -169,63 +196,9 @@ const constants = {
   MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
   MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING,
   MINIMUM_DELAY_IN_DAYS_FOR_RESET,
-  MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
   MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
   OIDC_ERRORS,
   PIX_COUNT_BY_LEVEL,
   PIX_ORIGIN,
   STUDENT_RECONCILIATION_ERRORS,
-};
-
-const PIX_ADMIN = {
-  NOT_ALLOWED_MSG: "Vous n'avez pas les droits pour vous connecter.",
-  ROLES: {
-    CERTIF: 'CERTIF',
-    METIER: 'METIER',
-    SUPER_ADMIN: 'SUPER_ADMIN',
-    SUPPORT: 'SUPPORT',
-  },
-};
-
-const PIX_ORGA = {
-  ROLES: {
-    ADMIN: 'ORGA_ADMIN',
-  },
-};
-
-const CLIENTS = {
-  SCRIPT: 'SCRIPT',
-  ADMIN: 'PIX_ADMIN',
-  ORGA: 'PIX_ORGA',
-};
-
-export {
-  CAMPAIGN_FEATURES,
-  CERTIFICATION_CENTER_TYPES,
-  CLIENTS,
-  COMPETENCES_COUNT,
-  constants,
-  DEFAULT_LEVEL_FOR_FIRST_CHALLENGE,
-  MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
-  MAX_FILE_SIZE_UPLOAD,
-  MAX_LEVEL_TO_BE_AN_EASY_TUBE,
-  MAX_MASTERY_RATE,
-  MAX_REACHABLE_LEVEL,
-  MAX_REACHABLE_PIX_BY_COMPETENCE,
-  MAX_REACHABLE_PIX_SCORE,
-  MAX_REACHABLE_SCORE,
-  MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY,
-  MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
-  MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
-  MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING,
-  MINIMUM_DELAY_IN_DAYS_FOR_RESET,
-  MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
-  OIDC_ERRORS,
-  ORGANIZATION_FEATURE,
-  PIX_ADMIN,
-  PIX_COUNT_BY_LEVEL,
-  PIX_ORGA,
-  PIX_ORIGIN,
-  STUDENT_RECONCILIATION_ERRORS,
-  VALIDATION_ERRORS,
 };

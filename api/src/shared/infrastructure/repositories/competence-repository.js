@@ -1,5 +1,5 @@
 import { FRENCH_FRANCE } from '../../../shared/domain/services/locale-service.js';
-import { PIX_ORIGIN } from '../../domain/constants.js';
+import { PIX_ORIGIN } from '../../constants.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Competence } from '../../domain/models/Competence.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';

@@ -1,4 +1,4 @@
-import { constants } from '../../../shared/domain/constants.js';
+import { constants } from '../../../shared/constants.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   NotFoundError,

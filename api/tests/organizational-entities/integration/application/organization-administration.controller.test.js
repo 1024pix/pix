@@ -1,6 +1,6 @@
 import * as dragonLogo from '../../../../db/seeds/src/dragonAndCoBase64.js';
 import { organizationAdminController } from '../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
-import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';

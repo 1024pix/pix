@@ -15,7 +15,6 @@ import * as combinedCourseRepository from '../../../../quest/infrastructure/repo
 import * as questRepository from '../../../../quest/infrastructure/repositories/quest-repository.js';
 import { cryptoService } from '../../../../shared/domain/services/crypto-service.js';
 import { tokenService } from '../../../../shared/domain/services/token-service.js';
-import * as userReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
 /** TODO
  * Internal API Needed For
  * campaignRepository.getByCode
@@ -72,7 +71,6 @@ const dependencies = {
   combinedCourseRepository,
   tagRepository,
   userService,
-  userReconciliationService,
   authenticationMethodRepository,
   userRepository,
   lastUserApplicationConnectionsRepository,

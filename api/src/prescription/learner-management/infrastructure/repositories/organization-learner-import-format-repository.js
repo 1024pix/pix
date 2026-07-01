@@ -1,4 +1,4 @@
-import { ORGANIZATION_FEATURE } from '../../../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { OrganizationLearnerImportFormat } from '../../domain/models/OrganizationLearnerImportFormat.js';
 

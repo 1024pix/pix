@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { AddCompetenceIdsToScoringConfigurations } from '../../../../scripts/certification/add-competence-ids-to-scoring-configurations.js';
-import { PIX_ORIGIN } from '../../../../src/shared/domain/constants.js';
+import { PIX_ORIGIN } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 

@@ -13,7 +13,6 @@ import { cryptoService } from '../../../shared/domain/services/crypto-service.js
 import { mailService } from '../../../shared/domain/services/mail-service.js';
 import * as obfuscationService from '../services/obfuscation-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
-import * as userReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
 import * as userService from '../services/user-service.js';
 import * as passwordValidator from '../../../shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../shared/domain/validators/user-validator.js';
@@ -48,6 +47,7 @@ import { pixAuthenticationService } from '../services/pix-authentication-service
 import { resetPasswordService } from '../services/reset-password.service.js';
 import { scoAccountRecoveryService } from '../services/sco-account-recovery.service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
+import * as userReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
 
 const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry({ oidcProviderRepository });
 
@@ -95,8 +95,9 @@ const services = {
   resetPasswordService,
   scoAccountRecoveryService,
   tokenService,
-  userReconciliationService,
   userService,
+
+  userReconciliationService,
 };
 const validators = {
   addOidcProviderValidator,

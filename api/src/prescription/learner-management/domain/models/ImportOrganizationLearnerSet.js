@@ -1,4 +1,4 @@
-import { VALIDATION_ERRORS } from '../../../../shared/domain/constants.js';
+import { VALIDATION_ERRORS } from '../../../../shared/constants.js';
 import {
   CsvImportError,
   ImportLearnerConfigurationError,

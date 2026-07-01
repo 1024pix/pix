@@ -1,4 +1,4 @@
-import { CAMPAIGN_FEATURES } from '../../src/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../src/shared/constants.js';
 
 const OLD_KEY = JSON.stringify(CAMPAIGN_FEATURES.RECOMMENDATION_ENGINE);
 const OLD_DESCRIPTION = "Permet d'indiquer si la campagne est concernée par le moteur de recommandations";

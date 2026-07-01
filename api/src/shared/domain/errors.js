@@ -1,4 +1,4 @@
-import { VALIDATION_ERRORS } from './constants.js';
+import { VALIDATION_ERRORS } from '../constants.js';
 
 class DomainError extends Error {
   constructor(message, code, meta) {

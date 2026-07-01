@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { saveAutonomousCourse } from '../../../../../src/evaluation/domain/usecases/save-autonomous-course.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
+import { constants } from '../../../../../src/shared/constants.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   NotFoundError,

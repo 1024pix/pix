@@ -1,4 +1,4 @@
-import { PIX_ORIGIN } from '../../domain/constants.js';
+import { PIX_ORIGIN } from '../../constants.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Area } from '../../domain/models/Area.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';

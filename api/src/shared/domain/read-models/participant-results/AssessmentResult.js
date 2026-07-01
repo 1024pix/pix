@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../prescription/shared/domain/constants.js';
 import { getNewAcquiredStages } from '../../../../prescription/stages/domain/services/get-new-acquired-stages-service.js';
-import { MAX_MASTERY_RATE, MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../constants.js';
+import { MAX_MASTERY_RATE, MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../../constants.js';
 import { BadgeResult } from './BadgeResult.js';
 import { CompetenceResult } from './CompetenceResult.js';
 

@@ -5,7 +5,7 @@ import {
   constants,
   MAX_REACHABLE_LEVEL,
   MAX_REACHABLE_PIX_BY_COMPETENCE,
-} from '../../../../../src/shared/domain/constants.js';
+} from '../../../../../src/shared/constants.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 

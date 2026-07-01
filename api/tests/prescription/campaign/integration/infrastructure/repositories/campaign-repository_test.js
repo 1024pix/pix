@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import * as campaignRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';

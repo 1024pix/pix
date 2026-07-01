@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/domain/constants.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/constants.js';
 import {
   OrganizationLearnerAlreadyLinkedToUserError,
   UserShouldNotBeReconciledOnAnotherAccountError,
