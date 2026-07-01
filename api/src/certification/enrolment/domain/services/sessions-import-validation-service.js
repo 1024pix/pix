@@ -161,7 +161,7 @@ export async function getValidatedCandidateInformation({
 
   let errorCodes = candidate.validateForMassSessionImport(isSco);
 
-  errorCodes = errorCodes?.filter((errorCode) => !errorCode.includes('subscriptions'));
+  errorCodes = errorCodes?.filter((errorCode) => !errorCode.includes('subscription'));
 
   _addToErrorList({ errorList: certificationCandidateErrors, line, codes: errorCodes });
 
