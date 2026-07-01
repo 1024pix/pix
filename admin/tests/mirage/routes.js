@@ -413,6 +413,7 @@ export default function routes() {
   this.get('/admin/organizations/:id/certification-centers', getOrganizationAttachedCertificationCenters);
   this.get('/admin/organizations/:id/statistics', getOrganizationStatistics);
   this.post('/admin/organizations/:id/archive', archiveOrganization);
+  this.post('/admin/organizations/:id/detach-certification-center', () => new Response(204));
 
   this.get('/admin/frameworks');
   this.get('/admin/frameworks/:id/areas', findFrameworkAreas);
