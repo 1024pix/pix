@@ -337,6 +337,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
           createdAt: 'createdAt A',
           metadata: {
             reconciledAt: 'reconciledAt A',
+            userId: 'userId A',
           },
         },
       ]);

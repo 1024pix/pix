@@ -43,7 +43,7 @@ export async function onCandidateReconciled({ candidate, dependencies = { eventA
       name: EVENT_NAMES.CANDIDATE_RECONCILED,
       candidateId: candidate.id,
       createdAt: candidate.createdAt,
-      metadata: { reconciledAt: candidate.reconciledAt },
+      metadata: { reconciledAt: candidate.reconciledAt, userId: candidate.userId },
     },
   ]);
 }
