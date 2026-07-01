@@ -1,5 +1,6 @@
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -8,6 +9,18 @@ import formatDate from 'ember-intl/helpers/format-date';
 
 export default class SessionCandidates extends Component {
   @service intl;
+
+  @action
+  computedSubscriptionLabel(candidate) {
+    const subscriptionName = this.intl.t(`pages.sessions.candidates.subscriptions.${candidate.subscription}`);
+    if (!candidate.hasCoreScopedSubscription) {
+      const pixPlusLabelFormat = this.args.sessionVersion === 3 ? 'pix-plus' : 'complementary';
+      return this.intl.t(`pages.sessions.candidates.pix-plus-format.${pixPlusLabelFormat}`, {
+        pixPlusLabel: subscriptionName,
+      });
+    }
+    return subscriptionName;
+  }
 
   <template>
     {{#if @certificationCandidates}}
@@ -56,7 +69,7 @@ export default class SessionCandidates extends Component {
               </span>
             </:header>
             <:cell>
-              {{candidate.subscriptionLabel}}
+              {{this.computedSubscriptionLabel candidate}}
             </:cell>
           </PixTableColumn>
         </:columns>

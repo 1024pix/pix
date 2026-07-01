@@ -1,7 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
 import SessionCandidates from 'pix-admin/components/sessions/session/session-candidates';
-import { SUBSCRIPTION_TYPES } from 'pix-admin/models/subscription';
 import { module, test } from 'qunit';
 
 import setupIntl from '../../../../helpers/setup-intl';
@@ -19,49 +18,43 @@ module('Integration | Component | Sessions | Session | SessionCandidates', funct
 
   test('it should display candidate with only a core subscription', async function (assert) {
     // given
-    const coreSubscription = store.createRecord('subscription', {
-      type: SUBSCRIPTION_TYPES.CORE,
-    });
-    const candidate = _buildCertificationCandidate({
-      subscriptions: [coreSubscription],
-    });
+    const candidate = _buildCertificationCandidate({});
     const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+    const sessionVersion = 3;
 
     // when
     const screen = await render(
-      <template><SessionCandidates @certificationCandidates={{certificationCandidates}} /></template>,
+      <template>
+        <SessionCandidates @certificationCandidates={{certificationCandidates}} @sessionVersion={{sessionVersion}} />
+      </template>,
     );
 
     // then
     assert
-      .dom(screen.getByRole('cell', { name: this.intl.t('pages.sessions.candidates.subscriptions.core') }))
+      .dom(screen.getByRole('cell', { name: this.intl.t('pages.sessions.candidates.subscriptions.CORE') }))
       .exists();
   });
 
   test('it should display candidate with a v2 complementary subscription', async function (assert) {
     // given
-    const coreSubscription = store.createRecord('subscription', {
-      type: SUBSCRIPTION_TYPES.CORE,
-    });
-    const complementarySubscription = store.createRecord('subscription', {
-      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-      complementaryCertificationKey: 'DROIT',
-    });
     const candidate = _buildCertificationCandidate({
-      subscriptions: [coreSubscription, complementarySubscription],
+      subscription: 'DROIT',
     });
     const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+    const sessionVersion = 2;
 
     // when
     const screen = await render(
-      <template><SessionCandidates @certificationCandidates={{certificationCandidates}} /></template>,
+      <template>
+        <SessionCandidates @certificationCandidates={{certificationCandidates}} @sessionVersion={{sessionVersion}} />
+      </template>,
     );
 
     // then
     assert
       .dom(
         screen.getByRole('cell', {
-          name: this.intl.t('pages.sessions.candidates.subscriptions.complementary', {
+          name: this.intl.t('pages.sessions.candidates.pix-plus-format.complementary', {
             pixPlusLabel: 'Pix+ Droit',
           }),
         }),
@@ -71,25 +64,24 @@ module('Integration | Component | Sessions | Session | SessionCandidates', funct
 
   test('it should display candidate with a v3 pix plus subscription', async function (assert) {
     // given
-    const droitSubscription = store.createRecord('subscription', {
-      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-      complementaryCertificationKey: 'DROIT',
-    });
     const candidate = _buildCertificationCandidate({
-      subscriptions: [droitSubscription],
+      subscription: 'DROIT',
     });
     const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+    const sessionVersion = 3;
 
     // when
     const screen = await render(
-      <template><SessionCandidates @certificationCandidates={{certificationCandidates}} /></template>,
+      <template>
+        <SessionCandidates @certificationCandidates={{certificationCandidates}} @sessionVersion={{sessionVersion}} />
+      </template>,
     );
 
     // then
     assert
       .dom(
         screen.getByRole('cell', {
-          name: this.intl.t('pages.sessions.candidates.subscriptions.pix-plus', {
+          name: this.intl.t('pages.sessions.candidates.pix-plux-format.pix-plus', {
             pixPlusLabel: 'Pix+ Droit',
           }),
         }),
@@ -99,29 +91,24 @@ module('Integration | Component | Sessions | Session | SessionCandidates', funct
 
   test('it should display candidate with a double subscription', async function (assert) {
     // given
-    const cleaSubscription = store.createRecord('subscription', {
-      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-      complementaryCertificationKey: 'CLEA',
-    });
-    const coreSubscription = store.createRecord('subscription', {
-      type: SUBSCRIPTION_TYPES.CORE,
-    });
     const candidate = _buildCertificationCandidate({
-      subscriptions: [cleaSubscription, coreSubscription],
+      subscription: 'CLEA',
     });
 
     const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+    const sessionVersion = 2;
 
     // when
     const screen = await render(
-      <template><SessionCandidates @certificationCandidates={{certificationCandidates}} /></template>,
+      <template>
+        <SessionCandidates @certificationCandidates={{certificationCandidates}} @sessionVersion={{sessionVersion}} />
+      </template>,
     );
-
     // then
     assert
       .dom(
         screen.getByRole('cell', {
-          name: this.intl.t('pages.sessions.candidates.subscriptions.dual-core-clea'),
+          name: this.intl.t('pages.sessions.candidates.subscriptions.CLEA'),
         }),
       )
       .exists();
@@ -133,13 +120,13 @@ function _buildCertificationCandidate({
   firstName = 'Eddy',
   lastName = 'Taurial',
   email = 'eddy.taurial@example.com',
-  subscriptions = [],
+  subscription = 'CORE',
 }) {
   return {
     id,
     firstName,
     lastName,
     email,
-    subscriptions,
+    subscription,
   };
 }
