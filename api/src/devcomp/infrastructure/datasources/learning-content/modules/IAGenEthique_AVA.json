@@ -32,7 +32,7 @@
               "element": {
                 "id": "c0d790d5-6cba-4f83-912e-36634eafc1b0",
                 "type": "qcu-discovery",
-                "instruction": "<p>Alba publie régulièrement des poèmes sur son site internet. </p><p>À votre avis, que peuvent faire ses nombreux lecteurs avec ces textes ?<br></p>",
+                "instruction": "<p>Alba publie régulièrement des poèmes sur son site internet. </p><p>À votre avis, que peuvent faire ses lecteurs avec ces textes ?<br></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -73,7 +73,7 @@
                 "id": "b074bdf7-058c-4c80-b4b7-76d046402c97",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Avec le développement des IA génératives, les contenus en ligne sont désormais aussi utilisés pour entraîner des modèles capables de produire du texte, des images ou du son. </p><p>Alba s’interroge&nbsp;: elle veut continuer de publier ses poèmes pour ses lecteurs, mais veut protéger son droit d’auteur.</p>"
+                "content": "<p>Avec le développement des IA génératives, les contenus en ligne sont désormais souvent utilisés pour entraîner des modèles d'IA générative. </p><p>Alba s’interroge&nbsp;: elle veut continuer de publier ses poèmes pour ses lecteurs, mais veut protéger son droit d’auteur.</p>"
               }
             }
           ]
@@ -98,7 +98,7 @@
                     {
                       "id": "c967e9b7-a19e-4224-8f9d-049ddfd15120",
                       "type": "qcm",
-                      "instruction": "<p>Les IA génératives s’entraînent sur de très grandes quantités de données. A votre avis, parmi les contenus suivants, lesquels sont exploités l’entraînement des IA ?</p>",
+                      "instruction": "<p>Les IA génératives s’entraînent sur de très grandes quantités de données. A votre avis, parmi les contenus suivants, lesquels sont exploités lors l’entraînement des IA ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
