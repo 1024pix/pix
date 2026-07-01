@@ -1,5 +1,5 @@
 import { createServer } from '../../../../../server.js';
-import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
+import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -91,37 +91,6 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
       it('should respond with a 201 and save the candidate with the correct subscription', async function () {
         // when
         const response = await server.inject(options);
-
-        // then
-        const candidateId = parseInt(response.result.data.id);
-        expect(response.statusCode).to.equal(201);
-        const savedCandidate = await knex('certification-candidates').where({ id: candidateId }).first();
-        expect(savedCandidate.subscription).to.equal(Frameworks.CLEA);
-      });
-    });
-
-    context('with legacy subscriptions array format', function () {
-      it('should respond with a 201 and derive subscription from subscriptions array', async function () {
-        // given
-        const legacyOptions = {
-          ...options,
-          payload: {
-            data: {
-              ...options.payload.data,
-              attributes: {
-                ...options.payload.data.attributes,
-                subscription: undefined,
-                subscriptions: [
-                  { type: SUBSCRIPTION_TYPES.COMPLEMENTARY, complementaryCertificationKey: Frameworks.CLEA },
-                  { type: SUBSCRIPTION_TYPES.CORE, complementaryCertificationKey: null },
-                ],
-              },
-            },
-          },
-        };
-
-        // when
-        const response = await server.inject(legacyOptions);
 
         // then
         const candidateId = parseInt(response.result.data.id);

@@ -94,7 +94,9 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
 
       // then
       expect(deserializedCandidate).to.deepEqualInstance(
-        domainBuilder.certification.enrolment.buildCandidate({ ...candidateData }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData,
+        }),
       );
     });
 
