@@ -80,8 +80,6 @@ export default class Card extends Component {
     <CardModal
       @training={{@training}}
       @deliveryMode={{this.deliveryMode}}
-      @formattedDays={{@training.formattedDays}}
-      @formattedTime={{@training.formattedTime}}
       @isOpen={{this.modalIsOpen}}
       @onClose={{this.closeModal}}
       @onModalButtonClick={{@onModalButtonClick}}

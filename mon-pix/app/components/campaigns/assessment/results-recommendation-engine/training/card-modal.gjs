@@ -97,34 +97,38 @@ export default class CardModal extends Component {
           </div>
         </div>
 
-        <PixAccordions @isV2Version={{true}} {{on "click" (fn this.onModalAccordionClick "OBJECTIVES")}}>
-          <:title>
-            <h2>{{t "pages.skill-review.recommended-engine.modal.objectives"}}</h2>
-          </:title>
-          <:content>
-            <ul class="results-recommendation-engine-training-card-modal__objectives">
-              {{#each @training.objectives as |objective|}}
-                <li>
-                  <PixIcon
-                    @name="checkCircle"
-                    @plainIcon={{true}}
-                    class="results-recommendation-engine-training-card-modal-objectives__icon"
-                    @ariaHidden={{true}}
-                  />
-                  {{htmlUnsafe objective}}
-                </li>
-              {{/each}}
-            </ul>
-          </:content>
-        </PixAccordions>
-        <PixAccordions @isV2Version={{true}} {{on "click" (fn this.onModalAccordionClick "PROGRAM")}}>
-          <:title>
-            <h2>{{t "pages.skill-review.recommended-engine.modal.program"}}</h2>
-          </:title>
-          <:content>
-            <p class="results-recommendation-engine-training-card-modal__program">{{@training.program}}</p>
-          </:content>
-        </PixAccordions>
+        {{#if @training.objectives}}
+          <PixAccordions @isV2Version={{true}} {{on "click" (fn this.onModalAccordionClick "OBJECTIVES")}}>
+            <:title>
+              <h2>{{t "pages.skill-review.recommended-engine.modal.objectives"}}</h2>
+            </:title>
+            <:content>
+              <ul class="results-recommendation-engine-training-card-modal__objectives">
+                {{#each @training.objectives as |objective|}}
+                  <li>
+                    <PixIcon
+                      @name="checkCircle"
+                      @plainIcon={{true}}
+                      class="results-recommendation-engine-training-card-modal-objectives__icon"
+                      @ariaHidden={{true}}
+                    />
+                    {{htmlUnsafe objective}}
+                  </li>
+                {{/each}}
+              </ul>
+            </:content>
+          </PixAccordions>
+        {{/if}}
+        {{#if @training.program}}
+          <PixAccordions @isV2Version={{true}} {{on "click" (fn this.onModalAccordionClick "PROGRAM")}}>
+            <:title>
+              <h2>{{t "pages.skill-review.recommended-engine.modal.program"}}</h2>
+            </:title>
+            <:content>
+              <p class="results-recommendation-engine-training-card-modal__program">{{@training.program}}</p>
+            </:content>
+          </PixAccordions>
+        {{/if}}
       </:content>
       <:footer>
         <div class="results-recommendation-engine-training-card-modal-footer">
