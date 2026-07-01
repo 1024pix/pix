@@ -1,8 +1,16 @@
 import sinon from 'sinon';
 
 import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/constants/abort-reasons.js';
+import {
+  CertificationEndedByFinalizationError,
+  CertificationEndedByInvigilatorError,
+  ChallengeAlreadyAnsweredError,
+  ChallengeNotAskedError,
+  ForbiddenAccess,
+} from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet', function () {
   const STATES = domainBuilder.certification.evaluation.buildAssessmentSheet.STATES;
@@ -153,13 +161,13 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
       });
   });
 
-  context('#hasAnsweredChallenge', function () {
+  context('#isChallengeAlreadyAnswered', function () {
     it('returns false when no answers yet', function () {
       const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
         answers: [],
       });
 
-      expect(assessmentSheet.hasAnsweredChallenge('myFavoriteChallengeId')).to.be.false;
+      expect(assessmentSheet.isChallengeAlreadyAnswered('myFavoriteChallengeId')).to.be.false;
     });
 
     it('returns false when no answers on the provided challenge exist', function () {
@@ -167,7 +175,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
         answers: [domainBuilder.buildAnswer({ challengeId: 'someOtherChallengeId' })],
       });
 
-      expect(assessmentSheet.hasAnsweredChallenge('myFavoriteChallengeId')).to.be.false;
+      expect(assessmentSheet.isChallengeAlreadyAnswered('myFavoriteChallengeId')).to.be.false;
     });
 
     it('returns true when an answer has been submitted with provided challenge', function () {
@@ -175,7 +183,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
         answers: [domainBuilder.buildAnswer({ challengeId: 'myFavoriteChallengeId' })],
       });
 
-      expect(assessmentSheet.hasAnsweredChallenge('myFavoriteChallengeId')).to.be.true;
+      expect(assessmentSheet.isChallengeAlreadyAnswered('myFavoriteChallengeId')).to.be.true;
     });
   });
 
@@ -258,6 +266,110 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
           certificationCourseUpdatedAt: someDate,
         }),
       );
+    });
+  });
+
+  context('#checkIfCandidateCanAnswer', function () {
+    context('when the candidate can answer', function () {
+      it('does not throw', function () {
+        // given
+        const answer = domainBuilder.buildAnswer();
+
+        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({});
+
+        // then
+        expect(() =>
+          assessmentSheet.checkIfCandidateCanAnswer({ answer, userId: assessmentSheet.userId }),
+        ).not.to.throw();
+      });
+    });
+
+    context('when the user is not related to the assessment sheet', function () {
+      it('should throw a ForbiddenAccess error', function () {
+        // given
+        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          userId: 3,
+        });
+
+        // when
+        const error = catchErrSync(() =>
+          assessmentSheet.checkIfCandidateCanAnswer({ answer: undefined, userId: 99 }),
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(ForbiddenAccess);
+        expect(error.message).to.equal('User is not allowed to add an answer for this certification test.');
+      });
+    });
+
+    context('when the assessment is endedByInvigilator', function () {
+      it('should throw a CertificationEndedByInvigilatorError error', function () {
+        // given
+        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          state: STATES.ENDED_BY_INVIGILATOR,
+        });
+
+        // when
+        const error = catchErrSync(() =>
+          assessmentSheet.checkIfCandidateCanAnswer({ answer: undefined, userId: assessmentSheet.userId }),
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(CertificationEndedByInvigilatorError);
+      });
+    });
+
+    context('when the assessment is hasBeenEndedDueToFinalization', function () {
+      it('should throw a CertificationEndedByFinalizationError error', function () {
+        // given
+        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          state: STATES.ENDED_DUE_TO_FINALIZATION,
+        });
+
+        // when
+        const error = catchErrSync(() =>
+          assessmentSheet.checkIfCandidateCanAnswer({ answer: undefined, userId: assessmentSheet.userId }),
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(CertificationEndedByFinalizationError);
+      });
+    });
+
+    context('when the challenge is not expected to be answered', function () {
+      it('should throw a ChallengeNotAskedError error', function () {
+        // given
+        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          lastChallengeId: 1,
+        });
+
+        // when
+        const error = catchErrSync(() =>
+          assessmentSheet.checkIfCandidateCanAnswer({ answer: {}, userId: assessmentSheet.userId }),
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(ChallengeNotAskedError);
+      });
+    });
+
+    context('when the challenge is already answered', function () {
+      it('should throw a ChallengeAlreadyAnsweredError error', function () {
+        // given
+        const answer = domainBuilder.buildAnswer();
+
+        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          answers: [answer],
+        });
+
+        // when
+        const error = catchErrSync(() =>
+          assessmentSheet.checkIfCandidateCanAnswer({ answer, userId: assessmentSheet.userId }),
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(ChallengeAlreadyAnsweredError);
+      });
     });
   });
 });

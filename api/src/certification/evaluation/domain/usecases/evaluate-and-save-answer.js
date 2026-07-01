@@ -1,13 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import {
-  CertificationEndedByFinalizationError,
-  CertificationEndedByInvigilatorError,
-  ChallengeAlreadyAnsweredError,
-  ChallengeNotAskedError,
-  EmptyAnswerError,
-  ForbiddenAccess,
-  NotFoundError,
-} from '../../../../shared/domain/errors.js';
+import { EmptyAnswerError, ForbiddenAccess, NotFoundError } from '../../../../shared/domain/errors.js';
 
 export async function evaluateAndSaveAnswer({
   answer,
@@ -22,10 +14,16 @@ export async function evaluateAndSaveAnswer({
   sharedChallengeRepository,
 }) {
   const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
+
   if (!assessmentSheet) {
     throw new NotFoundError(`No certification test found with id ${certificationCourseId}`);
   }
-  checkIfAnswerIsAdmissible({ assessmentSheet, answer, userId });
+
+  assessmentSheet.checkIfCandidateCanAnswer({ answer, userId });
+
+  if (!answer.hasValue && !answer.hasTimedOut) {
+    throw new EmptyAnswerError();
+  }
 
   const challenge = await sharedChallengeRepository.get(answer.challengeId);
   const ongoingOrValidatedCertificationChallengeLiveAlert =
@@ -59,25 +57,4 @@ export async function evaluateAndSaveAnswer({
     answerSaved.levelup = {};
     return answerSaved;
   });
-}
-
-function checkIfAnswerIsAdmissible({ assessmentSheet, answer, userId }) {
-  if (assessmentSheet.userId !== userId) {
-    throw new ForbiddenAccess('User is not allowed to add an answer for this certification test.');
-  }
-  if (assessmentSheet.isEndedByInvigilator()) {
-    throw new CertificationEndedByInvigilatorError();
-  }
-  if (assessmentSheet.hasBeenEndedDueToFinalization()) {
-    throw new CertificationEndedByFinalizationError();
-  }
-  if (!assessmentSheet.isChallengeExpectedToBeAnswered(answer.challengeId)) {
-    throw new ChallengeNotAskedError();
-  }
-  if (assessmentSheet.hasAnsweredChallenge(answer.challengeId)) {
-    throw new ChallengeAlreadyAnsweredError();
-  }
-  if (!answer.hasValue && !answer.hasTimedOut) {
-    throw new EmptyAnswerError();
-  }
 }

@@ -1,3 +1,10 @@
+import {
+  CertificationEndedByFinalizationError,
+  CertificationEndedByInvigilatorError,
+  ChallengeAlreadyAnsweredError,
+  ChallengeNotAskedError,
+  ForbiddenAccess,
+} from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { ABORT_REASONS } from '../../../shared/domain/constants/abort-reasons.js';
 
@@ -86,7 +93,7 @@ export class AssessmentSheet {
     return this.state === STATES.ENDED_DUE_TO_FINALIZATION;
   }
 
-  hasAnsweredChallenge(challengeId) {
+  isChallengeAlreadyAnswered(challengeId) {
     return this.answers.some((answer) => answer.challengeId === challengeId);
   }
 
@@ -101,5 +108,23 @@ export class AssessmentSheet {
   refreshLastAnswerTimestamp(refreshDate) {
     this.lastAnswerAt = refreshDate;
     this.certificationCourseUpdatedAt = refreshDate;
+  }
+
+  checkIfCandidateCanAnswer({ answer, userId }) {
+    if (this.userId !== userId) {
+      throw new ForbiddenAccess('User is not allowed to add an answer for this certification test.');
+    }
+    if (this.isEndedByInvigilator()) {
+      throw new CertificationEndedByInvigilatorError();
+    }
+    if (this.hasBeenEndedDueToFinalization()) {
+      throw new CertificationEndedByFinalizationError();
+    }
+    if (!this.isChallengeExpectedToBeAnswered(answer.challengeId)) {
+      throw new ChallengeNotAskedError();
+    }
+    if (this.isChallengeAlreadyAnswered(answer.challengeId)) {
+      throw new ChallengeAlreadyAnsweredError();
+    }
   }
 }
