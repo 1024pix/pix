@@ -58,7 +58,6 @@ import session from './models/session';
 import skill from './models/skill';
 import stage from './models/stage';
 import stageCollection from './models/stage-collection';
-import subscription from './models/subscription';
 import tag from './models/tag';
 import targetProfile from './models/target-profile';
 import targetProfileSummary from './models/target-profile-summary';
@@ -135,7 +134,6 @@ export default {
   skill,
   stage,
   stageCollection,
-  subscription,
   tag,
   targetProfile,
   targetProfileSummary,
