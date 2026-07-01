@@ -7,6 +7,7 @@ export async function buildPixPlusProSanteData(knex: Knex) {
     .insert({
       scope: CERTIFICATIONS_DATA.PRO_SANTE,
       startDate: new Date('2024-10-19'),
+      status: 'active',
       expirationDate: null,
       assessmentDuration: 120,
       minimumAnswersRequiredToValidateACertification: 20,
