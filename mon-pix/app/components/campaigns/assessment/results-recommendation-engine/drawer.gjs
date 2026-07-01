@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import ENV from 'mon-pix/config/environment';
 
 import SatisfactionScore from './drawer/satisfaction-score';
@@ -55,6 +56,8 @@ export default class Drawer extends Component {
       <section
         class="results-recommendation-engine-drawer {{if this.isHiding 'results-recommendation-engine-drawer--hiding'}}"
         {{on "animationend" this.onAnimationEnd}}
+        role="dialog"
+        aria-label={{t "pages.skill-review.recommended-engine.drawer.title"}}
       >
         {{#if this.isSubmitted}}
           <ThankYou @onClose={{this.hide}} />

@@ -2267,7 +2267,8 @@
           "thank-you": {
             "subtitle": "Gelukt!",
             "title": "Bedankt voor uw feedback!"
-          }
+          },
+          "title": "Feedback over de aanbeveling voor trainingsinhoud"
         },
         "modal": {
           "actions": {

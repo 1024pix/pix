@@ -2267,7 +2267,8 @@
           "thank-you": {
             "subtitle": "C'est dans la boite",
             "title": "Merci pour votre avis !"
-          }
+          },
+          "title": "Feedback sur la recommandation de contenu formatif"
         },
         "modal": {
           "actions": {

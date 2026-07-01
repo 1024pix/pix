@@ -2267,7 +2267,8 @@
           "thank-you": {
             "subtitle": "Geschafft!",
             "title": "Danke für Ihr Feedback!"
-          }
+          },
+          "title": "Feedback zur Empfehlung von Lerninhalten"
         },
         "modal": {
           "actions": {
