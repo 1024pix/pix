@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click, currentURL } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import setupIntl from 'pix-admin/tests/helpers/setup-intl';
@@ -69,6 +69,33 @@ module('Acceptance | Organizations | Attached Certification Center', function (h
       assert
         .dom(screen.getByText(t('components.organizations.attached-certification-center.actions.detach.success')))
         .exists();
+    });
+    test('attaches a certification-center to an organization', async function (assert) {
+      // given
+      this.server.create('certification-center', { id: '123', name: 'Centre Pix Paris' });
+      const organizationId = this.server.create('organization', {
+        name: 'Orga avec CDC',
+        features: { PLACES_MANAGEMENT: { active: false } },
+      }).id;
+
+      const screen = await visit(`/organizations/${organizationId}/attached-certification-centers`);
+
+      // when
+      const input = screen.getByRole(
+        'spinbutton',
+        t('components.organizations.attached-certification-center.attach-form.input-label'),
+      );
+      await fillIn(input, '123');
+
+      const validateButton = screen.getByRole('button', { name: t('common.actions.validate') });
+      await click(validateButton);
+
+      // then
+      assert
+        .dom(screen.getByText(t('components.organizations.attached-certification-center.notifications.attach-success')))
+        .exists();
+
+      assert.dom(screen.getByRole('cell', { name: 'Centre Pix Paris' })).exists();
     });
   });
 });

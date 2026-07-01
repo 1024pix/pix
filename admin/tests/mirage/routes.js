@@ -26,6 +26,7 @@ import { createNetwork, findAllFilteredNetworks, updateNetwork } from './handler
 import { createOrganizationMembership } from './handlers/organization-memberships';
 import {
   archiveOrganization,
+  attachCertificationCenterToOrganization,
   findOrganizationCampaigns,
   findPaginatedFilteredOrganizations,
   findPaginatedOrganizationMemberships,
@@ -414,6 +415,7 @@ export default function routes() {
   this.get('/admin/organizations/:id/statistics', getOrganizationStatistics);
   this.post('/admin/organizations/:id/archive', archiveOrganization);
   this.post('/admin/organizations/:id/detach-certification-center', () => new Response(204));
+  this.post('/admin/organizations/:id/attach-certification-centers', attachCertificationCenterToOrganization);
 
   this.get('/admin/frameworks');
   this.get('/admin/frameworks/:id/areas', findFrameworkAreas);
