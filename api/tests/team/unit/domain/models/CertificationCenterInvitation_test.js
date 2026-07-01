@@ -1,4 +1,3 @@
-import randomString from 'randomstring';
 import sinon from 'sinon';
 
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
@@ -156,13 +155,13 @@ describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
   describe('#generateCode', function () {
     it('should generate a code with 10 characters', function () {
       // given
-      sinon.stub(randomString, 'generate');
+      const generateCodeService = sinon.stub().returns('123abc');
 
       // when
-      CertificationCenterInvitation.generateCode();
+      CertificationCenterInvitation.generateCode({ generateCodeService });
 
       // /then
-      expect(randomString.generate).to.have.been.calledWithExactly({ length: 10, capitalization: 'uppercase' });
+      expect(generateCodeService).to.have.been.calledWithExactly(10, 'alphanumeric');
     });
   });
 });
