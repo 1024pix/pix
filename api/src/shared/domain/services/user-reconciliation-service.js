@@ -2,12 +2,12 @@ import lodash from 'lodash';
 import fp from 'lodash/fp.js';
 
 const { pipe } = fp;
-import randomString from 'randomstring';
 
 import {
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
 } from '../../../evaluation/domain/services/validation-treatments.js';
+import { generateCode } from '../../infrastructure/utils/code-generator.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
   AlreadyRegisteredUsernameError,
@@ -121,7 +121,7 @@ async function generateUsernameUntilAvailable({ firstPart, secondPart, userRepos
     } catch (error) {
       if (error instanceof AlreadyRegisteredUsernameError) {
         isUsernameAvailable = false;
-        randomPart = _generateCode();
+        randomPart = generateCode(4, 'numeric');
       } else {
         throw error;
       }
@@ -204,8 +204,3 @@ function _candidateHasSimilarLastName({ lastName }, maxAcceptableRatio) {
     return isCloseEnoughToOneOf(lastName, candidatesLastName, maxAcceptableRatio);
   };
 }
-
-// TODO Export all functions generating random codes to an appropriate service
-const _generateCode = () => {
-  return randomString.generate({ length: 4, charset: 'numeric' });
-};
