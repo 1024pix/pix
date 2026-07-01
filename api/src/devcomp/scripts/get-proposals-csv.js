@@ -1,7 +1,10 @@
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
+/* eslint-disable no-console */
+
 import { fileURLToPath } from 'node:url';
 
-import moduleDatasource from '../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
-import { getCsvContent } from '../../src/shared/infrastructure/utils/csv/write-csv-utils.js';
+import { getCsvContent } from '../../shared/infrastructure/utils/csv/write-csv-utils.js';
+import moduleDatasource from '../infrastructure/datasources/learning-content/module-datasource.js';
 import { getAnswerableElements } from './utils/get-answerable-elements.js';
 
 export async function getProposalsListAsCsv(modules) {

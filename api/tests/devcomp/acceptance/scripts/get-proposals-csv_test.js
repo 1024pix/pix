@@ -1,5 +1,5 @@
-import { getProposals, getProposalsListAsCsv } from '../../../../scripts/modulix/get-proposals-csv.js';
-import { getAnswerableElements } from '../../../../scripts/modulix/utils/get-answerable-elements.js';
+import { getProposals, getProposalsListAsCsv } from '../../../../src/devcomp/scripts/get-proposals-csv.js';
+import { getAnswerableElements } from '../../../../src/devcomp/scripts/utils/get-answerable-elements.js';
 import { expect } from '../../../test-helper.js';
 import moduleContent from './test-module.json' with { type: 'json' };
 

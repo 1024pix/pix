@@ -1,4 +1,7 @@
-import moduleDatasource from '../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
+/* eslint-disable no-console */
+
+import moduleDatasource from '../infrastructure/datasources/learning-content/module-datasource.js';
 
 /**
  * List all modules for DB replication with id, shortId, slug and title

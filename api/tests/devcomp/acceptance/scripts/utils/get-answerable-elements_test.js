@@ -1,4 +1,4 @@
-import { getAnswerableElements } from '../../../../../scripts/modulix/utils/get-answerable-elements.js';
+import { getAnswerableElements } from '../../../../../src/devcomp/scripts/utils/get-answerable-elements.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Acceptance | Script | Helper | Get Answerable Elements', function () {

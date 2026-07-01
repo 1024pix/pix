@@ -4,9 +4,9 @@ import fs from 'node:fs/promises';
 import { propsExamples } from '@1024pix/epreuves-components/props.examples';
 import { schema as schemas } from '@1024pix/epreuves-components/schema';
 
-import demoEpreuveComponents from '../../src/devcomp/infrastructure/datasources/learning-content/modules/demo-epreuves-components.json' with { type: 'json' };
-import { Script } from '../../src/shared/application/scripts/script.js';
-import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
+import { Script } from '../../shared/application/scripts/script.js';
+import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import demoEpreuveComponents from '../infrastructure/datasources/learning-content/modules/demo-epreuves-components.json' with { type: 'json' };
 
 export class GenerateDemoEpreuveComponentFile extends Script {
   constructor() {
