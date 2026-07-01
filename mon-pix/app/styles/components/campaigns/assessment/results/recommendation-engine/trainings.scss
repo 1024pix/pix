@@ -157,6 +157,8 @@
   }
 
   &__program {
+    @extend %pix-body-m;
+
     color: var(--pix-neutral-800);
     white-space: pre-line;
   }
