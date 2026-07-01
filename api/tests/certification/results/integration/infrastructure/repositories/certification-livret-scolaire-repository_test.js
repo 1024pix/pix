@@ -126,12 +126,11 @@ describe('Integration | Repository | Certification-livret-scolaire ', function (
         certificationCenter,
       });
 
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         sessionId: session.id,
         organizationLearnerId: organizationLearner.id,
         userId: user.id,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         userId: user.id,

@@ -23,7 +23,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCases | verify-candidat
       const candidate = domainBuilder.certification.enrolment.buildCandidate({
         userId,
         reconciledAt,
-        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
       });
 
       placementProfileService.getPlacementProfile
@@ -49,7 +48,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCases | verify-candidat
       const candidate = domainBuilder.certification.enrolment.buildCandidate({
         userId,
         reconciledAt,
-        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
       });
 
       placementProfileService.getPlacementProfile

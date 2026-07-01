@@ -23,9 +23,6 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
             reconciledAt: new Date('2024-10-17'),
             authorizedToStart: false,
           });
-          databaseBuilder.factory.buildCoreSubscription({
-            certificationCandidateId: candidate.id,
-          });
           const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
             userId: user.id,
             sessionId: session.id,
@@ -180,16 +177,13 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
           // given
           const user = databaseBuilder.factory.buildUser();
           const otherSession = databaseBuilder.factory.buildSession();
-          const otherCandidate = databaseBuilder.factory.buildCertificationCandidate({
+          databaseBuilder.factory.buildCertificationCandidate({
             lastName: 'Joplin',
             firstName: 'Janis',
             sessionId: otherSession.id,
             userId: user.id,
             reconciledAt: new Date('2024-10-01'),
             authorizedToStart: false,
-          });
-          databaseBuilder.factory.buildCoreSubscription({
-            certificationCandidateId: otherCandidate.id,
           });
           databaseBuilder.factory.buildCertificationCourse({
             userId: user.id,
@@ -205,9 +199,6 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
             userId: user.id,
             reconciledAt: new Date('2024-10-18'),
             authorizedToStart: false,
-          });
-          databaseBuilder.factory.buildCoreSubscription({
-            certificationCandidateId: candidate.id,
           });
           const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
             userId: user.id,

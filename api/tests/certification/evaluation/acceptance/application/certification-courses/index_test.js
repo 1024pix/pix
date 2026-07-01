@@ -226,12 +226,11 @@ describe('Acceptance | Route | Certification Courses', function () {
         // given
         databaseBuilder.factory.buildUser({ id: 1 });
         databaseBuilder.factory.buildSession({ id: 2, accessCode: 'FMKP39' });
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({
+        databaseBuilder.factory.buildCertificationCandidate({
           sessionId: 2,
           userId: 1,
           authorizedToStart: true,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
           learningContent,
           userId: 1,
@@ -269,12 +268,11 @@ describe('Acceptance | Route | Certification Courses', function () {
         databaseBuilder.factory.buildUser({ id: 1 });
         databaseBuilder.factory.buildCertificationVersion();
         databaseBuilder.factory.buildSession({ id: 2, accessCode: 'FMKP39' });
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({
+        databaseBuilder.factory.buildCertificationCandidate({
           sessionId: 2,
           userId: 1,
           authorizedToStart: true,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
           learningContent,
           userId: 1,

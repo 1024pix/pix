@@ -11,8 +11,8 @@ import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import * as AssesmentResult from '../../../../../src/shared/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -771,7 +771,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
           organizationLearnerId: organizationLearner.id,
           userId: student.id,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           userId: candidate.userId,
@@ -850,7 +849,6 @@ describe('Certification | Results | Acceptance | Application | Certification', f
           userId: student.id,
           sessionId: session.id,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           userId: candidate.userId,

@@ -72,10 +72,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         });
         certificationCourseId = certificationCourse.id;
 
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: candidate.id,
-        });
-
         options = {
           headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
           method: 'PATCH',
@@ -163,7 +159,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         });
 
         const { assessment, assessmentResult } = await createSuccessfulCertificationCourse({
-          candidateId,
           userId,
           certificationCourse,
         });
@@ -235,7 +230,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         });
 
         const { assessment, assessmentResult } = await createSuccessfulCertificationCourse({
-          candidateId,
           userId,
           certificationCourse,
         });
@@ -307,7 +301,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       });
 
       const { assessment, assessmentResult } = await createSuccessfulCertificationCourse({
-        candidateId,
         userId,
         certificationCourse,
       });
@@ -441,7 +434,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         versionId,
       });
       ({ certificationChallenges, assessmentResult } = await createSuccessfulCertificationCourse({
-        candidateId,
         userId: superAdmin.id,
         certificationCourse,
       }));

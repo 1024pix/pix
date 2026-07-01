@@ -68,7 +68,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       lastName,
       userId: null,
       birthdate,
-      subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
     });
 
     userRepository.get.withArgs({ id: userId }).resolves(
@@ -91,7 +90,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         firstName: 'Henri',
         lastName: 'Quatre',
         birthdate: '2005-05-01',
-        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
       }),
     ]);
 
@@ -173,7 +171,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           firstName: 'Henri',
           lastName: 'Quatre',
           birthdate: '2005-05-01',
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         }),
       ]);
 
@@ -209,14 +206,12 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           lastName,
           userId: null,
           birthdate,
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         }),
         domainBuilder.certification.enrolment.buildCandidate({
           firstName,
           lastName,
           userId: null,
           birthdate,
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         }),
       ]);
 
@@ -260,7 +255,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           userId: userId + 10,
           reconciledAt: new Date('2024-09-25'),
           birthdate,
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
 
         candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
@@ -269,7 +263,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             firstName: 'Henri',
             lastName: 'Quatre',
             birthdate: '2005-05-01',
-            subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
           }),
         ]);
 
@@ -311,7 +304,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           userId,
           reconciledAt: new Date('2024-09-25'),
           birthdate,
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
 
         candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
@@ -320,7 +312,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             firstName: 'Henri',
             lastName: 'Quatre',
             birthdate: '2005-05-01',
-            subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
           }),
         ]);
 
@@ -362,7 +353,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           userId,
           reconciledAt: new Date('2024-09-25'),
           birthdate: '2005-05-01',
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
 
         candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
@@ -371,7 +361,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             lastName,
             userId: null,
             birthdate,
-            subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
           }),
           anotherCandidateWithGivenUserId,
         ]);
@@ -420,7 +409,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
                 userId: null,
                 birthdate,
                 subscription: Frameworks.DROIT,
-                subscriptions: [domainBuilder.certification.enrolment.buildComplementarySubscription()],
               }),
             ]);
 
@@ -444,7 +432,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
               userId: null,
               birthdate,
               subscription: Frameworks.DROIT,
-              subscriptions: [domainBuilder.certification.enrolment.buildComplementarySubscription()],
             });
             userRepository.get.withArgs({ id: userId }).resolves(
               domainBuilder.certification.enrolment.buildUser({
@@ -517,13 +504,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
                 userId: null,
                 birthdate,
                 organizationLearnerId: 789,
-                subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
               }),
               domainBuilder.certification.enrolment.buildCandidate({
                 firstName: 'Henri',
                 lastName: 'Quatre',
                 birthdate: '2005-05-01',
-                subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
               }),
             ]);
 

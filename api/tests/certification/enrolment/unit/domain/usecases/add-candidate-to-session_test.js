@@ -145,12 +145,8 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     });
 
     context('when candidate is valid', function () {
-      let subscription;
-
       beforeEach(function () {
-        subscription = domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null });
         candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-          subscriptions: [subscription],
           billingMode: BILLING_MODES.FREE,
         });
       });

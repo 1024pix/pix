@@ -32,13 +32,11 @@ describe('Acceptance | API | Certification Course', function () {
       const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
 
       const reconciledAt = new Date('2025-01-01');
-      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         userId,
         sessionId: session.id,
         reconciledAt,
       }).id;
-
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateId });
 
       const versionId = databaseBuilder.factory.buildCertificationVersion({
         startDate: new Date('2024-01-01'),
@@ -400,7 +398,6 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
     authorizedToStart: true,
     reconciledAt: new Date('2019-02-01'),
   });
-  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
 
   databaseBuilder.factory.buildCertificationVersion({
     startDate: new Date('2019-01-01'),
@@ -432,8 +429,7 @@ function _createExistingCertifCourseSetup({ learningContent, userId, sessionId, 
   const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, version }).id;
   databaseBuilder.factory.buildAssessment({ userId, certificationCourseId });
 
-  const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
-  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+  databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
 
   databaseBuilder.factory.buildCertificationVersion({
     startDate: new Date('2020-01-01'),

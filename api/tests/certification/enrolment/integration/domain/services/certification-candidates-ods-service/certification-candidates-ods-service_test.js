@@ -240,8 +240,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const expectedCandidates = candidateList.map((candidate) => {
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
-        subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
-        subscriptions: [],
       });
     });
     expect(actualCandidates).to.deep.equal(expectedCandidates);
@@ -275,16 +273,11 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       candidateList = _buildCandidateList({
         sessionId: sessionData.id,
         billingModes: [BILLING_MODES.FREE, BILLING_MODES.FREE],
-        complementaryCertifications: [
-          ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-          ComplementaryCertificationKeys.CLEA,
-        ],
+        subscriptions: [Frameworks.EDU_1ER_DEGRE, Frameworks.CLEA],
       });
       const expectedCandidates = candidateList.map((candidate) => {
         return domainBuilder.certification.enrolment.buildCandidate({
           ...candidate,
-          subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
-          subscriptions: [],
         });
       });
 
@@ -363,8 +356,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const expectedCandidates = candidateList.map((candidate) => {
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
-        subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
-        subscriptions: [],
       });
     });
 
@@ -411,15 +402,13 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const expectedCandidates = candidateList.map((candidate) => {
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
-        subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
-        subscriptions: [],
       });
     });
     expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
 });
 
-function _buildCandidateList({ billingModes = [], sessionId, complementaryCertifications = [] }) {
+function _buildCandidateList({ billingModes = [], sessionId, subscriptions = [] }) {
   const candidates = [];
   candidates.push({
     id: null,
@@ -440,7 +429,7 @@ function _buildCandidateList({ billingModes = [], sessionId, complementaryCertif
     extraTimePercentage: 0.15,
     billingMode: billingModes[0] ? billingModes[0] : null,
     prepaymentCode: null,
-    subscriptions: _buildSubscriptions(complementaryCertifications[0] ? complementaryCertifications[0] : null),
+    subscription: subscriptions[0] ? subscriptions[0] : Frameworks.CORE,
     organizationLearnerId: null,
     userId: null,
   });
@@ -463,29 +452,10 @@ function _buildCandidateList({ billingModes = [], sessionId, complementaryCertif
     extraTimePercentage: null,
     billingMode: billingModes[1] ? billingModes[1] : null,
     prepaymentCode: null,
-    subscriptions: _buildSubscriptions(complementaryCertifications[1] ? complementaryCertifications[1] : null),
+    subscription: subscriptions[1] ? subscriptions[1] : Frameworks.CORE,
     organizationLearnerId: null,
     userId: null,
   });
 
   return candidates;
-}
-
-function _buildSubscriptions(subscriptionKey) {
-  const subscriptions = [];
-
-  if (subscriptionKey) {
-    subscriptions.push(
-      domainBuilder.certification.enrolment.buildComplementarySubscription({
-        certificationCandidateId: null,
-        complementaryCertificationKey: subscriptionKey,
-      }),
-    );
-  }
-
-  if (subscriptionKey === ComplementaryCertificationKeys.CLEA || !subscriptionKey) {
-    subscriptions.push(domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }));
-  }
-
-  return subscriptions;
 }

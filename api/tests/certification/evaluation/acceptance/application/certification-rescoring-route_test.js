@@ -90,7 +90,6 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
           sessionId,
           userId: candidate.id,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
 
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           sessionId,
@@ -245,7 +244,6 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
           sessionId,
           userId: candidate.id,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
 
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           sessionId,

@@ -34,7 +34,7 @@ function _buildCertificationData({
     certificationCenter,
   });
 
-  const candidate = databaseBuilder.factory.buildCertificationCandidate({
+  databaseBuilder.factory.buildCertificationCandidate({
     sessionId: session.id,
     organizationLearnerId: organizationLearner.id,
     firstName: organizationLearner.firstName,
@@ -42,7 +42,6 @@ function _buildCertificationData({
     birthdate: organizationLearner.birthdate,
     userId: user.id,
   });
-  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
   const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
     userId: user.id,
