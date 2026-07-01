@@ -7,8 +7,7 @@ import {
   CampaignTypes,
   OrganizationLearnerLoggerContext,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { CLIENTS, PIX_ORGA } from '../../../../../../src/shared/domain/constants.js';
-import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
+import { CLIENTS, ORGANIZATION_FEATURE, PIX_ORGA } from '../../../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { AuditLoggingJob } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
@@ -315,12 +314,64 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
     expect(assessments).deep.equal([assessment1.id, assessment2.id]);
   });
 
-  it('should publish an event to historize action', async function () {
+  it('should publish batch event to historize action', async function () {
+    // given
+    const campaignParticipation2 = buildCampaignParticipation({
+      organizationLearnerId: organizationLearner2.id,
+      participantExternalId,
+      userId: organizationLearner2.userId,
+    });
+    await databaseBuilder.commit();
+
     // when
     await usecases.deleteOrganizationLearners({
       userId: adminUserId,
-      organizationLearnerIds: [organizationLearner1.id],
+      organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
       organizationId,
+      userRole: 'ORGA_ADMIN',
+      client: 'PIX_ORGA',
+    });
+
+    // then
+    await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayloads([
+      {
+        client: 'PIX_ORGA',
+        action: OrganizationLearnerLoggerContext.DELETION,
+        role: 'ORGA_ADMIN',
+        userId: adminUserId,
+        occurredAt: now.toISOString(),
+        targetUserIds: [organizationLearner1.id, organizationLearner2.id],
+        data: {},
+        correlationContext: EMPTY_CORRELATION_INFO,
+      },
+      {
+        client: 'PIX_ORGA',
+        action: CampaignParticipationLoggerContext.DELETION,
+        role: 'ORGA_ADMIN',
+        userId: adminUserId,
+        occurredAt: now.toISOString(),
+        targetUserIds: [campaignParticipation1.id, campaignParticipation2.id],
+        data: {},
+        correlationContext: EMPTY_CORRELATION_INFO,
+      },
+    ]);
+  });
+
+  it('should publish an event to historize action according batch size', async function () {
+    // given
+    const campaignParticipation2 = buildCampaignParticipation({
+      organizationLearnerId: organizationLearner2.id,
+      participantExternalId,
+      userId: organizationLearner2.userId,
+    });
+    await databaseBuilder.commit();
+
+    // when
+    await usecases.deleteOrganizationLearners({
+      userId: adminUserId,
+      organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+      organizationId,
+      learnerToDeleteChunkSize: 1,
       userRole: 'ORGA_ADMIN',
       client: 'PIX_ORGA',
     });
@@ -339,11 +390,31 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
       },
       {
         client: 'PIX_ORGA',
+        action: OrganizationLearnerLoggerContext.DELETION,
+        role: 'ORGA_ADMIN',
+        userId: adminUserId,
+        occurredAt: now.toISOString(),
+        targetUserIds: [organizationLearner2.id],
+        data: {},
+        correlationContext: EMPTY_CORRELATION_INFO,
+      },
+      {
+        client: 'PIX_ORGA',
         action: CampaignParticipationLoggerContext.DELETION,
         role: 'ORGA_ADMIN',
         userId: adminUserId,
         occurredAt: now.toISOString(),
         targetUserIds: [campaignParticipation1.id],
+        data: {},
+        correlationContext: EMPTY_CORRELATION_INFO,
+      },
+      {
+        client: 'PIX_ORGA',
+        action: CampaignParticipationLoggerContext.DELETION,
+        role: 'ORGA_ADMIN',
+        userId: adminUserId,
+        occurredAt: now.toISOString(),
+        targetUserIds: [campaignParticipation2.id],
         data: {},
         correlationContext: EMPTY_CORRELATION_INFO,
       },
