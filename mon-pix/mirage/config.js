@@ -21,6 +21,7 @@ import getChallenges from './routes/get-challenges';
 import getCombinedCourses from './routes/get-combined-courses';
 import getCompetenceEvaluationsByAssessment from './routes/get-competence-evaluations-by-assessment';
 import getFeatureToggles from './routes/get-feature-toggles';
+import getHasAnsweredSurvey from './routes/get-has-answered-survey';
 import getInformationBanners from './routes/get-information-banners';
 import getOrganizationsToJoin from './routes/get-organizations-to-join';
 import getProgression from './routes/get-progression';
@@ -92,6 +93,7 @@ function routes() {
   this.get('/assessments/:id/competence-evaluations', getCompetenceEvaluationsByAssessment);
 
   this.get('/campaigns', getCampaigns);
+  this.get('/campaigns/:campaignId/has-answered-survey', getHasAnsweredSurvey);
 
   this.get('/certificate-summaries', getCertificateSummaries);
   this.get('/certifications', getCertifications);

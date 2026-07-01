@@ -70,6 +70,9 @@ export default class EvaluationResultsRecommendationEngine extends Component {
   }
 
   get shouldShowNps() {
+    if (this.args.model.hasAnsweredSurvey) {
+      return false;
+    }
     return this._drawerRevealedByScroll || !this.hasTrainings;
   }
 
