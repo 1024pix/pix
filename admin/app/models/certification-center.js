@@ -15,6 +15,7 @@ export default class CertificationCenter extends Model {
   @attr() externalId;
   @attr() archivedAt;
   @attr() archivistFullName;
+  @attr() createdAt;
   @attr() dataProtectionOfficerFirstName;
   @attr() dataProtectionOfficerLastName;
   @attr() dataProtectionOfficerEmail;

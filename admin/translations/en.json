@@ -1407,6 +1407,7 @@
         },
         "is-archived-warning": "Archived at {archivedAt} by {archivedBy}.",
         "list": {
+          "createdAt": "Created at",
           "dpo": "DPO",
           "dpo-definition": "Data Protection Officer",
           "dpo-email": "E-mail address of ",

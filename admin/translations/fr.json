@@ -1425,6 +1425,7 @@
         },
         "is-archived-warning": "Archivé le {archivedAt} par {archivedBy}.",
         "list": {
+          "createdAt": "Date de création",
           "dpo": "DPO",
           "dpo-definition": "Délégué à la protection des données",
           "dpo-email": "Adresse e-mail du ",
