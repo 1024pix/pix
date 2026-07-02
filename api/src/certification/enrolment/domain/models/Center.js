@@ -15,14 +15,16 @@ export class Center {
    * @param {CenterTypes} props.type
    * @param {Array<Habilitation>} props.habilitations center habilitations
    * @param {MatchingOrganization | null} props.matchingOrganization
+   * @param {Date} createdAt
    */
-  constructor({ id, name, externalId, type, habilitations, matchingOrganization }) {
+  constructor({ id, name, externalId, type, habilitations, createdAt, matchingOrganization }) {
     this.id = id;
     this.name = name;
     this.type = type;
     this.externalId = externalId;
     this.habilitations = habilitations ?? [];
     this.matchingOrganization = matchingOrganization;
+    this.createdAt = createdAt;
   }
 
   get isSco() {

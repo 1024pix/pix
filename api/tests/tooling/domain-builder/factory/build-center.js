@@ -9,6 +9,7 @@ const buildCenter = function ({
   habilitations,
   features,
   matchingOrganization = null,
+  createdAt,
 } = {}) {
   return new Center({
     id,
@@ -18,6 +19,7 @@ const buildCenter = function ({
     habilitations,
     features,
     matchingOrganization,
+    createdAt,
   });
 };
 
