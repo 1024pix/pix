@@ -1,7 +1,7 @@
 import * as centerRepository from '../../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as learnersApi from '../../../prescription/learner-management/application/api/learners-api.js';
 import * as schoolRepository from '../../../school/infrastructure/repositories/school-repository.js';
-import * as codeGenerator from '../../../shared/domain/services/code-generator.js';
+import * as accessCodeGenerator from '../../../shared/domain/services/access-code-generator.js';
 import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as countryRepository from '../../../shared/infrastructure/repositories/country-repository.js';
 import * as featureRepository from '../../../shared/infrastructure/repositories/feature-repository.js';
@@ -55,7 +55,7 @@ const dependenciesToInject = {
   adminMemberRepository,
   organizationValidator,
   organizationCreationValidator,
-  codeGenerator,
+  accessCodeGenerator,
   centerRepository,
   certificationCenterRepository,
   certificationCenterForAdminRepository,

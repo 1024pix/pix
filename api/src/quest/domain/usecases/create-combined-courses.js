@@ -8,7 +8,7 @@ export const createCombinedCourses = withTransaction(
     payload,
     campaignRepository,
     targetProfileRepository,
-    codeGenerator,
+    accessCodeGenerator,
     accessCodeRepository,
     combinedCourseRepository,
     combinedCourseBlueprintRepository,
@@ -31,7 +31,7 @@ export const createCombinedCourses = withTransaction(
       });
 
       for (const organizationId of organizationIds) {
-        const combinedCourseCode = await codeGenerator.generate(accessCodeRepository, pendingCodes);
+        const combinedCourseCode = await accessCodeGenerator.generate(accessCodeRepository, pendingCodes);
         pendingCodes.push(combinedCourseCode);
 
         let modules = [];

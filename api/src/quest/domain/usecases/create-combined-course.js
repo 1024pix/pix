@@ -6,7 +6,7 @@ export const createCombinedCourse = async ({
   creatorId,
   campaignRepository,
   targetProfileRepository,
-  codeGenerator,
+  accessCodeGenerator,
   accessCodeRepository,
   combinedCourseRepository,
   combinedCourseBlueprintRepository,
@@ -32,7 +32,7 @@ export const createCombinedCourse = async ({
     });
   }
 
-  const combinedCourseCode = await codeGenerator.generate(accessCodeRepository);
+  const combinedCourseCode = await accessCodeGenerator.generate(accessCodeRepository);
 
   const targetProfileIds = combinedCourseBlueprint.targetProfileIds ?? [];
   const targetProfiles = await targetProfileRepository.findByIds({ ids: targetProfileIds });

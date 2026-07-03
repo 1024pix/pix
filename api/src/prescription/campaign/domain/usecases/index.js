@@ -5,7 +5,7 @@ import * as badgeAcquisitionRepository from '../../../../evaluation/infrastructu
 import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
-import * as codeGenerator from '../../../../shared/domain/services/code-generator.js';
+import * as accessCodeGenerator from '../../../../shared/domain/services/access-code-generator.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import * as accessCodeRepository from '../../../../shared/infrastructure/repositories/access-code-repository.js';
@@ -62,7 +62,7 @@ const dependencies = {
   campaignReportRepository,
   campaignRepository,
   campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
-  codeGenerator,
+  accessCodeGenerator,
   competenceRepository,
   improvementService,
   divisionRepository,

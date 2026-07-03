@@ -1,5 +1,5 @@
 import * as organizationLearnerPrescriptionRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import * as codeGenerator from '../../../shared/domain/services/code-generator.js';
+import * as accessCodeGenerator from '../../../shared/domain/services/access-code-generator.js';
 import * as membershipRepository from '../../../shared/infrastructure/repositories/membership-repository.js';
 import * as organizationFeatureRepository from '../../../shared/infrastructure/repositories/organization-feature-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
@@ -48,7 +48,7 @@ const dependencies = {
   campaignParticipationRepository: repositories.campaignParticipationRepository,
   profileRewardRepository: repositories.profileRewardRepository,
   combinedCourseBlueprintShareRepository: repositories.combinedCourseBlueprintShareRepository,
-  codeGenerator,
+  accessCodeGenerator,
   logger,
 };
 

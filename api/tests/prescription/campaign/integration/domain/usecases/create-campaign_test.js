@@ -8,7 +8,7 @@ import * as campaignAdministrationRepository from '../../../../../../src/prescri
 import * as campaignCreatorRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
-import * as codeGenerator from '../../../../../../src/shared/domain/services/code-generator.js';
+import * as accessCodeGenerator from '../../../../../../src/shared/domain/services/access-code-generator.js';
 import * as accessCodeRepository from '../../../../../../src/shared/infrastructure/repositories/access-code-repository.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
@@ -60,7 +60,7 @@ describe('Integration | UseCases | create-campaign', function () {
       userRepository,
       campaignAdministrationRepository,
       campaignCreatorRepository,
-      codeGenerator,
+      accessCodeGenerator,
       accessCodeRepository,
     });
 
@@ -188,7 +188,7 @@ describe('Integration | UseCases | create-campaign', function () {
         userRepository,
         campaignAdministrationRepository,
         campaignCreatorRepository,
-        codeGenerator,
+        accessCodeGenerator,
         accessCodeRepository,
       });
 
@@ -221,7 +221,7 @@ describe('Integration | UseCases | create-campaign', function () {
         userRepository,
         campaignAdministrationRepository,
         campaignCreatorRepository,
-        codeGenerator,
+        accessCodeGenerator,
         accessCodeRepository,
       });
 
@@ -282,7 +282,7 @@ describe('Integration | UseCases | create-campaign', function () {
         userRepository,
         campaignAdministrationRepository,
         campaignCreatorRepository,
-        codeGenerator,
+        accessCodeGenerator,
         accessCodeRepository,
       });
 
@@ -319,7 +319,7 @@ describe('Integration | UseCases | create-campaign', function () {
         userRepository,
         campaignAdministrationRepository,
         campaignCreatorRepository,
-        codeGenerator,
+        accessCodeGenerator,
         accessCodeRepository,
       });
 

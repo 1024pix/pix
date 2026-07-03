@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import * as codeGenerator from '../../../../../src/shared/domain/services/code-generator.js';
+import { generate } from '../../../../../src/shared/domain/services/access-code-generator.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | code generator', function () {
@@ -21,7 +21,7 @@ describe('Unit | Domain | Services | code generator', function () {
       generateCode.onSecondCall().returns('123');
 
       // when
-      const code = await codeGenerator.generate(accessCodeRepository, [], { generateCode });
+      const code = await generate(accessCodeRepository, [], { generateCode });
 
       // then
       expect(code).to.have.lengthOf(9);
@@ -34,7 +34,7 @@ describe('Unit | Domain | Services | code generator', function () {
       generateCode.onSecondCall().returns('123');
 
       // when
-      await codeGenerator.generate(accessCodeRepository, [], { generateCode });
+      await generate(accessCodeRepository, [], { generateCode });
 
       // then
       expect(generateCode).to.have.been.calledWith(6, 'alphaSafe');
@@ -53,7 +53,7 @@ describe('Unit | Domain | Services | code generator', function () {
       accessCodeRepository.isCodeAvailable.onCall(1).resolves(true);
 
       // when
-      const generatedCode = await codeGenerator.generate(accessCodeRepository, [], { generateCode });
+      const generatedCode = await generate(accessCodeRepository, [], { generateCode });
 
       // then
       expect(accessCodeRepository.isCodeAvailable).to.have.been.called;
@@ -74,7 +74,7 @@ describe('Unit | Domain | Services | code generator', function () {
       generateCode.onCall(3).returns('543');
 
       // when
-      const generatedCode = await codeGenerator.generate(accessCodeRepository, [pendingCode], { generateCode });
+      const generatedCode = await generate(accessCodeRepository, [pendingCode], { generateCode });
 
       // then
       expect(generatedCode).to.not.equal(pendingCode);
