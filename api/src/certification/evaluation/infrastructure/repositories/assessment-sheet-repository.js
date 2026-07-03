@@ -55,6 +55,7 @@ const baseQuery = () => {
       certificationCourseId: 'certification-courses.id',
       userId: 'certification-courses.userId',
       assessmentId: 'assessments.id',
+      startedAt: 'certification-courses.createdAt',
       lastChallengeId: 'assessments.lastChallengeId',
       lastQuestionDate: 'assessments.lastQuestionDate',
       lastQuestionState: 'assessments.lastQuestionState',

@@ -71,6 +71,7 @@ async function _setupTestData(databaseBuilder, { competenceId, doesCandidateNeed
     userId,
     sessionId: session.id,
     candidateId: candidate.id,
+    createdAt: new Date(),
   });
 
   const assessment = databaseBuilder.factory.buildAssessment({

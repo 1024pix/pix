@@ -12,4 +12,13 @@ class NextChallengeAlreadyComputingError extends DomainError {
   }
 }
 
-export { CertificationComputeError, NextChallengeAlreadyComputingError };
+class CertificationDurationExceededError extends DomainError {
+  constructor(
+    message = 'The maximum duration to answer the certification test has been exceeded.',
+    code = 'CERTIFICATION_DURATION_EXCEEDED',
+  ) {
+    super(message, code);
+  }
+}
+
+export { CertificationComputeError, CertificationDurationExceededError, NextChallengeAlreadyComputingError };

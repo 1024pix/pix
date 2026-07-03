@@ -372,4 +372,71 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
       });
     });
   });
+
+  context('#hasCertificationDurationExceeded', function () {
+    let clock;
+    const now = new Date('2026-01-02T00:00:00Z');
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('returns true when the certification has been started for more than 24 hours', function () {
+      const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+        startedAt: new Date('2025-12-31T23:00:00Z'),
+      });
+
+      expect(assessmentSheet.hasCertificationDurationExceeded()).to.be.true;
+    });
+
+    it('returns false when the certification has been started for less than 24 hours', function () {
+      const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+        startedAt: new Date('2026-01-01T23:00:00Z'),
+      });
+
+      expect(assessmentSheet.hasCertificationDurationExceeded()).to.be.false;
+    });
+  });
+
+  context('#endDueToCertificationDurationExceeded', function () {
+    let clock, assessmentSheetBaseData;
+    const now = new Date();
+
+    beforeEach(function () {
+      assessmentSheetBaseData = {
+        certificationCourseId: 123,
+        assessmentId: 456,
+        abortReason: 'candidate',
+        isRejectedForFraud: true,
+        answers: [domainBuilder.buildAnswer()],
+      };
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it(`should set state to ${STATES.ENDED_DUE_TO_DURATION_EXCEEDED} and update assessmentUpdatedAt`, function () {
+      const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+        ...assessmentSheetBaseData,
+        state: STATES.STARTED,
+        assessmentUpdatedAt: new Date('2021-10-29'),
+      });
+
+      assessmentSheet.endDueToCertificationDurationExceeded();
+
+      expect(assessmentSheet).to.deepEqualInstance(
+        domainBuilder.certification.evaluation.buildAssessmentSheet({
+          ...assessmentSheetBaseData,
+          state: STATES.ENDED_DUE_TO_DURATION_EXCEEDED,
+          assessmentUpdatedAt: now,
+        }),
+      );
+    });
+  });
 });

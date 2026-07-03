@@ -11,6 +11,8 @@ import { ABORT_REASONS } from '../../../shared/domain/constants/abort-reasons.js
 export const STATES = Assessment.states;
 export const STATES_OF_LAST_QUESTION = Assessment.statesOfLastQuestion;
 
+const MAXIMAL_CERTIFICATION_DURATION_IN_MS = 24 * 60 * 60 * 1000; // 24h
+
 export class AssessmentSheet {
   /**
    * @param {object} params
@@ -23,6 +25,7 @@ export class AssessmentSheet {
    * @param {lang} params.lang
    * @param {boolean} params.accessibilityAdjustmentNeeded
    * @param {Assessment.statesOfLastQuestion} params.lastQuestionState
+   * @param {Date} params.startedAt
    * @param {Date} params.lastQuestionDate
    * @param {ABORT_REASONS} params.abortReason
    * @param {boolean} params.isRejectedForFraud
@@ -38,6 +41,7 @@ export class AssessmentSheet {
     assessmentId,
     versionId,
     certificationFramework,
+    startedAt,
     lastChallengeId,
     lastQuestionState,
     lastQuestionDate,
@@ -56,6 +60,7 @@ export class AssessmentSheet {
     this.assessmentId = assessmentId;
     this.versionId = versionId;
     this.certificationFramework = certificationFramework;
+    this.startedAt = startedAt;
     this.lastChallengeId = lastChallengeId;
     this.lastQuestionState = lastQuestionState;
     this.lastQuestionDate = lastQuestionDate;
@@ -126,5 +131,14 @@ export class AssessmentSheet {
     if (this.isChallengeAlreadyAnswered(answer.challengeId)) {
       throw new ChallengeAlreadyAnsweredError();
     }
+  }
+
+  hasCertificationDurationExceeded() {
+    return Date.now() - this.startedAt.getTime() > MAXIMAL_CERTIFICATION_DURATION_IN_MS;
+  }
+
+  endDueToCertificationDurationExceeded() {
+    this.state = STATES.ENDED_DUE_TO_DURATION_EXCEEDED;
+    this.assessmentUpdatedAt = new Date();
   }
 }
