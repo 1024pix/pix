@@ -75,7 +75,7 @@
     "test:api": "for testType in 'unit' 'integration' 'acceptance'; do npm run test:api:$testType || status=1 ; done ; exit $status",
     "test:api:path": "NODE_ENV=test node --env-file-if-exists=.env ./node_modules/.bin/vitest run --retry=${VITEST_RETRIES:-0}",
     "test:api:scripts": "npm run test:api:path -- tests/integration/scripts",
-    "test:api:unit": "TEST_DATABASE_URL=postgres://should.not.reach.db.in.unit.tests TEST_REDIS_URL= TEST_JOBS_DATABASE_URL=postgres://should.not.reach.db.in.unit.tests npm run test:api:path -- /unit/",
+    "test:api:unit": "TEST_DATABASE_URL=postgres://should.not.reach.db.in.unit.tests TEST_REDIS_URL= TEST_JOBS_DATABASE_URL=postgres://should.not.reach.db.in.unit.tests npm run test:api:path -- --config vitest.unit.config.js /unit/",
     "test:api:integration": "npm run test:api:path -- /integration/",
     "test:api:acceptance": "npm run test:api:path -- /acceptance/",
     "test:api:debug": "NODE_ENV=test node --env-file-if-exists=.env ./node_modules/.bin/vitest --inspect-brk=9229 --no-file-parallelism run tests",
