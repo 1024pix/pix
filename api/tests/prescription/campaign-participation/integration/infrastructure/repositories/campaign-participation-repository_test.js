@@ -389,7 +389,9 @@ describe('Integration | Repository | Campaign Participation', function () {
         // we mimick a concurrent call on the campaign-participations table on another row,
         // its result is irrelevant here, and it may reject once the transaction below has already
         // completed, so we swallow its rejection to avoid an unhandled rejection
-        campaignParticipationRepository.getLocked(participation.id).catch(() => {});
+        campaignParticipationRepository.getLocked(participation.id).catch(() => {
+          /* empty */
+        });
         return knex('campaign-participations')
           .where({ id: campaignParticipationNotSharedId })
           .first()
