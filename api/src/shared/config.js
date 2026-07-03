@@ -127,11 +127,6 @@ const schema = Joi.object({
   CPF_PLANNER_JOB_CRON: Joi.string().optional(),
   CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD: Joi.number().optional(),
   CPF_PLANNER_JOB_MONTHS_TO_PROCESS: Joi.number().optional(),
-  CPF_RECEIPTS_STORAGE_ACCESS_KEY_ID: Joi.string().optional(),
-  CPF_RECEIPTS_STORAGE_BUCKET_NAME: Joi.string().optional(),
-  CPF_RECEIPTS_STORAGE_ENDPOINT: Joi.string().optional(),
-  CPF_RECEIPTS_STORAGE_REGION: Joi.string().optional(),
-  CPF_RECEIPTS_STORAGE_SECRET_ACCESS_KEY: Joi.string().optional(),
   CPF_SEND_EMAIL_JOB_CRON: Joi.string().optional(),
   CPF_SEND_EMAIL_JOB_RECIPIENT: Joi.string().optional(),
   DATABASE_CONNECTION_POOL_MAX_SIZE: Joi.number().integer().min(0).optional(),
@@ -277,15 +272,6 @@ const configuration = (function () {
           },
           commands: {
             preSignedExpiresIn: process.env.CPF_EXPORTS_STORAGE_PRE_SIGNED_EXPIRES_IN || 604800,
-          },
-        },
-        cpfReceipts: {
-          client: {
-            accessKeyId: process.env.CPF_RECEIPTS_STORAGE_ACCESS_KEY_ID,
-            secretAccessKey: process.env.CPF_RECEIPTS_STORAGE_SECRET_ACCESS_KEY,
-            endpoint: process.env.CPF_RECEIPTS_STORAGE_ENDPOINT,
-            region: process.env.CPF_RECEIPTS_STORAGE_REGION,
-            bucket: process.env.CPF_RECEIPTS_STORAGE_BUCKET_NAME,
           },
         },
       },
@@ -664,15 +650,6 @@ const configuration = (function () {
         },
         commands: {
           preSignedExpiresIn: 3600,
-        },
-      },
-      cpfReceipts: {
-        client: {
-          accessKeyId: 'cpfReceipts.accessKeyId',
-          secretAccessKey: 'cpfReceipts.secretAccessKey',
-          endpoint: 'http://cpf-receipts.fake.endpoint.example.net',
-          region: 'eu-west-par',
-          bucket: 'cpfReceipts.bucket',
         },
       },
     };
