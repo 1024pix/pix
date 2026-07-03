@@ -1,3 +1,4 @@
+import { config } from '../../../shared/config.js';
 import { CsvColumn } from '../../../shared/infrastructure/serializers/csv/csv-column.js';
 import { CampaignExternalIdTypes, CampaignTypes } from '../../shared/domain/constants.js';
 
@@ -94,3 +95,5 @@ export const CAMPAIGNS_HEADER = {
     }),
   ],
 };
+
+export const CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING = config.infra.chunkSizeForCampaignResultProcessing;
