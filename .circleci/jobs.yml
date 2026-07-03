@@ -86,7 +86,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -116,7 +116,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -132,7 +132,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -145,7 +145,7 @@ executors:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -162,7 +162,7 @@ executors:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -585,10 +585,10 @@ jobs:
           at: ~/pix
       - run:
           name: Test
-          command: npm run test:api:unit -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          command: npm run test:api:unit
           environment:
             NODE_ENV: test
-            MOCHA_REPORTER: xunit
+            VITEST_JUNIT_OUTPUT: /home/circleci/test-results/test-results.xml
           when: always
       - store_test_results:
           path: /home/circleci/test-results
@@ -634,7 +634,7 @@ jobs:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
       - run:
           name: Test
-          command: npm run test:api:integration -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          command: npm run test:api:integration
           environment:
             NODE_ENV: test
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
@@ -647,6 +647,8 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
             TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
             TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
+            VITEST_RETRIES: 2
+            VITEST_JUNIT_OUTPUT: /home/circleci/test-results/test-results.xml
             ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: test
             ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: test
             ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: http://localhost:9090
@@ -699,7 +701,7 @@ jobs:
           command: |
             circleci tests glob 'tests/**/acceptance/**/*test.js' |
             circleci tests split --split-by=filesize |
-            xargs npm run test:api:path -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+            xargs npm run test:api:path --
           environment:
             NODE_ENV: test
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
@@ -712,6 +714,8 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
             TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
             TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
+            VITEST_RETRIES: 2
+            VITEST_JUNIT_OUTPUT: /home/circleci/test-results/test-results.xml
             ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: test
             ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: test
             ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: http://localhost:9090
