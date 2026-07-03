@@ -7,12 +7,12 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 describe('Integration | Domain | UseCases | get-campaign-parameters-for-simulator', function () {
   describe('when the campaign does not exist', function () {
     it('should return show a not found error', async function () {
-      expect(
+      return expect(
         evaluationUsecases.getCampaignParametersForSimulator({
           campaignId: 666,
           locale: 'fr',
         }),
-      ).to.eventually.throw(NotFoundError);
+      ).to.be.rejectedWith(NotFoundError);
     });
   });
 
