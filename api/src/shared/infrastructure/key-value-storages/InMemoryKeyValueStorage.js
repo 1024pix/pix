@@ -1,32 +1,32 @@
 import lodash from 'lodash';
-import micromatch from 'micromatch';
-import NodeCache from 'node-cache';
 
 const { trim, noop } = lodash;
 
 import { KeyValueStorage } from './KeyValueStorage.js';
 
 class InMemoryKeyValueStorage extends KeyValueStorage {
+  #store = new Map();
+
   constructor() {
     super();
-    this._client = new NodeCache();
   }
 
   async save({ key, value, expirationDelaySeconds }) {
     const storageKey = trim(key) || InMemoryKeyValueStorage.generateKey();
-    this._client.set(storageKey, value, expirationDelaySeconds);
+    if (expirationDelaySeconds) {
+      setTimeout(() => this.#store.delete(storageKey), expirationDelaySeconds * 1000);
+    }
+    this.#store.set(storageKey, value);
     return storageKey;
   }
 
   async update(key, value) {
     const storageKey = trim(key);
-    const timeoutMs = this._client.getTtl(storageKey);
-    const expirationDelaySeconds = timeoutMs === 0 ? 0 : (timeoutMs - Date.now()) / 1000;
-    this._client.set(storageKey, value, expirationDelaySeconds);
+    this.#store.set(storageKey, value);
   }
 
   async get(key) {
-    return this._client.get(key);
+    return this.#store.get(key);
   }
 
   async increment(key) {
@@ -46,46 +46,47 @@ class InMemoryKeyValueStorage extends KeyValueStorage {
   }
 
   async delete(key) {
-    return this._client.del(key);
+    return this.#store.delete(key);
   }
 
   quit() {
     noop;
   }
 
-  async expire({ key, expirationDelaySeconds }) {
-    return this._client.ttl(key, expirationDelaySeconds);
+  async expire() {
+    noop;
   }
 
-  async ttl(key) {
-    return this._client.getTtl(key);
+  async ttl() {
+    return 0;
   }
 
   async lpush(key, value) {
-    let list = this._client.get(key) || [];
+    let list = this.#store.get(key) || [];
     list = [value, ...list];
-    this._client.set(key, list);
+    this.#store.set(key, list);
     return list.length;
   }
 
   async lrem(key, value) {
-    const list = this._client.get(key) || [];
+    const list = this.#store.get(key) || [];
     const filtered = list.filter((item) => item !== value);
     const removed = list.filter((item) => item === value);
-    this._client.set(key, filtered);
+    this.#store.set(key, filtered);
     return removed.length;
   }
 
   async lrange(key) {
-    return this._client.get(key) || [];
+    return this.#store.get(key) || [];
   }
 
   keys(pattern) {
-    return micromatch(this._client.keys(), pattern);
+    const regex = new RegExp(`^${pattern.replace(/\*/g, '.*')}$`);
+    return Array.from(this.#store.keys()).filter((key) => regex.test(key));
   }
 
   async flushAll() {
-    this._client.flushAll();
+    this.#store.clear();
   }
 }
 

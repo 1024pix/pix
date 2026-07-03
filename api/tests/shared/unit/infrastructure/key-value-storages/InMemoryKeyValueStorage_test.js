@@ -39,8 +39,10 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
   });
 
   describe('#save', function () {
+    let clock;
+
     beforeEach(function () {
-      sinon.useFakeTimers();
+      clock = sinon.useFakeTimers();
     });
 
     it('should resolve with the generated key', async function () {
@@ -84,17 +86,17 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
     it('should save key value with a defined ttl in seconds', async function () {
       // given
       const TWO_MINUTES_IN_SECONDS = 2 * 60;
-      const TWO_MINUTES_IN_MILLISECONDS = 2 * 60 * 1000;
 
       // when
       const key = await inMemoryKeyValueStorage.save({
-        value: { name: 'name' },
+        value: 'foobar',
         expirationDelaySeconds: TWO_MINUTES_IN_SECONDS,
       });
 
       // then
-      const expirationKeyInTimestamp = await inMemoryKeyValueStorage._client.getTtl(key);
-      expect(expirationKeyInTimestamp).to.equal(TWO_MINUTES_IN_MILLISECONDS);
+      expect(await inMemoryKeyValueStorage.get(key)).to.equal('foobar');
+      await clock.tickAsync(TWO_MINUTES_IN_SECONDS * 1000);
+      expect(await inMemoryKeyValueStorage.get(key)).to.be.undefined;
     });
   });
 
@@ -185,22 +187,6 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
     });
   });
 
-  describe('#ttl', function () {
-    it('should retrieve the remaining expiration time from a list', async function () {
-      // given
-      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
-
-      // when
-      const key = 'key:lpush';
-      await inMemoryKeyValueStorage.lpush(key, 'value');
-      await inMemoryKeyValueStorage.expire({ key, expirationDelaySeconds: 120 });
-      const remainingExpirationSeconds = await inMemoryKeyValueStorage.ttl(key);
-
-      // then
-      expect(remainingExpirationSeconds).to.be.above(Date.now());
-    });
-  });
-
   describe('#lpush', function () {
     it('should add value into key list', async function () {
       // given
@@ -265,6 +251,21 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
 
       // then
       expect(values).to.deep.equal(['prefix:key1', 'prefix:key2', 'prefix:key3']);
+    });
+
+    it('should return matching keys for all keys', async function () {
+      // given
+      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
+      inMemoryKeyValueStorage.save({ key: 'prefix:key1', value: true });
+      inMemoryKeyValueStorage.save({ key: 'prefix:key2', value: true });
+      inMemoryKeyValueStorage.save({ key: 'prefix:key3', value: true });
+      inMemoryKeyValueStorage.save({ key: 'otherprefix:key4', value: true });
+
+      // when
+      const values = inMemoryKeyValueStorage.keys('*');
+
+      // then
+      expect(values).to.deep.equal(['prefix:key1', 'prefix:key2', 'prefix:key3', 'otherprefix:key4']);
     });
   });
 });
