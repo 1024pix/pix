@@ -97,6 +97,7 @@ async function teardown() {
     // pgBoss is not available on unit tests
   }
   await disconnectKnex();
+  // eslint-disable-next-line n/no-process-exit
   process.exit(0);
 }
 
