@@ -11,7 +11,7 @@ import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { constants } from '../../../../../../src/shared/constants.js';
+import { config } from '../../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
@@ -879,7 +879,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
       it('should not keep the autonomous course from the campaign participations list', async function () {
         // given
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+          id: config.autonomousCourse.autonomousCoursesOrganizationId,
         });
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({
           organizationId,

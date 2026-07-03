@@ -536,7 +536,7 @@ const configuration = (function () {
     },
     version: process.env.CONTAINER_VERSION || 'development',
     autonomousCourse: {
-      autonomousCoursesOrganizationId: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10),
+      autonomousCoursesOrganizationId: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10) || 0,
     },
     routeDomainToOwnerTeamMapping: parseJSONEnv('ROUTE_DOMAIN_TO_OWNER_TEAM_MAPPING'),
   };

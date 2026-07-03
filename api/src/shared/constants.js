@@ -103,8 +103,6 @@ export const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
 
 export const PIX_ORIGIN = 'Pix';
 
-export const AUTONOMOUS_COURSES_ORGANIZATION_ID = config.autonomousCourse.autonomousCoursesOrganizationId || 0;
-
 export const STUDENT_RECONCILIATION_ERRORS = {
   RECONCILIATION: {
     IN_OTHER_ORGANIZATION: {
@@ -168,7 +166,6 @@ export const CLIENTS = {
 export const CONCURRENCY_HEAVY_OPERATIONS = config.infra.concurrencyForHeavyOperations;
 
 export const constants = {
-  AUTONOMOUS_COURSES_ORGANIZATION_ID,
   CERTIFICATION_CENTER_TYPES,
   COMPETENCES_COUNT,
   DEFAULT_LEVEL_FOR_FIRST_CHALLENGE,

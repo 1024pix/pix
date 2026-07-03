@@ -1,5 +1,5 @@
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { constants } from '../../../../../src/shared/constants.js';
+import { config } from '../../../../../src/shared/config.js';
 import {
   NotFoundError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
@@ -75,7 +75,7 @@ describe('Integration | Usecases | Save autonomous course', function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
 
         const organization = databaseBuilder.factory.buildOrganization({
-          id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+          id: config.autonomousCourse.autonomousCoursesOrganizationId,
         });
 
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });

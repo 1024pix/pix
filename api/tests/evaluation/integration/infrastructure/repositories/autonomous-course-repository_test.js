@@ -1,6 +1,6 @@
 import { AutonomousCourse } from '../../../../../src/evaluation/domain/models/AutonomousCourse.js';
 import { repositories } from '../../../../../src/evaluation/infrastructure/repositories/index.js';
-import { constants } from '../../../../../src/shared/constants.js';
+import { config } from '../../../../../src/shared/config.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
@@ -10,7 +10,7 @@ describe('Integration | Repository | Autonomous Course', function () {
       // given
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+        id: config.autonomousCourse.autonomousCoursesOrganizationId,
       });
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
@@ -43,7 +43,7 @@ describe('Integration | Repository | Autonomous Course', function () {
       // given
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+        id: config.autonomousCourse.autonomousCoursesOrganizationId,
       });
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
@@ -96,7 +96,7 @@ describe('Integration | Repository | Autonomous Course', function () {
         };
         databaseBuilder.factory.learningContent.build(learningContent);
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+          id: config.autonomousCourse.autonomousCoursesOrganizationId,
         });
         const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
           isSimplifiedAccess: true,
@@ -147,7 +147,7 @@ describe('Integration | Repository | Autonomous Course', function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
 
       const organization = databaseBuilder.factory.buildOrganization({
-        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+        id: config.autonomousCourse.autonomousCoursesOrganizationId,
       });
       organizationId = organization.id;
 
