@@ -235,9 +235,6 @@
   }
 
   &__feedback {
-    display: flex;
-    gap: var(--pix-spacing-2x);
-    align-items: center;
 
     .selected {
       color: var(--pix-neutral-0);
@@ -274,6 +271,7 @@
       @extend %pix-body-m;
 
       float: left;
+      margin: var(--pix-spacing-1x) var(--pix-spacing-2x) 0 0;
     }
   }
 
