@@ -9,6 +9,40 @@ import eq from 'ember-truth-helpers/helpers/eq';
 import or from 'ember-truth-helpers/helpers/or';
 
 export default class ChallengeActions extends Component {
+  get areActionButtonsDisabled() {
+    return this.args.disabled || this.hasCurrentOngoingLiveAlert;
+  }
+
+  get isNotCertification() {
+    return !this.args.isCertification;
+  }
+
+  get isV2Certification() {
+    return this.args.certificationVersion === 2;
+  }
+
+  get isV3CertificationAdjustedForAccessibility() {
+    return this.args.certificationVersion === 3 && this.args.isAdjustedCourseForAccessibility;
+  }
+
+  get isV3CertificationNotAdjusted() {
+    return this.args.certificationVersion === 3 && !this.args.isAdjustedCourseForAccessibility;
+  }
+
+  get hasCurrentOngoingLiveAlert() {
+    return this.args.hasOngoingCompanionLiveAlert || this.args.hasOngoingChallengeLiveAlert;
+  }
+
+  @action
+  async handleValidateAction(event) {
+    await this.args.validateAnswer(event);
+  }
+
+  @action
+  async handleSkipAction() {
+    await this.args.skipChallenge();
+  }
+
   <template>
     <div class="rounded-panel__row challenge-actions">
       <h2 class="sr-only">{{t "pages.challenge.parts.validation"}}</h2>
@@ -121,38 +155,4 @@ export default class ChallengeActions extends Component {
       {{/if}}
     </div>
   </template>
-
-  get areActionButtonsDisabled() {
-    return this.args.disabled || this.hasCurrentOngoingLiveAlert;
-  }
-
-  get isNotCertification() {
-    return !this.args.isCertification;
-  }
-
-  get isV2Certification() {
-    return this.args.certificationVersion === 2;
-  }
-
-  get isV3CertificationAdjustedForAccessibility() {
-    return this.args.certificationVersion === 3 && this.args.isAdjustedCourseForAccessibility;
-  }
-
-  get isV3CertificationNotAdjusted() {
-    return this.args.certificationVersion === 3 && !this.args.isAdjustedCourseForAccessibility;
-  }
-
-  get hasCurrentOngoingLiveAlert() {
-    return this.args.hasOngoingCompanionLiveAlert || this.args.hasOngoingChallengeLiveAlert;
-  }
-
-  @action
-  async handleValidateAction(event) {
-    await this.args.validateAnswer(event);
-  }
-
-  @action
-  async handleSkipAction() {
-    await this.args.skipChallenge();
-  }
 }
