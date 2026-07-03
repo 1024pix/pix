@@ -17,7 +17,9 @@ const createCampaign = withTransaction(async function ({
   await _checkUserIsAMemberOfOrganization({ userRepository, organizationId, userId });
   await _checkUserIsAMemberOfOrganization({ userRepository, organizationId, userId: ownerId });
 
-  const generatedCampaignCode = await accessCodeGenerator.generate(accessCodeRepository);
+  const generatedCampaignCode = await accessCodeGenerator.generateAvailableAccessCode((code) =>
+    accessCodeRepository.isCodeAvailable({ code }),
+  );
 
   const campaignCreator = await campaignCreatorRepository.get(organizationId);
   const campaignForCreation = campaignCreator.createCampaign(

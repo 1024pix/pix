@@ -47,7 +47,9 @@ const createOrganization = async function ({
   });
 
   if (savedOrganization.type === Organization.types.SCO1D) {
-    const code = await accessCodeGenerator.generate(schoolRepository);
+    const code = await accessCodeGenerator.generateAvailableAccessCode((code) =>
+      schoolRepository.isCodeAvailable({ code }),
+    );
     await schoolRepository.save({ organizationId: savedOrganization.id, code });
   }
   return await organizationForAdminRepository.get({

@@ -32,7 +32,9 @@ export const createCombinedCourse = async ({
     });
   }
 
-  const combinedCourseCode = await accessCodeGenerator.generate(accessCodeRepository);
+  const combinedCourseCode = await accessCodeGenerator.generateAvailableAccessCode((code) =>
+    accessCodeRepository.isCodeAvailable({ code }),
+  );
 
   const targetProfileIds = combinedCourseBlueprint.targetProfileIds ?? [];
   const targetProfiles = await targetProfileRepository.findByIds({ ids: targetProfileIds });

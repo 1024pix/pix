@@ -10,7 +10,7 @@ import {
   TargetProfileInvalidError,
 } from '../../../shared/domain/errors.js';
 import { OrganizationTag } from '../../../shared/domain/models/OrganizationTag.js';
-import { generateAccessCode } from '../../../shared/domain/services/access-code-generator.js';
+import { generateAvailableAccessCode } from '../../../shared/domain/services/access-code-generator.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../shared/infrastructure/constants.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
@@ -198,7 +198,11 @@ async function _updateSchoolsWithCodes({ createdOrganizations, schoolRepository 
     await PromiseUtils.map(
       filteredOrganizations,
       async ({ createdOrganization }) => {
-        const code = await generateAccessCode(schoolRepository, pendingCodes);
+        const code = await generateAvailableAccessCode(async (code) => {
+          const isCodePending = pendingCodes.includes(code);
+          if (isCodePending) return false;
+          return schoolRepository.isCodeAvailable({ code });
+        });
         await schoolRepository.save({ organizationId: createdOrganization.id, code });
         pendingCodes.push(code);
       },

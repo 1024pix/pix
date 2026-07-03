@@ -14,15 +14,15 @@ async function generate(repository, pendingList = [], dependencies = { generateC
   return isCodeAvailable ? generatedCode : generate(repository, pendingList, dependencies);
 }
 
-export async function generateAccessCode(isAvailableCallback, dependencies = { generateCode }) {
+export async function generateAvailableAccessCode(isAvailableCallback, dependencies = { generateCode }) {
   const letters = dependencies.generateCode(6, 'alphaSafe').toUpperCase();
   const numbers = dependencies.generateCode(3, 'numericSafe');
-  const generatedCode = letters.concat(numbers);
+  const code = letters.concat(numbers);
 
-  const isCodeAvailable = await isAvailableCallback(generatedCode);
-  if (isCodeAvailable) generateCode;
+  const isCodeAvailable = await isAvailableCallback(code);
+  if (isCodeAvailable) return code;
 
-  return generateAccessCode(isAvailableCallback, dependencies);
+  return generateAvailableAccessCode(isAvailableCallback, dependencies);
 }
 
 export { generate };
