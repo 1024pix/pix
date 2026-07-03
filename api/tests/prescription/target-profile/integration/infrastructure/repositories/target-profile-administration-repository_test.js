@@ -645,7 +645,7 @@ describe('Integration | Repository | Target-profile', function () {
       context('when datamart is not available', function () {
         it('should return target profile with undefined duration', async function () {
           // given
-          sinon.stub(datamartKnex, 'select').rejects(new Error('Datamart is down'));
+          sinon.stub(datamartKnex, 'select').throws(new Error('Datamart is down'));
           databaseBuilder.factory.buildOrganization({ id: 66 });
           const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
 
