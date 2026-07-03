@@ -96,9 +96,10 @@ export default class CombinedCourseBlueprintForm extends Component {
   async save() {
     try {
       await this.blueprint.save({
-        adapterOptions: this.selectedTubes
-          ? { cappedTubeRequirements: [{ tubes: this.selectedTubes, threshold: this.threshold }] }
-          : null,
+        adapterOptions:
+          this.selectedTubes && this.selectedTubes.length
+            ? { cappedTubeRequirements: [{ tubes: this.selectedTubes, threshold: this.threshold }] }
+            : null,
       });
       this.pixToast.sendSuccessNotification({
         message: this.args.updateMode

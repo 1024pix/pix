@@ -59,6 +59,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
       name: combinedCourseBlueprint.name,
       updatedAt: combinedCourseBlueprint.updatedAt,
       surveyLink: null,
+      rewardRequirementsDescription: null,
       organizationIds: [],
       items: [
         new CampaignCombinedCourseBlueprintItem({
@@ -78,7 +79,6 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
         id: quest.id,
         rewardId: quest.rewardId,
         rewardType: quest.rewardType,
-        rewardRequirementsDescription: null,
         updatedAt: quest.updatedAt,
       },
     });
@@ -121,6 +121,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
       name: combinedCourseBlueprint.name,
       updatedAt: combinedCourseBlueprint.updatedAt,
       surveyLink: null,
+      rewardRequirementsDescription: null,
       organizationIds: [],
       items: [
         new CampaignCombinedCourseBlueprintItem({
@@ -133,7 +134,6 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
         id: quest.id,
         rewardId: quest.rewardId,
         rewardType: quest.rewardType,
-        rewardRequirementsDescription: null,
         updatedAt: quest.updatedAt,
       },
     });
@@ -173,6 +173,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
       name: combinedCourseBlueprint.name,
       updatedAt: combinedCourseBlueprint.updatedAt,
       surveyLink: null,
+      rewardRequirementsDescription: null,
       organizationIds: [],
       items: [
         new ModuleCombinedCourseBlueprintItem({
@@ -188,7 +189,6 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
         id: quest.id,
         rewardId: quest.rewardId,
         rewardType: quest.rewardType,
-        rewardRequirementsDescription: null,
         updatedAt: quest.updatedAt,
       },
     });

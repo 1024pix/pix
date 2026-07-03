@@ -235,7 +235,10 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       const expectedCombinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
         questId,
       });
-      databaseBuilder.factory.buildCombinedCourseBlueprint();
+      databaseBuilder.factory.buildCombinedCourseBlueprint({
+        surveyUrl: 'survey-url',
+        rewardRequirementsDescription: 'description of reward requirements',
+      });
       await databaseBuilder.commit();
 
       // when
@@ -249,7 +252,9 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         name: expectedCombinedCourseBlueprint.name,
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
+        surveyLink: expectedCombinedCourseBlueprint.surveyLink,
         illustration: expectedCombinedCourseBlueprint.illustration,
+        rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
       });
@@ -266,7 +271,11 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
   describe('#findById', function () {
     it('should return combined course blueprint by its id with shared organization ids', async function () {
       const quest = databaseBuilder.factory.buildQuestForCombinedCourse();
-      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: quest.id });
+      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId: quest.id,
+        surveyUrl: 'survey-url',
+        rewardRequirementsDescription: 'description of reward requirements',
+      });
       const combinedCourseBlueprintShare = databaseBuilder.factory.buildCombinedCourseBlueprintShare({
         combinedCourseBlueprintId: combinedCourseBlueprint.id,
       });
@@ -288,6 +297,8 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
         illustration: expectedCombinedCourseBlueprint.illustration,
+        surveyLink: expectedCombinedCourseBlueprint.surveyLink,
+        rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: expectedCombinedCourseBlueprint.organizationIds,
@@ -299,14 +310,17 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         id: quest.id,
         rewardId: quest.rewardId,
         rewardType: quest.rewardType,
-        rewardRequirementsDescription: null,
         updatedAt: quest.updatedAt,
       });
     });
 
     it('should return combined course blueprint by its id when it is not shared', async function () {
       const quest = databaseBuilder.factory.buildQuestForCombinedCourse();
-      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: quest.id });
+      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId: quest.id,
+        surveyUrl: 'survey-url',
+        rewardRequirementsDescription: 'description of reward requirements',
+      });
       await databaseBuilder.commit();
 
       const expectedCombinedCourseBlueprint = domainBuilder.buildCombinedCourseBlueprint({
@@ -323,6 +337,8 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
         illustration: expectedCombinedCourseBlueprint.illustration,
+        surveyLink: expectedCombinedCourseBlueprint.surveyLink,
+        rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: [],
@@ -334,7 +350,6 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         id: quest.id,
         rewardId: quest.rewardId,
         rewardType: quest.rewardType,
-        rewardRequirementsDescription: null,
         updatedAt: quest.updatedAt,
       });
     });

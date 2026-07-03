@@ -98,9 +98,9 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           ],
           rewardId: 5,
           rewardType: REWARD_TYPES.ATTESTATION,
-          rewardRequirementsDescription: 'Description of the reward requirements',
         }),
         surveyLink: 'http://survey',
+        rewardRequirements: 'Description of the reward requirements',
       }),
     );
   });

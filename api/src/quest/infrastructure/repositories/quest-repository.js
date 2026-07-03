@@ -65,7 +65,6 @@ const save = async ({ quest }) => {
     updatedAt: knexConn.fn.now(),
     rewardId: quest.rewardId,
     rewardType: quest.rewardType,
-    rewardRequirementsDescription: quest.rewardRequirementsDescription,
     eligibilityRequirements: quest.eligibilityRequirements ? JSON.stringify(quest.toDTO().eligibilityRequirements) : [],
     successRequirements: quest.successRequirements ? JSON.stringify(quest.toDTO().successRequirements) : [],
   };
@@ -73,14 +72,7 @@ const save = async ({ quest }) => {
   const result = await knexConn('quests')
     .insert(questToSave)
     .onConflict('id')
-    .merge([
-      'updatedAt',
-      'rewardId',
-      'rewardType',
-      'rewardRequirementsDescription',
-      'eligibilityRequirements',
-      'successRequirements',
-    ])
+    .merge(['updatedAt', 'rewardId', 'rewardType', 'eligibilityRequirements', 'successRequirements'])
     .returning('id');
 
   return result[0].id;

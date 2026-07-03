@@ -761,7 +761,6 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         updatedAt: new Date('2020-02-02'),
         rewardType: 'attestations',
         rewardId: 456,
-        rewardRequirementsDescription: 'Description of reward requirements',
         eligibilityRequirements: [
           {
             requirement_type: REQUIREMENT_TYPES.COMPOSE,
@@ -827,7 +826,6 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         updatedAt: new Date('2020-02-02'),
         rewardType: 'attestations',
         rewardId: 456,
-        rewardRequirementsDescription: 'Description of reward requirements',
         eligibilityRequirements: [
           {
             requirement_type: REQUIREMENT_TYPES.COMPOSE,

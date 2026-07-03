@@ -8,7 +8,16 @@ const { Deserializer, Serializer } = jsonapiSerializer;
 
 const serialize = function (combinedCourseBlueprint) {
   return new Serializer('combined-course-blueprints', {
-    attributes: ['name', 'internalName', 'description', 'illustration', 'surveyLink', 'createdAt', 'updatedAt'],
+    attributes: [
+      'name',
+      'internalName',
+      'description',
+      'illustration',
+      'surveyLink',
+      'rewardRequirements',
+      'createdAt',
+      'updatedAt',
+    ],
   }).serialize(combinedCourseBlueprint);
 };
 
@@ -20,7 +29,6 @@ const deserialize = async function (payload) {
     items: deserializedData.content ?? [],
     rewardId: deserializedData.rewardId,
     rewardType: REWARD_TYPES[deserializedData.rewardType] ?? null,
-    rewardRequirementsDescription: deserializedData.rewardRequirements ?? null,
     cappedTubeRequirements: deserializedData.cappedTubeRequirements ?? [],
   });
   return new CombinedCourseBlueprintForCreation({

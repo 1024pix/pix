@@ -48,6 +48,8 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
     expect(combinedCourseReward.templateName).equal('template-name');
     expect(combinedCourseReward.data).to.contains({ attestationKey: attestationDetails.attestationKey });
     expect(combinedCourseReward.rewardRequirementsDescription).to.equal('Texte');
+
+    // TODO add tests for external data
   });
 
   describe('#status', function () {

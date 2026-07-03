@@ -14,6 +14,7 @@ const serialize = function (adminCombinedCourseBlueprintDetails) {
       'createdAt',
       'updatedAt',
       'attestationLabel',
+      'rewardRequirements',
     ],
   }).serialize(adminCombinedCourseBlueprintDetails);
 };

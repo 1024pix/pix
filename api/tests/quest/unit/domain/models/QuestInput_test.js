@@ -124,17 +124,6 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
       expect(quest.rewardType).to.equal(REWARD_TYPES.ATTESTATION);
     });
 
-    it('should include rewardRequirementsDescription in the quest', function () {
-      const questInput = new QuestInput({
-        items: [],
-        rewardRequirementsDescription: 'Description of reward requirement',
-      });
-
-      const quest = questInput.toQuest();
-
-      expect(quest.rewardRequirementsDescription).to.equal('Description of reward requirement');
-    });
-
     it('should build a quest without reward', function () {
       const questInput = new QuestInput({ items: [] });
 

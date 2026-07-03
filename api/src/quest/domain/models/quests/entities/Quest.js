@@ -21,23 +21,13 @@ const schema = Joi.object({
   successRequirements: Joi.array().items(Joi.object()).required(),
   rewardType: Joi.string().valid('attestations').allow(null),
   rewardId: Joi.number().allow(null),
-  rewardRequirementsDescription: Joi.string().allow(null),
 });
 
 class Quest {
   #eligibilityRequirements;
   #successRequirements;
 
-  constructor({
-    id,
-    createdAt,
-    updatedAt,
-    rewardType,
-    eligibilityRequirements,
-    successRequirements,
-    rewardId,
-    rewardRequirementsDescription = null,
-  }) {
+  constructor({ id, createdAt, updatedAt, rewardType, eligibilityRequirements, successRequirements, rewardId }) {
     this.id = id;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
@@ -46,7 +36,6 @@ class Quest {
 
     this.rewardType = rewardType;
     this.rewardId = rewardId;
-    this.rewardRequirementsDescription = rewardRequirementsDescription;
     this.#eligibilityRequirements = new ComposedRequirement({
       data: eligibilityRequirements,
       comparison: REQUIREMENT_COMPARISONS.ALL,
@@ -170,7 +159,6 @@ class Quest {
       updatedAt: this.updatedAt,
       rewardType: this.rewardType,
       rewardId: this.rewardId,
-      rewardRequirementsDescription: this.rewardRequirementsDescription,
       eligibilityRequirements: this.#eligibilityRequirements.data.map((item) => item.toDTO()),
       successRequirements: this.#successRequirements.data.map((item) => item.toDTO()),
     };

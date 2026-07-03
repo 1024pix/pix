@@ -66,7 +66,7 @@ const register = async function (server) {
                       threshold: Joi.number(),
                     }),
                   )
-                  .allow(null),
+                  .allow(null), // todo required only if attestation selected
               },
             },
           }),
