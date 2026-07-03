@@ -764,6 +764,7 @@
         "disconnect": "Esci dal mio account",
         "disconnect-tip": "Se non si tratta del tuo computer, ricordati di disconnettervi.",
         "ended-by-invigilator": "L'esaminatore ha interrotto il test di certificazione. Non è possibile continuare a rispondere alle domande.",
+        "ended-due-to-duration-exceeded": "È stata superata la durata massima per rispondere al test di certificazione. Non è più possibile continuare a rispondere alle domande.",
         "ended-due-to-finalization": "La sessione è stata conclusa dal centro di certificazione. Non è più possibile continuare a rispondere alle domande.",
         "remote-certification": "Se si sta eseguendo la certificazione Pix in remoto, assicurarsi di disconnettersi dallo strumento di monitoraggio una volta completato il test.",
         "title": "Test completato!"

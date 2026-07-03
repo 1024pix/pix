@@ -764,6 +764,7 @@
         "disconnect": "Abmelden",
         "disconnect-tip": "Wenn dieser Computer nicht dein eigener ist, denke daran, dich abzumelden.",
         "ended-by-invigilator": "Deine Aufsichtsperson hat deinen Zertifizierungstest beendet. Du kannst die Fragen nicht mehr weiter beantworten.",
+        "ended-due-to-duration-exceeded": "Die maximale Zeit zum Beantworten deines Zertifizierungstests wurde überschritten. Du kannst die Fragen nicht mehr weiter beantworten.",
         "ended-due-to-finalization": "Die Testung wurde von deiner Zertifizierungsstelle abgeschlossen. Du kannst nicht mehr weiter Fragen beantworten.",
         "remote-certification": "Wenn du deine Pix-Zertifizierung aus der Ferne absolvierst, achte darauf, dass du dich nach Abschluss deines Tests aus dem Überwachungstool ausloggst.",
         "title": "Test beendet!"

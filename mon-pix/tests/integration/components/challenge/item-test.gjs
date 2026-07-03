@@ -266,5 +266,47 @@ module('Integration | Component | Challenge | Item', function (hooks) {
         assert.ok(true);
       });
     });
+
+    module('when assessment has been ended due to session finalization', function () {
+      test('should redirect to certification results screen', async function (assert) {
+        // given
+        const error = { errors: [{ detail: 'La session a été finalisée par votre centre de certification.' }] };
+        answer.save = sinon.stub().rejects(error);
+        state.assessment.certificationCourse = { get: () => 'certification-course-id' };
+
+        // when
+        await renderItem();
+
+        // then
+        sinon.assert.calledWithExactly(
+          transitionToStub,
+          'authenticated.certifications.results',
+          'certification-course-id',
+        );
+        assert.ok(true);
+      });
+    });
+
+    module('when the maximum certification duration has been exceeded', function () {
+      test('should redirect to certification results screen', async function (assert) {
+        // given
+        const error = {
+          errors: [{ code: 'CERTIFICATION_DURATION_EXCEEDED' }],
+        };
+        answer.save = sinon.stub().rejects(error);
+        state.assessment.certificationCourse = { get: () => 'certification-course-id' };
+
+        // when
+        await renderItem();
+
+        // then
+        sinon.assert.calledWithExactly(
+          transitionToStub,
+          'authenticated.certifications.results',
+          'certification-course-id',
+        );
+        assert.ok(true);
+      });
+    });
   });
 });

@@ -9,4 +9,8 @@ export default class CertificationResultsController extends Controller {
   get hasBeenEndedDueToFinalization() {
     return this.model.assessment.get('state') === assessmentStates.ENDED_DUE_TO_FINALIZATION;
   }
+
+  get hasBeenEndedDueToDurationExceeded() {
+    return this.model.assessment.get('state') === assessmentStates.ENDED_DUE_TO_DURATION_EXCEEDED;
+  }
 }

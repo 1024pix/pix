@@ -27,24 +27,29 @@ export default class CertificationEnder extends Component {
           </p>
           <h1 class="certification-ender-candidate__title">{{t "pages.certification-ender.candidate.title"}}</h1>
           {{#if @isEndedByInvigilator}}
-            <p class="certification-ender-candidate__message">
+            <PixNotificationAlert @type="warning" @withIcon="true">
               {{t "pages.certification-ender.candidate.ended-by-invigilator"}}
-            </p>
+            </PixNotificationAlert>
           {{/if}}
           {{#if @hasBeenEndedDueToFinalization}}
-            <p class="certification-ender-candidate__message">
+            <PixNotificationAlert @type="warning" @withIcon="true">
               {{t "pages.certification-ender.candidate.ended-due-to-finalization"}}
-            </p>
+            </PixNotificationAlert>
           {{/if}}
-          <PixButtonLink @route="logout" @variant="primary">
-            {{t "pages.certification-ender.candidate.disconnect"}}
-          </PixButtonLink>
+          {{#if @hasBeenEndedDueToDurationExceeded}}
+            <PixNotificationAlert @type="warning" @withIcon="true">
+              {{t "pages.certification-ender.candidate.ended-due-to-duration-exceeded"}}
+            </PixNotificationAlert>
+          {{/if}}
           <p class="certification-ender-candidate__disconnect-tip">
             {{t "pages.certification-ender.candidate.disconnect-tip"}}
           </p>
-          <PixNotificationAlert @withIcon="true" class="certification-ender-candidate__remote-certification">
+          <p>
             {{t "pages.certification-ender.candidate.remote-certification"}}
-          </PixNotificationAlert>
+          </p>
+          <PixButtonLink @route="logout" @variant="primary">
+            {{t "pages.certification-ender.candidate.disconnect"}}
+          </PixButtonLink>
         </div>
       </div>
 

@@ -764,6 +764,7 @@
         "disconnect": "Afmelden bij mijn account",
         "disconnect-tip": "Als dit niet jouw computer is, vergeet dan niet uit te loggen.",
         "ended-by-invigilator": "Je toezichthouder heeft je certificeringstest beëindigd. Je kunt niet doorgaan met het beantwoorden van de vragen.",
+        "ended-due-to-duration-exceeded": "De maximale tijd om je certificeringstest te beantwoorden is overschreden. Je kunt niet langer doorgaan met het beantwoorden van vragen.",
         "ended-due-to-finalization": "De sessie is afgerond door uw certificeringscentrum. U kunt niet langer doorgaan met het beantwoorden van vragen.",
         "remote-certification": "Als je je Pix-certificering op afstand doet, zorg er dan voor dat je de verbinding met de monitoring tool verbreekt zodra je klaar bent met je test.",
         "title": "Test over!"

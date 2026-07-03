@@ -764,6 +764,7 @@
         "disconnect": "Log out of my account",
         "disconnect-tip": "If this is not your computer, please remember to log out.",
         "ended-by-invigilator": "Your invigilator has marked your certification test as completed. You cannot continue to answer questions.",
+        "ended-due-to-duration-exceeded": "The maximum time allowed to answer your certification test has been exceeded. You can no longer answer questions.",
         "ended-due-to-finalization": "Your certification centre has ended the session. You can no longer answer questions.",
         "remote-certification": "If you're taking your Pix certificate remotely, please make sure you log out from the monitoring tool once your test is finished.",
         "title": "Your test is finished!"

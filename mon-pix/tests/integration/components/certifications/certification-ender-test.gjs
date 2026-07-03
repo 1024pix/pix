@@ -114,4 +114,24 @@ module('Integration | Component | Certifications | CertificationEnder', function
       assert.ok(screen.getByText(t('pages.certification-ender.candidate.ended-due-to-finalization')));
     });
   });
+
+  module('when the assessment status is ended due to duration exceeded', function () {
+    test('should display the ended due to duration exceeded text', async function (assert) {
+      // given
+      stubCurrentUserService(this.owner, { firstName: 'Jim', lastName: 'Halpert' });
+
+      // when
+      const screen = await renderScreen(
+        <template>
+          <CertificationEnder
+            @certificationNumber={{this.certificationNumber}}
+            @hasBeenEndedDueToDurationExceeded={{true}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.ok(screen.getByText(t('pages.certification-ender.candidate.ended-due-to-duration-exceeded')));
+    });
+  });
 });

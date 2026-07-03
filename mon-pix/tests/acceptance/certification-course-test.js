@@ -479,6 +479,31 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         });
       });
 
+      module('when test was ended due to duration exceeded', function () {
+        test('should display "La durée maximale pour répondre à votre test de certification a été dépassée..."', async function (assert) {
+          // given
+          const user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+          const certificationCourse = this.server.create('certification-course', {});
+          this.server.create('assessment', {
+            certificationCourseId: certificationCourse.id,
+            state: assessmentStates.ENDED_DUE_TO_DURATION_EXCEEDED,
+          });
+
+          // when
+          await authenticate(user);
+          const screen = await visit(`/certifications/${certificationCourse.id}/results`);
+
+          // then
+          assert
+            .dom(
+              screen.getByText(
+                'La durée maximale pour répondre à votre test de certification a été dépassée. Vous ne pouvez plus continuer de répondre aux questions.',
+              ),
+            )
+            .exists();
+        });
+      });
+
       module('when passing certification', function () {
         test('should display the certification feedback panel', async function (assert) {
           assert.timeout(5000);

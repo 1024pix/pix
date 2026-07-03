@@ -764,6 +764,7 @@
         "disconnect": "Desconectar mi cuenta",
         "disconnect-tip": "Si no es tu ordenador, recuerda desconectarte.",
         "ended-by-invigilator": "El supervisor ha dado por terminada la prueba de certificación. Ya no puedes continuar respondiendo a las preguntas.",
+        "ended-due-to-duration-exceeded": "Se ha superado la duración máxima para responder a tu prueba de certificación. Ya no puedes continuar respondiendo a las preguntas.",
         "ended-due-to-finalization": "Tu centro de certificación ha finalizado la sesión. Ya no puedes continuar respondiendo a las preguntas.",
         "remote-certification": "Si estás realizando tu certificación Pix de forma remota, asegúrate de desconectarte de la herramienta de supervisión una vez que hayas finalizado la prueba.",
         "title": "¡Prueba finalizada!"
