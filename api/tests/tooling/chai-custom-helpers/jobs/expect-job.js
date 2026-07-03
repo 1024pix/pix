@@ -1,5 +1,4 @@
 import { assert, Assertion } from 'chai';
-import sinon from 'sinon';
 
 import { JobClient } from '../../../../src/shared/infrastructure/jobs/JobClient.js';
 
@@ -15,10 +14,7 @@ export const jobChai = (_chai, utils) => {
   Assertion.addMethod('withJobsCount', async function (expectedCount) {
     const jobName = this._obj;
     const rawJobs = await JobClient.instance.fetch(jobName, { includeMetadata: true, batchSize: expectedCount + 1 });
-    const jobs = rawJobs.toSorted((a, b) => {
-      if (a.createdOn > b.createdOn) return 1;
-      return -1;
-    });
+    const jobs = rawJobs.toSorted((a, b) => new Date(a.createdOn).getTime() - new Date(b.createdOn).getTime());
 
     const actualCount = jobs?.length ?? 0;
     assert.strictEqual(
@@ -78,17 +74,10 @@ export const jobChai = (_chai, utils) => {
     const jobName = this._obj;
     const actualPayloads = jobs.map((job) => job.data);
 
-    try {
-      sinon.assert.match(actualPayloads, payloads);
-    } catch {
-      this.assert(
-        false,
-        `Job '${jobName}' was performed with a different payload`,
-        undefined,
-        payloads,
-        actualPayloads,
-      );
-    }
+    // Jobs created via a single batched call share the same `created_on` timestamp and a
+    // non-sortable uuid `id` (pgBoss), so their fetch order isn't guaranteed — compare payloads
+    // as a set rather than an ordered array.
+    assert.sameDeepMembers(actualPayloads, payloads, `Job '${jobName}' was performed with a different payload`);
   });
 
   Assertion.addMethod('withJobPayload', async function (payload) {
