@@ -138,13 +138,6 @@ export const STUDENT_RECONCILIATION_ERRORS = {
   },
 };
 
-export const OIDC_ERRORS = {
-  USER_INFO: {
-    missingFields: { shortCode: 'OIDC01', code: 'USER_INFO_MISSING_FIELDS' },
-    badResponseFormat: { shortCode: 'OIDC02', code: 'USER_INFO_BAD_RESPONSE_FORMAT' },
-  },
-};
-
 export const CERTIFICATION_CENTER_TYPES = {
   SUP: 'SUP',
   SCO: 'SCO',
@@ -196,7 +189,6 @@ export const constants = {
   MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING,
   MINIMUM_DELAY_IN_DAYS_FOR_RESET,
   MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
-  OIDC_ERRORS,
   PIX_COUNT_BY_LEVEL,
   PIX_ORIGIN,
   STUDENT_RECONCILIATION_ERRORS,
