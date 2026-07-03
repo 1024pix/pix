@@ -86,7 +86,6 @@ export const VALIDATION_ERRORS = {
 export const PIX_COUNT_BY_LEVEL = 8;
 export const COMPETENCES_COUNT = 16;
 export const MAX_REACHABLE_PIX_BY_COMPETENCE = config.features.maxReachableLevel * PIX_COUNT_BY_LEVEL;
-export const MAX_REACHABLE_SCORE = 895;
 
 export const MAX_REACHABLE_LEVEL = config.features.maxReachableLevel;
 export const MAX_REACHABLE_PIX_SCORE = MAX_REACHABLE_PIX_BY_COMPETENCE * COMPETENCES_COUNT;
