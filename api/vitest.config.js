@@ -28,6 +28,6 @@ export default defineConfig({
             },
           ],
         ]
-      : ['default'],
+      : ['dot'],
   },
 });
