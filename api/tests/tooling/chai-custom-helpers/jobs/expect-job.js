@@ -1,4 +1,5 @@
 import { assert, Assertion } from 'chai';
+import sinon from 'sinon';
 
 import { JobClient } from '../../../../src/shared/infrastructure/jobs/JobClient.js';
 
@@ -75,9 +76,26 @@ export const jobChai = (_chai, utils) => {
     const actualPayloads = jobs.map((job) => job.data);
 
     // Jobs created via a single batched call share the same `created_on` timestamp and a
-    // non-sortable uuid `id` (pgBoss), so their fetch order isn't guaranteed — compare payloads
-    // as a set rather than an ordered array.
-    assert.sameDeepMembers(actualPayloads, payloads, `Job '${jobName}' was performed with a different payload`);
+    // non-sortable uuid `id` (pgBoss), so their fetch order isn't guaranteed — match payloads
+    // as a set rather than an ordered array, while still supporting sinon matchers (e.g.
+    // sinon.match.string) that some callers pass inside the expected payloads.
+    const remainingActualPayloads = [...actualPayloads];
+    const unmatchedPayloads = payloads.filter((expectedPayload) => {
+      const matchIndex = remainingActualPayloads.findIndex((actualPayload) =>
+        sinon.match(expectedPayload).test(actualPayload),
+      );
+      if (matchIndex === -1) return true;
+      remainingActualPayloads.splice(matchIndex, 1);
+      return false;
+    });
+
+    this.assert(
+      unmatchedPayloads.length === 0,
+      `Job '${jobName}' was performed with a different payload`,
+      undefined,
+      payloads,
+      actualPayloads,
+    );
   });
 
   Assertion.addMethod('withJobPayload', async function (payload) {
