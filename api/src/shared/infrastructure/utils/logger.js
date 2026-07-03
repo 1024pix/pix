@@ -1,6 +1,5 @@
 import isEmpty from 'lodash/isEmpty.js';
 import omit from 'lodash/omit.js';
-import micromatch from 'micromatch';
 import pino from 'pino';
 import pretty from 'pino-pretty';
 
@@ -70,9 +69,16 @@ export const logger = {
 export function child(section, bindings, options) {
   /** @type{Partial<pino.ChildLoggerOptions>} */
   const optionsOverride = {};
-  if (micromatch.isMatch(section, logging.debugSections)) {
-    optionsOverride.level = 'debug';
+
+  // Check if the section matches any debug section pattern
+  for (const debugSection of logging.debugSections) {
+    const regex = new RegExp(`^${debugSection.replace(/\*/g, '.*')}$`);
+    if (regex.test(section)) {
+      optionsOverride.level = 'debug';
+      break;
+    }
   }
+
   const extraOptions = { ...options, ...optionsOverride };
   return {
     trace: (mergingObject, message) => {
