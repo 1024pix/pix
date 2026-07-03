@@ -167,8 +167,6 @@ export const CLIENTS = {
 
 export const CONCURRENCY_HEAVY_OPERATIONS = config.infra.concurrencyForHeavyOperations;
 
-export const ORGANIZATION_LEARNER_CHUNK_SIZE = config.infra.chunkSizeForOrganizationLearnerDataProcessing;
-
 export const CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING = config.infra.chunkSizeForCampaignResultProcessing;
 
 export const constants = {

@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../../shared/constants.js';
+import { config } from '../../../../../shared/config.js';
 import { withTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { FregataParser } from '../../../infrastructure/serializers/csv/parsers/fregata-parser.js';
 import { ScoOrganizationLearnerSet } from '../../models/ScoOrganizationLearnerSet.js';
@@ -14,7 +14,7 @@ const importLearnersFromFregataFile = withTransaction(async function ({
   organizationImportRepository,
   importStorage,
   i18n,
-  chunkLength = ORGANIZATION_LEARNER_CHUNK_SIZE,
+  chunkLength = config.infra.chunkSizeForOrganizationLearnerDataProcessing,
 }) {
   let organizationImport;
   const errors = [];

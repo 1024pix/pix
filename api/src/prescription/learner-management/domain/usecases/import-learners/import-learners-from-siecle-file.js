@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../../shared/constants.js';
+import { config } from '../../../../../shared/config.js';
 import { DomainTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { SiecleParser } from '../../../infrastructure/serializers/xml/siecle-parser.js';
 import { SiecleFileStreamer } from '../../../infrastructure/utils/xml/siecle-file-streamer.js';
@@ -16,7 +16,7 @@ async function importLearnersFromSiecleFile({
   organizationImportRepository,
   importStorage,
   logger,
-  chunkSize = ORGANIZATION_LEARNER_CHUNK_SIZE,
+  chunkSize = config.infra.chunkSizeForOrganizationLearnerDataProcessing,
 }) {
   const errors = [];
   const organizationImport = await organizationImportRepository.get(organizationImportId);
