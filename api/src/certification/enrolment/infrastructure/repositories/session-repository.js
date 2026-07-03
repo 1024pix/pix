@@ -1,7 +1,7 @@
 // @ts-check
-import { DomainTransaction } from "../../../../shared/domain/DomainTransaction.js";
-import { NotFoundError } from "../../../../shared/domain/errors.js";
-import { SessionEnrolment } from "../../domain/models/SessionEnrolment.js";
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
 /**
  * @function
