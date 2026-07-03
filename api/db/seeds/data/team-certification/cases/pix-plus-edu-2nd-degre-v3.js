@@ -99,12 +99,8 @@ export class PixPlusEdu2ndDegreV3Seed {
       authorizedToStart: true,
       billingMode: 'FREE',
       reconciledAt: now.toDate(),
+      subscription: Frameworks.EDU_2ND_DEGRE,
     }).id;
-
-    this.databaseBuilder.factory.buildComplementaryCertificationSubscription({
-      certificationCandidateId: candidateId,
-      complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-    });
 
     const certificationCourseId = this.databaseBuilder.factory.buildCertificationCourse({
       createdAt: now.toDate(),
