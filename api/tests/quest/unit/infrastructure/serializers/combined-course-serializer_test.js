@@ -76,7 +76,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
           attributes: {
             status: CombinedCourseRewardStatuses.OBTAINED,
             type: REWARD_TYPES.ATTESTATION,
-            'reward-requirements-description': 'Description of reward requirements',
+            'requirements-description': 'Description of reward requirements',
             label: 'rewardLabel',
             'template-name': 'template-name',
             data: { id: 456, key: 'key', label: 'rewardLabel', obtainedAt, templateName: 'template-name' },

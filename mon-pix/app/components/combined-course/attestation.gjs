@@ -34,7 +34,7 @@ export default class Attestation extends Component {
       text:
         status === REWARD_STATUSES.OBTAINED
           ? this.intl.t(`pages.combined-courses.rewards.${status}.details.text`)
-          : this.args.attestation.rewardRequirementsDescription,
+          : this.args.attestation.requirementsDescription,
     };
   }
 
