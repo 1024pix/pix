@@ -517,7 +517,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
             />
           </template>,
         );
-        debugger;
         // then
         assert.dom(screen.getByRole('button', { name: 'Editer le candidat Bob Taurial' })).exists();
         assert.dom(screen.queryByRole('button', { name: 'Editer le candidat Lana Taurial' })).doesNotExist();
