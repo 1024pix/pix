@@ -73,11 +73,13 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     if (this.args.model.hasAnsweredSurvey) {
       return false;
     }
+
     return this._drawerRevealedByScroll || !this.hasTrainings;
   }
 
   @action revealNps() {
     this._drawerRevealedByScroll = true;
+    this.pixMetrics.trackEvent('Moteur de reco - affichage du feedback NPS');
   }
 
   <template>

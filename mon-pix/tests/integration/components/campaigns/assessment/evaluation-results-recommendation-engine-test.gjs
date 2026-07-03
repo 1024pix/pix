@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 import EvaluationResultsRecommendationEngine from 'mon-pix/components/routes/campaigns/assessment/evaluation-results-recommendation-engine';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -49,6 +50,57 @@ module(
           .exists();
         const trainingTitle = screen.getAllByText('Super training');
         assert.strictEqual(trainingTitle.length, 2);
+      });
+
+      module('tracking', function (hooks) {
+        let observerCallback;
+        let observerInstance;
+
+        hooks.beforeEach(function () {
+          observerInstance = {
+            observe: sinon.stub(),
+            disconnect: sinon.stub(),
+          };
+
+          window.IntersectionObserver = function (callback) {
+            observerCallback = callback;
+            return observerInstance;
+          };
+        });
+
+        hooks.afterEach(function () {
+          delete window.IntersectionObserver;
+          sinon.restore();
+        });
+
+        test('it should send tracking when drawer is displayed', async function (assert) {
+          // given
+          const training = store.createRecord('training', {
+            title: 'Super training',
+            duration: { days: 1, hours: 1, minutes: 1 },
+          });
+
+          const model = {
+            campaign,
+            campaignParticipationResult: {
+              campaignParticipationBadges: [Symbol('badges')],
+              competenceResults: [Symbol('competences')],
+              reload: () => {},
+            },
+            trainings: [training],
+          };
+
+          const pixMetrics = this.owner.lookup('service:pix-metrics');
+          pixMetrics.trackEvent = sinon.stub();
+
+          // when
+          await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+          observerCallback([{ isIntersecting: true }]);
+
+          //then
+          sinon.assert.calledWith(pixMetrics.trackEvent, 'Moteur de reco - affichage du feedback NPS');
+          assert.ok(true);
+        });
       });
     });
 
