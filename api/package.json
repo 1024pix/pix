@@ -174,6 +174,7 @@
     "@1024pix/eslint-plugin": "^2.1.21",
     "@eslint/compat": "^2.0.1",
     "@ls-lint/ls-lint": "^2.3.1",
+    "@vitest/eslint-plugin": "^1.6.20",
     "chai": "^6.0.0",
     "chai-as-promised": "^8.0.0",
     "dependency-cruiser": "^18.0.0",
@@ -194,7 +195,8 @@
     "pdfjs-dist": "^6.0.0",
     "schemalint": "^2.3.2",
     "sinon": "^22.0.0",
-    "sinon-chai": "^4.0.0"
+    "sinon-chai": "^4.0.0",
+    "vitest": "^4.1.9"
   },
   "overrides": {
     "@datadog/datadog-api-client": "1.60.0",
