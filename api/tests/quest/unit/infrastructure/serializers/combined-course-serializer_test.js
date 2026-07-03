@@ -18,7 +18,6 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
       combinedCourseItems: [{ campaignId: 1 }, { moduleId: 7 }],
       rewardId: 456,
       rewardType: REWARD_TYPES.ATTESTATION,
-      rewardRequirementsDescription: 'Description of reward requirements',
       baseSurveyUrl: 'http://link.to/survey',
     });
     await combinedCourseDetails.setEncryptedUrl();
@@ -29,6 +28,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
       label: 'rewardLabel',
       obtainedAt,
       templateName: 'template-name',
+      requirementsDescription: 'Description of reward requirements',
     };
 
     combinedCourseDetails.setDataAndGenerateItems({ reward });
@@ -79,7 +79,14 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
             'requirements-description': 'Description of reward requirements',
             label: 'rewardLabel',
             'template-name': 'template-name',
-            data: { id: 456, key: 'key', label: 'rewardLabel', obtainedAt, templateName: 'template-name' },
+            data: {
+              id: 456,
+              key: 'key',
+              label: 'rewardLabel',
+              obtainedAt,
+              templateName: 'template-name',
+              requirementsDescription: 'Description of reward requirements',
+            },
           },
         },
       ],

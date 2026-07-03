@@ -15,7 +15,7 @@ const buildCombinedCourseBlueprint = function ({
   updatedAt,
   questId,
   surveyUrl = null,
-  rewardRequirementsDescription,
+  rewardRequirementsDescription = null,
 } = {}) {
   const targetProfileId = buildTargetProfile().id;
   questId = _.isUndefined(questId)

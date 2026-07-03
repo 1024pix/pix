@@ -7,6 +7,15 @@ export function buildAttestationUserDetail({
   obtainedAt = new Date(),
   label,
   templateName,
+  requirementsDescription,
 } = {}) {
-  return new AttestationUserDetail({ id, attestationKey, userId, obtainedAt, label, templateName });
+  return new AttestationUserDetail({
+    id,
+    attestationKey,
+    userId,
+    obtainedAt,
+    label,
+    templateName,
+    requirementsDescription,
+  });
 }
