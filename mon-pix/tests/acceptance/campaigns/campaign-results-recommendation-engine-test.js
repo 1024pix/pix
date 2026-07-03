@@ -238,7 +238,43 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
       });
     });
 
-    module('regarding the NPS drawer', function () {
+    module('regarding the NPS drawer', function (hooks) {
+      let observerCallback;
+      let observerInstance;
+
+      hooks.beforeEach(function () {
+        server.create('training', {
+          campaignParticipation,
+          title: 'Formation test',
+          link: 'https://example.net/',
+          type: 'webinaire',
+          duration: { hours: 2, days: 1, minutes: 0 },
+          deliveryMode: 'remote',
+          editorName: 'Éditeur test',
+          editorLogoUrl: 'https://example.net/logo.svg',
+          objectives: ['Objectif 1'],
+          program: 'Programme test',
+          description: 'Description test',
+          registrationRequired: false,
+          isRelevant: null,
+        });
+
+        observerInstance = {
+          observe: sinon.stub(),
+          disconnect: sinon.stub(),
+        };
+
+        window.IntersectionObserver = function (callback) {
+          observerCallback = callback;
+          return observerInstance;
+        };
+      });
+
+      hooks.afterEach(function () {
+        delete window.IntersectionObserver;
+        sinon.restore();
+      });
+
       test('should display the drawer when user has not answered the survey', async function (assert) {
         // given
         server.get('/campaigns/:campaignId/has-answered-survey', () => ({ hasAnswered: false }));
@@ -247,8 +283,9 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
+        observerCallback([{ isIntersecting: true }]);
         assert
-          .dom(screen.getByRole('dialog', { name: t('pages.skill-review.recommended-engine.drawer.title') }))
+          .dom(await screen.findByRole('dialog', { name: t('pages.skill-review.recommended-engine.drawer.title') }))
           .exists();
       });
 

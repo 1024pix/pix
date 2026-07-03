@@ -105,7 +105,7 @@ module(
     });
 
     module('when campaign has no training', function () {
-      test('should display nothing', async function (assert) {
+      test('should not display trainings section and the drawer', async function (assert) {
         // given
         const model = {
           campaign,
@@ -123,6 +123,10 @@ module(
         // then
         assert
           .dom(screen.queryByRole('heading', { name: t('pages.skill-review.tabs.trainings.title'), level: 2 }))
+          .doesNotExist();
+
+        assert
+          .dom(screen.queryByRole('dialog', { name: t('pages.skill-review.recommended-engine.drawer.title') }))
           .doesNotExist();
       });
     });

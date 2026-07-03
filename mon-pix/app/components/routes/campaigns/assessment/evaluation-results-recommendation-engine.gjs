@@ -73,8 +73,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     if (this.args.model.hasAnsweredSurvey) {
       return false;
     }
-
-    return this._drawerRevealedByScroll || !this.hasTrainings;
+    return this._drawerRevealedByScroll;
   }
 
   @action revealNps() {

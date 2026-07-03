@@ -9,6 +9,28 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 module('Integration | Components | Campaigns | Assessment | ResultsRecommendationEngine | Trainings', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  let observerCallback;
+  let observerOptions;
+  let observerInstance;
+
+  hooks.beforeEach(function () {
+    observerInstance = {
+      observe: sinon.stub(),
+      disconnect: sinon.stub(),
+    };
+
+    window.IntersectionObserver = function (callback, options) {
+      observerCallback = callback;
+      observerOptions = options;
+      return observerInstance;
+    };
+  });
+
+  hooks.afterEach(function () {
+    delete window.IntersectionObserver;
+    sinon.restore();
+  });
+
   test('it should display the trainings list', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
@@ -35,29 +57,7 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
     assert.dom(screen.getByText(t('pages.skill-review.recommended-engine.trainings.description'))).isVisible();
   });
 
-  module('when the section becomes fully visible', function (hooks) {
-    let observerCallback;
-    let observerOptions;
-    let observerInstance;
-
-    hooks.beforeEach(function () {
-      observerInstance = {
-        observe: sinon.stub(),
-        disconnect: sinon.stub(),
-      };
-
-      window.IntersectionObserver = function (callback, options) {
-        observerCallback = callback;
-        observerOptions = options;
-        return observerInstance;
-      };
-    });
-
-    hooks.afterEach(function () {
-      delete window.IntersectionObserver;
-      sinon.restore();
-    });
-
+  module('when the section becomes fully visible', function () {
     test('it calls @onFullyVisible', async function (assert) {
       // given
       const onFullyVisible = sinon.stub();
