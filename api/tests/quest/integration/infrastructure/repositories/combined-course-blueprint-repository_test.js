@@ -234,11 +234,10 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
 
       const expectedCombinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
         questId,
-      });
-      databaseBuilder.factory.buildCombinedCourseBlueprint({
         surveyUrl: 'survey-url',
         rewardRequirementsDescription: 'description of reward requirements',
       });
+      databaseBuilder.factory.buildCombinedCourseBlueprint();
       await databaseBuilder.commit();
 
       // when
@@ -252,9 +251,9 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         name: expectedCombinedCourseBlueprint.name,
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
-        surveyLink: expectedCombinedCourseBlueprint.surveyLink,
+        surveyLink: expectedCombinedCourseBlueprint.surveyUrl,
         illustration: expectedCombinedCourseBlueprint.illustration,
-        rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
+        rewardRequirements: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
       });
@@ -297,8 +296,8 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
         illustration: expectedCombinedCourseBlueprint.illustration,
-        surveyLink: expectedCombinedCourseBlueprint.surveyLink,
-        rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
+        surveyLink: expectedCombinedCourseBlueprint.surveyUrl,
+        rewardRequirements: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: expectedCombinedCourseBlueprint.organizationIds,
@@ -329,6 +328,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       });
 
       const result = await combinedCourseBluePrintRepository.findById({ id: expectedCombinedCourseBlueprint.id });
+      console.log(result);
       expect(result.organizationIds).to.deep.equal([]);
       expect(result).to.be.instanceOf(CombinedCourseBlueprint);
       expect(result).to.deep.contain({
@@ -337,8 +337,8 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
         illustration: expectedCombinedCourseBlueprint.illustration,
-        surveyLink: expectedCombinedCourseBlueprint.surveyLink,
-        rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
+        surveyLink: expectedCombinedCourseBlueprint.surveyUrl,
+        rewardRequirements: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: [],
