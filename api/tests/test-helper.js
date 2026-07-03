@@ -35,11 +35,16 @@ chaiUse(sinonChai);
 chaiUse(jobChai);
 Object.values(customChaiHelpers).forEach(chaiUse);
 
-/* eslint-disable mocha/no-top-level-hooks */
-before(async function () {
-  // Always start tests with a clean database
-  const isDbReachable = !process.env.TEST_DATABASE_URL?.includes('should.not.reach.db');
-  if (isDbReachable) await databaseBuilder.emptyDatabase();
+// Mocha's `context()` alias for `describe()` is used ~5,200 times across the suite;
+// vitest doesn't provide it, so it's shimmed globally rather than rewriting every call site.
+globalThis.context = describe;
+
+// setupFiles re-run their top-level code before every test file, so a `globalThis` guard (not a
+// module-scoped variable, which could get a fresh binding on each re-execution) is needed to
+// reproduce mocha's "runs once for the whole process" root `before()` semantics.
+beforeAll(async function () {
+  if (globalThis.__testHelperInitialized) return;
+  globalThis.__testHelperInitialized = true;
 
   nock.disableNetConnect();
   nock.enableNetConnect('localhost:9090'); // Unmock S3 storage
@@ -75,10 +80,30 @@ afterEach(async function () {
   await databaseBuilder.clean();
 });
 
-after(async function () {
-  await releaseInfrastructure();
-});
-/* eslint-enable mocha/no-top-level-hooks */
+// `afterAll` would run after every file, not just the last one — since the shared knex pool and
+// JobClient singleton must survive until the very last test, teardown is tied to the process
+// itself (safe because fileParallelism:false/isolate:false guarantee a single persistent process
+// for the whole run) rather than to vitest's per-file hook lifecycle.
+//
+// Empirically verified (not `beforeExit`, which never fires here): vitest terminates a
+// `pool: 'forks'` worker by sending it SIGTERM/SIGINT once the run is done, without ever letting
+// the event loop drain naturally. An async handler that calls `process.exit()` at the end is
+// correctly awaited before the process actually dies.
+async function teardown() {
+  await quitMutex();
+  try {
+    await JobClient.instance.stop();
+  } catch {
+    // pgBoss is not available on unit tests
+  }
+  await disconnectKnex();
+  process.exit(0);
+}
 
-// eslint-disable-next-line mocha/no-exports
+if (!globalThis.__testHelperTeardownRegistered) {
+  globalThis.__testHelperTeardownRegistered = true;
+  process.once('SIGTERM', teardown);
+  process.once('SIGINT', teardown);
+}
+
 export { expect };

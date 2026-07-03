@@ -11,7 +11,7 @@ import { buildLearningContent as learningContentBuilder } from '../../../../../t
 describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', function () {
   let userId, assessment, stages, campaignParticipationId, targetProfileId, listSkill, learningContent;
 
-  before(async function () {
+  beforeAll(async function () {
     listSkill = ['web1', 'web2', 'web3', 'web4'];
 
     learningContent = [

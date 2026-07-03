@@ -10,7 +10,7 @@ import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/tes
 describe('Acceptance | Application | organization-import', function () {
   let server;
 
-  before(async function () {
+  beforeAll(async function () {
     server = await createServer();
   });
 

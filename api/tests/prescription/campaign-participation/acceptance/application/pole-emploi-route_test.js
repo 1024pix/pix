@@ -24,11 +24,11 @@ describe('Acceptance | API | Pole Emploi envois', function () {
   describe('GET /api/pole-emploi/envois', function () {
     const originalEnv = settings.apiManager.url;
 
-    before(function () {
+    beforeAll(function () {
       settings.apiManager.url = 'https://url-externe';
     });
 
-    after(function () {
+    afterAll(function () {
       settings.apiManager.url = originalEnv;
     });
 

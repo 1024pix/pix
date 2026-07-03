@@ -6,7 +6,7 @@ describe('Unit | Service | Stages calculation', function () {
   describe('getNewAcquiredStages', function () {
     let dataSet;
 
-    before(function () {
+    beforeAll(function () {
       dataSet = [
         {
           given: {

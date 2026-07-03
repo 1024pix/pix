@@ -8,7 +8,7 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 describe('Unit | Domain | Read-Models | CertificationAssessment', function () {
   describe('#constructor', function () {
     let assessment;
-    before(function () {
+    beforeAll(function () {
       assessment = new CertificationAssessment({ certificationCourseId: 'certificationCourseId' });
     });
 

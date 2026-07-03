@@ -26,7 +26,7 @@ describe('Unit | Domain | Read-Models | CampaignAssessment', function () {
 
     describe('when campaign has type ASSESSMENT', function () {
       let assessment;
-      before(function () {
+      beforeAll(function () {
         const campaign = domainBuilder.buildCampaign({ title: 'Ma Campagne', type: CampaignTypes.ASSESSMENT });
         assessment = new CampaignAssessment({ campaign });
       });
@@ -58,7 +58,7 @@ describe('Unit | Domain | Read-Models | CampaignAssessment', function () {
 
     describe('when campaign has type EXAM', function () {
       let assessment;
-      before(function () {
+      beforeAll(function () {
         const campaign = domainBuilder.buildCampaign({ title: 'Ma Campagne', type: CampaignTypes.EXAM });
         assessment = new CampaignAssessment({ campaign });
       });
@@ -90,7 +90,7 @@ describe('Unit | Domain | Read-Models | CampaignAssessment', function () {
 
     describe('when campaign is not defined', function () {
       let assessment;
-      before(function () {
+      beforeAll(function () {
         assessment = new CampaignAssessment({ campaign: null });
       });
 

@@ -6,7 +6,7 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 describe('Unit | Service | Compute mastery percentage', function () {
   let dataSets;
 
-  before(function () {
+  beforeAll(function () {
     dataSets = [
       {
         knowledgeElements: [
