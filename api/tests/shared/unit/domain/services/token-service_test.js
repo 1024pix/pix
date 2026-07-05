@@ -31,6 +31,38 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
     });
   });
 
+  describe('getDecodedToken', function () {
+    it('returns the decoded token', function () {
+      // given
+      const payload = { amstram: 'gram' };
+      const secret = 'someSecret';
+      const expiresIn = '3d';
+      const token = tokenService.encodeToken(payload, secret, expiresIn);
+
+      // when
+      const result = tokenService.getDecodedToken(token, secret);
+
+      // then
+      expect(result).to.contain({ amstram: 'gram' });
+    });
+
+    context('when the token is expired', function () {
+      it('returns false', function () {
+        // given
+        const payload = { amstram: 'gram' };
+        const secret = 'someSecret';
+        const expiresIn = 0;
+        const token = tokenService.encodeToken(payload, secret, expiresIn);
+
+        // when
+        const result = tokenService.getDecodedToken(token, secret);
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
+
   describe('#extractUserId', function () {
     it('should return userId if the accessToken is valid', function () {
       // given
