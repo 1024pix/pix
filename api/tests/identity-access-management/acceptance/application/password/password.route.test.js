@@ -16,85 +16,40 @@ describe('Acceptance | Identity Access Management | Application | Route | passwo
   describe('POST /api/password-reset-demands', function () {
     let options;
 
-    context('with simple payload', function () {
-      beforeEach(async function () {
-        options = {
-          method: 'POST',
-          url: '/api/password-reset-demands',
-          payload: { email },
-        };
+    beforeEach(async function () {
+      options = {
+        method: 'POST',
+        url: '/api/password-reset-demands',
+        payload: { email },
+      };
 
-        config.mailing.enabled = false;
+      config.mailing.enabled = false;
 
-        const userId = databaseBuilder.factory.buildUser({ email }).id;
-        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
-        await databaseBuilder.commit();
-      });
+      const userId = databaseBuilder.factory.buildUser({ email }).id;
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
+      await databaseBuilder.commit();
+    });
 
-      context('when given email doesn’t exist', function () {
-        it('replies with 204', async function () {
-          // given
-          options.payload.email = 'unknown@example.net';
+    context('when given email doesn’t exist', function () {
+      it('replies with 204', async function () {
+        // given
+        options.payload.email = 'unknown@example.net';
 
-          // when
-          const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-          // then
-          expect(response.statusCode).to.equal(204);
-        });
-      });
-
-      context('when given email exists', function () {
-        it('returns a 204 HTTP status code', async function () {
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(204);
-        });
+        // then
+        expect(response.statusCode).to.equal(204);
       });
     });
 
-    context('with deprecated ember-data-centric payload', function () {
-      beforeEach(async function () {
-        options = {
-          method: 'POST',
-          url: '/api/password-reset-demands',
-          payload: {
-            data: {
-              attributes: { email },
-            },
-          },
-        };
+    context('when given email exists', function () {
+      it('returns a 204 HTTP status code', async function () {
+        // when
+        const response = await server.inject(options);
 
-        config.mailing.enabled = false;
-
-        const userId = databaseBuilder.factory.buildUser({ email }).id;
-        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
-        await databaseBuilder.commit();
-      });
-
-      context('when given email doesn’t exist', function () {
-        it('replies with 204', async function () {
-          // given
-          options.payload.data.attributes.email = 'unknown@example.net';
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(204);
-        });
-      });
-
-      context('when given email exists', function () {
-        it('returns a 204 HTTP status code', async function () {
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(204);
-        });
+        // then
+        expect(response.statusCode).to.equal(204);
       });
     });
   });
