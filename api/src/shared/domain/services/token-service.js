@@ -32,15 +32,15 @@ function getDecodedToken(token, secret = config.authentication.secret) {
   }
 }
 
-function extractTokenFromAuthChain(authChain) {
-  if (!authChain) {
-    return authChain;
+function extractTokenFromAuthorizationHeader(authorizationHeader) {
+  if (!authorizationHeader) {
+    return authorizationHeader;
   }
-  const bearerIndex = authChain.indexOf('Bearer ');
+  const bearerIndex = authorizationHeader.indexOf('Bearer ');
   if (bearerIndex < 0) {
     return false;
   }
-  return authChain.replace(/Bearer /g, '');
+  return authorizationHeader.replace(/Bearer /g, '');
 }
 
 function decodeIfValid(token) {
@@ -59,6 +59,6 @@ export const tokenService = {
   decodeIfValid,
   getDecodedToken,
   encodeToken,
-  extractTokenFromAuthChain,
+  extractTokenFromAuthorizationHeader,
   extractUserId,
 };

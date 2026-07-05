@@ -144,7 +144,7 @@ function extractUserIdFromRequest(request) {
   let userId = get(request, 'auth.credentials.userId');
 
   if (!userId && get(request, 'headers.authorization')) {
-    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
+    const token = tokenService.extractTokenFromAuthorizationHeader(request.headers.authorization);
     userId = tokenService.extractUserId(token);
   }
 
