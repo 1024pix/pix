@@ -513,7 +513,7 @@ const configuration = (function () {
     seeds: getSeedsConfig(),
     temporaryKey: {
       secret: process.env.AUTH_SECRET,
-      tokenLifespan: '1d',
+      tokenLifespan: process.env.PASSWORD_RESET_DEMAND_LIFESPAN || '1h',
     },
     temporarySessionsStorageForMassImport: {
       expirationDelaySeconds:
