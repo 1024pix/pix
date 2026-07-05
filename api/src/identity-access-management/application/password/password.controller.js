@@ -11,10 +11,10 @@ const createResetPasswordDemand = async function (request, h) {
   return h.response().code(204);
 };
 
-const checkResetDemand = async function (request, h, dependencies = { userSerializer }) {
+const checkResetDemand = async function (request) {
   const temporaryKey = request.params.temporaryKey;
   const user = await usecases.getUserByResetPasswordDemand({ temporaryKey });
-  return dependencies.userSerializer.serialize(user);
+  return userSerializer.serialize(user);
 };
 
 const updateExpiredPassword = async function (request, h) {
