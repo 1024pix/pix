@@ -514,7 +514,6 @@ const configuration = (function () {
     temporaryKey: {
       secret: process.env.AUTH_SECRET,
       tokenLifespan: '1d',
-      payload: 'PixResetPassword',
     },
     temporarySessionsStorageForMassImport: {
       expirationDelaySeconds:
