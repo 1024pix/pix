@@ -2,7 +2,6 @@ import Joi from 'joi';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { config } from '../../../../src/shared/config.js';
-import { InvalidTemporaryKeyError } from '../errors.js';
 
 /**
  * Encodes and signs a payload into a JWT token with a time-limited validity
@@ -44,20 +43,12 @@ function extractTokenFromAuthorizationHeader(authorizationHeader) {
   return authorizationHeader.replace(/Bearer /g, '');
 }
 
-function decodeIfValid(token) {
-  return new Promise((resolve, reject) => {
-    const decoded = getDecodedToken(token);
-    return !decoded ? reject(new InvalidTemporaryKeyError()) : resolve(decoded);
-  });
-}
-
 function extractUserId(token) {
   const decoded = getDecodedToken(token);
   return decoded.user_id || null;
 }
 
 export const tokenService = {
-  decodeIfValid,
   getDecodedToken,
   encodeToken,
   extractTokenFromAuthorizationHeader,
