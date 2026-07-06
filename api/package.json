@@ -113,6 +113,7 @@
     "@opentelemetry/exporter-trace-otlp-proto": "^0.215.0",
     "@opentelemetry/instrumentation-http": "^0.216.0",
     "@opentelemetry/instrumentation-pg": "^0.68.0",
+    "@opentelemetry/instrumentation-undici": "^0.30.0",
     "@opentelemetry/resources": "^2.7.0",
     "@opentelemetry/sdk-node": "^0.215.0",
     "@opentelemetry/sdk-trace-base": "^2.7.0",

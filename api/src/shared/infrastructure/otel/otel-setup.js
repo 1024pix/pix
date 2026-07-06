@@ -1,6 +1,7 @@
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { PgInstrumentation } from '@opentelemetry/instrumentation-pg';
+import { UndiciInstrumentation } from '@opentelemetry/instrumentation-undici';
 import { NodeSDK, resources } from '@opentelemetry/sdk-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
@@ -25,6 +26,11 @@ export function setupOtel(serviceName) {
     traceExporter: exporter,
     instrumentations: [
       new HttpInstrumentation(),
+      new UndiciInstrumentation({
+        requestHook(span, request) {
+          span.updateName(`${request.method} ${request.origin}${request.path}`);
+        },
+      }),
       new PgInstrumentation({
         requireParentSpan: true,
         enhancedDatabaseReporting: true,
