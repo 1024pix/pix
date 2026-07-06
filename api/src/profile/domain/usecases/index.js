@@ -8,6 +8,7 @@ import * as knowledgeElementRepository from '../../../shared/infrastructure/repo
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
 import * as stringUtils from '../../../shared/infrastructure/utils/string-utils.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as attestationRepository from '../../infrastructure/repositories/attestation-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as organizationProfileRewardRepository from '../../infrastructure/repositories/organizations-profile-reward-repository.js';
@@ -59,6 +60,6 @@ const usecasesWithoutInjectedDependencies = {
   findByUserIdAndRewardId,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

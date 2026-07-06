@@ -11,6 +11,7 @@ import { auditLoggingJobRepository } from '../../../shared/infrastructure/reposi
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as campaignParticipationsApiRepository from '../../infrastructure/repositories/campaign-participations-api.repository.js';
 import * as candidatesApiRepository from '../../infrastructure/repositories/candidates-api.repository.js';
 import * as learnersApiRepository from '../../infrastructure/repositories/learners-api.repository.js';
@@ -48,6 +49,6 @@ const usecasesWithoutInjectedDependencies = {
 
 const dependencies = Object.assign({}, repositories, services);
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

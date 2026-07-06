@@ -11,6 +11,7 @@ import * as certificationCpfService from '../../../shared/domain/services/certif
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as eventAdapter from '../../infrastructure/adapters/event-adapter.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
@@ -152,6 +153,6 @@ const usecasesWithoutInjectedDependencies = {
   verifyCandidateIdentity,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

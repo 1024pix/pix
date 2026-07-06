@@ -4,6 +4,7 @@ import * as certificationCompanionAlertRepository from '../../../certification/s
 import * as challengeToPlayApi from '../../../evaluation/application/api/challenge-to-play-api.js';
 import { evaluationUsecases } from '../../../evaluation/domain/usecases/index.js';
 import * as badgeRepository from '../../../evaluation/infrastructure/repositories/badge-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
@@ -37,6 +38,6 @@ const usecasesWithoutInjectedDependencies = {
   updateLastQuestionState,
 };
 
-const sharedUsecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const sharedUsecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { sharedUsecases };

@@ -30,13 +30,20 @@ function injectDefaults(defaults, targetFn) {
  */
 
 /**
+* @typedef {{
+*   name: string
+* }} BoundedContext
+*/
+
+/**
  * @template {object} ObjectToBeInjected
  * @template {object} DependenciesToInject
  * @param {ObjectToBeInjected} toBeInjected - An object (or nested objects) of functions.
  * @param {DependenciesToInject} dependencies - An object of dependencies to inject.
+ * @param {BoundedContext=} boundedContext
  * @returns {Inject<ObjectToBeInjected, DependenciesToInject>} The input object, but functions now only require dependencies that haven't been injected.
  */
-export function injectDependencies(toBeInjected, dependencies) {
+export function injectDependencies(toBeInjected, dependencies, boundedContext) {
   const wrappedDependencies = Object.fromEntries(
     Object.entries(dependencies)
       .map(([name, value]) => [name, value ? otelProxy(value, name) : value])
@@ -44,7 +51,7 @@ export function injectDependencies(toBeInjected, dependencies) {
   const injected = Object.fromEntries(
     Object.entries(toBeInjected).map(([name, value]) => {
       if (_.isFunction(value)) {
-        const wrapped = otelProxy(value, name);
+        const wrapped = otelProxy(value, `${boundedContext?.name ?? 'unknown'}->${name}`);
         return [name, _.partial(injectDefaults, wrappedDependencies, wrapped)()];
       } else {
         return [name, injectDependencies(value, dependencies)];

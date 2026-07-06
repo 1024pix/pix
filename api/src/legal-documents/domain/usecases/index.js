@@ -1,5 +1,6 @@
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as legalDocumentRepository from '../../infrastructure/repositories/legal-document.repository.js';
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 import * as userAcceptanceRepository from '../../infrastructure/repositories/user-acceptance.repository.js';
@@ -24,6 +25,6 @@ const usecasesWithoutInjectedDependencies = {
   getLegalDocumentStatusByUserId,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

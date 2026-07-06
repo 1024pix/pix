@@ -10,6 +10,7 @@ import * as skillRepository from '../../../shared/infrastructure/repositories/sk
 import * as tubeRepository from '../../../shared/infrastructure/repositories/tube-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as moduleIssueReportRepository from '../../infrastructure/repositories/module-issue-report-repository.js';
 import * as targetProfileTrainingRepository from '../../infrastructure/repositories/target-profile-training-repository.js';
@@ -106,6 +107,6 @@ const usecasesWithoutInjectedDependencies = {
   verifyExistingUserCampaignSurvey,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

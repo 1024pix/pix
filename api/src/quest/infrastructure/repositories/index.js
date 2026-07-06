@@ -13,6 +13,7 @@ import * as rewardApi from '../../../profile/application/api/reward-api.js';
 import { temporaryStorage } from '../../../shared/infrastructure/key-value-storages/index.js';
 import * as accessCodeRepository from '../../../shared/infrastructure/repositories/access-code-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { AttestationStorage } from '../storage/attestation-storage.js';
 import * as attestationRepository from './attestation-repository.js';
 import * as campaignParticipationRepository from './campaign-participation-repository.js';
@@ -76,6 +77,6 @@ const dependencies = {
   attestationStorage: AttestationStorage.createClient(),
 };
 
-const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies);
+const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { repositories };

@@ -24,6 +24,7 @@ import * as stageAcquisitionRepository from '../../../stages/infrastructure/repo
 import * as stageCollectionRepository from '../../../stages/infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../../stages/infrastructure/repositories/stage-repository.js';
 import * as targetProfileRepository from '../../../target-profile/infrastructure/repositories/target-profile-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as campaignAssessmentParticipationRepository from '../../infrastructure/repositories/campaign-assessment-participation-repository.js';
 import * as campaignAssessmentParticipationResultRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import * as campaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
@@ -141,6 +142,6 @@ const usecasesWithoutInjectedDependencies = {
   getCampaignParticipationStatistics,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

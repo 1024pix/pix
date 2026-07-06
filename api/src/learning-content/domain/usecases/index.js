@@ -1,4 +1,5 @@
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { createLearningContentRelease } from './create-learning-content-release.js';
 import { dependencies } from './dependencies.js';
 import { findFrameworksByIds } from './find-frameworks-by-ids.js';
@@ -22,4 +23,4 @@ const usecasesWithoutInjectedDependencies = {
   scheduleRefreshLearningContentJob,
 };
 
-export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
