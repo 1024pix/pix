@@ -21,7 +21,7 @@ const ADD_TAGS_TO_ORGANIZATIONS_HEADER = organizationTagCsvParser.CSV_HEADER;
 
 const getTemplateForAddTagsToOrganizations = async function (request, h) {
   const fields = ADD_TAGS_TO_ORGANIZATIONS_HEADER.columns.map(({ name }) => name);
-  const csvTemplateFileContent = generateCSVTemplate(fields);
+  const csvTemplateFileContent = await generateCSVTemplate(fields);
 
   return h
     .response(csvTemplateFileContent)
@@ -63,7 +63,7 @@ const detachParentOrganization = async function (request, h) {
 
 const getTemplateForAddOrganizationFeatureInBatch = async function (request, h) {
   const fields = ORGANIZATION_FEATURES_HEADER.columns.map(({ name }) => name);
-  const csvTemplateFileContent = generateCSVTemplate(fields);
+  const csvTemplateFileContent = await generateCSVTemplate(fields);
 
   return h
     .response(csvTemplateFileContent)
@@ -91,7 +91,7 @@ const create = async function (request) {
 };
 
 const getTemplateForCreateOrganizationsInBatch = async function (request, h) {
-  const csvTemplateFileContent = generateCSVTemplate(requiredFieldNamesForOrganizationsImport);
+  const csvTemplateFileContent = await generateCSVTemplate(requiredFieldNamesForOrganizationsImport);
 
   return h
     .response(csvTemplateFileContent)
@@ -109,7 +109,7 @@ const createInBatch = async function (request, h) {
 };
 
 const getTemplateForArchiveOrganizationsInBatch = async function (request, h) {
-  const csvTemplateFileContent = generateCSVTemplate(requiredFieldNamesForOrganizationBatchArchive);
+  const csvTemplateFileContent = await generateCSVTemplate(requiredFieldNamesForOrganizationBatchArchive);
 
   return h
     .response(csvTemplateFileContent)
@@ -146,7 +146,7 @@ const getOrganizationPlacesStatistics = async function (
 
 const getTemplateForUpdateOrganizationsInBatch = async function (request, h) {
   const fields = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name);
-  const csvTemplateFileContent = generateCSVTemplate(fields);
+  const csvTemplateFileContent = await generateCSVTemplate(fields);
 
   return h
     .response(csvTemplateFileContent)

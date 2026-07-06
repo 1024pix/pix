@@ -17,7 +17,7 @@ const getQuestResults = async function (request, h, dependencies = { questResult
 
 const getTemplateForCreateOrUpdateQuestsInBatch = async function (request, h) {
   const fields = QUEST_HEADER.columns.map(({ name }) => name);
-  const csvTemplateFileContent = generateCSVTemplate(fields);
+  const csvTemplateFileContent = await generateCSVTemplate(fields);
 
   return h
     .response(csvTemplateFileContent)

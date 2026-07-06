@@ -14,9 +14,9 @@ import * as csvCampaignsIdsParser from '../infrastructure/serializers/csv/csv-ca
 import { campaignManagementSerializer } from '../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
 import { campaignReportSerializer } from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 
-const getTemplateForCreateCampaigns = (request, h) => {
+const getTemplateForCreateCampaigns = async (request, h) => {
   const fields = CAMPAIGNS_HEADER.columns.map(({ name }) => name);
-  const csvTemplateFileContent = generateCSVTemplate(fields);
+  const csvTemplateFileContent = await generateCSVTemplate(fields);
 
   return h
     .response(csvTemplateFileContent)

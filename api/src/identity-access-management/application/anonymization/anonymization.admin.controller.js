@@ -24,7 +24,7 @@ async function anonymizeGarData(request, h) {
 const getTemplateForAnonymizeGarData = async function (request, h) {
   const fields = ANONYMIZE_GAR_DATA_HEADER.columns.map(({ name }) => name);
 
-  const csvTemplateFileContent = generateCSVTemplate(fields);
+  const csvTemplateFileContent = await generateCSVTemplate(fields);
 
   return h
     .response(csvTemplateFileContent)

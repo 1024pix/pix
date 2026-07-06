@@ -1,20 +1,13 @@
-import { Parser } from '@json2csv/plainjs';
-
+import { generateCSVTemplate } from '../../../../shared/infrastructure/serializers/csv/csv-template.js';
 import {
   COMPLEMENTARY_CERTIFICATION_SUFFIX,
   headers,
 } from '../../../shared/infrastructure/utils/csv/sessions-import.js';
 
-function getCsvHeaders({ habilitationLabels, shouldDisplayBillingModeColumns = true }) {
+async function getCsvHeaders({ habilitationLabels, shouldDisplayBillingModeColumns = true }) {
   const complementaryCertificationsHeaders = _getComplementaryCertificationsHeaders(habilitationLabels);
   const fields = _getHeadersAsArray(complementaryCertificationsHeaders, shouldDisplayBillingModeColumns);
-  const json2csvParser = new Parser({
-    withBOM: true,
-    includeEmptyRows: false,
-    fields,
-    delimiter: ';',
-  });
-  return json2csvParser.parse([]);
+  return generateCSVTemplate(fields);
 }
 
 function _getComplementaryCertificationsHeaders(habilitationLabels) {
