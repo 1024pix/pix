@@ -4,7 +4,7 @@ import pino from 'pino';
 import pretty from 'pino-pretty';
 
 import { config } from '../../config.js';
-import { getCorrelationInfo } from '../execution-context-manager.js';
+import { CORRELATION_METADATA, getCorrelationInfo } from '../execution-context-manager.js';
 
 const { logging } = config;
 
@@ -140,6 +140,7 @@ function messageFormatCompact(log, messageKey, _logLevel, { colors }) {
         request_id: req.request_id,
         scriptId: req.scriptId,
         jobId: req.jobId,
+        [CORRELATION_METADATA]: req[CORRELATION_METADATA],
       }),
     );
 
