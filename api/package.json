@@ -107,7 +107,6 @@
     "@hapi/yar": "^11.0.3",
     "@joi/date": "^2.1.1",
     "@json2csv/node": "^7.0.2",
-    "@json2csv/plainjs": "^7.0.2",
     "@pdf-lib/fontkit": "^1.1.1",
     "@xmldom/xmldom": "^0.9.10",
     "bcrypt": "^6.0.0",
