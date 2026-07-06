@@ -70,6 +70,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       usecases.uploadSiecleFile.resolves(uploadedFileEvent);
       const userId = 1;
       request.auth = { credentials: { userId } };
+      request.query.format = 'xml';
       hFake.request = {
         path: '/api/organizations/145/sco-organization-learners/import-siecle',
       };
@@ -91,6 +92,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       usecases.uploadSiecleFile.rejects(uploadedError);
       const userId = 1;
       request.auth = { credentials: { userId } };
+      request.query.format = 'xml';
       hFake.request = {
         path: '/api/organizations/145/sco-organization-learners/import-siecle',
       };

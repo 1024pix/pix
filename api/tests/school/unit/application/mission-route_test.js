@@ -74,6 +74,7 @@ describe('Unit | Router | mission-route', function () {
       // given
       const mock = sinon.mock(securityPreHandlers);
       mock.expects('checkUserBelongsToOrganization').once().returns(true);
+      sinon.stub(missionController, 'getById').callsFake((request, h) => h.response('ok'));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

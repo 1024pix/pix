@@ -12,6 +12,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Inv
     it('should return 200', async function () {
       // when
       sinon.stub(authorization, 'checkUserHaveCertificationCenterMembershipForSession').resolves(true);
+      sinon.stub(authorization, 'checkUserHaveInvigilatorAccessForSession').resolves(true);
       sinon.stub(invigilatorKitController, 'getInvigilatorKitPdf').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
