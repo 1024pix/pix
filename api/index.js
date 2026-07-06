@@ -1,6 +1,3 @@
-import { setupOtel } from './src/shared/infrastructure/otel/otel-setup.js';
-setupOtel('pix-api');
-
 import { databaseConnections } from './db/database-connections.js';
 import { databaseConnection as liveDatabaseConnection } from './db/knex-database-connection.js';
 import { createServer } from './server.js';

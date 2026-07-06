@@ -1,5 +1,6 @@
 import Oppsy from '@1024pix/oppsy';
 import Hapi from '@hapi/hapi';
+import { trace } from '@opentelemetry/api';
 import { parse } from 'neoqs';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
@@ -94,6 +95,15 @@ export const createServer = async () => {
   await setupOpenApiSpecification(server);
 
   setupDeserialization(server);
+
+  server.ext('onPreHandler', (request, h) => {
+    const span = trace.getActiveSpan()
+    if (!span) return h.continue;
+
+    span.setAttribute('http.route', request.route.path);
+    span.updateName(`${request.method.toUpperCase()} ${request.route.path}`);
+    return h.continue;
+  });
 
   return server;
 };

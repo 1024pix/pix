@@ -48,3 +48,5 @@ export function setupOtel(serviceName) {
     }
   });
 }
+
+setupOtel('pix-api');
