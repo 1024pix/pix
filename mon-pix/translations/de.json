@@ -964,6 +964,7 @@
         "access-code-error": "Dieser Code existiert nicht oder ist nicht mehr gültig.",
         "candidate-not-authorized-to-resume": "Bitte wende dich an deine Aufsichtsperson, damit diese die Wiederaufnahme deines Tests genehmigt.",
         "candidate-not-authorized-to-start": "Deine Aufsichtsperson hat deine Anwesenheit im Testraum nicht bestätigt. Du kannst daher noch nicht mit deinem Zertifizierungstest beginnen. Bitte informiere deine Aufsichtsperson.",
+        "duration-exceeded": "Die maximale Dauer deines Zertifizierungstests wurde überschritten. Du kannst ihn nicht mehr fortsetzen.",
         "generic": "Ein unerwarteter Serverfehler ist aufgetreten.",
         "missing-code": "Dein Zugangscode ist nicht ausgefüllt.",
         "session-not-accessible": "Die Zertifizierungssitzung ist nicht mehr zugänglich.",

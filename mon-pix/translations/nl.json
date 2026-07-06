@@ -964,6 +964,7 @@
         "access-code-error": "Deze code bestaat niet of is niet langer geldig.",
         "candidate-not-authorized-to-resume": "Neem contact op met je surveillant om toestemming te vragen om je toets te hervatten.",
         "candidate-not-authorized-to-start": "Je surveillant heeft je aanwezigheid in de testruimte nog niet bevestigd. Je kunt daarom nog niet beginnen met je certificeringstoets. Stel je surveillant hiervan op de hoogte.",
+        "duration-exceeded": "De maximale duur van je certificeringstoets is overschreden. Je kunt de toets niet meer hervatten.",
         "generic": "Er is zojuist een onverwachte serverfout opgetreden.",
         "missing-code": "You have not entered your access code.",
         "session-not-accessible": "De certificeringssessie is niet langer toegankelijk.",

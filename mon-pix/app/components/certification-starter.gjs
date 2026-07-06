@@ -185,6 +185,8 @@ export default class CertificationStarter extends Component {
       const interpolationValues =
         errorCode === 'CENTER_HABILITATION_ERROR' ? { subscription: this.subscriptionLabel, htmlSafe: true } : {};
       this.apiErrorMessage = this.intl.t(FORBIDDEN_ERROR_MESSAGE_KEYS[errorCode], interpolationValues);
+    } else if (errorCode === 'CERTIFICATION_DURATION_EXCEEDED') {
+      this.apiErrorMessage = this.intl.t('pages.certification-start.error-messages.duration-exceeded');
     } else {
       this.technicalErrorInformation = `${error.message} ${error.stack}`;
       this.apiErrorMessage = this.intl.t('pages.certification-start.error-messages.generic');

@@ -964,6 +964,7 @@
         "access-code-error": "Questo codice non esiste o non è più valido.",
         "candidate-not-authorized-to-resume": "Contatta il sorvegliante per autorizzare la ripresa della prova.",
         "candidate-not-authorized-to-start": "Il sorvegliante non ha confermato la tua presenza in aula. Pertanto, non è ancora possibile iniziare il test di certificazione. Informa il sorvegliante.",
+        "duration-exceeded": "La durata massima della tua prova di certificazione è stata superata. Non puoi più riprenderla.",
         "generic": "Si è appena verificato un errore inatteso del server.",
         "missing-code": "Il codice di accesso non è stato inserito.",
         "session-not-accessible": "La sessione di certificazione non è più accessibile.",

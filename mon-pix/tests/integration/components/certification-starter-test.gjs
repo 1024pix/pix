@@ -457,6 +457,22 @@ module('Integration | Component | certification-starter', function (hooks) {
           assert.ok(screen.getByText(t('pages.certification-start.error-messages.session-not-accessible')));
         });
 
+        test('should display the appropriate error message when the certification duration has been exceeded', async function (assert) {
+          // given
+          this.certificationCourse.save.rejects({
+            errors: [{ status: '409', code: 'CERTIFICATION_DURATION_EXCEEDED' }],
+          });
+          const screen = await renderComponent();
+          await fillAccessCode(screen, 'ABC123');
+          await confirmLanguageSelection(screen);
+
+          // when
+          await submitForm();
+
+          // then
+          assert.ok(screen.getByText(t('pages.certification-start.error-messages.duration-exceeded')));
+        });
+
         module('when error status is 403', function () {
           test('should display the appropriate error message when error candidate not authorized to join session', async function (assert) {
             // given
