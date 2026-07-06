@@ -1,6 +1,7 @@
 // This file imports and exports all models for explicit registration in config.js
 
 import adminMember from './models/admin-member';
+import adminOrganizationLearner from './models/admin-organization-learner';
 import administrationTeam from './models/administration-team';
 import area from './models/area';
 import attachableTargetProfile from './models/attachable-target-profile';
@@ -78,6 +79,7 @@ import withRequiredActionSession from './models/with-required-action-session';
 
 export default {
   adminMember,
+  adminOrganizationLearner,
   administrationTeam,
   area,
   attachableTargetProfile,

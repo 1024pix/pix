@@ -2,6 +2,7 @@ import { Response } from 'miragejs';
 import { assessmentResultStatus } from 'pix-admin/models/certification';
 
 import { createAdminMember } from './handlers/admin-members';
+import { findPaginatedFilteredLearners } from './handlers/admin-organization-learners';
 import {
   createAutonomousCourse,
   findAutonomousCourseTargetProfiles,
@@ -184,6 +185,8 @@ export default function routes() {
       },
     };
   });
+
+  this.get('/admin/organization-learners', findPaginatedFilteredLearners);
 
   this.get('/admin/users', findPaginatedFilteredUsers);
   this.get('/admin/users/:id');

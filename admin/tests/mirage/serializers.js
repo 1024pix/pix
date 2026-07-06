@@ -1,3 +1,4 @@
+import adminOrganizationLearner from './serializers/admin-organization-learner';
 import application from './serializers/application';
 import area from './serializers/area';
 import attachedCertificationCenter from './serializers/attached-certification-center';
@@ -29,6 +30,7 @@ import tube from './serializers/tube';
 import user from './serializers/user';
 
 export default {
+  adminOrganizationLearner,
   application,
   attachedCertificationCenter,
   area,
