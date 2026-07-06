@@ -708,6 +708,7 @@
         "itemId": "Id",
         "module": "Module",
         "name": "External name",
+        "reward-requirements": "Reward requirements",
         "survey-link": "Survey link url",
         "target-profile": "Target profile"
       },

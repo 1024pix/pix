@@ -64,6 +64,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
             ],
             'reward-id': 5,
             'reward-type': 'ATTESTATION',
+            'reward-requirements': null,
             'survey-link': 'http://survey-link-test.fr',
           },
         },
@@ -112,6 +113,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
           illustration: null,
           description: null,
           'survey-link': 'http://survey-link-test.fr',
+          'reward-requirements': null,
         },
       },
     });

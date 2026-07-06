@@ -37,7 +37,7 @@ const serialize = function (combinedCourse) {
     reward: {
       ref: 'id',
       included: true,
-      attributes: ['status', 'type', 'label', 'templateName', 'data'],
+      attributes: ['status', 'type', 'requirementsDescription', 'label', 'templateName', 'data'],
     },
     typeForAttribute: (attribute) => {
       if (attribute === 'items') return 'combined-course-items';

@@ -14,7 +14,8 @@ const buildCombinedCourseBlueprint = function ({
   createdAt = new Date(),
   updatedAt,
   questId,
-  surveyUrl,
+  surveyUrl = null,
+  rewardRequirementsDescription = null,
 } = {}) {
   const targetProfileId = buildTargetProfile().id;
   questId = _.isUndefined(questId)
@@ -22,7 +23,9 @@ const buildCombinedCourseBlueprint = function ({
         rewardType: null,
         rewardId: null,
         successRequirements: [
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId }).toDTO(),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId,
+          }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({
             moduleId: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a',
           }).toDTO(),
@@ -52,6 +55,7 @@ const buildCombinedCourseBlueprint = function ({
     updatedAt: updatedAt ?? createdAt,
     questId,
     surveyUrl,
+    rewardRequirementsDescription,
   };
 
   return databaseBuffer.pushInsertable({

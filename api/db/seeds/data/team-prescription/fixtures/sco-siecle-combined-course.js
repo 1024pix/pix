@@ -18,6 +18,7 @@ export const SCO_SIECLE_COMBINED_COURSE = {
       { type: 'module', moduleId: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a' },
       { type: 'module', moduleId: 'f32a2238-4f65-4698-b486-15d51935d335' },
     ],
+    rewardRequirementsDescription: 'description des pré-requis',
   },
   combinedCourse: {
     code: 'SCOMBINIX',

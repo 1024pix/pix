@@ -10,6 +10,7 @@ export class CombinedCourseBlueprintForCreation {
     attestationLabel,
     rewardId = null,
     rewardType = null,
+    rewardRequirements = null,
     quest,
     surveyLink = null,
     createdAt,
@@ -25,6 +26,7 @@ export class CombinedCourseBlueprintForCreation {
     this.attestationLabel = attestationLabel;
     this.rewardId = rewardId;
     this.rewardType = rewardType;
+    this.rewardRequirements = rewardRequirements;
     this.quest = quest;
     this.surveyLink = surveyLink;
     this.createdAt = createdAt;

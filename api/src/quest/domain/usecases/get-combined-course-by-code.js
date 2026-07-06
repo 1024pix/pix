@@ -6,6 +6,7 @@ export async function getCombinedCourseByCode({
   organizationLearnerPrescriptionRepository,
   attestationRepository,
   profileRewardRepository,
+  combinedCourseBlueprintRepository,
 }) {
   const combinedCourse = await combinedCourseRepository.getByCode({ code });
   const combinedCourseDetails = await combinedCourseDetailsService.instantiateCombinedCourseDetails({
@@ -26,6 +27,7 @@ export async function getCombinedCourseByCode({
     rewardId: combinedCourse.quest.rewardId,
     userId,
   });
+  const combinedCourseBlueprint = await combinedCourseBlueprintRepository.findById({ id: combinedCourse.blueprintId });
 
   return combinedCourseDetailsService.getCombinedCourseDetails({
     organizationLearnerId,
@@ -36,6 +38,7 @@ export async function getCombinedCourseByCode({
       obtainedAt: profileReward?.createdAt,
       label: attestation?.label,
       templateName: attestation.templateName,
+      requirementsDescription: combinedCourseBlueprint.rewardRequirements,
     },
   });
 }

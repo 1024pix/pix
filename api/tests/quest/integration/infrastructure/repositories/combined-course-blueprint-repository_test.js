@@ -234,6 +234,8 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
 
       const expectedCombinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
         questId,
+        surveyUrl: 'survey-url',
+        rewardRequirementsDescription: 'description of reward requirements',
       });
       databaseBuilder.factory.buildCombinedCourseBlueprint();
       await databaseBuilder.commit();
@@ -249,7 +251,9 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         name: expectedCombinedCourseBlueprint.name,
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
+        surveyLink: expectedCombinedCourseBlueprint.surveyUrl,
         illustration: expectedCombinedCourseBlueprint.illustration,
+        rewardRequirements: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
       });
@@ -266,7 +270,11 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
   describe('#findById', function () {
     it('should return combined course blueprint by its id with shared organization ids', async function () {
       const quest = databaseBuilder.factory.buildQuestForCombinedCourse();
-      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: quest.id });
+      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId: quest.id,
+        surveyUrl: 'survey-url',
+        rewardRequirementsDescription: 'description of reward requirements',
+      });
       const combinedCourseBlueprintShare = databaseBuilder.factory.buildCombinedCourseBlueprintShare({
         combinedCourseBlueprintId: combinedCourseBlueprint.id,
       });
@@ -288,16 +296,30 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
         illustration: expectedCombinedCourseBlueprint.illustration,
+        surveyLink: expectedCombinedCourseBlueprint.surveyLink,
+        rewardRequirements: expectedCombinedCourseBlueprint.rewardRequirements,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: expectedCombinedCourseBlueprint.organizationIds,
       });
-      expect(result.quest.toDTO()).to.deep.equal(quest);
+      expect(result.quest.toDTO()).to.deep.equal({
+        createdAt: quest.createdAt,
+        eligibilityRequirements: [],
+        successRequirements: [],
+        id: quest.id,
+        rewardId: quest.rewardId,
+        rewardType: quest.rewardType,
+        updatedAt: quest.updatedAt,
+      });
     });
 
     it('should return combined course blueprint by its id when it is not shared', async function () {
       const quest = databaseBuilder.factory.buildQuestForCombinedCourse();
-      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: quest.id });
+      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId: quest.id,
+        surveyUrl: 'survey-url',
+        rewardRequirementsDescription: 'description of reward requirements',
+      });
       await databaseBuilder.commit();
 
       const expectedCombinedCourseBlueprint = domainBuilder.buildCombinedCourseBlueprint({
@@ -314,11 +336,21 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
         illustration: expectedCombinedCourseBlueprint.illustration,
+        surveyLink: expectedCombinedCourseBlueprint.surveyLink,
+        rewardRequirements: expectedCombinedCourseBlueprint.rewardRequirements,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: [],
       });
-      expect(result.quest.toDTO()).to.deep.equal(quest);
+      expect(result.quest.toDTO()).to.deep.equal({
+        createdAt: quest.createdAt,
+        eligibilityRequirements: [],
+        successRequirements: [],
+        id: quest.id,
+        rewardId: quest.rewardId,
+        rewardType: quest.rewardType,
+        updatedAt: quest.updatedAt,
+      });
     });
 
     it('should return null when no results are found', async function () {

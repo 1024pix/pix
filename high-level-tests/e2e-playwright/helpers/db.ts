@@ -501,8 +501,8 @@ export async function createCombinedCourseBlueprintInDB(name: string) {
     .insert({
       rewardType: null,
       rewardId: null,
-      eligibilityRequirements: [],
-      successRequirements: [],
+      eligibilityRequirements: JSON.stringify([]),
+      successRequirements: JSON.stringify([]),
       createdAt: new Date(),
       updatedAt: new Date(),
     })
@@ -517,6 +517,7 @@ export async function createCombinedCourseBlueprintInDB(name: string) {
       createdAt: someDate,
       updatedAt: someDate,
       surveyUrl: null,
+      rewardRequirementsDescription: null,
       questId,
     })
     .returning('id');
