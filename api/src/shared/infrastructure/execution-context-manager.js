@@ -163,6 +163,19 @@ export function addCorrelationInfo(path, value) {
 }
 
 /**
+ * Adds or overwrites multiple values using lodash paths (e.g. 'foo.bar').
+ * These values are added to the dedicated correlation metadata object.
+ * Intermediate keys are created automatically if they do not exist.
+ *
+ * @param {Record<string, *>} correlationInfos - An object whose keys are lodash paths and whose values are the corresponding values to store.
+ */
+export function addCorrelationInfos(correlationInfos) {
+  for (const [path, value] of Object.entries(correlationInfos)) {
+    setInContext(CORRELATION_METADATA + '.' + path, value);
+  }
+}
+
+/**
  * Wrap every request execution in an ExecutionContext.
  * @throws {Error} If the Hapi Request prototype cannot be found.
  */
