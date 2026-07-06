@@ -393,6 +393,8 @@ const configuration = (function () {
       enableLogEndingEventDispatch: toBoolean(process.env.LOG_ENDING_EVENT_DISPATCH),
       opsEventIntervalInSeconds: process.env.OPS_EVENT_INTERVAL_IN_SECONDS || 15,
       debugSections: process.env.LOG_DEBUG?.split(',') ?? [],
+      certificationVerificationCodeLogHashSecret:
+        process.env.CERTIFICATION_VERIFICATION_CODE_LOG_HASH_SECRET || 'local',
     },
     login: {
       temporaryBlockingThresholdFailureCount: _getNumber(
