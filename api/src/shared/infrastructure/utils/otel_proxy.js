@@ -1,5 +1,6 @@
 import { trace } from '@opentelemetry/api';
 
+import { DomainError } from '../../domain/errors.js';
 const otelProxySymbol = Symbol('otelProxy');
 
 function isAlreadyProxied(resource) {
@@ -25,6 +26,12 @@ function wrapFunction(func, target, methodName, defaultAttributes) {
             })
             .catch((error) => {
               span.recordException(error);
+              if (!(error instanceof DomainError)) {
+                span.setStatus({
+                  code: 2, /* SpanStatusCode.ERROR */
+                  message: error.message,
+               });
+              }
               span.end();
               throw error;
             });
@@ -33,6 +40,12 @@ function wrapFunction(func, target, methodName, defaultAttributes) {
         return result;
       } catch (error) {
         span.recordException(error);
+        if (!(error instanceof DomainError)) {
+          span.setStatus({
+            code: 2, /* SpanStatusCode.ERROR */
+            message: error.message,
+          });
+        }
         span.end();
         throw error;
       }
