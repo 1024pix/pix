@@ -2,6 +2,8 @@ import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { PgInstrumentation } from '@opentelemetry/instrumentation-pg';
 import { UndiciInstrumentation } from '@opentelemetry/instrumentation-undici';
+import { containerDetector } from '@opentelemetry/resource-detector-container';
+import { envDetector, hostDetector, osDetector, processDetector } from '@opentelemetry/resources';
 import { NodeSDK, resources } from '@opentelemetry/sdk-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
@@ -23,6 +25,7 @@ export function setupOtel(serviceName) {
     resource: resourceFromAttributes({
       [ATTR_SERVICE_NAME]: serviceName,
     }),
+    resourceDetectors: [envDetector, hostDetector, osDetector, processDetector, containerDetector],
     traceExporter: exporter,
     instrumentations: [
       new HttpInstrumentation(),
