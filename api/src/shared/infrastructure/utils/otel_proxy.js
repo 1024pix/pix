@@ -71,6 +71,16 @@ function wrapObject(resource, name, defaultAttributes) {
   });
 }
 
+/**
+ * Wraps an object or function with an OpenTelemetry proxy that automatically
+ * creates a span around each method call (or the call itself, if `resource`
+ * is a function).
+ *
+ * @param {object|Function} resource - The object whose methods should be traced, or a function to trace directly.
+ * @param {string} name - Base name used to build span names (e.g. `${name}->${methodName}`).
+ * @param {Record<string, unknown>} [defaultAttributes] - Attributes set on every span created by this proxy.
+ * @returns {object|Function} A proxy (or wrapped function) that behaves like `resource` but emits spans.
+ */
 export function otelProxy(resource, name, defaultAttributes) {
   if (typeof resource === 'function') {
     return wrapFunction(resource, null, name, defaultAttributes);
