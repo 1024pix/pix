@@ -1,4 +1,4 @@
-import {otelProxy} from "../src/shared/infrastructure/utils/otel_proxy.js";
+import { otelProxy } from '../src/shared/infrastructure/utils/otel_proxy.js';
 import { configureGlobalExtensions } from './knex-extensions.js';
 
 class DatabaseConnections {

@@ -30,10 +30,10 @@ function injectDefaults(defaults, targetFn) {
  */
 
 /**
-* @typedef {{
-*   name: string
-* }} BoundedContext
-*/
+ * @typedef {{
+ *   name: string
+ * }} BoundedContext
+ */
 
 /**
  * @template {object} ObjectToBeInjected
@@ -45,8 +45,7 @@ function injectDefaults(defaults, targetFn) {
  */
 export function injectDependencies(toBeInjected, dependencies, boundedContext) {
   const wrappedDependencies = Object.fromEntries(
-    Object.entries(dependencies)
-      .map(([name, value]) => [name, value ? otelProxy(value, name) : value])
+    Object.entries(dependencies).map(([name, value]) => [name, value ? otelProxy(value, name) : value]),
   );
   const injected = Object.fromEntries(
     Object.entries(toBeInjected).map(([name, value]) => {
@@ -56,7 +55,7 @@ export function injectDependencies(toBeInjected, dependencies, boundedContext) {
       } else {
         return [name, injectDependencies(value, dependencies)];
       }
-    })
+    }),
   );
 
   return injected;

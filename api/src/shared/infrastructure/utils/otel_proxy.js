@@ -10,7 +10,7 @@ function wrapFunction(func, target, methodName, defaultAttributes) {
   if (isAlreadyProxied(func)) return func;
 
   const wrapped = function (...args) {
-    const tracer = trace.getTracer("otel-proxy");
+    const tracer = trace.getTracer('otel-proxy');
     return tracer.startActiveSpan(methodName, (span) => {
       if (defaultAttributes) {
         span.setAttributes(defaultAttributes);
@@ -54,15 +54,10 @@ function wrapObject(resource, name, defaultAttributes) {
 
       const value = target[prop];
 
-      if (typeof value === "function") {
-        return wrapFunction(
-          value,
-          target,
-          `${name}->${prop.toString()}`,
-          defaultAttributes,
-        );
+      if (typeof value === 'function') {
+        return wrapFunction(value, target, `${name}->${prop.toString()}`, defaultAttributes);
       }
-      if (typeof value === "object" && value !== null) {
+      if (typeof value === 'object' && value !== null) {
         return wrapObject(value, name, defaultAttributes);
       }
 
