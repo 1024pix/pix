@@ -80,8 +80,8 @@
     gap: var(--pix-spacing-2x);
     align-items: center;
     margin-top: var(--pix-spacing-4x);
-    text-align: center;
     color: var(--pix-neutral-500);
+    text-align: center;
 
     @include breakpoints.device-is('tablet') {
       align-items: flex-start;
