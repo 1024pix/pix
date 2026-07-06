@@ -511,9 +511,9 @@ const configuration = (function () {
       accessTokenLifespanMs: ms(process.env.SAML_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
     seeds: getSeedsConfig(),
-    temporaryKey: {
+    passwordResetDemand: {
       secret: process.env.AUTH_SECRET,
-      tokenLifespan: process.env.PASSWORD_RESET_DEMAND_LIFESPAN || '1h',
+      lifespan: process.env.PASSWORD_RESET_DEMAND_LIFESPAN || '1h',
     },
     temporarySessionsStorageForMassImport: {
       expirationDelaySeconds:
@@ -633,7 +633,7 @@ const configuration = (function () {
 
     config.authentication.secret = 'the-password-must-be-at-least-32-characters-long';
 
-    config.temporaryKey.secret = 'the-password-must-be-at-least-32-characters-long';
+    config.passwordResetDemand.secret = 'the-password-must-be-at-least-32-characters-long';
 
     config.temporaryStorage.redisUrl = process.env.TEST_REDIS_URL;
     config.authentication.permitPixAdminLoginFromPassword = false;

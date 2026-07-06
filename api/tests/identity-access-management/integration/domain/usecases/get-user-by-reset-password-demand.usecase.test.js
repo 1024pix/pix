@@ -61,7 +61,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | getUserB
   context('when temporaryKey is expired', function () {
     it('throws InvalidTemporaryKeyError', async function () {
       // given
-      sinon.stub(config.temporaryKey, 'tokenLifespan').value(0);
+      sinon.stub(config.passwordResetDemand, 'lifespan').value(0);
 
       temporaryKey = await resetPasswordService.generateTemporaryKey();
       databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
