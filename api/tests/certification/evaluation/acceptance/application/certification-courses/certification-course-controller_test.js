@@ -426,10 +426,15 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
   return { certificationCandidate };
 }
 
-function _createExistingCertifCourseSetup({ learningContent, userId, sessionId, version = 2 }) {
+function _createExistingCertifCourseSetup({ learningContent, userId, sessionId, version = 2, createdAt = new Date() }) {
   const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
   databaseBuilder.factory.learningContent.build(learningContentObjects);
-  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, version }).id;
+  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+    userId,
+    sessionId,
+    version,
+    createdAt,
+  }).id;
   databaseBuilder.factory.buildAssessment({ userId, certificationCourseId });
 
   const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });

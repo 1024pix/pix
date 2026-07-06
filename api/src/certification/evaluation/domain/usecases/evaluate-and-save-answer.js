@@ -1,6 +1,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { EmptyAnswerError, ForbiddenAccess, NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationDurationExceededError } from '../errors.js';
+import { isDurationExceeded } from '../services/certification-duration-service.js';
 
 export async function evaluateAndSaveAnswer({
   answer,
@@ -24,7 +25,7 @@ export async function evaluateAndSaveAnswer({
 
   assessmentSheet.checkIfCandidateCanAnswer({ answer, userId });
 
-  if (assessmentSheet.hasCertificationDurationExceeded()) {
+  if (isDurationExceeded(assessmentSheet.startedAt)) {
     assessmentSheet.endDueToCertificationDurationExceeded();
     await assessmentSheetRepository.update(assessmentSheet);
     throw new CertificationDurationExceededError();

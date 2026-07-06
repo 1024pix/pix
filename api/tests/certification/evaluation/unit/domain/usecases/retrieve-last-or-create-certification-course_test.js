@@ -1,5 +1,7 @@
 import sinon from 'sinon';
 
+import { CertificationDurationExceededError } from '../../../../../../src/certification/evaluation/domain/errors.js';
+import { AssessmentSheet } from '../../../../../../src/certification/evaluation/domain/models/AssessmentSheet.js';
 import { retrieveLastOrCreateCertificationCourse } from '../../../../../../src/certification/evaluation/domain/usecases/retrieve-last-or-create-certification-course.js';
 import { SessionNotAccessible } from '../../../../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
@@ -30,6 +32,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
   const sessionRepository = {};
   const assessmentRepository = {};
+  const assessmentSheetRepository = {};
   const competenceRepository = {};
   const candidateRepository = {};
   const certificationCourseRepository = {};
@@ -41,6 +44,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
   const injectables = {
     assessmentRepository,
+    assessmentSheetRepository,
     competenceRepository,
     candidateRepository,
     certificationCourseRepository,
@@ -64,6 +68,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     candidateRepository.update = sinon.stub();
     certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId = sinon.stub();
     certificationCourseRepository.save = sinon.stub();
+    assessmentSheetRepository.findByCertificationCourseId = sinon.stub();
+    assessmentSheetRepository.update = sinon.stub();
     sessionRepository.get = sinon.stub();
     sessionRepository.update = sinon.stub();
     placementProfileService.getPlacementProfile = sinon.stub();
@@ -186,7 +192,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               .withArgs({ sessionId: 1, userId: 2 })
               .resolves(candidateNotAuthorizedToStart);
 
-            const existingCertificationCourse = domainBuilder.buildCertificationCourse({ userId: 2, sessionId: 1 });
+            const existingCertificationCourse = domainBuilder.buildCertificationCourse({
+              userId: 2,
+              sessionId: 1,
+              createdAt: new Date(),
+            });
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
               .withArgs({ userId: 2, sessionId: 1 })
               .resolves(existingCertificationCourse);
@@ -270,6 +280,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             const existingCertificationCourse = domainBuilder.buildCertificationCourse({
               userId: 2,
               sessionId: 1,
+              createdAt: new Date(),
             });
             existingCertificationCourse.adjustForAccessibility = sinon.stub();
 
@@ -328,6 +339,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               userId: 2,
               sessionId: 1,
               version: AlgorithmEngineVersion.V3,
+              createdAt: new Date(),
             });
             existingCertificationCourse.adjustForAccessibility = sinon.stub();
 
@@ -357,6 +369,113 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 authorizedToStart: false,
               }),
             );
+          });
+
+          context('when the certification duration has been exceeded', function () {
+            it('ends the assessment and throws a CertificationDurationExceededError', async function () {
+              // given
+              const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
+                id: 1,
+                accessCode: 'accessCode',
+              });
+              sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+
+              const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
+                userId: 2,
+                sessionId: 1,
+                authorizedToStart: true,
+                subscriptionFramework: Frameworks.CORE,
+              });
+              candidateRepository.findByUserIdAndSessionId
+                .withArgs({ sessionId: 1, userId: 2 })
+                .resolves(foundCandidate);
+
+              const existingCertificationCourse = domainBuilder.buildCertificationCourse({
+                id: 99,
+                userId: 2,
+                sessionId: 1,
+                createdAt: new Date('2025-12-30T00:00:00Z'),
+              });
+              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                .withArgs({ userId: 2, sessionId: 1 })
+                .resolves(existingCertificationCourse);
+
+              const assessmentSheet = new AssessmentSheet({
+                certificationCourseId: 99,
+                assessmentId: 88,
+                state: Assessment.states.STARTED,
+                startedAt: new Date('2025-12-30T00:00:00Z'),
+                answers: [],
+              });
+              assessmentSheetRepository.findByCertificationCourseId.withArgs(99).resolves(assessmentSheet);
+
+              const version = domainBuilder.certification.configuration.buildVersion();
+              versionApi.getByFrameworkAndDate.resolves(version);
+
+              // when
+              const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+                sessionId: 1,
+                accessCode: 'accessCode',
+                userId: 2,
+                locale: 'fr',
+                ...injectables,
+              });
+
+              // then
+              expect(error).to.be.an.instanceOf(CertificationDurationExceededError);
+              expect(assessmentSheet.state).to.equal(Assessment.states.ENDED_DUE_TO_DURATION_EXCEEDED);
+              expect(assessmentSheetRepository.update).to.have.been.calledOnceWith(assessmentSheet);
+              expect(candidateRepository.update).not.to.have.been.called;
+            });
+
+            context('when no assessment sheet is found', function () {
+              it('throws a CertificationDurationExceededError without updating', async function () {
+                // given
+                const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
+                  id: 1,
+                  accessCode: 'accessCode',
+                });
+                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+
+                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
+                  userId: 2,
+                  sessionId: 1,
+                  authorizedToStart: true,
+                  subscriptionFramework: Frameworks.CORE,
+                });
+                candidateRepository.findByUserIdAndSessionId
+                  .withArgs({ sessionId: 1, userId: 2 })
+                  .resolves(foundCandidate);
+
+                const existingCertificationCourse = domainBuilder.buildCertificationCourse({
+                  id: 99,
+                  userId: 2,
+                  sessionId: 1,
+                  createdAt: new Date('2025-12-30T00:00:00Z'),
+                });
+                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                  .withArgs({ userId: 2, sessionId: 1 })
+                  .resolves(existingCertificationCourse);
+
+                assessmentSheetRepository.findByCertificationCourseId.withArgs(99).resolves(null);
+
+                const version = domainBuilder.certification.configuration.buildVersion();
+                versionApi.getByFrameworkAndDate.resolves(version);
+
+                // when
+                const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+                  sessionId: 1,
+                  accessCode: 'accessCode',
+                  userId: 2,
+                  locale: 'fr',
+                  ...injectables,
+                });
+
+                // then
+                expect(error).to.be.an.instanceOf(CertificationDurationExceededError);
+                expect(assessmentSheetRepository.update).not.to.have.been.called;
+              });
+            });
           });
         });
 

@@ -2,6 +2,7 @@
  * @typedef {import('./index.js').AssessmentRepository} AssessmentRepository
  * @typedef {import('./index.js').CandidateRepository} CandidateRepository
  * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
+ * @typedef {import('./index.js').AssessmentSheetRepository} AssessmentSheetRepository
  * @typedef {import('./index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('./index.js').VersionApi} VersionApi
@@ -25,6 +26,8 @@ import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmE
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
+import { CertificationDurationExceededError } from '../errors.js';
+import { isDurationExceeded } from '../services/certification-duration-service.js';
 
 const DEFAULT_LOCALE = 'fr-fr';
 
@@ -34,6 +37,7 @@ const DEFAULT_LOCALE = 'fr-fr';
  * @param {AssessmentRepository} params.assessmentRepository
  * @param {CandidateRepository} params.candidateRepository
  * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {AssessmentSheetRepository} params.assessmentSheetRepository
  * @param {CertificationCenterRepository} params.certificationCenterRepository
  * @param {SessionRepository} params.sessionRepository
  * @param {VersionApi} params.versionApi
@@ -48,6 +52,7 @@ export async function retrieveLastOrCreateCertificationCourse({
   assessmentRepository,
   candidateRepository,
   certificationCourseRepository,
+  assessmentSheetRepository,
   sessionRepository,
   certificationCenterRepository,
   versionApi,
@@ -72,6 +77,8 @@ export async function retrieveLastOrCreateCertificationCourse({
       userId,
       sessionId,
     });
+
+  await _endCourseIfDurationExceeded({ existingCertificationCourse, assessmentSheetRepository });
 
   _validateCandidateIsAuthorizedToStart(candidate, existingCertificationCourse);
 
@@ -113,6 +120,25 @@ async function _validateUserLocale(userLanguage) {
 
   if (!isUserLanguageValid) {
     throw new LanguageNotSupportedError(userLanguage);
+  }
+}
+
+/**
+ * @param {object} params
+ * @param {CertificationCourse} params.existingCertificationCourse
+ * @param {AssessmentSheetRepository} params.assessmentSheetRepository
+ */
+async function _endCourseIfDurationExceeded({ existingCertificationCourse, assessmentSheetRepository }) {
+  if (existingCertificationCourse && isDurationExceeded(existingCertificationCourse.getStartDate())) {
+    const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(
+      existingCertificationCourse.getId(),
+    );
+    if (assessmentSheet) {
+      assessmentSheet.endDueToCertificationDurationExceeded();
+      await assessmentSheetRepository.update(assessmentSheet);
+    }
+
+    throw new CertificationDurationExceededError();
   }
 }
 

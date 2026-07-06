@@ -11,8 +11,6 @@ import { ABORT_REASONS } from '../../../shared/domain/constants/abort-reasons.js
 export const STATES = Assessment.states;
 export const STATES_OF_LAST_QUESTION = Assessment.statesOfLastQuestion;
 
-const MAXIMAL_CERTIFICATION_DURATION_IN_MS = 24 * 60 * 60 * 1000; // 24h
-
 export class AssessmentSheet {
   /**
    * @param {object} params
@@ -131,10 +129,6 @@ export class AssessmentSheet {
     if (this.isChallengeAlreadyAnswered(answer.challengeId)) {
       throw new ChallengeAlreadyAnsweredError();
     }
-  }
-
-  hasCertificationDurationExceeded() {
-    return Date.now() - this.startedAt.getTime() > MAXIMAL_CERTIFICATION_DURATION_IN_MS;
   }
 
   endDueToCertificationDurationExceeded() {

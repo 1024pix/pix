@@ -359,35 +359,6 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
     });
   });
 
-  context('#hasCertificationDurationExceeded', function () {
-    let clock;
-    const now = new Date('2026-01-02T00:00:00Z');
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
-    it('returns true when the certification has been started for more than 24 hours', function () {
-      const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
-        startedAt: new Date('2025-12-31T23:00:00Z'),
-      });
-
-      expect(assessmentSheet.hasCertificationDurationExceeded()).to.be.true;
-    });
-
-    it('returns false when the certification has been started for less than 24 hours', function () {
-      const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
-        startedAt: new Date('2026-01-01T23:00:00Z'),
-      });
-
-      expect(assessmentSheet.hasCertificationDurationExceeded()).to.be.false;
-    });
-  });
-
   context('#endDueToCertificationDurationExceeded', function () {
     let clock, assessmentSheetBaseData;
     const now = new Date();
