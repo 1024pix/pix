@@ -30,12 +30,12 @@ export async function evaluateAndSaveAnswer({
     throw new CertificationDurationExceededError();
   }
 
-  const hasActiveLiveAlert =
+  const hasLiveAlertOnChallenge =
     await certificationChallengeLiveAlertRepository.getOngoingOrValidatedByChallengeIdAndAssessmentId({
       challengeId: answer.challengeId,
       assessmentId: assessmentSheet.assessmentId,
     });
-  if (hasActiveLiveAlert) {
+  if (hasLiveAlertOnChallenge) {
     throw new ForbiddenAccess('An alert has been set.');
   }
 

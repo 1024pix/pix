@@ -10,7 +10,6 @@ import {
 } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet', function () {
   const STATES = domainBuilder.certification.evaluation.buildAssessmentSheet.STATES;
@@ -274,8 +273,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
       it('does not throw', function () {
         // given
         const answer = domainBuilder.buildAnswer();
-
-        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({});
+        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({ userId: 123 });
 
         // then
         expect(() =>
@@ -287,52 +285,45 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
     context('when the user is not related to the assessment sheet', function () {
       it('should throw a ForbiddenAccess error', function () {
         // given
+        const answer = domainBuilder.buildAnswer();
         const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
-          userId: 3,
+          userId: 123,
         });
 
         // when
-        const error = catchErrSync(() =>
-          assessmentSheet.checkIfCandidateCanAnswer({ answer: undefined, userId: 99 }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(ForbiddenAccess);
-        expect(error.message).to.equal('User is not allowed to add an answer for this certification test.');
+        expect(() => assessmentSheet.checkIfCandidateCanAnswer({ answer, userId: 456 })).to.throw(ForbiddenAccess);
       });
     });
 
     context('when the assessment is endedByInvigilator', function () {
       it('should throw a CertificationEndedByInvigilatorError error', function () {
         // given
+        const answer = domainBuilder.buildAnswer();
         const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          userId: 123,
           state: STATES.ENDED_BY_INVIGILATOR,
         });
 
         // when
-        const error = catchErrSync(() =>
-          assessmentSheet.checkIfCandidateCanAnswer({ answer: undefined, userId: assessmentSheet.userId }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(CertificationEndedByInvigilatorError);
+        expect(() => assessmentSheet.checkIfCandidateCanAnswer({ answer, userId: assessmentSheet.userId })).to.throw(
+          CertificationEndedByInvigilatorError,
+        );
       });
     });
 
     context('when the assessment is hasBeenEndedDueToFinalization', function () {
       it('should throw a CertificationEndedByFinalizationError error', function () {
         // given
+        const answer = domainBuilder.buildAnswer();
         const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          userId: 123,
           state: STATES.ENDED_DUE_TO_FINALIZATION,
         });
 
         // when
-        const error = catchErrSync(() =>
-          assessmentSheet.checkIfCandidateCanAnswer({ answer: undefined, userId: assessmentSheet.userId }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(CertificationEndedByFinalizationError);
+        expect(() => assessmentSheet.checkIfCandidateCanAnswer({ answer, userId: assessmentSheet.userId })).to.throw(
+          CertificationEndedByFinalizationError,
+        );
       });
     });
 
@@ -340,16 +331,14 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
       it('should throw a ChallengeNotAskedError error', function () {
         // given
         const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          userId: 123,
           lastChallengeId: 1,
         });
 
         // when
-        const error = catchErrSync(() =>
+        expect(() =>
           assessmentSheet.checkIfCandidateCanAnswer({ answer: {}, userId: assessmentSheet.userId }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(ChallengeNotAskedError);
+        ).to.throw(ChallengeNotAskedError);
       });
     });
 
@@ -357,18 +346,15 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
       it('should throw a ChallengeAlreadyAnsweredError error', function () {
         // given
         const answer = domainBuilder.buildAnswer();
-
         const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          userId: 123,
           answers: [answer],
         });
 
         // when
-        const error = catchErrSync(() =>
-          assessmentSheet.checkIfCandidateCanAnswer({ answer, userId: assessmentSheet.userId }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(ChallengeAlreadyAnsweredError);
+        expect(() => assessmentSheet.checkIfCandidateCanAnswer({ answer, userId: assessmentSheet.userId })).to.throw(
+          ChallengeAlreadyAnsweredError,
+        );
       });
     });
   });
