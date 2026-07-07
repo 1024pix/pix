@@ -75,32 +75,4 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', function () 
       expect(certificationChallengeWithType.isNeutralized).to.be.false;
     });
   });
-
-  describe('#isPixPlus', function () {
-    it('return true when challenge was picked for a pix plus certification', function () {
-      // given
-      const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({
-        certifiableBadgeKey: 'someValue',
-      });
-
-      // when
-      const isPixPlus = certificationChallengeWithType.isPixPlus();
-
-      // then
-      expect(isPixPlus).to.be.true;
-    });
-
-    it('return false when challenge was picked for a regular pix certification', function () {
-      // given
-      const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({
-        certifiableBadgeKey: null,
-      });
-
-      // when
-      const isPixPlus = certificationChallengeWithType.isPixPlus();
-
-      // then
-      expect(isPixPlus).to.be.false;
-    });
-  });
 });

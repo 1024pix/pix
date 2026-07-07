@@ -1,4 +1,4 @@
-class CertificationChallenge {
+export class CertificationChallenge {
   constructor({
     id,
     associatedSkillName,
@@ -25,5 +25,3 @@ class CertificationChallenge {
     this.createdAt = createdAt;
   }
 }
-
-export { CertificationChallenge };
