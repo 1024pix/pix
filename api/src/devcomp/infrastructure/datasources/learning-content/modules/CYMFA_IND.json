@@ -446,11 +446,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Exactement !</p>",
-                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains services exigent le changement régulier de votre mot de passe.</p>"
+                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains  exigent le changement régulier de votre mot de passe.</p>"
                         },
                         "invalid": {
                           "state": "<p>Pas tout à fait.</p>",
-                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains services exigent le changement régulier de votre mot de passe.</p>"
+                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains  exigent le changement régulier de votre mot de passe.</p>"
                         }
                       },
                       "solutions": [
@@ -603,7 +603,7 @@
                 "id": "4c089ab6-8fbd-48ff-9362-cf44b8ee4b28",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pourquoi certains services proposent l’authentification multifacteur et d’autres non ?</p>"
+                "content": "<p>Vous l’avez sans-doute remarqué, certains services proposent l’authentification multifacteur et d’autres non.</p>"
               }
             }
           ]
@@ -694,7 +694,7 @@
                 "id": "c88354b1-ec04-4922-898c-15bbeba3cdd5",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>Il y a trois types de facteurs d’authentification&nbsp;: <strong>ce que je connais</strong> (facteur de connaissance), <strong>ce que je possède </strong>(facteur de possession), et <strong>ce que je suis </strong>(facteur biométrique). 💬👜🙋</li><li>L’authentification multifacteur, c’est quand un service vous demande <strong>au moins deux facteurs d’authentification</strong> à la suite pour prouver votre identité. 2️⃣</li><li>Une authentification multifacteur est <strong>plus sécurisée si les facteurs demandés sont de types différents</strong>, car leurs limites de sécurité sont différentes. 🔒🔒</li><li>Beaucoup de services en ligne qui gèrent des données personnelles imposent l’<strong>authentification multifacteur par défaut</strong>. D’autres services en ligne vous proposent de <strong>l’activer manuellement</strong> pour mieux vous protéger. ⚙️</li></ul>"
+                "content": "<ul>    <li>Il y a trois types de facteurs d’authentification&nbsp;: <strong>ce que je connais</strong> (facteur de connaissance), <strong>ce que je possède </strong>(facteur de possession), et <strong>ce que je suis </strong>(facteur biométrique). 💬👜🙋</li><li>L’authentification multifacteur, c’est quand un service vous demande <strong>au moins deux facteurs d’authentification</strong> à la suite pour prouver votre identité. 2️⃣</li><li>Une authentification multifacteur est <strong>plus sécurisée si les facteurs demandés sont de natures différentes</strong>, car leurs limites de sécurité sont différentes. 🔒🔒</li><li>Beaucoup de services en ligne qui gèrent des données personnelles imposent l’<strong>authentification multifacteur par défaut</strong>. D’autres services en ligne vous proposent de <strong>l’activer manuellement</strong> pour mieux vous protéger. ⚙️</li></ul>"
               }
             }
           ]
