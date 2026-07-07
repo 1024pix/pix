@@ -394,7 +394,7 @@
         {
           "id": "3cfca97d-ddb6-4a2a-9783-7f40c6313203",
           "type": "discovery",
-          "title": "Découverte 3 :  Quelles limites aux 3 facteurs ?",
+          "title": "Découverte 3 : Quelles limites aux 3 facteurs ?",
           "components": [
             {
               "type": "element",
@@ -498,11 +498,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Exactement !</p>",
-                          "diagnosis": "<p>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). S’il n’y a pas assez de réseau, le code ne peut pas être reçu. &nbsp;En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais ce moyen peut être remplacé.</p>"
+                          "diagnosis": "<p>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). S’il n’y a pas assez de réseau, le code ne peut pas être reçu. En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais ce moyen peut être remplacé.</p>"
                         },
                         "invalid": {
                           "state": "<p>Pas exactement.</p>",
-                          "diagnosis": "<p>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). S’il n’y a pas assez de réseau, le code ne peut pas être reçu. &nbsp;En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais ce moyen peut être remplacé.</p>"
+                          "diagnosis": "<p>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). S’il n’y a pas assez de réseau, le code ne peut pas être reçu. En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais ce moyen peut être remplacé.</p>"
                         }
                       },
                       "solutions": [
@@ -655,7 +655,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>Beaucoup de services en ligne imposent l’authentification multifacteur. Ce sont notamment des services qui comportent&nbsp;des données personnelles ou des informations sensibles&nbsp;(informations bancaires, médicales, administratives, etc.)</p>"
+                  "diagnosis": "<p>Beaucoup de services en ligne imposent l’authentification multifacteur. Ce sont notamment des services qui comportent des données personnelles ou des informations sensibles (informations bancaires, médicales, administratives, etc.)</p>"
                 }
               }
             }
@@ -828,7 +828,7 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>Un <strong>code à 6 chiffres reçu par sms</strong>&nbsp;est un</p>"
+                    "content": "<br><p>Un <strong>code à 6 chiffres reçu par sms</strong> est un</p>"
                   },
                   {
                     "type": "select",
@@ -857,7 +857,7 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>Un <strong>code PIN</strong>&nbsp;est un</p>"
+                    "content": "<br><p>Un <strong>code PIN</strong> est un</p>"
                   },
                   {
                     "type": "select",
@@ -886,7 +886,7 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>Une <strong>détection de visage</strong>&nbsp;est un</p>"
+                    "content": "<br><p>Une <strong>détection de visage</strong> est un</p>"
                   },
                   {
                     "type": "select",
