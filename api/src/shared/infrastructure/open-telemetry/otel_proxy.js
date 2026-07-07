@@ -1,5 +1,6 @@
 import { trace } from '@opentelemetry/api';
 
+import { config } from '../../config.js';
 import { DomainError } from '../../domain/errors.js';
 const otelProxySymbol = Symbol('otelProxy');
 
@@ -59,6 +60,14 @@ function wrapFunction(func, target, methodName, defaultAttributes) {
 function wrapObject(resource, name, defaultAttributes) {
   if (isAlreadyProxied(resource)) return resource;
 
+  // Wrapping a method or a nested object allocates a new closure/Proxy, so
+  // it's cached per property here - without it, every single property
+  // access (not just every call) would pay that allocation cost again.
+  // Keyed by the raw value too, so a property reassigned at runtime (e.g. a
+  // swapped-out dependency) still gets re-wrapped instead of serving a proxy
+  // over the old value.
+  const wrappedMembers = new Map(); // prop -> { rawValue, wrapped }
+
   return new Proxy(resource, {
     get: (target, prop) => {
       if (prop === otelProxySymbol) {
@@ -66,12 +75,23 @@ function wrapObject(resource, name, defaultAttributes) {
       }
 
       const value = target[prop];
+      const cached = wrappedMembers.get(prop);
+      if (cached && cached.rawValue === value) {
+        return cached.wrapped;
+      }
 
+      // Only cache the wrapping itself (closure/Proxy allocation), not
+      // plain values - those are returned straight from `target` so
+      // mutations to the underlying resource stay visible through the proxy.
       if (typeof value === 'function') {
-        return wrapFunction(value, target, `${name}->${prop.toString()}`, defaultAttributes);
+        const wrapped = wrapFunction(value, target, `${name}->${prop.toString()}`, defaultAttributes);
+        wrappedMembers.set(prop, { rawValue: value, wrapped });
+        return wrapped;
       }
       if (typeof value === 'object' && value !== null) {
-        return wrapObject(value, name, defaultAttributes);
+        const wrapped = wrapObject(value, name, defaultAttributes);
+        wrappedMembers.set(prop, { rawValue: value, wrapped });
+        return wrapped;
       }
 
       return value;
@@ -90,6 +110,9 @@ function wrapObject(resource, name, defaultAttributes) {
  * @returns {object|Function} A proxy (or wrapped function) that behaves like `resource` but emits spans.
  */
 export function otelProxy(resource, name, defaultAttributes) {
+  if (!config.logging.otelEnabled) {
+    return resource;
+  }
   if (typeof resource === 'function') {
     return wrapFunction(resource, null, name, defaultAttributes);
   }

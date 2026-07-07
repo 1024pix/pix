@@ -2,6 +2,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as sessionEnrolmentRepository from '../../../enrolment/infrastructure/repositories/session-repository.js';
 import * as sharedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificateSummaryRepository from '../../infrastructure/repositories/certificate-summary-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
@@ -88,6 +89,6 @@ const usecasesWithoutInjectedDependencies = {
   getShareableCertificate,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

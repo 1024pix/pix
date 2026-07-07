@@ -1,4 +1,5 @@
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as informationBannerRepository from '../../infrastructure/repositories/information-banner-repository.js';
 
 /**
@@ -17,7 +18,7 @@ const usecasesWithoutInjectedDependencies = {
   getInformationBanner,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 /**
  * @typedef {dependencies} dependencies

@@ -4,6 +4,7 @@ import * as sessionManagementRepository from '../../../session-management/infras
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as candidateRepository from './candidate-repository.js';
 import * as centerRepository from './center-repository.js';
 import * as certificationCpfCityRepository from './certification-cpf-city-repository.js';
@@ -49,6 +50,6 @@ const repositoriesWithoutInjectedDependencies = {
   complementaryCertificationBadgeWithOffsetVersionRepository,
 };
 
-const enrolmentRepositories = injectDependencies(repositoriesWithoutInjectedDependencies, {});
+const enrolmentRepositories = injectDependencies(repositoriesWithoutInjectedDependencies, {}, boundedContext);
 
 export { enrolmentRepositories };

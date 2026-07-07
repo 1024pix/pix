@@ -4,6 +4,7 @@ import * as membershipRepository from '../../../shared/infrastructure/repositori
 import * as organizationFeatureRepository from '../../../shared/infrastructure/repositories/organization-feature-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as combinedCourseBlueprintRepository from '../../infrastructure/repositories/combined-course-blueprints/combined-course-blueprint-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
@@ -20,6 +21,7 @@ const { combinedCourseDetailsService: injectedCombinedCourseDetailsService } = i
     eligibilityRepository: repositories.eligibilityRepository,
     recommendedModuleRepository: repositories.recommendedModuleRepository,
   },
+  boundedContext,
 );
 
 const dependencies = {
@@ -126,6 +128,6 @@ const usecasesWithoutInjectedDependencies = {
   isCombinedCourseBlueprintInOrganization,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

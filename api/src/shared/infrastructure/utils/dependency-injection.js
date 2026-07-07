@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import { otelProxy } from '../open-telemetry/otel_proxy.js';
+
 function injectDefaults(defaults, targetFn) {
   return (args) => targetFn(Object.assign(Object.create(defaults), args));
 }
@@ -28,18 +30,39 @@ function injectDefaults(defaults, targetFn) {
  */
 
 /**
+ * @typedef {{
+ *   name: string
+ * }} BoundedContext
+ */
+
+/**
  * @template {object} ObjectToBeInjected
  * @template {object} DependenciesToInject
  * @param {ObjectToBeInjected} toBeInjected - An object (or nested objects) of functions.
  * @param {DependenciesToInject} dependencies - An object of dependencies to inject.
+ * @param {BoundedContext=} boundedContext
  * @returns {Inject<ObjectToBeInjected, DependenciesToInject>} The input object, but functions now only require dependencies that haven't been injected.
  */
-export function injectDependencies(toBeInjected, dependencies) {
-  return _.mapValues(toBeInjected, (value) => {
-    if (_.isFunction(value)) {
-      return _.partial(injectDefaults, dependencies, value)();
-    } else {
-      return injectDependencies(value, dependencies);
-    }
-  });
+export function injectDependencies(toBeInjected, dependencies, boundedContext = { name: 'unknown' }) {
+  const defaultAttributes = {
+    'boundedContext.name': boundedContext.name,
+  };
+  const wrappedDependencies = Object.fromEntries(
+    Object.entries(dependencies).map(([name, value]) => [
+      name,
+      value ? otelProxy(value, name, defaultAttributes) : value,
+    ]),
+  );
+  const injected = Object.fromEntries(
+    Object.entries(toBeInjected).map(([name, value]) => {
+      if (_.isFunction(value)) {
+        const wrapped = otelProxy(value, `${boundedContext.name}->${name}`, defaultAttributes);
+        return [name, _.partial(injectDefaults, wrappedDependencies, wrapped)()];
+      } else {
+        return [name, injectDependencies(value, dependencies)];
+      }
+    }),
+  );
+
+  return injected;
 }

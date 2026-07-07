@@ -1,6 +1,7 @@
 import * as authenticationMethodRepository from '../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as campaignsAPI from '../../../prescription/campaign/application/api/campaigns-api.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 import * as clientApplicationRepository from '../../infrastructure/repositories/client-application-repository.js';
 import * as oidcProviderRepository from '../../infrastructure/repositories/oidc-provider-repository.js';
@@ -30,6 +31,6 @@ const usecasesWithoutInjectedDependencies = {
   getCampaignParticipations,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

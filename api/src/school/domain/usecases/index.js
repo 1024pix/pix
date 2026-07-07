@@ -4,6 +4,7 @@ import * as assessmentRepository from '../../../shared/infrastructure/repositori
 import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../infrastructure/repositories/activity-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
@@ -65,6 +66,6 @@ const usecasesWithoutInjectedDependencies = {
   playMission,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

@@ -5,6 +5,7 @@ import knowledgeElementForParticipationService from '../../../../prescription/sh
 import * as targetProfileAdministrationRepository from '../../../../prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as stageAcquisitionRepository from '../../infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionForTargetProfileRepository from '../../infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../infrastructure/repositories/stage-repository.js';
@@ -37,6 +38,6 @@ const usecasesWithoutInjectedDependencies = {
   updateStage,
 };
 
-const stageUsecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const stageUsecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { stageUsecases };

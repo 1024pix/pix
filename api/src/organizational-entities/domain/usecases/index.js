@@ -7,6 +7,7 @@ import * as countryRepository from '../../../shared/infrastructure/repositories/
 import * as featureRepository from '../../../shared/infrastructure/repositories/feature-repository.js';
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as administrationTeamRepository from '../../infrastructure/repositories/administration-team-repository.js';
 import * as certificationCenterRepository from '../../infrastructure/repositories/certification-center.repository.js';
 import { certificationCenterApiRepository } from '../../infrastructure/repositories/certification-center-api.repository.js';
@@ -182,6 +183,6 @@ const usecasesWithoutInjectedDependencies = {
 /**
  * @type {OrganizationalEntitiesUsecases}
  */
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

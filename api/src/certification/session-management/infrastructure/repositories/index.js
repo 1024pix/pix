@@ -17,6 +17,7 @@ import * as certificationCourseRepository from '../../../shared/infrastructure/r
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as sharedCompetenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as certificationCandidateForSupervisingRepository from './certification-candidate-for-supervising-repository.js';
 import * as certificationCandidateRepository from './certification-candidate-repository.js';
 import * as certificationCenterAccessRepository from './certification-center-access-repository.js';
@@ -134,7 +135,7 @@ const dependencies = {
   certificationCenterAccessApi,
 };
 
-const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies);
+const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies, boundedContext);
 export {
   answerRepository,
   assessmentRepository,

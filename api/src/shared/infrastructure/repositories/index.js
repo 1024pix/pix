@@ -1,4 +1,5 @@
 import * as certificationEvaluationApi from '../../../certification/evaluation/application/api/certification-evaluation-api.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { injectDependencies } from '../utils/dependency-injection.js';
 import * as certificationEvaluationRepository from './certification-evaluation-repository.js';
 import * as countryRepository from './country-repository.js';
@@ -25,6 +26,6 @@ const dependencies = {
   certificationEvaluationApi,
 };
 
-const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies);
+const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { repositories };

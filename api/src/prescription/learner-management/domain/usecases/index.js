@@ -18,6 +18,7 @@ import * as campaignRepository from '../../../campaign/infrastructure/repositori
 import * as campaignParticipationRepositoryFromBC from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as libOrganizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as registrationOrganizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/registration-organization-learner-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { repositories } from '../../infrastructure/repositories/index.js';
 import { importFromFregataJobRepository } from '../../infrastructure/repositories/jobs/import-from-fregata-job-repository.js';
 import { importFromGenericFileJobRepository } from '../../infrastructure/repositories/jobs/import-from-generic-file-job-repository.js';
@@ -142,6 +143,6 @@ const usecasesWithoutInjectedDependencies = {
   validateSiecleFile,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

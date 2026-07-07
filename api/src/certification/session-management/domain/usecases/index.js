@@ -7,6 +7,7 @@ import { createLiveAlert } from '../../../evaluation/domain/usecases/create-live
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import {
   answerRepository,
   assessmentRepository,
@@ -218,6 +219,6 @@ const usecasesWithoutInjectedDependencies = {
   updateEduV3ExternalJuryResult,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

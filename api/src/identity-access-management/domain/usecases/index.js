@@ -22,6 +22,7 @@ import { auditLoggingJobRepository } from '../../../shared/infrastructure/reposi
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
 import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
@@ -232,6 +233,6 @@ const usecasesWithoutInjectedDependencies = {
   validateUserAccountEmail,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { oidcAuthenticationServiceRegistry, usecases };

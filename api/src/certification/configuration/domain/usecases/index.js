@@ -4,6 +4,7 @@ import * as skillRepository from '../../../../shared/infrastructure/repositories
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
 import * as certificationInfoRepository from '../../infrastructure/repositories/certification-info-repository.js';
@@ -92,7 +93,7 @@ const usecasesWithoutInjectedDependencies = {
   updateVersion,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 /**
  * @typedef {dependencies} dependencies

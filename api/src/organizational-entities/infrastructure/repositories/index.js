@@ -3,6 +3,7 @@ import * as campaignApi from '../../../prescription/campaign/application/api/cam
 import * as learnerApi from '../../../prescription/learner-management/application/api/learners-api.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as organizationApi from '../../../team/application/api/organization.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { certificationCenterApiRepository } from './certification-center-api.repository.js';
 import { organizationForAdminRepository } from './organization-for-admin.repository.js';
 const repositoriesWithoutInjectedDependencies = {
@@ -17,6 +18,6 @@ const dependencies = {
   campaignStatsApi,
 };
 
-const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies);
+const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { repositories };

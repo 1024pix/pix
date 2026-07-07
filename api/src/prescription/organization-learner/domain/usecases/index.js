@@ -35,6 +35,7 @@ import * as groupRepository from '../../../campaign/infrastructure/repositories/
 import * as campaignParticipationOverviewRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as prescriptionOrganizationLearnerRepository from '../../../learner-management/infrastructure/repositories/organization-learner-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as analysisRepository from '../../infrastructure/repositories/analysis-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';
@@ -139,6 +140,6 @@ const usecasesWithoutInjectedDependencies = {
   unblockOrganizationLearnerAccount,
   updateOrganizationLearnerDependentUserPassword,
 };
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

@@ -2,7 +2,7 @@ import { trace } from '@opentelemetry/api';
 import sinon from 'sinon';
 
 import { config } from '../../../../../src/shared/config.js';
-import { otelProxy } from '../../../../../src/shared/infrastructure/utils/otel_proxy.js';
+import { otelProxy } from '../../../../../src/shared/infrastructure/open-telemetry/otel_proxy.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Utils | otelProxy', function () {

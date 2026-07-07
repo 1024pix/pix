@@ -2,6 +2,7 @@ import * as organizationFeatureApi from '../../../../organizational-entities/app
 import * as organizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as organizationPlacesLotRepository from '../../infrastructure/repositories/organization-places-lot-repository.js';
 
 const dependencies = {
@@ -27,6 +28,6 @@ const usecasesWithoutInjectedDependencies = {
   getOrganizationPlacesStatistics,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };
