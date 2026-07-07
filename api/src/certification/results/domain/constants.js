@@ -1,2 +1,3 @@
 export const FRANCE_COMPETENCES_PROFESSIONAL_START_DATE = new Date('2022-01-01');
 export const MAX_LEVEL = 8;
+export const MAX_REACHABLE_SCORE = 895;
