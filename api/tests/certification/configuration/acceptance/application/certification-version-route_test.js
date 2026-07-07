@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 
 import { createServer } from '../../../../../server.js';
+import { VERSION_STATUSES } from '../../../../../src/certification/configuration/domain/models/Version.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../test-helper.js';
@@ -66,6 +67,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         scope: SCOPES.CORE,
         startDate: new Date('2025-01-11'),
         expirationDate: new Date('2026-01-01'),
+        status: VERSION_STATUSES.ARCHIVED,
         assessmentDuration: 100,
         minimumAnswersRequiredToValidateACertification: 20,
         comments: 'Some awesome comments',
@@ -106,6 +108,14 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'assessment-duration': 100,
           'minimum-answers-required-for-validation': 20,
           'maximum-assessment-length': 32,
+          'challenges-between-same-competence': 2,
+          'default-probability-to-pick-challenge': 51,
+          'variation-percent': 0.5,
+          'default-candidate-capacity': -3,
+          'limit-to-one-question-per-tube': true,
+          'enable-passage-by-all-competences': true,
+          status: VERSION_STATUSES.ARCHIVED,
+          scope: SCOPES.CORE,
           comments: 'Some awesome comments',
         },
         relationships: {
@@ -337,12 +347,20 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         id: String(createdVersion.id),
         type: 'certification-versions',
         attributes: {
-          'assessment-duration': createdVersion.assessmentDuration,
-          'maximum-assessment-length': createdVersion.challengesConfiguration.maximumAssessmentLength,
-          'minimum-answers-required-for-validation': createdVersion.minimumAnswersRequiredToValidateACertification,
-          'expiration-date': createdVersion.expirationDate,
+          'assessment-duration': 105,
+          'minimum-answers-required-for-validation': 20,
+          'maximum-assessment-length': 32,
+          'challenges-between-same-competence': 0,
+          'default-probability-to-pick-challenge': 51,
+          'variation-percent': 1,
+          'default-candidate-capacity': 0,
+          'limit-to-one-question-per-tube': true,
+          'enable-passage-by-all-competences': true,
+          status: VERSION_STATUSES.DRAFT,
+          'expiration-date': null,
           'start-date': null,
-          comments: createdVersion.comments,
+          scope: SCOPES.CORE,
+          comments: null,
         },
         relationships: {
           areas: {

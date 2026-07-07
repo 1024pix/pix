@@ -20,6 +20,12 @@ describe('Certification | Configuration | Integration | Repository | Version Det
         assessmentDuration: 25,
         challengesConfiguration: {
           maximumAssessmentLength: 50,
+          challengesBetweenSameCompetence: 2,
+          defaultProbabilityToPickChallenge: 40,
+          defaultCandidateCapacity: -2,
+          variationPercent: 0.66,
+          limitToOneQuestionPerTube: true,
+          enablePassageByAllCompetences: true,
         },
       });
       databaseBuilder.factory.buildCertificationVersionTube({
@@ -48,6 +54,12 @@ describe('Certification | Configuration | Integration | Repository | Version Det
         assessmentDuration: 25,
         challengesConfiguration: {
           maximumAssessmentLength: 50,
+          challengesBetweenSameCompetence: 2,
+          defaultProbabilityToPickChallenge: 40,
+          defaultCandidateCapacity: -2,
+          variationPercent: 0.66,
+          limitToOneQuestionPerTube: true,
+          enablePassageByAllCompetences: true,
         },
       });
       databaseBuilder.factory.buildCertificationVersionTube({
@@ -71,10 +83,17 @@ describe('Certification | Configuration | Integration | Repository | Version Det
           startDate: new Date('2020-01-01'),
           expirationDate: null,
           status: VERSION_STATUSES.ACTIVE,
+          scope: SCOPES.PIX_PLUS_PRO_SANTE,
           comments: 'Salut les zamis',
           minimumAnswersRequiredForValidation: 12,
           assessmentDuration: 25,
           maximumAssessmentLength: 50,
+          challengesBetweenSameCompetence: 2,
+          defaultProbabilityToPickChallenge: 40,
+          defaultCandidateCapacity: -2,
+          variationPercent: 0.66,
+          limitToOneQuestionPerTube: true,
+          enablePassageByAllCompetences: true,
           areas: [
             {
               id: 'areaA',

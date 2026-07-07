@@ -13,7 +13,7 @@ import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | Application | Api | Models | Version', function () {
-  describe('#isDraft', function () {
+  describe('#get isDraft', function () {
     context('when the version is archived', function () {
       it('return false', function () {
         const version = domainBuilder.certification.configuration.buildVersion({
@@ -77,7 +77,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
     });
   });
 
-  describe('#isActive', function () {
+  describe('#get isActive', function () {
     context('when the version is archived', function () {
       it('return false', function () {
         const version = domainBuilder.certification.configuration.buildVersion({
@@ -230,6 +230,22 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
           ).to.throw(EntityValidationError);
         });
       });
+    });
+  });
+
+  describe('#update', function () {
+    it('updates comments', function () {
+      const version = domainBuilder.certification.configuration.buildVersion({
+        comments: 'some comment',
+      });
+
+      version.update({ comments: 'other comment' });
+
+      expect(version).to.deepEqualInstance(
+        domainBuilder.certification.configuration.buildVersion({
+          comments: 'other comment',
+        }),
+      );
     });
   });
 });
