@@ -32,6 +32,7 @@ const dependencies = {
 };
 
 import { findByUserIdAndRewardId } from './find-by-user-id-and-reward-id.js';
+import { findByUserIdsAndRewardId } from './find-by-user-ids-and-reward-id.js';
 import { getAllAttestations } from './get-all-attestations.js';
 import { getAttestationDataForUsers } from './get-attestation-data-for-users.js';
 import { getAttestationDetails } from './get-attestation-details.js';
@@ -57,6 +58,7 @@ const usecasesWithoutInjectedDependencies = {
   shareProfileReward,
   getByAttestationKey,
   findByUserIdAndRewardId,
+  findByUserIdsAndRewardId,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);

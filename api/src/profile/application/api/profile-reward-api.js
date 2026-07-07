@@ -12,6 +12,10 @@ export const findByUserIdAndRewardId = async ({ rewardId, userId }) => {
   return usecases.findByUserIdAndRewardId({ rewardId, userId });
 };
 
+export const findByUserIdsAndRewardId = async ({ rewardId, userIds }) => {
+  return usecases.findByUserIdsAndRewardId({ rewardId, userIds });
+};
+
 export const shareWithOrganization = async ({ userId, profileRewardId, organizationId }) => {
   return usecases.shareProfileReward({ userId, profileRewardId, organizationId });
 };

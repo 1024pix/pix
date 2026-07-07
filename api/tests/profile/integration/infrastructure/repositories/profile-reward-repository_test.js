@@ -2,6 +2,7 @@ import { ATTESTATIONS } from '../../../../../src/profile/domain/constants.js';
 import { ProfileReward } from '../../../../../src/profile/domain/models/ProfileReward.js';
 import {
   findByUserIdAndRewardId,
+  findByUserIdsAndRewardId,
   getByAttestationKeyAndUserIds,
   getById,
   getByIds,
@@ -359,6 +360,76 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       expect(result).to.be.an.instanceof(ProfileReward);
       expect(result.id).to.equal(expectedProfileReward.id);
       expect(result.rewardType).to.equal(REWARD_TYPES.ATTESTATION);
+    });
+  });
+  describe('#findByUserIdsAndRewardIds', function () {
+    it('should return the expected profile reward', async function () {
+      // given
+      const attestation = databaseBuilder.factory.buildAttestation({ key: 'key' });
+      const attestation2 = databaseBuilder.factory.buildAttestation({ key: 'key2' });
+      databaseBuilder.factory.buildProfileReward({ rewardId: attestation.id });
+      databaseBuilder.factory.buildProfileReward();
+
+      const user1 = databaseBuilder.factory.buildUser();
+      const user2 = databaseBuilder.factory.buildUser();
+
+      const attestation1User1 = databaseBuilder.factory.buildProfileReward({
+        rewardId: attestation.id,
+        userId: user1.id,
+      });
+
+      const attestation1User2 = databaseBuilder.factory.buildProfileReward({
+        rewardId: attestation.id,
+        userId: user2.id,
+      });
+
+      databaseBuilder.factory.buildProfileReward({
+        rewardId: attestation2.id,
+        userId: user2.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const results = await findByUserIdsAndRewardId({
+        rewardId: attestation.id,
+        userIds: [user1.id, user2.id],
+      });
+
+      // then
+      expect(results.length).to.equal(2);
+      expect(results[0]).to.be.an.instanceof(ProfileReward);
+      expect(results[0].id).to.equal(attestation1User1.id);
+      expect(results[0].rewardType).to.equal(REWARD_TYPES.ATTESTATION);
+
+      expect(results[1]).to.be.an.instanceof(ProfileReward);
+      expect(results[1].id).to.equal(attestation1User2.id);
+      expect(results[1].rewardType).to.equal(REWARD_TYPES.ATTESTATION);
+    });
+    it('should return an empty array if the reward does not exist', async function () {
+      // given
+      const notExistingRewardId = 12;
+      const user = databaseBuilder.factory.buildUser();
+
+      // when
+      const result = await findByUserIdsAndRewardId({ rewardId: notExistingRewardId, userIds: [user.id] });
+
+      // then
+      expect(result.length).to.equal(0);
+    });
+    it('should return an empty array if no one in the given users has a profile reward', async function () {
+      // given
+      const rewardId = databaseBuilder.factory.buildAttestation().id;
+      const user1Id = databaseBuilder.factory.buildUser().id;
+      const user2Id = databaseBuilder.factory.buildUser().id;
+
+      await databaseBuilder.commit();
+
+      //when
+      const result = await findByUserIdsAndRewardId({ rewardId, userIds: [user1Id, user2Id] });
+
+      // then
+      expect(result.length).to.equal(0);
     });
   });
 });
