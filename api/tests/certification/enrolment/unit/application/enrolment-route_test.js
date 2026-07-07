@@ -1,4 +1,3 @@
-import FormData from 'form-data';
 import sinon from 'sinon';
 
 import { enrolmentController } from '../../../../../src/certification/enrolment/application/enrolment-controller.js';
@@ -7,6 +6,7 @@ import { authorization } from '../../../../../src/certification/shared/applicati
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
+import { convertFormDataToPayload } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Enrolment | Unit | Application | Routes', function () {
   describe('PUT /api/session/{sessionId}/enrol-students-to-session', function () {
@@ -90,11 +90,13 @@ describe('Certification | Enrolment | Unit | Application | Routes', function () 
     let headers;
     let payload;
 
-    beforeEach(function () {
-      const form = new FormData();
-      form.append('file', Buffer.alloc(0), { filename: 'test-file' });
-      headers = form.getHeaders();
-      payload = form.getBuffer();
+    beforeEach(async function () {
+      const formData = new FormData();
+      formData.append('file', new Blob([Buffer.alloc(0)], { type: 'text/csv' }), 'import-candidates.csv');
+
+      const payloadData = await convertFormDataToPayload(formData);
+      payload = payloadData.payload;
+      headers = new Headers({ 'content-type': payloadData.contentType });
     });
 
     it('should exist', async function () {

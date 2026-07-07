@@ -1,4 +1,3 @@
-import FormData from 'form-data';
 import sinon from 'sinon';
 
 import { attestationController } from '../../../../src/quest/application/attestation-controller.js';
@@ -8,7 +7,10 @@ import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js
 import { expect } from '../../../test-helper.js';
 import { AttestationTemplateFixture } from '../../../tooling/fixtures/index.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
-import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
+import {
+  convertFormDataToPayload,
+  generateAuthenticatedUserRequestHeaders,
+} from '../../../tooling/test-utils/http-server.js';
 
 describe('Quest | Unit | Routes | Attestation Route', function () {
   describe('POST /api/admin/attestations', function () {
@@ -21,17 +23,19 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(attestationRoute);
 
+        const file = await AttestationTemplateFixture.getFile();
         const formData = new FormData();
         formData.append('templateKey', 'my_key');
         formData.append('templateName', 'my_name');
-        formData.append('templateFile', await AttestationTemplateFixture.getFile());
+        formData.append('templateFile', new Blob([file], { type: 'application/pdf' }), 'attestation-template.pdf');
         formData.append('label', 'attestation label');
 
+        const { payload, contentType } = await convertFormDataToPayload(formData);
         const headers = {
-          ...formData.getHeaders(),
+          'content-type': contentType,
           ...generateAuthenticatedUserRequestHeaders({ userId: 132 }),
         };
-        const payload = formData.getBuffer();
+
         // when
         await httpTestServer.request('POST', '/api/admin/attestations', payload, null, headers);
 
@@ -44,6 +48,7 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
         ]);
       });
     });
+
     describe('when parameters are invalid', function () {
       it('should fail when templateKey is missing', async function () {
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
@@ -52,16 +57,17 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(attestationRoute);
 
+        const file = await AttestationTemplateFixture.getFile();
         const formData = new FormData();
         formData.append('templateName', 'my_name');
-        formData.append('templateFile', await AttestationTemplateFixture.getFile());
+        formData.append('templateFile', new Blob([file], { type: 'application/pdf' }), 'attestation-template.pdf');
         formData.append('label', 'label');
 
+        const { payload, contentType } = await convertFormDataToPayload(formData);
         const headers = {
-          ...formData.getHeaders(),
+          'content-type': contentType,
           ...generateAuthenticatedUserRequestHeaders({ userId: 132 }),
         };
-        const payload = formData.getBuffer();
 
         // when
         const response = await httpTestServer.request('POST', '/api/admin/attestations', payload, null, headers);
@@ -69,6 +75,7 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
         //then
         expect(response.statusCode).to.equal(400);
       });
+
       it('should fail when templateName is missing', async function () {
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
         sinon.stub(attestationController, 'save').resolves('ok');
@@ -76,16 +83,17 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(attestationRoute);
 
+        const file = await AttestationTemplateFixture.getFile();
         const formData = new FormData();
         formData.append('templateKey', 'key');
-        formData.append('templateFile', await AttestationTemplateFixture.getFile());
+        formData.append('templateFile', new Blob([file], { type: 'application/pdf' }), 'attestation-template.pdf');
         formData.append('label', 'label');
 
+        const { payload, contentType } = await convertFormDataToPayload(formData);
         const headers = {
-          ...formData.getHeaders(),
+          'content-type': contentType,
           ...generateAuthenticatedUserRequestHeaders({ userId: 132 }),
         };
-        const payload = formData.getBuffer();
 
         // when
         const response = await httpTestServer.request('POST', '/api/admin/attestations', payload, null, headers);
@@ -93,6 +101,7 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
         //then
         expect(response.statusCode).to.equal(400);
       });
+
       it('should fail when label is missing', async function () {
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
         sinon.stub(attestationController, 'save').resolves('ok');
@@ -100,16 +109,17 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(attestationRoute);
 
+        const file = await AttestationTemplateFixture.getFile();
         const formData = new FormData();
         formData.append('templateKey', 'key');
         formData.append('templateName', 'my_name');
-        formData.append('templateFile', await AttestationTemplateFixture.getFile());
+        formData.append('templateFile', new Blob([file], { type: 'application/pdf' }), 'attestation-template.pdf');
 
+        const { payload, contentType } = await convertFormDataToPayload(formData);
         const headers = {
-          ...formData.getHeaders(),
+          'content-type': contentType,
           ...generateAuthenticatedUserRequestHeaders({ userId: 132 }),
         };
-        const payload = formData.getBuffer();
 
         // when
         const response = await httpTestServer.request('POST', '/api/admin/attestations', payload, null, headers);
@@ -117,6 +127,7 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
         //then
         expect(response.statusCode).to.equal(400);
       });
+
       it('should fail when templateFile is missing', async function () {
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
         sinon.stub(attestationController, 'save').resolves('ok');
@@ -129,11 +140,11 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
         formData.append('templateKey', 'key');
         formData.append('label', 'label');
 
+        const { payload, contentType } = await convertFormDataToPayload(formData);
         const headers = {
-          ...formData.getHeaders(),
+          'content-type': contentType,
           ...generateAuthenticatedUserRequestHeaders({ userId: 132 }),
         };
-        const payload = formData.getBuffer();
 
         // when
         const response = await httpTestServer.request('POST', '/api/admin/attestations', payload, null, headers);
@@ -143,6 +154,7 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
       });
     });
   });
+
   describe('GET /api/organizations/{organizationId}/attestations', function () {
     it('should fail if user is not a member of the organization', async function () {
       sinon

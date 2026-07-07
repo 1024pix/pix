@@ -1,5 +1,3 @@
-import FormData from 'form-data';
-
 import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../src/shared/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
@@ -7,7 +5,10 @@ import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { AttestationTemplateFixture } from '../../../tooling/fixtures/index.js';
 import { mockAttestationStorageUpload } from '../../../tooling/mocks/attestation-storage.mock.js';
-import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
+import {
+  convertFormDataToPayload,
+  generateAuthenticatedUserRequestHeaders,
+} from '../../../tooling/test-utils/http-server.js';
 
 describe('Quest | Acceptance | Application | Attestation Route ', function () {
   let server;
@@ -24,34 +25,33 @@ describe('Quest | Acceptance | Application | Attestation Route ', function () {
         userId = databaseBuilder.factory.buildUser.withRole({ role: PIX_ADMIN.ROLES.SUPER_ADMIN }).id;
         await databaseBuilder.commit();
       });
+
       context('when all parameters are valid', function () {
         it('creates attestation', async function () {
           const templateKey = 'key';
           const templateName = 'name';
           const label = 'label';
 
+          const file = await AttestationTemplateFixture.getFile();
           const formData = new FormData();
           formData.append('templateKey', templateKey);
           formData.append('templateName', templateName);
-          const templateFile = await AttestationTemplateFixture.getFile();
-          formData.append('templateFile', templateFile, {
-            filename: 'attestation-template.pdf',
-            contentType: 'application/pdf',
-          });
+          formData.append('templateFile', new Blob([file], { type: 'application/pdf' }), 'attestation-template.pdf');
           formData.append('label', label);
           mockAttestationStorageUpload({ attestation: { templateName } });
-          const options = {
+
+          const { payload, contentType } = await convertFormDataToPayload(formData);
+
+          // when
+          const response = await server.inject({
             method: 'POST',
             url: '/api/admin/attestations',
             headers: {
-              ...formData.getHeaders(),
+              'content-type': contentType,
               ...generateAuthenticatedUserRequestHeaders({ userId }),
             },
-            payload: formData.getBuffer(),
-          };
-
-          // when
-          const response = await server.inject(options);
+            payload,
+          });
 
           // then
           const createdAttestation = await knex('attestations').where('key', templateKey).first();
@@ -68,21 +68,24 @@ describe('Quest | Acceptance | Application | Attestation Route ', function () {
           const formData = new FormData();
           formData.append('templateKey', 'key');
           formData.append('templateName', 'name');
+          formData.append(
+            'templateFile',
+            new Blob([Buffer.alloc(0)], { type: 'application/jpeg' }),
+            'attestation-template.jpeg',
+          );
 
-          formData.append('templateFile', Buffer.alloc(0), { filename: 'testFile_temp.jpeg' });
+          const { payload, contentType } = await convertFormDataToPayload(formData);
 
-          const options = {
+          // when
+          const response = await server.inject({
             method: 'POST',
             url: '/api/admin/attestations',
             headers: {
-              ...formData.getHeaders(),
+              'Content-Type': contentType,
               ...generateAuthenticatedUserRequestHeaders({ userId }),
             },
-            payload: formData.getBuffer(),
-          };
-
-          // when
-          const response = await server.inject(options);
+            payload,
+          });
 
           // then
           expect(response.statusCode).to.equal(400);
