@@ -1,6 +1,8 @@
+import { expect } from 'chai';
+
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithmConfiguration', function () {
@@ -222,6 +224,50 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmConfiguration', funct
         // then
         expect(err).to.be.an.instanceOf(EntityValidationError);
       });
+    });
+  });
+
+  describe('#areDifferent', function () {
+    let baseData;
+    beforeEach(function () {
+      baseData = {
+        maximumAssessmentLength: 1,
+        challengesBetweenSameCompetence: 2,
+        limitToOneQuestionPerTube: true,
+        enablePassageByAllCompetences: true,
+        variationPercent: 0.3,
+        defaultCandidateCapacity: 4,
+        defaultProbabilityToPickChallenge: 5,
+      };
+    });
+
+    [
+      { attr: 'maximumAssessmentLength', value: 10 },
+      { attr: 'challengesBetweenSameCompetence', value: 10 },
+      { attr: 'limitToOneQuestionPerTube', value: false },
+      { attr: 'enablePassageByAllCompetences', value: false },
+      { attr: 'variationPercent', value: 0.99 },
+      { attr: 'defaultCandidateCapacity', value: 10 },
+      { attr: 'defaultProbabilityToPickChallenge', value: 10 },
+    ].forEach(({ attr, value }) => {
+      it(`returns true when "${attr}" has a different value`, function () {
+        const flashAssessmentConfig = domainBuilder.buildFlashAlgorithmConfiguration(baseData);
+
+        const areDifferent = flashAssessmentConfig.areDifferent({
+          ...baseData,
+          [attr]: value,
+        });
+
+        expect(areDifferent).to.be.true;
+      });
+    });
+
+    it('returns false when all attributes are the same as the model', function () {
+      const flashAssessmentConfig = domainBuilder.buildFlashAlgorithmConfiguration(baseData);
+
+      const areDifferent = flashAssessmentConfig.areDifferent(baseData);
+
+      expect(areDifferent).to.be.false;
     });
   });
 });

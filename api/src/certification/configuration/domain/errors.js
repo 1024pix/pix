@@ -30,3 +30,9 @@ export class ActiveCertificationInfoNotFound extends DomainError {
     super(`Certification info for active version of framework "${framework}" not found`);
   }
 }
+
+export class VersionNotDraftError extends DomainError {
+  constructor() {
+    super('Impossible de modifier la version à part ses commentaires');
+  }
+}

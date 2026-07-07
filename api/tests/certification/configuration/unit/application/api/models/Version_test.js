@@ -1,3 +1,4 @@
+import { VersionNotDraftError } from '../../../../../../../src/certification/configuration/domain/errors.js';
 import {
   Version,
   VERSION_STATUSES,
@@ -234,7 +235,8 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
   });
 
   describe('#update', function () {
-    let baseVersionData, version, validUpdateData;
+    let baseVersionData, version;
+
     beforeEach(function () {
       baseVersionData = {
         id: 123,
@@ -257,233 +259,362 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
           enablePassageByAllCompetences: false,
         },
       };
-      validUpdateData = {
-        startDate: new Date('2026-06-06'),
-        assessmentDuration: 100,
-        minimumAnswersRequiredForValidation: 200,
-        maximumAssessmentLength: 300,
-        challengesBetweenSameCompetence: 400,
-        defaultProbabilityToPickChallenge: 55,
-        variationPercent: 0.6,
-        defaultCandidateCapacity: 700,
-        limitToOneQuestionPerTube: false,
-        enablePassageByAllCompetences: false,
-        comments: 'COUCOU',
-      };
       version = domainBuilder.certification.configuration.buildVersion(baseVersionData);
     });
 
-    context('success case', function () {
-      it('updates the version', function () {
-        version.update(validUpdateData);
+    context('when version is active', function () {
+      let validIsoUpdate;
+
+      beforeEach(function () {
+        version.status = VERSION_STATUSES.ACTIVE;
+        validIsoUpdate = {
+          startDate: new Date('2025-01-01'),
+          assessmentDuration: 111,
+          minimumAnswersRequiredForValidation: 222,
+          maximumAssessmentLength: 4,
+          challengesBetweenSameCompetence: 5,
+          defaultProbabilityToPickChallenge: 6,
+          variationPercent: 0.7,
+          defaultCandidateCapacity: 8,
+          limitToOneQuestionPerTube: false,
+          enablePassageByAllCompetences: false,
+          comments: '333',
+        };
+      });
+
+      [
+        { attr: 'startDate', value: new Date('2021-01-01') },
+        { attr: 'assessmentDuration', value: 999 },
+        { attr: 'minimumAnswersRequiredForValidation', value: 999 },
+      ].forEach(({ attr, value }) => {
+        it(`throws VersionNotDraftError when "${attr}" has a different value`, function () {
+          expect(() =>
+            version.update({
+              ...validIsoUpdate,
+              [attr]: value,
+            }),
+          ).to.throw(VersionNotDraftError);
+        });
+      });
+
+      it('throws VersionNotDraftError when a value is different in challengesConfiguration', function () {
+        expect(() =>
+          version.update({
+            ...validIsoUpdate,
+            limitToOneQuestionPerTube: true,
+          }),
+        ).to.throw(VersionNotDraftError);
+      });
+
+      it('updates the comments when exclusively the comments change', function () {
+        version.update({
+          ...validIsoUpdate,
+          comments: 'SALUT LES AMIS',
+        });
 
         expect(version).to.deepEqualInstance(
           domainBuilder.certification.configuration.buildVersion({
             ...baseVersionData,
-            startDate: validUpdateData.startDate,
-            assessmentDuration: validUpdateData.assessmentDuration,
-            minimumAnswersRequiredToValidateACertification: validUpdateData.minimumAnswersRequiredForValidation,
-            comments: validUpdateData.comments,
-            challengesConfiguration: {
-              maximumAssessmentLength: validUpdateData.maximumAssessmentLength,
-              challengesBetweenSameCompetence: validUpdateData.challengesBetweenSameCompetence,
-              defaultProbabilityToPickChallenge: validUpdateData.defaultProbabilityToPickChallenge,
-              variationPercent: validUpdateData.variationPercent,
-              defaultCandidateCapacity: validUpdateData.defaultCandidateCapacity,
-              limitToOneQuestionPerTube: validUpdateData.limitToOneQuestionPerTube,
-              enablePassageByAllCompetences: validUpdateData.enablePassageByAllCompetences,
-            },
+            status: VERSION_STATUSES.ACTIVE,
+            comments: 'SALUT LES AMIS',
           }),
         );
       });
     });
 
-    context('error cases', function () {
-      it('throws when updating with an invalid comments', function () {
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            comments: ['coucou'],
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'comments',
-              message: '"comments" must be a string',
-            },
-          ]);
+    context('when version is archived', function () {
+      let validIsoUpdate;
+
+      beforeEach(function () {
+        version.status = VERSION_STATUSES.ARCHIVED;
+        validIsoUpdate = {
+          startDate: new Date('2025-01-01'),
+          assessmentDuration: 111,
+          minimumAnswersRequiredForValidation: 222,
+          maximumAssessmentLength: 4,
+          challengesBetweenSameCompetence: 5,
+          defaultProbabilityToPickChallenge: 6,
+          variationPercent: 0.7,
+          defaultCandidateCapacity: 8,
+          limitToOneQuestionPerTube: false,
+          enablePassageByAllCompetences: false,
+          comments: '333',
+        };
       });
 
-      it('throws when updating with an invalid startDate', function () {
-        expect(() =>
+      [
+        { attr: 'startDate', value: new Date('2021-01-01') },
+        { attr: 'assessmentDuration', value: 999 },
+        { attr: 'minimumAnswersRequiredForValidation', value: 999 },
+      ].forEach(({ attr, value }) => {
+        it(`throws VersionNotDraftError when "${attr}" has a different value`, function () {
+          expect(() =>
+            version.update({
+              ...validIsoUpdate,
+              [attr]: value,
+            }),
+          ).to.throw(VersionNotDraftError);
+        });
+
+        it('throws VersionNotDraftError when a value is different in challengesConfiguration', function () {
+          expect(() =>
+            version.update({
+              ...validIsoUpdate,
+              limitToOneQuestionPerTube: true,
+            }),
+          ).to.throw(VersionNotDraftError);
+        });
+
+        it('updates the comments when exclusively the comments change', function () {
           version.update({
-            ...validUpdateData,
-            startDate: 'coucou',
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'startDate',
-              message: '"startDate" must be a valid date',
-            },
-          ]);
+            ...validIsoUpdate,
+            comments: 'SALUT LES AMIS',
+          });
+
+          expect(version).to.deepEqualInstance(
+            domainBuilder.certification.configuration.buildVersion({
+              ...baseVersionData,
+              status: VERSION_STATUSES.ARCHIVED,
+              comments: 'SALUT LES AMIS',
+            }),
+          );
+        });
+      });
+    });
+
+    context('when version is a draft', function () {
+      let validUpdateData;
+
+      beforeEach(function () {
+        version.status = VERSION_STATUSES.DRAFT;
+        validUpdateData = {
+          startDate: new Date('2026-06-06'),
+          assessmentDuration: 100,
+          minimumAnswersRequiredForValidation: 200,
+          maximumAssessmentLength: 300,
+          challengesBetweenSameCompetence: 400,
+          defaultProbabilityToPickChallenge: 55,
+          variationPercent: 0.6,
+          defaultCandidateCapacity: 700,
+          limitToOneQuestionPerTube: false,
+          enablePassageByAllCompetences: false,
+          comments: 'COUCOU',
+        };
       });
 
-      it('throws when updating with an invalid assessmentDuration', function () {
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            assessmentDuration: 'coucou',
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'assessmentDuration',
-              message: '"assessmentDuration" must be a number',
-            },
-          ]);
+      context('success case', function () {
+        it('updates the version', function () {
+          version.update(validUpdateData);
+
+          expect(version).to.deepEqualInstance(
+            domainBuilder.certification.configuration.buildVersion({
+              ...baseVersionData,
+              status: VERSION_STATUSES.DRAFT,
+              startDate: validUpdateData.startDate,
+              assessmentDuration: validUpdateData.assessmentDuration,
+              minimumAnswersRequiredToValidateACertification: validUpdateData.minimumAnswersRequiredForValidation,
+              comments: validUpdateData.comments,
+              challengesConfiguration: {
+                maximumAssessmentLength: validUpdateData.maximumAssessmentLength,
+                challengesBetweenSameCompetence: validUpdateData.challengesBetweenSameCompetence,
+                defaultProbabilityToPickChallenge: validUpdateData.defaultProbabilityToPickChallenge,
+                variationPercent: validUpdateData.variationPercent,
+                defaultCandidateCapacity: validUpdateData.defaultCandidateCapacity,
+                limitToOneQuestionPerTube: validUpdateData.limitToOneQuestionPerTube,
+                enablePassageByAllCompetences: validUpdateData.enablePassageByAllCompetences,
+              },
+            }),
+          );
+        });
       });
 
-      it('throws when updating with an invalid minimumAnswersRequiredToValidateACertification', function () {
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            minimumAnswersRequiredForValidation: 'coucou',
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'minimumAnswersRequiredToValidateACertification',
-              message: '"minimumAnswersRequiredToValidateACertification" must be a number',
-            },
-          ]);
-      });
+      context('error cases', function () {
+        it('throws when updating with an invalid comments', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              comments: ['coucou'],
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'comments',
+                message: '"comments" must be a string',
+              },
+            ]);
+        });
 
-      it('throws when updating with an invalid maximumAssessmentLength', function () {
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            maximumAssessmentLength: 'coucou',
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'maximumAssessmentLength',
-              message: '"maximumAssessmentLength" must be a number',
-            },
-          ]);
-      });
+        it('throws when updating with an invalid startDate', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              startDate: 'coucou',
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'startDate',
+                message: '"startDate" must be a valid date',
+              },
+            ]);
+        });
 
-      it('throws when updating with an invalid challengesBetweenSameCompetence', function () {
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            challengesBetweenSameCompetence: 'coucou',
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'challengesBetweenSameCompetence',
-              message: '"challengesBetweenSameCompetence" must be a number',
-            },
-          ]);
-      });
+        it('throws when updating with an invalid assessmentDuration', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              assessmentDuration: 'coucou',
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'assessmentDuration',
+                message: '"assessmentDuration" must be a number',
+              },
+            ]);
+        });
 
-      it('throws when updating with an invalid limitToOneQuestionPerTube', function () {
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            limitToOneQuestionPerTube: 'coucou',
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'limitToOneQuestionPerTube',
-              message: '"limitToOneQuestionPerTube" must be a boolean',
-            },
-          ]);
-      });
+        it('throws when updating with an invalid minimumAnswersRequiredToValidateACertification', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              minimumAnswersRequiredForValidation: 'coucou',
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'minimumAnswersRequiredToValidateACertification',
+                message: '"minimumAnswersRequiredToValidateACertification" must be a number',
+              },
+            ]);
+        });
 
-      it('throws when updating with an invalid enablePassageByAllCompetences', function () {
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            enablePassageByAllCompetences: 'coucou',
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'enablePassageByAllCompetences',
-              message: '"enablePassageByAllCompetences" must be a boolean',
-            },
-          ]);
-      });
+        it('throws when updating with an invalid maximumAssessmentLength', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              maximumAssessmentLength: 'coucou',
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'maximumAssessmentLength',
+                message: '"maximumAssessmentLength" must be a number',
+              },
+            ]);
+        });
 
-      it('throws when updating with an invalid variationPercent', function () {
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            variationPercent: 'coucou',
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'variationPercent',
-              message: '"variationPercent" must be a number',
-            },
-          ]);
-      });
+        it('throws when updating with an invalid challengesBetweenSameCompetence', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              challengesBetweenSameCompetence: 'coucou',
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'challengesBetweenSameCompetence',
+                message: '"challengesBetweenSameCompetence" must be a number',
+              },
+            ]);
+        });
 
-      it('throws when updating with an invalid defaultCandidateCapacity', function () {
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            defaultCandidateCapacity: 'coucou',
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'defaultCandidateCapacity',
-              message: '"defaultCandidateCapacity" must be a number',
-            },
-          ]);
-      });
+        it('throws when updating with an invalid limitToOneQuestionPerTube', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              limitToOneQuestionPerTube: 'coucou',
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'limitToOneQuestionPerTube',
+                message: '"limitToOneQuestionPerTube" must be a boolean',
+              },
+            ]);
+        });
 
-      it('throws when updating with an invalid defaultProbabilityToPickChallenge', function () {
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            defaultProbabilityToPickChallenge: 'coucou',
-          }),
-        )
-          .to.throw(EntityValidationError)
-          .that.has.property('invalidAttributes')
-          .deep.equal([
-            {
-              attribute: 'defaultProbabilityToPickChallenge',
-              message: '"defaultProbabilityToPickChallenge" must be a number',
-            },
-          ]);
+        it('throws when updating with an invalid enablePassageByAllCompetences', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              enablePassageByAllCompetences: 'coucou',
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'enablePassageByAllCompetences',
+                message: '"enablePassageByAllCompetences" must be a boolean',
+              },
+            ]);
+        });
+
+        it('throws when updating with an invalid variationPercent', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              variationPercent: 'coucou',
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'variationPercent',
+                message: '"variationPercent" must be a number',
+              },
+            ]);
+        });
+
+        it('throws when updating with an invalid defaultCandidateCapacity', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              defaultCandidateCapacity: 'coucou',
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'defaultCandidateCapacity',
+                message: '"defaultCandidateCapacity" must be a number',
+              },
+            ]);
+        });
+
+        it('throws when updating with an invalid defaultProbabilityToPickChallenge', function () {
+          expect(() =>
+            version.update({
+              ...validUpdateData,
+              defaultProbabilityToPickChallenge: 'coucou',
+            }),
+          )
+            .to.throw(EntityValidationError)
+            .that.has.property('invalidAttributes')
+            .deep.equal([
+              {
+                attribute: 'defaultProbabilityToPickChallenge',
+                message: '"defaultProbabilityToPickChallenge" must be a number',
+              },
+            ]);
+        });
       });
     });
   });

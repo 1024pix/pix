@@ -5,9 +5,11 @@ import {
   ActiveCertificationInfoNotFound,
   CertificationVersionDraftAlreadyExistError,
   InvalidScoWhitelistError,
+  VersionNotDraftError,
 } from '../../../../../src/certification/configuration/domain/errors.js';
 import {
   BadRequestError,
+  ConflictError,
   NotFoundError,
   UnprocessableEntityError,
 } from '../../../../../src/shared/application/errors/http-errors.js';
@@ -60,6 +62,22 @@ describe('Unit | Certification | Configuration | Application | HttpErrorMapperCo
       //then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal('Certification info for active version of framework "zouzou" not found');
+    });
+  });
+
+  context('when mapping "VersionNotDraftError"', function () {
+    it('returns an Conflict Http Error', function () {
+      //given
+      const httpErrorMapper = configurationDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === VersionNotDraftError.name,
+      );
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new VersionNotDraftError());
+
+      //then
+      expect(error).to.be.instanceOf(ConflictError);
+      expect(error.message).to.equal('Impossible de modifier la version à part ses commentaires');
     });
   });
 });

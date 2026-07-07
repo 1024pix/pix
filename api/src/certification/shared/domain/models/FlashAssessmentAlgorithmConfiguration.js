@@ -48,4 +48,24 @@ export class FlashAssessmentAlgorithmConfiguration {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
   }
+
+  areDifferent({
+    maximumAssessmentLength,
+    challengesBetweenSameCompetence,
+    defaultProbabilityToPickChallenge,
+    variationPercent,
+    defaultCandidateCapacity,
+    limitToOneQuestionPerTube,
+    enablePassageByAllCompetences,
+  }) {
+    return (
+      this.maximumAssessmentLength !== maximumAssessmentLength ||
+      this.challengesBetweenSameCompetence !== challengesBetweenSameCompetence ||
+      this.limitToOneQuestionPerTube !== limitToOneQuestionPerTube ||
+      this.defaultCandidateCapacity !== defaultCandidateCapacity ||
+      this.defaultProbabilityToPickChallenge !== defaultProbabilityToPickChallenge ||
+      this.variationPercent !== variationPercent ||
+      this.enablePassageByAllCompetences !== enablePassageByAllCompetences
+    );
+  }
 }
