@@ -446,11 +446,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Exactement !</p>",
-                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains  exigent le changement régulier de votre mot de passe.</p>"
+                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains exigent le changement régulier de votre mot de passe.</p>"
                         },
                         "invalid": {
                           "state": "<p>Pas tout à fait.</p>",
-                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains  exigent le changement régulier de votre mot de passe.</p>"
+                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains exigent le changement régulier de votre mot de passe.</p>"
                         }
                       },
                       "solutions": [
