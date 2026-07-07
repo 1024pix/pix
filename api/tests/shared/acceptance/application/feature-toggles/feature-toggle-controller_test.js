@@ -25,7 +25,6 @@ describe('Acceptance | Shared | Application | Controller | feature-toggle', func
             'disabled-locales-in-frontend': [],
             'display-catalogue': true,
             'is-async-quest-rewarding-calculation-enabled': false,
-            'is-certification-in-english-enabled': true,
             'is-survey-enabled-for-combined-courses': true,
             'is-quest-enabled': true,
             'is-self-account-deletion-enabled': true,

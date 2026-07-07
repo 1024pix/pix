@@ -136,11 +136,4 @@ export default {
     defaultValue: false,
     tags: ['backend', 'pix-api'],
   },
-  isCertificationInEnglishEnabled: {
-    type: 'boolean',
-    description: 'Enable English as an available language for Pix certification',
-    defaultValue: false,
-    devDefaultValues: { test: true, reviewApp: true },
-    tags: ['frontend', 'backend', 'team-certif', 'pix-app', 'pix-api'],
-  },
 };
