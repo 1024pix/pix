@@ -4,6 +4,20 @@ import { ApplicationAccessToken } from '../../../src/identity-access-management/
 import { UserAccessToken } from '../../../src/identity-access-management/domain/models/UserAccessToken.js';
 
 /**
+ * Converts a FormData instance to a payload object and content type  for use in HAPI HTTP requests.
+ *
+ * @param {FormData} formData
+ * @returns {{ payload: Buffer; contentType: string }} payload and content-type header
+ */
+export async function convertFormDataToPayload(formData) {
+  const response = new Response(formData);
+  return {
+    payload: Buffer.from(await response.arrayBuffer()),
+    contentType: response.headers.get('content-type'),
+  };
+}
+
+/**
  * For acceptance tests. To be used as `const options = generateInjectOptions; await server.inject(options);`
  *
  * @param {Object} params
