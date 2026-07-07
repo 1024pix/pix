@@ -1,4 +1,4 @@
-import { setupOtel } from './src/shared/infrastructure/otel/otel-setup.js';
+import { setupOtel } from './tracing.js';
 setupOtel('pix-api-maddo');
 import { databaseConnections } from './db/database-connections.js';
 import { createMaddoServer } from './server.maddo.js';

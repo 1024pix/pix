@@ -7,23 +7,17 @@ import { envDetector, hostDetector, osDetector, processDetector } from '@opentel
 import { NodeSDK, resources } from '@opentelemetry/sdk-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
-import { config } from '../../config.js';
-import { logger } from '../utils/logger.js';
+import { config } from './src/shared/config.js';
+import { logger } from './src/shared/infrastructure/utils/logger.js';
 
 const { resourceFromAttributes } = resources;
 
-let sdk;
-
-export function setupOtel(serviceName) {
-  if (!config.logging.otelEnabled) {
-    return;
-  }
-
+if (config.logging.otelEnabled) {
   const exporter = new OTLPTraceExporter();
 
-  sdk = new NodeSDK({
+  const sdk = new NodeSDK({
     resource: resourceFromAttributes({
-      [ATTR_SERVICE_NAME]: serviceName,
+      [ATTR_SERVICE_NAME]: 'pix-api',
     }),
     resourceDetectors: [envDetector, hostDetector, osDetector, processDetector, containerDetector],
     traceExporter: exporter,
@@ -57,5 +51,3 @@ export function setupOtel(serviceName) {
     }
   });
 }
-
-setupOtel('pix-api');
