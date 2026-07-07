@@ -4,6 +4,6 @@ postdeploy: npm run postdeploy
 # see https://github.com/1024pix/pix/pull/796
 # and https://github.com/npm/npm/issues/4603
 # for more information
-web: exec node index.js
+web: exec node -r ./tracing.js index.js
 worker: exec node worker.js
 fastworker: exec node worker.js fast
