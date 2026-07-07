@@ -9,7 +9,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
 
   hooks.beforeEach(function () {
     const currentUser = this.owner.lookup('service:current-user');
-    currentUser.adminMember = { userId: 456 };
+    currentUser.adminMember = { userId: 456, isSuperAdmin: true };
   });
 
   test('it should display details for a combined course blueprint', async function (assert) {
@@ -44,6 +44,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
     assert.ok(screen.getByText('Module - abc-123', { exact: false }));
     assert.ok(screen.getByText('Profil cible - 123', { exact: false }));
     assert.ok(screen.getByRole('link', { name: t('components.combined-course-blueprints.list.downloadButton') }));
+    assert.dom(screen.queryByRole('link', { name: t('common.actions.edit') }));
     assert.ok(screen.getByText('Il faut obtenir tel niveau sur tel sujet'));
   });
 
@@ -59,6 +60,23 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
 
     // then
     assert.ok(screen.getByText(t('components.combined-course-blueprints.survey-link.not-provided')));
+  });
+
+  test('it should not display edit button when user is not super admin', async function (assert) {
+    // given
+    const currentUser = this.owner.lookup('service:current-user');
+    currentUser.adminMember = { userId: 456, isSuperAdmin: false };
+
+    const combinedCourseBlueprint = {
+      id: 123,
+      internalName: 'Modèle de parcours apprenant',
+    };
+
+    // when
+    const screen = await render(<template><Details @model={{combinedCourseBlueprint}} /></template>);
+
+    // then
+    assert.dom(screen.queryByRole('link', { name: t('common.actions.edit') })).doesNotExist();
   });
 
   test('should hide description, illustration, reward requirements if not provided', async function (assert) {

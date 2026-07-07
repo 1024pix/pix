@@ -16,6 +16,10 @@ export default class Details extends Component {
   @service intl;
   @service currentUser;
 
+  get isSuperAdmin() {
+    return this.currentUser.adminMember.isSuperAdmin;
+  }
+
   <template>
     {{pageTitle "Profil " @model.id " | Pix Admin" replace=true}}
     <div class="page">
@@ -82,15 +86,17 @@ export default class Details extends Component {
               {{/if}}
 
             </DescriptionList>
-            <PixButtonLink
-              @route="authenticated.combined-course-blueprints.edit"
-              @model={{@model.id}}
-              @size="small"
-              @variant="primary"
-              class="combined-course-blueprint__button"
-            >
-              {{t "common.actions.edit"}}
-            </PixButtonLink>
+            {{#if this.isSuperAdmin}}
+              <PixButtonLink
+                @route="authenticated.combined-course-blueprints.edit"
+                @model={{@model.id}}
+                @size="small"
+                @variant="primary"
+                class="combined-course-blueprint__button"
+              >
+                {{t "common.actions.edit"}}
+              </PixButtonLink>
+            {{/if}}
             <h2 class="page-section__title">{{t "components.combined-course-blueprints.items.title"}}</h2>
             <div class="combined-course-blueprint__content">
               {{#each @model.content as |requirement|}}

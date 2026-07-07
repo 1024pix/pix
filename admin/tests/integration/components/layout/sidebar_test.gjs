@@ -195,6 +195,68 @@ module('Integration | Component | Layout | Sidebar', function (hooks) {
     });
   });
 
+  module('Combined course blueprints tab', function () {
+    module('when admin member has "SUPER_ADMIN" as role', function () {
+      test('should contain link to "Combined course blueprints" page', async function (assert) {
+        // given
+        currentUser.adminMember = superAdminMember;
+
+        // when
+        const screen = await render(<template><Sidebar /></template>);
+
+        // then
+        assert
+          .dom(screen.getByRole('link', { name: t('components.layout.sidebar.combined-course-blueprints') }))
+          .exists();
+      });
+    });
+
+    module('when admin member has "METIER" as role', function () {
+      test('should contain link to "Combined course blueprints" page', async function (assert) {
+        // given
+        currentUser.adminMember = metierMember;
+
+        // when
+        const screen = await render(<template><Sidebar /></template>);
+
+        // then
+        assert
+          .dom(screen.getByRole('link', { name: t('components.layout.sidebar.combined-course-blueprints') }))
+          .exists();
+      });
+    });
+
+    module('when admin member has "SUPPORT" as role', function () {
+      test('should not contain link to "Combined course blueprints" page', async function (assert) {
+        // given
+        currentUser.adminMember = supportMember;
+
+        // when
+        const screen = await render(<template><Sidebar /></template>);
+
+        // then
+        assert
+          .dom(screen.queryByRole('link', { name: t('components.layout.sidebar.combined-course-blueprints') }))
+          .doesNotExist();
+      });
+    });
+
+    module('when admin member has "CERTIF" as role', function () {
+      test('should not contain link to "Combined course blueprints" page', async function (assert) {
+        // given
+        currentUser.adminMember = certifMember;
+
+        // when
+        const screen = await render(<template><Sidebar /></template>);
+
+        // then
+        assert
+          .dom(screen.queryByRole('link', { name: t('components.layout.sidebar.combined-course-blueprints') }))
+          .doesNotExist();
+      });
+    });
+  });
+
   module('Trainings tab', function () {
     module('when admin member has "SUPER_ADMIN" role', function () {
       test('should contain link to "Trainings" page', async function (assert) {

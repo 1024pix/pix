@@ -6,7 +6,7 @@ export default class EditRoute extends Route {
   @service accessControl;
 
   beforeModel() {
-    this.accessControl.restrictAccessTo(['isSuperAdmin', 'isSupport', 'isMetier'], 'authenticated');
+    this.accessControl.restrictAccessTo(['isSuperAdmin'], 'authenticated');
   }
 
   async model(params) {
