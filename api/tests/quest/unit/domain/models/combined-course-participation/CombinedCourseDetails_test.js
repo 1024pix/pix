@@ -172,6 +172,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         nbModules: 2,
         nbModulesCompleted: 1,
         nbCampaignsCompleted: 1,
+        rewardStatus: null,
       });
     });
 
@@ -228,6 +229,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         nbModules: 2,
         nbModulesCompleted: 0,
         nbCampaignsCompleted: 0,
+        rewardStatus: null,
       });
     });
   });

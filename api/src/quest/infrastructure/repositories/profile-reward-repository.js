@@ -4,6 +4,10 @@ export const findByUserIdAndRewardId = async ({ rewardId, userId, profileRewardA
   return profileRewardApi.findByUserIdAndRewardId({ rewardId, userId });
 };
 
+export const findByUserIdsAndRewardId = async ({ rewardId, userIds, profileRewardApi }) => {
+  return profileRewardApi.findByUserIdsAndRewardId({ rewardId, userIds });
+};
+
 export const reward = async ({ userId, rewardId, organizationId, profileRewardApi }) => {
   await profileRewardApi.save(userId, rewardId);
 

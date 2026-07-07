@@ -101,6 +101,7 @@ export class CombinedCourseDetails extends CombinedCourse {
       nbCampaignsCompleted: this.items.filter(
         ({ isCompleted, type }) => isCompleted && type === COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
       ).length,
+      rewardStatus: this.reward?.status,
     });
   }
 

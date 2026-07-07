@@ -13,6 +13,7 @@ export class CombinedCourseParticipationDetails {
     nbModulesCompleted,
     nbCampaignsCompleted,
     hasFormationItem,
+    rewardStatus = null,
   }) {
     this.id = id;
     this.status = status;
@@ -27,5 +28,6 @@ export class CombinedCourseParticipationDetails {
     this.nbCampaigns = nbCampaigns;
     this.nbCampaignsCompleted = nbCampaignsCompleted;
     this.nbModulesCompleted = nbModulesCompleted;
+    this.rewardStatus = rewardStatus;
   }
 }

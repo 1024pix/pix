@@ -19,6 +19,7 @@ const { combinedCourseDetailsService: injectedCombinedCourseDetailsService } = i
     moduleRepository: repositories.moduleRepository,
     eligibilityRepository: repositories.eligibilityRepository,
     recommendedModuleRepository: repositories.recommendedModuleRepository,
+    profileRewardRepository: repositories.profileRewardRepository,
   },
 );
 

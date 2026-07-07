@@ -2,7 +2,9 @@ import sinon from 'sinon';
 
 import { CombinedCourseStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
+import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import {
   CampaignCombinedCourseItem,
@@ -29,6 +31,7 @@ const { combinedCourseDetailsService: CombinedCourseDetailsService } = injectDep
     moduleRepository: repositories.moduleRepository,
     eligibilityRepository: repositories.eligibilityRepository,
     recommendedModuleRepository: repositories.recommendedModuleRepository,
+    profileRewardRepository: repositories.profileRewardRepository,
   },
 );
 
@@ -320,7 +323,10 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
         combinedCourseId,
       });
       const resultsByLearnerId = await CombinedCourseDetailsService.getCombinedCourseDetailsForMultipleLearners({
-        organizationLearnerIds: [organizationLearnerId, secondLearner.id],
+        organizationLearners: [
+          { id: organizationLearnerId, userId: userId },
+          { id: secondLearner.id, userId: secondLearner.userId },
+        ],
         combinedCourseDetails,
       });
 
@@ -340,6 +346,63 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       expect(secondLearnerResult.items).to.have.lengthOf(3);
       expect(secondLearnerResult.items[0].participationStatus).to.equal(CampaignParticipationStatuses.STARTED);
       expect(secondLearnerResult.items[0].isCompleted).to.equal(false);
+    });
+
+    it('should return the reward status independently for each learner when processing multiple learners', async function () {
+      // given
+      const secondLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      const { id: attestationId } = databaseBuilder.factory.buildAttestation();
+      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        rewardId: attestationId,
+        rewardType: REWARD_TYPES.ATTESTATION,
+        successRequirements: [
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
+        ],
+      });
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
+        code,
+        organizationId,
+        questId,
+      });
+
+      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
+        combinedCourseId,
+        organizationLearnerId,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+      });
+      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
+        combinedCourseId,
+        organizationLearnerId: secondLearner.id,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+      });
+
+      databaseBuilder.factory.buildProfileReward({
+        userId,
+        rewardId: attestationId,
+        rewardType: REWARD_TYPES.ATTESTATION,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const combinedCourseDetails = await CombinedCourseDetailsService.instantiateCombinedCourseDetails({
+        combinedCourseId,
+      });
+      const resultsByLearnerId = await CombinedCourseDetailsService.getCombinedCourseDetailsForMultipleLearners({
+        organizationLearners: [
+          { id: organizationLearnerId, userId: userId },
+          { id: secondLearner.id, userId: secondLearner.userId },
+        ],
+        combinedCourseDetails,
+      });
+
+      // then
+      expect(resultsByLearnerId.get(organizationLearnerId).participationDetails.rewardStatus).to.equal(
+        CombinedCourseRewardStatuses.OBTAINED,
+      );
+      expect(resultsByLearnerId.get(secondLearner.id).participationDetails.rewardStatus).to.equal(
+        CombinedCourseRewardStatuses.STARTED,
+      );
     });
   });
 

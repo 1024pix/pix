@@ -1,5 +1,6 @@
 import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { CombinedCourseParticipationDetails } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseParticipationDetails.js';
+import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
 import { combinedCourseParticipationSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-participation-serializer.js';
 import { expect } from '../../../../test-helper.js';
 
@@ -19,6 +20,7 @@ describe('CombinedCourseParticipationSerializer', function () {
       nbCampaigns: 1,
       nbModulesCompleted: 0,
       nbCampaignsCompleted: 1,
+      rewardStatus: CombinedCourseRewardStatuses.NOT_OBTAINED,
     });
 
     const serialized = combinedCourseParticipationSerializer.serialize(combinedCourseParticipation);
@@ -40,6 +42,7 @@ describe('CombinedCourseParticipationSerializer', function () {
           'nb-campaigns': 1,
           'nb-modules-completed': 0,
           'nb-campaigns-completed': 1,
+          'reward-status': CombinedCourseRewardStatuses.NOT_OBTAINED,
         },
       },
     });
