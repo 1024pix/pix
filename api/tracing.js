@@ -8,6 +8,7 @@ import { NodeSDK, resources } from '@opentelemetry/sdk-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
 import { config } from './src/shared/config.js';
+import { scalingoDetector } from './src/shared/infrastructure/open-telemetry/scalingo-detector.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 
 const { resourceFromAttributes } = resources;
@@ -19,7 +20,7 @@ if (config.logging.otelEnabled) {
     resource: resourceFromAttributes({
       [ATTR_SERVICE_NAME]: config.infra.appName || 'pix-api',
     }),
-    resourceDetectors: [envDetector, hostDetector, osDetector, processDetector, containerDetector],
+    resourceDetectors: [envDetector, hostDetector, osDetector, processDetector, containerDetector, scalingoDetector],
     traceExporter: exporter,
     instrumentations: [
       new HttpInstrumentation(),
