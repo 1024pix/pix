@@ -20,7 +20,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
   beforeEach(function () {
     versionRepository = {
       findAllByScope: sinon.stub(),
-      create: sinon.stub(),
+      save: sinon.stub(),
     };
 
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
@@ -51,7 +51,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
       });
 
       // then
-      expect(versionRepository.create).to.not.have.been.called;
+      expect(versionRepository.save).to.not.have.been.called;
       expect(error instanceof CertificationVersionDraftAlreadyExistError).to.be.true;
     });
   });
@@ -76,7 +76,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
         const tubeIds = ['recTube1', 'recTube2'];
 
         versionRepository.findAllByScope.withArgs({ scope: SCOPES.CORE }).resolves([activeVersion]);
-        versionRepository.create.resolves(66);
+        versionRepository.save.resolves(66);
 
         // when
         const id = await createDraft({
@@ -87,7 +87,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
 
         // then
         expect(id).to.equal(66);
-        expect(versionRepository.create).to.have.been.calledOnceWithExactly(
+        expect(versionRepository.save).to.have.been.calledOnceWithExactly(
           domainBuilder.certification.configuration.buildVersion({
             id: null,
             scope: SCOPES.CORE,
@@ -112,7 +112,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
         // given
         const tubeIds = ['recTube1', 'recTube2'];
         versionRepository.findAllByScope.withArgs({ scope: SCOPES.CORE }).resolves([]);
-        versionRepository.create.resolves(66);
+        versionRepository.save.resolves(66);
 
         // when
         const id = await createDraft({
@@ -123,7 +123,7 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
 
         // then
         expect(id).to.equal(66);
-        expect(versionRepository.create).to.have.been.calledOnceWithExactly(
+        expect(versionRepository.save).to.have.been.calledOnceWithExactly(
           domainBuilder.certification.configuration.buildVersion({
             id: null,
             scope: SCOPES.CORE,
