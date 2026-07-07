@@ -232,7 +232,7 @@
                 "id": "e7ced526-7903-4b42-878a-305acde81d24",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Ce que vous venez de faire s’appelle l’<strong>enchaînement de prompts</strong> ou&nbsp;<strong>prompt chaining</strong>. Il consiste à découper une tâche complexe en plusieurs étapes. Chaque prompt s’appuie sur le résultat obtenu à l’étape précédente.<br></p><h5>🤔 Que vous apporte cette approche&nbsp;?</h5><ul><li>Vous ajoutez le contexte progressivement.</li><li>Vous pouvez vérifier chaque étape.</li><li>Vous repérez plus facilement les oublis ou les erreurs.</li><li>Vous gardez davantage la main sur le résultat final.</li></ul>"
+                "content": "<p>Ce que vous venez de faire s’appelle l’<strong>enchaînement de prompts</strong> ( en anglais <em>prompt chaining</em>). Il consiste à découper une tâche complexe en plusieurs étapes. Chaque prompt s’appuie sur le résultat obtenu à l’étape précédente.<br></p><h5>🤔 Que vous apporte cette approche&nbsp;?</h5><ul><li>Vous ajoutez le contexte progressivement.</li><li>Vous pouvez vérifier chaque étape.</li><li>Vous repérez plus facilement les oublis ou les erreurs.</li><li>Vous gardez davantage la main sur le résultat final.</li></ul>"
               }
             }
           ]
@@ -335,7 +335,7 @@
                 "id": "cf6d0460-cc4d-4f23-97d1-5d81f3dd7732",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Demander à l’IA d’expliquer sa démarche s’appelle la <strong>chaîne de pensée</strong>, ou <strong>chain-of-thought</strong>. L’IA enchaîne elle-même les étapes&nbsp;: vous avez moins de contrôle sur le raisonnement, mais cela peut aider à <strong>repérer des erreurs</strong>.</p><h5>🤔 Pourquoi est-il utile de comprendre ce mode de «&nbsp;raisonnement&nbsp;»&nbsp;?</h5><ul>    <li>La réponse de l’IA est souvent <strong>plus structurée</strong>.</li>    <li>Vous voyez mieux les <strong>hypothèses</strong>, les étapes ou les choix faits par l’IA.</li>    <li>Cela peut vous aider à <strong>repérer vous-même</strong> des oublis, des raccourcis ou des points discutables.</li></ul>"
+                "content": "<p>Demander à l’IA d’expliquer sa démarche s’appelle la <strong>chaîne de pensée </strong>(en anglais&nbsp;<em>chain-of-thought)</em>. L’IA enchaîne elle-même les étapes&nbsp;: vous avez moins de contrôle sur le raisonnement, mais cela peut aider à <strong>repérer des erreurs</strong>.</p><h5>🤔 Pourquoi est-il utile de comprendre ce mode de «&nbsp;raisonnement&nbsp;»&nbsp;?</h5><ul>    <li>La réponse de l’IA est souvent <strong>plus structurée</strong>.</li>    <li>Vous voyez mieux les <strong>hypothèses</strong>, les étapes ou les choix faits par l’IA.</li>    <li>Cela peut vous aider à <strong>repérer vous-même</strong> des oublis, des raccourcis ou des points discutables.</li></ul>"
               }
             }
           ]
@@ -541,7 +541,7 @@
                 "id": "09010fa8-070c-4bcf-ab61-c47b0e46c2fa",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Ce que vous venez de faire s’appelle le <strong>few-shot prompting </strong>ou&nbsp;<strong>guidage par l’exemple</strong>.</p><p>Cette méthode consiste à donner à l’IA un ou plusieurs exemples concrets du type de réponse attendu, avant de lui demander de produire un nouveau contenu qui respecte la structure des exemples fournis.</p><h5>🤔 Quel est l’intérêt de cette méthode ?</h5><p>Lorsque la consigne est abstraite ou difficile à formuler, les exemples permettent de lever les ambiguïtés&nbsp;: ils précisent le style, le ton, le niveau d’exigence ou le format attendu.</p>"
+                "content": "<p>Ce que vous venez de faire s’appelle le <strong>guidage par l’exemple</strong> (ou en anglais <em>few-shot prompting</em>).</p><p>Cette méthode consiste à donner à l’IA un ou plusieurs exemples concrets du type de réponse attendu, avant de lui demander de produire un nouveau contenu qui respecte la structure des exemples fournis.</p><h5>🤔 Quel est l’intérêt de cette méthode ?</h5><p>Lorsque la consigne est abstraite ou difficile à formuler, les exemples permettent de lever les ambiguïtés&nbsp;: ils précisent le style, le ton, le niveau d’exigence ou le format attendu.</p>"
               }
             },
             {
@@ -572,7 +572,7 @@
                 "id": "83e15f9b-bb14-4693-8f91-0b4bb5ea5e46",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les techniques présentées reposent sur un même principe&nbsp;: <strong>utiliser l’IA comme un appui à la réflexion, sans lui déléguer toute la tâche</strong>.</p><p>Elles permettent de mieux cadrer la demande, de garder un regard critique sur la réponse et d’obtenir un résultat plus adapté, plus vérifiable et plus exploitable. Elles peuvent aussi se combiner au cours d’une même conversation.</p><table>    <caption class=\"sr-only\">Récapitulatif des techniques de conversation</caption>    <thead>        <tr>            <th scope=\"col\">Technique</th>            <th scope=\"col\" style=\"width: 31.6667%;\">Quand l’utiliser ?</th>            <th scope=\"col\" style=\"width: 35.4167%;\">Exemples de prompts</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\">Prompt chaining ou enchaînement de prompts</th>            <td>Quand la tâche comporte plusieurs étapes.</td>            <td>Prompt 1&nbsp;: «&nbsp;Analyse le besoin.&nbsp;» → Prompt 2&nbsp;: «&nbsp;Propose un plan.&nbsp;» → Prompt 3&nbsp;: «&nbsp;Rédige le contenu.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Chain-of-thought ou chaîne de pensée</th>            <td>Quand vous voulez rendre plus visible la démarche suivie par l’IA.</td>            <td>«&nbsp;Explique ta démarche avant de proposer une réponse.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Situation réflexive</th>            <td>Quand le besoin est encore flou ou difficile à formuler.</td>            <td>«&nbsp;Pose-moi quelques questions pour mieux cadrer ma demande avant de proposer un plan.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Explorer plusieurs pistes</th>            <td>Quand vous voulez comparer plusieurs options avant d’en choisir une.</td>            <td>«&nbsp;Propose 3 versions différentes&nbsp;: une très simple, une plus détaillée et une adaptée aux bénévoles.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Few-shot ou guidage par l’exemple</th>            <td>Quand vous attendez un style, un ton ou un format précis.</td>            <td>«&nbsp;Voici deux exemples en pièces jointes. Rédige une réponse du même type pour ce nouveau cas.&nbsp;»</td>        </tr>    </tbody></table>"
+                "content": "<p>Les techniques présentées reposent sur un même principe&nbsp;: <strong>utiliser l’IA comme un appui à la réflexion, sans lui déléguer toute la tâche</strong>.</p><p>Elles permettent de mieux cadrer la demande, de garder un regard critique sur la réponse et d’obtenir un résultat plus adapté, plus vérifiable et plus exploitable. Elles peuvent aussi se combiner au cours d’une même conversation.</p><table>    <caption class=\"sr-only\">Récapitulatif des techniques de conversation</caption>    <thead>        <tr>            <th scope=\"col\">Technique</th>            <th scope=\"col\" style=\"width: 31.6667%;\">Quand l’utiliser ?</th>            <th scope=\"col\" style=\"width: 35.4167%;\">Exemples de prompts</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\">Enchaînement de prompts</th>            <td>Quand la tâche comporte plusieurs étapes.</td>            <td>Prompt 1&nbsp;: «&nbsp;Analyse le besoin.&nbsp;» → Prompt 2&nbsp;: «&nbsp;Propose un plan.&nbsp;» → Prompt 3&nbsp;: «&nbsp;Rédige le contenu.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Chaîne de pensée</th>            <td>Quand vous voulez rendre plus visible la démarche suivie par l’IA.</td>            <td>«&nbsp;Explique ta démarche avant de proposer une réponse.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Situation réflexive</th>            <td>Quand le besoin est encore flou ou difficile à formuler.</td>            <td>«&nbsp;Pose-moi quelques questions pour mieux cadrer ma demande avant de proposer un plan.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Explorer plusieurs pistes</th>            <td>Quand vous voulez comparer plusieurs options avant d’en choisir une.</td>            <td>«&nbsp;Propose 3 versions différentes&nbsp;: une très simple, une plus détaillée et une adaptée aux bénévoles.&nbsp;»</td>        </tr>        <tr>            <th scope=\"row\">Guidage par l’exemple</th>            <td>Quand vous attendez un style, un ton ou un format précis.</td>            <td>«&nbsp;Voici deux exemples en pièces jointes. Rédige une réponse du même type pour ce nouveau cas.&nbsp;»</td>        </tr>    </tbody></table>"
               }
             }
           ]
@@ -628,7 +628,7 @@
                   },
                   {
                     "id": "0e5b2c6c-3f4b-4d7f-8e7d-3f1a7a6ddf8a",
-                    "text": "L’enchaînement de prompts ou prompt chaining consiste à découper une tâche en plusieurs prompts qui s’appuient sur les résultats précédents.",
+                    "text": "L’enchaînement de prompts consiste à découper une tâche en plusieurs prompts qui s’appuient sur les résultats précédents.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -704,11 +704,11 @@
                     "options": [
                       {
                         "id": "1",
-                        "content": "le prompt chaining"
+                        "content": "l’enchaînement de prompts"
                       },
                       {
                         "id": "2",
-                        "content": "la chain-of-thought"
+                        "content": "La chaîne de pensées"
                       },
                       {
                         "id": "3",
@@ -716,7 +716,7 @@
                       },
                       {
                         "id": "4",
-                        "content": "le few-shot prompting"
+                        "content": "le guidage par l’exemple"
                       }
                     ],
                     "solutions": [
@@ -741,11 +741,11 @@
                     "options": [
                       {
                         "id": "1",
-                        "content": "un prompt chaining"
+                        "content": "l’enchaînement de prompts"
                       },
                       {
                         "id": "2",
-                        "content": "une chain-of-thought"
+                        "content": "une chaîne de pensées"
                       },
                       {
                         "id": "3",
@@ -753,7 +753,7 @@
                       },
                       {
                         "id": "4",
-                        "content": "un few-shot prompting"
+                        "content": "le guidage par l’exemple"
                       }
                     ],
                     "solutions": [
@@ -778,11 +778,11 @@
                     "options": [
                       {
                         "id": "1",
-                        "content": "le prompt chaining"
+                        "content": "l’enchaînement de prompts"
                       },
                       {
                         "id": "2",
-                        "content": "la chain-of-thought"
+                        "content": "la chaîne de pensées"
                       },
                       {
                         "id": "3",
@@ -790,7 +790,7 @@
                       },
                       {
                         "id": "4",
-                        "content": "le few-shot prompting"
+                        "content": "le guidage par l’exemple"
                       }
                     ],
                     "solutions": [
@@ -815,11 +815,11 @@
                     "options": [
                       {
                         "id": "1",
-                        "content": "le prompt chaining"
+                        "content": "l’enchaînement de prompts"
                       },
                       {
                         "id": "2",
-                        "content": "la chain-of-thought"
+                        "content": "la chaîne de pensées"
                       },
                       {
                         "id": "3",
@@ -827,7 +827,7 @@
                       },
                       {
                         "id": "4",
-                        "content": "le few-shot prompting"
+                        "content": "le guidage par l’exemple"
                       }
                     ],
                     "solutions": [
@@ -842,11 +842,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bien vu&nbsp;!</p>",
-                    "diagnosis": "<p>Vous avez bien associé chaque situation à la technique la plus pertinente&nbsp;: <strong>few-shot prompting</strong> pour obtenir un format proche d’un modèle, <strong>situation réflexive </strong> pour clarifier un besoin flou, <strong>prompt chaining</strong> pour découper une tâche en plusieurs étapes, et <strong>chain-of-thought</strong> pour rendre plus visible la démarche suivie par l’IA.</p>"
+                    "diagnosis": "<p>Vous avez bien associé chaque situation à la technique la plus pertinente&nbsp;: le <strong>guidage par l’exemple</strong> pour obtenir un format proche d’un modèle, <strong>situation réflexive </strong> pour clarifier un besoin flou, l’<strong>enchaînement de prompts</strong> pour découper une tâche en plusieurs étapes, et la <strong>chaîne de pensées</strong> pour rendre plus visible la démarche suivie par l’IA.</p>"
                   },
                   "invalid": {
                     "state": "<p>Pas tout à fait…</p>",
-                    "diagnosis": "<p>Pour choisir la bonne technique, demandez-vous ce qui pose problème&nbsp;: un <strong>format à reproduire</strong> appelle le <strong>few-shot prompting</strong> ; un <strong>besoin flou</strong> appelle une <strong>situation réflexive. </strong>Une <strong>tâche à étapes</strong> appelle le <strong>prompt chaining</strong> ; et si vous voulez voir la <strong>démarche de l’IA</strong>, le plus adapté est le <strong>chain-of-thought</strong>.</p>"
+                    "diagnosis": "<p>Pour choisir la bonne technique, demandez-vous ce qui pose problème&nbsp;: un <strong>format à reproduire</strong> appelle le <strong>le guidage par l’exemple</strong> ; un <strong>besoin flou</strong> appelle une <strong>situation réflexive. </strong>Une <strong>tâche à étapes</strong> appelle l’<strong>enchaînement de prompts</strong> ; et si vous voulez voir la <strong>démarche de l’IA</strong>, le plus adapté est le <strong>chaîne de pensées</strong>.</p>"
                   }
                 }
               }
@@ -874,14 +874,14 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Découper la tâche en plusieurs étapes. (Prompt chaining)</p>",
+                    "content": "<p>Découper la tâche en plusieurs étapes. (Enchaînement de prompts)</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bon choix&nbsp;! Découper une demande complexe aide à garder la main sur la façon dont l’IA traite votre demande, à vérifier chaque étape pour réduuire le risque d'hallucinations et à éviter les oublis.</p>"
+                      "diagnosis": "<p>Bon choix&nbsp;! Découper une demande complexe aide à garder la main sur la façon dont l’IA traite votre demande, à vérifier chaque étape pour réduuire le risque d’hallucinations et à éviter les oublis.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Demander à un logiciel d’IA générative d’expliciter sa démarche. (Chain-of-thought)</p>",
+                    "content": "<p>Demander à un logiciel d’IA générative d’expliciter sa démarche. (Chaîne de pensées)</p>",
                     "feedback": {
                       "diagnosis": "<p>Intéressant&nbsp;! Cette démarche peut rendre la réponse de l’IA plus structurée et faire apparaîtreses hypothèses… mais cela ne remplace pas une vérification.</p>"
                     }
@@ -902,7 +902,7 @@
                   },
                   {
                     "id": "5",
-                    "content": "<p>Fournir un exemple à l’IA pour obtenir le bon format. (Few-shot prompting)</p>",
+                    "content": "<p>Fournir un exemple à l’IA pour obtenir le bon format. (Guidage par l’exemple)</p>",
                     "feedback": {
                       "diagnosis": "<p>Excellent choix&nbsp;! Quand vous voulez une mise en forme précise, fournir un exemple à l’IA est souvent plus efficace que de lui faire une longue description.</p>"
                     }
