@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationVersionController } from '../../../../../src/certification/configuration/application/certification-version-controller.js';
@@ -5,10 +6,13 @@ import { certificationVersionRoute as moduleUnderTest } from '../../../../../src
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Certification | Configuration | Application | Router | certification-version-route', function () {
+  afterEach(function () {
+    sinon.restore();
+  });
+
   describe('GET /api/certifications/{framework}/info', function () {
     context('when the user is not authenticated', function () {
       it('should reject access', async function () {
@@ -110,10 +114,17 @@ describe('Unit | Certification | Configuration | Application | Router | certific
           data: {
             id: '1',
             attributes: {
-              'assessment-duration': 120,
-              'minimum-answers-required-for-validation': 20,
-              'maximum-assessment-length': 30,
-              comments: 'Newly updated comments',
+              'start-date': new Date(),
+              'assessment-duration': 1,
+              'minimum-answers-required-for-validation': 1,
+              'maximum-assessment-length': 1,
+              'challenges-between-same-competence': 1,
+              'default-probability-to-pick-challenge': 1,
+              'variation-percent': 1,
+              'default-candidate-capacity': 1,
+              'limit-to-one-question-per-tube': true,
+              'enable-passage-by-all-competences': true,
+              comments: 'COUCOU',
             },
             type: 'certification-versions',
           },
@@ -141,10 +152,17 @@ describe('Unit | Certification | Configuration | Application | Router | certific
             data: {
               id: '1',
               attributes: {
-                'assessment-duration': 120,
-                'minimum-answers-required-for-validation': 20,
-                'maximum-assessment-length': 30,
-                comments: 'Newly updated comments',
+                'start-date': new Date(),
+                'assessment-duration': 1,
+                'minimum-answers-required-for-validation': 1,
+                'maximum-assessment-length': 1,
+                'challenges-between-same-competence': 1,
+                'default-probability-to-pick-challenge': 1,
+                'variation-percent': 1,
+                'default-candidate-capacity': 1,
+                'limit-to-one-question-per-tube': true,
+                'enable-passage-by-all-competences': true,
+                comments: 'COUCOU',
               },
               type: 'certification-versions',
             },

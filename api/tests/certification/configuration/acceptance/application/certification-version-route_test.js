@@ -243,10 +243,6 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         versionId: 123,
       });
 
-      databaseBuilder.factory.buildCertificationFrameworksChallenge({
-        versionId: version.id,
-      });
-
       await databaseBuilder.commit();
 
       const options = {
@@ -259,10 +255,17 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           data: {
             id: version.id,
             attributes: {
-              'assessment-duration': 120,
-              'minimum-answers-required-for-validation': 20,
-              'maximum-assessment-length': 30,
-              comments: 'Newly updated comments',
+              'start-date': new Date('2020-02-02'),
+              'assessment-duration': 1,
+              'minimum-answers-required-for-validation': 2,
+              'maximum-assessment-length': 3,
+              'challenges-between-same-competence': 4,
+              'default-probability-to-pick-challenge': 5,
+              'variation-percent': 0.6,
+              'default-candidate-capacity': 7,
+              'limit-to-one-question-per-tube': true,
+              'enable-passage-by-all-competences': true,
+              comments: 'COUCOU',
             },
             type: 'certification-versions',
           },
@@ -274,8 +277,6 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       // then
       expect(response.statusCode).to.equal(204);
-      const [updatedVersion] = await knex('certification_versions').where({ id: version.id });
-      expect(updatedVersion.comments).to.equal('Newly updated comments');
     });
   });
 

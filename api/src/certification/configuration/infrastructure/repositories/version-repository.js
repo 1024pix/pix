@@ -51,7 +51,7 @@ export async function findAllByScope({ scope }) {
 export async function save(version) {
   const knexConn = DomainTransaction.getConnection();
   const dataToInsert = {
-    id: version.id,
+    id: version.id ?? undefined,
     scope: version.scope,
     startDate: version.startDate,
     expirationDate: version.expirationDate,

@@ -85,7 +85,31 @@ export class Version {
     }
   }
 
-  update({ comments }) {
+  update({
+    startDate,
+    assessmentDuration,
+    minimumAnswersRequiredForValidation,
+    maximumAssessmentLength,
+    challengesBetweenSameCompetence,
+    defaultProbabilityToPickChallenge,
+    variationPercent,
+    defaultCandidateCapacity,
+    limitToOneQuestionPerTube,
+    enablePassageByAllCompetences,
+    comments,
+  }) {
+    this.startDate = startDate;
+    this.assessmentDuration = assessmentDuration;
+    this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredForValidation;
+    this.challengesConfiguration = new FlashAssessmentAlgorithmConfiguration({
+      maximumAssessmentLength,
+      challengesBetweenSameCompetence,
+      defaultProbabilityToPickChallenge,
+      variationPercent,
+      defaultCandidateCapacity,
+      limitToOneQuestionPerTube,
+      enablePassageByAllCompetences,
+    });
     this.comments = comments;
     this.validate();
   }

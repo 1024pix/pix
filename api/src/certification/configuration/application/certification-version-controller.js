@@ -1,3 +1,7 @@
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Deserializer } = jsonapiSerializer;
+
 import { usecases } from '../domain/usecases/index.js';
 import { certificationInfoSerializer } from '../infrastructure/serializers/certification-info-serializer.js';
 import * as versionDetailsSerializer from '../infrastructure/serializers/version-details-serializer.js';
@@ -14,11 +18,11 @@ async function getVersionById(request) {
 
 async function update(request, h) {
   const certificationVersionId = request.params.certificationVersionId;
-  const comments = request.payload.data.attributes.comments;
+  const attributesToUpdate = await deserialize(request.payload);
 
   await usecases.updateVersion({
+    ...attributesToUpdate,
     id: certificationVersionId,
-    comments,
   });
 
   return h.response().code(204);
@@ -63,3 +67,8 @@ const certificationVersionController = {
 };
 
 export { certificationVersionController };
+
+function deserialize(json) {
+  const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
+  return deserializer.deserialize(json);
+}
