@@ -979,8 +979,7 @@
         "options": {
           "english": "inglés - EN",
           "french": "francés - FR"
-        },
-        "warning-message": "Debido a un problema técnico, la Certificación Pix no está disponible temporalmente en inglés. Nos disculpamos por las molestias ocasionadas."
+        }
       },
       "link-to-user-certification": "Ver mis certificaciones",
       "non-eligible-subscription": "No eres elegible para {subscriptionLabel}. Sin embargo, puedes presentarte a la certificación Pix.",

@@ -31,11 +31,6 @@ const submitForm = () => clickByLabel(t('pages.certification-start.actions.submi
 const stubFranceDomain = (owner, isFranceDomain) =>
   sinon.stub(owner.lookup('service:currentDomain'), 'isFranceDomain').get(() => isFranceDomain);
 
-const stubCertificationInEnglish = (owner, isEnabled) =>
-  sinon
-    .stub(owner.lookup('service:feature-toggles'), 'featureToggles')
-    .get(() => ({ isCertificationInEnglishEnabled: isEnabled }));
-
 const setCertificationCandidate = (context, attributes) => {
   const store = context.owner.lookup('service:store');
   model = {
@@ -111,37 +106,18 @@ module('Integration | Component | certification-starter', function (hooks) {
           );
         });
 
-        module('when certification in english is enabled', function () {
-          test('should be possible to update the selected language', async function (assert) {
-            // given
-            stubCertificationInEnglish(this.owner, true);
-            const screen = await renderComponent();
+        test('should be possible to update the selected language', async function (assert) {
+          // given
+          const screen = await renderComponent();
 
-            // when
-            await click(screen.getByRole('button', { name: 'Langue de certification' }));
-            await click(screen.getByText('anglais - EN'));
+          // when
+          await click(screen.getByRole('button', { name: 'Langue de certification' }));
+          await click(screen.getByText('anglais - EN'));
 
-            // then
-            assert.ok(
-              screen.getByRole('button', { name: 'Langue de certification' }).textContent.includes('anglais - EN'),
-            );
-            assert.notOk(screen.queryByText(t('pages.certification-start.language-selector.warning-message')));
-          });
-        });
-
-        module('when certification in english is disabled', function () {
-          test('should display the language selector as disabled and a a warning message', async function (assert) {
-            // given
-            stubCertificationInEnglish(this.owner, false);
-
-            // when
-            const screen = await renderComponent();
-
-            // then
-            assert.dom(screen.getByRole('button', { name: 'Langue de certification' })).hasAttribute('aria-disabled');
-            assert.notOk(screen.queryByText('anglais - EN'));
-            assert.ok(screen.getByText(t('pages.certification-start.language-selector.warning-message')));
-          });
+          // then
+          assert.ok(
+            screen.getByRole('button', { name: 'Langue de certification' }).textContent.includes('anglais - EN'),
+          );
         });
 
         module('when the language confirmation checkbox is not checked and code filled', function () {
@@ -289,7 +265,6 @@ module('Integration | Component | certification-starter', function (hooks) {
           routerObserver.replaceWith = sinon.stub();
 
           stubFranceDomain(this.owner, false);
-          stubCertificationInEnglish(this.owner, true);
 
           model = {
             certificationCandidate: { hasStartedTest: false, sessionId: 123 },
