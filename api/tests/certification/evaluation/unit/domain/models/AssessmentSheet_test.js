@@ -247,6 +247,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
         assessmentUpdatedAt: new Date('2022-01-01'),
         lastQuestionDate: new Date('2021-09-09'),
       };
+      sinon.useFakeTimers({ now: new Date('2025-03-03'), toFake: ['Date'] });
     });
 
     it('should update lastAnswerAt and certificationCourseUpdatedAt to provided date', function () {
