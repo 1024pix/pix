@@ -33,8 +33,6 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
       expect(securityPreHandlers.hasAtLeastOneAccessOf).to.have.been.calledWithExactly([
         securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
         securityPreHandlers.checkAdminMemberHasRoleMetier,
-        securityPreHandlers.checkAdminMemberHasRoleSupport,
-        securityPreHandlers.checkAdminMemberHasRoleCertif,
       ]);
     });
   });
@@ -42,7 +40,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
   describe('POST /api/admin/combined-course-blueprints', function () {
     it('should call prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(combinedCourseBlueprintController, 'save').callsFake((_, h) => h.response());
 
       const payload = {
@@ -76,12 +74,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
       );
 
       // then
-      expect(securityPreHandlers.hasAtLeastOneAccessOf).to.have.been.calledWithExactly([
-        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-        securityPreHandlers.checkAdminMemberHasRoleMetier,
-        securityPreHandlers.checkAdminMemberHasRoleSupport,
-        securityPreHandlers.checkAdminMemberHasRoleCertif,
-      ]);
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.been.called;
     });
   });
 
@@ -108,8 +101,6 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
       expect(securityPreHandlers.hasAtLeastOneAccessOf).to.have.been.calledWithExactly([
         securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
         securityPreHandlers.checkAdminMemberHasRoleMetier,
-        securityPreHandlers.checkAdminMemberHasRoleSupport,
-        securityPreHandlers.checkAdminMemberHasRoleCertif,
       ]);
     });
   });
@@ -197,7 +188,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
   describe('PATCH /api/admin/combined-course-blueprints/{combinedCourseBlueprintId}', function () {
     it('should call prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(combinedCourseBlueprintController, 'update').callsFake((_, h) => h.response());
 
       const combinedCourseBlueprintId = '456';
@@ -229,12 +220,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
       );
 
       // then
-      expect(securityPreHandlers.hasAtLeastOneAccessOf).to.have.been.calledWithExactly([
-        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-        securityPreHandlers.checkAdminMemberHasRoleMetier,
-        securityPreHandlers.checkAdminMemberHasRoleSupport,
-        securityPreHandlers.checkAdminMemberHasRoleCertif,
-      ]);
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.been.called;
     });
   });
 
