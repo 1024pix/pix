@@ -159,10 +159,6 @@ export class CertificationCourse {
     });
   }
 
-  reportIssue(issueReport) {
-    this._certificationIssueReports.push(issueReport);
-  }
-
   rejectForFraud() {
     this._isRejectedForFraud = true;
   }
@@ -177,10 +173,6 @@ export class CertificationCourse {
 
   adjustForAccessibility(isAdjustmentNeeded) {
     this._isAdjustedForAccessibility = !!isAdjustmentNeeded;
-  }
-
-  isAdjustementNeeded() {
-    return this._isAdjustedForAccessibility;
   }
 
   abort(reason) {
@@ -263,14 +255,6 @@ export class CertificationCourse {
 
   isPublished() {
     return this._isPublished;
-  }
-
-  doesBelongTo(userId) {
-    return this._userId === userId;
-  }
-
-  getAbortReason() {
-    return this._abortReason;
   }
 
   getId() {

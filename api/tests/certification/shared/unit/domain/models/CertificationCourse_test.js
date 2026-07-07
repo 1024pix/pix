@@ -340,34 +340,4 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
       });
     });
   });
-
-  describe('#adjustForAccessibility', function () {
-    describe('when an adjustment is needed', function () {
-      it('sets the certification adjustment property to true', function () {
-        // given
-        const certificationCourse = new CertificationCourse();
-        const isAdjustmentNeeded = true;
-
-        // when
-        certificationCourse.adjustForAccessibility(isAdjustmentNeeded);
-
-        // then
-        expect(certificationCourse.isAdjustementNeeded()).to.be.true;
-      });
-    });
-
-    describe('when an adjustment is not needed', function () {
-      it('sets the certification adjustment property to false', function () {
-        // given
-        const certificationCourse = new CertificationCourse();
-        const isAdjustmentNeeded = false;
-
-        // when
-        certificationCourse.adjustForAccessibility(isAdjustmentNeeded);
-
-        // then
-        expect(certificationCourse.isAdjustementNeeded()).to.be.false;
-      });
-    });
-  });
 });

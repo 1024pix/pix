@@ -12,23 +12,21 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       const assessment = new Assessment({
         id: 'assessment_id',
       });
-      const certificationCourse = new CertificationCourse({
-        id: 1,
-        assessment: assessment,
-        challenges: ['challenge1', 'challenge2'],
-        certificationIssueReports: [],
-        version: 2,
-        isAdjustedForAccessibility: true,
-      });
-
       const issueReport = new CertificationIssueReport({
         id: 1234,
         description: "Signalement de l'examinateur",
         category: CertificationIssueReportCategory.OTHER,
-        certificationCourseId: certificationCourse.getId(),
+        certificationCourseId: 1,
       });
 
-      certificationCourse.reportIssue(issueReport);
+      const certificationCourse = new CertificationCourse({
+        id: 1,
+        assessment: assessment,
+        challenges: ['challenge1', 'challenge2'],
+        certificationIssueReports: [issueReport],
+        version: 2,
+        isAdjustedForAccessibility: true,
+      });
 
       const jsonCertificationCourseWithAssessment = {
         data: {
