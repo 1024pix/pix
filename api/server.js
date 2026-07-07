@@ -1,5 +1,6 @@
 import Oppsy from '@1024pix/oppsy';
 import Hapi from '@hapi/hapi';
+import { trace } from '@opentelemetry/api';
 import { parse } from 'neoqs';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
@@ -94,6 +95,8 @@ export const createServer = async () => {
   await setupOpenApiSpecification(server);
 
   setupDeserialization(server);
+
+  setupOpenTelemetry(server);
 
   return server;
 };
@@ -271,4 +274,32 @@ const setupOpenApiSpecification = async function (server) {
   for (const swaggerRegisterArgs of swaggers) {
     await server.register(...swaggerRegisterArgs);
   }
+};
+
+const setupOpenTelemetry = async function (server) {
+  server.ext('onPreHandler', (request, h) => {
+    const span = trace.getActiveSpan();
+    if (!span) return h.continue;
+
+    span.setAttribute('http.route', request.route.path);
+    span.updateName(`${request.method.toUpperCase()} ${request.route.path}`);
+    request.app.traceId = span.spanContext().traceId;
+
+    return h.continue;
+  });
+
+  server.ext('onPreResponse', (request, h) => {
+    const traceId = request.app.traceId;
+    const response = request.response;
+
+    if (!traceId) return h.continue;
+
+    if (response.isBoom) {
+      response.output.headers['X-Trace-Id'] = traceId;
+    } else {
+      response.header('X-Trace-Id', traceId);
+    }
+
+    return h.continue;
+  });
 };
