@@ -99,7 +99,7 @@
                 "id": "26367780-e7c8-415f-beac-58f7a51b8bae",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour comprendre ce qu’est une empreinte carbone, regardons déjà quels gaz à effet de serre émettent les activités humaines.</p>"
+                "content": "<p>Pour comprendre ce qu’est une empreinte carbone, regardons déjà quelles sont les émissions de gaz à effet de serre causées par les activités humaines.</p>"
               }
             },
             {
@@ -274,7 +274,7 @@
                       "id": "931e6663-e3f9-440c-a493-9f156c777a50",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>☁️ Plusieurs gaz participent au réchauffement climatique, comme le dioxyde de carbone (CO₂), le méthane, le protoxyde d’azote, etc. Mais certains participent plus que d’autres au réchauffement climatique.</p>"
+                      "content": "<p>☁️ Plusieurs gaz participent au réchauffement climatique, comme le dioxyde de carbone (CO₂), le méthane, le protoxyde d’azote, etc. Mais certains gaz participent plus que d’autres au réchauffement climatique.</p>"
                     }
                   ]
                 },
@@ -284,7 +284,7 @@
                       "id": "b6c741e0-c479-4595-be35-34e2eeaba573",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>🤔 C’est quoi l’empreinte carbone ?</strong></p><p>💡Le but de l’empreinte carbone est de <strong>calculer la quantité de gaz à effet de serre émise directement</strong> par une activité, en <strong>prenant en compte tous les gaz à effet de serre</strong> qui sont émis. L’empreinte carbone est exprimée en \"équivalent CO₂\", noté \"CO₂eq\".</p>"
+                      "content": "<p><strong>🤔 C’est quoi l’empreinte carbone ?</strong></p><p>💡L’empreinte carbone est une <strong>mesure de la quantité de gaz à effet de serre émise directement</strong> par une activité, en <strong>prenant en compte tous les gaz à effet de serre</strong> qui sont émis. L’empreinte carbone est exprimée en \"équivalent CO₂\", noté \"CO₂eq\".</p>"
                     }
                   ]
                 },
