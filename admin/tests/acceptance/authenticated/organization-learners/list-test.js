@@ -1,5 +1,6 @@
-import { visit } from '@1024pix/ember-testing-library';
-import { currentURL } from '@ember/test-helpers';
+import { fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
@@ -35,7 +36,17 @@ module('Acceptance | authenticated/organization-learners | list', function (hook
       assert.strictEqual(currentURL(), '/organization-learners/list');
     });
 
-    test('it should display organization learners in table', async function (assert) {
+    test('it should not display table if no filter is filled', async function (assert) {
+      // given
+      server.create('admin-organization-learner', { firstName: 'firstname' });
+
+      // when
+      const screen = await visit('/organization-learners/list');
+
+      assert.notOk(screen.queryByRole('table', { name: t('components.organization-learners.list-table.caption') }));
+    });
+
+    test('it should display organization learners in table if one filter is filled', async function (assert) {
       // given
       server.create('admin-organization-learner', {
         firstName: 'firstname',
@@ -66,6 +77,9 @@ module('Acceptance | authenticated/organization-learners | list', function (hook
 
       // when
       const screen = await visit('/organization-learners/list');
+
+      await fillByLabel('Prénom/Nom', 'first');
+      await click(screen.getByRole('button', { name: t('common.filters.actions.load') }));
 
       // then
       assert.ok(screen.getByText('firstname'));

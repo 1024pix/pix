@@ -16,15 +16,82 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
       route.store.query = sinon.stub().resolves();
     });
 
+    module('when you add filters', function () {
+      test('it should not call store.query if necessary filters are empty', async function (assert) {
+        // given
+        const params = {
+          organizationExternalId: undefined,
+          fullName: undefined,
+          hideDisabled: true,
+          organizationSort: 'asc',
+          pageNumber: 1,
+          pageSize: 50,
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.notCalled(route.store.query);
+        assert.ok(true);
+      });
+      test('it should call store.query if organizationExternalId is filled', async function (assert) {
+        // given
+        const params = {
+          organizationExternalId: 'SCO',
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.called(route.store.query);
+        assert.ok(true);
+      });
+      test('it should call store.query if fullName is filled', async function (assert) {
+        // given
+        const params = {
+          fullName: 'attestation',
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.called(route.store.query);
+        assert.ok(true);
+      });
+      test('it should not call store.query if fullName is filled with less than 2 characters', async function (assert) {
+        // given
+        const params = {
+          fullName: 'a',
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.notCalled(route.store.query);
+        assert.ok(true);
+      });
+    });
+
     module('when queryParams filters are falsy', function () {
       test('it should call store.query with empty params', async function (assert) {
         // given
-        const params = {};
+        const params = {
+          organizationExternalId: 'SCO',
+        };
         const expectedQueryArgs = {
           sort: {
             organizationSort: undefined,
             birthdateSort: undefined,
             updatedAtSort: undefined,
+          },
+          filter: {
+            organizationExternalId: 'SCO',
+            fullName: undefined,
+            hideDisabled: undefined,
           },
           page: {
             number: 1,
@@ -48,12 +115,20 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
           organizationSort: 'asc',
           pageNumber: 'somePageNumber',
           pageSize: 'somePageSize',
+          organizationExternalId: 'SCO',
+          fullName: 'attestation',
+          hideDisabled: true,
         };
         const expectedQueryArgs = {
           sort: {
             organizationSort: 'asc',
             birthdateSort: undefined,
             updatedAtSort: undefined,
+          },
+          filter: {
+            organizationExternalId: 'SCO',
+            fullName: 'attestation',
+            hideDisabled: true,
           },
           page: {
             number: 'somePageNumber',

@@ -8,6 +8,19 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Template | admin-organization-learners | list', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  test('it should render filters', async function (assert) {
+    //given
+    const model = [];
+    //when
+    const screen = await render(<template><List @model={{model}} /></template>);
+    //then
+    assert.ok(screen.getByRole('textbox', { name: 'Orga ID Externe' }));
+    assert.ok(screen.getByRole('textbox', { name: 'Prénom/Nom' }));
+    assert.ok(screen.getByRole('radiogroup', { name: 'Masquer les prescrits désactivés' }));
+    assert.ok(screen.getByRole('button', { name: t('common.filters.actions.load') }));
+    assert.ok(screen.getByRole('button', { name: t('common.filters.actions.clear') }));
+  });
+
   test('it should render list template', async function (assert) {
     // when
     const store = this.owner.lookup('service:store');
