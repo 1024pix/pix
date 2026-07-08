@@ -1,0 +1,984 @@
+{
+  "id": "38c144f6-db63-494b-b270-962791f5504e",
+  "shortId": "0120e042",
+  "slug": "cy-etapes-cyberattaque",
+  "title": "Les coulisses d’une cyberattaque",
+  "isBeta": true,
+  "visibility": "public",
+  "details": {
+    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "description": "<p>Une cyberattaque ne commence pas par un écran bloqué ou des données volées. Elle peut progresser discrètement, étape par étape.&nbsp; Dans ce module, découvrez les grandes étapes d’une cyberattaque et comment certaines mesures peuvent aider pour empêcher les intrusions, détecter les cyberattaques et limiter leurs conséquences.</p>",
+    "duration": 10,
+    "level": "independent",
+    "objectives": [
+      "<p>Identifier les grandes étapes d’une cyberattaque</p>",
+      "<p>Savoir qu’à chaque étape il y a des mesures pour se protéger</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "sections": [
+    {
+      "id": "3bac419a-3a75-4921-b229-f8ba9ccf9d71",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "c24e3a1c-6ace-4159-848c-c62b6b22bf89",
+          "type": "discovery",
+          "title": "Accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "a8117b9b-6805-46d0-a1c4-dbd3da48dc46",
+                "type": "text",
+                "tag": "context",
+                "content": "<p>Un lundi matin, une entreprise se rend compte qu’elle ne peut plus accéder à ses outils numériques. Ses accès, ses fichiers, ses dossiers, tout a été rendu inaccessible par une cyberattaque.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "889df384-a955-4204-b02b-28b81981309f",
+                "type": "qcu-declarative",
+                "instruction": "<p>À votre avis, quand la cyberattaque a-t-elle commencé ?</p>",
+                "hasShortProposals": true,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "Durant le week-end",
+                    "feedback": {
+                      "diagnosis": "<p>C’est possible, mais la cyberattaque a probablement commencé bien avant&nbsp;:&nbsp; plusieurs semaines, voire plusieurs mois plus tôt. Le blocage des outils de travail n’est que la partie visible de l’attaque.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "La semaine d’avant",
+                    "feedback": {
+                      "diagnosis": "<p>C’est possible, mais la cyberattaque a probablement commencé bien avant&nbsp;:&nbsp; plusieurs semaines, voire plusieurs mois plus tôt. Le blocage des outils de travail n’est que la partie visible de l’attaque.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "Le mois d’avant",
+                    "feedback": {
+                      "diagnosis": "<p>C’est possible, mais la cyberattaque a probablement commencé bien avant&nbsp;:&nbsp; plusieurs semaines, voire plusieurs mois plus tôt. Le blocage des outils de travail n’est que la partie visible de l’attaque.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "Le jour même",
+                    "feedback": {
+                      "diagnosis": "<p>C’est possible, mais la cyberattaque a probablement commencé bien avant&nbsp;:&nbsp; plusieurs semaines, voire plusieurs mois plus tôt. Le blocage des outils de travail n’est que la partie visible de l’attaque.</p>"
+                    }
+                  },
+                  {
+                    "id": "5",
+                    "content": "Aucune idée",
+                    "feedback": {
+                      "diagnosis": "<p>C’est possible, mais la cyberattaque a probablement commencé bien avant&nbsp;:&nbsp; plusieurs semaines, voire plusieurs mois plus tôt. Le blocage des outils de travail n’est que la partie visible de l’attaque.</p>"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "caa4bf1f-cf10-4429-ac93-6e8a1d670a34",
+          "type": "transition",
+          "title": "Transition accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "e028867d-45b6-4ce9-8062-60a2a39232b1",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voyons ensemble les grandes étapes d’une cyberattaque.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e626f93e-401c-44da-8f98-6b756f087181",
+      "type": "explore-to-understand",
+      "grains": [
+        {
+          "id": "47d961d8-ea6e-47e6-96b7-7eca04cd6b77",
+          "type": "discovery",
+          "title": "Découverte 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "e0d24292-26dd-4c7a-9047-2b18e8bea9ba",
+                "type": "text",
+                "tag": "context",
+                "content": "<p>Des pirates informatiques ont utilisé l’adresse mail du secrétariat d’une école de musique pour envoyer des messages trompeurs à plusieurs familles.<br>Pour pouvoir envoyer ces mails depuis une adresse officielle, les pirates ont réussi à accéder à la boîte mail du secrétariat.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "41c1c375-8002-4bf8-bbe6-08762e4ec968",
+                "type": "qcm",
+                "instruction": "<p>Selon vous, qu’est-ce qui a pu permettre aux pirates informatiques d’entrer dans la boîte mail du secrétariat ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Le secrétaire a réutilisé le même mot de passe que celui d’un de ses comptes déjà piraté.</p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Le secrétaire a répondu à un mail d’un parent d’élève demandant des informations sur les cours.</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Le secrétaire a cliqué sur un lien dans un faux mail professionnel.</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>L’accès à la messagerie n’était pas protégée par une double authentification.</p>"
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>L’adresse mail de l’école est affichée publiquement sur son site internet.</p>"
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Eh oui !</p>",
+                    "diagnosis": "<p>Pour envoyer ces messages depuis une vraie adresse, les <strong>pirates informatiques </strong>ont dû d’abord <strong>obtenir un accès</strong> à la boîte mail. Cet accès peut venir d’un mot de passe compromis, d’un faux mail ou d’une protection insuffisante de l’accès à la messagerie.</p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Eh non !<br></p>",
+                    "diagnosis": "<p>Pour envoyer ces messages depuis une vraie adresse, les <strong>pirates informatiques </strong>ont dû d’abord <strong>obtenir un accès</strong> à la boîte mail. Cet accès peut venir d’un mot de passe compromis, d’un faux mail ou d’une protection insuffisante de l’accès à la messagerie.</p>"
+                  }
+                },
+                "solutions": [
+                  "1",
+                  "3",
+                  "4"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "a1d0cc53-9380-4abc-a0b5-554b5a6da990",
+          "type": "short-lesson",
+          "title": "Leçon 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "72d3ce8b-13f8-4e23-8d4b-4c815319a0ec",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Une cyberattaque commence par l’obtention d’un <strong>premier accès à un système informatique</strong>. </p><p>Cette <strong>première étape</strong> est souvent <strong>automatisée</strong>, <strong>massive</strong> et <strong>opportuniste</strong>&nbsp;: les pirates informatiques diffusent leurs attaques vers beaucoup de personnes ou d’organisations, <strong>sans toujours viser une cible précise</strong>.&nbsp;</p><p>Pour gêner au maximum les pirates informatiques à cette étape, il faut <strong>empêcher les accès non autorisés</strong>&nbsp;: renforcer les mots de passe ou former les utilisateurs aux risques par exemple. </p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "31da33dc-a1db-4fba-9d17-7b7c07d58297",
+          "type": "transition",
+          "title": "Transition 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "8752b25c-02cc-4211-988e-2fb8d0a57bc9",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Obtenir un premier accès est une première étape. Mais l’attaque ne se déclenche pas toujours immédiatement. Découvrez pourquoi.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "0fea0b17-9871-45da-8a98-846401404f69",
+          "type": "discovery",
+          "title": "Découverte 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "debc6d6b-5f41-49b7-812d-4caa01869eaa",
+                "type": "text",
+                "tag": "context",
+                "content": "<p>Des pirates informatiques ont obtenu un premier accès au système informatique d’un grand groupe hôtelier. <br>Pour l’instant, ils leur manquent encore des informations pour atteindre l’objectif de leur cyberattaque&nbsp;: causer le plus de dégâts financiers au groupe hôtelier.</p><p>Les pirates informatiques veulent donc préparer la suite de leur cyberattaque sans être repérés trop vite.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "b47c5fc4-022a-4544-a841-5ff27005a664",
+                "type": "qab",
+                "instruction": "<p>Pour chacune des actions suivantes, indiquez si elle peut aider ou non les pirates informatiques à préparer la suite de la cyberattaque sans être repérés trop vite.</p>",
+                "cards": [
+                  {
+                    "id": "7d73a0c4-5d82-48d5-9849-2707cd65b0cf",
+                    "text": "Repérer où sont stockées les informations des clients.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "daeee0b7-4dfc-4412-9a7c-29f43f3f0823",
+                    "text": "Obtenir d’autres comptes ou accès utiles.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "4b1ed977-2d0e-4231-a4bc-31a4b59648d5",
+                    "text": "Rendre le site de réservation du groupe hôtelier indisponible.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "8d0de870-c3c8-437f-850c-d4ed33cef35a",
+                    "text": "Envoyer un message à l’ensemble des clients du groupe hôtelier.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "94b32d5d-c02c-4130-a746-ecda4092dad0",
+                    "text": "Identifier les services importants pour l’activité du groupe hôtelier. ",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Oui",
+                    "proposalB": "Non",
+                    "solution": "A"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": "<p>Une fois entrés dans un système informatique, les pirates informatiques n’ont pas toujours tout ce dont ils ont besoin pour la suite de leur cyberattaque. Ils peuvent avoir besoin de <strong>repérer les données confidentielles</strong>, <strong>chercher d’autres accès</strong> ou <strong>identifier les services utiles</strong> à leur attaque. <br>Pour obtenir ces informations, ils doivent alors rester discrets pour observer l’environnement.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8726ced8-fd2a-4d17-9854-de245429b179",
+          "type": "short-lesson",
+          "title": "Leçon 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "02aefae9-bec5-4bd4-a5cf-c298ce8559f5",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Une fois un premier accès obtenu, les pirates informatiques n’ont pas forcément atteint leur objectif. <br>Ils peuvent avoir besoin de temps pour observer l’environnement pour <strong>préparer la suite</strong> de leur attaque. Cette étape peut durer <strong>longtemps</strong>, parfois même plusieurs mois, <strong>sans que les victimes sachent qu’une cyberattaque est déjà en cours</strong>. </p><p>À cette étape, le plus important pour se protéger est de <strong>détecter </strong>une<strong> présence malveillante</strong>, par exemple en repérant des connexions inhabituelles ou des activités anormales. </p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "9d7909b7-27a1-47ea-af87-468dc7b0065a",
+          "type": "transition",
+          "title": "Transition 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "4c8a011e-9bcd-465d-88be-42f5cd95be33",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Découvrez à présent ce qui se passe quand les pirates informatiques passent à l’action et que la cyberattaque devient visible.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "71946a94-ad45-41de-90bc-dc0f95c09cc3",
+          "type": "discovery",
+          "title": "Découverte 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "8ace5ac2-1367-4adb-b045-9d55dfec9032",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>En restant cachés, les pirates informatiques se propagent dans le réseau informatique et espionnent leurs victimes pour chercher le moment où l’attaque visible aura le plus d’effet.</p>"
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "<p>Pour chacune des situations, dites si les pirates informatiques vont déclencher la phase visible de leur attaque ou s’ils vont préférer rester cachés.</p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "f2899004-8659-4b54-95e0-572e6a06f416",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Les pirates ont des accès au réseau d’une entreprise, mais ils n’ont pas encore trouvé tous les fichiers importants qu’ils voulaient.<br>L’entreprise découvre des connexions suspectes sur son réseau et commence à désactiver plusieurs des ces connexions.</p>"
+                    },
+                    {
+                      "id": "949db505-2078-4d01-8bdf-c73ee1b05e2b",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Selon vous, les pirates informatiques vont-ils déclencher la phase visible de leur attaque ou rester cachés ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Ils vont déclencher la phase visible de leur attaque.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Probablement ! Même s’ils n’ont pas fini leur repérage, les pirates <strong>risquent</strong> de <strong>perdre leurs accès</strong> au réseau rapidement. Dans ce cas, ils peuvent décider de <strong>se dévoiler</strong> en déclenchant une action visible <strong>avant d’être expulsés</strong> du réseau.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Ils vont rester cachés.<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Probablement pas ! Même s’ils n’ont pas fini leur repérage, les pirates <strong>risquent</strong> de <strong>perdre leurs accès</strong> au réseau rapidement. Dans ce cas, ils peuvent décider de <strong>se dévoiler</strong> en déclenchant une action visible <strong>avant d’être expulsés</strong> du réseau.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Je ne sais pas.<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Même s’ils n’ont pas fini leur repérage, les pirates <strong>risquent</strong> de <strong>perdre leurs accès</strong> au réseau rapidement. Dans ce cas, ils peuvent décider de <strong>se dévoiler</strong> en déclenchant une action visible <strong>avant d’être expulsés</strong> du réseau.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "272cdfe2-dd9a-4fe2-bd5c-beb9b6a59494",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Les pirates ont accès à la boîte mail de la dirigeante d’une entreprise. Ils peuvent lire ses mails, suivre les projets en cours et obtenir des informations importantes. Mais ils n’ont pas encore accès au reste du réseau de l’entreprise.</p>"
+                    },
+                    {
+                      "id": "a49b6983-ceb6-4061-af92-a46a8a25e92b",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Selon vous, les pirates informatiques vont-ils déclencher la phase visible de leur attaque ou rester cachés ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Ils vont déclencher la phase visible de leur attaque.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Probablement pas ! L’accès à la boîte mail de la dirigeante permet de <strong>collecter des informations</strong>, de <strong>préparer la suite</strong> de la cyberattaque et de <strong>comprendre l’organisation</strong> de l’entreprise. <strong>Déclencher </strong>une attaque visible <strong>trop tôt</strong> ferait <strong>perdre</strong> aux pirates informatiques un <strong>accès utile</strong> pour obtenir tous ces renseignements.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Ils vont rester cachés.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Probablement ! L’accès à la boîte mail de la dirigeante permet de <strong>collecter des informations</strong>, de <strong>préparer la suite</strong> de la cyberattaque et de <strong>comprendre l’organisation</strong> de l’entreprise. <strong>Déclencher </strong>une attaque visible <strong>trop tôt</strong> ferait <strong>perdre</strong> aux pirates informatiques un <strong>accès utile</strong> pour obtenir tous ces renseignements.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>L’accès à la boîte mail de la dirigeante permet de <strong>collecter des informations</strong>, de <strong>préparer la suite</strong> de la cyberattaque et de <strong>comprendre l’organisation</strong> de l’entreprise. <strong>Déclencher </strong>une attaque visible <strong>trop tôt</strong> ferait <strong>perdre</strong> aux pirates informatiques un <strong>accès utile</strong> pour obtenir tous ces renseignements.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "e7e795c1-2ff3-47c7-9513-c2a53cf04855",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Les pirates informatiques savent qu’une période importante de travail arrive pour leur victime&nbsp;: la mise en vente d’une nouvelle voiture. Les pirates informatiques ont accès à l’outil de précommande de cette nouvelle voiture.</p>"
+                    },
+                    {
+                      "id": "0d7ba5ec-44b7-44e6-b735-106422dfbd4f",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Selon vous, les pirates informatiques vont-ils déclencher la phase visible de leur attaque ou rester cachés ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Ils vont déclencher la phase visible de leur attaque.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Probablement ! Le choix de ce moment pour <strong>déclencher </strong>la <strong>phase visible</strong> de la cyberattaque peut <strong>augmenter la pression sur la victime</strong>. Si l’arrêt des outils ou services coûte très cher à ce moment précis, l’attaque aura<strong> encore plus d’effet</strong> sur la victime.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Ils vont rester cachés.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Probablement pas !  Le choix de ce moment pour <strong>déclencher </strong>la <strong>phase visible</strong> de la cyberattaque peut <strong>augmenter la pression sur la victime</strong>. Si l’arrêt des outils ou services coûte très cher à ce moment précis, l’attaque aura<strong> encore plus d’effet</strong> sur la victime.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p> Le choix de ce moment pour <strong>déclencher </strong>la <strong>phase visible</strong> de la cyberattaque peut <strong>augmenter la pression sur la victime</strong>. Si l’arrêt des outils ou services coûte très cher à ce moment précis, l’attaque aura<strong> encore plus d’effet</strong> sur la victime.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ada5a0e8-907d-4144-96db-8ca413d5f451",
+          "type": "short-lesson",
+          "title": "Leçon 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "965e1df3-e9e0-4566-bd0a-b37dda507842",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Une fois prêts, les pirates informatiques <strong>passent à l’action</strong> pour atteindre leur objectif.&nbsp;</p><p>Ils peuvent <strong>voler des données</strong> ou les <strong>rendre inaccessibles</strong> en les chiffrant, <strong>perturber un service</strong>, exercer une pression sur la victime ou préparer d’autres attaques.</p><p>À cette étape, la victime a intérêt à <strong>réagir vite pour limiter les conséquences</strong> de l’attaque&nbsp;: bloquer les accès suspects, isoler les appareils touchés ou empêcher la propagation.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7d1a0679-dede-443f-9502-47596ae0ecd8",
+      "type": "retain-the-essentials",
+      "grains": [
+        {
+          "id": "5cbccfce-85c5-40b0-bbcc-892a4a7d8a4e",
+          "type": "summary",
+          "title": "",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "6d056420-3461-447e-b537-6e5916038901",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>[infographie]</p><p>Une cyberattaque avance souvent en plusieurs étapes&nbsp;:&nbsp; </p><ul><li><strong>Entrer </strong>: Une cyberattaque commence souvent par un <strong>premier accès au système informatique</strong>.</li><li><strong>Agir discrètement</strong>&nbsp;: Une fois entrés, les pirates cherchent souvent à <strong>rester discrets</strong>. Ils <strong>s’installent</strong> et <strong>se déplacent </strong>pour comprendre le système et préparer la suite.</li><li><strong>Atteindre l’objectif</strong>&nbsp;: Les pirates informatiques atteignent leur objectif (vol de données, demande de rançon, perturbation des services, etc.). Parfois la <strong>victime se rend compte de la cyberattaque</strong> seulement à cette étape.</li></ul><p>À <strong>chaque étape</strong>, il est <strong>possible de se protéger</strong>&nbsp;: empêcher l’intrusion, détecter une présence malveillante et limiter les conséquences.<br><br></p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "592cbb7b-0e9e-4b63-84f0-e4afdca666e6",
+      "type": "practise",
+      "grains": [
+        {
+          "id": "daac1a3e-447f-45d2-a3c3-f36eff47a4cd",
+          "type": "transition",
+          "title": "Transition s’exercer",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "10f98615-68fd-4c09-9d9d-ed7eae4b41d7",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voyons si vous avez retenu l’essentiel.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "d78649d0-7a94-4dae-a8c6-c5f0c498941a",
+          "type": "activity",
+          "title": "Activité 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "a78f6566-0889-4176-b073-c37a2aec9524",
+                "type": "qab",
+                "instruction": "<p>Pour chacune des phrases qui suivent, indiquez si elle est vraie ou fausse.</p>",
+                "cards": [
+                  {
+                    "id": "e09d9cdc-0d30-4e52-b757-dea26d86787b",
+                    "text": "Une cyberattaque devient visible dès qu’un pirate informatique obtient un premier accès à un système.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "4c359eb1-e81e-4ca8-b82a-e54af166c4fb",
+                    "text": "Passer à l’action peut consister à voler des données, chiffrer des fichiers ou perturber un service.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "99187bcd-780e-4c42-929b-9ab5ed8dd37e",
+                    "text": "Pendant une cyberattaque si les pirates informatiques restent discrets, c’est parce qu’ils ne savent pas quoi faire. ",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "03007301-9851-4ce9-bcb1-e5716b00fc35",
+                    "text": "Certaines cyberattaques sont diffusées massivement, sans toujours viser une cible précise. ",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": ""
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8befcd9b-ba06-4152-8abe-4e6ea4920d85",
+          "type": "activity",
+          "title": "Activité 2",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "<p>Pour chaque situation, indiquez à quelle étape d’une cyberattaque elle correspond.</p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "1a7cecfc-c301-46a4-b29c-07a3b548ec30",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Un salarié d’un centre sportif clique sur un lien reçu dans un faux mail. Ses identifiants sont ensuite utilisés pour se connecter à un outil interne.</p>"
+                    },
+                    {
+                      "id": "2095a0a9-1297-4b03-8c77-933f704fe026",
+                      "type": "qcu",
+                      "instruction": "<p>De quelle étape d’une cyberattaque il s’agit ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Obtenir un premier accès.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>Les identifiants du salarié permettent ici d’obtenir un premier accès au système informatique.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>S’installer et se déplacer.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Regardez ce que les pirates informatiques obtiennent dans cette situation.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Atteindre l’objectif.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Regardez ce que les pirates informatiques obtiennent dans cette situation.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "8c501302-c8c3-4ece-a197-d7302eef2a5a",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Après s’être connecté à l’espace de travail d’une médiathèque, un pirate informatique consulte plusieurs dossiers pour repérer les fichiers les plus importants.</p>"
+                    },
+                    {
+                      "id": "f78dff50-3e3d-46b8-aa2b-26397dc28f70",
+                      "type": "qcu",
+                      "instruction": "<p>De quelle étape d’une cyberattaque il s’agit ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Obtenir un premier accès.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ici, le pirate informatique est déjà entré dans le système informatique.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>S’installer et se déplacer.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>Le pirate informatique est déjà entré. Il observe l’environnement et prépare la suite de l’attaque.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Atteindre l’objectif.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ici, le pirate informatique est déjà entré dans le système informatique.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "0f814a2b-be0c-4535-8b03-927f626ece6c",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Le site de réservation d’un théâtre devient inaccessible pendant plusieurs heures. Les spectateurs ne peuvent plus réserver de billets.</p>"
+                    },
+                    {
+                      "id": "f7c9cd27-4564-4621-93df-76d7ad9d0d39",
+                      "type": "qcu",
+                      "instruction": "<p>De quelle étape d’une cyberattaque il s’agit ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Obtenir un premier accès.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ici, la cyberattaque a déjà des conséquences visibles pour l’organisation et ses usagers.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>S’installer et se déplacer.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ici, la cyberattaque a déjà des conséquences visibles pour l’organisation et ses usagers.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Atteindre l’objectif.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>La cyberattaque produit ici un effet visible&nbsp;: le service en ligne ne fonctionne plus.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "f52de2d3-9d0e-4ebd-9abe-e6c89107e507",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Un pirate informatique utilise l’accès qu’il a obtenu à un ordinateur pour se connecter à l’ensemble des ordinateurs d’une entreprise.</p>"
+                    },
+                    {
+                      "id": "382f1099-f0a8-46c1-bbd4-503ae4354acb",
+                      "type": "qcu",
+                      "instruction": "<p>De quelle étape d’une cyberattaque il s’agit ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Obtenir un premier accès.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ici, le premier accès existe déjà, et le pirate informatique ne cherche pas à devenir visible.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>S’installer et se déplacer.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>Le pirate informatique utilise son premier accès pour tenter d’aller plus loin dans le système.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Atteindre l’objectif.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ici, le premier accès existe déjà, et le pirate informatique ne cherche pas à devenir visible.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fa4cdc2b-1efa-48c2-935d-62610dbd5052",
+          "type": "activity",
+          "title": "Activité 3",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "<p>Pour chaque situation, indiquez à quel moment la mesure prise aide à se protéger d’une cyberattaque.</p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "418697ba-f422-43c9-9cbf-ebcfcc38c0f7",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Une entreprise diffuse à ses employés un message qui indique qui prévenir et quoi faire quand une cyberattaque est détectée.</p>"
+                    },
+                    {
+                      "id": "4fc67916-2746-4770-81c8-8d5f0478761f",
+                      "type": "qcu",
+                      "instruction": "<p>À quel moment cette mesure aide-t-elle surtout à se protéger ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Avant l’intrusion, pour empêcher l’accès non autorisé.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Cette mesure sert surtout après la détection d’une cyberattaque.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Pendant l’attaque, pour détecter une présence malveillante.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Cette mesure sert surtout après la détection d’une cyberattaque.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Après les premiers effets visibles, pour limiter les conséquences.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>Ce message aide l’entreprise à réagir vite et à réduire l’impact de l’attaque.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "0b72b1e1-7edd-4150-bf13-8ecdf6088a1e",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Une entreprise impose une authentification multifacteur à ses employés pour accéder à ses outils en ligne.</p>"
+                    },
+                    {
+                      "id": "f1fdff7c-6ff8-44a2-8774-4936c1e5d763",
+                      "type": "qcu",
+                      "instruction": "<p>À quel moment cette mesure aide-t-elle surtout à se protéger ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Avant l’intrusion, pour empêcher l’accès non autorisé.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>La double authentification rend l’accès plus difficile pour une personne non autorisée.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Pendant l’attaque, pour détecter une présence malveillante.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Cette mesure sert à réduire les portes d’entrée possibles dans le système informatique.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Après les premiers effets visibles, pour limiter les conséquences.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Cette mesure sert à réduire les portes d’entrée possibles dans le système informatique.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "08fbb09d-9bb8-4400-bf79-55ff18040899",
+                      "type": "text",
+                      "tag": "context",
+                      "content": "<p>Une alerte se déclenche parce qu’un compte se connecte depuis un lieu inhabituel.</p>"
+                    },
+                    {
+                      "id": "0b1f2726-b0d1-43ad-a40c-bedf49960d8c",
+                      "type": "qcu",
+                      "instruction": "<p>À quel moment cette mesure aide-t-elle surtout à se protéger ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Avant l’intrusion, pour empêcher l’accès non autorisé.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>L’objectif ici est de repérer les connexions suspectes.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Pendant l’attaque, pour détecter une présence malveillante.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>Une connexion inhabituelle peut signaler qu’une personne non autorisée utilise un compte.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Après les premiers effets visibles, pour limiter les conséquences.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>L’objectif ici est de repérer les connexions suspectes.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ebeec8be-a928-423e-91f8-dd37cebe3396",
+      "type": "go-further",
+      "grains": [
+        {
+          "id": "b12900c0-1298-4688-bd3b-74b3b9d4dd6c",
+          "type": "challenge",
+          "title": "Transfert",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "055a1ba8-b714-47c9-a139-381bb6dded97",
+                "type": "text",
+                "tag": "context",
+                "content": "<p>Vous recevez une notification indiquant qu’une connexion inhabituelle a eu lieu sur une de vos boîtes mails. Vous savez que vous n’êtes pas à l’origine de cette connexion. Vous arrivez encore à vous connecter et rien ne semble avoir changé. </p><p>[ILLU] notif connexion, en êtes vous à l’origine<br><br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "464265d3-9bb1-4a5d-ad9c-949eb6a845f6",
+                "type": "qcu-discovery",
+                "instruction": "<p>Que faites-vous en priorité ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Je supprime simplement la notification puisque rien ne semble avoir changé.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>L’absence de dégât visible ne signifie pas qu’il n’y a pas de risque. Une cyberattaque peut commencer discrètement&nbsp;: une connexion inhabituelle doit être prise au sérieux, même si tout semble normal. <br>Il faut donc sécuriser l’accès à la boîte mail, par exemple en changeant le mot de passe et en vérifiant les connexions récentes.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Je change le mot de passe de cette boîte mail et je vérifie les connexions récentes.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bon réflexe ! Une connexion inhabituelle peut indiquer qu’une personne non autorisée ou un pirate informatique a réussi à se connecter à votre boîte mail. <br>Changer le mot de passe et vérifier les connexions récentes permet d’agir rapidement, avant que la boîte mail soit utilisée pour envoyer des messages, voler des informations ou préparer d’autres actions.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je surveille régulièrement la boîte mail pour voir si des messages suspects sont envoyés avec.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Surveiller la boîte mail ne suffit pas&nbsp;: si une personne non autorisée a déjà accès à la boîte mail, elle peut agir à tout moment.<br>Il faut d’abord sécuriser l’accès, par exemple en changeant le mot de passe et en vérifiant les connexions récentes.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Je crée une nouvelle boîte mail et je ne me connecte plus à l’ancienne.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Créer une nouvelle boîte mail ne règle pas le problème de l’ancienne. Si quelqu’un y a encore accès, il peut continuer à consulter des messages, utiliser les contacts ou envoyer des mails en votre nom.<br>Il faut donc sécuriser l’accès à la boîte mail, par exemple en changeant le mot de passe et en vérifiant les connexions récentes.</p>"
+                    }
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>J’installe un antivirus.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Ce n’est pas la mesure la plus adaptée. Un antivirus ne change pas le fait que l’accès à votre boîte mail. La priorité est de changer le mot de passe de la boîte mail et d’activer la double authentification, si c’est possible.</p>"
+                    }
+                  }
+                ],
+                "solution": "2"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "glossary": []
+}
