@@ -16,4 +16,18 @@ export const organizationRequestsBuilder = {
       body: JSON.stringify({ certificationCenterId }),
     };
   },
+
+  /**
+   * Builds request object for detach-certification-centers action
+   * @type {function}
+   * @param {object} params
+   * @param {number} params.organizationId
+   * @return {{url: string, method: string}}
+   */
+  buildDetachCertificationCenterRequest: ({ organizationId }) => {
+    return {
+      url: `${ENV.APP.API_HOST}/api/admin/organizations/${organizationId}/detach-certification-center`,
+      method: 'POST',
+    };
+  },
 };

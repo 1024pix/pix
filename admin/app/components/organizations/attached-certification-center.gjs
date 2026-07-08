@@ -9,7 +9,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import AttachedCertificationCenterForm from 'pix-admin/components/organizations/attached-certification-centers/attach-certification-center-form';
-import ENV from 'pix-admin/config/environment';
 import { organizationRequestsBuilder } from 'pix-admin/requests-builders/organization-requests-builder';
 
 export default class AttachedCertificationCenter extends Component {
@@ -77,11 +76,11 @@ export default class AttachedCertificationCenter extends Component {
 
   @action
   async detachCertificationCenter() {
+    const detachCertificationCenterRequest = organizationRequestsBuilder.buildDetachCertificationCenterRequest({
+      organizationId: this.args.organizationId,
+    });
     try {
-      await this.requestManager.request({
-        url: `${ENV.APP.API_HOST}/api/admin/organizations/${this.args.organizationId}/detach-certification-center`,
-        method: 'POST',
-      });
+      await this.requestManager.request(detachCertificationCenterRequest);
       await this.pixToast.sendSuccessNotification({
         message: this.intl.t('components.organizations.attached-certification-center.actions.detach.success'),
       });

@@ -28,4 +28,24 @@ module('Unit | Requests Builders | organization-requests-builder', function (hoo
       assert.deepEqual(builtRequest, expectedBuiltRequest);
     });
   });
+
+  module('#buildDetachCertificationCenterRequest', function () {
+    test('it builds correct request', function (assert) {
+      // given
+      const organizationId = 42;
+
+      const expectedBuiltRequest = {
+        url: `${ENV.APP.API_HOST}/api/admin/organizations/42/detach-certification-center`,
+        method: 'POST',
+      };
+
+      // when
+      const builtRequest = organizationRequestsBuilder.buildDetachCertificationCenterRequest({
+        organizationId,
+      });
+
+      // then
+      assert.deepEqual(builtRequest, expectedBuiltRequest);
+    });
+  });
 });

@@ -3,7 +3,6 @@ import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl/test-support';
 import AttachedCertificationCenter from 'pix-admin/components/organizations/attached-certification-center';
-import ENV from 'pix-admin/config/environment';
 import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -357,12 +356,7 @@ module('Integration | Component | organizations/attached-certification-center', 
           await click(screen.getByRole('button', { name: t('common.actions.confirm') }));
 
           // then
-          assert.true(
-            requestManager.request.calledWith({
-              url: `${ENV.APP.API_HOST}/api/admin/organizations/42/detach-certification-center`,
-              method: 'POST',
-            }),
-          );
+          assert.true(requestManager.request.called);
           assert.true(
             pixToast.sendSuccessNotification.calledWith({
               message: t('components.organizations.attached-certification-center.actions.detach.success'),
