@@ -45,9 +45,9 @@ export default class Sidebar extends Component {
         <PixNavigationButton class="sidebar__link" @route="authenticated.users" @icon="infoUser">
           {{t "components.layout.sidebar.users"}}
         </PixNavigationButton>
-        {{!-- <PixNavigationButton class="sidebar__link" @route="authenticated.organization-learners" @icon="infoUser">
+        <PixNavigationButton class="sidebar__link" @route="authenticated.organization-learners" @icon="infoUser">
           {{t "components.layout.sidebar.organization-learners"}}
-        </PixNavigationButton> --}}
+        </PixNavigationButton>
         <PixNavigationButton class="sidebar__link" @route="authenticated.certification-centers" @icon="mapPin">
           {{t "components.layout.sidebar.certification-centers"}}
         </PixNavigationButton>
