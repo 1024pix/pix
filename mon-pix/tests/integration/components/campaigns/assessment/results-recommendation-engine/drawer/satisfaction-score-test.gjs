@@ -76,6 +76,62 @@ module(
         .isVisible();
     });
 
+    test('it displays a tooltip for each emoji button', async function (assert) {
+      // given
+      const noop = sinon.stub();
+
+      // when
+      const screen = await render(
+        <template><SatisfactionScore @onScoreSelected={{noop}} @onHide={{noop}} /></template>,
+      );
+
+      // then
+      const tooltips = screen.getAllByRole('tooltip', { hidden: true });
+      assert.strictEqual(tooltips.length, 5);
+      assert.dom(tooltips[0]).hasText(t('pages.skill-review.recommended-engine.drawer.emojis.very-dissatisfied'));
+      assert.dom(tooltips[1]).hasText(t('pages.skill-review.recommended-engine.drawer.emojis.dissatisfied'));
+      assert.dom(tooltips[2]).hasText(t('pages.skill-review.recommended-engine.drawer.emojis.neutral'));
+      assert.dom(tooltips[3]).hasText(t('pages.skill-review.recommended-engine.drawer.emojis.satisfied'));
+      assert.dom(tooltips[4]).hasText(t('pages.skill-review.recommended-engine.drawer.emojis.very-satisfied'));
+    });
+
+    [
+      {
+        label: 'very-dissatisfied',
+        length: 2,
+      },
+      {
+        label: 'dissatisfied',
+        length: 1,
+      },
+      {
+        label: 'neutral',
+        length: 1,
+      },
+      {
+        label: 'satisfied',
+        length: 1,
+      },
+      {
+        label: 'very-satisfied',
+        length: 2,
+      },
+    ].forEach((emoji) => {
+      test('it displays labels only under the first (very-dissatisfied) and last (very-satisfied) emoji buttons', async function (assert) {
+        // given
+        const noop = sinon.stub();
+
+        // when
+        const screen = await render(
+          <template><SatisfactionScore @onScoreSelected={{noop}} @onHide={{noop}} /></template>,
+        );
+
+        // then
+        const emojiLabel = screen.getAllByText(t(`pages.skill-review.recommended-engine.drawer.emojis.${emoji.label}`));
+        assert.strictEqual(emojiLabel.length, emoji.length);
+      });
+    });
+
     module('when user clicks an emoji', function () {
       test('it calls onScoreSelected with the corresponding score', async function (assert) {
         // given

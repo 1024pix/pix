@@ -1,4 +1,5 @@
 @use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
 
 @keyframes drawer-slide-up {
   from {
@@ -64,6 +65,30 @@
     flex-direction: row;
     gap: var(--pix-spacing-2x);
     align-items: center;
+    padding-bottom: var(--pix-spacing-8x);
+
+    @include breakpoints.device-is('mobile') {
+      gap: var(--pix-spacing-4x);
+    }
+  }
+
+  &__emoji-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__emoji-label {
+    @extend %pix-body-xs;
+
+    position: absolute;
+    top: calc(100% + var(--pix-spacing-1x));
+    left: 50%;
+    width: max-content;
+    max-width: 4.5rem;
+    line-height: 14px;
+    transform: translateX(-50%);
   }
 
   &__emoji-button {
