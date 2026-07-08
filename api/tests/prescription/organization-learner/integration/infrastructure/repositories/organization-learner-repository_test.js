@@ -767,6 +767,28 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
       expect(result.learners[1].id).to.be.equal(learner2.id);
     });
 
+    it('should not return disabled learner if filter is on', async function () {
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        isDisabled: true,
+      });
+      const learner2 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        isDisabled: false,
+      });
+
+      await databaseBuilder.commit();
+
+      const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+        page: {},
+        filter: { hideDisabled: true },
+      });
+
+      expect(result.learners).lengthOf(1);
+      expect(result.learners[0]).instanceOf(OrganizationLearnerOverviewForAdmin);
+      expect(result.learners[0].id).to.be.equal(learner2.id);
+    });
+
     it('should not return deleted learner', async function () {
       const userId = databaseBuilder.factory.buildUser().id;
 

@@ -68,6 +68,11 @@ describe('Acceptance | Application | learner-list-route', function () {
         birthdate: '2001-01-01',
       });
       databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Annie-Marie',
+        organizationId,
+        isDisabled: true,
+      });
+      databaseBuilder.factory.buildOrganizationLearner({
         firstName: 'Simon',
         organizationId,
       });
@@ -81,6 +86,7 @@ describe('Acceptance | Application | learner-list-route', function () {
         '?filter[fullName]=Annie' +
         '&page[number]=1&page[size]=25' +
         `&filter[organizationExternalId]=ABC123` +
+        `&filter[hideDisabled]=true` +
         '&sort[birthdateSort]=desc';
       const request = {
         method: 'GET',

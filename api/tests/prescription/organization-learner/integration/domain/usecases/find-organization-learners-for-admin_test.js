@@ -81,6 +81,35 @@ describe('Integration | UseCases | find-paginated-filtered-organization-learners
     expect(learners[0].id).to.be.equal(learner.id);
   });
 
+  it('should return paginated organization learners not disabled', async function () {
+    const organization = databaseBuilder.factory.buildOrganization();
+    databaseBuilder.factory.buildOrganizationLearner({
+      firstName: 'Jean',
+      lastName: 'Dion',
+      isDisabled: true,
+    });
+    const learner = databaseBuilder.factory.buildOrganizationLearner({
+      firstName: 'Jean-René',
+      lastName: 'Michel',
+      organizationId: organization.id,
+      isDisabled: false,
+    });
+    await databaseBuilder.commit();
+
+    const result = await usecases.findOrganizationLearnersForAdmin({
+      page: {
+        size: 2,
+        number: 1,
+      },
+      filter: { hideDisabled: true },
+    });
+    const learners = result.learners;
+
+    expect(learners).lengthOf(1);
+    expect(learners[0]).to.be.an.instanceOf(OrganizationLearnerOverviewForAdmin);
+    expect(learners[0].id).to.be.equal(learner.id);
+  });
+
   context('Sort', function () {
     let organization;
     let otherOrganization;
