@@ -8,8 +8,8 @@ export class CertificationAccessCodePage {
     const languageDropdown = this.page.getByRole('button', { name: 'Langue de certification' });
 
     if (await languageDropdown.isVisible()) {
-      // await languageDropdown.click();
-      // await this.page.getByRole('option', { name: 'français - FR' }).click();
+      await languageDropdown.click();
+      await this.page.getByRole('option', { name: 'français - FR' }).click();
 
       const languageConfirmationCheckbox = this.page.getByRole('checkbox', {
         name: /Je confirme être à l'aise dans la langue sélectionnée/,
