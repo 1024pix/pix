@@ -1,5 +1,5 @@
 import { loadEnvFileIfExists } from '../src/shared/load-env-file-if-exists.js';
-import { buildPostgresEnvironment } from './utils/build-postgres-environment.js';
+import { buildPostgresEnvironment, setConnectionString } from './utils/build-postgres-environment.js';
 
 loadEnvFileIfExists();
 
@@ -23,16 +23,18 @@ const baseConfiguration = {
   },
 };
 
-export default {
+const defaultKnexConfig = {
   development: buildPostgresEnvironment(baseConfiguration),
-
-  test: buildPostgresEnvironment({
-    ...baseConfiguration,
-    connection: {
-      ...baseConfiguration.connection,
-      connectionString: process.env.TEST_DATABASE_URL,
-    },
-  }),
-
+  test: setConnectionString(process.env.TEST_DATABASE_URL, buildPostgresEnvironment(baseConfiguration)),
   production: buildPostgresEnvironment(baseConfiguration),
 };
+
+export const knexConfigWithPgBouncer = {
+  ...defaultKnexConfig,
+  production: setConnectionString(
+    process.env.PGBOUNCER_DATABASE_URL ?? process.env.DATABASE_URL,
+    buildPostgresEnvironment(baseConfiguration),
+  ),
+};
+
+export default defaultKnexConfig;
