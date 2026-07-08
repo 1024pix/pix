@@ -29,6 +29,14 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
           maximumAssessmentLength: 32,
           status: 'draft',
         },
+        {
+          id: 15,
+          startDate: new Date('2020-01-01'),
+          expirationDate: new Date('2021-01-01'),
+          assessmentDuration: 90,
+          maximumAssessmentLength: 32,
+          status: 'archived',
+        },
       ],
     });
     server.create('certification-framework', { id: 'Pix', name: 'CORE' });
@@ -38,6 +46,7 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
       scope: 'CORE',
       expirationDate: null,
       areas: [],
+      status: 'active',
     });
     server.create('certification-version', {
       id: 14,
@@ -48,6 +57,15 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
       assessmentDuration: 35,
       maximumAssessmentLength: 2,
       minimumAnswersRequiredForValidation: 1,
+      status: 'draft',
+    });
+    server.create('certification-version', {
+      id: 15,
+      startDate: new Date('2020-01-01'),
+      expirationDate: new Date('2021-01-01'),
+      scope: 'CORE',
+      areas: [],
+      status: 'archived',
     });
   });
 
@@ -232,6 +250,18 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
         assert
           .dom(attributesList.getByText('Nombre min de réponses', { exact: false }).nextElementSibling)
           .hasText('1');
+      });
+    });
+
+    module('when trying to edit a non-draft version', function () {
+      test('redirects to versions list', async function (assert) {
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        await visit(`/certification-frameworks/CORE/versions/13/edit`);
+        assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
+
+        await visit(`/certification-frameworks/CORE/versions/15/edit`);
+        assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
       });
     });
   });

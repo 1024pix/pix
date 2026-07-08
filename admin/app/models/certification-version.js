@@ -16,4 +16,8 @@ export default class CertificationVersion extends Model {
   @attr('string') comments;
 
   @hasMany('area', { async: false, inverse: null }) areas;
+
+  get isDraft() {
+    return this.status === 'draft';
+  }
 }
