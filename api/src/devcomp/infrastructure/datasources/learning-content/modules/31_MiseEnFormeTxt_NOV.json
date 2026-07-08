@@ -347,7 +347,7 @@
                 "id": "6221ea8c-378e-438a-883b-aeb7c47984a1",
                 "type": "expand",
                 "title": "💡 Indice 2 :",
-                "content": "<p>Après avoir sélectionné la phrase, choisissez l’option «&nbsp;Tailles de police&nbsp;» dans la barre d’outils pour agrandir la phrase.</p><p>Pour afficher le nom des boutons, passez votre souris sur les différentes icônes de la barre d’outils.</p>"
+                "content": "<p>Après avoir sélectionné la phrase, choisissez l’option «&nbsp;Tailles de police&nbsp;» dans la barre d’outils pour agrandir la phrase.</p><p>Pour afficher le nom d’un bouton de la barre d’outils, passez votre souris dessus et attendez une seconde&nbsp;: le nom de la fonction du bouton apparaît.</p>"
               }
             }
           ]
