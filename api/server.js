@@ -1,6 +1,5 @@
 import Oppsy from '@1024pix/oppsy';
 import Hapi from '@hapi/hapi';
-import { trace } from '@opentelemetry/api';
 import { parse } from 'neoqs';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
@@ -39,9 +38,9 @@ import { schoolRoutes } from './src/school/routes.js';
 import { config } from './src/shared/config.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
 import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metrics.js';
+import { instrumentHapiServer } from './src/shared/infrastructure/open-telemetry/hapi-tracing.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
-import { instrumentHapiServer } from './src/shared/infrastructure/utils/hapi-tracing.js';
 // bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';
 import { swaggers } from './src/shared/swaggers.js';
@@ -76,6 +75,8 @@ const { logOpsMetrics, port, logging } = config;
 export const createServer = async () => {
   const server = await createBareServer();
 
+  setupOpenTelemetry(server);
+
   // initialisation of Datadog link for metrics publication
   const metrics = new DatadogMetrics({ config });
   server.directMetrics = metrics;
@@ -96,8 +97,6 @@ export const createServer = async () => {
   await setupOpenApiSpecification(server);
 
   setupDeserialization(server);
-
-  setupOpenTelemetry(server);
 
   return server;
 };
@@ -143,9 +142,7 @@ const createBareServer = async function () {
     };
   }
 
-  const server = new Hapi.server(serverConfiguration);
-  instrumentHapiServer(server);
-  return server;
+  return new Hapi.server(serverConfiguration);
 };
 
 const enableOpsMetrics = async function (server, metrics) {
@@ -279,3 +276,8 @@ const setupOpenApiSpecification = async function (server) {
   }
 };
 
+const setupOpenTelemetry = function (server) {
+  if (config.logging.otelEnabled) {
+    instrumentHapiServer(server);
+  }
+};

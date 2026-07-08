@@ -70,7 +70,9 @@ function wrapController(handler, path, method) {
 
   const attributes = { 'hapi.type': 'controller', 'http.route': path, 'code.function': handler.name || 'anonymous' };
   function wrapped(_request, _h) {
-    return withChildSpan(`controller - ${method.toUpperCase()} ${path}`, attributes, () => handler.apply(this, arguments));
+    return withChildSpan(`controller - ${method.toUpperCase()} ${path}`, attributes, () =>
+      handler.apply(this, arguments),
+    );
   }
   wrapped.__pixTraced = true;
   return wrapped;
@@ -107,7 +109,8 @@ function instrumentValidation(server) {
     if (!trace.getSpan(context.active())) return h.continue;
 
     const validate = request.route.settings.validate;
-    const hasValidation = validate && (validate.headers || validate.params || validate.query || validate.payload || validate.state);
+    const hasValidation =
+      validate && (validate.headers || validate.params || validate.query || validate.payload || validate.state);
     if (!hasValidation) return h.continue;
 
     request.app.pixValidationSpan = tracer.startSpan('validation', {
@@ -129,27 +132,29 @@ function instrumentValidation(server) {
   });
 }
 
-
-function instrumentAttributesFromHttpData(server) {
-  server.ext("onPreHandler", (request, h) => {
+function instrumentHttpResponse(server) {
+  server.ext('onPreHandler', (request, h) => {
     const span = trace.getActiveSpan();
     if (!span) return h.continue;
+
+    span.setAttribute("http.route", request.route.path);
+    span.updateName(`${request.method.toUpperCase()} ${request.route.path}`);
 
     request.app.traceId = span.spanContext().traceId;
 
     return h.continue;
   });
 
-  server.ext("onPreResponse", (request, h) => {
+  server.ext('onPreResponse', (request, h) => {
     const traceId = request.app.traceId;
     const response = request.response;
 
     if (!traceId) return h.continue;
 
     if (response.isBoom) {
-      response.output.headers["X-Trace-Id"] = traceId;
+      response.output.headers['X-Trace-Id'] = traceId;
     } else {
-      response.header("X-Trace-Id", traceId);
+      response.header('X-Trace-Id', traceId);
     }
 
     return h.continue;
@@ -177,6 +182,5 @@ export function instrumentHapiServer(server) {
 
   instrumentValidation(server);
 
-  instrumentAttributesFromHttpData(server);
-
+  instrumentHttpResponse(server);
 }
