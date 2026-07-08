@@ -1212,6 +1212,7 @@ describe('Integration | Repository | Campaign-Report', function () {
         organizationId,
         name: 'Oldest',
         createdAt: new Date('2020-01-01'),
+        archivedAt: new Date('2020-03-01'),
       });
       const newest = databaseBuilder.factory.buildCampaign({
         organizationId,
@@ -1241,12 +1242,104 @@ describe('Integration | Repository | Campaign-Report', function () {
       // when
       const { models, meta } = await campaignReportRepository.findAllPaginatedSummariesByOrganizationId({
         organizationId,
+        withTargetProfileName: false,
         page: { number: 1, size: 10 },
       });
 
       // then
       expect(models.map(({ id }) => id)).to.deep.equal([kept.id]);
       expect(meta.rowCount).to.equal(1);
+    });
+
+    describe('when withTargetProfileName is true', function () {
+      it('should return targetProfileName for campaigns with a target profile', async function () {
+        // given
+        const oldest = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          name: 'Oldest',
+          createdAt: new Date('2020-01-01'),
+          targetProfileId: null,
+        });
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const newest = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          name: 'Newest',
+          createdAt: new Date('2023-01-01'),
+          targetProfileId: targetProfile.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { models, meta } = await campaignReportRepository.findAllPaginatedSummariesByOrganizationId({
+          organizationId,
+          withTargetProfileName: true,
+          page: { number: 1, size: 10 },
+        });
+
+        // then
+        expect(models).to.deep.equal([
+          {
+            id: newest.id,
+            name: newest.name,
+            code: newest.code,
+            type: newest.type,
+            createdAt: newest.createdAt,
+            archivedAt: newest.archivedAt,
+            targetProfileName: targetProfile.name,
+          },
+          {
+            id: oldest.id,
+            name: oldest.name,
+            code: oldest.code,
+            type: oldest.type,
+            createdAt: oldest.createdAt,
+            archivedAt: oldest.archivedAt,
+            targetProfileName: null,
+          },
+        ]);
+        expect(meta).to.deep.equal({ page: 1, pageCount: 1, pageSize: 10, rowCount: 2 });
+      });
+    });
+
+    describe('when withArchived is false', function () {
+      it('should not return archived campaigns', async function () {
+        // given
+        databaseBuilder.factory.buildCampaign({
+          organizationId,
+          name: 'Oldest',
+          createdAt: new Date('2020-01-01'),
+          targetProfileId: null,
+        });
+        const archived = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          name: 'Archived',
+          createdAt: new Date('2022-01-01'),
+          archivedAt: new Date('2022-03-01'),
+        });
+        databaseBuilder.factory.buildCampaign({
+          organizationId,
+          name: 'Newest',
+          createdAt: new Date('2023-01-01'),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { models, meta } = await campaignReportRepository.findAllPaginatedSummariesByOrganizationId({
+          organizationId,
+          withArchived: false,
+          page: { number: 1, size: 10 },
+        });
+
+        // then
+        expect(models.length).to.equal(2);
+        expect(models.find(({ id }) => id === archived.id)).to.be.undefined;
+        expect(meta).to.deep.equal({
+          page: 1,
+          pageCount: 1,
+          pageSize: 10,
+          rowCount: 2,
+        });
+      });
     });
   });
 });
