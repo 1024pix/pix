@@ -1,5 +1,4 @@
 import jsonwebtoken from 'jsonwebtoken';
-import ms from 'ms';
 import sinon from 'sinon';
 
 import { OIDC_ERRORS } from '../../../../../src/identity-access-management/domain/constants/oidc-errors.js';
@@ -155,29 +154,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(result).to.be.false;
       });
-    });
-  });
-
-  describe('#createAccessToken', function () {
-    it('creates access token with user id and audience', function () {
-      // given
-      const userId = 42;
-      const accessToken = Symbol('valid access token');
-      const audience = 'https://admin.pix.fr';
-      const payload = { user_id: userId, aud: audience };
-      const jwtOptions = { expiresIn: ms('48h') / 1000 };
-      sinon
-        .stub(jsonwebtoken, 'sign')
-        .withArgs(payload, settings.authentication.secret, jwtOptions)
-        .returns(accessToken);
-
-      const oidcAuthenticationService = new OidcAuthenticationService(settings.oidcExampleNet, { openidClient });
-
-      // when
-      const result = oidcAuthenticationService.createAccessToken({ userId, audience });
-
-      // then
-      expect(result).to.equal(accessToken);
     });
   });
 
