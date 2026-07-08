@@ -13,6 +13,7 @@ export default class CertificationVersion extends Model {
   @attr('boolean') limitToOneQuestionPerTube;
   @attr('boolean') enablePassageByAllCompetences;
   @attr('string') status;
+  @attr('string') scope;
   @attr('string') comments;
 
   @hasMany('area', { async: false, inverse: null }) areas;
