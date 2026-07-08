@@ -89,7 +89,9 @@ export default class CertificationVersionEditForm extends Component {
     try {
       await this.args.version.save();
       this.pixToast.sendSuccessNotification({
-        message: this.intl.t('components.certification-frameworks.versions.edit.success-notification'),
+        message: this.intl.t(
+          'components.certification-frameworks.certification-framework.versions.edit.success-notification',
+        ),
       });
       this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
     } catch (err) {
@@ -108,7 +110,7 @@ export default class CertificationVersionEditForm extends Component {
           {{on "change" this.updateStartDate}}
         >
           <:label>
-            {{t "components.certification-frameworks.versions.edit.start-date-label"}}</:label>
+            {{t "components.certification-frameworks.certification-framework.versions.edit.start-date-label"}}</:label>
         </PixInput>
         <PixInput
           type="time"
@@ -117,7 +119,9 @@ export default class CertificationVersionEditForm extends Component {
           @value={{this.formattedAssessmentDuration}}
           {{on "change" this.updateAssessmentDuration}}
         >
-          <:label>{{t "components.certification-frameworks.versions.edit.assessment-duration-label"}}</:label>
+          <:label>{{t
+              "components.certification-frameworks.certification-framework.versions.edit.assessment-duration-label"
+            }}</:label>
         </PixInput>
         <PixInput
           type="number"
@@ -127,7 +131,7 @@ export default class CertificationVersionEditForm extends Component {
           {{on "change" this.updateDefaultProbabilityToPickChallenge}}
         >
           <:label>{{t
-              "components.certification-frameworks.versions.edit.default-probability-to-pick-challenge-label"
+              "components.certification-frameworks.certification-framework.versions.edit.default-probability-to-pick-challenge-label"
             }}</:label>
         </PixInput>
         <section>
@@ -138,7 +142,9 @@ export default class CertificationVersionEditForm extends Component {
             @value={{@version.variationPercent}}
             {{on "change" this.updateVariationPercent}}
           >
-            <:label>{{t "components.certification-frameworks.versions.edit.variation-percent-label"}}</:label>
+            <:label>{{t
+                "components.certification-frameworks.certification-framework.versions.edit.variation-percent-label"
+              }}</:label>
           </PixInput>
           <PixInput
             type="number"
@@ -147,7 +153,9 @@ export default class CertificationVersionEditForm extends Component {
             @value={{@version.defaultCandidateCapacity}}
             {{on "change" this.updateDefaultCandidateCapacity}}
           >
-            <:label>{{t "components.certification-frameworks.versions.edit.default-candidate-capacity-label"}}</:label>
+            <:label>{{t
+                "components.certification-frameworks.certification-framework.versions.edit.default-candidate-capacity-label"
+              }}</:label>
           </PixInput>
 
         </section>
@@ -159,7 +167,9 @@ export default class CertificationVersionEditForm extends Component {
             @value={{@version.maximumAssessmentLength}}
             {{on "change" this.updateMaximumAssessmentLength}}
           >
-            <:label>{{t "components.certification-frameworks.versions.edit.maximum-assessment-length-label"}}</:label>
+            <:label>{{t
+                "components.certification-frameworks.certification-framework.versions.edit.maximum-assessment-length-label"
+              }}</:label>
           </PixInput>
           <PixInput
             type="number"
@@ -169,7 +179,7 @@ export default class CertificationVersionEditForm extends Component {
             {{on "change" this.updateMinimumAnswersRequiredForValidation}}
           >
             <:label>{{t
-                "components.certification-frameworks.versions.edit.minimum-answers-required-for-validation-label"
+                "components.certification-frameworks.certification-framework.versions.edit.minimum-answers-required-for-validation-label"
               }}</:label>
           </PixInput>
         </section>
@@ -181,7 +191,7 @@ export default class CertificationVersionEditForm extends Component {
           {{on "change" this.updateChallengesBetweenSameCompetence}}
         >
           <:label>{{t
-              "components.certification-frameworks.versions.edit.challenges-between-same-competence-label"
+              "components.certification-frameworks.certification-framework.versions.edit.challenges-between-same-competence-label"
             }}</:label>
         </PixInput>
 
@@ -190,7 +200,7 @@ export default class CertificationVersionEditForm extends Component {
           {{on "change" this.updateLimitToOneQuestionPerTube}}
         >
           <:label>{{t
-              "components.certification-frameworks.versions.edit.limit-to-one-question-per-tube-label"
+              "components.certification-frameworks.certification-framework.versions.edit.limit-to-one-question-per-tube-label"
             }}</:label>
         </PixCheckbox>
 
@@ -199,7 +209,7 @@ export default class CertificationVersionEditForm extends Component {
           {{on "change" this.updateEnablePassageByAllCompetences}}
         >
           <:label>{{t
-              "components.certification-frameworks.versions.edit.enable-passage-by-all-competences-label"
+              "components.certification-frameworks.certification-framework.versions.edit.enable-passage-by-all-competences-label"
             }}</:label>
         </PixCheckbox>
       </form>

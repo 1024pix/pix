@@ -544,6 +544,29 @@
           "parameters": "Framework parameters:",
           "start-date": "Start date:",
           "status": "Status:"
+        },
+        "versions": {
+          "edit": {
+            "assessment-duration-label": "EN Durée de l’épreuve (hh:mm) EN :",
+            "challenges-between-same-competence-label": "EN Nombre de question entre 2 questions de la même compétence EN :",
+            "default-candidate-capacity-label": "EN Capacité de départ des candidats EN :",
+            "default-probability-to-pick-challenge-label": "EN Probabilité de sélection de la question la plus pertinente (en %) EN :",
+            "enable-passage-by-all-competences-label": "EN Forcer le passage par toutes les compétences du référentiel de certification EN :",
+            "limit-to-one-question-per-tube-label": "EN Limiter à 1 question par sujet EN :",
+            "maximum-assessment-length-label": "EN Nombre total de questions EN :",
+            "minimum-answers-required-for-validation-label": "EN Nombre de questions minimum pour obtenir la certification EN :",
+            "start-date-label": "EN Date d'activation prévisionnelle EN :",
+            "submit-button": "EN Enregistrer pour plus tard EN",
+            "success-notification": "EN Les modifications sur la version ont été enregistrées avec succès. EN",
+            "variation-percent-label": "EN Capage de la progression de la capacité EN :"
+          },
+          "new": {
+            "submit-button": "Submit the new version of the certification framework ",
+            "success-notification": "The new version of the certification framework  has been successfully created.",
+            "title": "Creating a new version of the certification framework for {frameworkLabel}"
+          },
+          "page-title": "Creation of a new version of the certification in {scope} framework",
+          "title": "Creating a Certification Release"
         }
       },
       "deletion-modal": {
@@ -598,30 +621,7 @@
           "title": "Historique des profils cibles rattachés"
         }
       },
-      "title": "All certification frameworks",
-      "versions": {
-        "edit": {
-          "assessment-duration-label": "EN Durée de l’épreuve (hh:mm) EN :",
-          "challenges-between-same-competence-label": "EN Nombre de question entre 2 questions de la même compétence EN :",
-          "default-candidate-capacity-label": "EN Capacité de départ des candidats EN :",
-          "default-probability-to-pick-challenge-label": "EN Probabilité de sélection de la question la plus pertinente (en %) EN :",
-          "enable-passage-by-all-competences-label": "EN Forcer le passage par toutes les compétences du référentiel de certification EN :",
-          "limit-to-one-question-per-tube-label": "EN Limiter à 1 question par sujet EN :",
-          "maximum-assessment-length-label": "EN Nombre total de questions EN :",
-          "minimum-answers-required-for-validation-label": "EN Nombre de questions minimum pour obtenir la certification EN :",
-          "start-date-label": "EN Date d'activation prévisionnelle EN :",
-          "submit-button": "EN Enregistrer pour plus tard EN",
-          "success-notification": "EN Les modifications sur la version ont été enregistrées avec succès. EN",
-          "variation-percent-label": "EN Capage de la progression de la capacité EN :"
-        },
-        "new": {
-          "submit-button": "Submit the new version of the certification framework ",
-          "success-notification": "The new version of the certification framework  has been successfully created.",
-          "title": "Creating a new version of the certification framework for {frameworkLabel}"
-        },
-        "page-title": "Creation of a new version of the certification in {scope} framework",
-        "title": "Creating a Certification Release"
-      }
+      "title": "All certification frameworks"
     },
     "certifications": {
       "edu-results": {
