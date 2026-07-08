@@ -1,3 +1,4 @@
+import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { PgInstrumentation } from '@opentelemetry/instrumentation-pg';
@@ -14,6 +15,8 @@ import { logger } from './src/shared/infrastructure/utils/logger.js';
 const { resourceFromAttributes } = resources;
 
 if (config.logging.otelEnabled) {
+  diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+
   const exporter = new OTLPTraceExporter();
 
   const sdk = new NodeSDK({

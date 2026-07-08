@@ -41,6 +41,7 @@ import { installHapiHook } from './src/shared/infrastructure/execution-context-m
 import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metrics.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
+import { instrumentHapiServer } from './src/shared/infrastructure/utils/hapi-tracing.js';
 // bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';
 import { swaggers } from './src/shared/swaggers.js';
@@ -142,7 +143,9 @@ const createBareServer = async function () {
     };
   }
 
-  return new Hapi.server(serverConfiguration);
+  const server = new Hapi.server(serverConfiguration);
+  instrumentHapiServer(server);
+  return server;
 };
 
 const enableOpsMetrics = async function (server, metrics) {
@@ -276,30 +279,3 @@ const setupOpenApiSpecification = async function (server) {
   }
 };
 
-const setupOpenTelemetry = async function (server) {
-  server.ext('onPreHandler', (request, h) => {
-    const span = trace.getActiveSpan();
-    if (!span) return h.continue;
-
-    span.setAttribute('http.route', request.route.path);
-    span.updateName(`${request.method.toUpperCase()} ${request.route.path}`);
-    request.app.traceId = span.spanContext().traceId;
-
-    return h.continue;
-  });
-
-  server.ext('onPreResponse', (request, h) => {
-    const traceId = request.app.traceId;
-    const response = request.response;
-
-    if (!traceId) return h.continue;
-
-    if (response.isBoom) {
-      response.output.headers['X-Trace-Id'] = traceId;
-    } else {
-      response.header('X-Trace-Id', traceId);
-    }
-
-    return h.continue;
-  });
-};
