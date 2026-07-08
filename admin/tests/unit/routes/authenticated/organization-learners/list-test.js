@@ -21,7 +21,15 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
         // given
         const params = {};
         const expectedQueryArgs = {
-          page: { number: 1, size: 50 },
+          sort: {
+            organizationSort: undefined,
+            birthdateSort: undefined,
+            updatedAtSort: undefined,
+          },
+          page: {
+            number: 1,
+            size: 50,
+          },
         };
 
         // when
@@ -37,10 +45,16 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
       test('it should call store.query with defined params', async function (assert) {
         // given
         const params = {
+          organizationSort: 'asc',
           pageNumber: 'somePageNumber',
           pageSize: 'somePageSize',
         };
         const expectedQueryArgs = {
+          sort: {
+            organizationSort: 'asc',
+            birthdateSort: undefined,
+            updatedAtSort: undefined,
+          },
           page: {
             number: 'somePageNumber',
             size: 'somePageSize',

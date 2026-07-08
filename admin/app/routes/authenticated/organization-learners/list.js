@@ -10,6 +10,9 @@ export default class ListRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
+    organizationSort: { refreshModel: true },
+    birthdateSort: { refreshModel: true },
+    updatedAtSort: { refreshModel: true },
   };
 
   async model(params) {
@@ -18,6 +21,11 @@ export default class ListRoute extends Route {
         page: {
           number: params.pageNumber ?? DEFAULT_PAGE_NUMBER,
           size: params.pageSize ?? DEFAULT_PAGE_SIZE,
+        },
+        sort: {
+          organizationSort: params.organizationSort,
+          birthdateSort: params.birthdateSort,
+          updatedAtSort: params.updatedAtSort,
         },
       });
       return organizationLearners;

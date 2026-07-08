@@ -1,7 +1,9 @@
 import { render, within } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import ListTable from 'pix-admin/components/organization-learners/list-table';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -191,6 +193,105 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
       const table = screen.getByRole('table', { name: t('components.organization-learners.list-table.caption') });
 
       assert.dom(within(table).getByRole('img', { name: 'Inactif' })).exists();
+    });
+  });
+
+  module('sort', function () {
+    test('it should sort by organizationName asc and desc', async function (assert) {
+      //given
+      const organizationLearners = [store.createRecord('admin-organization-learner')];
+      const router = this.owner.lookup('service:router');
+
+      const transitionToStub = sinon.stub(router, 'transitionTo');
+
+      //when
+      const screen = await render(<template><ListTable @organizationLearners={{organizationLearners}} /></template>);
+      await click(screen.getByRole('button', { name: 'Trier par orga' }));
+
+      sinon.assert.calledWith(transitionToStub, {
+        queryParams: {
+          organizationSort: 'asc',
+          updatedAtSort: undefined,
+          birthdateSort: undefined,
+          pageNumber: undefined,
+        },
+      });
+
+      await click(screen.getByRole('button', { name: 'Trier par orga desc' }));
+
+      sinon.assert.calledWith(transitionToStub, {
+        queryParams: {
+          organizationSort: 'desc',
+          updatedAtSort: undefined,
+          birthdateSort: undefined,
+          pageNumber: undefined,
+        },
+      });
+      assert.ok(true);
+    });
+    test('it should sort by birthdate asc and desc', async function (assert) {
+      //given
+      const organizationLearners = [store.createRecord('admin-organization-learner')];
+      const router = this.owner.lookup('service:router');
+
+      const transitionToStub = sinon.stub(router, 'transitionTo');
+
+      //when
+      const screen = await render(<template><ListTable @organizationLearners={{organizationLearners}} /></template>);
+      await click(screen.getByRole('button', { name: 'Trier par birthdate' }));
+
+      sinon.assert.calledWith(transitionToStub, {
+        queryParams: {
+          organizationSort: undefined,
+          updatedAtSort: undefined,
+          birthdateSort: 'asc',
+          pageNumber: undefined,
+        },
+      });
+
+      await click(screen.getByRole('button', { name: 'Trier par birthdate desc' }));
+
+      sinon.assert.calledWith(transitionToStub, {
+        queryParams: {
+          organizationSort: undefined,
+          updatedAtSort: undefined,
+          birthdateSort: 'desc',
+          pageNumber: undefined,
+        },
+      });
+      assert.ok(true);
+    });
+    test('it should sort by updatedAt asc and desc', async function (assert) {
+      //given
+      const organizationLearners = [store.createRecord('admin-organization-learner')];
+      const router = this.owner.lookup('service:router');
+
+      const transitionToStub = sinon.stub(router, 'transitionTo');
+
+      //when
+      const screen = await render(<template><ListTable @organizationLearners={{organizationLearners}} /></template>);
+      await click(screen.getByRole('button', { name: 'Trier par date maj' }));
+
+      sinon.assert.calledWith(transitionToStub, {
+        queryParams: {
+          organizationSort: undefined,
+          updatedAtSort: 'asc',
+          birthdateSort: undefined,
+          pageNumber: undefined,
+        },
+      });
+
+      await click(screen.getByRole('button', { name: 'Trier par date maj desc' }));
+
+      sinon.assert.calledWith(transitionToStub, {
+        queryParams: {
+          organizationSort: undefined,
+          updatedAtSort: 'desc',
+          birthdateSort: undefined,
+          pageNumber: undefined,
+        },
+      });
+      assert.ok(true);
     });
   });
 });
