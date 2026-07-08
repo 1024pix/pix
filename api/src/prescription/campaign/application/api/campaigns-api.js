@@ -183,6 +183,8 @@ export const findAllForOrganization = async (payload) => {
  * @typedef CampaignSummaryListPayload
  * @type {object}
  * @property {number} organizationId
+ * @property {boolean} withTargetProfileName
+ * @property {boolean} withArchived
  * @property {PageDefinition} page
  */
 
@@ -190,7 +192,8 @@ export const findAllForOrganization = async (payload) => {
  * @function
  * @name findAllSummariesForOrganization
  * @description Lists an organization's campaigns with only their core attributes (no participation
- * counts, owner or target profile joins).
+ * counts or owner joins).
+ * Can include the targetProfileName if withTargetProfileName is true
  *
  * @param {CampaignSummaryListPayload} payload
  * @returns {Promise<CampaignListResponse>}
@@ -198,6 +201,8 @@ export const findAllForOrganization = async (payload) => {
 export const findAllSummariesForOrganization = async (payload) => {
   const { models: campaigns, meta } = await usecases.findPaginatedOrganizationCampaignSummaries({
     organizationId: payload.organizationId,
+    withTargetProfileName: payload.withTargetProfileName ?? false,
+    withArchived: payload.withArchived ?? true,
     page: payload.page,
   });
 

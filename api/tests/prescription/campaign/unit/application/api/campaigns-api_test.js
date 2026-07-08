@@ -296,7 +296,7 @@ describe('Unit | API | Campaigns', function () {
 
       sinon
         .stub(usecases, 'findPaginatedOrganizationCampaignSummaries')
-        .withArgs({ organizationId, page })
+        .withArgs({ organizationId, withTargetProfileName: false, withArchived: true, page })
         .resolves({ models: [campaignInformation1], meta });
 
       // when
