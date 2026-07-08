@@ -2255,16 +2255,16 @@
       "recommended-engine": {
         "drawer": {
           "emojis": {
-            "dissatisfied": "Ik vind het niet leuk",
+            "dissatisfied": "Niet relevant",
             "neutral": "Ik heb geen mening",
-            "satisfied": "Ik vind het leuk",
-            "very-dissatisfied": "Ik vind het helemaal niet leuk",
-            "very-satisfied": "Ik ben er dol op"
+            "satisfied": "Relevant",
+            "very-dissatisfied": "Helemaal niet relevant",
+            "very-satisfied": "Zeer relevant"
           },
           "hide": "Verbergen",
           "hide-aria-label": "Het feedbackpaneel voor aanbevelingen voor trainingsinhoud verbergen",
           "instruction": "Klik op een emoji om uw mening te geven.",
-          "statement": "Ik waardeer de aanbevolen inhoud om verder te gaan.",
+          "statement": "Lijkt de aanbevolen trainingsinhoud om uw kennis te verdiepen u relevant?",
           "thank-you": {
             "subtitle": "Gelukt!",
             "title": "Bedankt voor uw feedback!"

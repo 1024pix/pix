@@ -2255,16 +2255,16 @@
       "recommended-engine": {
         "drawer": {
           "emojis": {
-            "dissatisfied": "No me gusta",
+            "dissatisfied": "No pertinente",
             "neutral": "No tengo opinión",
-            "satisfied": "Me gusta",
-            "very-dissatisfied": "No me gusta nada",
-            "very-satisfied": "Me encanta"
+            "satisfied": "Pertinente",
+            "very-dissatisfied": "Para nada pertinente",
+            "very-satisfied": "Muy pertinente"
           },
           "hide": "Ocultar",
           "hide-aria-label": "Ocultar el panel de comentarios de las recomendaciones de contenidos formativos",
           "instruction": "Haz clic en un emoji para dar tu opinión.",
-          "statement": "Aprecio los contenidos que me recomiendan para ir más lejos.",
+          "statement": "¿Te parecen pertinentes estos contenidos formativos recomendados para profundizar tus conocimientos?",
           "thank-you": {
             "subtitle": "¡Misión cumplida!",
             "title": "¡Gracias por tu opinión!"

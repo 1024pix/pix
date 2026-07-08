@@ -2255,16 +2255,16 @@
       "recommended-engine": {
         "drawer": {
           "emojis": {
-            "dissatisfied": "Ich mag es nicht",
+            "dissatisfied": "Nicht relevant",
             "neutral": "Ich habe keine Meinung",
-            "satisfied": "Ich mag es",
-            "very-dissatisfied": "Ich mag es gar nicht",
-            "very-satisfied": "Ich liebe es"
+            "satisfied": "Relevant",
+            "very-dissatisfied": "Überhaupt nicht relevant",
+            "very-satisfied": "Sehr relevant"
           },
           "hide": "Ausblenden",
           "hide-aria-label": "Feedbackbereich für Empfehlungen zu Lerninhalten ausblenden",
           "instruction": "Klicken Sie auf ein Emoji, um Ihre Meinung zu geben.",
-          "statement": "Ich schätze die Inhalte, die mir empfohlen werden, um weiterzumachen.",
+          "statement": "Erscheinen Ihnen diese empfohlenen Lerninhalte zur Vertiefung Ihres Wissens relevant?",
           "thank-you": {
             "subtitle": "Geschafft!",
             "title": "Danke für Ihr Feedback!"

@@ -2255,16 +2255,16 @@
       "recommended-engine": {
         "drawer": {
           "emojis": {
-            "dissatisfied": "I don't like it",
+            "dissatisfied": "Not relevant",
             "neutral": "I have no opinion",
-            "satisfied": "I like it",
-            "very-dissatisfied": "I don't like it at all",
-            "very-satisfied": "I love it"
+            "satisfied": "Relevant",
+            "very-dissatisfied": "Not relevant at all",
+            "very-satisfied": "Very relevant"
           },
           "hide": "Hide",
           "hide-aria-label": "Hide the feedback panel for training content recommendations",
           "instruction": "Click on an emoji to give your feedback.",
-          "statement": "I appreciate the content recommended to me to go further.",
+          "statement": "Do these training content recommendations to deepen your knowledge seem relevant to you?",
           "thank-you": {
             "subtitle": "It's in the bag",
             "title": "Thank you for your feedback!"

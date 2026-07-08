@@ -2255,16 +2255,16 @@
       "recommended-engine": {
         "drawer": {
           "emojis": {
-            "dissatisfied": "Je n'apprécie pas",
-            "neutral": "Je n'ai pas d'avis",
-            "satisfied": "J'aime bien",
-            "very-dissatisfied": "Je n'apprécie pas du tout",
-            "very-satisfied": "J'adore"
+            "dissatisfied": "Pas pertinent",
+            "neutral": "Je n’ai pas d’avis",
+            "satisfied": "Pertinent",
+            "very-dissatisfied": "Pas du tout pertinent",
+            "very-satisfied": "Très pertinent"
           },
           "hide": "Masquer",
           "hide-aria-label": "Fermer l'encart de feedback des recommandations de contenus formatifs",
           "instruction": "Cliquez sur un emoji pour donner votre avis.",
-          "statement": "J'apprécie les contenus qui me sont recommandés pour aller plus loin.",
+          "statement": "Ces offres de formation pour approfondir vos connaissances vous semblent-elles pertinentes ?",
           "thank-you": {
             "subtitle": "C'est dans la boîte",
             "title": "Merci pour votre avis !"
