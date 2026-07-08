@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import Card from 'pix-admin/components/card';
+import formatDateToStandard from 'pix-admin/utils/date';
 
 export default class CertificationVersionEditForm extends Component {
   @service store;
@@ -25,9 +26,13 @@ export default class CertificationVersionEditForm extends Component {
     return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
   }
 
+  get formattedStartDate() {
+    return this.args.version.startDate ? formatDateToStandard(this.args.version.startDate) : null;
+  }
+
   @action
   updateStartDate(event) {
-    this.args.version.startDate = event.target.value.length > 0 ? event.target.value : null;
+    this.args.version.startDate = new Date(event.target.value);
   }
 
   @action
@@ -106,7 +111,7 @@ export default class CertificationVersionEditForm extends Component {
           type="date"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
-          @value={{@version.startDate}}
+          @value={{this.formattedStartDate}}
           {{on "change" this.updateStartDate}}
         >
           <:label>
