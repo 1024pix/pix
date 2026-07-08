@@ -225,6 +225,18 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
         };
       });
 
+      context('when there is the optional revokedEncryptedPassword', function () {
+        it('instantiates object', function () {
+          expect(
+            () =>
+              new AuthenticationMethod.PixAuthenticationComplement({
+                ...validArguments,
+                revokedEncryptedPassword: 'revoked-encrypted-password',
+              }),
+          ).not.to.throw(ObjectValidationError);
+        });
+      });
+
       it('should successfully instantiate object when passing all valid arguments', function () {
         // when
         expect(() => new AuthenticationMethod.PixAuthenticationComplement(validArguments)).not.to.throw(
