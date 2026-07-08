@@ -53,11 +53,13 @@ describe('Integration | UseCases | find-paginated-filtered-organization-learners
   });
 
   it('should return paginated organization learners filtered by organizationId', async function () {
-    const organizationId = databaseBuilder.factory.buildOrganization().id;
+    const organization = databaseBuilder.factory.buildOrganization({
+      externalId: 'ABC123',
+    });
     const learner = databaseBuilder.factory.buildOrganizationLearner({
       firstName: 'Jean-René',
       lastName: 'Michel',
-      organizationId,
+      organizationId: organization.id,
     });
     databaseBuilder.factory.buildOrganizationLearner({
       firstName: 'Jean',
@@ -70,7 +72,7 @@ describe('Integration | UseCases | find-paginated-filtered-organization-learners
         size: 2,
         number: 1,
       },
-      filter: { organizationId },
+      filter: { organizationExternalId: organization.externalId },
     });
     const learners = result.learners;
 

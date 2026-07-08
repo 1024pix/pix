@@ -717,7 +717,9 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
     let organization;
 
     beforeEach(async function () {
-      organization = databaseBuilder.factory.buildOrganization();
+      organization = databaseBuilder.factory.buildOrganization({
+        externalId: 'ABC123',
+      });
 
       await databaseBuilder.commit();
     });
@@ -781,8 +783,10 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
       expect(result.learners).lengthOf(0);
     });
 
-    it('retrieve all active learners from specific organizationId', async function () {
-      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+    it('retrieve all active learners from specific organizationExternalId', async function () {
+      const otherOrganization = databaseBuilder.factory.buildOrganization({
+        externalId: 'ZYX987',
+      });
       databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
         organizationId: organization.id,
       });
@@ -791,13 +795,13 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         organizationId: organization.id,
       });
       databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
-        organizationId: otherOrganizationId,
+        organizationId: otherOrganization.id,
       });
 
       await databaseBuilder.commit();
 
       const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
-        filter: { organizationId: organization.id },
+        filter: { organizationExternalId: organization.externalId },
         page: {},
       });
 
@@ -890,9 +894,11 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       context('Filtering', function () {
         it('retrieve filtered and paginated learners', async function () {
-          const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+          const otherOrganization = databaseBuilder.factory.buildOrganization({
+            externalId: 'ZYX987',
+          });
           databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
-            organizationId: otherOrganizationId,
+            organizationId: otherOrganization.id,
             firstName: 'Zoé',
             lastName: 'De Ségazan',
           });
@@ -914,7 +920,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
               size: 1,
               number: 1,
             },
-            filter: { organizationId: organization.id, fullName: 'Zoé De Ségazan' },
+            filter: { organizationExternalId: 'ABC123', fullName: 'Zoé De Ségazan' },
           });
 
           expect(result.pagination).to.deep.equal({

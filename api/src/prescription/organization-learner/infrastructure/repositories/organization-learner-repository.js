@@ -174,12 +174,12 @@ async function findPaginatedLearnersForAdmin({ page, filter, sort }) {
     .orderByRaw('LOWER("lastName") ASC');
 
   if (filter) {
-    const { fullName, organizationId } = filter;
+    const { fullName, organizationExternalId } = filter;
     if (fullName) {
       filterByFullName(query, fullName, 'firstName', 'lastName');
     }
-    if (organizationId) {
-      query.where({ organizationId });
+    if (organizationExternalId) {
+      query.where({ externalId: organizationExternalId });
     }
   }
 

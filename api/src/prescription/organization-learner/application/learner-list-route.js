@@ -70,7 +70,7 @@ const register = async function (server) {
             }).default({}),
             filter: Joi.object({
               fullName: Joi.string().empty(''),
-              organizationId: Joi.number().integer().empty(''),
+              organizationExternalId: Joi.string().empty(''),
             }).default({}),
             sort: {
               organizationSort: Joi.string().empty(''),

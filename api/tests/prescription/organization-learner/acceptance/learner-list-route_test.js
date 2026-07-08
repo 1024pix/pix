@@ -55,7 +55,7 @@ describe('Acceptance | Application | learner-list-route', function () {
     it('should return a list of organization learners', async function () {
       //given
       const superAdminId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ externalId: 'ABC123' }).id;
       const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildOrganizationLearner({
         firstName: 'Annie',
@@ -80,7 +80,7 @@ describe('Acceptance | Application | learner-list-route', function () {
       const params =
         '?filter[fullName]=Annie' +
         '&page[number]=1&page[size]=25' +
-        `&filter[organizationId]=${organizationId}` +
+        `&filter[organizationExternalId]=ABC123` +
         '&sort[birthdateSort]=desc';
       const request = {
         method: 'GET',
