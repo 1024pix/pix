@@ -109,6 +109,7 @@
     "@json2csv/node": "^7.0.2",
     "@opentelemetry/api": "^1.9.1",
     "@opentelemetry/exporter-trace-otlp-proto": "^0.215.0",
+    "@opentelemetry/instrumentation-fs": "^0.39.0",
     "@opentelemetry/instrumentation-http": "^0.216.0",
     "@opentelemetry/instrumentation-pg": "^0.68.0",
     "@opentelemetry/instrumentation-undici": "^0.30.0",
