@@ -547,18 +547,19 @@
         },
         "versions": {
           "edit": {
-            "assessment-duration-label": "EN Durée de l’épreuve (hh:mm) EN :",
-            "challenges-between-same-competence-label": "EN Nombre de question entre 2 questions de la même compétence EN :",
-            "default-candidate-capacity-label": "EN Capacité de départ des candidats EN :",
-            "default-probability-to-pick-challenge-label": "EN Probabilité de sélection de la question la plus pertinente (en %) EN :",
-            "enable-passage-by-all-competences-label": "EN Forcer le passage par toutes les compétences du référentiel de certification EN :",
-            "limit-to-one-question-per-tube-label": "EN Limiter à 1 question par sujet EN :",
-            "maximum-assessment-length-label": "EN Nombre total de questions EN :",
-            "minimum-answers-required-for-validation-label": "EN Nombre de questions minimum pour obtenir la certification EN :",
-            "start-date-label": "EN Date d'activation prévisionnelle EN :",
-            "submit-button": "EN Enregistrer pour plus tard EN",
-            "success-notification": "EN Les modifications sur la version ont été enregistrées avec succès. EN",
-            "variation-percent-label": "EN Capage de la progression de la capacité EN :"
+            "assessment-duration-label": "Assessment duration (hh:mm):",
+            "challenges-between-same-competence-label": "Number of questions between two questions assessing the same competency:",
+            "default-candidate-capacity-label": "Default candidate ability:",
+            "default-probability-to-pick-challenge-label": "Probability of selecting the most relevant question (%):",
+            "enable-passage-by-all-competences-label": "Require coverage of all competencies in the certification framework:",
+            "limit-to-one-question-per-tube-label": "Limit to 1 question per topic:",
+            "maximum-assessment-length-label": "Total number of questions:",
+            "minimum-answers-required-for-validation-label": "Minimum number of questions required to obtain certification:",
+            "start-date-label": "Planned activation date:",
+            "submit-button": "Save for later",
+            "success-notification": "Changes to the version have been saved successfully.",
+            "validation-message-error": "This field is mandatory",
+            "variation-percent-label": "Ability progression cap:"
           },
           "new": {
             "submit-button": "Submit the new version of the certification framework ",

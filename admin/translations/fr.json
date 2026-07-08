@@ -566,6 +566,7 @@
             "start-date-label": "Date d'activation prévisionnelle :",
             "submit-button": "Enregistrer pour plus tard",
             "success-notification": "Les modifications sur la version ont été enregistrées avec succès.",
+            "validation-message-error": "Ce champ doit être rempli",
             "variation-percent-label": "Capage de la progression de la capacité :"
           },
           "new": {

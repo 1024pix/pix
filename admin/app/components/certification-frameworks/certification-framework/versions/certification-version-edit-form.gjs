@@ -4,10 +4,10 @@ import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { trackedObject } from '@ember/reactive/collections';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
-import { eq } from 'ember-truth-helpers';
 import Card from 'pix-admin/components/card';
 import formatDateToStandard from 'pix-admin/utils/date';
 
@@ -16,6 +16,17 @@ export default class CertificationVersionEditForm extends Component {
   @service router;
   @service intl;
   @service pixToast;
+
+  validationForm = trackedObject({
+    startDate: 'default',
+    assessmentDuration: 'default',
+    defaultProbabilityToPickChallenge: 'default',
+    variationPercent: 'default',
+    defaultCandidateCapacity: 'default',
+    maximumAssessmentLength: 'default',
+    minimumAnswersRequiredForValidation: 'default',
+    challengesBetweenSameCompetence: 'default',
+  });
 
   get formattedAssessmentDuration() {
     const minutes = this.args.version.assessmentDuration;
@@ -48,35 +59,32 @@ export default class CertificationVersionEditForm extends Component {
 
   @action
   updateDefaultProbabilityToPickChallenge(event) {
-    this.args.version.defaultProbabilityToPickChallenge =
-      event.target.value.length > 0 ? parseInt(event.target.value) : null;
+    this.args.version.defaultProbabilityToPickChallenge = Number(event.target.valueAsNumber);
   }
 
   @action
   updateVariationPercent(event) {
-    this.args.version.variationPercent = event.target.value.length > 0 ? parseInt(event.target.value) : null;
+    this.args.version.variationPercent = Number(event.target.valueAsNumber);
   }
 
   @action
   updateDefaultCandidateCapacity(event) {
-    this.args.version.defaultCandidateCapacity = event.target.value.length > 0 ? parseInt(event.target.value) : null;
+    this.args.version.defaultCandidateCapacity = Number(event.target.valueAsNumber);
   }
 
   @action
   updateMaximumAssessmentLength(event) {
-    this.args.version.maximumAssessmentLength = event.target.value.length > 0 ? parseInt(event.target.value) : null;
+    this.args.version.maximumAssessmentLength = Number(event.target.valueAsNumber);
   }
 
   @action
   updateMinimumAnswersRequiredForValidation(event) {
-    this.args.version.minimumAnswersRequiredForValidation =
-      event.target.value.length > 0 ? parseInt(event.target.value) : null;
+    this.args.version.minimumAnswersRequiredForValidation = Number(event.target.valueAsNumber);
   }
 
   @action
   updateChallengesBetweenSameCompetence(event) {
-    this.args.version.challengesBetweenSameCompetence =
-      event.target.value.length > 0 ? parseInt(event.target.value) : null;
+    this.args.version.challengesBetweenSameCompetence = Number(event.target.valueAsNumber);
   }
 
   @action
@@ -89,8 +97,24 @@ export default class CertificationVersionEditForm extends Component {
     this.args.version.enablePassageByAllCompetences = !this.args.version.enablePassageByAllCompetences;
   }
 
+  get disableSubmit() {
+    const hasFormValidationError = Object.values(this.validationForm).some((state) => state === 'error');
+    return !this.args.version.hasDirtyAttributes || hasFormValidationError;
+  }
+
   @action
-  async saveVersion() {
+  validateInput(value, key) {
+    if (value === null || value === undefined || value === 'Invalid Date' || Number.isNaN(value)) {
+      this.validationForm[key] = 'error';
+    } else {
+      this.validationForm[key] = 'default';
+    }
+    return this.validationForm[key];
+  }
+
+  @action
+  async saveVersion(event) {
+    event.preventDefault();
     try {
       await this.args.version.save();
       this.pixToast.sendSuccessNotification({
@@ -105,14 +129,23 @@ export default class CertificationVersionEditForm extends Component {
     }
   }
 
+  @action
+  async noop(event) {
+    event.preventDefault();
+  }
+
   <template>
     <Card @title="Configuration de l’algorithme de déroulé du test">
-      <form class="versions-edit__form">
+      <form id="version-edit-form" class="versions-edit__form" {{on "submit" this.saveVersion}}>
         <PixInput
           type="date"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
           @value={{this.formattedStartDate}}
+          @errorMessage={{t
+            "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
+          }}
+          @validationStatus={{this.validateInput this.formattedStartDate "startDate"}}
           {{on "change" this.updateStartDate}}
         >
           <:label>
@@ -122,6 +155,10 @@ export default class CertificationVersionEditForm extends Component {
           type="time"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
+          @errorMessage={{t
+            "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
+          }}
+          @validationStatus={{this.validateInput this.formattedAssessmentDuration "assessmentDuration"}}
           @value={{this.formattedAssessmentDuration}}
           {{on "change" this.updateAssessmentDuration}}
         >
@@ -133,6 +170,13 @@ export default class CertificationVersionEditForm extends Component {
           type="number"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
+          @errorMessage={{t
+            "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
+          }}
+          @validationStatus={{this.validateInput
+            @version.defaultProbabilityToPickChallenge
+            "defaultProbabilityToPickChallenge"
+          }}
           @value={{@version.defaultProbabilityToPickChallenge}}
           {{on "change" this.updateDefaultProbabilityToPickChallenge}}
         >
@@ -144,7 +188,12 @@ export default class CertificationVersionEditForm extends Component {
           <PixInput
             type="number"
             required={{true}}
+            step="any"
             @requiredLabel={{t "common.forms.mandatory"}}
+            @errorMessage={{t
+              "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
+            }}
+            @validationStatus={{this.validateInput @version.variationPercent "variationPercent"}}
             @value={{@version.variationPercent}}
             {{on "change" this.updateVariationPercent}}
           >
@@ -156,6 +205,10 @@ export default class CertificationVersionEditForm extends Component {
             type="number"
             required={{true}}
             @requiredLabel={{t "common.forms.mandatory"}}
+            @errorMessage={{t
+              "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
+            }}
+            @validationStatus={{this.validateInput @version.defaultCandidateCapacity "defaultCandidateCapacity"}}
             @value={{@version.defaultCandidateCapacity}}
             {{on "change" this.updateDefaultCandidateCapacity}}
           >
@@ -170,6 +223,10 @@ export default class CertificationVersionEditForm extends Component {
             type="number"
             required={{true}}
             @requiredLabel={{t "common.forms.mandatory"}}
+            @errorMessage={{t
+              "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
+            }}
+            @validationStatus={{this.validateInput @version.maximumAssessmentLength "maximumAssessmentLength"}}
             @value={{@version.maximumAssessmentLength}}
             {{on "change" this.updateMaximumAssessmentLength}}
           >
@@ -181,6 +238,13 @@ export default class CertificationVersionEditForm extends Component {
             type="number"
             required={{true}}
             @requiredLabel={{t "common.forms.mandatory"}}
+            @errorMessage={{t
+              "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
+            }}
+            @validationStatus={{this.validateInput
+              @version.minimumAnswersRequiredForValidation
+              "minimumAnswersRequiredForValidation"
+            }}
             @value={{@version.minimumAnswersRequiredForValidation}}
             {{on "change" this.updateMinimumAnswersRequiredForValidation}}
           >
@@ -193,6 +257,13 @@ export default class CertificationVersionEditForm extends Component {
           type="number"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
+          @errorMessage={{t
+            "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
+          }}
+          @validationStatus={{this.validateInput
+            @version.challengesBetweenSameCompetence
+            "challengesBetweenSameCompetence"
+          }}
           @value={{@version.challengesBetweenSameCompetence}}
           {{on "change" this.updateChallengesBetweenSameCompetence}}
         >
@@ -220,13 +291,8 @@ export default class CertificationVersionEditForm extends Component {
         </PixCheckbox>
       </form>
     </Card>
-
     <section class="actions-container">
-      <PixButton
-        @triggerAction={{this.saveVersion}}
-        @isDisabled={{eq @version.hasDirtyAttributes false}}
-        @variant="secondary"
-      >
+      <PixButton @type="submit" form="version-edit-form" @isDisabled={{this.disableSubmit}} @variant="secondary">
         {{t "components.certification-frameworks.certification-framework.versions.edit.submit-button"}}
       </PixButton>
       <PixButtonLink @route="authenticated.certification-frameworks.certification-framework" @variant="secondary">
