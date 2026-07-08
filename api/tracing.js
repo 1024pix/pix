@@ -1,3 +1,4 @@
+import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { PgInstrumentation } from '@opentelemetry/instrumentation-pg';
@@ -9,11 +10,14 @@ import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
 import { config } from './src/shared/config.js';
 import { scalingoDetector } from './src/shared/infrastructure/open-telemetry/scalingo-detector.js';
+import { HapiInstrumentation } from './src/shared/infrastructure/utils/hapi-instrumentation/index.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 
 const { resourceFromAttributes } = resources;
 
 if (config.logging.otelEnabled) {
+  diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+
   const exporter = new OTLPTraceExporter();
 
   const sdk = new NodeSDK({
@@ -24,6 +28,7 @@ if (config.logging.otelEnabled) {
     traceExporter: exporter,
     instrumentations: [
       new HttpInstrumentation(),
+      new HapiInstrumentation(),
       new UndiciInstrumentation({
         requestHook(span, request) {
           span.updateName(`${request.method} ${request.origin}${request.path}`);
