@@ -2266,7 +2266,7 @@
           "instruction": "Cliquez sur un emoji pour donner votre avis.",
           "statement": "J'apprécie les contenus qui me sont recommandés pour aller plus loin.",
           "thank-you": {
-            "subtitle": "C'est dans la boite",
+            "subtitle": "C'est dans la boîte",
             "title": "Merci pour votre avis !"
           },
           "title": "Feedback sur la recommandation de contenu formatif"
