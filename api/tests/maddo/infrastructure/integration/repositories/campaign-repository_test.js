@@ -13,34 +13,39 @@ describe('Maddo | Infrastructure | Repositories | Integration | campaign', funct
       const campaign1 = databaseBuilder.factory.buildCampaign({
         organizationId: organization.id,
         targetProfileId: targetProfile.id,
+        createdAt: new Date('2026-01-01'),
+      });
+      databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+        createdAt: new Date('2026-01-02'),
+        archivedAt: new Date('2026-01-03'),
+      });
+      databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+        createdAt: new Date('2026-01-02'),
+        deletedAt: new Date('2026-01-03'),
       });
       const campaign2 = databaseBuilder.factory.buildCampaign({
         organizationId: organization.id,
         targetProfileId: targetProfile.id,
+        createdAt: new Date('2026-01-03'),
       });
       databaseBuilder.factory.buildCampaign({ organizationId: otherOrganizationId });
 
       await databaseBuilder.commit();
 
       // when
-      const { campaigns, page } = await findByOrganizationId(organization.id, { number: 1, size: 2 }, 'en');
+      const { campaigns, page } = await findByOrganizationId(organization.id, { number: 1, size: 10 });
 
       // then
       expect(page).to.deep.equal({
         number: 1,
-        size: 2,
+        size: 10,
         count: 1,
       });
       expect(campaigns).to.deep.equal([
-        new Campaign({
-          id: campaign1.id,
-          name: campaign1.name,
-          type: campaign1.type,
-          targetProfileName: targetProfile.name,
-          code: campaign1.code,
-          createdAt: campaign1.createdAt,
-          archivedAt: campaign1.archivedAt,
-        }),
         new Campaign({
           id: campaign2.id,
           name: campaign2.name,
@@ -49,6 +54,15 @@ describe('Maddo | Infrastructure | Repositories | Integration | campaign', funct
           code: campaign2.code,
           archivedAt: campaign2.archivedAt,
           createdAt: campaign2.createdAt,
+        }),
+        new Campaign({
+          id: campaign1.id,
+          name: campaign1.name,
+          type: campaign1.type,
+          targetProfileName: targetProfile.name,
+          code: campaign1.code,
+          createdAt: campaign1.createdAt,
+          archivedAt: campaign1.archivedAt,
         }),
       ]);
     });
