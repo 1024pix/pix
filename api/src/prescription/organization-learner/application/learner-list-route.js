@@ -72,6 +72,11 @@ const register = async function (server) {
               fullName: Joi.string().empty(''),
               organizationId: Joi.number().integer().empty(''),
             }).default({}),
+            sort: {
+              organizationSort: Joi.string().empty(''),
+              birthdateSort: Joi.string().empty(''),
+              updatedAtSort: Joi.string().empty(''),
+            },
           }),
         },
         handler: learnerListController.findOrganizationLearnersForAdmin,

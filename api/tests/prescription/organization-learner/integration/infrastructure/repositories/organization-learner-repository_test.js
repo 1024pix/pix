@@ -928,6 +928,111 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         });
       });
     });
+
+    context('Sort', function () {
+      let otherOrganization;
+      let learner1, learner2, learner3;
+      beforeEach(async function () {
+        otherOrganization = databaseBuilder.factory.buildOrganization({
+          name: 'PIX',
+        });
+
+        learner1 = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Annie',
+          birthdate: '2000-01-01',
+          updatedAt: new Date('2022-01-01'),
+        });
+        learner2 = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Zoé',
+          lastName: 'De Ségazan',
+          birthdate: '2001-01-01',
+          updatedAt: new Date('2021-01-01'),
+        });
+        learner3 = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: otherOrganization.id,
+          firstName: 'Jean',
+          lastName: 'De Ségazan',
+          birthdate: '2002-01-01',
+          updatedAt: new Date('2020-01-01'),
+        });
+
+        await databaseBuilder.commit();
+      });
+      it('retrieve learners sorted by organization name asc', async function () {
+        //when
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+          sort: {
+            organizationSort: 'asc',
+          },
+        });
+        //then
+        expect(result.learners[0].id).to.be.equal(learner1.id);
+        expect(result.learners[1].id).to.be.equal(learner2.id);
+        expect(result.learners[2].id).to.be.equal(learner3.id);
+      });
+      it('retrieve learners sorted by organization name desc', async function () {
+        //when
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+          sort: {
+            organizationSort: 'desc',
+          },
+        });
+        //then
+        expect(result.learners[0].id).to.be.equal(learner3.id);
+        expect(result.learners[1].id).to.be.equal(learner1.id);
+        expect(result.learners[2].id).to.be.equal(learner2.id);
+      });
+      it('retrieve learners sorted by birthdate asc', async function () {
+        //when
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+          sort: {
+            birthdateSort: 'asc',
+          },
+        });
+        //then
+        expect(result.learners[0].id).to.be.equal(learner1.id);
+        expect(result.learners[1].id).to.be.equal(learner2.id);
+        expect(result.learners[2].id).to.be.equal(learner3.id);
+      });
+      it('retrieve learners sorted by birthdate desc', async function () {
+        //when
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+          sort: {
+            birthdateSort: 'desc',
+          },
+        });
+        //then
+        expect(result.learners[0].id).to.be.equal(learner3.id);
+        expect(result.learners[1].id).to.be.equal(learner2.id);
+        expect(result.learners[2].id).to.be.equal(learner1.id);
+      });
+      it('retrieve learners sorted by updatedAt asc', async function () {
+        //when
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+          sort: {
+            updatedAtSort: 'asc',
+          },
+        });
+        //then
+        expect(result.learners[0].id).to.be.equal(learner3.id);
+        expect(result.learners[1].id).to.be.equal(learner2.id);
+        expect(result.learners[2].id).to.be.equal(learner1.id);
+      });
+      it('retrieve learners sorted by updatedAt desc', async function () {
+        //when
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+          sort: {
+            updatedAtSort: 'desc',
+          },
+        });
+        //then
+        expect(result.learners[0].id).to.be.equal(learner1.id);
+        expect(result.learners[1].id).to.be.equal(learner2.id);
+        expect(result.learners[2].id).to.be.equal(learner3.id);
+      });
+    });
   });
 
   describe('#findUserIdsFromFilters', function () {

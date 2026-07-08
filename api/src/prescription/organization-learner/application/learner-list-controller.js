@@ -31,8 +31,8 @@ const findOrganizationLearnersForAdmin = async function (
   _,
   dependencies = { adminOrganizationLearnerSerializer },
 ) {
-  const { page, filter } = request.query;
-  const { learners, pagination } = await usecases.findOrganizationLearnersForAdmin({ page, filter });
+  const { page, filter, sort } = request.query;
+  const { learners, pagination } = await usecases.findOrganizationLearnersForAdmin({ page, filter, sort });
   return dependencies.adminOrganizationLearnerSerializer.serialize({ learners, pagination });
 };
 
