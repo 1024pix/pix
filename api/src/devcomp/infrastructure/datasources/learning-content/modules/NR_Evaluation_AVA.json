@@ -159,21 +159,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>La fabrication de matériel informatique impacte <strong>directement </strong>l’environnement.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d'extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet direct</strong>.</p><p> La fabrication de matériel informatique impacte directement l’environnement.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet direct</strong>.</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d'extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet direct</strong>.</p><p> La fabrication de matériel informatique impacte directement l’environnement.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet direct</strong>.</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d'extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         }
                       ],
@@ -199,21 +199,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Les serveurs consomment forcément de l’électricité pour fonctionner.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l'environnement.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet direct</strong> sur l’environnement&nbsp;: les serveurs consomment forcément de l’électricité pour fonctionner.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l'environnement.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet direct</strong> sur l’environnement&nbsp;: les serveurs consomment forcément de l’électricité pour fonctionner.</p>"
+                            "diagnosis": "<p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l'environnement.</p>"
                           }
                         }
                       ],
@@ -239,21 +239,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: le smartphone&nbsp;remplace d’autres équipements.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement : l'essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong>effet de substitution</strong> : le smartphone remplace d'autres équipements.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: le smartphone&nbsp;remplace d’autres équipements.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement : l'essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong>effet de substitution</strong> : le smartphone remplace d'autres équipements.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: le smartphone&nbsp;remplace d’autres équipements.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement : l'essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong>effet de substitution</strong> : le smartphone remplace d'autres équipements, ce qui impacte l'environnement.</p>"
                           }
                         }
                       ],
@@ -279,21 +279,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un<strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l'environnement : le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p> Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un<strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire. Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l'environnement : le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un <strong>gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire. Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l'environnement : le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         }
                       ],
