@@ -7,6 +7,7 @@ export default class CombinedCourse extends Model {
   @attr('number') completedParticipationsCount;
   @attr('boolean') hasCampaigns;
   @attr('boolean') hasModules;
+  @attr('boolean') hasReward;
   @attr({ defaultValue: () => [] }) campaignIds;
 
   @hasMany('combined-course-participation', { async: true, inverse: null }) combinedCourseParticipations;

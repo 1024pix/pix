@@ -215,6 +215,19 @@ export default class CombinedCourse extends Component {
             </PixTableColumn>
           {{/if}}
 
+          {{#if @hasReward}}
+            <PixTableColumn @context={{context}} @type="text">
+              <:header>
+                {{t "pages.combined-course.table.column.reward"}}
+              </:header>
+              <:cell>
+                <span class={{participation.rewardStatusDisplay.class}}>
+                  <PixIcon @name={{participation.rewardStatusDisplay.icon}} />
+                  {{t participation.rewardStatusDisplay.text}}</span>
+              </:cell>
+            </PixTableColumn>
+          {{/if}}
+
         </:columns>
       </PixTable>
       {{#if @participations.meta}}

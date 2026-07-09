@@ -55,6 +55,7 @@
 @use 'components/import-information-banner' as *;
 @use 'components/statistics' as *;
 @use 'components/statistics/cover-rate-gauge' as *;
+@use 'components/participations' as *;
 
 // pages
 @use 'pages/login' as *;

@@ -20,6 +20,7 @@ module('Integration | Component | combined-course/participations', function (hoo
       nbModules: 5,
       nbCampaignsCompleted: 2,
       nbModulesCompleted: 2,
+      rewardStatus: 'OBTAINED',
     },
     {
       id: 234,
@@ -32,12 +33,14 @@ module('Integration | Component | combined-course/participations', function (hoo
       nbModules: 2,
       nbCampaignsCompleted: 0,
       nbModulesCompleted: 0,
+      rewardStatus: 'NOT_OBTAINED',
     },
   ];
   participations.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
   const onFilter = sinon.stub();
 
   setupIntlRenderingTest(hooks);
+  let store;
 
   hooks.beforeEach(function () {
     const currentUser = this.owner.lookup('service:current-user');
@@ -45,6 +48,7 @@ module('Integration | Component | combined-course/participations', function (hoo
       isManagingStudents: false,
       isSco: false,
     };
+    store = this.owner.lookup('service:store');
   });
 
   module('table', function (hooks) {
@@ -235,23 +239,75 @@ module('Integration | Component | combined-course/participations', function (hoo
         router.transitionTo.calledWith('authenticated.combined-course.participation-detail', participations[0].id),
       );
     });
+
+    test('it should display attestation column when there is a reward linked to the combined course', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <CombinedCourseParticipations
+            @hasCampaigns={{true}}
+            @hasModules={{true}}
+            @hasReward={{true}}
+            @participations={{participations}}
+            @onFilter={{onFilter}}
+          />
+        </template>,
+      );
+
+      const table = screen.getByRole('table');
+
+      // then
+      assert.ok(
+        within(table).getByRole('columnheader', {
+          name: t('pages.combined-course.table.column.reward'),
+        }),
+      );
+    });
+
+    test('it should not display attestation column when there is no reward linked to the combined course', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <CombinedCourseParticipations
+            @hasCampaigns={{true}}
+            @hasModules={{true}}
+            @hasReward={{false}}
+            @participations={{participations}}
+            @onFilter={{onFilter}}
+          />
+        </template>,
+      );
+
+      const table = screen.getByRole('table');
+
+      // then
+      assert.notOk(
+        within(table).queryByRole('columnheader', {
+          name: t('pages.combined-course.table.column.reward'),
+        }),
+      );
+    });
   });
 
   test('it should display participation details', async function (assert) {
     // when
+    const participationRecords = [
+      store.createRecord('combined-course-participation', participations[0]),
+      store.createRecord('combined-course-participation', participations[1]),
+    ];
     const screen = await render(
       <template>
         <CombinedCourseParticipations
           @hasCampaigns={{true}}
           @hasModules={{true}}
-          @participations={{participations}}
+          @participations={{participationRecords}}
           @onFilter={{onFilter}}
+          @hasReward={{true}}
         />
       </template>,
     );
 
     const table = screen.getByRole('table');
-
     // then
     assert.ok(
       within(table).getByRole('cell', {
@@ -283,6 +339,18 @@ module('Integration | Component | combined-course/participations', function (hoo
           nbItems: participations[0].nbModules,
         }),
       ),
+    );
+    //obtained
+    assert.ok(
+      within(table).getByRole('cell', {
+        name: t('pages.combined-course.table.rewards.obtained'),
+      }),
+    );
+    // not obtained
+    assert.ok(
+      within(table).getByRole('cell', {
+        name: t('pages.combined-course.table.rewards.not-obtained'),
+      }),
     );
   });
 
