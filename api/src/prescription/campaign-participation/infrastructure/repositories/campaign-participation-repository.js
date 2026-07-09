@@ -318,20 +318,20 @@ const getCodeOfLastParticipationToProfilesCollectionCampaignForUser = async func
 
 const isRetrying = async function ({ campaignParticipationId }) {
   const knexConn = DomainTransaction.getConnection();
-  const { id: campaignId, organizationLearnerId } = await knexConn('campaigns')
-    .select('campaigns.id', 'organizationLearnerId')
-    .join('campaign-participations', 'campaigns.id', 'campaignId')
-    .where({ 'campaign-participations.id': campaignParticipationId })
+  const { participationCountToCampaign, hasUnsharedRetry } = await knexConn('campaign-participations')
+    .whereIn(
+      ['campaignId', 'organizationLearnerId'],
+      knexConn('campaign-participations')
+        .select('campaignId', 'organizationLearnerId')
+        .where({ id: campaignParticipationId }),
+    )
+    .select(
+      knexConn.raw('COUNT(*) AS "participationCountToCampaign"'),
+      knexConn.raw('BOOL_OR(NOT "isImproved" AND "sharedAt" IS NULL) AS "hasUnsharedRetry"'),
+    )
     .first();
 
-  const campaignParticipations = await knexConn('campaign-participations')
-    .select('sharedAt', 'isImproved')
-    .where({ campaignId, organizationLearnerId });
-
-  return (
-    campaignParticipations.length > 1 &&
-    campaignParticipations.some((participation) => !participation.isImproved && !participation.sharedAt)
-  );
+  return participationCountToCampaign > 1 && hasUnsharedRetry;
 };
 
 function _rowToResult(row) {
