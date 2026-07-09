@@ -6,4 +6,3 @@ postdeploy: npm run postdeploy
 # for more information
 web: exec node -r ./tracing.js index.js
 worker: exec node -r ./tracing.worker.js worker.js
-fastworker: exec node worker.js fast

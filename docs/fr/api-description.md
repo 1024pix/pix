@@ -12,7 +12,7 @@ L'API peut démarrer sous trois formes de processus :
 
 **`index.js` → Serveur HTTP.** Le processus principal. Il démarre le serveur Hapi, se connecte aux bases de données, initialise le pub/sub Redis et enregistre un endpoint de métriques Prometheus. Il gère l'arrêt gracieux sur `SIGTERM`/`SIGINT`.
 
-**`worker.js` → Worker de jobs en arrière-plan.** Un second processus qui consomme des jobs depuis une file d'attente PostgreSQL (PG Boss). Les jobs sont regroupés en files `DEFAULT` et `FAST`. Ce processus partage le même code de domaine et d'infrastructure, mais écoute des tâches plutôt que des requêtes HTTP.
+**`worker.js` → Worker de jobs en arrière-plan.** Un second processus qui consomme des jobs depuis une file d'attente PostgreSQL (PG Boss). Les jobs sont regroupés en files `DEFAULT` et `MADDO`. Ce processus partage le même code de domaine et d'infrastructure, mais écoute des tâches plutôt que des requêtes HTTP.
 
 **`server.js` → Fabrique de serveur.** Ce n'est pas un processus à proprement parler, mais une fonction fabrique qui configure l'instance Hapi : enregistrement des plugins, mise en place des stratégies d'authentification (JWT, OIDC, SAML), enregistrement de toutes les routes des 22+ contextes délimités, et configuration de la gestion des erreurs, du CORS et des en-têtes HSTS.
 
@@ -20,7 +20,7 @@ L'API peut démarrer sous trois formes de processus :
 
 ## Les Contextes Délimités
 
-Le répertoire `src/` est organisé en **contextes délimités** (*bounded contexts*), chacun représentant un domaine métier distinct. C'est la décision architecturale la plus importante du projet. Les principaux contextes sont :
+Le répertoire `src/` est organisé en **contextes délimités** (_bounded contexts_), chacun représentant un domaine métier distinct. C'est la décision architecturale la plus importante du projet. Les principaux contextes sont :
 
 - **`certification/`** — Le plus complexe, découpé en 5 sous-domaines : `configuration`, `enrolment`, `evaluation`, `results` et `session-management`. Gère tout, de la création de session aux relevés de notes en PDF.
 - **`prescription/`** — Découpé en 7 sous-domaines. Gère les campagnes, les profils cibles, le suivi des participants et les relations organisation-apprenants.
@@ -61,10 +61,10 @@ Chaque contexte délimité suit la même structure interne :
 
 L'API se connecte à **plusieurs bases de données PostgreSQL** :
 
-| Connexion | Rôle |
-|---|---|
-| `DATABASE_URL` | Base transactionnelle principale |
-| `JOBS_DATABASE_URL` | File de jobs PG Boss |
+| Connexion           | Rôle                             |
+| ------------------- | -------------------------------- |
+| `DATABASE_URL`      | Base transactionnelle principale |
+| `JOBS_DATABASE_URL` | File de jobs PG Boss             |
 
 Il existe **794 fichiers de migration Knex** dans `db/migrations/`, représentant l'historique complet du schéma. Les extensions Knex apportent quelques améliorations : `whereInArray()` pour interroger les tableaux PostgreSQL, un parsing automatique des dates en chaînes `YYYY-MM-DD` (plutôt qu'en objets `Date` JavaScript), et l'injection de commentaires dans les requêtes pour l'observabilité.
 
@@ -117,16 +117,16 @@ L'API accorde une grande importance à la supervision :
 
 ## Services d'Infrastructure Clés
 
-| Service | Implémentation |
-|---|---|
-| Email | Nodemailer + API Brevo (Sendinblue) |
-| Stockage de fichiers | S3 Generic via `@aws-sdk/client-s3` |
-| Cache / KV | Redis (`ioredis`) avec fallback en mémoire |
-| Verrouillage distribué | `RedisMutex` basé sur Redis |
-| Pub/Sub | Redis + abonnements GraphQL |
-| Génération de PDF | `pdfkit` + `pdf-lib` |
-| Export Excel/CSV | `xlsx` + `@json2csv` |
-| SAML/XML | `samlify`, `xml2js`, `xmlbuilder2` |
+| Service                | Implémentation                             |
+| ---------------------- | ------------------------------------------ |
+| Email                  | Nodemailer + API Brevo (Sendinblue)        |
+| Stockage de fichiers   | S3 Generic via `@aws-sdk/client-s3`        |
+| Cache / KV             | Redis (`ioredis`) avec fallback en mémoire |
+| Verrouillage distribué | `RedisMutex` basé sur Redis                |
+| Pub/Sub                | Redis + abonnements GraphQL                |
+| Génération de PDF      | `pdfkit` + `pdf-lib`                       |
+| Export Excel/CSV       | `xlsx` + `@json2csv`                       |
+| SAML/XML               | `samlify`, `xml2js`, `xmlbuilder2`         |
 
 ---
 

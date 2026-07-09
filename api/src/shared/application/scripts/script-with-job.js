@@ -5,7 +5,7 @@ import { Script } from './script.js';
 export class ScriptWithJob extends Script {
   async handle() {
     await JobClient.instance.initialize({
-      jobGroups: [JobGroup.DEFAULT, JobGroup.FAST],
+      jobGroups: [JobGroup.DEFAULT],
     });
     this.onFinished = async () => {
       await JobClient.instance.stop();
