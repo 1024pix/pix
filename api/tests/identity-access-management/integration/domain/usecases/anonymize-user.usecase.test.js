@@ -57,7 +57,12 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
 
     await databaseBuilder.commit();
 
-    const refreshToken = RefreshToken.generate({ userId, source: 'pix' });
+    const refreshToken = RefreshToken.generate({
+      userId,
+      audience: 'https://app.pix.fr',
+      source: 'pix',
+      sessionId: 'random-session-id',
+    });
     await refreshTokenRepository.save({ refreshToken });
 
     // when
