@@ -70,8 +70,10 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
   const blueprintSuccessRequirements = combinedCourseData.blueprint.requirements.map((req) => {
     if (req.type === 'evaluation') {
       return CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId }).toDTO();
+    } else if (req.type === 'module') {
+      return CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: req.moduleId }).toDTO();
     }
-    return CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: req.moduleId }).toDTO();
+    return req;
   });
 
   const { id: blueprintQuestId } = buildQuestForCombinedCourse({
@@ -135,8 +137,10 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
   const combinedCourseSuccessRequirements = combinedCourseData.blueprint.requirements.map((req) => {
     if (req.type === 'evaluation') {
       return CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO();
+    } else if (req.type === 'module') {
+      return CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: req.moduleId }).toDTO();
     }
-    return CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: req.moduleId }).toDTO();
+    return req;
   });
 
   const { id: combinedCourseQuestId } = buildQuestForCombinedCourse({
