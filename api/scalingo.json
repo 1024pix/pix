@@ -55,6 +55,10 @@
     "web": {
       "amount": 1,
       "size": "S"
+    },
+    "worker": {
+      "amount": 0,
+      "size": "S"
     }
   },
   "stack": "scalingo-26"
