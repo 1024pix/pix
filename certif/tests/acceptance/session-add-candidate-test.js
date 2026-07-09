@@ -12,35 +12,16 @@ module('Acceptance | Session Add Candidate', function (hooks) {
   const sessionId = 123;
   let allowedCertificationCenterAccess;
 
-  hooks.beforeEach(async function () {
-    allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
-      type: 'PRO',
+  test('it should add a candidate without any complementary subscription', async function (assert) {
+    // given
+    _setupCertificationCenter({
+      server,
+      sessionId,
       habilitations: [
         { id: 1, label: 'Pix+ Droit', key: 'DROIT' },
         { id: 2, label: 'CléA Numérique', key: 'CLEA' },
       ],
     });
-    const certificationPointOfContact = server.create('certification-point-of-contact', {
-      firstName: 'Eddy',
-      lastName: 'Taurial',
-      allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
-      pixCertifTermsOfServiceAccepted: true,
-    });
-    server.create('session-enrolment', {
-      id: sessionId,
-      certificationCenterId: allowedCertificationCenterAccess.id,
-    });
-
-    server.create('session-management', {
-      id: sessionId,
-    });
-
-    server.createList('country', 1);
-    await authenticateSession(certificationPointOfContact.id);
-  });
-
-  test('it should add a candidate without any complementary subscription', async function (assert) {
-    // given
     const screen = await visit(`/sessions/${sessionId}/candidats`);
 
     // when
@@ -63,8 +44,39 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     assert.dom(screen.getByRole('cell', { name: 'Certification Pix' })).exists();
   });
 
+  test('it should add a candidate without any complementary subscription even if certificationCenter has no habilitations', async function (assert) {
+    // given
+    _setupCertificationCenter({ server, sessionId, habilitations: [] });
+    const screen = await visit(`/sessions/${sessionId}/candidats`);
+
+    // when
+    await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+    await fillIn(screen.getByLabelText('Nom de naissance *'), 'Quatorze');
+    await fillIn(screen.getByLabelText('Prénom *'), 'Louis');
+    await click(screen.getByLabelText('Homme'));
+    await fillIn(screen.getByLabelText('Date de naissance *'), '2000-01-01');
+    await click(screen.getByLabelText('Pays de naissance *'));
+    await click(screen.getByText('Portugal'));
+    await fillIn(screen.getByLabelText('Commune de naissance *'), 'Paris');
+    await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+
+    // then
+    assert.dom(screen.getByRole('cell', { name: 'Quatorze' })).exists();
+    assert.dom(screen.getByRole('cell', { name: 'Louis' })).exists();
+    assert.dom(screen.getByRole('cell', { name: '01/01/2000' })).exists();
+    assert.dom(screen.getByRole('cell', { name: 'Certification Pix' })).exists();
+  });
+
   test('it should add a candidate with a complementary subscription', async function (assert) {
     // given
+    _setupCertificationCenter({
+      server,
+      sessionId,
+      habilitations: [
+        { id: 1, label: 'Pix+ Droit', key: 'DROIT' },
+        { id: 2, label: 'CléA Numérique', key: 'CLEA' },
+      ],
+    });
     const screen = await visit(`/sessions/${sessionId}/candidats`);
 
     // when
@@ -85,4 +97,28 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     assert.dom(screen.getByRole('cell', { name: '01/01/2000' })).exists();
     assert.dom(screen.getByRole('cell', { name: 'Pix+ Droit' })).exists();
   });
+
+  async function _setupCertificationCenter({ server, sessionId, habilitations }) {
+    allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+      type: 'PRO',
+      habilitations,
+    });
+    const certificationPointOfContact = server.create('certification-point-of-contact', {
+      firstName: 'Eddy',
+      lastName: 'Taurial',
+      allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+      pixCertifTermsOfServiceAccepted: true,
+    });
+    server.create('session-enrolment', {
+      id: sessionId,
+      certificationCenterId: allowedCertificationCenterAccess.id,
+    });
+
+    server.create('session-management', {
+      id: sessionId,
+    });
+
+    server.createList('country', 1);
+    await authenticateSession(certificationPointOfContact.id);
+  }
 });

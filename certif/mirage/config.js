@@ -101,6 +101,10 @@ function routes() {
   this.post('/sessions/:id/certification-candidates', function (schema, request) {
     const sessionId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
+
+    if (!requestBody.data.attributes.subscription) {
+      return new Response(400);
+    }
     return schema.certificationCandidates.create({
       ...requestBody.data.attributes,
       sessionId,

@@ -206,7 +206,7 @@ export default class EnrolledCandidates extends Component {
   }
 
   _createCertificationCandidateRecord(certificationCandidateData) {
-    if (certificationCandidateData.subscription === '') {
+    if (!certificationCandidateData.subscription) {
       certificationCandidateData.subscription = 'CORE';
     }
     return {
