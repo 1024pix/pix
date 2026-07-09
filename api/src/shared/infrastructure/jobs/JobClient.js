@@ -7,6 +7,7 @@ import { PgBoss } from 'pg-boss';
 import { config } from '../../config.js';
 import { executeInContext, EXECUTORS } from '../execution-context-manager.js';
 import { DatadogMetrics } from '../metrics/datadog-metrics.js';
+import { instrumentJobController } from '../open-telemetry/job-tracing.js';
 import { importNamedExportFromFile } from '../utils/import-named-exports-from-directory.js';
 import { child } from '../utils/logger.js';
 import { MonitoredJobHandler } from './MonitoredJobHandler.js';
@@ -103,6 +104,8 @@ export class JobClient {
     let cronJobCount = 0;
     for (const [moduleName, ModuleClass] of Object.entries(jobModules)) {
       const job = new ModuleClass();
+
+      instrumentJobController(moduleName, ModuleClass);
 
       if (!jobGroups.includes(job.jobGroup) && !this.#isTestOnly) continue;
 
