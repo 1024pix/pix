@@ -107,6 +107,8 @@ export class JobClient {
 
       instrumentJobController(moduleName, ModuleClass);
 
+      instrumentJobController(moduleName, ModuleClass);
+
       if (!jobGroups.includes(job.jobGroup) && !this.#isTestOnly) continue;
 
       if (job.isJobEnabled) {
