@@ -21,6 +21,7 @@ import { UserReconciliationSamlIdToken } from '../models/UserReconciliationSamlI
  * @param {RequestedApplication} params.requestedApplication,
  * @param {TokenService} params.tokenService
  * @param {PixAuthenticationService} params.pixAuthenticationService
+ * @param {AuthenticationSessionService} params.authenticationSessionService
  * @param {ObfuscationService} params.obfuscationService
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
  * @param {UserRepository} params.userRepository
@@ -37,6 +38,7 @@ async function authenticateForSaml({
   requestedApplication,
   tokenService,
   pixAuthenticationService,
+  authenticationSessionService,
   obfuscationService,
   authenticationMethodRepository,
   userRepository,
@@ -69,7 +71,12 @@ async function authenticateForSaml({
       throw new UserShouldChangePasswordError(undefined, passwordExpirationToken);
     }
 
-    const { accessToken } = UserAccessToken.generateSamlUserToken({ userId: userFromCredentials.id, audience });
+    const sessionId = authenticationSessionService.generateSessionId();
+    const { accessToken } = UserAccessToken.generateSamlUserToken({
+      userId: userFromCredentials.id,
+      audience,
+      sessionId,
+    });
 
     await _updateLastLoggedDates({
       user: userFromCredentials,
