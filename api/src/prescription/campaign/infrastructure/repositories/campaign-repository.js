@@ -5,6 +5,54 @@ import * as skillRepository from '../../../../shared/infrastructure/repositories
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 
+const getByCode = async function (code) {
+  const knexConn = DomainTransaction.getConnection();
+  const campaignData = await baseQuery(knexConn).where('campaigns.code', code).first();
+  if (!campaignData) {
+    return null;
+  }
+
+  return new Campaign({
+    ...campaignData,
+    ...{ externalIdLabel: campaignData?.params?.label, externalIdType: campaignData?.params?.type },
+  });
+};
+
+const get = async function (id) {
+  const knexConn = DomainTransaction.getConnection();
+  const campaignData = await baseQuery(knexConn).where('campaigns.id', id).first();
+  if (!campaignData) {
+    throw new NotFoundError(`Not found campaign for ID ${id}`);
+  }
+
+  return new Campaign({
+    ...campaignData,
+    ...{ externalIdLabel: campaignData?.params?.label, externalIdType: campaignData?.params?.type },
+  });
+};
+
+const getByCampaignParticipationId = async function (campaignParticipationId) {
+  const knexConn = DomainTransaction.getConnection();
+  const campaignData = await baseQuery(knexConn)
+    .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
+    .where({ 'campaign-participations.id': campaignParticipationId })
+    .first();
+  if (!campaignData) {
+    return null;
+  }
+
+  return new Campaign({
+    ...campaignData,
+    ...{ externalIdLabel: campaignData?.params?.label, externalIdType: campaignData?.params?.type },
+  });
+};
+
+const getCampaignIdByCampaignParticipationId = async function (campaignParticipationId) {
+  const campaign = await getByCampaignParticipationId(campaignParticipationId);
+  if (!campaign) return null;
+  return campaign.id;
+};
+
 const areKnowledgeElementsResettable = async function ({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const result = await knexConn('campaigns')
@@ -19,34 +67,6 @@ const areKnowledgeElementsResettable = async function ({ id }) {
   return Boolean(result);
 };
 
-const getByCode = async function (code) {
-  const knexConn = DomainTransaction.getConnection();
-  const campaign = await knexConn('campaigns').first().where({ code });
-  if (!campaign) return null;
-  return new Campaign(campaign);
-};
-
-const get = async function (id) {
-  const knexConn = DomainTransaction.getConnection();
-
-  const campaign = await knexConn('campaigns').where({ id }).first();
-  if (!campaign) {
-    throw new NotFoundError(`Not found campaign for ID ${id}`);
-  }
-  const featureExternalId = await knexConn('campaign-features')
-    .join('features', 'features.id', 'featureId')
-    .where({
-      campaignId: id,
-      'features.key': CAMPAIGN_FEATURES.EXTERNAL_ID.key,
-    })
-    .first();
-
-  return new Campaign({
-    ...campaign,
-    ...{ externalIdLabel: featureExternalId?.params?.label, externalIdType: featureExternalId?.params?.type },
-  });
-};
-
 const checkIfUserOrganizationHasAccessToCampaign = async function (campaignId, userId) {
   const knexConn = DomainTransaction.getConnection();
 
@@ -56,24 +76,6 @@ const checkIfUserOrganizationHasAccessToCampaign = async function (campaignId, u
     .where({ 'campaigns.id': campaignId, 'memberships.userId': userId, 'memberships.disabledAt': null })
     .first('campaigns.id');
   return Boolean(campaign);
-};
-
-const getByCampaignParticipationId = async function (campaignParticipationId) {
-  const knexConn = DomainTransaction.getConnection();
-  const campaign = await knexConn('campaigns')
-    .select('campaigns.*')
-    .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
-    .where({ 'campaign-participations.id': campaignParticipationId })
-    .first();
-
-  if (!campaign) return null;
-  return new Campaign(campaign);
-};
-
-const getCampaignIdByCampaignParticipationId = async function (campaignParticipationId) {
-  const campaign = await getByCampaignParticipationId(campaignParticipationId);
-  if (!campaign) return null;
-  return campaign.id;
 };
 
 async function _findSkillIds(campaignIds) {
@@ -157,3 +159,19 @@ export {
   getByCode,
   getCampaignIdByCampaignParticipationId,
 };
+
+function baseQuery(knexConn) {
+  return knexConn
+    .select('campaigns.*', 'campaign-features.params')
+    .from('campaigns')
+    .leftJoin('features', function () {
+      this.onVal('features.key', CAMPAIGN_FEATURES.EXTERNAL_ID.key);
+    })
+    .leftJoin('campaign-features', function () {
+      this.on('campaign-features.campaignId', '=', 'campaigns.id').andOn(
+        'campaign-features.featureId',
+        '=',
+        'features.id',
+      );
+    });
+}
