@@ -701,7 +701,7 @@ jobs:
           command: |
             circleci tests glob 'tests/**/acceptance/**/*test.js' |
             circleci tests split --split-by=filesize |
-            xargs npm run test:api:path --
+            xargs npm run test:api --
           environment:
             NODE_ENV: test
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml

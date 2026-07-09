@@ -21,7 +21,7 @@ From `api/`:
 npm run test:api:unit -- --grep devcomp
 
 # Run a specific test file
-npm run test:api:path -- tests/devcomp/unit/domain/usecases/get-module_test.js
+npm run test:api -- tests/devcomp/unit/domain/usecases/get-module_test.js
 
 # Validate module JSON files
 npm run modulix:test
