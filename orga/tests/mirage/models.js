@@ -79,7 +79,9 @@ export default {
   competence: Model.extend({
     thematics: hasMany('thematic'),
   }),
-  course: Model.extend(),
+  course: Model.extend({
+    areas: hasMany('area'),
+  }),
   combinedCourseBlueprintItem: Model.extend(),
   combinedCourseBlueprintOverview: Model.extend({ items: hasMany('combinedCourseBlueprintItem') }),
   targetProfileOverview: Model.extend({ badges: hasMany('badge'), frameworks: hasMany('framework') }),

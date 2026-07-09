@@ -7,6 +7,7 @@ export default class AuthenticatedCatalogueFilter extends Route {
   @service router;
 
   #currentOrgaId = null;
+  #previousType = null;
 
   queryParams = {
     targetProfileId: { refreshModel: true },
@@ -52,6 +53,17 @@ export default class AuthenticatedCatalogueFilter extends Route {
       this.store.unloadAll('course');
     }
     this.#currentOrgaId = orgId;
+  }
+
+  setupController(controller, model, transition) {
+    super.setupController(controller, model, transition);
+    if (this.#previousType !== null && this.#previousType !== model.type) {
+      controller.search = '';
+      controller.category = '';
+      controller.areas = [];
+      controller.competences = [];
+    }
+    this.#previousType = model.type;
   }
 
   resetController(controller, isExiting) {
