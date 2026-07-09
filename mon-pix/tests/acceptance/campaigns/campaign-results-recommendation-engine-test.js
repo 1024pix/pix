@@ -94,8 +94,9 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         const trainingCardButton = screen.getByRole('button', {
           name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
         });
+
         await click(trainingCardButton);
-        const modal = await screen.findByRole('dialog');
+        const modal = await screen.findByRole('dialog', { name: training.title });
 
         // when
         assert.dom(within(modal).getByRole('button', { name: t('common.no') })).doesNotHaveClass('selected');
@@ -115,7 +116,7 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         await click(within(actionButtons).getByRole('button', { name: t('common.actions.close') }));
         await click(trainingCardButton);
 
-        const reopenedModal = await screen.findByRole('dialog');
+        const reopenedModal = await screen.findByRole('dialog', { name: training.title });
         assert.dom(within(reopenedModal).getByRole('button', { name: t('common.yes') })).doesNotHaveClass('selected');
         assert.dom(within(reopenedModal).getByRole('button', { name: t('common.no') })).hasClass('selected');
       });
@@ -155,7 +156,7 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
             name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
           }),
         );
-        await screen.findByRole('dialog');
+        await screen.findByRole('dialog', { name: training.title });
 
         // then
         sinon.assert.calledWithExactly(trackEventStub, 'Moteur de reco - Clic sur la carte du contenu formatif', {
@@ -180,7 +181,7 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.modal.objectives') }));
 
         // then
-        sinon.assert.callCount(trackEventStub, 4);
+        sinon.assert.callCount(trackEventStub, 5);
 
         // when
         await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.modal.program') }));
@@ -200,7 +201,7 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.modal.program') }));
 
         // then
-        sinon.assert.callCount(trackEventStub, 5);
+        sinon.assert.callCount(trackEventStub, 6);
 
         // when
         await click(

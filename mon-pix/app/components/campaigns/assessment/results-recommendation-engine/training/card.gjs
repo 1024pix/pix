@@ -48,12 +48,7 @@ export default class Card extends Component {
   }
 
   <template>
-    <button
-      class="results-recommendation-engine-training-card"
-      type="button"
-      aria-label={{t "pages.skill-review.recommended-engine.training-card.aria-label"}}
-      {{on "click" this.showModal}}
-    >
+    <div class="results-recommendation-engine-training-card">
       <div class="results-recommendation-engine-training-card-image-hero">
         <img
           class="results-recommendation-engine-training-card-image-hero__editor-logo"
@@ -76,7 +71,13 @@ export default class Card extends Component {
           {{/if}}
         </ul>
       </section>
-    </button>
+      <button
+        class="results-recommendation-engine-training-card__button"
+        type="button"
+        aria-label={{t "pages.skill-review.recommended-engine.training-card.aria-label"}}
+        {{on "click" this.showModal}}
+      ></button>
+    </div>
     <CardModal
       @training={{@training}}
       @deliveryMode={{this.deliveryMode}}

@@ -30,6 +30,7 @@
 .results-recommendation-engine-training-card {
   @extend %pix-shadow-default;
 
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--pix-spacing-4x);
@@ -45,11 +46,25 @@
     min-width: 280px;
   }
 
-  &:active {
-    @extend %pix-shadow-default-pressed;
+  &__button:focus {
+    outline: none;
   }
 
-  &:hover {
+  &__button::before {
+    position: absolute;
+    z-index: 1;
+    border-radius: 16px 0 16px 16px;
+    content: '';
+    inset: 0;
+  }
+
+
+  &__button:active::before {
+      @extend %pix-shadow-default-pressed;
+  }
+
+  &__button:focus::before,
+  &__button:hover::before {
     @extend %pix-shadow-default-hover;
   }
 
