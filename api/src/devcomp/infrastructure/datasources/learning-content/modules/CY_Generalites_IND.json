@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Une cyberattaque ne commence pas par un écran bloqué ou des données volées. Elle peut progresser discrètement, étape par étape.<br>Dans ce module, découvrez les grandes étapes d’une cyberattaque et comment certaines mesures peuvent aider pour empêcher les intrusions, détecter les cyberattaques et limiter leurs conséquences.</p>",
+    "description": "<p>Une cyberattaque ne commence pas par un écran bloqué ou des données volées. Elle peut progresser discrètement, étape par étape.&nbsp;🫥<br>Dans ce module, découvrez les grandes étapes d’une cyberattaque et comment certaines mesures peuvent aider pour empêcher les intrusions, détecter les cyberattaques et limiter leurs conséquences.</p>",
     "duration": 10,
     "level": "independent",
     "objectives": [
@@ -178,7 +178,7 @@
                 "id": "72d3ce8b-13f8-4e23-8d4b-4c815319a0ec",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une cyberattaque commence par l’obtention d’un <strong>premier accès à un système informatique</strong>. </p><p><br>Cette <strong>première étape</strong> est souvent <strong>automatisée</strong>, <strong>massive</strong> et <strong>opportuniste</strong>&nbsp;: les pirates informatiques diffusent leurs attaques vers beaucoup de personnes ou d’organisations, <strong>sans toujours viser une cible précise</strong>.&nbsp;</p><p><br>Pour gêner au maximum les pirates informatiques à cette étape, il faut <strong>empêcher les accès non autorisés</strong>&nbsp;: renforcer les mots de passe ou former les utilisateurs aux risques par exemple. </p>"
+                "content": "<p>Une cyberattaque commence par l’obtention d’un <strong>premier accès à un système informatique</strong>. </p><p><br>Cette <strong>première étape</strong> est souvent <strong>automatisée</strong>, <strong>massive</strong> et <strong>opportuniste</strong>&nbsp;: les pirates informatiques diffusent leurs attaques vers beaucoup de personnes ou d’organisations, <strong>sans toujours viser une cible précise</strong>.&nbsp;</p><p><br>Pour gêner au maximum les pirates informatiques à cette étape, il faut <strong>empêcher les accès non autorisés</strong>&nbsp;: renforcer les mots de passe ou former les utilisateurs aux risques par exemple.&nbsp;🛡️</p>"
               }
             }
           ]
@@ -294,7 +294,7 @@
                 "id": "02aefae9-bec5-4bd4-a5cf-c298ce8559f5",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une fois un premier accès obtenu, les pirates informatiques n’ont pas forcément atteint leur objectif.</p><p><br>Ils peuvent avoir besoin de temps pour observer l’environnement pour <strong>préparer la suite</strong> de leur attaque. Cette étape peut durer <strong>longtemps</strong>, parfois même plusieurs mois, <strong>sans que les victimes sachent qu’une cyberattaque est déjà en cours</strong>. </p><p><br>À cette étape, le plus important pour se protéger est de <strong>détecter </strong>une<strong> présence malveillante</strong>, par exemple en repérant des connexions inhabituelles ou des activités anormales. </p>"
+                "content": "<p>Une fois un premier accès obtenu, les pirates informatiques n’ont pas forcément atteint leur objectif.</p><p><br>Ils peuvent avoir besoin de temps pour observer l’environnement pour <strong>préparer la suite</strong> de leur attaque. Cette étape peut durer <strong>longtemps</strong>, parfois même plusieurs mois, <strong>sans que les victimes sachent qu’une cyberattaque est déjà en cours</strong>. </p><p><br>À cette étape, le plus important pour se protéger est de <strong>détecter </strong>une<strong> présence malveillante</strong>, par exemple en repérant des connexions inhabituelles ou des activités anormales.&nbsp;🔎</p>"
               }
             }
           ]
@@ -468,7 +468,7 @@
                 "id": "965e1df3-e9e0-4566-bd0a-b37dda507842",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une fois prêts, les pirates informatiques <strong>passent à l’action</strong> pour atteindre leur objectif.&nbsp;</p><p><br>Ils peuvent <strong>voler des données</strong> ou les <strong>rendre inaccessibles</strong> en les chiffrant, <strong>perturber un service</strong>, exercer une pression sur la victime ou préparer d’autres attaques.</p><p><br>À cette étape, la victime a intérêt à <strong>réagir vite pour limiter les conséquences</strong> de l’attaque&nbsp;: bloquer les accès suspects, isoler les appareils touchés ou empêcher la propagation.</p>"
+                "content": "<p>Une fois prêts, les pirates informatiques <strong>passent à l’action</strong> pour atteindre leur objectif.&nbsp;</p><p><br>Ils peuvent <strong>voler des données</strong> ou les <strong>rendre inaccessibles</strong> en les chiffrant, <strong>perturber un service</strong>, exercer une pression sur la victime ou préparer d’autres attaques.</p><p><br>À cette étape, la victime a intérêt à <strong>réagir vite pour limiter les conséquences</strong> de l’attaque&nbsp;: bloquer les accès suspects, isoler les appareils touchés ou empêcher la propagation.&nbsp;🚨</p>"
               }
             }
           ]
@@ -925,7 +925,7 @@
                 "id": "055a1ba8-b714-47c9-a139-381bb6dded97",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Vous recevez une notification indiquant qu’une connexion inhabituelle a eu lieu sur une de vos boîtes mails. Vous savez que vous n’êtes pas à l’origine de cette connexion. Vous arrivez encore à vous connecter et rien ne semble avoir changé. </p><p>[ILLU] notif type connexion suspecte en êtes vous à l’origine ?</p>"
+                "content": "<p>Vous recevez une notification indiquant qu’une connexion inhabituelle a eu lieu sur une de vos boîtes mails. Vous savez que vous n’êtes pas à l’origine de cette connexion. Vous arrivez encore à vous connecter et rien ne semble avoir changé. </p><p>[ILLU] notif type connexion suspecte en êtes vous à l’origine ?</p>"
               }
             },
             {
