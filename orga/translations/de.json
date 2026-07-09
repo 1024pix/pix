@@ -1127,11 +1127,17 @@
           "first-name": "Vorname",
           "last-name": "Name",
           "modules": "Module",
+          "reward": "Bescheinigung",
           "status": "Status"
         },
         "description": "Listen der Teilnahmen am Parcours",
         "module-completion": "{nbItemsCompleted, plural, =0 {Kein Modul abgeschlossen auf {nbItems}} =1 {Ein Modul abgeschlossen auf {nbItems}} other {{nbItemsCompleted} Module abgeschlossen auf {nbItems}}}.",
         "no-module": "Keine Module empfohlen.",
+        "rewards": {
+          "in-progress": "Steht noch aus",
+          "not-obtained": "Nicht erhalten",
+          "obtained": "Erhalten"
+        },
         "tooltip": {
           "campaigns-column": "'x / y' gibt den Fortschritt des Teilnehmers an: Er hat x Kampagnen von insgesamt y abgeschlossen. Zum Beispiel bedeutet 1/2, dass er 1 von 2 Kampagnen abgeschlossen hat.",
           "modules-column": "'x / y' zeigt den Fortschritt des Teilnehmers an: Er hat x Module von insgesamt y abgeschlossen. Die Gesamtzahl der Module unterscheidet sich für jeden, je nach den persönlichen Empfehlungen."

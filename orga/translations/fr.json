@@ -1127,11 +1127,17 @@
           "first-name": "Prénom",
           "last-name": "Nom",
           "modules": "Modules",
+          "reward": "Attestation",
           "status": "Statut"
         },
         "description": "Listes des participations au parcours",
         "module-completion": "{nbItemsCompleted, plural, =0 {Aucun module complété sur {nbItems}} =1 {Un module complété sur {nbItems}} other {{nbItemsCompleted} modules complétés sur {nbItems}}}.",
         "no-module": "Aucun module recommandé.",
+        "rewards": {
+          "in-progress": "En cours d'obtention",
+          "not-obtained": "Non obtenue",
+          "obtained": "Obtenue"
+        },
         "tooltip": {
           "campaigns-column": "'x / y' indique la progression du participant : il a terminé x campagnes sur un total de y. Par exemple, 1/2 signifie qu'il a terminé 1 campagne sur 2.",
           "modules-column": "'x / y' indique la progression du participant : il a terminé x modules sur un total de y. Le total de modules diffère pour chacun, en fonction des recommandations personnalisées."

@@ -1127,11 +1127,17 @@
           "first-name": "Nome",
           "last-name": "Nome",
           "modules": "Moduli",
+          "reward": "Attestato",
           "status": "Stato"
         },
         "description": "Elenco dei partecipanti",
         "module-completion": "{nbItemsCompleted, plural, =0 { Nessun modulo completato su {nbItems}} =1 {Un modulo completato su {nbItems}} other {{nbItemsCompleted} moduli completati su {nbItems}}}.",
         "no-module": "Nessun modulo consigliato.",
+        "rewards": {
+          "in-progress": "In attesa",
+          "not-obtained": "Non ottenuto",
+          "obtained": "Ottenuto"
+        },
         "tooltip": {
           "campaigns-column": "x / y\" indica i progressi del partecipante: ha completato x campagne su un totale di y. Ad esempio, 1/2 significa che il partecipante ha completato 1 campagna su 2.",
           "modules-column": "x / y\" indica lo stato di avanzamento del partecipante: ha completato x moduli su un totale di y. Il numero totale di moduli varia per ogni partecipante, a seconda delle raccomandazioni personalizzate."

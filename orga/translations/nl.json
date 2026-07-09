@@ -1127,11 +1127,17 @@
           "first-name": "Voornaam",
           "last-name": "Achternaam",
           "modules": "Modules",
+          "reward": "Verklaring",
           "status": "Status"
         },
         "description": "Lijst van de gecombineerde cursus participaties",
         "module-completion": "{nbItemsCompleted, plural, =0 {geen module voltooid op {nbItems}} =1 {1 van de {nbItems} modules voltooid} other {{nbItemsCompleted} van de {nbItems} modules voltooid}}.",
         "no-module": "Geen aanbevolen module.",
+        "rewards": {
+          "in-progress": "Behandeling",
+          "not-obtained": "Niet behaald",
+          "obtained": "Behaald"
+        },
         "tooltip": {
           "campaigns-column": "'x / y' geeft de voortgang van de deelnemer aan: hij/zij heeft x campagnes voltooid van een totaal van y. Bijvoorbeeld: 1/2 betekent dat hij/zij 1 campagne van de 2 heeft voltooid.",
           "modules-column": "'x / y' geeft de voortgang van de deelnemer aan: hij/zij heeft x modules voltooid van een totaal van y. Het totale aantal modules verschilt per persoon, afhankelijk van de persoonlijke aanbevelingen."
