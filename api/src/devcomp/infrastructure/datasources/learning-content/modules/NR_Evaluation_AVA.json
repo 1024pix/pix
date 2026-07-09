@@ -330,7 +330,7 @@
                       "id": "7342c038-5818-4eef-ae13-94ca1f99e496",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p> <br></p><table>    <thead>        <tr>            <th scope=\"\" style=\"width:15%;\">Type d’effet</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>        </tr>    </thead>    <tbody>        <tr>            <th>Effet direct</th>            <td>Impact de la fabrication et de l’utilisation des appareils numériques<br></td>            <td>                <ul>                    <li>Consommation d’énergie pour recharger le smartphone<br></li>                    <li>Consommation de métaux pour fabriquer le smartphone</li>                    <li> Déchets électroniques en fin de vie du smartphone<br></li>                </ul>            </td>        </tr>        <tr>            <th>Effet indirect</th>            <td>Changements de comportements des utilisateurs ayant des effets sur l’environnement<br></td>            <td>                <ul>                    <li>&nbsp;L’utilisateur du smartphone n’achète pas de radio (effet de substitution)</li>                    <li>Grâce à un compteur connecté, un utilisateur fait des économies d’énergie (effet d’efficacité ou d’optimisation)</li>                </ul>            </td>        </tr>    </tbody></table>"
+                      "content": "<p> <br></p><table>    <thead>        <tr>            <th scope=\"\" style=\"width:15%;\">Type d’effets</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>        </tr>    </thead>    <tbody>        <tr>            <th>Effets directs</th>            <td>Impacts de la fabrication et de l’utilisation des appareils numériques<br></td>            <td>                <ul>                    <li>Consommation d’énergie pour recharger le smartphone.<br></li>                    <li>Consommation de métaux pour fabriquer le smartphone.</li>                    <li> Déchets électroniques en fin de vie du smartphone.<br></li>                </ul>            </td>        </tr>        <tr>            <th>Effet indirect</th>            <td>Changements de comportements des utilisateurs ayant des effets sur l’environnement<br></td>            <td>                <ul>                    <li>&nbsp;Un utilisateur de smartphone qui n’achète pas de radio (effet de substitution).</li>                    <li>Des personnes qui font des économies d'énergie grâce à des compteurs connectés (effet d’efficacité ou d’optimisation).</li>                </ul>            </td>        </tr>    </tbody></table>"
                     },
                     {
                       "id": "368c6e0a-fa53-4ac5-a0b0-0e2972da90ff",
@@ -365,7 +365,7 @@
                 "id": "758f542b-4d48-42d7-b788-a1e33b150052",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Prenons l’exemple des ordinateurs pour voir comment leurs évolutions ont transformé nos usages au fil du temps et entraîné des effets indirects sur l’environnement.</p>"
+                "content": "<p>Prenons l’exemple des ordinateurs pour voir comment leur évolution a transformé nos usages au fil du temps et entraîné des effets indirects sur l’environnement.</p>"
               }
             }
           ]
