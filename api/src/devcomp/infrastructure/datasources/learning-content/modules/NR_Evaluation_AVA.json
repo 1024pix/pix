@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/deepfakes/picto-deepfakes.svg",
-    "description": "<p>Le numérique a des effets directs sur l’environnement&nbsp;: fabrication des appareils, consommation d’électricité des centres de données, etc. Mais il modifie aussi nos habitudes, avec des conséquences indirectes sur l’environnement. </p><p>Dans ce module, vous apprendrez à identifier ces effets, à limiter leurs impacts négatifs et à comprendre l’effet rebond.</p>",
+    "description": "<p>Le numérique a des effets directs sur l’environnement&nbsp;: fabrication des appareils, consommation d’électricité des centres de données, etc. Mais le numérique modifie aussi nos habitudes, avec des conséquences indirectes sur l’environnement. </p><p>Dans ce module, vous apprendrez à identifier ces effets, à limiter leurs impacts négatifs et à comprendre l’effet rebond.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -61,7 +61,7 @@
                       "userName": "Alise",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "La fabrication des ordinateurs est polluante, la visio aussi. Et puis, comme les télétravailleurs restent chez eux, ils doivent plus chauffer et éclairer leur logement, ce qui pollue encore un peu plus. 🏠"
+                      "content": "La fabrication des ordinateurs est polluante, la visio aussi. Et puis, comme les personnes qui télétravaillent restent chez elles, elles doivent plus chauffer et éclairer leurs logements, ce qui pollue encore un peu plus. 🏠"
                     }
                   ],
                   "animationSpeed": 0
