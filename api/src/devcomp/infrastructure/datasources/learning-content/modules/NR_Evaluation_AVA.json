@@ -139,10 +139,19 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p>Pour chacun des cas suivants, dites s'il s'agit d'un effet direct ou indirect sur l'environnement.</p>",
+              "instruction": "<p>Pour chacun des cas suivants, dites s’il s’agit d’un effet direct ou indirect sur l’environnement.</p>",
               "steps": [
                 {
                   "elements": [
+                    {
+                      "id": "aa102688-a58e-4912-b46c-60eb68313f87",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte1_step1.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
                     {
                       "id": "38c04097-96ce-430a-9350-0ccde106a9bc",
                       "type": "text",
@@ -159,21 +168,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d'extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d’extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet direct</strong>.</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d'extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet direct</strong>.</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d’extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet direct</strong>.</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d'extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet direct</strong>.</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d’extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         }
                       ],
@@ -183,6 +192,15 @@
                 },
                 {
                   "elements": [
+                    {
+                      "id": "3f3f2847-43fe-44ce-ac83-31d1a2b58379",
+                      "type": "image",
+                      "alt": "",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte1_step3.png",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
                     {
                       "id": "766b1dbd-00ed-404b-b202-c4ded882a002",
                       "type": "text",
@@ -199,21 +217,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l'environnement.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l'environnement.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l'environnement.</p>"
+                            "diagnosis": "<p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         }
                       ],
@@ -223,6 +241,15 @@
                 },
                 {
                   "elements": [
+                    {
+                      "id": "b9b6a278-9ffa-46e6-88c9-f0441995cd86",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte1_stepper_v2_img3.svg",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
                     {
                       "id": "ed766469-ad4f-4484-b16c-24f267894f97",
                       "type": "text",
@@ -239,21 +266,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement : l'essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong>effet de substitution</strong> : le smartphone remplace d'autres équipements.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: l’essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong>effet de substitution</strong>&nbsp;: le smartphone remplace d’autres équipements.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement : l'essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong>effet de substitution</strong> : le smartphone remplace d'autres équipements.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: l’essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong>effet de substitution</strong>&nbsp;: le smartphone remplace d’autres équipements.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement : l'essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong>effet de substitution</strong> : le smartphone remplace d'autres équipements, ce qui impacte l'environnement.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: l’essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong>effet de substitution</strong>&nbsp;: le smartphone remplace d’autres équipements, ce qui impacte l’environnement.</p>"
                           }
                         }
                       ],
@@ -263,6 +290,15 @@
                 },
                 {
                   "elements": [
+                    {
+                      "id": "bb3117d8-801f-4775-9044-41b6b0414090",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte1_step4.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
                     {
                       "id": "0c40003a-900a-48c1-9f4c-f27d4b3aa464",
                       "type": "text",
@@ -279,21 +315,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l'environnement : le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l'environnement : le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l'environnement : le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s'agit d'un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         }
                       ],
@@ -330,7 +366,7 @@
                       "id": "7342c038-5818-4eef-ae13-94ca1f99e496",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p> <br></p><table>    <thead>        <tr>            <th scope=\"\" style=\"width:15%;\">Type d’effets</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>        </tr>    </thead>    <tbody>        <tr>            <th>Effets directs</th>            <td>Impacts de la fabrication et de l’utilisation des appareils numériques<br></td>            <td>                <ul>                    <li>Consommation d’énergie pour recharger le smartphone.<br></li>                    <li>Consommation de métaux pour fabriquer le smartphone.</li>                    <li> Déchets électroniques en fin de vie du smartphone.<br></li>                </ul>            </td>        </tr>        <tr>            <th>Effet indirect</th>            <td>Changements de comportements des utilisateurs ayant des effets sur l’environnement<br></td>            <td>                <ul>                    <li>&nbsp;Un utilisateur de smartphone qui n’achète pas de radio (effet de substitution).</li>                    <li>Des personnes qui font des économies d'énergie grâce à des compteurs connectés (effet d’efficacité ou d’optimisation).</li>                </ul>            </td>        </tr>    </tbody></table>"
+                      "content": "<p> <br></p><table>    <thead>        <tr>            <th scope=\"\" style=\"width:15%;\">Type d’effets</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>        </tr>    </thead>    <tbody>        <tr>            <th>Effets directs</th>            <td>Impacts de la fabrication et de l’utilisation des appareils numériques<br></td>            <td>                <ul>                    <li>Consommation d’énergie pour recharger le smartphone.<br></li>                    <li>Consommation de métaux pour fabriquer le smartphone.</li>                    <li> Déchets électroniques en fin de vie du smartphone.<br></li>                </ul>            </td>        </tr>        <tr>            <th>Effet indirect</th>            <td>Changements de comportements des utilisateurs ayant des effets sur l’environnement<br></td>            <td>                <ul>                    <li>&nbsp;Un utilisateur de smartphone qui n’achète pas de radio (effet de substitution).</li>                    <li>Des personnes qui font des économies d’énergie grâce à des compteurs connectés (effet d’efficacité ou d’optimisation).</li>                </ul>            </td>        </tr>    </tbody></table>"
                     },
                     {
                       "id": "368c6e0a-fa53-4ac5-a0b0-0e2972da90ff",
@@ -446,7 +482,7 @@
                     {
                       "id": "ad1954e0-6dc0-484a-ad04-4744a5f31305",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_Ava/data_general_nova_system.jpg",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte2_stepper_img2.png",
                       "alt": "Une photographie d’un General Nova",
                       "alternativeText": "",
                       "legend": "",
@@ -462,28 +498,28 @@
                           "id": "1",
                           "content": "<p>500 exemplaires</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! </p><p>Le Data General Nova a été vendu à 50&nbsp;000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d'ordinateurs augmente fortement.</p>"
+                            "diagnosis": "<p>Eh non ! </p><p>Le Data General Nova a été vendu à 50&nbsp;000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d’ordinateurs augmente fortement.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>50&nbsp;000 exemplaires</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien&nbsp; vu ! </p><p> Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d'ordinateurs augmente fortement.</p>"
+                            "diagnosis": "<p>Bien&nbsp; vu ! </p><p> Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d’ordinateurs augmente fortement.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>5&nbsp;000&nbsp;000 (5 millions) d’exemplaires</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Le Data General Nova a été vendu à 50&nbsp;000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d'ordinateurs augmente fortement.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Le Data General Nova a été vendu à 50&nbsp;000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d’ordinateurs augmente fortement.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Le Data General Nova a été vendu à 50&nbsp000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d'ordinateurs augmente fortement.</p>"
+                            "diagnosis": "<p>Le Data General Nova a été vendu à 50&nbsp;000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d’ordinateurs augmente fortement.</p>"
                           }
                         }
                       ],
@@ -502,7 +538,7 @@
                     {
                       "id": "a92a9ac3-0080-43c2-9242-2464b493118f",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_Ava/christopher-gower-m_h-rf-lhg-a-bo-unsplash.jpg",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte2_stepper_img3.jpg",
                       "alt": "Une photographie d’un ordinateur actuel",
                       "alternativeText": "",
                       "legend": "",
@@ -650,11 +686,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien vu !<br></p>",
-                          "diagnosis": "<p>Alors qu’un ordinateur consomme moins d’énergie, la somme de tous les ordinateurs consomme beaucoup plus d'énergie qu'avant.</p>"
+                          "diagnosis": "<p>Alors qu’un ordinateur consomme moins d’énergie, la somme de tous les ordinateurs consomme beaucoup plus d’énergie qu’avant.</p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non&nbsp; !<br></p>",
-                          "diagnosis": "<p>Au global, la consommation d’énergie par les ordinateurs a explosé.</p><p>Autrement dit, alors qu’un ordinateur consomme moins d’énergie, la somme de tous les ordinateurs consomme beaucoup plus d'énergie qu'avant.</p>"
+                          "diagnosis": "<p>Au global, la consommation d’énergie par les ordinateurs a explosé.</p><p>Autrement dit, alors qu’un ordinateur consomme moins d’énergie, la somme de tous les ordinateurs consomme beaucoup plus d’énergie qu’avant.</p>"
                         }
                       }
                     }
@@ -679,7 +715,7 @@
                       "id": "f03f5137-a79c-41a0-a2d7-69019d815759",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’amélioration d’une technologie améliore souvent son <strong>efficacité énergétique</strong>, c'est à dire qu'elle consomme moins d'énergie pour un même service rendu. Mais cette amélioration peut aussi provoquer une <strong>augmentation de son usage</strong> ou de l’usage d’autres technologies, et ainsi <strong>augmenter la consommation d'énergie totale</strong> !</p>"
+                      "content": "<p>L’amélioration d’une technologie améliore souvent son <strong>efficacité énergétique</strong>, c’est à dire qu’elle consomme moins d’énergie pour un même service rendu. Mais cette amélioration peut aussi provoquer une <strong>augmentation de son usage</strong> ou de l’usage d’autres technologies, et ainsi <strong>augmenter la consommation d’énergie totale</strong> !</p>"
                     }
                   ]
                 },
@@ -689,7 +725,7 @@
                       "id": "96f917f3-39ae-42d6-9b1d-94ee179a7b0f",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>C’est un peu paradoxal, non ?</h5><p>Effectivement, ça peut être contre-intuitif. Les économies d'énergie obtenues au niveau unitaire grâce à l'amélioration de la technologie peuvent être réduites, voire dépassées par l'augmentation des usages dûe à cette même amélioration. Ce phénomène s'appelle l’<strong>effet rebond.</strong><br></p>"
+                      "content": "<h5>C’est un peu paradoxal, non ?</h5><p>Effectivement, ça peut être contre-intuitif. Les économies d’énergie obtenues au niveau unitaire grâce à l’amélioration de la technologie peuvent être réduites, voire dépassées par l’augmentation des usages dûe à cette même amélioration. Ce phénomène s’appelle l’<strong>effet rebond.</strong><br></p>"
                     }
                   ]
                 },
@@ -721,7 +757,7 @@
                 "id": "882a3170-8e32-461c-bef3-1ed864a63a96",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’effet rebond montre qu’une innovation technologique ne garantit pas des bénéfices environnementaux. Cela soulève alors une autre question importante&nbsp;: comment reconnaître un véritable engagement pour l’environnement dans la stratégie de communication d’une entreprise ou d'une organisation ?</p>"
+                "content": "<p>L’effet rebond montre qu’une innovation technologique ne garantit pas des bénéfices environnementaux. Cela soulève alors une autre question importante&nbsp;: comment reconnaître un véritable engagement pour l’environnement dans la stratégie de communication d’une entreprise ou d’une organisation ?</p>"
               }
             }
           ]
@@ -1278,7 +1314,7 @@
               "element": {
                 "id": "c482307d-6b24-458a-92a0-b6cd8f95d51e",
                 "type": "qcm",
-                "instruction": "<p>Dans cette étude, quels effets ont été quantifiés pour le télétravail ?</p>",
+                "instruction": "<p>Dans cette étude, quels effets ont été quantifiés pour le télétravail ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
