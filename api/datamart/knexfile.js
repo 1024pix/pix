@@ -1,4 +1,4 @@
-import { buildPostgresEnvironment } from '../db/utils/build-postgres-environment.js';
+import { buildPostgresEnvironment, setConnectionString } from '../db/utils/build-postgres-environment.js';
 import { loadEnvFileIfExists } from '../src/shared/load-env-file-if-exists.js';
 
 loadEnvFileIfExists();
@@ -14,15 +14,7 @@ const baseConfiguration = {
 
 const environments = {
   development: buildPostgresEnvironment(baseConfiguration),
-
-  test: buildPostgresEnvironment({
-    ...baseConfiguration,
-    connection: {
-      ...baseConfiguration.connection,
-      connectionString: process.env.TEST_DATAMART_DATABASE_URL,
-    },
-  }),
-
+  test: setConnectionString(process.env.TEST_DATAMART_DATABASE_URL, buildPostgresEnvironment(baseConfiguration)),
   production: buildPostgresEnvironment(baseConfiguration),
 };
 
