@@ -805,7 +805,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
       expect(result.learners).lengthOf(0);
     });
 
-    it('retrieve all active learners from specific organizationExternalId', async function () {
+    it('retrieve all active learners from specific organizationExternalId with case insensitivity', async function () {
       const otherOrganization = databaseBuilder.factory.buildOrganization({
         externalId: 'ZYX987',
       });
@@ -823,7 +823,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
       await databaseBuilder.commit();
 
       const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
-        filter: { organizationExternalId: organization.externalId },
+        filter: { organizationExternalId: 'abc123' },
         page: {},
       });
 
@@ -882,7 +882,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           size: 1,
           number: 1,
         },
-        filter: { organizationExternalId: 'ABC123', fullName: 'Zoé De Ségazan' },
+        filter: { organizationExternalId: 'AbC123', fullName: 'Zoé De Ségazan' },
       });
 
       expect(result.pagination).to.deep.equal({

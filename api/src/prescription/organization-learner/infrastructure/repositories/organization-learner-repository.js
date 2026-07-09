@@ -179,7 +179,8 @@ async function findPaginatedLearnersForAdmin({ page, filter, sort }) {
       filterByFullName(query, fullName, 'firstName', 'lastName');
     }
     if (organizationExternalId) {
-      query.where({ externalId: organizationExternalId });
+      const searchUpperCase = organizationExternalId.trim().toUpperCase();
+      query.whereRaw('UPPER(??) LIKE ?', ['externalId', `${searchUpperCase}`]);
     }
     if (hideDisabled) {
       query.where({ isDisabled: false });

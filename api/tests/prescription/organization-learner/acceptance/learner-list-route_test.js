@@ -85,7 +85,7 @@ describe('Acceptance | Application | learner-list-route', function () {
       const params =
         '?filter[fullName]=Annie' +
         '&page[number]=1&page[size]=25' +
-        `&filter[organizationExternalId]=ABC123` +
+        `&filter[organizationExternalId]=Abc123` +
         `&filter[hideDisabled]=true` +
         '&sort[birthdateSort]=desc';
       const request = {
