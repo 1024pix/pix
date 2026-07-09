@@ -17,7 +17,6 @@ import * as knowledgeElementRepository from '../../../shared/infrastructure/repo
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
-import { answerJobRepository } from '../../infrastructure/repositories/answer-job-repository.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';
@@ -36,7 +35,6 @@ import * as scorecardService from '../services/scorecard-service.js';
 
 const dependencies = {
   algorithmDataFetcherService,
-  answerJobRepository,
   fromDatasourceObject,
   answerRepository,
   correctionRepository: repositories.correctionRepository,

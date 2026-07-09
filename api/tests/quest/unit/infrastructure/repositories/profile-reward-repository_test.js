@@ -45,7 +45,6 @@ describe('Quest | Unit | Infrastructure | Repositories | profile-reward', functi
     let reward;
     let rewardApiStub;
     let profileRewardApiStub;
-    let profileRewardTemporaryStorageStub;
 
     beforeEach(function () {
       userId = Symbol('userId');
@@ -60,9 +59,6 @@ describe('Quest | Unit | Infrastructure | Repositories | profile-reward', functi
       };
       profileRewardApiStub = {
         getByUserId: sinon.stub(),
-      };
-      profileRewardTemporaryStorageStub = {
-        get: sinon.stub(),
       };
 
       rewardApiStub.getByIdAndType
@@ -81,7 +77,6 @@ describe('Quest | Unit | Infrastructure | Repositories | profile-reward', functi
         quest,
         rewardApi: rewardApiStub,
         profileRewardApi: profileRewardApiStub,
-        profileRewardTemporaryStorage: profileRewardTemporaryStorageStub,
       });
 
       // then
@@ -97,7 +92,6 @@ describe('Quest | Unit | Infrastructure | Repositories | profile-reward', functi
       const profileReward = [];
 
       profileRewardApiStub.getByUserId.withArgs(userId).resolves(profileReward);
-      profileRewardTemporaryStorageStub.get.withArgs(userId).resolves(0);
 
       // when
       const result = await getByQuestAndUserId({
@@ -105,7 +99,6 @@ describe('Quest | Unit | Infrastructure | Repositories | profile-reward', functi
         quest,
         rewardApi: rewardApiStub,
         profileRewardApi: profileRewardApiStub,
-        profileRewardTemporaryStorage: profileRewardTemporaryStorageStub,
       });
 
       // then
@@ -114,30 +107,6 @@ describe('Quest | Unit | Infrastructure | Repositories | profile-reward', functi
       expect(result.reward).to.equal(reward);
       expect(result.profileRewardId).to.be.null;
       expect(result.obtained).to.be.false;
-    });
-
-    it('should return QuestResult with obtained null when reward is processing', async function () {
-      // given
-      const profileReward = [];
-
-      profileRewardApiStub.getByUserId.withArgs(userId).resolves(profileReward);
-      profileRewardTemporaryStorageStub.get.withArgs(userId).resolves(1);
-
-      // when
-      const result = await getByQuestAndUserId({
-        userId,
-        quest,
-        rewardApi: rewardApiStub,
-        profileRewardApi: profileRewardApiStub,
-        profileRewardTemporaryStorage: profileRewardTemporaryStorageStub,
-      });
-
-      // then
-      expect(result).to.be.an.instanceof(QuestResult);
-      expect(result.id).to.equal(quest.id);
-      expect(result.reward).to.equal(reward);
-      expect(result.profileRewardId).to.be.null;
-      expect(result.obtained).to.be.null;
     });
   });
 });

@@ -269,40 +269,9 @@ describe('Unit | Controller | answer-controller', function () {
       });
 
       context('when quest feature enabled', function () {
-        it('should not call rewardUser if async is enabled', async function () {
-          // given
-          await featureToggles.set('isQuestEnabled', true);
-          await featureToggles.set('isAsyncQuestRewardingCalculationEnabled', true);
-
-          // when
-          await answerController.save(request, hFake, {
-            answerSerializer: answerSerializerStub,
-            assessmentRepository,
-          });
-
-          // then
-          expect(questUsecases.rewardUser).to.have.not.been.called;
-        });
-
-        // it('should call rewardUser if async is not enabled', async function () {
-        //   // given
-        //   await featureToggles.set('isQuestEnabled', true);
-        //   await featureToggles.set('isAsyncQuestRewardingCalculationEnabled', false);
-
-        //   // when
-        //   await answerController.save(request, hFake, {
-        //     answerSerializer: answerSerializerStub,
-        //     assessmentRepository,
-        //   });
-
-        //   // then
-        //   expect(questUsecases.rewardUser).to.have.been.calledWith({ userId });
-        // });
-
         it('should not call the reward user usecase if userId is not provided', async function () {
           // given
           await featureToggles.set('isQuestEnabled', true);
-          await featureToggles.set('isAsyncQuestRewardingCalculationEnabled', false);
           // Setting headers so that userId is not provided
           request.headers = {};
 

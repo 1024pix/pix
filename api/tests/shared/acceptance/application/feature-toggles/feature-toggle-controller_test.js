@@ -24,7 +24,6 @@ describe('Acceptance | Shared | Application | Controller | feature-toggle', func
             'dynamic-feature-toggle-system': false,
             'disabled-locales-in-frontend': [],
             'display-catalogue': true,
-            'is-async-quest-rewarding-calculation-enabled': false,
             'is-survey-enabled-for-combined-courses': true,
             'is-quest-enabled': true,
             'is-self-account-deletion-enabled': true,

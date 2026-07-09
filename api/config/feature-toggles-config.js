@@ -11,12 +11,6 @@ export default {
     defaultValue: true,
     tags: ['frontend'],
   },
-  isAsyncQuestRewardingCalculationEnabled: {
-    type: 'boolean',
-    description: 'Used to switch between synchronous and asynchronous mode for quest reward calculation',
-    defaultValue: false,
-    tags: ['team-prescription', 'frontend'],
-  },
   isQuestEnabled: {
     type: 'boolean',
     description: 'Used to enable quests feature',
