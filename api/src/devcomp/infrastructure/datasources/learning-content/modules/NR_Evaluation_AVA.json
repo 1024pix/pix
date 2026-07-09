@@ -1120,7 +1120,7 @@
                 "id": "4d607d31-ce42-47b6-8ce9-4b928cda9609",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Observez ces différentes publicités.<br></p>",
+                "instruction": "<p>Observez ces différentes publicités ci-dessous.<br></p>",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
@@ -1278,12 +1278,12 @@
               "element": {
                 "id": "c482307d-6b24-458a-92a0-b6cd8f95d51e",
                 "type": "qcm",
-                "instruction": "<p>Dans cette étude, quels effets ont été <strong>quantifiés </strong>pour le <strong>télétravail </strong>?</p>",
+                "instruction": "<p>Dans cette étude, quels effets ont été quantifiés pour le télétravail ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>l’évolution de la distance parcourue pour les trajets domicile- travail</p>"
+                    "content": "<p>l’évolution de la distance parcourue pour les trajets domicile-travail</p>"
                   },
                   {
                     "id": "2",
