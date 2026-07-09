@@ -33,7 +33,7 @@
                 "id": "37a9e342-ceee-494e-ae50-1690aea3b6bb",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Olivier et Alise s’interrogent sur l’impact environnemental du télétravail.</p>",
+                "instruction": "<p>Olivier et Omar s’interrogent sur l’impact environnemental du télétravail.</p>",
                 "functionalInstruction": "",
                 "tagName": "message-conversation",
                 "props": {
@@ -52,13 +52,13 @@
                       "content": "C’est bien mieux pour l’environnement ! 🌏"
                     },
                     {
-                      "userName": "Alise",
+                      "userName": "Omar",
                       "direction": "incoming",
                       "type": "Texte",
                       "content": "Je ne suis pas d’accord !"
                     },
                     {
-                      "userName": "Alise",
+                      "userName": "Omar",
                       "direction": "incoming",
                       "type": "Texte",
                       "content": "La fabrication des ordinateurs est polluante, la visio aussi. Et puis, comme les personnes qui télétravaillent restent chez elles, elles doivent plus chauffer et éclairer leurs logements, ce qui pollue encore un peu plus. 🏠"
@@ -92,7 +92,7 @@
                   },
                   {
                     "id": "2",
-                    "content": "Alise",
+                    "content": "Omar",
                     "feedback": {
                       "diagnosis": "<p><strong>Difficile de dire qui a raison ! </strong></p><p>Cet effet est très <strong>difficile à quantifier.</strong></p>"
                     }
@@ -139,7 +139,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p> À votre avis, pour chacun des cas suivants, l’effet sur l’environnement est-il direct ou indirect ?<br></p>",
+              "instruction": "<p>Pour chacun des cas suivants, dites s'il s'agit d'un effet direct ou indirect sur l'environnement.</p>",
               "steps": [
                 {
                   "elements": [
@@ -1270,7 +1270,7 @@
                 "id": "89825fe0-aff8-43c4-9ad0-4d433810ed96",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous vous souvenez du débat entre Olivier et Alise sur l’impact du télétravail ?</p><p>L’ADEME a également essayé de répondre à la question. Elle a publié en 2025 une <a href=\"https://drive.google.com/file/d/1N4HCT6yYVVpQEUH_uFZ6Jv2o41apUQHh/view\" target=\"_blank\">étude</a>&nbsp;sur plusieurs cas d’usage du numérique, dont le <strong>télétravail</strong>, afin d’en mesurer les effets directs et indirects.</p>"
+                "content": "<p>Vous vous souvenez du débat entre Olivier et Omar sur l’impact du télétravail ?</p><p>L’ADEME a également essayé de répondre à la question. Elle a publié en 2025 une <a href=\"https://drive.google.com/file/d/1N4HCT6yYVVpQEUH_uFZ6Jv2o41apUQHh/view\" target=\"_blank\">étude</a>&nbsp;sur plusieurs cas d’usage du numérique, dont le <strong>télétravail</strong>, afin d’en mesurer les effets directs et indirects.</p>"
               }
             },
             {
