@@ -9,6 +9,7 @@ const serialize = function (combinedCourse) {
       'code',
       'hasCampaigns',
       'hasModules',
+      'hasReward',
       'campaignIds',
       'combinedCourseParticipations',
       'combinedCourseStatistics',

@@ -64,6 +64,10 @@ export class CombinedCourseDetails extends CombinedCourse {
     return this.#participation !== null;
   }
 
+  get hasReward() {
+    return Boolean(this.quest.rewardId);
+  }
+
   get campaignIds() {
     return this.quest.successRequirements
       .filter((requirement) => requirement.requirement_type === TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS)

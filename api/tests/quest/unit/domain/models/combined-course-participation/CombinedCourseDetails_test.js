@@ -1257,4 +1257,34 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
       expect(combinedCourseDetails.isSuccessful()).to.be.false;
     });
   });
+
+  describe('#hasReward', function () {
+    it('should return true when a reward is defined', async function () {
+      const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
+        name,
+        code,
+        organizationId,
+        questId,
+        combinedCourseItems: [],
+        cryptoService,
+        rewardId: 123,
+      });
+
+      expect(combinedCourseDetails.hasReward).to.be.true;
+    });
+
+    it('should return false when no reward is defined', async function () {
+      const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
+        name,
+        code,
+        organizationId,
+        questId,
+        combinedCourseItems: [],
+        cryptoService,
+        rewardId: null,
+      });
+
+      expect(combinedCourseDetails.hasReward).to.be.false;
+    });
+  });
 });
