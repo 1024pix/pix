@@ -50,13 +50,13 @@ export function injectDependencies(toBeInjected, dependencies, boundedContext = 
   const wrappedDependencies = Object.fromEntries(
     Object.entries(dependencies).map(([name, value]) => [
       name,
-      value ? otelProxy(value, name, defaultAttributes) : value,
+      value ? otelProxy(value, name, () => ({ attributes: defaultAttributes })) : value,
     ]),
   );
   const injected = Object.fromEntries(
     Object.entries(toBeInjected).map(([name, value]) => {
       if (_.isFunction(value)) {
-        const wrapped = otelProxy(value, `${boundedContext.name}->${name}`, defaultAttributes);
+        const wrapped = otelProxy(value, `${boundedContext.name}->${name}`, () => ({ attributes: defaultAttributes }));
         return [name, _.partial(injectDefaults, wrappedDependencies, wrapped)()];
       } else {
         return [name, injectDependencies(value, dependencies)];

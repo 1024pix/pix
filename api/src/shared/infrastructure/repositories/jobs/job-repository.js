@@ -1,3 +1,4 @@
+import { trace } from '@opentelemetry/api';
 import Joi from 'joi';
 
 import { EntityValidationError } from '../../../domain/errors.js';
@@ -60,9 +61,10 @@ export class JobRepository {
 
   async performAsync(...payloads) {
     const correlationContext = getCorrelationInfo();
+    const openTelemetryContext = trace.getActiveSpan()?.spanContext?.();
 
     for (const payload of payloads) {
-      await JobClient.instance.send(this.name, { ...payload, correlationContext }, this.options);
+      await JobClient.instance.send(this.name, { ...payload, correlationContext, openTelemetryContext }, this.options);
     }
     return { rowCount: payloads.length };
   }

@@ -159,7 +159,10 @@ export class JobClient {
     const { localConcurrency } = jobHandler;
 
     await this.#pgBoss.work(name, { localConcurrency, includeMetadata: true }, async ([job]) => {
-      const context = this.#initLogContext(job);
+      const context = {
+        ...this.#initLogContext(job),
+        openTelemetryContext: this.#initOpenTelemetryContext(job),
+      };
       return executeInContext(
         context,
         async () => {
@@ -177,6 +180,10 @@ export class JobClient {
       ...inheritedContext,
       jobId: job.id,
     };
+  }
+
+  #initOpenTelemetryContext(job) {
+    return job.data?.openTelemetryContext;
   }
 
   async scheduleCronJob({ name, cron, data, options }) {
