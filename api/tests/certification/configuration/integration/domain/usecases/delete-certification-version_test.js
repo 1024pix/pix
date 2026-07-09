@@ -1,4 +1,5 @@
 import { CertificationVersionForbiddenDeletionError } from '../../../../../../src/certification/configuration/domain/errors.js';
+import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { usecases } from '../../../../../../src/certification/configuration/domain/usecases/index.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../../test-helper.js';
@@ -12,6 +13,7 @@ describe('Certification | Configuration | Integration | Domain | UseCase | delet
       scope: SCOPES.CORE,
       startDate: new Date(),
       expirationDate: null,
+      status: VERSION_STATUSES.ACTIVE,
     });
 
     await databaseBuilder.commit();
@@ -28,8 +30,9 @@ describe('Certification | Configuration | Integration | Domain | UseCase | delet
     // given
     const certificationVersion = databaseBuilder.factory.buildCertificationVersion({
       scope: SCOPES.CORE,
-      startDate: null,
+      startDate: new Date(),
       expirationDate: null,
+      status: VERSION_STATUSES.DRAFT,
     });
 
     await databaseBuilder.commit();
