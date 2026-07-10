@@ -194,7 +194,7 @@
                 "id": "8752b25c-02cc-4211-988e-2fb8d0a57bc9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Obtenir un premier accès est une première étape. Mais l’attaque ne se déclenche pas toujours immédiatement. Découvrez pourquoi.</p>"
+                "content": "<p>Obtenir un premier accès est une première étape. Mais l’attaque n’est pas forcément visible immédiatement. Découvrez pourquoi.</p>"
               }
             }
           ]
@@ -824,7 +824,7 @@
                       "id": "0b72b1e1-7edd-4150-bf13-8ecdf6088a1e",
                       "type": "text",
                       "tag": "context",
-                      "content": "<p>Une entreprise impose une authentification multifacteur à ses employés pour accéder à ses outils en ligne.</p>"
+                      "content": "<p>Une entreprise impose une double authentification à ses employés pour accéder à ses outils en ligne.</p>"
                     },
                     {
                       "id": "f1fdff7c-6ff8-44a2-8774-4936c1e5d763",
@@ -968,7 +968,7 @@
                     "id": "5",
                     "content": "<p>J’installe un antivirus.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Ce n’est pas la mesure la plus adaptée. Un antivirus ne change pas le fait que l’accès à votre boîte mail. La priorité est de changer le mot de passe de la boîte mail et d’activer la double authentification, si c’est possible.</p>"
+                      "diagnosis": "<p>Ce n’est pas la mesure la plus adaptée. Un antivirus ne change pas le fait que l’accès à votre boîte mail. La priorité est de changer le mot de passe de la boîte mail et vérifier les connexions récentes.</p>"
                     }
                   }
                 ],
