@@ -92,7 +92,7 @@ export function buildModuleWithNoDefaultValues({
   return values;
 }
 
-function buildModuleInDB({ id, shortId, slug, title, isBeta, visibility, details, sections, glossary }) {
+function buildModuleInDB({ id, shortId, slug, title, isBeta, visibility, details, sections, glossary, version }) {
   const values = {
     id,
     shortId,
@@ -103,6 +103,7 @@ function buildModuleInDB({ id, shortId, slug, title, isBeta, visibility, details
     ...details,
     sections: JSON.stringify(sections),
     glossary: JSON.stringify(glossary),
+    version,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'learningcontent.modules',
