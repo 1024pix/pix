@@ -295,6 +295,9 @@
       "page-title": "Logout"
     },
     "sco": {
+      "banner": {
+        "information": "In accordance with the ministerial schedule for taking the Pix Certifications, access to the Pix Certif platform for middle and high schools will be suspended from <strong>{suspensionDate}</strong>. Please finalise your sessions for the year as soon as possible."
+      },
       "enrol-candidates-in-session": {
         "certification-candidates-sco": {
           "actions": {
