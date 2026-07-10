@@ -4,5 +4,5 @@ postdeploy: npm run postdeploy:maddo
 # see https://github.com/1024pix/pix/pull/796
 # and https://github.com/npm/npm/issues/4603
 # for more information
-web: exec node index.maddo.js
+web: exec node -r ./tracing.maddo.js index.maddo.js
 worker: exec node worker.js maddo
