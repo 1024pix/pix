@@ -256,6 +256,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const expectedCandidates = candidateList.map((candidate) => {
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
+        subscription: Frameworks.CORE,
       });
     });
     expect(actualCandidates).to.deep.equal(expectedCandidates);
@@ -294,13 +295,17 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       candidateList = _buildCandidateList({
         sessionId: sessionData.id,
         billingModes: [BILLING_MODES.FREE, BILLING_MODES.FREE],
-        subscriptions: [Frameworks.EDU_1ER_DEGRE, Frameworks.CLEA],
       });
-      const expectedCandidates = candidateList.map((candidate) => {
-        return domainBuilder.certification.enrolment.buildCandidate({
-          ...candidate,
-        });
-      });
+      const expectedCandidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateList[0],
+          subscription: Frameworks.EDU_1ER_DEGRE,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateList[1],
+          subscription: Frameworks.CLEA,
+        }),
+      ];
 
       // when
       const actualCandidates =
@@ -385,6 +390,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const expectedCandidates = candidateList.map((candidate) => {
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
+        subscription: Frameworks.CORE,
       });
     });
 
@@ -431,13 +437,14 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const expectedCandidates = candidateList.map((candidate) => {
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
+        subscription: Frameworks.CORE,
       });
     });
     expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
 });
 
-function _buildCandidateList({ billingModes = [], sessionId, subscriptions = [] }) {
+function _buildCandidateList({ billingModes = [], sessionId }) {
   const candidates = [];
   candidates.push({
     id: null,
@@ -458,7 +465,7 @@ function _buildCandidateList({ billingModes = [], sessionId, subscriptions = [] 
     extraTimePercentage: 0.15,
     billingMode: billingModes[0] ? billingModes[0] : null,
     prepaymentCode: null,
-    subscription: subscriptions[0] ? subscriptions[0] : Frameworks.CORE,
+    subscription: Frameworks.CORE,
     organizationLearnerId: null,
     userId: null,
   });
@@ -481,7 +488,7 @@ function _buildCandidateList({ billingModes = [], sessionId, subscriptions = [] 
     extraTimePercentage: null,
     billingMode: billingModes[1] ? billingModes[1] : null,
     prepaymentCode: null,
-    subscription: subscriptions[1] ? subscriptions[1] : Frameworks.CORE,
+    subscription: Frameworks.CORE,
     organizationLearnerId: null,
     userId: null,
   });

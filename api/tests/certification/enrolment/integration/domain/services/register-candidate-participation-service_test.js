@@ -22,6 +22,11 @@ describe('Integration | Application | Service | register-candidate-participation
         userId: null,
         reconciledAt: null,
       });
+      databaseBuilder.factory.buildComplementaryCertification({ id: 1234 });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: 1234,
+      });
 
       await databaseBuilder.commit();
 
