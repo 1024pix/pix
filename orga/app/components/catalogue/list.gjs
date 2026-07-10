@@ -51,14 +51,14 @@ export default class List extends Component {
   }
 
   get categoriesOptions() {
-    return [...new Set(this.args.courses.flatMap((item) => (item.category ? item.category : [])))].map((item) => ({
+    return [...new Set(this.filteredItems.flatMap((item) => (item.category ? item.category : [])))].map((item) => ({
       label: this.intl.t(`pages.campaign-creation.tags.${item}`),
       value: item,
     }));
   }
 
   get areasOptions() {
-    return [...new Set(this.args.courses.flatMap((item) => (item.areas ? item.areas : [])))]
+    return [...new Set(this.filteredItems.flatMap((item) => (item.areas ? item.areas : [])))]
       .sort((a, b) => a.code.localeCompare(b.code, this.locale.currentLanguage, { numeric: true }))
       .map((area) => ({
         label: `${area.code}. ${area.title}`,
@@ -69,7 +69,7 @@ export default class List extends Component {
   get competencesOptions() {
     return [
       ...new Set(
-        this.args.courses
+        this.filteredItems
           .flatMap((item) => (item.areas ? item.areas : []))
           .flatMap((area) => (area.competences ? area.sortedCompetences : [])),
       ),

@@ -321,10 +321,34 @@ module('Integration | Component | Catalogue::List', function (hooks) {
         assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 1);
         assert.dom(screen.getByRole('heading', { level: 3, name: 'Ma super formation' })).exists();
       });
+
+      module('when a tab is selected', function () {
+        test('it only display areas of the filtered courses', async function (assert) {
+          // given
+          const updateFilter = sinon.stub();
+          const area1 = store.createRecord('area', { id: 1, title: 'area1', code: '1', competences: [] });
+          const area2 = store.createRecord('area', { id: 2, title: 'area2', code: '2', competences: [] });
+
+          const courses = [
+            { name: 'Mon parcours combiné', type: 'blueprint', nbModules: 2, areas: [area1] },
+            { name: 'Ma super formation', type: 'targetProfile', category: 'OTHER', nbModules: 2, areas: [area2] },
+          ];
+
+          // when
+          const screen = await render(
+            <template><List @updateFilter={{updateFilter}} @courses={{courses}} @type="blueprint" /></template>,
+          );
+          await click(screen.getByRole('button', { name: t('pages.catalogue.filters.areas.label') }));
+          await waitFor(() => screen.findByRole('menu'));
+          // then
+          assert.dom(screen.getByRole('menuitem', { name: `${area1.code}. ${area1.title}` })).exists();
+          assert.dom(screen.queryByRole('menuitem', { name: `${area2.code}. ${area2.title}` })).doesNotExist();
+        });
+      });
     });
 
     module('competences filter', function () {
-      test('it disables filter when there are no compentences to filter', async function (assert) {
+      test('it disables filter when there are no competences to filter', async function (assert) {
         // given
         const updateFilter = sinon.stub();
         const search = 'combiné';
@@ -429,6 +453,32 @@ module('Integration | Component | Catalogue::List', function (hooks) {
         // then
         assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 1);
         assert.dom(screen.getByRole('heading', { level: 3, name: 'Ma super formation' })).exists();
+      });
+
+      module('when a tab is selected', function () {
+        test('it only display areas of the filtered courses', async function (assert) {
+          // given
+          const updateFilter = sinon.stub();
+          const comp1 = store.createRecord('competence', { id: 1, name: 'comp1', index: '1.1' });
+          const comp2 = store.createRecord('competence', { id: 2, name: 'comp2', index: '2.1' });
+          const area1 = store.createRecord('area', { id: 1, title: 'area1', code: '1', competences: [comp1] });
+          const area2 = store.createRecord('area', { id: 2, title: 'area2', code: '2', competences: [comp2] });
+
+          const courses = [
+            { name: 'Mon parcours combiné', type: 'blueprint', nbModules: 2, areas: [area1] },
+            { name: 'Ma super formation', type: 'targetProfile', category: 'OTHER', nbModules: 2, areas: [area2] },
+          ];
+
+          // when
+          const screen = await render(
+            <template><List @updateFilter={{updateFilter}} @courses={{courses}} @type="blueprint" /></template>,
+          );
+          await click(screen.getByRole('button', { name: t('pages.catalogue.filters.competences.label') }));
+          await waitFor(() => screen.findByRole('menu'));
+          // then
+          assert.dom(screen.getByRole('menuitem', { name: `${comp1.index} ${comp1.name}` })).exists();
+          assert.dom(screen.queryByRole('menuitem', { name: `${comp2.index} ${comp2.name}` })).doesNotExist();
+        });
       });
     });
 
