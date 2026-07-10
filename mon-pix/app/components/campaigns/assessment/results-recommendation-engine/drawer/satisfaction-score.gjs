@@ -31,7 +31,7 @@ export default class SatisfactionScore extends Component {
   }
 
   <template>
-    <form>
+    <form aria-live="polite">
       <fieldset class="results-recommendation-engine-drawer__form">
         <legend class="results-recommendation-engine-drawer__statement">
           {{t "pages.skill-review.recommended-engine.drawer.statement"}}
