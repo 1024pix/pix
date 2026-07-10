@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import ENV from 'mon-pix/config/environment';
 
+import ContentRelevanceForm from './drawer/content-relevance-form';
 import SatisfactionScore from './drawer/satisfaction-score';
 import ThankYou from './drawer/thank-you';
 
@@ -14,15 +15,30 @@ export default class Drawer extends Component {
 
   @tracked isHidden = false;
   @tracked isHiding = false;
-  @tracked isSubmitted = false;
+  @tracked step = 'satisfaction-score';
+
+  get isContentRelevanceFormStepDisplayed() {
+    return this.step === 'content-relevance-form';
+  }
+
+  get isThankYouStepDisplayed() {
+    return this.step === 'thank-you';
+  }
 
   @action
-  async selectScore(score) {
-    this.isSubmitted = true;
+  showThankYou() {
+    this.step = 'thank-you';
+  }
+
+  @action
+  async submitSatisfactionScore(score) {
     try {
+      this.step = 'content-relevance-form';
+
+      this.satisfactionScore = score;
       await this.requestManager.request({
         url: `${ENV.APP.API_HOST}/api/user-campaign-surveys`,
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify({
           data: {
             type: 'user-campaign-surveys',
@@ -34,7 +50,7 @@ export default class Drawer extends Component {
         }),
       });
     } catch {
-      // L'échec de l'appel API n'interrompt pas le flux UI
+      // TODO Ajouter un PixToast d'erreur
     }
   }
 
@@ -51,6 +67,31 @@ export default class Drawer extends Component {
     }
   }
 
+  @action
+  async submitContentRelevanceFormScores(scores) {
+    try {
+      await this.requestManager.request({
+        url: `${ENV.APP.API_HOST}/api/user-campaign-surveys`,
+        method: 'PUT',
+        body: JSON.stringify({
+          data: {
+            type: 'user-campaign-surveys',
+            attributes: {
+              'campaign-id': this.args.campaignId,
+              'satisfaction-score': this.satisfactionScore,
+              'usefulness-score': scores.usefulness,
+              'personalization-score': scores.personalization,
+              'attractiveness-score': scores.attractiveness,
+            },
+          },
+        }),
+      });
+      this.showThankYou();
+    } catch {
+      // TODO Ajouter un PixToast d'erreur
+    }
+  }
+
   <template>
     {{#unless this.isHidden}}
       <section
@@ -59,10 +100,12 @@ export default class Drawer extends Component {
         role="dialog"
         aria-label={{t "pages.skill-review.recommended-engine.drawer.title"}}
       >
-        {{#if this.isSubmitted}}
+        {{#if this.isThankYouStepDisplayed}}
           <ThankYou @onClose={{this.hide}} />
+        {{else if this.isContentRelevanceFormStepDisplayed}}
+          <ContentRelevanceForm @onSubmit={{this.submitContentRelevanceFormScores}} @onHide={{this.hide}} />
         {{else}}
-          <SatisfactionScore @onScoreSelected={{this.selectScore}} @onHide={{this.hide}} />
+          <SatisfactionScore @onScoreSelected={{this.submitSatisfactionScore}} @onHide={{this.hide}} />
         {{/if}}
       </section>
     {{/unless}}
