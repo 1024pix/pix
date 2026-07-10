@@ -46,8 +46,13 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     });
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
     userId = databaseBuilder.factory.buildUser().id;
-    databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-    const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+    databaseBuilder.factory.buildCertificationCenterMembership({
+      userId,
+      certificationCenterId,
+    });
+    const sessionData = databaseBuilder.factory.buildSession({
+      certificationCenterId,
+    });
     sessionId = sessionData.id;
     session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
@@ -64,8 +69,16 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       matcher: 'AEEEGLNRRT',
     });
 
-    databaseBuilder.factory.buildCertificationCpfCity({ name: 'AJACCIO', INSEECode: '2A004', isActualName: true });
-    databaseBuilder.factory.buildCertificationCpfCity({ name: 'PARIS 18', postalCode: '75018', isActualName: true });
+    databaseBuilder.factory.buildCertificationCpfCity({
+      name: 'AJACCIO',
+      INSEECode: '2A004',
+      isActualName: true,
+    });
+    databaseBuilder.factory.buildCertificationCpfCity({
+      name: 'PARIS 18',
+      postalCode: '75018',
+      isActualName: true,
+    });
 
     await databaseBuilder.commit();
 
@@ -98,7 +111,10 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     // then
     expect(error).to.be.instanceOf(CertificationCandidatesError);
     expect(error.code).to.equal('CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID');
-    expect(error.meta).to.deep.equal({ line: 13, value: 'destinataire@gmail.com, destinataire@gmail.com' });
+    expect(error.meta).to.deep.equal({
+      line: 13,
+      value: 'destinataire@gmail.com, destinataire@gmail.com',
+    });
   });
 
   it('should throw a CertificationCandidatesError if there is an error in the birth information', async function () {
@@ -262,8 +278,13 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-      const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+      });
+      const sessionData = databaseBuilder.factory.buildSession({
+        certificationCenterId,
+      });
       const session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
       await databaseBuilder.commit();
@@ -315,8 +336,13 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-      const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+      });
+      const sessionData = databaseBuilder.factory.buildSession({
+        certificationCenterId,
+      });
       const session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
       await databaseBuilder.commit();
@@ -352,7 +378,10 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     const odsFilePath = `${__dirname}/attendance_sheet_extract_with_billing_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
-    candidateList = _buildCandidateList({ billingModes: [BILLING_MODES.PAID, BILLING_MODES.FREE], sessionId });
+    candidateList = _buildCandidateList({
+      billingModes: [BILLING_MODES.PAID, BILLING_MODES.FREE],
+      sessionId,
+    });
     const expectedCandidates = candidateList.map((candidate) => {
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,

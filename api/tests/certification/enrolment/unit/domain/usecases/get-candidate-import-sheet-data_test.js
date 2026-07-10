@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { getCandidateImportSheetData } from '../../../../../../src/certification/enrolment/domain/usecases/get-candidate-import-sheet-data.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -36,26 +36,12 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-shee
     const michelCandidate = domainBuilder.certification.enrolment.buildCandidate({
       firstName: 'Michel',
       lastName: 'Jacques',
-      subscriptions: [
-        {
-          type: SUBSCRIPTION_TYPES.CORE,
-          complementaryCertificationId: null,
-          complementaryCertificationLabel: null,
-          complementaryCertificationKey: null,
-        },
-      ],
+      subscription: Frameworks.CORE,
     });
     const jeannetteCandidate = domainBuilder.certification.enrolment.buildCandidate({
       firstName: 'Jeannette',
       lastName: 'Jacques',
-      subscriptions: [
-        {
-          type: SUBSCRIPTION_TYPES.CORE,
-          complementaryCertificationId: null,
-          complementaryCertificationLabel: null,
-          complementaryCertificationKey: null,
-        },
-      ],
+      subscription: Frameworks.CORE,
     });
     const enrolledCandidates = [michelCandidate, jeannetteCandidate];
     candidateRepository.findBySessionId.withArgs({ sessionId }).resolves(enrolledCandidates);
