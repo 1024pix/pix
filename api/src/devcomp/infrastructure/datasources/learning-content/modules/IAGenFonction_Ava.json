@@ -417,7 +417,7 @@
                       "id": "44b2fa86-5471-4083-ae6e-6ccad3ce6db1",
                       "type": "text",
                       "tag": " ",
-                      "content": "⚙️ Dans certaines IA conversationnelles, l’utilisateur peut choisir d’<strong>activer des outils disponibles</strong> pour une conversation."
+                      "content": "<p>⚙️ Dans certaines IA conversationnelles, l’utilisateur peut choisir d’<strong>activer des outils disponibles</strong> pour une conversation.</p>"
                     },
                     {
                       "id": "139efa7a-48f4-476f-88d6-1fd440588231",
@@ -427,16 +427,12 @@
                       "alternativeText": "",
                       "legend": "Sur Mistral, il est possible d’activer ou de désactiver certains outils dans une conversation.",
                       "licence": ""
-                    }
-                  ]
-                },
-                {
-                  "elements": [
+                    },
                     {
-                      "id": "c80fea48-c2fd-4eee-900f-9acf88be2fee",
+                      "id": "814ad2f4-6dc3-48f4-a923-391550e719ab",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>🔧 Un utilisateur expérimenté peut également <strong>ajouter des outils </strong>supplémentaires, par lui-même.</p>"
+                      "content": "<p>🔧 Un utilisateur expérimenté peut également ajouter des outils supplémentaires, par lui-même.</p>"
                     }
                   ]
                 }
@@ -854,7 +850,7 @@
                 "id": "8454a04e-e0aa-432f-97da-72c94c43e3e5",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>À leur lancement, les logiciels d’IA générative de texte avaient beaucoup de <strong>limites </strong>: ils généraient principalement du texte, faisaient des erreurs dans les calculs, n’avaient pas d’accès aux informations en temps réel, etc.&nbsp;🤔</li>    <li>Pour dépasser ces limites, les développeurs ont mis en place des <strong>outils </strong>que les logiciels d’IA peuvent appeler pour faire davantage d’<strong>actions&nbsp;</strong>en interagissant avec d’autres logiciels&nbsp;: calculer, exécuter du <strong>code informatique</strong>, générer un support de <strong>présentation</strong>, etc.&nbsp;</li>    <li>Ce mécanisme, appelé<strong> appel d’outils</strong> (tool calling), repose sur une liste d’outils définis à l’avance par les développeurs.&nbsp;⚙️</li>    <li>Pour traiter une demande, un logiciel d’IA identifie des <strong>outils </strong> utiles. Il leur transmet des <strong>requêtes </strong>et intègre les résultats dans le prompt pour générer une réponse adaptée.&nbsp;🎯</li></ul><br>"
+                "content": "<ul>    <li>À leur lancement, les logiciels d’IA générative de texte avaient beaucoup de <strong>limites </strong>: ils faisaient des erreurs dans les calculs, n’avaient pas d’accès aux informations en temps réel, etc.&nbsp;🤔</li>    <li>Pour dépasser ces limites, les développeurs ont mis en place des <strong>outils </strong>que les logiciels d’IA peuvent appeler pour faire davantage d’<strong>actions&nbsp;</strong>en interagissant avec d’autres logiciels&nbsp;: calculer, exécuter du <strong>code informatique</strong>, générer un support de <strong>présentation</strong>, etc.&nbsp;</li>    <li>Ce mécanisme, appelé<strong> appel d’outils</strong> (tool calling), repose sur une liste d’outils définis à l’avance par les développeurs.&nbsp;⚙️</li>    <li>Pour traiter une demande, un logiciel d’IA identifie des <strong>outils </strong> utiles. Il leur transmet des <strong>requêtes </strong>et intègre les <strong>résultats </strong>dans le prompt pour générer une réponse adaptée.&nbsp;🎯</li></ul><br>"
               }
             },
             {
@@ -890,7 +886,7 @@
                 "isCompletionRequired": false,
                 "title": "ChatPix pour tester",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmlfcrotr00004z01vw5daup4",
-                "instruction": "<p>Testez le logiciel d’IA générative ci-dessous pour déduire les outils auxquels il a accès puis répondez aux questions.</p>",
+                "instruction": "<p>Le logiciel IA générative ci-dessous peut-il rechercher sur le web et produire des graphiques ? </p><p>Testez-le, puis répondez aux questions.</p>",
                 "solution": "",
                 "height": 550
               }
@@ -962,7 +958,7 @@
                   },
                   "invalid": {
                     "state": "Mauvaise réponse !",
-                    "diagnosis": "<p> Avez-vous testé avec un prompt pour chaque situation ?</p><ul><li><strong>Pour la recherche sur internet</strong>&nbsp;: avez-vous posé à l’IA <strong>une question d’actualité ?</strong><p>Par exemple&nbsp;: «&nbsp;Quelle équipe a remporté le dernier championnat du monde de water-polo ?&nbsp;».</p></li><li><strong>Pour la production de graphiques&nbsp;:</strong> avez-vous demandé à l’IA de <strong>représenter des données chiffrées sous une forme visuelle ?</strong><p>Par exemple&nbsp;: «&nbsp;Fais un graphique comparant les températures de Kinshasa et Montréal.&nbsp;».</p></li></ul>"
+                    "diagnosis": "<p> Avez-vous testé avec un prompt pour chaque situation ?</p><ul><li><strong>Pour la recherche sur internet</strong>&nbsp;: avez-vous posé à l’IA <strong>une question d’actualité ?</strong><p>Par exemple&nbsp;: « Que s'est-il passé à Rome hier ?&nbsp;».</p></li><li><strong>Pour la production de graphiques&nbsp;:</strong> avez-vous demandé à l’IA de <strong>représenter des données chiffrées sous une forme visuelle ?</strong><p>Par exemple&nbsp;: «&nbsp;Fais un graphique comparant les températures de Kinshasa et Montréal.&nbsp;».</p></li></ul>"
                   }
                 }
               }
@@ -983,7 +979,7 @@
                 "cards": [
                   {
                     "id": "5cabf99b-be7e-459a-a2d2-7e021df91abe",
-                    "text": "Traduis en espagnol la phrase : « J’ai besoin d’acheter de la peinture jaune. Savez-vous où est le rayon dans le magasin ? »",
+                    "text": "Quels sont les avantages et les inconvénients de poser du carrelage sur une terrasse ?",
                     "image": {
                       "url": "",
                       "altText": ""
