@@ -2254,6 +2254,27 @@
       "not-finished": "Je kunt je resultaten nog niet opsturen, dus we hebben nog een paar vragen voor je.",
       "recommended-engine": {
         "drawer": {
+          "content-relevance-form": {
+            "attractiveness": {
+              "legend": "Beoordeel hoe aantrekkelijk de inhoud is, van niet aantrekkelijk 1 tot aantrekkelijk 5",
+              "max-label": "Aantrekkelijk",
+              "min-label": "Niet aantrekkelijk"
+            },
+            "legend": "De aanbevolen inhoud is…",
+            "personalization": {
+              "legend": "Beoordeel hoe gepersonaliseerd de inhoud is, van algemeen 1 tot gepersonaliseerd 5",
+              "max-label": "Gepersonaliseerd",
+              "min-label": "Algemeen"
+            },
+            "score-aria-label": "{score} van 5",
+            "subtitle": "Zullen we verdergaan…",
+            "title": "Bedankt voor uw feedback!",
+            "usefulness": {
+              "legend": "Beoordeel hoe nuttig de inhoud is, van niet nuttig 1 tot nuttig 5",
+              "max-label": "Nuttig",
+              "min-label": "Niet nuttig"
+            }
+          },
           "emojis": {
             "dissatisfied": "Niet relevant",
             "neutral": "Ik heb geen mening",
@@ -2264,7 +2285,7 @@
           "hide": "Verbergen",
           "hide-aria-label": "Het feedbackpaneel voor aanbevelingen voor trainingsinhoud verbergen",
           "instruction": "Klik op een emoji om uw mening te geven.",
-          "statement": "Lijkt de aanbevolen trainingsinhoud om uw kennis te verdiepen u relevant?",
+          "statement": "Lijkt de trainingsinhoud om uw kennis te verdiepen u relevant?",
           "thank-you": {
             "subtitle": "Gelukt!",
             "title": "Bedankt voor uw feedback!"
