@@ -30,7 +30,7 @@ export default class FrameworkHistory extends Component {
   @tracked showVersionDetailModal = false;
 
   get frameworkHistory() {
-    return this.args.frameworkHistory?.history.sort(sortByStartDateNullFirst) ?? [];
+    return this.args.frameworkHistory?.history.sort(sortByStatus);
   }
 
   get hasHistory() {
@@ -215,16 +215,8 @@ export default class FrameworkHistory extends Component {
   </template>
 }
 
-function sortByStartDateNullFirst(historyItemA, historyItemB) {
-  if (historyItemA.startDate === null) {
-    return historyItemB.startDate === null ? historyItemA.id - historyItemB.id : -1;
-  }
-  if (historyItemB.startDate === null) {
-    return 1;
-  }
-
-  if (historyItemA.startDate > historyItemB.startDate) {
-    return -1;
-  }
-  return 1;
+function sortByStatus(frameworkHistoryA, frameworkHistoryB) {
+  if (frameworkHistoryA.status === 'draft') return -1;
+  if (frameworkHistoryA.status === 'active') return 0;
+  return new Date(frameworkHistoryA.expirationDate) > new Date(frameworkHistoryB.experitionDate) ? 1 : 0;
 }
