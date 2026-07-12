@@ -1,4 +1,4 @@
-import { knex } from '../../db/knex-database-connection.js';
+import { getDb } from '../../db/knex-database-connection.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
 import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
@@ -29,8 +29,9 @@ export class AddCompetenceIdsToScoringConfigurations extends Script {
       competenceList.map((competence) => [competence.index, competence.id]),
     );
 
-    const coreConfigurations = await knex('certification_versions')
+    const coreConfigurations = await getDb()
       .select('id', 'competencesScoringConfiguration')
+      .from('certification_versions')
       .whereNotNull('competencesScoringConfiguration')
       .whereRaw('"competencesScoringConfiguration"::text != \'null\'');
 

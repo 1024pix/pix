@@ -9,7 +9,7 @@ import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/co
 import { CertificationReport } from '../../../../../src/certification/shared/domain/models/CertificationReport.js';
 import { pickAnswerStatusService } from '../../../../../src/certification/shared/domain/services/pick-answer-status-service.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
-import { knex } from '../../../../knex-database-connection.js';
+import { getDb } from '../../../../knex-database-connection.js';
 
 /**
  * @param {Object} params
@@ -26,7 +26,11 @@ export default async function publishSessionWithValidatedCertification({
 }) {
   const session = await enrolmentUseCases.getSession({ sessionId });
 
-  const version = await knex('certification_versions').where('expirationDate', null).andWhere('scope', 'CORE').first();
+  const version = await getDb()
+    .from('certification_versions')
+    .where('expirationDate', null)
+    .andWhere('scope', 'CORE')
+    .first();
 
   const reports = [];
 
@@ -104,9 +108,10 @@ export default async function publishSessionWithValidatedCertification({
 
     await databaseBuilder.commit();
 
-    await knex('certification-courses')
-      .where('id', certificationCourse._id)
-      .update({ lastAnswerAt: lastAnswerCreatedAt.toDate() });
+    await getDb()
+      .update({ lastAnswerAt: lastAnswerCreatedAt.toDate() })
+      .from('certification-courses')
+      .where('id', certificationCourse._id);
 
     const report = new CertificationReport({
       certificationCourseId: certificationCourse._id,

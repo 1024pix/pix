@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { getDb } from '../../../db/knex-database-connection.js';
 import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
 import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
@@ -26,11 +26,12 @@ export class DeleteAndAnonymiseOrganizationLearnerScript extends Script {
 
     logger.info(`Anonymize ${options.organizationLearnerIds.length} learners`);
 
-    const organizationLearnerOfOrganizationIds = await knex('view-active-organization-learners')
+    const organizationLearnerOfOrganizationIds = await getDb()
       .select({
         organizationId: 'organizationId',
-        organizationLearnerIds: knex.raw('array_agg("view-active-organization-learners".id)'),
+        organizationLearnerIds: getDb().raw('array_agg("view-active-organization-learners".id)'),
       })
+      .from('view-active-organization-learners')
       .whereIn('id', options.organizationLearnerIds)
       .groupBy('organizationId');
 

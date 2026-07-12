@@ -2,7 +2,8 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { databaseConnections } from '../../db/database-connections.js';
+import { getDb } from '../../db/knex-database-connection.js';
 import { OrganizationLearner } from '../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../src/shared/domain/errors.js';
 import { generateCode } from '../../src/shared/infrastructure/utils/code-generator.js';
@@ -40,6 +41,7 @@ async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivis
   });
 
   try {
+    const knex = getDb();
     await knex.batchInsert('organization-learners', manyStudents);
   } catch {
     throw new OrganizationLearnersCouldNotBeSavedError();
@@ -68,7 +70,7 @@ async function main() {
       console.error(error);
       process.exitCode = 1;
     } finally {
-      await disconnect();
+      await databaseConnections.disconnect();
     }
   }
 })();

@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 
-import { knex } from '../../../db/knex-database-connection.js';
+import { getDb } from '../../../db/knex-database-connection.js';
 import { featureToggles } from '../infrastructure/feature-toggles/index.js';
 
 /**
@@ -32,7 +32,7 @@ class DomainTransaction {
       return lambda();
     }
     let domainTransaction;
-    return knex
+    return getDb()
       .transaction((trx) => {
         domainTransaction = new DomainTransaction(trx);
         return asyncLocalStorage.run({ transaction: domainTransaction }, lambda, domainTransaction);
@@ -86,7 +86,7 @@ class DomainTransaction {
       const domainTransaction = store.transaction;
       return domainTransaction.knexTransaction;
     }
-    return knex;
+    return getDb();
   }
 
   static emptyTransaction() {

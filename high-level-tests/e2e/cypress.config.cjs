@@ -25,12 +25,15 @@ async function setupNodeEvents(cypressOn, config) {
   );
 
   on("task", {
-    async "db:fixture"(data) {
-      const file = require(`./cypress/fixtures/${data}.json`);
-      const { knex } = await import("../../api/db/knex-database-connection.js");
+    async "db:fixture"(table) {
+      const file = require(`./cypress/fixtures/${table}.json`);
+      const { getDb } = await import(
+        "../../api/db/knex-database-connection.js"
+      );
+      const knex = await getDb();
 
       for (const row of file) {
-        await knex(data).insert(row);
+        await knex.insert(row).into(table);
       }
 
       return knex

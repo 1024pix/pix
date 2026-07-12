@@ -1,4 +1,4 @@
-import { knex } from '../../db/knex-database-connection.js';
+import { getDb } from '../../db/knex-database-connection.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
 
@@ -23,7 +23,7 @@ export class CorrectCertificationCoursesFirstnamesBadEncoding extends Script {
     const { dryRun } = options;
     logger.info(`Script execution started with options ${JSON.stringify(options)}`);
 
-    const trx = await knex.transaction();
+    const trx = await getDb().transaction();
 
     try {
       const correctedCertificationCourseIds = await correctFirstNames(trx, 'certification-courses');
@@ -60,7 +60,7 @@ async function correctFirstNames(trx, tableName) {
   for (const { badAccent, goodAccent } of badlyEncodedAccents) {
     const updatedRows = await trx(tableName)
       .where('firstName', 'like', `%${badAccent}%`)
-      .update({ firstName: knex.raw('REPLACE(??, ?, ?)', ['firstName', badAccent, goodAccent]) })
+      .update({ firstName: getDb().raw('REPLACE(??, ?, ?)', ['firstName', badAccent, goodAccent]) })
       .returning('id');
 
     updatedRows.forEach(({ id }) => correctedIds.add(id));

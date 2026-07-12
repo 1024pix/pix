@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import sinon from 'sinon';
 
-import { knex } from '../../../../../../db/knex-database-connection.js';
 import * as categories from '../../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { OrganizationPlacesLotForManagement } from '../../../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLotForManagement.js';
 import { OrganizationPlacesLotManagement } from '../../../../../../src/prescription/organization-place/domain/read-models/OrganizationPlacesLotManagement.js';
@@ -9,7 +8,7 @@ import { PlacesLot } from '../../../../../../src/prescription/organization-place
 import * as organizationPlacesLotRepository from '../../../../../../src/prescription/organization-place/infrastructure/repositories/organization-places-lot-repository.js';
 import { DeletedError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
-import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | Organization Places Lot', function () {

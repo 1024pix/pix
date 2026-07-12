@@ -1,6 +1,6 @@
 import { setTimeout } from 'node:timers/promises';
 
-import { knex } from '../../db/knex-database-connection.js';
+import { getDb } from '../../db/knex-database-connection.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
 import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
@@ -45,7 +45,7 @@ export class FillSessionsDateWithFirstCertification extends Script {
     logger.info(`Script execution started with options ${JSON.stringify(options)}`);
     let cntTotalSessionsHandled = 0;
     let currentStartId = startId;
-    const [{ max }] = await knex('sessions').max('id');
+    const [{ max }] = await getDb().from('sessions').max('id');
     let sessionDataToProcess = await findNextSessionsToProcess(currentStartId, chunkSize);
     while (currentStartId <= max) {
       try {
@@ -81,7 +81,7 @@ export class FillSessionsDateWithFirstCertification extends Script {
 }
 
 async function findNextSessionsToProcess(startId, chunkSize) {
-  const results = await knex.raw(
+  const results = await getDb().raw(
     `
       SELECT
         sessions.id,

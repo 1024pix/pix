@@ -1,6 +1,6 @@
 import { setTimeout } from 'node:timers/promises';
 
-import { knex } from '../../../db/knex-database-connection.js';
+import { getDb } from '../../../db/knex-database-connection.js';
 import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 
@@ -55,7 +55,7 @@ export class CreateStructureForEveryOrganizationScript extends Script {
     let createdStructuresTotalCount = 0;
 
     while (chunkToProcess.length > 0) {
-      const trx = await knex.transaction();
+      const trx = await getDb().transaction();
 
       try {
         let createdStructuresInChunkCount = 0;
@@ -102,7 +102,7 @@ export class CreateStructureForEveryOrganizationScript extends Script {
 }
 
 async function _findOrganizationsLackingStructure() {
-  const organizationsLackingStructures = await knex
+  const organizationsLackingStructures = await getDb()
     .select('id', 'fct_structures.organization_id')
     .from('organizations')
     .leftJoin('fct_structures', 'fct_structures.organization_id', 'organizations.id')

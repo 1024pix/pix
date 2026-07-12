@@ -2,14 +2,16 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import { disconnect, knex } from '../db/knex-database-connection.js';
+import { databaseConnections } from '../db/database-connections.js';
+import { getDb } from '../db/knex-database-connection.js';
 import { Membership } from '../src/shared/domain/models/Membership.js';
 import { PromiseUtils } from '../src/shared/infrastructure/utils/promise-utils.js';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
 
 async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
-  const certificationCenterIdWithMemberships = await knex('certification-centers')
+  const certificationCenterIdWithMemberships = await getDb()
     .select('certification-centers.id', 'certification-center-memberships.userId')
+    .from('certification-centers')
     .leftJoin(
       'certification-center-memberships',
       'certification-centers.id',
@@ -27,8 +29,9 @@ async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externa
 }
 
 async function getAdminMembershipsUserIdByOrganizationExternalId(externalId) {
-  const adminMemberships = await knex('memberships')
+  const adminMemberships = await getDb()
     .select('memberships.userId')
+    .from('memberships')
     .innerJoin('organizations', 'memberships.organizationId', 'organizations.id')
     .innerJoin('users', 'users.id', 'memberships.userId')
     .where('organizationRole', Membership.roles.ADMIN)
@@ -68,7 +71,7 @@ async function prepareDataForInsert(rawExternalIds) {
 }
 
 async function createCertificationCenterMemberships(certificationCenterMemberships) {
-  return knex.batchInsert('certification-center-memberships', certificationCenterMemberships);
+  return getDb().batchInsert('certification-center-memberships', certificationCenterMemberships);
 }
 
 const modulePath = url.fileURLToPath(import.meta.url);
@@ -100,7 +103,7 @@ async function main() {
       console.error(error);
       process.exitCode = 1;
     } finally {
-      await disconnect();
+      await databaseConnections.disconnect();
     }
   }
 })();

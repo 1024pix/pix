@@ -136,4 +136,10 @@ export default {
     defaultValue: false,
     tags: ['backend', 'pix-api'],
   },
+  pooledDbConnectionPercentage: {
+    type: 'number',
+    description: 'Percentage of SQL queries executed through pool connection (PgBouncer)',
+    defaultValue: 0,
+    tags: ['backend', 'pix-api'],
+  },
 };

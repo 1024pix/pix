@@ -12,7 +12,7 @@ import {
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { knex } from '../../../knex-database-connection.js';
+import { getDb } from '../../../knex-database-connection.js';
 import {
   AEFE_TAG,
   COUNTRY_FRANCE_CODE,
@@ -40,8 +40,9 @@ async function buildParenthoodQuest(databaseBuilder) {
     label: 'Parentalité',
   });
 
-  const cappedTubes = await knex('target-profile_tubes')
+  const cappedTubes = await getDb()
     .select('tubeId', 'level')
+    .from('target-profile_tubes')
     .where('targetProfileId', TARGET_PROFILE_NO_BADGES_NO_STAGES_ID);
 
   databaseBuilder.factory.buildQuest({

@@ -6,7 +6,8 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { databaseConnections } from '../../db/database-connections.js';
+import { getDb } from '../../db/knex-database-connection.js';
 import { normalizeAndSortChars } from '../../src/shared/infrastructure/utils/string-utils.js';
 import { parseCsv } from '../helpers/csvHelpers.js';
 
@@ -80,6 +81,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main(filePath) {
   console.log('Starting script import-certification-cpf-countries');
+  const knex = getDb();
   const trx = await knex.transaction();
 
   try {
@@ -119,7 +121,7 @@ async function main(filePath) {
       console.error(error);
       process.exitCode = 1;
     } finally {
-      await disconnect();
+      await databaseConnections.disconnect();
     }
   }
 })();

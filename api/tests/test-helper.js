@@ -8,7 +8,7 @@ import nock from 'nock';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-import { disconnect as disconnectKnex } from '../db/knex-database-connection.js';
+import { databaseConnections } from '../db/database-connections.js';
 import * as moduleRepository from '../src/devcomp/infrastructure/repositories/module-repository.js';
 import * as tutorialRepository from '../src/devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as missionRepository from '../src/school/infrastructure/repositories/mission-repository.js';
@@ -78,7 +78,7 @@ after(async function () {
   } catch {
     // pgBoss is not available on unit tests
   }
-  await disconnectKnex();
+  await databaseConnections.disconnect();
 });
 /* eslint-enable mocha/no-top-level-hooks */
 

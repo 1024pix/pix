@@ -1,4 +1,4 @@
-import { knex } from '../../db/knex-database-connection.js';
+import { getDb } from '../../db/knex-database-connection.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
 
@@ -22,11 +22,12 @@ export class DuplicateEnglishCoreCalibrationWithNewIds extends Script {
     const { dryRun } = options;
     logger.info(`Script execution started`);
 
-    const englishChallenges = await knex('certification-frameworks-challenges')
+    const englishChallenges = await getDb()
+      .from('certification-frameworks-challenges')
       .join('certification_versions', 'certification_versions.id', 'certification-frameworks-challenges.versionId')
       .join(
         { lc_challenges: 'learningcontent.challenges' },
-        knex.raw('lc_challenges.id = "certification-frameworks-challenges"."challengeId" || \'-EN\''),
+        getDb().raw('lc_challenges.id = "certification-frameworks-challenges"."challengeId" || \'-EN\''),
       )
       .where('certification_versions.scope', 'CORE')
       .whereNull('certification_versions.expirationDate')
@@ -46,7 +47,7 @@ export class DuplicateEnglishCoreCalibrationWithNewIds extends Script {
       versionId: challenge.versionId,
     }));
 
-    const trx = await knex.transaction();
+    const trx = await getDb().transaction();
 
     try {
       await trx.batchInsert('certification-frameworks-challenges', newChallenges);

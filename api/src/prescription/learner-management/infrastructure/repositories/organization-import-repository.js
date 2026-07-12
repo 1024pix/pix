@@ -1,4 +1,4 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { getDb } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { OrganizationImportStatus } from '../../domain/models/OrganizationImportStatus.js';
 import { OrganizationImportDetail } from '../../domain/read-models/OrganizationImportDetail.js';
@@ -54,10 +54,13 @@ const save = async function (organizationImport) {
   const attributes = { ...organizationImport, errors: _stringifyErrors(organizationImport.errors) };
 
   if (organizationImport.id) {
-    const updatedRows = await knex('organization-imports').update(attributes).where({ id: organizationImport.id });
+    const updatedRows = await getDb()
+      .from('organization-imports')
+      .update(attributes)
+      .where({ id: organizationImport.id });
     if (updatedRows === 0) throw new Error();
   } else {
-    await knex('organization-imports').insert(attributes);
+    await getDb().insert(attributes).into('organization-imports');
   }
 };
 

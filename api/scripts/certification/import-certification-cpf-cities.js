@@ -1,7 +1,11 @@
+import * as url from 'node:url';
+
 import lodash from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { databaseConnections } from '../../db/database-connections.js';
+import { getDb } from '../../db/knex-database-connection.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { checkCsvHeader, parseCsv } from '../helpers/csvHelpers.js';
 /**
  * Usage: node scripts/certification/import-certification-cpf-cities.js path/file.csv
  * File is semi-colon separated values, headers being:
@@ -10,9 +14,7 @@ import { logger } from '../../src/shared/infrastructure/utils/logger.js';
  *
  * File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/ (Export au format CSV)
  **/
-import { checkCsvHeader, parseCsv } from '../helpers/csvHelpers.js';
 const { uniqBy, values } = lodash;
-import * as url from 'node:url';
 
 const wordsToReplace = [
   {
@@ -408,6 +410,7 @@ async function main(filePath) {
     logger.info('✅ ');
 
     logger.info('Inserting cities in database... ');
+    const knex = getDb();
     trx = await knex.transaction();
     await trx('certification-cpf-cities').del();
     const batchInfo = await knex.batchInsert('certification-cpf-cities', cities).transacting(trx);
@@ -433,7 +436,7 @@ async function main(filePath) {
       logger.error(error);
       process.exitCode = 1;
     } finally {
-      await disconnect();
+      await databaseConnections.disconnect();
     }
   }
 })();

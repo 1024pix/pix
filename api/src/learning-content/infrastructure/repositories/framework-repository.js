@@ -1,4 +1,4 @@
-import { knex } from '../../../../db/knex-database-connection.js';
+import { getDb } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { Framework } from '../../domain/models/Framework.js';
@@ -14,7 +14,7 @@ class FrameworkRepository extends LearningContentRepository {
   }
 
   async list() {
-    const frameworkDtos = await knex.select('*').from(tableName).orderBy('name');
+    const frameworkDtos = await getDb().select('*').from(tableName).orderBy('name');
     return frameworkDtos.map(toDomain);
   }
 
@@ -22,7 +22,7 @@ class FrameworkRepository extends LearningContentRepository {
    * @param {string} name
    */
   async getByName(name) {
-    const frameworkDto = await knex.select('*').from(tableName).where('name', name).first();
+    const frameworkDto = await getDb().select('*').from(tableName).where('name', name).first();
     if (!frameworkDto) {
       logger.warn({ frameworkName: name }, 'Référentiel introuvable');
       throw new NotFoundError(`Framework not found for name ${name}`);
@@ -31,7 +31,7 @@ class FrameworkRepository extends LearningContentRepository {
   }
 
   async findByIds(ids) {
-    const frameworkDtos = await knex.select('*').from(tableName).whereIn('id', ids).orderBy('name');
+    const frameworkDtos = await getDb().select('*').from(tableName).whereIn('id', ids).orderBy('name');
     return frameworkDtos.map(toDomain);
   }
 

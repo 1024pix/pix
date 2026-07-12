@@ -1,4 +1,4 @@
-import { knex } from '../../db/knex-database-connection.js';
+import { getDb } from '../../db/knex-database-connection.js';
 import { AutoJuryCommentKeys } from '../../src/certification/shared/domain/models/JuryComment.js';
 import { Script } from '../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
@@ -24,7 +24,7 @@ export class FixValidatedV3AssessmentResultsWithZeroScoreScript extends Script {
     const { dryRun } = options;
     logger.info(`Script execution started with options ${JSON.stringify(options)}`);
 
-    const trx = await knex.transaction();
+    const trx = await getDb().transaction();
 
     try {
       const updatedIds = await fixValidatedResultsWithZeroScore(trx);

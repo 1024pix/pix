@@ -5,7 +5,8 @@ import { MembershipUpdateError } from '../../src/shared/domain/errors.js';
 const { times } = lodash;
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { databaseConnections } from '../../db/database-connections.js';
+import { getDb } from '../../db/knex-database-connection.js';
 import { UserCantBeCreatedError } from '../../src/identity-access-management/domain/errors.js';
 import { ForbiddenAccess } from '../../src/shared/domain/errors.js';
 
@@ -48,7 +49,7 @@ async function addManyMembersToExistingOrganization({ numberOfUsers }) {
   const manyUsers = times(numberOfUsers, _buildUser);
 
   try {
-    await knex.batchInsert('users', manyUsers).transacting(DomainTransaction.emptyTransaction().knexTransaction);
+    await getDb().batchInsert('users', manyUsers).transacting(DomainTransaction.emptyTransaction().knexTransaction);
   } catch {
     throw new UserCantBeCreatedError();
   }
@@ -56,7 +57,7 @@ async function addManyMembersToExistingOrganization({ numberOfUsers }) {
   const manyMemberShips = times(numberOfUsers, _buildMembership);
 
   try {
-    await knex
+    await getDb()
       .batchInsert('memberships', manyMemberShips)
       .transacting(DomainTransaction.emptyTransaction().knexTransaction);
   } catch {
@@ -90,7 +91,7 @@ async function main() {
       console.error(error);
       process.exitCode = 1;
     } finally {
-      await disconnect();
+      await databaseConnections.disconnect();
     }
   }
 })();

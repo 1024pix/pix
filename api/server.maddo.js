@@ -4,7 +4,7 @@ import { parse } from 'neoqs';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 import { databaseConnections } from './db/database-connections.js';
-import { knex } from './db/knex-database-connection.js';
+import { getDb } from './db/knex-database-connection.js';
 import { livretScolaireRoute } from './src/certification/results/application/livret-scolaire-route.js';
 import { parcoursupRoute } from './src/certification/results/application/parcoursup-route.js';
 import { identityAccessManagementRoutes } from './src/identity-access-management/application/routes.js';
@@ -121,7 +121,7 @@ const enableOpsMetrics = async function (server, metrics) {
     });
   };
 
-  const client = knex.client;
+  const client = getDb().client;
   gaugeConnections(client.pool)();
 
   client.pool.on('createSuccess', gaugeConnections(client.pool));

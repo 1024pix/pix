@@ -1,11 +1,10 @@
 import sinon from 'sinon';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { expect } from '../../../../test-helper.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Organizational Entities | Domain | UseCase | archive-certification-center', function () {
   it('archives the certification center and related data', async function () {
