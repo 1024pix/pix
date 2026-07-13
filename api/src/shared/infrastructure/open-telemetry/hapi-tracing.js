@@ -220,6 +220,20 @@ function instrumentHttpResponse(server) {
 }
 
 /**
+ * @param {HapiServer} server
+ */
+function instrumentRequestId(server) {
+  server.ext('onPreHandler', (request, h) => {
+    const span = trace.getActiveSpan();
+    if (!span) return h.continue;
+
+    span.setAttribute('http.request.id', request.headers['x-request-id']);
+
+    return h.continue;
+  });
+}
+
+/**
  * Instruments a freshly created Hapi server so that spans are created for `pre` handlers,
  * controllers (route handlers), authentication and payload/query/params validation. Must be
  * called before any route, auth scheme/strategy or plugin is registered on the server.
@@ -243,4 +257,6 @@ export function instrumentHapiServer(server) {
   instrumentValidation(server);
 
   instrumentHttpResponse(server);
+
+  instrumentRequestId(server);
 }
