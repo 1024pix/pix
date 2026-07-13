@@ -379,14 +379,14 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Oui</p>",
+                          "content": "Oui",
                           "feedback": {
                             "diagnosis": "<p>Eh bien non ! Ici, Simon demande d’<strong>imiter </strong>le style d’une autrice identifiable. L’univers d’Harry Potter est également <strong>protégé</strong> par le droit d’auteur. Le texte généré risque d’être trop proche d’une œuvre existante et protégée, ce qui peut être qualifié de <strong>contrefaçon</strong>, c’est-à-dire d'atteinte au droit d’auteur.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Non</p>",
+                          "content": "Non",
                           "feedback": {
                             "diagnosis": "<p>Eh oui&nbsp;! Ici, Simon demande <strong>d’imiter</strong> le style d’une autrice identifiable. L’univers d’Harry Potter est également <strong>protégé</strong> par le droit d’auteur. Le texte généré risque d’être trop proche d’une œuvre existante et protégée, ce qui peut être qualifié de <strong>contrefaçon</strong>, c’est-à-dire d'atteinte au droit d’auteur.</p>"
                           }
