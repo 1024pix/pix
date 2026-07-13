@@ -1804,6 +1804,7 @@ describe('Learning Content | Integration | Application | Jobs | Create release',
                   '<p>Le chat, plus spécifiquement désigné sous le nom de chat domestique, est une espèce de mammifères de l’Ordre des Carnivores, de la famille des félins (Félidés).</p>',
               },
             ],
+            version: null,
           },
           {
             id: '6282925d-4775-4bca-b513-4c3009ec5887',
@@ -1825,6 +1826,7 @@ describe('Learning Content | Integration | Application | Jobs | Create release',
                 definition: '<p>Le gravier c’est des petits cailloux.</p>',
               },
             ],
+            version: null,
           },
         ]);
         expect(lcmsApiCall.isDone()).to.be.true;
