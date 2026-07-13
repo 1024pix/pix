@@ -1,5 +1,26 @@
 # Pix Changelog
 
+# [5.454.0](https://github.com/1024pix/pix/compare/v5.453.0...v5.454.0) (2026-07-13)
+
+### :rocket: Amélioration
+
+- [#16702](https://github.com/1024pix/pix/pull/16702) Affiche l'obtention de l'attestation au niveau du suivi du parcours combiné dans PixOrga (PIX-23351)
+- [#16761](https://github.com/1024pix/pix/pull/16761) Ajout des filtres dans la vue prescrit d'Admin (PIX-23152)
+- [#16779](https://github.com/1024pix/pix/pull/16779) Améliorer l'accessibilité de la carte d'un contenu formatif (PIX-23454)
+- [#16776](https://github.com/1024pix/pix/pull/16776) Cache de release : ajouter la colonne version (PIX-23343)
+- [#16772](https://github.com/1024pix/pix/pull/16772) Corriger certaines interactions avec les filtres du catalogue (PIX-23515)
+- [#16737](https://github.com/1024pix/pix/pull/16737) IA-RAG-inte-retours
+- [#16784](https://github.com/1024pix/pix/pull/16784) MDX-123 RequeteMoteurRI_NOV Corrections suite aux relectures édito et experts
+- [#16781](https://github.com/1024pix/pix/pull/16781) MDX-232 FonctMoteurRI_NOV Corrections suite à la relecture experts
+- [#16755](https://github.com/1024pix/pix/pull/16755) MDX-248 Ecrans&Santé_NOV Corrections suite à la première relecture
+- [#16756](https://github.com/1024pix/pix/pull/16756) WIP Créa module Généralités Indépendant
+
+### :building_construction: Tech
+
+- [#16785](https://github.com/1024pix/pix/pull/16785) Active Open Telemetry sur les Review Apps
+- [#16783](https://github.com/1024pix/pix/pull/16783) Active Open Telemetry sur MADDO
+- [#16744](https://github.com/1024pix/pix/pull/16744) Améliorer les traces OpenTelemetry avec l'injection de dépendances
+
 # [5.453.0](https://github.com/1024pix/pix/compare/v5.452.0...v5.453.0) (2026-07-10)
 
 ### :rocket: Amélioration
