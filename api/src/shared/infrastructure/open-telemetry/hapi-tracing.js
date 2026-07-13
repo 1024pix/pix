@@ -16,6 +16,7 @@
  *   returns is wrapped in its own span.
  */
 import { context, SpanStatusCode, trace } from '@opentelemetry/api';
+import { metrics } from '@opentelemetry/api';
 
 import { config } from '../../config.js';
 import { routeDomainToOwnerTeam } from '../utils/route-domain-to-owner-team.js';
@@ -276,6 +277,26 @@ function instrumentRequestId(server) {
 }
 
 /**
+ * @param {HapiServer} server
+ */
+export function instrumentActiveRequestsCount(server) {
+  const meter = metrics.getMeter('hapi');
+  const activeRequestsHistogram = meter.createHistogram('hapi.activeRequests', { unit: 'request' });
+  let activeRequestsCount = 0;
+
+  server.ext('onRequest', (_req, h) => {
+    activeRequestsCount++;
+    activeRequestsHistogram.record(activeRequestsCount);
+    return h.continue;
+  });
+
+  server.ext('onPostResponse', (_req, h) => {
+    activeRequestsCount--;
+    return h.continue;
+  });
+}
+
+/**
  * Instruments a freshly created Hapi server so that spans are created for `pre` handlers,
  * controllers (route handlers), authentication and payload/query/params validation. Must be
  * called before any route, auth scheme/strategy or plugin is registered on the server.
@@ -303,4 +324,6 @@ export function instrumentHapiServer(server) {
   instrumentHttpResponse(server);
 
   instrumentRequestId(server);
+
+  instrumentActiveRequestsCount(server);
 }
