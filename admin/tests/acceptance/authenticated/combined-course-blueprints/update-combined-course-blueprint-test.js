@@ -64,7 +64,10 @@ module('Acceptance | Combined course blueprint | Update', function (hooks) {
       'illustrations/hello.svg',
     );
 
-    await fillIn(screen.getByLabelText(t('components.combined-course-blueprints.labels.description')), 'description');
+    await fillIn(
+      screen.getByLabelText(t('components.combined-course-blueprints.labels.description-sublabel'), { exact: false }),
+      'description',
+    );
     await fillIn(
       screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
       'New reward requirements',

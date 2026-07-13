@@ -681,28 +681,35 @@
       },
       "create": {
         "addItemButton": "Add",
+        "attestations": "Attestations",
+        "content": "Content",
         "contentFeedback": "Your course does not have any items yet.",
         "courseContent": "Course content",
         "createButton": "Create combined course blueprint",
         "fieldsetElement": "Choose the element type you want to add :",
+        "generalInfoCardTitle": "General information",
         "notifications": {
           "addItemError": "Oops. Resource not found.",
           "error": "Oops. Something went wrong. Please try again.",
+          "evaluationNotFound": "No target profile found with given id",
           "moduleNotFound": "No module found with given short id",
-          "success": "Combined course blueprint created successfully!",
-          "targetProfileNotFound": "No target profile found with given id"
+          "success": "Combined course blueprint created successfully!"
         },
         "title": "Create a combined course blueprint"
       },
       "items": {
+        "action-header": "Actions",
+        "item-name-header": "Item name",
+        "item-type-header": "Item type",
         "module": "Module",
         "targetProfile": "Target profile",
-        "title": "Course content"
+        "title": "Combined course blueprint content"
       },
       "labels": {
         "attestation": "Attestation",
         "created-at": "Creation date",
         "description": " Description",
+        "description-sublabel": "This description will be seen by users",
         "illustration": "Illustration",
         "internal-name": "Internal name",
         "itemId": "Id",

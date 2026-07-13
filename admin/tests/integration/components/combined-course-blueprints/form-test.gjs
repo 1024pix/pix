@@ -15,13 +15,126 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       // given
       const store = this.owner.lookup('service:store');
       const pixToast = this.owner.lookup('service:pixToast');
-      const blueprintStub = { save: sinon.stub().resolves(), content: [] };
+      const blueprintStub = store.createRecord('combined-course-blueprint', {
+        content: [],
+        save: sinon.stub().resolves(),
+      });
       const pixToastSuccessStub = sinon.stub(pixToast, 'sendSuccessNotification');
       const router = this.owner.lookup('service:router');
       sinon.stub(router, 'transitionTo');
       router.transitionTo.resolves();
 
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
+      const findRecordStub = sinon.stub(store, 'findRecord');
+      findRecordStub.withArgs('module', 'module-123').resolves({
+        id: 'full-id-module-123',
+        shortId: 'module-123',
+        title: 'module 123',
+        details: { image: 'image' },
+      });
+      findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc', imageUrl: 'imageUrl' });
+
+      const attestations = [
+        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
+      ];
+      const frameworks = [
+        {
+          id: 123,
+          name: 'Pix',
+          areas: [],
+        },
+      ];
+      const model = { attestations, frameworks };
+
+      //when
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+      await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+        1,
+      );
+      await screen.findByRole('link', { name: 'super pc', exact: false });
+
+      await click(
+        screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+      );
+
+      await screen.findByRole('cell', { name: 'super pc', exact: false });
+
+      await click(screen.getByLabelText(t('components.combined-course-blueprints.labels.module')));
+      await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+        'module-123',
+      );
+      await click(
+        screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+      );
+
+      await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.name'), { exact: false }),
+        'name',
+      );
+      await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.internal-name'), { exact: false }),
+        'internalName',
+      );
+
+      await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.illustration')),
+        'illustrations/hello.svg',
+      );
+
+      await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.description'), { exact: false }),
+        'description',
+      );
+
+      await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.survey-link')),
+        'http://survey-link.fr',
+      );
+
+      await click(
+        screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+      );
+
+      await screen.findByRole('listbox');
+
+      await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+      await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
+
+      //then
+      assert.ok(screen.getByRole('heading', { name: t('components.combined-course-blueprints.create.title') }));
+      sinon.assert.calledOnceWith(blueprintStub.save, { adapterOptions: null });
+      assert.ok(findRecordStub.calledTwice);
+      assert.strictEqual(blueprintStub.name, 'name');
+      assert.strictEqual(blueprintStub.internalName, 'internalName');
+      assert.deepEqual(blueprintStub.content, [
+        { type: 'evaluation', value: 1, label: 'super pc', image: 'imageUrl' },
+        { type: 'module', value: 'full-id-module-123', shortId: 'module-123', label: 'module 123', image: 'image' },
+      ]);
+      assert.strictEqual(blueprintStub.illustration, 'illustrations/hello.svg');
+      assert.strictEqual(blueprintStub.description, 'description');
+      assert.strictEqual(blueprintStub.surveyLink, 'http://survey-link.fr');
+      assert.strictEqual(blueprintStub.rewardId, 5);
+      assert.strictEqual(blueprintStub.rewardType, 'ATTESTATION');
+      assert.ok(
+        pixToastSuccessStub.calledOnceWith({
+          message: t('components.combined-course-blueprints.create.notifications.success'),
+        }),
+      );
+      sinon.assert.calledWithExactly(router.transitionTo, 'authenticated.combined-course-blueprints.list');
+    });
+
+    test('it should not allow user to add an item unless type option is checked and item id is filled', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const router = this.owner.lookup('service:router');
+      sinon.stub(router, 'transitionTo');
+      router.transitionTo.resolves();
+
       const findRecordStub = sinon.stub(store, 'findRecord');
       findRecordStub
         .withArgs('module', 'module-123')
@@ -44,73 +157,10 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       //when
       const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
-      await fillIn(
-        screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
-        1,
-      );
-      await click(
-        screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
-      );
-      await click(screen.getByLabelText(t('components.combined-course-blueprints.labels.module')));
-      await fillIn(
-        screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
-        'module-123',
-      );
-      await click(
-        screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
-      );
-      await fillIn(
-        screen.getByLabelText(t('components.combined-course-blueprints.labels.name'), { exact: false }),
-        'name',
-      );
-      await fillIn(
-        screen.getByLabelText(t('components.combined-course-blueprints.labels.internal-name'), { exact: false }),
-        'internalName',
-      );
-
-      await fillIn(
-        screen.getByLabelText(t('components.combined-course-blueprints.labels.illustration')),
-        'illustrations/hello.svg',
-      );
-
-      await fillIn(screen.getByLabelText(t('components.combined-course-blueprints.labels.description')), 'description');
-
-      await fillIn(
-        screen.getByLabelText(t('components.combined-course-blueprints.labels.survey-link')),
-        'http://survey-link.fr',
-      );
-
-      await click(
-        screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-      );
-
-      await screen.findByRole('listbox');
-
-      await click(screen.getByRole('option', { name: 'Parentalite' }));
-
-      await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
-
       //then
-      assert.ok(screen.getByRole('heading', { name: t('components.combined-course-blueprints.create.title') }));
-      assert.ok(findRecordStub.calledTwice);
-      sinon.assert.calledOnceWith(blueprintStub.save, { adapterOptions: null });
-      assert.strictEqual(blueprintStub.name, 'name');
-      assert.strictEqual(blueprintStub.internalName, 'internalName');
-      assert.deepEqual(blueprintStub.content, [
-        { type: 'evaluation', value: 1, label: 'super pc' },
-        { type: 'module', value: 'full-id-module-123', shortId: 'module-123', label: 'module 123' },
-      ]);
-      assert.strictEqual(blueprintStub.illustration, 'illustrations/hello.svg');
-      assert.strictEqual(blueprintStub.description, 'description');
-      assert.strictEqual(blueprintStub.surveyLink, 'http://survey-link.fr');
-      assert.strictEqual(blueprintStub.rewardId, 5);
-      assert.strictEqual(blueprintStub.rewardType, 'ATTESTATION');
-      assert.ok(
-        pixToastSuccessStub.calledOnceWith({
-          message: t('components.combined-course-blueprints.create.notifications.success'),
-        }),
-      );
-      sinon.assert.calledWithExactly(router.transitionTo, 'authenticated.combined-course-blueprints.list');
+      assert
+        .dom(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }))
+        .hasAttribute('aria-disabled');
     });
 
     test('it should display tubes selection component only if the user selects an attestation', async function (assert) {
@@ -139,7 +189,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       await screen.findByRole('listbox');
 
       await click(screen.getByRole('option', { name: 'Parentalite' }));
-
       //then
       assert.ok(screen.getByRole('heading', { name: 'Sélection des sujets' }));
       assert.ok(
@@ -290,7 +339,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       );
 
       await fillIn(
-        screen.getByLabelText(t('components.combined-course-blueprints.labels.description')),
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.description-sublabel'), { exact: false }),
         'updatedDescription',
       );
 
@@ -320,6 +369,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       assert.strictEqual(blueprint.rewardId, 5);
       assert.strictEqual(blueprint.rewardType, 'ATTESTATION');
       assert.strictEqual(blueprint.rewardRequirements, 'Updated requirements');
+
       assert.ok(
         pixToastSuccessStub.calledOnceWith({
           message: t('components.combined-course-blueprints.update.notifications.success'),
@@ -479,14 +529,15 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
         1,
       );
-      await click(
-        screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
-      );
+
+      assert
+        .dom(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }))
+        .hasAttribute('aria-disabled');
 
       //then
       assert.ok(
         pixToastErrorStub.calledOnceWith({
-          message: t('components.combined-course-blueprints.create.notifications.targetProfileNotFound'),
+          message: t('components.combined-course-blueprints.create.notifications.evaluationNotFound'),
         }),
       );
     });
@@ -510,10 +561,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
         'module-123',
       );
-      await click(
-        screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
-      );
-
       //then
       assert.ok(
         pixToastErrorStub.calledOnceWith({
@@ -582,17 +629,19 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       await click(
         screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
       );
+
       await click(screen.getByLabelText(t('components.combined-course-blueprints.labels.module')));
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
         'module123',
       );
+
       await click(
         screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
       );
 
-      assert.ok(screen.getByText(/Profil Cible - 1 - super pc/));
-      assert.ok(screen.getByText('Module - module123 - module 123'));
+      assert.ok(screen.getByText('Profil cible'));
+      assert.ok(screen.getByText('Module'));
     });
     test('it should remove item when user clicks on remove button', async function (assert) {
       // given
@@ -623,11 +672,11 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
       );
 
-      assert.ok(screen.getByText(/Profil Cible - 1 - super pc/));
+      assert.ok(screen.getByRole('cell', { name: /super pc/ }));
       await click(screen.getByRole('button', { name: 'Supprimer' }));
 
       //then
-      assert.notOk(screen.queryByText(/Profil Cible - 1 - super pc/));
+      assert.notOk(screen.queryByRole('cell', { name: /super pc/ }));
     });
   });
 });
