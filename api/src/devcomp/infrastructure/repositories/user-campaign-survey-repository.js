@@ -1,22 +1,18 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
-import { isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { UserCampaignSurvey } from '../../domain/models/UserCampaignSurvey.js';
 
 const TABLE_NAME = 'user-campaign-surveys';
 
 export async function save(userCampaignSurvey) {
   const knexConn = DomainTransaction.getConnection();
-  try {
-    const userCampaignSurveyDto = _toDto(userCampaignSurvey);
-    const [result] = await knexConn(TABLE_NAME).insert(userCampaignSurveyDto).returning('id');
-    return result.id;
-  } catch (error) {
-    if (isUniqConstraintViolated(error)) {
-      throw new AlreadyExistingEntityError('User has already submitted a survey for this campaign');
-    }
-    throw error;
-  }
+
+  const userCampaignSurveyDto = _toDto(userCampaignSurvey);
+  const [result] = await knexConn(TABLE_NAME)
+    .insert(userCampaignSurveyDto)
+    .onConflict(['campaignId', 'userId'])
+    .merge('survey')
+    .returning('id');
+  return result.id;
 }
 
 export async function findByCampaignIdAndUserId({ campaignId, userId }) {

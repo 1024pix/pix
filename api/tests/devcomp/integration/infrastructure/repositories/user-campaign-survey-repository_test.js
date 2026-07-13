@@ -1,9 +1,7 @@
 import { UserCampaignSurvey } from '../../../../../src/devcomp/domain/models/UserCampaignSurvey.js';
 import * as userCampaignSurveyRepository from '../../../../../src/devcomp/infrastructure/repositories/user-campaign-survey-repository.js';
-import { AlreadyExistingEntityError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
-import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Infrastructure | Repository | userCampaignSurveyRepository', function () {
   let userId, campaignId;
@@ -76,26 +74,43 @@ describe('Integration | Infrastructure | Repository | userCampaignSurveyReposito
     });
 
     context('when the user has already answered the survey for this campaign', function () {
-      it('should throw an error', async function () {
+      it('should upsert existing survey', async function () {
         // given
         databaseBuilder.factory.buildUserCampaignSurvey({
           userId,
           campaignId,
-          satisfactionScore: 3,
+          satisfactionScore: 1,
         });
         await databaseBuilder.commit();
 
         const survey = new UserCampaignSurvey({
           userId,
           campaignId,
-          satisfactionScore: 4,
+          satisfactionScore: 3,
+          usefulnessScore: 2,
+          personalizationScore: 3,
+          attractivenessScore: 4,
+          comment: 'incroyable',
         });
 
         // when
-        const error = await catchErr(userCampaignSurveyRepository.save)(survey);
+        await userCampaignSurveyRepository.save(survey);
 
         // then
-        expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+        const [result] = await knex('user-campaign-surveys').where({
+          userId,
+          campaignId,
+        });
+
+        expect(result.userId).to.equal(survey.userId);
+        expect(result.campaignId).to.equal(survey.campaignId);
+        expect(result.survey).to.deep.equal({
+          satisfactionScore: 3,
+          usefulnessScore: 2,
+          personalizationScore: 3,
+          attractivenessScore: 4,
+          comment: 'incroyable',
+        });
       });
     });
   });
