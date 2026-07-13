@@ -31,14 +31,34 @@ export async function findByCampaignIdAndUserId({ campaignId, userId }) {
 }
 
 function _toDomain({ campaignId, userId, survey } = {}) {
-  const { satisfactionScore } = survey;
-  return new UserCampaignSurvey({ campaignId, userId, satisfactionScore });
+  const { attractivenessScore, comment, personalizationScore, satisfactionScore, usefulnessScore } = survey;
+  return new UserCampaignSurvey({
+    campaignId,
+    userId,
+    attractivenessScore,
+    comment,
+    personalizationScore,
+    satisfactionScore,
+    usefulnessScore,
+  });
 }
 
-function _toDto({ campaignId, userId, satisfactionScore } = {}) {
+function _toDto({
+  campaignId,
+  userId,
+  attractivenessScore,
+  comment,
+  personalizationScore,
+  satisfactionScore,
+  usefulnessScore,
+} = {}) {
   const formattedSurvey = JSON.stringify(
     {
+      attractivenessScore,
+      comment,
+      personalizationScore,
       satisfactionScore,
+      usefulnessScore,
     },
     null,
     2,

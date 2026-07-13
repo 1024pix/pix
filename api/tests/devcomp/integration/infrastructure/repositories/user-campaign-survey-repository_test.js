@@ -17,22 +17,35 @@ describe('Integration | Infrastructure | Repository | userCampaignSurveyReposito
   describe('#save', function () {
     it('should store the survey in the database', async function () {
       // given
-      const survey = new UserCampaignSurvey({
+      const userCampaignSurvey = new UserCampaignSurvey({
         userId,
         campaignId,
-        satisfactionScore: 4,
+        satisfactionScore: 3,
+        usefulnessScore: 2,
+        personalizationScore: 3,
+        attractivenessScore: 4,
+        comment: 'incroyable',
       });
 
       // when
-      await userCampaignSurveyRepository.save(survey);
+      await userCampaignSurveyRepository.save(userCampaignSurvey);
 
       // then
       const rows = await knex('user-campaign-surveys').where({
         userId,
         campaignId,
       });
+
       expect(rows).to.have.lengthOf(1);
-      expect(rows[0].survey.satisfactionScore).to.equal(4);
+      expect(rows[0].userId).to.equal(userCampaignSurvey.userId);
+      expect(rows[0].campaignId).to.equal(userCampaignSurvey.campaignId);
+      expect(rows[0].survey).to.deep.equal({
+        satisfactionScore: 3,
+        usefulnessScore: 2,
+        personalizationScore: 3,
+        attractivenessScore: 4,
+        comment: 'incroyable',
+      });
     });
 
     it('should return the created id', async function () {
@@ -95,6 +108,10 @@ describe('Integration | Infrastructure | Repository | userCampaignSurveyReposito
           userId,
           campaignId,
           satisfactionScore: 3,
+          usefulnessScore: 2,
+          personalizationScore: 3,
+          attractivenessScore: 4,
+          comment: 'incroyable',
         };
         databaseBuilder.factory.buildUserCampaignSurvey(userCampaignSurvey);
         await databaseBuilder.commit();
@@ -107,9 +124,7 @@ describe('Integration | Infrastructure | Repository | userCampaignSurveyReposito
 
         // then
         expect(survey).to.be.instanceOf(UserCampaignSurvey);
-        expect(survey.userId).to.equal(userCampaignSurvey.userId);
-        expect(survey.campaignId).to.equal(userCampaignSurvey.campaignId);
-        expect(survey.satisfactionScore).to.equal(userCampaignSurvey.satisfactionScore);
+        expect(survey).deep.equal(userCampaignSurvey);
       });
     });
 
