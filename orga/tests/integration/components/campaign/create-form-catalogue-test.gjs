@@ -61,26 +61,49 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     assert.strictEqual(within(fieldset).getAllByRole('radio').length, 3);
   });
 
-  test('it disables the submit button if no course (other than profile collection) is selected', async function () {
-    // when
-    const screen = await render(
-      <template>
-        <CreateForm
-          @campaign={{data.campaign}}
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{data.errors}}
-          @membersSortedByFullName={{data.defaultMembers}}
-        />
-      </template>,
-    );
+  module('when no campaign goal is selected', function () {
+    test('it disables the submit button if no course (other than profile collection) is selected', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
 
-    // then
-    const button = screen.getByRole('button', { name: t('pages.campaign-creation.actions.create') });
-    assert.dom(button).hasAria('disabled', 'true');
+      // then
+      const button = screen.getByRole('button', { name: t('pages.campaign-creation.actions.create') });
+      assert.dom(button).hasAria('disabled', 'true');
+    });
+
+    test('it should not display course selection nor campaign name input', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(screen.queryByRole('link', { name: t('pages.campaign-creation.course-selection-label') }))
+        .doesNotExist();
+      assert.dom(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false })).doesNotExist();
+    });
   });
 
-  test('it enables the submit button profile collection is selected', async function () {
+  test('it enables the submit button profile collection is selected', async function (assert) {
     data.campaign.type = 'PROFILES_COLLECTION';
     // when
     const screen = await render(

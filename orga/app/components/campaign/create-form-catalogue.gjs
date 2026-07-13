@@ -107,7 +107,7 @@ export default class CreateForm extends Component {
   }
 
   get displayCourseSelection() {
-    return !this.isCampaignGoalProfileCollection;
+    return this.isCombinedCourseGoal || this.isCampaignGoalAssessment || this.isCampaignGoalExam;
   }
 
   get displayTitleField() {
@@ -252,13 +252,7 @@ export default class CreateForm extends Component {
           </PixFieldset>
         </:default>
         <:information>
-          {{#if this.isCampaignGoalExam}}
-            <ExplanationCard id="campaign-goal-exam-info">
-              <:title>{{t "pages.campaign-creation.purpose.exam"}}</:title>
-
-              <:message>{{t "pages.campaign-creation.purpose.exam-info"}}</:message>
-            </ExplanationCard>
-          {{else if this.isCampaignGoalAssessment}}
+          {{#if this.isCampaignGoalAssessment}}
             <ExplanationCard id="campaign-goal-assessment-info">
               <:title>{{t "pages.campaign-creation.purpose.assessment"}}</:title>
 

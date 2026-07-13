@@ -53,6 +53,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
 
     const screen = await visit('/campagnes/creation-catalogue');
 
+    await click(screen.getByRole('radio', { name: t('pages.campaign-creation.purpose.combined-course') }));
+
     await click(
       screen.getByRole('link', {
         name: t('pages.campaign-creation.course-selection-label'),
@@ -107,6 +109,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
       const expectedTargetProfileName = availableTargetProfiles[1].name;
 
       const screen = await visit('/campagnes/creation-catalogue');
+
+      await click(screen.getByRole('radio', { name: t('pages.campaign-creation.purpose.assessment') }));
 
       await click(
         screen.getByRole('link', {
@@ -165,6 +169,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
 
       const screen = await visit('/campagnes/creation-catalogue');
 
+      await click(screen.getByRole('radio', { name: t('pages.campaign-creation.purpose.assessment') }));
+
       await click(
         screen.getByRole('link', {
           name: t('pages.campaign-creation.course-selection-label'),
@@ -199,6 +205,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
       const targetProfileName = availableTargetProfiles[1].name;
       const screen = await visit('/campagnes/creation-catalogue');
 
+      await click(screen.getByRole('radio', { name: t('pages.campaign-creation.purpose.assessment') }));
+
       await click(
         screen.getByRole('link', {
           name: t('pages.campaign-creation.course-selection-label'),
@@ -228,6 +236,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
 
       const expectedTargetProfileName = availableTargetProfiles[1].name;
       server.post('/campaigns', {}, 500);
+
+      await click(screen.getByRole('radio', { name: t('pages.campaign-creation.purpose.assessment') }));
 
       // when
       await click(
