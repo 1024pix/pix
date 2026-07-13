@@ -8,7 +8,8 @@ const TABLE_NAME = 'user-campaign-surveys';
 export async function save(userCampaignSurvey) {
   const knexConn = DomainTransaction.getConnection();
   try {
-    const [result] = await knexConn(TABLE_NAME).insert(userCampaignSurvey).returning('id');
+    const userCampaignSurveyDto = _toDto(userCampaignSurvey);
+    const [result] = await knexConn(TABLE_NAME).insert(userCampaignSurveyDto).returning('id');
     return result.id;
   } catch (error) {
     if (isUniqConstraintViolated(error)) {
@@ -29,6 +30,22 @@ export async function findByCampaignIdAndUserId({ campaignId, userId }) {
   return _toDomain(userCampaignSurvey);
 }
 
-function _toDomain({ campaignId, userId, satisfactionScore } = {}) {
+function _toDomain({ campaignId, userId, survey } = {}) {
+  const { satisfactionScore } = survey;
   return new UserCampaignSurvey({ campaignId, userId, satisfactionScore });
+}
+
+function _toDto({ campaignId, userId, satisfactionScore } = {}) {
+  const formattedSurvey = JSON.stringify(
+    {
+      satisfactionScore,
+    },
+    null,
+    2,
+  );
+  return {
+    campaignId,
+    userId,
+    survey: formattedSurvey,
+  };
 }

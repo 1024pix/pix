@@ -7,8 +7,9 @@ export function buildUserCampaignSurvey({
   satisfactionScore = 3,
   createdAt = new Date(),
 } = {}) {
+  const surveyFormatted = JSON.stringify({ satisfactionScore });
   return databaseBuffer.pushInsertable({
     tableName: 'user-campaign-surveys',
-    values: { id, userId, campaignId, satisfactionScore, createdAt },
+    values: { id, userId, campaignId, survey: surveyFormatted, createdAt },
   });
 }

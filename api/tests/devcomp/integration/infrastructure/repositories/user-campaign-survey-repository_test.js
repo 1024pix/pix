@@ -17,24 +17,39 @@ describe('Integration | Infrastructure | Repository | userCampaignSurveyReposito
   describe('#save', function () {
     it('should store the survey in the database', async function () {
       // given
-      const survey = new UserCampaignSurvey({ userId, campaignId, satisfactionScore: 4 });
+      const survey = new UserCampaignSurvey({
+        userId,
+        campaignId,
+        satisfactionScore: 4,
+      });
 
       // when
       await userCampaignSurveyRepository.save(survey);
 
       // then
-      const rows = await knex('user-campaign-surveys').where({ userId, campaignId });
+      const rows = await knex('user-campaign-surveys').where({
+        userId,
+        campaignId,
+      });
       expect(rows).to.have.lengthOf(1);
-      expect(rows[0].satisfactionScore).to.equal(4);
+      expect(rows[0].survey.satisfactionScore).to.equal(4);
     });
 
     it('should return the created id', async function () {
       // given
       const anotherUserId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildUserCampaignSurvey({ userId: anotherUserId, campaignId, satisfactionScore: 3 });
+      databaseBuilder.factory.buildUserCampaignSurvey({
+        userId: anotherUserId,
+        campaignId,
+        satisfactionScore: 3,
+      });
       await databaseBuilder.commit();
 
-      const survey = new UserCampaignSurvey({ userId, campaignId, satisfactionScore: 2 });
+      const survey = new UserCampaignSurvey({
+        userId,
+        campaignId,
+        satisfactionScore: 2,
+      });
 
       // when
       const id = await userCampaignSurveyRepository.save(survey);
@@ -44,16 +59,24 @@ describe('Integration | Infrastructure | Repository | userCampaignSurveyReposito
       expect(row).to.exist;
       expect(row.userId).to.equal(userId);
       expect(row.campaignId).to.equal(campaignId);
-      expect(row.satisfactionScore).to.equal(2);
+      expect(row.survey.satisfactionScore).to.equal(2);
     });
 
     context('when the user has already answered the survey for this campaign', function () {
       it('should throw an error', async function () {
         // given
-        databaseBuilder.factory.buildUserCampaignSurvey({ userId, campaignId, satisfactionScore: 3 });
+        databaseBuilder.factory.buildUserCampaignSurvey({
+          userId,
+          campaignId,
+          satisfactionScore: 3,
+        });
         await databaseBuilder.commit();
 
-        const survey = new UserCampaignSurvey({ userId, campaignId, satisfactionScore: 4 });
+        const survey = new UserCampaignSurvey({
+          userId,
+          campaignId,
+          satisfactionScore: 4,
+        });
 
         // when
         const error = await catchErr(userCampaignSurveyRepository.save)(survey);
@@ -68,23 +91,35 @@ describe('Integration | Infrastructure | Repository | userCampaignSurveyReposito
     context('when a userCampaignSurvey exists for given campaignId and userId', function () {
       it('should return the survey', async function () {
         // given
-        const userCampaignSurvey = { userId, campaignId, satisfactionScore: 3 };
+        const userCampaignSurvey = {
+          userId,
+          campaignId,
+          satisfactionScore: 3,
+        };
         databaseBuilder.factory.buildUserCampaignSurvey(userCampaignSurvey);
         await databaseBuilder.commit();
 
         // when
-        const survey = await userCampaignSurveyRepository.findByCampaignIdAndUserId({ campaignId, userId });
+        const survey = await userCampaignSurveyRepository.findByCampaignIdAndUserId({
+          campaignId,
+          userId,
+        });
 
         // then
         expect(survey).to.be.instanceOf(UserCampaignSurvey);
-        expect(survey).to.deep.equal(userCampaignSurvey);
+        expect(survey.userId).to.equal(userCampaignSurvey.userId);
+        expect(survey.campaignId).to.equal(userCampaignSurvey.campaignId);
+        expect(survey.satisfactionScore).to.equal(userCampaignSurvey.satisfactionScore);
       });
     });
 
     context('when a userCampaignSurvey does not exist for given campaignId and userId', function () {
       it('should return null', async function () {
         // when
-        const survey = await userCampaignSurveyRepository.findByCampaignIdAndUserId({ campaignId, userId });
+        const survey = await userCampaignSurveyRepository.findByCampaignIdAndUserId({
+          campaignId,
+          userId,
+        });
 
         // then
         expect(survey).to.be.null;
