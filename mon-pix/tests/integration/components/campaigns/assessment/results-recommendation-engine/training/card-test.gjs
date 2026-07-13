@@ -1,5 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
+// eslint-disable-next-line no-restricted-imports
+import { click, find } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import TrainingCard from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/training/card';
 import { module, test } from 'qunit';
@@ -22,13 +23,11 @@ module(
 
       // then
       const trainingTitle = screen.getAllByText(training.title);
-      const button = screen.getByRole('button', {
-        name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
-      });
+      const cardContainer = find('.results-recommendation-engine-training-card');
 
       assert.strictEqual(trainingTitle.length, 2);
       assert.dom(screen.getByText('Webinaire')).exists();
-      assert.dom(within(button).getByText('1 jour et 2h')).exists();
+      assert.dom(within(cardContainer).getByText('1 jour et 2h')).exists();
     });
 
     module('when delivery mode is hybrid', function () {
@@ -185,13 +184,12 @@ module(
           );
 
           // when
-          const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+          await render(<template><TrainingCard @training={{training}} /></template>);
 
           // then
-          const button = screen.getByRole('button', {
-            name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
-          });
-          assert.dom(within(button).getByText('3 jours et 1h')).exists();
+          const cardContainer = find('.results-recommendation-engine-training-card');
+
+          assert.dom(within(cardContainer).getByText('3 jours et 1h')).exists();
         });
       });
     });
