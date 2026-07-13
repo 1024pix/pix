@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Entre inspiration et plagiat, la limite a toujours été difficile à trancher. Aujourd’hui, avec le développement des logiciels d’IA générative, elle devient particulièrement complexe. </p><p>Découvrez dans ce module comment utiliser l’IA de façon éthique et conforme au droit d’auteur.</p><p><strong>Important</strong>&nbsp;: ce module n’aborde pas l’entraînement des modèles et la question de droit d’auteur vue par les auteurs d’oeuvres. Ces éléments sont traités dans un autre module.</p>",
+    "description": "<p>Entre inspiration et plagiat, les limites sont parfois difficiles à trancher. Aujourd’hui, avec le développement des logiciels d’IA générative, ces limites deviennent de plus en plus complexe. </p><p>Découvrez dans ce module comment utiliser l’IA de façon éthique et conforme au droit d’auteur.</p><p><strong><br>Important</strong>&nbsp;: ce module n’aborde pas l’entraînement des modèles d'IA générative et la question de droit d’auteur vue par les auteurs d’oeuvres. Ces éléments sont traités dans un autre module.</p>",
     "duration": 10,
     "level": "independent",
     "objectives": [
@@ -33,7 +33,7 @@
                 "id": "1e8374f9-3fc4-4dc0-b357-2503a2cc4a92",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Romain demande à une IA générative de créer une Joconde blonde. Voici le résultat&nbsp;:&nbsp;<br></p>"
+                "content": "<p>Romain demande à un logiciel d'IA générative de créer une Joconde blonde et obtient le résultat suivant :&nbsp;<br></p>"
               }
             },
             {
@@ -60,21 +60,21 @@
                     "id": "1",
                     "content": "<p>Je pense que oui.</p>",
                     "feedback": {
-                      "diagnosis": "<p>En réalité, c’est un peu plus compliqué que cela. Avec l’IA, il n’est pas toujours évident de savoir qui doit être considéré comme l’auteur de la création.</p>"
+                      "diagnosis": "<p>En réalité, c’est plus compliqué. Il n’est <strong>pas toujours facile </strong><strong>de savoir </strong>qui est vraiment considéré comme l’auteur d’une création générée par IA.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Je pense que non.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>En réalité, c’est un peu plus compliqué que cela. Avec l’IA, il n’est pas toujours évident de savoir qui doit être considéré comme l’auteur de la création.</p>"
+                      "diagnosis": "<p>En réalité, c’est plus compliqué. Il n’est <strong>pas toujours facile </strong><strong>de savoir </strong>qui est vraiment considéré comme l’auteur d’une création générée par IA.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Difficile à dire.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement, c’est très difficile de trancher. Avec l’IA, il n’est pas toujours évident de savoir qui doit être considéré comme l’auteur de la création.</p>"
+                      "diagnosis": "<p>Effectivement, il n’est <strong>pas toujours facile </strong><strong>de savoir </strong>qui est vraiment considéré comme l’auteur d’une création générée par IA.</p>"
                     }
                   }
                 ],
@@ -94,7 +94,7 @@
                 "id": "037553cd-861e-4707-913a-d6b52d04e38d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Avec les logiciels d’intelligence artificielle, il devient facile de créer du contenu (image, vidéo, etc.). C’est une situation inédite qui interroge la notion d’œuvre de l’esprit et le droit d’auteur. Voyons pourquoi.</p>"
+                "content": "<p>Les logiciels d’IA générative permettent de créer facilement des contenus : images, vidéos, audios, etc. Cette situation  interroge sur deux aspects de la création d'œuvres : l’œuvre de l’esprit et le droit d’auteur. Voyons pourquoi.</p>"
               }
             }
           ]
@@ -120,12 +120,34 @@
                       "id": "fcf2a3b9-1ac6-4ffc-99cb-60ec3908fbe1",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Romain souhaite créer un logo. Il utilise un logiciel d’IA générative et prompte&nbsp;: «&nbsp;Crée un logo pour une association de jeu de rôle nommé \"L’atelier des mondes\"&nbsp;».<br>Il utilise le logo créé par l’IA générative pour le site web de l’association.</p>"
+                      "content": "<p>Natacha souhaite créer un logo. Elle utilise un logiciel d’IA générative avec le prompt suivant : <br></p>"
+                    },
+                    {
+                      "id": "63c39889-e173-475a-9436-cdc21bb5e409",
+                      "type": "custom",
+                      "title": "",
+                      "instruction": "",
+                      "functionalInstruction": "",
+                      "tagName": "llm-messages",
+                      "props": {
+                        "messages": [
+                          {
+                            "direction": "outbound",
+                            "content": "Crée un logo pour une association de jeu de rôle nommé « L’atelier des mondes »"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "id": "7fd3f74c-b850-4d49-9c6f-79299e4ef7f9",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Natacha utilise le logo créé par l’IA générative pour le site web de l’association.</p>"
                     },
                     {
                       "id": "8cd4b444-1da3-41b9-a8bc-40ab0272cfef",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Y a-t-il eu selon vous un effort créatif pour créer ce logo ? <br></p>",
+                      "instruction": "<p>Selon vous, Natacha a-t-elle fait un effort créatif pour créer le logo ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -153,26 +175,48 @@
                       "id": "bf11665e-cef9-4d62-b15c-78be69b8e4d1",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Jeanne souhaite créer une image pour son site web. Elle utilise un logiciel d’IA générative et prompte&nbsp;: «&nbsp;Génère une image d’un paysage de montagne au lever du soleil, avec une lumière dorée, un lac paisible au premier plan et une atmosphère légèrement brumeuse.&nbsp;La scène est traitée dans un style réaliste, avec une composition soignée et une profondeur de champ subtile, enrichie d’une esthétique cinématographique (jeu de lumière dramatique, contraste maîtrisé, légère granulation)&nbsp;».<br>Satisfaite du résultat, elle décide d’utiliser l’image sur son site web.</p>"
+                      "content": "<p>Jeanne souhaite créer une image pour son site web. Elle utilise un logiciel d’IA générative avec le prompt suivant&nbsp;:<br></p>"
+                    },
+                    {
+                      "id": "5f15c035-4ec5-451c-8f7a-0152df69d861",
+                      "type": "custom",
+                      "title": "",
+                      "instruction": "<p><br></p>",
+                      "functionalInstruction": "",
+                      "tagName": "llm-messages",
+                      "props": {
+                        "messages": [
+                          {
+                            "direction": "outbound",
+                            "content": "Génère une image d’un paysage de montagne au lever du soleil, avec une lumière dorée, un lac paisible au premier plan et une atmosphère légèrement brumeuse. La scène est représentée de façon réaliste, avec une composition soignée et un effet de profondeur."
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "id": "e1c245af-8581-4122-8d38-6f72ffd27b1e",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Satisfaite du résultat, Jeanne décide d’utiliser l’image générée par IA sur son site web.</p>"
                     },
                     {
                       "id": "bdc43e6a-b205-4b23-9f25-b42c70546330",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Y a-t-il eu selon vous un effort créatif pour créer ce logo ?</p>",
+                      "instruction": "<p>Selon vous, Jeanne a-t-elle fait un effort créatif pour créer le logo ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu ! Dans ce prompt, Jeanne montre déjà des choix d’orientation, de style, d’esthétique, etc.</p>"
+                            "diagnosis": "<p>Bien vu ! Dans ce prompt, Jeanne montre déjà des choix d’orientation, de style, etc.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Eh si !&nbsp;Dans ce prompt, Jeanne montre déjà des choix d’orientation, de style, d’esthétique, etc.</p>"
+                            "diagnosis": "<p>Eh si !&nbsp;Dans ce prompt, Jeanne montre déjà des choix d’orientation, de style, etc.</p>"
                           }
                         }
                       ],
@@ -186,26 +230,48 @@
                       "id": "dd4a5df4-38d0-40cb-a214-f317640296d2",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Maé aimerait refaire le logo de son équipe de roller. Il utilise un logiciel d’IA générative et prompte&nbsp;: «&nbsp;Génère un logo pour une association de roller derby&nbsp;».<br>Maé  retouche ensuite l’image en modifiant la taille.</p>"
+                      "content": "<p>Maé veut refaire le logo de son équipe de roller. Il utilise un logiciel d’IA générative avec le prompt suivant : <br>Maé  retouche ensuite l’image en modifiant la taille.</p>"
+                    },
+                    {
+                      "id": "95e7f618-feda-4f39-a5c4-d058849ad53c",
+                      "type": "custom",
+                      "title": "",
+                      "instruction": "",
+                      "functionalInstruction": "",
+                      "tagName": "llm-messages",
+                      "props": {
+                        "messages": [
+                          {
+                            "direction": "outbound",
+                            "content": "Génère un logo pour une association de roller derby"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "id": "f7e2670b-7e69-4d8c-b6b1-a5fe204886ca",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Maé  retouche ensuite l’image en modifiant la taille.</p>"
                     },
                     {
                       "id": "2786c781-131e-4669-b158-36c1fd00e07a",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Y a-t-il eu selon vous un effort créatif pour créer ce logo ?</p>",
+                      "instruction": "<p>Selon vous, Maé a-t-il fait un effort créatif pour créer le logo ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! Les modifications sont ici trop limitées pour constituer un apport créatif réel ! Maé n’a pas fait de choix originaux, il a juste changé la taille de l’image.</p>"
+                            "diagnosis": "<p>Eh non ! Les modifications sont ici trop limitées pour être considérées comme un apport créatif réel ! Maé n’a pas fait de choix esthétiques, il a juste changé la taille de l’image.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Bien joué !&nbsp;Les modifications sont ici trop limitées pour constituer un apport créatif réel ! Maé n’a pas fait de choix originaux, il a juste changé la taille de l’image.</p>"
+                            "diagnosis": "<p>Bien joué !&nbsp;Les modifications sont ici trop limitées pour être considérées comme un apport créatif réel ! Maé n’a pas fait de choix esthétiques, il a juste changé la taille de l’image.</p>"
                           }
                         }
                       ],
@@ -232,7 +298,7 @@
                       "id": "56d6de2c-b52e-4fa2-b524-6586883c87fa",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Dans le droit européen, une œuvre de l’esprit est une création produite par un <strong>humain</strong> et <strong>originale</strong> (c’est-à-dire marquée par des choix de l’auteur). Seules les créations originales sont protégées par le droit d'auteur.<br><br>Pour savoir si un contenu produit avec une IA est une œuvre, on va chercher à savoir quelle est <strong>la part d’effort créatif de l’humain</strong> dans la création. Cela peut être par exemple&nbsp;:&nbsp;</p><ul><li>Un travail de <strong>réécriture </strong>(en modifiant le style, en ajoutant des éléments originaux par exemple). </li><li>Un travail de <strong>retouche</strong> sur le contenu généré, à condition qu’il soit conséquent, en y apportant ses propres idées.</li><li>Un choix de point de vue, une <strong>contrainte stylistique</strong>, une <strong>orientation esthétique </strong>ou <strong>intellectuelle</strong> au sein du prompt. </li></ul>"
+                      "content": "<p>Dans le droit européen, une œuvre de l’esprit est une création produite par un <strong>humain</strong> et <strong>originale</strong> (c’est-à-dire marquée par des choix de l’auteur). Seules les créations originales sont protégées par le droit d'auteur.<br><br>Pour savoir si un contenu produit avec une IA est une œuvre, on va chercher à comprendre quelle est <strong>la part d’effort créatif de l’humain</strong> dans la création. Cela peut être par exemple&nbsp;:&nbsp;</p><ul><li>un travail de <strong>réécriture </strong>(en modifiant le style, en ajoutant des éléments originaux par exemple),</li><li>un travail de <strong>retouche</strong> sur le contenu généré, à condition qu’il soit conséquent, en y apportant ses propres idées,</li><li>Un choix de point de vue, une <strong>contrainte stylistique</strong>, une <strong>orientation esthétique </strong>ou <strong>intellectuelle</strong> au sein du prompt. </li></ul>"
                     }
                   ]
                 },
@@ -242,7 +308,7 @@
                       "id": "3998039d-319c-4fc3-a6a9-cbb54d92bd0f",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>⚠️ Attention, ce sujet est <strong>complexe</strong>. Aujourd’hui, <strong>les pays n’interprètent pas tous le droit d’auteur de la même manière</strong>. Par exemple, le tribunal de Prague, en République tchèque, a jugé qu’une image générée par IA n’est pas une œuvre de l’esprit et ne peut donc pas bénéficier d’une protection par le droit d’auteur, même si le prompt est complexe.</p>"
+                      "content": "<p>⚠️ Attention, ce sujet est <strong>complexe</strong>. Aujourd’hui, <strong>les pays n’interprètent pas tous le droit d’auteur de la même manière</strong>. Par exemple, le tribunal de Prague, en République tchèque, a jugé qu’une image générée par IA n’était pas une œuvre de l’esprit et ne pouvait donc pas bénéficier d’une protection par le droit d’auteur, même si le prompt était complexe.</p>"
                     }
                   ]
                 }
@@ -261,7 +327,7 @@
                 "id": "d7eb5ce7-f838-48b3-9d17-bf74df1225c6",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Certaines IA génératives précisent dans leurs conditions générales que les créations réalisées avec leurs outils appartiennent à l’utilisateur. Cependant, comme elles sont souvent entraînées à partir d’œuvres protégées, les contenus générés peuvent parfois être trop proches d’œuvres existantes, ce qui peut poser des problèmes de droit d’auteur.&nbsp;<strong>Comment y voir plus clair ?&nbsp;</strong><br></p>"
+                "content": "<p>Certains logiciels d’IA générative précisent dans leurs conditions générales que les créations réalisées avec leurs outils <strong>appartiennent</strong> à l’utilisateur. Pour autant, cela <strong>ne signifie pas</strong> que l'utilisateur&nbsp; respecte le droit d’auteur. Comment y voir plus clair ?&nbsp;<br></p>"
               }
             }
           ]
@@ -273,28 +339,56 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p>Voici 3 situations. Lisez-les et dites si vous pensez que ces situations respectent le droit d’auteur.<br></p>",
+              "instruction": "<p>Pour chaque situation suivante, dites si, selon vous, elle respecte ou non le droit d’auteur.</p>",
               "steps": [
                 {
                   "elements": [
                     {
+                      "id": "c9adc311-497e-42a5-8d94-361bf4722a8a",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Simon écrit le prompt suivant :&nbsp;</p>"
+                    },
+                    {
+                      "id": "c86c1033-f957-40a4-bc4c-993209fc3850",
+                      "type": "custom",
+                      "title": "",
+                      "instruction": "<p><br></p>",
+                      "functionalInstruction": "",
+                      "tagName": "llm-messages",
+                      "props": {
+                        "messages": [
+                          {
+                            "direction": "outbound",
+                            "content": "Écris une nouvelle à la manière de J.K. Rowling en reprenant comme personnage principal Harry Potter et un ton identique aux premiers livres."
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "id": "7b352f6e-e3d9-4ecc-9e52-6856d1851a80",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Simon souhaite publier cette nouvelle.</p>"
+                    },
+                    {
                       "id": "0b8c2a5c-6118-42a7-8536-43fcff9ae64c",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Simon prompte «&nbsp;Écris une nouvelle à la manière de J.K. Rowling en reprenant comme personnage principal Harry Potter et un ton identique aux premiers livres.&nbsp;». Simon souhaite publier cette nouvelle.&nbsp;</p>",
-                      "hasShortProposals": false,
+                      "instruction": "<p>Cette situation respecte-t-elle le droit d'auteur ?&nbsp;&nbsp;</p>",
+                      "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Respecte le droit d’auteur.",
+                          "content": "<p>Oui</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh bien non. Ici on demande <strong>d’imiter</strong> le style d’une autrice identifiable. L’univers d’Harry Potter est également <strong>protégé</strong> par le droit d’auteur. Le texte généré risque d’être trop proche d’une œuvre protégée, ce qui peut être qualifié de <strong>contrefaçon</strong>, c’est-à-dire une atteinte au droit d’auteur.</p>"
+                            "diagnosis": "<p>Eh bien non ! Ici, Simon demande d’<strong>imiter </strong>le style d’une autrice identifiable. L’univers d’Harry Potter est également <strong>protégé</strong> par le droit d’auteur. Le texte généré risque d’être trop proche d’une œuvre existante et protégée, ce qui peut être qualifié de <strong>contrefaçon</strong>, c’est-à-dire d'atteinte au droit d’auteur.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Ne respecte pas le droit d’auteur.",
+                          "content": "<p>Non</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui&nbsp;! Ici on demande <strong>d’imiter</strong> le style d’une autrice identifiable. L’univers d’Harry Potter est également <strong>protégé</strong> par le droit d’auteur. Le texte généré risque d’être trop proche d’une œuvre protégée, ce qui peut être qualifié de <strong>contrefaçon</strong>, c’est-à-dire une atteinte au droit d’auteur.</p>"
+                            "diagnosis": "<p>Eh oui&nbsp;! Ici, Simon demande <strong>d’imiter</strong> le style d’une autrice identifiable. L’univers d’Harry Potter est également <strong>protégé</strong> par le droit d’auteur. Le texte généré risque d’être trop proche d’une œuvre existante et protégée, ce qui peut être qualifié de <strong>contrefaçon</strong>, c’est-à-dire d'atteinte au droit d’auteur.</p>"
                           }
                         }
                       ],
@@ -304,24 +398,52 @@
                 },
                 {
                   "elements": [
+                    {
+                      "id": "d9029ec7-cce6-456f-a6ea-436c7666b964",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Alma écrit le prompt suivant :<br> </p>"
+                    },
+                    {
+                      "id": "0f827959-4422-4cd9-add9-99981831a5fe",
+                      "type": "custom",
+                      "title": "",
+                      "instruction": "",
+                      "functionalInstruction": "",
+                      "tagName": "llm-messages",
+                      "props": {
+                        "messages": [
+                          {
+                            "direction": "outbound",
+                            "content": "Génère exactement la même photo que celle prise par ce photographe professionnel (même cadrage, mêmes personnes, mêmes couleurs)."
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "id": "866e4005-205c-41bf-ad23-cec052cd85b1",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p> Alma utilise ensuite la photo sur son site web.</p>"
+                    },
                     {
                       "id": "430f8be2-d2c6-4536-9c6b-5ebdc762acd6",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Alma prompte&nbsp;: «&nbsp;Génère exactement la même photo que celle prise par ce photographe professionnel (même cadrage, mêmes personnes, mêmes couleurs)&nbsp;». Elle utilise la photo sur son site web.</p>",
-                      "hasShortProposals": false,
+                      "instruction": "<p>Cette situation respecte-t-elle le droit d'auteur ?</p>",
+                      "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Respecte le droit d’auteur.",
+                          "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Eh non&nbsp;! La demande vise une <strong>reproduction quasi identique</strong> d’une photographie protégée, ce qui porte atteinte au droit d’auteur.</p>"
+                            "diagnosis": "<p>Eh non&nbsp;! La demande d'Alma vise une <strong>reproduction quasi identique</strong> d’une photographie existante qui est protégée, ce qui porte atteinte au droit d’auteur.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Ne respecte pas le droit d’auteur.",
+                          "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement !&nbsp;La demande vise une <strong>reproduction quasi identique</strong> d’une photographie protégée, ce qui porte atteinte au droit d’auteur.</p>"
+                            "diagnosis": "<p>Effectivement !&nbsp;La demande d'Alma vise une <strong>reproduction quasi identique</strong> d’une photographie existante et protégée, ce qui porte atteinte au droit d’auteur.</p>"
                           }
                         }
                       ],
@@ -332,23 +454,45 @@
                 {
                   "elements": [
                     {
+                      "id": "77b400f2-ca95-4833-9d70-226eb906e877",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Arthur demande à un logiciel d’IA générative : </p>"
+                    },
+                    {
+                      "id": "3254b36b-42c0-41bd-a6a0-daebe1e03fc3",
+                      "type": "custom",
+                      "title": "",
+                      "instruction": "",
+                      "functionalInstruction": "",
+                      "tagName": "llm-messages",
+                      "props": {
+                        "messages": [
+                          {
+                            "direction": "outbound",
+                            "content": "Voici un extrait de code créé par mes collègues dans mon entreprise. Aide-moi à modifier ce code pour développer une nouvelle application que je souhaite vendre."
+                          }
+                        ]
+                      }
+                    },
+                    {
                       "id": "654f8747-907b-4371-87d7-5e1e72e86fd7",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Arthur demande à l’IA&nbsp;: «&nbsp;Voici un extrait de code créé par mes collègues dans mon entreprise. Aide-moi à le modifier pour développer une nouvelle application que je souhaite vendre.&nbsp;»</p>",
-                      "hasShortProposals": false,
+                      "instruction": "<p>Cette situation respecte-t-elle le droit d'auteur ?</p>",
+                      "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Respecte le droit d’auteur.",
+                          "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Le code informatique est <strong>protégé par le droit d’auteur</strong>. Avant de le réutiliser, Arthur doit vérifier s’il est autorisé à utiliser, modifier ou partager ce code et <strong>respecter les conditions</strong> prévues pour son utilisation. Sinon, il enfreint le droit d’auteur.</p>"
+                            "diagnosis": "<p>Eh non. Le code informatique est <strong>protégé par le droit d’auteur</strong>. Avant de réutiliser ce code, Arthur doit vérifier s’il est autorisé à l’utiliser, le modifier ou à le partager. Arthur doit aussi respecter les <strong>conditions</strong> prévues pour l’utilisation de ce code. Sinon, il enfreint le droit d’auteur.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Ne respecte pas le droit d’auteur.",
+                          "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Bien joué&nbsp;! Le code informatique est <strong>protégé par le droit d’auteur</strong>. Avant de le réutiliser, Arthur doit vérifier s’il est autorisé à utiliser, modifier ou partager ce code et <strong>respecter les conditions</strong> prévues pour son utilisation. Sinon, il enfreint le droit d’auteur.</p>"
+                            "diagnosis": "<p>Bien joué&nbsp;! Le code informatique est <strong>protégé par le droit d’auteur</strong>. Avant de réutiliser ce code, Arthur doit vérifier s’il est autorisé à l’utiliser, le modifier ou à le partager. Arthur doit aussi respecter les <strong>conditions</strong> prévues pour l’utilisation de ce code. Sinon, il enfreint le droit d’auteur.</p>"
                           }
                         }
                       ],
@@ -385,7 +529,7 @@
                       "id": "3c019063-a5cd-4453-a576-eac8636ef4c4",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Même lorsqu’un contenu est généré par un logiciel d’IA générative, demander <strong>explicitement</strong> la reproduction ou l’imitation d’une œuvre protégée peut vous rendre <strong>responsable</strong> d’une atteinte au droit d’auteur.</p><p>⚠️ <strong>Réutiliser</strong>, <strong>vendre</strong> ou <strong>diffuser des œuvres plagiées </strong> engage votre responsabilité et peut vous exposer à des <strong>sanctions juridiques</strong>.</p>"
+                      "content": "<p>Même lorsqu’un contenu est généré par IA, si vous demandez <strong>explicitement</strong> la reproduction ou l’imitation d’une œuvre existante et protégée cela peut vous rendre <strong>responsable</strong> d’une atteinte au droit d’auteur.<br><br></p><p>⚠️ Attention ! Quand on <strong>réutilise</strong>, <strong>vend</strong> ou <strong>diffuse</strong> une œuvre plagiée, c'est-à-dire une œuvre copiée sans respecter les droits de son auteur, on engage notre responsabilité et on peut s’exposer à des <strong>sanctions juridiques</strong>.</p>"
                     }
                   ]
                 }
@@ -404,7 +548,7 @@
                 "id": "15989c5a-f3bb-4db0-b20b-c7c21fffcb5e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Respecter le droit d’auteur est essentiel lors de la création d’un contenu avec un logiciel d’IA. Lorsqu’on diffuse une création, une autre question se pose&nbsp;: faut-il indiquer que cette création (texte, image, vidéo, etc.) a été réalisée avec l’aide d’une IA ?</p>"
+                "content": "<p>Après la création, quand on souhaite diffuser une création générée par IA, une autre question se pose&nbsp;: faut-il indiquer que cette création (texte, image, vidéo, etc.) a été réalisée avec l’aide d’une IA ?</p>"
               }
             }
           ]
@@ -420,7 +564,7 @@
                 "id": "b89ff37e-9508-4340-8819-50197198b8af",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Prenez connaissance des trois images suivantes puis répondez aux questions.</p>"
+                "content": "<p>Prenez connaissance des trois contenus suivants puis répondez aux questions.</p>"
               }
             },
             {
@@ -441,19 +585,19 @@
                     {
                       "id": "0083bdf0-dd58-4ae8-a4ce-5b64eefc7ad4",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Ce contenu a-t-il été intégralement créé  par un logiciel d’IA générative ?</p>",
+                      "instruction": "<p>Ce contenu est-il entièrement créé  par un logiciel d’IA générative ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "<p>Oui.</p>",
                           "feedback": {
                             "diagnosis": "<p>Pas tout à fait ! On voit au début de l’article la mention «&nbsp;<strong>partiellement généré par IA</strong>&nbsp;». On ne sait pas, par contre, ce qui a été produit par un logiciel d’IA générative et ce qui a été écrit ou retravaillé par l’auteur.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "<p>Non.</p>",
                           "feedback": {
                             "diagnosis": "<p>En effet ! On voit au début de l’article la mention «&nbsp;<strong>partiellement généré par IA</strong>&nbsp;». On ne sait pas, par contre, ce qui a été produit par un logiciel d’IA générative et ce qui a été écrit ou retravaillé par l’auteur.</p>"
                           }
@@ -484,28 +628,28 @@
                     {
                       "id": "217fa7c0-71f6-4fc3-acc2-7179c0e7deec",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Ce contenu a-t-il été intégralement créé  par un logiciel d’IA générative ?</p>",
+                      "instruction": "<p>Ce contenu est-il entièrement créé  par un logiciel d’IA générative ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Oui</p>",
+                          "content": "<p>Oui.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! La présence d’un marquage IA (également appelé <strong>filigrane</strong>) indique qu’une IA a été utilisée lors de la création ou de la modification de l’image. En revanche, elle ne permet pas de savoir si l’image a été entièrement générée par l’IA ou si un humain est également intervenu dans sa réalisation (retouche, etc.). Il est&nbsp;important de savoir que le <strong>filigrane peut aussi être invisible</strong> (c’est-à-dire dans le code de l’image) !<br></p>"
+                            "diagnosis": "<p>Eh non ! La présence d’un marquage IA (également appelé <strong>filigrane</strong>) indique qu’une IA a été utilisée pour la création ou de la modification de l’image. En revanche, le filigrane ne permet pas de savoir si l’image a été entièrement générée par l’IA ou si un humain est également intervenu dans sa réalisation (retouche, etc.). Il est&nbsp;important de savoir que le <strong>filigrane peut aussi être invisible</strong> (c’est-à-dire dans le code de l’image) !<br></p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Non</p>",
+                          "content": "<p>Non.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! La présence d’un marquage IA (également appelé <strong>filigrane</strong>) indique qu’une IA a été utilisée lors de la création ou de la modification de l’image. En revanche, elle ne permet pas de savoir si l’image a été entièrement générée par l’IA ou si un humain est également intervenu dans sa réalisation (retouche, etc.). Il est&nbsp;important de savoir que le <strong>filigrane peut aussi être invisible</strong> (c’est-à-dire dans le code de l’image) !</p>"
+                            "diagnosis": "<p>Eh non ! La présence d’un marquage IA (également appelé <strong>filigrane</strong>) indique qu’une IA a été utilisée pour la création ou de la modification de l’image. En revanche, le filigrane ne permet pas de savoir si l’image a été entièrement générée par l’IA ou si un humain est également intervenu dans sa réalisation (retouche, etc.). Il est&nbsp;important de savoir que le <strong>filigrane peut aussi être invisible</strong> (c’est-à-dire dans le code de l’image) !</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>On ne peut pas savoir.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien joué !&nbsp;La présence d’un marquage IA (également appelé <strong>filigrane</strong>) indique qu’une IA a été utilisée lors de la création ou de la modification de l’image. En revanche, elle ne permet pas de savoir si l’image a été entièrement générée par l’IA ou si un humain est également intervenu dans sa réalisation (retouche, etc.). Il est&nbsp;important de savoir que le <strong>filigrane peut aussi être invisible</strong> (c’est-à-dire dans le code de l’image) !</p>"
+                            "diagnosis": "<p>Bien joué !&nbsp;La présence d’un marquage IA (également appelé <strong>filigrane</strong>) indique qu’une IA a été utilisée pour la création ou de la modification de l’image. En revanche, le filigrane ne permet pas de savoir si l’image a été entièrement générée par l’IA ou si un humain est également intervenu dans sa réalisation (retouche, etc.). Il est&nbsp;important de savoir que le <strong>filigrane peut aussi être invisible</strong> (c’est-à-dire dans le code de l’image) !</p>"
                           }
                         }
                       ],
@@ -527,28 +671,28 @@
                     {
                       "id": "503861d4-771f-4267-bd24-441df7895612",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Ce contenu a-t-il été intégralement créé  par un logiciel d’IA générative ?</p>",
+                      "instruction": "<p>Ce contenu est-il entièrement créé  par un logiciel d’IA générative ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Oui</p>",
+                          "content": "<p>Oui.</p>",
                           "feedback": {
-                            "diagnosis": "<p>En effet ! Les <strong>métadonnées</strong> indiquent qu’une IA a été utilisée pour créer ou modifier l’image. Mais il ne permet pas de savoir si l’image a été entièrement générée par l’IA ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image même après des retouches réalisées par un humain.</p>"
+                            "diagnosis": "<p>En effet ! Les <strong>métadonnées</strong>, c'est-à-dire les informations d'un fichier, indiquent qu’une IA a été utilisée pour créer ou modifier l’image. Mais ces métadonnées ne permettent pas de savoir si l’image a été entièrement générée par l’IA ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image même après des retouches réalisées par un humain.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Non</p>",
+                          "content": "<p>Non.</p>",
                           "feedback": {
-                            "diagnosis": "<p>En effet ! Les <strong>métadonnées</strong> indiquent qu’une IA a été utilisée pour créer ou modifier l’image. Mais il ne permet pas de savoir si l’image a été entièrement générée par l’IA ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image même après des retouches réalisées par un humain.</p>"
+                            "diagnosis": "<p>En effet ! Les <strong>métadonnées</strong>, c'est-à-dire les informations d'un fichier, indiquent qu’une IA a été utilisée pour créer ou modifier l’image. Mais ces métadonnées ne permettent pas de savoir si l’image a été entièrement générée par l’IA ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image même après des retouches réalisées par un humain.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>On ne peut pas savoir.</p>",
                           "feedback": {
-                            "diagnosis": "<p>En effet ! Les <strong>métadonnées</strong> indiquent qu’une IA a été utilisée pour créer ou modifier l’image. Mais il ne permet pas de savoir si l’image a été entièrement générée par l’IA ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image même après des retouches réalisées par un humain.</p>"
+                            "diagnosis": "<p>En effet ! Les <strong>métadonnées</strong>, c'est-à-dire les informations d'un fichier, indiquent qu’une IA a été utilisée pour créer ou modifier l’image. Mais ces métadonnées ne permettent pas de savoir si l’image a été entièrement générée par l’IA ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image même après des retouches réalisées par un humain.</p>"
                           }
                         }
                       ],
@@ -575,7 +719,7 @@
                       "id": "f78da0bd-6544-43c2-9a00-716d1f527884",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>Filigranes</strong>, <strong>métadonnées</strong>… Aujourd’hui, en Europe, les fournisseurs d’IA doivent mettre en place des moyens pour signaler qu’un contenu a été généré par une IA. Ces marques, <strong>généralement invisibles</strong> pour les utilisateurs mais détectables automatiquement par des logiciels spécialisés, indiquent qu’une IA a été utilisée pour créer le contenu.</p>"
+                      "content": "<p><strong>Filigranes</strong>, <strong>métadonnées</strong>… Aujourd’hui, en Europe, les fournisseurs d’IA doivent mettre en place des moyens pour signaler qu’un contenu est généré par une IA. Ces marques, <strong>généralement invisibles</strong> pour les utilisateurs mais détectables automatiquement par des logiciels spécialisés, indiquent qu’une IA est utilisée pour créer le contenu.</p>"
                     }
                   ]
                 },
@@ -585,7 +729,7 @@
                       "id": "a9dc593f-6ba3-491f-a5ec-aa095fb295c1",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Dans la pratique, <strong>cette règle n’est pas toujours appliquée</strong>. Tous les contenus générés par une IA ne sont pas systématiquement marqués. Certains logiciels d’IA limitent ou suppriment ces informations. </p><p>De plus, ces marques peuvent parfois être retirées  par les utilisateurs.&nbsp;Il n’est pas toujours possible de savoir qu’un contenu a été créé avec une IA.</p>"
+                      "content": "<p>Dans la pratique, <strong>cette règle n’est pas toujours appliquée</strong>. Tous les contenus générés par une IA ne sont pas systématiquement marqués. Certains logiciels d’IA limitent ou suppriment ces informations. </p><p>De plus, ces marques peuvent aussi parfois être retirées  par les utilisateurs.&nbsp;Il n’est pas toujours possible de savoir qu’un contenu est créé avec une IA.</p>"
                     }
                   ]
                 }
@@ -610,7 +754,7 @@
                 "id": "c472be53-e518-44e7-9b59-0511458ea591",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>Lorsqu’on crée du contenu avec une IA (image, texte, code informatique, etc.), les questions d’auteur et de droit d’auteur sont <strong>complexes</strong>. Il n’est pas toujours évident de savoir qui peut être considéré comme l’auteur d’un contenu généré avec une IA. De plus, <strong>les règles peuvent varier selon les pays</strong>.</li></ul><ul><li>Les IA génératives étant entraînées sur de nombreuses œuvres, le risque de <strong>contrefaçon</strong>, volontaire ou non, est réel.</li></ul><ul><li>Même s’il existe des <strong>dispositifs de marquage</strong> et malgré les <strong>lois en vigueur</strong>, aucune méthode fiable et généralisée ne permet encore d’identifier systématiquement les contenus générés par IA.</li></ul>"
+                "content": "<ul><li>Lorsqu’on crée du contenu avec une IA (image, texte, code informatique, etc.), les questions d’auteur et de droit d’auteur sont <strong>complexes</strong>. Il n’est pas toujours évident de savoir qui peut être considéré comme l’auteur d’un contenu généré avec une IA. Aussi,&nbsp;<strong>l</strong><strong>es règles peuvent varier selon les pays</strong>.</li></ul><ul><li>Les IA génératives étant entraînées sur de nombreuses œuvres, le risque de <strong>contrefaçon</strong>, volontaire ou non, est réel.</li></ul><ul><li>Même s’il existe des <strong>dispositifs de marquage</strong> et malgré les <strong>lois en vigueur</strong>, aucune méthode fiable et généralisée ne permet encore d’identifier systématiquement les contenus générés par IA.</li></ul>"
               }
             }
           ]
@@ -641,7 +785,7 @@
                 "id": "06ad5475-c950-4205-a6f8-72333c3b6749",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Prenez connaissance de la situation et dites si Noah peut être considéré comme l’auteur de son texte.&nbsp;</p><p>Noah est rédacteur d’articles web. Il utilise un logiciel d’IA pour trouver des idées et structurer ses arguments. Après avoir utilisé l’IA pour préparer son plan, il rédige lui-même le contenu final.</p>"
+                "content": "<p>Noah est rédacteur d’articles web. Il utilise un logiciel d’IA générative pour trouver des idées et structurer ses arguments. Après avoir utilisé l’IA pour préparer son plan, il rédige lui-même le contenu final.</p>"
               }
             },
             {
@@ -649,7 +793,7 @@
               "element": {
                 "id": "270ba1c2-85bb-4106-83d3-c52b29c5aa64",
                 "type": "qcu",
-                "instruction": "<p>Peut-il être considéré comme l’auteur ?</p>",
+                "instruction": "<p>Noah peut-il être considéré comme l’auteur de l'article ?</p>",
                 "hasShortProposals": true,
                 "proposals": [
                   {
@@ -657,7 +801,7 @@
                     "content": "Oui",
                     "feedback": {
                       "state": "<p>Bien joué !</p>",
-                      "diagnosis": "<p>L’IA est utilisée ici uniquement comme un outil pour aider à structurer des idées. Le contenu final est entièrement rédigé par le rédacteur, qui apporte donc l’essentiel de la création. Il peut être considéré comme l’auteur.</p>"
+                      "diagnosis": "<p>L’IA est utilisée ici uniquement comme un outil pour aider à structurer des idées. Le contenu final est entièrement rédigé par Noah, qui apporte donc l’essentiel de la création. Noah peut être considéré comme l’auteur.</p>"
                     }
                   },
                   {
@@ -665,7 +809,7 @@
                     "content": "Non",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.<br></p>",
-                      "diagnosis": "<p>L’IA est utilisée ici uniquement comme un outil pour aider à structurer des idées. Le contenu final est entièrement rédigé par le rédacteur, qui apporte donc l’essentiel de la création. Il peut être considéré comme l’auteur.</p>"
+                      "diagnosis": "<p>L’IA est utilisée ici uniquement comme un outil pour aider à structurer des idées. Le contenu final est entièrement rédigé par Noah, qui apporte donc l’essentiel de la création. Noah peut être considéré comme l’auteur.</p>"
                     }
                   }
                 ],
@@ -684,7 +828,7 @@
               "element": {
                 "id": "df0cf4a9-db31-448e-bfe0-560b11f73b04",
                 "type": "qab",
-                "instruction": "<p>Voici plusieurs situations. Indiquez si ces situations respectent ou non le droit d’auteur.</p><br>",
+                "instruction": "<p>Indiquez si ces situations et ces prompts respectent ou non le droit d’auteur.</p><br>",
                 "cards": [
                   {
                     "id": "53d97013-b671-43d1-87ae-e5e7b75e9491",
@@ -699,7 +843,7 @@
                   },
                   {
                     "id": "27707454-efd7-4709-ba00-02802431966e",
-                    "text": "Aide moi à brainstormer pour créer du code permettant de gérer les inscriptions à un événement.",
+                    "text": "Aide-moi à avoir des idées pour créer du code permettant de gérer les inscriptions à un événement.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -732,7 +876,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>Il est important de garder en mémoire que certains verbes comme \"recopie\", \"reproduis\", \"duplique\", etc. font une demande<strong> à risque</strong> vis-à-vis du droit d’auteur.</p>"
+                  "diagnosis": "<p>Il est important de garder en mémoire que certains verbes comme « recopie », « reproduis », « duplique » doivent attirer votre attention : ils peuvent impliquer une <strong>utilisation contraire</strong> au droit d'auteur.</p>"
                 }
               }
             }
@@ -749,7 +893,7 @@
                 "id": "e623b399-786a-4644-b97b-a90bcb773472",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Ambre a utilisé un logiciel d’IA générative pour créer une illutration. Elle a retouché l’image plusieurs heures pour changer les couleurs, ajouter des éléments, etc. En souhaitant diffuser son illustration sur une plateforme, malgré les heures de retouche, la plateforme indique automatiquement «&nbsp;contenu créé par une IA&nbsp;».<br></p>"
+                "content": "<p>Ambre a utilisé un logiciel d’IA générative pour créer une illutration. Elle a retouché l’image plusieurs heures pour changer les couleurs, ajouter des éléments, etc. En souhaitant diffuser son illustration sur une plateforme, malgré les heures de retouche, la plateforme indique automatiquement que son illustration est un « contenu créé par une IA »..<br></p>"
               }
             },
             {
@@ -757,12 +901,12 @@
               "element": {
                 "id": "116fd0df-2901-4a88-bf59-b7ae8766e9b6",
                 "type": "qcu",
-                "instruction": "<p>Pourquoi ?&nbsp;<br></p>",
+                "instruction": "<p>Pourquoi la plateforme indique-t-elle que l’illustration est créée par une IA ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Parce qu’une image générée par IA ne peut jamais être modifiée par un humain.</p>",
+                    "content": "<p>Parce qu’une image générée par IA ne peut pas être modifiée par un humain.</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.&nbsp;<br></p>",
                       "diagnosis": "<p>Une image générée par IA reste toujours modifiable par un humain.&nbsp;<br></p>"
@@ -807,7 +951,7 @@
                 "id": "6227073b-33a4-428a-95f2-22339f89239f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous venez d’écouter une chanson que vous avez adoré sur une plateforme de streaming. En cherchant plus de détail sur l’auteur, vous vous rendez compte que cette musique a été intégralement générée par IA, sans aucune intervention humaine et sans aucune mention sur la plateforme d’écoute.</p>"
+                "content": "<p>Vous venez d’écouter une chanson que vous avez adorée sur une plateforme de musique. En cherchant plus de détail sur l’auteur de la chanson, vous vous rendez compte que cette musique a été entièrement générée par IA, sans aucune intervention humaine et sans aucune mention sur la plateforme d’écoute.</p>"
               }
             },
             {
