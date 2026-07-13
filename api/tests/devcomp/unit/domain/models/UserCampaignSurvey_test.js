@@ -10,14 +10,30 @@ describe('Unit | Devcomp | Domain | Models | UserCampaignSurvey', function () {
       const userId = 1;
       const campaignId = 2;
       const satisfactionScore = 3;
+      const usefulnessScore = 3;
+      const personalizationScore = 3;
+      const attractivenessScore = 3;
+      const comment = 'incroyable';
 
       // when
-      const survey = new UserCampaignSurvey({ userId, campaignId, satisfactionScore });
+      const survey = new UserCampaignSurvey({
+        userId,
+        campaignId,
+        satisfactionScore,
+        usefulnessScore,
+        personalizationScore,
+        attractivenessScore,
+        comment,
+      });
 
       // then
       expect(survey.userId).to.equal(userId);
       expect(survey.campaignId).to.equal(campaignId);
       expect(survey.satisfactionScore).to.equal(satisfactionScore);
+      expect(survey.usefulnessScore).to.equal(usefulnessScore);
+      expect(survey.personalizationScore).to.equal(personalizationScore);
+      expect(survey.attractivenessScore).to.equal(attractivenessScore);
+      expect(survey.comment).to.equal(comment);
     });
 
     describe('if userId is missing', function () {
@@ -57,7 +73,14 @@ describe('Unit | Devcomp | Domain | Models | UserCampaignSurvey', function () {
       [0, 6, -1, 100].forEach((satisfactionScore) => {
         it(`should throw a DomainError for satisfactionScore ${satisfactionScore}`, function () {
           // when
-          const error = catchErrSync(() => new UserCampaignSurvey({ userId: 1, campaignId: 2, satisfactionScore }))();
+          const error = catchErrSync(
+            () =>
+              new UserCampaignSurvey({
+                userId: 1,
+                campaignId: 2,
+                satisfactionScore,
+              }),
+          )();
 
           // then
           expect(error).to.be.instanceOf(DomainError);
@@ -70,11 +93,41 @@ describe('Unit | Devcomp | Domain | Models | UserCampaignSurvey', function () {
         const satisfactionScore = 2.5;
 
         // when
-        const error = catchErrSync(() => new UserCampaignSurvey({ userId: 1, campaignId: 2, satisfactionScore }))();
+        const error = catchErrSync(
+          () =>
+            new UserCampaignSurvey({
+              userId: 1,
+              campaignId: 2,
+              satisfactionScore,
+            }),
+        )();
 
         // then
         expect(error).to.be.instanceOf(DomainError);
         expect(error.message).to.equal('The satisfactionScore must be an integer between 1 and 5');
+      });
+    });
+
+    ['usefulnessScore', 'personalizationScore', 'attractivenessScore'].forEach((scoreName) => {
+      describe(`if ${scoreName} is out of range`, function () {
+        [0, 6, -1, 100].forEach((score) => {
+          it(`should throw a DomainError for ${scoreName} ${score}`, function () {
+            // when
+            const error = catchErrSync(
+              () =>
+                new UserCampaignSurvey({
+                  userId: 1,
+                  campaignId: 2,
+                  satisfactionScore: 2,
+                  [scoreName]: score,
+                }),
+            )();
+
+            // then
+            expect(error).to.be.instanceOf(DomainError);
+            expect(error.message).to.equal(`The ${scoreName} must be an integer between 1 and 5`);
+          });
+        });
       });
     });
   });
