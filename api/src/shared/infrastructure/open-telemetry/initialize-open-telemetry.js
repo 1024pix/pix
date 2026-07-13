@@ -1,6 +1,8 @@
 import { diag, DiagLogLevel } from '@opentelemetry/api';
+import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { FsInstrumentation } from '@opentelemetry/instrumentation-fs';
+import { HostMetricsInstrumentation } from '@opentelemetry/instrumentation-host-metrics';
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { PgInstrumentation } from '@opentelemetry/instrumentation-pg';
 import { UndiciInstrumentation } from '@opentelemetry/instrumentation-undici';
@@ -27,15 +29,18 @@ export function initializeOpenTelemetry(serviceName) {
     DiagLogLevel.DEBUG,
   );
 
-  const exporter = new OTLPTraceExporter();
+  const traceExporter = new OTLPTraceExporter();
+  const metricExporter = new OTLPMetricExporter();
 
   const sdk = new NodeSDK({
     resource: resourceFromAttributes({
       [ATTR_SERVICE_NAME]: serviceName,
     }),
     resourceDetectors: [envDetector, hostDetector, osDetector, processDetector, containerDetector, scalingoDetector],
-    traceExporter: exporter,
+    traceExporter,
+    metricExporter,
     instrumentations: [
+      new HostMetricsInstrumentation(),
       new HttpInstrumentation(),
       new UndiciInstrumentation({
         requestHook(span, request) {
