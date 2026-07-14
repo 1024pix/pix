@@ -1,5 +1,17 @@
 # Pix Changelog
 
+# [5.455.0](https://github.com/1024pix/pix/compare/v5.454.0...v5.455.0) (2026-07-14)
+
+### :rocket: Amélioration
+
+- [#16791](https://github.com/1024pix/pix/pull/16791) : Ajouter une nouvelle colonne "survey" à la table user-campaign-surveys (PIX-23538)
+
+### :building_construction: Tech
+
+- [#16749](https://github.com/1024pix/pix/pull/16749) Ajout des libraries pour l'export des metrics host
+- [#16789](https://github.com/1024pix/pix/pull/16789) Ajout du request-id dans les traces OTEL
+- [#16792](https://github.com/1024pix/pix/pull/16792) Enlever le commentaire de corrélation dans les requêtes SQL enregistrées dans les traces OTEL
+
 # [5.454.0](https://github.com/1024pix/pix/compare/v5.453.0...v5.454.0) (2026-07-13)
 
 ### :rocket: Amélioration
