@@ -15,6 +15,12 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
     this.owner.register('service:request-manager', this.requestManagerStub, { instantiate: false });
 
     this.owner.register('service:current-user', { user: { id: 42 } });
+
+    this.matchMediaStub = sinon.stub(window, 'matchMedia').returns({ matches: false });
+  });
+
+  hooks.afterEach(function () {
+    this.matchMediaStub.restore();
   });
 
   test('it displays the satisfaction score step by default', async function (assert) {

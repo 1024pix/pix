@@ -56,15 +56,24 @@ export default class Drawer extends Component {
 
   @action
   hide() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this.finishHiding();
+      return;
+    }
+
     this.isHiding = true;
   }
 
   @action
   onAnimationEnd(event) {
     if (event.animationName === 'drawer-slide-down') {
-      this.isHidden = true;
-      this.isHiding = false;
+      this.finishHiding();
     }
+  }
+
+  finishHiding() {
+    this.isHidden = true;
+    this.isHiding = false;
   }
 
   @action
