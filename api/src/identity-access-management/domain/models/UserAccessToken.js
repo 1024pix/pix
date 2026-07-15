@@ -1,4 +1,5 @@
 import { config } from '../../../shared/config.js';
+import { InvalidInputDataError } from '../../../shared/domain/errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 
 export class UserAccessToken {
@@ -10,7 +11,7 @@ export class UserAccessToken {
 
   static decode(accessToken) {
     const decoded = tokenService.getDecodedToken(accessToken, config.authentication.secret);
-    if (!decoded) return new UserAccessToken({});
+    if (!decoded) throw new InvalidInputDataError();
 
     return new UserAccessToken({ userId: decoded.user_id, source: decoded.source, audience: decoded.aud });
   }

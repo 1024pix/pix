@@ -2,7 +2,9 @@ import sinon from 'sinon';
 
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { config } from '../../../../../src/shared/config.js';
+import { InvalidInputDataError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Identity Access Management | Domain | Model | RefreshToken', function () {
   beforeEach(function () {
@@ -34,15 +36,12 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
       });
     });
 
-    it('returns empty object for invalid token', function () {
+    it('throws an InvalidInputDataError for an invalid token', async function () {
       // given / when
-      const decoded = UserAccessToken.decode('invalid.token');
+      const decodeError = await catchErr(UserAccessToken.decode)('invalid.token');
 
       // then
-      expect(decoded).to.be.instanceOf(UserAccessToken);
-      expect(decoded.userId).to.be.undefined;
-      expect(decoded.audience).to.be.undefined;
-      expect(decoded.source).to.be.undefined;
+      expect(decodeError).to.be.instanceOf(InvalidInputDataError);
     });
   });
 
