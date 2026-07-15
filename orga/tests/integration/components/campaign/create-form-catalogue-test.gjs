@@ -99,7 +99,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       assert
         .dom(screen.queryByRole('link', { name: t('pages.campaign-creation.course-selection-label') }))
         .doesNotExist();
-      assert.dom(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false })).doesNotExist();
+      assert.dom(screen.queryByRole('textbox', { name: t('pages.campaign-creation.name.label') })).doesNotExist();
     });
   });
 
@@ -171,216 +171,351 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       .exists();
   });
 
-  [
-    {
-      status: 'ASSESSMENT',
-      purpose: 'pages.campaign-creation.purpose.assessment',
-      explanation: 'pages.campaign-creation.purpose.assessment-info',
-    },
-    {
-      status: 'EXAM',
-      purpose: 'pages.campaign-creation.purpose.exam',
-      explanation: 'pages.campaign-creation.purpose.exam-info',
-    },
-  ].forEach(async function (campaignType) {
-    module(`when campaign is of type ${campaignType.status}`, function (hooks) {
-      hooks.beforeEach(function () {
-        data.prescriber.features.CAMPAIGN_WITHOUT_USER_PROFILE = { active: true, params: null };
-      });
+  module('when campaign is of type ASSESSMENT', function (hooks) {
+    hooks.beforeEach(function () {
+      data.campaign.type = 'ASSESSMENT';
+    });
 
-      test('it hides owner field if no course selected', async function () {
+    test('it hides owner field if no course selected', async function () {
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      assert.dom(screen.queryByText(t('pages.campaign-creation.owner.info'))).doesNotExist();
+    });
+
+    test('it hides multiple sending field if no course selected', async function () {
+      // given
+      data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = { active: true, params: null };
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.queryByRole('radiogroup', {
+            name: t('pages.campaign-creation.multiple-sendings.assessments.question-label'),
+          }),
+        )
+        .doesNotExist();
+    });
+
+    test('it hides campaign title until user select a course', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(screen.queryByLabelText(t('pages.campaign-creation.test-title.label'), { exact: false }))
+        .doesNotExist();
+    });
+
+    test('it hides landing page until user select a course', async function () {
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(screen.queryByLabelText(t('pages.campaign-creation.landing-page-text.label'), { exact: false }))
+        .doesNotExist();
+    });
+
+    test('it hides exam mode field until user select a course', async function () {
+      // given
+      data.prescriber.features.CAMPAIGN_WITHOUT_USER_PROFILE = { active: true, params: null };
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.queryByText(t('pages.campaign-creation.exam-mode.label'))).doesNotExist();
+      assert.dom(screen.queryByText(t('pages.campaign-creation.purpose.exam-info'))).doesNotExist();
+    });
+
+    test(`it has ASSESSMENT checked`, async function (assert) {
+      // given
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.assessment'))).isChecked();
+    });
+
+    test("it displays owner fields and auto complete owner field with owner's full name", async function (assert) {
+      // given
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      assert.dom(screen.getByText(t('pages.campaign-creation.owner.info'))).exists();
+      assert.dom(screen.getAllByText(t('pages.campaign-creation.owner.title'))[0]).exists();
+      await click(screen.getByLabelText(t('pages.campaign-creation.owner.label'), { exact: false }));
+
+      await screen.findByRole('listbox');
+
+      // then
+      assert.dom(screen.getByRole('option', { name: 'Adam Troisjour', selected: true })).exists();
+    });
+
+    test('it fills course fields', async function (assert) {
+      // given
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile', name: 'yolo' });
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            name: data.campaign.course.name,
+          }),
+        )
+        .exists();
+    });
+
+    test('it fills multiple sendings fields', async function (assert) {
+      // given
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+      data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = { active: true, params: null };
+      data.campaign.multipleSendings = true;
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      const radiogroup = screen.getByRole('radiogroup', {
+        name: t('pages.campaign-creation.multiple-sendings.assessments.question-label'),
+      });
+      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
+    });
+
+    test('it explains which informations will be visible to organization-learners', async function () {
+      // given
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      const testTitleSublabel = screen.getAllByLabelText(t('pages.campaign-creation.landing-page-text.sublabel'), {
+        exact: false,
+      })[0];
+      const landingPageSublabel = screen.getAllByLabelText(t('pages.campaign-creation.landing-page-text.sublabel'), {
+        exact: false,
+      })[1];
+
+      assert.ok(testTitleSublabel);
+      assert.ok(landingPageSublabel);
+    });
+
+    test('it displays fields for campaign title', async function (assert) {
+      // given
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+      await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+      // then
+      assert.dom(screen.getByText(t('pages.campaign-creation.test-title.label'))).exists();
+      assert.dom(screen.getByText(t('pages.campaign-creation.purpose.label'))).exists();
+    });
+
+    test(`it displays the purpose explanation of an ASSESSMENT campaign`, async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+      await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+      // then
+      assert.dom(screen.getByText(t('pages.campaign-creation.purpose.assessment-info'))).exists();
+    });
+
+    test(`it displays the activate exam mode field and info`, async function (assert) {
+      // given
+      data.prescriber.features.CAMPAIGN_WITHOUT_USER_PROFILE = { active: true, params: null };
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByText(t('pages.campaign-creation.exam-mode.label'))).exists();
+      assert.dom(screen.getByText(t('pages.campaign-creation.purpose.exam-info'))).exists();
+      const radiogroup = screen.getByRole('radiogroup', { name: t('pages.campaign-creation.exam-mode.label') });
+      assert.dom(within(radiogroup).getByRole('radio', { name: 'Non' })).isChecked();
+    });
+
+    test(`it set the campaign's type to EXAM when the user activate the exam mode`, async function (assert) {
+      // given
+      data.prescriber.features.CAMPAIGN_WITHOUT_USER_PROFILE = { active: true, params: null };
+      data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
+
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+          />
+        </template>,
+      );
+
+      // when
+      const examModeField = screen.getByRole('radiogroup', { name: t('pages.campaign-creation.exam-mode.label') });
+      await click(within(examModeField).getByRole('radio', { name: 'Oui' }));
+
+      // then
+      assert.strictEqual(data.campaign.type, 'EXAM');
+    });
+
+    module('when the user has selected a course', function () {
+      test('it displays informations about the course', async function (assert) {
         // given
-        data.campaign.type = campaignType.status;
-
-        // when
-        const screen = await render(
-          <template>
-            <CreateForm
-              @campaign={{data.campaign}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{data.errors}}
-              @membersSortedByFullName={{data.defaultMembers}}
-            />
-          </template>,
-        );
-
-        assert.dom(screen.queryByText(t('pages.campaign-creation.owner.info'))).doesNotExist();
-      });
-
-      test('it hides multiple sendings field if no course selected', async function () {
-        // given
-        data.campaign.type = campaignType.status;
-        data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = { active: true, params: null };
-        // when
-        const screen = await render(
-          <template>
-            <CreateForm
-              @campaign={{data.campaign}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{data.errors}}
-              @membersSortedByFullName={{data.defaultMembers}}
-            />
-          </template>,
-        );
-        assert
-          .dom(
-            screen.queryByRole('radiogroup', {
-              name: t('pages.campaign-creation.multiple-sendings.assessments.question-label'),
-            }),
-          )
-          .doesNotExist();
-      });
-
-      test('it hides campaign title until user select a course', async function (assert) {
-        // given
-        data.campaign.type = 'ASSESSMENT';
-        // when
-        const screen = await render(
-          <template>
-            <CreateForm
-              @campaign={{data.campaign}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{data.errors}}
-              @membersSortedByFullName={{data.defaultMembers}}
-            />
-          </template>,
-        );
-
-        assert
-          .dom(screen.queryByLabelText(t('pages.campaign-creation.test-title.label'), { exact: false }))
-          .doesNotExist();
-      });
-
-      test('it hides landing page until user select a course', async function () {
-        // when
-        const screen = await render(
-          <template>
-            <CreateForm
-              @campaign={{data.campaign}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{data.errors}}
-              @membersSortedByFullName={{data.defaultMembers}}
-            />
-          </template>,
-        );
-        // then
-        assert
-          .dom(screen.queryByLabelText(t('pages.campaign-creation.landing-page-text.label'), { exact: false }))
-          .doesNotExist();
-      });
-
-      test(`it has ${campaignType.status} checked`, async function (assert) {
-        // given
-        data.campaign.type = campaignType.status;
-        data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
-
-        // when
-        const screen = await render(
-          <template>
-            <CreateForm
-              @campaign={{data.campaign}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{data.errors}}
-              @membersSortedByFullName={{data.defaultMembers}}
-            />
-          </template>,
-        );
-
-        // then
-        assert.dom(screen.getByLabelText(t(campaignType.purpose))).isChecked();
-      });
-
-      test("it displays owner fields and auto complete owner field with owner's full name", async function (assert) {
-        // given
-        data.campaign.type = campaignType.status;
-        data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
-
-        // when
-        const screen = await render(
-          <template>
-            <CreateForm
-              @campaign={{data.campaign}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{data.errors}}
-              @membersSortedByFullName={{data.defaultMembers}}
-            />
-          </template>,
-        );
-
-        assert.dom(screen.getByText(t('pages.campaign-creation.owner.info'))).exists();
-        assert.dom(screen.getAllByText(t('pages.campaign-creation.owner.title'))[0]).exists();
-        await click(screen.getByLabelText(t('pages.campaign-creation.owner.label'), { exact: false }));
-
-        await screen.findByRole('listbox');
-
-        // then
-        assert.dom(screen.getByRole('option', { name: 'Adam Troisjour', selected: true })).exists();
-      });
-
-      test('it fills course fields', async function (assert) {
-        // given
-        data.campaign.type = campaignType.status;
-        data.campaign.course = store.createRecord('course', { type: 'targetProfile', name: 'yolo' });
-
-        // when
-        const screen = await render(
-          <template>
-            <CreateForm
-              @campaign={{data.campaign}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{data.errors}}
-              @membersSortedByFullName={{data.defaultMembers}}
-            />
-          </template>,
-        );
-
-        // then
-        assert
-          .dom(
-            screen.getByRole('heading', {
-              name: data.campaign.course.name,
-            }),
-          )
-          .exists();
-      });
-
-      test('it fills multiple sendings fields', async function (assert) {
-        // given
-        data.campaign.type = campaignType.status;
-        data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
-        data.prescriber.features.MULTIPLE_SENDING_ASSESSMENT = { active: true, params: null };
-        data.campaign.multipleSendings = true;
-        // when
-        const screen = await render(
-          <template>
-            <CreateForm
-              @campaign={{data.campaign}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{data.errors}}
-              @membersSortedByFullName={{data.defaultMembers}}
-            />
-          </template>,
-        );
-
-        // then
-        const radiogroup = screen.getByRole('radiogroup', {
-          name: t('pages.campaign-creation.multiple-sendings.assessments.question-label'),
+        const course = store.createRecord('course', {
+          id: '1',
+          name: 'targetProfile1',
+          type: 'targetProfile',
+          nbTubes: 3,
+          isSimplifiedAccess: true,
         });
-        assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
-      });
+        data.campaign.course = course;
 
-      test('it explains which informations will be visible to organization-learners', async function () {
-        // given
-        data.campaign.type = campaignType.status;
-        data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
         // when
         const screen = await render(
           <template>
@@ -395,73 +530,22 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         );
 
         // then
-        const testTitleSublabel = screen.getAllByLabelText(t('pages.campaign-creation.landing-page-text.sublabel'), {
-          exact: false,
-        })[0];
-        const landingPageSublabel = screen.getAllByLabelText(t('pages.campaign-creation.landing-page-text.sublabel'), {
-          exact: false,
-        })[1];
-
-        assert.ok(testTitleSublabel);
-        assert.ok(landingPageSublabel);
+        assert.dom(screen.getByText(t('pages.catalogue.card.tag.target-profile'))).exists();
+        assert.dom(screen.getByRole('heading', { name: course.name })).exists();
+        assert.dom(screen.getByText(t('pages.catalogue.card.tubes-count', { count: course.nbTubes }))).exists();
+        assert.dom(screen.getByText(t('pages.catalogue.card.simplified-access'))).exists();
       });
 
-      test('it displays fields for campaign title', async function (assert) {
-        // given
-        data.campaign.type = campaignType.status;
-        data.campaign.course = store.createRecord('course', { type: 'targetProfile' });
-
-        // when
-        const screen = await render(
-          <template>
-            <CreateForm
-              @campaign={{data.campaign}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{data.errors}}
-              @membersSortedByFullName={{data.defaultMembers}}
-            />
-          </template>,
-        );
-        await clickByName(t(campaignType.purpose));
-
-        // then
-        assert.dom(screen.getByText(t('pages.campaign-creation.test-title.label'))).exists();
-        assert.dom(screen.getByText(t('pages.campaign-creation.purpose.label'))).exists();
-      });
-
-      test(`it displays the purpose explanation of an ${campaignType.status} campaign`, async function (assert) {
-        // when
-        const screen = await render(
-          <template>
-            <CreateForm
-              @campaign={{data.campaign}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{data.errors}}
-              @membersSortedByFullName={{data.defaultMembers}}
-            />
-          </template>,
-        );
-        await clickByName(t(campaignType.purpose));
-
-        // then
-        assert.dom(screen.getByText(t(campaignType.explanation))).exists();
-      });
-
-      module('when the user has selected a course', function () {
-        test('it displays informations about the course', async function (assert) {
+      module('when the user wants to select another course', function () {
+        test('it redirects to /catalogue/targetProfile', async function (assert) {
           // given
-
-          const course = store.createRecord('course', {
+          data.campaign.course = store.createRecord('course', {
             id: '1',
             name: 'targetProfile1',
             type: 'targetProfile',
             nbTubes: 3,
             isSimplifiedAccess: true,
           });
-          data.campaign.course = course;
-          data.campaign.type = campaignType.status;
 
           // when
           const screen = await render(
@@ -477,43 +561,9 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
           );
 
           // then
-          assert.dom(screen.getByText(t('pages.catalogue.card.tag.target-profile'))).exists();
-          assert.dom(screen.getByRole('heading', { name: course.name })).exists();
-          assert.dom(screen.getByText(t('pages.catalogue.card.tubes-count', { count: course.nbTubes }))).exists();
-          assert.dom(screen.getByText(t('pages.catalogue.card.simplified-access'))).exists();
-        });
-
-        module('when the user wants to select another course', function () {
-          test('it redirects to /catalogue/targetProfile', async function (assert) {
-            // given
-
-            data.campaign.course = store.createRecord('course', {
-              id: '1',
-              name: 'targetProfile1',
-              type: 'targetProfile',
-              nbTubes: 3,
-              isSimplifiedAccess: true,
-            });
-            data.campaign.type = campaignType.status;
-
-            // when
-            const screen = await render(
-              <template>
-                <CreateForm
-                  @campaign={{data.campaign}}
-                  @onSubmit={{createCampaignSpy}}
-                  @onCancel={{cancelSpy}}
-                  @errors={{data.errors}}
-                  @membersSortedByFullName={{data.defaultMembers}}
-                />
-              </template>,
-            );
-
-            // then
-            assert
-              .dom(screen.getByRole('link', { name: t('pages.campaign-creation.course-selection-label') }))
-              .hasAttribute('href', '/catalogue/targetProfile');
-          });
+          assert
+            .dom(screen.getByRole('link', { name: t('pages.campaign-creation.course-selection-label') }))
+            .hasAttribute('href', '/catalogue/targetProfile');
         });
       });
     });

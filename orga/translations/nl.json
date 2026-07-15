@@ -751,6 +751,9 @@
       "copy-of": "Kopie van",
       "course-label": "Selecteer een traject",
       "course-selection-label": "Selecteer een traject",
+      "exam-mode": {
+        "label": "Wil je de vraagmodus activeren?"
+      },
       "external-id-label": {
         "label": "Type externe user-ID",
         "question-label": "Wil je een externe gebruikers-ID aanvragen?",

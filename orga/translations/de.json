@@ -751,6 +751,9 @@
       "copy-of": "Kopieren von",
       "course-label": "Einen Kurs auswählen",
       "course-selection-label": "Einen Kurs auswählen",
+      "exam-mode": {
+        "label": "Möchten Sie den Testmodus aktivieren?"
+      },
       "external-id-label": {
         "label": "Bezeichnung der Kennung",
         "question-label": "Möchten Sie eine externe Kennung beantragen?",
