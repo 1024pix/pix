@@ -1,5 +1,18 @@
 # Pix Changelog
 
+# [5.456.0](https://github.com/1024pix/pix/compare/v5.455.0...v5.456.0) (2026-07-15)
+
+### :rocket: Amélioration
+
+- [#16759](https://github.com/1024pix/pix/pull/16759) #MDX-104 NR_Evaluation_NOV, relecture MGO
+- [#16778](https://github.com/1024pix/pix/pull/16778) Afficher la bannière pour prévenir de la fermeture des espaces SCO (PIX-23528).
+- [#16795](https://github.com/1024pix/pix/pull/16795) inte-retours-IA-droit-auteur-ind
+- [#16796](https://github.com/1024pix/pix/pull/16796) Sauvegarder les nouveaux champs du formulaire de satisfaction (PIX-23540) (PIX-23539)
+
+### :bug: Correction
+
+- [#16780](https://github.com/1024pix/pix/pull/16780) Fix du tri de la liste frameworkHistory (PIX-23516)
+
 # [5.455.0](https://github.com/1024pix/pix/compare/v5.454.0...v5.455.0) (2026-07-14)
 
 ### :rocket: Amélioration
