@@ -152,7 +152,10 @@ function _createSuperAdmin(databaseBuilder) {
     lastName: 'Admin',
     email: 'superadmin@example.net',
   });
-  databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN_ID, role: ROLES.SUPER_ADMIN });
+  databaseBuilder.factory.buildPixAdminRole({
+    userId: REAL_PIX_SUPER_ADMIN_ID,
+    role: ROLES.SUPER_ADMIN,
+  });
   acceptPixOrgaTermsOfService(databaseBuilder, REAL_PIX_SUPER_ADMIN_ID);
 }
 
@@ -223,6 +226,12 @@ function createClientApplications(databaseBuilder) {
     clientSecret: 'maddo-secret',
     scopes: ['meta', 'campaigns'],
     jurisdiction: { rules: [{ name: 'tags', value: [COLLEGE_TAG.name] }] },
+  });
+  databaseBuilder.factory.buildClientApplication({
+    name: 'men-dashboard-client-application',
+    clientId: 'men-dashboard',
+    clientSecret: 'men-dashboard-secret',
+    scopes: ['men-dashboard'],
   });
   databaseBuilder.factory.buildClientApplication({
     name: 'poc-llm',
