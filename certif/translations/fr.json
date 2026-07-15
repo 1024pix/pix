@@ -295,6 +295,9 @@
       "page-title": "Déconnexion"
     },
     "sco": {
+      "banner": {
+        "information": "Conformément au calendrier ministériel de passage des Certifications Pix, les accès à la plateforme Pix Certif des collèges et des lycées vont être suspendus à partir du <strong>{suspensionDate}</strong>. Pensez à finaliser dès que possible vos sessions de l’année."
+      },
       "enrol-candidates-in-session": {
         "certification-candidates-sco": {
           "actions": {
