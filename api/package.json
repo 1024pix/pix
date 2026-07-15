@@ -57,7 +57,7 @@
     "lint:js:uncached": "eslint .",
     "lint:format": "oxfmt --check",
     "lint:format:fix": "oxfmt",
-    "postdeploy": "DEBUG=knex:query npm run db:migrate",
+    "postdeploy": "DEBUG=knex:query npm run db:migrate && ./install-pgbench.sh",
     "postdeploy:datamart": "DEBUG=knex:query npm run datamart:create && DEBUG=knex:query npm run datamart:migrate",
     "postdeploy:maddo": "node scripts/wait-for-api-deployment && npm run datamart:migrate",
     "scalingo-postbuild": "node scripts/generate-cron > cron.json && node scripts/generate-procfile",
