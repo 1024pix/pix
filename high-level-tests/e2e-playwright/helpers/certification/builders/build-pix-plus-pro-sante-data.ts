@@ -1,6 +1,7 @@
 import { Knex } from 'knex';
 
 import { CERTIFICATIONS_DATA } from '../../db-data.ts';
+import { buildVersionTubes } from './build-version-tubes.ts';
 
 export async function buildPixPlusProSanteData(knex: Knex) {
   const [{ id: versionId }] = await knex('certification_versions')
@@ -44,6 +45,8 @@ export async function buildPixPlusProSanteData(knex: Knex) {
       versionId,
     });
   }
+
+  await buildVersionTubes(knex, versionId);
 }
 
 function* generateBoundedValue(min: number, max: number, step: number) {

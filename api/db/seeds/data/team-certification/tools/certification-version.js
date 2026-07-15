@@ -48,8 +48,22 @@ export async function createVersion({
   return createdVersion;
 }
 
-export async function linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds, versionId }) {
+export async function seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId }) {
+  if (challengeIds.length === 0) {
+    return;
+  }
+
   for (const challengeId of challengeIds) {
     databaseBuilder.factory.buildCertificationFrameworksChallenge({ challengeId, versionId });
+  }
+
+  const tubeIds = await databaseBuilder
+    .knex({ skills: 'learningcontent.skills' })
+    .join({ challenges: 'learningcontent.challenges' }, 'challenges.skillId', 'skills.id')
+    .whereIn('challenges.id', challengeIds)
+    .pluck('skills.tubeId');
+
+  for (const tubeId of new Set(tubeIds)) {
+    databaseBuilder.factory.buildCertificationVersionTube({ tubeId, versionId });
   }
 }

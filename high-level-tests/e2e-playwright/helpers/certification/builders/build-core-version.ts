@@ -1,5 +1,7 @@
 import { Knex } from 'knex';
 
+import { buildVersionTubes } from './build-version-tubes.ts';
+
 const competencesScoringValues = [
   { bounds: { max: -2, min: -9007199254740991 }, competenceLevel: 0 },
   { bounds: { max: -1, min: -2 }, competenceLevel: 1 },
@@ -76,6 +78,8 @@ export async function buildCoreVersion(knex: Knex) {
       versionId,
     });
   }
+
+  await buildVersionTubes(knex, versionId);
 }
 
 function* generateBoundedValue(min: number, max: number, step: number) {
