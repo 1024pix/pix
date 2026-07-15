@@ -6,7 +6,7 @@ import { userCampaignSurveyController } from './user-campaign-survey-controller.
 const register = async function (server) {
   server.route([
     {
-      method: 'POST',
+      method: 'PUT',
       path: '/api/user-campaign-surveys',
       config: {
         handler: userCampaignSurveyController.saveUserCampaignSurvey,
@@ -17,6 +17,10 @@ const register = async function (server) {
               attributes: Joi.object({
                 'campaign-id': identifiersType.campaignId.required(),
                 'satisfaction-score': Joi.number().integer().min(1).max(5).required(),
+                'usefulness-score': Joi.number().integer().min(1).max(5).optional(),
+                'personalization-score': Joi.number().integer().min(1).max(5).optional(),
+                'attractiveness-score': Joi.number().integer().min(1).max(5).optional(),
+                comment: Joi.string().allow(null, '').optional(),
               }).required(),
             }).required(),
           }).required(),
