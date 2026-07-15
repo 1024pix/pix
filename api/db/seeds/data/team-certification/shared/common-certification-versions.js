@@ -5,7 +5,7 @@ import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../src/certificati
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
-import { createVersion, linkChallengesAndVersionFromTubeIds } from '../tools/certification-version.js';
+import { createVersion, seedVersionChallengesAndTubes } from '../tools/certification-version.js';
 import { UnseedableError } from './UnseedableError.js';
 /**
  * @property {{ expiredVersionId: string, currentVersionId: string }} coreVersion
@@ -85,7 +85,7 @@ export class CommonCertificationVersions {
           ],
           competencesScoringConfiguration: null,
         });
-        await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+        await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
 
         await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
         this.pixPlusDroitVersion.currentVersionId = currentVersion.id;
@@ -126,7 +126,7 @@ export class CommonCertificationVersions {
           competencesScoringConfiguration: null,
         });
 
-        await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+        await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
 
         await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
 
@@ -167,7 +167,7 @@ export class CommonCertificationVersions {
           competencesScoringConfiguration: null,
         });
 
-        await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+        await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
 
         await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
 
@@ -273,7 +273,7 @@ export class CommonCertificationVersions {
       globalScoringConfiguration: [{ bounds: { max: 8, min: 1 }, meshLevel: 0 }],
       competencesScoringConfiguration: null,
     });
-    await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds: [], versionId: expiredVersion.id });
+    await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds: [], versionId: expiredVersion.id });
 
     await databaseBuilder.commit();
 
@@ -320,7 +320,7 @@ export class CommonCertificationVersions {
       globalScoringConfiguration: GLOBAL_SCORING_CONFIGURATION,
       competencesScoringConfiguration,
     });
-    await linkChallengesAndVersionFromTubeIds({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+    await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
 
     await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
 
