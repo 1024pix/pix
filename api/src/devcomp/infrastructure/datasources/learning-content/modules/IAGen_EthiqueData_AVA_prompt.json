@@ -152,16 +152,23 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Oui.",
                           "feedback": {
                             "diagnosis": "<p>Eh non. Ici ce prompt est très simple, on ne peut pas dire que Natacha fasse preuve de créativité.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non ",
+                          "content": "Non.",
                           "feedback": {
                             "diagnosis": "<p>En effet&nbsp;! Ici ce prompt est très simple, on ne peut pas dire que Natacha fasse preuve de créativité.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Je ne sais pas.",
+                          "feedback": {
+                            "diagnosis": "<p>Ici ce prompt est très simple, on ne peut pas dire que Natacha fasse preuve de créativité.</p>"
                           }
                         }
                       ],
@@ -202,21 +209,28 @@
                     {
                       "id": "bdc43e6a-b205-4b23-9f25-b42c70546330",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Selon vous, Jeanne a-t-elle fait un effort créatif pour créer le logo ?</p>",
+                      "instruction": "<p>Selon vous, Jeanne a-t-elle fait un effort créatif pour créer le logo&nbsp;?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Oui.",
                           "feedback": {
                             "diagnosis": "<p>Bien vu&nbsp;! Dans ce prompt, Jeanne montre déjà des choix d’orientation, de style, etc.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "Non.",
                           "feedback": {
                             "diagnosis": "<p>Eh si&nbsp;! Dans ce prompt, Jeanne montre déjà des choix d’orientation, de style, etc.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Je ne sais pas.",
+                          "feedback": {
+                            "diagnosis": "<p>Dans ce prompt, Jeanne montre déjà des choix d’orientation, de style, etc. Elle fait donc preuve de créativité.</p>"
                           }
                         }
                       ],
@@ -262,16 +276,23 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Oui.",
                           "feedback": {
                             "diagnosis": "<p>Eh non&nbsp;! Les modifications sont ici trop limitées pour être considérées comme un apport créatif réel ! Maé n’a pas fait de choix esthétiques, il a juste changé la taille de l’image.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "Non.",
                           "feedback": {
                             "diagnosis": "<p>Bien joué&nbsp;! Les modifications sont ici trop limitées pour être considérées comme un apport créatif réel ! Maé n’a pas fait de choix esthétiques, il a juste changé la taille de l’image.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Je ne sais pas.",
+                          "feedback": {
+                            "diagnosis": "<p>Les modifications sont ici trop limitées pour être considérées comme un apport créatif réel ! Maé n’a pas fait de choix esthétiques, il a juste changé la taille de l’image.</p>"
                           }
                         }
                       ],
@@ -379,16 +400,23 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Oui.",
                           "feedback": {
                             "diagnosis": "<p>Eh bien non&nbsp;! Ici, Simon demande d’<strong>imiter </strong>le style d’une autrice identifiable. L’univers d’Harry Potter est également <strong>protégé</strong> par le droit d’auteur. Le texte généré risque d’être trop proche d’une œuvre existante et protégée, ce qui peut être qualifié de <strong>contrefaçon</strong>, c’est-à-dire d'atteinte au droit d’auteur.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "Non.",
                           "feedback": {
                             "diagnosis": "<p>Effectivement&nbsp;! Ici, Simon demande <strong>d’imiter</strong> le style d’une autrice identifiable. L’univers d’Harry Potter est également <strong>protégé</strong> par le droit d’auteur. Le texte généré risque d’être trop proche d’une œuvre existante et protégée, ce qui peut être qualifié de <strong>contrefaçon</strong>, c’est-à-dire d'atteinte au droit d’auteur.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Je ne sais pas.",
+                          "feedback": {
+                            "diagnosis": "<p>Ici, Simon demande d’<strong>imiter </strong>le style d’une autrice identifiable. L’univers d’Harry Potter est également <strong>protégé</strong> par le droit d’auteur. Le texte généré risque d’être trop proche d’une œuvre existante et protégée, ce qui peut être qualifié de <strong>contrefaçon</strong>, c’est-à-dire d'atteinte au droit d’auteur.</p>"
                           }
                         }
                       ],
@@ -434,16 +462,23 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Oui.",
                           "feedback": {
                             "diagnosis": "<p>Eh non&nbsp;! La demande de Jean-Yves vise une <strong>reproduction quasi identique</strong> d’une photographie existante qui est protégée, ce qui porte atteinte au droit d’auteur.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "Non.",
                           "feedback": {
                             "diagnosis": "<p>Effectivement&nbsp;! La demande de Jean-Yves vise une <strong>reproduction quasi identique</strong> d’une photographie existante et protégée, ce qui porte atteinte au droit d’auteur.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Je ne sais pas.",
+                          "feedback": {
+                            "diagnosis": "<p>La demande de Jean-Yves vise une <strong>reproduction quasi identique</strong> d’une photographie existante qui est protégée, ce qui porte atteinte au droit d’auteur.</p>"
                           }
                         }
                       ],
@@ -480,25 +515,32 @@
                       "type": "text",
                       "tag": " ",
                       "content": "<p>Arthur souhaite commercialiser cette application.</p>"
-                    },                    
+                    },
                     {
                       "id": "654f8747-907b-4371-87d7-5e1e72e86fd7",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Selon vous, Arthur respecte-t-il le droit d'auteur&nbsp:?</p>",
+                      "instruction": "<p>Selon vous, Arthur respecte-t-il le droit d'auteur&nbsp;:?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Oui",
+                          "content": "Oui.",
                           "feedback": {
                             "diagnosis": "<p>Eh non. Le code informatique est <strong>protégé par le droit d’auteur</strong>. Avant de réutiliser ce code, Arthur doit vérifier s’il est autorisé à l’utiliser, le modifier ou à le partager. Arthur doit aussi respecter les <strong>conditions</strong> prévues pour l’utilisation de ce code. Sinon, il enfreint le droit d’auteur.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "Non",
+                          "content": "Non.",
                           "feedback": {
                             "diagnosis": "<p>Bien joué&nbsp;! Le code informatique est <strong>protégé par le droit d’auteur</strong>. Avant de réutiliser ce code, Arthur doit vérifier s’il est autorisé à l’utiliser, le modifier ou à le partager. Arthur doit aussi respecter les <strong>conditions</strong> prévues pour l’utilisation de ce code. Sinon, il enfreint le droit d’auteur.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "Je ne sais pas.",
+                          "feedback": {
+                            "diagnosis": "<p>Le code informatique est <strong>protégé par le droit d’auteur</strong>. Avant de réutiliser ce code, Arthur doit vérifier s’il est autorisé à l’utiliser, le modifier ou à le partager. Arthur doit aussi respecter les <strong>conditions</strong> prévues pour l’utilisation de ce code. Sinon, il enfreint le droit d’auteur.</p>"
                           }
                         }
                       ],
