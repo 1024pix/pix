@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/CYphishingava/picto_cyber_phishing_ava.svg",
-    "description": "<p>Alors que les systèmes informatiques sont de mieux en mieux protégés et techniquement robustes, il suffit parfois à des cyberattaquants de convaincre une personne d’agir volontairement contre ses propres intérêts pour arriver à leurs fins.🔓<br>Dans ce module, découvrez les mécanismes des attaques par ingénierie sociale et les différentes formes qu’elles peuvent prendre.<br><br><em>Module produit en partenariat avec cybermalveillance.gouv.fr.</em></p>",
+    "description": "<p>Alors que les systèmes informatiques sont de mieux en mieux protégés et techniquement robustes, il suffit parfois à des auteurs de cyberattaque de convaincre une personne d’agir volontairement contre ses propres intérêts pour arriver à leurs fins.🔓<br>Dans ce module, découvrez les mécanismes des attaques par ingénierie sociale et les différentes formes qu’elles peuvent prendre.<br><br><em>Module produit en partenariat avec cybermalveillance.gouv.fr.</em></p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -65,7 +65,7 @@
               "element": {
                 "id": "c9b08416-e55d-425e-bf06-5aa6c3250fa1",
                 "type": "qcu-discovery",
-                "instruction": "<p>De quelle faille de l’entreprise les cyberattaquants ont-ils profité ?</p>",
+                "instruction": "<p>De quelle faille de l’entreprise les auteurs de cyberattaque ont-ils profité ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -425,7 +425,7 @@
                 "id": "8a36d6e6-ab1b-4ff5-8260-a2baa62ff833",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Dans les attaques reposant sur l’ingénierie sociale, les cyberattaquants exploitent des <strong>biais cognitifs communs aux êtres humains</strong>&nbsp;: des raccourcis de pensée qui <strong>influencent nos décisions</strong> dans le sens souhaité par les attaquants. 🧠</p><p>Parmi les biais cognitifs les plus exploités, il y a&nbsp;:&nbsp; </p><ul><li>le <strong>biais de cadrage </strong>: la manière dont l’information est présentée influence la réaction du destinataire,</li><li>le <strong>biais de coût irrécupérable</strong>&nbsp;: le fait de poursuivre une action pour ne pas “perdre” ce qui a déjà été investi,</li><li>le <strong>biais d’empathie</strong>&nbsp;: l’émotion forte, ressentie pour l’autre, prend le dessus sur la réflexion.</li></ul>"
+                "content": "<p>Dans les attaques reposant sur l’ingénierie sociale, les auteurs de cyberattaque exploitent des <strong>biais cognitifs communs aux êtres humains</strong>&nbsp;: des raccourcis de pensée qui <strong>influencent nos décisions</strong> dans le sens souhaité par les . 🧠</p><p><br>Parmi les biais cognitifs les plus exploités, il y a&nbsp;:&nbsp; </p><ul><li>le <strong>biais de cadrage </strong>: la manière dont l’information est présentée influence la réaction du destinataire,</li><li>le <strong>biais de coût irrécupérable</strong>&nbsp;: le fait de poursuivre une action pour ne pas “perdre” ce qui a déjà été investi,</li><li>le <strong>biais d’empathie</strong>&nbsp;: l’émotion forte, ressentie pour l’autre, prend le dessus sur la réflexion.</li></ul>"
               }
             },
             {
