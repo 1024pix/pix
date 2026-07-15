@@ -6,7 +6,7 @@ class ModuleRepository extends LearningContentRepository {
     super({ tableName: 'learningcontent.modules' });
   }
 
-  toDto({ id, shortId, slug, title, isBeta, sections, details, visibility, glossary }) {
+  toDto({ id, shortId, slug, title, isBeta, sections, details, visibility, glossary, version }) {
     return {
       id,
       shortId,
@@ -16,6 +16,7 @@ class ModuleRepository extends LearningContentRepository {
       sections: JSON.stringify(sections),
       visibility,
       glossary: JSON.stringify(glossary),
+      version,
       ...details,
     };
   }
