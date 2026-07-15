@@ -247,7 +247,7 @@
             },
             {
               "type": "stepper",
-              "instruction": "<p><strong>Explorez les images suivantes pour voir l’évolution entre un centre de données avec peu de serveurs et un centre de données avec de nombreux serveurs.</strong></p>",
+              "instruction": "<p><strong>Explorez les images suivantes pour voir l’évolution entre un centre de données avec peu de serveurs et un centre de données avec de nombreux serveurs. Prenez le temps de cliquer sur les puces cliquables puis répondez à la question en dessous.</strong></p>",
               "steps": [
                 {
                   "elements": [
