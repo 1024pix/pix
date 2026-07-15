@@ -20,7 +20,7 @@ const register = async function (server) {
             data: Joi.object({
               attributes: Joi.object({
                 'module-id': Joi.string().required(),
-                'module-version': Joi.string().length(64).required(),
+                'module-version': Joi.string().required(),
                 'sequence-number': Joi.number().valid(1).required(),
                 'occurred-at': Joi.number().min(ARBITRARY_MIN_TIMESTAMP).required(),
               }).required(),
