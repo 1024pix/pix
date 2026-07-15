@@ -1,3 +1,4 @@
+import { knex } from '../../../../db/knex-database-connection.js';
 import { clearCache } from '../../../devcomp/infrastructure/repositories/module-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
@@ -23,6 +24,10 @@ class ModuleRepository extends LearningContentRepository {
 
   clearCache(id) {
     clearCache(id);
+  }
+
+  list() {
+    return knex('learningcontent.modules').select('*');
   }
 }
 
