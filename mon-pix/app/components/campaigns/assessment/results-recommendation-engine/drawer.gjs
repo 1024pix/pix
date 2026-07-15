@@ -56,6 +56,8 @@ export default class Drawer extends Component {
 
   @action
   hide() {
+    this.args.onHide?.();
+
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       this.finishHiding();
       return;

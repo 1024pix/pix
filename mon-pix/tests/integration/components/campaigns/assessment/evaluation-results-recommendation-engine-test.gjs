@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { click, settled } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import EvaluationResultsRecommendationEngine from 'mon-pix/components/routes/campaigns/assessment/evaluation-results-recommendation-engine';
 import { module, test } from 'qunit';
@@ -21,7 +22,21 @@ module(
       });
     });
 
-    module('when campaign has trainings', function () {
+    module('when campaign has trainings', function (hooks) {
+      let observerCallback;
+      let observerInstance;
+
+      hooks.beforeEach(function () {
+        observerInstance = {
+          observe: sinon.stub(),
+          disconnect: sinon.stub(),
+        };
+
+        window.IntersectionObserver = function (callback) {
+          observerCallback = callback;
+          return observerInstance;
+        };
+      });
       test('should display trainings', async function (assert) {
         // given
         const training = store.createRecord('training', {
@@ -53,21 +68,6 @@ module(
       });
 
       module('tracking', function (hooks) {
-        let observerCallback;
-        let observerInstance;
-
-        hooks.beforeEach(function () {
-          observerInstance = {
-            observe: sinon.stub(),
-            disconnect: sinon.stub(),
-          };
-
-          window.IntersectionObserver = function (callback) {
-            observerCallback = callback;
-            return observerInstance;
-          };
-        });
-
         hooks.afterEach(function () {
           delete window.IntersectionObserver;
           sinon.restore();
@@ -101,6 +101,83 @@ module(
           sinon.assert.calledWith(pixMetrics.trackEvent, 'Moteur de reco - affichage du feedback NPS');
           assert.ok(true);
         });
+      });
+
+      module('when user has already answered to survey', function () {
+        test('it should not display drawer, nor expand the padding-bottom when trainings become visible', async function (assert) {
+          // given
+          const training = store.createRecord('training', {
+            title: 'Super training',
+            duration: { days: 1, hours: 1, minutes: 1 },
+          });
+
+          const model = {
+            campaign,
+            campaignParticipationResult: {
+              campaignParticipationBadges: [Symbol('badges')],
+              competenceResults: [Symbol('competences')],
+              reload: () => {},
+            },
+            trainings: [training],
+            hasAnsweredSurvey: true,
+          };
+
+          // when
+          const screen = await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+          observerCallback([{ isIntersecting: true }]);
+          await settled();
+
+          // then
+          assert
+            .dom(screen.queryByRole('dialog', { name: t('pages.skill-review.recommended-engine.drawer.title') }))
+            .doesNotExist();
+          assert
+            .dom(screen.getByRole('main'))
+            .doesNotHaveClass('evaluation-results-recommendation-engine--drawer-expanded');
+        });
+      });
+
+      test('it should display the drawer and expand the padding-bottom, then collapse them when user hides survey', async function (assert) {
+        // given
+        const training = store.createRecord('training', {
+          title: 'Super training',
+          duration: { days: 1, hours: 1, minutes: 1 },
+        });
+
+        const model = {
+          campaign,
+          campaignParticipationResult: {
+            campaignParticipationBadges: [Symbol('badges')],
+            competenceResults: [Symbol('competences')],
+            reload: () => {},
+          },
+          trainings: [training],
+        };
+
+        // when
+        const screen = await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+
+        // then
+        assert
+          .dom(screen.getByRole('main'))
+          .doesNotHaveClass('evaluation-results-recommendation-engine--drawer-expanded');
+
+        // when
+        observerCallback([{ isIntersecting: true }]);
+        await settled();
+
+        // then
+        assert.dom(screen.getByRole('main')).hasClass('evaluation-results-recommendation-engine--drawer-expanded');
+
+        // when
+        await click(
+          screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide-aria-label') }),
+        );
+
+        // then
+        assert
+          .dom(screen.getByRole('main'))
+          .doesNotHaveClass('evaluation-results-recommendation-engine--drawer-expanded');
       });
     });
 

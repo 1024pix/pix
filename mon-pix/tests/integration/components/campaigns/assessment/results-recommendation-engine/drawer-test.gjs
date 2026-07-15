@@ -88,6 +88,42 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
         // then
         assert.dom(screen.queryByText(t('pages.skill-review.recommended-engine.drawer.statement'))).doesNotExist();
       });
+
+      test('it calls onHide as soon as the button is clicked, before the animation ends', async function (assert) {
+        // given
+        const onHide = sinon.stub();
+        const screen = await render(<template><Drawer @campaignId={{1}} @onHide={{onHide}} /></template>);
+
+        // when
+        await click(
+          screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide-aria-label') }),
+        );
+
+        // then
+        sinon.assert.calledOnce(onHide);
+        assert.ok(true);
+      });
+
+      module('when user prefers reduced motion', function (hooks) {
+        hooks.beforeEach(function () {
+          this.matchMediaStub.returns({ matches: true });
+        });
+
+        test('the drawer is removed without waiting for an animationend event', async function (assert) {
+          // given
+          const onHide = sinon.stub();
+          const screen = await render(<template><Drawer @campaignId={{1}} @onHide={{onHide}} /></template>);
+
+          // when
+          await click(
+            screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.drawer.hide-aria-label') }),
+          );
+
+          // then
+          assert.dom(screen.queryByText(t('pages.skill-review.recommended-engine.drawer.statement'))).doesNotExist();
+          sinon.assert.calledOnce(onHide);
+        });
+      });
     });
   });
 
