@@ -751,6 +751,9 @@
       "copy-of": "Copy of",
       "course-label": "Select a course",
       "course-selection-label": "Select a course",
+      "customization": {
+        "title": "Customization"
+      },
       "exam-mode": {
         "label": "Do you want to enable exam mode?"
       },
@@ -802,6 +805,9 @@
         "profiles-collection": "Collect the participants' Pix profiles",
         "profiles-collection-info": "A profile collection campaign retrieves the participants’ Pix profile: their level for each competence and their pix score.",
         "profiles-collection-info-certificability-calculation": "The “Eligible for certification” status is updated automatically in the '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Students'</a>' tab."
+      },
+      "settings": {
+        "title": "Settings"
       },
       "tags": {
         "BACK_TO_SCHOOL": "Back to school",

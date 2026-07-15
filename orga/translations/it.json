@@ -751,6 +751,9 @@
       "copy-of": "Copia di",
       "course-label": "Seleziona un corso",
       "course-selection-label": "Selezionare un corso",
+      "customization": {
+        "title": "Personalizzazione"
+      },
       "exam-mode": {
         "label": "Desiderate attivare la modalità di interrogazione?"
       },
@@ -802,6 +805,9 @@
         "profiles-collection": "Raccogliere i profili Pix dei partecipanti",
         "profiles-collection-info": "Una campagna di raccolta di profili viene utilizzata per recuperare il profilo dei partecipanti: livelli per abilità e punteggio pix.",
         "profiles-collection-info-certificability-calculation": "Lo stato di certificabilità viene aggiornato automaticamente nella scheda '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Studenti'</a>'."
+      },
+      "settings": {
+        "title": "Impostazioni"
       },
       "tags": {
         "BACK_TO_SCHOOL": "Corso di ritorno a scuola / 6e",

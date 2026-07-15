@@ -751,6 +751,9 @@
       "copy-of": "Kopieren von",
       "course-label": "Einen Kurs auswählen",
       "course-selection-label": "Einen Kurs auswählen",
+      "customization": {
+        "title": "Anpassung"
+      },
       "exam-mode": {
         "label": "Möchten Sie den Testmodus aktivieren?"
       },
@@ -802,6 +805,9 @@
         "profiles-collection": "Sammeln Sie die Pix-Profile der Teilnehmer",
         "profiles-collection-info": "Eine Profilsammelkampagne ruft die Profile der Teilnehmer ab: Niveaustufen pro Fertigkeit und Pix-Score.",
         "profiles-collection-info-certificability-calculation": "Der Status Zertifizierbar wird automatisch auf der Registerkarte '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Schüler'</a>' aktualisiert."
+      },
+      "settings": {
+        "title": "Einstellungen"
       },
       "tags": {
         "BACK_TO_SCHOOL": "Parcours zum Schulanfang / 6. Klasse",

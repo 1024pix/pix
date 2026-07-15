@@ -751,6 +751,9 @@
       "copy-of": "Kopie van",
       "course-label": "Selecteer een traject",
       "course-selection-label": "Selecteer een traject",
+      "customization": {
+        "title": "Personalisatie"
+      },
       "exam-mode": {
         "label": "Wil je de vraagmodus activeren?"
       },
@@ -802,6 +805,9 @@
         "profiles-collection": "Pix-profielen van deelnemers verzamelen",
         "profiles-collection-info": "Een campagne voor het verzamelen van profielen wordt gebruikt om het profiel van de deelnemers te achterhalen: niveaus per vaardigheid en pix-score.",
         "profiles-collection-info-certificability-calculation": "De certificeerbare status wordt automatisch bijgewerkt in het tabblad '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Studenten'</a>'."
+      },
+      "settings": {
+        "title": "Instellingen"
       },
       "tags": {
         "BACK_TO_SCHOOL": "Terug naar school cursus / 6e",

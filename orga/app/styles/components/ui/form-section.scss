@@ -1,0 +1,13 @@
+@use 'pix-design-tokens/typography';
+
+.form-section {
+  & + & {
+    margin-top: var(--pix-spacing-6x);
+  }
+
+  &__title {
+    @extend %pix-subtitle-l;
+
+    margin-bottom: var(--pix-spacing-6x);
+  }
+}

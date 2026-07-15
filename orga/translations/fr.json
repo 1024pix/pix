@@ -751,6 +751,9 @@
       "copy-of": "Copie de",
       "course-label": "Sélectionnez un parcours",
       "course-selection-label": "Sélectionner un parcours",
+      "customization": {
+        "title": "Personnalisation"
+      },
       "exam-mode": {
         "label": "Souhaitez-vous activer le mode interro ?"
       },
@@ -802,6 +805,9 @@
         "profiles-collection": "Collecter les profils Pix des participants",
         "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix.",
         "profiles-collection-info-certificability-calculation": "Le statut Certifiable est mis à jour automatiquement dans l’onglet '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Élèves'</a>'."
+      },
+      "settings": {
+        "title": "Paramétrage"
       },
       "tags": {
         "BACK_TO_SCHOOL": "Parcours de rentrée / 6e",
