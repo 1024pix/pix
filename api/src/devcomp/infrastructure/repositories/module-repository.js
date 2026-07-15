@@ -72,6 +72,7 @@ async function list({ moduleDatasource } = {}) {
 export { getById, getByShortId, getBySlug, list };
 
 function _computeModuleVersion(moduleData) {
+  if ('version' in moduleData) return moduleData.version;
   const hash = crypto.createHash('sha256');
   hash.update(JSON.stringify(moduleData));
   return hash.copy().digest('hex');
