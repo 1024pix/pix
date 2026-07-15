@@ -24,7 +24,16 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content'
       const courses = Symbol('courses');
       const tutorials = Symbol('tutorials');
       const missions = Symbol('missions');
-      const modules = Symbol('modules');
+      const modules = [
+        // cas de recette
+        { id: 'moduleA', version: '1.0' },
+        { id: 'moduleB', version: '2.0' },
+        { id: 'moduleC', version: '1.0' },
+
+        // cas de prod
+        { id: 'moduleD', version: '3.0' },
+        { id: 'moduleE', version: '1.0' },
+      ];
 
       const lcmsClient = {
         getRelease: sinon.stub().resolves({
@@ -84,6 +93,15 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content'
       const moduleRepository = {
         saveMany: sinon.stub(),
         clearCache: sinon.stub(),
+        list: sinon.stub().resolves([
+          // cas de recette
+          { id: 'moduleA', version: '1.1' },
+          { id: 'moduleB', version: '2.0' },
+          { id: 'moduleC', version: '0.2' },
+
+          // cas de prod
+          { id: 'moduleD', version: '2.0' },
+        ]),
       };
 
       // when
@@ -115,7 +133,15 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content'
       expect(courseRepository.saveMany).to.have.been.calledOnceWithExactly(courses);
       expect(tutorialRepository.saveMany).to.have.been.calledOnceWithExactly(tutorials);
       expect(missionRepository.saveMany).to.have.been.calledOnceWithExactly(missions);
-      expect(moduleRepository.saveMany).to.have.been.calledOnceWithExactly(modules);
+      expect(moduleRepository.list).to.have.been.calledOnce;
+      expect(moduleRepository.saveMany).to.have.been.calledOnceWith([
+        // cas de recette
+        { id: 'moduleC', version: '1.0' },
+
+        // cas de prod
+        { id: 'moduleD', version: '3.0' },
+        { id: 'moduleE', version: '1.0' },
+      ]);
 
       expect(areaRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(competenceRepository.clearCache).to.have.been.calledOnceWithExactly();
