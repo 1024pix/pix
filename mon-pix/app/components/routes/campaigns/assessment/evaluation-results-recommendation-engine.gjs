@@ -22,6 +22,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
   }
 
   @tracked _drawerRevealedByScroll = false;
+  @tracked _expandedDrawer = false;
 
   @action onCardClick({ trainingId }) {
     this.pixMetrics.trackEvent('Moteur de reco - Clic sur la carte du contenu formatif', {
@@ -76,13 +77,25 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     return this._drawerRevealedByScroll;
   }
 
+  get shouldExpandDrawer() {
+    return this.shouldShowNps && this._expandedDrawer;
+  }
+
   @action revealNps() {
     this._drawerRevealedByScroll = true;
+    this._expandedDrawer = true;
     this.pixMetrics.trackEvent('Moteur de reco - affichage du feedback NPS');
   }
 
+  @action collapseDrawer() {
+    this._expandedDrawer = false;
+  }
+
   <template>
-    <main role="main" class="evaluation-results-recommendation-engine">
+    <main
+      class="evaluation-results-recommendation-engine
+        {{if this.shouldExpandDrawer 'evaluation-results-recommendation-engine--drawer-expanded'}}"
+    >
       <header class="evaluation-results__header">
         <img class="evaluation-results-header__logo" src="/images/pix-logo-dark.svg" alt="{{t 'common.pix'}}" />
         <h1 class="evaluation-results-header__title">
@@ -119,7 +132,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
       {{/if}}
 
       {{#if this.shouldShowNps}}
-        <Drawer @campaignId={{@model.campaign.id}} />
+        <Drawer @campaignId={{@model.campaign.id}} @onHide={{this.collapseDrawer}} />
       {{/if}}
     </main>
   </template>
