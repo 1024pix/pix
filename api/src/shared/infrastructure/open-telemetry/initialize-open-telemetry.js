@@ -8,9 +8,16 @@ import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { PgInstrumentation } from '@opentelemetry/instrumentation-pg';
 import { UndiciInstrumentation } from '@opentelemetry/instrumentation-undici';
 import { containerDetector } from '@opentelemetry/resource-detector-container';
-import { envDetector, hostDetector, osDetector, processDetector } from '@opentelemetry/resources';
+import {
+  envDetector,
+  hostDetector,
+  osDetector,
+  processDetector,
+  resourceFromAttributes,
+} from '@opentelemetry/resources';
 import { BatchLogRecordProcessor } from '@opentelemetry/sdk-logs';
-import { NodeSDK, resources } from '@opentelemetry/sdk-node';
+import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { NodeSDK } from '@opentelemetry/sdk-node';
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
@@ -18,8 +25,6 @@ import { config } from '../../config.js';
 import { logger } from '../utils/logger.js';
 import { InheritedAttributesSpanProcessor } from './inherited-span-attributes.js';
 import { scalingoDetector } from './scalingo-detector.js';
-
-const { resourceFromAttributes } = resources;
 
 export function initializeOpenTelemetry(serviceName) {
   if (!config.logging.otelEnabled) {
@@ -35,7 +40,15 @@ export function initializeOpenTelemetry(serviceName) {
 
   const logExporter = new OTLPLogExporter();
   const traceExporter = new OTLPTraceExporter();
-  const metricExporter = new OTLPMetricExporter();
+  const metricExporter = new OTLPMetricExporter({
+    compression: 'gzip',
+    temporalityPreference: 0 /* 'AggregationTemporality.DELTA' = 0 */,
+  });
+
+  const metricReader = new PeriodicExportingMetricReader({
+    exporter: metricExporter,
+    exportIntervalMillis: 30_000,
+  });
 
   const sdk = new NodeSDK({
     resource: resourceFromAttributes({
@@ -43,8 +56,8 @@ export function initializeOpenTelemetry(serviceName) {
     }),
     resourceDetectors: [envDetector, hostDetector, osDetector, processDetector, containerDetector, scalingoDetector],
     spanProcessors: [new InheritedAttributesSpanProcessor(), new BatchSpanProcessor(traceExporter)],
-    metricExporter,
     logRecordProcessors: [new BatchLogRecordProcessor(logExporter)],
+    metricReaders: [metricReader],
     instrumentations: [
       new HostMetricsInstrumentation(),
       new HttpInstrumentation(),
