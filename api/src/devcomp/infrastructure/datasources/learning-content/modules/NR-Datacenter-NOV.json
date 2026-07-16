@@ -188,7 +188,7 @@
                       "id": "d4368ba7-6bee-4cea-9a29-da36e934dbe1",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Dans les <strong>centres de données</strong>, il y a des <strong>serveurs</strong>.</p><br><h5>🤔 Qu’est-ce qu’un serveur&nbsp;?</h5><p><strong>Un serveur est un ordinateur très puissant.</strong> Quand une personne utilise internet, son appareil se connecte à des serveurs. Ces serveurs reçoivent les demandes, traitent les informations et renvoient les réponses.</p><p>L’image suivante montre une salle de serveurs, à l’intérieur d’un centre de données.</p>"
+                      "content": "<p>Les <strong>centres de données</strong> sont des bâtiments spécialement conçus pour héberger des <strong>milliers de serveurs</strong> qui stockent et traitent des <strong>informations</strong>.</p><br><h5>🤔 Qu’est-ce qu’un serveur&nbsp;?</h5><p><strong>Un serveur est un ordinateur très puissant.</strong> Quand une personne utilise internet, son appareil se connecte à des serveurs. Ces serveurs reçoivent les demandes, traitent les informations et renvoient les réponses.</p><p>L’image suivante montre une salle de serveurs, à l’intérieur d’un centre de données.</p>"
                     },
                     {
                       "id": "929770b6-cc52-407e-a324-30b3cc48807b",
@@ -952,7 +952,7 @@
                       "id": "841547ae-b3b0-413d-9f1f-4f65c53b5654",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Vous voulez diviser une addition au restaurant.</p>"
+                      "content": "<p>Vous voulez diviser le coût d’un plein de carburant entre toutes les personnes qui ont fait le trajet.</p>"
                     },
                     {
                       "id": "d9b81d92-b66f-4cc5-b47a-9ceaffd40b69",
