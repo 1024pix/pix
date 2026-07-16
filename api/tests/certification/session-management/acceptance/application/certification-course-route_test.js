@@ -51,6 +51,10 @@ describe('Certification | Session Management | Acceptance | Application | Routes
             defaultCandidateCapacity: -3,
           },
         }).id;
+        databaseBuilder.factory.buildCertificationVersionTube({
+          tubeId: 'tubeA',
+          versionId,
+        });
 
         databaseBuilder.factory.buildCertificationCpfCountry({
           code: '99100',
@@ -220,6 +224,10 @@ describe('Certification | Session Management | Acceptance | Application | Routes
             },
           ],
         }).id;
+        databaseBuilder.factory.buildCertificationVersionTube({
+          tubeId: 'tubeA',
+          versionId,
+        });
 
         const candidateId = databaseBuilder.factory.buildCertificationCandidate({
           sessionId: session.id,
@@ -287,6 +295,10 @@ describe('Certification | Session Management | Acceptance | Application | Routes
           },
         ],
       }).id;
+      databaseBuilder.factory.buildCertificationVersionTube({
+        tubeId: 'tubeA',
+        versionId,
+      });
       const session = databaseBuilder.factory.buildSession({
         finalizedAt: new Date('2018-12-01T01:02:03Z'),
         version: AlgorithmEngineVersion.V3,
@@ -425,6 +437,10 @@ describe('Certification | Session Management | Acceptance | Application | Routes
           defaultCandidateCapacity: -3,
         }),
       }).id;
+      databaseBuilder.factory.buildCertificationVersionTube({
+        tubeId: 'tubeA',
+        versionId,
+      });
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const session = databaseBuilder.factory.buildSession();

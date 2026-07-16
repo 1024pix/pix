@@ -41,20 +41,35 @@ describe('Certification | Evaluation | Integration | Repositories | scoring-conf
       buildFramework({ competenceIndex, origin: PIX_ORIGIN });
 
       databaseBuilder.factory.buildCertificationVersion({
+        id: 123,
         startDate: firstConfigurationDate,
         expirationDate: secondConfigurationDate,
         globalScoringConfiguration: null,
       });
+      databaseBuilder.factory.buildCertificationVersionTube({
+        tubeId: 'tubeA',
+        versionId: 123,
+      });
 
       databaseBuilder.factory.buildCertificationVersion({
+        id: 456,
         startDate: secondConfigurationDate,
         expirationDate: thirdConfigurationDate,
         competencesScoringConfiguration: secondCompetenceScoringConfiguration,
       });
+      databaseBuilder.factory.buildCertificationVersionTube({
+        tubeId: 'tubeA',
+        versionId: 456,
+      });
 
       databaseBuilder.factory.buildCertificationVersion({
+        id: 789,
         startDate: thirdConfigurationDate,
         expirationDate: null,
+      });
+      databaseBuilder.factory.buildCertificationVersionTube({
+        tubeId: 'tubeA',
+        versionId: 789,
       });
 
       await databaseBuilder.commit();

@@ -13,9 +13,7 @@ import { FrameworkHistoryEntry } from '../../domain/read-models/FrameworkHistory
  * @returns {Promise<Version[]>}
  */
 export async function findAll() {
-  const knexConn = DomainTransaction.getConnection();
-
-  const versionsData = await knexConn('certification_versions').select('*').orderBy('id');
+  const versionsData = await buildBaseQuery();
 
   return versionsData.map(_toDomain);
 }
@@ -27,9 +25,7 @@ export async function findAll() {
  * @throws {NotFoundError}
  */
 export async function getById({ id }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  const versionData = await knexConn('certification_versions').select('*').where({ id }).first();
+  const versionData = await buildBaseQuery().where({ id }).first();
 
   if (!versionData) {
     throw new NotFoundError(`Version with id ${id} not found`);
@@ -44,10 +40,7 @@ export async function getById({ id }) {
  * @returns {Promise<Version[]>}
  */
 export async function findAllByScope({ scope }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  const dtosVersion = await knexConn('certification_versions').select('*').where({ scope }).orderBy('id');
-
+  const dtosVersion = await buildBaseQuery().where({ scope });
   return dtosVersion.map(_toDomain);
 }
 
@@ -138,6 +131,18 @@ function _toFrameworkHistoryEntry({
   });
 }
 
+function buildBaseQuery() {
+  const knexConn = DomainTransaction.getConnection();
+
+  return knexConn('certification_versions')
+    .join('certification_versions_tubes', 'certification_versions_tubes.version_id', 'certification_versions.id')
+    .select('certification_versions.*', {
+      tubeIds: knexConn.raw(`array_agg(certification_versions_tubes.tube_id)`),
+    })
+    .groupBy('certification_versions.id')
+    .orderBy('certification_versions.id');
+}
+
 function _toDomain({
   id,
   scope,
@@ -150,6 +155,7 @@ function _toDomain({
   challengesConfiguration,
   status,
   comments,
+  tubeIds,
 }) {
   return new Version({
     id,
@@ -162,6 +168,7 @@ function _toDomain({
     competencesScoringConfiguration,
     status,
     comments,
+    tubeIds,
     challengesConfiguration: new FlashAssessmentAlgorithmConfiguration({
       maximumAssessmentLength: challengesConfiguration.maximumAssessmentLength,
       challengesBetweenSameCompetence: challengesConfiguration.challengesBetweenSameCompetence,

@@ -9,6 +9,10 @@ describe('Certification | Configuration | Integration | Domain | UseCase | updat
   it('updates the version', async function () {
     // given
     const version = databaseBuilder.factory.buildCertificationVersion();
+    databaseBuilder.factory.buildCertificationVersionTube({
+      tubeId: 'coucou',
+      versionId: version.id,
+    });
     await databaseBuilder.commit();
 
     const newComments = 'new comments';
@@ -24,6 +28,10 @@ describe('Certification | Configuration | Integration | Domain | UseCase | updat
   it('throws an error when no version is found', async function () {
     // given
     databaseBuilder.factory.buildCertificationVersion({ id: 123 });
+    databaseBuilder.factory.buildCertificationVersionTube({
+      tubeId: 'coucou',
+      versionId: 123,
+    });
     await databaseBuilder.commit();
 
     // when

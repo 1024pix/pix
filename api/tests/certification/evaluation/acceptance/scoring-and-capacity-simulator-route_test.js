@@ -455,6 +455,7 @@ describe('Certification | Evaluation | Acceptance | scoring-and-capacity-simulat
           });
 
           databaseBuilder.factory.buildCertificationVersion({
+            id: 123,
             competencesScoringConfiguration: [
               {
                 competence: '1.1',
@@ -471,6 +472,10 @@ describe('Certification | Evaluation | Acceptance | scoring-and-capacity-simulat
                 ],
               },
             ],
+          });
+          databaseBuilder.factory.buildCertificationVersionTube({
+            tubeId: 'tubeA',
+            versionId: 123,
           });
           await databaseBuilder.commit();
 

@@ -28,9 +28,14 @@ describe('Acceptance | Application | Certification | Configuration | certificati
       const coreStartDate = new Date('2025-01-15');
 
       databaseBuilder.factory.buildCertificationVersion({
+        id: 123,
         scope: SCOPES.CORE,
         startDate: coreStartDate,
         status: VERSION_STATUSES.ACTIVE,
+      });
+      databaseBuilder.factory.buildCertificationVersionTube({
+        tubeId: 'tubeA',
+        versionId: 123,
       });
 
       await databaseBuilder.commit();

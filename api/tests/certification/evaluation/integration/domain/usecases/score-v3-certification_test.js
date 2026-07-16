@@ -157,6 +157,10 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
         },
       ],
     }).id;
+    databaseBuilder.factory.buildCertificationVersionTube({
+      tubeId: 'tubeA',
+      versionId: certificationVersionId,
+    });
 
     await databaseBuilder.commit();
   });
@@ -360,6 +364,10 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
           },
         ],
       });
+      databaseBuilder.factory.buildCertificationVersionTube({
+        tubeId: 'tubeA',
+        versionId: eduCertificationVersion.id,
+      });
 
       const session = databaseBuilder.factory.buildSession({
         version: AlgorithmEngineVersion.V3,
@@ -438,6 +446,10 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
               values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
             },
           ],
+        });
+        databaseBuilder.factory.buildCertificationVersionTube({
+          tubeId: 'tubeA',
+          versionId: droitCertificationVersion.id,
         });
 
         const session = databaseBuilder.factory.buildSession({

@@ -44,6 +44,10 @@ describe('Acceptance | API | Certification Course', function () {
         startDate: new Date('2024-01-01'),
         expirationDate: null,
       }).id;
+      databaseBuilder.factory.buildCertificationVersionTube({
+        tubeId: 'tubeA',
+        versionId,
+      });
 
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         sessionId: session.id,
@@ -403,8 +407,13 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
   databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
 
   databaseBuilder.factory.buildCertificationVersion({
+    id: 123,
     startDate: new Date('2019-01-01'),
     expirationDate: null,
+  });
+  databaseBuilder.factory.buildCertificationVersionTube({
+    tubeId: 'tubeA',
+    versionId: 123,
   });
 
   databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
@@ -440,8 +449,12 @@ function _createExistingCertifCourseSetup({ learningContent, userId, sessionId, 
   const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
   databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
-  databaseBuilder.factory.buildCertificationVersion({
+  const versionId = databaseBuilder.factory.buildCertificationVersion({
     startDate: new Date('2020-01-01'),
     expirationDate: null,
+  }).id;
+  databaseBuilder.factory.buildCertificationVersionTube({
+    tubeId: 'tubeA',
+    versionId,
   });
 }
