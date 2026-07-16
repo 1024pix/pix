@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/CYphishingava/picto_cyber_phishing_ava.svg",
-    "description": "<p>Alors que les systèmes informatiques sont de mieux en mieux protégés et techniquement robustes, il suffit parfois à des cyberattaquants de convaincre une personne d’agir volontairement contre ses propres intérêts pour arriver à leurs fins.🔓<br>Dans ce module, découvrez les mécanismes des attaques par ingénierie sociale et les différentes formes qu’elles peuvent prendre.<br><br><em>Module produit en partenariat avec cybermalveillance.gouv.fr.</em></p>",
+    "description": "<p>Alors que les systèmes informatiques sont de mieux en mieux protégés et techniquement robustes, il suffit parfois à des auteurs de cyberattaque de convaincre une personne d’agir volontairement contre ses propres intérêts pour arriver à leurs fins.🔓<br>Dans ce module, découvrez les mécanismes des attaques par ingénierie sociale et les différentes formes qu’elles peuvent prendre.<br><br><em>Module produit en partenariat avec cybermalveillance.gouv.fr.</em></p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -65,7 +65,7 @@
               "element": {
                 "id": "c9b08416-e55d-425e-bf06-5aa6c3250fa1",
                 "type": "qcu-discovery",
-                "instruction": "<p>De quelle faille de l’entreprise les cyberattaquants ont-ils profité ?</p>",
+                "instruction": "<p>De quelle faille de l’entreprise les auteurs de cyberattaque ont-ils profité ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -326,7 +326,7 @@
                 "id": "ccb78000-0b6b-41b3-86ea-f4f0b5d8b76a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Sur quoi s’appuient les cyberattaquants pour obtenir la réaction qu’ils souhaitent ?</p>"
+                "content": "<p>Voyons comment les auteurs de cyberattaque tentent de manipuler leurs victimes.</p>"
               }
             }
           ]
@@ -339,17 +339,26 @@
             {
               "type": "element",
               "element": {
+                "id": "4ebf908a-d0c6-4196-9be2-dd044b26f4c3",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Deux messages différents peuvent transmettre la même information. Cependant certaines techniques de rédaction favorisent les réactions des destinataires.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
                 "id": "64b8e507-85b5-4dd8-98f6-c053e494c9b7",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Lisez les exemples de messages ci-dessous puis répondez aux questions.</p>",
+                "instruction": "<p>Pour chacun des cas ci-dessous, indiquez quelle version du message incite le plus à réagir.</p>",
                 "functionalInstruction": "",
                 "tagName": "quiz-stepper",
                 "props": {
                   "titleLevel": 2,
                   "steps": [
                     {
-                      "question": "Quelle version de ce message vous inciterait le plus à réagir ?",
+                      "question": "Quelle version de ce message incite le plus à réagir ?",
                       "feedback": {
                         "success": "Effectivement, même si les deux messages transmettent la même idée, le second message crée un sentiment d’urgence et de menace. C’est un biais de cadrage : la manière dont l’information est présentée influence notre réaction.",
                         "failed": "Ici, même si les deux messages transmettent la même idée, le second message crée un sentiment d’urgence et de menace. C’est un biais de cadrage : la manière dont l’information est présentée influence notre réaction."
@@ -366,7 +375,7 @@
                       }
                     },
                     {
-                      "question": "Quelle version de ce message vous donnerait le plus envie de faire un don ?",
+                      "question": "Quelle version de ce message incite le plus à faire un don ?",
                       "feedback": {
                         "success": "Effectivement, même si les deux messages transmettent la même demande d’aide, le premier message est écrit pour déclencher une réaction émotionnelle immédiate : compassion, urgence, peur pour l’autre. C’est un biais d’empathie : l’émotion forte, ressentie pour l’autre, prend le dessus sur la réflexion.",
                         "failed": "Même si les deux messages transmettent la même demande d’aide, le premier message est écrit pour déclencher une réaction émotionnelle immédiate : compassion, urgence, peur pour l’autre. C’est un biais d’empathie : l’émotion forte, ressentie pour l’autre, prend le dessus sur la réflexion."
@@ -383,7 +392,7 @@
                       }
                     },
                     {
-                      "question": "Quelle version de ce message vous donnerait le plus envie de continuer à investir ?",
+                      "question": "Quelle version de ce message incite le plus à continuer à investir ?",
                       "feedback": {
                         "success": "Effectivement, même si les deux messages transmettent la même information, le second message met l’accent sur ce que vous avez déjà investi et ce que vous risquez de perdre. Ce type de formulation déclenche un biais de coût irrécupérable : on poursuit une action pour ne pas “perdre” ce qu’on a déjà investi.",
                         "failed": "Même si les deux messages transmettent la même information, le second message met l’accent sur ce que vous avez déjà investi et ce que vous risquez de perdre. Ce type de formulation déclenche un biais de coût irrécupérable : on poursuit une action pour ne pas “perdre” ce qu’on a déjà investi."
@@ -416,7 +425,7 @@
                 "id": "8a36d6e6-ab1b-4ff5-8260-a2baa62ff833",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Dans les attaques reposant sur l’ingénierie sociale, les cyberattaquants exploitent des <strong>biais cognitifs communs aux êtres humains</strong>&nbsp;: des raccourcis de pensée qui <strong>influencent nos décisions</strong> dans le sens souhaité par les attaquants. 🧠</p>"
+                "content": "<p>Dans les attaques reposant sur l’ingénierie sociale, les auteurs de cyberattaque exploitent des <strong>biais cognitifs communs aux êtres humains</strong>&nbsp;: des raccourcis de pensée qui <strong>influencent nos décisions</strong> dans le sens souhaité par les auteurs de cyberattaque. 🧠</p><p><br>Parmi les biais cognitifs les plus exploités, il y a&nbsp;:&nbsp; </p><ul><li>le <strong>biais de cadrage </strong>: la manière dont l’information est présentée influence la réaction du destinataire,</li><li>le <strong>biais de coût irrécupérable</strong>&nbsp;: le fait de poursuivre une action pour ne pas “perdre” ce qui a déjà été investi,</li><li>le <strong>biais d’empathie</strong>&nbsp;: l’émotion forte, ressentie pour l’autre, prend le dessus sur la réflexion.</li></ul>"
               }
             },
             {
@@ -795,7 +804,7 @@
                     "Un cybercriminel a appelé le centre de support informatique externe en se faisant passer pour un employé. Sous prétexte d’un problème urgent d’accès, il a persuadé un technicien de réinitialiser des identifiants et de lui donner un point d’entrée vers les systèmes internes.",
                     "Une fois à l’intérieur, il a accédé à des bases de données clients sensibles. Des millions d’informations personnelles ont été exposées : noms, numéros d’identité et données de programmes de fidélité.",
                     "Une demande de rançon a ensuite été formulée. L’entreprise a ouvert une enquête, notifié ses clients et renforcé ses procédures de sécurité.",
-                    "Les experts soulignent que l’attaque reposait sur la manipulation psychologique du technicien. Cet incident illustre les dangers du vishing et rappelle que les sentiments humains peuvent être exploités plus facilement qu’un pare-feu."
+                    "Les experts soulignent que l’attaque reposait sur la manipulation psychologique du technicien. Cet incident illustre les dangers du vishing (hameçonnage par téléphone) et rappelle que les sentiments humains peuvent être exploités plus facilement qu’un pare-feu."
                   ],
                   "highlightedSentence": "Un important groupe hôtelier confirme avoir été victime d’une cyberattaque reposant sur de l’ingénierie sociale.",
                   "colorOfHighlightSentence": "#000000"
