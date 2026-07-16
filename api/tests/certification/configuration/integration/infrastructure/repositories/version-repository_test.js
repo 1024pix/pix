@@ -559,25 +559,37 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           competencesScoringConfiguration: [{ config: 'testDroit' }],
           challengesConfiguration: expectedConfigDroit,
           comments: 'versionDroit',
+          tubeIds: ['rec1234', 'rec5678'],
         }),
       ]);
     });
   });
 
-  describe('#deleteVersion', function () {
-    it('should return delete a draft certification version ', async function () {
+  describe('#remove', function () {
+    it('should delete a draft certification version ', async function () {
       const certificationVersionId = databaseBuilder.factory.buildCertificationVersion({
         startDate: null,
         expirationDate: null,
       }).id;
+
+      databaseBuilder.factory.buildCertificationVersionTube({
+        versionId: certificationVersionId,
+        tubeId: 'rec123',
+      });
+
       await databaseBuilder.commit();
 
-      await versionRepository.deleteVersion(certificationVersionId);
+      await versionRepository.remove(certificationVersionId);
 
       const matchingCertificationVersions = await knex
         .from('certification_versions')
         .where({ id: certificationVersionId });
       expect(matchingCertificationVersions).to.be.empty;
+
+      const certificationVersionTubeIds = await knex('certification_versions_tubes').where({
+        version_id: certificationVersionId,
+      });
+      expect(certificationVersionTubeIds).to.be.empty;
     });
   });
 });

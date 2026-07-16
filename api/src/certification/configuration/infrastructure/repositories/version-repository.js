@@ -114,9 +114,9 @@ export async function getFrameworkHistory({ scope }) {
   return rows.map(_toFrameworkHistoryEntry);
 }
 
-export async function deleteVersion(id) {
+export async function remove(id) {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification-frameworks-challenges').where({ versionId: id }).del();
+  await knexConn('certification_versions_tubes').where({ version_id: id }).delete();
   await knexConn('certification_versions').where({ id }).del();
 }
 

@@ -3,7 +3,6 @@
  */
 
 import { CertificationVersionForbiddenDeletionError } from '../errors.js';
-import { VERSION_STATUSES } from '../models/Version.js';
 
 /**
  * @param {object} params
@@ -13,8 +12,8 @@ import { VERSION_STATUSES } from '../models/Version.js';
 
 export async function deleteCertificationVersion({ certificationVersionId, versionRepository }) {
   const version = await versionRepository.getById({ id: certificationVersionId });
-  if (version.status === VERSION_STATUSES.ACTIVE) {
+  if (!version.canRemove) {
     throw new CertificationVersionForbiddenDeletionError();
   }
-  await versionRepository.deleteVersion(certificationVersionId);
+  await versionRepository.remove(certificationVersionId);
 }
