@@ -115,7 +115,7 @@
     "@opentelemetry/instrumentation-fs": "^0.39.0",
     "@opentelemetry/instrumentation-host-metrics": "^0.3.0",
     "@opentelemetry/instrumentation-http": "^0.220.0",
-    "@opentelemetry/instrumentation-pg": "^0.68.0",
+    "@opentelemetry/instrumentation-pg": "^0.72.0",
     "@opentelemetry/instrumentation-undici": "^0.30.0",
     "@opentelemetry/resource-detector-container": "^0.8.11",
     "@opentelemetry/resources": "^2.9.0",
