@@ -66,9 +66,6 @@ export default class CreateForm extends Component {
   get isSubmitDisabled() {
     return !(this.isCampaignGoalProfileCollection || this.args.campaign.course);
   }
-  get isCreateCampaignOfTypeExamEnabled() {
-    return this.currentUser.prescriber.enableCampaignWithoutUserProfile;
-  }
 
   get isCampaignGoalExam() {
     return this.args.campaign.type === 'EXAM';
@@ -107,7 +104,7 @@ export default class CreateForm extends Component {
   }
 
   get displayCourseSelection() {
-    return !this.isCampaignGoalProfileCollection;
+    return this.isCombinedCourseGoal || this.isCampaignGoalAssessment || this.isCampaignGoalExam;
   }
 
   get displayTitleField() {
@@ -126,6 +123,14 @@ export default class CreateForm extends Component {
       return 'targetProfile';
     }
     return 'all';
+  }
+
+  get displayExamModeField() {
+    return (
+      this.currentUser.prescriber.enableCampaignWithoutUserProfile &&
+      Boolean(this.args.campaign.course) &&
+      !this.isCombinedCourseGoal
+    );
   }
 
   @action
@@ -148,11 +153,18 @@ export default class CreateForm extends Component {
   }
 
   @action
+  selectExamModeStatus(value) {
+    if (value) {
+      this.args.campaign.setType('EXAM');
+    } else {
+      this.args.campaign.setType('ASSESSMENT');
+    }
+  }
+
+  @action
   setCampaignGoal(event) {
     if (event.target.value === 'collect-participants-profile') {
       this.args.campaign.setType('PROFILES_COLLECTION');
-    } else if (event.target.value === 'exam-participants') {
-      this.args.campaign.setType('EXAM');
     } else if (event.target.value === 'assess-participants') {
       this.args.campaign.setType('ASSESSMENT');
     } else if (event.target.value === 'combined-course') {
@@ -221,18 +233,6 @@ export default class CreateForm extends Component {
                 <:label>{{t "pages.campaign-creation.purpose.combined-course"}}</:label>
               </PixRadioButton>
 
-              {{#if this.isCreateCampaignOfTypeExamEnabled}}
-                <PixRadioButton
-                  name="campaign-goal"
-                  @value="exam-participants"
-                  {{on "change" this.setCampaignGoal}}
-                  aria-describedby="exam-participants-info"
-                  checked={{this.isCampaignGoalExam}}
-                >
-                  <:label>{{t "pages.campaign-creation.purpose.exam"}}</:label>
-                </PixRadioButton>
-              {{/if}}
-
               <PixRadioButton
                 name="campaign-goal"
                 @value="collect-participants-profile"
@@ -252,13 +252,7 @@ export default class CreateForm extends Component {
           </PixFieldset>
         </:default>
         <:information>
-          {{#if this.isCampaignGoalExam}}
-            <ExplanationCard id="campaign-goal-exam-info">
-              <:title>{{t "pages.campaign-creation.purpose.exam"}}</:title>
-
-              <:message>{{t "pages.campaign-creation.purpose.exam-info"}}</:message>
-            </ExplanationCard>
-          {{else if this.isCampaignGoalAssessment}}
+          {{#if this.isCampaignGoalAssessment}}
             <ExplanationCard id="campaign-goal-assessment-info">
               <:title>{{t "pages.campaign-creation.purpose.assessment"}}</:title>
 
@@ -368,6 +362,45 @@ export default class CreateForm extends Component {
               <:message>{{t "pages.campaign-creation.owner.info"}}</:message>
             </ExplanationCard>
 
+          </:information>
+        </FormField>
+      {{/if}}
+
+      {{#if this.displayExamModeField}}
+        <FormField>
+          <:default>
+            <PixFieldset @required={{true}} aria-labelledby="exam-mode-label" role="radiogroup">
+              <:title>{{t "pages.campaign-creation.exam-mode.label"}}</:title>
+              <:content>
+                <PixRadioButton
+                  name="exam-mode-label"
+                  @value="false"
+                  {{on "change" (fn this.selectExamModeStatus false)}}
+                  aria-describedby="campaign-goal-exam-info"
+                  checked={{not this.isCampaignGoalExam}}
+                >
+                  <:label>{{t "pages.campaign-creation.no"}}</:label>
+                </PixRadioButton>
+
+                <PixRadioButton
+                  name="exam-mode-label"
+                  @value="true"
+                  {{on "change" (fn this.selectExamModeStatus true)}}
+                  aria-describedby="campaign-goal-exam-info"
+                  checked={{this.isCampaignGoalExam}}
+                >
+                  <:label>{{t "pages.campaign-creation.yes"}}</:label>
+                </PixRadioButton>
+              </:content>
+            </PixFieldset>
+          </:default>
+          <:information>
+            <ExplanationCard id="campaign-goal-exam-info">
+              <:title>{{t "pages.campaign-creation.purpose.exam"}}</:title>
+              <:message>
+                {{t "pages.campaign-creation.purpose.exam-info"}}
+              </:message>
+            </ExplanationCard>
           </:information>
         </FormField>
       {{/if}}

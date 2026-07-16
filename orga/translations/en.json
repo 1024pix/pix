@@ -751,6 +751,9 @@
       "copy-of": "Copy of",
       "course-label": "Select a course",
       "course-selection-label": "Select a course",
+      "exam-mode": {
+        "label": "Do you want to enable exam mode?"
+      },
       "external-id-label": {
         "label": "external user ID label",
         "question-label": "Do you need an external user ID?",

@@ -751,6 +751,9 @@
       "copy-of": "Copie de",
       "course-label": "Sélectionnez un parcours",
       "course-selection-label": "Sélectionner un parcours",
+      "exam-mode": {
+        "label": "Souhaitez-vous activer le mode interro ?"
+      },
       "external-id-label": {
         "label": "Libellé de l’identifiant",
         "question-label": "Souhaitez-vous demander un identifiant externe ?",

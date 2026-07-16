@@ -751,6 +751,9 @@
       "copy-of": "Copia di",
       "course-label": "Seleziona un corso",
       "course-selection-label": "Selezionare un corso",
+      "exam-mode": {
+        "label": "Desiderate attivare la modalità di interrogazione?"
+      },
       "external-id-label": {
         "label": "Formulazione dell'identificatore",
         "question-label": "Desiderate richiedere un identificatore esterno?",
