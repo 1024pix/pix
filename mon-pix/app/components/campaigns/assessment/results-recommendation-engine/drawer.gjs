@@ -35,8 +35,6 @@ export default class Drawer extends Component {
   @action
   async submitSatisfactionScore(score) {
     try {
-      this.step = 'content-relevance-form';
-
       this.satisfactionScore = score;
       await this.requestManager.request({
         url: `${ENV.APP.API_HOST}/api/user-campaign-surveys`,
@@ -51,6 +49,8 @@ export default class Drawer extends Component {
           },
         }),
       });
+
+      this.step = 'content-relevance-form';
     } catch {
       this.pixToast.sendErrorNotification({
         message: this.intl.t('pages.skill-review.recommended-engine.drawer.error-message'),
