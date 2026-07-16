@@ -1005,7 +1005,7 @@
                 "id": "d041ad34-1d9a-444c-816f-c42313619932",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Faites défiler les 4 exemples de sites web ci-dessous puis répondez à la question.<br></p>",
+                "instruction": "<p>Faites défiler les 4 situations ci-dessous puis répondez à la question.<br></p>",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
@@ -1081,24 +1081,24 @@
               "element": {
                 "id": "b040a865-2b7f-4729-958b-bad07815a8b5",
                 "type": "qcm",
-                "instruction": "<p>Sur les critères mentionnés, quels sites respectent des pratiques d’écoconception ?</p>",
+                "instruction": "<p>Parmi ces situations, lesquelles respectent des pratiques d’écoconception ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "TrouveTout"
+                    "content": "<p>la situation avec TrouveTout</p>"
                   },
                   {
                     "id": "2",
-                    "content": "PixVidéo"
+                    "content": "<p>la situation avec PixVidéo</p>"
                   },
                   {
                     "id": "3",
-                    "content": "RecetteSuzette"
+                    "content": "<p>la situation avec RecetteSuzette</p>"
                   },
                   {
                     "id": "4",
-                    "content": "Youpix"
+                    "content": "<p>la situation avec Youpix</p>"
                   }
                 ],
                 "feedbacks": {
