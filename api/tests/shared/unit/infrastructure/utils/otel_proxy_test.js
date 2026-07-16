@@ -17,7 +17,7 @@ describe('Unit | Infrastructure | Utils | otelProxy', function () {
       setStatus: sinon.stub(),
     };
     tracerStub = {
-      startActiveSpan: sinon.stub().callsFake((name, cb) => cb(spanStub)),
+      startActiveSpan: sinon.stub().callsFake((name, options, cb) => cb(spanStub)),
     };
     sinon.stub(trace, 'getTracer').returns(tracerStub);
     otelEnabled = config.logging.otelEnabled;
@@ -82,6 +82,17 @@ describe('Unit | Infrastructure | Utils | otelProxy', function () {
 
       expect(wrappedAgain).to.equal(wrapped);
     });
+
+    it('should get span attributes based on the span options function argument', function () {
+      const fn = sinon.stub().returns(1);
+      const getSpanOptionsFn = sinon.stub().returns({ 'test.attribute': 123 });
+
+      const wrapped = otelProxy(fn, 'func', getSpanOptionsFn);
+      wrapped();
+
+      expect(getSpanOptionsFn).to.have.been.calledOnce;
+      expect(tracerStub.startActiveSpan).to.have.been.calledWith('func', getSpanOptionsFn());
+    });
   });
 
   describe('when resource is an object', function () {
@@ -132,6 +143,17 @@ describe('Unit | Infrastructure | Utils | otelProxy', function () {
       const proxied = otelProxy(obj, 'myObj');
 
       expect(proxied.empty).to.be.null;
+    });
+
+    it('should get span attributes based on the span options function argument', function () {
+      const obj = { patate: () => 123 };
+      const getSpanOptionsFn = sinon.stub().returns({ 'test.attribute': 123 });
+
+      const proxied = otelProxy(obj, 'myObj', getSpanOptionsFn);
+      proxied.patate();
+
+      expect(getSpanOptionsFn).to.have.been.calledOnce;
+      expect(tracerStub.startActiveSpan).to.have.been.calledWith('myObj->patate', getSpanOptionsFn());
     });
   });
 });

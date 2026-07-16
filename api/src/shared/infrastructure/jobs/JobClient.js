@@ -7,6 +7,7 @@ import { PgBoss } from 'pg-boss';
 import { config } from '../../config.js';
 import { executeInContext, EXECUTORS } from '../execution-context-manager.js';
 import { DatadogMetrics } from '../metrics/datadog-metrics.js';
+import { instrumentJobController } from '../open-telemetry/job-tracing.js';
 import { importNamedExportFromFile } from '../utils/import-named-exports-from-directory.js';
 import { child } from '../utils/logger.js';
 import { MonitoredJobHandler } from './MonitoredJobHandler.js';
@@ -104,6 +105,8 @@ export class JobClient {
     for (const [moduleName, ModuleClass] of Object.entries(jobModules)) {
       const job = new ModuleClass();
 
+      instrumentJobController(moduleName, ModuleClass);
+
       if (!jobGroups.includes(job.jobGroup) && !this.#isTestOnly) continue;
 
       if (job.isJobEnabled) {
@@ -156,7 +159,10 @@ export class JobClient {
     const { localConcurrency } = jobHandler;
 
     await this.#pgBoss.work(name, { localConcurrency, includeMetadata: true }, async ([job]) => {
-      const context = this.#initLogContext(job);
+      const context = {
+        ...this.#initLogContext(job),
+        openTelemetryContext: this.#initOpenTelemetryContext(job),
+      };
       return executeInContext(
         context,
         async () => {
@@ -174,6 +180,10 @@ export class JobClient {
       ...inheritedContext,
       jobId: job.id,
     };
+  }
+
+  #initOpenTelemetryContext(job) {
+    return job.data?.openTelemetryContext;
   }
 
   async scheduleCronJob({ name, cron, data, options }) {

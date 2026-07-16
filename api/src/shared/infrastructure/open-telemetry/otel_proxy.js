@@ -8,15 +8,14 @@ function isAlreadyProxied(resource) {
   return resource[otelProxySymbol] === true;
 }
 
-function wrapFunction(func, target, methodName, defaultAttributes) {
+function wrapFunction(func, target, methodName, getSpanOptionsFn) {
   if (isAlreadyProxied(func)) return func;
 
   const wrapped = function (...args) {
     const tracer = trace.getTracer('otel-proxy');
-    return tracer.startActiveSpan(methodName, (span) => {
-      if (defaultAttributes) {
-        span.setAttributes(defaultAttributes);
-      }
+    const spanOptions = getSpanOptionsFn?.() ?? {};
+
+    return tracer.startActiveSpan(methodName, spanOptions, (span) => {
       try {
         const result = func.apply(target, args);
         if (result instanceof Promise) {
@@ -57,7 +56,7 @@ function wrapFunction(func, target, methodName, defaultAttributes) {
   return wrapped;
 }
 
-function wrapObject(resource, name, defaultAttributes) {
+function wrapObject(resource, name, getSpanOptionsFn) {
   if (isAlreadyProxied(resource)) return resource;
 
   // Wrapping a method or a nested object allocates a new closure/Proxy, so
@@ -84,12 +83,12 @@ function wrapObject(resource, name, defaultAttributes) {
       // plain values - those are returned straight from `target` so
       // mutations to the underlying resource stay visible through the proxy.
       if (typeof value === 'function') {
-        const wrapped = wrapFunction(value, target, `${name}->${prop.toString()}`, defaultAttributes);
+        const wrapped = wrapFunction(value, target, `${name}->${prop.toString()}`, getSpanOptionsFn);
         wrappedMembers.set(prop, { rawValue: value, wrapped });
         return wrapped;
       }
       if (typeof value === 'object' && value !== null) {
-        const wrapped = wrapObject(value, name, defaultAttributes);
+        const wrapped = wrapObject(value, name, getSpanOptionsFn);
         wrappedMembers.set(prop, { rawValue: value, wrapped });
         return wrapped;
       }
@@ -106,18 +105,18 @@ function wrapObject(resource, name, defaultAttributes) {
  *
  * @param {object|Function} resource - The object whose methods should be traced, or a function to trace directly.
  * @param {string} name - Base name used to build span names (e.g. `${name}->${methodName}`).
- * @param {Record<string, unknown>} [defaultAttributes] - Attributes set on every span created by this proxy.
+ * @param {() => import('@opentelemetry/api').SpanOptions} [getSpanOptionsFn] - A function that returns SpanOptions to set on every span created by this proxy.
  * @returns {object|Function} A proxy (or wrapped function) that behaves like `resource` but emits spans.
  */
-export function otelProxy(resource, name, defaultAttributes) {
+export function otelProxy(resource, name, getSpanOptionsFn) {
   if (!config.logging.otelEnabled) {
     return resource;
   }
   if (typeof resource === 'function') {
-    return wrapFunction(resource, null, name, defaultAttributes);
+    return wrapFunction(resource, null, name, getSpanOptionsFn);
   }
   if (typeof resource === 'object') {
-    return wrapObject(resource, name, defaultAttributes);
+    return wrapObject(resource, name, getSpanOptionsFn);
   }
   return resource;
 }
