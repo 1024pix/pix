@@ -7,7 +7,7 @@ import { PgBoss } from 'pg-boss';
 import { config } from '../../config.js';
 import { executeInContext, EXECUTORS } from '../execution-context-manager.js';
 import { DatadogMetrics } from '../metrics/datadog-metrics.js';
-import { instrumentJobController } from '../open-telemetry/job-tracing.js';
+import { instrumentJobController, registerPgBossMetrics } from '../open-telemetry/job-tracing.js';
 import { importNamedExportFromFile } from '../utils/import-named-exports-from-directory.js';
 import { child } from '../utils/logger.js';
 import { MonitoredJobHandler } from './MonitoredJobHandler.js';
@@ -76,6 +76,7 @@ export class JobClient {
 
     if (worker) {
       await this.#registerJobs(jobGroups);
+      registerPgBossMetrics(this);
     }
 
     this.#isInitialized = true;
@@ -104,6 +105,8 @@ export class JobClient {
     let cronJobCount = 0;
     for (const [moduleName, ModuleClass] of Object.entries(jobModules)) {
       const job = new ModuleClass();
+
+      instrumentJobController(moduleName, ModuleClass);
 
       instrumentJobController(moduleName, ModuleClass);
 
@@ -251,5 +254,15 @@ export class JobClient {
       stats.global.all += row.count;
     }
     return stats;
+  }
+
+  async getOldestPendingJobAges() {
+    const { rows } = await this.#pgBoss.getDb().executeSql(`
+      SELECT name, EXTRACT(EPOCH FROM (now() - MIN(created_on))) AS "ageInSeconds"
+      FROM pgboss.job
+      WHERE state IN ('created', 'retry')
+      GROUP BY name
+    `);
+    return rows;
   }
 }

@@ -285,4 +285,36 @@ describe('Unit | JobClient', function () {
       });
     });
   });
+
+  context('#getOldestPendingJobAges', function () {
+    it('returns the age in seconds of the oldest pending job per queue', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      const executeSql = sinon.stub().resolves({
+        rows: [
+          { name: 'FirstJob', ageInSeconds: 42 },
+          { name: 'SecondJob', ageInSeconds: 3600 },
+        ],
+      });
+      sinon.stub(pgBossStub, 'getDb').returns({ executeSql });
+
+      const jobClient = new JobClient();
+      await jobClient.initialize(
+        {
+          jobGroups: [JobGroup.DEFAULT],
+          worker: true,
+        },
+        () => pgBossStub,
+      );
+
+      // when
+      const ages = await jobClient.getOldestPendingJobAges();
+
+      // then
+      expect(ages).to.deep.equal([
+        { name: 'FirstJob', ageInSeconds: 42 },
+        { name: 'SecondJob', ageInSeconds: 3600 },
+      ]);
+    });
+  });
 });
