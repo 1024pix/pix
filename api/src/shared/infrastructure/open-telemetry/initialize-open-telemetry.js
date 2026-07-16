@@ -68,7 +68,7 @@ export function initializeOpenTelemetry(serviceName) {
       }),
       new PgInstrumentation({
         requireParentSpan: true,
-        enhancedDatabaseReporting: true,
+        enhancedDatabaseReporting: false, // prevent the instrumentation to add arguments of SQL in span attributes
         requestHook(span, pgRequest) {
           const statementWithoutComment = pgRequest.query.text.replace(/\/\* .* \*\/ /, '');
           span.setAttribute('db.statement', statementWithoutComment);
