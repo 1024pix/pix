@@ -4,22 +4,22 @@ import { findByTubeIds as findLearningContentViewByTubeIds } from '../../infrast
 import { LearningContentDTO } from './models/LearningContentDTO.js';
 
 /**
-* @typedef {object} NoTubesProvidedResult
-* @property {NoTubesProvidedError} error
-* @property {null} learningContentDTO
-*/
+ * @typedef {object} NoTubesProvidedResult
+ * @property {NoTubesProvidedError} error
+ * @property {null} learningContentDTO
+ */
 
 /**
-* @typedef {object} SomeTubesNotFoundResult
-* @property {SomeTubesNotFoundError} error
-* @property {LearningContentDTO} learningContentDTO
-*/
+ * @typedef {object} SomeTubesNotFoundResult
+ * @property {SomeTubesNotFoundError} error
+ * @property {LearningContentDTO} learningContentDTO
+ */
 
 /**
-* @typedef {object} AllTubesFoundResult
-* @property {null} error
-* @property {LearningContentDTO} learningContentDTO
-*/
+ * @typedef {object} AllTubesFoundResult
+ * @property {null} error
+ * @property {LearningContentDTO} learningContentDTO
+ */
 
 class LearningContentResult {
   constructor({ learningContentDTO, error }) {
@@ -58,12 +58,13 @@ export async function findByTubeIds({ tubeIds = [], locale = FRENCH_SPOKEN }) {
   const learningContentView = await findLearningContentViewByTubeIds(tubeIds);
 
   const foundTubeIds = learningContentView.frameworkViews
-    .flatMap((framework) => framework.areaViews
-      .flatMap((area) => area.competenceViews)
-      .flatMap((competence) => competence.thematicViews)
-      .flatMap((thematic) => thematic.tubeViews)
-    ).map((tube) => tube.id);
-
+    .flatMap((framework) =>
+      framework.areaViews
+        .flatMap((area) => area.competenceViews)
+        .flatMap((competence) => competence.thematicViews)
+        .flatMap((thematic) => thematic.tubeViews),
+    )
+    .map((tube) => tube.id);
 
   const missingTubeIdsSet = new Set(tubeIds).difference(new Set(foundTubeIds));
   if (missingTubeIdsSet.size > 0 && missingTubeIdsSet.size !== tubeIds.length) {
@@ -79,4 +80,4 @@ export async function findByTubeIds({ tubeIds = [], locale = FRENCH_SPOKEN }) {
   });
 }
 
-export { NoTubesProvidedError, SomeTubesNotFoundError }
+export { NoTubesProvidedError, SomeTubesNotFoundError };

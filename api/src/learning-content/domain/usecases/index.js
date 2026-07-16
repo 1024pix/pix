@@ -6,6 +6,7 @@ import { findFrameworksByIds } from './find-frameworks-by-ids.js';
 import { findSkillsByIds } from './find-skills-by-ids.js';
 import { getFrameworkAreas } from './get-framework-areas.js';
 import { getFrameworks } from './get-frameworks.js';
+import { getLearningContentByTubeIds } from './get-learning-content-by-tube-ids.js';
 import { patchLearningContentEntry } from './patch-learning-content-entry.js';
 import { refreshLearningContent } from './refresh-learning-content.js';
 import { scheduleCreateLearningContentReleaseJob } from './schedule-create-learning-content-release-job.js';
@@ -21,6 +22,7 @@ const usecasesWithoutInjectedDependencies = {
   refreshLearningContent,
   scheduleCreateLearningContentReleaseJob,
   scheduleRefreshLearningContentJob,
+  getLearningContentByTubeIds,
 };
 
 export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
