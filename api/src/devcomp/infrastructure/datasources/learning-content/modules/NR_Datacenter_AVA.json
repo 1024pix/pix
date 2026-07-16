@@ -1017,7 +1017,7 @@
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_eco_conception_1.png",
-                        "alt": "Le moteur de recherche de TrouveTout fait appel à de l’Intelligence artificielle."
+                        "alt": "Le moteur de recherche de TrouveTout fait appel à de l’intelligence artificielle."
                       },
                       "license": {
                         "name": "",
@@ -1040,12 +1040,12 @@
                       }
                     },
                     {
-                      "title": "Toutes les pages de RecetteSuzette sont statiques.",
+                      "title": "Les pages du site RecetteSuzette ne contiennent pas d’animation.",
                       "description": "",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_eco_conception_3.png",
-                        "alt": "Toutes les pages de RecetteSuzette sont statiques, sans animation."
+                        "alt": "Les pages du site RecetteSuzette ne contiennent pas d’animation."
                       },
                       "license": {
                         "name": "",
@@ -1081,7 +1081,7 @@
               "element": {
                 "id": "b040a865-2b7f-4729-958b-bad07815a8b5",
                 "type": "qcm",
-                "instruction": "<p>Parmi les exemples de sites web, lesquels respectent des pratiques d’écoconception ?</p>",
+                "instruction": "<p>Sur les critères mentionnés, quels sites respectent des pratiques d’écoconception ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
