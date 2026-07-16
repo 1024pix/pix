@@ -58,25 +58,25 @@
                     {
                       "userName": "Gustave",
                       "direction": "incoming",
-                      "type": "Text",
+                      "type": "Texte",
                       "content": "Emma, I don't understand… You manage to do loads of things with AI, but it just doesn't work for me!"
                     },
                     {
                       "userName": "Emma",
                       "direction": "outgoing",
-                      "type": "Text",
+                      "type": "Texte",
                       "content": "Really? What prompt did you use? "
                     },
                     {
                       "userName": "Gustave",
                       "direction": "incoming",
-                      "type": "Text",
+                      "type": "Texte",
                       "content": "My prompt was: \"Help me organise the tournament.\""
                     },
                     {
                       "userName": "Emma",
                       "direction": "outgoing",
-                      "type": "Text",
+                      "type": "Texte",
                       "content": "That's because your request is too vague! The AI can't guess what you want. 😉"
                     }
                   ]
@@ -664,10 +664,14 @@
                       "t3"
                     ],
                     "solutions": [
-                      "Three Firs Sports Hall",
                       "The Three Firs Sports Hall",
+                      "Three Firs Sports Hall",
+                      "Three Firs sports hall",
+                      "the Three Firs sports hall",
+                      "3 Firs",
                       "Three Firs",
-                      "3 Firs"
+                      "the 3 Firs",
+                      "the Three Firs"
                     ]
                   }
                 ],
