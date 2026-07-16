@@ -2254,6 +2254,27 @@
       "not-finished": "Non è ancora possibile invia i risultati, quindi abbiamo ancora alcune domande per voi.",
       "recommended-engine": {
         "drawer": {
+          "content-relevance-form": {
+            "attractiveness": {
+              "legend": "Valuta quanto sono attraenti i contenuti, da poco attraenti 1 ad attraenti 5",
+              "max-label": "Attraenti",
+              "min-label": "Poco attraenti"
+            },
+            "legend": "I contenuti consigliati sono…",
+            "personalization": {
+              "legend": "Valuta quanto sono personalizzati i contenuti, da generici 1 a personalizzati 5",
+              "max-label": "Personalizzati",
+              "min-label": "Generici"
+            },
+            "score-aria-label": "{score} su 5",
+            "subtitle": "E se andassimo oltre…",
+            "title": "Grazie per il tuo feedback!",
+            "usefulness": {
+              "legend": "Valuta quanto sono utili i contenuti, da poco utili 1 a utili 5",
+              "max-label": "Utili",
+              "min-label": "Poco utili"
+            }
+          },
           "emojis": {
             "dissatisfied": "Non pertinente",
             "neutral": "Non ho un'opinione",
@@ -2264,7 +2285,7 @@
           "hide": "Nascondi",
           "hide-aria-label": "Nascondi il pannello di feedback per le raccomandazioni sui contenuti formativi",
           "instruction": "Clicca su un emoji per dare il tuo parere.",
-          "statement": "Questi contenuti formativi consigliati per approfondire le tue conoscenze ti sembrano pertinenti?",
+          "statement": "Questi contenuti formativi per approfondire le tue conoscenze ti sembrano pertinenti?",
           "thank-you": {
             "subtitle": "Missione compiuta!",
             "title": "Grazie per il tuo feedback!"

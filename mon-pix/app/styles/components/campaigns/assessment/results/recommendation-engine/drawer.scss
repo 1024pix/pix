@@ -156,4 +156,86 @@
 
     text-align: center;
   }
+
+  &__content-relevance-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (not (prefers-reduced-motion: reduce)) {
+      animation: thank-you-enter 0.3s ease;
+    }
+  }
+
+  &__content-relevance-form-title {
+    @extend %pix-title-xs;
+  }
+
+  &__content-relevance-form-subtitle {
+    @extend %pix-body-s;
+
+    margin-bottom: var(--pix-spacing-6x);
+    text-align: center;
+  }
+
+  &__content-relevance-form-fieldset {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__content-relevance-form-statement {
+    @extend %pix-body-l;
+
+    width: 100%;
+    padding-bottom: var(--pix-spacing-2x);
+    font-weight: 700;
+    text-align: center;
+  }
+
+  &__scale {
+    display: flex;
+    flex-direction: row;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    &:not(:last-child) {
+      padding-bottom: var(--pix-spacing-2x);
+    }
+  }
+
+  &__scale-label {
+    @extend %pix-body-s;
+
+    width: 6rem;
+  }
+
+  &__scale-label:first-of-type {
+    text-align: right;
+  }
+
+  &__scale-radios {
+    display: flex;
+    flex-direction: row;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+    justify-content: center;
+
+    // PixUI defines a margin-top to stack radio buttons vertically.
+    // In our case, we want the radio buttons to be stacked horizontally
+    // so we reset the margin-top value.
+    .pix-radio-button + .pix-radio-button {
+      margin-top: 0;
+    }
+  }
+
+  &__content-relevance-form-actions {
+    display: flex;
+    flex-direction: row;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--pix-spacing-6x);
+  }
 }
