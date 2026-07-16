@@ -1,8 +1,6 @@
 /**
  * @typedef {import('../../domain/models/Version.js').Version} Version
- * @typedef {import ('./index.js').FrameworkChallengesRepository} FrameworkChallengesRepository
- * @typedef {import ('./index.js').LearningContentRepository} LearningContentRepository
- * @typedef {import ('./index.js').VersionRepository} VersionRepository
+ * @typedef {import ('./index.js').VersionDetailsRepository} VersionDetailsRepository
  */
 
 import { NotFoundError } from '../../../../shared/domain/errors.js';
@@ -10,32 +8,14 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 /**
  * @param {object} params
  * @param {number} params.id
- * @param {FrameworkChallengesRepository} params.frameworkChallengesRepository
- * @param {LearningContentRepository} params.learningContentRepository
- * @param {VersionRepository} params.versionRepository
+ * @param {VersionDetailsRepository} params.versionDetailsRepository
  */
-export async function getVersionById({
-  id,
-  frameworkChallengesRepository,
-  learningContentRepository,
-  versionRepository,
-}) {
-  const version = await versionRepository.getById({ id });
+export async function getVersionById({ id, versionDetailsRepository }) {
+  const versionDetails = await versionDetailsRepository.getById(id);
 
-  if (!version) {
+  if (!versionDetails) {
     throw new NotFoundError(`No certification version found for id: ${id}`);
   }
 
-  const challenges = await frameworkChallengesRepository.getByVersionId({
-    versionId: version.id,
-  });
-
-  const frameworkAreas = await learningContentRepository.getFrameworkReferential({
-    challengeIds: challenges.map(({ challengeId }) => challengeId),
-  });
-
-  return {
-    version,
-    areas: frameworkAreas,
-  };
+  return versionDetails;
 }

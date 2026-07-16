@@ -174,6 +174,7 @@ import {
   buildScoBlockedAccessDateLycee,
 } from './certification/configuration/build-sco-blocked-access-date.js';
 import { buildVersion as buildConfigurationVersion } from './certification/configuration/build-version.js';
+import { buildVersionDetails } from './certification/configuration/build-version-details.js';
 import { buildCandidate } from './certification/enrolment/build-candidate.js';
 import { buildCertificationEligibility } from './certification/enrolment/build-certification-eligibility.js';
 import { buildComplementaryCertificationBadgeWithOffsetVersion as buildComplementaryCertificationBadgeForEnrolment } from './certification/enrolment/build-complementary-certification-badge.js';
@@ -262,6 +263,7 @@ const certification = {
     buildVersion: buildConfigurationVersion,
     buildScoBlockedAccessDateCollege,
     buildScoBlockedAccessDateLycee,
+    buildVersionDetails,
   },
   complementaryCertification: {
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,

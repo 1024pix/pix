@@ -11,10 +11,9 @@ import * as certificationInfoRepository from '../../infrastructure/repositories/
 import * as complementaryCertificationBadgesRepository from '../../infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
-import * as frameworkChallengesRepository from '../../infrastructure/repositories/framework-challenges-repository.js';
-import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
 import * as ScoBlockedAccessDatesRepository from '../../infrastructure/repositories/sco-blocked-access-dates-repository.js';
+import * as versionDetailsRepository from '../../infrastructure/repositories/version-details-repository.js';
 import * as versionRepository from '../../infrastructure/repositories/version-repository.js';
 import { attachBadges } from './attach-badges.js';
 import { createDraft } from './create-draft.js';
@@ -44,15 +43,14 @@ import { updateVersion } from './update-version.js';
  * @typedef {challengeRepository} ChallengeRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {complementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
- * @typedef {frameworkChallengesRepository} FrameworkChallengesRepository
  * @typedef {complementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
- * @typedef {learningContentRepository} LearningContentRepository
  * @typedef {mailService} MailService
  * @typedef {organizationRepository} OrganizationRepository
  * @typedef {skillRepository} SkillRepository
  * @typedef {tubeRepository} TubeRepository
  * @typedef {ScoBlockedAccessDatesRepository} ScoBlockedAccessDatesRepository
  * @typedef {versionRepository} VersionRepository
+ * @typedef {versionDetailsRepository} VersionDetailsRepository
  **/
 const dependencies = {
   attachableTargetProfileRepository,
@@ -63,14 +61,13 @@ const dependencies = {
   complementaryCertificationBadgesRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationRepository,
-  frameworkChallengesRepository,
-  learningContentRepository,
   mailService,
   organizationRepository,
   skillRepository,
   targetProfileHistoryRepository,
   tubeRepository,
   versionRepository,
+  versionDetailsRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
