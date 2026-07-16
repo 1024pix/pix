@@ -32,6 +32,7 @@ import { searchAttachableTargetProfiles } from './search-attachable-target-profi
 import { sendTargetProfileNotifications } from './send-target-profile-notifications.js';
 import { updateScoBlockedAccessDate } from './update-sco-blocked-access-date.js';
 import { updateVersion } from './update-version.js';
+import { updateVersionComment } from './update-version-comment.js';
 
 /**
  *
@@ -88,6 +89,7 @@ const usecasesWithoutInjectedDependencies = {
   sendTargetProfileNotifications,
   updateScoBlockedAccessDate,
   updateVersion,
+  updateVersionComment,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);

@@ -108,6 +108,47 @@ async function register(server) {
       },
     },
     {
+      method: 'PATCH',
+      path: '/api/admin/certification-versions/{certificationVersionId}/comments',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationVersionId: identifiersType.certificationVersionId,
+          }),
+          payload: Joi.object({
+            data: Joi.object({
+              id: Joi.number(),
+              attributes: Joi.object({
+                comments: Joi.string().max(500).allow(null, '').optional(),
+              })
+                .required()
+                .unknown(true),
+              type: Joi.string(),
+              relationships: Joi.object().optional(),
+            }),
+          }),
+        },
+        handler: certificationVersionController.updateComments,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle permet de modifier le commentaire une version',
+        ],
+      },
+    },
+    {
       method: 'DELETE',
       path: '/api/admin/certification-versions/{certificationVersionId}',
       config: {

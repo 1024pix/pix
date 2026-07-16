@@ -120,6 +120,13 @@ export async function remove(id) {
   await knexConn('certification_versions').where({ id }).del();
 }
 
+export async function updateComments({ id, comments }) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('certification_versions').where({ id }).update({
+    comments,
+  });
+}
+
 function _toFrameworkHistoryEntry({
   id,
   startDate,

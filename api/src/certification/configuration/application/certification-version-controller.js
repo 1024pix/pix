@@ -28,6 +28,13 @@ async function update(request, h) {
   return h.response().code(204);
 }
 
+async function updateComments(request, h) {
+  const id = request.params.certificationVersionId;
+  const comments = request.payload.data.attributes.comments;
+  await usecases.updateVersionComment({ id, comments });
+  return h.response().code(204);
+}
+
 async function deleteCertificationVersion(request, h) {
   const certificationVersionId = request.params.certificationVersionId;
 
@@ -63,6 +70,7 @@ const certificationVersionController = {
   getVersionById,
   deleteCertificationVersion,
   update,
+  updateComments,
   getInfo,
 };
 

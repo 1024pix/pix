@@ -280,6 +280,49 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
     });
   });
 
+  describe('PATCH /api/admin/certification-versions/{certificationVersionId}/comments', function () {
+    it('updates only comment of a version for a given id', async function () {
+      // given
+      const version = databaseBuilder.factory.buildCertificationVersion({
+        id: 123,
+        status: VERSION_STATUSES.ACTIVE,
+        comments: 'Old comments',
+      });
+      databaseBuilder.factory.buildCertificationVersionTube({
+        tubeId: 'tubeA',
+        versionId: 123,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/certification-versions/${version.id}/comments`,
+        headers: generateAuthenticatedUserRequestHeaders({
+          userId: superAdmin.id,
+        }),
+        payload: {
+          data: {
+            id: version.id,
+            attributes: {
+              comments: 'COUCOU',
+            },
+            type: 'certification-versions',
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      const updatedVersion = await knex('certification_versions').where({ id: version.id }).first();
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      expect(updatedVersion.comments).equal('COUCOU');
+    });
+  });
+
   describe('DELETE /api/admin/certification-versions/{id}', function () {
     it('should return 204 HTTP status code', async function () {
       // given
