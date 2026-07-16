@@ -164,9 +164,7 @@ import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildComplementaryCertification } from './certification/complementary-certification/build-complementary-certification.js';
 import { buildComplementaryCertificationBadge } from './certification/complementary-certification/build-complementary-certification-badge.js';
-import { buildActiveCalibratedChallenge } from './certification/configuration/build-active-calibrated-challenge.js';
 import { buildCenter as buildConfigurationCenter } from './certification/configuration/build-center.js';
-import { buildCertificationFrameworksChallenge } from './certification/configuration/build-certification-frameworks-challenge.js';
 import { buildCertificationInfo } from './certification/configuration/build-certification-info.js';
 import { buildFrameworkHistoryEntry } from './certification/configuration/build-framework-history-entry.js';
 import {
@@ -255,9 +253,7 @@ const banner = {
 
 const certification = {
   configuration: {
-    buildActiveCalibratedChallenge,
     buildCenter: buildConfigurationCenter,
-    buildCertificationFrameworksChallenge,
     buildFrameworkHistoryEntry,
     buildCertificationInfo,
     buildVersion: buildConfigurationVersion,
