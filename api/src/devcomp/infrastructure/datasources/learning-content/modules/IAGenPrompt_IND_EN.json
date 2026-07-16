@@ -71,7 +71,7 @@
                       "userName": "Gustave",
                       "direction": "incoming",
                       "type": "Text",
-                      "content": "My prompt was: \"Help me organise the tournament.'"
+                      "content": "My prompt was: \"Help me organise the tournament.\""
                     },
                     {
                       "userName": "Emma",
@@ -118,7 +118,7 @@
                 "id": "c4b28020-fcfe-4f0e-bdd3-a4df480fb3c8",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave's prompt was: \"Help me organise the tournament.'</p>"
+                "content": "<p>Gustave's prompt was: \"Help me organise the tournament.\"</p>"
               }
             },
             {
