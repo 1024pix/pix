@@ -14,7 +14,7 @@ import { createContextKey } from '@opentelemetry/api';
  * name to value. Not exported for direct use - go through {@link setInheritedAttributes} to write
  * and {@link InheritedAttributesSpanProcessor} to read.
  */
-export const INHERITED_ATTRIBUTES_KEY = createContextKey('pix.inheritedAttributes');
+const INHERITED_ATTRIBUTES_KEY = createContextKey('pix.inheritedAttributes');
 
 /**
  * Returns a copy of `ctx` with `attributes` merged into whatever inherited attributes it already
