@@ -2,16 +2,16 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-export function serialize({ version, areas }) {
+export function serialize(versionDetails) {
   const data = {
-    id: version.id,
-    startDate: version.startDate,
-    expirationDate: version.expirationDate,
-    assessmentDuration: version.assessmentDuration,
-    minimumAnswersRequiredForValidation: version.minimumAnswersRequiredToValidateACertification,
-    maximumAssessmentLength: version.challengesConfiguration?.maximumAssessmentLength,
-    comments: version.comments,
-    areas,
+    id: versionDetails.id,
+    startDate: versionDetails.startDate,
+    expirationDate: versionDetails.expirationDate,
+    assessmentDuration: versionDetails.assessmentDuration,
+    minimumAnswersRequiredForValidation: versionDetails.minimumAnswersRequiredForValidation,
+    maximumAssessmentLength: versionDetails.maximumAssessmentLength,
+    comments: versionDetails.comments,
+    areas: versionDetails.areas,
   };
 
   return new Serializer('certification-versions', {

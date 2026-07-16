@@ -128,6 +128,10 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           scope: SCOPES.CORE,
           startDate: new Date('2020-01-10'),
         });
+        databaseBuilder.factory.buildCertificationVersionTube({
+          tubeId: 'tubeA',
+          versionId: version.id,
+        });
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           isPublished: false,
           version: AlgorithmEngineVersion.V3,
@@ -280,6 +284,10 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
         const version = databaseBuilder.factory.buildCertificationVersion({
           scope: SCOPES.CORE,
           startDate: new Date('2019-01-01'),
+        });
+        databaseBuilder.factory.buildCertificationVersionTube({
+          tubeId: 'tubeA',
+          versionId: version.id,
         });
 
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({

@@ -406,6 +406,10 @@ describe('Certification | Session Management | Acceptance | Application | Route 
               },
             ],
           }).id;
+          databaseBuilder.factory.buildCertificationVersionTube({
+            tubeId: 'tubeA',
+            versionId: certificationVersionId,
+          });
           await databaseBuilder.commit();
         });
 
@@ -960,6 +964,10 @@ const _createSessionWithoutChallenge = async () => {
         values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
       },
     ],
+  });
+  databaseBuilder.factory.buildCertificationVersionTube({
+    tubeId: 'tubeA',
+    versionId: version.id,
   });
   databaseBuilder.factory.buildCertificationCenterMembership({
     userId,

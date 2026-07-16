@@ -180,6 +180,10 @@ describe('Certification | Session-management | Acceptance | Application | Routes
             },
           ],
         }).id;
+        databaseBuilder.factory.buildCertificationVersionTube({
+          tubeId: 'tubeA',
+          versionId,
+        });
         const juryMember = databaseBuilder.factory.buildUser.withRole({ roles: PIX_ADMIN.ROLES.SUPER_ADMIN });
         const session = databaseBuilder.factory.buildSession({
           version: AlgorithmEngineVersion.V3,
@@ -310,6 +314,10 @@ describe('Certification | Session-management | Acceptance | Application | Routes
         ],
         minimumAnswersRequiredToValidateACertification: 1,
       }).id;
+      databaseBuilder.factory.buildCertificationVersionTube({
+        tubeId: 'tubeA',
+        versionId,
+      });
       const juryMember = databaseBuilder.factory.buildUser.withRole({ roles: PIX_ADMIN.ROLES.SUPER_ADMIN });
       const session = databaseBuilder.factory.buildSession({
         version: AlgorithmEngineVersion.V3,

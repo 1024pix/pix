@@ -77,6 +77,10 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
           ],
           minimumAnswersRequiredToValidateACertification: 1,
         });
+        databaseBuilder.factory.buildCertificationVersionTube({
+          tubeId: 'tubeA',
+          versionId: currentVersion.id,
+        });
 
         const candidate = databaseBuilder.factory.buildUser();
         const sessionId = databaseBuilder.factory.buildSession({
@@ -223,6 +227,10 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
             },
           ],
           minimumAnswersRequiredToValidateACertification: 1,
+        });
+        databaseBuilder.factory.buildCertificationVersionTube({
+          tubeId: 'tubeA',
+          versionId: archivedVersion.id,
         });
 
         databaseBuilder.factory.buildCertificationVersion({

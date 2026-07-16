@@ -31,6 +31,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           },
         ],
         challengesConfiguration,
+        tubeIds: ['rec123', 'rec456', 'rec789'],
       });
 
       await databaseBuilder.commit();
@@ -39,7 +40,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       const versionId = await versionRepository.create(version);
 
       // then
-      const results = await knex('certification_versions')
+      const savedVersion = await knex('certification_versions')
         .select(
           'id',
           'scope',
@@ -53,7 +54,9 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         .where({ id: versionId })
         .first();
 
-      expect(results).to.deep.equal({
+      const savedLinkedToVersionTubeIds = await knex('certification_versions_tubes');
+
+      expect(savedVersion).to.deep.equal({
         id: versionId,
         scope: version.scope,
         startDate: version.startDate,
@@ -63,6 +66,12 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         competencesScoringConfiguration: version.competencesScoringConfiguration,
         challengesConfiguration: version.challengesConfiguration,
       });
+
+      expect(savedLinkedToVersionTubeIds).to.have.deep.members([
+        { tube_id: version.tubeIds[0], version_id: savedVersion.id },
+        { tube_id: version.tubeIds[1], version_id: savedVersion.id },
+        { tube_id: version.tubeIds[2], version_id: savedVersion.id },
+      ]);
     });
   });
 
@@ -162,7 +171,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultCandidateCapacity: -1,
         defaultProbabilityToPickChallenge: 10,
       };
-      databaseBuilder.factory.buildCertificationVersion({
+      const archivedVersion = databaseBuilder.factory.buildCertificationVersion({
         id: 1000,
         scope,
         startDate: new Date('2025-01-01'),
@@ -182,7 +191,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultCandidateCapacity: -2,
         defaultProbabilityToPickChallenge: 20,
       };
-      databaseBuilder.factory.buildCertificationVersion({
+      const archivedVersion2 = databaseBuilder.factory.buildCertificationVersion({
         id: 10000,
         scope,
         startDate: new Date('2025-03-01'),
@@ -203,7 +212,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultProbabilityToPickChallenge: 30,
       };
 
-      databaseBuilder.factory.buildCertificationVersion({
+      const activeVersion = databaseBuilder.factory.buildCertificationVersion({
         id: 100,
         scope,
         startDate: new Date('2025-06-01'),
@@ -224,7 +233,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultProbabilityToPickChallenge: 40,
       };
       const aScopeWeAreNotInterestedIn = SCOPES.CORE;
-      databaseBuilder.factory.buildCertificationVersion({
+      const activeVersion2 = databaseBuilder.factory.buildCertificationVersion({
         id: 2,
         scope: aScopeWeAreNotInterestedIn,
         startDate: new Date('2025-10-01'),
@@ -234,6 +243,15 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         competencesScoringConfiguration: null,
         challengesConfiguration: aWeDoNotCareConfig,
       });
+
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: archivedVersion.id, tubeId: 'rec123' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: archivedVersion.id, tubeId: 'rec5678' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: archivedVersion2.id, tubeId: 'rec123' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: archivedVersion2.id, tubeId: 'rec5678' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: activeVersion.id, tubeId: 'rec123' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: activeVersion.id, tubeId: 'rec5678' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: activeVersion2.id, tubeId: 'rec123' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: activeVersion2.id, tubeId: 'rec5678' });
 
       await databaseBuilder.commit();
 
@@ -251,6 +269,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           globalScoringConfiguration: [{ config: 'latest' }],
           competencesScoringConfiguration: [{ config: 'latest' }],
           challengesConfiguration: activeConfig,
+          tubeIds: ['rec123', 'rec5678'],
         }),
         domainBuilder.certification.configuration.buildVersion({
           id: 1000,
@@ -261,6 +280,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           globalScoringConfiguration: [{ config: 'old' }],
           competencesScoringConfiguration: [{ config: 'old' }],
           challengesConfiguration: oldConfig,
+          tubeIds: ['rec123', 'rec5678'],
         }),
         domainBuilder.certification.configuration.buildVersion({
           id: 10000,
@@ -271,6 +291,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           globalScoringConfiguration: [{ config: 'middle' }],
           competencesScoringConfiguration: [{ config: 'middle' }],
           challengesConfiguration: middleConfig,
+          tubeIds: ['rec123', 'rec5678'],
         }),
       ]);
     });
@@ -324,6 +345,9 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         challengesConfiguration: expectedConfig,
       }).id;
 
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId, tubeId: 'rec123' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId, tubeId: 'rec5678' });
+
       await databaseBuilder.commit();
 
       // when
@@ -339,6 +363,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       expect(result.globalScoringConfiguration).to.deep.equal([{ config: 'test' }]);
       expect(result.competencesScoringConfiguration).to.deep.equal([{ config: 'test' }]);
       expect(result.challengesConfiguration).to.deep.equal(expectedConfig);
+      expect(result.tubeIds).to.deep.equal(['rec123', 'rec5678']);
     });
 
     context('when the version does not exist', function () {
@@ -453,7 +478,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultCandidateCapacity: 1,
         defaultProbabilityToPickChallenge: 51,
       };
-      const versionIdDroit = databaseBuilder.factory.buildCertificationVersion({
+      const versionIdDroitId = databaseBuilder.factory.buildCertificationVersion({
         id: 3,
         scope: scopeDroit,
         startDate: new Date('2025-06-01'),
@@ -475,7 +500,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultCandidateCapacity: 4,
         defaultProbabilityToPickChallenge: 5,
       };
-      const versionIdCoreOld = databaseBuilder.factory.buildCertificationVersion({
+      const versionIdCoreOldId = databaseBuilder.factory.buildCertificationVersion({
         id: 2,
         scope: scopeCoreOld,
         startDate: new Date('2024-01-01'),
@@ -497,7 +522,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultCandidateCapacity: 40,
         defaultProbabilityToPickChallenge: 50,
       };
-      const versionIdCoreNew = databaseBuilder.factory.buildCertificationVersion({
+      const versionIdCoreNewId = databaseBuilder.factory.buildCertificationVersion({
         id: 1,
         scope: scopeCoreNew,
         startDate: new Date('2026-01-01'),
@@ -509,6 +534,13 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         challengesConfiguration: expectedConfigCoreNew,
         comments: 'versionCoreNew',
       }).id;
+
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdDroitId, tubeId: 'rec1234' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdDroitId, tubeId: 'rec5678' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdCoreOldId, tubeId: 'rec1234' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdCoreOldId, tubeId: 'rec5678' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdCoreNewId, tubeId: 'rec1234' });
+      databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdCoreNewId, tubeId: 'rec5678' });
       await databaseBuilder.commit();
 
       // when
@@ -517,7 +549,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       // then
       expect(result).to.deepEqualArray([
         domainBuilder.certification.configuration.buildVersion({
-          id: versionIdCoreNew,
+          id: versionIdCoreNewId,
           scope: scopeCoreNew,
           startDate: new Date('2026-01-01'),
           expirationDate: null,
@@ -527,9 +559,10 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           competencesScoringConfiguration: [{ config: 'testCoreNew' }],
           challengesConfiguration: expectedConfigCoreNew,
           comments: 'versionCoreNew',
+          tubeIds: ['rec1234', 'rec5678'],
         }),
         domainBuilder.certification.configuration.buildVersion({
-          id: versionIdCoreOld,
+          id: versionIdCoreOldId,
           scope: scopeCoreOld,
           startDate: new Date('2024-01-01'),
           expirationDate: new Date('2025-12-31'),
@@ -539,9 +572,10 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           competencesScoringConfiguration: [{ config: 'testCoreOld' }],
           challengesConfiguration: expectedConfigCoreOld,
           comments: 'versionCoreOld',
+          tubeIds: ['rec1234', 'rec5678'],
         }),
         domainBuilder.certification.configuration.buildVersion({
-          id: versionIdDroit,
+          id: versionIdDroitId,
           scope: scopeDroit,
           startDate: new Date('2025-06-01'),
           expirationDate: new Date('2025-12-31'),
@@ -551,25 +585,37 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           competencesScoringConfiguration: [{ config: 'testDroit' }],
           challengesConfiguration: expectedConfigDroit,
           comments: 'versionDroit',
+          tubeIds: ['rec1234', 'rec5678'],
         }),
       ]);
     });
   });
 
-  describe('#deleteVersion', function () {
-    it('should return delete a draft certification version ', async function () {
+  describe('#remove', function () {
+    it('should delete a draft certification version ', async function () {
       const certificationVersionId = databaseBuilder.factory.buildCertificationVersion({
         startDate: null,
         expirationDate: null,
       }).id;
+
+      databaseBuilder.factory.buildCertificationVersionTube({
+        versionId: certificationVersionId,
+        tubeId: 'rec123',
+      });
+
       await databaseBuilder.commit();
 
-      await versionRepository.deleteVersion(certificationVersionId);
+      await versionRepository.remove(certificationVersionId);
 
       const matchingCertificationVersions = await knex
         .from('certification_versions')
         .where({ id: certificationVersionId });
       expect(matchingCertificationVersions).to.be.empty;
+
+      const certificationVersionTubeIds = await knex('certification_versions_tubes').where({
+        version_id: certificationVersionId,
+      });
+      expect(certificationVersionTubeIds).to.be.empty;
     });
   });
 });

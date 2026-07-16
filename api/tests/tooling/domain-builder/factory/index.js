@@ -164,9 +164,7 @@ import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildComplementaryCertification } from './certification/complementary-certification/build-complementary-certification.js';
 import { buildComplementaryCertificationBadge } from './certification/complementary-certification/build-complementary-certification-badge.js';
-import { buildActiveCalibratedChallenge } from './certification/configuration/build-active-calibrated-challenge.js';
 import { buildCenter as buildConfigurationCenter } from './certification/configuration/build-center.js';
-import { buildCertificationFrameworksChallenge } from './certification/configuration/build-certification-frameworks-challenge.js';
 import { buildCertificationInfo } from './certification/configuration/build-certification-info.js';
 import { buildFrameworkHistoryEntry } from './certification/configuration/build-framework-history-entry.js';
 import {
@@ -174,6 +172,7 @@ import {
   buildScoBlockedAccessDateLycee,
 } from './certification/configuration/build-sco-blocked-access-date.js';
 import { buildVersion as buildConfigurationVersion } from './certification/configuration/build-version.js';
+import { buildVersionDetails } from './certification/configuration/build-version-details.js';
 import { buildCandidate } from './certification/enrolment/build-candidate.js';
 import { buildCertificationEligibility } from './certification/enrolment/build-certification-eligibility.js';
 import { buildComplementaryCertificationBadgeWithOffsetVersion as buildComplementaryCertificationBadgeForEnrolment } from './certification/enrolment/build-complementary-certification-badge.js';
@@ -254,14 +253,13 @@ const banner = {
 
 const certification = {
   configuration: {
-    buildActiveCalibratedChallenge,
     buildCenter: buildConfigurationCenter,
-    buildCertificationFrameworksChallenge,
     buildFrameworkHistoryEntry,
     buildCertificationInfo,
     buildVersion: buildConfigurationVersion,
     buildScoBlockedAccessDateCollege,
     buildScoBlockedAccessDateLycee,
+    buildVersionDetails,
   },
   complementaryCertification: {
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,

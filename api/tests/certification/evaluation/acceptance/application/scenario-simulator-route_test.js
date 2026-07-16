@@ -30,6 +30,10 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
         defaultProbabilityToPickChallenge: 51,
       },
     });
+    databaseBuilder.factory.buildCertificationVersionTube({
+      tubeId: 'tubeA',
+      versionId: version.id,
+    });
 
     adminAuthorizationHeaders = generateAuthenticatedUserRequestHeaders({ userId: adminId });
 

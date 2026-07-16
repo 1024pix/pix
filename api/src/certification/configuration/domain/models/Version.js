@@ -32,6 +32,7 @@ export class Version {
     status: Joi.string()
       .required()
       .valid(...Object.values(VERSION_STATUSES)),
+    tubeIds: Joi.array().min(1).unique().required(),
   });
 
   /**
@@ -43,6 +44,7 @@ export class Version {
    * @param {number} params.assessmentDuration - Assessment duration in minutes
    * @param {number} params.minimumAnswersRequiredToValidateACertification
    * @param {string} params.comments
+   * @param {Array<string>} params.tubeIds
    * @param {VERSION_STATUSES.DRAFT | VERSION_STATUSES.ACTIVE | VERSION_STATUSES.ARCHIVED} params.status
    * @param {Array<object>} [params.globalScoringConfiguration] - Global scoring configuration
    * @param {Array<object>} [params.competencesScoringConfiguration] - Competences scoring configuration
@@ -60,6 +62,7 @@ export class Version {
     challengesConfiguration,
     comments,
     status,
+    tubeIds,
   }) {
     this.id = id;
     this.scope = scope;
@@ -72,10 +75,10 @@ export class Version {
     this.challengesConfiguration = challengesConfiguration;
     this.comments = comments === '' ? null : comments;
     this.status = status;
-    this.#validate();
+    this.tubeIds = tubeIds;
   }
 
-  #validate() {
+  validate() {
     const { error } = Version.#schema.validate(this, { allowUnknown: false });
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
@@ -84,6 +87,7 @@ export class Version {
 
   update({ comments }) {
     this.comments = comments;
+    this.validate();
   }
 
   get isDraft() {
@@ -94,10 +98,14 @@ export class Version {
     return this.status === VERSION_STATUSES.ACTIVE;
   }
 
-  static buildDraftFromActiveVersion({ scope, version }) {
-    return new Version({
+  get canRemove() {
+    return this.status === VERSION_STATUSES.DRAFT;
+  }
+
+  static buildDraftFromActiveVersion({ scope, version, tubeIds }) {
+    const draftVersion = new Version({
       id: null,
-      scope,
+      scope: version?.scope ?? scope,
       startDate: null,
       expirationDate: null,
       assessmentDuration: version?.assessmentDuration ?? DEFAULT_SESSION_DURATION_MINUTES,
@@ -118,6 +126,10 @@ export class Version {
       competencesScoringConfiguration: version?.competencesScoringConfiguration ?? [],
       status: VERSION_STATUSES.DRAFT,
       comments: null,
+      tubeIds,
     });
+    draftVersion.validate();
+
+    return draftVersion;
   }
 }

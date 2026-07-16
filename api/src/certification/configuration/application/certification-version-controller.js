@@ -1,15 +1,15 @@
 import { usecases } from '../domain/usecases/index.js';
 import { certificationInfoSerializer } from '../infrastructure/serializers/certification-info-serializer.js';
-import * as certificationVersionDetailSerializer from '../infrastructure/serializers/certification-version-detail-serializer.js';
+import * as versionDetailsSerializer from '../infrastructure/serializers/version-details-serializer.js';
 
 async function getVersionById(request) {
   const certificationVersionId = request.params.certificationVersionId;
 
-  const certificationVersion = await usecases.getVersionById({
+  const versionDetails = await usecases.getVersionById({
     id: certificationVersionId,
   });
 
-  return certificationVersionDetailSerializer.serialize(certificationVersion);
+  return versionDetailsSerializer.serialize(versionDetails);
 }
 
 async function update(request, h) {
@@ -37,11 +37,11 @@ async function createDraft(request, h) {
 
   const id = await usecases.createDraft({ scope, tubeIds });
 
-  const certificationVersion = await usecases.getVersionById({
+  const versionDetails = await usecases.getVersionById({
     id,
   });
 
-  return h.response(certificationVersionDetailSerializer.serialize(certificationVersion)).code(201);
+  return h.response(versionDetailsSerializer.serialize(versionDetails)).code(201);
 }
 
 async function getInfo(request) {
