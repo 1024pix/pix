@@ -236,7 +236,6 @@ export class JobClient {
     };
 
     const stats = { global: { ...emptyStat } };
-
     for (const queue of queues) {
       stats[queue.name] = { ...emptyStat };
     }

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { otelProxy } from '../open-telemetry/otel_proxy.js';
+import { tracing } from '../open-telemetry/helpers.js';
 
 function injectDefaults(defaults, targetFn) {
   return (args) => targetFn(Object.assign(Object.create(defaults), args));
@@ -50,13 +50,15 @@ export function injectDependencies(toBeInjected, dependencies, boundedContext = 
   const wrappedDependencies = Object.fromEntries(
     Object.entries(dependencies).map(([name, value]) => [
       name,
-      value ? otelProxy(value, name, () => ({ attributes: defaultAttributes })) : value,
+      value ? tracing.spanify(name, value, () => ({attributes: defaultAttributes})) : value,
     ]),
   );
   const injected = Object.fromEntries(
     Object.entries(toBeInjected).map(([name, value]) => {
       if (_.isFunction(value)) {
-        const wrapped = otelProxy(value, `${boundedContext.name}->${name}`, () => ({ attributes: defaultAttributes }));
+        const wrapped = tracing.spanify(`${boundedContext.name}->${name}`, value, () => ({
+          attributes: defaultAttributes,
+        }));
         return [name, _.partial(injectDefaults, wrappedDependencies, wrapped)()];
       } else {
         return [name, injectDependencies(value, dependencies)];

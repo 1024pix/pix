@@ -29,7 +29,7 @@ function wrapFunction(func, target, methodName, getSpanOptionsFn) {
               if (!(error instanceof DomainError)) {
                 span.setStatus({
                   code: 2 /* SpanStatusCode.ERROR */,
-                  message: error.message,
+                  message: 'A technical error has been thrown',
                 });
               }
               span.end();
@@ -43,7 +43,7 @@ function wrapFunction(func, target, methodName, getSpanOptionsFn) {
         if (!(error instanceof DomainError)) {
           span.setStatus({
             code: 2 /* SpanStatusCode.ERROR */,
-            message: error.message,
+            message: 'A technical error has been thrown',
           });
         }
         span.end();

@@ -1,13 +1,13 @@
 import { getInContext } from '../execution-context-manager.js';
-import { otelProxy } from './otel_proxy.js';
+import { tracing } from './helpers.js';
 
 function instrumentJobHandle(jobName, jobControllerClass) {
   const originalHandle = jobControllerClass.prototype.handle;
-  jobControllerClass.prototype.handle = otelProxy(originalHandle, `job.${jobName}.handle`, () => {
+  jobControllerClass.prototype.handle = tracing.spanify(`job.${jobName}.handle`, originalHandle, () => {
     const producerContext = getInContext('openTelemetryContext');
     return {
       kind: 4 /* SpanKind.CONSUMER */,
-      links: producerContext ? [{ context: producerContext }] : [],
+      links: producerContext ? [{context: producerContext}] : [],
     };
   });
 }
