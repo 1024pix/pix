@@ -5,7 +5,7 @@
 
 .action-bar {
   @extend %pix-body-m;
-  @include shadows.shadow(-4px, 8px);
+  @extend %pix-shadow-orga;
 
   position: fixed;
   right: 0;
@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - layout.$app-sidebar-width) ;
+  width: calc(100% - layout.$app-sidebar-width);
   height: 68px;
   color: var(--pix-neutral-500);
   font-family: fonts.$font-roboto;
