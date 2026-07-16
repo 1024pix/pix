@@ -153,10 +153,6 @@
                           "content": "<p>la génération de gaz à effet de serre</p>"
                         },
                         {
-                          "id": "2",
-                          "content": "<p>la production de déchets toxiques</p>"
-                        },
-                        {
                           "id": "3",
                           "content": "<p>la pénurie de métaux et de ressources précieuses</p>"
                         },
@@ -177,7 +173,6 @@
                       },
                       "solutions": [
                         "1",
-                        "2",
                         "3",
                         "4"
                       ]
@@ -366,13 +361,13 @@
                       "id": "0ac5c76d-8698-40bf-9b6c-fd815931686c",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo choisit d’illustrer la page d’accueil du site web avec une vidéo plutôt qu’avec une photo.</p>"
+                      "content": "<p>Malo choisit d<strong>’illustrer la page</strong> d’accueil du site web <strong>avec une vidéo</strong> plutôt qu’avec une photo.</p>"
                     },
                     {
                       "id": "7fb2c32e-586d-4a88-ad50-368a2292ae97",
                       "type": "custom",
                       "title": "",
-                      "instruction": "Comment évolue la sollicitation des serveurs ?",
+                      "instruction": "<p>Comment évolue la sollicitation des serveurs avec l'illustration vidéo ?</p>",
                       "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
@@ -409,13 +404,13 @@
                       "id": "74fcdfad-ef31-48c6-be27-03c06cbc28f2",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo choisit de compresser les images présentes sur le site.</p>"
+                      "content": "<p>Malo choisit de<strong> compresser les images </strong>présentes sur le site.</p>"
                     },
                     {
                       "id": "f19dfdcb-c777-4448-ab61-29b0a212e489",
                       "type": "custom",
                       "title": "",
-                      "instruction": "Comment évolue la sollicitation des serveurs ?",
+                      "instruction": "<p>Comment évolue la sollicitation des serveurs avec la compression des images ?</p>",
                       "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
@@ -452,13 +447,13 @@
                       "id": "523a1d70-ea60-498a-be0a-554d14e2907c",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo choisit d’activer la lecture automatique des vidéos, c’est-à-dire qu’à la fin d’une vidéo, une autre est lancée automatiquement sans action de l’utilisateur.</p>"
+                      "content": "<p>Malo choisit d’<strong>activer la lecture automatique</strong> des vidéos, c’est-à-dire qu’à la fin d’une vidéo, une autre est lancée automatiquement sans action de l’utilisateur.</p>"
                     },
                     {
                       "id": "3e486e8b-cca0-45c5-b022-b40574eeb8bc",
                       "type": "custom",
                       "title": "",
-                      "instruction": "Comment évolue la sollicitation des serveurs ?",
+                      "instruction": "<p>Comment évolue la sollicitation des serveurs avec l'activation de la lecture automatique ?</p>",
                       "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
@@ -495,13 +490,13 @@
                       "id": "420482f8-f04b-441a-a8ed-9146b4787a71",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo se rend compte que le forum du site web a très peu d’activité.<br>Comme le forum est peu utilisé, Malo décide de le supprimer.</p>"
+                      "content": "<p>Malo se rend compte que <strong>le forum</strong> du site web a très peu d’activité.<br>Comme le forum est peu utilisé, Malo décide de le <strong>supprimer</strong>.</p>"
                     },
                     {
                       "id": "14580542-77e4-454a-9dea-991225bf4c73",
                       "type": "custom",
                       "title": "",
-                      "instruction": "Comment évolue la sollicitation des serveurs ?",
+                      "instruction": "<p>Comment évolue la sollicitation des serveurs avec la suppression du forum ?</p>",
                       "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
