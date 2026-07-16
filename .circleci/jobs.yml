@@ -92,7 +92,7 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
-      - image: adobe/s3mock:5.0.0
+      - image: adobe/s3mock:5.1.0
         environment:
           COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: pix-import-test
     resource_class: medium
@@ -151,7 +151,7 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
-      - image: adobe/s3mock:5.0.0
+      - image: adobe/s3mock:5.1.0
         environment:
           COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test'
     resource_class: medium
@@ -168,7 +168,7 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
-      - image: adobe/s3mock:5.0.0
+      - image: adobe/s3mock:5.1.0
         environment:
           COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test'
     resource_class: large
