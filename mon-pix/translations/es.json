@@ -2325,7 +2325,7 @@
           }
         },
         "trainings": {
-          "description": "Se recomienda en función de tu progreso para ayudarte a reforzar tus habilidades y avanzar más, en el momento adecuado.",
+          "description": "Las soluciones que se muestran a continuación se te recomiendan en función de tu nivel.",
           "title": "Ve más allá, a tu propio ritmo."
         }
       },
