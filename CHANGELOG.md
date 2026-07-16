@@ -1,5 +1,16 @@
 # Pix Changelog
 
+# [5.457.0](https://github.com/1024pix/pix/compare/v5.456.0...v5.457.0) (2026-07-16)
+
+### :rocket: Amélioration
+
+- [#16803](https://github.com/1024pix/pix/pull/16803) : modifs CY_Phishing_AVA suite panels
+- [#16769](https://github.com/1024pix/pix/pull/16769) Ajout du second formulaire dans l'encart feedback de fin de parcours (PIX-23506).
+
+### :building_construction: Tech
+
+- [#16773](https://github.com/1024pix/pix/pull/16773) Remplir la table des sujets de version de certif (PIX-23526).
+
 # [5.456.0](https://github.com/1024pix/pix/compare/v5.455.0...v5.456.0) (2026-07-15)
 
 ### :rocket: Amélioration
