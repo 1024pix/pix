@@ -150,14 +150,14 @@
                     "id": "1",
                     "content": "L’exemple 1",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! Cette réponse est moins précise que l’autre.</p><p> Les réponses données par les IA génératives se sont améliorées grâce aux <strong>appels d’outils</strong>, par exemple ici, la <strong>recherche sur internet</strong>, utilisée dans l’exemple 2.</p>"
+                      "diagnosis": "<p><strong>Eh non ! </strong>Cette réponse est moins précise que l’autre.</p><p> Les réponses données par les IA génératives se sont améliorées grâce aux <strong>appels d’outils</strong>, par exemple ici, la <strong>recherche sur internet</strong>, utilisée dans l’exemple 2.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "L’exemple 2",
                     "feedback": {
-                      "diagnosis": "<p>Bien vu ! </p><p>Les réponses données par les IA génératives se sont améliorées grâce aux <strong>appels d’outils</strong>, par exemple ici, la <strong>recherche sur internet</strong>.</p>"
+                      "diagnosis": "<p><strong>Bien vu !</strong> </p><p>Les réponses données par les IA génératives se sont améliorées grâce aux <strong>appels d’outils</strong>, par exemple ici, la <strong>recherche sur internet</strong>.</p>"
                     }
                   },
                   {
@@ -278,28 +278,28 @@
                           "id": "1",
                           "content": "<p>l’application de musique</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p> Le logiciel d’IA doit mobiliser la <strong>calculatrice </strong>pour répondre à cette demande. </p><p>Cet outil est justement défini dans son prompt système.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p> Le logiciel d’IA doit mobiliser la <strong>calculatrice </strong>pour répondre à cette demande. </p><p>Cet outil est justement défini dans son prompt système.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>la calculatrice</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu ! </p><p> Le logiciel d’IA doit mobiliser <strong>la calculatrice</strong> pour répondre à cette demande.  Cet outil est justement défini dans son prompt système.</p>"
+                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p> Le logiciel d’IA doit mobiliser <strong>la calculatrice</strong> pour répondre à cette demande.  Cet outil est justement défini dans son prompt système.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>l’agenda</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! </p><p>Le logiciel d’IA doit mobiliser la <strong>calculatrice </strong>pour répondre à cette demande. Cet outil est justement défini dans son prompt système.</p>"
+                            "diagnosis": "<p><strong>Eh non ! </strong></p><p>Le logiciel d’IA doit mobiliser la <strong>calculatrice </strong>pour répondre à cette demande. Cet outil est justement défini dans son prompt système.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "Aucun outil ne va être utilisé.",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Le logiciel d’IA doit mobiliser la <strong>calculatrice </strong>pour répondre à cette demande. </p><p>Cet outil est justement défini dans son prompt système.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>Le logiciel d’IA doit mobiliser la <strong>calculatrice </strong>pour répondre à cette demande. </p><p>Cet outil est justement défini dans son prompt système.</p>"
                           }
                         },
                         {
@@ -342,35 +342,35 @@
                           "id": "1",
                           "content": "<p>la calculatrice</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non, aucun outil ne va être utilisé !</p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>cet outil n’est pas défini&nbsp;</strong>dans le prompt système de ChatPix 3.0.</p>"
+                            "diagnosis": "<p><strong>Eh non, aucun outil ne va être utilisé !</strong></p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>cet outil n’est pas défini&nbsp;</strong>dans le prompt système de ChatPix 3.0.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>l’application de musique<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non, aucun outil ne va être utilisé !</p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>cet outil n’est pas défini </strong> dans le prompt système de ChatPix 3.0.</p>"
+                            "diagnosis": "<p><strong>Eh non, aucun outil ne va être utilisé !</strong></p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>cet outil n’est pas défini </strong> dans le prompt système de ChatPix 3.0.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>l’agenda<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non, aucun outil ne va être utilisé !</p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>cet outil n’est pas défini &nbsp;</strong>dans le prompt système de ChatPix 3.0.</p>"
+                            "diagnosis": "<p><strong>Eh non, aucun outil ne va être utilisé !</strong></p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>cet outil n’est pas défini &nbsp;</strong>dans le prompt système de ChatPix 3.0.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Aucun outil ne va être utilisé.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !&nbsp;</p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>c</strong><strong>et outil n’est pas configuré </strong> dans le prompt système de ChatPix 3.0.</p>"
+                            "diagnosis": "<p><strong>Bien vu !&nbsp;</strong></p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>c</strong><strong>et outil n’est pas configuré </strong> dans le prompt système de ChatPix 3.0.</p>"
                           }
                         },
                         {
                           "id": "5",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>En fait, aucun outil ne va être utilisé !</p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>cet outil n’est pas configuré </strong> dans le prompt système de ChatPix 3.0.</p>"
+                            "diagnosis": "<p><strong>En fait, aucun outil ne va être utilisé !</strong></p><p>Il aurait fallu que le logiciel d’IA utilise l’agenda pour répondre à la demande, mais <strong>cet outil n’est pas configuré </strong> dans le prompt système de ChatPix 3.0.</p>"
                           }
                         }
                       ],
@@ -886,7 +886,7 @@
                 "isCompletionRequired": false,
                 "title": "ChatPix pour tester",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmlfcrotr00004z01vw5daup4",
-                "instruction": "<p>Le logiciel IA générative ci-dessous peut-il rechercher sur le web et produire des graphiques ? </p><p>Testez-le, puis répondez aux questions.</p>",
+                "instruction": "<p>Le logiciel IA générative ci-dessous peut-il rechercher sur le web et produire des graphiques ? </p><p>Testez-le, puis répondez aux questions.</p>",
                 "solution": "",
                 "height": 550
               }
@@ -958,7 +958,7 @@
                   },
                   "invalid": {
                     "state": "Mauvaise réponse !",
-                    "diagnosis": "<p> Avez-vous testé avec un prompt pour chaque situation ?</p><ul><li><strong>Pour la recherche sur internet</strong>&nbsp;: avez-vous posé à l’IA <strong>une question d’actualité ?</strong><p>Par exemple&nbsp;: « Quel jour sommes-nous et que s'est-il passé hier à Rome ?&nbsp;».</p></li><li><strong>Pour la production de graphiques&nbsp;:</strong> avez-vous demandé à l’IA de <strong>représenter des données chiffrées sous une forme visuelle ?</strong><p>Par exemple&nbsp;: «&nbsp;Fais un graphique comparant les températures de Kinshasa et Montréal.&nbsp;».</p></li></ul>"
+                    "diagnosis": "<p> Avez-vous testé avec un prompt pour chaque situation ?</p><ul><li><strong>Pour la recherche sur internet</strong>&nbsp;: avez-vous posé à l’IA <strong>une question d’actualité ?</strong><p>Par exemple&nbsp;: «&nbsp;Quel jour sommes-nous et que s’est-il passé hier à Rome ?&nbsp;».</p></li><li><strong>Pour la production de graphiques&nbsp;:</strong> avez-vous demandé à l’IA de <strong>représenter des données chiffrées sous une forme visuelle ?</strong><p>Par exemple&nbsp;: «&nbsp;Fais un graphique comparant les températures de Kinshasa et Montréal.&nbsp;».</p></li></ul>"
                   }
                 }
               }
@@ -979,7 +979,7 @@
                 "cards": [
                   {
                     "id": "5cabf99b-be7e-459a-a2d2-7e021df91abe",
-                    "text": "Quels sont les avantages et les inconvénients de poser du carrelage sur une terrasse ?",
+                    "text": "Quels sont les avantages et les inconvénients de poser du carrelage sur une terrasse ?",
                     "image": {
                       "url": "",
                       "altText": ""
