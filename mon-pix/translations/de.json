@@ -2282,6 +2282,7 @@
             "very-dissatisfied": "Überhaupt nicht relevant",
             "very-satisfied": "Sehr relevant"
           },
+          "error-message": "Beim Senden Ihrer Antwort ist ein Fehler aufgetreten.",
           "hide": "Ausblenden",
           "hide-aria-label": "Feedbackbereich für Empfehlungen zu Lerninhalten ausblenden",
           "instruction": "Klicken Sie auf ein Emoji, um Ihre Meinung zu geben.",

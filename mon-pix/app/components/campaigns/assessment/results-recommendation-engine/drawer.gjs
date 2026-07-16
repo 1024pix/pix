@@ -12,6 +12,8 @@ import ThankYou from './drawer/thank-you';
 
 export default class Drawer extends Component {
   @service requestManager;
+  @service intl;
+  @service pixToast;
 
   @tracked isHidden = false;
   @tracked isHiding = false;
@@ -50,7 +52,9 @@ export default class Drawer extends Component {
         }),
       });
     } catch {
-      // TODO Ajouter un PixToast d'erreur
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.skill-review.recommended-engine.drawer.error-message'),
+      });
     }
   }
 
@@ -99,7 +103,9 @@ export default class Drawer extends Component {
       });
       this.showThankYou();
     } catch {
-      // TODO Ajouter un PixToast d'erreur
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('pages.skill-review.recommended-engine.drawer.error-message'),
+      });
     }
   }
 

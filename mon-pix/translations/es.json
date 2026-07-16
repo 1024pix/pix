@@ -2282,6 +2282,7 @@
             "very-dissatisfied": "Para nada pertinente",
             "very-satisfied": "Muy pertinente"
           },
+          "error-message": "Se produjo un error al enviar tu respuesta.",
           "hide": "Ocultar",
           "hide-aria-label": "Ocultar el panel de comentarios de las recomendaciones de contenidos formativos",
           "instruction": "Haz clic en un emoji para dar tu opinión.",

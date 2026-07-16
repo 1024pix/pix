@@ -2282,6 +2282,7 @@
             "very-dissatisfied": "Not relevant at all",
             "very-satisfied": "Very relevant"
           },
+          "error-message": "An error occurred while sending your response.",
           "hide": "Hide",
           "hide-aria-label": "Hide the feedback panel for training content recommendations",
           "instruction": "Click on an emoji to give your feedback.",
