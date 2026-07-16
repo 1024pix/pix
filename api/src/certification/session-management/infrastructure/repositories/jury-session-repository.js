@@ -164,11 +164,11 @@ function _toDomain(jurySessionFromDB, counters) {
 }
 
 function _setupFilters(query, filters) {
-  const { id, certificationCenterName, status, certificationCenterExternalId, certificationCenterType, version } =
+  const { ids, certificationCenterName, status, certificationCenterExternalId, certificationCenterType, version } =
     filters;
 
-  if (id) {
-    query.where('sessions.id', id);
+  if (ids) {
+    query.whereIn('sessions.id', ids);
   }
 
   if (certificationCenterName) {
