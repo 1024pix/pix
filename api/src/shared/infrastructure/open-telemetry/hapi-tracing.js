@@ -17,6 +17,10 @@
  */
 import { context, SpanStatusCode, trace } from '@opentelemetry/api';
 
+import { config } from '../../config.js';
+import { routeDomainToOwnerTeam } from '../utils/route-domain-to-owner-team.js';
+import { setInheritedAttributes } from './inherited-span-attributes.js';
+
 const tracer = trace.getTracer('hapi');
 
 const INSTRUMENTED = Symbol('pix-hapi-tracing-instrumented');
@@ -31,16 +35,17 @@ const INSTRUMENTED = Symbol('pix-hapi-tracing-instrumented');
  * @param {string} name
  * @param {Record<string, string | number>} attributes
  * @param {OriginalFunction} fn
+ * @param {import('@opentelemetry/api').Context} [parentContext]
  * @returns {ReturnType<OriginalFunction>}
  */
-async function withChildSpan(name, attributes, fn) {
-  if (!trace.getSpan(context.active())) {
+async function withChildSpan(name, attributes, fn, parentContext = context.active()) {
+  if (!trace.getSpan(parentContext)) {
     return fn();
   }
 
-  const span = tracer.startSpan(name, { attributes });
+  const span = tracer.startSpan(name, { attributes }, parentContext);
   try {
-    return await context.with(trace.setSpan(context.active(), span), fn);
+    return await context.with(trace.setSpan(parentContext, span), fn);
   } catch (error) {
     span.recordException(error);
     span.setStatus({ code: SpanStatusCode.ERROR, message: error.message });
@@ -54,8 +59,13 @@ function wrapPreHandler(method) {
   if (method[INSTRUMENTED]) return method;
 
   const name = method.name || 'anonymous';
-  function wrapped(_request, _h) {
-    return withChildSpan(`pre-handler - ${name}`, { 'hapi.type': 'pre-handler' }, () => method.apply(this, arguments));
+  function wrapped(request, _h) {
+    return withChildSpan(
+      `pre-handler - ${name}`,
+      { 'hapi.type': 'pre-handler' },
+      () => method.apply(this, arguments),
+      request.app.pixContext,
+    );
   }
   wrapped[INSTRUMENTED] = true;
   return wrapped;
@@ -79,9 +89,12 @@ function wrapController(handler, path, method) {
   if (handler[INSTRUMENTED]) return handler;
 
   const attributes = { 'hapi.type': 'controller', 'http.route': path, 'code.function': handler.name || 'anonymous' };
-  function wrapped(_request, _h) {
-    return withChildSpan(`controller - ${method.toUpperCase()} ${path}`, attributes, () =>
-      handler.apply(this, arguments),
+  function wrapped(request, _h) {
+    return withChildSpan(
+      `controller - ${method.toUpperCase()} ${path}`,
+      attributes,
+      () => handler.apply(this, arguments),
+      request.app.pixContext,
     );
   }
   wrapped[INSTRUMENTED] = true;
@@ -117,7 +130,7 @@ function wrapAuthenticate(authenticate, attributes) {
 
   function wrapped(request, _h) {
     const spanAttributes = { 'hapi.type': 'auth', 'http.route': request.route?.path, ...attributes };
-    return withChildSpan('auth', spanAttributes, () => authenticate.apply(this, arguments));
+    return withChildSpan('auth', spanAttributes, () => authenticate.apply(this, arguments), request.app.pixContext);
   }
   wrapped[INSTRUMENTED] = true;
   return wrapped;
@@ -168,9 +181,11 @@ function instrumentValidation(server) {
       validate && (validate.headers || validate.params || validate.query || validate.payload || validate.state);
     if (!hasValidation) return h.continue;
 
-    request.app.pixValidationSpan = tracer.startSpan('validation', {
-      attributes: { 'hapi.type': 'validation', 'http.route': request.route.path },
-    });
+    request.app.pixValidationSpan = tracer.startSpan(
+      'validation',
+      { attributes: { 'hapi.type': 'validation', 'http.route': request.route.path } },
+      request.app.pixContext,
+    );
     return h.continue;
   });
 
@@ -188,6 +203,30 @@ function instrumentValidation(server) {
 }
 
 /**
+ * Computes attributes derived from the matched route (`routeDomain`, `teamsToContact`, ...) as
+ * early as possible - right after route lookup, before auth/validation run - and stashes them on
+ * `request.app.pixContext` (a `Context` carrying them under `inheritedAttributes`). All spans
+ * created downstream for this request (auth, validation, pre-handlers, controller) are started
+ * with that context as their parent, so `InheritedAttributesSpanProcessor` can copy the attributes
+ * onto every one of them without each call site having to know about them individually.
+ * @param {HapiServer} server
+ */
+function instrumentInheritedAttributes(server) {
+  server.ext('onPreAuth', (request, h) => {
+    if (!trace.getSpan(context.active())) return h.continue;
+
+    const routeDomain = request.route.realm?.plugin;
+    request.app.pixInheritedAttributes = {
+      'pix.routeDomain': routeDomain,
+      'pix.teamsToContact': routeDomainToOwnerTeam(config.routeDomainToOwnerTeamMapping, routeDomain).join(','),
+    };
+    request.app.pixContext = setInheritedAttributes(context.active(), request.app.pixInheritedAttributes);
+
+    return h.continue;
+  });
+}
+
+/**
  * @param {HapiServer} server
  */
 function instrumentHttpResponse(server) {
@@ -196,6 +235,9 @@ function instrumentHttpResponse(server) {
     if (!span) return h.continue;
 
     span.setAttribute('http.route', request.route.path);
+    if (request.app.pixInheritedAttributes) {
+      span.setAttributes(request.app.pixInheritedAttributes);
+    }
     span.updateName(`${request.method.toUpperCase()} ${request.route.path}`);
 
     request.app.traceId = span.spanContext().traceId;
@@ -251,6 +293,8 @@ export function instrumentHapiServer(server) {
     }
     return originalRoute.call(this, routes);
   };
+
+  instrumentInheritedAttributes(server);
 
   instrumentAuth(server);
 

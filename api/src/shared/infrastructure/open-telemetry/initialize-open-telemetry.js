@@ -11,10 +11,12 @@ import { containerDetector } from '@opentelemetry/resource-detector-container';
 import { envDetector, hostDetector, osDetector, processDetector } from '@opentelemetry/resources';
 import { BatchLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { NodeSDK, resources } from '@opentelemetry/sdk-node';
+import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
 import { config } from '../../config.js';
 import { logger } from '../utils/logger.js';
+import { InheritedAttributesSpanProcessor } from './inherited-span-attributes.js';
 import { scalingoDetector } from './scalingo-detector.js';
 
 const { resourceFromAttributes } = resources;
@@ -40,7 +42,7 @@ export function initializeOpenTelemetry(serviceName) {
       [ATTR_SERVICE_NAME]: serviceName,
     }),
     resourceDetectors: [envDetector, hostDetector, osDetector, processDetector, containerDetector, scalingoDetector],
-    traceExporter,
+    spanProcessors: [new InheritedAttributesSpanProcessor(), new BatchSpanProcessor(traceExporter)],
     metricExporter,
     logRecordProcessors: [new BatchLogRecordProcessor(logExporter)],
     instrumentations: [
