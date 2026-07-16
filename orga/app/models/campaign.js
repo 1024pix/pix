@@ -103,7 +103,6 @@ export default class Campaign extends Model {
 
   setType(type) {
     if (['ASSESSMENT', 'EXAM'].includes(type)) {
-      this.multipleSendings = false;
       this.course = this.course?.type === 'blueprint' ? null : this.course;
     }
     if (type === 'PROFILES_COLLECTION') {

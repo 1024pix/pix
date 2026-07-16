@@ -123,21 +123,6 @@ module('Unit | Model | campaign', function (hooks) {
 
   module('#setType', function () {
     module('when switching type is ASSESSMENT', function () {
-      test('set multiple sending to false', function (assert) {
-        //given
-        const store = this.owner.lookup('service:store');
-
-        const model = store.createRecord('campaign', {
-          multipleSendings: true,
-        });
-
-        //when
-        model.setType('ASSESSMENT');
-
-        assert.false(model.multipleSendings);
-        assert.strictEqual(model.type, 'ASSESSMENT');
-      });
-
       test('it should reset course if it is a blueprint', function (assert) {
         //given
         const store = this.owner.lookup('service:store');
@@ -155,21 +140,6 @@ module('Unit | Model | campaign', function (hooks) {
     });
 
     module('when switching type is EXAM', function () {
-      test('set multiple sending to false', function (assert) {
-        //given
-        const store = this.owner.lookup('service:store');
-
-        const model = store.createRecord('campaign', {
-          multipleSendings: true,
-        });
-
-        //when
-        model.setType('EXAM');
-
-        assert.false(model.multipleSendings);
-        assert.strictEqual(model.type, 'EXAM');
-      });
-
       test('it should reset course if it is a blueprint', function (assert) {
         //given
         const store = this.owner.lookup('service:store');
