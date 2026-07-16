@@ -76,6 +76,10 @@ export async function create(version) {
     })
     .returning('id');
 
+  const versionLinkedTubeIds = version.tubeIds.map((tubeId) => ({ tube_id: tubeId, version_id: id }));
+
+  await knexConn.batchInsert('certification_versions_tubes', versionLinkedTubeIds);
+
   return id;
 }
 

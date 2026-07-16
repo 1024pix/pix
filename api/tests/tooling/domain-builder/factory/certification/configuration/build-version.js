@@ -15,6 +15,7 @@ export const buildVersion = ({
   challengesConfiguration = {},
   status = VERSION_STATUSES.DRAFT,
   comments = 'Some comments',
+  tubeIds = ['rec123'],
 } = {}) => {
   return new Version({
     id,
@@ -28,6 +29,7 @@ export const buildVersion = ({
     challengesConfiguration: buildFlashAlgorithmConfiguration(challengesConfiguration),
     status,
     comments,
+    tubeIds,
   });
 };
 

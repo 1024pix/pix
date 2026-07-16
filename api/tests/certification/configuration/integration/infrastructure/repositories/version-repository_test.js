@@ -39,7 +39,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       const versionId = await versionRepository.create(version);
 
       // then
-      const results = await knex('certification_versions')
+      const savedVersion = await knex('certification_versions')
         .select(
           'id',
           'scope',
@@ -53,7 +53,9 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         .where({ id: versionId })
         .first();
 
-      expect(results).to.deep.equal({
+      const savedLinkedToVersionTubeIds = await knex('certification_versions_tubes');
+
+      expect(savedVersion).to.deep.equal({
         id: versionId,
         scope: version.scope,
         startDate: version.startDate,
@@ -63,6 +65,12 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         competencesScoringConfiguration: version.competencesScoringConfiguration,
         challengesConfiguration: version.challengesConfiguration,
       });
+
+      expect(savedLinkedToVersionTubeIds).to.have.deep.members([
+        { tube_id: version.tubeIds[0], version_id: savedVersion.id },
+        { tube_id: version.tubeIds[1], version_id: savedVersion.id },
+        { tube_id: version.tubeIds[2], version_id: savedVersion.id },
+      ]);
     });
   });
 
