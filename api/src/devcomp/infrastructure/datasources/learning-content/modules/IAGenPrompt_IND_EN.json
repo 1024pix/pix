@@ -1,19 +1,19 @@
 {
   "id": "79d81cb6-ae3f-4e43-8512-4cb811ed76d8",
   "shortId": "fa53e56f",
-  "slug": "prompt-int-EN",
-  "title": "J’améliore mes prompts !",
+  "slug": "prompt-int-UK",
+  "title": "I improve my prompts!",
   "isBeta": true,
   "visibility": "private",
   "details": {
     "image": "https://assets.pix.org/modules/jameliore-mes-prompts/picto_moduleIA_prompt2.svg",
-    "description": "Les logiciels d’IA générative permettent de répondre à une grande variété de nos demandes. Mais la qualité de leurs réponses dépend beaucoup des questions qu’on leur pose, c’est-à-dire des prompts qu’on leur donne. <br>Dans ce module, vous allez apprendre à formuler des prompts efficaces et à ajuster vos demandes pour améliorer le résultat proposé par le logiciel d’IA générative.<br>",
+    "description": "Generative AI software can respond to a wide variety of requests. However, the quality of its answers depends greatly on the questions we ask—in other words, the prompts we give it. <br>In this module, you will learn how to write effective prompts and refine your requests to improve the output produced by generative AI software.<br>",
     "duration": 10,
     "level": "independent",
     "objectives": [
-      "<p>Écrire des prompts efficaces</p>",
-      "<p> Évaluer de manière critique la réponse du logiciel&nbsp;d’IA générative</p>",
-      "<p>Améliorer la réponse donnée par le logiciel d’IA générative</p>"
+      "<p>Write effective prompts</p>",
+      "<p> Critically assess the response from generative AI software</p>",
+      "<p>Improve the response produced by generative AI software</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -33,7 +33,7 @@
                 "id": "3a2c5d6d-eff5-40d3-985d-1e0849cb8e79",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave organise un tournoi de volley-ball dans un club sportif. 🏐</p><p>Il veut gagner du temps et demande à un logiciel d’IA générative de l’aider à organiser le tournoi.  </p><p>Mais il est déçu du résultat… </p>"
+                "content": "<p>Gustave is organising a volleyball tournament at a sports club. 🏐</p><p>He wants to save time, so he asks generative AI software to help him organise the tournament.  </p><p>But he is disappointed with the result… </p>"
               }
             }
           ]
@@ -41,7 +41,7 @@
         {
           "id": "f7cb1be6-72a5-4111-a9b6-9bbb962f83f8",
           "type": "discovery",
-          "title": "Conversation d’introduction",
+          "title": "Introductory conversation",
           "components": [
             {
               "type": "element",
@@ -53,31 +53,31 @@
                 "functionalInstruction": "",
                 "tagName": "message-conversation",
                 "props": {
-                  "conversationTitle": "Conversation d’introduction",
+                  "conversationTitle": "Introductory conversation",
                   "messages": [
                     {
                       "userName": "Gustave",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Emma, je ne comprends pas... Tu arrives à faire plein de choses avec l’IA. Mais pour moi, ça ne marche pas !"
+                      "content": "Emma, I don’t understand… You manage to do loads of things with AI, but it just doesn’t work for me!"
                     },
                     {
                       "userName": "Emma",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Ah bon ? Quel prompt tu as utilisé ? "
+                      "content": "Really? What prompt did you use? "
                     },
                     {
                       "userName": "Gustave",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Mon prompt, c’était : « Aide-moi à organiser le tournoi. »"
+                      "content": "My prompt was: ‘Help me organise the tournament.’"
                     },
                     {
                       "userName": "Emma",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "C’est normal, ta demande est trop floue ! L’IA ne peut pas deviner ce que tu veux. 😉"
+                      "content": "That’s because your request is too vague! The AI can’t guess what you want. 😉"
                     }
                   ]
                 }
@@ -96,7 +96,7 @@
                 "id": "380e28cd-95bc-4fa4-ae8f-7d054f8a2eab",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Eh oui, on peut améliorer le résultat donné par le logiciel en étant plus précis. Comme lorsqu’on parle à quelqu’un&nbsp;: on est mieux compris si on explique les choses clairement.<br><br></p>"
+                "content": "<p>That’s right: you can improve the software’s output by being more precise. It is just like talking to someone—you are more likely to be understood when you explain things clearly.<br><br></p>"
               }
             }
           ]
@@ -110,7 +110,7 @@
         {
           "id": "1f086438-481c-447c-8968-40f69d613abc",
           "type": "discovery",
-          "title": "Améliore le prompt de Gustave",
+          "title": "Improve Gustave’s prompt",
           "components": [
             {
               "type": "element",
@@ -118,7 +118,7 @@
                 "id": "c4b28020-fcfe-4f0e-bdd3-a4df480fb3c8",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le prompt de Gustave était&nbsp;: «&nbsp;Aide-moi à organiser le tournoi.&nbsp;»</p>"
+                "content": "<p>Gustave’s prompt was: ‘Help me organise the tournament.’</p>"
               }
             },
             {
@@ -126,34 +126,34 @@
               "element": {
                 "id": "1918f494-020c-4f9d-acf0-cc3b946d8bcc",
                 "type": "qcm",
-                "instruction": "<p>Selon vous, que faut-il ajouter au prompt de Gustave pour l’améliorer ?</p>",
+                "instruction": "<p>What do you think should be added to Gustave’s prompt to improve it?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>le type de sport&nbsp;: «&nbsp;de volley-ball&nbsp;»</p>"
+                    "content": "<p>the type of sport: ‘volleyball’</p>"
                   },
                   {
                     "id": "2",
-                    "content": "<p>le public&nbsp;: «&nbsp;pour les membres du club&nbsp;»</p>"
+                    "content": "<p>the audience: ‘for club members’</p>"
                   },
                   {
                     "id": "3",
-                    "content": "<p>le contexte&nbsp;: «&nbsp; organisé par des bénévoles&nbsp;»</p>"
+                    "content": "<p>the context: ‘organised by volunteers’</p>"
                   },
                   {
                     "id": "4",
-                    "content": "<p>l’objectif&nbsp;: «&nbsp;l’organisation logistique&nbsp;»</p>"
+                    "content": "<p>the objective: ‘the logistics’</p>"
                   }
                 ],
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Bien vu !</p>",
-                    "diagnosis": "<p>Il faut donner le plus de précisions possible. Plus l’IA a d’informations sur la situation, meilleure sera sa réponse. <br></p>"
+                    "diagnosis": "<p>You should provide as much detail as possible. The more information the AI has about the situation, the better its response will be. <br></p>"
                   },
                   "invalid": {
                     "state": "<p>Pas tout à fait !</p>",
-                    "diagnosis": "<p>Il faut donner le plus de précisions possible. Plus l’IA a d’informations sur la situation, meilleure sera sa réponse.&nbsp;<br></p>"
+                    "diagnosis": "<p>You should provide as much detail as possible. The more information the AI has about the situation, the better its response will be.&nbsp;<br></p>"
                   }
                 },
                 "solutions": [
@@ -169,7 +169,7 @@
         {
           "id": "af37217a-ee0c-4073-90e8-e0700a9582e1",
           "type": "short-lesson",
-          "title": "Le contexte du prompt",
+          "title": "Prompt context",
           "components": [
             {
               "type": "element",
@@ -177,7 +177,7 @@
                 "id": "6d68c223-e01f-4758-a464-566f215463a9",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>🤔Mais alors, quelles précisions faut-il donner dans son prompt ? </h5><p>Tout ce qui donne du contexte&nbsp;: l’<strong>objectif</strong>, le <strong>public</strong>, le <strong>lieu</strong>, le <strong>moment</strong>, etc.</p><p>Cela donne du sens à la demande. </p><p>Sans ce contexte, l’IA risque de répondre de façon vague ou hors sujet.&nbsp;🕳️</p>"
+                "content": "<h5>🤔 So, what details should you include in your prompt? </h5><p>Anything that provides context: the <strong>objective</strong>, the <strong>audience</strong>, the <strong>place</strong>, the <strong>time</strong>, and so on.</p><p>This gives meaning to the request. </p><p>Without this context, the AI may give a vague or irrelevant answer.&nbsp;🕳️</p>"
               }
             }
           ]
@@ -185,7 +185,7 @@
         {
           "id": "cf2d0f34-1d89-48e1-9f5a-65b8a2fff2f8",
           "type": "discovery",
-          "title": "Tester différents tons",
+          "title": "Try different tones",
           "components": [
             {
               "type": "element",
@@ -193,7 +193,7 @@
                 "id": "d467410e-7cd6-4fc9-82a6-e3f5a2bb7683",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave a écrit un message d’invitation au tournoi et a demandé à l’IA de le corriger.</p>"
+                "content": "<p>Gustave wrote an invitation to the tournament and asked the AI to correct it.</p>"
               }
             },
             {
@@ -202,7 +202,7 @@
                 "id": "285b97bc-03f9-4698-9710-2a1bbed72fea",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Vous pouvez changer le ton de ce message avec l’aide de l’IA.</p>",
+                "instruction": "<p>You can use AI to change the tone of this message.</p>",
                 "functionalInstruction": "",
                 "tagName": "llm-prompt-select",
                 "props": {
@@ -210,25 +210,25 @@
                   "messages": [
                     {
                       "direction": "outbound",
-                      "content": "J’ai écrit ce message d’invitation au tournoi. Peux-tu vérifier s’il y a des fautes ?<br>« Salut à tous, <br>Petit rappel amicale pour vous dire que les inscriptions au tournoi de volley sont encore ouvertes, mais plus pour longtems ! Il vous reste jusqu’à vendredi. »"
+                      "content": "I wrote this invitation to the tournament. Can you check it for mistakes?<br>« Hi everyone, <br>Just a friendly reminder that registration for the volleyball tournament is still open, but not for much longer! You have until Friday. »"
                     },
                     {
                       "direction": "inbound",
-                      "content": "Voici une version corrigée du message :  <br> « Salut à tous,<br> Petit rappel <strong>amical</strong> pour vous dire que les inscriptions au tournoi de volley sont encore ouvertes, mais plus pour <strong>longtemps !</strong>  Il vous reste jusqu’à vendredi. »"
+                      "content": "Here is a corrected version of the message :  <br> « Hi everyone,<br> Just a <strong>friendly</strong> reminder that registration for the volleyball tournament is still open, but not for <strong>much longer!</strong> You have until Friday. »"
                     }
                   ],
                   "prompts": [
                     {
-                      "prompt": "Rends-le plus festif !",
-                      "response": "🎉 Hey la team !<br> Le tournoi de volley approche et il reste des places ! <br> Viens smasher, rigoler et kiffer l’ambiance 🔥<br> Que tu sois pro ou juste là pour le fun, t’es le·la bienvenu·e 😎 Inscris-toi vite avant vendredi ! <br> Surprises et bonne humeur garanties 🎊 <br>On t’attend sur le terrain ! 💪"
+                      "prompt": "Make it more festive!",
+                      "response": "🎉 Hey team!<br> The volleyball tournament is coming up and there are still places available! <br> Come and smash, laugh and enjoy the atmosphere 🔥<br> Whether you’re a pro or just here for fun, you’re welcome 😎 Sign up before Friday! <br> Surprises and good vibes guaranteed 🎊 <br>We’ll see you on the court! 💪"
                     },
                     {
-                      "prompt": "Adopte un ton plus sérieux.",
-                      "response": "Madame, Monsieur,<br> Nous n’avons pas encore reçu votre confirmation pour le tournoi de volley.<br> Nous espérons vivement votre participation.<br> Merci de bien vouloir nous répondre avant vendredi. <br>Restant à votre disposition, nous vous adressons nos salutations distinguées."
+                      "prompt": "Use a more serious tone.",
+                      "response": "Madame, Monsieur,<br> We have not yet received your confirmation for the volleyball tournament.<br> We very much hope you will be able to take part.<br> Please reply by Friday. <br>Please do not hesitate to contact us if you require any further information. Yours faithfully,"
                     },
                     {
-                      "prompt": "Et en plus drôle ?",
-                      "response": "🏐Tu as entendu parler du tournoi de volley ?  <br>Le soleil a sorti ses lunettes rien que pour toi. <br>Les ballons murmurent ton prénom la nuit.<br> Alors… tu viens ? 😇 <br>👉 Inscris-toi avant qu’on t’envoie un ballon par la poste."
+                      "prompt": "And make it funnier?",
+                      "response": "🏐 Have you heard about the volleyball tournament?  <br>The sun has put on its sunglasses just for you. <br>The volleyballs whisper your name at night.<br> So… are you coming? 😇 <br>👉 Sign up before we send you a volleyball in the post."
                     }
                   ]
                 }
@@ -239,35 +239,35 @@
               "element": {
                 "id": "cd661b03-1030-47c4-8920-5ca8aaded525",
                 "type": "qcu-discovery",
-                "instruction": "<p>Quel message de relance créé avec l’IA est votre préféré ?</p>",
+                "instruction": "<p>Which AI-generated follow-up message do you prefer?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>Celui avec un ton festif.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Un choix sympa !&nbsp; Au final, Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi.</p>"
+                      "diagnosis": "<p>A fun choice!&nbsp; Ultimately, Gustave will choose the most appropriate tone because he knows the tournament participants best.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Celui avec un ton sérieux.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Un choix formel ! Au final, Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi.</p>"
+                      "diagnosis": "<p>A formal choice! Ultimately, Gustave will choose the most appropriate tone because he knows the tournament participants best.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Celui avec un ton drôle.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Un choix original ! Au final, Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi.</p>"
+                      "diagnosis": "<p>An original choice! Ultimately, Gustave will choose the most appropriate tone because he knows the tournament participants best.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Aucun ne me plaît.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pas de souci ! Il existe beaucoup d’autres tons&nbsp;: ironique, poétique… Gustave choisira le ton approprié car c’est lui qui connaît le mieux les participants du tournoi !</p>"
+                      "diagnosis": "<p>No problem! There are many other possible tones, such as ironic or poetic. Gustave will choose the most appropriate one because he knows the tournament participants best!</p>"
                     }
                   }
                 ],
@@ -279,7 +279,7 @@
         {
           "id": "9151fb26-3313-4ca1-8690-5b2b33559750",
           "type": "short-lesson",
-          "title": "Le ton dans un prompt",
+          "title": "Tone in a prompt",
           "components": [
             {
               "type": "element",
@@ -287,7 +287,7 @@
                 "id": "86f4a896-7173-49a9-b893-d6db656ac7d8",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>🤔Comment obtenir une réponse vraiment adaptée à nos besoins ?</h5><p>Pour obtenir un résultat adapté, on peut préciser&nbsp;:<br></p><ul><li><strong>à qui</strong> on s’adresse (un enfant de 7 ans, un expert du sujet, etc.), 👥<br></li><li><strong>de quelle manière</strong> (de manière brève, pédagogue, professionnelle, etc.),💬<br></li><li><strong>un rôle</strong> à jouer («&nbsp;en tant que coach sportif&nbsp;», «&nbsp;comme si tu étais Jules César&nbsp;», etc.).🎭</li></ul>"
+                "content": "<h5>🤔 How can we get an answer that really meets our needs?</h5><p>To get a suitable result, you can specify&nbsp;:<br></p><ul><li><strong>who</strong> you are addressing (a seven-year-old child, a subject expert, etc.), 👥<br></li><li><strong>how</strong> (briefly, clearly, professionally, etc.),💬<br></li><li><strong>a role</strong> to play (‘as a sports coach’, ‘as if you were Julius Caesar’, etc.).🎭</li></ul>"
               }
             }
           ]
@@ -295,7 +295,7 @@
         {
           "id": "f43a19e2-da9e-4fcd-a6a2-b94aa8440285",
           "type": "discovery",
-          "title": "Prompter avec le bon format",
+          "title": "Use the right format in your prompt",
           "components": [
             {
               "type": "element",
@@ -303,7 +303,7 @@
                 "id": "ffe1f0cd-a90e-463c-a2f0-a5dca855636e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave veut entraîner les joueurs de son club en vue du tournoi de volley. </p>\n<p>Pour cela, il prépare un document d’entraînement pour travailler les <strong>manchettes</strong>,&nbsp;sous la forme d’un <strong>tableau</strong>.</p>"
+                "content": "<p>Gustave wants to train the players at his club ahead of the volleyball tournament. </p>\n<p>To do this, he is preparing a training document on <strong>forearm passing</strong>, in the form of a <strong>table</strong>.</p>"
               }
             },
             {
@@ -312,7 +312,7 @@
                 "id": "5724ced6-1358-4308-93ac-ee42303a1ba2",
                 "type": "text",
                 "tag": " ",
-                "content": "<table>\n    <thead>\n        <tr>\n            <th scope=\"col\" class=\"width-15\">Niveau</th>\n            <th scope=\"col\">Exercice</th>\n            <th scope=\"col\">Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>Débutant</th>\n            <td>Manchette contre le mur</td>\n            <td>Le joueur fait des manchettes seul contre le mur, en gardant le ballon régulier.</td>\n        </tr>\n        <tr>\n            <th>Intermédiaire</th>\n            <td>Triangle manchette</td>\n            <td>Trois joueurs forment un triangle et se passent le ballon en manchette.</td>\n        </tr>\n        <tr>\n\n            <th>Avancé</th>\n            <td>Réception de service réel</td>\n            <td>Un joueur reçoit des services puissants en manchette.</td>\n        </tr>\n         <tr>\n\n            <th>Expert</th>\n            <td>...</td>\n            <td>...</td>\n        </tr>\n\n    </tbody>\n</table>"
+                "content": "<table>\n    <thead>\n        <tr>\n            <th scope=\"col\" class=\"width-15\">Level</th>\n            <th scope=\"col\">Exercise</th>\n            <th scope=\"col\">Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>Débutant</th>\n            <td>Forearm pass against a wall</td>\n            <td>The player practises forearm passes alone against a wall, keeping the ball under control.</td>\n        </tr>\n        <tr>\n            <th>Intermédiaire</th>\n            <td>Forearm-pass triangle</td>\n            <td>Three players form a triangle and pass the ball to one another using forearm passes.</td>\n        </tr>\n        <tr>\n\n            <th>Avancé</th>\n            <td>Live serve reception</td>\n            <td>A player receives powerful serves using a forearm pass.</td>\n        </tr>\n         <tr>\n\n            <th>Expert</th>\n            <td>...</td>\n            <td>...</td>\n        </tr>\n\n    </tbody>\n</table>"
               }
             }
           ]
@@ -320,7 +320,7 @@
         {
           "id": "a41ba65b-07b1-4af5-8207-309acea1b347",
           "type": "discovery",
-          "title": "Découverte : Aide Gustave avec son prompt",
+          "title": "Discovery: Help Gustave with his prompt",
           "components": [
             {
               "type": "element",
@@ -328,7 +328,7 @@
                 "id": "16ca9491-abb0-426e-b60d-0b903475651e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Il manque d'inspiration pour des exercices à destination de joueurs experts.</p><br>\n<p>Utilisez le logiciel d’IA générative ci-dessous pour l’aider à obtenir un <strong>tableau complet</strong> avec des exercices pour les joueurs de tous niveaux.</p>"
+                "content": "<p>He is short of ideas for exercises aimed at expert players.</p><br>\n<p>Use the generative AI software below to help him produce a <strong>complete table</strong> containing exercises for players of all levels.</p>"
               }
             },
             {
@@ -337,9 +337,9 @@
                 "id": "5e73cde0-d365-436c-833e-9a83d29923e9",
                 "type": "embed",
                 "isCompletionRequired": true,
-                "title": "Simulateur LLM",
+                "title": "LLM simulator",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmix2593q00013v0195p6ayta",
-                "instruction": "<p>À vous de jouer : vous avez 5 prompts pour réussir !</p>",
+                "instruction": "<p>Your turn: you have five prompts to succeed!</p>",
                 "solution": "pix-llm-success",
                 "height": 550
               }
@@ -349,8 +349,8 @@
               "element": {
                 "id": "0bb9f72c-b1a9-4f1c-81c0-e9be49c00871",
                 "type": "expand",
-                "title": "💡 L’astuce pratique",
-                "content": "<p>❌ Il vous arrive d’envoyer votre prompt alors que vous vouliez juste aller à la ligne ?</p><p>✅ Quand vous voulez aller à la ligne, appuyez à la fois sur les touches Maj (ou Shift⬆️) et Entrée. </p>"
+                "title": "💡 Practical tip",
+                "content": "<p>❌ Do you sometimes send your prompt when you only meant to start a new line?</p><p>✅ To start a new line, press Shift ⬆️ and Enter at the same time. </p>"
               }
             },
             {
@@ -358,8 +358,8 @@
               "element": {
                 "id": "27d06c67-8c74-4f5e-b5c7-eb64777b781f",
                 "type": "expand",
-                "title": "🗝️ Indice 1",
-                "content": "<p>Avez-vous pensé à fournir à l’IA le <strong>tableau </strong>existant ?</p>\n<p>Vous pouvez le copier-coller dans votre prompt !</p>"
+                "title": "🗝️ Hint 1",
+                "content": "<p>Have you thought about giving the AI the <strong>existing table</strong>?</p>\n<p>You can copy and paste it into your prompt!</p>"
               }
             },
             {
@@ -367,8 +367,8 @@
               "element": {
                 "id": "619d8962-d0fb-464a-a578-d44f7a6038e3",
                 "type": "expand",
-                "title": "🗝️ Indice 2",
-                "content": "Avez-vous vérifié que le tableau obtenu comporte des <strong>exercices </strong>sur les <strong>manchettes </strong>pour différents niveaux, dont le <strong>niveau expert</strong> ?<br>"
+                "title": "🗝️ Hint 2",
+                "content": "Have you checked that the resulting table includes <strong>forearm-pass exercises</strong> for different levels, including <strong>expert level</strong>?<br>"
               }
             },
             {
@@ -377,7 +377,7 @@
                 "id": "701f993a-dae8-4ca7-b288-59e040b7be26",
                 "type": "expand",
                 "title": "🙈 Solution",
-                "content": "La bonne réponse doit&nbsp;:&nbsp;<br><ul><li>être structurée sous la forme d’un <strong>tableau</strong>,</li><li>contenir des exercices pour s’améliorer aux <strong>manchettes </strong>au <strong>volley</strong>,&nbsp;</li><li>avoir un ou des <strong>nouveaux exercices </strong>pour les joueurs <strong>experts</strong>.</li></ul>Si ces conditions sont remplies, votre réponse devrait être validée.&nbsp;✅<br>"
+                "content": "A correct answer must&nbsp;:&nbsp;<br><ul><li>be structured as a <strong>table</strong>,</li><li>contain exercises for improving <strong>forearm passing</strong> in <strong>volleyball</strong>,&nbsp;</li><li>include one or more <strong>new exercises</strong> for <strong>expert</strong> players.</li></ul>If these conditions are met, your answer should be accepted.&nbsp;✅<br>"
               }
             }
           ]
@@ -385,7 +385,7 @@
         {
           "id": "dceb1e9a-06ae-4c9b-9b58-875fd15c5427",
           "type": "short-lesson",
-          "title": "L’importance du format et de l’itération dans les prompts",
+          "title": "The importance of format and iteration in prompts",
           "components": [
             {
               "type": "stepper",
@@ -397,7 +397,7 @@
                       "id": "95783db0-a66d-4cb2-9b20-e629175154b7",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>🤔 Comment être efficace lorsqu’on utilise un logiciel d’IA générative ? <br></h5><ul><li>Précisez le <strong>format </strong>voulu, par exemple&nbsp;: un <strong>texte</strong>, un <strong>tableau</strong>, une <strong>liste</strong>, une <strong>carte mentale</strong>, etc.</li><li>Ajoutez des <strong>contraintes </strong>comme la <strong>longueur </strong>(«&nbsp;en moins de 10 lignes&nbsp;») ou la <strong>structure </strong>(«&nbsp;fais 2 parties et 2 sous-parties»).</li></ul><p>On peut aussi demander à l’IA de <strong>partir d’un exemple </strong>et de le reproduire.</p>"
+                      "content": "<h5>🤔 How can you use generative AI software effectively? <br></h5><ul><li>Specify the required <strong>format</strong>, for example, a <strong>text</strong>, a <strong>table</strong>, a <strong>list</strong>, a <strong>mind map</strong>, and so on.</li><li>Add <strong>constraints</strong>, such as <strong>length</strong>(«&nbsp;en moins de 10 lignes&nbsp;») or <strong>structure</strong>(«&nbsp;fais 2 parties et 2 sous-parties»).</li></ul><p>You can also ask the AI to <strong>use an example as a starting point</strong> and reproduce it.</p>"
                     }
                   ]
                 },
@@ -407,7 +407,7 @@
                       "id": "59d3e55d-1583-4401-9e27-5ed4b93a2a51",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>🤔 Et si la réponse de l’IA ne correspond pas à nos attentes ? <br></h5><p>Pas de problème, poursuivez la conversation avec l’IA et demandez des modifications…</p>"
+                      "content": "<h5>🤔 What if the AI’s response does not meet our expectations? <br></h5><p>No problem—continue the conversation with the AI and ask it to make changes…</p>"
                     }
                   ]
                 }
@@ -424,7 +424,7 @@
         {
           "id": "2b064607-2435-498f-9262-29ce22075271",
           "type": "summary",
-          "title": "Récap’ : l’essentiel pour faire des bons prompts",
+          "title": "Recap: the essentials of writing good prompts",
           "components": [
             {
               "type": "element",
@@ -432,7 +432,7 @@
                 "id": "f3634fe1-d71c-4154-bd9e-7c3a8214d94f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quelques conseils pour écrire un prompt efficace&nbsp;:</p><ul>    <li> Utilisez un verbe d’<strong>action.</strong></li>    <li> Donnez du <strong>contexte.</strong></li><li>Précisez éventuellement le<strong> ton.</strong></li><li>Attribuez si nécessaire une<strong> identité</strong> ou un <strong>rôle </strong>à l’IA.</li>    <li>Précisez le <strong>format attendu.</strong></li>        </ul><p>🔄Après chaque réponse, vous pouvez ajuster ou préciser votre prompt pour obtenir un meilleur résultat.</p><p><strong>⚠️&nbsp;</strong>Une réponse peut paraître claire et bien formulée mais contenir des résultats qui<strong> ne correspondent pas à ce qu’on attend&nbsp;</strong>ou être partiellement <strong>fausse. <br></strong></p><p><strong>🔍&nbsp;Relire&nbsp;</strong>la réponse de l’IA est essentiel avant de l’utiliser ou de la présenter à quelqu’un.</p>"
+                "content": "<p>A few tips for writing an effective prompt&nbsp;:</p><ul>    <li> Use an <strong>action</strong> verb.</li>    <li> Provide <strong>context.</strong></li><li>Specify the <strong>tone</strong> where relevant.</li><li>Give the AI an <strong>identity</strong> or a <strong>role</strong> where necessary.</li>    <li>Specify the <strong>expected format.</strong></li>        </ul><p>🔄 After each response, you can adjust or refine your prompt to get a better result.</p><p><strong>⚠️&nbsp;</strong>A response may appear clear and well written while containing information that <strong>does not match what was requested</strong> or is partly <strong>incorrect. <br></strong></p><p><strong>🔍&nbsp;Reviewing&nbsp;</strong>the AI’s response is essential before using it or presenting it to someone.</p>"
               }
             }
           ]
@@ -446,7 +446,7 @@
         {
           "id": "f2ac38ee-451a-4e1d-9822-edff5637a1cc",
           "type": "activity",
-          "title": "Analyse les prompts",
+          "title": "Analyse the prompts",
           "components": [
             {
               "type": "element",
@@ -454,7 +454,7 @@
                 "id": "e5c05ba8-6377-4c98-9f92-fd6903ca0d0f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave a précisé ses prompts et a amélioré sa manière de parler avec le logiciel d’IA générative.&nbsp;</p><p>Pour chaque prompt, sélectionnez tous les éléments qui le rendent&nbsp;clair.</p>"
+                "content": "<p>Gustave has made his prompts more precise and improved the way he communicates with generative AI software.&nbsp;</p><p>For each prompt, select all the elements that make it clear.</p>"
               }
             },
             {
@@ -467,12 +467,12 @@
                       "id": "c187e39d-00bb-4c69-ac9f-a33975ac1ed3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>«&nbsp;Écris un dialogue entre des spectateurs d’un match de volley.&nbsp;»</p>"
+                      "content": "<p>«&nbsp;Write a dialogue between spectators at a volleyball match.&nbsp;»</p>"
                     },
                     {
                       "id": "5eef4164-25a6-48cf-8e5e-3aab8f1aa879",
                       "type": "qcm",
-                      "instruction": "<p>Quels éléments rendent ce prompt clair ?</p>",
+                      "instruction": "<p>Which elements make this prompt clear?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -491,11 +491,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bonne réponse ! 🎉</p>",
-                          "diagnosis": "<p>Ces éléments rendent ce prompt clair. Mais il n’est pas toujours nécessaire de les mettre tous.</p>"
+                          "diagnosis": "<p>These elements make the prompt clear, although it is not always necessary to include all of them.</p>"
                         },
                         "invalid": {
                           "state": "<p>Mauvaise réponse.</p>",
-                          "diagnosis": "<p>Les éléments qui rendent ce prompt clair sont :&nbsp;</p><ul><li> le <strong>format </strong>indiqué : le dialogue,</li><li>et&nbsp;le <strong>contexte </strong>: celui d’un match de volley.</li></ul>"
+                          "diagnosis": "<p>The elements that make this prompt clear are :&nbsp;</p><ul><li> the specified <strong>format</strong>: a dialogue,</li><li>and the <strong>context</strong>: a volleyball match.</li></ul>"
                         }
                       },
                       "solutions": [
@@ -511,12 +511,12 @@
                       "id": "6d9b7e95-a2c9-46d8-91a0-b96d976bd3b9",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>«&nbsp;En tant qu’humoriste, propose un court discours amusant (2 à 3 minutes) pour le pot de départ d’un joueur de volley de ton équipe qui déménage dans une autre ville. Inclus ses grandes qualités (humour, adresse, franchise) et ses petits défauts (impatient et bavard).&nbsp;»</p>"
+                      "content": "<p>«&nbsp;As a comedian, write a short, humorous speech (two to three minutes) for a leaving party for a volleyball player on your team who is moving to another town. Include his main qualities (sense of humour, skill and honesty) and his minor flaws (impatient and talkative).&nbsp;»</p>"
                     },
                     {
                       "id": "7e05eb9a-c0d0-492b-b968-dc7f33fa3c56",
                       "type": "qcm",
-                      "instruction": "<p>Quels éléments rendent ce prompt clair ?</p>",
+                      "instruction": "<p>Which elements make this prompt clear?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -535,11 +535,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien joué !</p>",
-                          "diagnosis": "<p>Tous ces éléments rendent ce prompt clair. Mais il n’est pas toujours nécessaire de les mettre tous.</p>"
+                          "diagnosis": "<p>All these elements make the prompt clear, although it is not always necessary to include all of them.</p>"
                         },
                         "invalid": {
                           "state": "<p>Mauvaise réponse.</p>",
-                          "diagnosis": "<p>Les éléments qui rendent ce prompt clair sont :&nbsp;</p><ul><li> le <strong>format </strong>: un discours,&nbsp;</li><li>le <strong>ton </strong>: amusant,</li><li>et le <strong>contexte </strong> qui est donné par la description du pot de départ d’un joueur de volley, décrit avec des éléments précis comme ses qualités et ses défauts.</li></ul>"
+                          "diagnosis": "<p>The elements that make this prompt clear are :&nbsp;</p><ul><li> the <strong>format</strong>: a speech,&nbsp;</li><li>the <strong>tone</strong>: humorous,</li><li>and the <strong>context</strong>, provided by the description of a volleyball player’s leaving party and specific details such as his qualities and flaws.</li></ul>"
                         }
                       },
                       "solutions": [
@@ -557,7 +557,7 @@
         {
           "id": "2b1ac391-44e4-4531-bafa-d613d9166398",
           "type": "activity",
-          "title": "Gustave organise les notes ",
+          "title": "Gustave organises the notes",
           "components": [
             {
               "type": "element",
@@ -565,7 +565,7 @@
                 "id": "626250fc-24c4-4c7b-8348-0bc3a9013288",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave a pris des notes lors de la réunion d’organisation du tournoi&nbsp;:&nbsp;</p><p><em>- max 12 équipes. équipes mixtes → tout le monde ok</em></p><p><em>- récompenses ? médailles → à chiffrer</em></p><p><em> - arbitres → bénévoles, relancer ceux du dernier tournoi </em></p><p><em>- musique&nbsp;: demander mairie pour sono </em></p><p><em>- si pluie → gymnase dispo ? ok !&nbsp;:-) </em></p><p><em>- buvette&nbsp;: jus, sandwichs, fruits → pas de chaud </em></p>"
+                "content": "<p>Gustave took notes during the tournament planning meeting&nbsp;:&nbsp;</p><p><em>- maximum 12 teams. mixed teams → everyone agrees</em></p><p><em>- prizes? medals → cost to be confirmed</em></p><p><em> - referees → volunteers; follow up with those from the last tournament </em></p><p><em>- music: ask the town hall about a sound system </em></p><p><em>- if it rains → is the sports hall available? yes! :-) </em></p><p><em>- refreshments: juice, sandwiches, fruit → no hot food </em></p>"
               }
             },
             {
@@ -574,7 +574,7 @@
                 "id": "31b24d96-4c62-4283-83b3-f4d50ed7e690",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave veut envoyer un <strong>compte rendu</strong> aux personnes qui n’ont pas pu être présentes à la réunion.</p><p>Discutez avec le logiciel d’IA générative ci-dessous jusqu’à obtenir un <strong>compte rendu qui correspond bien</strong> aux notes de Gustave.</p>"
+                "content": "<p>Gustave wants to send <strong>meeting minutes</strong> to those who could not attend.</p><p>Talk to the generative AI software below until you obtain <strong>meeting minutes that accurately reflect</strong> Gustave’s notes.</p>"
               }
             },
             {
@@ -583,9 +583,9 @@
                 "id": "1fafdea7-4676-4f98-a564-e9f9cb9c61c0",
                 "type": "embed",
                 "isCompletionRequired": true,
-                "title": "Simulateur de LLM",
+                "title": "LLM simulator",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmk6rk3fm00003u01qywbbyz4",
-                "instruction": "<p>Vous avez 5 prompts pour réussir !</p>",
+                "instruction": "<p>You have five prompts to succeed!</p>",
                 "solution": "pix-llm-success",
                 "height": 550
               }
@@ -596,7 +596,7 @@
                 "id": "afd15a86-fc0d-4a97-a6ff-8ce00a2d46ab",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d’aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><p><br></p><p></p><details><summary>Indice 1</summary><p>Avez-vous vérifié le résultat proposé par l’IA  ?</p></details><details><summary>Indice 2</summary><p> Avez-vous vérifié les récompenses dans le compte rendu ? </p></details><details><summary>Indice 3</summary><p>Avez-vous demandé à l’IA de corriger sa réponse ?</p></details><p></p><p><br></p>"
+                "content": "<p><span aria-hidden=\"true\">🗝️</span> If you need help, click the hints below&nbsp;:</p><p><br></p><p></p><details><summary>Hint 1</summary><p>Have you checked the result produced by the AI?</p></details><details><summary>Hint 2</summary><p> Have you checked the prizes in the meeting minutes? </p></details><details><summary>Hint 3</summary><p>Have you asked the AI to correct its response?</p></details><p></p><p><br></p>"
               }
             },
             {
@@ -605,7 +605,7 @@
                 "id": "cec8618a-6abf-486e-b646-7c3976c55ac2",
                 "type": "expand",
                 "title": "🙈 Solution",
-                "content": "<p>Dans le cas où vous avez obtenu un compte rendu, le logiciel a sûrement fait une <strong>erreur</strong>. En effet, les <strong>récompenses </strong>du tournoi sont des <strong>médailles </strong>dans la prise de notes de Gustave.&nbsp;🎖️</p><p>Il faut donc demander au logiciel de corriger cette erreur.</p><p>Si vous avez réussi à obtenir un compte rendu corrigé qui inclut les médailles, votre réponse devrait être validée.&nbsp;✅</p>"
+                "content": "<p>If you have produced meeting minutes, the software has probably made a <strong>mistake</strong>. The tournament <strong>prizes</strong> in Gustave’s notes are <strong>medals</strong>.&nbsp;🎖️</p><p>You therefore need to ask the software to correct this mistake.</p><p>If you have obtained corrected meeting minutes that include the medals, your answer should be accepted.&nbsp;✅</p>"
               }
             }
           ]
@@ -619,7 +619,7 @@
         {
           "id": "1a0479fa-90b9-4e9b-a8e0-ac308cef71a2",
           "type": "challenge",
-          "title": "Défi : le lieu du tournoi",
+          "title": "Challenge: the tournament venue",
           "components": [
             {
               "type": "element",
@@ -627,7 +627,7 @@
                 "id": "509c650d-c46b-435a-81fd-cf7268e94648",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>🎯<strong>Mission : trouver un lieu pour le tournoi de Jolieville !</strong></p><p>Gustave cherche un lieu pouvant accueillir le tournoi de volley-ball. Il a besoin d’au moins 4 terrains. </p>\n<p>Son budget maximal est de 300 pixmoney.&nbsp;Mais, il est bien sûr à la recherche d’un bon plan.💸</p><p>La mairie de Jolieville a créé un logiciel d’IA pour répondre aux questions sur ses équipements sportifs.&nbsp;🥅</p>\n\n"
+                "content": "<p>🎯 <strong>Mission: find a venue for the Jolieville tournament!</strong></p><p>Gustave is looking for a venue that can host the volleyball tournament. He needs at least four courts. </p>\n<p>His maximum budget is 300 pixmoney, but he is of course looking for a good deal. 💸</p><p>Jolieville town council has created AI software to answer questions about its sports facilities.&nbsp;🥅</p>\n\n"
               }
             },
             {
@@ -636,9 +636,9 @@
                 "id": "351b3c19-f354-4067-bcf5-19566c2d18f9",
                 "type": "embed",
                 "isCompletionRequired": true,
-                "title": "Simulateur LLM",
+                "title": "LLM simulator",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmiytd9fw00033v01ys5n87wr",
-                "instruction": "<p>Utilisez le logiciel d’IA de Jolieville, ci-dessous, pour trouver le gymnase qui correspond à ses besoins.&nbsp;🔍</p><p>Une fois que vous avez trouvé, écrivez le nom du gymnase en dessous.&nbsp;👇</p>",
+                "instruction": "<p>Use Jolieville’s AI software below to find the sports hall that meets his needs.&nbsp;🔍</p><p>Once you have found it, enter the name of the sports hall below.&nbsp;👇</p>",
                 "solution": "pix-llm-success",
                 "height": 550
               }
@@ -648,41 +648,41 @@
               "element": {
                 "id": "27587d08-5548-4486-9004-2fa739fc1f1d",
                 "type": "qrocm",
-                "instruction": "<p>Quel gymnase Gustave devrait-il contacter ?</p>",
+                "instruction": "<p>Which sports hall should Gustave contact?</p>",
                 "proposals": [
                   {
-                    "input": "NomGymnase",
+                    "input": "VenueName",
                     "type": "input",
                     "inputType": "text",
                     "size": 20,
                     "display": "inline",
-                    "placeholder": "Nom du gymnase",
-                    "ariaLabel": "Nom du gymnase",
+                    "placeholder": "Name of the sports hall",
+                    "ariaLabel": "Name of the sports hall",
                     "tolerances": [
                       "t1",
                       "t2",
                       "t3"
                     ],
                     "solutions": [
-                      "Le gymnase des 3 sapins",
-                      "gymnase des 3 sapins",
-                      "gymnase des trois sapins",
-                      "le gymnase des trois sapins",
-                      "3 sapins",
-                      "trois sapins",
-                      "des 3 sapins",
-                      "des trois sapins"
+                      "Three Firs Sports Hall",
+                      "Three Firs Sports Hall",
+                      "Three Firs Sports Hall",
+                      "le Three Firs Sports Hall",
+                      "Three Firs",
+                      "Three Firs",
+                      "des Three Firs",
+                      "des Three Firs"
                     ]
                   }
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "Bravo !",
-                    "diagnosis": "Grâce à vous, le tournoi va pouvoir avoir lieu !"
+                    "state": "Well done!",
+                    "diagnosis": "Thanks to you, the tournament can go ahead!"
                   },
                   "invalid": {
-                    "state": "Eh non...",
-                    "diagnosis": "Avez-vous vérifié que tous les critères étaient respectés ?"
+                    "state": "Not quite...",
+                    "diagnosis": "Have you checked that all the criteria are met?"
                   }
                 }
               }
@@ -692,8 +692,8 @@
               "element": {
                 "id": "236b1762-9c8b-45a8-b486-89c72f63b798",
                 "type": "expand",
-                "title": "🗝️ Indice 1 ",
-                "content": "Avez-vous demandé au logiciel d’IA générative des gymnases permettant de faire du&nbsp;<strong>volley-ball</strong> ?<br><br>"
+                "title": "🗝️ Hint 1 ",
+                "content": "Have you asked the generative AI software for sports halls where <strong>volleyball</strong> can be played?<br><br>"
               }
             },
             {
@@ -701,8 +701,8 @@
               "element": {
                 "id": "510e4f15-ca1b-4296-a812-60c57370a11d",
                 "type": "expand",
-                "title": "🗝️ Indice 2",
-                "content": "Avez-vous vérifié le <strong>nombre de terrains</strong> de volley-ball disponibles ?"
+                "title": "🗝️ Hint 2",
+                "content": "Have you checked the <strong>number of volleyball courts</strong> available?"
               }
             },
             {
@@ -710,8 +710,8 @@
               "element": {
                 "id": "41f08863-5cad-462b-b174-74dd5ea1a3da",
                 "type": "expand",
-                "title": "🗝️ Indice 3",
-                "content": "Avez-vous vérifié le <strong>coût</strong> du gymnase ?"
+                "title": "🗝️ Hint 3",
+                "content": "Have you checked the <strong>cost</strong> of the sports hall?"
               }
             }
           ]
