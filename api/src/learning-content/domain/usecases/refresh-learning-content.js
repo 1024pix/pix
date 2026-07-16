@@ -1,4 +1,5 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { ModuleVersion } from '../models/ModuleVersion.js';
 
 /** @param {import('./dependencies.js').Dependencies} */
 export async function refreshLearningContent({
@@ -28,7 +29,17 @@ export async function refreshLearningContent({
     await courseRepository.saveMany(learningContent.courses);
     await tutorialRepository.saveMany(learningContent.tutorials);
     await missionRepository.saveMany(learningContent.missions);
-    await moduleRepository.saveMany(learningContent.modules);
+
+    const existingModules = await moduleRepository.list();
+    const existingModulesById = new Map(existingModules.map((module) => [module.id, module]));
+
+    const newerModules = learningContent.modules.filter((module) => {
+      if (!existingModulesById.has(module.id)) return true;
+      const existingModule = existingModulesById.get(module.id);
+      return new ModuleVersion({ version: module.version }).isGreaterThan(existingModule.version);
+    });
+
+    await moduleRepository.saveMany(newerModules);
   });
 
   areaRepository.clearCache();

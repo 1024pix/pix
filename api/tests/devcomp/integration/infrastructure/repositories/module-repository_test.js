@@ -29,7 +29,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
     it('should return a Module instance with its version', async function () {
       const existingModuleId = 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d';
-      const expectedFoundModule = {
+      const expectedFoundModule = databaseBuilder.factory.learningContent.buildModule({
         id: existingModuleId,
         shortId: 'gbsri73s',
         slug: 'existingModuleSlug',
@@ -82,9 +82,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
               'Pix est un service public en ligne pour évaluer, développer, et certifier ses compétences numériques.',
           },
         ],
-      };
-
-      databaseBuilder.factory.learningContent.buildModule(expectedFoundModule);
+      });
       await databaseBuilder.commit();
 
       // when
@@ -94,7 +92,6 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
       // then
       expect(module).to.be.instanceOf(Module).and.deep.contain(expectedFoundModule);
-      expect(module.version).to.be.a('string').of.length(64);
     });
   });
 
@@ -123,7 +120,6 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
       // then
       expect(module).to.be.instanceOf(Module).and.deep.contain(expectedModule);
-      expect(module.version).to.be.a('string').of.length(64);
     });
   });
 
@@ -151,7 +147,6 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
       // then
       expect(module).to.be.instanceOf(Module).and.deep.contain(expectedModule);
-      expect(module.version).to.be.a('string').of.length(64);
     });
   });
 
@@ -173,11 +168,8 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       // then
       expect(modules).to.have.lengthOf(3);
       expect(modules[0]).to.be.instanceOf(Module).and.deep.contain(expectedModules[0]);
-      expect(modules[0].version).to.be.a('string').of.length(64);
       expect(modules[1]).to.be.instanceOf(Module).and.deep.contain(expectedModules[1]);
-      expect(modules[1].version).to.be.a('string').of.length(64);
       expect(modules[2]).to.be.instanceOf(Module).and.deep.contain(expectedModules[2]);
-      expect(modules[2].version).to.be.a('string').of.length(64);
     });
   });
 });
