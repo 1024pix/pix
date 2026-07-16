@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Les logiciels d’intelligence artificielle générative sont de plus en plus utilisés, mais leur entraînement et leur utilisation ont un impact considérable sur l’environnement.&nbsp; <br> Avec ce module, vous allez comprendre pourquoi les intelligences artificielles ont un impact sur l’environnement et découvrir quelques pistes pour limiter cet impact.<br><br></p>",
+    "description": "<p>Les logiciels d’intelligence artificielle générative sont de plus en plus utilisés, mais leur entraînement et leur utilisation ont un impact considérable sur l’environnement.&nbsp; <br> Avec ce module, vous allez comprendre pourquoi et découvrir quelques pistes pour limiter cet impact.<br><br></p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -33,7 +33,7 @@
                 "id": "d629b072-8cae-4484-82e2-25766a9e27cc",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Sitan aimerait progresser en chant.&nbsp;</p><p>Elle demande conseil à deux intelligences artificielles génératives sur <a href=\"https://comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA</a>.</p>"
+                "content": "<p>Sitan aimerait progresser en chant.&nbsp;</p><p>Elle demande conseil à deux logiciels d’intelligence artificielle grâce à Compar:IA, un comparateur d’intelligence artificielle.</p>"
               }
             },
             {
@@ -54,7 +54,7 @@
                 "id": "af2a1f06-fde9-4ef5-ad58-6960c8179fa0",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les deux modèles donnent des conseils, mais Sitan est étonnée par<strong> la différence d’impact environnemental.</strong></p><p> Qwen 3.6 Plus a une consommation d’énergie estimée à plus de 2 000 fois supérieure à celle de Granite 4.1 !</p>"
+                "content": "<p>Les deux logiciels d’IA générative donnent des conseils, mais Sitan est étonnée par<strong> la différence d’impact environnemental.</strong></p><p> Qwen 3.6 Plus a une consommation d’énergie estimée à plus de 2 000 fois supérieure à celle de Granite 4.1 !</p>"
               }
             },
             {
@@ -67,16 +67,23 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>de l’entraînement du modèle d’IA&nbsp;</p>",
+                    "content": "<p>De l’entraînement du modèle d’IA</p>",
                     "feedback": {
-                      "diagnosis": "<p><strong>Bien vu !</strong></p><p>Sitan a donné le même prompt aux deux logiciels d’IA génératives, donc il n’y a pas de différence dans l’utilisation.</p>"
+                      "diagnosis": "<p><strong>Pas tout à fait ! </strong></p><p>La différence vient à la fois de la phase&nbsp;d’entraînement et de la phase d’utilisation.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>de l’utilisation du modèle d’IA</p>",
+                    "content": "<p>De l’utilisation du modèle d’IA</p>",
                     "feedback": {
-                      "diagnosis": "<p><strong>Eh non !</strong></p><p>Sitan a donné le même prompt aux deux logiciels d’IA génératives, donc il n’y <strong>pas de différence dans l’utilisation.</strong></p><p>La différence vient donc de l’entraînement.</p>"
+                      "diagnosis": "<p><strong>Pas tout à fait !</strong></p><p>La différence vient à la fois de la phase&nbsp;d’entraînement et de la phase d’utilisation.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Des deux<br></p>",
+                    "feedback": {
+                      "diagnosis": "<p><strong>Bien vu !</strong></p><p> La différence vient à la fois de la phase&nbsp;d’entraînement et de la phase d’utilisation.</p>"
                     }
                   },
                   {
@@ -87,7 +94,7 @@
                     }
                   }
                 ],
-                "solution": "1"
+                "solution": "3"
               }
             }
           ]
@@ -103,7 +110,7 @@
                 "id": "b2582fac-a970-4816-a870-d41380e4912e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mais pourquoi les IA consomment-elles de l’énergie lors de leur entraînement ? </p><p>Et comment expliquer une aussi grande différence entre les modèles ?&nbsp; </p><p>C’est ce que vous allez découvrir dans ce module.</p>"
+                "content": "<p>Mais pourquoi les IA consomment-elles de l’énergie lors de leur entraînement ? et de leur utilisation ?</p><p>Et comment expliquer une si grande différence entre les modèles ?&nbsp; </p><p>C’est ce que vous allez découvrir dans ce module.</p>"
               }
             }
           ]
@@ -145,7 +152,7 @@
                       "id": "ce0c7e21-928c-4a63-9e56-85076e055718",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>L’entraînement </strong>d’un modèle de langage consiste à lui <strong>fournir un grand volume de données</strong> pour qu’il améliore ses prédictions. Des milliards de milliards de calculs sont effectués durant cette phase d’entraînement, notamment pour ajuster la valeur des paramètres du modèle.&nbsp; </p><p>À titre d’exemple, l’<strong>entraînement du modèle GPT-4 d’OpenAI,</strong>  a nécessité <strong>14 semaines de calculs en continu.</strong>  Cela correspond à une consommation d’énergie de <strong>42GWh GigaWattHeures !</strong><br><br></p>"
+                      "content": "<p><strong>L’entraînement </strong>d’un modèle de langage consiste à lui <strong>fournir un grand volume de données</strong> pour qu’il améliore ses prédictions. Des milliards de milliards de calculs sont effectués durant cette phase d’entraînement, notamment pour ajuster la valeur des paramètres du modèle.&nbsp; </p><p>À titre d’exemple, l’<strong>entraînement du modèle GPT-4 d’OpenAI</strong>  a nécessité <strong>14 semaines de calculs en continu.</strong>  Cela correspond à une consommation d’énergie de <strong>42 Gigawatt-heure (GWh)</strong><strong> !</strong><br><br></p>"
                     },
                     {
                       "id": "10fd3e5a-8e74-47a0-8d94-dc4205466a90",
@@ -157,35 +164,35 @@
                           "id": "1",
                           "content": "<p>Alimenter en électricité 7 600 personnes résidant en Europe pendant un an.&nbsp;🏘️</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Bonne idée ! </strong></p><p>Toutes les réponses correspondent à 42 GWh.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                            "diagnosis": "<p><strong>Bonne idée ! </strong></p><p>Toutes les réponses correspondent à 42 GWh.</p><p>Et ce total ne prend en compte que l’entraînement pour <strong>u</strong><strong>ne version du modèle</strong>. </p><p>Depuis la sortie de ChatGPT-4 en 2024,&nbsp;OpenIA a sorti de <strong>nouvelles versions</strong>, comme ChatGPT-5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Recharger votre smartphone pendant 4 200 000 années.&nbsp;📱</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Drôle d’idée !</strong></p><p>En tout cas, toutes les réponses correspondent à 42 GWh.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                            "diagnosis": "<p><strong>Drôle d’idée !</strong></p><p>En tout cas, toutes les réponses correspondent à 42 GWh.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. </p><p>Depuis la sortie de ChatGPT-4 en 2024,&nbsp;OpenIA a sorti de <strong>nouvelles versions</strong>, comme ChatGPT-5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Faire 210 000 000 de kilomètres en voiture électrique, soit&nbsp; 5 240 fois le tour de la terre.&nbsp;🌏</p>",
+                          "content": "<p>Faire 210 000 000 de kilomètres en voiture électrique, soit 5 240 fois le tour de la terre.&nbsp;🌏</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Vous risquez d'être fatigué !</strong></p><p>En tout cas, toutes les réponses correspondent à 42 GWh.</p><p>Et ce total ne prend en compte que l’entraînement d'<strong>u</strong><strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                            "diagnosis": "<p><strong>Vous risquez d’être fatigué !</strong></p><p>En tout cas, toutes les réponses correspondent à 42 GWh.</p><p>Et ce total ne prend en compte que l’entraînement d’<strong>u</strong><strong>ne version du modèle</strong>. Depuis la sortie de ChatGPT-4 en 2024,&nbsp;OpenIA a sorti de <strong>nouvelles versions</strong>, comme ChatGPT-5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Entraîner un modèle d’intelligence artificielle générative.&nbsp;✨</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Pourquoi pas ?</strong></p><p>En tout cas, ce total ne prend en compte que l’entraînement pour <strong>u</strong><strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                            "diagnosis": "<p><strong>Pourquoi pas ?</strong></p><p>En tout cas, ce total ne prend en compte que l’entraînement pour <strong>u</strong><strong>ne version du modèle</strong>.</p><p>Depuis la sortie de ChatGPT-4 en 2024,&nbsp;OpenIA a sorti de <strong>nouvelles versions</strong>, comme ChatGPT-5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
                           "id": "5",
                           "content": "<p>Je ne sais pas.&nbsp;🤔</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Toutes les réponses correspondent à 42 GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. Depuis ChatGPT a sorti de <strong>nouvelles versions</strong>, comme ChatGPT5, qui a nécessité un <strong>nouvel entraînement</strong>.</p>"
+                            "diagnosis": "<p><strong>Toutes les réponses correspondent à 42 GWh</strong>.</p><p>Et ce total ne prend en compte que l’entraînement pour<strong> u</strong><strong>ne version du modèle</strong>. </p><p>Depuis la sortie de ChatGPT-4 en 2024,&nbsp;OpenIA a sorti de <strong>nouvelles versions</strong>, comme ChatGPT-5, qui a nécessité un <strong>nouvel entraînement</strong>.</p>"
                           }
                         }
                       ]
@@ -198,7 +205,7 @@
                       "id": "8d07ad91-7c48-4d1f-b60a-a311a7b428fd",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>OpenAI et d’autres entreprises ont entraîné d’autres modèles depuis la sortie de ChatGPT4.</p><p> Voici ci-dessous quelques exemples&nbsp;:</p>"
+                      "content": "<p>OpenAI et d’autres entreprises ont entraîné d’autres modèles depuis la sortie de ChatGPT-4.</p><p> Voici ci-dessous quelques exemples&nbsp;:</p>"
                     },
                     {
                       "id": "5347533c-7309-4991-b0b3-133784208d25",
@@ -298,7 +305,7 @@
                       "id": "2c1c5be2-a58d-475d-afec-dc7b6ad88e8e",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Et une fois le modèle entraîné ? </h5><p>Les centres de données sont également sollicités au moment de l’utilisation des logiciels d’IA&nbsp;: ils sont nécessaires pour effectuer des calculs et stocker des informations pour générer des réponses. Du fait de l’explosion des usages des logiciels d’IA générative, <strong>l’impact de leur utilisation dépasse maintenant celui de leur entraînement</strong> et va probablement encore augmenter.</p>"
+                      "content": "<h5>Et une fois le modèle entraîné ? </h5><p>Les centres de données sont également sollicités au moment de l’utilisation des logiciels d’IA&nbsp;: ils sont nécessaires pour effectuer des calculs et stocker des informations pour générer des réponses. Avec l’explosion des usages des logiciels d’IA générative, <strong>l’impact de leur utilisation dépasse maintenant celui de leur entraînement</strong> et va probablement encore augmenter.</p>"
                     }
                   ]
                 },
@@ -308,7 +315,7 @@
                       "id": "5878e032-208b-4e28-94d2-9fb5e1b47884",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>À titre d’exemple,<strong> les émissions de GES de Google ont augmenté de 50% entre 2019 et 2023</strong>, ainsi que sa consommation d’eau (+20 à 30% de 2021 à 2023), principalement en raison du développement des logiciels d’IA générative&nbsp;et de l’expansion de ses centres de données.</p>"
+                      "content": "<p>À titre d’exemple,<strong> les émissions de gaz à effet de serre (GES) de Google ont augmenté de 50&nbsp;% entre 2019 et 2023</strong>, ainsi que sa consommation d’eau (+20 à 30&nbsp;% de 2021 à 2023), principalement en raison du développement des logiciels d’IA générative&nbsp;et de l’expansion de ses centres de données.</p>"
                     }
                   ]
                 },
@@ -318,7 +325,7 @@
                       "id": "7bce7710-e3e0-4626-a366-c341bc7661aa",
                       "type": "text",
                       "tag": " ",
-                      "content": "Cette massification résulte notamment d’une volonté des acteurs du numérique d’<strong>imposer l’usage des logiciels d’IA</strong> dans les outils numériques existants, et dans leurs entreprises.<p></p>"
+                      "content": "<p>Cette massification est notamment le résultat d’une volonté des acteurs du numérique d’<strong>imposer l’usage des logiciels d’IA</strong> dans les outils numériques existants et dans les entreprises.</p>"
                     }
                   ]
                 }
@@ -357,7 +364,7 @@
                       "id": "7903b516-814b-466e-a0b0-d54122cc8ce7",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Ces <strong>calcus </strong><strong>sont faits des centres de données </strong>spécialisés appelés <strong>hyperscalers</strong>.&nbsp; </p><p>Ces centres de données fonctionnent grâce à du matériel informatique spécifique, notamment le <strong>composant </strong>présent <strong>sur la photo</strong> ci-dessous.</p>"
+                      "content": "<p>Ces <strong>calcus </strong><strong>sont faits dans des centres de données </strong>spécialisés appelés <strong>hyperscalers</strong>.&nbsp; </p><p>Ces centres de données fonctionnent grâce à du matériel informatique spécifique, notamment le <strong>composant </strong>présent <strong>sur la photo</strong> ci-dessous.</p>"
                     },
                     {
                       "id": "d9b18008-bd8e-47bc-b05b-20afcbd790cb",
@@ -378,28 +385,28 @@
                           "id": "1",
                           "content": "une carte mère",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais </strong>(Graphical Processing Unit), un composant qui peut <strong>faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique&nbsp;</strong>(<em>Graphical Processing Unit</em> ou <em>GPU </em>en anglais),&nbsp;un composant qui peut <strong>faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l’énergie et chauffe, d’où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "une carte graphique",
                           "feedback": {
-                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut<strong> faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
+                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p>C’est une <strong>carte graphique </strong>(<em>Graphical Processing Unit</em> ou <strong>GPU </strong>en anglais), un composant qui peut<strong> faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l’énergie et chauffe, d’où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "un disque dur SSD",
+                          "content": "un disque dur",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non !</strong></p><p>C’est une <strong>carte graphique, GPU en anglais</strong> (Graphical Processing Unit), un composant qui peut  <strong>faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p> <p>C’est une <strong>carte graphique </strong>(<em>Graphical Processing Unit</em> ou <strong>GPU en anglais</strong>), un composant qui peut<strong> faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l’énergie et chauffe, d’où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’une <strong>carte graphique, GPU en anglais (Graphical Processing Unit)</strong>, un composant qui peut <strong>faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l'énergie et chauffe, d'où la présence de <strong>ventilateurs</strong>.</p>"
+                            "diagnosis": "<p>Il s’agit d’une <strong>carte graphique </strong>(<em>Graphical Processing Unit</em> ou <strong>GPU </strong>en anglais), un composant qui peut <strong>faire très rapidement certains types de calculs</strong>. En faisant ces calculs, il consomme de l’énergie et chauffe, d’où la présence de <strong>ventilateurs</strong>.</p>"
                           }
                         }
                       ],
@@ -509,7 +516,7 @@
                 "id": "69b48f4c-a274-42ca-b7c3-77098bbcb574",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mais pour comprendre les différences entre les modèles d’intelligence artificielle, on peut aussi se demander quelles sont les priorités des entreprises qui les construisent.&nbsp;</p>"
+                "content": "<p>Mais pour comprendre les différences entre les modèles d’intelligence artificielle, on peut aussi se demander quelles sont les priorités des entreprises qui les créent.&nbsp;</p>"
               }
             }
           ]
@@ -537,12 +544,12 @@
                     {
                       "id": "4901c36d-6247-4a82-b8d7-61b5b208cc6d",
                       "type": "qcm",
-                      "instruction": "<p>À votre avis, quel va être le bilan de la consommation d’energie de Google ces prochaines années ?</p>",
+                      "instruction": "<p>À votre avis, quelles affirmations sont justes ? </p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Google va réduire sa consommation d’énergie</p>"
+                          "content": "<p>Google va réduire sa consommation d’énergie.</p>"
                         },
                         {
                           "id": "2",
@@ -554,7 +561,7 @@
                         },
                         {
                           "id": "4",
-                          "content": "<p>Google va consommer de l’énergie carbonnée.</p>"
+                          "content": "<p>Google va consommer de l’énergie fossile.</p>"
                         }
                       ],
                       "feedbacks": {
@@ -612,11 +619,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien vu !<br></p>",
-                          "diagnosis": "<p>Si en 2024 le dirigeant de Meta vantait les mérites de l’open source, ce n’est plus le cas en 2026. De plus, même dans les modèles qui étaient présentés comme «&nbsp;<strong>open source&nbsp;</strong>», ni le code d’entraînement, ni les données d’entraînement n’étaient divulgués.</p><p>C’est dommage car les modèles <strong>open source permettent de mutualiser et limiter les coûts environnementaux de l’entraînement des modèles.</strong></p>"
+                          "diagnosis": "<p>Si en 2024 le dirigeant de Meta vantait les mérites de l’open source, ce n’est plus le cas en 2026. Et même dans les modèles qui étaient présentés comme «&nbsp;<strong>open source&nbsp;</strong>», ni le code d’entraînement, ni les données d’entraînement n’étaient divulgués.</p><p>C’est dommage car les modèles <strong>open source permettent de mutualiser et limiter les coûts environnementaux de l’entraînement des modèles.</strong></p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non, pas vraiment !<br></p>",
-                          "diagnosis": "<p>Si en 2024 le dirigeant de Meta vantait les mérites de l’open source, ce n’est plus le cas en 2026. De plus, même dans les modèles qui étaient présentés comme «&nbsp;<strong>open source&nbsp;</strong>», ni le code d’entraînement, ni les données d’entraînement n’étaient divulgués.</p><p>C’est dommage car les modèles <strong>open source permettent de mutualiser et limiter les coûts environnementaux de l’entraînement des modèles.</strong></p>"
+                          "diagnosis": "<p>Si en 2024 le dirigeant de Meta vantait les mérites de l’open source, ce n’est plus le cas en 2026. Et même dans les modèles qui étaient présentés comme «&nbsp;<strong>open source&nbsp;</strong>», ni le code d’entraînement, ni les données d’entraînement n’étaient divulgués.</p><p>C’est dommage car les modèles <strong>open source permettent de mutualiser et limiter les coûts environnementaux de l’entraînement des modèles.</strong></p>"
                         }
                       },
                       "solutions": [
@@ -645,11 +652,11 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Toutes les entreprises d’IA publient des études de leurs impacts environnementaux.</p>"
+                          "content": "<p>Toutes les entreprises d’IA publient des études sur leurs impacts environnementaux.</p>"
                         },
                         {
                           "id": "2",
-                          "content": "<p>Mistral AI est l’une des seules entreprises publiant une étude de son impact environnemental.</p>"
+                          "content": "<p>Mistral AI est l’une des seules entreprises publiant une étude sur son impact environnemental.</p>"
                         },
                         {
                           "id": "3",
@@ -663,7 +670,7 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien&nbsp;vu !</p>",
-                          "diagnosis": "<p>La plupart des entreprises conceptrices de logiciels d’IA générative ne publient pas d’étude sur leurs impacts environnementaux. </p><p>En 2025, Mistral AI était l’une des seules à avoir publié une étude, mais sans les chiffres sources.&nbsp;Il n’existe <strong>p</strong><strong>as encore de standard </strong>ou de méthodologie partagée pour évaluer les impacts environnementaux des entreprises d’IA, ce qui <strong>ne permet pas de les comparer.</strong></p>"
+                          "diagnosis": "<p>La plupart des entreprises qui créent des logiciels d’IA générative ne publient pas d’étude sur leurs impacts environnementaux. </p><p>En 2025, Mistral AI était l’une des seules à avoir publié une étude, mais sans les chiffres sources.&nbsp;Il n’existe <strong>p</strong><strong>as encore de standard&nbsp;</strong>ou de méthodologie partagée pour évaluer les impacts environnementaux des entreprises d’IA, ce qui <strong>ne permet pas de les comparer.</strong></p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non, pas vraiment !</p>",
@@ -706,7 +713,7 @@
                       "id": "8519af0e-fb12-4bbf-8435-62c853decfdb",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Comment les entreprises proposant des services d’IA pourraient limiter leur impact ?</h5><p> Elles pourraient <strong>entraîner moins de nouveaux modèles </strong>et améliorer leurs logiciels et leurs infrastructures pour qu’elles <strong>consomment moins d’énergie.</strong></p><p> Mais l’<strong>économie de l’intelligence artificielle est très concurrentielle</strong> et vise principalement à faire des profits. La réduction des impacts environnementaux est donc rarement une priorité.<br></p>"
+                      "content": "<h5>Comment les entreprises proposant des services d’IA pourraient limiter leur impact ?</h5><p> Elles pourraient <strong>entraîner moins de nouveaux modèles d’IA générative&nbsp;</strong>et améliorer leurs logiciels et leurs infrastructures pour qu’ils <strong>consomment moins d’énergie.</strong></p><p> Mais l’<strong>économie de l’intelligence artificielle est très concurrentielle</strong> et elle vise principalement à faire des profits. La réduction des impacts environnementaux est donc rarement une priorité.<br></p>"
                     }
                   ]
                 },
@@ -716,7 +723,7 @@
                       "id": "71326633-9b59-4fc5-a33a-c5ac633daac9",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Et en tant qu’utilisateur, que pouvons-nous faire ?</h5><p>Nous pouvons adopter une démarche de <strong>sobriété </strong>et réduire notre utilisation des logiciels d’IA.<br></p>"
+                      "content": "<h5>Et en tant qu’utilisateur, que pouvons-nous faire ?</h5><p>Nous pouvons adopter une démarche de <strong>sobriété </strong>et réduire notre utilisation des logiciels d’IA générative.<br></p>"
                     }
                   ]
                 }
@@ -741,7 +748,7 @@
                 "id": "280fa165-c7a5-44f2-b82e-bdcc6a28c16a",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>Les modèles d’IA demandent une <strong>puissance de calcul</strong> importante pour être entraînés et utilisés.</li><li>Ces calculs reposent sur des <strong>centres de données et des GPU gourmands en ressources et en électricité. </strong>⚡</li><li>Les entreprises qui mettent à disposition ces technologies pourraient réduire cet impact en <strong>améliorant l’efficacité de leurs modèles</strong> ou en <strong>limitant les nouveaux entraînements</strong>. Cependant, ces choix peuvent entrer en tension avec leurs <strong>objectifs économiques</strong>. 💵</li><li><strong>Réduire nos usages de l’IA</strong> limite cet impact.↘️</li></ul>"
+                "content": "<ul><li>Les modèles d’IA demandent une <strong>puissance de calcul</strong> importante pour être entraînés et utilisés.</li><li>Ces calculs reposent sur des <strong>centres de données et des cartes graphiques gourmands en ressources et en électricité.</strong>⚡</li><li>Les entreprises qui mettent à disposition ces logiciels d’IA pourraient en réduire l’impact en <strong>améliorant l’efficacité de leurs modèles</strong> ou en <strong>limitant de nouveaux entraînements</strong>. Cependant, ces choix peuvent entrer en tension avec des&nbsp;<strong>objectifs économiques</strong>. 💵</li><li><strong>Réduire nos usages de l’IA</strong> limite cet impact. ↘️</li></ul>"
               }
             }
           ]
@@ -836,7 +843,7 @@
                   },
                   "invalid": {
                     "state": "<p>Pas vraiment...<br></p>",
-                    "diagnosis": "<p>Vous pouvez réessayer. Voici quelques indices&nbsp;:</p><ul><li>Mon premier correspond à la deuxième lettre de l’<strong>IA.</strong></li><li>Mon second est la version française du <strong>datacenter</strong>.</li><li> Mon troisième est le <strong>composant </strong>qui a été <strong>vu dans ce module.</strong></li></ul>"
+                    "diagnosis": "<p>Vous pouvez réessayer. Voici quelques indices&nbsp;:</p><ul><li>Le premier mot à trouver correspond à la deuxième lettre de l’<strong>IA.</strong></li><li>Le second est la version française du <strong>datacenter</strong>.</li><li> Le troisième est le <strong>composant </strong>qui a été <strong>vu dans ce module.</strong></li></ul>"
                   }
                 }
               }
@@ -901,7 +908,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>En résumé&nbsp;:&nbsp;</p><ul><li> Du fait de l’essor des usages, l’impact <strong>environnemental des usages</strong> est désormais <strong>plus important</strong>&nbsp;que celui de l’entraînement des IA.</li><li>L’entraînement de ChatGPT-4 a bien mobilisé des centres de données pendant des semaines en continu.</li><li>L’entraînement de ChatGPT a nécessité bien plus d’une centaine de GPU, cela se compte en milliers.</li><li>Les GPU nécessitent bien l’extraction de nombreux minerais, comme la plupart de notre matériel informatique.</li></ul>"
+                  "diagnosis": "<p>En résumé&nbsp;:&nbsp;</p><ul><li> Du fait de l’essor des usages, l’impact environnemental des <strong>usages</strong> est désormais <strong>plus important</strong>&nbsp;que celui de <strong>l’entraînement </strong>des IA.</li><li>L’entraînement de <strong>ChatGPT-4 a mobilisé des centres de données</strong> pendant des semaines en continu.</li><li><strong>L’entraînement </strong>de ChatGPT a nécessité plus d’une centaine de <strong>GPU</strong>, cela se compte <strong>en </strong><strong>milliers</strong>.</li><li>Les GPU nécessitent l’<strong>extraction de nombreux minerais</strong>, comme la plupart de notre matériel informatique.</li></ul>"
                 }
               }
             }
@@ -938,28 +945,28 @@
               "element": {
                 "id": "b6105600-ded6-45dc-b0c4-5879aec035fc",
                 "type": "qcm",
-                "instruction": "<p>Parmi eux, lesquels proposent des pistes qui risquent d’augmenter l’impact environnemental de l’entreprise ?</p>",
-                "hasShortProposals": true,
+                "instruction": "<p>Parmi les propositions, lesquelles risquent d’augmenter l’impact environnemental de l’entreprise ?</p>",
+                "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "André"
+                    "content": "<p>la proposition d’André</p>"
                   },
                   {
                     "id": "2",
-                    "content": "Béatrice"
+                    "content": "<p>la proposition de Béatrice</p>"
                   },
                   {
                     "id": "4",
-                    "content": "Dylan"
+                    "content": "<p>la proposition de Dylan</p>"
                   },
                   {
                     "id": "3",
-                    "content": "Charlotte"
+                    "content": "<p>la proposition de Charlotte</p>"
                   },
                   {
                     "id": "5",
-                    "content": "Elisabeth"
+                    "content": "<p>la proposition de Elisabeth</p>"
                   }
                 ],
                 "feedbacks": {
@@ -969,7 +976,7 @@
                   },
                   "invalid": {
                     "state": "<p>Non, pas vraiment...<br></p>",
-                    "diagnosis": "<p>Ces exemples ne sont pas pris au hasard&nbsp;:&nbsp; </p><ul>    <li>La plupart des entreprises d’IA génératives proposent des <strong>modèles gratuits pour nous habituer à leur utilisation</strong>&nbsp;: on appelle ces modèles <strong>freemium</strong>.</li>    <li>Open IA a annoncé en mars 2026 <strong>l’arrêt du service de génération de vidéos Sora qui consommait beaucoup de ressources.</strong></li>    <li>Et Google et les autres <strong>moteurs de recheches utilisent de plus en plus d’intelligence artificielle par défaut</strong> pour donner une réponse à la recherche de l’utilisateur plutôt que des liens.</li></ul>"
+                    "diagnosis": "<p>Ces exemples ne sont pas pris au hasard&nbsp;:&nbsp; </p><ul>    <li>La plupart des entreprises d’IA génératives proposent des <strong>modèles gratuits pour nous habituer à leur utilisation.</strong>&nbsp;</li>    <li>Open IA a annoncé en mars 2026 <strong>l’arrêt du service de génération de vidéos Sora qui consommait beaucoup de ressources</strong>, ce qui leur coûtait cher.</li>    <li>Google et les autres <strong>moteurs de recheches utilisent de plus en plus d’intelligence artificielle par défaut</strong> pour donner une réponse à la recherche de l’utilisateur plutôt que des liens.</li></ul>"
                   }
                 },
                 "solutions": [
@@ -1027,7 +1034,7 @@
                           "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la <strong>médiane </strong>ne prend pas en compte les valeurs extrêmes&nbsp;! La consommation d’énergie <strong>moyenne </strong>pourrait être bien <strong>plus élevée</strong>. </p><p>  De plus, <strong>Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes</strong>, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
                         },
                         "invalid": {
-                          "state": "<p>Eh non !&nbsp;</p><p>La réponse était 0,24&nbsp;wattheure (Wh).</p>",
+                          "state": "<p>Eh non !&nbsp;</p><p>La réponse était 0,24&nbsp;Wh.</p>",
                           "diagnosis": "<p>Ce chiffre est plutôt encourageant, mais attention&nbsp;: la <strong>médiane </strong>ne prend pas en compte les valeurs extrêmes&nbsp;! La consommation d’énergie <strong>moyenne </strong>pourrait être bien <strong>plus élevée</strong>. </p><p>De plus <strong>Google ne communique pas sur le nombre&nbsp;total de&nbsp;requêtes</strong>, notamment les requêtes non sollicitées, par exemple celles pour résumer une réponse dans la page du moteur de recherche Google.</p>"
                         }
                       }
@@ -1039,15 +1046,15 @@
                     {
                       "id": "b8c93cd6-27d2-42de-8b4f-350b7521986e",
                       "type": "qcu",
-                      "instruction": "<p>Est-ce que l’estimation de Google prend en compte l’entraînement du modèle ?</p>",
+                      "instruction": "<p>L’estimation de Google prend-elle en compte l’entraînement du modèle ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "0",
                           "content": "Oui",
                           "feedback": {
-                            "state": "<p>Eh non ! Cette estimation ne prend pas en compte l’entraînement du modèle.</p>",
-                            "diagnosis": "<p>Or, on a vu que l’entraînement était extrêmement coûteux en énergie.</p>"
+                            "state": "<p><strong>Eh non !</strong></p><p> Cette estimation <strong>ne prend pas en compte l’entraînement </strong>du modèle.</p>",
+                            "diagnosis": "<p>Et pourtant, on a vu que l’entraînement était extrêmement coûteux en énergie.</p>"
                           }
                         },
                         {
@@ -1055,7 +1062,7 @@
                           "content": "Non",
                           "feedback": {
                             "state": "<p> Bonne réponse ! Cette estimation ne prend pas en compte l’entraînement du modèle.</p>",
-                            "diagnosis": "<p>Or, on a vu que l’entraînement était extrêmement coûteux en énergie.</p>"
+                            "diagnosis": "<p>Et pourtant, on a vu que l’entraînement était extrêmement coûteux en énergie.</p>"
                           }
                         }
                       ],
@@ -1068,7 +1075,7 @@
                     {
                       "id": "a6404aac-9164-4e80-93b6-1288130f064e",
                       "type": "qcu",
-                      "instruction": "<p>Est-ce que cette étude a été relue et validée par des scientifiques indépendants ?</p>",
+                      "instruction": "<p>Cette étude a-t-elle été relue et validée par des scientifiques indépendants ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -1076,7 +1083,7 @@
                           "content": "Oui",
                           "feedback": {
                             "state": "<p>Eh non !</p>",
-                            "diagnosis": "<p>Même si cette étude a une apparence d’un article de recherche, elle n’a pas été revue par une autorité ou des chercheurs externes à Google. On peut donc questionner son impartialité.</p>"
+                            "diagnosis": "<p>Même si cette étude a l’apparence d’un article de recherche, elle n’a pas été revue par une autorité ou des chercheurs externes à Google. On peut donc questionner son objectivité.</p>"
                           }
                         },
                         {
@@ -1084,7 +1091,7 @@
                           "content": "Non",
                           "feedback": {
                             "state": "<p>Bonne réponse !</p>",
-                            "diagnosis": "<p>Même si cette étude a une apparence d’un article de recherche, elle n’a pas été revue par une autorité ou des chercheurs externes à Google. On peut donc questionner son impartialité.</p>"
+                            "diagnosis": "<p>Même si cette étude a une apparence d’un article de recherche, elle n’a pas été revue par une autorité ou des chercheurs externes à Google. On peut donc questionner son objectivité.</p>"
                           }
                         }
                       ],
