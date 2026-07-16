@@ -10,7 +10,7 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   queryParams = [
     'pageNumber',
     'pageSize',
-    'id',
+    'ids',
     'certificationCenterName',
     'certificationCenterExternalId',
     'status',
@@ -20,7 +20,7 @@ export default class AuthenticatedSessionsListAllController extends Controller {
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 10;
-  @tracked id = null;
+  @tracked ids = null;
   @tracked certificationCenterName = null;
   @tracked certificationCenterExternalId = null;
   @tracked certificationCenterType = null;

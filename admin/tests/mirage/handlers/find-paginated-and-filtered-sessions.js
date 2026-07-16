@@ -19,7 +19,7 @@ export function findPaginatedAndFilteredSessions(schema, request) {
           {
             status: 422,
             title: 'Invalid filters',
-            description: 'Filter on id field must be a number.',
+            description: 'Filter on ids field must only contain numbers.',
           },
         ],
       },
@@ -39,7 +39,7 @@ export function findPaginatedAndFilteredSessions(schema, request) {
 }
 
 function _getFiltersFromQueryParams(queryParams) {
-  const idFilter = queryParams ? (queryParams['filter[id]'] ? queryParams['filter[id]'].trim() || null : null) : null;
+  const idsFilter = queryParams ? queryParams['filter[ids]'] || null : null;
   const certificationCenterNameFilter = queryParams
     ? queryParams['filter[certificationCenterName]']
       ? queryParams['filter[certificationCenterName]'].trim() || null
@@ -62,7 +62,7 @@ function _getFiltersFromQueryParams(queryParams) {
       : null
     : null;
   return {
-    idFilter,
+    idsFilter,
     certificationCenterNameFilter,
     certificationCenterExternalIdFilter,
     statusFilter,
@@ -70,10 +70,9 @@ function _getFiltersFromQueryParams(queryParams) {
   };
 }
 
-function _areFiltersValid({ idFilter }) {
-  if (idFilter !== null) {
-    const idAsNumber = parseInt(idFilter, 10);
-    return !isNaN(idAsNumber);
+function _areFiltersValid({ idsFilter }) {
+  if (idsFilter !== null) {
+    return idsFilter.every((id) => !isNaN(parseInt(id, 10)));
   }
 
   return true;
@@ -81,12 +80,12 @@ function _areFiltersValid({ idFilter }) {
 
 function _applyFilters(
   sessions,
-  { idFilter, certificationCenterNameFilter, certificationCenterExternalIdFilter, statusFilter, versionFilter },
+  { idsFilter, certificationCenterNameFilter, certificationCenterExternalIdFilter, statusFilter, versionFilter },
 ) {
   let filteredSessions = sessions;
-  if (idFilter) {
+  if (idsFilter) {
     filteredSessions = filter(filteredSessions, (session) => {
-      return session.id === idFilter;
+      return idsFilter.includes(session.id);
     });
   }
   if (certificationCenterNameFilter) {

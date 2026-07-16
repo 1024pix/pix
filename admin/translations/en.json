@@ -1801,9 +1801,9 @@
           "external-id": {
             "aria-label": "Filtrer les sessions avec un identifiant externe"
           },
-          "id": {
-            "aria-label": "Filtrer les sessions avec un id",
-            "label": "Identifiant"
+          "ids": {
+            "aria-label": "Filtrer les sessions avec un ou plusieurs id séparés par des virgules",
+            "label": "Session(s) ID(s)"
           },
           "status": {
             "aria-label": "Filtrer les sessions en sélectionnant un statut"

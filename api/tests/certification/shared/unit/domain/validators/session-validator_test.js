@@ -263,37 +263,44 @@ describe('Unit | Domain | Validators | session-validator', function () {
     context('return value', function () {
       it('should return the filters in a normalized form', function () {
         const value = sessionValidator.validateAndNormalizeFilters({
-          id: '123',
+          ids: ['123', 456],
           status: 'finalized',
         });
 
-        expect(typeof value.id).to.equal('number');
+        expect(value.ids).to.deep.equal([123, 456]);
         expect(value.status).to.equal('finalized');
       });
     });
 
-    context('when validating id', function () {
-      context('when id not in submitted filters', function () {
+    context('when validating ids', function () {
+      context('when ids not in submitted filters', function () {
         it('should not throw any error', function () {
           expect(() => sessionValidator.validateAndNormalizeFilters({})).to.not.throw();
         });
       });
 
-      context('when id is in submitted filters', function () {
-        context('when id is not an integer', function () {
+      context('when ids is in submitted filters', function () {
+        context('when ids contains a value which is not an integer', function () {
           it('should throw an error', async function () {
-            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({ id: 'salut' });
+            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({ ids: [123, 'salut'] });
             expect(error).to.be.instanceOf(EntityValidationError);
           });
         });
 
-        context('when id is an integer', function () {
-          it('accept a string containing an int', function () {
-            expect(() => sessionValidator.validateAndNormalizeFilters({ id: '123' })).to.not.throw();
+        context('when ids contains integers', function () {
+          it('accepts strings containing ints', function () {
+            expect(() => sessionValidator.validateAndNormalizeFilters({ ids: ['123', '456'] })).to.not.throw();
           });
 
           it('should not throw any error', function () {
-            expect(() => sessionValidator.validateAndNormalizeFilters({ id: 123 })).to.not.throw();
+            expect(() => sessionValidator.validateAndNormalizeFilters({ ids: [123, 456] })).to.not.throw();
+          });
+        });
+
+        context('when ids is a single value', function () {
+          it('should normalize it into an array', function () {
+            const value = sessionValidator.validateAndNormalizeFilters({ ids: '123' });
+            expect(value.ids).to.deep.equal([123]);
           });
         });
       });

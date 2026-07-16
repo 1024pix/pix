@@ -83,13 +83,13 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     assert.dom('table tbody tr:nth-child(2) td:nth-child(4)').hasText('-');
   });
 
-  module('Input field for id filtering', function () {
-    test('it should render a input field to filter on id', async function (assert) {
+  module('Input field for ids filtering', function () {
+    test('it should render a input field to filter on ids', async function (assert) {
       // when
       const screen = await render(<template><ListItems @triggerFiltering={{triggerFiltering}} /></template>);
 
       // then
-      assert.dom(screen.getByRole('textbox', { name: 'Filtrer les sessions avec un id' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: t('pages.sessions.list.filters.ids.aria-label') })).exists();
     });
   });
 

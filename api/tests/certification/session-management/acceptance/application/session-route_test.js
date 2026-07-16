@@ -42,20 +42,21 @@ describe('Certification | Session Management | Acceptance | Application | Route 
 
       it('should return a 200 status code with paginated and filtered data', async function () {
         // given
-        options.url = '/api/admin/sessions?filter[id]=121&page[number]=1&page[size]=2';
+        options.url = '/api/admin/sessions?filter[ids][]=121&filter[ids][]=333&page[number]=1&page[size]=2';
 
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.have.lengthOf(1);
+        expect(response.result.data).to.have.lengthOf(2);
         expect(response.result.data[0].type).to.equal('sessions');
+        expect(response.result.data[1].type).to.equal('sessions');
       });
 
       it('should return a 200 status code with empty result', async function () {
         // given
-        options.url = '/api/admin/sessions?filter[id]=4&page[number]=1&page[size]=1';
+        options.url = '/api/admin/sessions?filter[ids][]=4&filter[ids][]=22&page[number]=1&page[size]=1';
 
         // when
         const response = await server.inject(options);
