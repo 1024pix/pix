@@ -2,7 +2,7 @@ import ListItems from 'pix-admin/components/sessions/list-items';
 <template>
   <ListItems
     @sessions={{@controller.model}}
-    @id={{@controller.id}}
+    @ids={{@controller.ids}}
     @certificationCenterName={{@controller.certificationCenterName}}
     @certificationCenterExternalId={{@controller.certificationCenterExternalId}}
     @status={{@controller.status}}
