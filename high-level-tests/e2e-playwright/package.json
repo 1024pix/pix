@@ -35,7 +35,7 @@
   "devDependencies": {
     "@1024pix/eslint-plugin": "^2.1.19",
     "@axe-core/playwright": "^4.10.1",
-    "@playwright/test": "1.60.0",
+    "@playwright/test": "1.61.1",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^24.0.0",
     "@types/pngjs": "^6.0.5",

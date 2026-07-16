@@ -140,7 +140,7 @@ executors:
     resource_class: medium
   playwright-executor-medium:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.60.0-noble
+      - image: mcr.microsoft.com/playwright:v1.61.1-noble
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -157,7 +157,7 @@ executors:
     resource_class: medium
   playwright-executor-large:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.60.0-noble
+      - image: mcr.microsoft.com/playwright:v1.61.1-noble
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
