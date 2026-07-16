@@ -3,6 +3,7 @@ import { trace } from '@opentelemetry/api';
 import { config } from '../../config.js';
 import { DomainError } from '../../domain/errors.js';
 const otelProxySymbol = Symbol('otelProxy');
+export const preventTracingSymbol = Symbol('preventTracing');
 
 function isAlreadyProxied(resource) {
   return resource[otelProxySymbol] === true;
@@ -109,7 +110,7 @@ function wrapObject(resource, name, getSpanOptionsFn) {
  * @returns {object|Function} A proxy (or wrapped function) that behaves like `resource` but emits spans.
  */
 export function otelProxy(resource, name, getSpanOptionsFn) {
-  if (!config.logging.otelEnabled) {
+  if (!config.logging.otelEnabled || resource[preventTracingSymbol]) {
     return resource;
   }
   if (typeof resource === 'function') {

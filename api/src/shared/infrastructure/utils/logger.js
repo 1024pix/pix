@@ -6,6 +6,7 @@ import pretty from 'pino-pretty';
 
 import { config } from '../../config.js';
 import { CORRELATION_METADATA, getCorrelationInfo } from '../execution-context-manager.js';
+import { tracing } from '../open-telemetry/helpers.js';
 
 const { logging } = config;
 
@@ -85,7 +86,7 @@ function buildLogWrapper(context, mergingObject, message, extraBindings = {}, ex
   emitOtelLogRecord(context, mergingObject, message, extraBindings);
 }
 
-export const logger = {
+export const logger = tracing.prevent({
   trace: (mergingObject, message) => {
     buildLogWrapper('trace', mergingObject, message);
   },
@@ -107,7 +108,7 @@ export const logger = {
   silent: (mergingObject, message) => {
     buildLogWrapper('silent', mergingObject, message);
   },
-};
+});
 
 /**
  * Creates a child logger for a section.
@@ -130,7 +131,7 @@ export function child(section, bindings, options) {
   }
 
   const extraOptions = { ...options, ...optionsOverride };
-  return {
+  return tracing.prevent({
     trace: (mergingObject, message) => {
       buildLogWrapper('trace', mergingObject, message, bindings, extraOptions);
     },
@@ -152,7 +153,7 @@ export function child(section, bindings, options) {
     silent: (mergingObject, message) => {
       buildLogWrapper('silent', mergingObject, message, bindings, extraOptions);
     },
-  };
+  });
 }
 
 export const SCOPES = {

@@ -2,6 +2,7 @@ import { trace } from '@opentelemetry/api';
 import sinon from 'sinon';
 
 import { config } from '../../../../../src/shared/config.js';
+import { tracing } from '../../../../../src/shared/infrastructure/open-telemetry/helpers.js';
 import { otelProxy } from '../../../../../src/shared/infrastructure/open-telemetry/otel_proxy.js';
 import { expect } from '../../../../test-helper.js';
 
@@ -154,6 +155,38 @@ describe('Unit | Infrastructure | Utils | otelProxy', function () {
 
       expect(getSpanOptionsFn).to.have.been.calledOnce;
       expect(tracerStub.startActiveSpan).to.have.been.calledWith('myObj->patate', getSpanOptionsFn());
+    });
+  });
+
+  describe('when resource is marked as prevented via tracing.prevent', function () {
+    it('should return the function as-is, without wrapping it', function () {
+      const fn = sinon.stub().returns(42);
+
+      const prevented = tracing.prevent(fn);
+      const result = otelProxy(prevented, 'myFunc');
+
+      expect(result).to.equal(fn);
+      result();
+      expect(tracerStub.startActiveSpan).to.not.have.been.called;
+    });
+
+    it('should return the object as-is, without wrapping it', function () {
+      const obj = { doSomething: sinon.stub().returns('done') };
+
+      const prevented = tracing.prevent(obj);
+      const proxied = otelProxy(prevented, 'myObj');
+
+      expect(proxied).to.equal(obj);
+      proxied.doSomething();
+      expect(tracerStub.startActiveSpan).to.not.have.been.called;
+    });
+
+    it('should return the same resource it was given, for chaining', function () {
+      const obj = {};
+
+      const result = tracing.prevent(obj);
+
+      expect(result).to.equal(obj);
     });
   });
 });
