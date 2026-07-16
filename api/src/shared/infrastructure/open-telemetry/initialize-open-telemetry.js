@@ -1,4 +1,5 @@
 import { diag, DiagLogLevel } from '@opentelemetry/api';
+import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { FsInstrumentation } from '@opentelemetry/instrumentation-fs';
@@ -8,6 +9,7 @@ import { PgInstrumentation } from '@opentelemetry/instrumentation-pg';
 import { UndiciInstrumentation } from '@opentelemetry/instrumentation-undici';
 import { containerDetector } from '@opentelemetry/resource-detector-container';
 import { envDetector, hostDetector, osDetector, processDetector } from '@opentelemetry/resources';
+import { BatchLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { NodeSDK, resources } from '@opentelemetry/sdk-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
@@ -26,9 +28,10 @@ export function initializeOpenTelemetry(serviceName) {
       ...logger,
       verbose: logger.debug,
     },
-    DiagLogLevel.DEBUG,
+    DiagLogLevel.WARN,
   );
 
+  const logExporter = new OTLPLogExporter();
   const traceExporter = new OTLPTraceExporter();
   const metricExporter = new OTLPMetricExporter();
 
@@ -39,6 +42,7 @@ export function initializeOpenTelemetry(serviceName) {
     resourceDetectors: [envDetector, hostDetector, osDetector, processDetector, containerDetector, scalingoDetector],
     traceExporter,
     metricExporter,
+    logRecordProcessors: [new BatchLogRecordProcessor(logExporter)],
     instrumentations: [
       new HostMetricsInstrumentation(),
       new HttpInstrumentation(),
