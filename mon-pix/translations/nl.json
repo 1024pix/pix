@@ -2260,6 +2260,10 @@
               "max-label": "Aantrekkelijk",
               "min-label": "Niet aantrekkelijk"
             },
+            "comment-text": {
+              "label": "Optionele opmerking",
+              "placeholder": "Opmerking (optioneel)"
+            },
             "legend": "De aanbevolen inhoud is…",
             "personalization": {
               "legend": "Beoordeel hoe gepersonaliseerd de inhoud is, van algemeen 1 tot gepersonaliseerd 5",

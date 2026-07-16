@@ -2260,6 +2260,10 @@
               "max-label": "Atractivos",
               "min-label": "Poco atractivos"
             },
+            "comment-text": {
+              "label": "Comentario opcional",
+              "placeholder": "Comentario (opcional)"
+            },
             "legend": "Los contenidos recomendados son…",
             "personalization": {
               "legend": "Evalúa la personalización de los contenidos, de genéricos 1 a personalizados 5",

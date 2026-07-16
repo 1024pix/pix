@@ -1,6 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click, triggerEvent } from '@ember/test-helpers';
+import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import Drawer from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/drawer';
 import { module, test } from 'qunit';
@@ -183,7 +183,7 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
         assert.dom(screen.getByText(t('pages.skill-review.recommended-engine.drawer.thank-you.title'))).isVisible();
       });
 
-      test('it calls PUT /api/user-campaign-surveys with campaignId, satisfaction and content relevance scores', async function (assert) {
+      test('it calls PUT /api/user-campaign-surveys with campaignId, satisfaction and content relevance scores and comment', async function (assert) {
         // given
         const screen = await render(<template><Drawer @campaignId={{1}} /></template>);
         await click(
@@ -202,6 +202,12 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
           );
           await click(scale.getByRole('radio', { name: scoreLabel }));
         }
+        await fillIn(
+          screen.getByRole('textbox', {
+            name: t('pages.skill-review.recommended-engine.drawer.content-relevance-form.comment-text.label'),
+          }),
+          'youpi',
+        );
 
         // when
         await click(screen.getByRole('button', { name: t('common.actions.send') }));
@@ -216,6 +222,7 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
         assert.strictEqual(body.data.attributes['personalization-score'], 5);
         assert.strictEqual(body.data.attributes['attractiveness-score'], 5);
         assert.strictEqual(body.data.attributes['satisfaction-score'], 5);
+        assert.strictEqual(body.data.attributes['comment'], 'youpi');
       });
 
       test('it displays an error notification when the request fails', async function (assert) {

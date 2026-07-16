@@ -192,6 +192,11 @@
     text-align: center;
   }
 
+  &__content-relevance-form-comment-text {
+    margin-top: var(--pix-spacing-6x);
+    resize: none;
+  }
+
   &__content-relevance-form-actions {
     display: flex;
     flex-direction: row;

@@ -2260,6 +2260,10 @@
               "max-label": "Attirantes",
               "min-label": "Pas attirantes"
             },
+            "comment-text": {
+              "label": "Commentaire optionnel",
+              "placeholder": "Commentaire (optionnel)"
+            },
             "legend": "Les offres de formation recommandées sont…",
             "personalization": {
               "legend": "Évaluez la personnalisation des offres de formation, de génériques 1 à personnalisées 5",

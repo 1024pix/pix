@@ -17,7 +17,7 @@ module(
       await click(scale.getByRole('radio', { name: scoreLabel }));
     }
 
-    test('it displays the title, subtitle and the three rating scales', async function (assert) {
+    test('it displays the title, subtitle, the three rating scales and a comment text-area', async function (assert) {
       // when
       const onSubmit = sinon.stub();
       const onHide = sinon.stub();
@@ -47,6 +47,7 @@ module(
         )
         .isVisible();
       assert.strictEqual(screen.getAllByRole('radio').length, 15);
+      assert.dom(screen.getByRole('textbox', { name: 'Commentaire optionnel' })).exists();
     });
 
     test('the submit button is disabled until the three scales have a selected score', async function (assert) {
@@ -125,9 +126,12 @@ module(
       // then
       assert.true(
         onSubmit.calledOnceWithExactly({
-          usefulness: 4,
-          personalization: 5,
-          attractiveness: 5,
+          scores: {
+            usefulness: 4,
+            personalization: 5,
+            attractiveness: 5,
+          },
+          comment: null,
         }),
       );
     });

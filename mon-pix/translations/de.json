@@ -2260,6 +2260,10 @@
               "max-label": "Ansprechend",
               "min-label": "Nicht ansprechend"
             },
+            "comment-text": {
+              "label": "Optionaler Kommentar",
+              "placeholder": "Kommentar (optional)"
+            },
             "legend": "Die empfohlenen Inhalte sind…",
             "personalization": {
               "legend": "Bewerten Sie, wie personalisiert die Inhalte sind, von generisch 1 bis personalisiert 5",
