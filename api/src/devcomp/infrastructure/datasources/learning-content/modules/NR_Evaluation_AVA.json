@@ -195,8 +195,8 @@
                     {
                       "id": "3f3f2847-43fe-44ce-ac83-31d1a2b58379",
                       "type": "image",
-                      "alt": "",
                       "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte1_step3.png",
+                      "alt": "",
                       "alternativeText": "",
                       "legend": "",
                       "licence": ""
@@ -736,8 +736,8 @@
                       "type": "image",
                       "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_lecon2_schema_illustratif.png",
                       "alt": "Schéma de l’effet rebond",
-                      "alternativeText": "<p>Schéma de l’effet rebond&nbsp;: lorsque la consommation ou les émissions actuelles baissent, la réduction réelle est moins importante que la réduction attendue. C’est l’effet rebond.</p>",
-                      "legend": "Schéma brouillon",
+                      "alternativeText": "<p>Schéma de l’effet rebond.</p><p>Au départ&nbsp;: une technologie que l’on cherche à optimiser. Les améliorations de la technologie permettent de diminuer la consommation par appareil. Par exemple pour les smartphones: batterie qui stocke plus d’énergie, processeur plus efficace, etc. Mais ces améliorations amènent de nouveaux usages. Par exemple les smartphones sont de plus en plus répandus, avec de plus en plus d’usages. Au final, la consommation totale augmente.</p>",
+                      "legend": "",
                       "licence": ""
                     }
                   ]
@@ -784,7 +784,7 @@
                 "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouv3_domotico.svg",
                 "alt": "Une publicité pour le système de domotique Domotico",
                 "alternativeText": "<p>Une publicité pour un système de domotique boosté avec l’intelligence artificielle&nbsp;:&nbsp;</p><ul><li>Domoticio&nbsp;: optimisation de votre consommation électrique par IA.</li><li>- 34 % d’émissions de CO2 sur votre chauffage.</li></ul>",
-                "legend": "Image brouillon",
+                "legend": "",
                 "licence": ""
               }
             },
@@ -995,8 +995,8 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite2_schema.png",
                 "alt": "Schéma à compléter",
-                "alternativeText": "<p>Schéma à compléter</p>",
-                "legend": "Schéma brouillon",
+                "alternativeText": "<p>Schéma à compléter.</p><p>Schéma explicatif de [Point 1].</p><p>[Point 2] permet de diminuer la consommation.</p><p>[Point 3] fait augmenter la consommation totale.</p>",
+                "legend": "",
                 "licence": ""
               }
             },
@@ -1168,7 +1168,7 @@
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite3_univers14_img1_vecto.svg",
-                        "alt": ""
+                        "alt": "Publicité pour le smartphone Univers 14. Univers 14, le futur est entre nos mains. Appareil photo double objectif 120M pixels. Coque en plastique recyclé."
                       },
                       "license": {
                         "name": "",
@@ -1182,7 +1182,7 @@
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite3_univers14_img2_vecto.svg",
-                        "alt": ""
+                        "alt": "Publicité pour le smartphone Univers 14. Univers 14, le futur est entre nos mains. Appareil photo double objectif 120M pixels. Autonomie de 72 heures."
                       },
                       "license": {
                         "name": "",
@@ -1196,7 +1196,7 @@
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite3_univers14_img3_vecto.svg",
-                        "alt": ""
+                        "alt": "Publicité pour le smartphone Univers 14. Univers 14, le futur est entre nos mains. Stockage pour plus de 5000 photos. Indice de réparabilité 9 sur 10."
                       },
                       "license": {
                         "name": "",
@@ -1210,7 +1210,7 @@
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite3_univers14_img4_vecto.svg",
-                        "alt": ""
+                        "alt": "Publicité pour le smartphone Univers 14. Univers 14, le futur est entre nos mains. Stockage pour plus de 5000 photos. Autonomie de 72 heures."
                       },
                       "license": {
                         "name": "",
@@ -1224,7 +1224,7 @@
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite3_univers14_img5_vecto.svg",
-                        "alt": ""
+                        "alt": "Publicité pour le smartphone Univers 14. Univers 14, le futur est entre nos mains. Vos photos au naturel ! 100% respectueux de l’environnement."
                       },
                       "license": {
                         "name": "",
