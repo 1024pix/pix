@@ -93,7 +93,6 @@ async function register(server) {
                 'default-candidate-capacity': Joi.number().required(),
                 'limit-to-one-question-per-tube': Joi.boolean().required(),
                 'enable-passage-by-all-competences': Joi.boolean().required(),
-                comments: Joi.string().max(500).allow(null, '').optional(),
               })
                 .required()
                 .unknown(true),
@@ -104,7 +103,7 @@ async function register(server) {
         },
         handler: certificationVersionController.update,
         tags: ['api', 'admin'],
-        notes: ['Cette route est restreinte aux utilisateurs authentifiés', 'Elle permet de modifier une version'],
+        notes: ['Cette route est restreinte au SUPER ADMIN', 'Elle permet de modifier une version'],
       },
     },
     {

@@ -22,6 +22,7 @@ describe('Certification | Configuration | Integration | Domain | UseCase | updat
         minimumAnswersRequiredToValidateACertification: 222,
         globalScoringConfiguration: [],
         competencesScoringConfiguration: [],
+        comments: 'Not Modified',
         challengesConfiguration: {
           maximumAssessmentLength: 1,
           challengesBetweenSameCompetence: 1,
@@ -63,7 +64,7 @@ describe('Certification | Configuration | Integration | Domain | UseCase | updat
           status: VERSION_STATUSES.DRAFT,
           expirationDate: null,
           startDate: new Date('2026-06-06'),
-          comments: 'COUCOU',
+          comments: 'Not Modified',
           assessmentDuration: 100,
           minimumAnswersRequiredToValidateACertification: 200,
           globalScoringConfiguration: [],

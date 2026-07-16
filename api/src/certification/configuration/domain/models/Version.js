@@ -8,7 +8,6 @@ import {
 } from '../../../shared/domain/constants.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { SCOPES } from '../../../shared/domain/models/Scopes.js';
-import { VersionNotDraftError } from '../errors.js';
 
 export const VERSION_STATUSES = {
   DRAFT: 'draft',
@@ -97,26 +96,7 @@ export class Version {
     defaultCandidateCapacity,
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
-    comments,
   }) {
-    if (!this.isDraft) {
-      this.#assertConfigurationDidNotChange({
-        startDate,
-        assessmentDuration,
-        minimumAnswersRequiredForValidation,
-        maximumAssessmentLength,
-        challengesBetweenSameCompetence,
-        defaultProbabilityToPickChallenge,
-        variationPercent,
-        defaultCandidateCapacity,
-        limitToOneQuestionPerTube,
-        enablePassageByAllCompetences,
-      });
-      this.comments = comments;
-      this.validate();
-      return;
-    }
-
     this.startDate = startDate;
     this.assessmentDuration = assessmentDuration;
     this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredForValidation;
@@ -129,7 +109,6 @@ export class Version {
       limitToOneQuestionPerTube,
       enablePassageByAllCompetences,
     });
-    this.comments = comments;
     this.validate();
   }
 
@@ -174,36 +153,5 @@ export class Version {
     draftVersion.validate();
 
     return draftVersion;
-  }
-
-  #assertConfigurationDidNotChange({
-    startDate,
-    assessmentDuration,
-    minimumAnswersRequiredForValidation,
-    maximumAssessmentLength,
-    challengesBetweenSameCompetence,
-    defaultProbabilityToPickChallenge,
-    variationPercent,
-    defaultCandidateCapacity,
-    limitToOneQuestionPerTube,
-    enablePassageByAllCompetences,
-  }) {
-    const areChallengeConfigurationParamsDifferent = this.challengesConfiguration.areDifferent({
-      maximumAssessmentLength,
-      challengesBetweenSameCompetence,
-      defaultProbabilityToPickChallenge,
-      variationPercent,
-      defaultCandidateCapacity,
-      limitToOneQuestionPerTube,
-      enablePassageByAllCompetences,
-    });
-    if (
-      this.startDate?.getTime() !== startDate?.getTime() ||
-      this.assessmentDuration !== assessmentDuration ||
-      this.minimumAnswersRequiredToValidateACertification !== minimumAnswersRequiredForValidation ||
-      areChallengeConfigurationParamsDifferent
-    ) {
-      throw new VersionNotDraftError();
-    }
   }
 }
