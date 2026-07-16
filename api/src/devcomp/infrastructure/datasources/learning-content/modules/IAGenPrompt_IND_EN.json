@@ -131,19 +131,19 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>the type of sport: \"volleyball'</p>"
+                    "content": "<p>the type of sport: \"volleyball\"</p>"
                   },
                   {
                     "id": "2",
-                    "content": "<p>the audience: \"for club members'</p>"
+                    "content": "<p>the audience: \"for club members\"</p>"
                   },
                   {
                     "id": "3",
-                    "content": "<p>the context: \"organised by volunteers'</p>"
+                    "content": "<p>the context: \"organised by volunteers\"</p>"
                   },
                   {
                     "id": "4",
-                    "content": "<p>the objective: \"the logistics'</p>"
+                    "content": "<p>the objective: \"the logistics\"</p>"
                   }
                 ],
                 "feedbacks": {
@@ -214,13 +214,13 @@
                     },
                     {
                       "direction": "inbound",
-                      "content": "He're is a corrected version of the message:  <br> \"Hi everyone,<br> Just a <strong>friendly</strong> reminder that registration for the volleyball tournament is still open, but not for <strong>much longer!</strong> You have until Friday.\""
+                      "content": "Here is a corrected version of the message:  <br> \"Hi everyone,<br> Just a <strong>friendly</strong> reminder that registration for the volleyball tournament is still open, but not for <strong>much longer!</strong> You have until Friday.\""
                     }
                   ],
                   "prompts": [
                     {
                       "prompt": "Make it more festive!",
-                      "response": "🎉 Hey team!<br> The volleyball tournament is coming up and there are still places available! <br> Come and smash, laugh and enjoy the atmosphere 🔥<br> Whether you're a pro or just he're for fun, you're welcome 😎 Sign up before Friday! <br> Surprises and good vibes guaranteed 🎊 <br>We'll see you on the court! 💪"
+                      "response": "🎉 Hey team!<br> The volleyball tournament is coming up and there are still places available! <br> Come and smash, laugh and enjoy the atmosphere 🔥<br> Whether you're a pro or just here for fun, you're welcome 😎 Sign up before Friday! <br> Surprises and good vibes guaranteed 🎊 <br>We'll see you on the court! 💪"
                     },
                     {
                       "prompt": "Use a more serious tone.",
@@ -287,7 +287,7 @@
                 "id": "86f4a896-7173-49a9-b893-d6db656ac7d8",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>🤔 How can we get an answer that really meets our needs?</h5><p>To get a suitable result, you can specify&nbsp;:<br></p><ul><li><strong>who</strong> you are addressing (a seven-year-old child, a subject expert, etc.), 👥<br></li><li><strong>how</strong> (briefly, clearly, professionally, etc.),💬<br></li><li><strong>a role</strong> to play (\"as a sports coach', \"as if you we're Julius Caesar', etc.).🎭</li></ul>"
+                "content": "<h5>🤔 How can we get an answer that really meets our needs?</h5><p>To get a suitable result, you can specify&nbsp;:<br></p><ul><li><strong>who</strong> you are addressing (a seven-year-old child, a subject expert, etc.), 👥<br></li><li><strong>how</strong> (briefly, clearly, professionally, etc.),💬<br></li><li><strong>a role</strong> to play (\"as a sports coach\", \"as if you were Julius Caesar\", etc.).🎭</li></ul>"
               }
             }
           ]
@@ -432,7 +432,7 @@
                 "id": "f3634fe1-d71c-4154-bd9e-7c3a8214d94f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>A few tips for writing an effective prompt&nbsp;:</p><ul>    <li> Use an <strong>action</strong> verb.</li>    <li> Provide <strong>context.</strong></li><li>Specify the <strong>tone</strong> where relevant.</li><li>Give the AI an <strong>identity</strong> or a <strong>role</strong> where necessary.</li>    <li>Specify the <strong>expected format.</strong></li>        </ul><p>🔄 After each response, you can adjust or refine your prompt to get a better result.</p><p><strong>⚠️&nbsp;</strong>A response may appear clear and we'll written while containing information that <strong>does not match what was requested</strong> or is partly <strong>incorrect. <br></strong></p><p><strong>🔍&nbsp;Reviewing&nbsp;</strong>the AI's response is essential before using it or presenting it to someone.</p>"
+                "content": "<p>A few tips for writing an effective prompt&nbsp;:</p><ul>    <li> Use an <strong>action</strong> verb.</li>    <li> Provide <strong>context.</strong></li><li>Specify the <strong>tone</strong> where relevant.</li><li>Give the AI an <strong>identity</strong> or a <strong>role</strong> where necessary.</li>    <li>Specify the <strong>expected format.</strong></li>        </ul><p>🔄 After each response, you can adjust or refine your prompt to get a better result.</p><p><strong>⚠️&nbsp;</strong>A response may appear clear and well written while containing information that <strong>does not match what was requested</strong> or is partly <strong>incorrect. <br></strong></p><p><strong>🔍&nbsp;Reviewing&nbsp;</strong>the AI's response is essential before using it or presenting it to someone.</p>"
               }
             }
           ]
@@ -534,7 +534,7 @@
                       ],
                       "feedbacks": {
                         "valid": {
-                          "state": "<p>We'll done!</p>",
+                          "state": "<p>Well done!</p>",
                           "diagnosis": "<p>All these elements make the prompt clear, although it is not always necessary to include all of them.</p>"
                         },
                         "invalid": {
@@ -673,7 +673,7 @@
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "We'll done!",
+                    "state": "Well done!",
                     "diagnosis": "Thanks to you, the tournament can go ahead!"
                   },
                   "invalid": {
