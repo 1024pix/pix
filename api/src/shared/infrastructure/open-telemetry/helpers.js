@@ -54,4 +54,14 @@ export const tracing = {
   spanify: function (name, resource, getSpanOptionsFn) {
     return otelProxy(resource, name, getSpanOptionsFn);
   },
+
+  /**
+   * Add an event to the currently active span.
+   *
+   * @param {string} name - Name of the event.
+   * @param {Record<string, string|number|boolean>} [attributes] - Key/value attributes attached to the event.
+   */
+  recordEvent: function (name, attributes) {
+    trace.getActiveSpan()?.addEvent(name, attributes);
+  },
 };

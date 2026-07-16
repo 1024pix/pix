@@ -7,7 +7,7 @@ function instrumentJobHandle(jobName, jobControllerClass) {
     const producerContext = getInContext('openTelemetryContext');
     return {
       kind: 4 /* SpanKind.CONSUMER */,
-      links: producerContext ? [{context: producerContext}] : [],
+      links: producerContext ? [{ context: producerContext }] : [],
     };
   });
 }

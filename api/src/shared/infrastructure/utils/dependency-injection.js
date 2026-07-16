@@ -50,7 +50,7 @@ export function injectDependencies(toBeInjected, dependencies, boundedContext = 
   const wrappedDependencies = Object.fromEntries(
     Object.entries(dependencies).map(([name, value]) => [
       name,
-      value ? tracing.spanify(name, value, () => ({attributes: defaultAttributes})) : value,
+      value ? tracing.spanify(name, value, () => ({ attributes: defaultAttributes })) : value,
     ]),
   );
   const injected = Object.fromEntries(
