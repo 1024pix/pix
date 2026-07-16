@@ -1054,6 +1054,43 @@
                 "proposals": [
                   {
                     "type": "select",
+                    "input": "classementetape6",
+                    "display": "inline",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "- Sélectionner -",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "3",
+                        "content": "Une requête est envoyée à un outil tiers."
+                      },
+                      {
+                        "id": "5",
+                        "content": "La réponse de l’outil est intégrée au contexte du prompt de l’utilisateur."
+                      },
+                      {
+                        "id": "2",
+                        "content": "Le logiciel d’IA détermine qu’un outil est utile pour répondre à la demande."
+                      },
+                      {
+                        "id": "6",
+                        "content": "La réponse du logiciel d’IA est générée et affichée à l’utilisateur."
+                      },
+                      {
+                        "id": "4",
+                        "content": "L’outil tiers envoie la réponse à la requête."
+                      },
+                      {
+                        "id": "1",
+                        "content": "Le logiciel d’IA analyse un prompt envoyé par un utilisateur."
+                      }
+                    ],
+                    "solutions": [
+                      "1"
+                    ]
+                  },
+                  {
+                    "type": "select",
                     "input": "classementetape2",
                     "display": "inline",
                     "placeholder": "- Sélectionner -",
@@ -1070,7 +1107,7 @@
                       },
                       {
                         "id": "2",
-                        "content": "Le logiciel d’IA analyse le prompt et détermine qu’un outil est utile pour répondre à la demande."
+                        "content": "Le logiciel d’IA détermine qu’un outil est utile pour répondre à la demande."
                       },
                       {
                         "id": "6",
@@ -1079,6 +1116,10 @@
                       {
                         "id": "4",
                         "content": "L’outil tiers envoie la réponse à la requête."
+                      },
+                      {
+                        "id": "1",
+                        "content": "Le logiciel d’IA analyse un prompt envoyé par un utilisateur."
                       }
                     ],
                     "solutions": [
@@ -1103,7 +1144,7 @@
                       },
                       {
                         "id": "2",
-                        "content": "Le logiciel d’IA analyse le prompt et détermine qu’un outil est utile pour répondre à la demande."
+                        "content": "Le logiciel d’IA détermine qu’un outil est utile pour répondre à la demande."
                       },
                       {
                         "id": "6",
@@ -1112,6 +1153,10 @@
                       {
                         "id": "4",
                         "content": "L’outil tiers envoie la réponse à la requête."
+                      },
+                      {
+                        "id": "1",
+                        "content": "Le logiciel d’IA analyse un prompt envoyé par un utilisateur."
                       }
                     ],
                     "solutions": [
@@ -1136,7 +1181,7 @@
                       },
                       {
                         "id": "2",
-                        "content": "Le logiciel d’IA analyse le prompt et détermine qu’un outil est utile pour répondre à la demande."
+                        "content": "Le logiciel d’IA détermine qu’un outil est utile pour répondre à la demande."
                       },
                       {
                         "id": "6",
@@ -1145,6 +1190,10 @@
                       {
                         "id": "4",
                         "content": "L’outil tiers envoie la réponse à la requête."
+                      },
+                      {
+                        "id": "1",
+                        "content": "Le logiciel d’IA analyse un prompt envoyé par un utilisateur."
                       }
                     ],
                     "solutions": [
@@ -1169,7 +1218,7 @@
                       },
                       {
                         "id": "2",
-                        "content": "Le logiciel d’IA analyse le prompt et détermine qu’un outil est utile pour répondre à la demande."
+                        "content": "Le logiciel d’IA détermine qu’un outil est utile pour répondre à la demande."
                       },
                       {
                         "id": "6",
@@ -1178,6 +1227,10 @@
                       {
                         "id": "4",
                         "content": "L’outil tiers envoie la réponse à la requête."
+                      },
+                      {
+                        "id": "1",
+                        "content": "Le logiciel d’IA analyse un prompt envoyé par un utilisateur."
                       }
                     ],
                     "solutions": [
@@ -1202,7 +1255,7 @@
                       },
                       {
                         "id": "2",
-                        "content": "Le logiciel d’IA analyse le prompt et détermine qu’un outil est utile pour répondre à la demande."
+                        "content": "Le logiciel d’IA détermine qu’un outil est utile pour répondre à la demande."
                       },
                       {
                         "id": "6",
@@ -1211,6 +1264,10 @@
                       {
                         "id": "4",
                         "content": "L’outil tiers envoie la réponse à la requête."
+                      },
+                      {
+                        "id": "1",
+                        "content": "Le logiciel d’IA analyse un prompt envoyé par un utilisateur."
                       }
                     ],
                     "solutions": [
