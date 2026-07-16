@@ -1,5 +1,3 @@
-import { hasMany, Model } from 'miragejs';
+import { Model } from 'miragejs';
 
-export default Model.extend({
-  subscriptions: hasMany('subscription'),
-});
+export default Model.extend({});

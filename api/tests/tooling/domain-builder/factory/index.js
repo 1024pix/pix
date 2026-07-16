@@ -180,11 +180,6 @@ import { buildComplementaryCertificationCourseWithResultsEnrolment } from './cer
 import { buildEditedCandidate } from './certification/enrolment/build-edited-candidate.js';
 import { buildPixCertification } from './certification/enrolment/build-pix-certification.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
-import {
-  buildComplementarySubscription,
-  buildCoreSubscription,
-  buildSubscription,
-} from './certification/enrolment/build-subscription.js';
 import { buildUserEnrolment } from './certification/enrolment/build-user.js';
 import { buildUserCertificationEligibility } from './certification/enrolment/build-user-certification-eligibility.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/evaluation/build-assessment-result.js';
@@ -272,10 +267,7 @@ const certification = {
     buildHabilitation,
     buildCertificationSessionCandidate,
     buildCandidate,
-    buildCoreSubscription,
-    buildComplementarySubscription,
     buildEditedCandidate,
-    buildSubscription,
     buildUser: buildUserEnrolment,
     buildComplementaryCertificationCourseWithResults: buildComplementaryCertificationCourseWithResultsEnrolment,
     buildUserCertificationEligibility,

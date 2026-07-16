@@ -162,7 +162,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           versionId: version.id,
         });
 
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: Assessment.types.CERTIFICATION,
@@ -299,7 +298,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           candidateId: candidate.id,
           lang: 'fr-fr',
         }).id;
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         const assessment = databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: Assessment.types.CERTIFICATION,
@@ -369,7 +367,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           userId: user.id,
           sessionId,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           isPublished: false,
           version: AlgorithmEngineVersion.V3,

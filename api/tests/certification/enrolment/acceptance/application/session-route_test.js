@@ -405,9 +405,6 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           organizationLearnerId: null,
           hasSeenCertificationInstructions: false,
         }).id;
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId,
-        });
         await databaseBuilder.commit();
 
         // when
@@ -442,9 +439,6 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           organizationLearnerId: null,
           hasSeenCertificationInstructions: false,
         }).id;
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId,
-        });
         await databaseBuilder.commit();
 
         // when
@@ -536,9 +530,6 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           organizationLearnerId,
           hasSeenCertificationInstructions: false,
         }).id;
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId,
-        });
         await databaseBuilder.commit();
 
         // when
@@ -573,9 +564,6 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           organizationLearnerId,
           hasSeenCertificationInstructions: false,
         }).id;
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId,
-        });
         await databaseBuilder.commit();
 
         // when

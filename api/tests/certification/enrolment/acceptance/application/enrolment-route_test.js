@@ -385,8 +385,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
         const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
         const userId = databaseBuilder.factory.buildUser().id;
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed, userId });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed, userId });
         await databaseBuilder.commit();
 
         // when

@@ -102,7 +102,6 @@ describe('Certification | Session Management | Acceptance | Application | Route 
             sessionId: session.id,
             candidateId: candidate.id,
           }).id;
-          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
           databaseBuilder.factory.buildCertificationCenterMembership({
             userId,
@@ -208,7 +207,6 @@ describe('Certification | Session Management | Acceptance | Application | Route 
             sessionId: session.id,
             candidateId: candidate.id,
           }).id;
-          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           databaseBuilder.factory.buildCertificationCenterMembership({
             userId,
             certificationCenterId: session.certificationCenterId,
@@ -296,7 +294,6 @@ describe('Certification | Session Management | Acceptance | Application | Route 
             createdAt: new Date(),
             candidateId: candidate.id,
           }).id;
-          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           databaseBuilder.factory.buildCertificationCenterMembership({
             userId,
             certificationCenterId: session.certificationCenterId,
@@ -832,7 +829,6 @@ const _createSession = async ({ version = 2 } = {}) => {
     candidateId: candidate.id,
   });
   const certificationCourseId = certificationCourse.id;
-  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
   const report1 = databaseBuilder.factory.buildCertificationReport({
     sessionId: session.id,
     certificationCourseId,

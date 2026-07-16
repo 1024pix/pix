@@ -391,14 +391,9 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
 
       // then
       const candidate = await knex.from('certification-candidates').where({ id: candidateId }).first();
-      const candidateSubscription = await knex
-        .from('certification-subscriptions')
-        .where({ certificationCandidateId: candidateId })
-        .first();
 
       expect(response.statusCode).to.equal(204);
       expect(candidate).to.be.undefined;
-      expect(candidateSubscription).to.be.undefined;
     });
   });
 
@@ -416,9 +411,6 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
         createdAt,
         reconciledAt,
       }).id;
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: candidateId,
-      });
 
       await databaseBuilder.commit();
 

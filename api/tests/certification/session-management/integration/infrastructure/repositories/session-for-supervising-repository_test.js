@@ -304,8 +304,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           assessmentId: assessmentWithChallengeLiveAlert.id,
         });
 
-        const candidate = databaseBuilder.factory.buildCertificationCandidate();
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+        databaseBuilder.factory.buildCertificationCandidate();
         await databaseBuilder.commit();
 
         // when

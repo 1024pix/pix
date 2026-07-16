@@ -1751,18 +1751,18 @@
         },
         "caption": "Candidats",
         "empty-result": "Aucun résultat",
-        "subscriptions": {
+        "pix-plus-format": {
           "complementary": "Certification PIX / Complémentaire {pixPlusLabel}",
-          "core": "Certification Pix",
-          "dual-core-clea": "Double Certification PIX/CléA Numérique",
-          "pix-plus": "Certification {pixPlusLabel}",
-          "pix-plus-label": {
-            "DROIT": "Pix+ Droit",
-            "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
-            "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
-            "EDU_CPE": "Pix+ Édu CPE",
-            "PRO_SANTE": "Pix+ Pro Santé"
-          }
+          "pix-plus": "Certification {pixPlusLabel}"
+        },
+        "subscriptions": {
+          "CLEA": "Double Certification PIX/CléA Numérique",
+          "CORE": "Certification Pix",
+          "DROIT": "Pix+ Droit",
+          "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
+          "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
+          "EDU_CPE": "Pix+ Édu CPE",
+          "PRO_SANTE": "Pix+ Pro Santé"
         }
       },
       "informations": {

@@ -40,7 +40,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candid
     const candidate = domainBuilder.certification.enrolment.buildCandidate({
       userId: null,
       reconciledAt: null,
-      subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
     });
 
     candidateRepository.update.withArgs(candidate).resolves();
