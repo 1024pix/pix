@@ -1,6 +1,6 @@
 import { trace } from '@opentelemetry/api';
 
-import { otelProxy } from './otel_proxy.js';
+import { otelProxy, preventTracingSymbol } from './otel_proxy.js';
 
 /**
  * Helpers to interact with the currently active OpenTelemetry span, if any.
@@ -63,5 +63,17 @@ export const tracing = {
    */
   recordEvent: function (name, attributes) {
     trace.getActiveSpan()?.addEvent(name, attributes);
+  },
+
+  /**
+   * Mark an object as excluded from tracing, so that {@link tracing.spanify}
+   * returns it as-is instead of wrapping it in an OpenTelemetry proxy.
+   *
+   * @param {object} resource - The object to exclude from tracing.
+   * @returns {object} The same `resource`, for chaining.
+   */
+  prevent: function (resource) {
+    resource[preventTracingSymbol] = true;
+    return resource;
   },
 };
