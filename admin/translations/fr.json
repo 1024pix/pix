@@ -479,6 +479,36 @@
           }
         }
       },
+      "creation": {
+        "complementary-certifications-habilitations": "Habilitations aux certifications complémentaires",
+        "configuration": "Paramétrage",
+        "dpo": {
+          "acronym": "DPO",
+          "definition": "Délégué à la protection des données",
+          "email": "Adresse e-mail du ",
+          "firstname": "Prénom du ",
+          "lastname": "Nom du "
+        },
+        "error-messages": {
+          "dpo-email": "L'adresse e-mail n'est pas au bon format",
+          "error-toast": "Veuillez corriger les champs en erreur.",
+          "name": "Le nom est requis",
+          "type": "Le type de centre est requis"
+        },
+        "external-id": {
+          "label": "Identifiant externe",
+          "placeholder": "Spécifier l'UAI, le SIRET etc"
+        },
+        "name": {
+          "label": "Nom du centre de certification",
+          "placeholder": "Mon centre de certification"
+        },
+        "success-message": "Le centre de certification a été créé avec succès.",
+        "type": {
+          "label": "Type du centre",
+          "placeholder": "Sélectionner un type"
+        }
+      },
       "invitations": {
         "table": {
           "caption": "Liste des invitations envoyées pour rejoindre un centre de certification. Contient une adresse e-mail de l'utilisateur, le rôle que l'on souhaite lui attribuer, la date de dernier envoi de l'invitation et des actions permettent de renvoyer l'invitation ou de la supprimer."
@@ -1497,6 +1527,9 @@
           "external-id": "Identifiant externe",
           "type": "Type"
         }
+      },
+      "new": {
+        "page-title": "Nouveau centre de certification"
       },
       "notifications": {
         "failure": {
