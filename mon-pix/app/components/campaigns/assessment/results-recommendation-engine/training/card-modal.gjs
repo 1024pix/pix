@@ -4,6 +4,7 @@ import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -17,16 +18,29 @@ import Training from 'mon-pix/models/training';
 import RegistrationCardTag from './registration-card-tag';
 
 export default class CardModal extends Component {
+  @service intl;
   @service locale;
   @service store;
 
   @tracked isTrainingRecommendationRelevant = null;
+  @tracked shouldDisplayFeedbackNotification = false;
+  @tracked feedbackSubmittedSuccessfully = false;
 
   firedAccordions = new Set();
 
   constructor(...args) {
     super(...args);
     this.isTrainingRecommendationRelevant = this.args.training.isRelevant ?? null;
+  }
+
+  get feedbackNotificationMessage() {
+    return this.feedbackSubmittedSuccessfully
+      ? this.intl.t('pages.skill-review.recommended-engine.modal.feedback.success-message')
+      : this.intl.t('common.error');
+  }
+
+  get feedbackNotificationType() {
+    return this.feedbackSubmittedSuccessfully ? 'success' : 'error';
   }
 
   get formattedDuration() {
@@ -45,11 +59,18 @@ export default class CardModal extends Component {
     this.isTrainingRecommendationRelevant = feedbackResponse;
     const campaignParticipationId = this.args.training.belongsTo('campaignParticipation').id();
     const adapter = this.store.adapterFor('training');
-    await adapter.updateRelevance({
-      campaignParticipationId,
-      trainingId: this.args.training.id,
-      isRelevant: feedbackResponse,
-    });
+    try {
+      await adapter.updateRelevance({
+        campaignParticipationId,
+        trainingId: this.args.training.id,
+        isRelevant: feedbackResponse,
+      });
+      this.feedbackSubmittedSuccessfully = true;
+    } catch {
+      this.feedbackSubmittedSuccessfully = false;
+    } finally {
+      this.shouldDisplayFeedbackNotification = true;
+    }
   }
 
   @action onModalButtonClick() {
@@ -62,11 +83,16 @@ export default class CardModal extends Component {
     this.args.onModalAccordionClick({ trainingId: this.args.training.id, accordionName });
   }
 
+  @action onClose() {
+    this.shouldDisplayFeedbackNotification = false;
+    this.args.onClose();
+  }
+
   <template>
     <PixModal
       @title={{@training.title}}
       @showModal={{@isOpen}}
-      @onCloseButtonClick={{@onClose}}
+      @onCloseButtonClick={{this.onClose}}
       class="results-recommendation-engine-training-card-modal"
     >
       <:content>
@@ -131,6 +157,16 @@ export default class CardModal extends Component {
         {{/if}}
       </:content>
       <:footer>
+        {{#if this.shouldDisplayFeedbackNotification}}
+          <PixNotificationAlert
+            class="results-recommendation-engine-training-card-modal__notification"
+            @type={{this.feedbackNotificationType}}
+            @withIcon={{true}}
+            role="status"
+          >
+            {{this.feedbackNotificationMessage}}
+          </PixNotificationAlert>
+        {{/if}}
         <div class="results-recommendation-engine-training-card-modal-footer">
           <form>
             <fieldset class="results-recommendation-engine-training-card-modal-footer__feedback">
@@ -154,7 +190,7 @@ export default class CardModal extends Component {
           <ul class="results-recommendation-engine-training-card-modal-footer__action-buttons">
             <li>
               <PixButton
-                @triggerAction={{@onClose}}
+                @triggerAction={{this.onClose}}
                 @variant="secondary"
                 class="results-recommendation-engine-training-card-modal-footer-action-buttons__cancel"
               >
