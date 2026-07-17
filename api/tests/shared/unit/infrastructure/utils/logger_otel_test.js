@@ -10,7 +10,7 @@ describe('Unit | Infrastructure | Utils | logger | OpenTelemetry', function () {
 
   beforeEach(function () {
     emitStub = sinon.stub();
-    sinon.stub(logs, 'getLogger').returns({ emit: emitStub });
+    sinon.stub(logs, 'getLogger').returns({ emit: emitStub, enabled: () => true });
   });
 
   it('emits an OpenTelemetry log record for each log level', function () {
