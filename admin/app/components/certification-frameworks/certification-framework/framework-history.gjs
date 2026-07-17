@@ -216,7 +216,18 @@ export default class FrameworkHistory extends Component {
 }
 
 function sortByStatus(frameworkHistoryA, frameworkHistoryB) {
+  if (frameworkHistoryA.status === frameworkHistoryB.status) {
+    const startDateA = new Date(frameworkHistoryA.startDate);
+    const startDateB = new Date(frameworkHistoryB.startDate);
+    if (startDateA > startDateB) return -1;
+    if (startDateA < startDateB) return 1;
+  }
+
   if (frameworkHistoryA.status === 'draft') return -1;
-  if (frameworkHistoryA.status === 'active') return 0;
-  return new Date(frameworkHistoryA.expirationDate) > new Date(frameworkHistoryB.experitionDate) ? 1 : 0;
+  if (frameworkHistoryB.status === 'draft') return 1;
+
+  if (frameworkHistoryA.status === 'active') return -1;
+  if (frameworkHistoryB.status === 'active') return 1;
+
+  return 0;
 }
