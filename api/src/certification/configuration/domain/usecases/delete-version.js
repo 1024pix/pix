@@ -6,14 +6,14 @@ import { CertificationVersionForbiddenDeletionError } from '../errors.js';
 
 /**
  * @param {object} params
- * @param {number} params.certificationVersionId
+ * @param {number} params.id
  * @param {VersionRepository} params.versionRepository
  */
 
-export async function deleteCertificationVersion({ certificationVersionId, versionRepository }) {
-  const version = await versionRepository.getById({ id: certificationVersionId });
+export async function deleteVersion({ id, versionRepository }) {
+  const version = await versionRepository.getById({ id });
   if (!version.canRemove) {
     throw new CertificationVersionForbiddenDeletionError();
   }
-  await versionRepository.remove(certificationVersionId);
+  await versionRepository.remove(id);
 }
