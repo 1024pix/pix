@@ -100,6 +100,7 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
   context('When user has not shared its profile', function () {
     it('should throw an error', async function () {
       // given
+      const campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(null);
 
       // when

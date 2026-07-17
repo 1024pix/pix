@@ -17,6 +17,7 @@ describe('Unit | Router | organization-learner-feature-router', function () {
     sinon.stub(securityPreHandlers, 'checkOrganizationHasFeature').callsFake((request, h) => h.response(true));
 
     sinon.stub(organizationLearnerFeaturesController, 'create').resolves(true);
+    sinon.stub(organizationLearnerFeaturesController, 'unlink').resolves(true);
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(organizationLearnerFeatureRoute);

@@ -194,6 +194,7 @@ describe('Quest | Unit | Routes | combined-course-route', function () {
     it('should call prehandlers', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkOrganizationAccess').returns(() => true);
+      sinon.stub(combinedCourseController, 'createCombinedCourse').callsFake((_, h) => h.response());
 
       const httpTestServer = new HttpTestServer();
       httpTestServer.setupAuthentication();

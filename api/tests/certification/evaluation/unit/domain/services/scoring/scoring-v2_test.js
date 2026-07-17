@@ -1941,6 +1941,8 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
           certificationAssessmentWithNeutralizedChallenge.certificationChallenges[1].isNeutralized = true;
           certificationAssessmentWithNeutralizedChallenge.certificationChallenges[2].isNeutralized = true;
           certificationAssessmentWithNeutralizedChallenge.certificationChallenges[3].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[4].isNeutralized = false;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[5].isNeutralized = false;
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({

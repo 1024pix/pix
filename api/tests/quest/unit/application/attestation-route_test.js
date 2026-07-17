@@ -157,9 +157,12 @@ describe('Quest | Unit | Routes | Attestation Route', function () {
 
   describe('GET /api/organizations/{organizationId}/attestations', function () {
     it('should fail if user is not a member of the organization', async function () {
-      sinon
-        .stub(securityPreHandlers, 'checkUserBelongsToOrganization')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').callsFake((request, h) =>
+        h
+          .response({ errors: new Error('forbidden') })
+          .code(403)
+          .takeover(),
+      );
 
       const organizationId = 123;
 
