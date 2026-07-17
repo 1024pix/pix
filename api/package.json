@@ -141,7 +141,7 @@
     "ioredis": "5.8.0",
     "joi": "^18.1.1",
     "jose": "^6.0.8",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^5.0.0",
     "json-autotranslate": "^1.16.1",
     "jsonapi-serializer": "^3.6.7",
     "jsonwebtoken": "^9.0.0",

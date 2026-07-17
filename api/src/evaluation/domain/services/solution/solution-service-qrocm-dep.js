@@ -1,4 +1,4 @@
-import jsYaml from 'js-yaml';
+import { FAILSAFE_SCHEMA, load } from 'js-yaml';
 
 import { YamlParsingError } from '../../../../shared/domain/errors.js';
 import { AnswerStatus } from '../../../../shared/domain/models/AnswerStatus.js';
@@ -54,8 +54,8 @@ function getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatment
 function convertYamlToJsObjects(preTreatedAnswers, yamlSolution) {
   let answers, solutions;
   try {
-    answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
-    solutions = jsYaml.load(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
+    answers = load(preTreatedAnswers, { schema: FAILSAFE_SCHEMA });
+    solutions = load(yamlSolution, { schema: FAILSAFE_SCHEMA });
   } catch {
     throw new YamlParsingError();
   }

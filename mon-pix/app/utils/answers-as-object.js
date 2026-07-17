@@ -1,4 +1,4 @@
-import jsyaml from 'js-yaml';
+import { load } from 'js-yaml';
 
 export default function answersAsObject(answer, inputKeys) {
   if (answer === '#ABAND#') {
@@ -7,5 +7,5 @@ export default function answersAsObject(answer, inputKeys) {
       return answersObject;
     }, {});
   }
-  return jsyaml.load(answer);
+  return load(answer);
 }
