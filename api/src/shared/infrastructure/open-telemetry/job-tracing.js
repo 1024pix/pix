@@ -5,6 +5,7 @@ import { tracing } from './helpers.js';
 
 function instrumentJobHandle(jobName, jobControllerClass) {
   const originalHandle = jobControllerClass.prototype.handle;
+  if (!originalHandle) return;
   jobControllerClass.prototype.handle = tracing.spanify(`job.${jobName}.handle`, originalHandle, () => {
     const producerContext = getInContext('openTelemetryContext');
     return {
