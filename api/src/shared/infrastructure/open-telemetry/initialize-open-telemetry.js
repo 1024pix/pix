@@ -32,8 +32,9 @@ export function initializeOpenTelemetry(serviceName) {
   }
   diag.setLogger(
     {
-      ...logger,
-      verbose: logger.debug,
+      ...console,
+      // eslint-disable-next-line no-console
+      verbose: console.debug,
     },
     DiagLogLevel.WARN,
   );
