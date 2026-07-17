@@ -585,7 +585,7 @@
                 "id": "3b0aaced-ddbd-4a47-acda-ce4d710fe1ef",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>La plupart des IA génératives récentes permettent d’utiliser le RAG, surtout dans les offres payantes et parfois avec des limites dans les versions gratuites.</p><p>Par exemple, dans <em>Le Chat</em> de Mistral, l’outil Bibliothèque permet d’<strong>ajouter des documents</strong> que l’IA peut utiliser pour répondre.</p>"
+                "content": "<p>La plupart des IA génératives récentes permettent d’utiliser le RAG, surtout dans les offres payantes et parfois avec des limites dans les versions gratuites.</p><p>Par exemple, dans <em>Vibe</em> de Mistral, l’outil Bibliothèque permet d’<strong>ajouter des documents</strong> que l’IA peut utiliser pour répondre.</p>"
               }
             },
             {
@@ -1013,7 +1013,7 @@
                     "id": "3",
                     "content": "<p>J’aimerais utiliser le RAG pour mon usage personnel.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Le RAG peut être utile pour exploiter vos propres documents&nbsp;: notes, articles, comptes rendus, supports de cours ou dossiers de veille.</p><p>Des outils comme <strong>NotebookLM</strong>, <strong>ChatGPT</strong>, <strong>Gemini</strong> ou <strong>Le Chat de Mistral</strong> permettent, selon les versions et les paramètres disponibles, de travailler à partir de documents fournis.</p><p>Restez vigilant&nbsp;: évitez d’importer des documents contenant des données personnelles, confidentielles ou sensibles si vous ne maîtrisez pas les conditions d’utilisation de l’outil.</p>"
+                      "diagnosis": "<p>Le RAG peut être utile pour exploiter vos propres documents&nbsp;: notes, articles, comptes rendus, supports de cours ou dossiers de veille.</p><p>Des outils comme <strong>NotebookLM</strong>, <strong>ChatGPT</strong>, <strong>Gemini</strong> ou <strong>Vibe de Mistral</strong> permettent, selon les versions et les paramètres disponibles, de travailler à partir de documents fournis.</p><p>Restez vigilant&nbsp;: évitez d’importer des documents contenant des données personnelles, confidentielles ou sensibles si vous ne maîtrisez pas les conditions d’utilisation de l’outil.</p>"
                     }
                   },
                   {
