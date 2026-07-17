@@ -53,6 +53,101 @@ export const replications = [
     },
   },
   {
+    name: 'tdb_num_back_to_school_campaigns_statistics',
+    before: async ({ datamartKnex }) => {
+      await datamartKnex('tdb_num_back_to_school_campaigns_statistics').truncate();
+    },
+    from: ({ datawarehouseKnex }) => {
+      return datawarehouseKnex('data_sco_edupilot')
+        .select(
+          'uai',
+          'annee_scolaire',
+          'academie_nom',
+          'etablissement',
+          'departement',
+          'niveau_scolaire',
+          'code_competence',
+          'nom_competence',
+          'nombre_eleves_distinct',
+          'ecart_type',
+          'decile_10',
+          'quartile_25',
+          'quartile_50',
+          'quartile_75',
+          'decile_90',
+          'niveau_maximum_moyen_atteint',
+          'niveau_maximum_moyen_atteignable',
+          'couverture',
+          'date_derniere_mise_a_jour',
+        )
+        .as(
+          'schoolUai',
+          'schoolYear',
+          'academieName',
+          'schoolName',
+          'provinceCode',
+          'schoolYearGroup',
+          'competenceCode',
+          'competenceName',
+          'participantCount',
+          'standardDeviation',
+          'firstDecileLevel',
+          'firstQuartileLevel',
+          'medianLevel',
+          'thirdQuartileLevel',
+          'ninthDecileLevel',
+          'averageMaxLevelReached',
+          'averageMaxLevelReachable',
+          'coverage',
+          'updatedAt',
+        );
+    },
+    to: ({ datamartKnex }, chunk) => {
+      return datamartKnex('tdb_num_back_to_school_campaigns_statistics').insert(chunk);
+    },
+  },
+  {
+    name: 'tdb_num_certification_statistics',
+    before: async ({ datamartKnex }) => {
+      await datamartKnex('tdb_num_certification_statistics').truncate();
+    },
+    from: ({ datawarehouseKnex }) => {
+      return datawarehouseKnex('data_sco_edupilot_lot_2')
+        .select(
+          'uai',
+          'annee_scolaire',
+          'academie_nom',
+          'etablissement',
+          'departement',
+          'niveau_scolaire',
+          'total_certification_obtenues',
+          'total_certifications',
+          'moyenne_score',
+          'competence_code',
+          'avg_competence_level',
+          'date_derniere_mise_a_jour',
+        )
+        .as(
+          'schoolUai',
+          'schoolUai',
+          'schoolYear',
+          'academieName',
+          'schoolName',
+          'provinceCode',
+          'schoolYearGroup',
+          'validatedCertificationCount',
+          'certificationCount',
+          'averagePixScore',
+          'competenceCode',
+          'avgCompetenceLevel',
+          'updatedAt',
+        );
+    },
+    to: ({ datamartKnex }, chunk) => {
+      return datamartKnex('tdb_num_certification_statistics').insert(chunk);
+    },
+  },
+  {
     name: 'organizations_cover_rates',
     before: async ({ datamartKnex }) => {
       await datamartKnex('organizations_cover_rates').truncate();
