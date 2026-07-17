@@ -18,7 +18,7 @@ import {
 import { BatchLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
 import { NodeSDK } from '@opentelemetry/sdk-node';
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
+import { BatchSpanProcessor } from '@opentelemetry/sdk-trace';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
 import { config } from '../../config.js';
@@ -55,7 +55,7 @@ export function initializeOpenTelemetry(serviceName) {
       [ATTR_SERVICE_NAME]: serviceName,
     }),
     resourceDetectors: [envDetector, hostDetector, osDetector, processDetector, containerDetector, scalingoDetector],
-    spanProcessors: [new InheritedAttributesSpanProcessor(), new BatchSpanProcessor(traceExporter)],
+    spanProcessors: [new InheritedAttributesSpanProcessor(), new BatchSpanProcessor({ exporter: traceExporter })],
     logRecordProcessors: [new BatchLogRecordProcessor({ exporter: logExporter })],
     metricReaders: [metricReader],
     instrumentations: [
