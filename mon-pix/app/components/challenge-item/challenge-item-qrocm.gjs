@@ -5,7 +5,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
-import jsyaml from 'js-yaml';
+import { dump } from 'js-yaml';
 import filter from 'lodash/filter';
 import isEmpty from 'lodash/isEmpty';
 import ChallengeActions from 'mon-pix/components/challenge-actions';
@@ -112,7 +112,7 @@ export default class ChallengeItemQrocm extends ChallengeItemGeneric {
   }
 
   _getAnswerValue() {
-    return jsyaml.dump(this.answersValue);
+    return dump(this.answersValue);
   }
 
   _getErrorMessage() {
