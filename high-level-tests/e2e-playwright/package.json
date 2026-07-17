@@ -58,7 +58,7 @@
     "zod": "^4.3.6"
   },
   "dependencies": {
-    "csv-parse": "^6.2.1"
+    "csv-parse": "^7.0.0"
   },
   "overrides": {
     "flatted": ">=3.4.2"
