@@ -66,6 +66,7 @@ function emitOtelLogRecord(context, mergingObject, message, extraBindings) {
 
   // No-op unless OpenTelemetry has been initialized (see initialize-open-telemetry.js), same as the tracing API.
   const otelLogger = logs.getLogger('pix-api-logger');
+  if (!otelLogger.enabled()) return;
 
   const isMergingObjectAMessage = typeof mergingObject === 'string';
   otelLogger.emit({

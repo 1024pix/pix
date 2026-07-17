@@ -56,7 +56,7 @@ export function initializeOpenTelemetry(serviceName) {
     }),
     resourceDetectors: [envDetector, hostDetector, osDetector, processDetector, containerDetector, scalingoDetector],
     spanProcessors: [new InheritedAttributesSpanProcessor(), new BatchSpanProcessor(traceExporter)],
-    logRecordProcessors: [new BatchLogRecordProcessor(logExporter)],
+    logRecordProcessors: [new BatchLogRecordProcessor({ exporter: logExporter })],
     metricReaders: [metricReader],
     instrumentations: [
       new HostMetricsInstrumentation(),
