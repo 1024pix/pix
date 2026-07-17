@@ -15,8 +15,7 @@
  *   Instead, `server.auth.scheme` is wrapped so that whatever `authenticate()` method a scheme
  *   returns is wrapped in its own span.
  */
-import { context, SpanStatusCode, trace } from '@opentelemetry/api';
-import { metrics } from '@opentelemetry/api';
+import { context, metrics, SpanStatusCode, trace } from '@opentelemetry/api';
 
 import { config } from '../../config.js';
 import { routeDomainToOwnerTeam } from '../utils/route-domain-to-owner-team.js';
