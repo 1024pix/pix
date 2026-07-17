@@ -55,26 +55,55 @@ module('Integration | Component | Catalogue::List', function (hooks) {
     });
 
     module('type filters', function () {
-      test('it displays navigation links to filter by type', async function (assert) {
-        // given
-        const courses = [
-          { name: 'Ma super formation', type: 'targetProfile', nbTubes: 5, category: 'PREDEFINED' },
-          { name: 'Mon parcours combiné', type: 'blueprint', nbModules: 2 },
-        ];
-        const updateFilter = sinon.stub();
+      module('when hasBlueprints is true', function () {
+        test('it displays all navigation links to filter by type', async function (assert) {
+          // given
+          const courses = [
+            { name: 'Ma super formation', type: 'targetProfile', nbTubes: 5, category: 'PREDEFINED' },
+            { name: 'Mon parcours combiné', type: 'blueprint', nbModules: 2 },
+          ];
+          const updateFilter = sinon.stub();
 
-        // when
-        const screen = await render(
-          <template><List @courses={{courses}} @updateFilter={{updateFilter}} @type="blueprint" /></template>,
-        );
+          // when
+          const screen = await render(
+            <template>
+              <List @courses={{courses}} @updateFilter={{updateFilter}} @type="blueprint" @hasBlueprints={{true}} />
+            </template>,
+          );
 
-        // then
-        const allLink = screen.getByRole('link', { name: t('pages.catalogue.tab-filters.all') });
-        assert.ok(allLink.href.endsWith('/catalogue/all'));
-        const targetProfilLink = screen.getByRole('link', { name: t('pages.catalogue.tab-filters.target-profiles') });
-        assert.ok(targetProfilLink.href.endsWith('/catalogue/targetProfile'));
-        const blueprintLink = screen.getByRole('link', { name: t('pages.catalogue.tab-filters.blueprints') });
-        assert.ok(blueprintLink.href.endsWith('/catalogue/blueprint'));
+          // then
+          const allLink = screen.getByRole('link', { name: t('pages.catalogue.tab-filters.all') });
+          assert.ok(allLink.href.endsWith('/catalogue/all'));
+          const targetProfilLink = screen.getByRole('link', { name: t('pages.catalogue.tab-filters.target-profiles') });
+          assert.ok(targetProfilLink.href.endsWith('/catalogue/targetProfile'));
+          const blueprintLink = screen.getByRole('link', { name: t('pages.catalogue.tab-filters.blueprints') });
+          assert.ok(blueprintLink.href.endsWith('/catalogue/blueprint'));
+        });
+      });
+
+      module('when hasBlueprints is false', function () {
+        test('it display only targetProfile navigation link', async function (assert) {
+          // given
+          const courses = [{ name: 'Ma super formation', type: 'targetProfile', nbTubes: 5, category: 'PREDEFINED' }];
+          const updateFilter = sinon.stub();
+
+          // when
+          const screen = await render(
+            <template>
+              <List
+                @courses={{courses}}
+                @updateFilter={{updateFilter}}
+                @type="targetProfile"
+                @hasBlueprints={{false}}
+              />
+            </template>,
+          );
+
+          // then
+          assert.dom(screen.queryByRole('link', { name: t('pages.catalogue.tab-filters.target-profiles') })).exists();
+          assert.dom(screen.queryByRole('link', { name: t('pages.catalogue.tab-filters.all') })).doesNotExist();
+          assert.dom(screen.queryByRole('link', { name: t('pages.catalogue.tab-filters.blueprints') })).doesNotExist();
+        });
       });
 
       test('it filters list by type', async function (assert) {
