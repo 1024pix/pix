@@ -77,7 +77,7 @@ describe('Unit | Certification | Configuration | Application | HttpErrorMapperCo
 
       //then
       expect(error).to.be.instanceOf(ConflictError);
-      expect(error.message).to.equal('Impossible de modifier la version à part ses commentaires');
+      expect(error.message).to.equal("Impossible de modifier une version qui ne soit pas en cours d'édition");
     });
   });
 });

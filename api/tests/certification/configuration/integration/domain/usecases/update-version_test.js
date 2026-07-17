@@ -99,30 +99,4 @@ describe('Certification | Configuration | Integration | Domain | UseCase | updat
       expect(error).to.be.instanceOf(NotFoundError);
     });
   });
-
-  describe('updateComments', function () {
-    it('updates only the comment in the version', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationVersion({
-        id: 123,
-        status: VERSION_STATUSES.ACTIVE,
-        comments: 'Super Comment',
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'coucou',
-        versionId: 123,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      await usecases.updateVersionComment({
-        id: 123,
-        comments: 'Super Comment Updated',
-      });
-
-      // then
-      const updatedVersion = await versionRepository.getById({ id: 123 });
-      expect(updatedVersion.comments).to.equal('Super Comment Updated');
-    });
-  });
 });

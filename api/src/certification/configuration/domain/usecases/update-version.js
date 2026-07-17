@@ -18,7 +18,6 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
  * @param {number} params.defaultCandidateCapacity
  * @param {boolean} params.limitToOneQuestionPerTube
  * @param {boolean} params.enablePassageByAllCompetences
- * @param {string} params.comments
  * @param {VersionRepository} params.versionRepository
  */
 export async function updateVersion({
@@ -33,7 +32,6 @@ export async function updateVersion({
   defaultCandidateCapacity,
   limitToOneQuestionPerTube,
   enablePassageByAllCompetences,
-  comments,
   versionRepository,
 }) {
   const version = await versionRepository.getById({ id });
@@ -43,7 +41,6 @@ export async function updateVersion({
   }
 
   version.update({
-    comments,
     startDate,
     assessmentDuration,
     minimumAnswersRequiredForValidation,

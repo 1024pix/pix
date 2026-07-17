@@ -237,6 +237,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           defaultProbabilityToPickChallenge: 51,
         },
         comments: 'Old comments',
+        status: VERSION_STATUSES.DRAFT,
       });
       databaseBuilder.factory.buildCertificationVersionTube({
         tubeId: 'tubeA',
@@ -265,7 +266,6 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
               'default-candidate-capacity': 7,
               'limit-to-one-question-per-tube': true,
               'enable-passage-by-all-competences': true,
-              comments: 'COUCOU',
             },
             type: 'certification-versions',
           },

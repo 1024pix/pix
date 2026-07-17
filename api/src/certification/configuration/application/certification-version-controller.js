@@ -18,10 +18,10 @@ async function getVersionById(request) {
 
 async function update(request, h) {
   const certificationVersionId = request.params.certificationVersionId;
-  const attributesToUpdate = await deserialize(request.payload);
+  const updateCommand = await deserialize(request.payload);
 
   await usecases.updateVersion({
-    ...attributesToUpdate,
+    ...updateCommand,
     id: certificationVersionId,
   });
 

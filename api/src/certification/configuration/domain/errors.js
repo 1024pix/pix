@@ -33,6 +33,6 @@ export class ActiveCertificationInfoNotFound extends DomainError {
 
 export class VersionNotDraftError extends DomainError {
   constructor() {
-    super('Impossible de modifier la version à part ses commentaires');
+    super("Impossible de modifier une version qui ne soit pas en cours d'édition");
   }
 }
