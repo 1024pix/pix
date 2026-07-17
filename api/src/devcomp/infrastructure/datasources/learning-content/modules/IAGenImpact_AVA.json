@@ -43,7 +43,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/accroche-compare-impact.png",
                 "alt": "Comparaison entre 2 réponses d’IA et leur impact environnemental",
-                "alternativeText": "<p>Sitan&nbsp;:&nbsp; Comment m’améliorer en chant ? Fais une réponse courte en 2 phrases.</p><p>Réponse de IBM/ Granite 4.1 8B&nbsp;:&nbsp;</p><p>Pour améliorer votre chant, pratiquez régulièrement en travaillant sur votre respiration, votre intonation et votre technique vocale avec un coach ou en utilisant des ressources en ligne. Enregistrez-vous et écoutez votre performance pour identifier les domaines à améliorer.</p><p>impact estimé de la discussion&nbsp;: 6 mWh</p><p>Réponse de Alibaba/ Qwen 3.6 Plus&nbsp;:&nbsp;</p><p>Pratique quotidiennement des exercices de respiration et de vocalises pour consolider ta technique. Enregistre-toi régulièrement et fais-toi accompagner par un professeur pour recevoir des retours objectifs et progresser efficacement.</p><p>impact estimé de la discussion&nbsp;: 14 425 mWh</p>",
+                "alternativeText": "<p>Sitan&nbsp;:&nbsp; Comment m’améliorer en chant ? Fais une réponse courte en 2 phrases.</p><p>Réponse de OpenAI/GPT OSS-20B<br></p><p>Commence par travailler ta respiration diaphragmatique et tes exercices de vocalises pour renforcer ton registre vocal, tout en gardant une posture droite et une bonne diction. Enregistre-toi régulièrement, demande des retours constructifs et prends des cours de chant pour corriger les faiblesses techniques.<br><br></p><p>impact estimé de la discussion&nbsp;: 20 mWh</p><p>Réponse de&nbsp;Mistral AI/Mistral 3 Large</p><p>Pour progresser en chant, entraîne-toi régulièrement avec des exercices de respiration, de justesse et de résonance. Écoute des chanteurs inspirants et enregistre-toi pour identifier tes points à améliorer.<br></p><p>impact estimé de la discussion&nbsp;: 227 mWh&nbsp;</p>",
                 "legend": "",
                 "licence": "Image brouillon"
               }
@@ -54,7 +54,7 @@
                 "id": "af2a1f06-fde9-4ef5-ad58-6960c8179fa0",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les deux logiciels d’IA générative donnent des conseils, mais Sitan est étonnée par<strong> la différence d’impact environnemental.</strong></p><p> Qwen 3.6 Plus a une consommation d’énergie estimée à plus de 2 000 fois supérieure à celle de Granite 4.1 !</p>"
+                "content": "<p>Les deux logiciels d’IA générative donnent des conseils, mais Sitan est étonnée par<strong> la différence d’impact environnemental.</strong></p><p> Mistral 3 Large&nbsp; a une consommation d’énergie estimée à <strong>plus de 10 fois supérieure</strong> à celle de GPT OSS-20B !</p>"
               }
             },
             {
