@@ -86,7 +86,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
       - image: postgres:16.9-alpine
-        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
+        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -116,7 +116,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
       - image: postgres:16.9-alpine
-        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
+        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -132,7 +132,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
       - image: postgres:16.9-alpine
-        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
+        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -145,7 +145,7 @@ executors:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - image: postgres:16.9-alpine
-        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
+        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -162,7 +162,7 @@ executors:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - image: postgres:16.9-alpine
-        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
+        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -1184,7 +1184,7 @@ jobs:
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
             AUTH_SECRET: 'secret'
-            LCMS_API_RELEASE_ID: '2462?forCI'
+            LCMS_API_RELEASE_ID: '2509?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           command: npm run db:prepare
       - run:
@@ -1201,7 +1201,7 @@ jobs:
             START_JOB_IN_WEB_PROCESS: 'true'
             MAILING_ENABLED: 'false'
             AUTH_SECRET: 'secret'
-            LCMS_API_RELEASE_ID: '2462?forCI'
+            LCMS_API_RELEASE_ID: '2509?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
             PIX_ASSETS_MANAGER_URL: 'https://assets.pix.org'
       - run:
@@ -1223,7 +1223,7 @@ jobs:
           name: Refresh cache
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            LCMS_API_RELEASE_ID: '2462?forCI'
+            LCMS_API_RELEASE_ID: '2509?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           working_directory: ~/pix/api
           command: npm run cache:refresh
@@ -1292,7 +1292,7 @@ jobs:
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
             AUTH_SECRET: 'secret'
-            LCMS_API_RELEASE_ID: '2462?forCI'
+            LCMS_API_RELEASE_ID: '2509?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           command: npm run db:prepare
       - run:
@@ -1309,7 +1309,7 @@ jobs:
             START_JOB_IN_WEB_PROCESS: 'true'
             MAILING_ENABLED: 'false'
             AUTH_SECRET: 'secret'
-            LCMS_API_RELEASE_ID: '2462?forCI'
+            LCMS_API_RELEASE_ID: '2509?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
             PIX_ADMIN_LOGIN_FROM_PASSWORD_ENABLED: 'true'
             PIX_ASSETS_MANAGER_URL: 'https://assets.pix.org'
@@ -1332,7 +1332,7 @@ jobs:
           name: Refresh cache
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            LCMS_API_RELEASE_ID: '2462?forCI'
+            LCMS_API_RELEASE_ID: '2509?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
           working_directory: ~/pix/api
           command: npm run cache:refresh
