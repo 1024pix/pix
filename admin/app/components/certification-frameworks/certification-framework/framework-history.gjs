@@ -30,7 +30,7 @@ export default class FrameworkHistory extends Component {
   @tracked showVersionDetailModal = false;
 
   get frameworkHistory() {
-    return this.args.frameworkHistory?.history.sort(sortByStatus);
+    return sortByStatus(this.args.frameworkHistory?.history);
   }
 
   get hasHistory() {
@@ -215,8 +215,20 @@ export default class FrameworkHistory extends Component {
   </template>
 }
 
-function sortByStatus(frameworkHistoryA, frameworkHistoryB) {
-  if (frameworkHistoryA.status === 'draft') return -1;
-  if (frameworkHistoryA.status === 'active') return 0;
-  return new Date(frameworkHistoryA.expirationDate) > new Date(frameworkHistoryB.experitionDate) ? 1 : 0;
+function sortByStatus(frameworkHistories) {
+  const draftFrameworkHistory = frameworkHistories.find((frameworkHistory) => frameworkHistory.status === 'draft');
+  const activeFrameworkHistory = frameworkHistories.find((frameworkHistory) => frameworkHistory.status === 'active');
+  const archivedFrameworkHistory = frameworkHistories.filter(
+    (frameworkHistory) => frameworkHistory.status === 'archived',
+  );
+
+  archivedFrameworkHistory.sort((frameworkHistoryA, frameworkHistoryB) => {
+    const startDateA = new Date(frameworkHistoryA.startDate);
+    const startDateB = new Date(frameworkHistoryB.startDate);
+    if (startDateA > startDateB) return -1;
+    if (startDateA < startDateB) return 1;
+  });
+
+  const frameworkHistoryList = [draftFrameworkHistory, activeFrameworkHistory, ...archivedFrameworkHistory];
+  return frameworkHistoryList.filter((frameworkHistory) => !!frameworkHistory);
 }
