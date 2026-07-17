@@ -83,7 +83,7 @@ export default class Drawer extends Component {
   }
 
   @action
-  async submitContentRelevanceFormScores(scores) {
+  async submitContentRelevanceFormScores(results) {
     try {
       await this.requestManager.request({
         url: `${ENV.APP.API_HOST}/api/user-campaign-surveys`,
@@ -94,9 +94,10 @@ export default class Drawer extends Component {
             attributes: {
               'campaign-id': this.args.campaignId,
               'satisfaction-score': this.satisfactionScore,
-              'usefulness-score': scores.usefulness,
-              'personalization-score': scores.personalization,
-              'attractiveness-score': scores.attractiveness,
+              'usefulness-score': results.scores.usefulness,
+              'personalization-score': results.scores.personalization,
+              'attractiveness-score': results.scores.attractiveness,
+              comment: results.comment,
             },
           },
         }),

@@ -2260,6 +2260,10 @@
               "max-label": "Appealing",
               "min-label": "Not appealing"
             },
+            "comment-text": {
+              "label": "Optional comment",
+              "placeholder": "Comment (optional)"
+            },
             "legend": "The recommended content is…",
             "personalization": {
               "legend": "Rate how personalized the content is, from generic 1 to personalized 5",

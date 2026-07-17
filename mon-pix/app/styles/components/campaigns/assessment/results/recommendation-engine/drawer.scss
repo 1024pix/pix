@@ -192,6 +192,20 @@
     text-align: center;
   }
 
+  &__content-relevance-form-comment-text {
+    margin-top: var(--pix-spacing-6x);
+    resize: none;
+  }
+
+  &__content-relevance-form-actions {
+    display: flex;
+    flex-direction: row;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--pix-spacing-6x);
+  }
+
   &__scale {
     display: flex;
     flex-direction: row;
@@ -228,14 +242,5 @@
     .pix-radio-button + .pix-radio-button {
       margin-top: 0;
     }
-  }
-
-  &__content-relevance-form-actions {
-    display: flex;
-    flex-direction: row;
-    gap: var(--pix-spacing-4x);
-    align-items: center;
-    justify-content: center;
-    margin-top: var(--pix-spacing-6x);
   }
 }

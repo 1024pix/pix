@@ -1,5 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
+import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
 import { concat, fn, get } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -29,6 +30,7 @@ export default class ContentRelevanceForm extends Component {
   @tracked usefulness = null;
   @tracked personalization = null;
   @tracked attractiveness = null;
+  @tracked comment = null;
 
   get isSubmitDisabled() {
     return !SCALES.every((scale) => this[scale.key] !== null);
@@ -42,15 +44,23 @@ export default class ContentRelevanceForm extends Component {
   @action
   submit() {
     this.args.onSubmit({
-      usefulness: this.usefulness,
-      personalization: this.personalization,
-      attractiveness: this.attractiveness,
+      scores: {
+        usefulness: this.usefulness,
+        personalization: this.personalization,
+        attractiveness: this.attractiveness,
+      },
+      comment: this.comment,
     });
   }
 
   @action
   focusOnInsert(element) {
     element.focus();
+  }
+
+  @action
+  updateComment(event) {
+    this.comment = event.target.value;
   }
 
   <template>
@@ -100,6 +110,22 @@ export default class ContentRelevanceForm extends Component {
               </span>
             </fieldset>
           {{/each}}
+          <PixTextarea
+            @id="comment-content-relevance"
+            @maxlength="250"
+            placeholder={{t
+              "pages.skill-review.recommended-engine.drawer.content-relevance-form.comment-text.placeholder"
+            }}
+            @screenReaderOnly="true"
+            class="results-recommendation-engine-drawer__content-relevance-form-comment-text"
+            rows="5"
+            cols="50"
+            {{on "change" this.updateComment}}
+          >
+            <:label>{{t
+                "pages.skill-review.recommended-engine.drawer.content-relevance-form.comment-text.label"
+              }}</:label>
+          </PixTextarea>
           <div class="results-recommendation-engine-drawer__content-relevance-form-actions">
             <PixButton
               @variant="tertiary"
