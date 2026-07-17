@@ -689,28 +689,35 @@
       },
       "create": {
         "addItemButton": "Ajouter",
+        "attestations": "Les attestations",
+        "content": "Le contenu",
         "contentFeedback": "Votre parcours n'a aucun élément ajouté.",
         "courseContent": "Contenu du parcours",
         "createButton": "Créer le schéma de parcours",
         "fieldsetElement": "Choisissez le type d'élément à ajouter :",
+        "generalInfoCardTitle": "Informations générales",
         "notifications": {
           "addItemError": "Oups. Une erreur est survenue lors de l'ajout de la ressource.",
           "error": "Oups. Une erreur est survenue lors de la création du schéma de parcours.",
+          "evaluationNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi",
           "moduleNotFound": "Il n'existe pas de module avec l'identifiant saisi",
-          "success": "Création du schéma de parcours réussie !",
-          "targetProfileNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi"
+          "success": "Création du schéma de parcours réussie !"
         },
-        "title": "Créer un schéma de parcours"
+        "title": "Création d'un schéma de parcours"
       },
       "items": {
+        "action-header": "Actions",
+        "item-name-header": "Nom de l'élément",
+        "item-type-header": "Type d'élément",
         "module": "Module",
         "targetProfile": "Profil Cible",
-        "title": "Contenu du parcours"
+        "title": "Contenu du schéma de parcours"
       },
       "labels": {
         "attestation": "Attestation",
         "created-at": "Date de création",
         "description": "Description",
+        "description-sublabel": "Cette description sera visible par les utilisateurs",
         "illustration": "Illustration",
         "internal-name": "Nom interne",
         "itemId": "Identifiant",

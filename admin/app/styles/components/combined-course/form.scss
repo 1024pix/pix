@@ -1,41 +1,56 @@
 @use 'pix-design-tokens/typography';
 
-.combined-course-page {
-  display: flex;
-  flex-direction: row;
-  gap: var(--pix-spacing-6x);
-  justify-content: space-around;
-  padding-top: var(--pix-spacing-8x);
-  padding-bottom: var(--pix-spacing-8x);
+.combined-course-blueprint-form {
+  display: inline-flex;
+  flex: 0 1 30rem;
+  flex-direction: column;
+  gap: var(--pix-spacing-5x);
+  align-items: flex-start;
+  width: 100%;
+  padding: var(--pix-spacing-6x);
+
+  &__card {
+    width: 100%;
+
+    &--requirement-tag {
+      width: fit-content;
+    }
+
+    &--image{
+      display: flex;
+      flex-direction: column;
+      width: 30%;
+    }
+
+    &--item-to-add {
+      .card__content {
+        display: flex;
+        flex-direction: row;
+        gap: var(--pix-spacing-3x, 12px);
+        align-items: center;
+        align-self: stretch;
+        padding: var(--pix-spacing-3x, 12px);
+      }
+
+      p {
+        @extend %pix-title-xxs;
+      }
+
+    }
+
+    &--item-to-add-text {
+     display: flex;
+     flex-direction: column;
+     gap: var(--pix-spacing-3x);
+    }
+  }
 
   &__title {
     @extend %pix-title-m;
   }
 
-  &__form {
-    display: inline-flex;
-    flex: 0 1 30rem;
-    flex-direction: column;
-    gap: var(--pix-spacing-6x);
-  }
-
-  &__form-addItem {
-    display: inline-flex;
-    gap: var(--pix-spacing-4x);
-    align-items: end;
-  }
-
-  &__input {
-    max-width: 30rem;
-  }
-
   &__button {
     width: fit-content;
-  }
-
-  &__separator {
-    margin-right: 0;
-    margin-left: 0;
   }
 
   &__list {
@@ -44,26 +59,86 @@
     gap: var(--pix-spacing-3x);
   }
 
-  &__fieldset {
-    display: inline-flex;
-    gap: var(--pix-spacing-4x);
-    align-items: center;
-
-    .pix-radio-button {
-      margin-top: 0;
-    }
-  }
-
-  &__items {
-    display: inline-flex;
-    flex: 0 0 50%;
-    flex-direction: column;
-    gap: var(--pix-spacing-4x);
-  }
-
   &__threshold {
       width: 134px;
-      margin-bottom: 16px;
+      margin-bottom: var(--pix-spacing-4x);
   }
 
 }
+
+.pix-radio-button + .pix-radio-button {
+  margin-top: 0;
+}
+
+.card__content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--pix-spacing-6x);
+      margin-top: var(--pix-spacing-3x);
+      margin-bottom: var(--pix-spacing-4x);
+}
+
+.controls {
+  display: flex;
+  gap: var(--pix-spacing-6x);
+}
+
+.content-section {
+    display: flex;
+    flex-direction: row;
+    gap: var(--pix-spacing-4x);
+    align-self: stretch;
+
+    h3 {
+       @extend %pix-title-xxs;
+    }
+
+    &__add-item {
+    display: inline-flex;
+    gap: var(--pix-spacing-4x);
+    align-items: end;
+
+    label {
+      @extend %pix-body-s;
+
+      margin-bottom: var(--pix-spacing-2x);
+     font-weight: var(--pix-font-bold);
+    }
+
+    .pix-input {
+      width: 100%;
+    }
+  }
+
+  &__add-items-column {
+
+    legend {
+     @extend %pix-body-s;
+
+     margin-bottom: var(--pix-spacing-2x);
+     font-weight: var(--pix-font-bold);
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-6x);
+    width: 50%;
+
+    &--options {
+    display: flex;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+  }
+  }
+
+
+   &__items-preview-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-3x);
+    width: 100%;
+    padding: var(--pix-spacing-6x);
+    background: var(--pix-primary-50);
+    border-radius: var(--pix-spacing-4x);
+  }
+  }

@@ -54,7 +54,10 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
       'illustrations/hello.svg',
     );
 
-    await fillIn(screen.getByLabelText(t('components.combined-course-blueprints.labels.description')), 'description');
+    await fillIn(
+      screen.getByLabelText(t('components.combined-course-blueprints.labels.description-sublabel'), { exact: false }),
+      'description',
+    );
 
     await click(
       screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
