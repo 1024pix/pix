@@ -26,6 +26,14 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           status: 'active',
         },
         {
+          id: 124,
+          startDate: new Date('2023-10-11'),
+          expirationDate: new Date('2023-10-12'),
+          assessmentDuration: 90,
+          maximumAssessmentLength: 32,
+          status: 'archived',
+        },
+        {
           id: 123,
           startDate: new Date('2023-10-10'),
           expirationDate: new Date('2023-10-11'),
@@ -48,14 +56,16 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
     const screen = await visit('/certification-frameworks/DROIT');
 
     // then
-    const [, row1, row2, row3] = await screen.findAllByRole('row');
+    const [, row1, row2, row3, row4] = await screen.findAllByRole('row');
     assert.strictEqual(currentURL(), '/certification-frameworks/DROIT');
     assert.dom(within(row1).getByRole('cell', { name: '789' })).exists();
     assert.dom(within(row1).getByRole('cell', { name: "En cours d'édition" })).exists();
     assert.dom(within(row2).getByRole('cell', { name: '456' })).exists();
     assert.dom(within(row2).getByRole('cell', { name: 'Actif' })).exists();
-    assert.dom(within(row3).getByRole('cell', { name: '123' })).exists();
+    assert.dom(within(row3).getByRole('cell', { name: '124' })).exists();
     assert.dom(within(row3).getByRole('cell', { name: 'Archivé' })).exists();
+    assert.dom(within(row4).getByRole('cell', { name: '123' })).exists();
+    assert.dom(within(row4).getByRole('cell', { name: 'Archivé' })).exists();
   });
 
   test('it should render target profile page when the framework is CLEA', async function (assert) {
