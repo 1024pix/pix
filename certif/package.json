@@ -106,7 +106,7 @@
     "eslint-plugin-n": "^18.0.0",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-qunit": "^8.2.6",
-    "eslint-plugin-unicorn": "^65.0.0",
+    "eslint-plugin-unicorn": "^66.0.0",
     "globals": "^17.0.0",
     "i18next-browser-languagedetector": "^8.2.1",
     "loader.js": "^4.7.0",
