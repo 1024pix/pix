@@ -931,13 +931,93 @@
             {
               "type": "element",
               "element": {
-                "id": "34079946-007f-457f-b7de-dbc2a8a39956",
-                "type": "image",
-                "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/activite-reunion.jpg",
-                "alt": "Les différents personnages font des propositions. Voir dans l’alternative textuelle.",
-                "alternativeText": "<ul><li>André&nbsp;: Je propose qu’on adopte un modèle gratuit au début&nbsp;: on va rapidement gagner en notoriété et gagner des parts de marché. </li><li>Béatrice&nbsp;: Je pense qu’il faut accélérer le rythme de sorties de nos nouvelles versions. Nos concurrents sont plus rapides et nous sommes à la traîne. </li><li>Charlotte&nbsp;: Notre fonctionnalité de vidéo est très gourmande en calculs alors que les utilisateurs le font gratuitement&nbsp;: nous devrions ne donner accès à cette fonctionnalité que sur abonnement payant ! </li><li>Dylan&nbsp;: Et si nous faisison un partenariat avec le moteur de rechercheTrouveTout pour synthétiser par défaut avec l’IA les résultats aux recherches des utilisateurs&nbsp;: nous allons gagner en visibilité ! </li><li>Elisabeth&nbsp;: Notre facture d’électricité nous coûte trop cher, il faut donner la priorité à l’optimisation des calculs pour réduire la charge sur les serveurs.<br></li></ul>",
-                "legend": "",
-                "licence": ""
+                "id": "6e4ddc25-c1ef-4338-ae3c-58aaa18173db",
+                "type": "custom",
+                "title": "Réunion d’équipe",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "pix-carousel",
+                "props": {
+                  "type": "image",
+                  "slides": [
+                    {
+                      "title": "André",
+                      "description": "Je propose qu’on adopte un modèle gratuit au début : on va rapidement gagner en notoriété et gagner des parts de marché.",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/reu-andre.png",
+                        "alt": "Image andré"
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Béatrice",
+                      "description": "Je pense qu’il faut accélérer le rythme de sorties de nos nouvelles versions de modèles d’IA. Nos concurrents sont plus rapides et nous sommes à la traîne.",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/reu-beatrice.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Charlotte",
+                      "description": "Notre fonctionnalité de génération de vidéo est très gourmande en calculs alors que les utilisateurs le font gratuitement : nous devrions ne donner accès à cette fonctionnalité uniquement sur abonnement payant !",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/reu-charlotte.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Dylan",
+                      "description": "Et si nous faisison un partenariat avec le moteur de rechercheTrouveTout pour synthétiser par défaut avec l’IA les résultats aux recherches des utilisateurs : nous allons gagner en visibilité ! ",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/reu-dylan.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Elisabeth",
+                      "description": "Notre facture d’électricité nous coûte trop cher, il faut en priorité optimiser les calculs pour réduire la charge sur les serveurs.",
+                      "displayWidth": 0,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/reu-elisabeth.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    }
+                  ],
+                  "randomSlides": false,
+                  "titleLevel": 0,
+                  "disableAnimation": false,
+                  "disableStyleAroundImage": false,
+                  "enableLoop": false,
+                  "imageTextDisplay": ""
+                }
               }
             },
             {
@@ -966,7 +1046,7 @@
                   },
                   {
                     "id": "5",
-                    "content": "<p>la proposition de Elisabeth</p>"
+                    "content": "<p>la proposition d’Elisabeth</p>"
                   }
                 ],
                 "feedbacks": {
