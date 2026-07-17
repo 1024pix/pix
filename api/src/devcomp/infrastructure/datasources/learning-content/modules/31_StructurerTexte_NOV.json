@@ -53,7 +53,7 @@
                   },
                   {
                     "id": "2",
-                    "content": "<p>Le navigateur internet de l’ordinateur.</p>",
+                    "content": "<p>Le navigateur web de l’ordinateur.</p>",
                     "feedback": {
                       "diagnosis": "<p>Eh non.<br> Le <strong>logiciel de traitement de texte</strong> est l’outil adapté pour rédiger du texte sur ordinateur.</p>"
                     }
@@ -199,7 +199,7 @@
                   },
                   {
                     "id": "2",
-                    "content": "<p>Libre Office</p>",
+                    "content": "<p>Libre Office Writer</p>",
                     "feedback": {
                       "diagnosis": "<p>Exactement !&nbsp;<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
                     }
@@ -422,7 +422,7 @@
                 "id": "31fd0233-835f-4d9e-b06a-0055980d3a58",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Feedback&nbsp;:&nbsp; Bien joué ! Vous avez correctement enregistré le discours de Mina.</p><p>La première fois que vous enregistrez un document, cela crée un nouveau fichier. Il est alors demandé de&nbsp;:</p><ul> <li>donner <strong>un nom</strong> pour identifier le document,/li&gt;   </li><li>choisir <strong>un emplacement</strong> pour dire où le document sera enregistré.</li>    </ul>"
+                "content": "<p>Feedback&nbsp;:&nbsp; Bien joué ! Vous avez correctement enregistré le discours de Mina.</p><p>La première fois que vous enregistrez un document, cela crée un nouveau fichier. Il est alors demandé de&nbsp;:</p><ul> <li>donner <strong>un nom</strong> pour identifier le document,</li><li>choisir <strong>un emplacement</strong> pour dire où le document sera enregistré.</li>    </ul>"
               }
             }
           ]
@@ -617,7 +617,7 @@
                 "id": "f1c1dd38-b81b-4931-b253-89ff7af1aace",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>\n    <li>Il existe de nombreux logiciels de traitement de texte&nbsp;: <strong>gratuites</strong> ou <strong>payantes</strong>. Certains sont <strong>installés sur votre appareil</strong>, d’autres sont accessibles <strong>en ligne</strong>.&nbsp;</li>\n</ul>"
+                "content": "<ul>\n    <li>Il existe de nombreux logiciels de traitement de texte&nbsp;: <strong>gratuits</strong> ou <strong>payants</strong>. Certains sont <strong>installés sur votre appareil</strong>, d’autres sont accessibles <strong>en ligne</strong>.&nbsp;</li>\n</ul>"
               }
             },
             {
@@ -627,7 +627,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/31_MiseEnFormeTxt_NOV2/liste-de-logiciels.jpg",
                 "alt": "",
-                "alternativeText": "<p>Liste des logiciels de traitement de texte avec leurs logos : LibreOffice Writer, Apache OpenOffice, Microsoft Word, Google Docs Pages.</p>",
+                "alternativeText": "<p>Liste des logiciels de traitement de texte avec leurs logos : Libre Office Writer, Apache OpenOffice, Microsoft Word, Google Docs Pages.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -638,7 +638,7 @@
                 "id": "7ce7e13a-04e5-46be-a405-bccf063abd39",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li> Les interfaces des logiciels de traitement de texte sont composées de la <strong>zone de travail centrale</strong> pour taper et modifier du texte, de la <strong>barre d’outils</strong> et de la <strong>barre des menus</strong>.&nbsp;<em>[option représentation graphique]</em></li>\n    <li> Dans la barre des menus, «&nbsp;<strong>Enregistrer sous</strong>&nbsp;» permet de sauvegarder un nouveau document texte&nbsp;:<ul>\n            <li>en lui donner <strong>un nom</strong> de document,</li>\n            <li>et en choisissant <strong>où enregistrer</strong> le document sur l’ordinateur.</li>\n        </ul>\n    </li>\n    <li> Le symbole « 💾&nbsp;» ou l’option «&nbsp;<strong>Enregistrer </strong>» permet d’<strong>enregistrer des modifications</strong> sur un document qui a déjà un nom et un emplacement. Pensez à le faire régulièrement</li></ul>"
+                "content": "<ul><li> Les interfaces des logiciels de traitement de texte sont composées de la <strong>zone de travail centrale</strong> pour taper et modifier du texte, de la <strong>barre d’outils</strong> et de la <strong>barre des menus</strong>.&nbsp;<em>[option représentation graphique]</em></li>\n    <li> Dans la barre des menus, «&nbsp;<strong>Enregistrer sous</strong>&nbsp;» permet de sauvegarder un nouveau document texte&nbsp;:<ul>\n            <li>en lui donnant <strong>un nom</strong> de document,</li>\n            <li>et en choisissant <strong>où enregistrer</strong> le document sur l’ordinateur.</li>\n        </ul>\n    </li>\n    <li> Le symbole « 💾&nbsp;» ou l’option «&nbsp;<strong>Enregistrer </strong>» permet d’<strong>enregistrer des modifications</strong> sur un document qui a déjà un nom et un emplacement. Pensez à le faire régulièrement</li></ul>"
               }
             }
           ]
