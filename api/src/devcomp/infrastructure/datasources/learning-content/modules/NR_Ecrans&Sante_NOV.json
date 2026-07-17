@@ -109,7 +109,19 @@
                 "id": "3f8d85ba-9cff-46a9-9599-161ff0059698",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Sélectionnez des activités, puis observez ce qui se passe.</strong></p><ul><li>Regarder un film (+2h)</li><li>Regarder une série (+2h30)</li><li>Jouer aux jeux vidéos (+1h30)</li><li>Travailler sur un ordinateur (+5h)</li><li>Regarder un stream (+2h)</li><li>Scroller sur un réseau social (+3h)</li><li>Répondre à des messages (+30min)</li><li>Suivre un tutoriel vidéo (+45min)</li><li>Lire l'actualité en ligne (+45min)</li><li>Faire des recherches sur ordinateur (+1h)</li></ul>\n<p><em>A terme : POI Data-Select :</em></p>\n<ul>\n    <li><em>À gauche : l'appenant peut sélectionner des activités (ou bien avec un curseur sélectionner la fréquence : Jamais/Parfois/Souvent/Tout le temps)</em></li>\n    <li><em>À droite : l'apprenant observe le temps d'écran qui augmente (jauge qui se remplit).</em></li>\n</ul>"
+                "content": "<p>Selon les personnes, les journées ne se ressemblent pas. <br></p><p><strong>Composez une journée avec les activités ci-dessous (la vôtre ou celle de quelqu'un d'autre).</strong></p><p>Sélectionnez des activités, puis observez ce qui se passe.<br><em>(informations sur l'activité dans l'alternative textuelle)</em></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "2ff0ffbf-8af9-4676-ad33-f81b53e7ae07",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/NR_Ecrans&sante_NOV/decouverte-jauge1.jpg",
+                "alt": "",
+                "alternativeText": "<p>A terme : POI Data-Select :\n<br>\n    <em>À gauche : l'appenant peut sélectionner des activités\n<br>    À droite : l'apprenant observe le temps d'écran qui augmente (jauge qui se remplit).<br><br> La jauge se remplit plus ou moins selon les activitées sélectionnées, voici nos estimations pouir le moment :<br></em></p>\n<ul>\n    <li><em>Regarder un film (+2h)</em></li>\n    <li><em>Regarder une série (+2h30)</em></li>\n    <li><em>Jouer aux jeux vidéos (+1h30)</em></li>\n    <li><em>Travailler sur un ordinateur (+5h)</em></li>\n    <li><em>Regarder un stream (+2h)</em></li>\n    <li><em>Scroller sur un réseau social (+3h)</em></li>\n    <li><em>Répondre à des messages (+30min)</em></li>\n    <li><em>Suivre un tutoriel vidéo (+45min)</em></li>\n    <li><em>Lire l'actualité en ligne (+45min)</em></li>\n    <li><em>Faire des recherches sur ordinateur (+1h)</em></li></ul><p><em>La jauge est pleine à un équivalent de 7h. Elle affiche un message d'alerte + le feedback.<br> On peut recommencer plusieurs fois.&nbsp;</em></p>\n",
+                "legend": "",
+                "licence": ""
               }
             },
             {
@@ -472,7 +484,28 @@
                 "id": "40d1fac2-7db3-46d6-b761-f783f96a402b",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Plus le temps d’exposition aux écrans augmente, plus les risques peuvent être importants. </p><p>Heureusement, il est possible d’agir pour limiter les risques&nbsp;:</p><p><br></p><p>[Infographie&nbsp;: grille avec 4 visuels ?]</p><ul><li><strong>Se déconnecter</strong>&nbsp;: prévoir des temps sans écran. 🏝️<br></li><li><strong>Remplacer</strong>&nbsp;: trouver une autre solution sans écran pour une tâche ou une activité. 📖</li><li><strong>Limiter</strong>&nbsp;: se fixer une durée maximum de temps d’écran dans la journée. ⛔</li><li><strong>Bouger</strong>&nbsp;: faire des pauses dès que possible avec une activité physique, même minime. 🤸</li></ul><p><br></p><p>🎯 Le but n’est pas de supprimer tous les temps d’écran, mais de <strong>trouver un équilibre</strong>. ⚖️</p><p><br></p><p>Certaines applications peuvent aider à suivre son temps d’écran, mais elles ne remplacent pas <strong>de bonnes habitudes</strong>.</p>"
+                "content": "<p>Plus le temps d’exposition aux écrans augmente, plus les risques peuvent être importants. </p>\n<p>Heureusement, il est possible d’agir pour limiter les risques&nbsp;:<br></p>\n"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "35723f88-e4f8-412a-b3e6-b2f9ab44bafa",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/NR_Ecrans&sante_NOV/infographie-lecon.jpg",
+                "alt": "",
+                "alternativeText": "<ul><li><strong>Se déconnecter&nbsp;:</strong> prévoir des temps sans écran. 🏝️</li><li><strong>Remplacer&nbsp;</strong>: trouver une autre solution sans écran pour une tâche ou une activité. 📖</li><li><strong>Limiter&nbsp;</strong>: se fixer une durée maximum de temps d’écran dans la journée. ⛔</li><li><strong>Bouger&nbsp;: </strong>faire des pauses dès que possible avec une activité physique, même minime. 🤸</li></ul>",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "50ded1a0-61f4-4cc9-9b51-334594426d08",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>🎯 Le but n’est pas de supprimer tous les temps d’écran, mais de <strong>trouver un équilibre</strong>. ⚖️</p>\n<p><br></p>\n<p>Certaines applications peuvent aider à suivre son temps d’écran, mais elles ne remplacent pas <strong>de bonnes habitudes</strong>.</p>"
               }
             }
           ]
