@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 
+import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import * as serializer from '../../../../../../src/certification/configuration/infrastructure/serializers/version-details-serializer.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | Serializer | version-details-serializer', function () {
@@ -9,11 +11,19 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
       // given
       const version = domainBuilder.certification.configuration.buildVersionDetails({
         id: 42,
+        status: VERSION_STATUSES.ARCHIVED,
+        scope: SCOPES.PIX_PLUS_PRO_SANTE,
         startDate: new Date('2024-01-01T00:00:00Z'),
         expirationDate: new Date('2025-12-31T00:00:00Z'),
         assessmentDuration: 105,
         minimumAnswersRequiredForValidation: 20,
         maximumAssessmentLength: 32,
+        challengesBetweenSameCompetence: 2,
+        defaultProbabilityToPickChallenge: 40,
+        defaultCandidateCapacity: -2,
+        variationPercent: 0.66,
+        limitToOneQuestionPerTube: true,
+        enablePassageByAllCompetences: true,
         comments: 'some good comments',
         areas: [
           {
@@ -116,6 +126,14 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
             'maximum-assessment-length': 32,
             'minimum-answers-required-for-validation': 20,
             'start-date': new Date('2024-01-01T00:00:00Z'),
+            scope: SCOPES.PIX_PLUS_PRO_SANTE,
+            status: VERSION_STATUSES.ARCHIVED,
+            'challenges-between-same-competence': 2,
+            'default-probability-to-pick-challenge': 40,
+            'default-candidate-capacity': -2,
+            'variation-percent': 0.66,
+            'limit-to-one-question-per-tube': true,
+            'enable-passage-by-all-competences': true,
           },
           relationships: {
             areas: {

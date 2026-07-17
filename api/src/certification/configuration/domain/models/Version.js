@@ -8,6 +8,7 @@ import {
 } from '../../../shared/domain/constants.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { SCOPES } from '../../../shared/domain/models/Scopes.js';
+import { VersionNotDraftError } from '../errors.js';
 
 export const VERSION_STATUSES = {
   DRAFT: 'draft',
@@ -85,8 +86,33 @@ export class Version {
     }
   }
 
-  update({ comments }) {
-    this.comments = comments;
+  update({
+    startDate,
+    assessmentDuration,
+    minimumAnswersRequiredForValidation,
+    maximumAssessmentLength,
+    challengesBetweenSameCompetence,
+    defaultProbabilityToPickChallenge,
+    variationPercent,
+    defaultCandidateCapacity,
+    limitToOneQuestionPerTube,
+    enablePassageByAllCompetences,
+  }) {
+    if (!this.isDraft) {
+      throw new VersionNotDraftError();
+    }
+    this.startDate = startDate;
+    this.assessmentDuration = assessmentDuration;
+    this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredForValidation;
+    this.challengesConfiguration = new FlashAssessmentAlgorithmConfiguration({
+      maximumAssessmentLength,
+      challengesBetweenSameCompetence,
+      defaultProbabilityToPickChallenge,
+      variationPercent,
+      defaultCandidateCapacity,
+      limitToOneQuestionPerTube,
+      enablePassageByAllCompetences,
+    });
     this.validate();
   }
 

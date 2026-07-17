@@ -519,9 +519,9 @@
           },
           "table": {
             "actions": {
-              "delete": "Supprimer la version",
-              "edit": "Éditer la version",
-              "view": "Voir les détails de la version"
+              "delete": "Supprimer la version {id}",
+              "edit": "Éditer la version {id}",
+              "view": "Voir les détails de la version {id}"
             },
             "caption": "Liste des versions par ordre décroissant",
             "columns": {
@@ -554,6 +554,21 @@
           "status": "Statut :"
         },
         "versions": {
+          "edit": {
+            "assessment-duration-label": "Durée de l’épreuve (hh:mm) :",
+            "challenges-between-same-competence-label": "Nombre de question entre 2 questions de la même compétence :",
+            "default-candidate-capacity-label": "Capacité de départ des candidats :",
+            "default-probability-to-pick-challenge-label": "Probabilité de sélection de la question la plus pertinente (en %) :",
+            "enable-passage-by-all-competences-label": "Forcer le passage par toutes les compétences du référentiel de certification",
+            "limit-to-one-question-per-tube-label": "Limiter à 1 question par sujet",
+            "maximum-assessment-length-label": "Nombre total de questions :",
+            "minimum-answers-required-for-validation-label": "Nombre de questions minimum pour obtenir la certification :",
+            "start-date-label": "Date d'activation prévisionnelle :",
+            "submit-button": "Enregistrer pour plus tard",
+            "success-notification": "Les modifications sur la version ont été enregistrées avec succès.",
+            "validation-message-error": "Ce champ doit être rempli",
+            "variation-percent-label": "Capage de la progression de la capacité :"
+          },
           "new": {
             "submit-button": "Créer la nouvelle version du référentiel de certification",
             "success-notification": "La nouvelle version du référentiel de certification a été créé avec succès",

@@ -1,3 +1,4 @@
+import { VersionNotDraftError } from '../../../../../../../src/certification/configuration/domain/errors.js';
 import {
   Version,
   VERSION_STATUSES,
@@ -13,7 +14,7 @@ import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | Application | Api | Models | Version', function () {
-  describe('#isDraft', function () {
+  describe('#get isDraft', function () {
     context('when the version is archived', function () {
       it('return false', function () {
         const version = domainBuilder.certification.configuration.buildVersion({
@@ -77,7 +78,7 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
     });
   });
 
-  describe('#isActive', function () {
+  describe('#get isActive', function () {
     context('when the version is archived', function () {
       it('return false', function () {
         const version = domainBuilder.certification.configuration.buildVersion({
@@ -229,6 +230,84 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
             }),
           ).to.throw(EntityValidationError);
         });
+      });
+    });
+  });
+
+  describe('#update', function () {
+    let baseVersionData, version, validUpdateData;
+
+    beforeEach(function () {
+      baseVersionData = {
+        id: 123,
+        scope: SCOPES.PIX_PLUS_DROIT,
+        startDate: new Date('2025-01-01'),
+        expirationDate: new Date('2025-11-11'),
+        assessmentDuration: 111,
+        minimumAnswersRequiredToValidateACertification: 222,
+        comments: '333',
+        status: VERSION_STATUSES.ACTIVE,
+        globalScoringConfiguration: [],
+        competencesScoringConfiguration: [],
+        challengesConfiguration: {
+          maximumAssessmentLength: 4,
+          challengesBetweenSameCompetence: 5,
+          defaultProbabilityToPickChallenge: 6,
+          variationPercent: 0.7,
+          defaultCandidateCapacity: 8,
+          limitToOneQuestionPerTube: false,
+          enablePassageByAllCompetences: false,
+        },
+      };
+      validUpdateData = {
+        startDate: new Date('2026-06-06'),
+        assessmentDuration: 100,
+        minimumAnswersRequiredForValidation: 200,
+        maximumAssessmentLength: 300,
+        challengesBetweenSameCompetence: 400,
+        defaultProbabilityToPickChallenge: 55,
+        variationPercent: 0.6,
+        defaultCandidateCapacity: 700,
+        limitToOneQuestionPerTube: false,
+        enablePassageByAllCompetences: false,
+        comments: 'COUCOU',
+      };
+      version = domainBuilder.certification.configuration.buildVersion(baseVersionData);
+    });
+
+    context('when version is a draft', function () {
+      it('updates the version', function () {
+        version.status = VERSION_STATUSES.DRAFT;
+        version.update(validUpdateData);
+
+        expect(version).to.deepEqualInstance(
+          domainBuilder.certification.configuration.buildVersion({
+            ...baseVersionData,
+            status: VERSION_STATUSES.DRAFT,
+            startDate: validUpdateData.startDate,
+            assessmentDuration: validUpdateData.assessmentDuration,
+            minimumAnswersRequiredToValidateACertification: validUpdateData.minimumAnswersRequiredForValidation,
+            comments: '333',
+            challengesConfiguration: {
+              maximumAssessmentLength: validUpdateData.maximumAssessmentLength,
+              challengesBetweenSameCompetence: validUpdateData.challengesBetweenSameCompetence,
+              defaultProbabilityToPickChallenge: validUpdateData.defaultProbabilityToPickChallenge,
+              variationPercent: validUpdateData.variationPercent,
+              defaultCandidateCapacity: validUpdateData.defaultCandidateCapacity,
+              limitToOneQuestionPerTube: validUpdateData.limitToOneQuestionPerTube,
+              enablePassageByAllCompetences: validUpdateData.enablePassageByAllCompetences,
+            },
+          }),
+        );
+      });
+    });
+
+    context('when version is not a draft', function () {
+      it('throws a VersionNotDraft error', function () {
+        version.status = VERSION_STATUSES.ARCHIVED;
+        expect(() => version.update(validUpdateData)).to.throw(VersionNotDraftError);
+        version.status = VERSION_STATUSES.ACTIVE;
+        expect(() => version.update(validUpdateData)).to.throw(VersionNotDraftError);
       });
     });
   });

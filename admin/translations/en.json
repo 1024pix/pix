@@ -511,9 +511,9 @@
           },
           "table": {
             "actions": {
-              "delete": "Delete version",
-              "edit": "Edit version",
-              "view": "View version details"
+              "delete": "Delete version {id}",
+              "edit": "Edit version {id}",
+              "view": "View version details {id}"
             },
             "caption": "Versions list in descending order",
             "columns": {
@@ -544,6 +544,30 @@
           "parameters": "Framework parameters:",
           "start-date": "Start date:",
           "status": "Status:"
+        },
+        "versions": {
+          "edit": {
+            "assessment-duration-label": "Assessment duration (hh:mm):",
+            "challenges-between-same-competence-label": "Number of questions between two questions assessing the same competency:",
+            "default-candidate-capacity-label": "Default candidate ability:",
+            "default-probability-to-pick-challenge-label": "Probability of selecting the most relevant question (%):",
+            "enable-passage-by-all-competences-label": "Require coverage of all competencies in the certification framework:",
+            "limit-to-one-question-per-tube-label": "Limit to 1 question per topic:",
+            "maximum-assessment-length-label": "Total number of questions:",
+            "minimum-answers-required-for-validation-label": "Minimum number of questions required to obtain certification:",
+            "start-date-label": "Planned activation date:",
+            "submit-button": "Save for later",
+            "success-notification": "Changes to the version have been saved successfully.",
+            "validation-message-error": "This field is mandatory",
+            "variation-percent-label": "Ability progression cap:"
+          },
+          "new": {
+            "submit-button": "Submit the new version of the certification framework ",
+            "success-notification": "The new version of the certification framework  has been successfully created.",
+            "title": "Creating a new version of the certification framework for {frameworkLabel}"
+          },
+          "page-title": "Creation of a new version of the certification in {scope} framework",
+          "title": "Creating a Certification Release"
         }
       },
       "deletion-modal": {
@@ -598,16 +622,7 @@
           "title": "Historique des profils cibles rattachés"
         }
       },
-      "title": "All certification frameworks",
-      "versions": {
-        "new": {
-          "submit-button": "Submit the new version of the certification framework ",
-          "success-notification": "The new version of the certification framework  has been successfully created.",
-          "title": "Creating a new version of the certification framework for {frameworkLabel}"
-        },
-        "page-title": "Creation of a new version of the certification in {scope} framework",
-        "title": "Creating a Certification Release"
-      }
+      "title": "All certification frameworks"
     },
     "certifications": {
       "edu-results": {

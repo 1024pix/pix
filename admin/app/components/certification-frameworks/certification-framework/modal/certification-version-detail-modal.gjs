@@ -45,7 +45,7 @@ export default class CertificationVersionDetailModal extends Component {
             "components.certification-frameworks.certification-framework.version-detail-modal.parameters"
           }}</h2>
         <PixBlock class="certification-version-detail-modal__parameters">
-          <dl>
+          <dl aria-label="Paramètres référentiel">
             <PixIcon @name="star" @ariaHidden={{true}} />
             <dt>{{t "components.certification-frameworks.certification-framework.version-detail-modal.status"}}</dt>
             <dd>

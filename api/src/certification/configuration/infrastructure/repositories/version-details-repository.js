@@ -20,6 +20,22 @@ export async function getById(id) {
       maximumAssessmentLength: knexConn.raw(
         'certification_versions."challengesConfiguration"->\'maximumAssessmentLength\'',
       ),
+      challengesBetweenSameCompetence: knexConn.raw(
+        'certification_versions."challengesConfiguration"->\'challengesBetweenSameCompetence\'',
+      ),
+      defaultProbabilityToPickChallenge: knexConn.raw(
+        'certification_versions."challengesConfiguration"->\'defaultProbabilityToPickChallenge\'',
+      ),
+      defaultCandidateCapacity: knexConn.raw(
+        'certification_versions."challengesConfiguration"->\'defaultCandidateCapacity\'',
+      ),
+      variationPercent: knexConn.raw('certification_versions."challengesConfiguration"->\'variationPercent\''),
+      limitToOneQuestionPerTube: knexConn.raw(
+        'certification_versions."challengesConfiguration"->\'limitToOneQuestionPerTube\'',
+      ),
+      enablePassageByAllCompetences: knexConn.raw(
+        'certification_versions."challengesConfiguration"->\'enablePassageByAllCompetences\'',
+      ),
       status: 'certification_versions.status',
       comments: 'certification_versions.comments',
       tubeIds: knexConn.raw(`array_agg(certification_versions_tubes.tube_id)`),

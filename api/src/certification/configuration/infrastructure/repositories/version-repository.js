@@ -6,7 +6,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
-import { Version, VERSION_STATUSES } from '../../domain/models/Version.js';
+import { Version } from '../../domain/models/Version.js';
 import { FrameworkHistoryEntry } from '../../domain/read-models/FrameworkHistoryEntry.js';
 
 /**
@@ -48,26 +48,33 @@ export async function findAllByScope({ scope }) {
  * @param {Version} version
  * @returns {Promise<number>} versionId
  */
-export async function create(version) {
+export async function save(version) {
   const knexConn = DomainTransaction.getConnection();
+  const dataToInsert = {
+    id: version.id ?? undefined,
+    scope: version.scope,
+    startDate: version.startDate,
+    expirationDate: version.expirationDate,
+    assessmentDuration: version.assessmentDuration,
+    minimumAnswersRequiredToValidateACertification: version.minimumAnswersRequiredToValidateACertification,
+    comments: version.comments,
+    globalScoringConfiguration: version.globalScoringConfiguration
+      ? JSON.stringify(version.globalScoringConfiguration)
+      : null,
+    competencesScoringConfiguration: version.competencesScoringConfiguration
+      ? JSON.stringify(version.competencesScoringConfiguration)
+      : null,
+    challengesConfiguration: JSON.stringify(version.challengesConfiguration),
+    status: version.status,
+  };
 
   const [{ id }] = await knexConn('certification_versions')
-    .insert({
-      scope: version.scope,
-      startDate: version.startDate,
-      expirationDate: version.expirationDate,
-      assessmentDuration: version.assessmentDuration,
-      minimumAnswersRequiredToValidateACertification: version.minimumAnswersRequiredToValidateACertification,
-      globalScoringConfiguration: version.globalScoringConfiguration
-        ? JSON.stringify(version.globalScoringConfiguration)
-        : null,
-      competencesScoringConfiguration: version.competencesScoringConfiguration
-        ? JSON.stringify(version.competencesScoringConfiguration)
-        : null,
-      challengesConfiguration: JSON.stringify(version.challengesConfiguration),
-      status: VERSION_STATUSES.DRAFT,
-    })
+    .insert(dataToInsert)
+    .onConflict('id')
+    .merge()
     .returning('id');
+
+  await knexConn('certification_versions_tubes').where('version_id', id).del();
 
   const versionLinkedTubeIds = version.tubeIds.map((tubeId) => ({ tube_id: tubeId, version_id: id }));
 
@@ -111,6 +118,13 @@ export async function remove(id) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('certification_versions_tubes').where({ version_id: id }).delete();
   await knexConn('certification_versions').where({ id }).del();
+}
+
+export async function updateComments({ id, comments }) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('certification_versions').where({ id }).update({
+    comments,
+  });
 }
 
 function _toFrameworkHistoryEntry({
