@@ -136,45 +136,6 @@ describe('Unit | Certification | Configuration | Application | Router | certific
       });
     });
 
-    const authorizedRoles = ['SuperAdmin', 'Certif', 'Metier', 'Support'];
-    authorizedRoles.forEach((role) => {
-      describe(`when the user has ${role} role`, function () {
-        it('should return 204 HTTP status code', async function () {
-          // given
-          sinon.stub(securityPreHandlers, `checkAdminMemberHasRole${role}`).returns(true);
-          sinon.stub(certificationVersionController, 'update').callsFake((request, h) => h.response().code(204));
-
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
-
-          // when
-          const response = await httpTestServer.request('PATCH', `/api/admin/certification-versions/1`, {
-            data: {
-              id: '1',
-              attributes: {
-                'start-date': new Date(),
-                'assessment-duration': 1,
-                'minimum-answers-required-for-validation': 1,
-                'maximum-assessment-length': 1,
-                'challenges-between-same-competence': 1,
-                'default-probability-to-pick-challenge': 1,
-                'variation-percent': 1,
-                'default-candidate-capacity': 1,
-                'limit-to-one-question-per-tube': true,
-                'enable-passage-by-all-competences': true,
-                comments: 'COUCOU',
-              },
-              type: 'certification-versions',
-            },
-          });
-
-          // then
-          expect(response.statusCode).to.equal(204);
-          sinon.assert.calledOnce(certificationVersionController.update);
-        });
-      });
-    });
-
     describe('when the version ID parameter is invalid', function () {
       it('returns a 400 HTTP status', async function () {
         sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);

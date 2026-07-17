@@ -66,12 +66,10 @@ async function register(server) {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
