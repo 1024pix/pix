@@ -93,7 +93,7 @@
   "devDependencies": {
     "@1024pix/eslint-plugin": "^2.1.19",
     "@babel/eslint-parser": "^7.27.0",
-    "@cyclonedx/cyclonedx-npm": "^4.2.0",
+    "@cyclonedx/cyclonedx-npm": "^5.0.0",
     "@eslint/compat": "^2.0.0",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
