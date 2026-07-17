@@ -208,7 +208,7 @@
                 "id": "479ea9aa-0b30-4c3b-8262-31547f1a089a",
                 "type": "qcu-discovery",
                 "instruction": "Selon ce que vous avez pu observer, un logiciel malveillant, est-ce que ça se voit toujours ?",
-                "hasShortProposals": false,
+                "hasShortProposals": true,
                 "proposals": [
                   {
                     "id": "1",
@@ -345,7 +345,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>Toutes ces actions présentent un<strong> risque</strong><strong> d’installer un logiciel malveillant</strong> sur son appareil. Pour <strong>piéger</strong> un utilisateur, un logiciel malveillant peut se <strong>cacher</strong> dans&nbsp;:&nbsp;</p><ul><li>un<strong> fichier, </strong>un<strong> lien de téléchargement</strong> ou une <strong>pièce jointe</strong> dans un message trompeur (sms, mail, discussion de forum) ✉️</li><li>une<strong> publicité </strong>trompeuse ou une<strong> page web </strong>illégale particulièrement attrayante 🌐</li><li>un<strong> appareil USB</strong> dont on ne connaît pas la provenance 🤔</li><li>un<strong> câble </strong>ou une<strong> prise USB&nbsp;</strong>en accès libre</li></ul>"
+                  "diagnosis": "<p>Toutes ces actions présentent un<strong> risque</strong><strong> d’installer un logiciel malveillant</strong> sur son appareil. Pour <strong>piéger</strong> un utilisateur, un logiciel malveillant peut se <strong>cacher</strong> dans&nbsp;:&nbsp;</p><ul><li>un<strong> fichier, </strong>un<strong> lien de téléchargement</strong> ou une <strong>pièce jointe</strong> dans un message trompeur (SMS, mail, discussion de forum) ✉️</li><li>une<strong> publicité </strong>trompeuse ou une<strong> page web </strong>illégale particulièrement attrayante 🌐</li><li>un<strong> appareil USB</strong> dont on ne connaît pas la provenance 🤔</li><li>un<strong> câble </strong>ou une<strong> prise USB&nbsp;</strong>en accès libre</li></ul>"
                 }
               }
             }
@@ -403,7 +403,7 @@
                 "id": "3a24782c-14d5-4c2f-baf2-5da35f32694b",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Sans le savoir, vous avez peut-être des informations qui intéressent les<strong> pirates informatiques</strong>.</p>\n<p> Voyons cela ensemble.</p>"
+                "content": "<p>Sans le savoir, vous avez peut-être des informations qui ont de la valeur pour les<strong> pirates informatiques</strong>.</p>\n<p> Voyons cela ensemble.</p>"
               }
             },
             {
@@ -523,7 +523,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/CYVirus_NOV/cy_virus_nov_infographies_v4_fond_jaune-1.svg",
                 "alt": "Récapitulatif détaillé dans l’alternative textuelle",
-                "alternativeText": "<h5>Du pirate informatique à l’appareil infecté, itinéraire d’un logiciel malveillant<br></h5><ol><li>Un pirate informatique crée et diffuse un logiciel malveillant pour perturber le fonctionnement normal d’un appareil. L’objectif est de nuire pour en tirer profit.<br></li><li>Pour piéger les utilisateurs, les pirates cachent des logiciels malveillants dans : des logiciels, des fichiers, des appareils, etc.<br></li><li>C’est souvent une action risquée de l’utilisateur qui permet au logiciel malveillant d’infecter un appareil.&nbsp;<br></li><li>Une fois présent sur un appareil, un logiciel malveillant peut provoquer des dysfonctionnements.<br></li><li>Le pirate peut ensuite récupérer des données personnelles ou demander de l’argent par exemple.</li></ol><p><br></p><h5>Comment éviter les logiciels malveillants ? </h5><ol><li> Télécharger un logiciel ou une application depuis des sites légaux et des magasins d’applications officiels.</li><li>Ne pas cliquer sur les liens, les fichiers ou les pièces jointes dans des&nbsp;messages inconnus.</li><li>Connecter uniquement des appareils de confiance  et de provenance connue (ex : clé usb).</li><li>Charger un appareil avec votre propre chargeur, en le branchant sur une prise électrique.</li></ol>",
+                "alternativeText": "<h5>Du pirate informatique à l’appareil infecté, itinéraire d’un logiciel malveillant<br></h5><ol><li>Un pirate informatique crée et diffuse un logiciel malveillant pour perturber le fonctionnement normal d’un appareil. L’objectif est de nuire pour en tirer profit.<br></li><li>Pour piéger les utilisateurs, les pirates cachent des logiciels malveillants dans : des logiciels, des fichiers, des appareils, etc.<br></li><li>C’est souvent une action risquée de l’utilisateur qui permet au logiciel malveillant d’infecter un appareil.&nbsp;<br></li><li>Une fois présent sur un appareil, un logiciel malveillant peut provoquer des dysfonctionnements.<br></li><li>Le pirate peut ensuite récupérer des données personnelles ou demander de l’argent par exemple.</li></ol><p><br></p><h5>Comment éviter les logiciels malveillants ? </h5><ol><li> Télécharger un logiciel ou une application depuis des sites légaux et des magasins d’applications officiels.</li><li>Ne pas cliquer sur les liens, les fichiers ou les pièces jointes dans des&nbsp;messages inconnus.</li><li>Connecter uniquement des appareils de confiance  et de provenance connue (ex : clé USB).</li><li>Charger un appareil avec votre propre chargeur, en le branchant sur une prise électrique.</li></ol>",
                 "legend": "",
                 "licence": ""
               }
@@ -536,6 +536,22 @@
       "id": "7794672f-ef38-4580-8d91-d40eedac42a1",
       "type": "practise",
       "grains": [
+        {
+          "id": "43497afb-f8ac-4e1a-ab65-6c0b0b523c1a",
+          "type": "transition",
+          "title": "Intro S'exercer",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "301806a2-2a9c-465c-a790-e021202eb3c4",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voyons si vous avez retenu l'essentiel.</p>"
+              }
+            }
+          ]
+        },
         {
           "id": "1515bb16-4f63-4f14-8ccf-c7ed4bfa76e7",
           "type": "activity",
