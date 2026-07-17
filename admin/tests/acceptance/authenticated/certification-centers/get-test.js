@@ -24,7 +24,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    assert.strictEqual(currentURL(), '/certification-centers/1');
+    assert.strictEqual(currentURL(), '/certification-centers/1/details');
   });
 
   test('should display Certification center detail', async function (assert) {
@@ -329,7 +329,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         assert.dom(certificationCenterNavigation.getByRole('link', { name: 'Équipe (2)' })).exists();
       });
 
-      test('displays invitation input and members list', async function (assert) {
+      test('displays invitation input and members list in the Team tab', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const certificationCenter = server.create('certification-center', {
@@ -341,7 +341,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         });
 
         // when
-        const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+        const screen = await visit(`/certification-centers/${certificationCenter.id}/team`);
 
         // then
 

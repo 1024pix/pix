@@ -84,7 +84,7 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       });
     });
 
-    test('should go to certification center page when line is clicked', async function (assert) {
+    test('should go to certification center details page when line is clicked', async function (assert) {
       // given
       server.createList('certification-center', 1);
       const screen = await visit('/certification-centers/list');
@@ -93,7 +93,7 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       await click(screen.getByRole('link', { name: '1' }));
 
       // then
-      assert.strictEqual(currentURL(), '/certification-centers/1');
+      assert.strictEqual(currentURL(), '/certification-centers/1/details');
     });
   });
 });
