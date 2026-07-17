@@ -2282,6 +2282,7 @@
             "very-dissatisfied": "Pas du tout pertinent",
             "very-satisfied": "Très pertinent"
           },
+          "error-message": "Une erreur est survenue lors de l'envoi de votre réponse.",
           "hide": "Masquer",
           "hide-aria-label": "Fermer l'encart de retours sur la recommandation des offres de formation",
           "instruction": "Cliquez sur un emoji pour donner votre avis.",

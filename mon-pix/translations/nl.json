@@ -2282,6 +2282,7 @@
             "very-dissatisfied": "Helemaal niet relevant",
             "very-satisfied": "Zeer relevant"
           },
+          "error-message": "Er is een fout opgetreden bij het verzenden van uw antwoord.",
           "hide": "Verbergen",
           "hide-aria-label": "Het feedbackpaneel voor aanbevelingen voor trainingsinhoud verbergen",
           "instruction": "Klik op een emoji om uw mening te geven.",
