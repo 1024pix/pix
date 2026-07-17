@@ -97,7 +97,7 @@
     "@aws-sdk/lib-storage": "^3.121.0",
     "@aws-sdk/s3-request-presigner": "^3.145.0",
     "@faker-js/faker": "^10.0.0",
-    "@getbrevo/brevo": "^5.0.0",
+    "@getbrevo/brevo": "^6.0.0",
     "@graphql-yoga/redis-event-target": "^3.0.1",
     "@graphql-yoga/subscription": "^5.0.1",
     "@hapi/boom": "^10.0.1",
