@@ -1,4 +1,4 @@
-import jsyaml from 'js-yaml';
+import { load } from 'js-yaml';
 import each from 'lodash/each';
 
 function transformSolutionsToString(solutionsAsObject) {
@@ -11,7 +11,7 @@ function transformSolutionsToString(solutionsAsObject) {
 }
 
 export default function solutionAsObject(yamlSolution) {
-  let solutionsAsObject = jsyaml.load(yamlSolution);
+  let solutionsAsObject = load(yamlSolution);
   solutionsAsObject = transformSolutionsToString(solutionsAsObject);
   return solutionsAsObject;
 }

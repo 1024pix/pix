@@ -5,7 +5,7 @@ import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 import eq from 'ember-truth-helpers/helpers/eq';
-import jsyaml from 'js-yaml';
+import { load } from 'js-yaml';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
 import FormattedSolution from 'mon-pix/components/solution-panel/formatted-solution';
 import inc from 'mon-pix/helpers/inc';
@@ -157,7 +157,7 @@ export default class QrocmDepSolutionPanel extends Component {
   }
 
   get solutions() {
-    return jsyaml.load(this.args.solution);
+    return load(this.args.solution);
   }
 
   get inputCount() {
