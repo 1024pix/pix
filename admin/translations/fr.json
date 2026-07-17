@@ -1501,6 +1501,10 @@
         "title": "Archiver le centre de certification {certificationCenterName}",
         "warning": "Cette action est irréversible."
       },
+      "breadcrumb": {
+        "new-certification-center": "Nouveau centre de certification",
+        "parent-page": "Tous les centres de certification"
+      },
       "get": {
         "navbar": {
           "aria-label": "Navigation de la section centre de certification",

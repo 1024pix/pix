@@ -1491,6 +1491,10 @@
         "title": "Archive this certification center {certificationCenterName}",
         "warning": "This action cannot be undone."
       },
+      "breadcrumb": {
+        "new-certification-center": "New certification center",
+        "parent-page": "All certification centers"
+      },
       "information-view": {
         "habilitations": {
           "aria-label": {

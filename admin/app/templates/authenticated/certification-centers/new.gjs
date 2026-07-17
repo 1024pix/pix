@@ -5,7 +5,7 @@ import CreationForm from 'pix-admin/components/certification-centers/creation-fo
 <template>
   {{pageTitle (t "pages.certification-centers.new.page-title")}}
   <header class="page-header">
-    <Breadcrumb @currentPageLabel="Nouveau centre de certification" />
+    <Breadcrumb @currentPageLabel={{t "pages.certification-centers.breadcrumb.new-certification-center"}} />
   </header>
 
   <h1 class="pix-title-s">{{t "pages.certification-centers.new.page-title"}}</h1>
