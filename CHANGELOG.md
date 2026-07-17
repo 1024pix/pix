@@ -1,5 +1,71 @@
 # Pix Changelog
 
+# [5.458.0](https://github.com/1024pix/pix/compare/v5.457.0...v5.458.0) (2026-07-17)
+
+### :rocket: Amélioration
+
+- [#16822](https://github.com/1024pix/pix/pull/16822) Amélioration du wording de la page de résultat du moteur de recommandations (PIX-23584)
+- [#16805](https://github.com/1024pix/pix/pull/16805) Cache de release : garder la version de module la plus récente (PIX-23344)
+- [#16799](https://github.com/1024pix/pix/pull/16799) Faire du mode interro un paramètre de campagne plutôt qu'un objectif (PIX-22694)
+- [#16817](https://github.com/1024pix/pix/pull/16817) Filtrer la liste des sessions avec plusieurs IDs (PIX-23428).
+- [#16821](https://github.com/1024pix/pix/pull/16821) MDX-52 NR_Evaluation_AVA, dernières relectures
+- [#16819](https://github.com/1024pix/pix/pull/16819) Tmp datacenter ava retourspanelsinternes
+- [#16824](https://github.com/1024pix/pix/pull/16824) Traiter les erreurs du NPS coté front (PIX-23541)
+- [#16788](https://github.com/1024pix/pix/pull/16788) Update IAGenFonction_Ava.json
+
+### :bug: Correction
+
+- [#16869](https://github.com/1024pix/pix/pull/16869) Correction des bugs liés au SDK OpenTelemetry
+
+### :building_construction: Tech
+
+- [#16831](https://github.com/1024pix/pix/pull/16831) :broom: Supprime les denières utilisations de la table `certification-subscriptions` (PIX-23543)
+- [#16833](https://github.com/1024pix/pix/pull/16833) :truck: Corrige une typo dans le nom d'un repertoire de test
+- [#16774](https://github.com/1024pix/pix/pull/16774) Ajout d'un espace pour l'encart dans la page de fin de parcours (PIX-23530).
+- [#16834](https://github.com/1024pix/pix/pull/16834) Ajout d'une fonction empêchant la proxification OpenTelemetry
+- [#16800](https://github.com/1024pix/pix/pull/16800) Ajout de métriques OpenTelemetry manuelles Hapi
+- [#16802](https://github.com/1024pix/pix/pull/16802) Ajout de teamsToContact et routeDomain aux spans OpenTelemetry
+- [#16777](https://github.com/1024pix/pix/pull/16777) Ajout de traces OpenTelemetry aux jobs PgBoss
+- [#16804](https://github.com/1024pix/pix/pull/16804) Ajout des métriques OpenTelemetry sur les jobs PGBOSS
+- [#16798](https://github.com/1024pix/pix/pull/16798) Ajouter un script pour rattacher des centres de certifications à des organisations (PIX-22687)
+- [#16835](https://github.com/1024pix/pix/pull/16835) Corrige la configuration de l'instrumentation PG pour OpenTelemetry
+- [#16820](https://github.com/1024pix/pix/pull/16820) Création d'un helper pour les primitives OpenTelemetry
+- [#16764](https://github.com/1024pix/pix/pull/16764) Enregistrement des `tubeIds` en place des challenges non calibrés lors de la création d'une version (PIX-23507).
+- [#16794](https://github.com/1024pix/pix/pull/16794) Envoie les logs au backend OpenTelemetry
+- [#16698](https://github.com/1024pix/pix/pull/16698) Ne plus écrire dans la table certification-subscription (PIX-22977)
+
+### :arrow_up: Montée de version
+
+- [#16845](https://github.com/1024pix/pix/pull/16845) Update actions/checkout action to v7 (workflows)
+- [#16815](https://github.com/1024pix/pix/pull/16815) Update adobe/s3mock Docker tag to v5.1.0 (.circleci)
+- [#16816](https://github.com/1024pix/pix/pull/16816) Update adobe/s3mock Docker tag to v5.1.0 (dossier racine)
+- [#16810](https://github.com/1024pix/pix/pull/16810) Update dependency @1024pix/ember-testing-library to ^3.0.41 (admin)
+- [#16811](https://github.com/1024pix/pix/pull/16811) Update dependency @1024pix/ember-testing-library to ^3.0.41 (certif)
+- [#16812](https://github.com/1024pix/pix/pull/16812) Update dependency @1024pix/ember-testing-library to ^3.0.41 (junior)
+- [#16813](https://github.com/1024pix/pix/pull/16813) Update dependency @1024pix/ember-testing-library to ^3.0.41 (mon-pix)
+- [#16814](https://github.com/1024pix/pix/pull/16814) Update dependency @1024pix/ember-testing-library to ^3.0.41 (orga)
+- [#16826](https://github.com/1024pix/pix/pull/16826) Update dependency @1024pix/pix-ui to ^61.3.1 (admin)
+- [#16827](https://github.com/1024pix/pix/pull/16827) Update dependency @1024pix/pix-ui to ^61.3.1 (certif)
+- [#16828](https://github.com/1024pix/pix/pull/16828) Update dependency @1024pix/pix-ui to ^61.3.1 (junior)
+- [#16829](https://github.com/1024pix/pix/pull/16829) Update dependency @1024pix/pix-ui to v61.3.1 (orga)
+- [#16857](https://github.com/1024pix/pix/pull/16857) Update dependency @cyclonedx/cyclonedx-npm to v5 (dossier racine)
+- [#16860](https://github.com/1024pix/pix/pull/16860) Update dependency @cyclonedx/cyclonedx-npm to v6 (dossier racine)
+- [#16830](https://github.com/1024pix/pix/pull/16830) Update dependency @datadog/datadog-api-client to v1.60.0 (api)
+- [#16858](https://github.com/1024pix/pix/pull/16858) Update dependency @getbrevo/brevo to v6 (api)
+- [#16836](https://github.com/1024pix/pix/pull/16836) Update dependency @opentelemetry/instrumentation-pg to ^0.72.0 (api)
+- [#16848](https://github.com/1024pix/pix/pull/16848) Update dependency csv-parse to v7 (e2e-playwright)
+- [#16849](https://github.com/1024pix/pix/pull/16849) Update dependency dependency-cruiser to v18 (api)
+- [#16837](https://github.com/1024pix/pix/pull/16837) Update dependency ember-cli to ~7.1.0 (admin)
+- [#16850](https://github.com/1024pix/pix/pull/16850) Update dependency eslint-plugin-unicorn to v65 (api)
+- [#16851](https://github.com/1024pix/pix/pull/16851) Update dependency eslint-plugin-unicorn to v65 (audit-logger)
+- [#16852](https://github.com/1024pix/pix/pull/16852) Update dependency eslint-plugin-unicorn to v65 (certif)
+- [#16853](https://github.com/1024pix/pix/pull/16853) Update dependency eslint-plugin-unicorn to v65 (dossier racine)
+- [#16838](https://github.com/1024pix/pix/pull/16838) Update dependency oxfmt to ^0.58.0 (api)
+- [#16839](https://github.com/1024pix/pix/pull/16839) Update dependency pdfkit to ^0.19.0 (api)
+- [#16840](https://github.com/1024pix/pix/pull/16840) Update dependency undici to v8.7.0 (api)
+- [#16841](https://github.com/1024pix/pix/pull/16841) Update dependency webpack to v5.108.4 (junior)
+- [#16842](https://github.com/1024pix/pix/pull/16842) Update opentelemetry-js monorepo to ^0.220.0 (api)
+
 # [5.457.0](https://github.com/1024pix/pix/compare/v5.456.0...v5.457.0) (2026-07-16)
 
 ### :rocket: Amélioration
