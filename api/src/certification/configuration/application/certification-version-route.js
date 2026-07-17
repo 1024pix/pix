@@ -111,12 +111,10 @@ async function register(server) {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
@@ -139,10 +137,7 @@ async function register(server) {
         },
         handler: certificationVersionController.updateComments,
         tags: ['api', 'admin'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle permet de modifier le commentaire une version',
-        ],
+        notes: ['Cette route est restreinte au SUPER ADMIN', 'Elle permet de modifier le commentaire une version'],
       },
     },
     {
