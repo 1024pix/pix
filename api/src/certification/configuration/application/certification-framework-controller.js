@@ -1,10 +1,12 @@
 import { usecases } from '../domain/usecases/index.js';
+import * as frameworkInfoRepository from '../infrastructure/repositories/framework-info-repository.js';
 import * as certificationFrameworkSerializer from '../infrastructure/serializers/certification-framework-serializer.js';
 import * as frameworkHistorySerializer from '../infrastructure/serializers/framework-history-serializer.js';
+import * as frameworkInfoSerializer from '../infrastructure/serializers/framework-info-serializer.js';
 
 async function findCertificationFrameworks() {
-  const frameworks = await usecases.findCertificationFrameworks();
-  return certificationFrameworkSerializer.serialize(frameworks);
+  const allFrameworksInfo = await frameworkInfoRepository.findAll();
+  return frameworkInfoSerializer.serialize(allFrameworksInfo);
 }
 
 async function getFrameworkHistory(request) {
