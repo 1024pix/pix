@@ -75,4 +75,78 @@ describe('Certification | Configuration | Integration | Repository | FrameworkIn
       ]);
     });
   });
+
+  describe('#find', function () {
+    context('when no info found for framework name', function () {
+      it('return null', async function () {
+        domainBuilder.certification.configuration
+          .frameworkInfoBuilder()
+          .withActiveVersion({
+            startDate: new Date('2021-01-01'),
+            assessmentDuration: 1,
+            maximumAssessmentLength: 1,
+          })
+          .withParameters({ scope: SCOPES.CORE })
+          .insertToDB({ databaseBuilder });
+        domainBuilder.certification.configuration
+          .frameworkInfoBuilder()
+          .withActiveVersion({
+            startDate: new Date('2022-02-02'),
+            assessmentDuration: 2,
+            maximumAssessmentLength: 2,
+          })
+          .withArchivedVersion({
+            startDate: new Date('2022-01-01'),
+            expirationDate: new Date('2022-02-02'),
+            assessmentDuration: 3,
+            maximumAssessmentLength: 3,
+          })
+          .withParameters({ scope: SCOPES.PIX_PLUS_PRO_SANTE })
+          .insertToDB({ databaseBuilder });
+        await databaseBuilder.commit();
+
+        // when
+        const frameworkInfo = await frameworkInfoRepository.find('coucou');
+
+        // then
+        expect(frameworkInfo).to.be.null;
+      });
+    });
+
+    context('when info found for framework name', function () {
+      it('returns the framework info', async function () {
+        const coreFrameworkInfo = domainBuilder.certification.configuration
+          .frameworkInfoBuilder()
+          .withActiveVersion({
+            startDate: new Date('2021-01-01'),
+            assessmentDuration: 1,
+            maximumAssessmentLength: 1,
+          })
+          .withParameters({ scope: SCOPES.CORE })
+          .insertToDB({ databaseBuilder });
+        domainBuilder.certification.configuration
+          .frameworkInfoBuilder()
+          .withActiveVersion({
+            startDate: new Date('2022-02-02'),
+            assessmentDuration: 2,
+            maximumAssessmentLength: 2,
+          })
+          .withArchivedVersion({
+            startDate: new Date('2022-01-01'),
+            expirationDate: new Date('2022-02-02'),
+            assessmentDuration: 3,
+            maximumAssessmentLength: 3,
+          })
+          .withParameters({ scope: SCOPES.PIX_PLUS_PRO_SANTE })
+          .insertToDB({ databaseBuilder });
+        await databaseBuilder.commit();
+
+        // when
+        const frameworkInfo = await frameworkInfoRepository.find(Frameworks.CORE);
+
+        // then
+        expect(frameworkInfo).to.deepEqualInstance(coreFrameworkInfo);
+      });
+    });
+  });
 });

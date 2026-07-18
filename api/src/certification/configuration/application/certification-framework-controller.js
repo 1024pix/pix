@@ -9,6 +9,12 @@ async function findCertificationFrameworks() {
   return frameworkInfoSerializer.serialize(allFrameworksInfo);
 }
 
+async function findCertificationFramework(request) {
+  const frameworkKey = request.params.framework;
+  const frameworkInfo = await frameworkInfoRepository.find(frameworkKey);
+  return frameworkInfoSerializer.serialize(frameworkInfo);
+}
+
 async function getFrameworkHistory(request) {
   const framework = request.params.framework;
 
@@ -29,6 +35,7 @@ async function getTargetProfileHistory(request) {
 
 export const certificationFrameworkController = {
   findCertificationFrameworks,
+  findCertificationFramework,
   getFrameworkHistory,
   getTargetProfileHistory,
 };
