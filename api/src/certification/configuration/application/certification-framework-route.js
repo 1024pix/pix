@@ -32,6 +32,37 @@ async function register(server) {
     },
     {
       method: 'GET',
+      path: '/api/admin/certification-frameworks/{framework}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            framework: Joi.string()
+              .required()
+              .valid(...Object.values(Frameworks)),
+          }),
+        },
+        handler: certificationFrameworkController.findCertificationFramework,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support, Certif et Métier',
+          'Elle renvoie un référentiel de certification.',
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/admin/certification-frameworks/{framework}/framework-history',
       config: {
         pre: [

@@ -238,6 +238,86 @@ describe('Acceptance | Application | Certification | Configuration | certificati
     });
   });
 
+  describe('GET /api/admin/certification-frameworks/{framework}', function () {
+    it('should return 200 HTTP status code with framework info', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/admin/certification-frameworks/${Frameworks.PRO_SANTE}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+      };
+      domainBuilder.certification.configuration
+        .buildFrameworkInfo()
+        .withActiveVersion({
+          startDate: new Date('2022-02-02'),
+          assessmentDuration: 2,
+          maximumAssessmentLength: 2,
+        })
+        .withArchivedVersion({
+          startDate: new Date('2022-01-01'),
+          expirationDate: new Date('2022-02-02'),
+          assessmentDuration: 3,
+          maximumAssessmentLength: 3,
+        })
+        .withParameters({ scope: SCOPES.PIX_PLUS_PRO_SANTE })
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: {
+          attributes: {
+            scope: Frameworks.PRO_SANTE,
+          },
+          id: Frameworks.PRO_SANTE,
+          relationships: {
+            'version-summaries': {
+              data: [
+                {
+                  id: '100003',
+                  type: 'certification-version-summaries',
+                },
+                {
+                  id: '100004',
+                  type: 'certification-version-summaries',
+                },
+              ],
+            },
+          },
+          type: 'certification-frameworks',
+        },
+        included: [
+          {
+            id: '100003',
+            type: 'certification-version-summaries',
+            attributes: {
+              'assessment-duration': 2,
+              'expiration-date': null,
+              'maximum-assessment-length': 2,
+              'start-date': new Date('2022-02-02'),
+              status: VERSION_STATUSES.ACTIVE,
+            },
+          },
+          {
+            id: '100004',
+            type: 'certification-version-summaries',
+            attributes: {
+              'assessment-duration': 3,
+              'expiration-date': new Date('2022-02-02'),
+              'maximum-assessment-length': 3,
+              'start-date': new Date('2022-01-01'),
+              status: VERSION_STATUSES.ARCHIVED,
+            },
+          },
+        ],
+      });
+    });
+  });
+
   describe('GET /api/admin/certification-frameworks/{scope}/framework-history', function () {
     it('should return the framework history for given scope ordered by start date descending', async function () {
       // given
