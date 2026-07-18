@@ -3,7 +3,7 @@ import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../src/certification/sha
 import { SCOPES } from '../../../src/certification/shared/domain/models/Scopes.js';
 import { databaseBuffer } from '../database-buffer.js';
 
-const defaultChallengesConfiguration = {
+export const defaultChallengesConfiguration = {
   maximumAssessmentLength: 32,
   challengesBetweenSameCompetence: 2,
   limitToOneQuestionPerTube: true,
@@ -13,7 +13,7 @@ const defaultChallengesConfiguration = {
   defaultProbabilityToPickChallenge: 51,
 };
 
-const defaultGlobalScoringConfiguration = [
+export const defaultGlobalScoringConfiguration = [
   {
     meshLevel: 0,
     bounds: {
@@ -72,7 +72,7 @@ const defaultGlobalScoringConfiguration = [
   },
 ];
 
-const defaultCompetencesScoringConfiguration = [
+export const defaultCompetencesScoringConfiguration = [
   {
     competence: '1.1',
     competenceId: 'competence1_1',
