@@ -19,7 +19,6 @@ import { attachBadges } from './attach-badges.js';
 import { createDraft } from './create-draft.js';
 import { deleteVersion } from './delete-version.js';
 import { exportScoWhitelist } from './export-sco-whitelist.js';
-import { findCertificationFrameworks } from './find-certification-frameworks.js';
 import { findComplementaryCertifications } from './find-complementary-certifications.js';
 import { getComplementaryCertificationForTargetProfileAttachmentRepository } from './get-complementary-certification-for-target-profile-attachment.js';
 import { getComplementaryCertificationTargetProfileHistory } from './get-complementary-certification-target-profile-history.js';
@@ -76,7 +75,6 @@ const usecasesWithoutInjectedDependencies = {
   createDraft,
   deleteVersion,
   exportScoWhitelist,
-  findCertificationFrameworks,
   findComplementaryCertifications,
   getComplementaryCertificationForTargetProfileAttachmentRepository,
   getComplementaryCertificationTargetProfileHistory,

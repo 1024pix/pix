@@ -25,15 +25,55 @@ describe('Acceptance | Application | Certification | Configuration | certificati
         url: '/api/admin/certification-frameworks',
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       };
-
-      const coreStartDate = new Date('2025-01-15');
-
       domainBuilder.certification.configuration
-        .versionBuilder()
-        .asActive({ startDate: coreStartDate })
-        .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
+        .frameworkInfoBuilder()
+        .withActiveVersion({
+          startDate: new Date('2021-01-01'),
+          assessmentDuration: 1,
+          maximumAssessmentLength: 1,
+        })
+        .withParameters({ scope: SCOPES.CORE })
         .insertToDB({ databaseBuilder });
-
+      domainBuilder.certification.configuration
+        .frameworkInfoBuilder()
+        .withActiveVersion({
+          startDate: new Date('2022-02-02'),
+          assessmentDuration: 2,
+          maximumAssessmentLength: 2,
+        })
+        .withArchivedVersion({
+          startDate: new Date('2022-01-01'),
+          expirationDate: new Date('2022-02-02'),
+          assessmentDuration: 3,
+          maximumAssessmentLength: 3,
+        })
+        .withParameters({ scope: SCOPES.PIX_PLUS_PRO_SANTE })
+        .insertToDB({ databaseBuilder });
+      domainBuilder.certification.configuration
+        .frameworkInfoBuilder()
+        .withDraftVersion({
+          startDate: new Date('2024-02-02'),
+          assessmentDuration: 4,
+          maximumAssessmentLength: 4,
+        })
+        .withParameters({ scope: SCOPES.PIX_PLUS_DROIT })
+        .insertToDB({ databaseBuilder });
+      domainBuilder.certification.configuration
+        .frameworkInfoBuilder()
+        .withParameters({ scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE })
+        .insertToDB({ databaseBuilder });
+      domainBuilder.certification.configuration
+        .frameworkInfoBuilder()
+        .withParameters({ scope: SCOPES.PIX_PLUS_EDU_2ND_DEGRE })
+        .insertToDB({ databaseBuilder });
+      domainBuilder.certification.configuration
+        .frameworkInfoBuilder()
+        .withParameters({ scope: SCOPES.PIX_PLUS_EDU_CPE })
+        .insertToDB({ databaseBuilder });
+      domainBuilder.certification.configuration
+        .frameworkInfoBuilder()
+        .withParameters({ scope: Frameworks.CLEA })
+        .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
 
       // when
@@ -41,64 +81,160 @@ describe('Acceptance | Application | Certification | Configuration | certificati
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data).to.have.deep.members([
-        {
-          type: 'certification-frameworks',
-          id: Frameworks.CORE,
-          attributes: {
-            name: Frameworks.CORE,
-            'active-version-start-date': coreStartDate,
+      expect(response.result).to.deep.equal({
+        data: [
+          {
+            type: 'certification-frameworks',
+            id: Frameworks.CLEA,
+            attributes: {
+              scope: Frameworks.CLEA,
+            },
+            relationships: {
+              'version-summaries': {
+                data: [],
+              },
+            },
           },
-        },
-        {
-          type: 'certification-frameworks',
-          id: Frameworks.DROIT,
-          attributes: {
-            name: Frameworks.DROIT,
-            'active-version-start-date': null,
+          {
+            attributes: {
+              scope: Frameworks.CORE,
+            },
+            id: Frameworks.CORE,
+            relationships: {
+              'version-summaries': {
+                data: [
+                  {
+                    id: '100003',
+                    type: 'certification-version-summaries',
+                  },
+                ],
+              },
+            },
+            type: 'certification-frameworks',
           },
-        },
-        {
-          type: 'certification-frameworks',
-          id: Frameworks.EDU_1ER_DEGRE,
-          attributes: {
-            name: Frameworks.EDU_1ER_DEGRE,
-            'active-version-start-date': null,
+          {
+            attributes: {
+              scope: Frameworks.DROIT,
+            },
+            id: Frameworks.DROIT,
+            relationships: {
+              'version-summaries': {
+                data: [
+                  {
+                    id: '100006',
+                    type: 'certification-version-summaries',
+                  },
+                ],
+              },
+            },
+            type: 'certification-frameworks',
           },
-        },
-        {
-          type: 'certification-frameworks',
-          id: Frameworks.EDU_2ND_DEGRE,
-          attributes: {
-            name: Frameworks.EDU_2ND_DEGRE,
-            'active-version-start-date': null,
+          {
+            attributes: {
+              scope: Frameworks.EDU_1ER_DEGRE,
+            },
+            id: Frameworks.EDU_1ER_DEGRE,
+            relationships: {
+              'version-summaries': {
+                data: [],
+              },
+            },
+            type: 'certification-frameworks',
           },
-        },
-        {
-          type: 'certification-frameworks',
-          id: Frameworks.EDU_CPE,
-          attributes: {
-            name: Frameworks.EDU_CPE,
-            'active-version-start-date': null,
+          {
+            attributes: {
+              scope: Frameworks.EDU_2ND_DEGRE,
+            },
+            id: Frameworks.EDU_2ND_DEGRE,
+            relationships: {
+              'version-summaries': {
+                data: [],
+              },
+            },
+            type: 'certification-frameworks',
           },
-        },
-        {
-          type: 'certification-frameworks',
-          id: Frameworks.PRO_SANTE,
-          attributes: {
-            name: Frameworks.PRO_SANTE,
-            'active-version-start-date': null,
+          {
+            attributes: {
+              scope: Frameworks.EDU_CPE,
+            },
+            id: Frameworks.EDU_CPE,
+            relationships: {
+              'version-summaries': {
+                data: [],
+              },
+            },
+            type: 'certification-frameworks',
           },
-        },
-        {
-          type: 'certification-frameworks',
-          id: Frameworks.CLEA,
-          attributes: {
-            name: Frameworks.CLEA,
-            'active-version-start-date': null,
+          {
+            attributes: {
+              scope: Frameworks.PRO_SANTE,
+            },
+            id: Frameworks.PRO_SANTE,
+            relationships: {
+              'version-summaries': {
+                data: [
+                  {
+                    id: '100004',
+                    type: 'certification-version-summaries',
+                  },
+                  {
+                    id: '100005',
+                    type: 'certification-version-summaries',
+                  },
+                ],
+              },
+            },
+            type: 'certification-frameworks',
           },
-        },
-      ]);
+        ],
+
+        included: [
+          {
+            id: '100003',
+            type: 'certification-version-summaries',
+            attributes: {
+              'assessment-duration': 1,
+              'expiration-date': null,
+              'maximum-assessment-length': 1,
+              'start-date': new Date('2021-01-01'),
+              status: VERSION_STATUSES.ACTIVE,
+            },
+          },
+          {
+            id: '100006',
+            type: 'certification-version-summaries',
+            attributes: {
+              'assessment-duration': 4,
+              'expiration-date': null,
+              'maximum-assessment-length': 4,
+              'start-date': new Date('2024-02-02'),
+              status: VERSION_STATUSES.DRAFT,
+            },
+          },
+          {
+            id: '100004',
+            type: 'certification-version-summaries',
+            attributes: {
+              'assessment-duration': 2,
+              'expiration-date': null,
+              'maximum-assessment-length': 2,
+              'start-date': new Date('2022-02-02'),
+              status: VERSION_STATUSES.ACTIVE,
+            },
+          },
+          {
+            id: '100005',
+            type: 'certification-version-summaries',
+            attributes: {
+              'assessment-duration': 3,
+              'expiration-date': new Date('2022-02-02'),
+              'maximum-assessment-length': 3,
+              'start-date': new Date('2022-01-01'),
+              status: VERSION_STATUSES.ARCHIVED,
+            },
+          },
+        ],
+      });
     });
   });
 
