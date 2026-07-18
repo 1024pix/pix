@@ -4,7 +4,9 @@ import {
   defaultGlobalScoringConfiguration,
 } from '../../../../../../db/database-builder/factory/build-certification-version.js';
 import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
+import { BadgeSummary } from '../../../../../../src/certification/configuration/domain/read-models/BadgeSummary.js';
 import { FrameworkInfo } from '../../../../../../src/certification/configuration/domain/read-models/FrameworkInfo.js';
+import { TargetProfileSummary } from '../../../../../../src/certification/configuration/domain/read-models/TargetProfileSummary.js';
 import { VersionSummary } from '../../../../../../src/certification/configuration/domain/read-models/VersionSummary.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 
@@ -28,6 +30,7 @@ class FrameworkInfoBuilder {
     this.id = Frameworks.CORE;
     this.scope = Frameworks.CORE;
     this.versionSummariesData = [];
+    this.targetProfileSummariesData = [];
   }
 
   /**
@@ -103,6 +106,24 @@ class FrameworkInfoBuilder {
   }
 
   /**
+   * Adds a target profile and badges
+   *
+   * @param {object} params
+   * @param {number} [params.id]
+   * @param {string} [params.name]
+   * @param {object[]} [params.badgesData]
+   * @returns {FrameworkInfoBuilder}
+   */
+  withTargetProfile({ id, name, badgesData }) {
+    this.targetProfileSummariesData.push({
+      id,
+      name,
+      badgeSummariesData: badgesData,
+    });
+    return this;
+  }
+
+  /**
    * Overrides any direct attributes of the FrameworkInfo model carried by the builder.
    * Omitted parameters keep their current value, so the method can be called
    * several times in the same chain without resetting previous overrides.
@@ -128,6 +149,12 @@ class FrameworkInfoBuilder {
    */
   insertToDB({ databaseBuilder }) {
     const frameworkInfo = this.build();
+    let complementaryCertificationId;
+    if (frameworkInfo.scope !== Frameworks.CORE) {
+      complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+        key: frameworkInfo.scope,
+      }).id;
+    }
 
     for (const versionSummary of frameworkInfo.versionSummaries) {
       const row = databaseBuilder.factory.buildCertificationVersion({
@@ -147,6 +174,32 @@ class FrameworkInfoBuilder {
         comments: null,
       });
       versionSummary.id = row.id;
+    }
+
+    for (const targetProfileSummary of frameworkInfo.targetProfileSummaries) {
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({
+        id: targetProfileSummary.id,
+        name: targetProfileSummary.name,
+      }).id;
+      for (const badgeSummary of targetProfileSummary.badgeSummaries) {
+        const badgeId = databaseBuilder.factory.buildBadge({
+          id: badgeSummary.id,
+          targetProfileId,
+          isCertifiable: true,
+        }).id;
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          badgeId,
+          complementaryCertificationId,
+          label: badgeSummary.label,
+          level: badgeSummary.level,
+          imageUrl: badgeSummary.imageUrl,
+          minimumEarnedPix: badgeSummary.minimumEarnedPix,
+          createdAt: badgeSummary.createdAt,
+          detachedAt: badgeSummary.detachedAt,
+        });
+        badgeSummary.id = badgeId;
+      }
+      targetProfileSummary.id = targetProfileId;
     }
     return frameworkInfo;
   }
@@ -170,10 +223,20 @@ class FrameworkInfoBuilder {
         }),
     );
 
+    const targetProfileSummaries = this.targetProfileSummariesData.map(
+      (targetProfileSummaryData) =>
+        new TargetProfileSummary({
+          id: targetProfileSummaryData.id,
+          name: targetProfileSummaryData.name,
+          badgeSummaries: targetProfileSummaryData.badgeSummariesData.map((badgeData) => new BadgeSummary(badgeData)),
+        }),
+    );
+
     return new FrameworkInfo({
       id: this.id,
       scope: this.scope,
       versionSummaries,
+      targetProfileSummaries,
     });
   }
 }

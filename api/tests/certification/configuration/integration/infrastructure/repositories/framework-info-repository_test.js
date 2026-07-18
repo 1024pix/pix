@@ -40,6 +40,19 @@ describe('Certification | Configuration | Integration | Repository | FrameworkIn
           assessmentDuration: 4,
           maximumAssessmentLength: 4,
         })
+        .withTargetProfile({
+          name: 'Super DROIT profil cible',
+          badgesData: [
+            {
+              label: 'badge droit',
+              level: 8,
+              imageUrl: 'http://dans-ton-badge.com',
+              minimumEarnedPix: 5,
+              createdAt: new Date('2024-06-06'),
+              detachedAt: null,
+            },
+          ],
+        })
         .withParameters({ scope: SCOPES.PIX_PLUS_DROIT })
         .insertToDB({ databaseBuilder });
       const edu1FrameworkInfo = domainBuilder.certification.configuration
@@ -56,6 +69,40 @@ describe('Certification | Configuration | Integration | Repository | FrameworkIn
         .insertToDB({ databaseBuilder });
       const cleaFrameworkInfo = domainBuilder.certification.configuration
         .buildFrameworkInfo()
+        .withTargetProfile({
+          name: 'Super CLEA profil cible OLD',
+          badgesData: [
+            {
+              label: 'badge clea facile',
+              level: 1,
+              imageUrl: 'http://dans-ton-badge-clea-facile.com',
+              minimumEarnedPix: 1,
+              createdAt: new Date('2021-06-06'),
+              detachedAt: new Date('2022-06-06'),
+            },
+            {
+              label: 'badge clea difficile',
+              level: 7,
+              imageUrl: 'http://dans-ton-badge-clea-difficile.com',
+              minimumEarnedPix: 1000,
+              createdAt: new Date('2022-07-07'),
+              detachedAt: new Date('2022-08-08'),
+            },
+          ],
+        })
+        .withTargetProfile({
+          name: 'Super CLEA profil cible NEW',
+          badgesData: [
+            {
+              label: 'badge clea raisonnable',
+              level: 3,
+              imageUrl: 'http://dans-ton-badge-clea-raisonnable.com',
+              minimumEarnedPix: 100,
+              createdAt: new Date('2027-07-07'),
+              detachedAt: null,
+            },
+          ],
+        })
         .withParameters({ scope: Frameworks.CLEA })
         .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
@@ -115,7 +162,7 @@ describe('Certification | Configuration | Integration | Repository | FrameworkIn
 
     context('when info found for framework name', function () {
       it('returns the framework info', async function () {
-        const coreFrameworkInfo = domainBuilder.certification.configuration
+        domainBuilder.certification.configuration
           .buildFrameworkInfo()
           .withActiveVersion({
             startDate: new Date('2021-01-01'),
@@ -124,7 +171,7 @@ describe('Certification | Configuration | Integration | Repository | FrameworkIn
           })
           .withParameters({ scope: SCOPES.CORE })
           .insertToDB({ databaseBuilder });
-        domainBuilder.certification.configuration
+        const proSanteFrameworkInfo = domainBuilder.certification.configuration
           .buildFrameworkInfo()
           .withActiveVersion({
             startDate: new Date('2022-02-02'),
@@ -137,15 +184,28 @@ describe('Certification | Configuration | Integration | Repository | FrameworkIn
             assessmentDuration: 3,
             maximumAssessmentLength: 3,
           })
+          .withTargetProfile({
+            name: 'Super Santé profil cible',
+            badgesData: [
+              {
+                label: 'badge Santé',
+                level: 8,
+                imageUrl: 'http://dans-ton-badge.com',
+                minimumEarnedPix: 5,
+                createdAt: new Date('2024-06-06'),
+                detachedAt: null,
+              },
+            ],
+          })
           .withParameters({ scope: SCOPES.PIX_PLUS_PRO_SANTE })
           .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
         // when
-        const frameworkInfo = await frameworkInfoRepository.find(Frameworks.CORE);
+        const frameworkInfo = await frameworkInfoRepository.find(Frameworks.PRO_SANTE);
 
         // then
-        expect(frameworkInfo).to.deepEqualInstance(coreFrameworkInfo);
+        expect(frameworkInfo).to.deepEqualInstance(proSanteFrameworkInfo);
       });
     });
   });

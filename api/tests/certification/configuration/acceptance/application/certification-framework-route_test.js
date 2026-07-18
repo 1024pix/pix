@@ -28,6 +28,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
       domainBuilder.certification.configuration
         .buildFrameworkInfo()
         .withActiveVersion({
+          id: 5,
           startDate: new Date('2021-01-01'),
           assessmentDuration: 1,
           maximumAssessmentLength: 1,
@@ -37,21 +38,39 @@ describe('Acceptance | Application | Certification | Configuration | certificati
       domainBuilder.certification.configuration
         .buildFrameworkInfo()
         .withActiveVersion({
+          id: 6,
           startDate: new Date('2022-02-02'),
           assessmentDuration: 2,
           maximumAssessmentLength: 2,
         })
         .withArchivedVersion({
+          id: 7,
           startDate: new Date('2022-01-01'),
           expirationDate: new Date('2022-02-02'),
           assessmentDuration: 3,
           maximumAssessmentLength: 3,
+        })
+        .withTargetProfile({
+          id: 13,
+          name: 'Super Santé profil cible',
+          badgesData: [
+            {
+              id: 90,
+              label: 'badge Santé',
+              level: 8,
+              imageUrl: 'http://dans-ton-badge.com',
+              minimumEarnedPix: 5,
+              createdAt: new Date('2024-06-06'),
+              detachedAt: null,
+            },
+          ],
         })
         .withParameters({ scope: SCOPES.PIX_PLUS_PRO_SANTE })
         .insertToDB({ databaseBuilder });
       domainBuilder.certification.configuration
         .buildFrameworkInfo()
         .withDraftVersion({
+          id: 8,
           startDate: new Date('2024-02-02'),
           assessmentDuration: 4,
           maximumAssessmentLength: 4,
@@ -93,6 +112,9 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               'version-summaries': {
                 data: [],
               },
+              'target-profile-summaries': {
+                data: [],
+              },
             },
           },
           {
@@ -104,10 +126,13 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               'version-summaries': {
                 data: [
                   {
-                    id: '100003',
+                    id: '5',
                     type: 'certification-version-summaries',
                   },
                 ],
+              },
+              'target-profile-summaries': {
+                data: [],
               },
             },
             type: 'certification-frameworks',
@@ -121,10 +146,13 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               'version-summaries': {
                 data: [
                   {
-                    id: '100006',
+                    id: '8',
                     type: 'certification-version-summaries',
                   },
                 ],
+              },
+              'target-profile-summaries': {
+                data: [],
               },
             },
             type: 'certification-frameworks',
@@ -136,6 +164,9 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             id: Frameworks.EDU_1ER_DEGRE,
             relationships: {
               'version-summaries': {
+                data: [],
+              },
+              'target-profile-summaries': {
                 data: [],
               },
             },
@@ -150,6 +181,9 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               'version-summaries': {
                 data: [],
               },
+              'target-profile-summaries': {
+                data: [],
+              },
             },
             type: 'certification-frameworks',
           },
@@ -160,6 +194,9 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             id: Frameworks.EDU_CPE,
             relationships: {
               'version-summaries': {
+                data: [],
+              },
+              'target-profile-summaries': {
                 data: [],
               },
             },
@@ -174,14 +211,17 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               'version-summaries': {
                 data: [
                   {
-                    id: '100004',
+                    id: '6',
                     type: 'certification-version-summaries',
                   },
                   {
-                    id: '100005',
+                    id: '7',
                     type: 'certification-version-summaries',
                   },
                 ],
+              },
+              'target-profile-summaries': {
+                data: [{ type: 'certification-target-profile-summaries', id: '13' }],
               },
             },
             type: 'certification-frameworks',
@@ -190,7 +230,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
 
         included: [
           {
-            id: '100003',
+            id: '5',
             type: 'certification-version-summaries',
             attributes: {
               'assessment-duration': 1,
@@ -201,7 +241,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             },
           },
           {
-            id: '100006',
+            id: '8',
             type: 'certification-version-summaries',
             attributes: {
               'assessment-duration': 4,
@@ -212,7 +252,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             },
           },
           {
-            id: '100004',
+            id: '6',
             type: 'certification-version-summaries',
             attributes: {
               'assessment-duration': 2,
@@ -223,7 +263,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             },
           },
           {
-            id: '100005',
+            id: '7',
             type: 'certification-version-summaries',
             attributes: {
               'assessment-duration': 3,
@@ -231,6 +271,35 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               'maximum-assessment-length': 3,
               'start-date': new Date('2022-01-01'),
               status: VERSION_STATUSES.ARCHIVED,
+            },
+          },
+          {
+            type: 'certification-badge-summaries',
+            id: '90',
+            attributes: {
+              'created-at': new Date('2024-06-06'),
+              'detached-at': null,
+              'image-url': 'http://dans-ton-badge.com',
+              label: 'badge Santé',
+              level: 8,
+              'minimum-earned-pix': 5,
+            },
+          },
+          {
+            type: 'certification-target-profile-summaries',
+            id: '13',
+            attributes: {
+              name: 'Super Santé profil cible',
+            },
+            relationships: {
+              'badge-summaries': {
+                data: [
+                  {
+                    type: 'certification-badge-summaries',
+                    id: '90',
+                  },
+                ],
+              },
             },
           },
         ],
@@ -249,15 +318,32 @@ describe('Acceptance | Application | Certification | Configuration | certificati
       domainBuilder.certification.configuration
         .buildFrameworkInfo()
         .withActiveVersion({
+          id: 10,
           startDate: new Date('2022-02-02'),
           assessmentDuration: 2,
           maximumAssessmentLength: 2,
         })
         .withArchivedVersion({
+          id: 11,
           startDate: new Date('2022-01-01'),
           expirationDate: new Date('2022-02-02'),
           assessmentDuration: 3,
           maximumAssessmentLength: 3,
+        })
+        .withTargetProfile({
+          id: 13,
+          name: 'Super Santé profil cible',
+          badgesData: [
+            {
+              id: 90,
+              label: 'badge Santé',
+              level: 8,
+              imageUrl: 'http://dans-ton-badge.com',
+              minimumEarnedPix: 5,
+              createdAt: new Date('2024-06-06'),
+              detachedAt: null,
+            },
+          ],
         })
         .withParameters({ scope: SCOPES.PIX_PLUS_PRO_SANTE })
         .insertToDB({ databaseBuilder });
@@ -278,21 +364,24 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             'version-summaries': {
               data: [
                 {
-                  id: '100003',
+                  id: '10',
                   type: 'certification-version-summaries',
                 },
                 {
-                  id: '100004',
+                  id: '11',
                   type: 'certification-version-summaries',
                 },
               ],
+            },
+            'target-profile-summaries': {
+              data: [{ type: 'certification-target-profile-summaries', id: '13' }],
             },
           },
           type: 'certification-frameworks',
         },
         included: [
           {
-            id: '100003',
+            id: '10',
             type: 'certification-version-summaries',
             attributes: {
               'assessment-duration': 2,
@@ -303,7 +392,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             },
           },
           {
-            id: '100004',
+            id: '11',
             type: 'certification-version-summaries',
             attributes: {
               'assessment-duration': 3,
@@ -311,6 +400,35 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               'maximum-assessment-length': 3,
               'start-date': new Date('2022-01-01'),
               status: VERSION_STATUSES.ARCHIVED,
+            },
+          },
+          {
+            type: 'certification-badge-summaries',
+            id: '90',
+            attributes: {
+              'created-at': new Date('2024-06-06'),
+              'detached-at': null,
+              'image-url': 'http://dans-ton-badge.com',
+              label: 'badge Santé',
+              level: 8,
+              'minimum-earned-pix': 5,
+            },
+          },
+          {
+            type: 'certification-target-profile-summaries',
+            id: '13',
+            attributes: {
+              name: 'Super Santé profil cible',
+            },
+            relationships: {
+              'badge-summaries': {
+                data: [
+                  {
+                    type: 'certification-badge-summaries',
+                    id: '90',
+                  },
+                ],
+              },
             },
           },
         ],
