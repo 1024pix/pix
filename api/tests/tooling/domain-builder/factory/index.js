@@ -167,6 +167,7 @@ import { buildComplementaryCertificationBadge } from './certification/complement
 import { buildCenter as buildConfigurationCenter } from './certification/configuration/build-center.js';
 import { certificationInfoBuilder } from './certification/configuration/build-certification-info.js';
 import { buildFrameworkHistoryEntry } from './certification/configuration/build-framework-history-entry.js';
+import { frameworkInfoBuilder } from './certification/configuration/build-framework-info.js';
 import {
   buildScoBlockedAccessDateCollege,
   buildScoBlockedAccessDateLycee,
@@ -255,6 +256,7 @@ const certification = {
     buildScoBlockedAccessDateCollege,
     buildScoBlockedAccessDateLycee,
     versionDetailsBuilder,
+    frameworkInfoBuilder,
   },
   complementaryCertification: {
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,
