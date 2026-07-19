@@ -4,6 +4,7 @@
 
 import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { UserAccessToken } from '../models/UserAccessToken.js';
 
 /**
  * @param {Object} params
@@ -72,8 +73,10 @@ export const reconcileOidcUserForAdmin = async function ({
     userLoginRepository,
   });
 
-  const accessToken = await oidcAuthenticationService.createAccessToken({ userId, audience });
+  const sessionId = authenticationSessionService.generateSessionId();
+  const expiresIn = oidcAuthenticationService.sessionDurationSeconds;
 
+  const { accessToken } = await UserAccessToken.generateOidcUserToken({ userId, audience, sessionId, expiresIn });
   return accessToken;
 };
 

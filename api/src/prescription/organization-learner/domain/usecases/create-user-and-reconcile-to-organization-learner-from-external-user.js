@@ -29,6 +29,7 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   libOrganizationLearnerRepository,
   prescriptionOrganizationLearnerRepository,
   lastUserApplicationConnectionsRepository,
+  authenticationSessionService,
   studentRepository,
 }) {
   const { firstName, lastName, samlId } = UserReconciliationSamlIdToken.decode(token);
@@ -123,7 +124,9 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
     userLoginRepository,
   });
 
-  const { accessToken } = UserAccessToken.generateSamlUserToken({ userId: tokenUserId, audience });
+  const sessionId = authenticationSessionService.generateSessionId();
+
+  const { accessToken } = UserAccessToken.generateSamlUserToken({ userId: tokenUserId, audience, sessionId });
 
   return accessToken;
 };

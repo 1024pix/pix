@@ -1,5 +1,6 @@
 import { UserAlreadyExistsWithAuthenticationMethodError } from '../../../shared/domain/errors.js';
 import { AuthenticationKeyExpired } from '../errors.js';
+import { UserAccessToken } from '../models/UserAccessToken.js';
 import { UserToCreate } from '../models/UserToCreate.js';
 
 /**
@@ -86,7 +87,15 @@ async function createOidcUser({
     userLoginRepository,
   });
 
-  const accessToken = oidcAuthenticationService.createAccessToken({ userId, audience });
+  const sessionId = authenticationSessionService.generateSessionId();
+  const expiresIn = oidcAuthenticationService.sessionDurationSeconds;
+
+  const { accessToken } = UserAccessToken.generateOidcUserToken({
+    userId,
+    audience,
+    sessionId,
+    expiresIn,
+  });
 
   let logoutUrlUUID;
   if (oidcAuthenticationService.shouldCloseSession) {

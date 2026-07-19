@@ -72,4 +72,23 @@ describe('Unit | Identity Access Management | Domain | Service | authentication-
       });
     });
   });
+
+  describe('#generateSessionId', function () {
+    it('returns a string', function () {
+      // when
+      const sessionId = authenticationSessionService.generateSessionId();
+
+      // then
+      expect(sessionId).to.be.a('string');
+    });
+
+    it('returns a different value on each call', function () {
+      // when
+      const firstSessionId = authenticationSessionService.generateSessionId();
+      const secondSessionId = authenticationSessionService.generateSessionId();
+
+      // then
+      expect(firstSessionId).to.not.equal(secondSessionId);
+    });
+  });
 });

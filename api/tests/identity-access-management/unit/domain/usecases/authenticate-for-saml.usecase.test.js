@@ -24,6 +24,7 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 describe('Unit | Identity Access Management | Domain | UseCase | authenticate-for-saml', function () {
   let lastUserApplicationConnectionsRepository;
   let pixAuthenticationService;
+  let authenticationSessionService;
   let obfuscationService;
   let authenticationMethodRepository;
   let userRepository;
@@ -34,6 +35,9 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
   beforeEach(function () {
     pixAuthenticationService = {
       getUserByUsernameAndPassword: sinon.stub(),
+    };
+    authenticationSessionService = {
+      generateSessionId: sinon.stub().returns('random-session-id'),
     };
     obfuscationService = {
       getObfuscatedAuthenticationMethod: sinon.stub(),
@@ -76,7 +80,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
 
       sinon
         .stub(UserAccessToken, 'generateSamlUserToken')
-        .withArgs({ userId: user.id, audience })
+        .withArgs({ userId: user.id, audience, sessionId: 'random-session-id' })
         .returns({ accessToken: expectedToken });
 
       // when
@@ -87,6 +91,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
         expectedUserId: user.id,
         audience,
         pixAuthenticationService,
+        authenticationSessionService,
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
@@ -124,7 +129,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
 
       sinon
         .stub(UserAccessToken, 'generateSamlUserToken')
-        .withArgs({ userId: user.id, audience })
+        .withArgs({ userId: user.id, audience, sessionId: 'random-session-id' })
         .returns({ accessToken: expectedToken });
 
       // when
@@ -135,6 +140,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
         expectedUserId: user.id,
         audience,
         pixAuthenticationService,
+        authenticationSessionService,
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
@@ -180,6 +186,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
         externalUserToken: 'an external user token',
         expectedUserId,
         pixAuthenticationService,
+        authenticationSessionService,
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
@@ -258,6 +265,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
           externalUserToken,
           expectedUserId: user.id,
           pixAuthenticationService,
+          authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
           userLoginRepository,

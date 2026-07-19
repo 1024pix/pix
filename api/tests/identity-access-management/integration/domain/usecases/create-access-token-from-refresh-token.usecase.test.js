@@ -1,4 +1,5 @@
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
+import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { UnauthorizedError } from '../../../../../src/shared/application/errors/http-errors.js';
@@ -23,8 +24,9 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       // given
       const source = 'pix';
       const audience = 'https://app.pix.fr';
+      const sessionId = 'session-id';
 
-      const refreshToken = RefreshToken.generate({ userId, source, audience });
+      const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId });
       await refreshTokenRepository.save({ refreshToken });
 
       // when
@@ -37,6 +39,8 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       // then
       expect(accessToken).to.be.a('string');
       expect(expirationDelaySeconds).to.be.a('number');
+      const decodedAccessToken = UserAccessToken.decode(accessToken);
+      expect(decodedAccessToken.sessionId).to.equal(sessionId);
     });
   });
 
@@ -67,7 +71,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       const audience = 'https://app.pix.fr';
       const badAudience = 'https://orga.pix.fr';
 
-      const refreshToken = RefreshToken.generate({ userId, source, audience });
+      const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
       await refreshTokenRepository.save({ refreshToken });
 
       // when
@@ -91,7 +95,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       const audience = 'https://app.pix.fr';
       const newLocale = 'fr-BE';
 
-      const refreshToken = RefreshToken.generate({ userId, source, audience });
+      const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
       await refreshTokenRepository.save({ refreshToken });
 
       // when
@@ -114,7 +118,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       const audience = 'https://app.pix.fr';
       const initialLocale = 'fr-FR';
 
-      const refreshToken = RefreshToken.generate({ userId, source, audience });
+      const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
       await refreshTokenRepository.save({ refreshToken });
 
       // when

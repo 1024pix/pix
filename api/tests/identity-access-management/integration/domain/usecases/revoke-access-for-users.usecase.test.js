@@ -11,7 +11,12 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-a
     const userId = databaseBuilder.factory.buildUser().id;
     const authenticationMethod =
       databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
-    const refreshToken = RefreshToken.generate({ userId, source: 'pix' });
+    const refreshToken = RefreshToken.generate({
+      userId,
+      audience: 'https://app.dev.pix.fr',
+      source: 'pix',
+      sessionId: 'random-session-id',
+    });
     await refreshTokenRepository.save({ refreshToken });
     await databaseBuilder.commit();
 
@@ -35,7 +40,12 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-a
     it('revokes access token only', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      const refreshToken = RefreshToken.generate({ userId, source: 'pix' });
+      const refreshToken = RefreshToken.generate({
+        userId,
+        source: 'pix',
+        audience: 'https://app.dev.pix.fr',
+        sessionId: 'random-session-id',
+      });
       await refreshTokenRepository.save({ refreshToken });
       await databaseBuilder.commit();
 

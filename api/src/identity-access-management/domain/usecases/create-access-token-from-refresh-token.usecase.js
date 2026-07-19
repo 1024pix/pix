@@ -38,6 +38,7 @@ const createAccessTokenFromRefreshToken = async function ({
     userId: foundRefreshToken.userId,
     source: foundRefreshToken.source,
     audience,
+    sessionId: foundRefreshToken.sessionId,
   });
 };
 

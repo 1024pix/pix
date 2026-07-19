@@ -1,3 +1,4 @@
+import { authenticationSessionService } from '../../../../identity-access-management/domain/services/authentication-session.service.js';
 import * as obfuscationService from '../../../../identity-access-management/domain/services/obfuscation-service.js';
 import * as passwordGenerator from '../../../../identity-access-management/domain/services/password-generator.service.js';
 import * as userService from '../../../../identity-access-management/domain/services/user-service.js';
@@ -47,6 +48,7 @@ import * as supOrganizationParticipantRepository from '../../infrastructure/repo
 
 const dependencies = {
   analysisRepository,
+  authenticationSessionService,
   divisionRepository,
   cryptoService,
   emailValidationDemandRepository,

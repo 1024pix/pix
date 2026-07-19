@@ -20,6 +20,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
   let libOrganizationLearnerRepository;
   let studentRepository;
   let lastUserApplicationConnectionsRepository;
+  let authenticationSessionService;
   const audience = 'https://app.pix.fr';
   const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
 
@@ -48,6 +49,9 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
     };
     libOrganizationLearnerRepository = {
       updateUserIdWhereNull: sinon.stub(),
+    };
+    authenticationSessionService = {
+      generateSessionId: sinon.stub().returns('random-session-id'),
     };
   });
 
@@ -79,6 +83,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         libOrganizationLearnerRepository,
         studentRepository,
         lastUserApplicationConnectionsRepository,
+        authenticationSessionService,
         requestedApplication,
       });
 
@@ -110,7 +115,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
 
       sinon
         .stub(UserAccessToken, 'generateSamlUserToken')
-        .withArgs({ userId: user.id, audience })
+        .withArgs({ userId: user.id, audience, sessionId: 'random-session-id' })
         .returns({ accessToken: token });
 
       // when
@@ -128,6 +133,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         libOrganizationLearnerRepository,
         studentRepository,
         lastUserApplicationConnectionsRepository,
+        authenticationSessionService,
         requestedApplication,
       });
 
@@ -164,6 +170,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         libOrganizationLearnerRepository,
         studentRepository,
         lastUserApplicationConnectionsRepository,
+        authenticationSessionService,
         requestedApplication,
       });
 
@@ -187,7 +194,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
 
       sinon
         .stub(UserAccessToken, 'generateSamlUserToken')
-        .withArgs({ userId: user.id, audience })
+        .withArgs({ userId: user.id, audience, sessionId: 'random-session-id' })
         .returns({ accessToken: token });
 
       // when
@@ -205,6 +212,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         libOrganizationLearnerRepository,
         studentRepository,
         lastUserApplicationConnectionsRepository,
+        authenticationSessionService,
         requestedApplication,
       });
 

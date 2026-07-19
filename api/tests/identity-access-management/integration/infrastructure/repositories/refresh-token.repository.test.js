@@ -16,18 +16,20 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     it('finds refresh token data for token', async function () {
       // given
       const refreshToken = RefreshToken.generate({
-        userId: 'userId!',
+        userId: 111111,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
       });
       await refreshTokenRepository.save({ refreshToken });
 
       const refreshToken2 = RefreshToken.generate({
-        userId: 'userId!',
+        userId: 111111,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://certif.pixfr',
+        sessionId: 'sessionId!',
       });
       await refreshTokenRepository.save({ refreshToken: refreshToken2 });
 
@@ -43,31 +45,34 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     it('finds all refresh token data for an user id', async function () {
       // given
       const refreshToken = RefreshToken.generate({
-        userId: 'userId!',
+        userId: 111111,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://orga.pix.fr',
+        sessionId: 'sessionId!',
       });
       await refreshTokenRepository.save({ refreshToken });
 
       const refreshToken2 = RefreshToken.generate({
-        userId: 'userId!',
+        userId: 111111,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
       });
       await refreshTokenRepository.save({ refreshToken: refreshToken2 });
 
       const refreshToken3 = RefreshToken.generate({
-        userId: 'userId2!',
+        userId: 222222,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
       });
       await refreshTokenRepository.save({ refreshToken: refreshToken3 });
 
       // when
-      const result = await refreshTokenRepository.findAllByUserId({ userId: 'userId!' });
+      const result = await refreshTokenRepository.findAllByUserId({ userId: 111111 });
 
       // then
       expect(result).to.deep.equal([refreshToken2, refreshToken]);
@@ -78,17 +83,18 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     it('saves a refresh token', async function () {
       // given
       const refreshToken = RefreshToken.generate({
-        userId: 'userId!',
+        userId: 111111,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
       });
 
       // when
       await refreshTokenRepository.save({ refreshToken });
 
       // then
-      const result = await refreshTokenRepository.findAllByUserId({ userId: 'userId!' });
+      const result = await refreshTokenRepository.findAllByUserId({ userId: 111111 });
       expect(result).to.deep.equal([refreshToken]);
     });
   });
@@ -97,17 +103,19 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     it('revokes a refresh token', async function () {
       // given
       const refreshToken1 = RefreshToken.generate({
-        userId: 'userId!',
+        userId: 111111,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
       });
       await refreshTokenRepository.save({ refreshToken: refreshToken1 });
       const refreshToken2 = RefreshToken.generate({
-        userId: 'userId!',
+        userId: 111111,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://orga.pix.fr',
+        sessionId: 'sessionId!',
       });
       await refreshTokenRepository.save({ refreshToken: refreshToken2 });
 
@@ -115,7 +123,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       await refreshTokenRepository.revokeByToken({ token: refreshToken1.value });
 
       // then
-      const result = await refreshTokenRepository.findAllByUserId({ userId: 'userId!' });
+      const result = await refreshTokenRepository.findAllByUserId({ userId: 111111 });
       expect(result).to.deep.equal([refreshToken2]);
     });
   });
@@ -124,24 +132,27 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     it('revokes all refresh tokens for a user ID', async function () {
       // given
       const refreshToken1 = RefreshToken.generate({
-        userId: 'userId!',
+        userId: 111111,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
       });
       await refreshTokenRepository.save({ refreshToken: refreshToken1 });
       const refreshToken2 = RefreshToken.generate({
-        userId: 'userId!',
+        userId: 111111,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
       });
       await refreshTokenRepository.save({ refreshToken: refreshToken2 });
       const refreshToken3 = RefreshToken.generate({
-        userId: 'userId2!',
+        userId: 222222,
         scope: 'scope!',
         source: 'source!',
         audience: 'https://certif.pixfr',
+        sessionId: 'sessionId!',
       });
       await refreshTokenRepository.save({ refreshToken: refreshToken3 });
 
@@ -149,10 +160,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       await refreshTokenRepository.revokeAllByUserId({ userId: refreshToken1.userId });
 
       // then
-      const userTokensDeleted = await refreshTokenRepository.findAllByUserId({ userId: 'userId!' });
+      const userTokensDeleted = await refreshTokenRepository.findAllByUserId({ userId: 111111 });
       expect(userTokensDeleted).to.deep.equal([]);
 
-      const otherUserTokens = await refreshTokenRepository.findAllByUserId({ userId: 'userId2!' });
+      const otherUserTokens = await refreshTokenRepository.findAllByUserId({ userId: 222222 });
       expect(otherUserTokens).to.deep.equal([refreshToken3]);
     });
   });

@@ -88,7 +88,12 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user', function (
 
     await databaseBuilder.commit();
 
-    const refreshToken = RefreshToken.generate({ userId, source: 'pix' });
+    const refreshToken = RefreshToken.generate({
+      userId,
+      source: 'pix',
+      audience: 'https://app.dev.pix.fr',
+      sessionId: 'random-session-id',
+    });
     await refreshTokenRepository.save({ refreshToken });
 
     // when

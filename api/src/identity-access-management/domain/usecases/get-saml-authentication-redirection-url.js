@@ -9,6 +9,7 @@ const getSamlAuthenticationRedirectionUrl = async function ({
   userLoginRepository,
   authenticationMethodRepository,
   lastUserApplicationConnectionsRepository,
+  authenticationSessionService,
   config,
   audience,
   requestedApplication,
@@ -36,7 +37,8 @@ const getSamlAuthenticationRedirectionUrl = async function ({
       externalUser,
     });
 
-    const { accessToken } = UserAccessToken.generateSamlUserToken({ userId: user.id, audience });
+    const sessionId = authenticationSessionService.generateSessionId();
+    const { accessToken } = UserAccessToken.generateSamlUserToken({ userId: user.id, sessionId, audience });
     return `/connexion/gar#${encodeURIComponent(accessToken)}`;
   }
 

@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 
 import { ForbiddenAccess } from '../../../shared/domain/errors.js';
+import { UserAccessToken } from '../models/UserAccessToken.js';
 
 const { omit } = lodash;
 
@@ -102,7 +103,16 @@ async function authenticateOidcUser({
 
   await _updateUserLocaleIfNeeded({ user, locale, userRepository });
 
-  const pixAccessToken = oidcAuthenticationService.createAccessToken({ userId: user.id, audience });
+  const sessionId = authenticationSessionService.generateSessionId();
+
+  const expiresIn = oidcAuthenticationService.sessionDurationSeconds;
+
+  const { accessToken: pixAccessToken } = UserAccessToken.generateOidcUserToken({
+    userId: user.id,
+    audience,
+    sessionId,
+    expiresIn,
+  });
 
   let logoutUrlUUID;
   if (oidcAuthenticationService.shouldCloseSession) {
