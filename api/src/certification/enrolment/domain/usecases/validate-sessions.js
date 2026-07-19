@@ -12,7 +12,6 @@ import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
  * @param {deps["sessionRepository"]} params.sessionRepository
  * @param {deps["certificationCpfCountryRepository"]} params.certificationCpfCountryRepository
  * @param {deps["certificationCpfCityRepository"]} params.certificationCpfCityRepository
- * @param {deps["complementaryCertificationRepository"]} params.complementaryCertificationRepository
  * @param {deps["certificationCourseRepository"]} params.certificationCourseRepository
  * @param {deps["sessionCodeService"]} params.sessionCodeService
  * @param {deps["sessionManagementRepository"]} params.sessionManagementRepository
@@ -28,7 +27,6 @@ const validateSessions = async function ({
   sessionRepository,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
-  complementaryCertificationRepository,
   certificationCourseRepository,
   sessionCodeService,
   sessionManagementRepository,
@@ -75,7 +73,6 @@ const validateSessions = async function ({
         sessionsMassImportReport,
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
-        complementaryCertificationRepository,
         translate,
         sessionsImportValidationService,
       });

@@ -98,22 +98,6 @@ export async function update({ version }) {
   });
 }
 
-/**
- * @param {object} params
- * @param {SCOPES} params.scope
- * @returns {Promise<Array<FrameworkHistoryEntry>>}
- */
-export async function getFrameworkHistory({ scope }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  const rows = await knexConn('certification_versions')
-    .select('id', 'startDate', 'expirationDate', 'assessmentDuration', 'challengesConfiguration', 'status')
-    .where({ scope })
-    .orderBy('startDate', 'desc');
-
-  return rows.map(_toFrameworkHistoryEntry);
-}
-
 export async function remove(id) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('certification_versions_tubes').where({ version_id: id }).delete();

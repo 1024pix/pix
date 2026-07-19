@@ -13,16 +13,7 @@ async function searchAttachableTargetProfilesForComplementaryCertifications(requ
   return attachableTargetProfilesSerializer.serialize(attachableTargetProfiles);
 }
 
-async function getComplementaryCertificationTargetProfileHistory(request) {
-  const complementaryCertificationKey = request.params.complementaryCertificationKey;
-  const complementaryCertification = await usecases.getComplementaryCertificationTargetProfileHistory({
-    complementaryCertificationKey,
-  });
-  return complementaryCertificationSerializer.serializeForAdmin(complementaryCertification);
-}
-
 export const complementaryCertificationController = {
   findComplementaryCertifications,
-  getComplementaryCertificationTargetProfileHistory,
   searchAttachableTargetProfilesForComplementaryCertifications,
 };

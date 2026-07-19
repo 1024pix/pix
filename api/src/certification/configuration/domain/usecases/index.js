@@ -3,7 +3,6 @@ import * as challengeRepository from '../../../../shared/infrastructure/reposito
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
-import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
@@ -21,8 +20,6 @@ import { deleteVersion } from './delete-version.js';
 import { exportScoWhitelist } from './export-sco-whitelist.js';
 import { findComplementaryCertifications } from './find-complementary-certifications.js';
 import { getComplementaryCertificationForTargetProfileAttachmentRepository } from './get-complementary-certification-for-target-profile-attachment.js';
-import { getComplementaryCertificationTargetProfileHistory } from './get-complementary-certification-target-profile-history.js';
-import { getFrameworkHistory } from './get-framework-history.js';
 import { getInfo } from './get-info.js';
 import { getScoBlockedAccessDates } from './get-sco-blocked-access-dates.js';
 import { getVersionById } from './get-version-by-id.js';
@@ -64,7 +61,6 @@ const dependencies = {
   mailService,
   organizationRepository,
   skillRepository,
-  targetProfileHistoryRepository,
   tubeRepository,
   versionRepository,
   versionDetailsRepository,
@@ -77,8 +73,6 @@ const usecasesWithoutInjectedDependencies = {
   exportScoWhitelist,
   findComplementaryCertifications,
   getComplementaryCertificationForTargetProfileAttachmentRepository,
-  getComplementaryCertificationTargetProfileHistory,
-  getFrameworkHistory,
   getInfo,
   getScoBlockedAccessDates,
   getVersionById,

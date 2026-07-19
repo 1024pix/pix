@@ -61,68 +61,6 @@ async function register(server) {
         ],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/admin/certification-frameworks/{framework}/framework-history',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            framework: Joi.string()
-              .required()
-              .valid(...Object.values(Frameworks)),
-          }),
-        },
-        handler: certificationFrameworkController.getFrameworkHistory,
-        tags: ['api', 'admin'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec un rôle Super Admin, Certif, Support ou Métier',
-          "Elle permet de récupérer l'historique d'un référentiel de certification",
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/admin/certification-frameworks/{framework}/target-profiles',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            framework: Joi.string()
-              .required()
-              .valid(...Object.values(Frameworks).filter((f) => ![Frameworks.CORE, Frameworks.CLEA].includes(f))),
-          }),
-        },
-        handler: certificationFrameworkController.getTargetProfileHistory,
-        tags: ['api', 'admin'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support, Certif et Métier',
-          "Elle renvoie l'historique des profils cibles rattachés à un référentiel de certification.",
-        ],
-      },
-    },
   ]);
 }
 

@@ -75,13 +75,11 @@ import { buildCompetenceEvaluation } from './build-competence-evaluation.js';
 import { buildCompetenceMark } from './build-competence-mark.js';
 import { buildCompetenceResult } from './build-competence-result.js';
 import { buildCompetenceTree } from './build-competence-tree.js';
-import { buildComplementaryCertificationBadgeForAdmin } from './build-complementary-certification-badge-for-admin.js';
 import { buildComplementaryCertificationCourseResult } from './build-complementary-certification-course-result.js';
 import { buildComplementaryCertificationCourseResultForJuryCertification } from './build-complementary-certification-course-result-for-certification.js';
 import { buildComplementaryCertificationCourseResultForJuryCertificationWithExternal } from './build-complementary-certification-course-result-for-certification-with-external.js';
 import { buildComplementaryCertificationForTargetProfileAttachment } from './build-complementary-certification-for-target-profile-attachment.js';
 import { buildComplementaryCertificationHabilitation } from './build-complementary-certification-habilitation.js';
-import { buildComplementaryCertificationTargetProfileHistory } from './build-complementary-certification-target-profile-history-for-admin.js';
 import { buildCountry } from './build-country.js';
 import { buildCourse } from './build-course.js';
 import { buildCpfCertificationResult } from './build-cpf-certification-result.js';
@@ -138,7 +136,6 @@ import { buildTag } from './build-tag.js';
 import { buildTargetProfile } from './build-target-profile.js';
 import { buildTargetProfileForAdmin } from './build-target-profile-for-admin.js';
 import { buildTargetProfileForCreation } from './build-target-profile-for-creation.js';
-import { buildTargetProfileHistoryForAdmin } from './build-target-profile-history-for-admin.js';
 import { buildTargetProfileSummaryForAdmin } from './build-target-profile-summary-for-admin.js';
 import { buildThematic } from './build-thematic.js';
 import { buildTraining } from './build-training.js';
@@ -438,13 +435,11 @@ export {
   buildCompetenceMark,
   buildCompetenceResult,
   buildCompetenceTree,
-  buildComplementaryCertificationBadgeForAdmin,
   buildComplementaryCertificationCourseResult,
   buildComplementaryCertificationCourseResultForJuryCertification,
   buildComplementaryCertificationCourseResultForJuryCertificationWithExternal,
   buildComplementaryCertificationForTargetProfileAttachment,
   buildComplementaryCertificationHabilitation,
-  buildComplementaryCertificationTargetProfileHistory,
   buildCountry,
   buildCourse,
   buildCpfCertificationResult,
@@ -506,7 +501,6 @@ export {
   buildTargetProfile,
   buildTargetProfileForAdmin,
   buildTargetProfileForCreation,
-  buildTargetProfileHistoryForAdmin,
   buildTargetProfileSummaryForAdmin,
   buildThematic,
   buildTraining,

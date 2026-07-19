@@ -22,7 +22,6 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constant
  * @param {CertificationCpfService} params.certificationCpfService
  * @param {CertificationCpfCountryRepository} params.certificationCpfCountryRepository
  * @param {CertificationCpfCityRepository} params.certificationCpfCityRepository
- * @param {ComplementaryCertificationRepository} params.complementaryCertificationRepository
  * @param {EventAdapter} params.eventAdapter
  */
 export async function addCandidateToSession({
