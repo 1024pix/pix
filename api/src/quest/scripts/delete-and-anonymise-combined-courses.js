@@ -33,7 +33,7 @@ export class DeleteAndAnonymiseCombinedCoursesScript extends Script {
       `Deletes ${options.combinedCourseIds.length} combined courses and anonymize possible existing participations`,
     );
     await dependencies.jobClient.initialize({
-      jobGroups: [JobGroup.DEFAULT, JobGroup.FAST],
+      jobGroups: [JobGroup.DEFAULT],
     });
 
     this.onFinished = async () => {

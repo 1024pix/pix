@@ -10,7 +10,6 @@ import * as organizationLearnerWithParticipationApi from '../../../prescription/
 import * as targetProfilesApi from '../../../prescription/target-profile/application/api/target-profile-api.js';
 import * as profileRewardApi from '../../../profile/application/api/profile-reward-api.js';
 import * as rewardApi from '../../../profile/application/api/reward-api.js';
-import { temporaryStorage } from '../../../shared/infrastructure/key-value-storages/index.js';
 import * as accessCodeRepository from '../../../shared/infrastructure/repositories/access-code-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -34,8 +33,6 @@ import * as recommendedModuleRepository from './recommended-module-repository.js
 import * as rewardRepository from './reward-repository.js';
 import * as successRepository from './success-repository.js';
 import * as userRepository from './user-repository.js';
-
-const profileRewardTemporaryStorage = temporaryStorage.withPrefix('profile-rewards:');
 
 const repositoriesWithoutInjectedDependencies = {
   accessCodeRepository,
@@ -70,7 +67,6 @@ const dependencies = {
   profileRewardApi,
   modulesApi,
   targetProfilesApi,
-  profileRewardTemporaryStorage,
   rewardApi,
   userApi,
   recommendedModulesApi,

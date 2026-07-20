@@ -21,13 +21,7 @@ export const getByUserId = async ({ userId, profileRewardApi }) => {
   return profileRewardApi.getByUserId(userId);
 };
 
-export const getByQuestAndUserId = async ({
-  userId,
-  quest,
-  rewardApi,
-  profileRewardApi,
-  profileRewardTemporaryStorage,
-}) => {
+export const getByQuestAndUserId = async ({ userId, quest, rewardApi, profileRewardApi }) => {
   const reward = await rewardApi.getByIdAndType({ rewardId: quest.rewardId, rewardType: quest.rewardType });
   const profileRewards = await profileRewardApi.getByUserId(userId);
 
@@ -44,17 +38,9 @@ export const getByQuestAndUserId = async ({
     });
   }
 
-  let obtained = false;
-
-  const isProcessing = Number(await profileRewardTemporaryStorage.get(userId)) > 0;
-
-  if (isProcessing) {
-    obtained = null;
-  }
-
   return new QuestResult({
     id: quest.id,
-    obtained,
+    obtained: false,
     profileRewardId: null,
     reward,
   });
