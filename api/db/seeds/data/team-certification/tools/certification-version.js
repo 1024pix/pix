@@ -1,10 +1,14 @@
-import { Version, VERSION_STATUSES } from '../../../../../src/certification/configuration/domain/models/Version.js';
-import { DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION } from '../../../../../src/certification/shared/domain/constants.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../../../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
+import { VERSION_STATUSES } from '../../../../../src/certification/configuration/domain/models/Version.js';
+import { versionBuilder } from '../../../../../tests/tooling/domain-builder/factory/certification/configuration/build-version.js';
 /**
  * @param {Object} params
  * @param {Object} params.databaseBuilder
- * @param {number} params.status - certification center member user id
+ * @param {string} [params.status] - one of VERSION_STATUSES, defaults to DRAFT
+ * @param {string} [params.scope]
+ * @param {number} [params.assessmentDuration]
+ * @param {Object} [params.challengesConfiguration]
+ * @param {Array<Object>} [params.globalScoringConfiguration]
+ * @param {Array<Object>} [params.competencesScoringConfiguration]
  * @returns {Promise<Version>}
  */
 export async function createVersion({
@@ -16,36 +20,24 @@ export async function createVersion({
   globalScoringConfiguration,
   competencesScoringConfiguration,
 }) {
-  const version = new Version({
+  const version = versionBuilder().withParameters({
     scope,
-    status,
-    challengesConfiguration: new FlashAssessmentAlgorithmConfiguration(challengesConfiguration),
+    tubeIds: [],
+    assessmentDuration,
+    challengesConfiguration,
     globalScoringConfiguration,
     competencesScoringConfiguration,
-    assessmentDuration,
-    minimumAnswersRequiredToValidateACertification: DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
   });
 
-  if (status === VERSION_STATUSES.DRAFT) {
-    version.startDate = null;
-    version.expirationDate = null;
-  }
-
   if (status === VERSION_STATUSES.ACTIVE) {
-    version.startDate = new Date();
-    version.expirationDate = null;
+    version.asActive({ startDate: new Date() });
   }
 
   if (status === VERSION_STATUSES.ARCHIVED) {
-    version.startDate = new Date('2018-01-01');
-    version.expirationDate = new Date('2019-01-01');
+    version.asArchived({ startDate: new Date('2018-01-01'), expirationDate: new Date('2019-01-01') });
   }
 
-  delete version.id;
-
-  const createdVersion = databaseBuilder.factory.buildCertificationVersion(version);
-
-  return createdVersion;
+  return version.insertToDB({ databaseBuilder });
 }
 
 export async function seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId }) {

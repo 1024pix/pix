@@ -19,39 +19,11 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           limitToOneQuestionPerTube: true,
           defaultCandidateCapacity: -8,
         };
-        const version = domainBuilder.certification.configuration.buildVersion({
-          scope: SCOPES.PIX_PLUS_DROIT,
-          startDate: new Date('2025-06-01'),
-          expirationDate: new Date('2025-12-31'),
-          assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
-          minimumAnswersRequiredToValidateACertification: 123,
-          comments: 'COUCOU',
-          status: VERSION_STATUSES.ACTIVE,
-          globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -1.4 } }],
-          competencesScoringConfiguration: [
-            {
-              competence: '1.1',
-              values: [{ bounds: { max: -2, min: -10 }, competenceLevel: 0 }],
-            },
-          ],
-          challengesConfiguration,
-          tubeIds: ['rec123', 'rec456', 'rec789'],
-        });
-        version.id = undefined;
-
-        await databaseBuilder.commit();
-
-        // when
-        const versionId = await versionRepository.save(version);
-
-        // then
-        const savedVersion = await versionRepository.getById({ id: versionId });
-        expect(savedVersion).to.deepEqualInstance(
-          domainBuilder.certification.configuration.buildVersion({
-            id: versionId,
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('2025-06-01') })
+          .withParameters({
             scope: SCOPES.PIX_PLUS_DROIT,
-            startDate: new Date('2025-06-01'),
-            expirationDate: new Date('2025-12-31'),
             assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
             minimumAnswersRequiredToValidateACertification: 123,
             comments: 'COUCOU',
@@ -65,276 +37,185 @@ describe('Certification | Configuration | Integration | Repository | Version', f
             ],
             challengesConfiguration,
             tubeIds: ['rec123', 'rec456', 'rec789'],
-          }),
-        );
+          })
+          .insertToDB({ databaseBuilder });
+
+        await databaseBuilder.commit();
+
+        // when
+        const versionId = await versionRepository.save(version);
+
+        // then
+        const savedVersion = await versionRepository.getById({ id: versionId });
+        expect(savedVersion).to.deepEqualInstance(version);
       });
     });
+
     context('when the saved certification version already exists', function () {
       it('should update the certification version', async function () {
         // given
-        databaseBuilder.factory.buildCertificationVersion({
-          id: 123,
-          scope: SCOPES.PIX_PLUS_DROIT,
-          startDate: new Date('2025-06-01'),
-          expirationDate: new Date('2025-12-31'),
-          assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
-          minimumAnswersRequiredToValidateACertification: 123,
-          comments: 'COUCOU',
-          status: VERSION_STATUSES.ACTIVE,
-          globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -1.4 } }],
-          competencesScoringConfiguration: [
-            {
-              competence: '1.1',
-              values: [{ bounds: { max: -2, min: -10 }, competenceLevel: 0 }],
-            },
-          ],
-          challengesConfiguration: {
-            maximumAssessmentLength: 32,
-            limitToOneQuestionPerTube: true,
-            defaultCandidateCapacity: -8,
-          },
-        });
-        databaseBuilder.factory.buildCertificationVersionTube({
-          tubeId: 'tubeA',
-          versionId: 123,
-        });
-
-        const version = domainBuilder.certification.configuration.buildVersion({
-          id: 123,
-          scope: SCOPES.PIX_PLUS_PRO_SANTE,
-          startDate: new Date('2025-07-07'),
-          expirationDate: new Date('2025-11-12'),
-          assessmentDuration: 111,
-          minimumAnswersRequiredToValidateACertification: 222,
-          comments: 'COUCOUCAVA',
-          status: VERSION_STATUSES.ARCHIVED,
-          globalScoringConfiguration: [{ meshLevel: 1, bounds: { min: -1, max: -1 } }],
-          competencesScoringConfiguration: [
-            {
-              competence: '2.1',
-              values: [{ bounds: { max: -2, min: -2 }, competenceLevel: 2 }],
-            },
-          ],
-          challengesConfiguration: {
-            maximumAssessmentLength: 33,
-            limitToOneQuestionPerTube: false,
-            defaultCandidateCapacity: -4,
-          },
-          tubeIds: ['tubeB'],
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        await versionRepository.save(version);
-
-        // then
-        const savedVersion = await versionRepository.getById({ id: 123 });
-        expect(savedVersion).to.deepEqualInstance(
-          domainBuilder.certification.configuration.buildVersion({
-            id: 123,
-            scope: SCOPES.PIX_PLUS_PRO_SANTE,
-            startDate: new Date('2025-07-07'),
-            expirationDate: new Date('2025-11-12'),
-            assessmentDuration: 111,
-            minimumAnswersRequiredToValidateACertification: 222,
-            comments: 'COUCOUCAVA',
-            status: VERSION_STATUSES.ARCHIVED,
-            globalScoringConfiguration: [{ meshLevel: 1, bounds: { min: -1, max: -1 } }],
-            competencesScoringConfiguration: [
-              {
-                competence: '2.1',
-                values: [{ bounds: { max: -2, min: -2 }, competenceLevel: 2 }],
-              },
-            ],
-            challengesConfiguration: {
-              maximumAssessmentLength: 33,
-              limitToOneQuestionPerTube: false,
-              defaultCandidateCapacity: -4,
-            },
-            tubeIds: ['tubeB'],
-          }),
-        );
-      });
-    });
-
-    describe('#update', function () {
-      it('should update the expiration date, challenges configuration and comments of a certification version', async function () {
-        // given
-        const initialChallengesConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({
-          maximumAssessmentLength: 20,
-          limitToOneQuestionPerTube: false,
-        });
-        const existingVersion = databaseBuilder.factory.buildCertificationVersion({
-          scope: SCOPES.PIX_PLUS_DROIT,
-          startDate: new Date('2024-01-01'),
-          expirationDate: null,
-          assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
-          challengesConfiguration: initialChallengesConfiguration,
-        });
-
-        await databaseBuilder.commit();
-
-        const newExpirationDate = new Date('2025-10-21T10:00:00Z');
-        const newComments = 'New comments';
-        const newChallengesConfiguration = {
+        const challengesConfiguration = {
           maximumAssessmentLength: 32,
           limitToOneQuestionPerTube: true,
-          defaultCandidateCapacity: 1,
+          defaultCandidateCapacity: -8,
         };
-        const versionToUpdate = domainBuilder.certification.configuration.buildVersion({
-          id: existingVersion.id,
-          scope: existingVersion.scope,
-          startDate: existingVersion.startDate,
-          expirationDate: newExpirationDate,
-          assessmentDuration: existingVersion.assessmentDuration,
-          challengesConfiguration: newChallengesConfiguration,
-          comments: newComments,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('2025-06-01') })
+          .withParameters({
+            scope: SCOPES.PIX_PLUS_DROIT,
+            assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
+            minimumAnswersRequiredToValidateACertification: 123,
+            comments: 'COUCOU',
+            status: VERSION_STATUSES.ACTIVE,
+            globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -1.4 } }],
+            competencesScoringConfiguration: [
+              {
+                competence: '1.1',
+                values: [{ bounds: { max: -2, min: -10 }, competenceLevel: 0 }],
+              },
+            ],
+            challengesConfiguration,
+            tubeIds: ['rec123', 'rec456', 'rec789'],
+          })
+          .insertToDB({ databaseBuilder });
+        const alteredVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .copy(version)
+          .withParameters({
+            assessmentDuration: 11111,
+            minimumAnswersRequiredToValidateACertification: 22222,
+            comments: 'COUCOU',
+          })
+          .build();
 
         // when
-        await versionRepository.update({ version: versionToUpdate });
+        await versionRepository.save(alteredVersion);
 
         // then
-        const updatedVersion = await knex('certification_versions').where({ id: existingVersion.id }).first();
-
-        expect(updatedVersion.expirationDate).to.deep.equal(newExpirationDate);
-        expect(updatedVersion.challengesConfiguration).to.deep.equal(versionToUpdate.challengesConfiguration);
-        expect(updatedVersion.scope).to.equal(existingVersion.scope);
-        expect(updatedVersion.startDate).to.deep.equal(existingVersion.startDate);
-        expect(updatedVersion.comments).to.equal(newComments);
-      });
-
-      it('updates the comments to null if given an empty string', async function () {
-        // given
-        const initialChallengesConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({
-          maximumAssessmentLength: 20,
-          limitToOneQuestionPerTube: false,
-        });
-        const existingVersion = databaseBuilder.factory.buildCertificationVersion({
-          scope: SCOPES.PIX_PLUS_DROIT,
-          startDate: new Date('2024-01-01'),
-          expirationDate: null,
-          assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
-          challengesConfiguration: initialChallengesConfiguration,
-        });
-
-        await databaseBuilder.commit();
-
-        const versionToUpdate = domainBuilder.certification.configuration.buildVersion({
-          id: existingVersion.id,
-          scope: existingVersion.scope,
-          startDate: existingVersion.startDate,
-          expirationDate: existingVersion.expirationDate,
-          assessmentDuration: existingVersion.assessmentDuration,
-          challengesConfiguration: existingVersion.challengesConfiguration,
-          comments: '',
-        });
-
-        // when
-        await versionRepository.update({ version: versionToUpdate });
-
-        // then
-        const updatedVersion = await knex('certification_versions').where({ id: existingVersion.id }).first();
-        expect(updatedVersion.comments).to.equal(null);
+        const savedVersion = await versionRepository.getById({ id: version.id });
+        expect(savedVersion).to.deepEqualInstance(alteredVersion);
       });
     });
+  });
 
-    describe('#findAllByScope', function () {
-      it('returns all the versions of a given scope', async function () {
-        // given
-        const scope = SCOPES.PIX_PLUS_DROIT;
+  describe('#findAllByScope', function () {
+    it('returns all the versions of a given scope', async function () {
+      // given
+      const scope = SCOPES.PIX_PLUS_DROIT;
 
-        const oldConfig = {
-          maximumAssessmentLength: 32,
-          challengesBetweenSameCompetence: 2,
-          limitToOneQuestionPerTube: false,
-          enablePassageByAllCompetences: false,
-          variationPercent: 0.25,
-          defaultCandidateCapacity: -1,
-          defaultProbabilityToPickChallenge: 10,
-        };
-        const archivedVersion = databaseBuilder.factory.buildCertificationVersion({
-          id: 1000,
+      const oldConfig = {
+        maximumAssessmentLength: 32,
+        challengesBetweenSameCompetence: 2,
+        limitToOneQuestionPerTube: false,
+        enablePassageByAllCompetences: false,
+        variationPercent: 0.25,
+        defaultCandidateCapacity: -1,
+        defaultProbabilityToPickChallenge: 10,
+      };
+      const archivedVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asArchived({ startDate: new Date('2025-01-01'), expirationDate: new Date('2025-05-31') })
+        .withParameters({
           scope,
-          startDate: new Date('2025-01-01'),
-          expirationDate: new Date('2025-05-31'),
+          tubeIds: ['rec123', 'rec5678'],
+          id: 1000,
           assessmentDuration: 90,
           globalScoringConfiguration: [{ config: 'old' }],
           competencesScoringConfiguration: [{ config: 'old' }],
           challengesConfiguration: oldConfig,
-        });
+        })
+        .insertToDB({ databaseBuilder });
 
-        const middleConfig = {
-          maximumAssessmentLength: 31,
-          challengesBetweenSameCompetence: 2,
-          limitToOneQuestionPerTube: false,
-          enablePassageByAllCompetences: false,
-          variationPercent: 0.25,
-          defaultCandidateCapacity: -2,
-          defaultProbabilityToPickChallenge: 20,
-        };
-        const archivedVersion2 = databaseBuilder.factory.buildCertificationVersion({
-          id: 10000,
+      const middleConfig = {
+        maximumAssessmentLength: 31,
+        challengesBetweenSameCompetence: 2,
+        limitToOneQuestionPerTube: false,
+        enablePassageByAllCompetences: false,
+        variationPercent: 0.25,
+        defaultCandidateCapacity: -2,
+        defaultProbabilityToPickChallenge: 20,
+      };
+      const archivedVersion2 = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asArchived({ startDate: new Date('2025-03-01'), expirationDate: new Date('2025-08-31') })
+        .withParameters({
           scope,
-          startDate: new Date('2025-03-01'),
-          expirationDate: new Date('2025-08-31'),
+          tubeIds: ['rec123', 'rec5678'],
+          id: 10000,
           assessmentDuration: 100,
           globalScoringConfiguration: [{ config: 'middle' }],
           competencesScoringConfiguration: [{ config: 'middle' }],
           challengesConfiguration: middleConfig,
-        });
+        })
+        .insertToDB({ databaseBuilder });
 
-        const activeConfig = {
-          maximumAssessmentLength: 30,
-          challengesBetweenSameCompetence: 2,
-          limitToOneQuestionPerTube: false,
-          enablePassageByAllCompetences: false,
-          variationPercent: 0.25,
-          defaultCandidateCapacity: -3,
-          defaultProbabilityToPickChallenge: 30,
-        };
+      const activeConfig = {
+        maximumAssessmentLength: 30,
+        challengesBetweenSameCompetence: 2,
+        limitToOneQuestionPerTube: false,
+        enablePassageByAllCompetences: false,
+        variationPercent: 0.25,
+        defaultCandidateCapacity: -3,
+        defaultProbabilityToPickChallenge: 30,
+      };
 
-        const activeVersion = databaseBuilder.factory.buildCertificationVersion({
-          id: 100,
+      const activeVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2025-06-01') })
+        .withParameters({
           scope,
-          startDate: new Date('2025-06-01'),
-          expirationDate: null,
+          tubeIds: ['rec123', 'rec5678'],
+          id: 100,
           assessmentDuration: 120,
           globalScoringConfiguration: [{ config: 'latest' }],
           competencesScoringConfiguration: [{ config: 'latest' }],
           challengesConfiguration: activeConfig,
-        });
+        })
+        .insertToDB({ databaseBuilder });
 
-        const aWeDoNotCareConfig = {
-          maximumAssessmentLength: 29,
-          challengesBetweenSameCompetence: 2,
-          limitToOneQuestionPerTube: false,
-          enablePassageByAllCompetences: false,
-          variationPercent: 0.25,
-          defaultCandidateCapacity: -8,
-          defaultProbabilityToPickChallenge: 40,
-        };
-        const aScopeWeAreNotInterestedIn = SCOPES.CORE;
-        const activeVersion2 = databaseBuilder.factory.buildCertificationVersion({
-          id: 2,
+      const aWeDoNotCareConfig = {
+        maximumAssessmentLength: 29,
+        challengesBetweenSameCompetence: 2,
+        limitToOneQuestionPerTube: false,
+        enablePassageByAllCompetences: false,
+        variationPercent: 0.25,
+        defaultCandidateCapacity: -8,
+        defaultProbabilityToPickChallenge: 40,
+      };
+      const aScopeWeAreNotInterestedIn = SCOPES.CORE;
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2025-10-01') })
+        .withParameters({
           scope: aScopeWeAreNotInterestedIn,
-          startDate: new Date('2025-10-01'),
-          expirationDate: null,
+          tubeIds: ['rec123', 'rec5678'],
+          id: 2,
           assessmentDuration: 150,
           globalScoringConfiguration: [{ other: 'scope' }],
-          competencesScoringConfiguration: null,
           challengesConfiguration: aWeDoNotCareConfig,
-        });
+        })
+        .insertToDB({ databaseBuilder });
 
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: archivedVersion.id, tubeId: 'rec123' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: archivedVersion.id, tubeId: 'rec5678' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: archivedVersion2.id, tubeId: 'rec123' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: archivedVersion2.id, tubeId: 'rec5678' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: activeVersion.id, tubeId: 'rec123' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: activeVersion.id, tubeId: 'rec5678' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: activeVersion2.id, tubeId: 'rec123' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: activeVersion2.id, tubeId: 'rec5678' });
+      await databaseBuilder.commit();
+
+      // when
+      const versions = await versionRepository.findAllByScope({ scope });
+
+      // then
+      expect(versions).to.deepEqualArray([activeVersion, archivedVersion, archivedVersion2]);
+    });
+
+    context('when no version exists for the scope', function () {
+      it('return an empty array', async function () {
+        // given
+        const scope = SCOPES.PIX_PLUS_EDU_CPE;
+
+        domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('2025-01-01') })
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'], assessmentDuration: 90 })
+          .insertToDB({ databaseBuilder });
 
         await databaseBuilder.commit();
 
@@ -342,364 +223,258 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         const versions = await versionRepository.findAllByScope({ scope });
 
         // then
-        expect(versions).to.deepEqualArray([
-          domainBuilder.certification.configuration.buildVersion({
-            id: 100,
-            scope,
-            startDate: new Date('2025-06-01'),
-            expirationDate: null,
-            assessmentDuration: 120,
-            globalScoringConfiguration: [{ config: 'latest' }],
-            competencesScoringConfiguration: [{ config: 'latest' }],
-            challengesConfiguration: activeConfig,
-            tubeIds: ['rec123', 'rec5678'],
-          }),
-          domainBuilder.certification.configuration.buildVersion({
-            id: 1000,
-            scope,
-            startDate: new Date('2025-01-01'),
-            expirationDate: new Date('2025-05-31'),
-            assessmentDuration: 90,
-            globalScoringConfiguration: [{ config: 'old' }],
-            competencesScoringConfiguration: [{ config: 'old' }],
-            challengesConfiguration: oldConfig,
-            tubeIds: ['rec123', 'rec5678'],
-          }),
-          domainBuilder.certification.configuration.buildVersion({
-            id: 10000,
-            scope,
-            startDate: new Date('2025-03-01'),
-            expirationDate: new Date('2025-08-31'),
-            assessmentDuration: 100,
-            globalScoringConfiguration: [{ config: 'middle' }],
-            competencesScoringConfiguration: [{ config: 'middle' }],
-            challengesConfiguration: middleConfig,
-            tubeIds: ['rec123', 'rec5678'],
-          }),
-        ]);
-      });
-
-      context('when no version exists for the scope', function () {
-        it('return an empty array', async function () {
-          // given
-          const scope = SCOPES.PIX_PLUS_EDU_CPE;
-
-          databaseBuilder.factory.buildCertificationVersion({
-            scope: SCOPES.CORE,
-            startDate: new Date('2025-01-01'),
-            expirationDate: null,
-            assessmentDuration: 90,
-            globalScoringConfiguration: null,
-            competencesScoringConfiguration: null,
-            challengesConfiguration: { config: 'test' },
-          });
-
-          await databaseBuilder.commit();
-
-          // when
-          const versions = await versionRepository.findAllByScope({ scope });
-
-          // then
-          expect(versions).to.deepEqualArray([]);
-        });
+        expect(versions).to.deepEqualArray([]);
       });
     });
+  });
 
-    describe('#getById', function () {
-      it('should return the version with the given id', async function () {
-        // given
-        const scope = SCOPES.PIX_PLUS_DROIT;
-        const expectedConfig = {
-          maximumAssessmentLength: 30,
-          challengesBetweenSameCompetence: 2,
-          limitToOneQuestionPerTube: false,
-          enablePassageByAllCompetences: false,
-          variationPercent: 0.25,
-          defaultCandidateCapacity: 1,
-          defaultProbabilityToPickChallenge: 51,
-        };
-        const versionId = databaseBuilder.factory.buildCertificationVersion({
+  describe('#getById', function () {
+    it('should return the version with the given id', async function () {
+      // given
+      const scope = SCOPES.PIX_PLUS_DROIT;
+      const expectedConfig = {
+        maximumAssessmentLength: 30,
+        challengesBetweenSameCompetence: 2,
+        limitToOneQuestionPerTube: false,
+        enablePassageByAllCompetences: false,
+        variationPercent: 0.25,
+        defaultCandidateCapacity: 1,
+        defaultProbabilityToPickChallenge: 51,
+      };
+      const version = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asArchived({ startDate: new Date('2025-06-01'), expirationDate: new Date('2025-12-31') })
+        .withParameters({
           scope,
-          startDate: new Date('2025-06-01'),
-          expirationDate: new Date('2025-12-31'),
+          tubeIds: ['rec123', 'rec5678'],
           assessmentDuration: 120,
           globalScoringConfiguration: [{ config: 'test' }],
           competencesScoringConfiguration: [{ config: 'test' }],
           challengesConfiguration: expectedConfig,
-        }).id;
+        })
+        .insertToDB({ databaseBuilder });
 
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId, tubeId: 'rec123' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId, tubeId: 'rec5678' });
+      await databaseBuilder.commit();
 
-        await databaseBuilder.commit();
+      // when
+      const result = await versionRepository.getById({ id: version.id });
 
-        // when
-        const result = await versionRepository.getById({ id: versionId });
-
-        // then
-        expect(result).to.be.instanceOf(Version);
-        expect(result.id).to.equal(versionId);
-        expect(result.scope).to.equal(scope);
-        expect(result.startDate).to.deep.equal(new Date('2025-06-01'));
-        expect(result.expirationDate).to.deep.equal(new Date('2025-12-31'));
-        expect(result.assessmentDuration).to.equal(120);
-        expect(result.globalScoringConfiguration).to.deep.equal([{ config: 'test' }]);
-        expect(result.competencesScoringConfiguration).to.deep.equal([{ config: 'test' }]);
-        expect(result.challengesConfiguration).to.deep.equal(expectedConfig);
-        expect(result.tubeIds).to.deep.equal(['rec123', 'rec5678']);
-      });
-
-      context('when the version does not exist', function () {
-        it('should throw a NotFoundError', async function () {
-          // given
-          const nonExistentVersionId = 99999;
-
-          // when
-          const error = await catchErr(versionRepository.getById)({ id: nonExistentVersionId });
-
-          // then
-          expect(error).to.deepEqualInstance(new NotFoundError(`Version with id ${nonExistentVersionId} not found`));
-        });
-      });
+      // then
+      expect(result).to.be.instanceOf(Version);
+      expect(result.id).to.equal(version.id);
+      expect(result.scope).to.equal(scope);
+      expect(result.startDate).to.deep.equal(new Date('2025-06-01'));
+      expect(result.expirationDate).to.deep.equal(new Date('2025-12-31'));
+      expect(result.assessmentDuration).to.equal(120);
+      expect(result.globalScoringConfiguration).to.deep.equal([{ config: 'test' }]);
+      expect(result.competencesScoringConfiguration).to.deep.equal([{ config: 'test' }]);
+      expect(result.challengesConfiguration).to.deep.equal(expectedConfig);
+      expect(result.tubeIds).to.deep.equal(['rec123', 'rec5678']);
     });
 
-    describe('#getFrameworkHistory', function () {
-      it('should return an empty array when there is no framework history', async function () {
+    context('when the version does not exist', function () {
+      it('should throw a NotFoundError', async function () {
         // given
-        const scope = SCOPES.PIX_PLUS_DROIT;
+        const nonExistentVersionId = 99999;
 
         // when
-        const frameworkHistory = await versionRepository.getFrameworkHistory({ scope });
+        const error = await catchErr(versionRepository.getById)({ id: nonExistentVersionId });
 
         // then
-        expect(frameworkHistory).to.deep.equal([]);
+        expect(error).to.deepEqualInstance(new NotFoundError(`Version with id ${nonExistentVersionId} not found`));
       });
+    });
+  });
 
-      it('should return the framework history ordered by start date descending', async function () {
-        // given
-        const scope = SCOPES.PIX_PLUS_DROIT;
-        const otherScope = SCOPES.CLEA;
+  describe('#getFrameworkHistory', function () {
+    it('should return an empty array when there is no framework history', async function () {
+      // given
+      const scope = SCOPES.PIX_PLUS_DROIT;
 
-        const version1Config = { maximumAssessmentLength: 1 };
-        const version1 = databaseBuilder.factory.buildCertificationVersion({
-          scope,
-          startDate: new Date('2024-03-15'),
-          assessmentDuration: 90,
-          challengesConfiguration: version1Config,
-          status: VERSION_STATUSES.ACTIVE,
-        });
-        const version2Config = { maximumAssessmentLength: 2 };
-        const version2 = databaseBuilder.factory.buildCertificationVersion({
-          scope,
-          startDate: null,
-          assessmentDuration: 80,
-          challengesConfiguration: version2Config,
-          status: VERSION_STATUSES.DRAFT,
-        });
-        const version3Config = { maximumAssessmentLength: 3 };
-        const version3 = databaseBuilder.factory.buildCertificationVersion({
-          scope,
-          startDate: new Date('2024-03-10'),
-          expirationDate: new Date('2024-03-14'),
-          assessmentDuration: 50,
-          challengesConfiguration: version3Config,
-          status: VERSION_STATUSES.ARCHIVED,
-        });
-        databaseBuilder.factory.buildCertificationVersion({
+      // when
+      const frameworkHistory = await versionRepository.getFrameworkHistory({ scope });
+
+      // then
+      expect(frameworkHistory).to.deep.equal([]);
+    });
+
+    it('should return the framework history ordered by start date descending', async function () {
+      // given
+      const scope = SCOPES.PIX_PLUS_DROIT;
+      const otherScope = SCOPES.CLEA;
+
+      const version1Config = { maximumAssessmentLength: 1 };
+      const version1 = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2024-03-15') })
+        .withParameters({ scope, tubeIds: ['rec123'], assessmentDuration: 90, challengesConfiguration: version1Config })
+        .insertToDB({ databaseBuilder });
+      const version2Config = { maximumAssessmentLength: 2 };
+      const version2 = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ scope, tubeIds: ['rec123'], assessmentDuration: 80, challengesConfiguration: version2Config })
+        .insertToDB({ databaseBuilder });
+      const version3Config = { maximumAssessmentLength: 3 };
+      const version3 = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asArchived({ startDate: new Date('2024-03-10'), expirationDate: new Date('2024-03-14') })
+        .withParameters({ scope, tubeIds: ['rec123'], assessmentDuration: 50, challengesConfiguration: version3Config })
+        .insertToDB({ databaseBuilder });
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2025-06-21') })
+        .withParameters({
           scope: otherScope,
-          startDate: new Date('2025-06-21'),
+          tubeIds: ['rec123'],
           assessmentDuration: 60,
           challengesConfiguration: { maximumAssessmentLength: 4 },
+        })
+        .insertToDB({ databaseBuilder });
+
+      await databaseBuilder.commit();
+
+      // when
+      const frameworkHistory = await versionRepository.getFrameworkHistory({ scope });
+
+      // then
+      expect(frameworkHistory).to.deep.equal([
+        domainBuilder.certification.configuration.buildFrameworkHistoryEntry({
+          id: version2.id,
+          startDate: version2.startDate,
+          expirationDate: version2.expirationDate,
+          assessmentDuration: version2.assessmentDuration,
+          maximumAssessmentLength: version2Config.maximumAssessmentLength,
+          status: VERSION_STATUSES.DRAFT,
+        }),
+        domainBuilder.certification.configuration.buildFrameworkHistoryEntry({
+          id: version1.id,
+          startDate: version1.startDate,
+          expirationDate: version1.expirationDate,
+          assessmentDuration: version1.assessmentDuration,
+          maximumAssessmentLength: version1Config.maximumAssessmentLength,
           status: VERSION_STATUSES.ACTIVE,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const frameworkHistory = await versionRepository.getFrameworkHistory({ scope });
-
-        // then
-        expect(frameworkHistory).to.deep.equal([
-          domainBuilder.certification.configuration.buildFrameworkHistoryEntry({
-            id: version2.id,
-            startDate: version2.startDate,
-            expirationDate: version2.expirationDate,
-            assessmentDuration: version2.assessmentDuration,
-            maximumAssessmentLength: version2Config.maximumAssessmentLength,
-            status: VERSION_STATUSES.DRAFT,
-          }),
-          domainBuilder.certification.configuration.buildFrameworkHistoryEntry({
-            id: version1.id,
-            startDate: version1.startDate,
-            expirationDate: version1.expirationDate,
-            assessmentDuration: version1.assessmentDuration,
-            maximumAssessmentLength: version1Config.maximumAssessmentLength,
-            status: VERSION_STATUSES.ACTIVE,
-          }),
-          domainBuilder.certification.configuration.buildFrameworkHistoryEntry({
-            id: version3.id,
-            startDate: version3.startDate,
-            expirationDate: version3.expirationDate,
-            assessmentDuration: version3.assessmentDuration,
-            maximumAssessmentLength: version3Config.maximumAssessmentLength,
-            status: VERSION_STATUSES.ARCHIVED,
-          }),
-        ]);
-      });
+        }),
+        domainBuilder.certification.configuration.buildFrameworkHistoryEntry({
+          id: version3.id,
+          startDate: version3.startDate,
+          expirationDate: version3.expirationDate,
+          assessmentDuration: version3.assessmentDuration,
+          maximumAssessmentLength: version3Config.maximumAssessmentLength,
+          status: VERSION_STATUSES.ARCHIVED,
+        }),
+      ]);
     });
+  });
 
-    describe('#findAll', function () {
-      it('should return all the versions ordered by id', async function () {
-        // given
-        const scopeDroit = Frameworks.DROIT;
-        const expectedConfigDroit = {
-          maximumAssessmentLength: 30,
-          challengesBetweenSameCompetence: 2,
-          limitToOneQuestionPerTube: false,
-          enablePassageByAllCompetences: false,
-          variationPercent: 0.25,
-          defaultCandidateCapacity: 1,
-          defaultProbabilityToPickChallenge: 51,
-        };
-        const versionIdDroitId = databaseBuilder.factory.buildCertificationVersion({
-          id: 3,
+  describe('#findAll', function () {
+    it('should return all the versions ordered by id', async function () {
+      // given
+      const scopeDroit = Frameworks.DROIT;
+      const expectedConfigDroit = {
+        maximumAssessmentLength: 30,
+        challengesBetweenSameCompetence: 2,
+        limitToOneQuestionPerTube: false,
+        enablePassageByAllCompetences: false,
+        variationPercent: 0.25,
+        defaultCandidateCapacity: 1,
+        defaultProbabilityToPickChallenge: 51,
+      };
+      const versionDroit = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asArchived({ startDate: new Date('2025-06-01'), expirationDate: new Date('2025-12-31') })
+        .withParameters({
           scope: scopeDroit,
-          startDate: new Date('2025-06-01'),
-          expirationDate: new Date('2025-12-31'),
+          tubeIds: ['rec1234', 'rec5678'],
+          id: 3,
           assessmentDuration: 120,
           minimumAnswersRequiredToValidateACertification: 1,
           globalScoringConfiguration: [{ config: 'testDroit' }],
           competencesScoringConfiguration: [{ config: 'testDroit' }],
           challengesConfiguration: expectedConfigDroit,
           comments: 'versionDroit',
-        }).id;
-        const scopeCoreOld = Frameworks.CORE;
-        const expectedConfigCoreOld = {
-          maximumAssessmentLength: 1,
-          challengesBetweenSameCompetence: 3,
-          limitToOneQuestionPerTube: true,
-          enablePassageByAllCompetences: true,
-          variationPercent: 0.5,
-          defaultCandidateCapacity: 4,
-          defaultProbabilityToPickChallenge: 5,
-        };
-        const versionIdCoreOldId = databaseBuilder.factory.buildCertificationVersion({
-          id: 2,
+        })
+        .insertToDB({ databaseBuilder });
+      const scopeCoreOld = Frameworks.CORE;
+      const expectedConfigCoreOld = {
+        maximumAssessmentLength: 1,
+        challengesBetweenSameCompetence: 3,
+        limitToOneQuestionPerTube: true,
+        enablePassageByAllCompetences: true,
+        variationPercent: 0.5,
+        defaultCandidateCapacity: 4,
+        defaultProbabilityToPickChallenge: 5,
+      };
+      const versionCoreOld = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asArchived({ startDate: new Date('2024-01-01'), expirationDate: new Date('2025-12-31') })
+        .withParameters({
           scope: scopeCoreOld,
-          startDate: new Date('2024-01-01'),
-          expirationDate: new Date('2025-12-31'),
+          tubeIds: ['rec1234', 'rec5678'],
+          id: 2,
           assessmentDuration: 66,
           minimumAnswersRequiredToValidateACertification: 2,
           globalScoringConfiguration: [{ config: 'testCoreOld' }],
           competencesScoringConfiguration: [{ config: 'testCoreOld' }],
           challengesConfiguration: expectedConfigCoreOld,
           comments: 'versionCoreOld',
-        }).id;
-        const scopeCoreNew = Frameworks.CORE;
-        const expectedConfigCoreNew = {
-          maximumAssessmentLength: 10,
-          challengesBetweenSameCompetence: 30,
-          limitToOneQuestionPerTube: false,
-          enablePassageByAllCompetences: false,
-          variationPercent: 0.75,
-          defaultCandidateCapacity: 40,
-          defaultProbabilityToPickChallenge: 50,
-        };
-        const versionIdCoreNewId = databaseBuilder.factory.buildCertificationVersion({
-          id: 1,
+        })
+        .insertToDB({ databaseBuilder });
+      const scopeCoreNew = Frameworks.CORE;
+      const expectedConfigCoreNew = {
+        maximumAssessmentLength: 10,
+        challengesBetweenSameCompetence: 30,
+        limitToOneQuestionPerTube: false,
+        enablePassageByAllCompetences: false,
+        variationPercent: 0.75,
+        defaultCandidateCapacity: 40,
+        defaultProbabilityToPickChallenge: 50,
+      };
+      const versionCoreNew = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2026-01-01') })
+        .withParameters({
           scope: scopeCoreNew,
-          startDate: new Date('2026-01-01'),
-          expirationDate: null,
+          tubeIds: ['rec1234', 'rec5678'],
+          id: 1,
           assessmentDuration: 3,
           minimumAnswersRequiredToValidateACertification: 3,
           globalScoringConfiguration: [{ config: 'testCoreNew' }],
           competencesScoringConfiguration: [{ config: 'testCoreNew' }],
           challengesConfiguration: expectedConfigCoreNew,
           comments: 'versionCoreNew',
-        }).id;
+        })
+        .insertToDB({ databaseBuilder });
 
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdDroitId, tubeId: 'rec1234' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdDroitId, tubeId: 'rec5678' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdCoreOldId, tubeId: 'rec1234' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdCoreOldId, tubeId: 'rec5678' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdCoreNewId, tubeId: 'rec1234' });
-        databaseBuilder.factory.buildCertificationVersionTube({ versionId: versionIdCoreNewId, tubeId: 'rec5678' });
-        await databaseBuilder.commit();
+      await databaseBuilder.commit();
 
-        // when
-        const result = await versionRepository.findAll();
+      // when
+      const result = await versionRepository.findAll();
 
-        // then
-        expect(result).to.deepEqualArray([
-          domainBuilder.certification.configuration.buildVersion({
-            id: versionIdCoreNewId,
-            scope: scopeCoreNew,
-            startDate: new Date('2026-01-01'),
-            expirationDate: null,
-            assessmentDuration: 3,
-            minimumAnswersRequiredToValidateACertification: 3,
-            globalScoringConfiguration: [{ config: 'testCoreNew' }],
-            competencesScoringConfiguration: [{ config: 'testCoreNew' }],
-            challengesConfiguration: expectedConfigCoreNew,
-            comments: 'versionCoreNew',
-            tubeIds: ['rec1234', 'rec5678'],
-          }),
-          domainBuilder.certification.configuration.buildVersion({
-            id: versionIdCoreOldId,
-            scope: scopeCoreOld,
-            startDate: new Date('2024-01-01'),
-            expirationDate: new Date('2025-12-31'),
-            assessmentDuration: 66,
-            minimumAnswersRequiredToValidateACertification: 2,
-            globalScoringConfiguration: [{ config: 'testCoreOld' }],
-            competencesScoringConfiguration: [{ config: 'testCoreOld' }],
-            challengesConfiguration: expectedConfigCoreOld,
-            comments: 'versionCoreOld',
-            tubeIds: ['rec1234', 'rec5678'],
-          }),
-          domainBuilder.certification.configuration.buildVersion({
-            id: versionIdDroitId,
-            scope: scopeDroit,
-            startDate: new Date('2025-06-01'),
-            expirationDate: new Date('2025-12-31'),
-            assessmentDuration: 120,
-            minimumAnswersRequiredToValidateACertification: 1,
-            globalScoringConfiguration: [{ config: 'testDroit' }],
-            competencesScoringConfiguration: [{ config: 'testDroit' }],
-            challengesConfiguration: expectedConfigDroit,
-            comments: 'versionDroit',
-            tubeIds: ['rec1234', 'rec5678'],
-          }),
-        ]);
-      });
+      // then
+      expect(result).to.deepEqualArray([versionCoreNew, versionCoreOld, versionDroit]);
     });
+  });
 
-    describe('#remove', function () {
-      it('should delete a draft certification version ', async function () {
-        const certificationVersionId = databaseBuilder.factory.buildCertificationVersion({
-          startDate: null,
-          expirationDate: null,
-        }).id;
+  describe('#remove', function () {
+    it('should delete a draft certification version ', async function () {
+      const certificationVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'] })
+        .insertToDB({ databaseBuilder });
 
-        databaseBuilder.factory.buildCertificationVersionTube({
-          versionId: certificationVersionId,
-          tubeId: 'rec123',
-        });
+      await databaseBuilder.commit();
 
-        await databaseBuilder.commit();
+      await versionRepository.remove(certificationVersion.id);
 
-        await versionRepository.remove(certificationVersionId);
+      const matchingCertificationVersions = await knex
+        .from('certification_versions')
+        .where({ id: certificationVersion.id });
+      expect(matchingCertificationVersions).to.be.empty;
 
-        const matchingCertificationVersions = await knex
-          .from('certification_versions')
-          .where({ id: certificationVersionId });
-        expect(matchingCertificationVersions).to.be.empty;
-
-        const certificationVersionTubeIds = await knex('certification_versions_tubes').where({
-          version_id: certificationVersionId,
-        });
-        expect(certificationVersionTubeIds).to.be.empty;
+      const certificationVersionTubeIds = await knex('certification_versions_tubes').where({
+        version_id: certificationVersion.id,
       });
+      expect(certificationVersionTubeIds).to.be.empty;
     });
   });
 });

@@ -1,8 +1,10 @@
 import sinon from 'sinon';
 
 import { FillTubeIdsForExistingVersions } from '../../../../scripts/certification/fill-tube-ids-for-existing-versions.js';
+import { SCOPES } from '../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../tooling/learning-content-builder/index.js';
 
 describe('Integration | Scripts | Certification | fill-tube-ids-for-existing-versions', function () {
@@ -43,8 +45,15 @@ describe('Integration | Scripts | Certification | fill-tube-ids-for-existing-ver
     const learningContentObjects = learningContentBuilder.fromAreas(areas);
     databaseBuilder.factory.learningContent.build(learningContentObjects);
 
-    const version1 = databaseBuilder.factory.buildCertificationVersion();
-    const version2 = databaseBuilder.factory.buildCertificationVersion();
+    // the versions must be seeded WITHOUT tube rows: the script under test fills them
+    const version1 = domainBuilder.certification.configuration
+      .versionBuilder()
+      .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+      .insertToDB({ databaseBuilder });
+    const version2 = domainBuilder.certification.configuration
+      .versionBuilder()
+      .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+      .insertToDB({ databaseBuilder });
     for (const challengeId of ['recChallenge0_0', 'recChallenge0_1', 'recChallenge1_0']) {
       databaseBuilder.factory.buildCertificationFrameworksChallenge({ versionId: version1.id, challengeId });
     }
@@ -106,7 +115,10 @@ describe('Integration | Scripts | Certification | fill-tube-ids-for-existing-ver
     context('when an error occurs during insertion', function () {
       it('should rollback the transaction and rethrow the error', async function () {
         // given
-        databaseBuilder.factory.buildCertificationVersion();
+        domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
         const dbError = new Error('DB insertion error');

@@ -1,13 +1,5 @@
 import { VersionNotDraftError } from '../../../../../../../src/certification/configuration/domain/errors.js';
-import {
-  Version,
-  VERSION_STATUSES,
-} from '../../../../../../../src/certification/configuration/domain/models/Version.js';
-import {
-  DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
-  DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
-  DEFAULT_SESSION_DURATION_MINUTES,
-} from '../../../../../../../src/certification/shared/domain/constants.js';
+import { Version } from '../../../../../../../src/certification/configuration/domain/models/Version.js';
 import { SCOPES } from '../../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { EntityValidationError } from '../../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../../test-helper.js';
@@ -17,9 +9,11 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
   describe('#get isDraft', function () {
     context('when the version is archived', function () {
       it('return false', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          status: VERSION_STATUSES.ARCHIVED,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asArchived()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'] })
+          .build();
 
         expect(version.isDraft).to.be.false;
       });
@@ -27,9 +21,11 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
 
     context('when the version is active', function () {
       it('return false', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          status: VERSION_STATUSES.ACTIVE,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'] })
+          .build();
 
         expect(version.isDraft).to.be.false;
       });
@@ -37,9 +33,10 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
 
     context('when the version is draft', function () {
       it('return true', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          status: VERSION_STATUSES.DRAFT,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'] })
+          .build();
 
         expect(version.isDraft).to.be.true;
       });
@@ -49,9 +46,11 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
   describe('#canRemove', function () {
     context('when the version is archived', function () {
       it('return false', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          status: VERSION_STATUSES.ARCHIVED,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asArchived()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'] })
+          .build();
 
         expect(version.canRemove).to.be.false;
       });
@@ -59,9 +58,11 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
 
     context('when the version is active', function () {
       it('return false', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          status: VERSION_STATUSES.ACTIVE,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'] })
+          .build();
 
         expect(version.canRemove).to.be.false;
       });
@@ -69,9 +70,10 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
 
     context('when the version is draft', function () {
       it('return true', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          status: VERSION_STATUSES.DRAFT,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'] })
+          .build();
 
         expect(version.canRemove).to.be.true;
       });
@@ -81,9 +83,11 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
   describe('#get isActive', function () {
     context('when the version is archived', function () {
       it('return false', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          status: VERSION_STATUSES.ARCHIVED,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asArchived()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'] })
+          .build();
 
         expect(version.isActive).to.be.false;
       });
@@ -91,9 +95,11 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
 
     context('when the version is active', function () {
       it('return true', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          status: VERSION_STATUSES.ACTIVE,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'] })
+          .build();
 
         expect(version.isActive).to.be.true;
       });
@@ -101,9 +107,10 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
 
     context('when the version is draft', function () {
       it('return false', function () {
-        const version = domainBuilder.certification.configuration.buildVersion({
-          status: VERSION_STATUSES.DRAFT,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec123'] })
+          .build();
 
         expect(version.isActive).to.be.false;
       });
@@ -114,28 +121,29 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
     context('success cases', function () {
       context('when a base version is provided', function () {
         it('returns a newly created Version model based on attributes of the base version', function () {
-          const baseVersion = domainBuilder.certification.configuration.buildVersion({
-            id: 1,
-            scope: SCOPES.PIX_PLUS_DROIT,
-            startDate: new Date(),
-            expirationDate: new Date(),
-            assessmentDuration: 11,
-            minimumAnswersRequiredToValidateACertification: 11,
-            globalScoringConfiguration: ['some globalScoringConfiguration'],
-            competencesScoringConfiguration: ['some competencesScoringConfiguration'],
-            challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({
-              maximumAssessmentLength: 11,
-              challengesBetweenSameCompetence: 11,
-              limitToOneQuestionPerTube: false,
-              enablePassageByAllCompetences: false,
-              variationPercent: 0.1,
-              defaultCandidateCapacity: 11,
-              defaultProbabilityToPickChallenge: 11,
-            }),
-            status: VERSION_STATUSES.ACTIVE,
-            comments: 'Some ignored value',
-            tubeIds: ['rec123'],
-          });
+          const baseVersion = domainBuilder.certification.configuration
+            .versionBuilder()
+            .asActive({ startDate: new Date() })
+            .withParameters({
+              scope: SCOPES.PIX_PLUS_DROIT,
+              tubeIds: ['rec123'],
+              id: 1,
+              assessmentDuration: 11,
+              minimumAnswersRequiredToValidateACertification: 11,
+              globalScoringConfiguration: ['some globalScoringConfiguration'],
+              competencesScoringConfiguration: ['some competencesScoringConfiguration'],
+              challengesConfiguration: {
+                maximumAssessmentLength: 11,
+                challengesBetweenSameCompetence: 11,
+                limitToOneQuestionPerTube: false,
+                enablePassageByAllCompetences: false,
+                variationPercent: 0.1,
+                defaultCandidateCapacity: 11,
+                defaultProbabilityToPickChallenge: 11,
+              },
+              comments: 'Some ignored value',
+            })
+            .build();
 
           const newVersion = Version.buildDraftFromActiveVersion({
             scope: SCOPES.PIX_PLUS_PRO_SANTE,
@@ -144,28 +152,26 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
           });
 
           expect(newVersion).to.deepEqualInstance(
-            domainBuilder.certification.configuration.buildVersion({
-              id: null,
-              scope: SCOPES.PIX_PLUS_DROIT,
-              startDate: null,
-              expirationDate: null,
-              assessmentDuration: 11,
-              minimumAnswersRequiredToValidateACertification: 11,
-              globalScoringConfiguration: ['some globalScoringConfiguration'],
-              competencesScoringConfiguration: ['some competencesScoringConfiguration'],
-              challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({
-                maximumAssessmentLength: 11,
-                challengesBetweenSameCompetence: 11,
-                limitToOneQuestionPerTube: false,
-                enablePassageByAllCompetences: false,
-                variationPercent: 0.1,
-                defaultCandidateCapacity: 11,
-                defaultProbabilityToPickChallenge: 11,
-              }),
-              status: VERSION_STATUSES.DRAFT,
-              comments: null,
-              tubeIds: ['rec456'],
-            }),
+            domainBuilder.certification.configuration
+              .versionBuilder()
+              .withParameters({
+                scope: SCOPES.PIX_PLUS_DROIT,
+                tubeIds: ['rec456'],
+                assessmentDuration: 11,
+                minimumAnswersRequiredToValidateACertification: 11,
+                globalScoringConfiguration: ['some globalScoringConfiguration'],
+                competencesScoringConfiguration: ['some competencesScoringConfiguration'],
+                challengesConfiguration: {
+                  maximumAssessmentLength: 11,
+                  challengesBetweenSameCompetence: 11,
+                  limitToOneQuestionPerTube: false,
+                  enablePassageByAllCompetences: false,
+                  variationPercent: 0.1,
+                  defaultCandidateCapacity: 11,
+                  defaultProbabilityToPickChallenge: 11,
+                },
+              })
+              .build(),
           );
         });
       });
@@ -179,29 +185,10 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
           });
 
           expect(newVersion).to.deepEqualInstance(
-            domainBuilder.certification.configuration.buildVersion({
-              id: null,
-              scope: SCOPES.PIX_PLUS_PRO_SANTE,
-              startDate: null,
-              expirationDate: null,
-              assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
-              minimumAnswersRequiredToValidateACertification:
-                DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
-              globalScoringConfiguration: [],
-              competencesScoringConfiguration: [],
-              challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({
-                maximumAssessmentLength: 32,
-                challengesBetweenSameCompetence: 0,
-                limitToOneQuestionPerTube: true,
-                enablePassageByAllCompetences: true,
-                variationPercent: 1,
-                defaultCandidateCapacity: 0,
-                defaultProbabilityToPickChallenge: DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
-              }),
-              status: VERSION_STATUSES.DRAFT,
-              comments: null,
-              tubeIds: ['rec456'],
-            }),
+            domainBuilder.certification.configuration
+              .versionBuilder()
+              .withParameters({ scope: SCOPES.PIX_PLUS_PRO_SANTE, tubeIds: ['rec456'] })
+              .build(),
           );
         });
       });
@@ -235,18 +222,15 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
   });
 
   describe('#update', function () {
-    let baseVersionData, version, validUpdateData;
+    let baseVersionData, validUpdateData;
 
     beforeEach(function () {
       baseVersionData = {
         id: 123,
         scope: SCOPES.PIX_PLUS_DROIT,
-        startDate: new Date('2025-01-01'),
-        expirationDate: new Date('2025-11-11'),
         assessmentDuration: 111,
         minimumAnswersRequiredToValidateACertification: 222,
         comments: '333',
-        status: VERSION_STATUSES.ACTIVE,
         globalScoringConfiguration: [],
         competencesScoringConfiguration: [],
         challengesConfiguration: {
@@ -270,24 +254,26 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
         defaultCandidateCapacity: 700,
         limitToOneQuestionPerTube: false,
         enablePassageByAllCompetences: false,
-        comments: 'COUCOU',
       };
-      version = domainBuilder.certification.configuration.buildVersion(baseVersionData);
     });
 
     context('when version is a draft', function () {
       it('updates the version', function () {
-        version.status = VERSION_STATUSES.DRAFT;
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: new Date('2025-05-05') })
+          .withParameters(baseVersionData)
+          .build();
+
         version.update(validUpdateData);
 
-        expect(version).to.deepEqualInstance(
-          domainBuilder.certification.configuration.buildVersion({
-            ...baseVersionData,
-            status: VERSION_STATUSES.DRAFT,
-            startDate: validUpdateData.startDate,
+        const expectedVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: validUpdateData.startDate })
+          .withParameters(baseVersionData)
+          .withParameters({
             assessmentDuration: validUpdateData.assessmentDuration,
             minimumAnswersRequiredToValidateACertification: validUpdateData.minimumAnswersRequiredForValidation,
-            comments: '333',
             challengesConfiguration: {
               maximumAssessmentLength: validUpdateData.maximumAssessmentLength,
               challengesBetweenSameCompetence: validUpdateData.challengesBetweenSameCompetence,
@@ -297,16 +283,17 @@ describe('Certification | Configuration | Unit | Application | Api | Models | Ve
               limitToOneQuestionPerTube: validUpdateData.limitToOneQuestionPerTube,
               enablePassageByAllCompetences: validUpdateData.enablePassageByAllCompetences,
             },
-          }),
-        );
+          })
+          .build();
+        expect(version).to.deepEqualInstance(expectedVersion);
       });
     });
 
     context('when version is not a draft', function () {
       it('throws a VersionNotDraft error', function () {
-        version.status = VERSION_STATUSES.ARCHIVED;
+        let version = domainBuilder.certification.configuration.versionBuilder().asActive().build();
         expect(() => version.update(validUpdateData)).to.throw(VersionNotDraftError);
-        version.status = VERSION_STATUSES.ACTIVE;
+        version = domainBuilder.certification.configuration.versionBuilder().asArchived().build();
         expect(() => version.update(validUpdateData)).to.throw(VersionNotDraftError);
       });
     });

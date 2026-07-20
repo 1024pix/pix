@@ -73,7 +73,6 @@ export async function getById(id) {
     tube.skills = skills.filter((skill) => {
       return skill.tubeId === tube.id;
     });
-    delete tube.skillIds;
   });
 
   const thematicIds = tubes.map((tube) => tube.thematicId);
@@ -122,6 +121,21 @@ export async function getById(id) {
     area.competences = competences.filter((competence) => {
       return competence.areaId === area.id;
     });
+  });
+
+  competences.forEach((competence) => {
+    delete competence.areaId;
+  });
+  thematics.forEach((thematic) => {
+    delete thematic.competenceId;
+  });
+  tubes.forEach((tube) => {
+    delete tube.thematicId;
+    delete tube.competenceId;
+    delete tube.skillIds;
+  });
+  skills.forEach((skill) => {
+    delete skill.tubeId;
   });
 
   return new VersionDetails({

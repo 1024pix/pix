@@ -1,4 +1,5 @@
 import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { MissingAssessmentId, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
@@ -13,7 +14,10 @@ describe('Integration | Repository | AssessmentResult', function () {
     context('when save is successful', function () {
       it('should return the saved assessment result', async function () {
         // given
-        const certificationVersion = databaseBuilder.factory.buildCertificationVersion();
+        const certificationVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
         databaseBuilder.factory.buildUser({ id: 100 });
         const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
@@ -54,7 +58,10 @@ describe('Integration | Repository | AssessmentResult', function () {
 
       it('should persist the assessment result in DB', async function () {
         // given
-        const certificationVersion = databaseBuilder.factory.buildCertificationVersion();
+        const certificationVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({ id: 3 });
         databaseBuilder.factory.buildUser({ id: 100 });
         const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
@@ -99,7 +106,10 @@ describe('Integration | Repository | AssessmentResult', function () {
       context('when there is no assessment result for the certification course yet', function () {
         it('should persist the link between the assessment result and the certification course in DB', async function () {
           // given
-          const certificationVersion = databaseBuilder.factory.buildCertificationVersion();
+          const certificationVersion = domainBuilder.certification.configuration
+            .versionBuilder()
+            .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+            .insertToDB({ databaseBuilder });
           const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
           databaseBuilder.factory.buildUser({ id: 100 });
           const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
@@ -141,7 +151,10 @@ describe('Integration | Repository | AssessmentResult', function () {
       context('when there is already an assessment result for the certification course', function () {
         it('should update the link between the assessment result and the certification course in DB', async function () {
           // given
-          const certificationVersion = databaseBuilder.factory.buildCertificationVersion();
+          const certificationVersion = domainBuilder.certification.configuration
+            .versionBuilder()
+            .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+            .insertToDB({ databaseBuilder });
           const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
           databaseBuilder.factory.buildUser({ id: 100 });
           const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
@@ -340,7 +353,10 @@ describe('Integration | Repository | AssessmentResult', function () {
     context('when certification course has one assessment result', function () {
       it('should return the assessment result', async function () {
         // given
-        const version = databaseBuilder.factory.buildCertificationVersion();
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
         databaseBuilder.factory.buildCertificationCourse({ id: 1 });
         databaseBuilder.factory.buildUser({ id: 100 });
         databaseBuilder.factory.buildAssessment({ id: 2, certificationCourseId: 1 });
@@ -554,7 +570,10 @@ describe('Integration | Repository | AssessmentResult', function () {
     context('when the assessment result exists', function () {
       it('should update the assessment result', async function () {
         // given
-        const certificationVersion = databaseBuilder.factory.buildCertificationVersion();
+        const certificationVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
         databaseBuilder.factory.buildCertificationCourse({ id: 1 });
         databaseBuilder.factory.buildUser({ id: 100 });
         const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: 1 });

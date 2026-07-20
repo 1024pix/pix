@@ -1,9 +1,11 @@
 import { createServer } from '../../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationIssueReportCategory } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';
 import {
   generateAuthenticatedUserRequestHeaders,
@@ -38,14 +40,11 @@ describe('Acceptance | API | Certification Course', function () {
         reconciledAt,
       }).id;
 
-      const versionId = databaseBuilder.factory.buildCertificationVersion({
-        startDate: new Date('2024-01-01'),
-        expirationDate: null,
-      }).id;
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId,
-      });
+      const versionId = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asDraft({ startDate: new Date('2024-01-01') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
+        .insertToDB({ databaseBuilder }).id;
 
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         sessionId: session.id,
@@ -403,15 +402,11 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
     reconciledAt: new Date('2019-02-01'),
   });
 
-  databaseBuilder.factory.buildCertificationVersion({
-    id: 123,
-    startDate: new Date('2019-01-01'),
-    expirationDate: null,
-  });
-  databaseBuilder.factory.buildCertificationVersionTube({
-    tubeId: 'tubeA',
-    versionId: 123,
-  });
+  domainBuilder.certification.configuration
+    .versionBuilder()
+    .asDraft({ startDate: new Date('2019-01-01') })
+    .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 123 })
+    .insertToDB({ databaseBuilder });
 
   databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
     learningContent,
@@ -445,12 +440,9 @@ function _createExistingCertifCourseSetup({ learningContent, userId, sessionId, 
 
   databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
 
-  const versionId = databaseBuilder.factory.buildCertificationVersion({
-    startDate: new Date('2020-01-01'),
-    expirationDate: null,
-  }).id;
-  databaseBuilder.factory.buildCertificationVersionTube({
-    tubeId: 'tubeA',
-    versionId,
-  });
+  domainBuilder.certification.configuration
+    .versionBuilder()
+    .asDraft({ startDate: new Date('2020-01-01') })
+    .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
+    .insertToDB({ databaseBuilder });
 }

@@ -12,7 +12,10 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repositori
 
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser().id;
-    versionId = databaseBuilder.factory.buildCertificationVersion().id;
+    versionId = domainBuilder.certification.configuration
+      .versionBuilder()
+      .withParameters({ scope: Frameworks.CORE, tubeIds: [] })
+      .insertToDB({ databaseBuilder }).id;
     const session = databaseBuilder.factory.buildSession();
     const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
       sessionId: session.id,

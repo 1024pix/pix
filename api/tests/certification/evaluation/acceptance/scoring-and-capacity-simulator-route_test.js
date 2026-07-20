@@ -1,7 +1,9 @@
 import { createServer } from '../../../../server.js';
+import { SCOPES } from '../../../../src/certification/shared/domain/models/Scopes.js';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../tooling/learning-content-builder/index.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
@@ -454,29 +456,41 @@ describe('Certification | Evaluation | Acceptance | scoring-and-capacity-simulat
             role: PIX_ADMIN.ROLES.SUPER_ADMIN,
           });
 
-          databaseBuilder.factory.buildCertificationVersion({
-            id: 123,
-            competencesScoringConfiguration: [
-              {
-                competence: '1.1',
-                competenceId: 'recCompetence0',
-                values: [
-                  { bounds: { max: -2, min: -8 }, competenceLevel: 0 },
-                  { bounds: { max: -0.5, min: -2 }, competenceLevel: 1 },
-                  { bounds: { max: 0.6, min: -0.5 }, competenceLevel: 2 },
-                  { bounds: { max: 1.5, min: 0.6 }, competenceLevel: 3 },
-                  { bounds: { max: 2.25, min: 1.5 }, competenceLevel: 4 },
-                  { bounds: { max: 3.1, min: 2.25 }, competenceLevel: 5 },
-                  { bounds: { max: 4, min: 3.1 }, competenceLevel: 6 },
-                  { bounds: { max: 8, min: 4 }, competenceLevel: 7 },
-                ],
+          domainBuilder.certification.configuration
+            .versionBuilder()
+            .asActive({ startDate: new Date('1977-10-19') })
+            .withRealisticScoringConfigurations()
+            .withParameters({
+              scope: SCOPES.CORE,
+              tubeIds: ['tubeA'],
+              id: 123,
+              challengesConfiguration: {
+                maximumAssessmentLength: 32,
+                challengesBetweenSameCompetence: 2,
+                limitToOneQuestionPerTube: true,
+                enablePassageByAllCompetences: true,
+                variationPercent: 0.5,
+                defaultCandidateCapacity: -3,
+                defaultProbabilityToPickChallenge: 51,
               },
-            ],
-          });
-          databaseBuilder.factory.buildCertificationVersionTube({
-            tubeId: 'tubeA',
-            versionId: 123,
-          });
+              competencesScoringConfiguration: [
+                {
+                  competence: '1.1',
+                  competenceId: 'recCompetence0',
+                  values: [
+                    { bounds: { max: -2, min: -8 }, competenceLevel: 0 },
+                    { bounds: { max: -0.5, min: -2 }, competenceLevel: 1 },
+                    { bounds: { max: 0.6, min: -0.5 }, competenceLevel: 2 },
+                    { bounds: { max: 1.5, min: 0.6 }, competenceLevel: 3 },
+                    { bounds: { max: 2.25, min: 1.5 }, competenceLevel: 4 },
+                    { bounds: { max: 3.1, min: 2.25 }, competenceLevel: 5 },
+                    { bounds: { max: 4, min: 3.1 }, competenceLevel: 6 },
+                    { bounds: { max: 8, min: 4 }, competenceLevel: 7 },
+                  ],
+                },
+              ],
+            })
+            .insertToDB({ databaseBuilder });
           await databaseBuilder.commit();
 
           const options = {

@@ -502,10 +502,14 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
 
     it('returns only valid calibrated flash compatible challenges', async function () {
       // given
-      const version = databaseBuilder.factory.buildCertificationVersion({ scope: SCOPES.CORE });
-      const otherVersion = databaseBuilder.factory.buildCertificationVersion({
-        scope: SCOPES.CORE,
-      });
+      const version = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+        .insertToDB({ databaseBuilder });
+      const otherVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+        .insertToDB({ databaseBuilder });
 
       challengesLC.push({
         id: 'challengeForComplementaryCertification',
@@ -570,7 +574,10 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
         it('should return an empty array', async function () {
           // given
           databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
-          const version = databaseBuilder.factory.buildCertificationVersion();
+          const version = domainBuilder.certification.configuration
+            .versionBuilder()
+            .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+            .insertToDB({ databaseBuilder });
           await databaseBuilder.commit();
 
           // when
@@ -593,7 +600,10 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
           challengesLC.push(challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson);
           challengesLC.push(challengeData09_skill03_qcu_archive_flashCompatible_fr_noEmbedJson);
           databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
-          const version = databaseBuilder.factory.buildCertificationVersion();
+          const version = domainBuilder.certification.configuration
+            .versionBuilder()
+            .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+            .insertToDB({ databaseBuilder });
 
           databaseBuilder.factory.buildCertificationFrameworksChallenge({
             challengeId: challengesLC[3].id,
@@ -641,9 +651,10 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
     context('when at least one challenge is not found in cert referential amongst the provided ids', function () {
       it('should throw a NotFound error', async function () {
         // given
-        const versionWithoutChallenges = databaseBuilder.factory.buildCertificationVersion({
-          scope: SCOPES.CORE,
-        });
+        const versionWithoutChallenges = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
         // when
@@ -661,9 +672,10 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
     context('when at least one challenge is not found in LCMS amongst the provided ids', function () {
       it('should throw a NotFound error', async function () {
         // given
-        const version = databaseBuilder.factory.buildCertificationVersion({
-          scope: SCOPES.CORE,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
         const challengeCalibrationNotInLCMS = databaseBuilder.factory.buildCertificationFrameworksChallenge({
           challengeId: 'challengeIdPipeauPipette',
           versionId: version.id,
@@ -700,10 +712,14 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
       });
 
       it('should return only the challenges for given locale', async function () {
-        const versionActive = databaseBuilder.factory.buildCertificationVersion({ scope: SCOPES.CORE });
-        const otherVersion = databaseBuilder.factory.buildCertificationVersion({
-          scope: SCOPES.CORE,
-        });
+        const versionActive = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
+        const otherVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
 
         challengesLC.push({
           id: 'challengeForComplementaryCertification',
@@ -807,13 +823,11 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
           // given
           databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
 
-          const { id } = databaseBuilder.factory.buildCertificationVersion({
-            startDate: new Date('1977-10-19'),
-            expirationDate: new Date('1977-10-20'),
-          });
-          const archivedVersionWithNonCompatibleChallenge = domainBuilder.certification.configuration.buildVersion({
-            id,
-          });
+          const archivedVersionWithNonCompatibleChallenge = domainBuilder.certification.configuration
+            .versionBuilder()
+            .asArchived({ startDate: new Date('1977-10-19'), expirationDate: new Date('1977-10-20') })
+            .withParameters({ scope: SCOPES.CORE, tubeIds: ['recTube1'] })
+            .insertToDB({ databaseBuilder });
           databaseBuilder.factory.buildCertificationFrameworksChallenge({
             challengeId: challengesLC[0].id,
             versionId: archivedVersionWithNonCompatibleChallenge.id,
@@ -821,10 +835,11 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
             difficulty: null,
           });
 
-          const activeVersionWithEligibleChallenge = databaseBuilder.factory.buildCertificationVersion({
-            startDate: new Date('1977-10-20'),
-            expirationDate: null,
-          });
+          const activeVersionWithEligibleChallenge = domainBuilder.certification.configuration
+            .versionBuilder()
+            .asActive({ startDate: new Date('1977-10-20') })
+            .withParameters({ scope: SCOPES.CORE, tubeIds: ['recTube1'] })
+            .insertToDB({ databaseBuilder });
           databaseBuilder.factory.buildCertificationFrameworksChallenge({
             challengeId: challengesLC[0].id,
             versionId: activeVersionWithEligibleChallenge.id,
@@ -851,11 +866,11 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
           challengesLC.push(challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson);
           databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
 
-          const { id } = databaseBuilder.factory.buildCertificationVersion({
-            startDate: new Date('1977-10-19'),
-            expirationDate: new Date('1977-10-20'),
-          });
-          const archivedVersionWithEligibleChallenge = domainBuilder.certification.configuration.buildVersion({ id });
+          const archivedVersionWithEligibleChallenge = domainBuilder.certification.configuration
+            .versionBuilder()
+            .asArchived({ startDate: new Date('1977-10-19'), expirationDate: new Date('1977-10-20') })
+            .withParameters({ scope: SCOPES.CORE, tubeIds: ['recTube1'] })
+            .insertToDB({ databaseBuilder });
           const expectedDiscriminant = 2.221;
           const expectedDifficulty = 3.554;
           databaseBuilder.factory.buildCertificationFrameworksChallenge({
@@ -879,10 +894,11 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
             difficulty: notACompartibleDifficulty,
           });
 
-          const activeVersionWithNonCompatibleChallenge = databaseBuilder.factory.buildCertificationVersion({
-            startDate: new Date('1977-10-20'),
-            expirationDate: null,
-          });
+          const activeVersionWithNonCompatibleChallenge = domainBuilder.certification.configuration
+            .versionBuilder()
+            .asActive({ startDate: new Date('1977-10-20') })
+            .withParameters({ scope: SCOPES.CORE, tubeIds: ['recTube1'] })
+            .insertToDB({ databaseBuilder });
           databaseBuilder.factory.buildCertificationFrameworksChallenge({
             challengeId: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.id,
             versionId: activeVersionWithNonCompatibleChallenge.id,
@@ -925,10 +941,11 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
             // given
             databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
 
-            const archivedVersionWithCompatibleChallenge = databaseBuilder.factory.buildCertificationVersion({
-              startDate: new Date('1977-10-19'),
-              expirationDate: new Date('1977-10-20'),
-            });
+            const archivedVersionWithCompatibleChallenge = domainBuilder.certification.configuration
+              .versionBuilder()
+              .asArchived({ startDate: new Date('1977-10-19'), expirationDate: new Date('1977-10-20') })
+              .withParameters({ scope: SCOPES.CORE, tubeIds: ['recTube1'] })
+              .insertToDB({ databaseBuilder });
 
             databaseBuilder.factory.buildCertificationFrameworksChallenge({
               challengeId: challengesLC[0].id,
@@ -937,11 +954,11 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
               difficulty: 3.5,
             });
 
-            const { id } = databaseBuilder.factory.buildCertificationVersion({
-              startDate: new Date('1977-10-20'),
-              expirationDate: null,
-            });
-            const activeVersionWithNoEligibleChallenge = domainBuilder.certification.configuration.buildVersion({ id });
+            const activeVersionWithNoEligibleChallenge = domainBuilder.certification.configuration
+              .versionBuilder()
+              .asActive({ startDate: new Date('1977-10-20') })
+              .withParameters({ scope: SCOPES.CORE, tubeIds: ['recTube1'] })
+              .insertToDB({ databaseBuilder });
             databaseBuilder.factory.buildCertificationFrameworksChallenge({
               challengeId: challengesLC[0].id,
               versionId: activeVersionWithNoEligibleChallenge.id,
@@ -968,10 +985,11 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
             challengesLC.push(challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson);
             databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
 
-            const archivedVersionWithNonCompatibleChallenge = databaseBuilder.factory.buildCertificationVersion({
-              startDate: new Date('1977-10-19'),
-              expirationDate: new Date('1977-10-20'),
-            });
+            const archivedVersionWithNonCompatibleChallenge = domainBuilder.certification.configuration
+              .versionBuilder()
+              .asArchived({ startDate: new Date('1977-10-19'), expirationDate: new Date('1977-10-20') })
+              .withParameters({ scope: SCOPES.CORE, tubeIds: ['recTube1'] })
+              .insertToDB({ databaseBuilder });
 
             databaseBuilder.factory.buildCertificationFrameworksChallenge({
               challengeId: challengeData02_skill00_qcm_archive_flashCompatible_en_noEmbedJson.id,
@@ -992,11 +1010,11 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
               difficulty: null,
             });
 
-            const { id } = databaseBuilder.factory.buildCertificationVersion({
-              startDate: new Date('1977-10-20'),
-              expirationDate: null,
-            });
-            const activeVersionWithEligibleChallenge = domainBuilder.certification.configuration.buildVersion({ id });
+            const activeVersionWithEligibleChallenge = domainBuilder.certification.configuration
+              .versionBuilder()
+              .asActive({ startDate: new Date('1977-10-20') })
+              .withParameters({ scope: SCOPES.CORE, tubeIds: ['recTube1'] })
+              .insertToDB({ databaseBuilder });
             const expectedDiscriminant = 2.222;
             const expectedDifficulty = 3.555;
             databaseBuilder.factory.buildCertificationFrameworksChallenge({

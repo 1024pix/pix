@@ -17,11 +17,10 @@ describe('Unit | Domain | Usecases | simulate-flash-assessment-scenario', functi
       const accessibilityAdjustmentNeeded = false;
       const versionId = 1;
       const challengesConfiguration = { minimumEstimatedSuccessRateRanges: [], defaultCandidateCapacity: -1 };
-      const version = domainBuilder.certification.configuration.buildVersion({
-        id: versionId,
-        scope: SCOPES.PIX_PLUS_DROIT,
-        challengesConfiguration,
-      });
+      const version = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ scope: SCOPES.PIX_PLUS_DROIT, id: versionId, challengesConfiguration })
+        .build();
 
       const calibratedChallengeRepository = { findActiveFlashCompatible: sinon.stub() };
 

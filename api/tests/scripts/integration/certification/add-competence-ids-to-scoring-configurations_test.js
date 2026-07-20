@@ -1,9 +1,11 @@
 import sinon from 'sinon';
 
 import { AddCompetenceIdsToScoringConfigurations } from '../../../../scripts/certification/add-competence-ids-to-scoring-configurations.js';
+import { SCOPES } from '../../../../src/certification/shared/domain/models/Scopes.js';
 import { PIX_ORIGIN } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | Scripts | Certification | add-competence-ids-to-scoring-configurations', function () {
   let script;
@@ -54,13 +56,15 @@ describe('Integration | Scripts | Certification | add-competence-ids-to-scoring-
             values: [{ bounds: { min: 0, max: 10 }, competenceLevel: 1 }],
           },
         ];
-        const { id } = databaseBuilder.factory.buildCertificationVersion({
-          competencesScoringConfiguration: scoringConfig,
-        });
+        const { id } = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [], competencesScoringConfiguration: scoringConfig })
+          .insertToDB({ databaseBuilder });
 
-        const invalidVersion = databaseBuilder.factory.buildCertificationVersion({
-          competencesScoringConfiguration: [],
-        });
+        const invalidVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [], competencesScoringConfiguration: [] })
+          .insertToDB({ databaseBuilder });
         // competencesScoringConfiguration is overwritten as to simulate a null vale
         invalidVersion.competencesScoringConfiguration = null;
 
@@ -92,9 +96,10 @@ describe('Integration | Scripts | Certification | add-competence-ids-to-scoring-
         databaseBuilder.factory.learningContent.build({ competences: [competence11] });
 
         const scoringConfig = [{ competence: '1.1', values: [] }];
-        const { id } = databaseBuilder.factory.buildCertificationVersion({
-          competencesScoringConfiguration: scoringConfig,
-        });
+        const { id } = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [], competencesScoringConfiguration: scoringConfig })
+          .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
         // when
@@ -112,9 +117,10 @@ describe('Integration | Scripts | Certification | add-competence-ids-to-scoring-
         databaseBuilder.factory.learningContent.build({ competences: [competence11] });
 
         const scoringConfig = [{ competence: '9.9', values: [] }];
-        const { id } = databaseBuilder.factory.buildCertificationVersion({
-          competencesScoringConfiguration: scoringConfig,
-        });
+        const { id } = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [], competencesScoringConfiguration: scoringConfig })
+          .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
         // when

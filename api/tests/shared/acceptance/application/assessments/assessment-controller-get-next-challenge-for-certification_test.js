@@ -8,6 +8,7 @@ import { SCOPES } from '../../../../../src/certification/shared/domain/models/Sc
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
@@ -124,14 +125,23 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           sessionId,
           reconciledAt: new Date('2020-01-15'),
         });
-        const version = databaseBuilder.factory.buildCertificationVersion({
-          scope: SCOPES.CORE,
-          startDate: new Date('2020-01-10'),
-        });
-        databaseBuilder.factory.buildCertificationVersionTube({
-          tubeId: 'tubeA',
-          versionId: version.id,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: new Date('2020-01-10') })
+          .withParameters({
+            scope: SCOPES.CORE,
+            tubeIds: ['tubeA'],
+            challengesConfiguration: {
+              maximumAssessmentLength: 32,
+              challengesBetweenSameCompetence: 2,
+              limitToOneQuestionPerTube: true,
+              enablePassageByAllCompetences: true,
+              variationPercent: 0.5,
+              defaultCandidateCapacity: -3,
+              defaultProbabilityToPickChallenge: 51,
+            },
+          })
+          .insertToDB({ databaseBuilder });
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           isPublished: false,
           version: AlgorithmEngineVersion.V3,
@@ -280,14 +290,23 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           sessionId,
           reconciledAt: new Date('2020-01-01'),
         });
-        const version = databaseBuilder.factory.buildCertificationVersion({
-          scope: SCOPES.CORE,
-          startDate: new Date('2019-01-01'),
-        });
-        databaseBuilder.factory.buildCertificationVersionTube({
-          tubeId: 'tubeA',
-          versionId: version.id,
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: new Date('2019-01-01') })
+          .withParameters({
+            scope: SCOPES.CORE,
+            tubeIds: ['tubeA'],
+            challengesConfiguration: {
+              maximumAssessmentLength: 32,
+              challengesBetweenSameCompetence: 2,
+              limitToOneQuestionPerTube: true,
+              enablePassageByAllCompetences: true,
+              variationPercent: 0.5,
+              defaultCandidateCapacity: -3,
+              defaultProbabilityToPickChallenge: 51,
+            },
+          })
+          .insertToDB({ databaseBuilder });
 
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           isPublished: false,

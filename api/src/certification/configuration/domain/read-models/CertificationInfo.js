@@ -1,21 +1,15 @@
+import { VERSION_STATUSES } from '../models/Version.js';
+
 export class CertificationInfo {
-  constructor({
-    framework,
-    startDate,
-    expirationDate,
-    assessmentDuration,
-    minimumAssessmentLength,
-    maximumAssessmentLength,
-  }) {
+  constructor({ framework, status, assessmentDuration, minimumAssessmentLength, maximumAssessmentLength }) {
     this.framework = framework;
-    this.startDate = startDate;
-    this.expirationDate = expirationDate;
+    this.status = status;
     this.assessmentDuration = assessmentDuration;
     this.minimumAssessmentLength = minimumAssessmentLength;
     this.maximumAssessmentLength = maximumAssessmentLength;
   }
 
-  get isCertificationActive() {
-    return this.startDate !== null && this.expirationDate === null;
+  get isActive() {
+    return this.status === VERSION_STATUSES.ACTIVE;
   }
 }

@@ -1,4 +1,3 @@
-import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { usecases } from '../../../../../../src/certification/configuration/domain/usecases/index.js';
 import * as versionRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/version-repository.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
@@ -9,15 +8,14 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Configuration | Integration | Domain | UseCase | update-version', function () {
-  describe('update', function () {
-    it('updates the version', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationVersion({
+  it('updates the version', async function () {
+    // given
+    domainBuilder.certification.configuration
+      .versionBuilder()
+      .asDraft({ startDate: new Date('2025-01-01') })
+      .withParameters({
         id: 123,
         scope: SCOPES.PIX_PLUS_PRO_SANTE,
-        status: VERSION_STATUSES.DRAFT,
-        startDate: new Date('2025-01-01'),
-        expirationDate: null,
         assessmentDuration: 111,
         minimumAnswersRequiredToValidateACertification: 222,
         globalScoringConfiguration: [],
@@ -32,43 +30,40 @@ describe('Certification | Configuration | Integration | Domain | UseCase | updat
           limitToOneQuestionPerTube: false,
           enablePassageByAllCompetences: false,
         },
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'coucou',
-        versionId: 123,
-      });
-      await databaseBuilder.commit();
+        tubeIds: ['coucou'],
+      })
+      .insertToDB({ databaseBuilder });
+    await databaseBuilder.commit();
 
-      // when
-      await usecases.updateVersion({
-        id: 123,
-        startDate: new Date('2026-06-06'),
-        assessmentDuration: 100,
-        minimumAnswersRequiredForValidation: 200,
-        maximumAssessmentLength: 300,
-        challengesBetweenSameCompetence: 400,
-        defaultProbabilityToPickChallenge: 55,
-        variationPercent: 0.6,
-        defaultCandidateCapacity: 700,
-        limitToOneQuestionPerTube: true,
-        enablePassageByAllCompetences: true,
-        comments: 'COUCOU',
-      });
+    // when
+    await usecases.updateVersion({
+      id: 123,
+      startDate: new Date('2026-06-06'),
+      assessmentDuration: 100,
+      minimumAnswersRequiredForValidation: 200,
+      maximumAssessmentLength: 300,
+      challengesBetweenSameCompetence: 400,
+      defaultProbabilityToPickChallenge: 55,
+      variationPercent: 0.6,
+      defaultCandidateCapacity: 700,
+      limitToOneQuestionPerTube: true,
+      enablePassageByAllCompetences: true,
+    });
 
-      // then
-      const updatedVersion = await versionRepository.getById({ id: 123 });
-      expect(updatedVersion).to.deepEqualInstance(
-        domainBuilder.certification.configuration.buildVersion({
+    // then
+    const updatedVersion = await versionRepository.getById({ id: 123 });
+    expect(updatedVersion).to.deepEqualInstance(
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asDraft({ startDate: new Date('2026-06-06') })
+        .withParameters({
           id: 123,
           scope: SCOPES.PIX_PLUS_PRO_SANTE,
-          status: VERSION_STATUSES.DRAFT,
-          expirationDate: null,
-          startDate: new Date('2026-06-06'),
-          comments: 'Not Modified',
           assessmentDuration: 100,
           minimumAnswersRequiredToValidateACertification: 200,
           globalScoringConfiguration: [],
           competencesScoringConfiguration: [],
+          comments: 'Not Modified',
           challengesConfiguration: {
             maximumAssessmentLength: 300,
             challengesBetweenSameCompetence: 400,
@@ -79,24 +74,36 @@ describe('Certification | Configuration | Integration | Domain | UseCase | updat
             enablePassageByAllCompetences: true,
           },
           tubeIds: ['coucou'],
-        }),
-      );
+        })
+        .build(),
+    );
+  });
+
+  it('throws an error when no version is found', async function () {
+    // given
+    domainBuilder.certification.configuration
+      .versionBuilder()
+      .asDraft({ startDate: new Date('2025-01-01') })
+      .withParameters({ id: 456 })
+      .insertToDB({ databaseBuilder });
+    await databaseBuilder.commit();
+
+    // when
+    const error = await catchErr(usecases.updateVersion)({
+      id: 123,
+      startDate: new Date('2026-06-06'),
+      assessmentDuration: 100,
+      minimumAnswersRequiredForValidation: 200,
+      maximumAssessmentLength: 300,
+      challengesBetweenSameCompetence: 400,
+      defaultProbabilityToPickChallenge: 55,
+      variationPercent: 0.6,
+      defaultCandidateCapacity: 700,
+      limitToOneQuestionPerTube: true,
+      enablePassageByAllCompetences: true,
     });
 
-    it('throws an error when no version is found', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationVersion({ id: 123 });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'coucou',
-        versionId: 123,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const error = await catchErr(usecases.updateVersion)({ id: 456, comments: 'new comments' });
-
-      // then
-      expect(error).to.be.instanceOf(NotFoundError);
-    });
+    // then
+    expect(error).to.be.instanceOf(NotFoundError);
   });
 });

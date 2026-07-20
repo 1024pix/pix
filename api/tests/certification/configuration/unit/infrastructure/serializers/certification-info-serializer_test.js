@@ -8,14 +8,17 @@ describe('Unit | Certification | Configuration | Serializer | certification-info
   describe('#serialize', function () {
     it('should serialize certification info', function () {
       // given
-      const certificationInfo = domainBuilder.certification.configuration.buildCertificationInfo({
-        framework: Frameworks.EDU_2ND_DEGRE,
-        startDate: new Date('2021-01-01'),
-        expirationDate: null,
-        assessmentDuration: 33,
-        minimumAssessmentLength: 11,
-        maximumAssessmentLength: 22,
-      });
+      const certificationInfo = domainBuilder.certification.configuration
+        .certificationInfoBuilder()
+        .asActive()
+        .withParameters({
+          framework: Frameworks.EDU_2ND_DEGRE,
+          expirationDate: null,
+          assessmentDuration: 33,
+          minimumAssessmentLength: 11,
+          maximumAssessmentLength: 22,
+        })
+        .build();
 
       // when
       const serialized = certificationInfoSerializer.serialize(certificationInfo);

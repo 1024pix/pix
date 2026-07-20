@@ -1,13 +1,7 @@
 import sinon from 'sinon';
 
 import { CertificationVersionDraftAlreadyExistError } from '../../../../../../src/certification/configuration/domain/errors.js';
-import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { createDraft } from '../../../../../../src/certification/configuration/domain/usecases/create-draft.js';
-import {
-  DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
-  DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
-  DEFAULT_SESSION_DURATION_MINUTES,
-} from '../../../../../../src/certification/shared/domain/constants.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { expect } from '../../../../../test-helper.js';
@@ -31,16 +25,15 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
   context('when there is already a draft certification version in the same scope', function () {
     it('should throw an error', async function () {
       // given
-      const coreVersionActive = domainBuilder.certification.configuration.buildVersion({
-        scope: SCOPES.CORE,
-        startDate: new Date('2024-01-01'),
-        expirationDate: null,
-      });
-      const coreVersionDraft = domainBuilder.certification.configuration.buildVersion({
-        scope: SCOPES.CORE,
-        startDate: null,
-        expirationDate: null,
-      });
+      const coreVersionActive = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2024-01-01') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['someTubeId'] })
+        .build();
+      const coreVersionDraft = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['someTubeId'] })
+        .build();
       versionRepository.findAllByScope.withArgs({ scope: SCOPES.CORE }).resolves([coreVersionDraft, coreVersionActive]);
 
       // when
@@ -60,19 +53,21 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
     context('when there is an active version in the scope', function () {
       it('should create a new certification version based on the active one', async function () {
         // given
-        const activeVersion = domainBuilder.certification.configuration.buildVersion({
-          scope: SCOPES.CORE,
-          startDate: new Date('2024-01-01'),
-          expirationDate: null,
-          assessmentDuration: 111,
-          status: VERSION_STATUSES.ACTIVE,
-          minimumAnswersRequiredToValidateACertification: 222,
-          globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -1.4 } }],
-          competencesScoringConfiguration: [
-            { competence: '1.1', values: [{ bounds: { max: -2, min: -10 }, competenceLevel: 0 }] },
-          ],
-          comments: 'some comments',
-        });
+        const activeVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('2024-01-01') })
+          .withParameters({
+            scope: SCOPES.CORE,
+            tubeIds: ['recOldTube'],
+            assessmentDuration: 111,
+            minimumAnswersRequiredToValidateACertification: 222,
+            globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -1.4 } }],
+            competencesScoringConfiguration: [
+              { competence: '1.1', values: [{ bounds: { max: -2, min: -10 }, competenceLevel: 0 }] },
+            ],
+            comments: 'some comments',
+          })
+          .build();
         const tubeIds = ['recTube1', 'recTube2'];
 
         versionRepository.findAllByScope.withArgs({ scope: SCOPES.CORE }).resolves([activeVersion]);
@@ -88,21 +83,19 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
         // then
         expect(id).to.equal(66);
         expect(versionRepository.save).to.have.been.calledOnceWithExactly(
-          domainBuilder.certification.configuration.buildVersion({
-            id: null,
-            scope: SCOPES.CORE,
-            startDate: null,
-            expirationDate: null,
-            status: VERSION_STATUSES.DRAFT,
-            assessmentDuration: 111,
-            minimumAnswersRequiredToValidateACertification: 222,
-            globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -1.4 } }],
-            competencesScoringConfiguration: [
-              { competence: '1.1', values: [{ bounds: { max: -2, min: -10 }, competenceLevel: 0 }] },
-            ],
-            comments: null,
-            tubeIds,
-          }),
+          domainBuilder.certification.configuration
+            .versionBuilder()
+            .withParameters({
+              scope: SCOPES.CORE,
+              tubeIds,
+              assessmentDuration: 111,
+              minimumAnswersRequiredToValidateACertification: 222,
+              globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -1.4 } }],
+              competencesScoringConfiguration: [
+                { competence: '1.1', values: [{ bounds: { max: -2, min: -10 }, competenceLevel: 0 }] },
+              ],
+            })
+            .build(),
         );
       });
     });
@@ -124,28 +117,10 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
         // then
         expect(id).to.equal(66);
         expect(versionRepository.save).to.have.been.calledOnceWithExactly(
-          domainBuilder.certification.configuration.buildVersion({
-            id: null,
-            scope: SCOPES.CORE,
-            startDate: null,
-            expirationDate: null,
-            assessmentDuration: DEFAULT_SESSION_DURATION_MINUTES,
-            minimumAnswersRequiredToValidateACertification:
-              DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
-            globalScoringConfiguration: [],
-            competencesScoringConfiguration: [],
-            challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({
-              maximumAssessmentLength: 32,
-              challengesBetweenSameCompetence: 0,
-              limitToOneQuestionPerTube: true,
-              enablePassageByAllCompetences: true,
-              variationPercent: 1,
-              defaultCandidateCapacity: 0,
-              defaultProbabilityToPickChallenge: DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
-            }),
-            comments: null,
-            tubeIds,
-          }),
+          domainBuilder.certification.configuration
+            .versionBuilder()
+            .withParameters({ scope: SCOPES.CORE, tubeIds })
+            .build(),
         );
       });
     });
