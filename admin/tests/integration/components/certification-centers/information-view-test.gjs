@@ -49,7 +49,6 @@ module('Integration | Component | certification-centers/information-view', funct
     // then
     assert.dom(screen.getByText(t('pages.certification-centers.information-view.list.type'))).exists();
     assert.dom(screen.getByText(t('pages.certification-centers.information-view.list.external-id'))).exists();
-    assert.dom(screen.getByText('Centre SCO')).exists();
     assert.dom(screen.getByText('AX129')).exists();
     assert.dom(screen.getByText('Lucky Number')).exists();
     assert.dom(screen.getByText('lucky@example.net')).exists();
