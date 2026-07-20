@@ -646,11 +646,11 @@
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "<p>Bien vu !&nbsp;<br></p>",
+                    "state": "<p>Bien vu !</p>",
                     "diagnosis": "<p>Toutes les nouvelles technologies citées ont besoin des centres de données pour fonctionner.</p>"
                   },
                   "invalid": {
-                    "state": "<p>Eh non.&nbsp;<br></p>",
+                    "state": "<p>Eh non.</p>",
                     "diagnosis": "<p>Toutes les nouvelles technologies citées ont besoin des centres de données pour fonctionner.<br></p>"
                   }
                 },
