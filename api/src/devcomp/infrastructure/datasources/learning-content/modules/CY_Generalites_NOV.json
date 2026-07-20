@@ -258,7 +258,7 @@
             {
               "type": "element",
               "element": {
-                "id": "42bbc673-1fa0-4056-a6c8-24f5ef827e68",
+                "id": "948d4dc3-63e1-48a6-aa46-2f3252bd7e6f",
                 "type": "custom",
                 "title": "",
                 "instruction": "<p>Observez 3 cas de cyberattaque puis répondez à la question.</p>",
@@ -356,7 +356,7 @@
             {
               "type": "element",
               "element": {
-                "id": "7dc2a33a-8e31-4f26-aa7c-e0117afcad8b",
+                "id": "e5ad7f55-fcdf-4674-9010-6c4fdf739a88",
                 "type": "text",
                 "tag": "did-you-know",
                 "content": "<p>Vos <strong>données personnelles volées</strong> pendant les cyberattaques sont <strong>précieuses </strong>pour les pirates informatiques. 💎<br>Ils peuvent les <strong>revendre </strong>ou <strong>s’en servir</strong> eux-même, par exemple pour usurper des identités ou créer des arnaques personnalisées.</p>"
