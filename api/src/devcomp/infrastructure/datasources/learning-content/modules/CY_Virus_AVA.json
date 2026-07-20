@@ -576,9 +576,9 @@
                     "input": "1",
                     "type": "input",
                     "inputType": "text",
-                    "size": 6,
+                    "size": 9,
                     "display": "inline",
-                    "placeholder": "- Taper ici -",
+                    "placeholder": "Taper ici",
                     "ariaLabel": "Taper ici",
                     "tolerances": [
                       "t1",
