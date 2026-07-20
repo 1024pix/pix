@@ -31,7 +31,7 @@ export default class FrameworkHistory extends Component {
   @tracked showVersionDetailModal = false;
 
   get frameworkHistory() {
-    return sortByStatus(this.args.frameworkHistory?.history);
+    return sortByStatus(this.args.certificationVersionSummaries);
   }
 
   get hasHistory() {
@@ -67,7 +67,7 @@ export default class FrameworkHistory extends Component {
   async deleteVersion() {
     try {
       await this.selectedVersion.destroyRecord();
-      await this.store.queryRecord('framework-history', this.args.frameworkKey);
+      await this.store.findRecord('certification-framework', this.args.frameworkKey);
       this.pixToast.sendSuccessNotification({
         message: this.intl.t('components.certification-frameworks.deletion-modal.success-message'),
       });
@@ -171,7 +171,7 @@ export default class FrameworkHistory extends Component {
                 @iconName="eye"
               />
               <PixIconButton
-                @triggerAction={{this.editVersion version.id}}
+                @triggerAction={{fn this.editVersion version.id}}
                 @ariaLabel={{t
                   "components.certification-frameworks.certification-framework.history.table.actions.edit"
                   id=version.id
@@ -227,20 +227,18 @@ export default class FrameworkHistory extends Component {
   </template>
 }
 
-function sortByStatus(frameworkHistories) {
-  const draftFrameworkHistory = frameworkHistories.find((frameworkHistory) => frameworkHistory.status === 'draft');
-  const activeFrameworkHistory = frameworkHistories.find((frameworkHistory) => frameworkHistory.status === 'active');
-  const archivedFrameworkHistory = frameworkHistories.filter(
-    (frameworkHistory) => frameworkHistory.status === 'archived',
-  );
+function sortByStatus(versionSummaries) {
+  const draft = versionSummaries.find((versionSummary) => versionSummary.isDraft);
+  const active = versionSummaries.find((versionSummary) => versionSummary.isActive);
+  const archivedOnes = versionSummaries.filter((versionSummary) => versionSummary.isArchived);
 
-  archivedFrameworkHistory.sort((frameworkHistoryA, frameworkHistoryB) => {
-    const startDateA = new Date(frameworkHistoryA.startDate);
-    const startDateB = new Date(frameworkHistoryB.startDate);
+  archivedOnes.sort((versionSummaryA, versionSummaryB) => {
+    const startDateA = new Date(versionSummaryA.startDate);
+    const startDateB = new Date(versionSummaryB.startDate);
     if (startDateA > startDateB) return -1;
     if (startDateA < startDateB) return 1;
   });
 
-  const frameworkHistoryList = [draftFrameworkHistory, activeFrameworkHistory, ...archivedFrameworkHistory];
-  return frameworkHistoryList.filter((frameworkHistory) => !!frameworkHistory);
+  const frameworkHistoryList = [draft, active, ...archivedOnes];
+  return frameworkHistoryList.filter((versionSummary) => !!versionSummary);
 }

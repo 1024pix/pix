@@ -23,7 +23,7 @@ module('Integration | Component | certification-frameworks/certification-framewo
   test('it should display the framework label in breadcrumb and title', async function (assert) {
     const currentUser = this.owner.lookup('service:currentUser');
     currentUser.adminMember = { isSuperAdmin: false };
-    const certificationFramework = store.createRecord('certification-framework', { id: 'DROIT', name: 'DROIT' });
+    const certificationFramework = store.createRecord('certification-framework', { id: 'DROIT', scope: 'DROIT' });
     // when
     const screen = await render(<template><Header @certificationFramework={{certificationFramework}} /></template>);
 
@@ -32,16 +32,10 @@ module('Integration | Component | certification-frameworks/certification-framewo
   });
 
   test('it should display create button when there is no draft version', async function (assert) {
-    const certificationFramework = store.createRecord('certification-framework', { id: 'DROIT', name: 'DROIT' });
-
-    const frameworkHistory = store.createRecord('framework-history', { history: [] });
+    const certificationFramework = store.createRecord('certification-framework', { id: 'DROIT', scope: 'DROIT' });
 
     // when
-    const screen = await render(
-      <template>
-        <Header @certificationFramework={{certificationFramework}} @frameworkHistory={{frameworkHistory}} />
-      </template>,
-    );
+    const screen = await render(<template><Header @certificationFramework={{certificationFramework}} /></template>);
 
     const button = screen.getByText(t('components.certification-frameworks.certification-framework.create-button'));
     // then
@@ -51,44 +45,39 @@ module('Integration | Component | certification-frameworks/certification-framewo
   test('it should disable the create button when there is a draft version', async function (assert) {
     // given
     this.owner.lookup('service:router');
-    const certificationFramework = store.createRecord('certification-framework', { id: 'DROIT', name: 'DROIT' });
-
-    const frameworkItem1 = {
-      id: 456,
-      startDate: new Date('2023-10-10'),
-      expirationDate: null,
-      assessmentDuration: 90,
-      maximumAssessmentLength: 32,
-      status: 'active',
-    };
-
-    const frameworkItem2 = {
-      id: 123,
-      startDate: new Date('2020-01-01'),
-      expirationDate: new Date('2021-06-15'),
-      assessmentDuration: 105,
-      maximumAssessmentLength: 32,
-      status: 'archived',
-    };
-    const frameworkItem3 = {
-      id: 999,
-      startDate: null,
-      expirationDate: null,
-      assessmentDuration: 90,
-      maximumAssessmentLength: 32,
-      status: 'draft',
-    };
-
-    const frameworkHistory = store.createRecord('framework-history', {
-      history: [frameworkItem1, frameworkItem2, frameworkItem3],
+    const certificationFramework = store.createRecord('certification-framework', {
+      id: 'DROIT',
+      scope: 'DROIT',
+      versionSummaries: [
+        store.createRecord('certification-version-summary', {
+          id: 456,
+          startDate: new Date('2023-10-10'),
+          expirationDate: null,
+          assessmentDuration: 90,
+          maximumAssessmentLength: 32,
+          status: 'active',
+        }),
+        store.createRecord('certification-version-summary', {
+          id: 123,
+          startDate: new Date('2020-01-01'),
+          expirationDate: new Date('2021-06-15'),
+          assessmentDuration: 105,
+          maximumAssessmentLength: 32,
+          status: 'archived',
+        }),
+        store.createRecord('certification-version-summary', {
+          id: 999,
+          startDate: null,
+          expirationDate: null,
+          assessmentDuration: 90,
+          maximumAssessmentLength: 32,
+          status: 'draft',
+        }),
+      ],
     });
 
     // when
-    const screen = await render(
-      <template>
-        <Header @certificationFramework={{certificationFramework}} @frameworkHistory={{frameworkHistory}} />
-      </template>,
-    );
+    const screen = await render(<template><Header @certificationFramework={{certificationFramework}} /></template>);
 
     const button = screen.getByText(t('components.certification-frameworks.certification-framework.create-button'));
     // then

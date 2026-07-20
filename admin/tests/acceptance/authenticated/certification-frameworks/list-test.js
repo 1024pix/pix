@@ -44,7 +44,6 @@ module('Acceptance | Certification frameworks | list', function (hooks) {
     test('it should render the certification frameworks list', async function (assert) {
       // given
       server.create('certification-framework', { id: 'DROIT' });
-      server.create('complementary-certification', { id: 1, key: 'DROIT' });
 
       // when
       const screen = await visit('/certification-frameworks');
@@ -62,10 +61,6 @@ module('Acceptance | Certification frameworks | list', function (hooks) {
     test('it should redirect to the certification framework details on click', async function (assert) {
       // given
       server.create('certification-framework', { id: 'CORE' });
-      server.create('framework-history', {
-        id: 'CORE',
-        history: [],
-      });
 
       const screen = await visit('/certification-frameworks');
 

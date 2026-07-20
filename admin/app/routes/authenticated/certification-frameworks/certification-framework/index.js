@@ -6,7 +6,7 @@ export default class ItemRoute extends Route {
   @service router;
 
   redirect(model) {
-    if (model.frameworkKey === 'CLEA') {
+    if (model.scope === 'CLEA') {
       this.router.transitionTo('authenticated.certification-frameworks.certification-framework.target-profile');
     }
   }

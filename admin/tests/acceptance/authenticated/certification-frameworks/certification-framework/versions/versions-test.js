@@ -10,27 +10,18 @@ module('Acceptance | Certification Frameworks | certification-frameworks | versi
   setupMirage(hooks);
 
   hooks.beforeEach(function () {
-    server.create('framework-history', {
-      history: [
-        {
+    server.create('certification-framework', {
+      id: 'DROIT',
+      versionSummaries: [
+        server.create('certification-version-summary', {
           id: 12,
           startDate: new Date('2023-10-10'),
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
           status: 'active',
-        },
+        }),
       ],
-    });
-
-    server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
-    server.create('certification-version', {
-      id: 12,
-      startDate: new Date('2023-10-10'),
-      expirationDate: null,
-      scope: 'DROIT',
-      areas: [],
-      status: 'active',
     });
   });
 

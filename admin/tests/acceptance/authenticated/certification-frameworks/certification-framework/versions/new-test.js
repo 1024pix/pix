@@ -1,8 +1,7 @@
-import { visit, within } from '@1024pix/ember-testing-library';
+import { clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
-import { Response } from 'miragejs';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
@@ -11,41 +10,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let coreFrameworkHistory, droitFrameworkHistory;
   hooks.beforeEach(function () {
-    coreFrameworkHistory = server.create('framework-history', {
-      history: [
-        {
-          id: 13,
-          startDate: new Date('2023-10-10'),
-          expirationDate: null,
-          assessmentDuration: 90,
-          maximumAssessmentLength: 32,
-          status: 'active',
-        },
-        {
-          id: 14,
-          startDate: null,
-          expirationDate: null,
-          assessmentDuration: 90,
-          maximumAssessmentLength: 32,
-          status: 'draft',
-        },
-      ],
-    });
-    droitFrameworkHistory = server.create('framework-history', {
-      history: [
-        {
-          id: 12,
-          startDate: new Date('2023-10-10'),
-          expirationDate: null,
-          assessmentDuration: 90,
-          maximumAssessmentLength: 32,
-          status: 'active',
-        },
-      ],
-    });
-
     const tube = server.create('tube', {
       id: 'tubeId2',
       name: '@tubeName2',
@@ -83,103 +48,23 @@ module('Acceptance | Certification Framework | item | Framework | new', function
     server.create('framework', { id: 'Pix+', name: 'DROIT', areas });
     server.create('framework', { id: 'Pix', name: 'Pix', areas: areas2 });
 
-    server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
-    server.create('certification-framework', { id: 'Pix', name: 'CORE' });
-
-    server.create('certification-version', {
+    const versionSummaryDroit = server.create('certification-version-summary', {
       id: 12,
-      startDate: new Date(),
-      scope: 'DROIT',
+      startDate: new Date('2023-10-10'),
       expirationDate: null,
-      areas,
+      assessmentDuration: 90,
+      maximumAssessmentLength: 32,
+      status: 'active',
     });
-    server.create('certification-version', {
-      id: 13,
-      startDate: new Date(),
-      scope: 'CORE',
-      expirationDate: null,
-      areas: areas2,
-    });
-    server.create('certification-version', {
-      id: 14,
-      startDate: null,
-      scope: 'CORE',
-      expirationDate: null,
-      areas: areas2,
-    });
+    server.schema.certificationVersions.find(versionSummaryDroit.id).update({ areas });
+    server.create('certification-framework', { id: 'DROIT', versionSummaries: [versionSummaryDroit] });
   });
 
   module('when admin member has role "SUPER ADMIN"', function () {
-    test('should display a breadcrum with the correct scope', async function (assert) {
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-      // when
-      const screen = await visit(`/certification-frameworks/CORE/versions/new`);
-
-      const nav = screen.getAllByRole('navigation')[1];
-      // then
-      assert.ok(within(nav).getByRole('link', { name: t('components.certification-frameworks.title') }));
-      assert.ok(within(nav).getByRole('link', { name: 'CORE' }));
-      assert.ok(within(nav).getByText(t('components.certification-frameworks.certification-framework.versions.title')));
-    });
-
-    module('when there is already a draftVersion in scope', function () {
-      test('stays on the page with a notification error', async function (assert) {
-        // given
-        server.get('admin/certification-frameworks/:scope/framework-history', () => {
-          return coreFrameworkHistory;
-        });
-        server.post('/admin/certification-versions', function () {
-          return new Response(
-            400,
-            {},
-            {
-              errors: [
-                {
-                  status: '400',
-                  detail: "Il est interdit de créer une nouvelle version lorsqu'il y en a déjà une en cours d'édition",
-                },
-              ],
-            },
-          );
-        });
-        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-
-        // when
-        const screen = await visit(`/certification-frameworks/CORE/versions/new`);
-        await click(screen.getByRole('button', { name: 'Créer la nouvelle version du référentiel de certification' }));
-
-        // then
-        assert.strictEqual(currentURL(), '/certification-frameworks/CORE/versions/new');
-        assert
-          .dom(
-            screen.getByText(
-              "Il est interdit de créer une nouvelle version lorsqu'il y en a déjà une en cours d'édition",
-            ),
-          )
-          .exists();
-      });
-    });
-
     module('when the is no draft version in scope', function () {
       test('should redirect to the version edit page', async function (assert) {
-        server.get('admin/certification-frameworks/:scope/framework-history', () => {
-          return droitFrameworkHistory;
-        });
         server.post('/admin/certification-versions', function (schema) {
-          droitFrameworkHistory.update({
-            history: [
-              ...droitFrameworkHistory.history,
-              {
-                id: 77,
-                startDate: null,
-                expirationDate: null,
-                assessmentDuration: 10,
-                maximumAssessmentLength: 30,
-                status: 'draft',
-              },
-            ],
-          });
-          return schema.create('certification-version', {
+          const newVersionSummary = schema.create('certification-version-summary', {
             id: 77,
             startDate: null,
             expirationDate: null,
@@ -187,10 +72,23 @@ module('Acceptance | Certification Framework | item | Framework | new', function
             maximumAssessmentLength: 30,
             status: 'draft',
           });
+          const droitFramework = schema.certificationFrameworks.find('DROIT');
+          droitFramework.versionSummaries.add(newVersionSummary);
+          droitFramework.save();
+          return schema.create('certification-version', {
+            id: newVersionSummary.id,
+            scope: 'DROIT',
+            startDate: newVersionSummary.startDate,
+            expirationDate: newVersionSummary.expirationDate,
+            assessmentDuration: newVersionSummary.assessmentDuration,
+            maximumAssessmentLength: newVersionSummary.maximumAssessmentLength,
+            status: newVersionSummary.status,
+          });
         });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-        const screen = await visit(`/certification-frameworks/DROIT/versions/new`);
+        const screen = await visit(`/certification-frameworks/DROIT`);
+        await clickByName('Créer une nouvelle version du référentiel');
         await click(screen.getByRole('button', { name: 'Créer la nouvelle version du référentiel de certification' }));
 
         assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/versions/77/edit');
@@ -200,7 +98,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
           ),
         );
 
-        await click(screen.getByRole('link', { name: 'DROIT' }));
+        await clickByName('Annuler');
         assert.strictEqual(currentURL(), '/certification-frameworks/DROIT');
         const [, row1, row2] = await screen.findAllByRole('row');
         assert.dom(within(row1).getByRole('cell', { name: '77' })).exists();
