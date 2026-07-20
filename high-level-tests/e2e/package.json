@@ -34,7 +34,7 @@
     "test:ci:orga": "npx wait-on http://localhost:3000/api http://localhost:4201 && npm run cy:run:ci:orga"
   },
   "devDependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "^23.0.0",
+    "@badeball/cypress-cucumber-preprocessor": "^25.0.0",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@testing-library/cypress": "^10.0.1",
     "axe-core": "^4.4.3",
