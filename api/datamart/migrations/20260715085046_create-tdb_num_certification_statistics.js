@@ -8,7 +8,7 @@ export async function up(knex) {
   await knex.schema.createTable(TABLE_NAME, function (table) {
     table.string('schoolUai');
     table.index('schoolUai');
-    table.string('schoolYear');
+    table.integer('schoolYear');
     table.string('academieName');
     table.string('schoolName');
     table.string('provinceCode');

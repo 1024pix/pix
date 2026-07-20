@@ -8,7 +8,7 @@ export async function up(knex) {
   await knex.schema.createTable(TABLE_NAME, function (table) {
     table.string('schoolUai');
     table.index('schoolUai');
-    table.string('schoolYear');
+    table.integer('schoolYear');
     table.string('academieName');
     table.string('schoolName');
     table.string('provinceCode');
@@ -17,11 +17,11 @@ export async function up(knex) {
     table.string('competenceName');
     table.integer('participantCount');
     table.float('standardDeviation');
-    table.integer('firstDecileLevel');
-    table.integer('firstQuartileLevel');
-    table.integer('medianLevel');
-    table.integer('thirdQuartileLevel');
-    table.integer('ninthDecileLevel');
+    table.float('firstDecileLevel');
+    table.float('firstQuartileLevel');
+    table.float('medianLevel');
+    table.float('thirdQuartileLevel');
+    table.float('ninthDecileLevel');
     table.float('averageMaxLevelReached');
     table.float('averageMaxLevelReachable');
     table.float('coverage');
