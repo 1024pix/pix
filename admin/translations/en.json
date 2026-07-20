@@ -556,6 +556,7 @@
             "maximum-assessment-length-label": "Total number of questions:",
             "minimum-answers-required-for-validation-label": "Minimum number of questions required to obtain certification:",
             "start-date-label": "Planned activation date:",
+            "sublabel": "Value of the active version: {value}",
             "submit-button": "Save for later",
             "success-notification": "Changes to the version have been saved successfully.",
             "validation-message-error": "This field is mandatory",

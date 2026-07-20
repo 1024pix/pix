@@ -126,8 +126,8 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
           }),
           '3',
         );
-        await clickByName(t(`${BASE_I18N_KEY}.limit-to-one-question-per-tube-label`));
-        await clickByName(t(`${BASE_I18N_KEY}.enable-passage-by-all-competences-label`));
+        await clickByName(new RegExp(t(`${BASE_I18N_KEY}.limit-to-one-question-per-tube-label`)));
+        await clickByName(new RegExp(t(`${BASE_I18N_KEY}.enable-passage-by-all-competences-label`)));
         await clickByName('Enregistrer pour plus tard');
 
         assert.dom(screen.getByText(t(`${BASE_I18N_KEY}.success-notification`))).exists();
@@ -147,7 +147,7 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
     });
 
     module('when user edit and cancel the changes', function () {
-      test('should cancel modifications on the version and odl values still visible in details page', async function (assert) {
+      test('should cancel modifications on the version and display old values', async function (assert) {
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const screen = await visit(`/certification-frameworks/CORE`);
         await clickByName('Éditer la version 14');
@@ -200,8 +200,8 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
           }),
           '3',
         );
-        await clickByName(t(`${BASE_I18N_KEY}.limit-to-one-question-per-tube-label`));
-        await clickByName(t(`${BASE_I18N_KEY}.enable-passage-by-all-competences-label`));
+        await clickByName(new RegExp(t(`${BASE_I18N_KEY}.limit-to-one-question-per-tube-label`)));
+        await clickByName(new RegExp(t(`${BASE_I18N_KEY}.enable-passage-by-all-competences-label`)));
         await clickByName('Annuler');
 
         await clickByName('Voir les détails de la version 14');
@@ -209,13 +209,13 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
         assert
           .dom(attributesList.getByText('Statut', { exact: false }).nextElementSibling)
           .hasText("En cours d'édition");
-        assert.dom(attributesList.getByText('Durée (min)', { exact: false }).nextElementSibling).hasText('35min');
+        assert.dom(attributesList.getByText('Durée (min)', { exact: false }).nextElementSibling).hasText('1h 30min');
         assert
           .dom(attributesList.getByText('Nombre max de questions', { exact: false }).nextElementSibling)
-          .hasText('2');
+          .hasText('22');
         assert
           .dom(attributesList.getByText('Nombre min de réponses', { exact: false }).nextElementSibling)
-          .hasText('1');
+          .hasText('11');
       });
     });
 
