@@ -45,7 +45,7 @@
     "@1024pix/eslint-plugin": "^2.1.19",
     "@1024pix/pix-ui": "^61.3.1",
     "@1024pix/stylelint-config": "^5.1.37",
-    "@babel/eslint-parser": "^7.28.5",
+    "@babel/eslint-parser": "^8.0.0",
     "@ember-intl/v1-compat": "^1.0.0",
     "@ember/optional-features": "^3.0.0",
     "@ember/test-helpers": "^5.4.1",
