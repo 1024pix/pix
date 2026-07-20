@@ -1,5 +1,36 @@
 # Pix Changelog
 
+# [5.459.0](https://github.com/1024pix/pix/compare/v5.458.0...v5.459.0) (2026-07-20)
+
+### :rocket: Amélioration
+
+- [#16870](https://github.com/1024pix/pix/pull/16870) Ajouter un bloc de commentaire dans le formulaire suivant le feedmoji (PIX-23571)
+- [#16716](https://github.com/1024pix/pix/pull/16716) Ajouter un session ID aux access et refresh tokens (PIX-23089)
+- [#16793](https://github.com/1024pix/pix/pull/16793) MDX-238 CY_Antivirus_AVA modif avant relecture
+- [#16808](https://github.com/1024pix/pix/pull/16808) MDX-32 retours panel NR_Datacenter_NOV
+- [#16871](https://github.com/1024pix/pix/pull/16871) Module NR_Ecrans&Santé_NOV : modif découverte et ajout infographie avant faisabilite
+- [#16866](https://github.com/1024pix/pix/pull/16866) modules-ia-lechat-devient-vibe
+- [#16739](https://github.com/1024pix/pix/pull/16739) Permettre l'édition de la configuration du millésime de certification sur PixAdmin (PIX-23357)
+- [#16797](https://github.com/1024pix/pix/pull/16797) Refonte design de la page de création de schéma de parcours combiné sur PixAdmin (PIX-23011)
+- [#16470](https://github.com/1024pix/pix/pull/16470) suppression de la contrainte de clé étrangère sur la table KE vers answers.id (PIX-23053)
+
+### :bug: Correction
+
+- [#16867](https://github.com/1024pix/pix/pull/16867) Amélioration d'un trie qui bug sous firefox (PIX-23590)
+
+### :building_construction: Tech
+
+- [#16731](https://github.com/1024pix/pix/pull/16731) Corriger plusieurs tests
+- [#16770](https://github.com/1024pix/pix/pull/16770) Revoir la configuration des RA Scalingo
+- [#16768](https://github.com/1024pix/pix/pull/16768) Supprimer le AnswersJob et Fast worker
+
+### :arrow_up: Montée de version
+
+- [#16844](https://github.com/1024pix/pix/pull/16844) Update dependency @playwright/test to v1.61.1 (e2e-playwright)
+- [#16875](https://github.com/1024pix/pix/pull/16875) Update dependency js-yaml to v5 (mon-pix)
+- [#16876](https://github.com/1024pix/pix/pull/16876) Update dependency nodemailer to v9 (api)
+- [#16877](https://github.com/1024pix/pix/pull/16877) Update dependency pako to v3 (admin)
+
 # [5.458.0](https://github.com/1024pix/pix/compare/v5.457.0...v5.458.0) (2026-07-17)
 
 ### :rocket: Amélioration
