@@ -22,7 +22,6 @@ import { exportScoWhitelist } from './export-sco-whitelist.js';
 import { findComplementaryCertifications } from './find-complementary-certifications.js';
 import { getComplementaryCertificationForTargetProfileAttachmentRepository } from './get-complementary-certification-for-target-profile-attachment.js';
 import { getComplementaryCertificationTargetProfileHistory } from './get-complementary-certification-target-profile-history.js';
-import { getFrameworkHistory } from './get-framework-history.js';
 import { getInfo } from './get-info.js';
 import { getScoBlockedAccessDates } from './get-sco-blocked-access-dates.js';
 import { getVersionById } from './get-version-by-id.js';
@@ -78,7 +77,6 @@ const usecasesWithoutInjectedDependencies = {
   findComplementaryCertifications,
   getComplementaryCertificationForTargetProfileAttachmentRepository,
   getComplementaryCertificationTargetProfileHistory,
-  getFrameworkHistory,
   getInfo,
   getScoBlockedAccessDates,
   getVersionById,

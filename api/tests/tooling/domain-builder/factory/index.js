@@ -166,7 +166,6 @@ import { buildComplementaryCertification } from './certification/complementary-c
 import { buildComplementaryCertificationBadge } from './certification/complementary-certification/build-complementary-certification-badge.js';
 import { buildCenter as buildConfigurationCenter } from './certification/configuration/build-center.js';
 import { certificationInfoBuilder } from './certification/configuration/build-certification-info.js';
-import { buildFrameworkHistoryEntry } from './certification/configuration/build-framework-history-entry.js';
 import { frameworkInfoBuilder } from './certification/configuration/build-framework-info.js';
 import {
   buildScoBlockedAccessDateCollege,
@@ -250,7 +249,6 @@ const banner = {
 const certification = {
   configuration: {
     buildCenter: buildConfigurationCenter,
-    buildFrameworkHistoryEntry,
     certificationInfoBuilder,
     versionBuilder,
     buildScoBlockedAccessDateCollege,
