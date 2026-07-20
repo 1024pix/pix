@@ -9,7 +9,8 @@ export default class ListRoute extends Route {
     this.accessControl.restrictAccessTo(['isSuperAdmin', 'isMetier'], 'authenticated');
   }
 
-  model() {
-    return this.store.findAll('combined-course-blueprint');
+  async model() {
+    const blueprints = await this.store.findAll('combined-course-blueprint');
+    return blueprints.slice().sort((a, b) => Number(b.id) - Number(a.id));
   }
 }
