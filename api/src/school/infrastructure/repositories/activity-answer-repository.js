@@ -1,4 +1,4 @@
-import jsYaml from 'js-yaml';
+import { dump } from 'js-yaml';
 import _ from 'lodash';
 
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
@@ -9,7 +9,7 @@ function _adaptAnswerToDb(answer) {
   return {
     ..._.pick(answer, ['challengeId', 'activityId', 'value']),
     result: answerStatusDatabaseAdapter.toSQLString(answer.result),
-    resultDetails: jsYaml.dump(answer.resultDetails),
+    resultDetails: dump(answer.resultDetails),
   };
 }
 
