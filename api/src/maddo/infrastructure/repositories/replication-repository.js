@@ -53,6 +53,63 @@ export const replications = [
     },
   },
   {
+    name: 'men_dashboard_participation_dataset',
+    before: async ({ datamartKnex }) => {
+      await datamartKnex('men_dashboard_participation_dataset').truncate();
+    },
+    from: ({ datawarehouseKnex }) => {
+      return datawarehouseKnex('data_sco_edupilot').select({
+        schoolUai: 'uai',
+        schoolYear: 'annee_scolaire',
+        academieName: 'academie_nom',
+        schoolName: 'etablissement',
+        provinceCode: 'departement',
+        schoolYearGroup: 'niveau_scolaire',
+        competenceCode: 'code_competence',
+        competenceName: 'nom_competence',
+        participantCount: 'nombre_eleves_distinct',
+        standardDeviation: 'ecart_type',
+        firstDecileLevel: 'decile_10',
+        firstQuartileLevel: 'quartile_25',
+        medianLevel: 'quartile_50',
+        thirdQuartileLevel: 'quartile_75',
+        ninthDecileLevel: 'decile_90',
+        averageMaxLevelReached: 'niveau_maximum_moyen_atteint',
+        averageMaxLevelReachable: 'niveau_maximum_moyen_atteignable',
+        coverage: 'couverture',
+        updatedAt: 'date_derniere_mise_a_jour',
+      });
+    },
+    to: ({ datamartKnex }, chunk) => {
+      return datamartKnex('men_dashboard_participation_dataset').insert(chunk);
+    },
+  },
+  {
+    name: 'men_dashboard_certification_dataset',
+    before: async ({ datamartKnex }) => {
+      await datamartKnex('men_dashboard_certification_dataset').truncate();
+    },
+    from: ({ datawarehouseKnex }) => {
+      return datawarehouseKnex('data_sco_edupilot_lot_2').select({
+        schoolUai: 'uai',
+        schoolYear: 'annee_scolaire',
+        academieName: 'academie_nom',
+        schoolName: 'etablissement',
+        provinceCode: 'departement',
+        schoolYearGroup: 'niveau_scolaire',
+        validatedCertificationCount: 'total_certification_obtenues',
+        certificationCount: 'total_certifications',
+        averagePixScore: 'moyenne_score',
+        competenceCode: 'competence_code',
+        avgCompetenceLevel: 'avg_competence_level',
+        updatedAt: 'date_derniere_mise_a_jour',
+      });
+    },
+    to: ({ datamartKnex }, chunk) => {
+      return datamartKnex('men_dashboard_certification_dataset').insert(chunk);
+    },
+  },
+  {
     name: 'organizations_cover_rates',
     before: async ({ datamartKnex }) => {
       await datamartKnex('organizations_cover_rates').truncate();
