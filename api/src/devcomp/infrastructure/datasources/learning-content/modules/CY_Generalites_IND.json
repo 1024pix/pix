@@ -7,12 +7,12 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Une cyberattaque ne commence pas par un écran bloqué ou des données volées. Elle peut progresser discrètement, étape par étape.&nbsp;🫥<br>Dans ce module, découvrez les grandes étapes d’une cyberattaque et comment certaines mesures peuvent aider pour empêcher les intrusions, détecter les cyberattaques et limiter leurs conséquences.</p>",
+    "description": "<p>Une cyberattaque ne commence pas par un écran bloqué ou des données volées. Elle peut progresser discrètement jusqu’à atteindre son objectif. 🫥<br>Dans ce module, découvrez les grandes étapes d’une cyberattaque et comment certaines mesures peuvent aider pour empêcher les intrusions, détecter les cyberattaques et limiter leurs conséquences.</p>",
     "duration": 10,
     "level": "independent",
     "objectives": [
       "<p>Identifier les grandes étapes d’une cyberattaque</p>",
-      "<p>Savoir qu’à chaque étape il y a des mesures pour se protéger</p>"
+      "<p>Savoir qu’à chaque étape il y a des mesures pour protéger les appareils numériques et les systèmes informatiques</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -124,7 +124,7 @@
               "element": {
                 "id": "41c1c375-8002-4bf8-bbe6-08762e4ec968",
                 "type": "qcm",
-                "instruction": "<p>Selon vous, qu’est-ce qui a pu permettre aux pirates informatiques d’entrer dans la boîte mail du secrétariat ?</p>",
+                "instruction": "<p>Parmi les propositions suivantes, sélectionnez celles qui selon vous auraient pu permettre aux pirates informatiques d’avoir accès à la boîte mail du secrétariat.</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -137,7 +137,7 @@
                   },
                   {
                     "id": "3",
-                    "content": "<p>Le secrétaire a cliqué sur un lien dans un faux mail professionnel.</p>"
+                    "content": "<p>Le secrétaire a cliqué sur un lien dans un faux mail adressé à tout le personnel.</p>"
                   },
                   {
                     "id": "4",
@@ -210,7 +210,7 @@
                 "id": "debc6d6b-5f41-49b7-812d-4caa01869eaa",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Des pirates informatiques ont obtenu un premier accès au système informatique d’un grand groupe hôtelier. <br>Pour l’instant, ils leur manquent encore des informations pour atteindre l’objectif de leur cyberattaque&nbsp;: causer le plus de dégâts financiers au groupe hôtelier.</p><p>Les pirates informatiques veulent donc préparer la suite de leur cyberattaque sans être repérés trop vite.</p>"
+                "content": "<p>Des pirates informatiques ont obtenu un premier accès au système informatique d’un grand groupe hôtelier. <br>Pour l’instant, ils leur manquent encore des informations pour atteindre l’objectif de leur cyberattaque&nbsp;: causer le plus de dégâts financiers au groupe hôtelier.</p><p>Les pirates informatiques veulent donc<strong> préparer la suite</strong> de leur cyberattaque<strong> sans être repérés </strong>trop vite.</p>"
               }
             },
             {
@@ -218,7 +218,7 @@
               "element": {
                 "id": "b47c5fc4-022a-4544-a841-5ff27005a664",
                 "type": "qab",
-                "instruction": "<p>Pour chacune des actions suivantes, indiquez si elle peut aider ou non les pirates informatiques à préparer la suite de la cyberattaque sans être repérés trop vite.</p>",
+                "instruction": "<p>Pour chacune des actions suivantes, indiquez si elle peut aider ou non les pirates informatiques à atteindre leur objectif sans être repérés trop vite.</p>",
                 "cards": [
                   {
                     "id": "7d73a0c4-5d82-48d5-9849-2707cd65b0cf",
@@ -233,7 +233,7 @@
                   },
                   {
                     "id": "daeee0b7-4dfc-4412-9a7c-29f43f3f0823",
-                    "text": "Obtenir d’autres comptes ou accès utiles.",
+                    "text": "Obtenir d’autres comptes ou accès.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -266,7 +266,7 @@
                   },
                   {
                     "id": "94b32d5d-c02c-4130-a746-ecda4092dad0",
-                    "text": "Identifier les services importants pour l’activité du groupe hôtelier. ",
+                    "text": "Identifier les outils importants pour l’activité du groupe hôtelier. ",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -542,7 +542,7 @@
                   },
                   {
                     "id": "4c359eb1-e81e-4ca8-b82a-e54af166c4fb",
-                    "text": "Passer à l’action peut consister à voler des données, chiffrer des fichiers ou perturber un service.",
+                    "text": "Pour les pirates informatiques passer à l’action peut consister à voler des données ou perturber un service.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -596,7 +596,7 @@
                       "id": "1a7cecfc-c301-46a4-b29c-07a3b548ec30",
                       "type": "text",
                       "tag": "context",
-                      "content": "<p>Un salarié d’un centre sportif clique sur un lien reçu dans un faux mail. Ses identifiants sont ensuite utilisés pour se connecter à un outil interne.</p>"
+                      "content": "<p>Un salarié d’un centre sportif clique sur un lien reçu dans un faux mail. Ses identifiants sont ensuite utilisés par des pirates informatiques.</p>"
                     },
                     {
                       "id": "2095a0a9-1297-4b03-8c77-933f704fe026",
