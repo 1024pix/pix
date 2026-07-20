@@ -113,6 +113,18 @@
             {
               "type": "element",
               "element": {
+                "id": "6c932c45-71d0-4698-bf56-46c8135a0073",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/cy_generalites_ind/ecolemusique.png",
+                "alt": "",
+                "alternativeText": "",
+                "legend": "placeholder",
+                "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
                 "id": "e0d24292-26dd-4c7a-9047-2b18e8bea9ba",
                 "type": "text",
                 "tag": "context",
@@ -204,6 +216,18 @@
           "type": "discovery",
           "title": "Découverte 2",
           "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "76125ec0-6e0c-4208-a23e-b500d52bbc77",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/cy_generalites_ind/hotel.png",
+                "alt": "",
+                "alternativeText": "",
+                "legend": "placeholder",
+                "licence": ""
+              }
+            },
             {
               "type": "element",
               "element": {
@@ -336,6 +360,15 @@
                 {
                   "elements": [
                     {
+                      "id": "4ab000e2-d9d2-44b9-9f01-98d6b27557a1",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/cy_generalites_ind/generalitesind-1.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "placeholder",
+                      "licence": ""
+                    },
+                    {
                       "id": "f2899004-8659-4b54-95e0-572e6a06f416",
                       "type": "text",
                       "tag": "context",
@@ -376,6 +409,15 @@
                 {
                   "elements": [
                     {
+                      "id": "4abd5f66-db97-483a-8c41-8240fd6f1dad",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/cy_generalites_ind/generalitesind-2.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "placeholder",
+                      "licence": ""
+                    },
+                    {
                       "id": "272cdfe2-dd9a-4fe2-bd5c-beb9b6a59494",
                       "type": "text",
                       "tag": "context",
@@ -415,6 +457,15 @@
                 },
                 {
                   "elements": [
+                    {
+                      "id": "98a3e967-1108-4340-aa10-5a2c84412c74",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/cy_generalites_ind/generalitesind-3.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "placeholder",
+                      "licence": ""
+                    },
                     {
                       "id": "e7e795c1-2ff3-47c7-9513-c2a53cf04855",
                       "type": "text",
