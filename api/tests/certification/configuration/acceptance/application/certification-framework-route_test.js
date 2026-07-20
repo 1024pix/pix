@@ -97,6 +97,11 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               'version-summaries': {
                 data: [],
               },
+              'complementary-certification': {
+                links: {
+                  related: '/api/admin/complementary-certifications/CLEA/target-profiles',
+                },
+              },
             },
           },
           {
@@ -113,6 +118,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
                   },
                 ],
               },
+              'complementary-certification': {},
             },
             type: 'certification-frameworks',
           },
@@ -130,6 +136,11 @@ describe('Acceptance | Application | Certification | Configuration | certificati
                   },
                 ],
               },
+              'complementary-certification': {
+                links: {
+                  related: '/api/admin/complementary-certifications/DROIT/target-profiles',
+                },
+              },
             },
             type: 'certification-frameworks',
           },
@@ -141,6 +152,11 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             relationships: {
               'version-summaries': {
                 data: [],
+              },
+              'complementary-certification': {
+                links: {
+                  related: '/api/admin/complementary-certifications/EDU_1ER_DEGRE/target-profiles',
+                },
               },
             },
             type: 'certification-frameworks',
@@ -154,6 +170,11 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               'version-summaries': {
                 data: [],
               },
+              'complementary-certification': {
+                links: {
+                  related: '/api/admin/complementary-certifications/EDU_2ND_DEGRE/target-profiles',
+                },
+              },
             },
             type: 'certification-frameworks',
           },
@@ -165,6 +186,11 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             relationships: {
               'version-summaries': {
                 data: [],
+              },
+              'complementary-certification': {
+                links: {
+                  related: '/api/admin/complementary-certifications/EDU_CPE/target-profiles',
+                },
               },
             },
             type: 'certification-frameworks',
@@ -186,6 +212,11 @@ describe('Acceptance | Application | Certification | Configuration | certificati
                     type: 'certification-version-summaries',
                   },
                 ],
+              },
+              'complementary-certification': {
+                links: {
+                  related: '/api/admin/complementary-certifications/PRO_SANTE/target-profiles',
+                },
               },
             },
             type: 'certification-frameworks',
@@ -292,6 +323,11 @@ describe('Acceptance | Application | Certification | Configuration | certificati
                   type: 'certification-version-summaries',
                 },
               ],
+            },
+            'complementary-certification': {
+              links: {
+                related: '/api/admin/complementary-certifications/PRO_SANTE/target-profiles',
+              },
             },
           },
           type: 'certification-frameworks',

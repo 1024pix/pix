@@ -26,27 +26,57 @@ describe('Certification | Configuration | Unit | Serializer | framework-info-ser
         })
         .withParameters({ scope: SCOPES.PIX_PLUS_PRO_SANTE })
         .build();
+      const coreFrameworkInfo = domainBuilder.certification.configuration
+        .frameworkInfoBuilder()
+        .withActiveVersion({
+          id: 300,
+          startDate: new Date('2021-01-01'),
+          assessmentDuration: 6,
+          maximumAssessmentLength: 6,
+        })
+        .withParameters({ scope: SCOPES.CORE })
+        .build();
 
       // when
-      const result = serializer.serialize(proSanteFrameworkInfo);
+      const result = serializer.serialize([proSanteFrameworkInfo, coreFrameworkInfo]);
 
       // then
       expect(result).to.deep.equal({
-        data: {
-          type: 'certification-frameworks',
-          id: SCOPES.PIX_PLUS_PRO_SANTE,
-          attributes: {
-            scope: SCOPES.PIX_PLUS_PRO_SANTE,
-          },
-          relationships: {
-            'version-summaries': {
-              data: [
-                { type: 'certification-version-summaries', id: '100' },
-                { type: 'certification-version-summaries', id: '200' },
-              ],
+        data: [
+          {
+            type: 'certification-frameworks',
+            id: SCOPES.PIX_PLUS_PRO_SANTE,
+            attributes: {
+              scope: SCOPES.PIX_PLUS_PRO_SANTE,
+            },
+            relationships: {
+              'complementary-certification': {
+                links: {
+                  related: `/api/admin/complementary-certifications/${SCOPES.PIX_PLUS_PRO_SANTE}/target-profiles`,
+                },
+              },
+              'version-summaries': {
+                data: [
+                  { type: 'certification-version-summaries', id: '100' },
+                  { type: 'certification-version-summaries', id: '200' },
+                ],
+              },
             },
           },
-        },
+          {
+            type: 'certification-frameworks',
+            id: SCOPES.CORE,
+            attributes: {
+              scope: SCOPES.CORE,
+            },
+            relationships: {
+              'complementary-certification': {},
+              'version-summaries': {
+                data: [{ type: 'certification-version-summaries', id: '300' }],
+              },
+            },
+          },
+        ],
         included: [
           {
             type: 'certification-version-summaries',
@@ -68,6 +98,17 @@ describe('Certification | Configuration | Unit | Serializer | framework-info-ser
               'assessment-duration': 3,
               'maximum-assessment-length': 3,
               status: VERSION_STATUSES.ARCHIVED,
+            },
+          },
+          {
+            type: 'certification-version-summaries',
+            id: '300',
+            attributes: {
+              'start-date': new Date('2021-01-01'),
+              'expiration-date': null,
+              'assessment-duration': 6,
+              'maximum-assessment-length': 6,
+              status: VERSION_STATUSES.ACTIVE,
             },
           },
         ],
