@@ -3,9 +3,9 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-import { types } from '../../../models/certification-center';
+import { types } from '../../../../models/certification-center';
 
-export default class AuthenticatedCertificationCentersGetController extends Controller {
+export default class DetailsController extends Controller {
   certificationCenterTypes = types;
 
   @service pixToast;

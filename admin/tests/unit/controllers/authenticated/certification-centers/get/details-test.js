@@ -3,13 +3,13 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/certification-centers/get', function (hooks) {
+module('Unit | Controller | authenticated/certification-centers/get/details', function (hooks) {
   setupTest(hooks);
 
   module('#updateCertificationCenter', function () {
     test('should update certificationCenter model and show a success notification', async function (assert) {
       // given
-      const controller = this.owner.lookup('controller:authenticated/certification-centers/get');
+      const controller = this.owner.lookup('controller:authenticated/certification-centers/get/details');
       const initialCertificationCenter = {
         name: 'Certification center one',
         externalId: 'BBBBBBB',
@@ -44,7 +44,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
 
     test('should show an error notification if save failed', async function (assert) {
       // given
-      const controller = this.owner.lookup('controller:authenticated/certification-centers/get');
+      const controller = this.owner.lookup('controller:authenticated/certification-centers/get/details');
       controller.model = {
         certificationCenter: {
           save: sinon.stub().rejects(),
