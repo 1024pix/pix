@@ -122,7 +122,7 @@ export default class CertificationVersionEditForm extends Component {
           'components.certification-frameworks.certification-framework.versions.edit.success-notification',
         ),
       });
-      await this.store.queryRecord('framework-history', this.args.version.scope);
+      await this.store.findRecord('certification-framework', this.args.version.scope);
       this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
     } catch (err) {
       this.pixToast.sendErrorNotification({ message: err.errors?.[0].detail });

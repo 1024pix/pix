@@ -20,13 +20,15 @@ export default class FrameworkNewRoute extends Route {
   async model(params) {
     let activeVersion;
     const frameworks = await this.store.findAll('framework');
-    const item = await this.modelFor('authenticated.certification-frameworks.certification-framework');
     if (params?.activeVersionId) {
       activeVersion = await this.store.findRecord('certification-version', params.activeVersionId);
     }
+    const currentCertificationFramework = await this.modelFor(
+      'authenticated.certification-frameworks.certification-framework',
+    );
     return RSVP.hash({
       frameworks,
-      scope: item.frameworkKey,
+      scope: currentCertificationFramework.scope,
       activeVersion,
     });
   }

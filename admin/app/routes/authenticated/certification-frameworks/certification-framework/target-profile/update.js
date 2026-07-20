@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
 export default class AttachTargetProfileRoute extends Route {
+  @service('store') store;
   @service accessControl;
 
   beforeModel() {
@@ -11,18 +12,17 @@ export default class AttachTargetProfileRoute extends Route {
     );
   }
 
-  model(params) {
-    const { currentComplementaryCertification } = this.modelFor(
+  async model() {
+    const certificationFramework = this.modelFor(
       'authenticated.certification-frameworks.certification-framework.target-profile',
     );
-
-    const targetProfileId = parseInt(params.target_profile_id);
-
+    const complementaryCertifications = await this.store.findAll('complementary-certification');
+    const currentComplementaryCertification = complementaryCertifications.find(
+      (cc) => cc.key === certificationFramework.scope,
+    );
     return {
       complementaryCertification: currentComplementaryCertification,
-      currentTargetProfile: currentComplementaryCertification.currentTargetProfiles?.find(
-        ({ id }) => id === targetProfileId,
-      ),
+      currentTargetProfile: certificationFramework.activeTargetProfileSummary,
     };
   }
 }

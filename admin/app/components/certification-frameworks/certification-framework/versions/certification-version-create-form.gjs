@@ -40,8 +40,7 @@ export default class NewVersionForm extends Component {
       this.pixToast.sendErrorNotification({ message: error.errors?.[0].detail });
       return;
     }
-
-    await this.store.queryRecord('framework-history', this.args.scope);
+    await this.store.findRecord('certification-framework', this.args.scope);
     this.router.transitionTo(
       'authenticated.certification-frameworks.certification-framework.versions.version.edit',
       version.id,

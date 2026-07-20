@@ -27,11 +27,11 @@ export default class TargetProfilesHistory extends Component {
         <:content>
           <PixTable
             @variant="admin"
-            @data={{@targetProfilesHistory}}
+            @data={{@targetProfileSummaries}}
             @caption={{t "components.certification-frameworks.target-profiles.history-list.caption"}}
           >
-            <:columns as |row targetProfileHistory|>
-              <PixTableColumn @context={{targetProfileHistory}}>
+            <:columns as |row targetProfileSummary|>
+              <PixTableColumn @context={{targetProfileSummary}}>
                 <:header>
                   {{t "components.certification-frameworks.target-profiles.history-list.headers.name"}}
                 </:header>
@@ -39,7 +39,7 @@ export default class TargetProfilesHistory extends Component {
                   {{row.name}}
                 </:cell>
               </PixTableColumn>
-              <PixTableColumn @context={{targetProfileHistory}}>
+              <PixTableColumn @context={{targetProfileSummary}}>
                 <:header>
                   <PixIcon @name="calendar" @ariaHidden={{true}} />
                   {{t "components.certification-frameworks.target-profiles.history-list.headers.attached-at"}}
@@ -48,7 +48,7 @@ export default class TargetProfilesHistory extends Component {
                   <strong>{{formatDate row.attachedAt}}</strong>
                 </:cell>
               </PixTableColumn>
-              <PixTableColumn @context={{targetProfileHistory}}>
+              <PixTableColumn @context={{targetProfileSummary}}>
                 <:header>
                   <PixIcon @name="calendar" @ariaHidden={{true}} />
                   {{t "components.certification-frameworks.target-profiles.history-list.headers.detached-at"}}
@@ -57,7 +57,7 @@ export default class TargetProfilesHistory extends Component {
                   <strong>{{if row.detachedAt (formatDate row.detachedAt) "-"}}</strong>
                 </:cell>
               </PixTableColumn>
-              <PixTableColumn @context={{targetProfileHistory}}>
+              <PixTableColumn @context={{targetProfileSummary}}>
                 <:header>
                   {{t "components.certification-frameworks.target-profiles.history-list.headers.actions"}}
                 </:header>

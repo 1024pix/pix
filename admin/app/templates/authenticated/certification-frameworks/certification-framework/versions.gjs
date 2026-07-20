@@ -14,8 +14,8 @@ export default class CertificationVerionsTemplate extends Component {
       },
       {
         route: 'authenticated.certification-frameworks.certification-framework',
-        query: this.args.model.frameworkKey,
-        label: this.args.model.frameworkKey,
+        query: this.args.model.scope,
+        label: this.args.model.scope,
       },
       {
         label: this.intl.t(`components.certification-frameworks.certification-framework.versions.title`),
@@ -28,7 +28,7 @@ export default class CertificationVerionsTemplate extends Component {
     </header>
 
     <h2 class="version-creation-form__title">
-      {{t "components.certification-frameworks.certification-framework.versions.page-title" scope=@model.frameworkKey}}
+      {{t "components.certification-frameworks.certification-framework.versions.page-title" scope=@model.scope}}
     </h2>
     {{outlet}}
   </template>

@@ -10,6 +10,8 @@ import certification from './serializers/certification';
 import certificationCandidate from './serializers/certification-candidate';
 import certificationCenter from './serializers/certification-center';
 import certificationCenterMembership from './serializers/certification-center-membership';
+import certificationFramework from './serializers/certification-framework';
+import certificationTargetProfileSummary from './serializers/certification-target-profile-summary';
 import certificationVersion from './serializers/certification-version';
 import certifiedProfile from './serializers/certified-profile';
 import competence from './serializers/competence';
@@ -44,6 +46,8 @@ export default {
   certification,
   certifiedProfile,
   certificationVersion,
+  certificationFramework,
+  certificationTargetProfileSummary,
   competence,
   framework,
   juryCertificationSummary,

@@ -119,19 +119,16 @@ export default function routes() {
   });
 
   this.delete('/admin/certification-versions/:id', (schema, request) => {
-    const certificationVersions = schema.certificationVersions.all();
-    const certificationVersionToDelete = certificationVersions.filter((version) => version.id === request.params.id);
-    certificationVersionToDelete.destroy();
-
-    const frameworkHistory = schema.frameworkHistories.first();
-
-    frameworkHistory.update({
-      history: frameworkHistory.attrs.history.filter((version) => version.id !== Number(request.params.id)),
-    });
+    schema.certificationVersions.find(request.params.id).destroy();
+    schema.certificationVersionSummaries.find(request.params.id).destroy();
   });
 
   this.get('/admin/certification-frameworks', (schema) => {
     return schema.certificationFrameworks.all();
+  });
+  this.get('/admin/certification-frameworks/:id', (schema, request) => {
+    const id = request.params.id;
+    return schema.certificationFrameworks.find(id);
   });
 
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
@@ -608,24 +605,6 @@ export default function routes() {
     });
 
     return new Response(204);
-  });
-
-  this.get('admin/certification-frameworks/:scope/target-profiles', (schema, request) => {
-    const framework = schema.certificationFrameworks.findBy({ name: request.params.scope });
-    return {
-      data: {
-        id: request.params.scope,
-        type: 'certification-frameworks',
-        attributes: {
-          name: request.params.scope,
-          'target-profiles-history': framework?.targetProfilesHistory ?? [],
-        },
-      },
-    };
-  });
-
-  this.get('admin/certification-frameworks/:scope/framework-history', (schema) => {
-    return schema.frameworkHistories.first();
   });
 
   this.put('/admin/sessions/:id/comment', (schema, request) => {

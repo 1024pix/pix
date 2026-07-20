@@ -2,6 +2,7 @@ import { clickByName, getScreen, visit, within } from '@1024pix/ember-testing-li
 import { click, currentURL, fillIn, waitUntil } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import { createCertificationFramework } from 'pix-admin/tests/mirage/helpers/certification/configuration';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
@@ -15,6 +16,25 @@ module('Acceptance | Complementary certifications | certification-framework | at
         test('should display complementary certification and current target profile name', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+          createCertificationFramework(
+            {
+              id: 'CLEA',
+              targetProfilesData: [
+                {
+                  id: 3,
+                  name: 'ALEX TARGET',
+                  badgesData: [
+                    {
+                      id: 30,
+                      createdAt: new Date('2023-10-10T10:50:00Z'),
+                    },
+                  ],
+                },
+              ],
+            },
+            server,
+          );
+          /*
           server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
           server.create('framework-history', {
             id: 'CLEA',
@@ -29,14 +49,14 @@ module('Acceptance | Complementary certifications | certification-framework | at
           server.create('target-profile', {
             id: 3,
             name: 'ALEX TARGET',
-          });
+          });*/
           const screen = await visit('/certification-frameworks/CLEA/target-profile/3');
 
           // then
           assert
             .dom(
               screen.getByRole('heading', {
-                name: 'Rattacher un nouveau profil cible à la certification MARIANNE CERTIF',
+                name: 'Rattacher un nouveau profil cible à la certification label for CLEA',
               }),
             )
             .exists();

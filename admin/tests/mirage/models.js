@@ -17,6 +17,7 @@ import badgeCriterion from './models/badge-criterion';
 import campaign from './models/campaign';
 import campaignParticipation from './models/campaign-participation';
 import certification from './models/certification';
+import certificationBadgeSummary from './models/certification-badge-summary';
 import certificationCandidate from './models/certification-candidate';
 import certificationCandidateTimeline from './models/certification-candidate-timeline';
 import certificationCenter from './models/certification-center';
@@ -26,7 +27,9 @@ import certificationChallengesForAdministration from './models/certification-cha
 import certificationDetails from './models/certification-details';
 import certificationFramework from './models/certification-framework';
 import certificationIssueReport from './models/certification-issue-report';
+import certificationTargetProfileSummary from './models/certification-target-profile-summary';
 import certificationVersion from './models/certification-version';
+import certificationVersionSummary from './models/certification-version-summary';
 import certifiedArea from './models/certified-area';
 import certifiedCompetence from './models/certified-competence';
 import certifiedProfile from './models/certified-profile';
@@ -42,7 +45,6 @@ import country from './models/country';
 import featureToggle from './models/feature-toggle';
 import flashAlgorithmConfiguration from './models/flash-algorithm-configuration';
 import framework from './models/framework';
-import frameworkHistory from './models/framework-history';
 import juryCertificationSummary from './models/jury-certification-summary';
 import lastApplicationConnection from './models/last-application-connection';
 import network from './models/network';
@@ -109,6 +111,9 @@ export default {
   certifiedProfile,
   certifiedSkill,
   certifiedTube,
+  certificationVersionSummary,
+  certificationTargetProfileSummary,
+  certificationBadgeSummary,
   combinedCourseBlueprint,
   commonComplementaryCertificationCourseResult,
   competence,
@@ -119,7 +124,6 @@ export default {
   featureToggle,
   flashAlgorithmConfiguration,
   framework,
-  frameworkHistory,
   juryCertificationSummary,
   lastApplicationConnection,
   network,

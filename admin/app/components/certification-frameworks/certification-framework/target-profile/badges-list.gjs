@@ -6,10 +6,6 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
 export default class BadgesList extends Component {
-  get currentTargetProfileBadges() {
-    return this.args.currentTargetProfile?.badges;
-  }
-
   getMinimumEarnedPixValue(minimumEarnedPix) {
     return minimumEarnedPix <= 0 ? '' : minimumEarnedPix;
   }
@@ -21,11 +17,11 @@ export default class BadgesList extends Component {
       </h2>
       <PixTable
         @variant="admin"
-        @data={{this.currentTargetProfileBadges}}
+        @data={{@currentTargetProfile.badgeSummaries}}
         @caption={{t "components.certification-frameworks.target-profiles.badges-list.caption"}}
       >
-        <:columns as |row currentTargetProfileBadge|>
-          <PixTableColumn @context={{currentTargetProfileBadge}}>
+        <:columns as |row badge|>
+          <PixTableColumn @context={{badge}}>
             <:header>
               {{t "components.certification-frameworks.target-profiles.badges-list.header.image-url"}}
             </:header>
@@ -37,7 +33,7 @@ export default class BadgesList extends Component {
               />
             </:cell>
           </PixTableColumn>
-          <PixTableColumn @context={{currentTargetProfileBadge}} class="table__column--wide">
+          <PixTableColumn @context={{badge}} class="table__column--wide">
             <:header>
               {{t "components.certification-frameworks.target-profiles.badges-list.header.name"}}
             </:header>
@@ -45,7 +41,7 @@ export default class BadgesList extends Component {
               {{row.label}}
             </:cell>
           </PixTableColumn>
-          <PixTableColumn @context={{currentTargetProfileBadge}}>
+          <PixTableColumn @context={{badge}}>
             <:header>
               {{t "components.certification-frameworks.target-profiles.badges-list.header.level"}}
             </:header>
@@ -53,7 +49,7 @@ export default class BadgesList extends Component {
               {{row.level}}
             </:cell>
           </PixTableColumn>
-          <PixTableColumn @context={{currentTargetProfileBadge}}>
+          <PixTableColumn @context={{badge}}>
             <:header>
               {{t "components.certification-frameworks.target-profiles.badges-list.header.minimum-earned-pix"}}
             </:header>
@@ -61,7 +57,7 @@ export default class BadgesList extends Component {
               {{this.getMinimumEarnedPixValue row.minimumEarnedPix}}
             </:cell>
           </PixTableColumn>
-          <PixTableColumn @context={{currentTargetProfileBadge}}>
+          <PixTableColumn @context={{badge}}>
             <:header>
               {{t "components.certification-frameworks.target-profiles.badges-list.header.id"}}
             </:header>

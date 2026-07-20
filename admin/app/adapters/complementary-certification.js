@@ -1,11 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class ComplementaryCertificationAdapter extends ApplicationAdapter {
-  urlForFindRecord(id, modelName, snapshot) {
-    const key = snapshot.attr('key');
-    return `${this.host}/${this.namespace}/complementary-certifications/${key}/target-profiles`;
-  }
-
   urlForUpdateRecord(id) {
     return `${this.host}/${this.namespace}/complementary-certifications/${id}/badges`;
   }
