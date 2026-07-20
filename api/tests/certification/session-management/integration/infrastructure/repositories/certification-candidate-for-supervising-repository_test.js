@@ -1,5 +1,6 @@
 import * as certificationCandidateForSupervisingRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
 import { CertificationCandidateNotFoundError } from '../../../../../../src/certification/shared/domain/errors.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
@@ -11,9 +12,10 @@ describe('Integration | Repository | certification candidate for supervising', f
     describe('when certification candidate is found', function () {
       it('should return the certification candidate', async function () {
         // given
-        const versionId = databaseBuilder.factory.buildCertificationVersion({
-          assessmentDuration: 100,
-        }).id;
+        const versionId = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['recTube1'], assessmentDuration: 100 })
+          .insertToDB({ databaseBuilder }).id;
         const session = databaseBuilder.factory.buildSession();
         const user = databaseBuilder.factory.buildUser();
         const candidate = databaseBuilder.factory.buildCertificationCandidate({

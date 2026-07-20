@@ -9,23 +9,26 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
   describe('#serialize', function () {
     it('should serialize a version with areas to JSONAPI format', function () {
       // given
-      const version = domainBuilder.certification.configuration.buildVersionDetails({
-        id: 42,
-        status: VERSION_STATUSES.ARCHIVED,
-        scope: SCOPES.PIX_PLUS_PRO_SANTE,
-        startDate: new Date('2024-01-01T00:00:00Z'),
-        expirationDate: new Date('2025-12-31T00:00:00Z'),
-        assessmentDuration: 105,
-        minimumAnswersRequiredForValidation: 20,
-        maximumAssessmentLength: 32,
-        challengesBetweenSameCompetence: 2,
-        defaultProbabilityToPickChallenge: 40,
-        defaultCandidateCapacity: -2,
-        variationPercent: 0.66,
-        limitToOneQuestionPerTube: true,
-        enablePassageByAllCompetences: true,
-        comments: 'some good comments',
-        areas: [
+      const versionDetails = domainBuilder.certification.configuration
+        .versionDetailsBuilder()
+        .asArchived({ startDate: new Date('2024-01-01T00:00:00Z'), expirationDate: new Date('2025-12-31T00:00:00Z') })
+        .withParameters({
+          id: 42,
+          scope: SCOPES.PIX_PLUS_PRO_SANTE,
+          startDate: new Date('2024-01-01T00:00:00Z'),
+          expirationDate: new Date('2025-12-31T00:00:00Z'),
+          assessmentDuration: 105,
+          minimumAnswersRequiredForValidation: 20,
+          maximumAssessmentLength: 32,
+          challengesBetweenSameCompetence: 2,
+          defaultProbabilityToPickChallenge: 40,
+          defaultCandidateCapacity: -2,
+          variationPercent: 0.66,
+          limitToOneQuestionPerTube: true,
+          enablePassageByAllCompetences: true,
+          comments: 'some good comments',
+        })
+        .withLearningContent([
           {
             id: 'areaA',
             frameworkId: 'frameworkA',
@@ -35,20 +38,16 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
             competences: [
               {
                 id: 'competenceA',
-                areaId: 'areaA',
                 name: 'name FR Competence A',
                 index: 'index Competence A',
                 thematics: [
                   {
                     id: 'thematicA',
-                    competenceId: 'competenceA',
                     name: 'name FR Thematic A',
                     index: 1,
                     tubes: [
                       {
                         id: 'tubeA',
-                        thematicId: 'thematicA',
-                        competenceId: 'competenceA',
                         name: 'Titre pratique Tube A',
                         practicalTitle: 'practicalTitle FR Tube A',
                         mobile: true,
@@ -56,7 +55,6 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
                         skills: [
                           {
                             id: 'skillA',
-                            tubeId: 'tubeA',
                             difficulty: 2,
                           },
                         ],
@@ -76,20 +74,16 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
             competences: [
               {
                 id: 'competenceB',
-                areaId: 'areaB',
                 name: 'name FR Competence B',
                 index: 'index Competence B',
                 thematics: [
                   {
                     id: 'thematicB',
-                    competenceId: 'competenceB',
                     name: 'name FR Thematic B',
                     index: 2,
                     tubes: [
                       {
                         id: 'tubeB',
-                        thematicId: 'thematicB',
-                        competenceId: 'competenceB',
                         name: 'Titre pratique Tube B',
                         practicalTitle: 'practicalTitle FR Tube B',
                         mobile: false,
@@ -97,7 +91,6 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
                         skills: [
                           {
                             id: 'skillB',
-                            tubeId: 'tubeB',
                             difficulty: 6,
                           },
                         ],
@@ -108,11 +101,11 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
               },
             ],
           },
-        ],
-      });
+        ])
+        .build();
 
       // when
-      const result = serializer.serialize(version);
+      const result = serializer.serialize(versionDetails);
 
       // then
       expect(result).to.deep.equal({

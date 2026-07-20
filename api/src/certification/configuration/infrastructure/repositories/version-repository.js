@@ -85,21 +85,6 @@ export async function save(version) {
 
 /**
  * @param {object} params
- * @param {Version} params.version
- * @returns {Promise<void>}
- */
-export async function update({ version }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  await knexConn('certification_versions').where({ id: version.id }).update({
-    comments: version.comments,
-    expirationDate: version.expirationDate,
-    challengesConfiguration: version.challengesConfiguration,
-  });
-}
-
-/**
- * @param {object} params
  * @param {SCOPES} params.scope
  * @returns {Promise<Array<FrameworkHistoryEntry>>}
  */

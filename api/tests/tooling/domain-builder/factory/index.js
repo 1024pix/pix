@@ -165,14 +165,14 @@ import { buildValidator } from './build-validator.js';
 import { buildComplementaryCertification } from './certification/complementary-certification/build-complementary-certification.js';
 import { buildComplementaryCertificationBadge } from './certification/complementary-certification/build-complementary-certification-badge.js';
 import { buildCenter as buildConfigurationCenter } from './certification/configuration/build-center.js';
-import { buildCertificationInfo } from './certification/configuration/build-certification-info.js';
+import { certificationInfoBuilder } from './certification/configuration/build-certification-info.js';
 import { buildFrameworkHistoryEntry } from './certification/configuration/build-framework-history-entry.js';
 import {
   buildScoBlockedAccessDateCollege,
   buildScoBlockedAccessDateLycee,
 } from './certification/configuration/build-sco-blocked-access-date.js';
-import { buildVersion as buildConfigurationVersion } from './certification/configuration/build-version.js';
-import { buildVersionDetails } from './certification/configuration/build-version-details.js';
+import { versionBuilder } from './certification/configuration/build-version.js';
+import { versionDetailsBuilder } from './certification/configuration/build-version-details.js';
 import { buildCandidate } from './certification/enrolment/build-candidate.js';
 import { buildCertificationEligibility } from './certification/enrolment/build-certification-eligibility.js';
 import { buildComplementaryCertificationBadgeWithOffsetVersion as buildComplementaryCertificationBadgeForEnrolment } from './certification/enrolment/build-complementary-certification-badge.js';
@@ -250,11 +250,11 @@ const certification = {
   configuration: {
     buildCenter: buildConfigurationCenter,
     buildFrameworkHistoryEntry,
-    buildCertificationInfo,
-    buildVersion: buildConfigurationVersion,
+    certificationInfoBuilder,
+    versionBuilder,
     buildScoBlockedAccessDateCollege,
     buildScoBlockedAccessDateLycee,
-    buildVersionDetails,
+    versionDetailsBuilder,
   },
   complementaryCertification: {
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,

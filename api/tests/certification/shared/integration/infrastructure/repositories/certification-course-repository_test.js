@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import * as certificationCourseRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
@@ -12,20 +13,23 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Shared | Integration | Repository | Certification Course', function () {
   describe('#save', function () {
-    let certificationCourseData, certificationCourse, userId, sessionId, candidateId, versionId;
+    let certificationCourseData, certificationCourse, userId, sessionId, candidateId;
 
     beforeEach(function () {
       userId = databaseBuilder.factory.buildUser().id;
       sessionId = databaseBuilder.factory.buildSession({ version: 3 }).id;
       candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
-      versionId = databaseBuilder.factory.buildCertificationVersion().id;
+      const version = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+        .build();
       certificationCourseData = {
         userId,
         sessionId,
         version: 3,
         lang: 'fr',
         candidateId,
-        versionId,
+        versionId: version.id,
         firstName: 'JePasse',
         lastName: 'MaCertif',
         birthdate: '1990-04-01',

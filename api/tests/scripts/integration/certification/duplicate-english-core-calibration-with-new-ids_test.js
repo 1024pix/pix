@@ -1,8 +1,10 @@
 import sinon from 'sinon';
 
 import { DuplicateEnglishCoreCalibrationWithNewIds } from '../../../../scripts/certification/duplicate-english-core-calibration-with-new-ids.js';
+import { SCOPES } from '../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | Scripts | Certification | duplicate-english-core-calibration-with-new-ids', function () {
   let script;
@@ -17,10 +19,10 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
     context('when dryRun is false', function () {
       it('should insert duplicates with -EN suffix for challenges that have a -EN counterpart in LCMS', async function () {
         // given
-        const { id: versionId } = databaseBuilder.factory.buildCertificationVersion({
-          scope: 'CORE',
-          expirationDate: null,
-        });
+        const { id: versionId } = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
 
         const baseId = 'challengeEn1';
 
@@ -52,10 +54,10 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
 
       it('should not duplicate challenges that have no corresponding -EN entry in LCMS', async function () {
         // given
-        const { id: versionId } = databaseBuilder.factory.buildCertificationVersion({
-          scope: 'CORE',
-          expirationDate: null,
-        });
+        const { id: versionId } = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
 
         databaseBuilder.factory.learningContent.buildChallenge({
           id: 'challengeFr1',
@@ -81,10 +83,11 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
 
       it('should not duplicate challenges from an expired CORE version', async function () {
         // given
-        const { id: expiredVersionId } = databaseBuilder.factory.buildCertificationVersion({
-          scope: 'CORE',
-          expirationDate: new Date('2025-01-01'),
-        });
+        const { id: expiredVersionId } = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asArchived({ expirationDate: new Date('2025-01-01') })
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
 
         const baseId = 'challengeEnExpired';
 
@@ -114,10 +117,10 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
     context('when dryRun is true', function () {
       it('should not modify the database', async function () {
         // given
-        const { id: versionId } = databaseBuilder.factory.buildCertificationVersion({
-          scope: 'CORE',
-          expirationDate: null,
-        });
+        const { id: versionId } = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
 
         const baseId = 'challengeEn1';
 
@@ -150,10 +153,10 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
 
       it('should rollback the transaction and rethrow the error', async function () {
         // given
-        const { id: versionId } = databaseBuilder.factory.buildCertificationVersion({
-          scope: 'CORE',
-          expirationDate: null,
-        });
+        const { id: versionId } = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+          .insertToDB({ databaseBuilder });
 
         const baseId = 'challengeEnError';
 

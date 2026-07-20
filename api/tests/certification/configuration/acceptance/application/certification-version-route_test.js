@@ -6,6 +6,7 @@ import { Frameworks } from '../../../../../src/certification/shared/domain/model
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Certification | Configuration | API | certification-version-route', function () {
@@ -15,27 +16,31 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   beforeEach(async function () {
     server = await createServer();
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-    createLearningContent();
     await databaseBuilder.commit();
   });
 
   describe('GET /api/certifications/{framework}/info', function () {
     it('returns serialized info of the request framework', async function () {
-      databaseBuilder.factory.buildCertificationVersion({
-        id: 123,
-        scope: SCOPES.CORE,
-        startDate: new Date('2025-01-11'),
-        expirationDate: null,
-        assessmentDuration: 100,
-        minimumAnswersRequiredToValidateACertification: 20,
-        challengesConfiguration: {
-          maximumAssessmentLength: 32,
-        },
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId: 123,
-      });
+      domainBuilder.certification.configuration
+        .certificationInfoBuilder()
+        .asDraft()
+        .withParameters({
+          framework: SCOPES.CORE,
+          assessmentDuration: 200,
+          minimumAssessmentLength: 200,
+          maximumAssessmentLength: 500,
+        })
+        .insertToDB({ databaseBuilder });
+      domainBuilder.certification.configuration
+        .certificationInfoBuilder()
+        .asActive()
+        .withParameters({
+          framework: SCOPES.CORE,
+          assessmentDuration: 100,
+          minimumAssessmentLength: 20,
+          maximumAssessmentLength: 50,
+        })
+        .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
 
       const options = {
@@ -53,7 +58,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         attributes: {
           'assessment-duration': 100,
           'minimum-assessment-length': 20,
-          'maximum-assessment-length': 32,
+          'maximum-assessment-length': 50,
         },
       });
     });
@@ -62,16 +67,52 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   describe('GET /api/admin/certification-versions/{certificationVersionId}', function () {
     it('should return the version details with areas for a given id', async function () {
       // given
-      const version = databaseBuilder.factory.buildCertificationVersion({
-        id: 123,
-        scope: SCOPES.CORE,
-        startDate: new Date('2025-01-11'),
-        expirationDate: new Date('2026-01-01'),
-        status: VERSION_STATUSES.ARCHIVED,
-        assessmentDuration: 100,
-        minimumAnswersRequiredToValidateACertification: 20,
-        comments: 'Some awesome comments',
-        challengesConfiguration: {
+      const version = domainBuilder.certification.configuration
+        .versionDetailsBuilder()
+        .asArchived({ startDate: new Date('2025-01-11'), expirationDate: new Date('2026-01-01') })
+        .withLearningContent([
+          {
+            id: 'areaA',
+            code: 'code Domaine A',
+            color: 'color Domaine A',
+            frameworkId: 'frameworkA',
+            title: 'title FR Domaine A',
+            competences: [
+              {
+                id: 'competenceA',
+                index: 'index Competence A',
+                name: 'name FR Competence A',
+                thematics: [
+                  {
+                    id: 'thematicA',
+                    index: 1,
+                    name: 'name FR Thematic A',
+                    tubes: [
+                      {
+                        id: 'tubeA',
+                        mobile: true,
+                        name: 'Titre pratique Tube A',
+                        practicalTitle: 'practicalTitle FR Tube A',
+                        tablet: false,
+                        skills: [
+                          {
+                            id: 'skillA',
+                            difficulty: 2,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ])
+        .withParameters({
+          scope: SCOPES.CORE,
+          id: 123,
+          assessmentDuration: 100,
+          minimumAnswersRequiredForValidation: 20,
           maximumAssessmentLength: 32,
           challengesBetweenSameCompetence: 2,
           limitToOneQuestionPerTube: true,
@@ -79,12 +120,9 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           variationPercent: 0.5,
           defaultCandidateCapacity: -3,
           defaultProbabilityToPickChallenge: 51,
-        },
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId: 123,
-      });
+          comments: 'Some awesome comments',
+        })
+        .insertToDB({ databaseBuilder });
 
       await databaseBuilder.commit();
 
@@ -220,29 +258,27 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   describe('PATCH /api/admin/certification-versions/{certificationVersionId}', function () {
     it('updates the details of a version for a given id', async function () {
       // given
-      const version = databaseBuilder.factory.buildCertificationVersion({
-        id: 123,
-        scope: SCOPES.CORE,
-        startDate: new Date('2025-01-11'),
-        expirationDate: new Date('2026-01-01'),
-        assessmentDuration: 100,
-        minimumAnswersRequiredToValidateACertification: 20,
-        challengesConfiguration: {
-          maximumAssessmentLength: 32,
-          challengesBetweenSameCompetence: 2,
-          limitToOneQuestionPerTube: true,
-          enablePassageByAllCompetences: true,
-          variationPercent: 0.5,
-          defaultCandidateCapacity: -3,
-          defaultProbabilityToPickChallenge: 51,
-        },
-        comments: 'Old comments',
-        status: VERSION_STATUSES.DRAFT,
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId: 123,
-      });
+      const version = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asDraft({ startDate: new Date('2025-01-11') })
+        .withParameters({
+          scope: SCOPES.CORE,
+          tubeIds: ['tubeA'],
+          id: 123,
+          assessmentDuration: 100,
+          minimumAnswersRequiredToValidateACertification: 20,
+          challengesConfiguration: {
+            maximumAssessmentLength: 32,
+            challengesBetweenSameCompetence: 2,
+            limitToOneQuestionPerTube: true,
+            enablePassageByAllCompetences: true,
+            variationPercent: 0.5,
+            defaultCandidateCapacity: -3,
+            defaultProbabilityToPickChallenge: 51,
+          },
+          comments: 'Old comments',
+        })
+        .insertToDB({ databaseBuilder });
 
       await databaseBuilder.commit();
 
@@ -283,27 +319,24 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   describe('PATCH /api/admin/certification-versions/{certificationVersionId}/comments', function () {
     it('updates only comment of a version for a given id', async function () {
       // given
-      const version = databaseBuilder.factory.buildCertificationVersion({
-        id: 123,
-        status: VERSION_STATUSES.ACTIVE,
-        comments: 'Old comments',
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId: 123,
-      });
-
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({
+          id: 13,
+          comments: 'old comments',
+        })
+        .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
 
       const options = {
         method: 'PATCH',
-        url: `/api/admin/certification-versions/${version.id}/comments`,
+        url: `/api/admin/certification-versions/13/comments`,
         headers: generateAuthenticatedUserRequestHeaders({
           userId: superAdmin.id,
         }),
         payload: {
           data: {
-            id: version.id,
+            id: 13,
             attributes: {
               comments: 'COUCOU',
             },
@@ -315,7 +348,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       // when
       const response = await server.inject(options);
 
-      const updatedVersion = await knex('certification_versions').where({ id: version.id }).first();
+      const updatedVersion = await knex('certification_versions').where({ id: 13 }).first();
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -326,29 +359,34 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   describe('DELETE /api/admin/certification-versions/{id}', function () {
     it('should return 204 HTTP status code', async function () {
       // given
-      const versionId = databaseBuilder.factory.buildCertificationVersion({
-        scope: SCOPES.CORE,
-        startDate: null,
-        expirationDate: null,
-      }).id;
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId: versionId,
-      });
-
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asDraft({ startDate: new Date('2021-01-01') })
+        .withParameters({
+          id: 13,
+        })
+        .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
 
       const options = {
         method: 'DELETE',
-        url: `/api/admin/certification-versions/${versionId}`,
+        url: `/api/admin/certification-versions/13`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       };
 
       // when
+      const hasVersionBefore = !!(await knex('certification_versions').first());
+      const hasVersionTubeBefore = !!(await knex('certification_versions_tubes').first());
       const response = await server.inject(options);
 
       // then
+      const hasVersionAfter = !!(await knex('certification_versions').first());
+      const hasVersionTubeAfter = !!(await knex('certification_versions_tubes').first());
       expect(response.statusCode).to.equal(204);
+      expect(hasVersionBefore).to.be.true;
+      expect(hasVersionTubeBefore).to.be.true;
+      expect(hasVersionAfter).to.be.false;
+      expect(hasVersionTubeAfter).to.be.false;
     });
   });
 
@@ -367,6 +405,48 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
     it('should return 201 HTTP status code and a new version as a draft and link his challenges', async function () {
       // given
+      domainBuilder.certification.configuration.versionDetailsBuilder().insertLearningContentToDB({
+        databaseBuilder,
+        areas: [
+          {
+            id: 'areaA',
+            code: 'code Domaine A',
+            color: 'color Domaine A',
+            frameworkId: 'frameworkA',
+            title: 'title FR Domaine A',
+            competences: [
+              {
+                id: 'competenceA',
+                index: 'index Competence A',
+                name: 'name FR Competence A',
+                thematics: [
+                  {
+                    id: 'thematicA',
+                    index: 1,
+                    name: 'name FR Thematic A',
+                    tubes: [
+                      {
+                        id: 'tubeA',
+                        mobile: true,
+                        name: 'Titre pratique Tube A',
+                        practicalTitle: 'practicalTitle FR Tube A',
+                        tablet: false,
+                        skills: [
+                          {
+                            id: 'skillA',
+                            difficulty: 2,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      await databaseBuilder.commit();
       const options = {
         method: 'POST',
         url: `/api/admin/certification-versions`,
@@ -505,80 +585,3 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
     });
   });
 });
-
-function createLearningContent() {
-  databaseBuilder.factory.learningContent.buildFramework({
-    id: 'frameworkA',
-  });
-  databaseBuilder.factory.learningContent.buildFramework({
-    id: 'frameworkB',
-  });
-  databaseBuilder.factory.learningContent.buildArea({
-    id: 'areaA',
-    frameworkId: 'frameworkA',
-    code: 'code Domaine A',
-    title_i18n: { fr: 'title FR Domaine A' },
-    color: 'color Domaine A',
-  });
-  databaseBuilder.factory.learningContent.buildArea({
-    id: 'areaB',
-    frameworkId: 'frameworkB',
-    code: 'code Domaine B',
-    title_i18n: { fr: 'title FR Domaine B' },
-    color: 'color Domaine B',
-  });
-  databaseBuilder.factory.learningContent.buildCompetence({
-    id: 'competenceA',
-    areaId: 'areaA',
-    name_i18n: { fr: 'name FR Competence A' },
-    index: 'index Competence A',
-  });
-  databaseBuilder.factory.learningContent.buildCompetence({
-    id: 'competenceB',
-    areaId: 'areaB',
-    name_i18n: { fr: 'name FR Competence B' },
-    index: 'index Competence B',
-  });
-  databaseBuilder.factory.learningContent.buildThematic({
-    id: 'thematicA',
-    competenceId: 'competenceA',
-    name_i18n: { fr: 'name FR Thematic A' },
-    index: 1,
-  });
-  databaseBuilder.factory.learningContent.buildThematic({
-    id: 'thematicB',
-    competenceId: 'competenceB',
-    name_i18n: { fr: 'name FR Thematic B' },
-    index: 2,
-  });
-  databaseBuilder.factory.learningContent.buildTube({
-    id: 'tubeA',
-    thematicId: 'thematicA',
-    competenceId: 'competenceA',
-    name: 'Titre pratique Tube A',
-    practicalTitle_i18n: { fr: 'practicalTitle FR Tube A' },
-    isMobileCompliant: true,
-    isTabletCompliant: false,
-    skillIds: ['skillA'],
-  });
-  databaseBuilder.factory.learningContent.buildTube({
-    id: 'tubeB',
-    thematicId: 'thematicB',
-    competenceId: 'competenceB',
-    name: 'Titre pratique Tube B',
-    practicalTitle_i18n: { fr: 'practicalTitle FR Tube B' },
-    isMobileCompliant: false,
-    isTabletCompliant: true,
-    skillIds: ['skillB'],
-  });
-  databaseBuilder.factory.learningContent.buildSkill({
-    id: 'skillA',
-    tubeId: 'tubeA',
-    level: 2,
-  });
-  databaseBuilder.factory.learningContent.buildSkill({
-    id: 'skillB',
-    tubeId: 'tubeB',
-    level: 6,
-  });
-}

@@ -5,11 +5,13 @@ import {
   CertificationIssueReportSubcategories,
 } from '../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
@@ -391,22 +393,34 @@ describe('Certification | Session Management | Acceptance | Application | Route 
 
         beforeEach(async function () {
           ({ options, session } = await _createSession({ version: 3 }));
-          certificationVersionId = databaseBuilder.factory.buildCertificationVersion({
-            minimumAnswersRequiredToValidateACertification: 1,
-            competencesScoringConfiguration: [
-              {
-                competence: '1.1',
-                competenceId: 'recCompetence0',
-                values: [
-                  { bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
-                ],
+          certificationVersionId = domainBuilder.certification.configuration
+            .versionBuilder()
+            .asActive({ startDate: new Date('1977-10-19') })
+            .withRealisticScoringConfigurations()
+            .withParameters({
+              scope: SCOPES.CORE,
+              tubeIds: ['tubeA'],
+              minimumAnswersRequiredToValidateACertification: 1,
+              challengesConfiguration: {
+                maximumAssessmentLength: 32,
+                challengesBetweenSameCompetence: 2,
+                limitToOneQuestionPerTube: true,
+                enablePassageByAllCompetences: true,
+                variationPercent: 0.5,
+                defaultCandidateCapacity: -3,
+                defaultProbabilityToPickChallenge: 51,
               },
-            ],
-          }).id;
-          databaseBuilder.factory.buildCertificationVersionTube({
-            tubeId: 'tubeA',
-            versionId: certificationVersionId,
-          });
+              competencesScoringConfiguration: [
+                {
+                  competence: '1.1',
+                  competenceId: 'recCompetence0',
+                  values: [
+                    { bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
+                  ],
+                },
+              ],
+            })
+            .insertToDB({ databaseBuilder }).id;
           await databaseBuilder.commit();
         });
 
@@ -951,20 +965,31 @@ const _createSessionWithoutChallenge = async () => {
   const userId = databaseBuilder.factory.buildUser().id;
   const candidateUserId = databaseBuilder.factory.buildUser().id;
   const session = databaseBuilder.factory.buildSession({ version: 3 });
-  const version = databaseBuilder.factory.buildCertificationVersion({
-    startDate: new Date('2024-01-01'),
-    competencesScoringConfiguration: [
-      {
-        competence: '1.1',
-        competenceId: 'recCompetence0',
-        values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+  const version = domainBuilder.certification.configuration
+    .versionBuilder()
+    .asActive({ startDate: new Date('2024-01-01') })
+    .withRealisticScoringConfigurations()
+    .withParameters({
+      scope: SCOPES.CORE,
+      tubeIds: ['tubeA'],
+      challengesConfiguration: {
+        maximumAssessmentLength: 32,
+        challengesBetweenSameCompetence: 2,
+        limitToOneQuestionPerTube: true,
+        enablePassageByAllCompetences: true,
+        variationPercent: 0.5,
+        defaultCandidateCapacity: -3,
+        defaultProbabilityToPickChallenge: 51,
       },
-    ],
-  });
-  databaseBuilder.factory.buildCertificationVersionTube({
-    tubeId: 'tubeA',
-    versionId: version.id,
-  });
+      competencesScoringConfiguration: [
+        {
+          competence: '1.1',
+          competenceId: 'recCompetence0',
+          values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+        },
+      ],
+    })
+    .insertToDB({ databaseBuilder });
   databaseBuilder.factory.buildCertificationCenterMembership({
     userId,
     certificationCenterId: session.certificationCenterId,

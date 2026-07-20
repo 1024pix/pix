@@ -8,8 +8,7 @@ export async function findAllByFramework(framework) {
   const rawResults = await knexConn('certification_versions')
     .select([
       'challengesConfiguration',
-      'startDate',
-      'expirationDate',
+      'status',
       'assessmentDuration',
       'minimumAnswersRequiredToValidateACertification',
     ])
@@ -19,8 +18,7 @@ export async function findAllByFramework(framework) {
   return rawResults.map((rawResult) => {
     return new CertificationInfo({
       framework,
-      startDate: rawResult.startDate,
-      expirationDate: rawResult.expirationDate,
+      status: rawResult.status,
       assessmentDuration: rawResult.assessmentDuration,
       minimumAssessmentLength: rawResult.minimumAnswersRequiredToValidateACertification,
       maximumAssessmentLength: rawResult.challengesConfiguration.maximumAssessmentLength,

@@ -2,11 +2,13 @@ import { CertificationCompletedJob } from '../../../../../../src/certification/e
 import { usecases } from '../../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
@@ -137,30 +139,41 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     databaseBuilder.factory.learningContent.build(learningContentObjects);
 
-    certificationVersionId = databaseBuilder.factory.buildCertificationVersion({
-      challengesConfiguration: { maximumAssessmentLength: 10 },
-      minimumAnswersRequiredToValidateACertification: 10,
-      competencesScoringConfiguration: [
-        {
-          competence: '1.1',
-          competenceId: 'recCompetence0',
-          values: [
-            { bounds: { max: -2, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
-            { bounds: { max: -1, min: -2 }, competenceLevel: 1 },
-            { bounds: { max: 0.5, min: -1 }, competenceLevel: 2 },
-            { bounds: { max: 1, min: 0.5 }, competenceLevel: 3 },
-            { bounds: { max: 2, min: 1 }, competenceLevel: 4 },
-            { bounds: { max: 3, min: 2 }, competenceLevel: 5 },
-            { bounds: { max: 4, min: 3 }, competenceLevel: 6 },
-            { bounds: { max: Number.MAX_SAFE_INTEGER, min: 4 }, competenceLevel: 7 },
-          ],
+    certificationVersionId = domainBuilder.certification.configuration
+      .versionBuilder()
+      .asActive({ startDate: new Date('1977-10-19') })
+      .withRealisticScoringConfigurations()
+      .withParameters({
+        scope: SCOPES.CORE,
+        tubeIds: ['tubeA'],
+        minimumAnswersRequiredToValidateACertification: 10,
+        challengesConfiguration: {
+          maximumAssessmentLength: 10,
+          challengesBetweenSameCompetence: 2,
+          limitToOneQuestionPerTube: true,
+          enablePassageByAllCompetences: true,
+          variationPercent: 0.5,
+          defaultCandidateCapacity: -3,
+          defaultProbabilityToPickChallenge: 51,
         },
-      ],
-    }).id;
-    databaseBuilder.factory.buildCertificationVersionTube({
-      tubeId: 'tubeA',
-      versionId: certificationVersionId,
-    });
+        competencesScoringConfiguration: [
+          {
+            competence: '1.1',
+            competenceId: 'recCompetence0',
+            values: [
+              { bounds: { max: -2, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
+              { bounds: { max: -1, min: -2 }, competenceLevel: 1 },
+              { bounds: { max: 0.5, min: -1 }, competenceLevel: 2 },
+              { bounds: { max: 1, min: 0.5 }, competenceLevel: 3 },
+              { bounds: { max: 2, min: 1 }, competenceLevel: 4 },
+              { bounds: { max: 3, min: 2 }, competenceLevel: 5 },
+              { bounds: { max: 4, min: 3 }, competenceLevel: 6 },
+              { bounds: { max: Number.MAX_SAFE_INTEGER, min: 4 }, competenceLevel: 7 },
+            ],
+          },
+        ],
+      })
+      .insertToDB({ databaseBuilder }).id;
 
     await databaseBuilder.commit();
   });
@@ -351,23 +364,28 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
       const limitDate = new Date('2025-01-01T00:00:00Z');
       certifiableUserId = databaseBuilder.factory.buildUser().id;
 
-      eduCertificationVersion = databaseBuilder.factory.buildCertificationVersion({
-        scope: Frameworks.EDU_1ER_DEGRE,
-        challengesConfiguration: { maximumAssessmentLength: 10 },
-        minimumAnswersRequiredToValidateACertification: 10,
-        globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: 10, max: 20 } }],
-        competencesScoringConfiguration: [
-          {
-            competence: '1.1',
-            competenceId: 'recCompetence0',
-            values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+      eduCertificationVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({
+          scope: Frameworks.EDU_1ER_DEGRE,
+          tubeIds: ['tubeA'],
+          minimumAnswersRequiredToValidateACertification: 10,
+          challengesConfiguration: {
+            maximumAssessmentLength: 10,
+            challengesBetweenSameCompetence: 2,
+            variationPercent: 0.5,
+            defaultCandidateCapacity: -3,
           },
-        ],
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId: eduCertificationVersion.id,
-      });
+          globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: 10, max: 20 } }],
+          competencesScoringConfiguration: [
+            {
+              competence: '1.1',
+              competenceId: 'recCompetence0',
+              values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+            },
+          ],
+        })
+        .insertToDB({ databaseBuilder });
 
       const session = databaseBuilder.factory.buildSession({
         version: AlgorithmEngineVersion.V3,
@@ -434,23 +452,30 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
         const limitDate = new Date('2025-01-01T00:00:00Z');
         certifiableUserId = databaseBuilder.factory.buildUser().id;
 
-        droitCertificationVersion = databaseBuilder.factory.buildCertificationVersion({
-          scope: Frameworks.DROIT,
-          challengesConfiguration: { maximumAssessmentLength: 10 },
-          minimumAnswersRequiredToValidateACertification: 10,
-          globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: 10, max: 20 } }],
-          competencesScoringConfiguration: [
-            {
-              competence: '1.1',
-              competenceId: 'recCompetence0',
-              values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+        droitCertificationVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({
+            scope: Frameworks.DROIT,
+            tubeIds: ['tubeA'],
+            minimumAnswersRequiredToValidateACertification: 10,
+            challengesConfiguration: {
+              maximumAssessmentLength: 10,
+              challengesBetweenSameCompetence: 2,
+              variationPercent: 0.5,
+              defaultCandidateCapacity: -3,
             },
-          ],
-        });
-        databaseBuilder.factory.buildCertificationVersionTube({
-          tubeId: 'tubeA',
-          versionId: droitCertificationVersion.id,
-        });
+            globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: 10, max: 20 } }],
+            competencesScoringConfiguration: [
+              {
+                competence: '1.1',
+                competenceId: 'recCompetence0',
+                values: [
+                  { bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
+                ],
+              },
+            ],
+          })
+          .insertToDB({ databaseBuilder });
 
         const session = databaseBuilder.factory.buildSession({
           version: AlgorithmEngineVersion.V3,

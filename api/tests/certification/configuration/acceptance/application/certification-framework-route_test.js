@@ -4,6 +4,7 @@ import { Frameworks } from '../../../../../src/certification/shared/domain/model
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Application | Certification | Configuration | certification-framework-route', function () {
@@ -27,16 +28,11 @@ describe('Acceptance | Application | Certification | Configuration | certificati
 
       const coreStartDate = new Date('2025-01-15');
 
-      databaseBuilder.factory.buildCertificationVersion({
-        id: 123,
-        scope: SCOPES.CORE,
-        startDate: coreStartDate,
-        status: VERSION_STATUSES.ACTIVE,
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId: 123,
-      });
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: coreStartDate })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
+        .insertToDB({ databaseBuilder });
 
       await databaseBuilder.commit();
 
@@ -109,19 +105,17 @@ describe('Acceptance | Application | Certification | Configuration | certificati
   describe('GET /api/admin/certification-frameworks/{scope}/framework-history', function () {
     it('should return the framework history for given scope ordered by start date descending', async function () {
       // given
-      const newerVersion = databaseBuilder.factory.buildCertificationVersion({
-        scope: SCOPES.CORE,
-        startDate: new Date('2025-01-11'),
-        expirationDate: null,
-        status: VERSION_STATUSES.ACTIVE,
-      });
+      const newerVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2025-01-11') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+        .insertToDB({ databaseBuilder });
 
-      const olderVersion = databaseBuilder.factory.buildCertificationVersion({
-        scope: SCOPES.CORE,
-        startDate: new Date('2024-01-11'),
-        expirationDate: newerVersion.startDate,
-        status: VERSION_STATUSES.ARCHIVED,
-      });
+      const olderVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asArchived({ startDate: new Date('2024-01-11'), expirationDate: newerVersion.startDate })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
+        .insertToDB({ databaseBuilder });
 
       await databaseBuilder.commit();
 
@@ -147,7 +141,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               startDate: newerVersion.startDate,
               expirationDate: newerVersion.expirationDate,
               assessmentDuration: newerVersion.assessmentDuration,
-              maximumAssessmentLength: JSON.parse(newerVersion.challengesConfiguration).maximumAssessmentLength,
+              maximumAssessmentLength: newerVersion.challengesConfiguration.maximumAssessmentLength,
               status: VERSION_STATUSES.ACTIVE,
             },
             {
@@ -155,7 +149,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
               startDate: olderVersion.startDate,
               expirationDate: olderVersion.expirationDate,
               assessmentDuration: olderVersion.assessmentDuration,
-              maximumAssessmentLength: JSON.parse(olderVersion.challengesConfiguration).maximumAssessmentLength,
+              maximumAssessmentLength: olderVersion.challengesConfiguration.maximumAssessmentLength,
               status: VERSION_STATUSES.ARCHIVED,
             },
           ],

@@ -1,7 +1,7 @@
 import { databaseBuffer } from '../database-buffer.js';
 import { buildCertificationVersion } from './build-certification-version.js';
 
-const buildCertificationVersionTube = function ({ versionId, tubeId = 'recTube123' } = {}) {
+export function buildCertificationVersionTube({ versionId, tubeId } = {}) {
   versionId = !versionId ? buildCertificationVersion().id : versionId;
 
   return databaseBuffer.pushInsertable({
@@ -11,6 +11,4 @@ const buildCertificationVersionTube = function ({ versionId, tubeId = 'recTube12
       tube_id: tubeId,
     },
   });
-};
-
-export { buildCertificationVersionTube };
+}

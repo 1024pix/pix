@@ -1,11 +1,13 @@
 import { createServer } from '../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
+import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
@@ -154,35 +156,34 @@ describe('Certification | Session-management | Acceptance | Application | Routes
     context('when certification is v3', function () {
       it('should create a new cancelled assessment-result', async function () {
         // given
-        const versionId = databaseBuilder.factory.buildCertificationVersion({
-          startDate: new Date('2024-01-14'),
-          competencesScoringConfiguration: [
-            {
-              competence: 'index Compétence A',
-              competenceId: 'index Compétence A',
-              values: [
-                {
-                  bounds: {
-                    max: 0,
-                    min: -5,
-                  },
-                  competenceLevel: 0,
-                },
-                {
-                  bounds: {
-                    max: 5,
-                    min: 0,
-                  },
-                  competenceLevel: 1,
-                },
-              ],
+        const versionId = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('2024-01-14') })
+          .withRealisticScoringConfigurations()
+          .withParameters({
+            scope: SCOPES.CORE,
+            tubeIds: ['tubeA'],
+            challengesConfiguration: {
+              maximumAssessmentLength: 32,
+              challengesBetweenSameCompetence: 2,
+              limitToOneQuestionPerTube: true,
+              enablePassageByAllCompetences: true,
+              variationPercent: 0.5,
+              defaultCandidateCapacity: -3,
+              defaultProbabilityToPickChallenge: 51,
             },
-          ],
-        }).id;
-        databaseBuilder.factory.buildCertificationVersionTube({
-          tubeId: 'tubeA',
-          versionId,
-        });
+            competencesScoringConfiguration: [
+              {
+                competence: 'index Compétence A',
+                competenceId: 'index Compétence A',
+                values: [
+                  { bounds: { max: 0, min: -5 }, competenceLevel: 0 },
+                  { bounds: { max: 5, min: 0 }, competenceLevel: 1 },
+                ],
+              },
+            ],
+          })
+          .insertToDB({ databaseBuilder }).id;
         const juryMember = databaseBuilder.factory.buildUser.withRole({ roles: PIX_ADMIN.ROLES.SUPER_ADMIN });
         const session = databaseBuilder.factory.buildSession({
           version: AlgorithmEngineVersion.V3,
@@ -284,39 +285,35 @@ describe('Certification | Session-management | Acceptance | Application | Routes
   describe('PATCH /api/admin/certification-courses/{certificationCourseId}/uncancel', function () {
     it('should uncancel the certification with a new assessment-result', async function () {
       // given
-      const versionId = databaseBuilder.factory.buildCertificationVersion({
-        startDate: new Date('2024-01-14'),
-        challengesConfiguration: {
-          maximumAssessmentLength: 1,
-        },
-        competencesScoringConfiguration: [
-          {
-            competence: 'index Compétence A',
-            competenceId: 'index Compétence A',
-            values: [
-              {
-                bounds: {
-                  max: 0,
-                  min: -5,
-                },
-                competenceLevel: 0,
-              },
-              {
-                bounds: {
-                  max: 5,
-                  min: 0,
-                },
-                competenceLevel: 1,
-              },
-            ],
+      const versionId = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2024-01-14') })
+        .withRealisticScoringConfigurations()
+        .withParameters({
+          scope: SCOPES.CORE,
+          tubeIds: ['tubeA'],
+          minimumAnswersRequiredToValidateACertification: 1,
+          challengesConfiguration: {
+            maximumAssessmentLength: 1,
+            challengesBetweenSameCompetence: 2,
+            limitToOneQuestionPerTube: true,
+            enablePassageByAllCompetences: true,
+            variationPercent: 0.5,
+            defaultCandidateCapacity: -3,
+            defaultProbabilityToPickChallenge: 51,
           },
-        ],
-        minimumAnswersRequiredToValidateACertification: 1,
-      }).id;
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId,
-      });
+          competencesScoringConfiguration: [
+            {
+              competence: 'index Compétence A',
+              competenceId: 'index Compétence A',
+              values: [
+                { bounds: { max: 0, min: -5 }, competenceLevel: 0 },
+                { bounds: { max: 5, min: 0 }, competenceLevel: 1 },
+              ],
+            },
+          ],
+        })
+        .insertToDB({ databaseBuilder }).id;
       const juryMember = databaseBuilder.factory.buildUser.withRole({ roles: PIX_ADMIN.ROLES.SUPER_ADMIN });
       const session = databaseBuilder.factory.buildSession({
         version: AlgorithmEngineVersion.V3,

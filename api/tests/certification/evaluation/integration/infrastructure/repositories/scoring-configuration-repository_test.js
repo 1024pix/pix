@@ -40,37 +40,37 @@ describe('Certification | Evaluation | Integration | Repositories | scoring-conf
       buildFramework({ competenceIndex, origin: 'external' });
       buildFramework({ competenceIndex, origin: PIX_ORIGIN });
 
-      databaseBuilder.factory.buildCertificationVersion({
-        id: 123,
-        startDate: firstConfigurationDate,
-        expirationDate: secondConfigurationDate,
-        globalScoringConfiguration: null,
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId: 123,
-      });
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asArchived({
+          startDate: firstConfigurationDate,
+          expirationDate: secondConfigurationDate,
+        })
+        .withParameters({
+          id: 123,
+          scope: Frameworks.CORE,
+          tubeIds: ['tubeA'],
+          minimumAnswersRequiredToValidateACertification: 0,
+        })
+        .insertToDB({ databaseBuilder });
 
-      databaseBuilder.factory.buildCertificationVersion({
-        id: 456,
-        startDate: secondConfigurationDate,
-        expirationDate: thirdConfigurationDate,
-        competencesScoringConfiguration: secondCompetenceScoringConfiguration,
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId: 456,
-      });
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asArchived({ startDate: secondConfigurationDate, expirationDate: thirdConfigurationDate })
+        .withRealisticScoringConfigurations()
+        .withParameters({
+          scope: Frameworks.CORE,
+          tubeIds: ['tubeA'],
+          id: 456,
+          competencesScoringConfiguration: secondCompetenceScoringConfiguration,
+        })
+        .insertToDB({ databaseBuilder });
 
-      databaseBuilder.factory.buildCertificationVersion({
-        id: 789,
-        startDate: thirdConfigurationDate,
-        expirationDate: null,
-      });
-      databaseBuilder.factory.buildCertificationVersionTube({
-        tubeId: 'tubeA',
-        versionId: 789,
-      });
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: thirdConfigurationDate })
+        .withParameters({ scope: Frameworks.CORE, tubeIds: ['tubeA'], id: 789 })
+        .insertToDB({ databaseBuilder });
 
       await databaseBuilder.commit();
     });
@@ -127,17 +127,20 @@ describe('Certification | Evaluation | Integration | Repositories | scoring-conf
       buildFramework({ competenceIndex, origin: 'external' });
       buildFramework({ competenceIndex, origin: PIX_ORIGIN });
 
-      const version = domainBuilder.certification.configuration.buildVersion({
-        id: 1,
-        competencesScoringConfiguration: [
-          {
-            values: [{ bounds: { max: -1, min: -4 }, competenceLevel: 0 }],
-            competence: competenceIndex,
-            competenceId: `${PIX_ORIGIN}Competence`,
-          },
-        ],
-        scope: Frameworks.CORE,
-      });
+      const version = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({
+          scope: Frameworks.CORE,
+          id: 1,
+          competencesScoringConfiguration: [
+            {
+              values: [{ bounds: { max: -1, min: -4 }, competenceLevel: 0 }],
+              competence: competenceIndex,
+              competenceId: `${PIX_ORIGIN}Competence`,
+            },
+          ],
+        })
+        .build();
       await databaseBuilder.commit();
 
       // when
