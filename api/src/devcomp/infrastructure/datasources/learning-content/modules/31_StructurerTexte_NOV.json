@@ -110,6 +110,7 @@
               "element": {
                 "id": "33390847-60c5-429e-8c07-1068ac4b85e1",
                 "type": "custom",
+                "title": "",
                 "instruction": "<p>Mina cherche un logiciel de traitement de texte pour écrire son discours. Observez les logiciels ci-dessous puis répondez à la question</p>",
                 "functionalInstruction": "<p>Faites défiler chaque logiciel à l’aide des flèches.</p>",
                 "tagName": "pix-carousel",
@@ -497,7 +498,7 @@
                     {
                       "id": "4a22a634-ea99-4262-b2f3-c3eb23cf796e",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/31_MiseEnFormeTxt_NOV2/captureparagraphe.png",
+                      "url": "https://assets.pix.org/draft/modules/31_MiseEnFormeTxt_NOV2/paragraphes-encadre.jpg",
                       "alt": "",
                       "alternativeText": "<p>Je prends la parole aujourd’hui avec beaucoup d’émotion pour le mariage de ma sœur Léa.&nbsp; </p><p>Nous avons grandi ensemble et je garde en mémoire nos fous rires et nos secrets partagés dans notre chambre. Tu as toujours été mon modèle, celle qui me protégeait et qui savait me redonner le sourire.&nbsp; </p><p>Aujourd’hui, je vous vois tous les deux si complices et si heureux. C’est une grande joie de voir que tu as trouvé quelqu’un qui partage tes valeurs et ta gentillesse.&nbsp; </p><p>Je vous souhaite une vie remplie de projets et de tendresse. Je vous demande à tous de lever votre verre en l’honneur des jeunes mariés !</p>",
                       "legend": "",
@@ -563,13 +564,42 @@
           "title": "L4 : Enregistrer sous VS Enregistrer",
           "components": [
             {
-              "type": "element",
-              "element": {
-                "id": "7aefd074-897c-4b7e-8193-7e15b3953cf3",
-                "type": "text",
-                "tag": " ",
-                "content": "<h5>Quelle est la différence entre «&nbsp;Enregistrer sous&nbsp;» et «&nbsp;Enregistrer&nbsp;»  ?</h5><p> <br></p><table> <tbody><tr><th scope=\"\\&quot;col\\&quot;\" style=\"background-color: rgb(255, 255, 255);\"><br></th><th scope=\"\\&quot;col\\&quot;\">Où cliquer.<br></th><th scope=\"\\&quot;col\\&quot;\">Ce que ça fait.<br></th></tr><tr><th scope=\"\\&quot;row\\&quot;\" style=\"vertical-align: middle;\">Enregistrer sous<br></th><td>Cliquer sur «&nbsp;Fichier&nbsp;», <br>puis sur «&nbsp;Enregistrer sous&nbsp;»<br></td><td>Créer un nouveau document texte&nbsp;:&nbsp;  avec un nom avec un emplacement<br></td></tr><tr><th scope=\"\\&quot;row\\&quot;\" style=\"vertical-align: middle;\">Enregistrer<br></th><td><p><br>Cliquer sur l’icône de disquette 💾 <br>ou cliquer sur «&nbsp;Fichier&nbsp;», <br>puis sur «&nbsp;Enregistrer&nbsp;»<br></p><br></td><td>Enregistrer des modifications dans un document existant.<br></td></tr></tbody></table>"
-              }
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "03a2bb66-4f66-4b63-9362-7cd6dab4d3b9",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<h5>Quelle est la différence entre «&nbsp;Enregistrer sous&nbsp;» et «&nbsp;Enregistrer&nbsp;»  ?</h5>\n<p> <br></p>\n<table>\n    <tbody>\n        <tr>\n            <th scope=\"col\" style=\"width: 15%;\"><br></th>\n            <td><strong>Ce que ça fait.</strong><br></td>\n            <th scope=\"\\&quot;col\\&quot;\">Où cliquer.<br></th>\n        </tr>\n        <tr>\n            <th scope=\"\\&quot;row\\&quot;\" style=\"vertical-align: middle;\">Enregistrer sous<br></th>\n            <td>Créer un nouveau document texte&nbsp;:&nbsp; avec un nom avec un emplacement<br></td>\n            <td>Cliquer sur «&nbsp;Fichier&nbsp;», <br>puis sur «&nbsp;Enregistrer sous&nbsp;»<br></td>\n        </tr>\n        <tr>\n            <th scope=\"\\&quot;row\\&quot;\" style=\"vertical-align: middle;\">Enregistrer<br></th>\n            <td>Enregistrer des modifications dans un document existant.<br></td>\n            <td>\n                <p><br>Cliquer sur l’icône de disquette 💾 <br>ou cliquer sur «&nbsp;Fichier&nbsp;», <br>puis sur «&nbsp;Enregistrer&nbsp;»<br></p><br>\n            </td>\n        </tr>\n    </tbody>\n</table>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "60a3b25e-168c-4092-aa7f-f9055c484251",
+                      "type": "text",
+                      "tag": "did-you-know",
+                      "content": "<p>Si vous utilisez «&nbsp;Enregistrer sous&nbsp;» sur un document déjà enregistré, vous allez créer un deuxième document texte qui contient les modifications.</p>\n"
+                    },
+                    {
+                      "id": "3a8538c9-a6d9-4ff6-bd61-566315a62c25",
+                      "type": "text",
+                      "tag": "tip",
+                      "content": "<p>Sur la plupart des logiciels de traitement de texte, lorsqu'un document n'a jamais été enregistré, si vous cliquez sur «&nbsp;Enregistrer&nbsp;» 💾 le logiciel vous proposera automatiquement d’«&nbsp;Enregistrer sous&nbsp;».</p>"
+                    },
+                    {
+                      "id": "bc227b2a-9205-4b2e-88e7-75b5e0f9e215",
+                      "type": "text",
+                      "tag": "further-information",
+                      "content": "<p>Sur les services de traitement de texte en ligne, il n’y a pas forcément de bouton «&nbsp;Enregistrer&nbsp;» car toutes les modifications sont <strong>enregistrées automatiquement</strong>.</p>"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "type": "element",
@@ -820,40 +850,45 @@
               "type": "element",
               "element": {
                 "id": "997391b1-d4dd-4279-98d6-25b476741b63",
-                "type": "qcm",
-                "instruction": "<p>Quels sont les points communs entre les logiciels de traitement de texte et les logiciels pour modifier des tableaux ou des présentations (diapositives) ?</p>",
+                "type": "qcu-declarative",
+                "instruction": "<p>Et vous, dans quelles situations pourriez-vous utiliser un logiciel de traitement de texte ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Ils disposent tous de 3 zones d’interface.</p>"
-                  },
-                  {
-                    "id": "4",
-                    "content": "<p>Ils ont tous un logo qui représente une page ou un crayon.</p>"
+                    "content": "<p>Pour écrire une lettre.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>À vous de jouer&nbsp;! Votre lettre n’attend que vous.&nbsp;✉️<br><br>Avec un logiciel de traitement de texte, vous pouvez créer et enregistrer des documents simples pour toutes les situations proposées ici et bien d’autres<br><br>Vous pourrez écrire votre texte et le structurer, mais aussi le mettre en forme (ajouter un titre, des mots en gras, des couleurs, des listes, des tableaux ou encore des images).</p>"
+                    }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Ils permettent tous d’Enregistrer et d'Enregistrer sous.</p>"
+                    "content": "<p>Pour écrire une histoire.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>À vous de jouer&nbsp;! Votre histoire n’attend que vous.&nbsp;👑<br><br>Avec un logiciel de traitement de texte, vous pouvez créer et enregistrer des documents simples pour toutes les situations proposées ici et bien d’autres<br><br>Vous pourrez écrire votre texte et le structurer, mais aussi le mettre en forme (ajouter un titre, des mots en gras, des couleurs, des listes, des tableaux ou encore des images).</p>"
+                    }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Ils modifient tous le même type de document.</p>"
-                  }
-                ],
-                "feedbacks": {
-                  "valid": {
-                    "state": "<p>Effectivement !</p>",
-                    "diagnosis": "<p>Les logiciels pour créer et modifier des textes, des tableaux ou des présentations ont de nombreux points communs. </p><p>Les interfaces de toutes ces logiciels sont composées des mêmes 3 zones&nbsp;: la <strong>zone de travail centrale</strong>, la <strong>barre d’outils</strong> et la <strong>barre des menus</strong>.&nbsp; </p><p>Ces logiciels permettent d’<strong>Enregistrer sous</strong> des documents, et ensuite d’<strong>Enregistrer</strong> des modifications.</p>"
+                    "content": "<p>Pour noter une recette de cuisine.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>À vous de jouer&nbsp;! Votre recette n’attend que vous.&nbsp;🍰<br><br>Avec un logiciel de traitement de texte, vous pouvez créer et enregistrer des documents simples pour toutes les situations proposées ici et bien d’autres<br><br>Vous pourrez écrire votre texte et le structurer, mais aussi le mettre en forme (ajouter un titre, des mots en gras, des couleurs, des listes, des tableaux ou encore des images).</p>"
+                    }
                   },
-                  "invalid": {
-                    "state": "<p>Eh non.</p>",
-                    "diagnosis": "<p>Les logiciels pour créer et modifier des textes, des tableaux ou des présentations ont de nombreux points communs. </p><p>Les interfaces de toutes ces logiciels sont composées des mêmes 3 zones&nbsp;: la <strong>zone de travail centrale</strong>, la <strong>barre d’outils</strong> et la <strong>barre des menus</strong>.&nbsp; </p><p>Ces logiciels permettent d’<strong>Enregistrer sous</strong> des documents, et ensuite d’<strong>Enregistrer</strong> des modifications.</p>"
+                  {
+                    "id": "4",
+                    "content": "<p>Pour faire une affiche ou une invitation.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>À vous de jouer&nbsp;! Votre affiche ou votre invitation n’attend que vous.&nbsp;📣<br><br>Avec un logiciel de traitement de texte, vous pouvez créer et enregistrer des documents simples pour toutes les situations proposées ici et bien d’autres<br><br>Vous pourrez écrire votre texte et le structurer, mais aussi le mettre en forme (ajouter un titre, des mots en gras, des couleurs, des listes, des tableaux ou encore des images).</p>"
+                    }
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>Pour prendre des notes pendant une réunion.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Lancez-vous ! Vos notes de réunion n’attendent que vous.&nbsp;👔<br><br>Avec un logiciel de traitement de texte, vous pouvez créer et enregistrer des documents simples pour toutes les situations proposées ici et bien d’autres<br><br>Vous pourrez écrire votre texte et le structurer, mais aussi le mettre en forme (ajouter un titre, des mots en gras, des couleurs, des listes, des tableaux ou encore des images).</p>"
+                    }
                   }
-                },
-                "solutions": [
-                  "1",
-                  "2"
                 ]
               }
             }
