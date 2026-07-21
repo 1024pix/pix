@@ -1,5 +1,6 @@
 import pkg from '@embroider/compat';
 import { Webpack } from '@embroider/webpack';
+import { setConfig } from '@warp-drive/build-config';
 import EmberApp from 'ember-cli/lib/broccoli/ember-app.js';
 
 const { compatBuild } = pkg;
@@ -8,8 +9,7 @@ const sourceMapConfig = {
   test: false,
   default: 'eval-source-map',
 };
-
-export default function (defaults) {
+export default async function (defaults) {
   const app = new EmberApp(defaults, {
     sassOptions: {
       includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
@@ -21,12 +21,11 @@ export default function (defaults) {
     'ember-cli-babel': {
       includePolyfill: true,
     },
-    '@embroider/macros': {
-      setConfig: {
-        '@ember-data/store': {
-          polyfillUUID: true,
-        },
-      },
+  });
+
+  setConfig(app, import.meta.dirname, {
+    deprecations: {
+      DEPRECATE_TRACKING_PACKAGE: false,
     },
   });
 
