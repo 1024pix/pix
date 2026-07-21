@@ -7,11 +7,13 @@ import * as certificationDatasetRepository from '../../infrastructure/repositori
 import * as clientApplicationRepository from '../../infrastructure/repositories/client-application-repository.js';
 import * as oidcProviderRepository from '../../infrastructure/repositories/oidc-provider-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
+import * as participationDatasetRepository from '../../infrastructure/repositories/participation-dataset-repository.js';
 import { extractTransformAndLoadData } from './extract-transform-and-load-data.js';
 import { findCampaigns } from './find-campaigns.js';
 import { findCertificationDataset } from './find-certification-dataset.js';
 import { findOrganizationIdsByClientApplication } from './find-organization-ids-by-client-application.js';
 import { findOrganizations } from './find-organizations.js';
+import { findParticipationDataset } from './find-participation-dataset.js';
 import { getCampaignOrganizationId } from './get-campaign-organization-id.js';
 import { getCampaignParticipations } from './get-campaign-participations.js';
 
@@ -21,6 +23,7 @@ const dependencies = {
   certificationDatasetRepository,
   clientApplicationRepository,
   organizationRepository,
+  participationDatasetRepository,
   campaignRepository,
   oidcProviderRepository,
 };
@@ -31,6 +34,7 @@ const usecasesWithoutInjectedDependencies = {
   findCertificationDataset,
   findOrganizationIdsByClientApplication,
   findOrganizations,
+  findParticipationDataset,
   getCampaignOrganizationId,
   getCampaignParticipations,
 };
