@@ -2290,7 +2290,7 @@
           "hide": "Hide",
           "hide-aria-label": "Hide the feedback panel for training content recommendations",
           "instruction": "Click on an emoji to give your feedback.",
-          "statement": "Does this training content to deepen your knowledge seem relevant to you?",
+          "statement": "Do these recommendations to deepen your knowledge seem relevant to you?",
           "thank-you": {
             "subtitle": "It's in the bag",
             "title": "Thank you for your feedback!"

@@ -2290,7 +2290,7 @@
           "hide": "Ausblenden",
           "hide-aria-label": "Feedbackbereich für Empfehlungen zu Lerninhalten ausblenden",
           "instruction": "Klicken Sie auf ein Emoji, um Ihre Meinung zu geben.",
-          "statement": "Erscheinen Ihnen diese Lerninhalte zur Vertiefung Ihres Wissens relevant?",
+          "statement": "Erscheinen Ihnen diese Empfehlungen zur Vertiefung Ihres Wissens relevant?",
           "thank-you": {
             "subtitle": "Geschafft!",
             "title": "Danke für Ihr Feedback!"

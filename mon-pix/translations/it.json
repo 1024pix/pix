@@ -2290,7 +2290,7 @@
           "hide": "Nascondi",
           "hide-aria-label": "Nascondi il pannello di feedback per le raccomandazioni sui contenuti formativi",
           "instruction": "Clicca su un emoji per dare il tuo parere.",
-          "statement": "Questi contenuti formativi per approfondire le tue conoscenze ti sembrano pertinenti?",
+          "statement": "Queste raccomandazioni per approfondire le tue conoscenze ti sembrano pertinenti?",
           "thank-you": {
             "subtitle": "Missione compiuta!",
             "title": "Grazie per il tuo feedback!"

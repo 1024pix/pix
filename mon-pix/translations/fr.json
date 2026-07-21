@@ -2280,17 +2280,17 @@
             }
           },
           "emojis": {
-            "dissatisfied": "Pas pertinent",
+            "dissatisfied": "Pas pertinentes",
             "neutral": "Je n’ai pas d’avis",
-            "satisfied": "Pertinent",
-            "very-dissatisfied": "Pas du tout pertinent",
-            "very-satisfied": "Très pertinent"
+            "satisfied": "Pertinentes",
+            "very-dissatisfied": "Pas du tout pertinentes",
+            "very-satisfied": "Très pertinentes"
           },
           "error-message": "Une erreur est survenue lors de l'envoi de votre réponse.",
           "hide": "Masquer",
           "hide-aria-label": "Fermer l'encart de retours sur la recommandation des offres de formation",
           "instruction": "Cliquez sur un emoji pour donner votre avis.",
-          "statement": "Ces offres de formation pour approfondir vos connaissances vous semblent-elles pertinentes ?",
+          "statement": "Ces recommandations pour approfondir vos connaissances vous semblent-elles pertinentes ?",
           "thank-you": {
             "subtitle": "C'est dans la boîte",
             "title": "Merci pour votre avis !"
