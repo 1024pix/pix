@@ -2305,7 +2305,8 @@
           "duration": "Duration",
           "editor-name": "Proposed by: ",
           "feedback": {
-            "question": "Is this proposal relevant?"
+            "question": "Is this proposal relevant?",
+            "success-message": "Thank you for your feedback!"
           },
           "localisation": "Location",
           "objectives": "Objectives",

@@ -111,12 +111,25 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         await click(thumbsDownButton);
         assert.dom(thumbsUpButton).doesNotHaveClass('selected');
         assert.dom(thumbsDownButton).hasClass('selected');
+        assert
+          .dom(await within(modal).findByRole('status'))
+          .hasText(t('pages.skill-review.recommended-engine.modal.feedback.success-message'));
 
         const actionButtons = within(modal).getByRole('list');
         await click(within(actionButtons).getByRole('button', { name: t('common.actions.close') }));
         await click(trainingCardButton);
 
         const reopenedModal = await screen.findByRole('dialog', { name: training.title });
+
+        assert.dom(within(reopenedModal).queryByRole('status')).doesNotExist();
+        assert
+          .dom(
+            within(reopenedModal).queryByText(
+              t('pages.skill-review.recommended-engine.modal.feedback.success-message'),
+            ),
+          )
+          .doesNotExist();
+
         assert.dom(within(reopenedModal).getByRole('button', { name: t('common.yes') })).doesNotHaveClass('selected');
         assert.dom(within(reopenedModal).getByRole('button', { name: t('common.no') })).hasClass('selected');
       });

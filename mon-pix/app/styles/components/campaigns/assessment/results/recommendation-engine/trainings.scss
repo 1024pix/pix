@@ -157,6 +157,10 @@
     }
   }
 
+  &__notification {
+    width: 100%;
+  }
+
   &__objectives {
     @extend %pix-body-m;
 

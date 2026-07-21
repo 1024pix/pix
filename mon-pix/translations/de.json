@@ -2305,7 +2305,8 @@
           "duration": "Dauer",
           "editor-name": "Vorgeschlagen von : ",
           "feedback": {
-            "question": "Ist dieser Vorschlag relevant?"
+            "question": "Ist dieser Vorschlag relevant?",
+            "success-message": "Vielen Dank für Ihr Feedback!"
           },
           "localisation": "Standort",
           "objectives": "Ziele",

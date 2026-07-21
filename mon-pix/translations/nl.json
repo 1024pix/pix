@@ -2305,7 +2305,8 @@
           "duration": "Duur",
           "editor-name": "Voorgesteld door : ",
           "feedback": {
-            "question": "Is dit voorstel relevant?"
+            "question": "Is dit voorstel relevant?",
+            "success-message": "Bedankt voor uw feedback!"
           },
           "localisation": "Locatie",
           "objectives": "Doelstellingen",
