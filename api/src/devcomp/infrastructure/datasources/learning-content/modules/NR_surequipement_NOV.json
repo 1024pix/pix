@@ -41,7 +41,7 @@
               "element": {
                 "id": "1e4a36f0-e2a9-4944-b814-10d787a56f5a",
                 "type": "custom",
-                "title": "calculateur d’appareils",
+                "title": "",
                 "instruction": "<p>Combien avez-vous d’appareils numériques ? <br></p>",
                 "functionalInstruction": "",
                 "tagName": "pix-cursor",
@@ -377,7 +377,7 @@
                         "x": 0,
                         "y": 0
                       },
-                      "info": "Plus une télévision est grande, plus elle consomme de l’électricité.",
+                      "info": "Plus une télévision est grande, plus elle consomme de l’électricité. Ici, la télévision est en veille.",
                       "tooltipPosition": "bottom"
                     },
                     {
@@ -513,7 +513,7 @@
                 "id": "b8e34139-377f-48df-b750-4b40d8a8fcf2",
                 "type": "text",
                 "tag": " ",
-                "content": "Divin aimerait réduire sa consommation électrique. À chaque situation, aidez Divin à faire le choix le moins consommateur d’électricité.&nbsp;"
+                "content": "<p>Noah aimerait réduire sa consommation électrique. À chaque situation, aidez Noah à faire le choix le moins consommateur d’électricité.&nbsp;</p>"
               }
             },
             {
@@ -525,7 +525,7 @@
                     {
                       "id": "62e778a0-8d42-49ca-a0cc-ae37e0968aa9",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Divin a passé toute la journée sur son ordinateur et vient de terminer sa journée de travail. Que lui conseillez-vous pour l’aider à <strong>réduire sa consommation électrique</strong> ?&nbsp;</p>",
+                      "instruction": "<p>Noah a passé toute la journée sur son ordinateur portable et vient de terminer sa journée de travail. Que lui conseillez-vous pour l’aider à <strong>réduire sa consommation électrique</strong> ?&nbsp;</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -559,7 +559,7 @@
                     {
                       "id": "263d9c42-a097-467a-9786-e822916314c7",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Pour se détendre, Divin allume la télévision et lance une série. En même temps, il prend son téléphone pour regarder une vidéo. Que lui conseillez-vous pour l’aider à <strong>réduire sa consommation électrique</strong> ?</p>",
+                      "instruction": "<p>Pour se détendre, Noah allume la télévision et lance une série. En même temps, il prend son téléphone pour regarder une vidéo. Que lui conseillez-vous pour l’aider à <strong>réduire sa consommation électrique</strong> ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -573,7 +573,7 @@
                           "id": "1",
                           "content": "<p>Éteindre la télévision s’il ne la regarde pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Oui ! La télévision consomme de l’électricité alors que Divin ne la regarde pas.&nbsp;</p>"
+                            "diagnosis": "<p>Oui ! La télévision consomme de l’électricité alors que Noah ne la regarde pas.&nbsp;</p>"
                           }
                         },
                         {
@@ -593,7 +593,7 @@
                     {
                       "id": "4ec51b96-64ee-4989-8caf-08d8e845a3cb",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Dans sa chambre, Divin laisse ses chargeurs de téléphone branchés, même s’il&nbsp;ne charge pas d’appareil. Que pouvez-vous lui conseiller pour réduire sa consommation électrique ?&nbsp;</p>",
+                      "instruction": "<p>Dans sa chambre, Noah laisse ses chargeurs de téléphone branchés, même s’il&nbsp;ne charge pas d’appareil. Que pouvez-vous lui conseiller pour réduire sa consommation électrique ?&nbsp;</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -875,7 +875,7 @@
               "element": {
                 "id": "3e33f15f-ce06-40e7-8091-16ee8521903c",
                 "type": "qab",
-                "instruction": "<p>Pour chaque action, dites si elle a un impact positif ou négatif sur la consommation électrique ?</p>",
+                "instruction": "<p>Pour chaque action, dites si elle fait augmenter ou baisser la consommation électrique ?</p>",
                 "cards": [
                   {
                     "id": "a8cf7887-50fd-4516-9612-12ff4223f045",
@@ -884,9 +884,9 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Impact positif",
-                    "proposalB": "Impact négatif",
-                    "solution": "A"
+                    "proposalA": "Augmente",
+                    "proposalB": "Fait baisser",
+                    "solution": "B"
                   },
                   {
                     "id": "6c58a2b4-c9f9-445d-944c-b4690498a79a",
@@ -895,9 +895,9 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Impact positif",
-                    "proposalB": "Impact négatif",
-                    "solution": "B"
+                    "proposalA": "Augmente",
+                    "proposalB": "Fait baisser",
+                    "solution": "A"
                   },
                   {
                     "id": "1fc85608-fc28-444e-89ec-93bddde3d9aa",
@@ -906,9 +906,9 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Impact positif",
-                    "proposalB": "Impact négatif",
-                    "solution": "A"
+                    "proposalA": "Augmente",
+                    "proposalB": "Fait baisser",
+                    "solution": "B"
                   },
                   {
                     "id": "b204b3e9-c6b4-4b00-9b2a-7c73691a8ec7",
@@ -917,9 +917,9 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "Impact positif",
-                    "proposalB": "Impact négatif",
-                    "solution": "B"
+                    "proposalA": "Augmente",
+                    "proposalB": "Fait baisser",
+                    "solution": "A"
                   }
                 ],
                 "feedback": {
