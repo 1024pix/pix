@@ -20,28 +20,51 @@ const smokeScenario = {
   campaign_journey: { executor: 'per-vu-iterations', vus: 1, iterations: 1, maxDuration: '2m' },
 };
 
+// STEADY=1 holds a low, constant arrival rate to measure PgBouncer's *pure overhead* in a
+// non-saturated regime. Keep the load well under the knee (small RATE, short iterations via
+// MAX_CHALLENGES=5 / SLEEP_MS=0) so no queueing masks the few-ms per-query cost. The signal is
+// the delta of avg/med http_req_waiting between toggle 0 (direct) and toggle 100 (pooled).
+// Verify dropped_iterations stays at 0 — otherwise the run is saturated and invalid.
+const steadyScenario = {
+  campaign_journey: {
+    executor: 'constant-arrival-rate',
+    rate: Number(__ENV.RATE || 4),
+    timeUnit: '1s',
+    duration: __ENV.DURATION || '3m',
+    preAllocatedVUs: Number(__ENV.PRE_VUS || 50),
+    maxVUs: Number(__ENV.MAX_VUS || 200),
+  },
+};
+
+// The default ramp pushes to saturation to find the knee / connection-exhaustion regime.
+const rampScenario = {
+  campaign_journey: {
+    executor: 'ramping-arrival-rate',
+    startRate: 1,
+    timeUnit: '1s',
+    // A scenario is ~86 requests and runs ~20s, so the 20/s peak needs ~400 concurrent VUs.
+    // maxVUs is set well above that: running out shows up as dropped_iterations, which
+    // masquerades as an API limit when it is really a load-generator limit.
+    preAllocatedVUs: 200,
+    maxVUs: 2000,
+    stages: [
+      { target: 2, duration: '1m' },
+      { target: 5, duration: '2m' },
+      { target: 10, duration: '2m' },
+      { target: 20, duration: '2m' },
+      { target: 0, duration: '30s' },
+    ],
+  },
+};
+
+function selectScenario() {
+  if (__ENV.SMOKE) return smokeScenario;
+  if (__ENV.STEADY) return steadyScenario;
+  return rampScenario;
+}
+
 export const options = {
-  scenarios: __ENV.SMOKE
-    ? smokeScenario
-    : {
-        campaign_journey: {
-          executor: 'ramping-arrival-rate',
-          startRate: 1,
-          timeUnit: '1s',
-          // A scenario is ~86 requests and runs ~20s, so the 20/s peak needs ~400 concurrent VUs.
-          // maxVUs is set well above that: running out shows up as dropped_iterations, which
-          // masquerades as an API limit when it is really a load-generator limit.
-          preAllocatedVUs: 200,
-          maxVUs: 2000,
-          stages: [
-            { target: 2, duration: '1m' },
-            { target: 5, duration: '2m' },
-            { target: 10, duration: '2m' },
-            { target: 20, duration: '2m' },
-            { target: 0, duration: '30s' },
-          ],
-        },
-      },
+  scenarios: selectScenario(),
   thresholds: {
     http_req_failed: ['rate<0.01'],
     http_req_duration: ['p(95)<2000'],
@@ -230,9 +253,10 @@ function textSummary(data) {
     if (metric.type === 'trend') {
       // `contains: 'time'` marks a duration; anything else (e.g. challenge counts) is a plain number.
       const unit = metric.contains === 'time' ? 'ms' : '';
+      const med = v.med ?? v['p(50)'];
       const p95 = v['p(95)'] ?? v.p95;
       lines.push(
-        `  ${label} avg=${v.avg?.toFixed(1)}${unit}  p95=${p95?.toFixed(1)}${unit}  max=${v.max?.toFixed(1)}${unit}`,
+        `  ${label} avg=${v.avg?.toFixed(1)}${unit}  med=${med?.toFixed(1)}${unit}  p95=${p95?.toFixed(1)}${unit}  max=${v.max?.toFixed(1)}${unit}`,
       );
     } else if (metric.type === 'rate') {
       const total = (v.passes ?? 0) + (v.fails ?? 0);
