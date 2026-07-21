@@ -1,9 +1,7 @@
-import Inflector from 'ember-inflector';
+import { irregular } from '@warp-drive/utilities/string';
 
 export function initialize() {
-  const inflector = Inflector.inflector;
-
-  inflector.irregular('badge-criterion', 'badge-criteria');
+  irregular('badge-criterion', 'badge-criteria');
 }
 
 export default {
