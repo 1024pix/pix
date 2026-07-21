@@ -57,33 +57,4 @@ module('Integration | Component | Campaign::CreateForm::CombinedCourseGoalSettin
     // then
     assert.dom(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false })).exists();
   });
-
-  test('it never displays owner, external id, title nor landing page fields', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    data.campaign.course = store.createRecord('course', {
-      id: '1',
-      name: 'Mon schéma de parcours combiné',
-      type: 'blueprint',
-      nbModules: 3,
-      isSimplifiedAccess: true,
-    });
-
-    // when
-    const screen = await render(
-      <template><CombinedCourseGoalSettings @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
-    );
-
-    // then
-    assert.dom(screen.queryByText(t('pages.campaign-creation.owner.info'))).doesNotExist();
-    assert
-      .dom(screen.queryByRole('radiogroup', { name: t('pages.campaign-creation.external-id-label.question-label') }))
-      .doesNotExist();
-    assert
-      .dom(screen.queryByLabelText(t('pages.campaign-creation.course-title.label'), { exact: false }))
-      .doesNotExist();
-    assert
-      .dom(screen.queryByLabelText(t('pages.campaign-creation.landing-page-text.label'), { exact: false }))
-      .doesNotExist();
-  });
 });

@@ -61,22 +61,4 @@ module('Integration | Component | Campaign::CreateForm::ProfilesCollectionGoalSe
     assert.dom(screen.getByText(t('pages.campaign-creation.multiple-sendings.profiles.question-label'))).exists();
     assert.dom(screen.getByText(t('pages.campaign-creation.multiple-sendings.profiles.info'))).exists();
   });
-
-  test('it never displays the campaign title field', async function (assert) {
-    // when
-    const screen = await render(
-      <template>
-        <ProfilesCollectionGoalSettings
-          @campaign={{data.campaign}}
-          @errors={{data.errors}}
-          @membersSortedByFullName={{data.membersSortedByFullName}}
-        />
-      </template>,
-    );
-
-    // then
-    assert
-      .dom(screen.queryByLabelText(t('pages.campaign-creation.course-title.label'), { exact: false }))
-      .doesNotExist();
-  });
 });

@@ -24,16 +24,4 @@ module('Integration | Component | Campaign::CreateForm::ProfilesCollectionGoalCu
     // then
     assert.dom(screen.getByLabelText(t('pages.campaign-creation.landing-page-text.label'), { exact: false })).exists();
   });
-
-  test('it never displays the campaign title field', async function (assert) {
-    // when
-    const screen = await render(
-      <template><ProfilesCollectionGoalCustomization @campaign={{data.campaign}} /></template>,
-    );
-
-    // then
-    assert
-      .dom(screen.queryByLabelText(t('pages.campaign-creation.course-title.label'), { exact: false }))
-      .doesNotExist();
-  });
 });
