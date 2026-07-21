@@ -1,4 +1,5 @@
-import { AuthenticationMethodNotFoundError } from '../../../shared/domain/errors.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 /**
  * Revokes access for a list of users.
@@ -21,9 +22,20 @@ export const revokeAccessForUsers = async function ({
 
     // Revoke current user password
     try {
-      await authenticationMethodRepository.updatePassword({ userId, hashedPassword: '[revoked]' });
+      const identityProvider = NON_OIDC_IDENTITY_PROVIDERS.PIX.code;
+      const authenticationComplement =
+        await authenticationMethodRepository.getAuthenticationComplementByUserIdAndIdentityProvider({
+          userId,
+          identityProvider,
+        });
+      authenticationComplement.revokePassword();
+      await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
+        authenticationComplement,
+        userId,
+        identityProvider,
+      });
     } catch (error) {
-      if (!(error instanceof AuthenticationMethodNotFoundError)) throw error;
+      if (!(error instanceof NotFoundError)) throw error;
     }
   }
 };
