@@ -29,7 +29,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
           'reward-id': 5,
           'reward-type': 'ATTESTATION',
-          'reward-requirements': 'Description of the reward requirements',
+          'reward-requirements-description': 'Description of the reward requirements',
           content: items,
           'created-at': date,
           'updated-at': date,
@@ -100,7 +100,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           rewardType: REWARD_TYPES.ATTESTATION,
         }),
         surveyLink: 'http://survey',
-        rewardRequirements: 'Description of the reward requirements',
+        rewardRequirementsDescription: 'Description of the reward requirements',
       }),
     );
   });

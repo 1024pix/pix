@@ -25,7 +25,7 @@ export class CombinedCourseBlueprint {
     updatedAt = null,
     organizationIds = [],
     quest,
-    rewardRequirements = null,
+    rewardRequirementsDescription = null,
   }) {
     this.id = id;
     this.name = name;
@@ -37,7 +37,7 @@ export class CombinedCourseBlueprint {
     this.updatedAt = updatedAt;
     this.organizationIds = organizationIds;
     this.quest = quest;
-    this.rewardRequirements = rewardRequirements;
+    this.rewardRequirementsDescription = rewardRequirementsDescription;
 
     this.validate();
   }
@@ -157,7 +157,7 @@ export class CombinedCourseBlueprint {
     this.description = combinedCourseBlueprintForUpdate.description;
     this.illustration = combinedCourseBlueprintForUpdate.illustration;
     this.surveyLink = combinedCourseBlueprintForUpdate.surveyLink;
-    this.rewardRequirements = combinedCourseBlueprintForUpdate.rewardRequirements;
+    this.rewardRequirementsDescription = combinedCourseBlueprintForUpdate.rewardRequirementsDescription;
 
     return this;
   }

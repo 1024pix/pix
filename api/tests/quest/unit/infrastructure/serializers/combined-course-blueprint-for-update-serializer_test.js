@@ -13,7 +13,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-upda
           illustration: 'illustrations/mon-epure.png',
           description: 'Description',
           surveyLink: 'http://www.survey',
-          rewardRequirements: 'description of requirements',
+          rewardRequirementsDescription: 'description of requirements',
         },
         relationships: {
           organization: {
@@ -41,7 +41,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-upda
       illustration: 'illustrations/mon-epure.png',
       description: 'Description',
       surveyLink: 'http://www.survey',
-      rewardRequirements: 'description of requirements',
+      rewardRequirementsDescription: 'description of requirements',
     });
   });
 });

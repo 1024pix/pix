@@ -448,8 +448,8 @@ const RewardRequirementsSection = <template>
   >
     <PixTextarea
       @id="reward-requirements"
-      @value={{@blueprint.rewardRequirements}}
-      {{on "change" (fn @setData "rewardRequirements")}}
+      @value={{@blueprint.rewardRequirementsDescription}}
+      {{on "change" (fn @setData "rewardRequirementsDescription")}}
       rows="10"
     >
       <:label>
