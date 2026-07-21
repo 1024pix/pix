@@ -40,6 +40,7 @@ import { getUserCertificationEligibility } from './get-user-certification-eligib
 import { hasBeenCandidate } from './has-been-candidate.js';
 import { importCertificationCandidatesFromCandidatesImportSheet } from './import-certification-candidates-from-candidates-import-sheet.js';
 import { reconcileCandidate } from './reconcile-candidate.js';
+import { registerCandidateParticipation } from './register-candidate-participation.js';
 import { updateEnrolledCandidate } from './update-enrolled-candidate.js';
 import { updateSession } from './update-session.js';
 import { validateSessions } from './validate-sessions.js';
@@ -149,10 +150,9 @@ const usecasesWithoutInjectedDependencies = {
   updateEnrolledCandidate,
   updateSession,
   validateSessions,
+  registerCandidateParticipation,
   verifyCandidateReconciliationRequirements,
   verifyCandidateIdentity,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
-
-export { usecases };
+export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);

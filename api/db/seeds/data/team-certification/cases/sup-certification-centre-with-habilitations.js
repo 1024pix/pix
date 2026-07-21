@@ -1,4 +1,3 @@
-import { services as enrolmentServices } from '../../../../../src/certification/enrolment/application/services/index.js';
 import { Candidate } from '../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
@@ -197,7 +196,7 @@ export class SupWithHabilitationsSeed {
       authorizedToStart: true,
     });
 
-    await enrolmentServices.registerCandidateParticipation({
+    await enrolmentUseCases.registerCandidateParticipation({
       userId: pixAppUser.id,
       sessionId: session.id,
       firstName: candidateDTO.firstName,

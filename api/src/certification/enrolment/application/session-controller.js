@@ -2,7 +2,6 @@ import { normalize } from '../../../shared/infrastructure/utils/string-utils.js'
 import { usecases } from '../domain/usecases/index.js';
 import { candidateSerializer } from '../infrastructure/serializers/candidate-serializer.js';
 import { sessionSerializer } from '../infrastructure/serializers/session-serializer.js';
-import { services } from './services/index.js';
 
 const createSession = async function (request, _h, dependencies = { sessionSerializer }) {
   const userId = request.auth.credentials.userId;
@@ -47,7 +46,7 @@ const createCandidateParticipation = async function (request, h) {
   const origin = request.headers.origin || request.headers.referer;
   const isFrenchDomainExtension = origin ? new URL(origin).hostname.endsWith('.fr') : false;
 
-  const candidate = await services.registerCandidateParticipation({
+  const candidate = await usecases.registerCandidateParticipation({
     userId,
     sessionId,
     firstName,

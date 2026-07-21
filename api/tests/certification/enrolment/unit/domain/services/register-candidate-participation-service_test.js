@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/application/services/register-candidate-participation-service.js';
 import { WrongDomainExtensionForPixPlusError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { usecases } from '../../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -10,7 +9,7 @@ import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | Application | Service | register-candidate-participation', function () {
+describe('Unit | Domain | Usecase | register-candidate-participation', function () {
   let normalizeStringFnc;
   const candidateData = {
     firstName: 'Brice',
@@ -42,7 +41,7 @@ describe('Unit | Application | Service | register-candidate-participation', func
         sinon.stub(usecases, 'verifyCandidateIdentity').resolves(alreadyLinkedCandidate);
 
         // when
-        await registerCandidateParticipation({
+        await usecases.registerCandidateParticipation({
           ...candidateData,
           userId,
           sessionId,
@@ -74,7 +73,7 @@ describe('Unit | Application | Service | register-candidate-participation', func
         sinon.stub(usecases, 'verifyCandidateIdentity').resolves(candidateWithComplementary);
 
         // when
-        const error = await catchErr(registerCandidateParticipation)({
+        const error = await catchErr(usecases.registerCandidateParticipation)({
           ...candidateData,
           userId,
           sessionId,
@@ -114,7 +113,7 @@ describe('Unit | Application | Service | register-candidate-participation', func
         usecases.reconcileCandidate.resolves(unlinkedCandidate);
 
         // when
-        await registerCandidateParticipation({
+        await usecases.registerCandidateParticipation({
           ...candidateData,
           sessionId,
           userId,
@@ -130,7 +129,7 @@ describe('Unit | Application | Service | register-candidate-participation', func
 
       it('should link the candidate to the given user', async function () {
         // when
-        await registerCandidateParticipation({
+        await usecases.registerCandidateParticipation({
           ...candidateData,
           userId,
           sessionId,
@@ -163,7 +162,7 @@ describe('Unit | Application | Service | register-candidate-participation', func
       sinon.stub(usecases, 'reconcileCandidate');
       sinon.stub(usecases, 'verifyCandidateReconciliationRequirements').throws(new UserNotAuthorizedToCertifyError());
 
-      const error = await catchErr(registerCandidateParticipation)({
+      const error = await catchErr(usecases.registerCandidateParticipation)({
         userId,
         sessionId,
         firstName: certificationCandidate.firstName,
