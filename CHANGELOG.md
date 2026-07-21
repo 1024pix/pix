@@ -1,5 +1,28 @@
 # Pix Changelog
 
+# [5.460.0](https://github.com/1024pix/pix/compare/v5.459.0...v5.460.0) (2026-07-21)
+
+### :rocket: Amélioration
+
+- [#16883](https://github.com/1024pix/pix/pull/16883) Ajout des valeurs de la version active en sous-label (PIX-23482)
+- [#16896](https://github.com/1024pix/pix/pull/16896) Modifs Cy_Virus_AVA avant relecture interne
+- [#16895](https://github.com/1024pix/pix/pull/16895) Modifs module CY_Généralités_IND suite relecture FRI
+- [#16880](https://github.com/1024pix/pix/pull/16880) Notifier l'utilisateur de l'enregistrement de son avis sur la pertinence d'un seul CF (PIX-23594) 
+- [#16865](https://github.com/1024pix/pix/pull/16865) Revoir le style du formulaire de création de centre de certification (PiX-22644)
+- [#16882](https://github.com/1024pix/pix/pull/16882) Structurertext_NOV retours eval et concepteurs
+
+### :building_construction: Tech
+
+- [#16787](https://github.com/1024pix/pix/pull/16787)  Suppression de la table `certification subscriptions` (Pix-22978)
+- [#16859](https://github.com/1024pix/pix/pull/16859) Réécriture du domainBuilder Version (PIX-23580).
+
+### :arrow_up: Montée de version
+
+- [#16890](https://github.com/1024pix/pix/pull/16890) Update dependency @babel/eslint-parser to v8 (audit-logger)
+- [#16891](https://github.com/1024pix/pix/pull/16891) Update dependency @babel/eslint-parser to v8 (dossier racine)
+- [#16874](https://github.com/1024pix/pix/pull/16874) Update dependency js-yaml to v5 (api)
+- [#16888](https://github.com/1024pix/pix/pull/16888) Update slackapi/slack-github-action action to v3.0.5 (workflows)
+
 # [5.459.0](https://github.com/1024pix/pix/compare/v5.458.0...v5.459.0) (2026-07-20)
 
 ### :rocket: Amélioration
