@@ -1,0 +1,55 @@
+@use 'pix-design-tokens/typography';
+
+.certification-center-creation-form {
+  &__card {
+    .card__content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--pix-spacing-6x) var(--pix-spacing-6x);
+    }
+
+    .card__content > * + * {
+      margin-top: 0;
+    }
+
+    .pix-input__input {
+      height: 42px;
+    }
+  }
+
+  &__input {
+    &--full {
+      grid-column: 1 / span 2;
+    }
+  }
+
+  &__attached-organization--full {
+    grid-column: 1 / span 2;
+  }
+
+}
+
+.habilitations-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pix-spacing-6x);
+
+  &__habilitation-item-container {
+    padding-bottom: var(--pix-spacing-3x);
+    border-bottom: 1px solid var(--pix-neutral-100);
+
+    &:has(input[type='checkbox']:checked) label {
+      color: var(--pix-primary-700);
+      font-weight: 600;
+    }
+  }
+
+  &__habilitation-item {
+    width: fit-content;
+
+    &:has(input[type='checkbox']:checked) label {
+      color: var(--pix-primary-700);
+      font-weight: 600;
+    }
+  }
+}

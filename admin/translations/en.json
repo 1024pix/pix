@@ -472,6 +472,36 @@
           }
         }
       },
+      "creation": {
+        "complementary-certifications-habilitations": "Habilitations to complementary certifications",
+        "configuration": "Configuration",
+        "dpo": {
+          "acronym": "DPO",
+          "definition": "Data Protection Officer",
+          "email": "E-mail address of ",
+          "firstname": "Firstname of ",
+          "lastname": "Lastname of "
+        },
+        "error-messages": {
+          "dpo-email": "The email adress is not in the correct format",
+          "error-toast": "Please correct the fields with errors.",
+          "name": "Name is required",
+          "type": "Certification center type is required"
+        },
+        "external-id": {
+          "label": "External Identifier",
+          "placeholder": "Specify the UAI, SIRET etc"
+        },
+        "name": {
+          "label": "Name of the certification center",
+          "placeholder": "My new certification center"
+        },
+        "success-message": "The certification center has been successfully created.",
+        "type": {
+          "label": "Type of the certification center",
+          "placeholder": "Select one type"
+        }
+      },
       "invitations": {
         "table": {
           "caption": "Liste des invitations envoyées pour rejoindre un centre de certification. Contient une adresse e-mail de l'utilisateur, le rôle que l'on souhaite lui attribuer, la date de dernier envoi de l'invitation et des actions permettent de renvoyer l'invitation ou de la supprimer."
@@ -1461,6 +1491,10 @@
         "title": "Archive this certification center {certificationCenterName}",
         "warning": "This action cannot be undone."
       },
+      "breadcrumb": {
+        "new-certification-center": "New certification center",
+        "parent-page": "All certification centers"
+      },
       "information-view": {
         "habilitations": {
           "aria-label": {
@@ -1485,6 +1519,9 @@
         "attached-organizations": "Attached organization",
         "invitations": "Invitations",
         "team": "Team"
+      },
+      "new": {
+        "page-title": "New certification center"
       },
       "notifications": {
         "failure": {
