@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
 
 export const assessmentStates = {
   COMPLETED: 'completed',

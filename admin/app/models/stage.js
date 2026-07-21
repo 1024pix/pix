@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@warp-drive/legacy/model';
 
 export default class Stage extends Model {
   @belongsTo('stage-collection', { async: true, inverse: 'stages' }) stageCollection;

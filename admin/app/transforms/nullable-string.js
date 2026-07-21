@@ -1,4 +1,4 @@
-import Transform from '@ember-data/serializer/transform';
+import { Transform } from '@warp-drive/legacy/serializer/transform';
 
 export default class NullableStringTransform extends Transform {
   serialize(string) {

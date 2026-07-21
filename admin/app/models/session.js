@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
 import isEmpty from 'lodash/isEmpty';
 
 export const CREATED = 'created';

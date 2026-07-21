@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr } from '@ember-data/model';
+import Model, { attr } from '@warp-drive/legacy/model';
 import groupBy from 'lodash/groupBy';
 import sortBy from 'lodash/sortBy';
 

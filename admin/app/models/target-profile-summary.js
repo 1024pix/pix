@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr } from '@warp-drive/legacy/model';
 
 import { categories } from '../helpers/target-profile-categories';
 export default class TargetProfileSummary extends Model {
