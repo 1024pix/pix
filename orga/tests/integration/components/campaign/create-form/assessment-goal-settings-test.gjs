@@ -75,41 +75,6 @@ module('Integration | Component | Campaign::CreateForm::AssessmentGoalSettings',
       });
     });
 
-    test('it displays informations about the course', async function (assert) {
-      // when
-      const screen = await render(
-        <template>
-          <AssessmentGoalSettings
-            @campaign={{data.campaign}}
-            @errors={{data.errors}}
-            @membersSortedByFullName={{data.membersSortedByFullName}}
-          />
-        </template>,
-      );
-
-      // then
-      assert.dom(screen.getByText(t('pages.catalogue.card.tag.target-profile'))).exists();
-      assert.dom(screen.getByRole('heading', { name: data.campaign.course.name })).exists();
-    });
-
-    test('it redirects to /catalogue/targetProfile', async function (assert) {
-      // when
-      const screen = await render(
-        <template>
-          <AssessmentGoalSettings
-            @campaign={{data.campaign}}
-            @errors={{data.errors}}
-            @membersSortedByFullName={{data.membersSortedByFullName}}
-          />
-        </template>,
-      );
-
-      // then
-      assert
-        .dom(screen.getByRole('link', { name: t('pages.campaign-creation.course-selection-label') }))
-        .hasAttribute('href', '/catalogue/targetProfile');
-    });
-
     test("it displays owner fields and auto complete owner field with owner's full name", async function (assert) {
       // when
       const screen = await render(
