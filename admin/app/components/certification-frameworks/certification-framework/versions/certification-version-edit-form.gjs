@@ -28,78 +28,85 @@ export default class CertificationVersionEditForm extends Component {
     challengesBetweenSameCompetence: 'default',
   });
 
-  get formattedAssessmentDuration() {
-    const minutes = this.args.version.assessmentDuration;
-    if (minutes === null) {
+  formatAssessmentDuration(assessmentDuration) {
+    if (assessmentDuration === null || assessmentDuration === undefined) {
       return null;
     }
 
-    return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+    return `${String(Math.floor(assessmentDuration / 60)).padStart(2, '0')}:${String(assessmentDuration % 60).padStart(2, '0')}`;
   }
 
-  get formattedStartDate() {
-    return this.args.version.startDate ? formatDateToStandard(this.args.version.startDate) : null;
+  formatStartDate(startDate) {
+    return startDate ? formatDateToStandard(startDate) : null;
+  }
+
+  @action
+  getInputSubLabel(activeVersionValue) {
+    if (activeVersionValue === null || activeVersionValue === undefined) return null;
+    return this.intl.t('components.certification-frameworks.certification-framework.versions.edit.sublabel', {
+      value: activeVersionValue,
+    });
   }
 
   @action
   updateStartDate(event) {
-    this.args.version.startDate = new Date(event.target.value);
+    this.args.draftVersion.startDate = new Date(event.target.value);
   }
 
   @action
   updateAssessmentDuration(event) {
     const formattedDuration = event.target.value;
     if (!formattedDuration) {
-      this.args.version.assessmentDuration = null;
+      this.args.draftVersion.assessmentDuration = null;
     } else {
       const [hours, minutes] = formattedDuration.split(':').map(Number);
-      this.args.version.assessmentDuration = hours * 60 + minutes;
+      this.args.draftVersion.assessmentDuration = hours * 60 + minutes;
     }
   }
 
   @action
   updateDefaultProbabilityToPickChallenge(event) {
-    this.args.version.defaultProbabilityToPickChallenge = Number(event.target.valueAsNumber);
+    this.args.draftVersion.defaultProbabilityToPickChallenge = Number(event.target.valueAsNumber);
   }
 
   @action
   updateVariationPercent(event) {
-    this.args.version.variationPercent = Number(event.target.valueAsNumber);
+    this.args.draftVersion.variationPercent = Number(event.target.valueAsNumber);
   }
 
   @action
   updateDefaultCandidateCapacity(event) {
-    this.args.version.defaultCandidateCapacity = Number(event.target.valueAsNumber);
+    this.args.draftVersion.defaultCandidateCapacity = Number(event.target.valueAsNumber);
   }
 
   @action
   updateMaximumAssessmentLength(event) {
-    this.args.version.maximumAssessmentLength = Number(event.target.valueAsNumber);
+    this.args.draftVersion.maximumAssessmentLength = Number(event.target.valueAsNumber);
   }
 
   @action
   updateMinimumAnswersRequiredForValidation(event) {
-    this.args.version.minimumAnswersRequiredForValidation = Number(event.target.valueAsNumber);
+    this.args.draftVersion.minimumAnswersRequiredForValidation = Number(event.target.valueAsNumber);
   }
 
   @action
   updateChallengesBetweenSameCompetence(event) {
-    this.args.version.challengesBetweenSameCompetence = Number(event.target.valueAsNumber);
+    this.args.draftVersion.challengesBetweenSameCompetence = Number(event.target.valueAsNumber);
   }
 
   @action
   updateLimitToOneQuestionPerTube() {
-    this.args.version.limitToOneQuestionPerTube = !this.args.version.limitToOneQuestionPerTube;
+    this.args.draftVersion.limitToOneQuestionPerTube = !this.args.draftVersion.limitToOneQuestionPerTube;
   }
 
   @action
   updateEnablePassageByAllCompetences() {
-    this.args.version.enablePassageByAllCompetences = !this.args.version.enablePassageByAllCompetences;
+    this.args.draftVersion.enablePassageByAllCompetences = !this.args.draftVersion.enablePassageByAllCompetences;
   }
 
   get disableSubmit() {
     const hasFormValidationError = Object.values(this.validationForm).some((state) => state === 'error');
-    return !this.args.version.hasDirtyAttributes || hasFormValidationError;
+    return !this.args.draftVersion?.hasDirtyAttributes || hasFormValidationError;
   }
 
   @action
@@ -116,13 +123,13 @@ export default class CertificationVersionEditForm extends Component {
   async saveVersion(event) {
     event.preventDefault();
     try {
-      await this.args.version.save();
+      await this.args.draftVersion.save();
       this.pixToast.sendSuccessNotification({
         message: this.intl.t(
           'components.certification-frameworks.certification-framework.versions.edit.success-notification',
         ),
       });
-      await this.store.queryRecord('framework-history', this.args.version.scope);
+      await this.store.queryRecord('framework-history', this.args.draftVersion.scope);
       this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
     } catch (err) {
       this.pixToast.sendErrorNotification({ message: err.errors?.[0].detail });
@@ -141,11 +148,12 @@ export default class CertificationVersionEditForm extends Component {
           type="date"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
-          @value={{this.formattedStartDate}}
+          @subLabel={{this.getInputSubLabel (this.formatStartDate @activeVersion.startDate)}}
+          @value={{this.formatStartDate @draftVersion.startDate}}
           @errorMessage={{t
             "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
           }}
-          @validationStatus={{this.validateInput this.formattedStartDate "startDate"}}
+          @validationStatus={{this.validateInput (this.formatStartDate @draftVersion.startDate) "startDate"}}
           {{on "change" this.updateStartDate}}
         >
           <:label>
@@ -155,11 +163,15 @@ export default class CertificationVersionEditForm extends Component {
           type="time"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
+          @subLabel={{this.getInputSubLabel (this.formatAssessmentDuration @activeVersion.assessmentDuration)}}
           @errorMessage={{t
             "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
           }}
-          @validationStatus={{this.validateInput this.formattedAssessmentDuration "assessmentDuration"}}
-          @value={{this.formattedAssessmentDuration}}
+          @validationStatus={{this.validateInput
+            (this.formatAssessmentDuration @draftVersion.assessmentDuration)
+            "assessmentDuration"
+          }}
+          @value={{this.formatAssessmentDuration @draftVersion.assessmentDuration}}
           {{on "change" this.updateAssessmentDuration}}
         >
           <:label>{{t
@@ -170,14 +182,15 @@ export default class CertificationVersionEditForm extends Component {
           type="number"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
+          @subLabel={{this.getInputSubLabel @activeVersion.defaultProbabilityToPickChallenge}}
           @errorMessage={{t
             "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
           }}
           @validationStatus={{this.validateInput
-            @version.defaultProbabilityToPickChallenge
+            @draftVersion.defaultProbabilityToPickChallenge
             "defaultProbabilityToPickChallenge"
           }}
-          @value={{@version.defaultProbabilityToPickChallenge}}
+          @value={{@draftVersion.defaultProbabilityToPickChallenge}}
           {{on "change" this.updateDefaultProbabilityToPickChallenge}}
         >
           <:label>{{t
@@ -190,11 +203,12 @@ export default class CertificationVersionEditForm extends Component {
             required={{true}}
             step="any"
             @requiredLabel={{t "common.forms.mandatory"}}
+            @subLabel={{this.getInputSubLabel @activeVersion.variationPercent}}
             @errorMessage={{t
               "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
             }}
-            @validationStatus={{this.validateInput @version.variationPercent "variationPercent"}}
-            @value={{@version.variationPercent}}
+            @validationStatus={{this.validateInput @draftVersion.variationPercent "variationPercent"}}
+            @value={{@draftVersion.variationPercent}}
             {{on "change" this.updateVariationPercent}}
           >
             <:label>{{t
@@ -205,11 +219,12 @@ export default class CertificationVersionEditForm extends Component {
             type="number"
             required={{true}}
             @requiredLabel={{t "common.forms.mandatory"}}
+            @subLabel={{this.getInputSubLabel @activeVersion.defaultCandidateCapacity}}
             @errorMessage={{t
               "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
             }}
-            @validationStatus={{this.validateInput @version.defaultCandidateCapacity "defaultCandidateCapacity"}}
-            @value={{@version.defaultCandidateCapacity}}
+            @validationStatus={{this.validateInput @draftVersion.defaultCandidateCapacity "defaultCandidateCapacity"}}
+            @value={{@draftVersion.defaultCandidateCapacity}}
             {{on "change" this.updateDefaultCandidateCapacity}}
           >
             <:label>{{t
@@ -223,11 +238,12 @@ export default class CertificationVersionEditForm extends Component {
             type="number"
             required={{true}}
             @requiredLabel={{t "common.forms.mandatory"}}
+            @subLabel={{this.getInputSubLabel @activeVersion.maximumAssessmentLength}}
             @errorMessage={{t
               "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
             }}
-            @validationStatus={{this.validateInput @version.maximumAssessmentLength "maximumAssessmentLength"}}
-            @value={{@version.maximumAssessmentLength}}
+            @validationStatus={{this.validateInput @draftVersion.maximumAssessmentLength "maximumAssessmentLength"}}
+            @value={{@draftVersion.maximumAssessmentLength}}
             {{on "change" this.updateMaximumAssessmentLength}}
           >
             <:label>{{t
@@ -238,14 +254,15 @@ export default class CertificationVersionEditForm extends Component {
             type="number"
             required={{true}}
             @requiredLabel={{t "common.forms.mandatory"}}
+            @subLabel={{this.getInputSubLabel @activeVersion.minimumAnswersRequiredForValidation}}
             @errorMessage={{t
               "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
             }}
             @validationStatus={{this.validateInput
-              @version.minimumAnswersRequiredForValidation
+              @draftVersion.minimumAnswersRequiredForValidation
               "minimumAnswersRequiredForValidation"
             }}
-            @value={{@version.minimumAnswersRequiredForValidation}}
+            @value={{@draftVersion.minimumAnswersRequiredForValidation}}
             {{on "change" this.updateMinimumAnswersRequiredForValidation}}
           >
             <:label>{{t
@@ -257,14 +274,15 @@ export default class CertificationVersionEditForm extends Component {
           type="number"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
+          @subLabel={{this.getInputSubLabel @activeVersion.challengesBetweenSameCompetence}}
           @errorMessage={{t
             "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
           }}
           @validationStatus={{this.validateInput
-            @version.challengesBetweenSameCompetence
+            @draftVersion.challengesBetweenSameCompetence
             "challengesBetweenSameCompetence"
           }}
-          @value={{@version.challengesBetweenSameCompetence}}
+          @value={{@draftVersion.challengesBetweenSameCompetence}}
           {{on "change" this.updateChallengesBetweenSameCompetence}}
         >
           <:label>{{t
@@ -273,21 +291,37 @@ export default class CertificationVersionEditForm extends Component {
         </PixInput>
 
         <PixCheckbox
-          @checked={{@version.limitToOneQuestionPerTube}}
+          @checked={{@draftVersion.limitToOneQuestionPerTube}}
           {{on "change" this.updateLimitToOneQuestionPerTube}}
         >
-          <:label>{{t
+          <:label>
+            {{t
               "components.certification-frameworks.certification-framework.versions.edit.limit-to-one-question-per-tube-label"
-            }}</:label>
+            }}
+            {{#if @activeVersion}}
+              <br />
+              <small class="pix-label__sub-label">({{this.getInputSubLabel ""}}
+                {{#if @activeVersion.limitToOneQuestionPerTube}}✅ {{t "common.words.yes"}}{{else}}⬜
+                  {{t "common.words.no"}}{{/if}})</small>
+            {{/if}}
+          </:label>
         </PixCheckbox>
 
         <PixCheckbox
-          @checked={{@version.enablePassageByAllCompetences}}
+          @checked={{@draftVersion.enablePassageByAllCompetences}}
           {{on "change" this.updateEnablePassageByAllCompetences}}
         >
-          <:label>{{t
+          <:label>
+            {{t
               "components.certification-frameworks.certification-framework.versions.edit.enable-passage-by-all-competences-label"
-            }}</:label>
+            }}
+            {{#if @activeVersion}}
+              <br />
+              <small class="pix-label__sub-label">({{this.getInputSubLabel ""}}
+                {{#if @activeVersion.enablePassageByAllCompetences}}✅ {{t "common.words.yes"}}{{else}}⬜
+                  {{t "common.words.no"}}{{/if}})</small>
+            {{/if}}
+          </:label>
         </PixCheckbox>
       </form>
     </Card>

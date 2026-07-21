@@ -18,13 +18,6 @@ export default class Header extends Component {
     return this.args.frameworkHistory?.hasDraft;
   }
 
-  get activeCertificationVersionId() {
-    const activeVersion = this.args.frameworkHistory?.activeHistory;
-    return {
-      activeVersionId: activeVersion?.id,
-    };
-  }
-
   <template>
     <div class="certification-framework-header">
       <h1 class="certification-framework-header__title">
@@ -38,7 +31,6 @@ export default class Header extends Component {
           <PixButtonLink
             class="framework__creation-button"
             @route="authenticated.certification-frameworks.certification-framework.versions.new"
-            @query={{this.activeCertificationVersionId}}
             @iconBefore="add"
             @isDisabled={{this.canCreateVersion}}
           >

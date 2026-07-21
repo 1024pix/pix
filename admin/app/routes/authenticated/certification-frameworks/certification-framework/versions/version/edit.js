@@ -5,15 +5,22 @@ export default class FrameworkEditRoute extends Route {
   @service store;
   @service router;
 
-  model() {
+  async model() {
+    const { activeVersion } = this.modelFor('authenticated.certification-frameworks.certification-framework.versions');
+
     const { version_id: versionId } = this.paramsFor(
       'authenticated.certification-frameworks.certification-framework.versions.version',
     );
-    return this.store.findRecord('certification-version', versionId);
+    const draftVersion = await this.store.findRecord('certification-version', versionId);
+
+    return {
+      activeVersion,
+      draftVersion,
+    };
   }
 
-  afterModel(version) {
-    if (!version.isDraft) {
+  afterModel(model) {
+    if (!model.draftVersion.isDraft) {
       this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
     }
   }
