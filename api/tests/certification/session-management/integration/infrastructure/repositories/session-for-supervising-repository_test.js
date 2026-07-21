@@ -304,7 +304,6 @@ describe('Integration | Repository | SessionForSupervising', function () {
           assessmentId: assessmentWithChallengeLiveAlert.id,
         });
 
-        databaseBuilder.factory.buildCertificationCandidate();
         await databaseBuilder.commit();
 
         // when
