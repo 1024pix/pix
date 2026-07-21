@@ -33,6 +33,9 @@ module(
         .dom(screen.getByText(t('pages.skill-review.recommended-engine.drawer.content-relevance-form.subtitle')))
         .isVisible();
       assert
+        .dom(screen.getByText(t('pages.skill-review.recommended-engine.drawer.content-relevance-form.instruction')))
+        .isVisible();
+      assert
         .dom(
           screen.getByText(
             t('pages.skill-review.recommended-engine.drawer.content-relevance-form.usefulness.min-label'),
@@ -47,7 +50,7 @@ module(
         )
         .isVisible();
       assert.strictEqual(screen.getAllByRole('radio').length, 15);
-      assert.dom(screen.getByRole('textbox', { name: 'Commentaire optionnel' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Commentaire facultatif' })).exists();
     });
 
     test('the submit button is disabled until the three scales have a selected score', async function (assert) {

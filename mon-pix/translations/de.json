@@ -2256,7 +2256,7 @@
         "drawer": {
           "content-relevance-form": {
             "attractiveness": {
-              "legend": "Bewerten Sie, wie ansprechend die Inhalte sind, von nicht ansprechend 1 bis ansprechend 5",
+              "legend": "Bewerten Sie, wie ansprechend die Empfehlungen sind, von nicht ansprechend 1 bis ansprechend 5",
               "max-label": "Ansprechend",
               "min-label": "Nicht ansprechend"
             },
@@ -2264,9 +2264,10 @@
               "label": "Optionaler Kommentar",
               "placeholder": "Kommentar (optional)"
             },
+            "instruction": "Alle Felder sind Pflichtfelder, außer denen, die als optional gekennzeichnet sind",
             "legend": "Die empfohlenen Inhalte sind…",
             "personalization": {
-              "legend": "Bewerten Sie, wie personalisiert die Inhalte sind, von generisch 1 bis personalisiert 5",
+              "legend": "Bewerten Sie, wie personalisiert die Empfehlungen sind, von generisch 1 bis personalisiert 5",
               "max-label": "Personalisiert",
               "min-label": "Generisch"
             },
@@ -2274,7 +2275,7 @@
             "subtitle": "Wie wäre es, noch weiterzugehen…",
             "title": "Danke für Ihr Feedback!",
             "usefulness": {
-              "legend": "Bewerten Sie, wie nützlich die Inhalte sind, von nicht nützlich 1 bis nützlich 5",
+              "legend": "Bewerten Sie, wie nützlich die Empfehlungen sind, von nicht nützlich 1 bis nützlich 5",
               "max-label": "Nützlich",
               "min-label": "Nicht nützlich"
             }
@@ -2288,14 +2289,14 @@
           },
           "error-message": "Beim Senden Ihrer Antwort ist ein Fehler aufgetreten.",
           "hide": "Ausblenden",
-          "hide-aria-label": "Feedbackbereich für Empfehlungen zu Lerninhalten ausblenden",
+          "hide-aria-label": "Feedbackbereich für Empfehlungen ausblenden",
           "instruction": "Klicken Sie auf ein Emoji, um Ihre Meinung zu geben.",
           "statement": "Erscheinen Ihnen diese Empfehlungen zur Vertiefung Ihres Wissens relevant?",
           "thank-you": {
             "subtitle": "Geschafft!",
             "title": "Danke für Ihr Feedback!"
           },
-          "title": "Feedback zur Empfehlung von Lerninhalten"
+          "title": "Feedback zu den Empfehlungen"
         },
         "modal": {
           "actions": {

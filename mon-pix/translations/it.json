@@ -2256,7 +2256,7 @@
         "drawer": {
           "content-relevance-form": {
             "attractiveness": {
-              "legend": "Valuta quanto sono attraenti i contenuti, da poco attraenti 1 ad attraenti 5",
+              "legend": "Valuta quanto sono attraenti le raccomandazioni, da poco attraenti 1 ad attraenti 5",
               "max-label": "Attraenti",
               "min-label": "Poco attraenti"
             },
@@ -2264,9 +2264,10 @@
               "label": "Commento opzionale",
               "placeholder": "Commento (opzionale)"
             },
+            "instruction": "Tutti i campi sono obbligatori tranne quelli indicati come facoltativi",
             "legend": "I contenuti consigliati sono…",
             "personalization": {
-              "legend": "Valuta quanto sono personalizzati i contenuti, da generici 1 a personalizzati 5",
+              "legend": "Valuta quanto sono personalizzate le raccomandazioni, da generiche 1 a personalizzate 5",
               "max-label": "Personalizzati",
               "min-label": "Generici"
             },
@@ -2274,7 +2275,7 @@
             "subtitle": "E se andassimo oltre…",
             "title": "Grazie per il tuo feedback!",
             "usefulness": {
-              "legend": "Valuta quanto sono utili i contenuti, da poco utili 1 a utili 5",
+              "legend": "Valuta quanto sono utili le raccomandazioni, da poco utili 1 a utili 5",
               "max-label": "Utili",
               "min-label": "Poco utili"
             }
@@ -2288,14 +2289,14 @@
           },
           "error-message": "Si è verificato un errore durante l'invio della tua risposta.",
           "hide": "Nascondi",
-          "hide-aria-label": "Nascondi il pannello di feedback per le raccomandazioni sui contenuti formativi",
+          "hide-aria-label": "Nascondi il pannello di feedback per le raccomandazioni",
           "instruction": "Clicca su un emoji per dare il tuo parere.",
           "statement": "Queste raccomandazioni per approfondire le tue conoscenze ti sembrano pertinenti?",
           "thank-you": {
             "subtitle": "Missione compiuta!",
             "title": "Grazie per il tuo feedback!"
           },
-          "title": "Feedback sulla raccomandazione di contenuti formativi"
+          "title": "Feedback sulle raccomandazioni"
         },
         "modal": {
           "actions": {

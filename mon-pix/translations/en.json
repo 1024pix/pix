@@ -2256,7 +2256,7 @@
         "drawer": {
           "content-relevance-form": {
             "attractiveness": {
-              "legend": "Rate how appealing the content is, from not appealing 1 to appealing 5",
+              "legend": "Rate how appealing the recommendations are, from not appealing 1 to appealing 5",
               "max-label": "Appealing",
               "min-label": "Not appealing"
             },
@@ -2264,9 +2264,10 @@
               "label": "Optional comment",
               "placeholder": "Comment (optional)"
             },
+            "instruction": "All fields are required except those marked as optional",
             "legend": "The recommended content is…",
             "personalization": {
-              "legend": "Rate how personalized the content is, from generic 1 to personalized 5",
+              "legend": "Rate how personalized the recommendations are, from generic 1 to personalized 5",
               "max-label": "Personalized",
               "min-label": "Generic"
             },
@@ -2274,7 +2275,7 @@
             "subtitle": "How about going further…",
             "title": "Thank you for your feedback!",
             "usefulness": {
-              "legend": "Rate how useful the content is, from not useful 1 to useful 5",
+              "legend": "Rate how useful the recommendations are, from not useful 1 to useful 5",
               "max-label": "Useful",
               "min-label": "Not useful"
             }
@@ -2288,14 +2289,14 @@
           },
           "error-message": "An error occurred while sending your response.",
           "hide": "Hide",
-          "hide-aria-label": "Hide the feedback panel for training content recommendations",
+          "hide-aria-label": "Hide the recommendations feedback panel",
           "instruction": "Click on an emoji to give your feedback.",
           "statement": "Do these recommendations to deepen your knowledge seem relevant to you?",
           "thank-you": {
             "subtitle": "It's in the bag",
             "title": "Thank you for your feedback!"
           },
-          "title": "Feedback on the training content recommendation"
+          "title": "Feedback on the recommendations"
         },
         "modal": {
           "actions": {
