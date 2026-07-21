@@ -510,7 +510,7 @@ describe('Integration | Devcomp | Application | Trainings | Router | training-ro
           expect(response.statusCode).to.equal(400);
         });
 
-        [{ days: -1 }, { hours: -1 }, { hours: 24 }, { minutes: -1 }, { minutes: 60 }].forEach((duration) => {
+        [{ days: -1 }, { hours: -1 }, { hours: 1000 }, { minutes: -1 }, { minutes: 60 }].forEach((duration) => {
           it(`should return 400 if the payload.duration is ${JSON.stringify(duration)}`, async function () {
             // given
             const invalidPayload = {

@@ -165,7 +165,7 @@ describe('Acceptance | Controller | training-controller', function () {
           type: 'webinaire',
           duration: {
             days: 0,
-            hours: 6,
+            hours: 40,
             minutes: 0,
           },
           locales: ['fr', 'fr-fr'],
@@ -192,7 +192,7 @@ describe('Acceptance | Controller | training-controller', function () {
               link: 'https://training-link.org',
               type: 'webinaire',
               duration: {
-                hours: 6,
+                hours: 40,
               },
               locales: ['fr', 'fr-fr'],
               'editor-logo-url': 'https://assets.pix.org/contenu-formatif/editeur/mon-logo.svg',
@@ -259,7 +259,7 @@ describe('Acceptance | Controller | training-controller', function () {
           editorLogoUrl: 'https://assets.pix.org/contenu-formatif/editeur/logo.svg',
           duration: {
             days: 2,
-            hours: 2,
+            hours: 40,
             minutes: 2,
           },
           locales,
