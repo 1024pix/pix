@@ -1,5 +1,5 @@
-import { VERSION_STATUSES } from '../../../../../src/certification/configuration/domain/models/Version.js';
-import { versionBuilder } from '../../../../../tests/tooling/domain-builder/factory/certification/configuration/build-version.js';
+import { Version, VERSION_STATUSES } from '../../../../../src/certification/configuration/domain/models/Version.js';
+import { DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION } from '../../../../../src/certification/shared/domain/constants.js';
 /**
  * @param {Object} params
  * @param {Object} params.databaseBuilder
@@ -20,24 +20,52 @@ export async function createVersion({
   globalScoringConfiguration,
   competencesScoringConfiguration,
 }) {
-  const version = versionBuilder().withParameters({
+  const version = new Version({
     scope,
     tubeIds: [],
     assessmentDuration,
-    challengesConfiguration,
+    minimumAnswersRequiredToValidateACertification: DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
     globalScoringConfiguration,
     competencesScoringConfiguration,
+    challengesConfiguration,
+    status: VERSION_STATUSES.DRAFT,
   });
 
   if (status === VERSION_STATUSES.ACTIVE) {
-    version.asActive({ startDate: new Date() });
+    version.status = VERSION_STATUSES.ACTIVE;
+    version.startDate = new Date();
+    version.expirationDate = null;
   }
 
   if (status === VERSION_STATUSES.ARCHIVED) {
-    version.asArchived({ startDate: new Date('2018-01-01'), expirationDate: new Date('2019-01-01') });
+    version.status = VERSION_STATUSES.ARCHIVED;
+    version.startDate = new Date('2018-01-01');
+    version.expirationDate = new Date('2019-01-01');
   }
 
-  return version.insertToDB({ databaseBuilder });
+  const row = databaseBuilder.factory.buildCertificationVersion({
+    id: version.id ?? undefined,
+    scope: version.scope,
+    startDate: version.startDate,
+    expirationDate: version.expirationDate,
+    assessmentDuration: version.assessmentDuration,
+    minimumAnswersRequiredToValidateACertification: version.minimumAnswersRequiredToValidateACertification,
+    globalScoringConfiguration: version.globalScoringConfiguration,
+    competencesScoringConfiguration: version.competencesScoringConfiguration,
+    challengesConfiguration: version.challengesConfiguration,
+    status: version.status,
+    comments: version.comments,
+  });
+
+  for (const tubeId of version.tubeIds) {
+    databaseBuilder.factory.buildCertificationVersionTube({
+      versionId: row.id,
+      tubeId,
+    });
+  }
+
+  version.id = row.id;
+  return version;
 }
 
 export async function seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId }) {
