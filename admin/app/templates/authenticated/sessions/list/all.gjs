@@ -2,15 +2,8 @@ import ListItems from 'pix-admin/components/sessions/list-items';
 <template>
   <ListItems
     @sessions={{@controller.model}}
-    @ids={{@controller.ids}}
-    @certificationCenterName={{@controller.certificationCenterName}}
-    @certificationCenterExternalId={{@controller.certificationCenterExternalId}}
-    @status={{@controller.status}}
-    @onChangeSessionStatus={{@controller.updateSessionStatusFilter}}
-    @certificationCenterType={{@controller.certificationCenterType}}
-    @onChangeCertificationCenterType={{@controller.updateCertificationCenterTypeFilter}}
-    @onChangeSessionVersion={{@controller.updateSessionVersionFilter}}
-    @version={{@controller.version}}
+    @filters={{@controller.filters}}
     @triggerFiltering={{@controller.triggerFiltering}}
+    @onChangeFilter={{@controller.updateSelectFilter}}
   />
 </template>
