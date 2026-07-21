@@ -1899,6 +1899,18 @@
         }
       },
       "table": {
+        "actions": {
+          "download-certificates": "Télécharger les certificats",
+          "download-results": "Télécharger les résultats (.csv) des sessions",
+          "select-all": {
+            "label": "Sélection multiple",
+            "tooltip": {
+              "deselect": "Désélectionner les sessions",
+              "select": "Sélectionner toutes les sessions affichées"
+            }
+          },
+          "select-row": "Sélectionner la session {sessionId}"
+        },
         "caption": "Tableau listant les sessions de certification. Il indique l'identifiant unique, le nom du centre de certification auquel il appartient, l'identifiant externe, la catégorie, le statut, les dates de passage, de finalisation et de publication et la version de certification.",
         "headers": {
           "certification-name": "Centre de certification",

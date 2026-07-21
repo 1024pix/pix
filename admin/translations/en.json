@@ -1886,6 +1886,18 @@
         }
       },
       "table": {
+        "actions": {
+          "download-certificates": "Download certificates",
+          "download-results": "Download session results (.csv)",
+          "select-all": {
+            "label": "Multiple selection",
+            "tooltip": {
+              "deselect": "Deselect sessions",
+              "select": "Select all displayed sessions"
+            }
+          },
+          "select-row": "Select session {sessionId}"
+        },
         "caption": "Table listing the certification sessions. It indicates the unique identifier, the name of the certification centre to which it belongs, the external identifier, the category, the status, the passing, finalisation and publication dates and the certification version.",
         "headers": {
           "certification-name": "Centre de certification",
