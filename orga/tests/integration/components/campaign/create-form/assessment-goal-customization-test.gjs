@@ -20,7 +20,7 @@ module('Integration | Component | Campaign::CreateForm::AssessmentGoalCustomizat
     const screen = await render(<template><AssessmentGoalCustomization @campaign={{data.campaign}} /></template>);
 
     // then
-    assert.dom(screen.getByText(t('pages.campaign-creation.test-title.label'))).exists();
+    assert.dom(screen.getByText(t('pages.campaign-creation.course-title.label'))).exists();
     const sublabels = screen.getAllByLabelText(t('pages.campaign-creation.landing-page-text.sublabel'), {
       exact: false,
     });
@@ -36,7 +36,7 @@ module('Integration | Component | Campaign::CreateForm::AssessmentGoalCustomizat
 
     // then
     assert
-      .dom(screen.getByLabelText(t('pages.campaign-creation.test-title.label'), { exact: false }))
+      .dom(screen.getByLabelText(t('pages.campaign-creation.course-title.label'), { exact: false }))
       .hasValue('Mon titre de parcours');
   });
 

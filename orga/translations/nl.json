@@ -751,6 +751,10 @@
       "copy-of": "Kopie van",
       "course-label": "Selecteer een traject",
       "course-selection-label": "Selecteer een traject",
+      "course-title": {
+        "label": "Titel test",
+        "sublabel": "Dit veld wordt weergegeven voor deelnemers aan de campagne."
+      },
       "customization": {
         "title": "Personalisatie"
       },
@@ -826,10 +830,6 @@
       "target-profiles-label": "Selecteer een test",
       "target-profiles-list-label": "Wat wil je testen?",
       "target-profiles-search-placeholder": "Zoeken op naam",
-      "test-title": {
-        "label": "Titel test",
-        "sublabel": "Dit veld wordt weergegeven voor deelnemers aan de campagne."
-      },
       "title": "Een campagne maken",
       "yes": "Ja"
     },

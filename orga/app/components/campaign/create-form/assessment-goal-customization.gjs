@@ -18,12 +18,12 @@ export default class AssessmentGoalCustomization extends Component {
       <PixInput
         @id="campaign-title"
         @name="campaign-title"
-        @subLabel={{t "pages.campaign-creation.test-title.sublabel"}}
+        @subLabel={{t "pages.campaign-creation.course-title.sublabel"}}
         maxlength="50"
         {{on "change" this.onChangeCampaignTitle}}
         @value={{@campaign.title}}
       >
-        <:label>{{t "pages.campaign-creation.test-title.label"}}</:label></PixInput>
+        <:label>{{t "pages.campaign-creation.course-title.label"}}</:label></PixInput>
     </FormField>
 
     <LandingPageText @campaign={{@campaign}} />

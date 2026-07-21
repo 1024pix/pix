@@ -751,6 +751,10 @@
       "copy-of": "Copy of",
       "course-label": "Select a course",
       "course-selection-label": "Select a course",
+      "course-title": {
+        "label": "Title of the customised test",
+        "sublabel": "This field will be displayed to campaign participants."
+      },
       "customization": {
         "title": "Customization"
       },
@@ -826,10 +830,6 @@
       "target-profiles-label": "Select a customised test",
       "target-profiles-list-label": "What would you like to test?",
       "target-profiles-search-placeholder": "Search by name",
-      "test-title": {
-        "label": "Title of the customised test",
-        "sublabel": "This field will be displayed to campaign participants."
-      },
       "title": "Create a campaign",
       "yes": "Yes"
     },

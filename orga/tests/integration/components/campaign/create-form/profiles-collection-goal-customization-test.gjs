@@ -32,6 +32,8 @@ module('Integration | Component | Campaign::CreateForm::ProfilesCollectionGoalCu
     );
 
     // then
-    assert.dom(screen.queryByLabelText(t('pages.campaign-creation.test-title.label'), { exact: false })).doesNotExist();
+    assert
+      .dom(screen.queryByLabelText(t('pages.campaign-creation.course-title.label'), { exact: false }))
+      .doesNotExist();
   });
 });

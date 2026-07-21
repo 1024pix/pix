@@ -751,6 +751,10 @@
       "copy-of": "Copia di",
       "course-label": "Seleziona un corso",
       "course-selection-label": "Selezionare un corso",
+      "course-title": {
+        "label": "Titolo del corso",
+        "sublabel": "Questo campo verrà visualizzato dai partecipanti alla campagna."
+      },
       "customization": {
         "title": "Personalizzazione"
       },
@@ -826,10 +830,6 @@
       "target-profiles-label": "Selezionare un percorso",
       "target-profiles-list-label": "Cosa vorresti testare?",
       "target-profiles-search-placeholder": "Ricerca per nome",
-      "test-title": {
-        "label": "Titolo del corso",
-        "sublabel": "Questo campo verrà visualizzato dai partecipanti alla campagna."
-      },
       "title": "Creare una campagna",
       "yes": "Sì"
     },

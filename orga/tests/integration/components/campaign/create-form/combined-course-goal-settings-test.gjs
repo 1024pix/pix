@@ -79,7 +79,9 @@ module('Integration | Component | Campaign::CreateForm::CombinedCourseGoalSettin
     assert
       .dom(screen.queryByRole('radiogroup', { name: t('pages.campaign-creation.external-id-label.question-label') }))
       .doesNotExist();
-    assert.dom(screen.queryByLabelText(t('pages.campaign-creation.test-title.label'), { exact: false })).doesNotExist();
+    assert
+      .dom(screen.queryByLabelText(t('pages.campaign-creation.course-title.label'), { exact: false }))
+      .doesNotExist();
     assert
       .dom(screen.queryByLabelText(t('pages.campaign-creation.landing-page-text.label'), { exact: false }))
       .doesNotExist();

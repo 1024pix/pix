@@ -751,6 +751,10 @@
       "copy-of": "Kopieren von",
       "course-label": "Einen Kurs auswählen",
       "course-selection-label": "Einen Kurs auswählen",
+      "course-title": {
+        "label": "Titel der Strecke",
+        "sublabel": "Dieses Feld wird den Teilnehmern der Kampagne angezeigt."
+      },
       "customization": {
         "title": "Anpassung"
       },
@@ -826,10 +830,6 @@
       "target-profiles-label": "Eine Strecke auswählen",
       "target-profiles-list-label": "Was möchten Sie testen?",
       "target-profiles-search-placeholder": "Nach Namen suchen",
-      "test-title": {
-        "label": "Titel der Strecke",
-        "sublabel": "Dieses Feld wird den Teilnehmern der Kampagne angezeigt."
-      },
       "title": "Erstellen einer Kampagne",
       "yes": "Ja"
     },

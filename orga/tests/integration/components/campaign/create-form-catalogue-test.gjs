@@ -111,7 +111,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       const customizationSection = screen.getByRole('heading', {
         name: t('pages.campaign-creation.customization.title'),
       }).parentElement;
-      assert.dom(within(customizationSection).getByText(t('pages.campaign-creation.test-title.label'))).exists();
+      assert.dom(within(customizationSection).getByText(t('pages.campaign-creation.course-title.label'))).exists();
       assert
         .dom(
           within(customizationSection).getByLabelText(t('pages.campaign-creation.landing-page-text.label'), {

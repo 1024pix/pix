@@ -751,6 +751,10 @@
       "copy-of": "Copie de",
       "course-label": "Sélectionnez un parcours",
       "course-selection-label": "Sélectionner un parcours",
+      "course-title": {
+        "label": "Titre du parcours",
+        "sublabel": "Ce champ sera affiché aux participants de la campagne."
+      },
       "customization": {
         "title": "Personnalisation"
       },
@@ -826,10 +830,6 @@
       "target-profiles-label": "Sélectionner un parcours",
       "target-profiles-list-label": "Que souhaitez-vous tester ?",
       "target-profiles-search-placeholder": "Rechercher par nom",
-      "test-title": {
-        "label": "Titre du parcours",
-        "sublabel": "Ce champ sera affiché aux participants de la campagne."
-      },
       "title": "Création d'une campagne",
       "yes": "Oui"
     },
