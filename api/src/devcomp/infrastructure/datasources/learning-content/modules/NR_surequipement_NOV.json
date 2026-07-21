@@ -875,7 +875,7 @@
               "element": {
                 "id": "3e33f15f-ce06-40e7-8091-16ee8521903c",
                 "type": "qab",
-                "instruction": "<p>Pour chaque action, indiquez si elle fait augmenter ou baisser la consommation électrique.</p>",
+                "instruction": "<p>Pour chaque action, dites si elle fait augmenter ou baisser la consommation électrique ?</p>",
                 "cards": [
                   {
                     "id": "a8cf7887-50fd-4516-9612-12ff4223f045",
