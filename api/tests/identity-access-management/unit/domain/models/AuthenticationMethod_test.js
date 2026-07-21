@@ -271,6 +271,20 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             }),
         ).to.throw(ObjectValidationError);
       });
+
+      context('revokePassword', function () {
+        it('stores previous password into revokedEncryptedPassword and sets password to the "[revoked]" unreachable value', function () {
+          // given
+          const pixAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement(validArguments);
+
+          // when
+          pixAuthenticationComplement.revokePassword();
+
+          // then
+          expect(pixAuthenticationComplement.revokedEncryptedPassword).to.equal('Password123');
+          expect(pixAuthenticationComplement.password).to.equal('[revoked]');
+        });
+      });
     });
 
     context('OidcAuthenticationComplement', function () {
