@@ -17,7 +17,7 @@ module('Acceptance | Combined course blueprint | List', function (hooks) {
       id: 1,
       name: 'parcours IA',
       internalName: 'schéma de parcours IA',
-      illsutration: 'https://image.pix.fr/ia.svg',
+      illustration: 'https://image.pix.fr/ia.svg',
       description: "Un parcours sur l'IA pour le collège",
       content: [
         {
@@ -34,7 +34,7 @@ module('Acceptance | Combined course blueprint | List', function (hooks) {
       id: 2,
       name: 'parcours cyber',
       internalName: 'schéma de parcours cyber',
-      illsutration: 'https://image.pix.fr/cyber.svg',
+      illustration: 'https://image.pix.fr/cyber.svg',
       description: 'Un parcours sur la cybersécurité',
       content: [],
     });
@@ -42,7 +42,7 @@ module('Acceptance | Combined course blueprint | List', function (hooks) {
       id: 10,
       name: 'parcours numérique',
       internalName: 'schéma de parcours numérique',
-      illsutration: 'https://image.pix.fr/num.svg',
+      illustration: 'https://image.pix.fr/num.svg',
       description: 'Un parcours sur le numérique',
       content: [],
     });
