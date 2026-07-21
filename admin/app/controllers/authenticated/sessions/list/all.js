@@ -19,7 +19,7 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
-  @tracked pageSize = 10;
+  @tracked pageSize = 100;
   @tracked ids = null;
   @tracked certificationCenterName = null;
   @tracked certificationCenterExternalId = null;

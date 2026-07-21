@@ -47,7 +47,7 @@ export default class AuthenticatedSessionsAllRoute extends Route {
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.pageNumber = 1;
-      controller.pageSize = 10;
+      controller.pageSize = 100;
       controller.ids = null;
       controller.certificationCenterName = null;
       controller.certificationCenterExternalId = null;

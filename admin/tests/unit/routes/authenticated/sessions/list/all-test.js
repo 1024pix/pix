@@ -227,7 +227,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
 
         // then
         assert.deepEqual(controller.pageNumber, 1);
-        assert.deepEqual(controller.pageSize, 10);
+        assert.deepEqual(controller.pageSize, 100);
         assert.deepEqual(controller.ids, null);
         assert.deepEqual(controller.certificationCenterName, null);
         assert.deepEqual(controller.certificationCenterType, null);
