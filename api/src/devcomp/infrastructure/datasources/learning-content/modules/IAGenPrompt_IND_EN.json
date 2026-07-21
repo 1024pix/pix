@@ -338,7 +338,7 @@
                 "type": "embed",
                 "isCompletionRequired": true,
                 "title": "LLM simulator",
-                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmix2593q00013v0195p6ayta",
+                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmruv83y200009e011oejt3ef",
                 "instruction": "<p>Your turn: you have five prompts to succeed!</p>",
                 "solution": "pix-llm-success",
                 "height": 550
@@ -584,7 +584,7 @@
                 "type": "embed",
                 "isCompletionRequired": true,
                 "title": "LLM simulator",
-                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmk6rk3fm00003u01qywbbyz4",
+                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmruvdk3c00019e01kny1zub9",
                 "instruction": "<p>You have five prompts to succeed!</p>",
                 "solution": "pix-llm-success",
                 "height": 550
@@ -637,7 +637,7 @@
                 "type": "embed",
                 "isCompletionRequired": true,
                 "title": "LLM simulator",
-                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmiytd9fw00033v01ys5n87wr",
+                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmruvfrfl00029e01fksqb8as",
                 "instruction": "<p>Use Jolieville's AI software below to find the sports hall that meets his needs.&nbsp;🔍</p><p>Once you have found it, enter the name of the sports hall below.&nbsp;👇</p>",
                 "solution": "pix-llm-success",
                 "height": 550
