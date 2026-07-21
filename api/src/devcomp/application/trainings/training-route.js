@@ -135,7 +135,7 @@ const register = async function (server) {
                 'internal-title': Joi.string().required(),
                 duration: Joi.object({
                   days: Joi.number().min(0).default(0),
-                  hours: Joi.number().min(0).max(23).default(0),
+                  hours: Joi.number().min(0).max(999).default(0),
                   minutes: Joi.number().min(0).max(59).default(0),
                 }).required(),
                 type: Joi.string()
@@ -223,7 +223,7 @@ const register = async function (server) {
                 'internal-title': Joi.string().allow(null),
                 duration: Joi.object({
                   days: Joi.number().min(0).required(),
-                  hours: Joi.number().min(0).max(23).required(),
+                  hours: Joi.number().min(0).max(999).required(),
                   minutes: Joi.number().min(0).max(59).required(),
                 }).allow(null),
                 type: Joi.string()
