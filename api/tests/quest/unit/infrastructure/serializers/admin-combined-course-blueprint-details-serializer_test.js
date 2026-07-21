@@ -19,7 +19,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
       ],
       attestationLabel: '6ème',
       surveyLink: 'survey-link-test',
-      rewardRequirements: 'description of requirements',
+      rewardRequirementsDescription: 'description of requirements',
       organizationIds: [],
       quest: new Quest({ eligibilityRequirements: [], successRequirements: [], rewardId: null, rewardType: null }),
     });
@@ -43,7 +43,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           'updated-at': adminCombinedCourseBlueprintDetails.updatedAt,
           'attestation-label': '6ème',
           'survey-link': 'survey-link-test',
-          'reward-requirements': 'description of requirements',
+          'reward-requirements-description': 'description of requirements',
         },
         type: 'combined-course-blueprints',
         id: '1',

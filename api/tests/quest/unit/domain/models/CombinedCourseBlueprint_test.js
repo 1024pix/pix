@@ -26,7 +26,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
       description: 'description',
       illustration: 'illustration',
       surveyLink: 'survey-link-test',
-      rewardRequirements: 'description of reward requirements',
+      rewardRequirementsDescription: 'description of reward requirements',
       createdAt: new Date('2024-01-25'),
       updatedAt: new Date('2024-01-26'),
       organizationIds: [],
@@ -303,7 +303,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         description: 'NewDescription',
         illustration: 'NewIllustration',
         surveyLink: values.surveyLink,
-        rewardRequirements: values.rewardRequirements,
+        rewardRequirementsDescription: values.rewardRequirementsDescription,
       });
 
       const expectedUpdatedBlueprint = new CombinedCourseBlueprint({
@@ -313,7 +313,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         description: 'NewDescription',
         illustration: 'NewIllustration',
         surveyLink: values.surveyLink,
-        rewardRequirements: values.rewardRequirements,
+        rewardRequirementsDescription: values.rewardRequirementsDescription,
         organizationIds: values.organizationIds,
         quest: values.quest,
         updatedAt: values.updatedAt,
@@ -343,7 +343,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         description: null,
         illustration: null,
         surveyLink: null,
-        rewardRequirements: null,
+        rewardRequirementsDescription: null,
         organizationIds: values.organizationIds,
         quest: values.quest,
         updatedAt: values.updatedAt,

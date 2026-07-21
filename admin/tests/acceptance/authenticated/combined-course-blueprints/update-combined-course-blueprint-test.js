@@ -25,7 +25,7 @@ module('Acceptance | Combined course blueprint | Update', function (hooks) {
       id: 123,
       internalName: 'internal-name',
       attestationLabel: 'attestation',
-      rewardRequirements: 'oldRewardRequirements',
+      rewardRequirementsDescription: 'oldRewardRequirements',
     });
 
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
