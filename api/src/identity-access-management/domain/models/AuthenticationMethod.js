@@ -23,6 +23,11 @@ class PixAuthenticationComplement {
       this,
     );
   }
+
+  revokePassword() {
+    this.revokedEncryptedPassword = this.password;
+    this.password = '[revoked]';
+  }
 }
 
 class OidcAuthenticationComplement {
