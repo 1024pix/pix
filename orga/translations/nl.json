@@ -751,6 +751,13 @@
       "copy-of": "Kopie van",
       "course-label": "Selecteer een traject",
       "course-selection-label": "Selecteer een traject",
+      "course-title": {
+        "label": "Titel test",
+        "sublabel": "Dit veld wordt weergegeven voor deelnemers aan de campagne."
+      },
+      "customization": {
+        "title": "Personalisatie"
+      },
       "exam-mode": {
         "label": "Wil je de vraagmodus activeren?"
       },
@@ -803,6 +810,9 @@
         "profiles-collection-info": "Een campagne voor het verzamelen van profielen wordt gebruikt om het profiel van de deelnemers te achterhalen: niveaus per vaardigheid en pix-score.",
         "profiles-collection-info-certificability-calculation": "De certificeerbare status wordt automatisch bijgewerkt in het tabblad '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Studenten'</a>'."
       },
+      "settings": {
+        "title": "Instellingen"
+      },
       "tags": {
         "BACK_TO_SCHOOL": "Terug naar school cursus / 6e",
         "COMPETENCES": "De 16 vaardigheden",
@@ -820,10 +830,6 @@
       "target-profiles-label": "Selecteer een test",
       "target-profiles-list-label": "Wat wil je testen?",
       "target-profiles-search-placeholder": "Zoeken op naam",
-      "test-title": {
-        "label": "Titel test",
-        "sublabel": "Dit veld wordt weergegeven voor deelnemers aan de campagne."
-      },
       "title": "Een campagne maken",
       "yes": "Ja"
     },

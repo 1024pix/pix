@@ -187,7 +187,7 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
 
       await fillByLabel('Nom de la campagne *', 'Ma Campagne');
 
-      const title = `${t('pages.campaign-creation.test-title.label')} ${t('pages.campaign-creation.test-title.sublabel')}`;
+      const title = `${t('pages.campaign-creation.course-title.label')} ${t('pages.campaign-creation.course-title.sublabel')}`;
 
       await fillByLabel(title, 'Savoir rechercher');
       await clickByName('Non');

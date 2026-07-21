@@ -751,6 +751,13 @@
       "copy-of": "Kopieren von",
       "course-label": "Einen Kurs auswählen",
       "course-selection-label": "Einen Kurs auswählen",
+      "course-title": {
+        "label": "Titel der Strecke",
+        "sublabel": "Dieses Feld wird den Teilnehmern der Kampagne angezeigt."
+      },
+      "customization": {
+        "title": "Anpassung"
+      },
       "exam-mode": {
         "label": "Möchten Sie den Testmodus aktivieren?"
       },
@@ -803,6 +810,9 @@
         "profiles-collection-info": "Eine Profilsammelkampagne ruft die Profile der Teilnehmer ab: Niveaustufen pro Fertigkeit und Pix-Score.",
         "profiles-collection-info-certificability-calculation": "Der Status Zertifizierbar wird automatisch auf der Registerkarte '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Schüler'</a>' aktualisiert."
       },
+      "settings": {
+        "title": "Einstellungen"
+      },
       "tags": {
         "BACK_TO_SCHOOL": "Parcours zum Schulanfang / 6. Klasse",
         "COMPETENCES": "Die 16 Kompetenzen",
@@ -820,10 +830,6 @@
       "target-profiles-label": "Eine Strecke auswählen",
       "target-profiles-list-label": "Was möchten Sie testen?",
       "target-profiles-search-placeholder": "Nach Namen suchen",
-      "test-title": {
-        "label": "Titel der Strecke",
-        "sublabel": "Dieses Feld wird den Teilnehmern der Kampagne angezeigt."
-      },
       "title": "Erstellen einer Kampagne",
       "yes": "Ja"
     },

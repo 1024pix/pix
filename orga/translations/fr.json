@@ -751,6 +751,13 @@
       "copy-of": "Copie de",
       "course-label": "Sélectionnez un parcours",
       "course-selection-label": "Sélectionner un parcours",
+      "course-title": {
+        "label": "Titre du parcours",
+        "sublabel": "Ce champ sera affiché aux participants de la campagne."
+      },
+      "customization": {
+        "title": "Personnalisation"
+      },
       "exam-mode": {
         "label": "Souhaitez-vous activer le mode interro ?"
       },
@@ -803,6 +810,9 @@
         "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix.",
         "profiles-collection-info-certificability-calculation": "Le statut Certifiable est mis à jour automatiquement dans l’onglet '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Élèves'</a>'."
       },
+      "settings": {
+        "title": "Paramétrage"
+      },
       "tags": {
         "BACK_TO_SCHOOL": "Parcours de rentrée / 6e",
         "COMPETENCES": "Les 16 compétences",
@@ -820,10 +830,6 @@
       "target-profiles-label": "Sélectionner un parcours",
       "target-profiles-list-label": "Que souhaitez-vous tester ?",
       "target-profiles-search-placeholder": "Rechercher par nom",
-      "test-title": {
-        "label": "Titre du parcours",
-        "sublabel": "Ce champ sera affiché aux participants de la campagne."
-      },
       "title": "Création d'une campagne",
       "yes": "Oui"
     },

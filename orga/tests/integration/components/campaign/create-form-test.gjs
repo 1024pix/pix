@@ -290,7 +290,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         await clickByName(t(campaignType.purpose));
 
         // then
-        assert.dom(screen.getByText(t('pages.campaign-creation.test-title.label'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign-creation.course-title.label'))).exists();
         assert.dom(screen.getByText(t('pages.campaign-creation.purpose.label'))).exists();
       });
 
@@ -917,7 +917,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
-      assert.dom(screen.queryByText(t('pages.campaign-creation.test-title.label'))).doesNotExist();
+      assert.dom(screen.queryByText(t('pages.campaign-creation.course-title.label'))).doesNotExist();
       assert.dom(screen.queryByText(t('pages.campaign-creation.target-profiles-list-label'))).doesNotExist();
     });
 
@@ -990,7 +990,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await clickByName(t('pages.campaign-creation.purpose.combined-course'));
 
       // then
-      assert.dom(screen.queryByText(t('pages.campaign-creation.test-title.label'))).doesNotExist();
+      assert.dom(screen.queryByText(t('pages.campaign-creation.course-title.label'))).doesNotExist();
       assert.dom(screen.queryByText(t('pages.campaign-creation.target-profiles-list-label'))).doesNotExist();
       await fillByLabel('Nom de la campagne *', 'Mon parcours combiné');
       await clickByName(t('pages.campaign-creation.purpose.combined-course'));
@@ -1230,7 +1230,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     assert
-      .dom(screen.getByLabelText(t('pages.campaign-creation.test-title.label'), { exact: false }))
+      .dom(screen.getByLabelText(t('pages.campaign-creation.course-title.label'), { exact: false }))
       .hasValue('Mon titre de parcours');
   });
 
