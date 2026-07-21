@@ -1,4 +1,4 @@
-import JSONAPIAdapter from '@ember-data/adapter/json-api';
+import { JSONAPIAdapter } from '@warp-drive/legacy/adapter/json-api';
 import ENV from 'junior/config/environment';
 
 export default class Application extends JSONAPIAdapter {
