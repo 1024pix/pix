@@ -225,6 +225,18 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
         };
       });
 
+      context('when there is the optional revokedEncryptedPassword', function () {
+        it('instantiates object', function () {
+          expect(
+            () =>
+              new AuthenticationMethod.PixAuthenticationComplement({
+                ...validArguments,
+                revokedEncryptedPassword: 'revoked-encrypted-password',
+              }),
+          ).not.to.throw(ObjectValidationError);
+        });
+      });
+
       it('should successfully instantiate object when passing all valid arguments', function () {
         // when
         expect(() => new AuthenticationMethod.PixAuthenticationComplement(validArguments)).not.to.throw(
@@ -258,6 +270,20 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
               shouldChangePassword: undefined,
             }),
         ).to.throw(ObjectValidationError);
+      });
+
+      context('revokePassword', function () {
+        it('stores previous password into revokedEncryptedPassword and sets password to the "[revoked]" unreachable value', function () {
+          // given
+          const pixAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement(validArguments);
+
+          // when
+          pixAuthenticationComplement.revokePassword();
+
+          // then
+          expect(pixAuthenticationComplement.revokedEncryptedPassword).to.equal('Password123');
+          expect(pixAuthenticationComplement.password).to.equal('[revoked]');
+        });
       });
     });
 

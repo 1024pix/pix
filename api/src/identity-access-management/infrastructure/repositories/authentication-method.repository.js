@@ -1,7 +1,11 @@
 import _ from 'lodash';
 
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../shared/domain/errors.js';
+import {
+  AlreadyExistingEntityError,
+  AuthenticationMethodNotFoundError,
+  NotFoundError,
+} from '../../../shared/domain/errors.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
@@ -213,6 +217,21 @@ const updateExternalIdentifierByUserIdAndIdentityProvider = async function ({
   return _toDomain(authenticationMethodDTO);
 };
 
+const getAuthenticationComplementByUserIdAndIdentityProvider = async function ({ userId, identityProvider }) {
+  const knexConn = DomainTransaction.getConnection();
+  const authenticationMethodDTO = await knexConn(AUTHENTICATION_METHODS_TABLE)
+    .select('authenticationComplement')
+    .where({ userId, identityProvider })
+    .first();
+
+  if (!authenticationMethodDTO) {
+    throw new NotFoundError();
+  }
+
+  const authenticationComplement = authenticationMethodDTO.authenticationComplement;
+  return _toAuthenticationComplement(identityProvider, authenticationComplement);
+};
+
 const updateAuthenticationComplementByUserIdAndIdentityProvider = async function ({
   authenticationComplement,
   userId,
@@ -328,6 +347,7 @@ export {
   findByUserIdsAndIdentityProvider,
   findOneByExternalIdentifierAndIdentityProvider,
   findOneByUserIdAndIdentityProvider,
+  getAuthenticationComplementByUserIdAndIdentityProvider,
   getByIdAndUserId,
   hasIdentityProviderGar,
   hasIdentityProviderPIX,

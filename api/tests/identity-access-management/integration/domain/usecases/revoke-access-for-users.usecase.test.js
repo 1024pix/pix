@@ -10,7 +10,10 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-a
     // given
     const userId = databaseBuilder.factory.buildUser().id;
     const authenticationMethod =
-      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+        userId,
+        hashedPassword: 'hashed-password',
+      });
     const refreshToken = RefreshToken.generate({
       userId,
       audience: 'https://app.dev.pix.fr',
@@ -34,6 +37,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-a
       .where({ id: authenticationMethod.id })
       .first();
     expect(updatedAuthenticationMethod.authenticationComplement.password).to.equal('[revoked]');
+    expect(updatedAuthenticationMethod.authenticationComplement.revokedEncryptedPassword).to.equal('hashed-password');
   });
 
   context('when a user does not have a Pix Authentication method and refresh token', function () {

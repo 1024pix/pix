@@ -6,17 +6,27 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js'
 import { POLE_EMPLOI } from '../constants/oidc-identity-providers.js';
 
 class PixAuthenticationComplement {
-  constructor({ password, shouldChangePassword } = {}) {
+  constructor({ password, shouldChangePassword, revokedEncryptedPassword } = {}) {
     this.password = password;
     this.shouldChangePassword = shouldChangePassword;
+
+    if (revokedEncryptedPassword !== undefined) {
+      this.revokedEncryptedPassword = revokedEncryptedPassword;
+    }
 
     validateEntity(
       Joi.object({
         password: Joi.string().required(),
         shouldChangePassword: Joi.boolean().required(),
+        revokedEncryptedPassword: Joi.string().optional(),
       }),
       this,
     );
+  }
+
+  revokePassword() {
+    this.revokedEncryptedPassword = this.password;
+    this.password = '[revoked]';
   }
 }
 

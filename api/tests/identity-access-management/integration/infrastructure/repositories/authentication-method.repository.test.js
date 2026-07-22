@@ -8,6 +8,7 @@ import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransa
 import {
   AlreadyExistingEntityError,
   AuthenticationMethodNotFoundError,
+  NotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -185,15 +186,13 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
     it('returns the updated AuthenticationMethod', async function () {
       // given
-      const originalAuthenticationMethod =
-        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
-          id: 123,
+      const authenticationMethodId =
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
           userId,
           hashedPassword,
-        });
-      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword(
-        originalAuthenticationMethod,
-      );
+          lastLoggedAt: new Date('2022-12-12'),
+        }).id;
+
       await databaseBuilder.commit();
 
       // when
@@ -205,9 +204,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       // then
       const expectedAuthenticationMethod =
         domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
-          id: 123,
+          id: authenticationMethodId,
           userId,
           hashedPassword: newHashedPassword,
+          lastLoggedAt: new Date('2022-12-12'),
           updatedAt: new Date(),
         });
       expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
@@ -640,6 +640,53 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       const nonExistingAuthenticationMethod = await knex('authentication-methods').where({ userId }).first();
       expect(nonExistingAuthenticationMethod).to.not.exist;
     });
+  });
+
+  describe('#getAuthenticationComplementByUserIdAndIdentityProvider', function () {
+    context('when the user has an authentication method with complement for the given identity provider', function () {
+      it('returns the authentication complement', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const authenticationMethod =
+          databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+            userId,
+          });
+        await databaseBuilder.commit();
+
+        // when
+        const foundAuthenticationComplement =
+          await authenticationMethodRepository.getAuthenticationComplementByUserIdAndIdentityProvider({
+            userId,
+            identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+          });
+
+        // then
+        expect(foundAuthenticationComplement).to.be.an.instanceOf(AuthenticationMethod.PixAuthenticationComplement);
+        expect(foundAuthenticationComplement).to.deep.equal(authenticationMethod.authenticationComplement);
+      });
+    });
+
+    context(
+      'when the user does not have an authentication method with complement for the given identity provider',
+      function () {
+        it('throws a NotFoundError', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          await databaseBuilder.commit();
+
+          // when
+          const error = await catchErr(
+            authenticationMethodRepository.getAuthenticationComplementByUserIdAndIdentityProvider,
+          )({
+            userId,
+            identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+          });
+
+          // then
+          expect(error).to.be.an.instanceOf(NotFoundError);
+        });
+      },
+    );
   });
 
   describe('#updateAuthenticationComplementByUserIdAndIdentityProvider', function () {
@@ -1208,19 +1255,32 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   });
 
   describe('#batchUpsertPasswordThatShouldBeChanged', function () {
-    context('when user have an authentication method PIX', function () {
+    context('when users have an authentication method PIX', function () {
       it('updates password for provided users list', async function () {
         // given
-        const pierre = databaseBuilder.factory.buildUser.withRawPassword({ firstName: 'Pierre' });
-        const pierreNewHashedPassword = 'PierrePasswordHashed';
-        const paul = databaseBuilder.factory.buildUser.withRawPassword({ firstName: 'Paul' });
-        const paulNewHashedPassword = 'PaulPasswordHashed';
-        const usersToUpdateWithNewPassword = [
-          { userId: pierre.id, hashedPassword: pierreNewHashedPassword },
-          { userId: paul.id, hashedPassword: paulNewHashedPassword },
-        ];
+        const pierreId = databaseBuilder.factory.buildUser({ email: 'pierre.user@email.net' }).id;
+        const pierreHashedPassword = 'pierre-hashed-password';
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          userId: pierreId,
+          hashedPassword: pierreHashedPassword,
+        });
+
+        const paulId = databaseBuilder.factory.buildUser({ email: 'paul.user@email.net' }).id;
+        const paulHashedPassword = 'paul-hashed-password';
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          userId: paulId,
+          hashedPassword: paulHashedPassword,
+        });
 
         await databaseBuilder.commit();
+
+        const pierreNewHashedPassword = 'PierrePasswordHashed';
+        const paulNewHashedPassword = 'PaulPasswordHashed';
+
+        const usersToUpdateWithNewPassword = [
+          { userId: pierreId, hashedPassword: pierreNewHashedPassword },
+          { userId: paulId, hashedPassword: paulNewHashedPassword },
+        ];
 
         // when
         await authenticationMethodRepository.batchUpsertPasswordThatShouldBeChanged({ usersToUpdateWithNewPassword });
@@ -1228,18 +1288,24 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         // then
         const authenticationMethods = await knex('authentication-methods')
           .pluck('authenticationComplement')
-          .whereIn('userId', [pierre.id, paul.id]);
+          .whereIn('userId', [pierreId, paulId]);
         const expectedAuthenticationMethods = [
-          { password: pierreNewHashedPassword, shouldChangePassword: true },
-          { password: paulNewHashedPassword, shouldChangePassword: true },
+          {
+            password: pierreNewHashedPassword,
+            shouldChangePassword: true,
+          },
+          {
+            password: paulNewHashedPassword,
+            shouldChangePassword: true,
+          },
         ];
 
         expect(authenticationMethods).to.have.deep.members(expectedAuthenticationMethods);
       });
     });
 
-    context("when user doesn't have an authentication method PIX", function () {
-      it('create Pix authentication method with password for provided users list', async function () {
+    context("when users don't have an authentication method PIX", function () {
+      it('creates Pix authentication method with password for provided users list', async function () {
         // given
         const pierre = databaseBuilder.factory.buildUser({ firstName: 'Pierre' });
         const pierreNewHashedPassword = 'PierrePasswordHashed';
