@@ -21,7 +21,7 @@ module('Integration | Component | organizations/network', function (hooks) {
       this.owner.register('service:access-control', AccessControlStub);
 
       store = this.owner.lookup('service:store');
-      network = store.createRecord('network', { id: 10, name: 'My network' });
+      network = store.createRecord('network', { id: '10', name: 'My network' });
     });
 
     test('it should display children list and actions section', async function (assert) {
@@ -79,14 +79,14 @@ module('Integration | Component | organizations/network', function (hooks) {
           const reloadChildrenStub = sinon.stub();
 
           const parentOrganization = store.createRecord('organization', {
-            id: 1,
+            id: '1',
             name: 'Parent Organization Name',
             features: { PLACES_MANAGEMENT: { active: true } },
             network,
             hasMany: sinon.stub(),
           });
           const childOrganization = store.createRecord('organization', {
-            id: 2,
+            id: '2',
             name: 'Child Organization Name',
             features: { PLACES_MANAGEMENT: { active: true } },
           });
@@ -125,7 +125,7 @@ module('Integration | Component | organizations/network', function (hooks) {
         test('it should display correct error notification for UNABLE_TO_ATTACH_CHILD_ORGANIZATION_TO_ITSELF error code', async function (assert) {
           // given
           const parentOrganization = store.createRecord('organization', {
-            id: 1,
+            id: '1',
             name: 'Parent Organization Name',
             features: { PLACES_MANAGEMENT: { active: true } },
             network,
@@ -163,7 +163,7 @@ module('Integration | Component | organizations/network', function (hooks) {
         test('it should display correct error notification for UNABLE_TO_ATTACH_ALREADY_ATTACHED_CHILD_ORGANIZATION error code', async function (assert) {
           // given
           const parentOrganization = store.createRecord('organization', {
-            id: 1,
+            id: '1',
             name: 'Parent Organization Name',
             features: { PLACES_MANAGEMENT: { active: true } },
             network,
@@ -207,7 +207,7 @@ module('Integration | Component | organizations/network', function (hooks) {
         test('it should display correct error notification for INVALID_CHILD_ORGANIZATION_IDS error code', async function (assert) {
           // given
           const parentOrganization = store.createRecord('organization', {
-            id: 1,
+            id: '1',
             name: 'Parent Organization Name',
             features: { PLACES_MANAGEMENT: { active: true } },
             network,
@@ -241,7 +241,7 @@ module('Integration | Component | organizations/network', function (hooks) {
         test('it should display generic error notification for any other error code', async function (assert) {
           // given
           const parentOrganization = store.createRecord('organization', {
-            id: 1,
+            id: '1',
             name: 'Parent Organization Name',
             features: { PLACES_MANAGEMENT: { active: true } },
             network,

@@ -10,7 +10,7 @@ export default class EditRoute extends Route {
   }
 
   async model(params) {
-    const blueprint = await this.store.findRecord('combinedCourseBlueprint', params.combined_course_blueprint_id, {
+    const blueprint = await this.store.findRecord('combined-course-blueprint', params.combined_course_blueprint_id, {
       reload: true,
     });
     return { blueprint };
