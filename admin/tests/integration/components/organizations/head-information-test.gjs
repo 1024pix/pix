@@ -35,7 +35,18 @@ module('Integration | Component | organizations/header-information', function (h
       // then
       assert.dom(screen.getByRole('heading', { name: 'Organization SCO' })).exists();
       assert.dom(screen.getByText((_, element) => element.textContent === 'ID : 1')).exists();
-      assert.dom(screen.getByRole('button', { name: t('components.organizations.head-information.copy-id') })).exists();
+      assert.dom(screen.getByRole('button', { name: t('common.actions.copy-id') })).exists();
+    });
+
+    test('it displays an accessible control to change the logo', async function (assert) {
+      // given
+      const organization = EmberObject.create({ id: 1, name: 'Organization SCO' });
+
+      // when
+      const screen = await render(<template><HeadInformation @organization={{organization}} /></template>);
+
+      // then
+      assert.dom(screen.getByLabelText(t('components.organizations.head-information.change-logo'))).exists();
     });
 
     test('it generates correct external dashboard URL', async function (assert) {
@@ -164,9 +175,13 @@ module('Integration | Component | organizations/header-information', function (h
         // when
         const screen = await render(<template><HeadInformation @organization={{organization}} /></template>);
 
-        await triggerEvent('input[type="file"]', 'change', {
-          files: [file],
-        });
+        await triggerEvent(
+          screen.getByLabelText(t('components.organizations.head-information.change-logo')),
+          'change',
+          {
+            files: [file],
+          },
+        );
 
         // then
         assert.true(organization.save.calledOnce);
@@ -194,11 +209,15 @@ module('Integration | Component | organizations/header-information', function (h
         const file = new Blob([''], { type: `new-logo-file` });
 
         // when
-        await render(<template><HeadInformation @organization={{organization}} /></template>);
+        const screen = await render(<template><HeadInformation @organization={{organization}} /></template>);
 
-        await triggerEvent('input[type="file"]', 'change', {
-          files: [file],
-        });
+        await triggerEvent(
+          screen.getByLabelText(t('components.organizations.head-information.change-logo')),
+          'change',
+          {
+            files: [file],
+          },
+        );
 
         // then
         assert.true(organization.rollbackAttributes.calledOnce);
@@ -224,11 +243,15 @@ module('Integration | Component | organizations/header-information', function (h
         const file = new Blob([''], { type: `new-logo-file` });
 
         // when
-        await render(<template><HeadInformation @organization={{organization}} /></template>);
+        const screen = await render(<template><HeadInformation @organization={{organization}} /></template>);
 
-        await triggerEvent('input[type="file"]', 'change', {
-          files: [file],
-        });
+        await triggerEvent(
+          screen.getByLabelText(t('components.organizations.head-information.change-logo')),
+          'change',
+          {
+            files: [file],
+          },
+        );
 
         // then
         assert.true(organization.rollbackAttributes.calledOnce);
