@@ -17,7 +17,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner', function () {
 
       const expectedJSON = {
         data: {
-          type: 'organizationLearners',
+          type: 'organizationLearner',
           id: '123',
           attributes: {
             'first-name': 'Jean',

@@ -1,7 +1,8 @@
 import { Serializer } from 'jsonapi-serializer';
 
 const serialize = function (missions) {
-  return new Serializer('missions', {
+  return new Serializer('mission', {
+    pluralizeType: false,
     attributes: [
       'name',
       'cardImageUrl',

@@ -25,7 +25,7 @@ describe('Unit | Serializer | JSONAPI | activity-answer-serializer', function ()
       });
       const expectedJSON = {
         data: {
-          type: 'activity-answers',
+          type: 'activity-answer',
           id: answerId.toString(),
           attributes: {
             value: answerValue,
@@ -35,7 +35,7 @@ describe('Unit | Serializer | JSONAPI | activity-answer-serializer', function ()
           relationships: {
             challenge: {
               data: {
-                type: 'challenges',
+                type: 'challenge',
                 id: `${challengeId}`,
               },
             },

@@ -106,12 +106,12 @@ describe('Acceptance | Controller | activity-answer-controller', function () {
             challenge: {
               data: {
                 id: 'recCHAL1',
-                type: 'challenges',
+                type: 'challenge',
               },
             },
           },
           id: 'preview-id',
-          type: 'activity-answers',
+          type: 'activity-answer',
         };
 
         // when

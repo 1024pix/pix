@@ -92,7 +92,7 @@ describe('Unit | Controller | assessment-controller', function () {
           'organization-learner-id': organizationLearnerId,
           state: Assessment.states.STARTED,
         },
-        type: 'assessments',
+        type: 'assessment',
       });
     });
   });

@@ -4,6 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (challenges) {
   return new Serializer('challenge', {
+    pluralizeType: false,
     attributes: [
       'type',
       'instructions',

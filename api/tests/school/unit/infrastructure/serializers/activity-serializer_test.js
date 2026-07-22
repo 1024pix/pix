@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | activity-serializer', function () {
 
       const expectedJSON = {
         data: {
-          type: 'activities',
+          type: 'activity',
           id: activity.id.toString(),
           attributes: {
             level: level,

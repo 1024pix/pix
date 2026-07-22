@@ -40,7 +40,7 @@ describe('Unit | Serializer | challenge-serializer', function () {
       // then
       expect(json).to.deep.equal({
         data: {
-          type: 'challenges',
+          type: 'challenge',
           id: challenge.id,
           attributes: {
             instructions: ['Une première bulle.<br/>Pour tout mettre', 'Une deuxième bulle\n sur plusieurs lignes'],

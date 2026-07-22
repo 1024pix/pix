@@ -62,7 +62,7 @@ describe('Integration | Controller | mission-controller', function () {
           },
         },
         id: `${mission.id}`,
-        type: 'missions',
+        type: 'mission',
       });
       expect(usecases.getMission).to.have.been.calledWithExactly({
         organizationId: 'organizationId',
@@ -114,7 +114,7 @@ describe('Integration | Controller | mission-controller', function () {
             },
           },
           id: `${mission.id}`,
-          type: 'missions',
+          type: 'mission',
         },
       ]);
     });

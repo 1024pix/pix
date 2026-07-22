@@ -40,7 +40,7 @@ describe('Unit | Controller | organization-learner-controller', function () {
             features: ['ORALIZATION'],
           },
           id: '4356',
-          type: 'organizationLearners',
+          type: 'organizationLearner',
         },
       };
 

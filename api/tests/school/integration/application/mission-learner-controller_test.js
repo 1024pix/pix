@@ -59,7 +59,7 @@ describe('Integration | Controller | mission-learner-controller', function () {
             result: missionLearner.result,
           },
           id: missionLearner.id.toString(),
-          type: 'mission-learners',
+          type: 'mission-learner',
         },
       ]);
       expect(result.meta).to.deep.equal(pagination);

@@ -1,8 +1,5 @@
-import jsonapiSerializer from 'jsonapi-serializer';
-
 import { ActivityAnswer } from '../../../../src/school/domain/models/ActivityAnswer.js';
-
-const { Serializer } = jsonapiSerializer;
+import { Serializer } from '../../../shared/infrastructure/serializers/jsonapi/base-serializer.js';
 
 const serialize = function (answer) {
   return new Serializer('activity-answer', {

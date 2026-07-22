@@ -60,7 +60,7 @@ describe('Unit | Controller | school-controller', function () {
                 },
               ],
             },
-            type: 'schools',
+            type: 'school',
           },
         };
 

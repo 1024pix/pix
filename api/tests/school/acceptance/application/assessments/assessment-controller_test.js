@@ -99,7 +99,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
             },
           },
           id: `${lastMissionAssessment.assessmentId}`,
-          type: 'assessments',
+          type: 'assessment',
         });
       });
     });
@@ -141,7 +141,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
             },
           },
           id: `${missionAssessment.assessmentId}`,
-          type: 'assessments',
+          type: 'assessment',
         });
         expect(response.statusCode).to.equal(201);
       });

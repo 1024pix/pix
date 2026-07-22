@@ -31,7 +31,7 @@ describe('Integration | Controller | assessment-controller', function () {
           state: Assessment.states.STARTED,
           result: Assessment.results.EXCEEDED,
         },
-        type: 'assessments',
+        type: 'assessment',
       });
     });
   });
