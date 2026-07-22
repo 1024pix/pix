@@ -74,3 +74,15 @@ blockquote {
   background-color: var(--pix-primary-10);
   border-left: 2px dotted var(--pix-primary-100);
 }
+
+.sr-only {
+  position: absolute;
+  display: block;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip-path: rect(0, 0, 0, 0);
+}
