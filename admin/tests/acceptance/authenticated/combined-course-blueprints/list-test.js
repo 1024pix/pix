@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click, currentURL } from '@ember/test-helpers';
+import { click, currentURL, findAll } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
@@ -17,7 +17,7 @@ module('Acceptance | Combined course blueprint | List', function (hooks) {
       id: 1,
       name: 'parcours IA',
       internalName: 'schéma de parcours IA',
-      illsutration: 'https://image.pix.fr/ia.svg',
+      illustration: 'https://image.pix.fr/ia.svg',
       description: "Un parcours sur l'IA pour le collège",
       content: [
         {
@@ -29,6 +29,22 @@ module('Acceptance | Combined course blueprint | List', function (hooks) {
           value: 'shasha',
         },
       ],
+    });
+    server.create('combined-course-blueprint', {
+      id: 2,
+      name: 'parcours cyber',
+      internalName: 'schéma de parcours cyber',
+      illustration: 'https://image.pix.fr/cyber.svg',
+      description: 'Un parcours sur la cybersécurité',
+      content: [],
+    });
+    server.create('combined-course-blueprint', {
+      id: 10,
+      name: 'parcours numérique',
+      internalName: 'schéma de parcours numérique',
+      illustration: 'https://image.pix.fr/num.svg',
+      description: 'Un parcours sur le numérique',
+      content: [],
     });
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
@@ -42,5 +58,14 @@ module('Acceptance | Combined course blueprint | List', function (hooks) {
     await click(link);
     // then
     assert.strictEqual(currentURL(), '/combined-course-blueprints/1/organizations');
+  });
+
+  test('it should display blueprints ordered by id descending', async function (assert) {
+    // when
+    await visit('/combined-course-blueprints/list');
+
+    // then
+    const idCells = findAll('tbody tr td:first-child').map((cell) => cell.textContent.trim());
+    assert.deepEqual(idCells, ['10', '2', '1']);
   });
 });
