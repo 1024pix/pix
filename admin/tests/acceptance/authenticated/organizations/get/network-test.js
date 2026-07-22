@@ -131,7 +131,7 @@ module('Acceptance | Organizations | Network', function (hooks) {
     });
   });
 
-  module.skip('when user has role "CERTIF"', function () {
+  module('when user has role "CERTIF"', function () {
     test('it should not display actions section', async function (assert) {
       await authenticateAdminMemberWithRole({ isCertif: true })(server);
       const parentOrganizationId = this.server.create('organization', {

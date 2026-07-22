@@ -27,7 +27,12 @@ export class CampaignAssessmentParticipationResultMinimal {
     this.prescriberTitle = prescriberTitle;
     this.prescriberDescription = prescriberDescription;
     //TODO REMOVE WHEN https://1024pix.atlassian.net/browse/PIX-6849 IS DONE
-    this.badges = _.uniqBy(badges, 'id');
+    this.badges = _.uniqBy(badges, 'id').map(({ id, title, altMessage, imageUrl }) => ({
+      id,
+      title,
+      altMessage,
+      imageUrl,
+    }));
     this.sharedResultCount = sharedResultCount;
     this.evolution = this.#computeEvolution();
   }

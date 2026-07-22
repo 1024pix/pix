@@ -5,7 +5,7 @@ import { CompetenceEvaluation } from '../../../../../src/evaluation/domain/model
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/domain/constants.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/constants.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';

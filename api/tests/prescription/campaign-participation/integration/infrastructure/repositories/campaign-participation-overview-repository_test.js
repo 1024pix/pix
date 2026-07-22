@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import sinon from 'sinon';
 
 import { CampaignParticipationOverview } from '../../../../../../src/prescription/campaign-participation/domain/read-models/CampaignParticipationOverview.js';
 import * as campaignParticipationOverviewRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-overview-repository.js';
@@ -12,7 +11,7 @@ import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { constants } from '../../../../../../src/shared/domain/constants.js';
+import { config } from '../../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
@@ -26,8 +25,6 @@ describe('Integration | Repository | Campaign Participation Overview', function 
   let targetProfile;
 
   beforeEach(async function () {
-    sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
     userId = databaseBuilder.factory.buildUser().id;
     const learningContent = [
       {
@@ -882,7 +879,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
       it('should not keep the autonomous course from the campaign participations list', async function () {
         // given
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+          id: config.autonomousCourse.autonomousCoursesOrganizationId,
         });
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({
           organizationId,

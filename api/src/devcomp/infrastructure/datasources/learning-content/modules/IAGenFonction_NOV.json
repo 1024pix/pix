@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/IAGenFonction%20NOV/picto_IAGenFonction-NOV.svg",
-    "description": "<p>ChatGPT, Gemini ou encore Le Chat sont des logiciels d’Intelligence Artificielle (IA) générative&nbsp;: un utilisateur peut discuter avec ces IA et avoir des réponses à ses demandes.&nbsp; <br>Ces IA peuvent résumer un texte, inventer des histoires, etc. Et ça, sur presque tous les sujets !</p><p><br>Dans ce module, vous allez découvrir comment un logiciel d’IA générative réussit toujours à donner une réponse à un utilisateur… mais pas forcément la bonne.</p>",
+    "description": "<p>ChatGPT, Gemini ou encore Vibe sont des logiciels d’Intelligence Artificielle (IA) générative&nbsp;: un utilisateur peut discuter avec ces IA et avoir des réponses à ses demandes.&nbsp; <br>Ces IA peuvent résumer un texte, inventer des histoires, etc. Et ça, sur presque tous les sujets !</p><p><br>Dans ce module, vous allez découvrir comment un logiciel d’IA générative réussit toujours à donner une réponse à un utilisateur… mais pas forcément la bonne.</p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
@@ -760,7 +760,7 @@
                 "id": "de48659c-5799-4a9f-9d74-3676e78c094b",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour finir ce module, voyons quelle sera votre bonne résolution pour votre prochaine utilisation de ChatGPT, Gemini, Le Chat ou d’un autre logiciel d’IA générative&nbsp;! 💫</p>"
+                "content": "<p>Pour finir ce module, voyons quelle sera votre bonne résolution pour votre prochaine utilisation de ChatGPT, Gemini, Vibe ou d’un autre logiciel d’IA générative&nbsp;! 💫</p>"
               }
             }
           ]

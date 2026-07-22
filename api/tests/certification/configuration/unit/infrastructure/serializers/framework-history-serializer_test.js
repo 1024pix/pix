@@ -1,3 +1,4 @@
+import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { FrameworkHistoryEntry } from '../../../../../../src/certification/configuration/domain/read-models/FrameworkHistoryEntry.js';
 import * as serializer from '../../../../../../src/certification/configuration/infrastructure/serializers/framework-history-serializer.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
@@ -14,6 +15,7 @@ describe('Certification | Configuration | Unit | Serializer | framework-history-
           expirationDate: new Date('2025-02-02'),
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
+          status: VERSION_STATUSES.ARCHIVED,
         }),
       ];
       const scope = SCOPES.PIX_PLUS_DROIT;

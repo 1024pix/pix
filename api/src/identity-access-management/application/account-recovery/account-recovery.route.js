@@ -1,13 +1,11 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
-import XRegExp from 'xregexp';
 
-import { config } from '../../../shared/config.js';
 import { studentIdentifierType } from '../../../shared/domain/types/identifiers-type.js';
+import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
 import { accountRecoveryController } from './account-recovery.controller.js';
 
 const Joi = BaseJoi.extend(JoiDate);
-const { passwordValidationPattern } = config.account;
 
 export const accountRecoveryRoutes = [
   {
@@ -21,7 +19,7 @@ export const accountRecoveryRoutes = [
           data: {
             attributes: {
               'temporary-key': Joi.string().min(32).required(),
-              password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+              password: PasswordSchema.required(),
             },
           },
         }),

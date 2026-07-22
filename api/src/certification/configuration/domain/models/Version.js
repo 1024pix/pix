@@ -8,7 +8,13 @@ import {
 } from '../../../shared/domain/constants.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { SCOPES } from '../../../shared/domain/models/Scopes.js';
-import { FRAMEWORK_HISTORY_STATUSES } from '../read-models/FrameworkHistoryEntry.js';
+import { VersionNotDraftError } from '../errors.js';
+
+export const VERSION_STATUSES = {
+  DRAFT: 'draft',
+  ACTIVE: 'active',
+  ARCHIVED: 'archived',
+};
 
 export class Version {
   static #schema = Joi.object({
@@ -26,7 +32,8 @@ export class Version {
     comments: Joi.string().allow(null).optional(),
     status: Joi.string()
       .required()
-      .valid(...Object.values(FRAMEWORK_HISTORY_STATUSES)),
+      .valid(...Object.values(VERSION_STATUSES)),
+    tubeIds: Joi.array().min(1).unique().required(),
   });
 
   /**
@@ -38,6 +45,8 @@ export class Version {
    * @param {number} params.assessmentDuration - Assessment duration in minutes
    * @param {number} params.minimumAnswersRequiredToValidateACertification
    * @param {string} params.comments
+   * @param {Array<string>} params.tubeIds
+   * @param {VERSION_STATUSES.DRAFT | VERSION_STATUSES.ACTIVE | VERSION_STATUSES.ARCHIVED} params.status
    * @param {Array<object>} [params.globalScoringConfiguration] - Global scoring configuration
    * @param {Array<object>} [params.competencesScoringConfiguration] - Competences scoring configuration
    * @param {FlashAssessmentAlgorithmConfiguration} params.challengesConfiguration - Challenges configuration
@@ -53,6 +62,8 @@ export class Version {
     competencesScoringConfiguration,
     challengesConfiguration,
     comments,
+    status,
+    tubeIds,
   }) {
     this.id = id;
     this.scope = scope;
@@ -64,39 +75,63 @@ export class Version {
     this.competencesScoringConfiguration = competencesScoringConfiguration;
     this.challengesConfiguration = challengesConfiguration;
     this.comments = comments === '' ? null : comments;
-    this.status = this.#computeStatus();
-    this.#validate();
+    this.status = status;
+    this.tubeIds = tubeIds;
   }
 
-  #computeStatus() {
-    if (this.expirationDate) return FRAMEWORK_HISTORY_STATUSES.ARCHIVED;
-    if (this.startDate) return FRAMEWORK_HISTORY_STATUSES.ACTIVE;
-    return FRAMEWORK_HISTORY_STATUSES.DRAFT;
-  }
-
-  #validate() {
+  validate() {
     const { error } = Version.#schema.validate(this, { allowUnknown: false });
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
   }
 
-  update({ comments }) {
-    this.comments = comments;
+  update({
+    startDate,
+    assessmentDuration,
+    minimumAnswersRequiredForValidation,
+    maximumAssessmentLength,
+    challengesBetweenSameCompetence,
+    defaultProbabilityToPickChallenge,
+    variationPercent,
+    defaultCandidateCapacity,
+    limitToOneQuestionPerTube,
+    enablePassageByAllCompetences,
+  }) {
+    if (!this.isDraft) {
+      throw new VersionNotDraftError();
+    }
+    this.startDate = startDate;
+    this.assessmentDuration = assessmentDuration;
+    this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredForValidation;
+    this.challengesConfiguration = new FlashAssessmentAlgorithmConfiguration({
+      maximumAssessmentLength,
+      challengesBetweenSameCompetence,
+      defaultProbabilityToPickChallenge,
+      variationPercent,
+      defaultCandidateCapacity,
+      limitToOneQuestionPerTube,
+      enablePassageByAllCompetences,
+    });
+    this.validate();
   }
 
   get isDraft() {
-    return this.status === FRAMEWORK_HISTORY_STATUSES.DRAFT;
+    return this.status === VERSION_STATUSES.DRAFT;
   }
 
   get isActive() {
-    return this.status === FRAMEWORK_HISTORY_STATUSES.ACTIVE;
+    return this.status === VERSION_STATUSES.ACTIVE;
   }
 
-  static buildFromVersion({ scope, version }) {
-    return new Version({
+  get canRemove() {
+    return this.status === VERSION_STATUSES.DRAFT;
+  }
+
+  static buildDraftFromActiveVersion({ scope, version, tubeIds }) {
+    const draftVersion = new Version({
       id: null,
-      scope,
+      scope: version?.scope ?? scope,
       startDate: null,
       expirationDate: null,
       assessmentDuration: version?.assessmentDuration ?? DEFAULT_SESSION_DURATION_MINUTES,
@@ -115,7 +150,12 @@ export class Version {
       }),
       globalScoringConfiguration: version?.globalScoringConfiguration ?? [],
       competencesScoringConfiguration: version?.competencesScoringConfiguration ?? [],
+      status: VERSION_STATUSES.DRAFT,
       comments: null,
+      tubeIds,
     });
+    draftVersion.validate();
+
+    return draftVersion;
   }
 }

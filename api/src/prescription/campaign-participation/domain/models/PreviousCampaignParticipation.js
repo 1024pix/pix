@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../../../shared/domain/constants.js';
+import { MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../../../shared/constants.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 class PreviousCampaignParticipation {
   #isResetAllowed;

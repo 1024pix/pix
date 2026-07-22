@@ -1,4 +1,3 @@
-import { AnswerJob } from '../../../quest/domain/models/quests/events/AnwserJob.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ChallengeAlreadyAnsweredError, EmptyAnswerError, ForbiddenAccess } from '../../../shared/domain/errors.js';
 import { ChallengeNotAskedError } from '../../../shared/domain/errors.js';
@@ -11,7 +10,6 @@ export async function saveAndCorrectAnswerForCompetenceEvaluation({
   locale,
   forceOKAnswer = false,
   answerRepository,
-  answerJobRepository,
   areaRepository,
   challengeRepository,
   scorecardService,
@@ -30,7 +28,7 @@ export async function saveAndCorrectAnswerForCompetenceEvaluation({
   if (assessment.lastChallengeId && assessment.lastChallengeId !== answer.challengeId) {
     throw new ChallengeNotAskedError();
   }
-  if (!answer.hasValue && !answer.hasTimedOut) {
+  if (answer.isEmpty) {
     throw new EmptyAnswerError();
   }
 
@@ -71,10 +69,6 @@ export async function saveAndCorrectAnswerForCompetenceEvaluation({
     });
     return answerToBeSaved;
   });
-
-  if (userId) {
-    await answerJobRepository.performAsync(new AnswerJob({ userId }));
-  }
 
   return savedAnswer;
 }

@@ -1,6 +1,8 @@
 import { createServer } from '../../../../../../server.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';
 import {
   generateAuthenticatedUserRequestHeaders,
@@ -226,12 +228,11 @@ describe('Acceptance | Route | Certification Courses', function () {
         // given
         databaseBuilder.factory.buildUser({ id: 1 });
         databaseBuilder.factory.buildSession({ id: 2, accessCode: 'FMKP39' });
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({
+        databaseBuilder.factory.buildCertificationCandidate({
           sessionId: 2,
           userId: 1,
           authorizedToStart: true,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
           learningContent,
           userId: 1,
@@ -267,14 +268,17 @@ describe('Acceptance | Route | Certification Courses', function () {
       it('should return CREATED (201) and a certification course', async function () {
         // given
         databaseBuilder.factory.buildUser({ id: 1 });
-        databaseBuilder.factory.buildCertificationVersion();
+        domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('1977-10-19') })
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 123 })
+          .insertToDB({ databaseBuilder });
         databaseBuilder.factory.buildSession({ id: 2, accessCode: 'FMKP39' });
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({
+        databaseBuilder.factory.buildCertificationCandidate({
           sessionId: 2,
           userId: 1,
           authorizedToStart: true,
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
           learningContent,
           userId: 1,

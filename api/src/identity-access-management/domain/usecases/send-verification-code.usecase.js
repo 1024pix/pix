@@ -3,6 +3,7 @@ import {
   InvalidPasswordForUpdateEmailError,
   UserNotAuthorizedToUpdateEmailError,
 } from '../../../shared/domain/errors.js';
+import { generateCode } from '../../../shared/infrastructure/utils/code-generator.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { emailChangeVerificationCodeEmail } from '../emails/email-change-verification-code.email.js';
 import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
@@ -19,7 +20,6 @@ import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
  * @param {UserRepository} params.userRepository
  * @param {EmailRepository} params.emailRepository
  * @param {CryptoService} params.cryptoService
- * @param {*} params.codeUtils
  */
 const sendVerificationCode = async function ({
   userId,
@@ -32,11 +32,10 @@ const sendVerificationCode = async function ({
   userEmailRepository,
   emailRepository,
   cryptoService,
-  codeUtils,
 }) {
   const user = await userRepository.get(userId);
 
-  const code = codeUtils.generateNumericalString(6);
+  const code = generateCode(6, 'numericSafe');
 
   if (!action || action === 'update-email') {
     await _saveCodeForEmailUpdate({

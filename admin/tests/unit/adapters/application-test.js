@@ -5,12 +5,12 @@ import sinon from 'sinon';
 module('Unit | Adapters | ApplicationAdapter', function (hooks) {
   setupTest(hooks);
 
-  test('should specify /api as the root url', function (assert) {
+  test('should specify /api/admin as the root url', function (assert) {
     // given
     const applicationAdapter = this.owner.lookup('adapter:application');
 
     // then
-    assert.strictEqual(applicationAdapter.namespace, 'api');
+    assert.strictEqual(applicationAdapter.namespace, 'api/admin');
   });
 
   module('get headers()', function () {

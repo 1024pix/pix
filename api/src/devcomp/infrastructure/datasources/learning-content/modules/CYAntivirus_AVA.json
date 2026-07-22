@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Les terminaux d’une organisation (ordinateurs, serveurs, etc.) sont souvent la cible de cyberattaques. Pour renforcer leur protection et mieux détecter les menaces, un antivirus ne suffit pas toujours. </p><p> Dans ce module, découvrez comment les solutions/outils de sécurité de détection et de réponse intégrées sur les terminaux (EDR) aident les organisations à surveiller leurs appareils pour détecter les comportements suspects et réagir vite face aux menaces.</p>",
+    "description": "<p>Les terminaux d’une organisation (ordinateurs, serveurs, etc.) sont souvent la cible de cyberattaques. Pour renforcer leur protection et mieux détecter les menaces, un antivirus ne suffit pas toujours. </p><p> Dans ce module, découvrez comment les solutions/outils de sécurité de détection et de réponse intégrées sur les terminaux (EDR) aident les organisations à surveiller tous leurs appareils pour détecter les comportements suspects et réagir vite face aux menaces.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -33,7 +33,7 @@
                 "id": "004c2e3c-83d6-4ffe-a8c1-b0355d2fa004",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une entreprise d’une centaine d’employés a subi une attaque par logiciel malveillant. Un des postes de travail a été compromis.</p><p> Pourtant, rien n’a été détecté au niveau de la base de signature virale par l’antivirus du poste de travail.</p>"
+                "content": "<p>Une entreprise d’une centaine d’employés a subi une attaque par logiciel malveillant. Le départ de l’attaque provient d’un poste de travail qui a été compromis. </p><p>Après analyse, rien n’a été détecté au niveau de la base de signature virale par l’antivirus du poste de travail.</p><br>"
               }
             },
             {
@@ -43,7 +43,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/CY_Antivirus_AVA/unnamed-3.png",
                 "alt": "Image d’illustration",
-                "alternativeText": " Notifs antivirus “Aucune menace détectée",
+                "alternativeText": "<p> Notifs antivirus  Aucune menace détectée</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -108,7 +108,7 @@
                 "id": "293c0729-b550-481a-b8f8-62c371cbe976",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Depuis, d’autres méthodes de détection ont été inventées. Les organisations utilisent alors différents outils de sécurité, comme les EDR, pour mieux détecter les menaces. </p><p> Découvrons ensemble comment ils fonctionnent.</p>"
+                "content": "<p>Pour améliorer la détection des menaces, d’autres méthodes ont été développées. &nbsp;Les organisations utilisent alors différents outils de sécurité, notamment les EDR&nbsp; (Endpoint Detection and Response <em>[NDC&nbsp;: demande d’harmo en cours sur le terme en fr]</em>) pour mieux détecter les menaces </p><p> Découvrons ensemble comment ils fonctionnent.</p>"
               }
             }
           ]
@@ -130,7 +130,7 @@
                 "id": "df327be0-6c6c-40e2-b746-01dcd06addaa",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’entreprise BCHX dispose de plus de 50 ordinateurs connectés à son réseau informatique.</p><p>L’EDR de l’entreprise a récemment détecté un comportement suspect sur un des ordinateurs.</p><br><p><em>[NDC]Image actuellement générée par IA, elle sera moins chargées dans la version définitive. <br>Inspiration interface EDR&nbsp;: https://www.youtube.com/watch?v=uAratnOEbWM (vers 4mn)<br>⚠️Il ne s’agit pas de montrer une interface totalement réaliste de l’EDR mais de se mettre à la place de ce que surveille l’EDR&nbsp;:&nbsp;</em><br></p>"
+                "content": "<p>L’entreprise BCHX dispose de plus de 50 ordinateurs connectés à son réseau informatique.</p><p>L’EDR de l’entreprise a récemment détecté un comportement suspect sur un des ordinateurs.</p><br><p><em>[NDC]Image actuellement générée par IA, elle sera moins chargée dans la version définitive. <br>Inspiration interface EDR&nbsp;: https://www.youtube.com/watch?v=uAratnOEbWM (vers 4mn)<br>⚠️Il ne s’agit pas de montrer une interface totalement réaliste de l’EDR mais de se mettre à la place de ce que surveille l’EDR&nbsp;:&nbsp;</em><br></p>"
               }
             },
             {
@@ -149,7 +149,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/CY_Antivirus_AVA/chat-gpt-image-10-juin-2026-17_49_18.png",
                 "alt": "",
-                "alternativeText": "<p>Illustration montrant les différents paramètres d’un PC en temps réel. Sur ce PC, le nombre d’opération en cours est très élevé, il tente d’accéder à des fichier protégées et se connecte à des sites à l’étranger.</p>",
+                "alternativeText": "<p>Illustration montrant les différents paramètres d’un PC en temps réel. Sur ce PC, le nombre d’opérations en cours est très élevé, il tente d’accéder à des fichiers protégés et se connecte à des sites à l’étranger.</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -232,13 +232,13 @@
                       "id": "6861f8ce-5b28-41d2-bd44-fbb2454b3350",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Comment un EDR détecte-t-il une menace ?🔎</h5><ul><li>Pour cela, un programme est installé sur chaque terminal. <strong>Il collecte en continu les données d’activité d’un terminal</strong> puis les transmet à une console centrale.&nbsp; </li><li>La console centrale de l’EDR analyse et enregistre ensuite ces données pour <strong>repérer des comportements inhabituels ou suspects</strong> sur les terminaux.</li></ul><p>Cette méthode de détection s’appuie sur l’<strong>analyse comportementale</strong>. <em>[NDC] +schéma simplifié de l’EDR</em></p>"
+                      "content": "<h5>Comment un EDR détecte-t-il une menace ?🔎</h5><ul><li>Pour cela, un programme est installé sur chaque terminal. <strong>Il collecte en continu les données d’activité d’un terminal</strong> puis les transmet à une console centrale.&nbsp; </li><li>La console centrale de l’EDR analyse et enregistre ensuite ces données pour <strong>repérer des comportements inhabituels ou suspects</strong> sur les terminaux.</li></ul><p>Cette méthode de détection s’appelle l’<strong>analyse comportementale</strong>. <em>[NDC] +schéma simplifié de l’EDR</em></p>"
                     },
                     {
                       "id": "fb2bb6ea-c22f-4174-bf25-ab160118b9b7",
                       "type": "text",
                       "tag": "further-information",
-                      "content": "<p>Les équipes de sécurité <strong>paramètrent la sensibilité de l’EDR</strong> pour trouver un équilibre entre la détection des menaces et les fausses alertes. Certains comportements sont plus suspects que d’autres.</p>"
+                      "content": "<p>Tous les comportements inhabituels ou suspects ne sont pas forcément malveillants. C’est pourquoi<strong> les équipes de sécurité paramètrent la sensibilité de l’EDR</strong> pour trouver un équilibre entre la détection des menaces et les fausses alertes.</p>"
                     }
                   ]
                 }
@@ -273,7 +273,7 @@
                 "id": "a74b7f3c-61f2-442d-95e5-573fa11c2eff",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voici quelques actions possibles d’un EDR dans le tableau ci-dessous.&nbsp;</p><p><strong>Observez-les puis répondez aux questions qui suivent.</strong></p><table>    <thead>        <tr>            <th>Condition détectée</th>            <th>Action (Réponse)</th>        </tr>    </thead>    <tbody>        <tr>            <td><strong>SI</strong> un fichier malveillant est téléchargé</td>            <td><strong>ALORS</strong> mettre le fichier en quarantaine <strong>ET</strong> envoyer une alerte</td>        </tr>        <tr>            <td><strong>SI</strong> un programme inconnu tente d’accéder à des données sensibles</td>            <td><strong>ALORS</strong> mettre fin au processus sur le terminal <strong>ET</strong> envoyer une alerte</td>        </tr>        <tr>            <td><strong>SI</strong> un terminal tente de propager un logiciel malveillant vers d’autres terminaux du réseau de l’entreprise</td>            <td><strong>ALORS</strong> isoler le terminal du réseau de l’entreprise <strong>ET</strong> envoyer une alerte</td>        </tr>        <tr>            <td><strong>SI</strong> une connexion inhabituelle est détectée sur un terminal</td>            <td><strong>ALORS</strong> envoyer une alerte</td>        </tr>    </tbody></table>"
+                "content": "<p>Un EDR est paramétré pour effectuer des actions de remédiation (réponses) selon les menaces qu’il détecte (conditions). </p><p>Le tableau ci-dessous indique un exemple de paramétrage d’un EDR.</p><p><strong>Observez-les puis répondez aux questions qui suivent.</strong></p><table>    <thead>        <tr>            <th>Menace détectée</th>            <th>Action de remédiation (Réponse)</th>        </tr>    </thead>    <tbody>        <tr>            <td><strong>SI</strong> un fichier malveillant est téléchargé</td>            <td><strong>ALORS</strong> mettre le fichier en quarantaine <strong>ET</strong> envoyer une alerte</td>        </tr>        <tr>            <td><strong>SI</strong> un programme inconnu tente d’accéder à des données sensibles</td>            <td><strong>ALORS</strong> mettre fin au processus sur le terminal <strong>ET</strong> envoyer une alerte</td>        </tr>        <tr>            <td><strong>SI</strong> un terminal tente de propager un logiciel malveillant vers d’autres terminaux du réseau de l’entreprise</td>            <td><strong>ALORS</strong> isoler le terminal du réseau de l’entreprise <strong>ET</strong> envoyer une alerte</td>        </tr>        <tr>            <td><strong>SI</strong> une connexion inhabituelle est détectée sur un terminal</td>            <td><strong>ALORS</strong> envoyer une alerte</td>        </tr>    </tbody></table>"
               }
             },
             {
@@ -285,21 +285,21 @@
                     {
                       "id": "7ec9c501-f1ac-4b1c-8f3e-6e4a259564c3",
                       "type": "qcu-discovery",
-                      "instruction": "<p>L’EDR agit toujours de la même façon quelle que soit la situation détectée.</p>",
+                      "instruction": "<p>L’EDR agit toujours de la même façon quelle que soit la menace détectée.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Pas toujours. Selon la <strong>situation détectée </strong>et le niveau de risque, l’EDR peut déclencher différentes <strong>actions de remédiation&nbsp;</strong>(réponses). Par exemple, il peut bloquer un programme, isoler un terminal du réseau ou envoyer une alerte.</p>"
+                            "diagnosis": "<p>Pas toujours. Selon la <strong>menace détectée </strong>et ses conséquences potentielles, l’EDR peut déclencher différentes <strong>actions de remédiation&nbsp;</strong>(réponses). Par exemple, il peut bloquer un programme, isoler un terminal du réseau ou envoyer une alerte.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Exact. Selon la <strong>situation détectée </strong>et le niveau de risque, l’EDR peut déclencher différentes <strong>actions de remédiation&nbsp;</strong>(réponses). Par exemple, il peut bloquer un programme, isoler un terminal du réseau ou envoyer une alerte.</p>"
+                            "diagnosis": "<p>Exact. Selon la menace&nbsp;<strong>détectée </strong>et le niveau de risque, l’EDR peut déclencher différentes <strong>actions de remédiation&nbsp;</strong>(réponses). Par exemple, il peut bloquer un programme, isoler un terminal du réseau ou envoyer une alerte.</p>"
                           }
                         }
                       ],
@@ -312,21 +312,21 @@
                     {
                       "id": "74a36734-9ccc-40d3-a949-e3dde1e08188",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Les actions de l’EDR peuvent limiter la propagation d’une menace.</p>",
+                      "instruction": "<p>Les actions de remédiation (réponses) de l’EDR peuvent limiter la propagation d’une menace.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement. Certaines actions visent à <strong>contenir l’incident</strong>, c’est-à-dire à empêcher qu’une menace se propage à d’autres terminaux ou cause davantage de dommages à l’organisation.</p>"
+                            "diagnosis": "<p>Effectivement. Certaines actions de remediation visent à <strong>contenir l’incident</strong>, c’est-à-dire à empêcher qu’une menace se propage à d’autres terminaux ou cause davantage de dommages à l’organisation.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Ce n’est pas ça. Certaines actions visent à <strong>contenir l’incident</strong>, c’est-à-dire à empêcher qu’une menace se propage à d’autres terminaux ou cause davantage de dommages à l’organisation.</p>"
+                            "diagnosis": "<p>Ce n’est pas ça. Certaines actions de remediation visent à <strong>contenir l’incident</strong>, c’est-à-dire à empêcher qu’une menace se propage à d’autres terminaux ou cause davantage de dommages à l’organisation.</p>"
                           }
                         }
                       ],
@@ -339,21 +339,21 @@
                     {
                       "id": "90c217d6-8863-48a3-b26e-649e0ea6bdb3",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Les actions de l’EDR sont paramétrées à l’avance.</p>",
+                      "instruction": "<p>Les actions de remédiation de l’EDR sont paramétrées à l’avance.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Exactement. L’EDR intègre des <strong>règles de détection et de réponses</strong> fournies par l’éditeur de l’EDR. L’équipe de sécurité peut ensuite les configurer en fonction des besoins et de la politique de sécurité de l’organisation. </p><p>Ces <strong>paramètres</strong> déterminent comment l’EDR doit réagir face à certaines situations.</p>"
+                            "diagnosis": "<p>Exactement. L’EDR intègre des <strong>règles de détection et de réponses</strong> fournies par l’éditeur de l’EDR. L’équipe de sécurité peut ensuite les configurer en fonction des besoins et de la politique de sécurité de l’organisation. </p><p>Ces <strong>paramètres</strong> déterminent comment l’EDR doit réagir face à certaines menaces potentielles.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! L’EDR intègre des <strong>règles de détection et de réponses</strong> fournies par l’éditeur de l’EDR. L’équipe de sécurité peut ensuite les configurer en fonction des besoins et de la politique de sécurité de l’organisation. </p><p>Ces <strong>paramètres</strong> déterminent comment l’EDR doit réagir face à certaines situations.</p>"
+                            "diagnosis": "<p>Eh non ! L’EDR intègre des <strong>règles de détection et de réponses</strong> fournies par l’éditeur de l’EDR. L’équipe de sécurité peut ensuite les configurer en fonction des besoins et de la politique de sécurité de l’organisation. </p><p>Ces <strong>paramètres</strong> déterminent comment l’EDR doit réagir face à certaines menaces potentielles.</p>"
                           }
                         }
                       ],
@@ -366,21 +366,21 @@
                     {
                       "id": "0498d0d5-98ca-49d1-b5dc-72889a4dd70c",
                       "type": "qcu-discovery",
-                      "instruction": "<p>L’EDR permet de supprimer ou d’empêcher automatiquement toutes les menaces.</p>",
+                      "instruction": "<p>L’EDR supprime automatiquement toutes les menaces détectées.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Pas toujours. Certaines actions peuvent être automatiques, tandis que d’autres nécessitent une <strong>validation ou une intervention humaine</strong>.</p><p>Très souvent, l’EDR n’agit pas et envoie simplement<strong> une alerte</strong> pour signaler l’incident à l’équipe de sécurité qui décidera des actions à entreprendre.</p>"
+                            "diagnosis": "<p>Pas toujours. Certaines actions de remédiation peuvent être automatiques, tandis que d’autres nécessitent une <strong>validation ou une intervention humaine</strong>.</p><p>Très souvent, l’EDR n’agit pas et envoie simplement<strong> une alerte</strong> pour signaler l’incident à l’équipe de sécurité qui décidera des actions de remédiation à entreprendre.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Exact. Certaines actions peuvent être automatiques, tandis que d’autres nécessitent une <strong>validation ou une intervention humaine</strong>.</p><p>Très souvent, l’EDR n’agit pas et envoie simplement<strong> une alerte</strong> pour signaler l’incident à l’équipe de sécurité qui décidera des actions à entreprendre.</p>"
+                            "diagnosis": "<p>Exact. Certaines actions de remédiation peuvent être automatiques, tandis que d’autres nécessitent une <strong>validation ou une intervention humaine</strong>.</p><p>Très souvent, l’EDR n’agit pas et envoie simplement<strong> une alerte</strong> pour signaler l’incident à l’équipe de sécurité qui décidera des actions de remédiation à entreprendre.</p>"
                           }
                         }
                       ],
@@ -428,7 +428,7 @@
                 "id": "ff93401e-a3d6-46c3-b6f0-5275f21bd1bc",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’EDR peut contenir une menace, mais son rôle ne s’arrête pas là. Il aide aussi l’équipe de sécurité à analyser un incident et à identifier les mesures de protection à renforcer.<br></p>"
+                "content": "<p>L’EDR peut bloquer ou alerter sur une menace, mais son rôle ne s’arrête pas là. Il aide aussi l’équipe de sécurité à analyser un incident et à identifier les mesures de protection à renforcer.<br></p>"
               }
             }
           ]
@@ -444,7 +444,7 @@
                 "id": "03e15a1b-70ef-4a4d-9089-f38be3c203e9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Lundi matin à 08h17, l’EDR d’une entreprise a détecté une activité suspecte sur le poste <code>LAPTOP-FIN-042</code>, utilisé par <code>pedro.pascal</code>. Suite à une alerte de l’EDR, l’équipe de sécurité consulte les informations enregistrées par l’EDR dans un rapport d’incident. </p><p><strong>Ouvrez et lisez le rapport d’incident de l’EDR puis complétez le texte qui suit.</strong></p><p><a href=\"https://docs.google.com/document/d/1VTtgXci4PaBA1PnNk8hNXwnKu-av7Z3eoOSZjtpmpZ8/edit?tab=t.d5j6brigikue\" target=\"_blank\">Rapport d’incident</a></p>"
+                "content": "<p>Suite à une alerte de l’EDR, l’équipe de sécurité consulte les informations enregistrées par l’EDR dans le rapport d’incident, pour comprendre le déroulé de l’incident.&nbsp;</p><p><strong>Ouvrez et lisez le rapport d’incident de l’EDR puis complétez le texte qui suit.</strong></p><p><a href=\"https://docs.google.com/document/d/1VTtgXci4PaBA1PnNk8hNXwnKu-av7Z3eoOSZjtpmpZ8/edit?tab=t.d5j6brigikue\" target=\"_blank\">Rapport d’incident</a></p>"
               }
             },
             {
@@ -456,7 +456,7 @@
                     {
                       "id": "7a92d499-a185-4803-a68a-e1c099e3c90c",
                       "type": "qrocm",
-                      "instruction": "<p>Pour chaque proposition, sélectionnez l’information du rapport qui permet à l’équipe de sécurité de comprendre le déroulé de l’incident.</p>",
+                      "instruction": "<p>Pour chaque proposition, sélectionnez l’information du rapport utile à l’équipe de sécurité.</p>",
                       "proposals": [
                         {
                           "type": "text",
@@ -637,7 +637,7 @@
                       "id": "badc5f3e-c00e-4489-8047-10f291b8e6ee",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>L’EDR est un outil au service de l’équipe de sécurité informatique.</strong></p><p>Grâce aux traces techniques collectées sur les terminaux — processus lancés, connexions réseau, fichiers modifiés ou commandes exécutées — l’équipe peut analyser un incident pour comprendre ce qu’il s’est passé.</p><p>L’équipe de sécurité peut ensuite décider d’autres actions pour <strong>renforcer la protection de l’organisation face à de futures attaques</strong>&nbsp;: ajuster les règles de détection ou de remédiation, ou encore sensibiliser les employés aux pratiques qui exposent l’organisation à un risque.</p>"
+                      "content": "<p><strong>L’EDR est un outil au service de l’équipe de sécurité informatique.</strong></p><p>Grâce aux traces techniques collectées sur les terminaux — processus lancés, connexions réseau, fichiers modifiés ou commandes exécutées — l’équipe peut analyser un incident pour comprendre ce qu’il s’est passé.</p><p>L’équipe de sécurité peut ensuite décider d’autres actions de remédiation pour <strong>renforcer la protection de l’organisation face à de futures attaques</strong>&nbsp;: ajuster les règles de détection ou de remédiation, ou encore sensibiliser les employés aux pratiques qui exposent l’organisation à un risque.</p>"
                     }
                   ]
                 },
@@ -702,11 +702,11 @@
               "element": {
                 "id": "aec349ca-af7e-439d-a574-251b67aa18b2",
                 "type": "qab",
-                "instruction": "<p>Pour chaque action, indiquez si elle correspond au rôle d’un EDR.</p>",
+                "instruction": "<p>Pour chaque action, indiquez si elle correspond ou non au rôle d’un EDR.</p>",
                 "cards": [
                   {
                     "id": "f3420e6c-74d3-4a0f-94ef-e534f5e5f598",
-                    "text": "Bloquer l’exécution d’un programme suspect",
+                    "text": "Bloquer l’exécution d’un programme suspect.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -789,7 +789,7 @@
                 "id": "7262aa22-aff3-4313-ab3d-6de697f4064f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Un employé ouvre une pièce jointe malveillante. Plus tard, un programme inconnu tente d’accéder à ses données. L’EDR détecte cette activité et un incident est enregistré.</p>"
+                "content": "<p>Un employé ouvre un fichier malveillant. Plus tard, l’EDR détecte une menace et un incident est enregistré</p><br>"
               }
             },
             {
@@ -805,7 +805,7 @@
                   "passwords": [
                     "Une activité suspecte est détectée sur un terminal.",
                     "L’EDR compare la situation détectée avec les règles définies par l’équipe de sécurité.",
-                    "L’EDR applique automatiquement l’action prévue par la règle (blocage, isolement, quarantaine, etc.).",
+                    "L’EDR applique automatiquement l’action de remédiation prévue par la règle (blocage, isolement, quarantaine, etc.).",
                     "L’équipe de sécurité analyse les informations enregistrées et décide d’éventuels ajustements.",
                     "Les règles de détection et de réponse sont ajustées pour réduire le risque d’incidents similaires."
                   ]
@@ -821,7 +821,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p>Pour chaque action, indiquez si elle relève&nbsp;: </p><ul><li>de la Détection,</li><li>de la Réponse,</li><li>ou de l’Équipe sécurité.</li></ul>",
+              "instruction": "<p>Pour chaque action, indiquez si elle relève&nbsp;: </p><ul><li>Détection par l’EDR</li><li>Réponse de l’EDR</li><li>Action de l’équipe de sécurité</li></ul>",
               "steps": [
                 {
                   "elements": [
@@ -829,11 +829,11 @@
                       "id": "6dbe12bd-4086-40a3-9fbf-fcdaaba368cb",
                       "type": "qcu",
                       "instruction": "<p>Déterminer l’origine probable d’une attaque.</p>",
-                      "hasShortProposals": true,
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Détection",
+                          "content": "<p>Détection par l’EDR</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
                             "diagnosis": "<p>Réessayez.</p>"
@@ -841,7 +841,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "Réponse",
+                          "content": "Réponse de l’EDR",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
                             "diagnosis": "<p>Réessayez.</p>"
@@ -849,7 +849,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "Équipe sécurité",
+                          "content": "Action de l’équipe de sécurité",
                           "feedback": {
                             "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>L’équipe sécurité analyse les traces enregistrées par l’EDR pour reconstituer le scénario et identifier l’origine probable de l’attaque.</p>"
@@ -866,11 +866,11 @@
                       "id": "89b6afde-6767-40a1-ab44-0c9cd2934009",
                       "type": "qcu",
                       "instruction": "<p>Isoler un terminal du réseau après la détection d’une menace.</p>",
-                      "hasShortProposals": true,
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Détection",
+                          "content": "Détection par l’EDR",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
                             "diagnosis": "<p>Réessayez.</p>"
@@ -878,15 +878,15 @@
                         },
                         {
                           "id": "2",
-                          "content": "Réponse",
+                          "content": "Réponse de l’EDR",
                           "feedback": {
                             "state": "<p>Bonne réponse !</p>",
-                            "diagnosis": "<p>Isoler un terminal est une action de rémédiation de l’EDR&nbsp;: elle sert à contenir la menace et limiter sa propagation.</p>"
+                            "diagnosis": "<p>Isoler un terminal est une action de remédiation de l’EDR&nbsp;: elle sert à contenir la menace et limiter sa propagation.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "Équipe sécurité",
+                          "content": "Action de l’équipe de sécurité",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
                             "diagnosis": "<p>Réessayez.</p>"
@@ -903,11 +903,11 @@
                       "id": "a4940bbb-41b7-46c2-983f-9c6e5529eb81",
                       "type": "qcu",
                       "instruction": "<p>Ajuster une règle de détection après un incident.</p>",
-                      "hasShortProposals": true,
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Détection",
+                          "content": "Détection par l’EDR",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
                             "diagnosis": "<p>Réessayez.</p>"
@@ -915,7 +915,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "Réponse",
+                          "content": "Réponse de l’EDR",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
                             "diagnosis": "<p>Réessayez.</p>"
@@ -923,7 +923,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "Équipe sécurité",
+                          "content": "Action de l’équipe de sécurité",
                           "feedback": {
                             "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>L’équipe sécurité ajuste les paramètres de l’EDR pour améliorer la détection d’une menace et renforcer la protection lors de futurs incidents.</p>"
@@ -940,11 +940,11 @@
                       "id": "2d2f5034-cf84-4374-a51c-bef543b5d52c",
                       "type": "qcu",
                       "instruction": "<p>Repérer une connexion réseau inhabituelle sur un terminal.</p>",
-                      "hasShortProposals": true,
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Détection",
+                          "content": "Détection par l’EDR",
                           "feedback": {
                             "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>L’EDR repère les comportements inhabituels sur les terminaux, comme une connexion réseau qui sort de l’ordinaire.</p>"
@@ -952,7 +952,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "Réponse",
+                          "content": "Réponse de l’EDR",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
                             "diagnosis": "<p>Réessayez.</p>"
@@ -960,7 +960,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "Équipe sécurité",
+                          "content": "Action de l’équipe de sécurité",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
                             "diagnosis": "<p>Réessayez.</p>"
@@ -977,11 +977,11 @@
                       "id": "6180a9a6-9b6c-4600-9f63-6e8267514b1a",
                       "type": "qcu",
                       "instruction": "<p>Sensibiliser les collaborateurs à une pratique à risque identifiée.</p>",
-                      "hasShortProposals": true,
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "Détection",
+                          "content": "Détection par l’EDR",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
                             "diagnosis": "<p>Réessayez.</p>"
@@ -989,7 +989,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "Réponse",
+                          "content": "Réponse de l’EDR",
                           "feedback": {
                             "state": "<p>Mauvaise réponse</p>",
                             "diagnosis": "<p>Réessayez.</p>"
@@ -997,7 +997,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "Équipe sécurité",
+                          "content": "Action de l’équipe de sécurité",
                           "feedback": {
                             "state": "<p>Bonne réponse !</p>",
                             "diagnosis": "<p>L’équipe sécurité peut sensibiliser les collaborateurs quand un incident révèle une pratique qui expose l’organisation à un risque.</p>"
@@ -1035,7 +1035,7 @@
                     "id": "1",
                     "content": "Des outils de sécurité comme l’EDR.",
                     "feedback": {
-                      "diagnosis": "<p>Oui, les outils comme l’EDR sont précieux&nbsp;:&nbsp;ils permettent de <strong>surveiller</strong>, <strong>détecter</strong> et parfois <strong>réagir automatiquement</strong>. Mais même les meilleurs outils ne remplacent pas les bons réflexes du quotidien.</p><p>Après avoir vu l’EDR, la détection et les actions de réponse, on comprend que la cybersécurité repose aussi sur <strong>la vigilance de chacun</strong>.</p>"
+                      "diagnosis": "<p>Oui, les outils comme l’EDR sont précieux&nbsp;:&nbsp;ils permettent de <strong>surveiller</strong>, <strong>détecter</strong> et parfois <strong>réagir automatiquement</strong>. Mais même les meilleurs outils ne remplacent pas les bons réflexes du quotidien.</p><p>Après avoir vu l’EDR, la détection et les actions de remédiation, on comprend que la cybersécurité repose aussi sur <strong>la vigilance de chacun</strong>.</p>"
                     }
                   },
                   {

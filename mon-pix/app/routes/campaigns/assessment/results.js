@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import ENV from 'mon-pix/config/environment';
 
 export default class ResultsRoute extends Route {
   @service currentUser;
@@ -7,6 +8,7 @@ export default class ResultsRoute extends Route {
   @service store;
   @service router;
   @service featureToggles;
+  @service requestManager;
 
   beforeModel(transition) {
     this.session.requireAuthenticationAndApprovedTermsOfService(transition);
@@ -35,6 +37,8 @@ export default class ResultsRoute extends Route {
         await this.currentUser.load();
       }
 
+      const hasAnsweredSurvey = campaign.recommendationEngine ? await this._hasAnsweredSurvey(campaign.id) : false;
+
       return {
         campaign,
         campaignParticipationResult,
@@ -42,11 +46,24 @@ export default class ResultsRoute extends Route {
         showTrainings: false,
         trainings,
         questResults,
+        hasAnsweredSurvey,
       };
     } catch (error) {
       if (error.errors?.[0]?.status === '412') {
         this.router.transitionTo('campaigns.entry-point', campaign.code);
       } else throw error;
+    }
+  }
+
+  async _hasAnsweredSurvey(campaignId) {
+    try {
+      const { content } = await this.requestManager.request({
+        url: `${ENV.APP.API_HOST}/api/campaigns/${campaignId}/has-answered-survey`,
+        method: 'GET',
+      });
+      return content.hasAnswered;
+    } catch {
+      return false;
     }
   }
 }

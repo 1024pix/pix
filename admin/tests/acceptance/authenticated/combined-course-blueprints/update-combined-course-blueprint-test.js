@@ -21,7 +21,12 @@ module('Acceptance | Combined course blueprint | Update', function (hooks) {
       file: 'parentalite.pdf',
       label: 'Parentalite',
     });
-    server.create('combined-course-blueprint', { id: 123, internalName: 'internal-name' });
+    server.create('combined-course-blueprint', {
+      id: 123,
+      internalName: 'internal-name',
+      attestationLabel: 'attestation',
+      rewardRequirements: 'oldRewardRequirements',
+    });
 
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
@@ -59,7 +64,15 @@ module('Acceptance | Combined course blueprint | Update', function (hooks) {
       'illustrations/hello.svg',
     );
 
-    await fillIn(screen.getByLabelText(t('components.combined-course-blueprints.labels.description')), 'description');
+    await fillIn(
+      screen.getByLabelText(t('components.combined-course-blueprints.labels.description-sublabel'), { exact: false }),
+      'description',
+    );
+    await fillIn(
+      screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
+      'New reward requirements',
+    );
+
     await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.update.updateButton') }));
 
     // then

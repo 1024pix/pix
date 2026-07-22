@@ -1,4 +1,4 @@
-import jsYaml from 'js-yaml';
+import { dump } from 'js-yaml';
 
 import { Answer } from '../../../evaluation/domain/models/Answer.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
@@ -85,7 +85,7 @@ function _adaptAnswerToDb(answer) {
     timeSpent: answer.timeSpent,
     isFocusedOut: answer.isFocusedOut,
     result: answerStatusDatabaseAdapter.toSQLString(answer.result),
-    resultDetails: jsYaml.dump(answer.resultDetails),
+    resultDetails: dump(answer.resultDetails),
   };
 }
 

@@ -15,8 +15,6 @@ import { AlgorithmEngineVersion } from './AlgorithmEngineVersion.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
-const ENGLISH_LOCALE = 'en';
-
 export const V3_CERTIFICATION_AVAILABLE_LOCALES = ['fr-fr', 'fr', 'en'];
 
 export class CertificationCourse {
@@ -159,10 +157,6 @@ export class CertificationCourse {
     });
   }
 
-  reportIssue(issueReport) {
-    this._certificationIssueReports.push(issueReport);
-  }
-
   rejectForFraud() {
     this._isRejectedForFraud = true;
   }
@@ -177,10 +171,6 @@ export class CertificationCourse {
 
   adjustForAccessibility(isAdjustmentNeeded) {
     this._isAdjustedForAccessibility = !!isAdjustmentNeeded;
-  }
-
-  isAdjustementNeeded() {
-    return this._isAdjustedForAccessibility;
   }
 
   abort(reason) {
@@ -265,14 +255,6 @@ export class CertificationCourse {
     return this._isPublished;
   }
 
-  doesBelongTo(userId) {
-    return this._userId === userId;
-  }
-
-  getAbortReason() {
-    return this._abortReason;
-  }
-
   getId() {
     return this._id;
   }
@@ -324,10 +306,8 @@ export class CertificationCourse {
     return AlgorithmEngineVersion.isV3(this._version);
   }
 
-  static isLanguageAvailableForV3Certification(candidateLanguage, { isEnglishEnabled = false } = {}) {
+  static isLanguageAvailableForV3Certification(candidateLanguage) {
     if (!candidateLanguage) return false;
-
-    if (candidateLanguage === ENGLISH_LOCALE && !isEnglishEnabled) return false;
 
     return V3_CERTIFICATION_AVAILABLE_LOCALES.includes(candidateLanguage);
   }

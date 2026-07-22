@@ -27,7 +27,7 @@ function escapeFileName(fileName) {
  */
 function extractUserIdFromRequest(request) {
   if (request.headers && request.headers.authorization) {
-    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
+    const token = tokenService.extractTokenFromAuthorizationHeader(request.headers.authorization);
     return tokenService.extractUserId(token);
   }
   return null;

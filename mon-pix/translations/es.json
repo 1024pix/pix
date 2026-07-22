@@ -764,6 +764,7 @@
         "disconnect": "Desconectar mi cuenta",
         "disconnect-tip": "Si no es tu ordenador, recuerda desconectarte.",
         "ended-by-invigilator": "El supervisor ha dado por terminada la prueba de certificación. Ya no puedes continuar respondiendo a las preguntas.",
+        "ended-due-to-duration-exceeded": "Se ha superado la duración máxima para responder a tu prueba de certificación. Ya no puedes continuar respondiendo a las preguntas.",
         "ended-due-to-finalization": "Tu centro de certificación ha finalizado la sesión. Ya no puedes continuar respondiendo a las preguntas.",
         "remote-certification": "Si estás realizando tu certificación Pix de forma remota, asegúrate de desconectarte de la herramienta de supervisión una vez que hayas finalizado la prueba.",
         "title": "¡Prueba finalizada!"
@@ -887,7 +888,7 @@
         },
         "language-not-supported": "La certificación Pix aún no está disponible en {userLanguage}. '<br>' Los idiomas disponibles actualmente para la certificación son: {availableLanguages}. '<br>' Puedes elegir otro idioma en la página",
         "language-not-supported-link": "Mi cuenta",
-        "missing-center-habilitation": "No puedes unirte a la sesión. El centro de certificación no está autorizado para realizar esta certificación.",
+        "missing-center-habilitation": "Estás inscrito en la certificación {subscription}. '<br><br><strong>'Tu centro de certificación ya no está autorizado para realizar esta certificación'</strong>'. '<br><br>' Por favor, ponte en contacto con tu supervisor.",
         "session-not-accessible": "La sesión a la que intentas unirte ya no está disponible.",
         "wrong-account": "La información introducida corresponde a un candidato registrado en la sesión y que ya está conectado con otra cuenta. Comprueba que te has conectado con la cuenta que inició la certificación.",
         "wrong-account-sco": "Actualmente estás utilizando una cuenta que no está vinculada a tu centro. Conéctate a la cuenta con la que completaste tus test o pide ayuda al supervisor.",
@@ -963,6 +964,7 @@
         "access-code-error": "Este código no existe o ya no es válido.",
         "candidate-not-authorized-to-resume": "Ponte en contacto con el supervisor para que autorice la reanudación de tu examen.",
         "candidate-not-authorized-to-start": "El supervisor no ha confirmado tu presencia en la sala de prueba. Por lo tanto, aún no puedes empezar la prueba de certificación. Por favor, informa al vigilante.",
+        "duration-exceeded": "Se ha superado la duración máxima de tu prueba de certificación. Ya no puedes reanudarla.",
         "generic": "Acaba de producirse un error inesperado en el servidor.",
         "missing-code": "No has introducido tu código de acceso.",
         "session-not-accessible": "La sesión de certificación ya no está disponible.",
@@ -977,8 +979,7 @@
         "options": {
           "english": "inglés - EN",
           "french": "francés - FR"
-        },
-        "warning-message": "Debido a un problema técnico, la Certificación Pix no está disponible temporalmente en inglés. Nos disculpamos por las molestias ocasionadas."
+        }
       },
       "link-to-user-certification": "Ver mis certificaciones",
       "non-eligible-subscription": "No eres elegible para {subscriptionLabel}. Sin embargo, puedes presentarte a la certificación Pix.",
@@ -2252,6 +2253,50 @@
       },
       "not-finished": "Todavía no puedes enviar tus resultados, aún tenemos algunas preguntas para ti.",
       "recommended-engine": {
+        "drawer": {
+          "content-relevance-form": {
+            "attractiveness": {
+              "legend": "Evalúa el atractivo de los contenidos, de poco atractivos 1 a atractivos 5",
+              "max-label": "Atractivos",
+              "min-label": "Poco atractivos"
+            },
+            "comment-text": {
+              "label": "Comentario opcional",
+              "placeholder": "Comentario (opcional)"
+            },
+            "legend": "Los contenidos recomendados son…",
+            "personalization": {
+              "legend": "Evalúa la personalización de los contenidos, de genéricos 1 a personalizados 5",
+              "max-label": "Personalizados",
+              "min-label": "Genéricos"
+            },
+            "score-aria-label": "{score} de 5",
+            "subtitle": "¿Y si vamos más allá…?",
+            "title": "¡Gracias por tu opinión!",
+            "usefulness": {
+              "legend": "Evalúa la utilidad de los contenidos, de poco útiles 1 a útiles 5",
+              "max-label": "Útiles",
+              "min-label": "Poco útiles"
+            }
+          },
+          "emojis": {
+            "dissatisfied": "No pertinente",
+            "neutral": "No tengo opinión",
+            "satisfied": "Pertinente",
+            "very-dissatisfied": "Para nada pertinente",
+            "very-satisfied": "Muy pertinente"
+          },
+          "error-message": "Se produjo un error al enviar tu respuesta.",
+          "hide": "Ocultar",
+          "hide-aria-label": "Ocultar el panel de comentarios de las recomendaciones de contenidos formativos",
+          "instruction": "Haz clic en un emoji para dar tu opinión.",
+          "statement": "¿Te parecen pertinentes estos contenidos formativos para profundizar tus conocimientos?",
+          "thank-you": {
+            "subtitle": "¡Misión cumplida!",
+            "title": "¡Gracias por tu opinión!"
+          },
+          "title": "Comentarios sobre la recomendación de contenido formativo"
+        },
         "modal": {
           "actions": {
             "discover-module": "Iniciar el módulo",
@@ -2260,7 +2305,8 @@
           "duration": "Duración",
           "editor-name": "Propuesto por: ",
           "feedback": {
-            "question": "¿Es relevante esta propuesta?"
+            "question": "¿Es relevante esta propuesta?",
+            "success-message": "¡Gracias por su opinión!"
           },
           "localisation": "Localización",
           "objectives": "Objetivos",
@@ -2285,7 +2331,7 @@
           }
         },
         "trainings": {
-          "description": "Se recomienda en función de tu progreso para ayudarte a reforzar tus habilidades y avanzar más, en el momento adecuado.",
+          "description": "Las soluciones que se muestran a continuación se te recomiendan en función de tu nivel.",
           "title": "Ve más allá, a tu propio ritmo."
         }
       },

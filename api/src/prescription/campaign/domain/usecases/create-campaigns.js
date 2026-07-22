@@ -7,7 +7,7 @@ const createCampaigns = withTransaction(async function ({
   campaignAdministrationRepository,
   accessCodeRepository,
   campaignCreatorRepository,
-  codeGenerator,
+  accessCodeGenerator,
   userRepository,
   organizationRepository,
 }) {
@@ -16,7 +16,9 @@ const createCampaigns = withTransaction(async function ({
     await _checkIfOwnerIsExistingUser(userRepository, campaign.ownerId);
     await _checkIfOrganizationExists(organizationRepository, campaign.organizationId);
 
-    const generatedCampaignCode = await codeGenerator.generate(accessCodeRepository);
+    const generatedCampaignCode = await accessCodeGenerator.generateAvailableAccessCode((code) =>
+      accessCodeRepository.isCodeAvailable({ code }),
+    );
     const campaignCreator = await campaignCreatorRepository.get(campaign.organizationId);
 
     const campaignToCreate = await campaignCreator.createCampaign(

@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { PreviousCampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/PreviousCampaignParticipation.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { constants } from '../../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function () {
@@ -44,7 +43,6 @@ describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function
     beforeEach(function () {
       now = new Date('2020-01-07T05:06:07Z');
       clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(4);
 
       baseProps = {
         id: 1,

@@ -121,7 +121,7 @@ export default class OrganizationCreationForm extends Component {
   };
 
   <template>
-    <form class="admin-form" {{on "submit" this.handleSubmit}}>
+    <form {{on "submit" this.handleSubmit}}>
       <p class="admin-form__mandatory-text">
         {{t "common.forms.mandatory-fields" htmlSafe=true}}
       </p>

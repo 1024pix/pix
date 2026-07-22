@@ -1,3 +1,4 @@
+import { authenticationSessionService } from '../../../../identity-access-management/domain/services/authentication-session.service.js';
 import * as obfuscationService from '../../../../identity-access-management/domain/services/obfuscation-service.js';
 import * as passwordGenerator from '../../../../identity-access-management/domain/services/password-generator.service.js';
 import * as userService from '../../../../identity-access-management/domain/services/user-service.js';
@@ -11,7 +12,7 @@ import { userToCreateRepository } from '../../../../identity-access-management/i
 import * as organizationFeaturesAPI from '../../../../organizational-entities/application/api/organization-features-api.js';
 import { tagRepository } from '../../../../organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as libOrganizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import * as combinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-course-repository.js';
+import * as combinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
 import * as questRepository from '../../../../quest/infrastructure/repositories/quest-repository.js';
 import { cryptoService } from '../../../../shared/domain/services/crypto-service.js';
 import { tokenService } from '../../../../shared/domain/services/token-service.js';
@@ -35,6 +36,7 @@ import * as groupRepository from '../../../campaign/infrastructure/repositories/
 import * as campaignParticipationOverviewRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as prescriptionOrganizationLearnerRepository from '../../../learner-management/infrastructure/repositories/organization-learner-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as analysisRepository from '../../infrastructure/repositories/analysis-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';
@@ -46,6 +48,7 @@ import * as supOrganizationParticipantRepository from '../../infrastructure/repo
 
 const dependencies = {
   analysisRepository,
+  authenticationSessionService,
   divisionRepository,
   cryptoService,
   emailValidationDemandRepository,
@@ -72,7 +75,6 @@ const dependencies = {
   combinedCourseRepository,
   tagRepository,
   userService,
-  userReconciliationService,
   authenticationMethodRepository,
   userRepository,
   lastUserApplicationConnectionsRepository,
@@ -84,6 +86,7 @@ const dependencies = {
   tokenService,
   passwordValidator,
   writeCsvUtils,
+  userReconciliationService,
 };
 
 import { getCampaignParticipationStatistics } from '../../../campaign-participation/domain/usecases/get-campaign-participation-statistics.js';
@@ -139,6 +142,6 @@ const usecasesWithoutInjectedDependencies = {
   unblockOrganizationLearnerAccount,
   updateOrganizationLearnerDependentUserPassword,
 };
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

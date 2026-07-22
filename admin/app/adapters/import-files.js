@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class ImportFilesAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   importCampaignsToArchive(files) {
     if (!files || files.length === 0) return;
 

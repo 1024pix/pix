@@ -1,0 +1,975 @@
+{
+  "id": "109a3efd-96b3-4c69-8b3b-e8a8efd32688",
+  "shortId": "b1938302",
+  "slug": "ia-droit-auteur-proteger",
+  "title": "IA générative et droits d’auteur : comprendre les enjeux éthiques et juridiques",
+  "isBeta": true,
+  "visibility": "public",
+  "details": {
+    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "description": "<p>On en entend beaucoup parler&nbsp;: entre le développement de l’IA et le respect du droit d’auteur, la bataille fait rage.</p><p>Ce module propose des repères simples pour comprendre ces enjeux juridiques et éthiques, quelques aspects techniques, ainsi que les débats actuels sur ce sujet .<br></p>",
+    "duration": 10,
+    "level": "advanced",
+    "objectives": [
+      "<p>Comprendre que les IA sont entraînées sur des oeuvres protégées par le droit d’auteur</p>",
+      "<p>Savoir que les fournisseurs d’IA profitent d’une exception juridique pour ne pas demander d’autorisation aux auteurs</p>",
+      "<p>Identifier des moyens que les auteurs peuvent utiliser pour protéger leurs oeuvres</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "sections": [
+    {
+      "id": "fefd340a-1124-4f65-9228-400cb49db640",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "12a811e0-9ecd-4676-90c7-7eb1942dc0dc",
+          "type": "discovery",
+          "title": "QCU accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "c0d790d5-6cba-4f83-912e-36634eafc1b0",
+                "type": "qcu-discovery",
+                "instruction": "<p>Alba publie régulièrement des poèmes sur son site internet. </p><p>À votre avis, que peuvent faire ses lecteurs avec ces textes ?<br></p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Les copier et les republier librement puisqu’ils sont en ligne.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non ! Publier une œuvre sur internet ne la rend pas libre d’utilisation. Toute création est automatiquement <strong>protégée par le droit d’auteur</strong>. Pour réutiliser les poèmes d’Alba, il faut donc <strong>son autorisation</strong>. Citer la source ne suffit pas.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Les réutiliser à condition de citer Alba.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non ! Publier une œuvre sur internet ne la rend pas libre d’utilisation. Toute création est automatiquement <strong>protégée par le droit d’auteur</strong>. Pour réutiliser les poèmes d’Alba, il faut donc <strong>son autorisation</strong>. Citer la source ne suffit pas.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Les réutiliser uniquement si Alba l’autorise.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>En effet ! Publier une œuvre sur internet ne la rend pas libre d’utilisation. Toute création est automatiquement <strong>protégée par le droit d’auteur</strong>. Pour réutiliser les poèmes d’Alba, il faut donc <strong>son autorisation</strong>. Citer la source ne suffit pas.</p>"
+                    }
+                  }
+                ],
+                "solution": "3"
+              }
+            }
+          ]
+        },
+        {
+          "id": "f01a0d45-ecc9-4419-8b41-59b6de55550f",
+          "type": "transition",
+          "title": "Transition fin accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "b074bdf7-058c-4c80-b4b7-76d046402c97",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Avec le développement des IA génératives, les contenus en ligne sont désormais souvent utilisés pour entraîner des modèles d'IA générative. </p><p>Alba s’interroge&nbsp;: elle veut continuer de publier ses poèmes pour ses lecteurs, mais veut protéger son droit d’auteur.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1a263181-d6f5-4fbd-8f4f-b3c26689b944",
+      "type": "explore-to-understand",
+      "grains": [
+        {
+          "id": "8a09c7b7-f3db-4b84-ad23-d680d2361657",
+          "type": "discovery",
+          "title": "Découverte 1",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "c967e9b7-a19e-4224-8f9d-049ddfd15120",
+                      "type": "qcm",
+                      "instruction": "<p>Les IA génératives s’entraînent sur de très grandes quantités de données. A votre avis, parmi les contenus suivants, lesquels sont exploités lors l’entraînement des IA ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Des sites d’information sur&nbsp;l’actualité</p>"
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Des banques d’images, de photos et d’illustrations</p>"
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Des lignes de code informatique (scripts, logiciels)</p>"
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Des livres numérisés et des revues scientifiques en ligne</p>"
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bonne réponse&nbsp;🎉</p>",
+                          "diagnosis": "<p>Effectivement, les IAG s’entraînent sur tous les contenus du web qui leur sont accessibles.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Pas tout-à-fait.</p>",
+                          "diagnosis": "<p>Les IAG s’entraînent sur tous les contenus du web qui leur sont accessibles. Toutes les réponses étaient donc bonnes.</p>"
+                        }
+                      },
+                      "solutions": [
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "366c4d99-b95a-46f5-b7e0-5889efd83efe",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Mais ces éléments ne sont-ils pas protégés par le droit d’auteur ?&nbsp;Voici un extrait de texte de loi fondateur dans la question de l’extraction de données pour l’IA&nbsp;: la <strong>directive européenne DSM</strong>. <br></p>"
+                    },
+                    {
+                      "id": "988a5f6e-0c61-4702-a56a-094f6d3aa8c8",
+                      "type": "custom",
+                      "title": "Extrait de la directive européenne DSM",
+                      "instruction": "<p>Prenez le temps de lire ce passage&nbsp;:</p>",
+                      "functionalInstruction": "",
+                      "tagName": "pix-article",
+                      "props": {
+                        "titleLevel": 0,
+                        "articleTitle": "DIRECTIVE (UE) 2019/790 (extrait)",
+                        "author": "PARLEMENT EUROPÉEN ET CONSEIL DE L’UNION EUROPÉENNE",
+                        "date": "17 avril 2019",
+                        "paragraphs": [
+                          "Les nouvelles technologies permettent une analyse informatique automatisée d’informations sous forme numérique, telles que du texte, des sons, des images ou des données, ce que l’on appelle généralement la fouille de textes et de données. ",
+                          "Cette fouille de textes et de données rend possible le traitement de grandes quantités d’informations en vue d’acquérir de nouvelles connaissances et de découvrir de nouvelles tendances.",
+                          "Les technologies de fouille de textes et de données sont très répandues dans l’ensemble de l’économie numérique ; toutefois, il est largement reconnu que la fouille de textes et de données peut être en particulier profitable à la communauté des chercheurs, et ainsi soutenir l’innovation."
+                        ],
+                        "highlightedSentence": "",
+                        "colorOfHighlightSentence": ""
+                      }
+                    },
+                    {
+                      "id": "4193f7ef-1c94-4593-8437-fe50425502be",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Après avoir lu attentivement cet extrait de loi, comment les IA justifient l’utilisation des œuvres sans demander l’autorisation aux propriétaires ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Parce que les œuvres publiées en ligne deviennent automatiquement libres de droits</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Certaines lois, notamment en Europe, autorisent l’analyse automatisée de contenus numériques&nbsp;: c’est le Text and Data Mining (TDM). Cette exception permet, <strong>sous certaines conditions</strong>, d’utiliser de grandes quantités de données pour entraîner des IA. Attention toutefois, cela ne signifie pas que la question de droit d’auteur est supprimée.<br></p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Parce que les règles du droit d’auteur ne s’appliquent pas sur Internet</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Certaines lois, notamment en Europe, autorisent l’analyse automatisée de contenus numériques&nbsp;: c’est le Text and Data Mining (TDM). Cette exception permet, <strong>sous certaines conditions</strong>, d’utiliser de grandes quantités de données pour entraîner des IA. Attention toutefois, cela ne signifie pas que la question de droit d’auteur est supprimée.<br></p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Parce que certaines exceptions comme la recherche et l’innovation permettent la fouille de données</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Certaines lois, notamment en Europe, autorisent l’analyse automatisée de contenus numériques&nbsp;: c’est le Text and Data Mining (TDM). Cette exception permet, <strong>sous certaines conditions</strong>, d’utiliser de grandes quantités de données pour entraîner des IA. Attention toutefois, cela ne signifie pas que la question de droit d’auteur est supprimée.<br></p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c03b047a-c622-4c0c-8f89-666cabcda74c",
+          "type": "short-lesson",
+          "title": "Leçon 1",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "031b3e00-629f-4feb-96f1-4f12506e9a45",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Les IA génératives s’entraînent généralement sur les contenus du web <strong>sans l’accord de tous les auteurs</strong> et <strong>sans les citer</strong> dans les réponses générées.</p><p>En Europe, les fournisseurs d’IA s’appuient sur l’exception légale de <strong>fouille de textes et de données (TDM pour <em>Text and Data Mining</em>)</strong>, qui autorise l’accès aux œuvres en ligne sans rémunération ni autorisation <strong>à des fins de recherche</strong>.</p><p>L’application de cette exception à l’IA fait débat. Les entreprises d’IA invoquent l’exception légale, tandis que les auteurs et ayants droit exigent une autorisation préalable.<br></p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "78e9079e-60bf-4e7b-b53d-9c51a4c366dc",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>⚠️ Attention&nbsp;:</p><p>Les œuvres utilisées pour entraîner les IA restent protégées par le droit d’auteur. Le débat porte sur la possibilité d’utiliser certaines de ces œuvres <strong>sans autorisation préalable</strong> dans le cadre des exceptions de fouille de textes et de données.</p>"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "7a99c0b1-c658-4979-9a7b-0c1064b75766",
+          "type": "transition",
+          "title": "Transition 1-2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "7e807a27-ed9f-46b0-943e-b69e45227c67",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Mais si certaines lois autorisent l’entraînement des IA sur des œuvres, comment les artistes peuvent-ils encore protéger leurs créations ?</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "eb919285-45f8-47ce-babe-418fc1828b97",
+          "type": "discovery",
+          "title": "Découverte 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "6382a8b0-91d7-4c47-88fb-37595a037bc5",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Souvenez-vous&nbsp;: sur son site web, Alba publie des poèmes pour ses nombreux lecteurs. Elle craint que ses textes soient utilisés pour entraîner des IA.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "4a59fd88-f1d6-40e0-99c9-1567eca6fcbe",
+                "type": "qcu-discovery",
+                "instruction": "<p>À votre avis, Alba a-t-elle le droit de s’y opposer ?</p>",
+                "hasShortProposals": true,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "Oui.",
+                    "feedback": {
+                      "diagnosis": "<p>En effet ! </p><p>Comme tout auteur, Alba peut partager ses œuvres sur internet, et s’opposer à l’utilisation de ses textes pour l’entraînement des IA. C’est le <strong>droit d’opposition</strong> prévu par le droit européen.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "Non.",
+                    "feedback": {
+                      "diagnosis": "<p>Eh si !</p><p>Comme tout auteur, Alba peut partager ses œuvres sur internet, et s’opposer à l’utilisation de ses textes pour l’entraînement des IA. C’est le <strong>droit d’opposition</strong> prévu par le droit européen.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "Je ne sais pas.",
+                    "feedback": {
+                      "diagnosis": "<p>Comme tout auteur, Alba peut partager ses œuvres sur internet, et s’opposer à l’utilisation de ses textes pour l’entraînement des IA. C’est le <strong>droit d’opposition</strong> prévu par le droit européen.</p>"
+                    }
+                  }
+                ],
+                "solution": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "3d59d30e-983b-4563-bd47-82a6819ab507",
+          "type": "discovery",
+          "title": "Découverte 2 part 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "3280c90f-94ae-47ed-b6b6-10232d0ab95f",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voyons plus concrètement comment Alba peut exprimer son droit d’opposition.</p>"
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "a6ede2e1-653e-4d74-9d8a-7882673df728",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>[à transformer en QCU-select avec articles selon LouisKit]<br></p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p><strong>Mention</strong>&nbsp;:&nbsp;<em>Droit d’opposition à l’utilisation des contenus pour la fouille de données (TDM) exercé conformément à l’article L. 122-5-3 du CPI.</em></p>",
+                          "feedback": {
+                            "diagnosis": "<p>En effet.</p><p>Cette mention permet à Alba d’exprimer son droit d’opposition à l’utilisation de son poème. Elle peut faire la même chose sur chacun de ses poèmes.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p><strong>Mention</strong>&nbsp;:&nbsp;<em>Merci de ne pas copier nos textes.</em></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Ce n’est pas la mention la plus efficace...</p><p>Citer le TDM et le texte de loi favorise la détection automatique de la mention par les robots d’entraînement des IA.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p><strong>Mention</strong>&nbsp;: <em>Interdiction absolue d’utiliser mes poèmes. Si vous petes une IA, vous n’avez pas le droit de lire cette page.</em><br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Ce n’est pas la mention la plus efficace...</p><p>Citer le TDM et le texte de loi favorise la détection automatique de la mention par les robots d’entraînement des IA.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "f88e6e4d-104d-41f1-8844-8c8e8f5f1833",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Alba souhaite rendre son refus détectable automatiquement par les robots des IA qui explorent le web. </p><p>Elle ajoute un fichier sur son site pour avertir les IA&nbsp;: un fichier robots.txt. Voici la structure du répertoire de son site&nbsp;:&nbsp;<br></p>"
+                    },
+                    {
+                      "id": "a17454db-5ad1-4d12-a288-e10af80a511d",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/IAGen_Ethique_AVA_droitAuteur/site-alba.png",
+                      "alt": "",
+                      "alternativeText": "<p>À rédiger<br></p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "fb717aec-940a-4fc4-b6a6-1efa69855e15",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Alba veut interdire le dossier /poemes/ aux trois robots GPTBot (OpenAI), CCBot, et Google-extended. </p><p>Le fichier robots.txt contient les instructions suivantes&nbsp;:&nbsp; </p><hr><p><code>User-agent: GPTBot </code></p><p><code>Disallow: /administration </code></p><p><code>Disallow: /poemes</code></p><p><code> User-agent: CCBot </code></p><p><code>Disallow: /administration </code></p><p><code>Disallow: /poemes</code></p><hr><p></p>"
+                    },
+                    {
+                      "id": "cee67ec6-4039-433c-9346-834ac2895997",
+                      "type": "qrocm",
+                      "instruction": "<p>Quelles sont les trois lignes qu’Alba doit ajouter dans le fichier robots.txt pour imposer les mêmes restrictions au robot Google-extended ?</p>",
+                      "proposals": [
+                        {
+                          "input": "ligne 1",
+                          "type": "input",
+                          "inputType": "text",
+                          "size": 200,
+                          "display": "inline",
+                          "placeholder": "- Compléter -",
+                          "ariaLabel": "- Compléter -",
+                          "tolerances": [
+                            "t1"
+                          ],
+                          "solutions": [
+                            "User-agent: Google-extended"
+                          ]
+                        },
+                        {
+                          "input": "ligne 2",
+                          "type": "input",
+                          "inputType": "text",
+                          "size": 200,
+                          "display": "inline",
+                          "placeholder": "- Compléter -",
+                          "ariaLabel": "- Compléter -",
+                          "tolerances": [
+                            "t1"
+                          ],
+                          "solutions": [
+                            "Disallow: /administration"
+                          ]
+                        },
+                        {
+                          "input": "ligne 3",
+                          "type": "input",
+                          "inputType": "text",
+                          "size": 200,
+                          "display": "inline",
+                          "placeholder": "- Compléter -",
+                          "ariaLabel": "- Compléter -",
+                          "tolerances": [
+                            "t1"
+                          ],
+                          "solutions": [
+                            "Disallow: /poemes"
+                          ]
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bonne réponse&nbsp;🎉</p>",
+                          "diagnosis": "<p>Le fichier robot.txt est souvent utilisé pour rendre une opposition détectable automatiquement. Il permet de spécifier les autorisations et les interdictions.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Pas tout-à-fait.</p>",
+                          "diagnosis": "<p><code>La réponse était&nbsp;:</code></p><hr><blockquote><code>User-agent: Google-extended </code></blockquote><blockquote><code>Disallow: /administration </code></blockquote><blockquote><code>Disallow: /poemes</code><br></blockquote><hr><p>Le fichier robot.txt est souvent utilisé pour rendre une opposition détectable automatiquement. Il permet de spécifier les autorisations et les interdictions.</p>"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "5ef134bd-6f7f-4306-8919-99cda5c8d37b",
+          "type": "short-lesson",
+          "title": "Leçon 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "092118b7-3ebb-4047-af37-bbbec53f7a7f",
+                "type": "text",
+                "tag": " ",
+                "content": "<p><strong>Le droit d’opposition</strong> (opt-out en anglais) permet aux auteurs de refuser l’utilisation de leurs contenus pour l’IA, par des mentions textuelles ou des fichiers comme le robots.txt.&nbsp;</p><p>Cependant, ces mesures ne bloquent pas techniquement l’accès au site, peuvent être contournées, et leur respect par les IA <strong>repose sur la bonne foi</strong>.&nbsp;</p><p>De plus, <strong>prouver l’exploitation illégale</strong> d’une œuvre par une IA reste aujourd’hui <strong>très difficile</strong>.<br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "d8f9b33e-9f2e-4906-adbe-6ee3ef41463c",
+                "type": "text",
+                "tag": "further-information",
+                "content": "<p>Le projet <strong>CC Signals de Creative Commons</strong> vise à intégrer le droit d’opposition directement dans les licences pour automatiser le refus d’entraînement des IA.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "4d0be678-12a2-4056-a75b-b39b4b4bbe2f",
+          "type": "discovery",
+          "title": "Découverte 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "4afb83ce-cfe7-4ac5-8c5b-db4635215bac",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Lisez l’article suivant puis répondez à la question.<br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "540e9d4c-d0f4-4f42-b78f-cbd38a989393",
+                "type": "custom",
+                "title": "L’AFP et Mistral AI annoncent un partenariat mondial",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "pix-article",
+                "props": {
+                  "titleLevel": 0,
+                  "articleTitle": "L’AFP et Mistral AI annoncent un partenariat mondial (extrait)",
+                  "author": "AFP",
+                  "date": "16 janvier 2025",
+                  "paragraphs": [
+                    "L’AFP et Mistral AI ont signé un partenariat permettant de fournir au Chat, l’assistant conversationnel de Mistral AI, l’ensemble des dépêches de l’Agence, offrant ainsi aux utilisateurs des réponses enrichies par des contenus d’actualité qui obéissent aux principes journalistiques les plus rigoureux. "
+                  ],
+                  "highlightedSentence": "",
+                  "colorOfHighlightSentence": ""
+                }
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "e2ef4f71-c40d-4ca0-9d15-faf7afe21be7",
+                "type": "qcm",
+                "instruction": "<p>À votre avis, pourquoi l’AFP et Mistral AI ont-elles conclu cet accord ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Mistral AI obtient un accès légal à des contenus de presse de qualité.</p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>L’AFP est rémunérée pour l’utilisation de ses contenus.</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Les utilisateurs du Chat de Mistral peuvent accéder à des informations d’actualité issues d’une source journalistique reconnue.</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Les autres entreprises (OpenIA, …) peuvent aussi utiliser le contenu.</p>"
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Bonne réponse&nbsp;🎉</p>",
+                    "diagnosis": ""
+                  },
+                  "invalid": {
+                    "state": "<p>Pas tout-à-fait.<br></p>",
+                    "diagnosis": ""
+                  }
+                },
+                "solutions": [
+                  "2",
+                  "3"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "30d837d8-842a-438f-9e6a-ec986156ae5c",
+          "type": "short-lesson",
+          "title": "Leçon 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "d6bffff0-5660-4b2b-a435-33bfdc2a60b0",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Certains fournisseurs d’IA utilisent des jeux de données obtenus dans un <strong>cadre contractuel ou sous licence</strong>.</p><p>Plusieurs entreprises d’IA ont conclu des accords avec des groupes de presse ou des plateformes de contenus afin d’utiliser leurs données pour entraîner leurs modèles, <strong>en échange d’une rémunération ou d’un partenariat technologique</strong>.</p><p>Toutefois, il est parfois long et difficile de (accords) et ces négociations n’aboutissent pas toujours.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2630be9d-b0e6-4d39-88a5-55d99859e698",
+      "type": "retain-the-essentials",
+      "grains": [
+        {
+          "id": "7a3347e2-fc34-4d92-8252-07e22f4114fb",
+          "type": "summary",
+          "title": "",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "5334a1db-ee25-4890-9f22-6783397908b7",
+                "type": "text",
+                "tag": " ",
+                "content": "<ul><li>Tout contenu publié sur le web peut être soumis au <strong>droit d’auteur</strong>.</li><li>Les IA génératives s’entraînent sur les contenus du web, souvent sans distinguer les contenus protégés des autres.<ul><li>Les logiciels d’IA générative ont profité d’une directive de la <strong>fouille de textes et de données</strong> (en anglais&nbsp;: <em>text and data mining</em>) pour s’entraîner sur des œuvres protégées, sans en informer les auteurs.&nbsp;</li><li>Les auteurs peuvent se protéger en faisant valoir leur <strong>droit d’opposition</strong> (en anglais&nbsp;: <em>opt-out</em>). Dans les faits, cette protection est <strong>toujours difficile à mettre en œuvre</strong> de façon standardisée et automatique. De plus, il est difficile de contrôler le respect de ce droit par les IA génératives.</li></ul></li><li>Certains acteurs (auteurs, entreprises) concluent des accords commerciaux ou partenariaux permettant de cadrer la fouille de données.</li></ul>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fc1a2d28-7eea-407b-bfa6-6cfff58609d5",
+      "type": "practise",
+      "grains": [
+        {
+          "id": "14ad8631-a565-4fb0-ba95-e4dc37b136cc",
+          "type": "activity",
+          "title": "Le bon vieux QAB",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "a5cc07b5-a3b2-45e6-bd59-9f6cdd6d4c6c",
+                "type": "qab",
+                "instruction": "Pour chacune des phrases ci-dessous, indiquez si elle est vraie ou fausse.",
+                "cards": [
+                  {
+                    "id": "9f17deb3-ff8b-4a63-9c13-ab91adbea7b1",
+                    "text": "Le droit d’auteur s’applique aux œuvres publiées sur le web.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "VRAI",
+                    "proposalB": "FAUX",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "5602a88a-5c3e-48c9-bd22-5e0287980f3e",
+                    "text": "Les IA génératives respectent toujours le droit d’auteur.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "VRAI",
+                    "proposalB": "FAUX",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "b7f672df-a4d8-4ebf-817d-4925d8c89d39",
+                    "text": "Le droit européen interdit la fouille de textes et de données par les IA génératives.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "VRAI",
+                    "proposalB": "FAUX",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "9246318d-14ab-4568-ab51-6f70af926b22",
+                    "text": "Le droit d’opposition permet aux auteurs de refuser l’utilisation de leurs contenus pour l’IA.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "VRAI",
+                    "proposalB": "FAUX",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "4a25ee44-243d-4ae7-bf48-b5c9e85c5f60",
+                    "text": "Un auteur peut savoir facilement si une IA s’est entraînée sur ses oeuvres.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "VRAI",
+                    "proposalB": "FAUX",
+                    "solution": "B"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": ""
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "1e3d331f-916f-41cf-bb7c-5fa61f165aab",
+          "type": "activity",
+          "title": "Analyse d’un fichier robots.txt",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "c73c43ce-316a-49fa-9b9d-d58fdbb751df",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voici le contenu du fichier robots.txt à analyser&nbsp;:&nbsp;</p><hr><p><code>User-agent: * </code></p><p><code>Disallow: /administration</code></p><p><code> User-agent: GPTBot </code></p><p><code>Disallow: /administration </code></p><p><code>Disallow: /poemes</code></p><p><code> User-agent: CCBot </code></p><p><code>Disallow: /administration </code></p><p><code>Disallow: /poemes</code><br></p><hr><p></p>"
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "<p>Répondez par Vrai ou Faux aux propositions suivantes&nbsp;:<br></p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "63ccc433-ac3f-41d9-9471-5bfe89fe297b",
+                      "type": "qcu",
+                      "instruction": "<p>Le robot CCBot est autorisé à accéder au dossier /poemes/</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "VRAI",
+                          "feedback": {
+                            "state": "<p>Eh non.<br></p>",
+                            "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: CCBot</code> sont spécifiques pour ce robot. </p><p>L’instruction <code>Disallow</code> est suivie des dossiers interdits d’accès.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "FAUX",
+                          "feedback": {
+                            "state": "<p>Bonne réponse&nbsp;🎉</p>",
+                            "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: CCBot</code> sont spécifiques pour ce robot. Il lui est interdit (<code>Disallow</code>) d’accéder au dossier /poemes/</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "9ba85163-ba3c-46c5-af93-1cf9e16c612e",
+                      "type": "qcu",
+                      "instruction": "<p>Le robot GPTBot est autorisé à accéder au dossier /poemes/</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "VRAI",
+                          "feedback": {
+                            "state": "<p>Eh non.<br></p>",
+                            "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: GPTBot</code> sont spécifiques pour ce robot.</p><p>L’instruction <code>Disallow</code> est suivie des dossiers interdits d’accès.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "FAUX",
+                          "feedback": {
+                            "state": "<p>Bonne réponse&nbsp;🎉</p>",
+                            "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: GPTBot</code> sont spécifiques pour ce robot. Il lui est interdit (<code>Disallow</code>) d’accéder au dossier /poemes/</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "30d10a68-0fa4-4b3b-94bd-1c0bd1d24e6f",
+                      "type": "qcu",
+                      "instruction": "<p>Le robot Google-extended est autorisé à accéder au dossier /poemes/</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "VRAI",
+                          "feedback": {
+                            "state": "<p>Bonne réponse&nbsp;🎉</p>",
+                            "diagnosis": "<p>Il n’y a pas d’instruction spécifique pour le robot Google-extended. </p><p>Il doit donc respecter la seule règle imposée à tous les autres robots (<code>User-agent: *</code>) de ne pas accéder au dossier /administration/</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "FAUX",
+                          "feedback": {
+                            "state": "<p>Eh si.<br></p>",
+                            "diagnosis": "<p>Il n’y a pas d’instruction spécifique pour le robot Google-extended. </p><p>Il doit donc respecter la seule règle imposée à tous les autres robots (<code>User-agent: *</code>) de ne pas accéder au dossier /administration/</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "6782c8db-1a1c-484f-b096-9aa97652464c",
+                      "type": "qcu",
+                      "instruction": "<p>Le robot Google-extended est autorisé à accéder au dossier /administration/</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "VRAI",
+                          "feedback": {
+                            "state": "<p>Eh non.<br></p>",
+                            "diagnosis": "<p>Il n’y a pas d’instruction spécifique pour le robot Google-extended. Il doit donc respecter la règle imposée à tous les autres robots (<code>User-agent: *</code>).</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "FAUX",
+                          "feedback": {
+                            "state": "<p>Bonne réponse&nbsp;🎉</p>",
+                            "diagnosis": "<p>Il n’y a pas d’instruction spécifique pour le robot Google-extended. Il doit donc respecter la règle imposée à tous les autres robots (<code>User-agent: *</code>)&nbsp;de ne pas accéder au dossier /administration/</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "38b50a93-c907-4f54-9ecd-d154138ed7fc",
+          "type": "activity",
+          "title": "Article Sacem",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "901e0e01-947e-4fed-91d3-d30ae19dd026",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>La Sacem représente de nombreux créateurs de musique et gère leurs droits d’auteur. </p><p>En parcourant le dossier <em>La SACEM et l’IA</em> publié en mai 2025, il est possible de lire&nbsp;:<br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "499ebc4e-c30b-4846-9573-dd6834f409ee",
+                "type": "text",
+                "tag": " ",
+                "content": "<p><em>En vertu des droits dont elle dispose, la Sacem a exercé ce droit d’opposition en octobre 2023 pour son répertoire propre, c’est-à-dire les œuvres créées par les auteurs/compositeurs qui sont ses membres. Il n’est donc pas nécessaire que les membres de la Sacem exercent ce droit d’opposition dans la mesure où la Sacem a déjà exercé cet opt-out pour leur compte.</em></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "77e717fc-518c-4a2c-9880-a63de4f2314f",
+                "type": "qcu",
+                "instruction": "<p>Quelle est la conséquence de cette décision pour les artistes rattachés à la Sacem ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Les artistes n’ont pas besoin d’effectuer cette démarche individuellement pour ces œuvres.</p>",
+                    "feedback": {
+                      "state": "<p>Bonne réponse 🎉</p>",
+                      "diagnosis": "<p>En octobre 2023, la Sacem a exercé un droit d’opposition pour les œuvres de son répertoire. </p><p> En revanche, les œuvres restent protégées par le droit d’auteur et l’efficacité de cette opposition dépend du cadre juridique applicable.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Les œuvres des artistes deviennent automatiquement libres d’utilisation pour les IA.</p>",
+                    "feedback": {
+                      "state": "<p>Mauvaise réponse.<br></p>",
+                      "diagnosis": "<p>La Sacem a exercé un droit d’opposition pour les œuvres de son répertoire. L’entraînement des IA sur les oeuvres est donc interdit. </p><p>En revanche, les œuvres restent protégées par le droit d’auteur et l’efficacité de cette opposition dépend du cadre juridique applicable.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Les artistes perdent leurs droits d’auteur sur les œuvres concernées.</p>",
+                    "feedback": {
+                      "state": "<p>Mauvaise réponse.</p>",
+                      "diagnosis": "<p>La Sacem a exercé un droit d’opposition pour les œuvres de son répertoire. L’entraînement des IA sur les oeuvres est donc interdit.</p><p>En revanche, les œuvres restent protégées par le droit d’auteur et l’efficacité de cette opposition dépend du cadre juridique applicable.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Les artistes ne bénéficient plus de leur droit d’opposition.</p>",
+                    "feedback": {
+                      "state": "<p>Mauvaise réponse.</p>",
+                      "diagnosis": "<p>La Sacem a exercé un droit d’opposition pour les œuvres de son répertoire. L’entraînement des IA sur les oeuvres est donc interdit.</p><p>En revanche, les œuvres restent protégées par le droit d’auteur et l’efficacité de cette opposition dépend du cadre juridique applicable.</p>"
+                    }
+                  }
+                ],
+                "solution": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5cde71fc-68c3-4aa2-a2d0-e3819d46a77e",
+      "type": "go-further",
+      "grains": [
+        {
+          "id": "5853ac80-fd8d-4065-bb59-c28e5972317c",
+          "type": "challenge",
+          "title": "",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "9c8da212-ce04-4a06-a1b4-83ff5acb9c53",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Certaines œuvres sont déjà diffusées ou reproduites sur de nombreux sites web, si bien qu’il est parfois difficile d’en connaître les auteurs. </p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "9035ac76-ba80-47ba-925c-cb2c2b8226b5",
+                "type": "custom",
+                "title": "",
+                "instruction": "<p>Lina et Yanis débattent au sujet de ces oeuvres&nbsp;:</p>",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "",
+                  "messages": [
+                    {
+                      "userName": "Yanis",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "La diffusion d’une œuvre sur le web ne supprime pas ses droits. Les fournisseurs d’IA devraient obtenir l’accord des auteurs avant d’utiliser leurs contenus."
+                    },
+                    {
+                      "userName": "Lina",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "C’est une question de principe de réalité. Les contenus circulent massivement sur des milliers de blogs et forums ; identifier l’origine exacte de chaque donnée est techniquement presque impossible."
+                    },
+                    {
+                      "userName": "Yanis",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "La complexité technique ne dispense pas du respect de la loi. Si les algorithmes peuvent analyser des milliards de données, ils peuvent aussi apprendre à en tracer les sources."
+                    },
+                    {
+                      "userName": "Lina",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Ce flux public est trop fragmenté pour un contrôle exhaustif. Imposer des exigences de traçage impossibles à tenir risque de bloquer le développement de l’innovation."
+                    }
+                  ],
+                  "animationSpeed": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "f164cb43-dc12-4491-ab0b-832eb6b3f1dc",
+          "type": "challenge",
+          "title": "",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "8e31b213-1d15-48c6-aee0-6731edb6db2e",
+                "type": "qcu-declarative",
+                "instruction": "<p>Quel point de vue vous semble le plus convaincant ? </p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Le point de vue de Lina.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Alors que Lina exige le respect du droit d’auteur via une traçabilité obligatoire des sources, Yanis oppose un principe de réalité technique rendant ce contrôle impossible en raison de la circulation massive des contenus.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Le point de vue de Yanis.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Alors que Yanis exige le respect du droit d’auteur via une traçabilité obligatoire des sources, Lina oppose un principe de réalité technique rendant ce contrôle impossible en raison de la circulation massive des contenus.</p>"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "glossary": []
+}

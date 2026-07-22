@@ -15,6 +15,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
   let userLoginRepository;
   let authenticationMethodRepository;
   let lastUserApplicationConnectionsRepository;
+  let authenticationSessionService;
   let samlSettings;
   const audience = 'https://app.pix.fr';
   const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
@@ -32,6 +33,10 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       findOneByUserIdAndIdentityProvider: sinon.stub(),
       updateLastLoggedAtByIdentityProvider: sinon.stub(),
       update: sinon.stub(),
+    };
+
+    authenticationSessionService = {
+      generateSessionId: sinon.stub().returns('random-session-id'),
     };
 
     samlSettings = {
@@ -107,7 +112,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
 
       sinon
         .stub(UserAccessToken, 'generateSamlUserToken')
-        .withArgs({ userId: 1, audience })
+        .withArgs({ userId: 1, sessionId: 'random-session-id', audience })
         .returns({ accessToken: 'access-token' });
 
       // when
@@ -118,6 +123,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userLoginRepository,
         authenticationMethodRepository,
         lastUserApplicationConnectionsRepository,
+        authenticationSessionService,
         config: samlSettings,
         requestedApplication,
       });
@@ -149,6 +155,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userLoginRepository,
         authenticationMethodRepository,
         lastUserApplicationConnectionsRepository,
+        authenticationSessionService,
         config: samlSettings,
         requestedApplication,
       });
@@ -192,6 +199,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLoginRepository,
           authenticationMethodRepository,
           lastUserApplicationConnectionsRepository,
+          authenticationSessionService,
           config: samlSettings,
           requestedApplication,
         });
@@ -230,6 +238,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLoginRepository,
           authenticationMethodRepository,
           lastUserApplicationConnectionsRepository,
+          authenticationSessionService,
           config: samlSettings,
           requestedApplication,
         });
@@ -267,6 +276,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLoginRepository,
           authenticationMethodRepository,
           lastUserApplicationConnectionsRepository,
+          authenticationSessionService,
           config: samlSettings,
           requestedApplication,
         });
@@ -304,6 +314,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLoginRepository,
           authenticationMethodRepository,
           lastUserApplicationConnectionsRepository,
+          authenticationSessionService,
           config: samlSettings,
           requestedApplication,
         });

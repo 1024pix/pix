@@ -3,8 +3,8 @@ import lodash from 'lodash';
 
 import { createServer } from '../../../../../server.js';
 import { ORGANIZATIONS_UPDATE_HEADER } from '../../../../../src/organizational-entities/domain/constants.js';
-import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -1693,6 +1693,37 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       const response = await server.inject(options);
 
       // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('POST /api/admin/organizations/{id}/detach-certification-center', function () {
+    it('should detach a certification center from a given organization and return http code 204', async function () {
+      // given
+      const server = await createServer();
+
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
+        certificationCenterId: certificationCenterId,
+      });
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'POST',
+        url: `/api/admin/organizations/${organization.id}/detach-certification-center`,
+        headers: generateAuthenticatedUserRequestHeaders({
+          userId: superAdmin.id,
+        }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const organizationFactStructure = await knex('fct_structures')
+        .where({ organization_id: organization.id })
+        .first();
+      expect(organizationFactStructure.certification_center_id).to.be.null;
       expect(response.statusCode).to.equal(204);
     });
   });

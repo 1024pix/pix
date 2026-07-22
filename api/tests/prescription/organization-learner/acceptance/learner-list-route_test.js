@@ -55,16 +55,39 @@ describe('Acceptance | Application | learner-list-route', function () {
     it('should return a list of organization learners', async function () {
       //given
       const superAdminId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ externalId: 'ABC123' }).id;
       const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildOrganizationLearner({ firstName: 'Annie', organizationId });
-      databaseBuilder.factory.buildOrganizationLearner({ firstName: 'Annie-Marie', organizationId });
-      databaseBuilder.factory.buildOrganizationLearner({ firstName: 'Simon', organizationId });
-      databaseBuilder.factory.buildOrganizationLearner({ firstName: 'Annie', organizationId: otherOrganizationId });
+      databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Annie',
+        organizationId,
+        birthdate: '2000-01-01',
+      });
+      databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Annie-Marie',
+        organizationId,
+        birthdate: '2001-01-01',
+      });
+      databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Annie-Marie',
+        organizationId,
+        isDisabled: true,
+      });
+      databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Simon',
+        organizationId,
+      });
+      databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Annie',
+        organizationId: otherOrganizationId,
+      });
       await databaseBuilder.commit();
 
       const params =
-        '?filter[fullName]=Annie' + '&page[number]=1&page[size]=25' + `&filter[organizationId]=${organizationId}`;
+        '?filter[fullName]=Annie' +
+        '&page[number]=1&page[size]=25' +
+        `&filter[organizationExternalId]=Abc123` +
+        `&filter[hideDisabled]=true` +
+        '&sort[birthdateSort]=desc';
       const request = {
         method: 'GET',
         url: `/api/admin/organization-learners${params}`,
@@ -77,6 +100,8 @@ describe('Acceptance | Application | learner-list-route', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.length).to.equal(2);
       expect(response.result.data[0].type).to.equal('admin-organization-learners');
+      expect(response.result.data[0].attributes['first-name']).to.be.equal('Annie-Marie');
+      expect(response.result.data[1].attributes['first-name']).to.be.equal('Annie');
     });
   });
 

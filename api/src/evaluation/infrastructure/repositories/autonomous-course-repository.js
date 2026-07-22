@@ -1,4 +1,4 @@
-import { constants } from '../../../shared/domain/constants.js';
+import { config } from '../../../shared/config.js';
 import { AutonomousCourse } from '../../domain/models/AutonomousCourse.js';
 
 /**
@@ -6,27 +6,27 @@ import { AutonomousCourse } from '../../domain/models/AutonomousCourse.js';
  * @param {CampaignApi} campaignApi
  * @returns {Promise<number>} returns the created campaign id
  */
-const save = async function ({ autonomousCourse, campaignApi }) {
+export async function save({ autonomousCourse, campaignApi }) {
   const { id } = await campaignApi.save({
     name: autonomousCourse.internalTitle,
     title: autonomousCourse.publicTitle,
     targetProfileId: autonomousCourse.targetProfileId,
-    organizationId: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+    organizationId: config.autonomousCourse.autonomousCoursesOrganizationId,
     creatorId: autonomousCourse.ownerId,
     customLandingPageText: autonomousCourse.customLandingPageText,
   });
 
   return id;
-};
+}
 
-const update = async function ({ autonomousCourse, campaignApi }) {
+export async function update({ autonomousCourse, campaignApi }) {
   return await campaignApi.update({
     campaignId: autonomousCourse.campaignId,
     name: autonomousCourse.internalTitle,
     title: autonomousCourse.publicTitle,
     customLandingPageText: autonomousCourse.customLandingPageText,
   });
-};
+}
 
 /**
  * @typedef AutonomousCourse
@@ -47,7 +47,7 @@ function _toDomain(AutonomousCourseDTO) {
   return new AutonomousCourse(AutonomousCourseDTO);
 }
 
-async function get({ autonomousCourseId, campaignApi }) {
+export async function get({ autonomousCourseId, campaignApi }) {
   const autonomousCourse = await campaignApi.get(autonomousCourseId);
 
   const autonomousCourseDTO = {
@@ -69,11 +69,10 @@ async function get({ autonomousCourseId, campaignApi }) {
  * @param {CampaignApi} campaignApi prescription campaign API
  * @returns {Promise<{autonomousCourses: Array<CampaignListItem>, meta: { page: number, pageSize: number, rowCount: number, pageCount: number} }>} returns a paginated list of autonomous courses
  */
-const findAllPaginated = async function ({ page, campaignApi }) {
+export async function findAllPaginated({ page, campaignApi }) {
   const { models: autonomousCourses, meta } = await campaignApi.findAllSummariesForOrganization({
-    organizationId: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+    organizationId: config.autonomousCourse.autonomousCoursesOrganizationId,
     page,
   });
   return { autonomousCourses, meta };
-};
-export { findAllPaginated, get, save, update };
+}

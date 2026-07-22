@@ -7,6 +7,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import formatDate from 'ember-intl/helpers/format-date';
 import sortBy from 'lodash/sortBy';
 import { DescriptionList } from 'pix-admin/components/ui/description-list';
 import ENV from 'pix-admin/config/environment';
@@ -105,6 +106,15 @@ export default class InformationView extends Component {
         </:label>
         <:value>
           {{@certificationCenter.dataProtectionOfficerEmail}}
+        </:value>
+      </DescriptionList.ItemWithHTMLElement>
+
+      <DescriptionList.ItemWithHTMLElement>
+        <:label>
+          {{t "pages.certification-centers.information-view.list.createdAt"}}
+        </:label>
+        <:value>
+          {{formatDate @certificationCenter.createdAt}}
         </:value>
       </DescriptionList.ItemWithHTMLElement>
 

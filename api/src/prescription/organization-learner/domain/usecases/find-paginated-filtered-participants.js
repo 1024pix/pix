@@ -1,4 +1,4 @@
-import { ORGANIZATION_FEATURE } from '../../../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../shared/constants.js';
 
 const findPaginatedFilteredParticipants = async function ({
   organizationId,

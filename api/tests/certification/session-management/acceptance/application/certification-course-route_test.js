@@ -42,15 +42,23 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         server = await createServer();
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
 
-        const versionId = databaseBuilder.factory.buildCertificationVersion({
-          scope: 'CORE',
-          startDate: new Date('2019-01-01'),
-          expirationDate: null,
-          challengesConfiguration: {
-            maximumAssessmentLength: 10,
-            defaultCandidateCapacity: -3,
-          },
-        }).id;
+        const versionId = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('2019-01-01') })
+          .withParameters({
+            scope: 'CORE',
+            tubeIds: ['tubeA'],
+            challengesConfiguration: {
+              maximumAssessmentLength: 10,
+              challengesBetweenSameCompetence: 2,
+              limitToOneQuestionPerTube: true,
+              enablePassageByAllCompetences: true,
+              variationPercent: 0.5,
+              defaultCandidateCapacity: -3,
+              defaultProbabilityToPickChallenge: 51,
+            },
+          })
+          .insertToDB({ databaseBuilder }).id;
 
         databaseBuilder.factory.buildCertificationCpfCountry({
           code: '99100',
@@ -71,10 +79,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
           versionId,
         });
         certificationCourseId = certificationCourse.id;
-
-        databaseBuilder.factory.buildCoreSubscription({
-          certificationCandidateId: candidate.id,
-        });
 
         options = {
           headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
@@ -163,7 +167,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         });
 
         const { assessment, assessmentResult } = await createSuccessfulCertificationCourse({
-          candidateId,
           userId,
           certificationCourse,
         });
@@ -210,16 +213,33 @@ describe('Certification | Session Management | Acceptance | Application | Routes
           version: 3,
         });
 
-        const versionId = databaseBuilder.factory.buildCertificationVersion({
-          startDate: new Date('2018-12-01T01:02:03Z'),
-          competencesScoringConfiguration: [
-            {
-              competence: '1.1',
-              competenceId: 'competenceId',
-              values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+        const versionId = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('2018-12-01T01:02:03Z') })
+          .withRealisticScoringConfigurations()
+          .withParameters({
+            scope: 'CORE',
+            tubeIds: ['tubeA'],
+            challengesConfiguration: {
+              maximumAssessmentLength: 32,
+              challengesBetweenSameCompetence: 2,
+              limitToOneQuestionPerTube: true,
+              enablePassageByAllCompetences: true,
+              variationPercent: 0.5,
+              defaultCandidateCapacity: -3,
+              defaultProbabilityToPickChallenge: 51,
             },
-          ],
-        }).id;
+            competencesScoringConfiguration: [
+              {
+                competence: '1.1',
+                competenceId: 'competenceId',
+                values: [
+                  { bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
+                ],
+              },
+            ],
+          })
+          .insertToDB({ databaseBuilder }).id;
 
         const candidateId = databaseBuilder.factory.buildCertificationCandidate({
           sessionId: session.id,
@@ -235,7 +255,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         });
 
         const { assessment, assessmentResult } = await createSuccessfulCertificationCourse({
-          candidateId,
           userId,
           certificationCourse,
         });
@@ -277,16 +296,32 @@ describe('Certification | Session Management | Acceptance | Application | Routes
     it('should create a new unrejected AssessmentResult', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
-      const versionId = databaseBuilder.factory.buildCertificationVersion({
-        minimumAnswersRequiredToValidateACertification: 1,
-        competencesScoringConfiguration: [
-          {
-            competence: '1.1',
-            competenceId: 'competenceId',
-            values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+      const versionId = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('1977-10-19') })
+        .withRealisticScoringConfigurations()
+        .withParameters({
+          scope: 'CORE',
+          tubeIds: ['tubeA'],
+          minimumAnswersRequiredToValidateACertification: 1,
+          challengesConfiguration: {
+            maximumAssessmentLength: 32,
+            challengesBetweenSameCompetence: 2,
+            limitToOneQuestionPerTube: true,
+            enablePassageByAllCompetences: true,
+            variationPercent: 0.5,
+            defaultCandidateCapacity: -3,
+            defaultProbabilityToPickChallenge: 51,
           },
-        ],
-      }).id;
+          competencesScoringConfiguration: [
+            {
+              competence: '1.1',
+              competenceId: 'competenceId',
+              values: [{ bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 }],
+            },
+          ],
+        })
+        .insertToDB({ databaseBuilder }).id;
       const session = databaseBuilder.factory.buildSession({
         finalizedAt: new Date('2018-12-01T01:02:03Z'),
         version: AlgorithmEngineVersion.V3,
@@ -307,7 +342,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       });
 
       const { assessment, assessmentResult } = await createSuccessfulCertificationCourse({
-        candidateId,
         userId,
         certificationCourse,
       });
@@ -416,15 +450,18 @@ describe('Certification | Session Management | Acceptance | Application | Routes
     let server;
 
     beforeEach(async function () {
-      const versionId = databaseBuilder.factory.buildCertificationVersion({
-        scope: 'CORE',
-        startDate: new Date('2020-01-01'),
-        expirationDate: null,
-        challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({
-          maximumAssessmentLength: 10,
-          defaultCandidateCapacity: -3,
-        }),
-      }).id;
+      const versionId = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2020-01-01') })
+        .withParameters({
+          scope: 'CORE',
+          tubeIds: ['tubeA'],
+          challengesConfiguration: domainBuilder.buildFlashAlgorithmConfiguration({
+            maximumAssessmentLength: 10,
+            defaultCandidateCapacity: -3,
+          }),
+        })
+        .insertToDB({ databaseBuilder }).id;
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const session = databaseBuilder.factory.buildSession();
@@ -441,7 +478,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         versionId,
       });
       ({ certificationChallenges, assessmentResult } = await createSuccessfulCertificationCourse({
-        candidateId,
         userId: superAdmin.id,
         certificationCourse,
       }));

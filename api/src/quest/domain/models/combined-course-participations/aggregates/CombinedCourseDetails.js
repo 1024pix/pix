@@ -64,6 +64,10 @@ export class CombinedCourseDetails extends CombinedCourse {
     return this.#participation !== null;
   }
 
+  get hasReward() {
+    return Boolean(this.quest.rewardId);
+  }
+
   get campaignIds() {
     return this.quest.successRequirements
       .filter((requirement) => requirement.requirement_type === TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS)
@@ -101,6 +105,7 @@ export class CombinedCourseDetails extends CombinedCourse {
       nbCampaignsCompleted: this.items.filter(
         ({ isCompleted, type }) => isCompleted && type === COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
       ).length,
+      rewardStatus: this.reward?.status,
     });
   }
 

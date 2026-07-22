@@ -153,10 +153,6 @@
                           "content": "<p>la génération de gaz à effet de serre</p>"
                         },
                         {
-                          "id": "2",
-                          "content": "<p>la production de déchets toxiques</p>"
-                        },
-                        {
                           "id": "3",
                           "content": "<p>la pénurie de métaux et de ressources précieuses</p>"
                         },
@@ -177,7 +173,6 @@
                       },
                       "solutions": [
                         "1",
-                        "2",
                         "3",
                         "4"
                       ]
@@ -366,13 +361,13 @@
                       "id": "0ac5c76d-8698-40bf-9b6c-fd815931686c",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo choisit d’illustrer la page d’accueil du site web avec une vidéo plutôt qu’avec une photo.</p>"
+                      "content": "<p>Malo choisit d<strong>’illustrer la page</strong> d’accueil du site web <strong>avec une vidéo</strong> plutôt qu’avec une photo.</p>"
                     },
                     {
                       "id": "7fb2c32e-586d-4a88-ad50-368a2292ae97",
                       "type": "custom",
                       "title": "",
-                      "instruction": "Comment évolue la sollicitation des serveurs ?",
+                      "instruction": "<p>Comment évolue la sollicitation des serveurs avec l’illustration vidéo ?</p>",
                       "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
@@ -409,13 +404,13 @@
                       "id": "74fcdfad-ef31-48c6-be27-03c06cbc28f2",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo choisit de compresser les images présentes sur le site.</p>"
+                      "content": "<p>Malo choisit de<strong> compresser les images </strong>présentes sur le site.</p>"
                     },
                     {
                       "id": "f19dfdcb-c777-4448-ab61-29b0a212e489",
                       "type": "custom",
                       "title": "",
-                      "instruction": "Comment évolue la sollicitation des serveurs ?",
+                      "instruction": "<p>Comment évolue la sollicitation des serveurs avec la compression des images ?</p>",
                       "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
@@ -452,13 +447,13 @@
                       "id": "523a1d70-ea60-498a-be0a-554d14e2907c",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo choisit d’activer la lecture automatique des vidéos, c’est-à-dire qu’à la fin d’une vidéo, une autre est lancée automatiquement sans action de l’utilisateur.</p>"
+                      "content": "<p>Malo choisit d’<strong>activer la lecture automatique</strong> des vidéos, c’est-à-dire qu’à la fin d’une vidéo, une autre est lancée automatiquement sans action de l’utilisateur.</p>"
                     },
                     {
                       "id": "3e486e8b-cca0-45c5-b022-b40574eeb8bc",
                       "type": "custom",
                       "title": "",
-                      "instruction": "Comment évolue la sollicitation des serveurs ?",
+                      "instruction": "<p>Comment évolue la sollicitation des serveurs avec l’activation de la lecture automatique ?</p>",
                       "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
@@ -495,13 +490,13 @@
                       "id": "420482f8-f04b-441a-a8ed-9146b4787a71",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Malo se rend compte que le forum du site web a très peu d’activité.<br>Comme le forum est peu utilisé, Malo décide de le supprimer.</p>"
+                      "content": "<p>Malo se rend compte que <strong>le forum</strong> du site web a très peu d’activité.<br>Comme le forum est peu utilisé, Malo décide de le <strong>supprimer</strong>.</p>"
                     },
                     {
                       "id": "14580542-77e4-454a-9dea-991225bf4c73",
                       "type": "custom",
                       "title": "",
-                      "instruction": "Comment évolue la sollicitation des serveurs ?",
+                      "instruction": "<p>Comment évolue la sollicitation des serveurs avec la suppression du forum ?</p>",
                       "functionalInstruction": "",
                       "tagName": "pix-cursor",
                       "props": {
@@ -561,7 +556,7 @@
                       "id": "d6f9a801-28d5-4b2e-80c5-95e1ab4abaa1",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>On appelle pratiques d’<strong>éco-conception</strong> l’ensemble des pratiques visant à <strong>réduire l’empreinte environnementale</strong>&nbsp;tout au long du cycle de vie d’un logiciel ou d’un produit&nbsp;: conception, développement, utilisation et fin de vie.</p>"
+                      "content": "<p>On appelle pratiques d’<strong>écoconception</strong> l’ensemble des pratiques visant à <strong>réduire l’empreinte environnementale</strong>&nbsp;tout au long du cycle de vie d’un logiciel ou d’un produit&nbsp;: conception, développement, utilisation et fin de vie.</p>"
                     }
                   ]
                 },
@@ -571,7 +566,7 @@
                       "id": "b2328855-4a62-4909-b3cd-dd89682f43c2",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Mais ces pratiques d’éco-conception sont-elles appliquées ?</h5><p> Elles sont encore peu utilisées. Cependant, la prise de conscience progresse&nbsp;: de récents labels et référentiels poussent les entreprises à s’y intéresser.<br></p>"
+                      "content": "<h5>Mais ces pratiques d’écoconception sont-elles appliquées ?</h5><p> Elles sont encore peu utilisées. Cependant, la prise de conscience progresse&nbsp;: de récents labels et référentiels poussent les entreprises à s’y intéresser.<br></p>"
                     }
                   ]
                 }
@@ -792,13 +787,17 @@
                       "id": "75e9088f-97d4-45de-8631-5a84e7399b08",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Alors, comment inciter les entreprises du numérique à adopter des pratiques plus vertueuses ?</h5><p>La <strong>loi </strong>joue un rôle important pour encourager ces changements de pratiques.&nbsp;<br>Depuis 2019, un <strong>règlement de l’Union européenne</strong> définit des exigences d’<strong>éco-conception</strong> applicables aux exploitants de <strong>centres de données</strong>.&nbsp;♻️</p>"
-                    },
+                      "content": "<h5>Alors, comment inciter les entreprises du numérique à adopter des pratiques plus vertueuses ?</h5><p>La <strong>loi </strong>joue un rôle important pour encourager ces changements de pratiques.&nbsp;<br>Depuis 2019, un <strong>règlement de l’Union européenne</strong> définit des exigences d’<strong>écoconception</strong> applicables aux exploitants de <strong>centres de données</strong>.&nbsp;♻️</p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
                     {
-                      "id": "331b8252-cd22-4713-af75-212a5b912302",
-                      "type": "expand",
-                      "title": "💡 Et en France ?",
-                      "content": "<p>En France, depuis 2021, la <strong>loi sur la Réduction de l’Empreinte Environnementale du Numérique (REEN)</strong> vise également à inciter les <strong>centres de données </strong>à être moins consommateurs en leur accordant la réduction d’une taxe s’ils respectent des <strong>critères environnementaux</strong>.</p>"
+                      "id": "f1515320-10ae-434b-9d5e-ff8b677b6a62",
+                      "type": "text",
+                      "tag": "further-information",
+                      "content": "<p><strong>En France</strong>, depuis 2021, <strong>la loi</strong> sur la Réduction de l’Empreinte Environnementale du Numérique (<strong>REEN</strong>) vise également à inciter les centres de données à être moins consommateurs en leur accordant la réduction d’une taxe s’ils respectent des critères environnementaux.</p>"
                     }
                   ]
                 }
@@ -1006,7 +1005,7 @@
                 "id": "d041ad34-1d9a-444c-816f-c42313619932",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Faites défiler les 4 exemples de sites web ci-dessous puis répondez à la question.<br></p>",
+                "instruction": "<p>Faites défiler les 4 situations ci-dessous puis répondez à la question.<br></p>",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
@@ -1018,7 +1017,7 @@
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_eco_conception_1.png",
-                        "alt": "Le moteur de recherche de TrouveTout fait appel à de l’Intelligence artificielle."
+                        "alt": "Le moteur de recherche de TrouveTout fait appel à de l’intelligence artificielle."
                       },
                       "license": {
                         "name": "",
@@ -1041,12 +1040,12 @@
                       }
                     },
                     {
-                      "title": "Toutes les pages de RecetteSuzette sont statiques.",
+                      "title": "Les pages du site RecetteSuzette ne contiennent pas d’animation.",
                       "description": "",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/NR_Datacenter_Ava/nr_datacenter_ava_eco_conception_3.png",
-                        "alt": "Toutes les pages de RecetteSuzette sont statiques, sans animation."
+                        "alt": "Les pages du site RecetteSuzette ne contiennent pas d’animation."
                       },
                       "license": {
                         "name": "",
@@ -1082,24 +1081,24 @@
               "element": {
                 "id": "b040a865-2b7f-4729-958b-bad07815a8b5",
                 "type": "qcm",
-                "instruction": "<p>Parmi les exemples de sites web, lesquels respectent des pratiques d’éco-conception ?</p>",
+                "instruction": "<p>Parmi ces situations, lesquelles respectent des pratiques d’écoconception ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "TrouveTout"
+                    "content": "<p>la situation avec TrouveTout</p>"
                   },
                   {
                     "id": "2",
-                    "content": "PixVidéo"
+                    "content": "<p>la situation avec PixVidéo</p>"
                   },
                   {
                     "id": "3",
-                    "content": "RecetteSuzette"
+                    "content": "<p>la situation avec RecetteSuzette</p>"
                   },
                   {
                     "id": "4",
-                    "content": "Youpix"
+                    "content": "<p>la situation avec Youpix</p>"
                   }
                 ],
                 "feedbacks": {
@@ -1250,7 +1249,7 @@
                           "id": "3",
                           "content": "<p>Mettre en valeur les effets positifs de la création de centres de données au Mexique.</p>",
                           "feedback": {
-                            "state": "<p>Tout à fait !</p>",
+                            "state": "<p>Tout à fait !</p>",
                             "diagnosis": "<p>Cet article insiste uniquement sur le positif. Cet article est grandement inspiré de la communication officielle des géants de la technologie (<a href=\"https://local.microsoft.com/fr/communities/americas/mexico/\">source</a>). </p>"
                           }
                         }

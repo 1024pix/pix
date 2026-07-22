@@ -33,7 +33,7 @@
                 "id": "0b01a30b-508d-4f7c-b3bd-f9bbf732070c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Lisez les deux versions du même texte ci-dessous, puis répondez à la question</strong>.</p><br>\n<p><strong>[élément interactif à venir]</strong></p>\n<p><br>Texte A&nbsp;:&nbsp;</p>\n<p>Réunion d’équipe. Demain, une réunion est prévue à 10 h dans la salle principale pour présenter le nouveau projet. Tous les membres de l’équipe sont invités à y participer. La réunion durera environ une heure. Merci d’arriver quelques minutes en avance pour faciliter l’organisation.</p>\n<p><br>Texte B&nbsp;: </p>\n<h5>Réunion d’équipe </h5>\n<p>Demain, une réunion est prévue à <strong>10 h</strong> dans la<strong> salle principale</strong> pour présenter le nouveau projet. Tous les membres de l’équipe sont invités à y participer.<br>La réunion durera environ <strong>une heure</strong>. </p>\n<p>Merci d’arriver quelques minutes en avance pour faciliter l’organisation.<br><br></p>"
+                "content": "<p><strong>Lisez les deux versions du même texte ci-dessous, puis répondez à la question</strong>.</p><br><p><strong>[élément interactif à venir]</strong></p><p><br>Texte A&nbsp;:&nbsp;</p><p>Réunion d’équipe. Demain, une réunion est prévue à 10 h dans la salle principale pour présenter le nouveau projet. Tous les membres de l’équipe sont invités à y participer. La réunion durera environ une heure. Merci d’arriver quelques minutes en avance pour faciliter l’organisation.</p><p><br>Texte B&nbsp;: </p><h5>Réunion d’équipe </h5><p>Demain, une <strong>réunion </strong>est prévue à <strong>10 h</strong> dans la<strong> salle principale</strong> pour présenter le nouveau projet. Tous les membres de l’équipe sont invités à y participer.<br>La réunion durera environ <strong>une heure</strong>. </p><p>Merci d’arriver quelques minutes en avance pour faciliter l’organisation.<br><br></p>"
               }
             },
             {
@@ -48,21 +48,21 @@
                     "id": "1",
                     "content": "Texte A",
                     "feedback": {
-                      "diagnosis": "<p>Pour vous, peut-être, mais pour la plupart des lecteurs, le texte B est plus facile à lire et à comprendre&nbsp;:</p>\n<ul>\n    <li><strong>Les idées sont séparées en paragraphes</strong>. L’ajout de sauts de ligne permet de <strong>structurer son texte</strong> en paragraphes.</li>\n    <li><strong>Le texte est mis en forme</strong>. La mise en forme permet de <strong>mettre en évidence les informations importantes</strong> d’un texte.</li>\n</ul>"
+                      "diagnosis": "<p>Pour vous, peut-être, mais pour la plupart des lecteurs, le texte B est plus facile à lire et à comprendre&nbsp;:</p><ul>    <li><strong>Les idées sont séparées en paragraphes</strong>. L’ajout de sauts de ligne permet de <strong>structurer son texte</strong> en paragraphes.</li>    <li><strong>Le texte est mis en forme</strong>. La mise en forme permet de <strong>mettre en évidence les informations importantes</strong> d’un texte.</li></ul>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "Texte B",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement. Pour la plupart des lecteurs, le texte B est plus facile à lire et à comprendre&nbsp;:</p>\n<ul>\n    <li><strong>Les idées sont séparées en paragraphes</strong>. L’ajout de sauts de ligne permet de <strong>structurer son texte</strong> en paragraphes.</li>\n    <li><strong>Le texte est mis en forme</strong>. La mise en forme permet de <strong>mettre en évidence les informations importantes</strong> d’un texte.</li>\n</ul>"
+                      "diagnosis": "<p>Effectivement. Pour la plupart des lecteurs, le texte B est plus facile à lire et à comprendre&nbsp;:</p><ul>    <li><strong>Les idées sont séparées en paragraphes</strong>. L’ajout de sauts de ligne permet de <strong>structurer son texte</strong> en paragraphes.</li>    <li><strong>Le texte est mis en forme</strong>. La mise en forme permet de <strong>mettre en évidence les informations importantes</strong> d’un texte.</li></ul>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "Je ne sais pas.",
                     "feedback": {
-                      "diagnosis": "<p>Pour la plupart des lecteurs, le texte B est plus facile à lire et à comprendre&nbsp;:</p>\n<ul>\n    <li><strong>Les idées sont séparées en paragraphes</strong>. L’ajout de sauts de ligne permet de <strong>structurer son texte</strong> en paragraphes.</li>\n    <li><strong>Le texte est mis en forme</strong>. La mise en forme permet de <strong>mettre en évidence les informations importantes</strong> d’un texte.</li>\n</ul>"
+                      "diagnosis": "<p>Pour la plupart des lecteurs, le texte B est plus facile à lire et à comprendre&nbsp;:</p><ul>    <li><strong>Les idées sont séparées en paragraphes</strong>. L’ajout de sauts de ligne permet de <strong>structurer son texte</strong> en paragraphes.</li>    <li><strong>Le texte est mis en forme</strong>. La mise en forme permet de <strong>mettre en évidence les informations importantes</strong> d’un texte.</li></ul>"
                     }
                   }
                 ],
@@ -82,7 +82,7 @@
                 "id": "f607d16f-32ea-41b6-ad08-d896982fa43b",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>La mise en forme rend un texte plus facile à lire et à comprendre. </p><p>Mais comment ajouter de la mise en forme à son texte ? Découvrons cela ensemble.</p>\n"
+                "content": "<p>La mise en forme rend un texte plus facile à lire et à comprendre. </p><p>Mais comment ajouter de la mise en forme à son texte ? Découvrons cela ensemble.</p>"
               }
             }
           ]
@@ -104,7 +104,7 @@
                 "id": "e15c4222-c710-4e57-a50c-d7178437ccbf",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Naya souhaite proposer des ateliers d’écriture.<br>Elle a déjà découpé le texte de son annonce en paragraphes. Elle ne sait pas comment ajouter de la mise en forme à son texte.</p>\n<br>\n<p><strong>Observez l’interface de son traitement de texte ci-dessous puis répondez à la question qui suit.</strong></p>"
+                "content": "<p>Naya souhaite proposer des ateliers d’écriture.<br>Elle a déjà découpé le texte de son annonce en paragraphes. Elle ne sait pas comment ajouter de la mise en forme à son texte.</p><br><p><strong>Observez l’interface de son traitement de texte ci-dessous puis répondez à la question qui suit.</strong></p>"
               }
             },
             {
@@ -131,7 +131,7 @@
                     "id": "1",
                     "content": "<p>La zone 1</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. La zone 1 s’appelle la barre des menus, elle permet d'accéder aux principales fonctions du logiciel, par exemple enregistrer ou imprimer un document.<br></p>\n<p>C’est dans la <strong>barre d’outils</strong> (zone 2) que se trouvent les options pour mettre en forme du texte.</p>"
+                      "diagnosis": "<p>Eh non. La zone 1 s’appelle la barre des menus, elle permet d’accéder aux principales fonctions du logiciel, par exemple enregistrer ou imprimer un document.<br></p><p>C’est dans la <strong>barre d’outils</strong> (zone 2) que se trouvent les options pour mettre en forme du texte.</p>"
                     }
                   },
                   {
@@ -145,7 +145,7 @@
                     "id": "3",
                     "content": "<p>La zone 3</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. La zone 3 est la zone de travail : elle permet d’écrire et modifier le texte avec le clavier.<br>C’est dans la <strong>barre d’outils</strong> (zone 2) que se trouvent les options pour mettre en forme du texte.</p>"
+                      "diagnosis": "<p>Eh non. La zone 3 est la zone de travail&nbsp;: elle permet d’écrire et modifier le texte avec le clavier.<br>C’est dans la <strong>barre d’outils</strong> (zone 2) que se trouvent les options pour mettre en forme du texte.</p>"
                     }
                   },
                   {
@@ -247,7 +247,7 @@
                 "id": "b19ad0fa-0980-4011-9bb9-e036474ae263",
                 "type": "expand",
                 "title": "💡 Indice 2 :",
-                "content": "<p>Après avoir sélectionné le mot, cliquez sur le bouton «&nbsp;Gras&nbsp;» dans la barre d’outils pour mettre le mot en gras.</p><p>Pour afficher le nom des boutons, passez votre souris sur les différentes icônes de la barre d’outils.</p>"
+                "content": "<p>Après avoir sélectionné le mot, cliquez sur le bouton «&nbsp;Gras&nbsp;» dans la barre d’outils pour mettre le mot en gras.</p><p>Pour afficher le nom d’un bouton de la barre d’outils, passez votre souris dessus et attendez une seconde&nbsp;: le nom de la fonction du bouton apparaît.</p>"
               }
             }
           ]
@@ -347,7 +347,7 @@
                 "id": "6221ea8c-378e-438a-883b-aeb7c47984a1",
                 "type": "expand",
                 "title": "💡 Indice 2 :",
-                "content": "<p>Après avoir sélectionné la phrase, choisissez l’option «&nbsp;Tailles de police » dans la barre d’outils pour agrandir la phrase.</p><p>Pour afficher le nom des boutons, passez votre souris sur les différentes icônes de la barre d’outils.</p>"
+                "content": "<p>Après avoir sélectionné la phrase, choisissez l’option «&nbsp;Tailles de police&nbsp;» dans la barre d’outils pour agrandir la phrase.</p><p>Pour afficher le nom d’un bouton de la barre d’outils, passez votre souris dessus et attendez une seconde&nbsp;: le nom de la fonction du bouton apparaît.</p>"
               }
             }
           ]
@@ -384,7 +384,7 @@
                 "id": "ef9edbbb-dabe-4837-aa48-543ad4e7de09",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les modifications de taille et de police d'écriture permettent de&nbsp;: </p><ul>    <li>Rendre un texte <strong>plus facile à lire</strong>.</li><li>Mettre en avant un <strong>titre </strong>ou une <strong>partie importante </strong>du texte.</li></ul>"
+                "content": "<p>Les modifications de taille et de police d’écriture permettent de&nbsp;: </p><ul>    <li>Rendre un texte <strong>plus facile à lire</strong>.</li><li>Mettre en avant un <strong>titre </strong>ou une <strong>partie importante </strong>du texte.</li></ul>"
               }
             }
           ]
@@ -476,7 +476,7 @@
                       "id": "e3d31027-657e-4823-be10-adf1c3bedc69",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Vous écrivez un texte et vous utilisez <strong>un mot en anglais</strong>&nbsp;: « En anglais, le mot ordinateur se dit <em>computer</em>. ».</p>"
+                      "content": "<p>Vous écrivez un texte et vous utilisez <strong>un mot en anglais</strong>&nbsp;: «&nbsp;En anglais, le mot ordinateur se dit <em>computer</em>.&nbsp;».</p>"
                     },
                     {
                       "id": "cc1a7d74-e78e-4a22-9cb1-309176c308f2",
@@ -488,7 +488,7 @@
                           "id": "1",
                           "content": "<p>Changer la taille du mot.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! La modification de la taille ou de la police de caractères ne s’applique pas à un seul mot, plutôt à un titre ou à l’ensemble du texte.</p>\n<p>L’<strong>italique est souvent utilisé pour les mots dans une autre langue</strong> ou certains termes particuliers. Cela aide à distinguer le mot du reste du texte.</p>"
+                            "diagnosis": "<p>Eh non ! La modification de la taille ou de la police de caractères ne s’applique pas à un seul mot, plutôt à un titre ou à l’ensemble du texte.</p><p>L’<strong>italique est souvent utilisé pour les mots dans une autre langue</strong> ou certains termes particuliers. Cela aide à distinguer le mot du reste du texte.</p>"
                           }
                         },
                         {
@@ -502,7 +502,7 @@
                           "id": "3",
                           "content": "<p>Utiliser une police différente pour ce mot.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! La modification de la taille ou de la police de caractères ne s’applique pas à un seul mot, plutôt à un titre ou à l’ensemble du texte.</p>\n<p>L’<strong>italique est souvent utilisé pour les mots dans une autre langue</strong> ou certains termes particuliers. Cela aide à distinguer le mot du reste du texte.</p>"
+                            "diagnosis": "<p>Eh non ! La modification de la taille ou de la police de caractères ne s’applique pas à un seul mot, plutôt à un titre ou à l’ensemble du texte.</p><p>L’<strong>italique est souvent utilisé pour les mots dans une autre langue</strong> ou certains termes particuliers. Cela aide à distinguer le mot du reste du texte.</p>"
                           }
                         },
                         {
@@ -535,28 +535,28 @@
                           "id": "1",
                           "content": "<p>Choisir une couleur différente pour le titre de chaque partie.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Toutes les couleurs de sont pas vues de la même manière par tout le monde et l’usage de mots totalement en majuscules est déconseillé (c’est considéré comme agressif).</p>\n<p><strong>Pour faire ressortir un titre, il est préférable d'agrandir la taille de police</strong>.</p>"
+                            "diagnosis": "<p>Eh non. Toutes les couleurs ne sont pas vues de la même manière par tout le monde et l’usage de mots totalement en majuscules est déconseillé (c’est considéré comme agressif).</p><p><strong>Pour faire ressortir un titre, il est préférable d’agrandir la taille de police</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Agrandir la taille de police des titres de vos parties.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement.&nbsp;<strong>Agrandir la taille de police des titres permet de les mettre en avant</strong>, tout en gardant une bonne lisibilité du document.</p>\n<p>Toutes les couleurs de sont pas vues de la même manière par tout le monde et l’usage de mots totalement en majuscules est déconseillé (c’est considéré comme agressif).</p>"
+                            "diagnosis": "<p>Effectivement.&nbsp;<strong>Agrandir la taille de police des titres permet de les mettre en avant</strong>, tout en gardant une bonne lisibilité du document.</p><p>Toutes les couleurs ne sont pas vues de la même manière par tout le monde et l’usage de mots totalement en majuscules est déconseillé (c’est considéré comme agressif).</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Écrire vos titres de parties en majuscules.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Toutes les couleurs de sont pas vues de la même manière par tout le monde et l’usage de mots totalement en majuscules est déconseillé (c’est considéré comme agressif).</p>\n<p><strong>Pour faire ressortir un titre, il est préférable d'agrandir la taille de police</strong>.</p>"
+                            "diagnosis": "<p>Eh non. Toutes les couleurs ne sont pas vues de la même manière par tout le monde et l’usage de mots totalement en majuscules est déconseillé (c’est considéré comme agressif).</p><p><strong>Pour faire ressortir un titre, il est préférable d’agrandir la taille de police</strong>.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Toutes les couleurs de sont pas vues de la même manière par tout le monde et l’usage de mots totalement en majuscules est déconseillé (c’est considéré comme agressif).</p>\n<p><strong>Pour faire ressortir un titre, il est préférable d'agrandir la taille de police</strong>.</p>"
+                            "diagnosis": "<p>Toutes les couleurs ne sont pas vues de la même manière par tout le monde et l’usage de mots totalement en majuscules est déconseillé (ça donne l’impression de crier).</p><p><strong>Pour faire ressortir un titre, il est préférable d’agrandir la taille de police</strong> par exemple.</p>"
                           }
                         }
                       ],
@@ -734,7 +734,7 @@
                 "isCompletionRequired": true,
                 "title": "Mise en pratique",
                 "url": "https://epreuves.pix.fr/pixwriter-mise-en-forme/pixwriter-mise-en-forme.html?lang=fr&mode=module-mef-txt-ex2#5a55634559434044544479074442554549715020545d",
-                "instruction": "<p>Dans l’interface de traitement de texte ci-dessous, mettez le texte en forme en suivant les instructions&nbsp;:&nbsp; </p>\n<ul>\n    <li>Mettez l’ensemble du texte en police Arial.</li>\n    <li>Mettez en gras l’heure «&nbsp;17h30&nbsp;».</li>\n</ul>",
+                "instruction": "<p>Dans l’interface de traitement de texte ci-dessous, mettez le texte en forme en suivant les instructions&nbsp;:&nbsp; </p><ul>    <li>Mettez l’ensemble du texte en police Arial.</li>    <li>Mettez en gras l’heure «&nbsp;17h30&nbsp;».</li></ul>",
                 "solution": "pix1erdegr9",
                 "height": 550
               }

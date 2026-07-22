@@ -130,7 +130,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await click(screen.getByLabelText(`${t('pages.campaign-creation.target-profiles-list-label')} *`));
       await click(await screen.findByRole('option', { description: expectedTargetProfileName }));
 
-      const title = `${t('pages.campaign-creation.test-title.label')} ${t('pages.campaign-creation.test-title.sublabel')}`;
+      const title = `${t('pages.campaign-creation.course-title.label')} ${t('pages.campaign-creation.course-title.sublabel')}`;
 
       await fillByLabel(title, 'Savoir rechercher');
       await clickByName('Non');

@@ -3,18 +3,31 @@ import { service } from '@ember/service';
 
 export default class FrameworkEditRoute extends Route {
   @service store;
+  @service router;
 
   async model() {
+    const { activeVersion } = this.modelFor('authenticated.certification-frameworks.certification-framework.versions');
+
     const { version_id: versionId } = this.paramsFor(
       'authenticated.certification-frameworks.certification-framework.versions.version',
     );
-    const { certification_framework_key: scope } = this.paramsFor(
-      'authenticated.certification-frameworks.certification-framework',
-    );
-    const version = await this.store.findRecord('certification-version', versionId);
+    const draftVersion = await this.store.findRecord('certification-version', versionId);
+
     return {
-      scope,
-      version,
+      activeVersion,
+      draftVersion,
     };
+  }
+
+  afterModel(model) {
+    if (!model.draftVersion.isDraft) {
+      this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
+    }
+  }
+
+  resetController(controller, isExiting) {
+    if (isExiting && controller.model.hasDirtyAttributes) {
+      controller.model.rollbackAttributes();
+    }
   }
 }

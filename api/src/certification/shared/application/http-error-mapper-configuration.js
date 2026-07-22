@@ -31,7 +31,7 @@ const certificationDomainErrorMappingConfiguration = [
   },
   {
     name: CenterHabilitationError.name,
-    httpErrorFn: (error) => new ForbiddenError(error.message, error.code),
+    httpErrorFn: (error) => new ForbiddenError(error.message, error.code, error.meta),
   },
   {
     name: CertificationCandidateNotFoundError.name,

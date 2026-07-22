@@ -2,12 +2,12 @@ import * as campaignAPI from '../../../prescription/campaign/application/api/cam
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 
-export async function findByOrganizationId(organizationId, page, locale) {
-  const campaigns = await campaignAPI.findAllForOrganization({
+export async function findByOrganizationId(organizationId, page) {
+  const campaigns = await campaignAPI.findAllSummariesForOrganization({
     organizationId,
-    withCoverRate: false,
+    withTargetProfileName: true,
+    withArchived: false,
     page,
-    locale,
   });
   return {
     page: toPage(campaigns.meta),

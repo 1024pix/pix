@@ -215,7 +215,10 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
     let expectedCertificationCenter;
 
     beforeEach(async function () {
-      expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({ id: 1234 });
+      expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({
+        id: 1234,
+        createdAt: new Date('2020-01-01'),
+      });
       databaseBuilder.factory.buildComplementaryCertification({
         id: 4567,
         key: 'certif comp',
@@ -259,7 +262,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
               name: 'some name',
               type: 'SUP',
               'external-id': 'EX123',
-              'created-at': undefined,
+              'created-at': new Date('2020-01-01'),
               'archived-at': null,
               'archivist-full-name': null,
               'data-protection-officer-first-name': undefined,

@@ -83,7 +83,6 @@ describe('Integration | Identity Access Management | Domain | Usecases | registe
       url: platformOpenIdConfig.registration_endpoint,
       headers: {
         Authorization: 'Bearer token1234',
-        'Content-type': 'application/json',
       },
       payload: expectedPixConfig,
     });
@@ -261,7 +260,6 @@ describe('Integration | Identity Access Management | Domain | Usecases | registe
         url: platformOpenIdConfig.registration_endpoint,
         headers: {
           Authorization: 'Bearer token1234',
-          'Content-type': 'application/json',
         },
         payload: expectedPixConfig,
       });

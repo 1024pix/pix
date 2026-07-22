@@ -1,8 +1,8 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
-import randomString from 'randomstring';
 
 import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
+import { generateCode as generateCodeService } from '../../../shared/infrastructure/utils/code-generator.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
@@ -74,8 +74,8 @@ export class CertificationCenterInvitation {
     return certificationCenterToCreate;
   }
 
-  static generateCode() {
-    return randomString.generate({ length: 10, capitalization: 'uppercase' });
+  static generateCode(dependencies = { generateCodeService }) {
+    return dependencies.generateCodeService(10, 'alphanumeric').toUpperCase();
   }
 
   get isPending() {

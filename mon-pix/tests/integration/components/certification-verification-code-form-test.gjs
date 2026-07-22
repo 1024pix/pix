@@ -1,6 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import CertificationVerificationCodeForm from 'mon-pix/components/certification-verification-code-form';
 import { module, test } from 'qunit';
@@ -32,8 +31,10 @@ module('Integration | Component | certification verification code form', functio
     module('when certificate verification code is empty', function () {
       test('displays error message', async function (assert) {
         // given
-        this.set('clearErrors', () => {});
-        const screen = await render(hbs`<CertificationVerificationCodeForm @clearErrors={{this.clearErrors}}/>`);
+        const clearErrors = () => {};
+        const screen = await render(
+          <template><CertificationVerificationCodeForm @clearErrors={{clearErrors}} /></template>,
+        );
         await fillIn(screen.getByRole('textbox', { name: 'Code de vérification * Exemple: P-XXXXXXXX' }), '');
 
         // when
@@ -47,8 +48,10 @@ module('Integration | Component | certification verification code form', functio
     module('when certificate verification code is wrong', function () {
       test('displays error message', async function (assert) {
         // given
-        this.set('clearErrors', () => {});
-        const screen = await render(hbs`<CertificationVerificationCodeForm @clearErrors={{this.clearErrors}}/>`);
+        const clearErrors = () => {};
+        const screen = await render(
+          <template><CertificationVerificationCodeForm @clearErrors={{clearErrors}} /></template>,
+        );
         await fillIn(screen.getByRole('textbox', { name: 'Code de vérification * Exemple: P-XXXXXXXX' }), '12345678');
 
         // when

@@ -20,7 +20,7 @@ export default class ListItems extends Component {
   @tracked selectedSessionStatusOption = null;
   @tracked selectedSessionVersionOption = null;
 
-  searchedId = this.args.id;
+  searchedIds = this.args.ids;
   searchedCertificationCenterName = this.args.certificationCenterName;
   searchedCertificationCenterExternalId = this.args.certificationCenterExternalId;
 
@@ -97,12 +97,12 @@ export default class ListItems extends Component {
     <div class="session-list">
       <PixFilterBanner @title={{t "common.filters.title"}}>
         <PixInput
-          aria-label={{t "pages.sessions.list.filters.id.aria-label"}}
+          aria-label={{t "pages.sessions.list.filters.ids.aria-label"}}
           type="text"
-          value={{this.searchedId}}
-          oninput={{fn @triggerFiltering "id"}}
+          value={{this.searchedIds}}
+          oninput={{fn @triggerFiltering "ids"}}
         >
-          <:label>{{t "pages.sessions.list.filters.id.label"}}</:label>
+          <:label>{{t "pages.sessions.list.filters.ids.label"}}</:label>
         </PixInput>
         <PixInput
           aria-label={{t "pages.sessions.list.filters.certification-name.aria-label"}}

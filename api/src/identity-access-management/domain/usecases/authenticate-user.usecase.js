@@ -1,5 +1,5 @@
 import { config } from '../../../shared/config.js';
-import { PIX_ADMIN } from '../../../shared/domain/constants.js';
+import { PIX_ADMIN } from '../../../shared/constants.js';
 import { ForbiddenAccess, PasswordNotMatching, UserNotFoundError } from '../../../shared/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { createWarningConnectionEmail } from '../emails/create-warning-connection.email.js';
@@ -22,6 +22,7 @@ import { UserAccessToken } from '../models/UserAccessToken.js';
  * @param {string} params.locale
  * @param {RefreshTokenRepository} params.refreshTokenRepository
  * @param {PixAuthenticationService} params.pixAuthenticationService
+ * @param {AuthenticationSessionService} params.authenticationSessionService
  * @param {UserRepository} params.userRepository
  * @param {UserLoginRepository} params.userLoginRepository
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
@@ -40,6 +41,7 @@ const authenticateUser = async function ({
   locale,
   refreshTokenRepository,
   pixAuthenticationService,
+  authenticationSessionService,
   userRepository,
   userLoginRepository,
   authenticationMethodRepository,
@@ -67,13 +69,16 @@ const authenticateUser = async function ({
 
     await _assertAccessToRequestedApplication({ requestedApplication, user, adminMemberRepository });
 
-    const refreshToken = RefreshToken.generate({ userId: user.id, source, audience });
+    const sessionId = authenticationSessionService.generateSessionId();
+
+    const refreshToken = RefreshToken.generate({ userId: user.id, source, audience, sessionId });
     await refreshTokenRepository.save({ refreshToken });
 
     const { accessToken, expirationDelaySeconds } = UserAccessToken.generateUserToken({
       userId: user.id,
       source,
       audience,
+      sessionId,
     });
 
     await _updateUserLocaleIfNeeded({ user, locale, userRepository });

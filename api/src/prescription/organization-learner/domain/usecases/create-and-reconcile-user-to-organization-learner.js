@@ -1,6 +1,6 @@
 import { createAccountCreationEmail } from '../../../../identity-access-management/domain/emails/create-account-creation.email.js';
 import { User } from '../../../../identity-access-management/domain/models/User.js';
-import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/domain/constants.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../../../../shared/constants.js';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { AlreadyRegisteredEmailError } from '../../../../shared/domain/errors.js';
 import {

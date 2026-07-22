@@ -1,5 +1,5 @@
-const findOrganizationLearnersForAdmin = async function ({ page, filter, organizationLearnerRepository }) {
-  return organizationLearnerRepository.findPaginatedLearnersForAdmin({ page, filter });
+const findOrganizationLearnersForAdmin = async function ({ page, filter, sort, organizationLearnerRepository }) {
+  return organizationLearnerRepository.findPaginatedLearnersForAdmin({ page, filter, sort });
 };
 
 export { findOrganizationLearnersForAdmin };

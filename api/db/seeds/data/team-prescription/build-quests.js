@@ -11,7 +11,6 @@ import {
 } from '../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
-import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { knex } from '../../../knex-database-connection.js';
 import {
   AEFE_TAG,
@@ -30,8 +29,6 @@ import {
   TARGET_PROFILE_BADGES_STAGES_ID,
   TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
 } from './constants.js';
-
-const profileRewardTemporaryStorage = temporaryStorage.withPrefix('profile-rewards:');
 
 async function buildParenthoodQuest(databaseBuilder) {
   const { id: rewardId } = databaseBuilder.factory.buildAttestation({
@@ -450,9 +447,6 @@ export const buildQuests = async (databaseBuilder) => {
     organizationId: organization.id,
     profileRewardId: disabledUserProfileRewardId,
   });
-
-  // Insert job count in temporary storage for pending user
-  await profileRewardTemporaryStorage.increment(pendingUser.id);
 
   // Create learner with profile rewards for SCO organization without import
   const { id: otherUserId } = databaseBuilder.factory.buildUser({ firstName: 'Alex', lastName: 'Tension' });

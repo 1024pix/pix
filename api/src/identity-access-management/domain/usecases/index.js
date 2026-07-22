@@ -13,7 +13,6 @@ import { cryptoService } from '../../../shared/domain/services/crypto-service.js
 import { mailService } from '../../../shared/domain/services/mail-service.js';
 import * as obfuscationService from '../services/obfuscation-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
-import * as userReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
 import * as userService from '../services/user-service.js';
 import * as passwordValidator from '../../../shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../shared/domain/validators/user-validator.js';
@@ -22,8 +21,8 @@ import { adminMemberRepository } from '../../../shared/infrastructure/repositori
 import { auditLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
-import * as codeUtils from '../../../shared/infrastructure/utils/code-utils.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
 import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
@@ -49,6 +48,7 @@ import { pixAuthenticationService } from '../services/pix-authentication-service
 import { resetPasswordService } from '../services/reset-password.service.js';
 import { scoAccountRecoveryService } from '../services/sco-account-recovery.service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
+import * as userReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
 
 const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry({ oidcProviderRepository });
 
@@ -96,8 +96,9 @@ const services = {
   resetPasswordService,
   scoAccountRecoveryService,
   tokenService,
-  userReconciliationService,
   userService,
+
+  userReconciliationService,
 };
 const validators = {
   addOidcProviderValidator,
@@ -108,7 +109,7 @@ const utils = {
   httpAgent,
 };
 
-const dependencies = Object.assign({ config, codeUtils }, repositories, services, validators, utils);
+const dependencies = Object.assign({ config }, repositories, services, validators, utils);
 
 import { acceptPixAppTermsOfService } from './accept-pix-app-terms-of-service.usecase.js';
 import { acceptPixCertifTermsOfService } from './accept-pix-certif-terms-of-service.usecase.js';
@@ -232,6 +233,6 @@ const usecasesWithoutInjectedDependencies = {
   validateUserAccountEmail,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { oidcAuthenticationServiceRegistry, usecases };

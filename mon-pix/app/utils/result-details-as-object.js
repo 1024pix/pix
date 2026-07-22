@@ -1,9 +1,9 @@
-import jsyaml from 'js-yaml';
+import { load } from 'js-yaml';
 
 export default function resultDetailsAsObject(yamlResultDetails) {
   let resultDetailsAsObject = {};
   if (yamlResultDetails !== 'null\n') {
-    resultDetailsAsObject = jsyaml.load(yamlResultDetails);
+    resultDetailsAsObject = load(yamlResultDetails);
   }
   return resultDetailsAsObject;
 }

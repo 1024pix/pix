@@ -50,6 +50,7 @@ export function buildModule({
         "Une coquille est un agglomérat de calcaire très résistant. Sa structure cristalline spécifique lui confère une résistance protectrice. Elle prodique à l'escargot toute sa force et sa vitalité.",
     },
   ],
+  version = '1.0',
 } = {}) {
   const values = {
     id,
@@ -61,6 +62,7 @@ export function buildModule({
     details,
     sections,
     glossary,
+    version,
   };
   buildModuleInDB(values);
   return values;
@@ -76,6 +78,7 @@ export function buildModuleWithNoDefaultValues({
   details,
   sections,
   glossary,
+  version,
 }) {
   const values = {
     id,
@@ -87,12 +90,13 @@ export function buildModuleWithNoDefaultValues({
     details,
     sections,
     glossary,
+    version,
   };
   buildModuleInDB(values);
   return values;
 }
 
-function buildModuleInDB({ id, shortId, slug, title, isBeta, visibility, details, sections, glossary }) {
+function buildModuleInDB({ id, shortId, slug, title, isBeta, visibility, details, sections, glossary, version }) {
   const values = {
     id,
     shortId,
@@ -103,6 +107,7 @@ function buildModuleInDB({ id, shortId, slug, title, isBeta, visibility, details
     ...details,
     sections: JSON.stringify(sections),
     glossary: JSON.stringify(glossary),
+    version,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'learningcontent.modules',

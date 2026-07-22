@@ -1,7 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import CandidateDetailsModal from 'pix-certif/components/sessions/session-details/enrolled-candidates/candidate-details-modal';
-import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -15,10 +14,6 @@ module(
     test('it shows candidate details with complementary certification', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const pixEduSubscription = store.createRecord('subscription', {
-        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-        complementaryCertificationKey: 'EDU',
-      });
       const candidate = store.createRecord('certification-candidate', {
         firstName: 'Jean-Paul',
         lastName: 'Candidat',
@@ -33,11 +28,7 @@ module(
         birthPostalCode: 76260,
         sex: 'F',
         accessibilityAdjustmentNeeded: true,
-        subscriptions: [pixEduSubscription],
-      });
-
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        habilitations: [{ id: 1, label: 'Pix+Edu', key: 'EDU' }],
+        subscription: 'EDU_1ER_DEGRE',
       });
 
       const closeModalStub = sinon.stub();
@@ -45,15 +36,9 @@ module(
       // when
       const screen = await render(
         <template>
-          <CandidateDetailsModal
-            @closeModal={{closeModalStub}}
-            @showModal={{true}}
-            @candidate={{candidate}}
-            @complementaryCertifications={{currentAllowedCertificationCenterAccess.habilitations}}
-          />
+          <CandidateDetailsModal @closeModal={{closeModalStub}} @showModal={{true}} @candidate={{candidate}} />
         </template>,
       );
-
       // then
       assert.dom(screen.getByText('Détail du candidat')).exists();
       assert.dom(screen.getByText('Jean-Paul')).exists();
@@ -69,20 +54,13 @@ module(
       assert.dom(screen.getByText('25/12/2000')).exists();
       assert.dom(screen.getByText('10 %')).exists();
       assert.dom(screen.getByText('Oui')).exists();
-      assert.dom(screen.getByText('Pix+Edu')).exists();
+      assert.dom(screen.getByText('Pix+ Édu 1er degré')).exists();
     });
 
     test('it shows specific label when candidate subscribed to dual certification core/clea', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const cleaSubscription = store.createRecord('subscription', {
-        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-        complementaryCertificationKey: COMPLEMENTARY_KEYS.CLEA,
-      });
-      const coreSubscription = store.createRecord('subscription', {
-        type: SUBSCRIPTION_TYPES.CORE,
-        complementaryCertificationKey: null,
-      });
+      const cleaSubscription = 'CLEA';
       const candidate = store.createRecord('certification-candidate', {
         firstName: 'Jean-Paul',
         lastName: 'Candidat',
@@ -96,11 +74,7 @@ module(
         birthInseeCode: 76255,
         birthPostalCode: 76260,
         sex: 'F',
-        subscriptions: [cleaSubscription, coreSubscription],
-      });
-
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        habilitations: [{ id: 1, label: 'Cléanum', key: COMPLEMENTARY_KEYS.CLEA }],
+        subscription: cleaSubscription,
       });
 
       const closeModalStub = sinon.stub();
@@ -108,12 +82,7 @@ module(
       // when
       const screen = await render(
         <template>
-          <CandidateDetailsModal
-            @closeModal={{closeModalStub}}
-            @showModal={{true}}
-            @candidate={{candidate}}
-            @complementaryCertifications={{currentAllowedCertificationCenterAccess.habilitations}}
-          />
+          <CandidateDetailsModal @closeModal={{closeModalStub}} @showModal={{true}} @candidate={{candidate}} />
         </template>,
       );
 
@@ -125,10 +94,6 @@ module(
       test('it displays a dash', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const coreSubscription = store.createRecord('subscription', {
-          type: SUBSCRIPTION_TYPES.CORE,
-          complementaryCertificationKey: null,
-        });
         const candidate = store.createRecord('certification-candidate', {
           firstName: undefined,
           lastName: undefined,
@@ -139,7 +104,7 @@ module(
           resultRecipientEmail: undefined,
           externalId: undefined,
           extraTimePercentage: undefined,
-          subscriptions: [coreSubscription],
+          subscription: 'CORE',
         });
 
         const closeModalStub = sinon.stub();
@@ -160,10 +125,6 @@ module(
       test('it shows candidate details with payement options', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const coreSubscription = store.createRecord('subscription', {
-          type: SUBSCRIPTION_TYPES.CORE,
-          complementaryCertificationKey: null,
-        });
         const candidate = store.createRecord('certification-candidate', {
           firstName: 'Jean-Paul',
           lastName: 'Candidat',
@@ -180,7 +141,7 @@ module(
           accessibilityAdjustmentNeeded: false,
           billingMode: 'PREPAID',
           prepaymentCode: 'prep123',
-          subscriptions: [coreSubscription],
+          subscription: 'CORE',
         });
 
         const closeModalStub = sinon.stub();
@@ -220,10 +181,6 @@ module(
       test('it shows candidate details without payement options', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const coreSubscription = store.createRecord('subscription', {
-          type: SUBSCRIPTION_TYPES.CORE,
-          complementaryCertificationKey: null,
-        });
         const candidate = store.createRecord('certification-candidate', {
           firstName: 'Jean-Paul',
           lastName: 'Candidat',
@@ -239,7 +196,7 @@ module(
           sex: 'F',
           billingMode: 'PREPAID',
           prepaymentCode: 'prep123',
-          subscriptions: [coreSubscription],
+          subscription: 'CORE',
         });
 
         const closeModalStub = sinon.stub();

@@ -764,6 +764,7 @@
         "disconnect": "Afmelden bij mijn account",
         "disconnect-tip": "Als dit niet jouw computer is, vergeet dan niet uit te loggen.",
         "ended-by-invigilator": "Je toezichthouder heeft je certificeringstest beëindigd. Je kunt niet doorgaan met het beantwoorden van de vragen.",
+        "ended-due-to-duration-exceeded": "De maximale tijd om je certificeringstest te beantwoorden is overschreden. Je kunt niet langer doorgaan met het beantwoorden van vragen.",
         "ended-due-to-finalization": "De sessie is afgerond door uw certificeringscentrum. U kunt niet langer doorgaan met het beantwoorden van vragen.",
         "remote-certification": "Als je je Pix-certificering op afstand doet, zorg er dan voor dat je de verbinding met de monitoring tool verbreekt zodra je klaar bent met je test.",
         "title": "Test over!"
@@ -887,7 +888,7 @@
         },
         "language-not-supported": "Pix-certificering is nog niet beschikbaar in het {userLanguage}. '<br>' De talen die momenteel beschikbaar zijn voor certificering zijn: {availableLanguages}. '<br>' Je kunt een andere taal kiezen op de pagina",
         "language-not-supported-link": "Mijn account",
-        "missing-center-habilitation": "U kunt niet deelnemen aan de sessie. Het certificeringscentrum is niet bevoegd om u deze certificering te laten afleggen.",
+        "missing-center-habilitation": "Je bent ingeschreven voor de certificering {subscription}. '<br><br><strong>'Je certificeringscentrum is niet langer bevoegd om deze certificering af te nemen'</strong>'. '<br><br>' Neem contact op met je toezichthouder.",
         "session-not-accessible": "De sessie die u probeert te bezoeken is niet langer toegankelijk.",
         "wrong-account": "De ingevoerde informatie komt overeen met een kandidaat die is geregistreerd voor de sessie en al is ingelogd met een ander account. Controleer of u bent aangemeld bij het account waarmee de certificering is gestart.",
         "wrong-account-sco": "Je gebruikt momenteel een account dat niet aan je school is gekoppeld.\nLog in op het account waarmee je je cursussen hebt afgerond of vraag de toezichthouder om hulp.",
@@ -963,6 +964,7 @@
         "access-code-error": "Deze code bestaat niet of is niet langer geldig.",
         "candidate-not-authorized-to-resume": "Neem contact op met je surveillant om toestemming te vragen om je toets te hervatten.",
         "candidate-not-authorized-to-start": "Je surveillant heeft je aanwezigheid in de testruimte nog niet bevestigd. Je kunt daarom nog niet beginnen met je certificeringstoets. Stel je surveillant hiervan op de hoogte.",
+        "duration-exceeded": "De maximale duur van je certificeringstoets is overschreden. Je kunt de toets niet meer hervatten.",
         "generic": "Er is zojuist een onverwachte serverfout opgetreden.",
         "missing-code": "You have not entered your access code.",
         "session-not-accessible": "De certificeringssessie is niet langer toegankelijk.",
@@ -977,8 +979,7 @@
         "options": {
           "english": "Engels - EN",
           "french": "Frans - FR"
-        },
-        "warning-message": "Vanwege een technisch probleem is de Pix-certificering tijdelijk niet beschikbaar in het Engels. Onze excuses voor het ongemak."
+        }
       },
       "link-to-user-certification": "Bekijk mijn certificaten",
       "non-eligible-subscription": "Je komt niet in aanmerking voor {subscriptionLabel}. Je kunt echter wel je Pix-certificering behalen.",
@@ -2252,6 +2253,50 @@
       },
       "not-finished": "Je kunt je resultaten nog niet opsturen, dus we hebben nog een paar vragen voor je.",
       "recommended-engine": {
+        "drawer": {
+          "content-relevance-form": {
+            "attractiveness": {
+              "legend": "Beoordeel hoe aantrekkelijk de inhoud is, van niet aantrekkelijk 1 tot aantrekkelijk 5",
+              "max-label": "Aantrekkelijk",
+              "min-label": "Niet aantrekkelijk"
+            },
+            "comment-text": {
+              "label": "Optionele opmerking",
+              "placeholder": "Opmerking (optioneel)"
+            },
+            "legend": "De aanbevolen inhoud is…",
+            "personalization": {
+              "legend": "Beoordeel hoe gepersonaliseerd de inhoud is, van algemeen 1 tot gepersonaliseerd 5",
+              "max-label": "Gepersonaliseerd",
+              "min-label": "Algemeen"
+            },
+            "score-aria-label": "{score} van 5",
+            "subtitle": "Zullen we verdergaan…",
+            "title": "Bedankt voor uw feedback!",
+            "usefulness": {
+              "legend": "Beoordeel hoe nuttig de inhoud is, van niet nuttig 1 tot nuttig 5",
+              "max-label": "Nuttig",
+              "min-label": "Niet nuttig"
+            }
+          },
+          "emojis": {
+            "dissatisfied": "Niet relevant",
+            "neutral": "Ik heb geen mening",
+            "satisfied": "Relevant",
+            "very-dissatisfied": "Helemaal niet relevant",
+            "very-satisfied": "Zeer relevant"
+          },
+          "error-message": "Er is een fout opgetreden bij het verzenden van uw antwoord.",
+          "hide": "Verbergen",
+          "hide-aria-label": "Het feedbackpaneel voor aanbevelingen voor trainingsinhoud verbergen",
+          "instruction": "Klik op een emoji om uw mening te geven.",
+          "statement": "Lijkt de trainingsinhoud om uw kennis te verdiepen u relevant?",
+          "thank-you": {
+            "subtitle": "Gelukt!",
+            "title": "Bedankt voor uw feedback!"
+          },
+          "title": "Feedback over de aanbeveling voor trainingsinhoud"
+        },
         "modal": {
           "actions": {
             "discover-module": "Module starten",
@@ -2260,7 +2305,8 @@
           "duration": "Duur",
           "editor-name": "Voorgesteld door : ",
           "feedback": {
-            "question": "Is dit voorstel relevant?"
+            "question": "Is dit voorstel relevant?",
+            "success-message": "Bedankt voor uw feedback!"
           },
           "localisation": "Locatie",
           "objectives": "Doelstellingen",
@@ -2285,7 +2331,7 @@
           }
         },
         "trainings": {
-          "description": "Deze aanbeveling wordt gedaan op basis van je voortgang, om je te helpen je vaardigheden te versterken en op het juiste moment een stap verder te gaan.",
+          "description": "De onderstaande oplossingen worden je aanbevolen op basis van je niveau.",
           "title": "Ga verder, op je eigen tempo."
         }
       },

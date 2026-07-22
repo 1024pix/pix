@@ -46,8 +46,13 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     });
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
     userId = databaseBuilder.factory.buildUser().id;
-    databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-    const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+    databaseBuilder.factory.buildCertificationCenterMembership({
+      userId,
+      certificationCenterId,
+    });
+    const sessionData = databaseBuilder.factory.buildSession({
+      certificationCenterId,
+    });
     sessionId = sessionData.id;
     session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
@@ -64,8 +69,16 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       matcher: 'AEEEGLNRRT',
     });
 
-    databaseBuilder.factory.buildCertificationCpfCity({ name: 'AJACCIO', INSEECode: '2A004', isActualName: true });
-    databaseBuilder.factory.buildCertificationCpfCity({ name: 'PARIS 18', postalCode: '75018', isActualName: true });
+    databaseBuilder.factory.buildCertificationCpfCity({
+      name: 'AJACCIO',
+      INSEECode: '2A004',
+      isActualName: true,
+    });
+    databaseBuilder.factory.buildCertificationCpfCity({
+      name: 'PARIS 18',
+      postalCode: '75018',
+      isActualName: true,
+    });
 
     await databaseBuilder.commit();
 
@@ -98,7 +111,10 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     // then
     expect(error).to.be.instanceOf(CertificationCandidatesError);
     expect(error.code).to.equal('CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID');
-    expect(error.meta).to.deep.equal({ line: 13, value: 'destinataire@gmail.com, destinataire@gmail.com' });
+    expect(error.meta).to.deep.equal({
+      line: 13,
+      value: 'destinataire@gmail.com, destinataire@gmail.com',
+    });
   });
 
   it('should throw a CertificationCandidatesError if there is an error in the birth information', async function () {
@@ -240,8 +256,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const expectedCandidates = candidateList.map((candidate) => {
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
-        subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
-        subscriptions: [],
+        subscription: Frameworks.CORE,
       });
     });
     expect(actualCandidates).to.deep.equal(expectedCandidates);
@@ -264,8 +279,13 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-      const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+      });
+      const sessionData = databaseBuilder.factory.buildSession({
+        certificationCenterId,
+      });
       const session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
       await databaseBuilder.commit();
@@ -275,18 +295,17 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       candidateList = _buildCandidateList({
         sessionId: sessionData.id,
         billingModes: [BILLING_MODES.FREE, BILLING_MODES.FREE],
-        complementaryCertifications: [
-          ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-          ComplementaryCertificationKeys.CLEA,
-        ],
       });
-      const expectedCandidates = candidateList.map((candidate) => {
-        return domainBuilder.certification.enrolment.buildCandidate({
-          ...candidate,
-          subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
-          subscriptions: [],
-        });
-      });
+      const expectedCandidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateList[0],
+          subscription: Frameworks.EDU_1ER_DEGRE,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateList[1],
+          subscription: Frameworks.CLEA,
+        }),
+      ];
 
       // when
       const actualCandidates =
@@ -322,8 +341,13 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-      const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+      });
+      const sessionData = databaseBuilder.factory.buildSession({
+        certificationCenterId,
+      });
       const session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
       await databaseBuilder.commit();
@@ -359,12 +383,14 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     const odsFilePath = `${__dirname}/attendance_sheet_extract_with_billing_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
-    candidateList = _buildCandidateList({ billingModes: [BILLING_MODES.PAID, BILLING_MODES.FREE], sessionId });
+    candidateList = _buildCandidateList({
+      billingModes: [BILLING_MODES.PAID, BILLING_MODES.FREE],
+      sessionId,
+    });
     const expectedCandidates = candidateList.map((candidate) => {
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
-        subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
-        subscriptions: [],
+        subscription: Frameworks.CORE,
       });
     });
 
@@ -411,15 +437,14 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const expectedCandidates = candidateList.map((candidate) => {
       return domainBuilder.certification.enrolment.buildCandidate({
         ...candidate,
-        subscription: candidate.subscriptions[0].complementaryCertificationKey || Frameworks.CORE,
-        subscriptions: [],
+        subscription: Frameworks.CORE,
       });
     });
     expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
 });
 
-function _buildCandidateList({ billingModes = [], sessionId, complementaryCertifications = [] }) {
+function _buildCandidateList({ billingModes = [], sessionId }) {
   const candidates = [];
   candidates.push({
     id: null,
@@ -440,7 +465,7 @@ function _buildCandidateList({ billingModes = [], sessionId, complementaryCertif
     extraTimePercentage: 0.15,
     billingMode: billingModes[0] ? billingModes[0] : null,
     prepaymentCode: null,
-    subscriptions: _buildSubscriptions(complementaryCertifications[0] ? complementaryCertifications[0] : null),
+    subscription: Frameworks.CORE,
     organizationLearnerId: null,
     userId: null,
   });
@@ -463,29 +488,10 @@ function _buildCandidateList({ billingModes = [], sessionId, complementaryCertif
     extraTimePercentage: null,
     billingMode: billingModes[1] ? billingModes[1] : null,
     prepaymentCode: null,
-    subscriptions: _buildSubscriptions(complementaryCertifications[1] ? complementaryCertifications[1] : null),
+    subscription: Frameworks.CORE,
     organizationLearnerId: null,
     userId: null,
   });
 
   return candidates;
-}
-
-function _buildSubscriptions(subscriptionKey) {
-  const subscriptions = [];
-
-  if (subscriptionKey) {
-    subscriptions.push(
-      domainBuilder.certification.enrolment.buildComplementarySubscription({
-        certificationCandidateId: null,
-        complementaryCertificationKey: subscriptionKey,
-      }),
-    );
-  }
-
-  if (subscriptionKey === ComplementaryCertificationKeys.CLEA || !subscriptionKey) {
-    subscriptions.push(domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }));
-  }
-
-  return subscriptions;
 }

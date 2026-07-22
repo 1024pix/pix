@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
-import { ORGANIZATION_FEATURE } from '../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../shared/constants.js';
 import { attestationController } from './attestation-controller.js';
 
 const MAX_FILE_SIZE_UPLOAD = 1048576 * 1; // 1Mb

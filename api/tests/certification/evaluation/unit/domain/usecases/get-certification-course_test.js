@@ -29,10 +29,10 @@ describe('Unit | UseCase | get-certification-course', function () {
       getById: sinon.stub(),
     };
 
-    version = domainBuilder.certification.configuration.buildVersion({
-      id: 123,
-      challengesConfiguration: { maximumAssessmentLength: 42 },
-    });
+    version = domainBuilder.certification.configuration
+      .versionBuilder()
+      .withParameters({ id: 123, challengesConfiguration: { maximumAssessmentLength: 42 } })
+      .build();
   });
 
   it('should get the certificationCourse with numberOfChallenges from version', async function () {

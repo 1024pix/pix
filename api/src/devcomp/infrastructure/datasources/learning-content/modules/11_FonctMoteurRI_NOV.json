@@ -33,7 +33,7 @@
                 "id": "1f2da8d0-e896-40a2-bb8d-8df954ff20b5",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Kevin fait une recherche en ligne.</p><p>Il veut savoir quand il est possible de visiter le musée du Louvre de nuit.&nbsp;🌙<br>Il tape les mots clés suivants dans son moteur de recherche&nbsp;: «&nbsp;<strong>louvre visite de nuit date</strong>&nbsp;».</p><p>Une liste de résultats s’affiche.</p>"
+                "content": "<p>Kevin fait une recherche en ligne.</p><p>Il veut savoir quand il est possible de visiter le musée du Louvre de nuit.&nbsp;🌙<br>Il tape les mots clés suivants dans son moteur de recherche&nbsp;: «&nbsp;<strong>louvre visite nocturne date</strong>&nbsp;».</p><p>Une liste de résultats s’affiche.</p>"
               }
             },
             {
@@ -41,7 +41,7 @@
               "element": {
                 "id": "e041f233-dc18-46bc-91f4-ddc1d3f5573c",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/11_Moteur_Rechinfo_NOV_2/moteur_rechinfo_nov-2_accroche.jpg",
+                "url": "https://assets.pix.org/draft/modules/11_Moteur_Rechinfo_NOV_2/moteur_rechinfo_nov-2_accroche_new.jpg",
                 "alt": "",
                 "alternativeText": "",
                 "legend": "Image provisoire",
@@ -239,7 +239,7 @@
                 "id": "a8160e77-0337-4ef5-bac7-fa2466f9f51d",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Kevin observe les résultats de sa recherche «&nbsp;<strong>louvre visite de nuit date</strong>&nbsp;». Ils sont très nombreux. Kevin se demande pourquoi certaines pages web apparaissent tout en haut de la liste de résultats et d’autres plus bas.</p>"
+                "content": "<p>Kevin observe les résultats de sa recherche «&nbsp;<strong>louvre visite nocturne date</strong>&nbsp;». Ils sont très nombreux. Kevin se demande pourquoi certaines pages web apparaissent tout en haut de la liste de résultats et d’autres plus bas.</p>"
               }
             },
             {
@@ -350,7 +350,7 @@
               "element": {
                 "id": "ae0a0076-1b6f-48f7-95d7-4c356362abc4",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/11_Moteur_Rechinfo_NOV_2/moteur_rechinfo_nov-2_d3.jpg",
+                "url": "https://assets.pix.org/draft/modules/11_Moteur_Rechinfo_NOV_2/moteur_rechinfo_nov-2_d3_new.jpg",
                 "alt": "",
                 "alternativeText": "",
                 "legend": "Image provisoire",

@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class OrganizationAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   updateRecord(store, type, snapshot) {
     if (snapshot?.adapterOptions?.archiveOrganization) {
       const url = `${this.host}/${this.namespace}/organizations/${snapshot.id}/archive`;

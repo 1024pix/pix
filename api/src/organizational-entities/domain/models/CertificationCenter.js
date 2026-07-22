@@ -1,4 +1,4 @@
-import { CERTIFICATION_CENTER_TYPES } from '../../../shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../shared/constants.js';
 
 export class CertificationCenter {
   constructor({ id, name, externalId, type, createdAt, updatedAt, habilitations = [], archivedAt, archivedBy } = {}) {

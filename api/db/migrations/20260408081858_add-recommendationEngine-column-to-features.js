@@ -1,4 +1,4 @@
-import { CAMPAIGN_FEATURES } from '../../src/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../src/shared/constants.js';
 
 /**
  * @param { import("knex").Knex } knex

@@ -144,7 +144,7 @@ function extractUserIdFromRequest(request) {
   let userId = get(request, 'auth.credentials.userId');
 
   if (!userId && get(request, 'headers.authorization')) {
-    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
+    const token = tokenService.extractTokenFromAuthorizationHeader(request.headers.authorization);
     userId = tokenService.extractUserId(token);
   }
 
@@ -160,6 +160,19 @@ function extractUserIdFromRequest(request) {
  */
 export function addCorrelationInfo(path, value) {
   setInContext(CORRELATION_METADATA + '.' + path, value);
+}
+
+/**
+ * Adds or overwrites multiple values using lodash paths (e.g. 'foo.bar').
+ * These values are added to the dedicated correlation metadata object.
+ * Intermediate keys are created automatically if they do not exist.
+ *
+ * @param {Record<string, *>} correlationInfos - An object whose keys are lodash paths and whose values are the corresponding values to store.
+ */
+export function addCorrelationInfos(correlationInfos) {
+  for (const [path, value] of Object.entries(correlationInfos)) {
+    setInContext(CORRELATION_METADATA + '.' + path, value);
+  }
 }
 
 /**

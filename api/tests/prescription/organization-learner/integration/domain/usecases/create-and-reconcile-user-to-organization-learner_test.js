@@ -7,6 +7,7 @@ import {
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../../../src/shared/domain/errors.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import * as userReconciliationService from '../../../../../../src/shared/domain/services/user-reconciliation-service.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
@@ -44,6 +45,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
         password,
         userAttributes,
         i18n,
+        userReconciliationService,
       });
 
       // then
@@ -82,6 +84,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
           password,
           userAttributes,
           i18n,
+          userReconciliationService,
         });
 
         // then
@@ -132,6 +135,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             password: '',
             userAttributes,
             i18n,
+            userReconciliationService,
           });
 
           // then
@@ -167,6 +171,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             password,
             userAttributes,
             i18n,
+            userReconciliationService,
           });
 
           // then
@@ -189,6 +194,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             password,
             userAttributes,
             i18n,
+            userReconciliationService,
           });
 
           // then
@@ -249,6 +255,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             password,
             userAttributes,
             i18n,
+            userReconciliationService,
           });
 
           // then
@@ -281,6 +288,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             password,
             userAttributes,
             i18n,
+            userReconciliationService,
           });
 
           // then

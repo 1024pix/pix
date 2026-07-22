@@ -20,7 +20,7 @@ export class CenterForAdminFactory {
         habilitations: center.habilitations?.map((habilitation) => new Habilitation(habilitation)) ?? [],
         name: center.name,
         externalId: center.externalId,
-        createdAt: undefined,
+        createdAt: center.createdAt,
         updatedAt: undefined,
         archivedAt: center.archivedAt,
       },

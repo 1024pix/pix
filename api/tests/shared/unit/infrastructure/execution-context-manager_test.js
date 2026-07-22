@@ -1,7 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
   addCorrelationInfo,
+  addCorrelationInfos,
   CORRELATION_METADATA,
   executeInContext,
   EXECUTORS,
@@ -11,7 +13,6 @@ import {
   getRequestId,
   setInContext,
 } from '../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Shared | Unit | Infrastructure | execution-context-manager', function () {
   describe('#getCorrelationContext', function () {
@@ -244,6 +245,91 @@ describe('Shared | Unit | Infrastructure | execution-context-manager', function 
 
       // when
       addCorrelationInfo('sessionId', 456);
+      const result = executeInContext(context, () => {
+        setInContext('irrelevant', 'info');
+        return getCorrelationInfo();
+      });
+
+      // then
+      expect(result).to.deep.equal({
+        request_id: null,
+        user_id: null,
+        jobId: null,
+        scriptId: null,
+        [CORRELATION_METADATA]: null,
+      });
+    });
+  });
+
+  describe('#addCorrelationInfos', function () {
+    it('should add values in given paths destined to be available in correlation info', function () {
+      // given
+      const context = {};
+
+      // when
+      const result = executeInContext(context, () => {
+        setInContext('irrelevant', 'info');
+        addCorrelationInfos({
+          sessionId: 456,
+          userId: 789,
+        });
+        return getCorrelationInfo();
+      });
+
+      // then
+      expect(result).to.deep.equal({
+        request_id: null,
+        user_id: null,
+        jobId: null,
+        scriptId: null,
+        [CORRELATION_METADATA]: {
+          sessionId: 456,
+          userId: 789,
+        },
+      });
+    });
+
+    it('should overwrite value in given path destined to be available in correlation info', function () {
+      // given
+      const context = {};
+
+      // when
+      const result = executeInContext(context, () => {
+        setInContext('irrelevant', 'info');
+        addCorrelationInfos({
+          sessionId: 456,
+          userId: 789,
+        });
+        addCorrelationInfos({
+          sessionId: 111,
+          organizationId: 222,
+        });
+        return getCorrelationInfo();
+      });
+
+      // then
+      expect(result).to.deep.equal({
+        request_id: null,
+        user_id: null,
+        jobId: null,
+        scriptId: null,
+        [CORRELATION_METADATA]: {
+          sessionId: 111,
+          userId: 789,
+          organizationId: 222,
+        },
+      });
+    });
+
+    it('should ignore info added outside of the context', function () {
+      // given
+      const context = {};
+
+      // when
+      addCorrelationInfos({
+        sessionId: 111,
+        organizationId: 222,
+      });
       const result = executeInContext(context, () => {
         setInContext('irrelevant', 'info');
         return getCorrelationInfo();

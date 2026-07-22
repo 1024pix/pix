@@ -1,4 +1,4 @@
-import { CERTIFICATION_CENTER_TYPES } from '../constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../constants.js';
 
 class CertificationCenter {
   /**

@@ -1,8 +1,6 @@
-import sinon from 'sinon';
-
 import { AutonomousCourseTargetProfile } from '../../../../../src/evaluation/domain/models/AutonomousCourseTargetProfile.js';
 import { repositories } from '../../../../../src/evaluation/infrastructure/repositories/index.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
+import { config } from '../../../../../src/shared/config.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -12,12 +10,10 @@ describe('Integration | Repository | Autonomous Course Target Profile', function
   let userId, organization;
 
   beforeEach(async function () {
-    sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
     userId = databaseBuilder.factory.buildUser().id;
 
     organization = databaseBuilder.factory.buildOrganization({
-      id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+      id: config.autonomousCourse.autonomousCoursesOrganizationId,
     });
 
     await databaseBuilder.commit();

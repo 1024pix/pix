@@ -30,11 +30,13 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
       rewardType: 'attestations',
       rewardId: 1,
     });
-    const attestationDetails = domainBuilder.buildAttestationUserDetail({
+    const attestationDetails = {
+      attestationKey: 'attestation-key',
       obtainedAt: null,
       label: 'label TEST',
       templateName: 'template-name',
-    });
+      requirementsDescription: 'Texte',
+    };
 
     // when
     const combinedCourseReward = new CombinedCourseReward({ combinedCourseDetails, reward: attestationDetails });
@@ -46,6 +48,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
     expect(combinedCourseReward.label).equal('label TEST');
     expect(combinedCourseReward.templateName).equal('template-name');
     expect(combinedCourseReward.data).to.contains({ attestationKey: attestationDetails.attestationKey });
+    expect(combinedCourseReward.requirementsDescription).to.equal('Texte');
   });
 
   describe('#status', function () {
@@ -60,9 +63,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
         rewardType: 'attestations',
         rewardId: 1,
       });
-      const attestationDetails = domainBuilder.buildAttestationUserDetail({
-        obtainedAt: null,
-      });
+      const attestationDetails = { obtainedAt: null };
 
       // when
       const combinedCourseReward = new CombinedCourseReward({ combinedCourseDetails, reward: attestationDetails });
@@ -82,9 +83,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
         rewardType: 'attestations',
         rewardId: 1,
       });
-      const attestationDetails = domainBuilder.buildAttestationUserDetail({
-        obtainedAt: new Date(),
-      });
+      const attestationDetails = { obtainedAt: new Date() };
 
       // when
       const combinedCourseReward = new CombinedCourseReward({ combinedCourseDetails, reward: attestationDetails });
@@ -114,9 +113,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
         }),
       });
 
-      const attestationDetails = domainBuilder.buildAttestationUserDetail({
-        obtainedAt: null,
-      });
+      const attestationDetails = { obtainedAt: null };
 
       // when
       const combinedCourseReward = new CombinedCourseReward({ combinedCourseDetails, reward: attestationDetails });
@@ -146,9 +143,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
         }),
       });
 
-      const attestationDetails = domainBuilder.buildAttestationUserDetail({
-        obtainedAt: new Date(),
-      });
+      const attestationDetails = { obtainedAt: new Date() };
 
       // when
       const combinedCourseReward = new CombinedCourseReward({ combinedCourseDetails, reward: attestationDetails });
@@ -178,9 +173,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
         }),
       });
 
-      const attestationDetails = domainBuilder.buildAttestationUserDetail({
-        obtainedAt: new Date(),
-      });
+      const attestationDetails = { obtainedAt: new Date() };
 
       // when
       const combinedCourseReward = new CombinedCourseReward({ combinedCourseDetails, reward: attestationDetails });
@@ -210,9 +203,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
         }),
       });
 
-      const attestationDetails = domainBuilder.buildAttestationUserDetail({
-        obtainedAt: null,
-      });
+      const attestationDetails = { obtainedAt: null };
 
       // when
       const combinedCourseReward = new CombinedCourseReward({ combinedCourseDetails, reward: attestationDetails });

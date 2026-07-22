@@ -35,8 +35,9 @@ const getCertificationCenterAccess = async ({ certificationCenterId }) => {
     })
     .from('certification-centers')
     .leftJoin('organizations', function () {
-      this.on('organizations.externalId', 'certification-centers.externalId').andOn(
+      this.on(knexConn.raw('LOWER("organizations"."externalId") = LOWER("certification-centers"."externalId")')).andOn(
         'organizations.type',
+        '=',
         'certification-centers.type',
       );
     })
@@ -111,8 +112,9 @@ const getAllowedCenterAccesses = async function ({ centerList }) {
     })
     .from('certification-centers')
     .leftJoin('organizations', function () {
-      this.on('organizations.externalId', 'certification-centers.externalId').andOn(
+      this.on(knexConn.raw('LOWER("organizations"."externalId") = LOWER("certification-centers"."externalId")')).andOn(
         'organizations.type',
+        '=',
         'certification-centers.type',
       );
     })
@@ -240,11 +242,10 @@ async function _removeDisabledCertificationCenterAccesses({ certificationPointOf
     )
     .where('certification-center-memberships.disabledAt', null);
 
-  const certificationCenterIds = _.chain(certificationCenters)
+  return _.chain(certificationCenters)
     .map((certificationCenter) => certificationCenter.certificationCenterId)
     .compact()
     .value();
-  return certificationCenterIds;
 }
 
 /**

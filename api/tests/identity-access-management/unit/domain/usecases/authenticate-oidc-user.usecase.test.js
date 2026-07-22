@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { POLE_EMPLOI } from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
+import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { authenticateOidcUser } from '../../../../../src/identity-access-management/domain/usecases/authenticate-oidc-user.usecase.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { AuthenticationSessionContent } from '../../../../../src/shared/domain/models/AuthenticationSessionContent.js';
@@ -22,12 +23,14 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     let lastUserApplicationConnectionsRepository;
     let oidcAuthenticationServiceRegistry;
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
+    const accessTokenLifespanSeconds = 48 * 60 * 60;
 
     beforeEach(function () {
       oidcAuthenticationService = {
         identityProvider: 'OIDC_EXAMPLE_NET',
-        createAccessToken: sinon.stub(),
         shouldCloseSession: true,
+        accessTokenLifespanMs: accessTokenLifespanSeconds * 1000,
+        sessionDurationSeconds: accessTokenLifespanSeconds,
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
         exchangeCodeForTokens: sinon.stub(),
@@ -41,6 +44,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         updateLastLoggedAtByIdentityProvider: sinon.stub(),
       };
       authenticationSessionService = {
+        generateSessionId: sinon.stub().returns('random-session-id'),
         save: sinon.stub(),
       };
       userRepository = { findByExternalIdentifier: sinon.stub(), update: sinon.stub() };
@@ -165,6 +169,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
 
       it('does not create an access token, nor saves the id token in storage, nor updates the last logged date', async function () {
         // given
+        sinon.stub(UserAccessToken, 'generateOidcUserToken');
         _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
         userRepository.findByExternalIdentifier.resolves(null);
 
@@ -183,7 +188,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
 
         // then
         expect(oidcAuthenticationService.saveIdToken).to.not.have.been.called;
-        expect(oidcAuthenticationService.createAccessToken).to.not.have.been.called;
+        expect(UserAccessToken.generateOidcUserToken).to.not.have.been.called;
         expect(userLoginRepository.updateLastLoggedAt).to.not.have.been.called;
       });
     });
@@ -295,12 +300,14 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
     const audience = 'https://app.pix.fr';
     const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
+    const accessTokenLifespanSeconds = 48 * 60 * 60;
 
     beforeEach(function () {
       oidcAuthenticationService = {
         identityProvider: POLE_EMPLOI.code,
         shouldCloseSession: true,
-        createAccessToken: sinon.stub(),
+        accessTokenLifespanMs: accessTokenLifespanSeconds * 1000,
+        sessionDurationSeconds: accessTokenLifespanSeconds,
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
         exchangeCodeForTokens: sinon.stub(),
@@ -316,6 +323,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
 
       authenticationSessionService = {
         save: sinon.stub(),
+        generateSessionId: sinon.stub().returns('random-session-id'),
       };
 
       userRepository = { findByExternalIdentifier: sinon.stub(), update: sinon.stub() };
@@ -365,6 +373,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
           userId: 1,
           identityProvider: oidcAuthenticationService.identityProvider,
         });
+        expect(authenticationSessionService.generateSessionId).to.have.been.calledOnce;
         expect(authenticationMethodRepository.updateLastLoggedAtByIdentityProvider).to.have.been.calledWithExactly({
           userId: 1,
           identityProvider: oidcAuthenticationService.identityProvider,
@@ -384,15 +393,16 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
           .withArgs({ externalIdentityId, identityProvider: oidcAuthenticationService.identityProvider })
           .resolves(user);
         oidcAuthenticationService.createAuthenticationComplement.returns(undefined);
-        oidcAuthenticationService.createAccessToken
-          .withArgs({ userId: 10, audience })
-          .returns('accessTokenForExistingExternalUser');
+        sinon
+          .stub(UserAccessToken, 'generateOidcUserToken')
+          .withArgs({ userId: 10, audience, sessionId: 'random-session-id', expiresIn: accessTokenLifespanSeconds })
+          .returns({ accessToken: 'accessTokenForExistingExternalUser' });
         oidcAuthenticationService.saveIdToken
           .withArgs({ idToken: sessionContent.idToken, userId: 10 })
           .resolves('logoutUrlUUID');
 
         // when
-        const accessToken = await authenticateOidcUser({
+        const authenticationResult = await authenticateOidcUser({
           requestedApplication,
           stateReceived: 'state',
           stateSent: 'state',
@@ -408,9 +418,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         });
 
         // then
-        sinon.assert.calledOnce(oidcAuthenticationService.createAccessToken);
         sinon.assert.calledOnceWithExactly(userLoginRepository.updateLastLoggedAt, { userId: 10 });
-        expect(accessToken).to.deep.equal({
+        expect(authenticationResult).to.deep.equal({
           pixAccessToken: 'accessTokenForExistingExternalUser',
           logoutUrlUUID: 'logoutUrlUUID',
           isAuthenticationComplete: true,
@@ -480,12 +489,14 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     let lastUserApplicationConnectionsRepository;
     let oidcAuthenticationServiceRegistry;
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
+    const accessTokenLifespanSeconds = 48 * 60 * 60;
 
     beforeEach(function () {
       oidcAuthenticationService = {
         identityProvider: POLE_EMPLOI.code,
-        createAccessToken: sinon.stub(),
         shouldCloseSession: true,
+        accessTokenLifespanMs: accessTokenLifespanSeconds * 1000,
+        sessionDurationSeconds: accessTokenLifespanSeconds,
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
         exchangeCodeForTokens: sinon.stub(),
@@ -500,6 +511,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
       };
       authenticationSessionService = {
         save: sinon.stub(),
+        generateSessionId: sinon.stub().returns('random-session-id'),
       };
       userRepository = { findByExternalIdentifier: sinon.stub(), update: sinon.stub() };
 

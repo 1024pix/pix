@@ -54,7 +54,6 @@ import { buildCertificationOfficer } from './build-certification-officer.js';
 import { buildCertificationPointOfContact } from './build-certification-point-of-contact.js';
 import { buildCertificationReport } from './build-certification-report.js';
 import { buildCertificationResult } from './build-certification-result.js';
-import { buildCertificationScoringCompletedEvent } from './build-certification-scoring-completed-event.js';
 import { buildCertificationSessionCandidate } from './build-certification-session-candidate.js';
 import { buildCertifiedArea } from './build-certified-area.js';
 import { buildCertifiedCompetence } from './build-certified-competence.js';
@@ -165,16 +164,15 @@ import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildComplementaryCertification } from './certification/complementary-certification/build-complementary-certification.js';
 import { buildComplementaryCertificationBadge } from './certification/complementary-certification/build-complementary-certification-badge.js';
-import { buildActiveCalibratedChallenge } from './certification/configuration/build-active-calibrated-challenge.js';
 import { buildCenter as buildConfigurationCenter } from './certification/configuration/build-center.js';
-import { buildCertificationFrameworksChallenge } from './certification/configuration/build-certification-frameworks-challenge.js';
-import { buildCertificationInfo } from './certification/configuration/build-certification-info.js';
+import { certificationInfoBuilder } from './certification/configuration/build-certification-info.js';
 import { buildFrameworkHistoryEntry } from './certification/configuration/build-framework-history-entry.js';
 import {
   buildScoBlockedAccessDateCollege,
   buildScoBlockedAccessDateLycee,
 } from './certification/configuration/build-sco-blocked-access-date.js';
-import { buildVersion as buildConfigurationVersion } from './certification/configuration/build-version.js';
+import { versionBuilder } from './certification/configuration/build-version.js';
+import { versionDetailsBuilder } from './certification/configuration/build-version-details.js';
 import { buildCandidate } from './certification/enrolment/build-candidate.js';
 import { buildCertificationEligibility } from './certification/enrolment/build-certification-eligibility.js';
 import { buildComplementaryCertificationBadgeWithOffsetVersion as buildComplementaryCertificationBadgeForEnrolment } from './certification/enrolment/build-complementary-certification-badge.js';
@@ -182,11 +180,6 @@ import { buildComplementaryCertificationCourseWithResultsEnrolment } from './cer
 import { buildEditedCandidate } from './certification/enrolment/build-edited-candidate.js';
 import { buildPixCertification } from './certification/enrolment/build-pix-certification.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
-import {
-  buildComplementarySubscription,
-  buildCoreSubscription,
-  buildSubscription,
-} from './certification/enrolment/build-subscription.js';
 import { buildUserEnrolment } from './certification/enrolment/build-user.js';
 import { buildUserCertificationEligibility } from './certification/enrolment/build-user-certification-eligibility.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/evaluation/build-assessment-result.js';
@@ -255,14 +248,13 @@ const banner = {
 
 const certification = {
   configuration: {
-    buildActiveCalibratedChallenge,
     buildCenter: buildConfigurationCenter,
-    buildCertificationFrameworksChallenge,
     buildFrameworkHistoryEntry,
-    buildCertificationInfo,
-    buildVersion: buildConfigurationVersion,
+    certificationInfoBuilder,
+    versionBuilder,
     buildScoBlockedAccessDateCollege,
     buildScoBlockedAccessDateLycee,
+    versionDetailsBuilder,
   },
   complementaryCertification: {
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,
@@ -275,10 +267,7 @@ const certification = {
     buildHabilitation,
     buildCertificationSessionCandidate,
     buildCandidate,
-    buildCoreSubscription,
-    buildComplementarySubscription,
     buildEditedCandidate,
-    buildSubscription,
     buildUser: buildUserEnrolment,
     buildComplementaryCertificationCourseWithResults: buildComplementaryCertificationCourseWithResultsEnrolment,
     buildUserCertificationEligibility,
@@ -427,7 +416,6 @@ export {
   buildCertificationPointOfContact,
   buildCertificationReport,
   buildCertificationResult,
-  buildCertificationScoringCompletedEvent,
   buildCertifiedArea,
   buildCertifiedCompetence,
   buildCertifiedProfile,

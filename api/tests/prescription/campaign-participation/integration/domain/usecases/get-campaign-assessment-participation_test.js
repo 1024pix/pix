@@ -1,19 +1,16 @@
-import sinon from 'sinon';
-
 import { CampaignAssessmentParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignAssessmentParticipation.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { constants } from '../../../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | get-campaign-assessment-participation', function () {
-  let campaignId, targetProfileId, organizationLearner, organizationId;
+  let campaignId, targetProfileId, organizationId, organizationLearner;
 
   let skillId, skillId2, skillId3;
 
@@ -257,20 +254,6 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
   });
 
   context('progression', function () {
-    let originalConstantValueRetrying, originalConstantValueImproving;
-    before(function () {
-      originalConstantValueRetrying = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
-      originalConstantValueImproving = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
-
-      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(0);
-      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(4);
-    });
-
-    after(function () {
-      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(originalConstantValueRetrying);
-      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(originalConstantValueImproving);
-    });
-
     describe('When Campaign is Assessment', function () {
       it('should get the campaignAssessmentParticipation', async function () {
         // when

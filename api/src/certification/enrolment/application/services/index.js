@@ -1,4 +1,5 @@
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 
 const dependencies = {
@@ -11,6 +12,6 @@ const servicesWithoutInjectedDependencies = {
   registerCandidateParticipation,
 };
 
-const services = injectDependencies(servicesWithoutInjectedDependencies, dependencies);
+const services = injectDependencies(servicesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { services };

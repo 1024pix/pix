@@ -1,7 +1,5 @@
 import perf_hooks from 'node:perf_hooks';
 
-import axios from 'axios';
-
 const { performance } = perf_hooks;
 
 import { logger } from './utils/logger.js';
@@ -15,42 +13,47 @@ class HttpResponse {
 }
 
 const httpAgent = {
-  async post({ url, payload, headers, timeout }) {
-    const startTime = performance.now();
-    let responseTime = null;
-    try {
-      const config = {
-        headers,
-      };
-      if (timeout != undefined) {
-        config.timeout = timeout;
-      }
-      const httpResponse = await axios.post(url, payload, config);
-      responseTime = performance.now() - startTime;
-      logger.info({
-        metrics: { responseTime },
-        message: `End POST request to ${url} success: ${httpResponse.status}`,
-      });
+  /**
+   * Sends a POST request with a JSON payload.
+   * @param {Object} options
+   * @param {string} options.url
+   * @param {Object} options.payload
+   * @param {Object} [options.headers]
+   * @returns {Promise<HttpResponse>}
+   */
+  async post({ url, payload, headers }) {
+    const finalHeaders = structuredClone(headers ?? {});
+    finalHeaders['Content-type'] = 'application/json';
+    const body = payload && JSON.stringify(payload);
+    return _doRequest({ url, headers: finalHeaders, body, method: 'POST' });
+  },
 
-      return new HttpResponse({
-        code: httpResponse.status,
-        data: httpResponse.data,
-        isSuccessful: true,
-      });
-    } catch (httpErr) {
-      responseTime = performance.now() - startTime;
-      let code = null;
-      let data;
+  /**
+   * Sends a GET request to the specified URL.
+   * @param {Object} options
+   * @param {string} options.url
+   * @param {Object} [options.headers]
+   * @returns {Promise<HttpResponse>}
+   */
+  async get({ url, headers }) {
+    return _doRequest({ url, headers, method: 'GET' });
+  },
+};
 
-      if (httpErr.response) {
-        code = httpErr.response.status;
-        data = httpErr.response.data;
-      } else {
-        code = httpErr.code;
-        data = httpErr.message;
-      }
-
-      const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
+async function _doRequest({ url, body, headers, method }) {
+  const startTime = performance.now();
+  let responseTime;
+  try {
+    const httpResponse = await fetch(url, {
+      method,
+      body,
+      headers,
+    });
+    responseTime = performance.now() - startTime;
+    if (!httpResponse.ok) {
+      const data = await _parseResponseBody(httpResponse);
+      const code = httpResponse.status;
+      const message = `End ${method} request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
 
       logger.error({
         metrics: { responseTime },
@@ -63,57 +66,45 @@ const httpAgent = {
         isSuccessful: false,
       });
     }
-  },
-  async get({ url, payload, headers, timeout }) {
-    const startTime = performance.now();
-    let responseTime = null;
-    try {
-      const config = {
-        data: payload,
-        headers,
-      };
-      if (timeout != undefined) {
-        config.timeout = timeout;
-      }
-      const httpResponse = await axios.get(url, config);
-      responseTime = performance.now() - startTime;
-      logger.info({
-        metrics: { responseTime },
-        message: `End GET request to ${url} success: ${httpResponse.status}`,
-      });
 
-      return new HttpResponse({
-        code: httpResponse.status,
-        data: httpResponse.data,
-        isSuccessful: true,
-      });
-    } catch (httpErr) {
-      responseTime = performance.now() - startTime;
-      const isSuccessful = false;
+    logger.info({
+      metrics: { responseTime },
+      message: `End ${method} request to ${url} success: ${httpResponse.status}`,
+    });
+    const data = await _parseResponseBody(httpResponse);
 
-      let code;
-      let data;
+    return new HttpResponse({
+      code: httpResponse.status,
+      data,
+      isSuccessful: true,
+    });
+  } catch (httpErr) {
+    responseTime = performance.now() - startTime;
+    const message = `End ${method} request to ${url} , unexpected error: ${httpErr.message}`;
+    logger.error({
+      metrics: { responseTime },
+      message,
+    });
 
-      if (httpErr.response) {
-        code = httpErr.response.status;
-        data = httpErr.response.data;
-      } else {
-        code = httpErr.code;
-        data = httpErr.message;
-      }
+    return new HttpResponse({
+      code: null,
+      data: httpErr.message,
+      isSuccessful: false,
+    });
+  }
+}
 
-      logger.error({
-        metrics: { responseTime },
-        message: `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
-      });
-
-      return new HttpResponse({
-        code,
-        data,
-        isSuccessful,
-      });
-    }
-  },
-};
+// Deliberately not checking headers for content-type to determine
+// whether to use response.json() or not
+// to mimic how axios handles it (axios is much more agressive and does not read the headers)
+// ref: https://github.com/axios/axios/blob/v1.x/lib/defaults/index.js  fnc: stringifySafely
+async function _parseResponseBody(response) {
+  const rawData = await response.text();
+  try {
+    return JSON.parse(rawData);
+  } catch {
+    return rawData;
+  }
+}
 
 export { httpAgent };

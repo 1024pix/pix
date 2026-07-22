@@ -15,7 +15,7 @@ describe('Unit | Identity Access Management | Domain | Service | reset-password'
       // then
       expect(temporaryKey).to.be.a('string');
 
-      const decoded = tokenService.getDecodedToken(temporaryKey, config.temporaryKey.secret);
+      const decoded = tokenService.getDecodedToken(temporaryKey, config.passwordResetDemand.secret);
       expect(decoded).to.have.property('data');
       expect(decoded.data).to.be.a('string');
       expect(decoded.data.length).to.equal(24);

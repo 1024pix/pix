@@ -1,8 +1,10 @@
 import sinon from 'sinon';
 
 import { AuthenticationKeyExpired } from '../../../../../src/identity-access-management/domain/errors.js';
+import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { createOidcUser } from '../../../../../src/identity-access-management/domain/usecases/create-oidc-user.usecase.js';
 import { UserAlreadyExistsWithAuthenticationMethodError } from '../../../../../src/shared/domain/errors.js';
+import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
 import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -13,6 +15,9 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
   let authenticationSessionService;
   let oidcAuthenticationService;
   let oidcAuthenticationServiceRegistry;
+  let userLoginRepository;
+  let lastUserApplicationConnectionsRepository;
+  const accessTokenLifespanSeconds = 48 * 60 * 60;
 
   beforeEach(function () {
     authenticationMethodRepository = {
@@ -26,18 +31,28 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
 
     authenticationSessionService = {
       getByKey: sinon.stub(),
+      generateSessionId: sinon.stub().returns('random-session-id'),
     };
 
     oidcAuthenticationService = {
       shouldCloseSession: true,
+      accessTokenLifespanMs: accessTokenLifespanSeconds * 1000,
+      sessionDurationSeconds: accessTokenLifespanSeconds,
       getUserInfo: sinon.stub(),
       createUserAccount: sinon.stub(),
-      createAccessToken: sinon.stub(),
       saveIdToken: sinon.stub(),
     };
 
     oidcAuthenticationServiceRegistry = {
       getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
+    };
+
+    userLoginRepository = {
+      updateLastLoggedAt: sinon.stub().resolves(),
+    };
+
+    lastUserApplicationConnectionsRepository = {
+      upsert: sinon.stub().resolves(),
     };
   });
 
@@ -87,6 +102,65 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
       // then
       expect(error).to.be.instanceOf(UserAlreadyExistsWithAuthenticationMethodError);
       expect(error.message).to.equal('Authentication method already exists for this external identifier.');
+    });
+  });
+
+  context('when the user account is created', function () {
+    it('returns the access token and the logout url uuid', async function () {
+      // given
+      const identityProvider = 'SOME_IDP';
+      const audience = 'https://app.pix.fr';
+      const userId = 'CREATED_USER_ID';
+      const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
+      const sessionContent = { idToken: 'idToken' };
+      const userInfo = { firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'duGAR' };
+
+      authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
+        sessionContent,
+        userInfo,
+      });
+      authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
+        .withArgs({ externalIdentifier: 'duGAR', identityProvider })
+        .resolves(null);
+      oidcAuthenticationService.createUserAccount.resolves(userId);
+      sinon.stub(UserAccessToken, 'generateOidcUserToken').returns({ accessToken: 'accessToken' });
+      oidcAuthenticationService.saveIdToken
+        .withArgs({ idToken: sessionContent.idToken, userId })
+        .resolves('logoutUrlUUID');
+
+      // when
+      const result = await createOidcUser({
+        identityProvider,
+        authenticationKey: 'AUTHENTICATION_KEY',
+        locale: 'fr-FR',
+        audience,
+        authenticationSessionService,
+        oidcAuthenticationServiceRegistry,
+        legalDocumentApiRepository,
+        authenticationMethodRepository,
+        userToCreateRepository,
+        userLoginRepository,
+        lastUserApplicationConnectionsRepository,
+        requestedApplication,
+      });
+
+      // then
+      expect(legalDocumentApiRepository.acceptPixAppTos).to.have.been.calledWithExactly({ userId });
+      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId });
+      expect(authenticationMethodRepository.updateLastLoggedAtByIdentityProvider).to.have.been.calledWithExactly({
+        userId,
+        identityProvider,
+      });
+      expect(UserAccessToken.generateOidcUserToken).to.have.been.calledWithExactly({
+        userId,
+        audience,
+        sessionId: 'random-session-id',
+        expiresIn: accessTokenLifespanSeconds,
+      });
+      expect(result).to.deep.equal({
+        accessToken: 'accessToken',
+        logoutUrlUUID: 'logoutUrlUUID',
+      });
     });
   });
 });

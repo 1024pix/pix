@@ -1,6 +1,5 @@
 import { CertifiedLevel } from '../../../../../../src/certification/evaluation/domain/models/CertifiedLevel.js';
 import { UNCERTIFIED_LEVEL } from '../../../../../../src/certification/shared/domain/constants.js';
-import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED } from '../../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertifiedLevel', function () {
@@ -24,28 +23,28 @@ describe('Unit | Domain | Models | CertifiedLevel', function () {
     });
 
     context('rule n°2 : 2 OK, 1 KO', function () {
-      it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, function () {
+      it('certifies the estimated level when reproducibility rate >= 80%', function () {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallenges: 3,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 2,
           estimatedLevel: 3,
-          reproducibilityRate: MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
+          reproducibilityRate: 80,
         });
 
         // then
         expect(certifiedLevel.value).to.equal(3);
       });
 
-      it(`certifies a level below the estimated level when reproducibility rate < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, function () {
+      it('certifies a level below the estimated level when reproducibility rate < 80%', function () {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallenges: 3,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 2,
           estimatedLevel: 3,
-          reproducibilityRate: MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED - 1,
+          reproducibilityRate: 80 - 1,
         });
 
         // then
@@ -90,14 +89,14 @@ describe('Unit | Domain | Models | CertifiedLevel', function () {
     });
 
     context('rule n°5: 1 OK, 1 KO, 1 NEUTRALIZED', function () {
-      it(`certifies the estimated level is reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, function () {
+      it('certifies the estimated level is reproducibility rate >= 80', function () {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallenges: 3,
           numberOfCorrectAnswers: 1,
           numberOfNeutralizedAnswers: 1,
           estimatedLevel: 3,
-          reproducibilityRate: MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
+          reproducibilityRate: 80,
         });
 
         // then
@@ -106,7 +105,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function () {
         expect(certifiedLevel.isDowngraded()).to.be.false;
       });
 
-      it(`certifies a level below the estimated on if reproducibility rate >= 70% and < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, function () {
+      it('certifies a level below the estimated on if reproducibility rate >= 70% and < 80', function () {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallenges: 3,
@@ -265,14 +264,14 @@ describe('Unit | Domain | Models | CertifiedLevel', function () {
     });
 
     context('rule n°12: 1 OK, 1 KO', function () {
-      it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, function () {
+      it(`certifies the estimated level when reproducibility rate >= ${80}%`, function () {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallenges: 2,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
-          reproducibilityRate: MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
+          reproducibilityRate: 80,
         });
 
         // then
@@ -281,7 +280,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function () {
         expect(certifiedLevel.isDowngraded()).to.be.false;
       });
 
-      it(`certifies a level below the estimated level when reproducibility rate >= 70% and < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, function () {
+      it(`certifies a level below the estimated level when reproducibility rate >= 70% and < ${80}%`, function () {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallenges: 2,

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import { getUserProfile } from '../../../../../src/profile/domain/usecases/get-user-profile.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
@@ -13,6 +12,7 @@ function assertScorecard(userScorecard, expectedUserScorecard) {
   expect(userScorecard.pixScoreAheadOfNextLevel).to.equal(expectedUserScorecard.pixScoreAheadOfNextLevel);
   expect(userScorecard.status).to.equal(expectedUserScorecard.status);
 }
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../../src/shared/constants.js';
 
 describe('Profile | Unit | UseCase | get-user-profile', function () {
   let competenceRepository;
@@ -146,11 +146,6 @@ describe('Profile | Unit | UseCase | get-user-profile', function () {
           })
           .returns(expectedUserScorecard[2]);
 
-        const expectedMaxReachableLevel = Symbol('maxReachableLevel');
-        const expectedMaxReachablePixScore = Symbol('maxReachablePixCount');
-        sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(expectedMaxReachableLevel);
-        sinon.stub(constants, 'MAX_REACHABLE_PIX_SCORE').value(expectedMaxReachablePixScore);
-
         const expectedPixScore = _.sumBy(expectedUserScorecard, 'earnedPix');
 
         // when
@@ -165,8 +160,8 @@ describe('Profile | Unit | UseCase | get-user-profile', function () {
 
         //then
         expect(userProfile.pixScore).to.equal(expectedPixScore);
-        expect(userProfile.maxReachableLevel).to.equal(expectedMaxReachableLevel);
-        expect(userProfile.maxReachablePixScore).to.equal(expectedMaxReachablePixScore);
+        expect(userProfile.maxReachableLevel).to.equal(MAX_REACHABLE_LEVEL);
+        expect(userProfile.maxReachablePixScore).to.equal(MAX_REACHABLE_PIX_SCORE);
         assertScorecard(userProfile.scorecards[0], expectedUserScorecard[0]);
         assertScorecard(userProfile.scorecards[1], expectedUserScorecard[1]);
         assertScorecard(userProfile.scorecards[2], expectedUserScorecard[2]);

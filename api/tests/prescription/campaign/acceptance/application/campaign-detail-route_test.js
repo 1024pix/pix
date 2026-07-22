@@ -9,7 +9,7 @@ import { buildLearningContent as learningContentBuilder } from '../../../../tool
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { STARTED } = CampaignParticipationStatuses;
-import { CAMPAIGN_FEATURES } from '../../../../../src/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 
 describe('Acceptance | API | campaign-detail-route', function () {

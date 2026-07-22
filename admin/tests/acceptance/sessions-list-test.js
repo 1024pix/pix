@@ -102,36 +102,66 @@ module('Acceptance | Session List', function (hooks) {
         });
       });
 
-      module('when invalid filter value are typed in', function () {
-        test('it should display an empty list', async function (assert) {
-          // given
-          const screen = await visit('/sessions/list');
-
+      module('when the ids filter contains no valid id', function () {
+        test('it should not filter the sessions', async function (assert) {
           // when
-          await fillByLabel('Filtrer les sessions avec un id', 'azere');
+          const screen = await visit('/sessions/list?ids=azere');
 
-          //then
-          assert.dom(screen.getByText('Aucun résultat')).exists();
+          // then
+          const table = screen.getByRole('table', {
+            name: t('pages.sessions.table.caption'),
+          });
+          const rows = within(table).getAllByRole('row');
+          assert.strictEqual(rows.length, 11);
         });
       });
     });
 
     module('#Filters', function () {
-      module('#id', function (hooks) {
-        let expectedSession;
+      module('#ids', function (hooks) {
+        let firstExpectedSession;
+        let secondExpectedSession;
 
         hooks.beforeEach(function () {
-          expectedSession = server.create('session', 'finalized');
+          firstExpectedSession = server.create('session', 'finalized');
+          secondExpectedSession = server.create('session', 'finalized');
           server.createList('session', 10, 'finalized');
         });
 
-        test('it should display the session with the ID specified in the input field', async function (assert) {
-          // when
-          const screen = await visit('/sessions/list');
-          await fillByLabel('Filtrer les sessions avec un id', expectedSession.id);
+        module('when only one ID is specified in the dedicated filter', function () {
+          test('it should display the expected session', async function (assert) {
+            // when
+            const screen = await visit('/sessions/list');
+            await fillByLabel(t('pages.sessions.list.filters.ids.aria-label'), firstExpectedSession.id);
 
-          // then
-          assert.dom(screen.getByRole('link', { name: '1' })).exists();
+            // then
+            const table = screen.getByRole('table', {
+              name: t('pages.sessions.table.caption'),
+            });
+            const rows = within(table).getAllByRole('row');
+            assert.strictEqual(rows.length, 2);
+            assert.dom(screen.getByRole('link', { name: firstExpectedSession.id })).exists();
+          });
+        });
+
+        module('when multiple IDs are specified in the dedicated filter', function () {
+          test('it should display the expected sessions', async function (assert) {
+            // when
+            const screen = await visit('/sessions/list');
+            await fillByLabel(
+              t('pages.sessions.list.filters.ids.aria-label'),
+              `${firstExpectedSession.id}, ${secondExpectedSession.id}`,
+            );
+
+            // then
+            const table = screen.getByRole('table', {
+              name: t('pages.sessions.table.caption'),
+            });
+            const rows = within(table).getAllByRole('row');
+            assert.strictEqual(rows.length, 3);
+            assert.dom(screen.getByRole('link', { name: firstExpectedSession.id })).exists();
+            assert.dom(screen.getByRole('link', { name: secondExpectedSession.id })).exists();
+          });
         });
       });
 

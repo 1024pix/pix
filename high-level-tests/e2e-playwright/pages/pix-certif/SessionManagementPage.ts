@@ -112,7 +112,7 @@ export class SessionManagementPage {
         choice = 'Pix+ Droit';
         break;
       case CERTIFICATIONS_DATA.PRO_SANTE:
-        choice = 'Pix+ Professionnels de santé';
+        choice = 'Pix+ Professionnels de Santé';
         break;
       default:
         choice = 'Certification Pix';

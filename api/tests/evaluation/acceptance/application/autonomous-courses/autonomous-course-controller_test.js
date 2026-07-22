@@ -1,7 +1,5 @@
-import sinon from 'sinon';
-
 import { createServer } from '../../../../../server.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
+import { config } from '../../../../../src/shared/config.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
@@ -48,9 +46,8 @@ describe('Acceptance | API | Autonomous Course', function () {
       let targetProfileId;
 
       beforeEach(async function () {
-        sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+          id: config.autonomousCourse.autonomousCoursesOrganizationId,
         });
         targetProfileId = databaseBuilder.factory.buildTargetProfile({
           isSimplifiedAccess: true,
@@ -101,10 +98,8 @@ describe('Acceptance | API | Autonomous Course', function () {
   describe('GET /api/admin/autonomous-courses', function () {
     it('should get a paginated list of autonomous courses', async function () {
       // given
-      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
       const organizationId = databaseBuilder.factory.buildOrganization({
-        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+        id: config.autonomousCourse.autonomousCoursesOrganizationId,
       }).id;
 
       const targetProfileId = databaseBuilder.factory.buildTargetProfile({
@@ -177,9 +172,8 @@ describe('Acceptance | API | Autonomous Course', function () {
     let organizationId;
 
     beforeEach(async function () {
-      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
       const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+        id: config.autonomousCourse.autonomousCoursesOrganizationId,
       });
       targetProfileId = databaseBuilder.factory.buildTargetProfile({
         isSimplifiedAccess: true,
@@ -237,9 +231,8 @@ describe('Acceptance | API | Autonomous Course', function () {
     let organizationId;
 
     beforeEach(async function () {
-      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
       const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+        id: config.autonomousCourse.autonomousCoursesOrganizationId,
       });
       targetProfileId = databaseBuilder.factory.buildTargetProfile({
         isSimplifiedAccess: true,
@@ -300,11 +293,10 @@ describe('Acceptance | API | Autonomous Course', function () {
     let targetProfiles;
 
     beforeEach(async function () {
-      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
       const userId = databaseBuilder.factory.buildUser().id;
 
       mainOrganization = databaseBuilder.factory.buildOrganization({
-        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+        id: config.autonomousCourse.autonomousCoursesOrganizationId,
       });
       otherOrganization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: mainOrganization.id, userId });

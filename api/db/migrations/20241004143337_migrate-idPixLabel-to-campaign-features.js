@@ -1,5 +1,5 @@
 import { CampaignExternalIdTypes } from '../../src/prescription/shared/domain/constants.js';
-import { CAMPAIGN_FEATURES } from '../../src/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../src/shared/constants.js';
 
 const TABLE_NAME = 'campaign-features';
 

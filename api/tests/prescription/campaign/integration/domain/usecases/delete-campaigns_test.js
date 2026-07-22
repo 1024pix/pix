@@ -5,8 +5,8 @@ import { usecases } from '../../../../../../src/prescription/campaign/domain/use
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignParticipationLoggerContext } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { PIX_ADMIN } from '../../../../../../src/shared/domain/constants.js';
-import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
+import { PIX_ADMIN } from '../../../../../../src/shared/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { AuditLoggingJob } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';

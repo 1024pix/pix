@@ -72,12 +72,10 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           sessionId,
           resultRecipientEmail: 'recipientEmail@example.net',
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate1.id });
         const candidate2 = dbf.buildCertificationCandidate({
           sessionId,
           resultRecipientEmail: 'recipientEmail@example.net',
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate2.id });
 
         const certif1 = dbf.buildCertificationCourse({
           sessionId: candidate1.sessionId,
@@ -137,12 +135,10 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           sessionId,
           resultRecipientEmail: 'recipientEmail@example.net',
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate1.id });
         const candidate2 = dbf.buildCertificationCandidate({
           sessionId,
           resultRecipientEmail: 'recipientEmail@example.net',
         });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate2.id });
 
         const certif1 = dbf.buildCertificationCourse({
           sessionId: candidate1.sessionId,

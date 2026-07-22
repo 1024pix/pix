@@ -6,15 +6,15 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Certification | Configuration | Integration | Repository | center-repository', function () {
   describe('#addToWhitelistByExternalIds', function () {
-    it('should set the centers as whitelisted', async function () {
+    it('should set the centers as whitelisted (case insensitive', async function () {
       // given
-      const whitelistedExternalId1 = '1234ABC';
+      const whitelistedExternalId1 = '1234Abc';
       const center1BeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
         type: CenterTypes.SCO,
         externalId: whitelistedExternalId1,
         updatedAt: new Date('2024-09-24'),
       });
-      const whitelistedExternalId2 = 'SCOUAI';
+      const whitelistedExternalId2 = 'SCOuai';
       const center2BeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
         type: CenterTypes.SCO,
         externalId: whitelistedExternalId2,
@@ -25,7 +25,7 @@ describe('Certification | Configuration | Integration | Repository | center-repo
 
       // when
       const updatedExternalIds = await centerRepository.addToWhitelistByExternalIds({
-        externalIds: externalIds,
+        externalIds: ['1234aBc', 'scouaI'],
       });
 
       // then

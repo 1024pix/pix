@@ -133,7 +133,7 @@ function authenticateJWT({ key, validate }) {
       return boom.unauthorized(null, 'jwt');
     }
 
-    const accessToken = tokenService.extractTokenFromAuthChain(authorizationHeader);
+    const accessToken = tokenService.extractTokenFromAuthorizationHeader(authorizationHeader);
     if (!accessToken) {
       logger.warn({
         message: 'authorizationHeader has no accessToken',

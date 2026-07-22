@@ -53,6 +53,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
 
     const screen = await visit('/campagnes/creation-catalogue');
 
+    await click(screen.getByRole('radio', { name: t('pages.campaign-creation.purpose.combined-course') }));
+
     await click(
       screen.getByRole('link', {
         name: t('pages.campaign-creation.course-selection-label'),
@@ -108,6 +110,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
 
       const screen = await visit('/campagnes/creation-catalogue');
 
+      await click(screen.getByRole('radio', { name: t('pages.campaign-creation.purpose.assessment') }));
+
       await click(
         screen.getByRole('link', {
           name: t('pages.campaign-creation.course-selection-label'),
@@ -143,8 +147,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
     test('it should allow to create a campaign of type PROFILES_COLLECTION and redirect to the newly created campaign', async function (assert) {
       // given
       const screen = await visit('/campagnes/creation-catalogue');
-      await fillByLabel('Nom de la campagne *', 'Ma Campagne');
       await clickByName('Collecter les profils Pix des participants');
+      await fillByLabel('Nom de la campagne *', 'Ma Campagne');
       const externalIdentifier = screen
         .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })
         .closest('fieldset');
@@ -165,6 +169,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
 
       const screen = await visit('/campagnes/creation-catalogue');
 
+      await click(screen.getByRole('radio', { name: t('pages.campaign-creation.purpose.assessment') }));
+
       await click(
         screen.getByRole('link', {
           name: t('pages.campaign-creation.course-selection-label'),
@@ -181,7 +187,7 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
 
       await fillByLabel('Nom de la campagne *', 'Ma Campagne');
 
-      const title = `${t('pages.campaign-creation.test-title.label')} ${t('pages.campaign-creation.test-title.sublabel')}`;
+      const title = `${t('pages.campaign-creation.course-title.label')} ${t('pages.campaign-creation.course-title.sublabel')}`;
 
       await fillByLabel(title, 'Savoir rechercher');
       await clickByName('Non');
@@ -198,6 +204,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
       // given
       const targetProfileName = availableTargetProfiles[1].name;
       const screen = await visit('/campagnes/creation-catalogue');
+
+      await click(screen.getByRole('radio', { name: t('pages.campaign-creation.purpose.assessment') }));
 
       await click(
         screen.getByRole('link', {
@@ -228,6 +236,8 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
 
       const expectedTargetProfileName = availableTargetProfiles[1].name;
       server.post('/campaigns', {}, 500);
+
+      await click(screen.getByRole('radio', { name: t('pages.campaign-creation.purpose.assessment') }));
 
       // when
       await click(

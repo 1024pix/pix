@@ -1,3 +1,5 @@
+import './deprecation-workflow.js';
+
 import Application from '@ember/application';
 import setupInspector from '@embroider/legacy-inspector-support/ember-source-4.12';
 import loadInitializers from 'ember-load-initializers';

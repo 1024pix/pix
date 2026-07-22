@@ -1,5 +1,6 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
@@ -32,16 +33,21 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     // when
     const screen = await visit('/certification-centers/new');
 
-    await fillIn(screen.getByRole('textbox', { name: 'Nom du centre' }), name);
+    await fillIn(
+      screen.getByRole('textbox', { name: `${t('components.certification-centers.creation.name.label')} *` }),
+      name,
+    );
 
-    await click(screen.getByRole('button', { name: "Type d'établissement" }));
+    await click(screen.getByRole('button', { name: `${t('components.certification-centers.creation.type.label')} *` }));
     await screen.findByRole('listbox');
     await click(screen.getByRole('option', { name: type.label }));
 
-    await fillIn(screen.getByRole('textbox', { name: 'Identifiant externe' }), externalId);
-
+    await fillIn(
+      screen.getByRole('textbox', { name: t('components.certification-centers.creation.external-id.label') }),
+      externalId,
+    );
     await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
-    await click(screen.getByRole('button', { name: 'Ajouter' }));
+    await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
     // then
     assert.strictEqual(currentURL(), '/certification-centers/99');
@@ -49,7 +55,7 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     assert.dom(screen.getByText(type.label)).exists();
     assert.dom(screen.getByText(externalId)).exists();
 
-    // assert.dom(screen.getByRole('listitem', { name: 'Non-habilité pour Pix+Autre' })).exists();
-    // assert.dom(screen.getByRole('listitem', { name: 'Habilité pour Pix+Surf' })).exists();
+    assert.dom(screen.getByRole('listitem', { name: 'Habilité pour Pix+Surf' })).exists();
+    assert.dom(screen.getByRole('listitem', { name: 'Non habilité pour Pix+Autre' })).exists();
   });
 });

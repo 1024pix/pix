@@ -1,11 +1,11 @@
 import * as url from 'node:url';
 
 import _ from 'lodash';
-import randomString from 'randomstring';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { OrganizationLearner } from '../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../src/shared/domain/errors.js';
+import { generateCode } from '../../src/shared/infrastructure/utils/code-generator.js';
 
 function _buildOrganizationLearner(division, organizationId, iteration) {
   const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
@@ -21,13 +21,8 @@ function _buildOrganizationLearner(division, organizationId, iteration) {
 async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivisions, organizationId) {
   const divisions = [];
   for (let i = 0; i < numberOfDivisions; ++i) {
-    const letters = randomString.generate({
-      length: 2,
-      charset: 'alphabetic',
-      capitalization: 'uppercase',
-      readable: true,
-    });
-    const numbers = randomString.generate({ length: 1, charset: 'numeric', readable: true });
+    const letters = generateCode(2, 'alphaSafe').toUpperCase();
+    const numbers = generateCode(1, 'numericSafe');
 
     const generatedDivision = letters.concat(numbers);
     if (_.find(divisions, (division) => division === generatedDivision)) {

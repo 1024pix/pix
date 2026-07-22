@@ -6,8 +6,8 @@
   "isBeta": true,
   "visibility": "public",
   "details": {
-    "image": "https://assets.pix.org/modules/deepfakes/picto-deepfakes.svg",
-    "description": "<p>Le numérique a des effets directs sur l’environnement&nbsp;: fabrication des appareils, consommation d’électricité des centres de données, etc. Mais il modifie aussi nos habitudes, avec des conséquences indirectes sur l’environnement. </p><p>Dans ce module, vous apprendrez à identifier ces effets, à limiter leurs impacts négatifs et à comprendre l’effet rebond.</p>",
+    "image": "https://assets.pix.org/modules/NR_Evaluation_AVA/picto_nr_eval_ava.svg",
+    "description": "<p>Le numérique a des effets directs sur l’environnement&nbsp;: fabrication des appareils, consommation d’électricité des centres de données, etc. Mais le numérique modifie aussi nos habitudes, avec des conséquences indirectes sur l’environnement. </p><p>Dans ce module, vous apprendrez à identifier ces effets, à limiter leurs impacts négatifs et à comprendre l’effet rebond.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -33,7 +33,7 @@
                 "id": "37a9e342-ceee-494e-ae50-1690aea3b6bb",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Olivier et Alise s’interrogent sur l’impact environnemental du télétravail.</p>",
+                "instruction": "<p>Olivier et Omar s’interrogent sur l’impact environnemental du télétravail.</p>",
                 "functionalInstruction": "",
                 "tagName": "message-conversation",
                 "props": {
@@ -52,16 +52,16 @@
                       "content": "C’est bien mieux pour l’environnement ! 🌏"
                     },
                     {
-                      "userName": "Alise",
+                      "userName": "Omar",
                       "direction": "incoming",
                       "type": "Texte",
                       "content": "Je ne suis pas d’accord !"
                     },
                     {
-                      "userName": "Alise",
+                      "userName": "Omar",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "La fabrication des ordinateurs est polluante, la visio aussi. Et puis, comme les télétravailleurs restent chez eux, ils utilisent plus de chauffage. 🏠"
+                      "content": "La fabrication des ordinateurs est polluante, la visio aussi. Et puis, comme les personnes qui télétravaillent restent chez elles, elles doivent plus chauffer et éclairer leurs logements, ce qui pollue encore un peu plus. 🏠"
                     }
                   ],
                   "animationSpeed": 0
@@ -92,7 +92,7 @@
                   },
                   {
                     "id": "2",
-                    "content": "Alise",
+                    "content": "Omar",
                     "feedback": {
                       "diagnosis": "<p><strong>Difficile de dire qui a raison ! </strong></p><p>Cet effet est très <strong>difficile à quantifier.</strong></p>"
                     }
@@ -139,10 +139,19 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p> À votre avis, pour chacun des cas suivants, l’effet sur l’environnement est-il direct ou indirect ?<br></p>",
+              "instruction": "<p>Pour chacun des cas suivants, dites s’il s’agit d’un effet direct ou indirect sur l’environnement.</p>",
               "steps": [
                 {
                   "elements": [
+                    {
+                      "id": "aa102688-a58e-4912-b46c-60eb68313f87",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte1_step1.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
                     {
                       "id": "38c04097-96ce-430a-9350-0ccde106a9bc",
                       "type": "text",
@@ -159,21 +168,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>La fabrication de matériel informatique impacte <strong>directement </strong>l’environnement.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d’extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet direct</strong>.</p><p> La fabrication de matériel informatique impacte directement l’environnement.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet direct</strong>.</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d’extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet direct</strong>.</p><p> La fabrication de matériel informatique impacte directement l’environnement.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet direct</strong>.</p><p>La fabrication de matériel informatique implique <strong>nécessairement</strong> d’extraire des matériaux du sol, de les transporter et les transformer, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         }
                       ],
@@ -183,6 +192,15 @@
                 },
                 {
                   "elements": [
+                    {
+                      "id": "3f3f2847-43fe-44ce-ac83-31d1a2b58379",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte1_step3.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
                     {
                       "id": "766b1dbd-00ed-404b-b202-c4ded882a002",
                       "type": "text",
@@ -199,21 +217,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Les serveurs consomment forcément de l’électricité pour fonctionner.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet direct</strong> sur l’environnement&nbsp;: les serveurs consomment forcément de l’électricité pour fonctionner.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet direct</strong> sur l’environnement&nbsp;: les serveurs consomment forcément de l’électricité pour fonctionner.</p>"
+                            "diagnosis": "<p>Les serveurs consomment <strong>nécessairement</strong> de l’électricité pour fonctionner, ce qui impacte <strong>directement</strong> l’environnement.</p>"
                           }
                         }
                       ],
@@ -223,6 +241,15 @@
                 },
                 {
                   "elements": [
+                    {
+                      "id": "b9b6a278-9ffa-46e6-88c9-f0441995cd86",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte1_stepper_v2_img3.svg",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
                     {
                       "id": "ed766469-ad4f-4484-b16c-24f267894f97",
                       "type": "text",
@@ -239,21 +266,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: le smartphone&nbsp;remplace d’autres équipements.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: l’essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong>effet de substitution</strong>&nbsp;: le smartphone remplace d’autres équipements.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: le smartphone&nbsp;remplace d’autres équipements.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: l’essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong>effet de substitution</strong>&nbsp;: le smartphone remplace d’autres équipements.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement, et plus particulièrement d’un <strong>effet de substitution</strong>&nbsp;: le smartphone&nbsp;remplace d’autres équipements.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: l’essor des smartphone fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong>effet de substitution</strong>&nbsp;: le smartphone remplace d’autres équipements, ce qui impacte l’environnement.</p>"
                           }
                         }
                       ],
@@ -263,6 +290,15 @@
                 },
                 {
                   "elements": [
+                    {
+                      "id": "bb3117d8-801f-4775-9044-41b6b0414090",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte1_step4.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
                     {
                       "id": "0c40003a-900a-48c1-9f4c-f27d4b3aa464",
                       "type": "text",
@@ -279,21 +315,21 @@
                           "id": "1",
                           "content": "Effet direct",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un<strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Effet indirect",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p> Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un<strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire. Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sous la forme d’un <strong>gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire. Cette consommation supplémentaire a aussi un coût environnemental.</p>"
+                            "diagnosis": "<p>Il s’agit d’un <strong>effet indirect</strong> sur l’environnement&nbsp;: le télétravail fait <strong>évoluer les comportements humains</strong>. Plus particulièrement, il s’agit d’un <strong> gain de revenus</strong>&nbsp;: on dispose de plus de revenus qu’on consacre à une consommation supplémentaire.&nbsp;Cette consommation supplémentaire a aussi un coût environnemental.</p>"
                           }
                         }
                       ],
@@ -330,7 +366,7 @@
                       "id": "7342c038-5818-4eef-ae13-94ca1f99e496",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p> <br></p><table>    <thead>        <tr>            <th scope=\"\" style=\"width:15%;\">Type d’effet</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>        </tr>    </thead>    <tbody>        <tr>            <th>Effet direct</th>            <td>Impact de la fabrication et de l’utilisation des appareils numériques<br></td>            <td>                <ul>                    <li>Consommation d’énergie pour recharger le smartphone<br></li>                    <li>Consommation de métaux pour fabriquer le smartphone</li>                    <li> Déchets électroniques en fin de vie du smartphone<br></li>                </ul>            </td>        </tr>        <tr>            <th>Effet indirect</th>            <td>Changements de comportements des utilisateurs ayant des effets sur l’environnement<br></td>            <td>                <ul>                    <li>&nbsp;L’utilisateur du smartphone n’achète pas de radio (effet de substitution)</li>                    <li>Grâce à un compteur connecté, un utilisateur fait des économies d’énergie (effet d’efficacité ou d’optimisation)</li>                </ul>            </td>        </tr>    </tbody></table>"
+                      "content": "<p> <br></p><table>    <thead>        <tr>            <th scope=\"\" style=\"width:15%;\">Type d’effets</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 18.4713%;\">Description</th>            <th scope=\"\\&quot;col\\&quot;\">Exemples pour un smartphone</th>        </tr>    </thead>    <tbody>        <tr>            <th>Effets directs</th>            <td>Impacts de la fabrication et de l’utilisation des appareils numériques<br></td>            <td>                <ul>                    <li>Consommation d’énergie pour recharger le smartphone.<br></li>                    <li>Consommation de métaux pour fabriquer le smartphone.</li>                    <li> Déchets électroniques en fin de vie du smartphone.<br></li>                </ul>            </td>        </tr>        <tr>            <th>Effet indirect</th>            <td>Changements de comportements des utilisateurs ayant des effets sur l’environnement<br></td>            <td>                <ul>                    <li>&nbsp;Un utilisateur de smartphone qui n’achète pas de radio (effet de substitution).</li>                    <li>Des personnes qui font des économies d’énergie grâce à des compteurs connectés (effet d’efficacité ou d’optimisation).</li>                </ul>            </td>        </tr>    </tbody></table>"
                     },
                     {
                       "id": "368c6e0a-fa53-4ac5-a0b0-0e2972da90ff",
@@ -365,7 +401,7 @@
                 "id": "758f542b-4d48-42d7-b788-a1e33b150052",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Prenons l’exemple des ordinateurs pour voir comment leurs évolutions ont transformé nos usages au fil du temps et entraîné des effets indirects sur l’environnement.</p>"
+                "content": "<p>Prenons l’exemple des ordinateurs pour voir comment leur évolution a transformé nos usages au fil du temps et entraîné des effets indirects sur l’environnement.</p>"
               }
             }
           ]
@@ -385,16 +421,16 @@
                       "id": "5d14295a-486a-45dc-b965-61256248e92b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>En 1945, le premier ordinateur, nommé ENIAC, voyait le jour. </p><p>Il est célèbre pour ses dimensions exceptionnelles&nbsp;: plus de 30 tonnes et 167&nbsp;m²&nbsp;!</p>"
+                      "content": "<p>En 1945, le premier ordinateur, nommé ENIAC, voit le jour. </p><p>Il est célèbre pour ses dimensions exceptionnelles&nbsp;: plus de 30 tonnes et 167&nbsp;m2&nbsp;!</p>"
                     },
                     {
                       "id": "0636bcfb-6aa2-4f43-9ead-b70ce64cb8c9",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_Ava/eniac.jpg",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte2_stepper_img1-v2.png",
                       "alt": "Une photographie de l’ENIAC",
                       "alternativeText": "",
                       "legend": "",
-                      "licence": "U.S. Army Photo, Public domain, via Wikimedia Commons"
+                      "licence": "U.S. Army Photo, domain public, Wikimedia Commons"
                     },
                     {
                       "id": "6ab4e662-9a2c-4564-9954-46d29b309563",
@@ -404,30 +440,30 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>160 kilowatts (kW), soit environ 2 500 fois plus qu’un PC portable actuel</p>",
+                          "content": "<p>160&nbsp;kilowatts (kW), soit environ 2500 fois plus qu’un ordinateur portable actuel</p>",
                           "feedback": {
                             "diagnosis": "<p>C’est exact !&nbsp;</p><p>Impressionnant, non ?</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>6&nbsp;kilowatts (kW), soit environ 100 fois plus qu’un PC actuel.</p>",
+                          "content": "<p>6&nbsp;kilowatts (kW), soit environ 100 fois plus qu’un ordinateur actuel.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p><p>Impressionnant, non ?</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Cet ordinateur avait une puissance de 160&nbsp;kW, soit environ 2500 fois plus qu’un ordinateur portable actuel.</p><p>Impressionnant, non ?</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>60 watts (W), soit environ autant qu’un PC actuel</p>",
+                          "content": "<p>60 watts (W), soit environ autant qu’un ordinateur actuel</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p><p>Impressionnant, non ?</p>"
+                            "diagnosis": "<p>Eh non ! Cet ordinateur avait une puissance de 160&nbsp;kW, soit environ 2500 fois plus qu’un ordinateur portable actuel.</p><p>Impressionnant, non ?</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p> Cet ordinateur avait une puissance de 160 kW, soit environ 2 500 fois plus qu’un PC portable actuel.</p><p>Impressionnant, non ?</p>"
+                            "diagnosis": "<p> Cet ordinateur avait une puissance de 160&nbsp;kW, soit environ 2500 fois plus qu’un ordinateur portable actuel.</p><p>Impressionnant, non ?</p>"
                           }
                         }
                       ],
@@ -441,16 +477,16 @@
                       "id": "0f220daf-360e-48ff-961a-dc5f56e78374",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Les chercheurs et les ingénieurs améliorent en continu les performances des ordinateurs.</p><p>Dans les années 70, les «&nbsp;mini-ordinateurs&nbsp;» sont populaires. </p><p>Par exemple, le Data General Nova a une puissance de 1&nbsp;kW, soit 160 fois moins que l’ENIAC.</p>"
+                      "content": "<p>Les chercheurs et les ingénieurs améliorent en continu les performances des ordinateurs.</p><p>Dans les années 1970, les «&nbsp;mini-ordinateurs&nbsp;» sont populaires. </p><p>Par exemple, le Data General Nova a une puissance de 1&nbsp;kW, soit 160 fois moins que l’ENIAC.</p>"
                     },
                     {
                       "id": "ad1954e0-6dc0-484a-ad04-4744a5f31305",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_Ava/data_general_nova_system.jpg",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte2_stepper_img2-v2.png",
                       "alt": "Une photographie d’un General Nova",
                       "alternativeText": "",
                       "legend": "",
-                      "licence": "Jeff Keyzer from Austin, TX, USA, CC BY 2.0, via Wikimedia Commons"
+                      "licence": "Jeff Keyzer from Austin, TX, USA, CC BY 2.0, Wikimedia Commons"
                     },
                     {
                       "id": "1cc1aae7-4f83-4a4d-a53c-e2799a9a079b",
@@ -462,28 +498,28 @@
                           "id": "1",
                           "content": "<p>500 exemplaires</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non ! </p><p>Le Data General Nova a été vendu à 50 000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque machine consomme moins qu’un ENIAC, le nombre total de machines augmente fortement.</p>"
+                            "diagnosis": "<p>Eh non ! </p><p>Le Data General Nova a été vendu à 50&nbsp;000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d’ordinateurs augmente fortement.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>50 000 exemplaires</p>",
+                          "content": "<p>50&nbsp;000 exemplaires</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien&nbsp; vu ! </p><p> Pour l’époque, c’est un succès commercial !</p><p>Même si chaque machine consomme moins qu’un ENIAC, le nombre total de machines augmente fortement.</p>"
+                            "diagnosis": "<p>Bien&nbsp; vu ! </p><p> Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d’ordinateurs augmente fortement.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>5 millions d’exemplaires</p>",
+                          "content": "<p>5&nbsp;000&nbsp;000 (5 millions) d’exemplaires</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non !</p><p>Le Data General Nova a été vendu à 50 000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque machine consomme moins qu’un ENIAC, le nombre total de machines augmente fortement.</p>"
+                            "diagnosis": "<p>Eh non !</p><p>Le Data General Nova a été vendu à 50&nbsp;000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d’ordinateurs augmente fortement.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>Le Data General Nova a été vendu à 50 000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque machine consomme moins qu’un ENIAC, le nombre total de machines augmente fortement.</p>"
+                            "diagnosis": "<p>Le Data General Nova a été vendu à 50&nbsp;000 exemplaires. Pour l’époque, c’est un succès commercial !</p><p>Même si chaque ordinateur consomme moins qu’un ENIAC, le nombre total d’ordinateurs augmente fortement.</p>"
                           }
                         }
                       ],
@@ -497,12 +533,12 @@
                       "id": "89821a3c-5b6f-419f-b028-f04f243a4f56",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Et aujourd’hui, quelle est la consommation énergétique des ordinateurs ?<br></p>"
+                      "content": "<p>Et aujourd’hui, quelle est la consommation électricité des ordinateurs ?<br></p>"
                     },
                     {
                       "id": "a92a9ac3-0080-43c2-9242-2464b493118f",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_Ava/christopher-gower-m_h-rf-lhg-a-bo-unsplash.jpg",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouverte2_stepper_img3-v2.png",
                       "alt": "Une photographie d’un ordinateur actuel",
                       "alternativeText": "",
                       "legend": "",
@@ -552,17 +588,17 @@
                         },
                         {
                           "type": "text",
-                          "content": "<p>d’énergie que le premier ordinateur.</p>"
+                          "content": "<p>d’électricité que le premier ordinateur, créé dans les années 1970.</p>"
                         }
                       ],
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien vu !<br></p>",
-                          "diagnosis": "<p>Un ordinateur a une puissance d’environ 50W, soit 20 fois moins que l’ordinateur des années 70.<br></p>"
+                          "diagnosis": "<p>Un ordinateur a une puissance d’environ 50W, soit 20 fois moins que l’ordinateur des années 1970.<br></p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non !<br></p>",
-                          "diagnosis": "<p>Un ordinateur a une puissance d’environ 50W, soit 20 fois moins que l’ordinateur des années 70.<br></p>"
+                          "diagnosis": "<p>Un ordinateur a une puissance d’environ 50W, soit 20 fois moins que l’ordinateur des années 1970.<br></p>"
                         }
                       }
                     },
@@ -604,11 +640,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien vu !<br></p>",
-                          "diagnosis": "<p>Les ordinateurs sont devenus <strong>incontournables </strong>: en 2002, le milliardième ordinateur personnel aurait été livré. La barre des deux milliards aurait été atteinte en 2007 !</p><p> Plus de 270 millions d’ordinateurs auraient été vendus rien qu’en 2025.<br></p>"
+                          "diagnosis": "<p>Les ordinateurs sont devenus <strong>incontournables </strong>: en 2002, le milliardième ordinateur personnel a été livré. La barre des deux milliards a été atteinte en 2007 !</p><p> Plus de 270 millions d’ordinateurs ont été vendus rien qu’en 2025.<br></p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non !<br></p>",
-                          "diagnosis": "<p>Les ordinateurs sont devenus <strong>incontournables </strong>: en 2002, le milliardième ordinateur personnel aurait été livré. La barre des deux milliards aurait été atteinte en 2007 !</p><p>  Plus de 270 millions d’ordinateurs auraient été vendus rien qu’en 2025.</p>"
+                          "diagnosis": "<p>Les ordinateurs sont devenus <strong>incontournables </strong>: en 2002, le milliardième ordinateur personnel a été livré. La barre des deux milliards a été atteinte en 2007 !</p><p>  Plus de 270 millions d’ordinateurs ont été vendus rien qu’en 2025.</p>"
                         }
                       }
                     },
@@ -650,11 +686,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien vu !<br></p>",
-                          "diagnosis": "<p>Alors qu’un ordinateur consomme moins d’énergie, la somme de tous les ordinateurs en consomme beaucoup plus.</p>"
+                          "diagnosis": "<p>Alors qu’un ordinateur consomme moins d’énergie, la somme de tous les ordinateurs consomme beaucoup plus d’énergie qu’avant.</p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non&nbsp; !<br></p>",
-                          "diagnosis": "<p>Au global, la consommation d’énergie par les ordinateurs a explosé.</p><p>Autrement dit, alors qu’un ordinateur consomme moins d’énergie, la somme de tous les ordinateurs en consomme beaucoup plus.</p>"
+                          "diagnosis": "<p>Au global, la consommation d’énergie par les ordinateurs a explosé.</p><p>Autrement dit, alors qu’un ordinateur consomme moins d’énergie, la somme de tous les ordinateurs consomme beaucoup plus d’énergie qu’avant.</p>"
                         }
                       }
                     }
@@ -679,7 +715,7 @@
                       "id": "f03f5137-a79c-41a0-a2d7-69019d815759",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’amélioration d’une technologie améliore souvent son efficacité énergétique. Mais elle peut aussi provoquer une augmentation de son usage ou de l’usage d’autres technologies.</p>"
+                      "content": "<p>L’amélioration d’une technologie améliore souvent son <strong>efficacité énergétique</strong>, c’est à dire qu’elle consomme moins d’énergie pour un même service rendu. Mais cette amélioration peut aussi provoquer une <strong>augmentation de son usage</strong> ou de l’usage d’autres technologies, et ainsi <strong>augmenter la consommation d’énergie totale</strong> !</p>"
                     }
                   ]
                 },
@@ -689,7 +725,7 @@
                       "id": "96f917f3-39ae-42d6-9b1d-94ee179a7b0f",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>C’est un peu paradoxal, non ?</h5><p>Effectivement, ça peut être contre-intuitif. Les augmentations d’usages annulent une partie des gains, voire tout ce qui a été gagné avec l’amélioration. D’où le nom de ce phénomène&nbsp;: l’<strong>effet rebond.</strong><br></p>"
+                      "content": "<h5>C’est un peu paradoxal, non ?</h5><p>Effectivement, ça peut être contre-intuitif. Les économies d’énergie obtenues au niveau unitaire grâce à l’amélioration de la technologie peuvent être réduites, voire dépassées par l’augmentation des usages dûe à cette même amélioration. Ce phénomène s’appelle l’<strong>effet rebond.</strong><br></p>"
                     }
                   ]
                 },
@@ -698,10 +734,10 @@
                     {
                       "id": "8fe5ab08-321a-4298-b69c-6fc7b519100d",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_Ava/schema-effet-rebond.png",
+                      "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_lecon2_schema_illustratif.png",
                       "alt": "Schéma de l’effet rebond",
-                      "alternativeText": "<p>Schéma de l’effet rebond&nbsp;: lorsque la consommation ou les émissions actuelles baissent, la réduction réelle est moins importante que la réduction attendue. C’est l’effet rebond.</p>",
-                      "legend": "Schéma brouillon",
+                      "alternativeText": "<p>Schéma de l’effet rebond.</p><p>Au départ&nbsp;: une technologie que l’on cherche à optimiser. Les améliorations de la technologie permettent de diminuer la consommation par appareil. Par exemple pour les smartphones: batterie qui stocke plus d’énergie, processeur plus efficace, etc. Mais ces améliorations amènent de nouveaux usages. Par exemple les smartphones sont de plus en plus répandus, avec de plus en plus d’usages. Au final, la consommation totale augmente.</p>",
+                      "legend": "",
                       "licence": ""
                     }
                   ]
@@ -721,7 +757,7 @@
                 "id": "882a3170-8e32-461c-bef3-1ed864a63a96",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L’effet rebond montre qu’une innovation technologique ne garantit pas des bénéfices environnementaux. Cela soulève alors une autre question importante&nbsp;: comment reconnaître un véritable engagement pour l’environnement dans la stratégie de communication d’une organisation ?</p>"
+                "content": "<p>L’effet rebond montre qu’une innovation technologique ne garantit pas des bénéfices environnementaux. Cela soulève alors une autre question importante&nbsp;: comment reconnaître un véritable engagement pour l’environnement dans la stratégie de communication d’une entreprise ou d’une organisation ?</p>"
               }
             }
           ]
@@ -737,7 +773,7 @@
                 "id": "1d708f09-ff47-4585-8292-6e4504d31f2a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Olivier s’interroge en voyant cette publicité du système Domotico qui permet l’optimisation de la consommation électrique grâce à l’intelligence artificielle (IA).</p>"
+                "content": "<p>Olivier s’interroge sur la publicité suivante, à propos du système Domotico, qui permet l’optimisation de la consommation électrique grâce à l’intelligence artificielle (IA).</p>"
               }
             },
             {
@@ -745,10 +781,10 @@
               "element": {
                 "id": "7ddd2bc6-5ae0-47f1-9300-fd57a4664a57",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/NR_Eval_Ava/nr-eval-ava-publicite-domotico.png",
+                "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_decouv3_domotico.svg",
                 "alt": "Une publicité pour le système de domotique Domotico",
-                "alternativeText": "<p>Une publicité pour un système de domotique boosté avec l’intelligence artificielle&nbsp;:&nbsp;</p><ul><li>Domoticio&nbsp;: optimisation de votre consommation électrique par IA.</li><li>- 34 % d’émission de CO2 sur votre chauffage.</li></ul>",
-                "legend": "Image brouillon",
+                "alternativeText": "<p>Une publicité pour un système de domotique boosté avec l’intelligence artificielle&nbsp;:&nbsp;</p><ul><li>Domoticio&nbsp;: optimisation de votre consommation électrique par IA.</li><li>- 34 % d’émissions de CO2 sur votre chauffage.</li></ul>",
+                "legend": "",
                 "licence": ""
               }
             },
@@ -757,19 +793,19 @@
               "element": {
                 "id": "0b350beb-139d-4a38-ab89-eb7ba2fe23bc",
                 "type": "qcu-discovery",
-                "instruction": "<p>À votre avis, ce système domotique a-t-il un effet positif ou négatif sur l’environnement ?<br></p>",
+                "instruction": "<p>À votre avis, ce système domotique a-t-il un impact positif ou négatif sur l’environnement ?<br></p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>L’impact est positif.<br></p>",
+                    "content": "<p>L’impact est positif<br></p>",
                     "feedback": {
                       "diagnosis": "<p><strong>C’est possible, mais ce n’est pas sûr.&nbsp;</strong></p><p>Même si ce système optimise et réduit la consommation électrique, il utilise du matériel électronique et des logiciels nécessitant d’importantes ressources de calcul, donc de l’électricité et des infrastructures numériques. </p><p>Sans une étude scientifique rigoureuse, on ne peut pas savoir si son impact total sur l’environnement est positif.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>L’impact est négatif.<br></p>",
+                    "content": "<p>L’impact est négatif<br></p>",
                     "feedback": {
                       "diagnosis": "<p><strong>C’est possible, mais ce n’est pas sûr.&nbsp;</strong></p><p>Même si ce système optimise et réduit la consommation électrique, il utilise du matériel électronique et des logiciels nécessitant d’importantes ressources de calcul, donc de l’électricité et des infrastructures numériques.</p><p>Sans une étude scientifique rigoureuse, on ne peut pas savoir si son impact total sur l’environnement est positif.</p>"
                     }
@@ -812,7 +848,7 @@
                       "id": "71741a0f-9a72-4a76-8f0e-f4e58c7d09f3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5> Finalement, comment peut-on vérifier si les effets sont positifs ou négatifs ? </h5><p>Il existe des méthodes scientifiques pour mesurer les effets indirects du numérique comme l’<strong>Analyse de Cycle de Vie conséquentielle</strong>. C’est une méthode de mesure normée qui prend en compte les effets directs et indirects sur l’environnement, sur plusieurs critères environnementaux et pour l’ensemble du cycle de vie.<br></p>"
+                      "content": "<h5> Finalement, comment peut-on vérifier si les effets sont positifs ou négatifs ? </h5><p>Il existe des méthodes scientifiques pour mesurer les effets indirects du numérique comme l’<strong>Analyse de Cycle de Vie Conséquentielle (ACV-C)</strong>. C’est une méthode de mesure normée qui prend en compte les effets directs et indirects sur l’environnement, sur plusieurs critères environnementaux et pour l’ensemble du cycle de vie.<br></p>"
                     }
                   ]
                 },
@@ -822,7 +858,7 @@
                       "id": "33156355-4318-4504-8db1-2e6645d4e23a",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5><strong>Est-il possible de réduire les effets négatifs du numérique ?</strong></h5><p>Oui ! Adopter collectivement une démarche de sobriété, c’est-à-dire<strong> réduire autant que possible les usages du numérique</strong>, est la seule façon fiable de réduire les effets directs et indirects du numérique.</p>"
+                      "content": "<h5><strong>Mais, comment réduire les effets indirects négatifs du numérique ?</strong></h5><p>Adopter collectivement une démarche de sobriété, c’est-à-dire<strong> réduire autant que possible les usages du numérique</strong>, est la seule façon fiable de réduire les effets directs et indirects du numérique.</p>"
                     }
                   ]
                 }
@@ -847,7 +883,7 @@
                 "id": "8f7d6c5f-a651-4800-82ff-1f5943d291f8",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>Le numérique a des effets directs sur l’environnement, mais aussi des <strong>effets indirects</strong> provoqués par l’usage du numérique dans la société. Ces effets indirects peuvent être positifs ou négatifs pour l’environnement.&nbsp;🤨</li>    <li>L’amélioration de l’efficience énergétique d’une technologie amène parfois une <strong>augmentation de son usage</strong>, ce qui peut annuler les bénéfices pour l’environnement. C’est l’<strong>effet rebond</strong>.&nbsp;🏀</li>    <li> Certains industriels communiquent uniquement sur les effets positifs de leurs produits pour se donner une bonne image et passent sous silence les effets négatifs sur l’environnement&nbsp;: c’est du <strong>greenwashing</strong>.&nbsp;🌼</li>    <li> Il faut donc garder un <strong>regard critique</strong> sur les améliorations technologiques et s’appuyer sur des <strong>études scientifiques qui prennent en compte les effets indirects</strong>&nbsp;négatifs pour pouvoir les limiter.&nbsp;🔍</li>    <li> Adopter une démarche de <strong>sobriété</strong>, en réduisant les usages du numérique, permet de réduire efficacement les effets négatifs sur l’environnement.&nbsp;↘️</li></ul>"
+                "content": "<ul>    <li>Le numérique a des effets directs sur l’environnement, mais aussi des <strong>effets indirects</strong> provoqués par les usages du numérique dans la société. Ces effets indirects peuvent être positifs ou négatifs pour l’environnement.&nbsp;🤨</li>    <li>L’amélioration de l’efficacité énergétique d’une technologie amène parfois une <strong>augmentation de son usage</strong>, ce qui peut annuler les bénéfices pour l’environnement. C’est l’<strong>effet rebond</strong>.&nbsp;🏀</li>    <li> Certains industriels communiquent uniquement sur les effets positifs de leurs produits pour se donner une bonne image et passent sous silence les effets négatifs sur l’environnement&nbsp;: c’est du <strong>greenwashing</strong>.&nbsp;🌼</li>    <li> Il faut donc garder un <strong>regard critique</strong> sur les améliorations technologiques et s’appuyer sur des <strong>études scientifiques qui prennent en compte les effets indirects</strong>&nbsp;négatifs pour pouvoir les limiter.&nbsp;🔍</li>    <li> Adopter une démarche de <strong>sobriété</strong>, en réduisant les usages du numérique, permet de réduire efficacement les effets négatifs sur l’environnement.&nbsp;↘️</li></ul>"
               }
             }
           ]
@@ -957,10 +993,10 @@
               "element": {
                 "id": "41b465c3-68da-4a18-a1d2-88e270656e76",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/NR_Eval_Ava/schema-a-completer.png",
+                "url": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite2_schema.png",
                 "alt": "Schéma à compléter",
-                "alternativeText": "<p>Schéma à compléter</p>",
-                "legend": "Schéma brouillon",
+                "alternativeText": "<p>Schéma à compléter.</p><p>Schéma explicatif de [Point 1].</p><p>[Point 2] permet de diminuer la consommation.</p><p>[Point 3] fait augmenter la consommation totale.</p>",
+                "legend": "",
                 "licence": ""
               }
             },
@@ -1120,7 +1156,7 @@
                 "id": "4d607d31-ce42-47b6-8ce9-4b928cda9609",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Observez ces différentes publicités.<br></p>",
+                "instruction": "<p>Observez ces différentes publicités ci-dessous.<br></p>",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
@@ -1131,8 +1167,8 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_Ava/pub1.png",
-                        "alt": ""
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite3_univers14_img1_vecto.svg",
+                        "alt": "Publicité pour le smartphone Univers 14. Univers 14, le futur est entre nos mains. Appareil photo double objectif 120M pixels. Coque en plastique recyclé."
                       },
                       "license": {
                         "name": "",
@@ -1145,8 +1181,8 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_Ava/pub2.png",
-                        "alt": ""
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite3_univers14_img2_vecto.svg",
+                        "alt": "Publicité pour le smartphone Univers 14. Univers 14, le futur est entre nos mains. Appareil photo double objectif 120M pixels. Autonomie de 72 heures."
                       },
                       "license": {
                         "name": "",
@@ -1159,8 +1195,8 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_Ava/pub3.png",
-                        "alt": ""
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite3_univers14_img3_vecto.svg",
+                        "alt": "Publicité pour le smartphone Univers 14. Univers 14, le futur est entre nos mains. Stockage pour plus de 5000 photos. Indice de réparabilité 9 sur 10."
                       },
                       "license": {
                         "name": "",
@@ -1173,8 +1209,8 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_Ava/pub4.png",
-                        "alt": ""
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite3_univers14_img4_vecto.svg",
+                        "alt": "Publicité pour le smartphone Univers 14. Univers 14, le futur est entre nos mains. Stockage pour plus de 5000 photos. Autonomie de 72 heures."
                       },
                       "license": {
                         "name": "",
@@ -1187,8 +1223,8 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_Ava/pub5.png",
-                        "alt": ""
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_AVA/nr_eval_ava_activite3_univers14_img5_vecto.svg",
+                        "alt": "Publicité pour le smartphone Univers 14. Univers 14, le futur est entre nos mains. Vos photos au naturel ! 100% respectueux de l’environnement."
                       },
                       "license": {
                         "name": "",
@@ -1270,7 +1306,7 @@
                 "id": "89825fe0-aff8-43c4-9ad0-4d433810ed96",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous vous souvenez du débat entre Olivier et Alise sur l’impact du télétravail ?</p><p>L’ADEME a également essayé de répondre à la question. Elle a publié en 2025 une <a href=\"https://drive.google.com/file/d/1N4HCT6yYVVpQEUH_uFZ6Jv2o41apUQHh/view\" target=\"_blank\">étude</a>&nbsp;sur plusieurs cas d’usage du numérique, dont le <strong>télétravail</strong>, afin d’en mesurer les effets directs et indirects.</p>"
+                "content": "<p>Vous vous souvenez du débat entre Olivier et Omar sur l’impact du télétravail ?</p><p>L’ADEME a également essayé de répondre à la question. Elle a publié en 2025 une <a href=\"https://drive.google.com/file/d/1N4HCT6yYVVpQEUH_uFZ6Jv2o41apUQHh/view\" target=\"_blank\">étude</a>&nbsp;sur plusieurs cas d’usage du numérique, dont le <strong>télétravail</strong>, afin d’en mesurer les effets directs et indirects.</p>"
               }
             },
             {
@@ -1278,12 +1314,12 @@
               "element": {
                 "id": "c482307d-6b24-458a-92a0-b6cd8f95d51e",
                 "type": "qcm",
-                "instruction": "<p>Dans cette étude, quels effets ont été <strong>quantifiés </strong>pour le <strong>télétravail </strong>?</p>",
+                "instruction": "<p>Dans cette étude, quels effets ont été quantifiés pour le télétravail ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>l’évolution de la distance parcourue pour les trajets domicile- travail</p>"
+                    "content": "<p>l’évolution de la distance parcourue pour les trajets domicile-travail</p>"
                   },
                   {
                     "id": "2",

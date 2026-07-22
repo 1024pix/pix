@@ -751,6 +751,16 @@
       "copy-of": "Kopie van",
       "course-label": "Selecteer een traject",
       "course-selection-label": "Selecteer een traject",
+      "course-title": {
+        "label": "Titel test",
+        "sublabel": "Dit veld wordt weergegeven voor deelnemers aan de campagne."
+      },
+      "customization": {
+        "title": "Personalisatie"
+      },
+      "exam-mode": {
+        "label": "Wil je de vraagmodus activeren?"
+      },
       "external-id-label": {
         "label": "Type externe user-ID",
         "question-label": "Wil je een externe gebruikers-ID aanvragen?",
@@ -800,6 +810,9 @@
         "profiles-collection-info": "Een campagne voor het verzamelen van profielen wordt gebruikt om het profiel van de deelnemers te achterhalen: niveaus per vaardigheid en pix-score.",
         "profiles-collection-info-certificability-calculation": "De certificeerbare status wordt automatisch bijgewerkt in het tabblad '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Studenten'</a>'."
       },
+      "settings": {
+        "title": "Instellingen"
+      },
       "tags": {
         "BACK_TO_SCHOOL": "Terug naar school cursus / 6e",
         "COMPETENCES": "De 16 vaardigheden",
@@ -817,10 +830,6 @@
       "target-profiles-label": "Selecteer een test",
       "target-profiles-list-label": "Wat wil je testen?",
       "target-profiles-search-placeholder": "Zoeken op naam",
-      "test-title": {
-        "label": "Titel test",
-        "sublabel": "Dit veld wordt weergegeven voor deelnemers aan de campagne."
-      },
       "title": "Een campagne maken",
       "yes": "Ja"
     },
@@ -1073,9 +1082,9 @@
       },
       "tab-filters": {
         "all": "Alle",
-        "blueprints": "Leertrajecten",
+        "blueprints": "Leren",
         "label": "Type traject",
-        "target-profiles": "Trajecten"
+        "target-profiles": "Evaluatie"
       },
       "title": "Overzicht van leertrajecten"
     },
@@ -1127,11 +1136,17 @@
           "first-name": "Voornaam",
           "last-name": "Achternaam",
           "modules": "Modules",
+          "reward": "Verklaring",
           "status": "Status"
         },
         "description": "Lijst van de gecombineerde cursus participaties",
         "module-completion": "{nbItemsCompleted, plural, =0 {geen module voltooid op {nbItems}} =1 {1 van de {nbItems} modules voltooid} other {{nbItemsCompleted} van de {nbItems} modules voltooid}}.",
         "no-module": "Geen aanbevolen module.",
+        "rewards": {
+          "in-progress": "Behandeling",
+          "not-obtained": "Niet behaald",
+          "obtained": "Behaald"
+        },
         "tooltip": {
           "campaigns-column": "'x / y' geeft de voortgang van de deelnemer aan: hij/zij heeft x campagnes voltooid van een totaal van y. Bijvoorbeeld: 1/2 betekent dat hij/zij 1 campagne van de 2 heeft voltooid.",
           "modules-column": "'x / y' geeft de voortgang van de deelnemer aan: hij/zij heeft x modules voltooid van een totaal van y. Het totale aantal modules verschilt per persoon, afhankelijk van de persoonlijke aanbevelingen."

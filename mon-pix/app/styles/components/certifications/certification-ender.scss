@@ -73,11 +73,14 @@
   }
 
   &__candidate {
+    @extend %pix-body-s;
+
     display: flex;
     flex-direction: column;
     gap: var(--pix-spacing-2x);
     align-items: center;
     margin-top: var(--pix-spacing-4x);
+    color: var(--pix-neutral-500);
     text-align: center;
 
     @include breakpoints.device-is('tablet') {
@@ -104,26 +107,7 @@
     @extend %pix-title-l;
   }
 
-  &__message {
-    color: var(--pix-neutral-500);
-
-    @extend %pix-body-s;
-  }
-
-  &__remote-certification {
-    margin-top: var(--pix-spacing-4x);
-
-    .pix-notification-alert {
-      &__content {
-        color: var(--pix-neutral-500);
-      }
-    }
-  }
-
   &__disconnect-tip {
-    padding-top: var(--pix-spacing-3x);
-    color: var(--pix-neutral-500);
-
-    @extend %pix-body-s;
+    margin-top: var(--pix-spacing-4x);
   }
 }

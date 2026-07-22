@@ -3,9 +3,6 @@ import { service } from '@ember/service';
 import RSVP from 'rsvp';
 
 export default class FrameworkNewRoute extends Route {
-  queryParams = {
-    activeVersionId: { refreshModel: true },
-  };
   @service store;
   @service router;
   @service accessControl;
@@ -17,17 +14,14 @@ export default class FrameworkNewRoute extends Route {
     );
   }
 
-  async model(params) {
-    let activeVersion;
+  async model() {
     const frameworks = await this.store.findAll('framework');
-    const item = await this.modelFor('authenticated.certification-frameworks.certification-framework');
-    if (params?.activeVersionId) {
-      activeVersion = await this.store.findRecord('certification-version', params.activeVersionId);
-    }
+    const item = await this.modelFor('authenticated.certification-frameworks.certification-framework.versions');
+
     return RSVP.hash({
       frameworks,
       scope: item.frameworkKey,
-      activeVersion,
+      activeVersion: item.activeVersion,
     });
   }
 }

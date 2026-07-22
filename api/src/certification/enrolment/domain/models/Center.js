@@ -3,7 +3,7 @@
  */
 
 import { types } from '../../../../organizational-entities/domain/models/Organization.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/constants.js';
 import { CenterTypes } from './CenterTypes.js';
 
 export class Center {
@@ -15,14 +15,16 @@ export class Center {
    * @param {CenterTypes} props.type
    * @param {Array<Habilitation>} props.habilitations center habilitations
    * @param {MatchingOrganization | null} props.matchingOrganization
+   * @param {Date} createdAt
    */
-  constructor({ id, name, externalId, type, habilitations, matchingOrganization }) {
+  constructor({ id, name, externalId, type, habilitations, createdAt, matchingOrganization }) {
     this.id = id;
     this.name = name;
     this.type = type;
     this.externalId = externalId;
     this.habilitations = habilitations ?? [];
     this.matchingOrganization = matchingOrganization;
+    this.createdAt = createdAt;
   }
 
   get isSco() {

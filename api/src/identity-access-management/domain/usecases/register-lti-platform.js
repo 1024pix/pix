@@ -121,7 +121,6 @@ export async function registerLtiPlatform({
     url: platformConfiguration.registration_endpoint,
     headers: {
       Authorization: `Bearer ${registrationToken}`,
-      'Content-type': 'application/json',
     },
     payload: pixToolConfiguration,
   });

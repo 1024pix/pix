@@ -2,6 +2,7 @@ import { Response } from 'miragejs';
 import { assessmentResultStatus } from 'pix-admin/models/certification';
 
 import { createAdminMember } from './handlers/admin-members';
+import { findPaginatedFilteredLearners } from './handlers/admin-organization-learners';
 import {
   createAutonomousCourse,
   findAutonomousCourseTargetProfiles,
@@ -25,6 +26,7 @@ import { createNetwork, findAllFilteredNetworks, updateNetwork } from './handler
 import { createOrganizationMembership } from './handlers/organization-memberships';
 import {
   archiveOrganization,
+  attachCertificationCenterToOrganization,
   findOrganizationCampaigns,
   findPaginatedFilteredOrganizations,
   findPaginatedOrganizationMemberships,
@@ -184,6 +186,8 @@ export default function routes() {
       },
     };
   });
+
+  this.get('/admin/organization-learners', findPaginatedFilteredLearners);
 
   this.get('/admin/users', findPaginatedFilteredUsers);
   this.get('/admin/users/:id');
@@ -410,6 +414,8 @@ export default function routes() {
   this.get('/admin/organizations/:id/certification-centers', getOrganizationAttachedCertificationCenters);
   this.get('/admin/organizations/:id/statistics', getOrganizationStatistics);
   this.post('/admin/organizations/:id/archive', archiveOrganization);
+  this.post('/admin/organizations/:id/detach-certification-center', () => new Response(204));
+  this.post('/admin/organizations/:id/attach-certification-centers', attachCertificationCenterToOrganization);
 
   this.get('/admin/frameworks');
   this.get('/admin/frameworks/:id/areas', findFrameworkAreas);

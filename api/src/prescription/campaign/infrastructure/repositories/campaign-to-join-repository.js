@@ -1,4 +1,4 @@
-import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';

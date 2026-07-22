@@ -2,7 +2,6 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 import { Candidate } from '../../domain/models/Candidate.js';
 import { EditedCandidate } from '../../domain/models/EditedCandidate.js';
-import { Subscription } from '../../domain/models/Subscription.js';
 
 const { Deserializer, Serializer } = jsonapiSerializer;
 
@@ -10,24 +9,23 @@ async function deserialize(json) {
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
   const deserializedCandidate = await deserializer.deserialize(json);
   deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
-  const { attributes } = json.data;
 
-  const subscriptions = attributes['subscriptions'].map(
-    ({ type, complementaryCertificationKey }) =>
-      new Subscription({
-        certificationCandidateId: null,
-        type,
-        complementaryCertificationKey,
-      }),
-  );
-
-  return Candidate.create({
+  return new Candidate({
     ...deserializedCandidate,
     id: deserializedCandidate?.id ? parseInt(deserializedCandidate?.id) : null,
-    subscriptions,
     firstName: deserializedCandidate.firstName.trim(),
     lastName: deserializedCandidate.lastName.trim(),
+    subscription: _resolveSubscription(deserializedCandidate, json),
   });
+}
+
+function _resolveSubscription(deserializedCandidate, json) {
+  if (deserializedCandidate.subscription) {
+    return deserializedCandidate.subscription;
+  }
+  const subscriptions = json?.data?.attributes?.subscriptions;
+  const complementary = subscriptions.find((s) => s.type === 'COMPLEMENTARY');
+  return complementary?.complementaryCertificationKey ?? 'CORE';
 }
 
 function deserializeForEdition({ candidateId, candidateData }) {

@@ -1,8 +1,7 @@
-import { featureToggles } from '../../infrastructure/feature-toggles/index.js';
 import { healthcheckController } from './healthcheck-controller.js';
 
 const register = async function (server) {
-  const routes = [
+  server.route([
     {
       method: 'GET',
       path: '/api',
@@ -40,10 +39,7 @@ const register = async function (server) {
         tags: ['api', 'healthcheck'],
       },
     },
-  ];
-
-  if (await featureToggles.get('isOsHealthcheckEnabled')) {
-    routes.push({
+    {
       method: 'GET',
       path: '/api/healthcheck/os',
       config: {
@@ -51,10 +47,8 @@ const register = async function (server) {
         handler: healthcheckController.checkOsStatus,
         tags: ['api', 'healthcheck'],
       },
-    });
-  }
-
-  server.route(routes);
+    },
+  ]);
 };
 
 export const healthcheckRoute = { name: 'shared/healthcheck-api', register };

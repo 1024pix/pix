@@ -34,7 +34,7 @@ const start = async function () {
 
   await JobClient.instance.initialize({
     worker: config.infra.startJobInWebProcess,
-    jobGroups: [JobGroup.DEFAULT, JobGroup.FAST],
+    jobGroups: [JobGroup.DEFAULT],
   });
 };
 

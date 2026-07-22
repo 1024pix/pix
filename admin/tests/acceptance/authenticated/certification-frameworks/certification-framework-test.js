@@ -1,4 +1,4 @@
-import { visit, within } from '@1024pix/ember-testing-library';
+import { clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -23,7 +23,15 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ACTIVE',
+          status: 'active',
+        },
+        {
+          id: 124,
+          startDate: new Date('2023-10-11'),
+          expirationDate: new Date('2023-10-12'),
+          assessmentDuration: 90,
+          maximumAssessmentLength: 32,
+          status: 'archived',
         },
         {
           id: 123,
@@ -31,7 +39,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           expirationDate: new Date('2023-10-11'),
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ARCHIVED',
+          status: 'archived',
         },
         {
           id: 789,
@@ -39,7 +47,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'DRAFT',
+          status: 'draft',
         },
       ],
     });
@@ -48,14 +56,16 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
     const screen = await visit('/certification-frameworks/DROIT');
 
     // then
-    const [, row1, row2, row3] = await screen.findAllByRole('row');
+    const [, row1, row2, row3, row4] = await screen.findAllByRole('row');
     assert.strictEqual(currentURL(), '/certification-frameworks/DROIT');
     assert.dom(within(row1).getByRole('cell', { name: '789' })).exists();
     assert.dom(within(row1).getByRole('cell', { name: "En cours d'édition" })).exists();
     assert.dom(within(row2).getByRole('cell', { name: '456' })).exists();
     assert.dom(within(row2).getByRole('cell', { name: 'Actif' })).exists();
-    assert.dom(within(row3).getByRole('cell', { name: '123' })).exists();
+    assert.dom(within(row3).getByRole('cell', { name: '124' })).exists();
     assert.dom(within(row3).getByRole('cell', { name: 'Archivé' })).exists();
+    assert.dom(within(row4).getByRole('cell', { name: '123' })).exists();
+    assert.dom(within(row4).getByRole('cell', { name: 'Archivé' })).exists();
   });
 
   test('it should render target profile page when the framework is CLEA', async function (assert) {
@@ -124,7 +134,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ACTIVE',
+          status: 'active',
         },
         {
           id: 14,
@@ -132,7 +142,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'DRAFT',
+          status: 'draft',
         },
       ],
     });
@@ -142,7 +152,6 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
 
     // when
     const screen = await visit('/certification-frameworks/DROIT/');
-
     const button = await screen.findByRole('link', {
       name: t('components.certification-frameworks.certification-framework.create-button'),
       exact: false,
@@ -150,20 +159,12 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
 
     // then
     assert.strictEqual(button.getAttribute('aria-disabled'), 'true');
-
     const rows = await screen.findAllByRole('row');
-    const [, row1] = rows;
-
     assert.strictEqual(rows.length, 3);
     assert.dom(await screen.getByRole('cell', { name: "En cours d'édition" })).exists();
     assert.dom(await screen.getByRole('cell', { name: 'Actif' })).exists();
 
-    const deleteButton = within(row1).getByRole('button', {
-      name: t('components.certification-frameworks.certification-framework.history.table.actions.delete'),
-    });
-
-    await click(deleteButton);
-
+    await clickByName('Supprimer la version 14');
     const confirmButton = await screen.findByRole('button', {
       name: t('components.certification-frameworks.deletion-modal.action-button'),
     });
@@ -175,5 +176,29 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
     assert.strictEqual(rowsAfterDelete.length, 2);
     assert.dom(await screen.queryByRole('cell', { name: "En cours d'édition" })).doesNotExist();
     assert.dom(await screen.getByRole('cell', { name: 'Actif' })).exists();
+  });
+
+  test('it should redirect to the certification framework edit page on click', async function (assert) {
+    // given
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+    server.create('certification-framework', { id: 'CORE' });
+    server.create('certification-version', { id: 12, status: 'draft' });
+    server.create('framework-history', {
+      id: 'CORE',
+      history: [
+        {
+          id: 12,
+          status: 'draft',
+        },
+      ],
+    });
+    await visit('/certification-frameworks/CORE/');
+
+    // when
+    await clickByName('Éditer la version 12');
+
+    // then
+    assert.strictEqual(currentURL(), '/certification-frameworks/CORE/versions/12/edit');
   });
 });

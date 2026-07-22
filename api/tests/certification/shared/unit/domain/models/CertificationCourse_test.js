@@ -298,76 +298,12 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
       expect(isAvailable).to.be.false;
     });
 
-    context('when the english option is not provided', function () {
-      it('should be false for english', function () {
-        // when
-        const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification('en');
+    it('should be true for english', function () {
+      // when
+      const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification('en');
 
-        // then
-        expect(isAvailable).to.be.false;
-      });
-    });
-
-    context('when english is disabled', function () {
-      it('should be false for english', function () {
-        // when
-        const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification('en', {
-          isEnglishEnabled: false,
-        });
-
-        // then
-        expect(isAvailable).to.be.false;
-      });
-
-      it('should still be true for french', function () {
-        // when
-        const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification('fr', {
-          isEnglishEnabled: false,
-        });
-
-        // then
-        expect(isAvailable).to.be.true;
-      });
-    });
-
-    context('when english is enabled', function () {
-      it('should be true for english', function () {
-        // when
-        const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification('en', { isEnglishEnabled: true });
-
-        // then
-        expect(isAvailable).to.be.true;
-      });
-    });
-  });
-
-  describe('#adjustForAccessibility', function () {
-    describe('when an adjustment is needed', function () {
-      it('sets the certification adjustment property to true', function () {
-        // given
-        const certificationCourse = new CertificationCourse();
-        const isAdjustmentNeeded = true;
-
-        // when
-        certificationCourse.adjustForAccessibility(isAdjustmentNeeded);
-
-        // then
-        expect(certificationCourse.isAdjustementNeeded()).to.be.true;
-      });
-    });
-
-    describe('when an adjustment is not needed', function () {
-      it('sets the certification adjustment property to false', function () {
-        // given
-        const certificationCourse = new CertificationCourse();
-        const isAdjustmentNeeded = false;
-
-        // when
-        certificationCourse.adjustForAccessibility(isAdjustmentNeeded);
-
-        // then
-        expect(certificationCourse.isAdjustementNeeded()).to.be.false;
-      });
+      // then
+      expect(isAvailable).to.be.true;
     });
   });
 });

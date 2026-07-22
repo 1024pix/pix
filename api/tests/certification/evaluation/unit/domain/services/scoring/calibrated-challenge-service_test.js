@@ -40,9 +40,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | calibrated cha
         const certificationCourseId = 1234;
         const assessmentId = 5678;
 
-        const version = domainBuilder.certification.configuration.buildVersion({
-          startDate: new Date('2025-06-22'),
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('2025-06-22') })
+          .withParameters({ id: 1 })
+          .build();
         calibratedChallengeRepository.getAllCalibratedChallenges.withArgs({ version }).resolves(challengeList);
 
         const expectedAskedChallenges = [...challengeList.slice(1)];
@@ -81,9 +83,11 @@ describe('Certification | Evaluation | Unit | Domain | Services | calibrated cha
         // given
         const certificationCourseId = 1234;
         const assessmentId = 5678;
-        const version = domainBuilder.certification.configuration.buildVersion({
-          startDate: new Date('2025-06-22'),
-        });
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('2025-06-22') })
+          .withParameters({ id: 1 })
+          .build();
         calibratedChallengeRepository.getAllCalibratedChallenges.withArgs({ version }).resolves(challengeList);
 
         const challengeWithValidatedLiveAlert = domainBuilder.buildChallenge({

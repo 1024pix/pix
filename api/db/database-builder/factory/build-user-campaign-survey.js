@@ -5,10 +5,22 @@ export function buildUserCampaignSurvey({
   userId,
   campaignId,
   satisfactionScore = 3,
+  usefulnessScore,
+  personalizationScore,
+  attractivenessScore,
+  comment,
+
   createdAt = new Date(),
 } = {}) {
+  const surveyFormatted = JSON.stringify({
+    attractivenessScore,
+    comment,
+    personalizationScore,
+    satisfactionScore,
+    usefulnessScore,
+  });
   return databaseBuffer.pushInsertable({
     tableName: 'user-campaign-surveys',
-    values: { id, userId, campaignId, satisfactionScore, createdAt },
+    values: { id, userId, campaignId, survey: surveyFormatted, createdAt },
   });
 }

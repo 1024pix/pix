@@ -1,6 +1,5 @@
 import { candidateSerializer } from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
 import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -53,11 +52,11 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         billingMode: BILLING_MODES.FREE,
         prepaymentCode: null,
         hasSeenCertificationInstructions: false,
-        subscriptions: [],
+        subscription: Frameworks.PRO_SANTE,
       };
     });
 
-    it('should deserialize correctly candidate with subscriptions', async function () {
+    it('should deserialize correctly candidate with new subscription string format', async function () {
       // given
       const candidateJsonApiData = {
         data: {
@@ -85,16 +84,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
             'billing-mode': candidateData.billingMode,
             'prepayment-code': candidateData.prepaymentCode,
             'has-seen-certification-instructions': candidateData.hasSeenCertificationInstructions,
-            subscriptions: [
-              {
-                complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
-                type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-              },
-              {
-                complementaryCertificationKey: null,
-                type: SUBSCRIPTION_TYPES.CORE,
-              },
-            ],
+            subscription: candidateData.subscription,
           },
         },
       };
@@ -104,19 +94,37 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
 
       // then
       expect(deserializedCandidate).to.deepEqualInstance(
-        domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-          complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
-          subscription: Frameworks.PRO_SANTE,
-          subscriptions: [
-            domainBuilder.certification.enrolment.buildComplementarySubscription({
-              certificationCandidateId: null,
-              complementaryCertificationKey: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
-            }),
-            domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null }),
-          ],
-        }),
+        domainBuilder.certification.enrolment.buildCandidate({ ...candidateData }),
       );
+    });
+
+    it('should deserialize correctly candidate with legacy subscriptions array format', async function () {
+      // given
+      const candidateJsonApiData = {
+        data: {
+          type: 'certification-candidates',
+          id: null,
+          attributes: {
+            'first-name': candidateData.firstName,
+            'last-name': candidateData.lastName,
+            sex: candidateData.sex,
+            'birth-country': candidateData.birthCountry,
+            'birth-insee-code': candidateData.birthINSEECode,
+            birthdate: candidateData.birthdate,
+            'billing-mode': candidateData.billingMode,
+            subscriptions: [
+              { type: SUBSCRIPTION_TYPES.COMPLEMENTARY, complementaryCertificationKey: Frameworks.PRO_SANTE },
+              { type: SUBSCRIPTION_TYPES.CORE, complementaryCertificationKey: null },
+            ],
+          },
+        },
+      };
+
+      // when
+      const deserializedCandidate = await candidateSerializer.deserialize(candidateJsonApiData);
+
+      // then
+      expect(deserializedCandidate.subscription).to.equal(Frameworks.PRO_SANTE);
     });
   });
 
@@ -143,7 +151,6 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         organizationLearnerId: null,
         billingMode: BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
-        subscriptions: [],
         subscription: Frameworks.PRO_SANTE,
         hasSeenCertificationInstructions: true,
         hasStartedTest: false,

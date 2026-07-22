@@ -1,5 +1,6 @@
 import {
   BadRequestError,
+  ConflictError,
   NotFoundError,
   UnprocessableEntityError,
 } from '../../../shared/application/errors/http-errors.js';
@@ -7,6 +8,7 @@ import {
   ActiveCertificationInfoNotFound,
   CertificationVersionDraftAlreadyExistError,
   InvalidScoWhitelistError,
+  VersionNotDraftError,
 } from '../domain/errors.js';
 
 export const configurationDomainErrorMappingConfiguration = [
@@ -21,5 +23,9 @@ export const configurationDomainErrorMappingConfiguration = [
   {
     name: ActiveCertificationInfoNotFound.name,
     httpErrorFn: (error) => new NotFoundError(error.message, error.code, error.meta),
+  },
+  {
+    name: VersionNotDraftError.name,
+    httpErrorFn: (error) => new ConflictError(error.message, error.code, error.meta),
   },
 ];

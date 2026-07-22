@@ -3,6 +3,7 @@ import {
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../../../src/shared/domain/errors.js';
+import * as userReconciliationService from '../../../../../../src/shared/domain/services/user-reconciliation-service.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -57,6 +58,7 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
           const error = await catchErr(usecases.reconcileSupOrganizationLearner)({
             campaignCode,
             reconciliationInfo,
+            userReconciliationService,
           });
 
           // then
@@ -88,6 +90,7 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
           await usecases.reconcileSupOrganizationLearner({
             campaignCode,
             reconciliationInfo,
+            userReconciliationService,
           });
 
           // then
@@ -119,6 +122,7 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
           const error = await catchErr(usecases.reconcileSupOrganizationLearner)({
             campaignCode,
             reconciliationInfo,
+            userReconciliationService,
           });
 
           // then

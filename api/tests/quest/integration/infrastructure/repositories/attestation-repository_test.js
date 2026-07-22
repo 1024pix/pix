@@ -1,7 +1,7 @@
 import { Attestation } from '../../../../../src/quest/domain/models/profile/entities/Attestation.js';
 import * as attestationRepository from '../../../../../src/quest/infrastructure/repositories/attestation-repository.js';
 import { AttestationStorage } from '../../../../../src/quest/infrastructure/storage/attestation-storage.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { AlreadyExistingEntityError } from '../../../../../src/shared/domain/errors.js';
 import { S3UploadError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';

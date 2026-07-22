@@ -5,8 +5,6 @@
 
 import * as url from 'node:url';
 
-import _ from 'lodash';
-
 import isEmpty from '../../../../shared/infrastructure/utils/is-empty.js';
 import { BILLING_MODES } from '../../../shared/domain/constants.js';
 import * as readOdsUtils from '../utils/ods/read-ods-utils.js';
@@ -190,7 +188,7 @@ function _certificationCandidatesToCandidatesData({ enrolledCandidates, i18n }) 
 
 function _emptyCandidatesData({ numberOfEnrolledCandidates, i18n }) {
   const emptyCandidates = [];
-  _.times(EXTRA_EMPTY_CANDIDATE_ROWS, (index) => {
+  [...Array(EXTRA_EMPTY_CANDIDATE_ROWS).keys()].forEach((index) => {
     const emptyCandidateData = CandidateData.empty({
       number: numberOfEnrolledCandidates + (index + 1),
       i18n,

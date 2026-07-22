@@ -38,6 +38,7 @@ import { schoolRoutes } from './src/school/routes.js';
 import { config } from './src/shared/config.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
 import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metrics.js';
+import { instrumentHapiServer } from './src/shared/infrastructure/open-telemetry/hapi-tracing.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 // bounded context migration
@@ -73,6 +74,8 @@ const { logOpsMetrics, port, logging } = config;
 
 export const createServer = async () => {
   const server = await createBareServer();
+
+  setupOpenTelemetry(server);
 
   // initialisation of Datadog link for metrics publication
   const metrics = new DatadogMetrics({ config });
@@ -270,5 +273,11 @@ const setupRoutesAndPlugins = async function (server) {
 const setupOpenApiSpecification = async function (server) {
   for (const swaggerRegisterArgs of swaggers) {
     await server.register(...swaggerRegisterArgs);
+  }
+};
+
+const setupOpenTelemetry = function (server) {
+  if (config.logging.otelEnabled) {
+    instrumentHapiServer(server);
   }
 };

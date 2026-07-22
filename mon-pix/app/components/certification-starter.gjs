@@ -28,7 +28,6 @@ export default class CertificationStarter extends Component {
   @service intl;
   @service focusedCertificationChallengeWarningManager;
   @service pixCompanion;
-  @service featureToggles;
 
   @tracked inputAccessCode = '';
   @tracked apiErrorMessage = null;
@@ -67,30 +66,17 @@ export default class CertificationStarter extends Component {
     return !this.currentDomain.isFranceDomain;
   }
 
-  get isCertificationInEnglishEnabled() {
-    return Boolean(this.featureToggles.featureToggles?.isCertificationInEnglishEnabled);
-  }
-
-  get isLanguageSelectorDisabled() {
-    return !this.isCertificationInEnglishEnabled;
-  }
-
   get languageOptions() {
-    const options = [
+    return [
       {
         value: VALID_CERTIFICATION_LOCALES.FRENCH,
         label: this.intl.t('pages.certification-start.language-selector.options.french'),
       },
-    ];
-
-    if (this.isCertificationInEnglishEnabled) {
-      options.push({
+      {
         value: VALID_CERTIFICATION_LOCALES.ENGLISH,
         label: this.intl.t('pages.certification-start.language-selector.options.english'),
-      });
-    }
-
-    return options;
+      },
+    ];
   }
 
   get subscriptionLabel() {
@@ -114,6 +100,10 @@ export default class CertificationStarter extends Component {
   @action
   handleAccessCodeInput(event) {
     this.inputAccessCode = event.target.value;
+
+    if (this.apiErrorMessage || this.validationErrorMessage) {
+      this.clearErrorMessage();
+    }
   }
 
   @action
@@ -178,7 +168,11 @@ export default class CertificationStarter extends Component {
     if (ERROR_MESSAGE_KEYS[statusCode]) {
       this.apiErrorMessage = this.intl.t(ERROR_MESSAGE_KEYS[statusCode]);
     } else if (statusCode === '403' && FORBIDDEN_ERROR_MESSAGE_KEYS[errorCode]) {
-      this.apiErrorMessage = this.intl.t(FORBIDDEN_ERROR_MESSAGE_KEYS[errorCode]);
+      const interpolationValues =
+        errorCode === 'CENTER_HABILITATION_ERROR' ? { subscription: this.subscriptionLabel, htmlSafe: true } : {};
+      this.apiErrorMessage = this.intl.t(FORBIDDEN_ERROR_MESSAGE_KEYS[errorCode], interpolationValues);
+    } else if (errorCode === 'CERTIFICATION_DURATION_EXCEEDED') {
+      this.apiErrorMessage = this.intl.t('pages.certification-start.error-messages.duration-exceeded');
     } else {
       this.technicalErrorInformation = `${error.message} ${error.stack}`;
       this.apiErrorMessage = this.intl.t('pages.certification-start.error-messages.generic');
@@ -221,17 +215,10 @@ export default class CertificationStarter extends Component {
             @options={{this.languageOptions}}
             @hideDefaultOption={{true}}
             @iconName="language"
-            @isDisabled={{this.isLanguageSelectorDisabled}}
           >
             <:label>{{t "pages.certification-start.language-selector.label"}}</:label>
             <:default as |language|>{{language.label}}</:default>
           </PixSelect>
-
-          {{#unless this.isCertificationInEnglishEnabled}}
-            <PixNotificationAlert @withIcon={{true}} @type="error">
-              <p>{{t "pages.certification-start.language-selector.warning-message"}}</p>
-            </PixNotificationAlert>
-          {{/unless}}
 
           <PixCheckbox
             @class="certification-start-form__lang-confirm-checkbox"
@@ -258,7 +245,6 @@ export default class CertificationStarter extends Component {
             @value={{this.inputAccessCode}}
             @validationStatus={{this.validationStatus}}
             @errorMessage={{this.validationErrorMessage}}
-            {{on "keyup" this.clearErrorMessage}}
             {{on "input" this.handleAccessCodeInput}}
           />
         </div>

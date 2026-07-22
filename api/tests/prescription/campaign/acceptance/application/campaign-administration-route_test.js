@@ -1,6 +1,6 @@
 import { createServer } from '../../../../../server.js';
-import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
-import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
+import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';

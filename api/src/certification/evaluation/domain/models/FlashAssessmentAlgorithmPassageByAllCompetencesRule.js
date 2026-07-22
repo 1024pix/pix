@@ -1,5 +1,3 @@
-import lodash from 'lodash';
-
 export class FlashAssessmentAlgorithmPassageByAllCompetencesRule {
   static isApplicable({ enablePassageByAllCompetences }) {
     return enablePassageByAllCompetences;
@@ -15,7 +13,7 @@ export class FlashAssessmentAlgorithmPassageByAllCompetencesRule {
 
   static _filterAlreadyAnsweredCompetences({ assessmentAnswers, allChallenges, availableChallenges }) {
     const answeredCompetenceIds = assessmentAnswers.map(
-      ({ challengeId }) => lodash.find(allChallenges, { id: challengeId }).skill.competenceId,
+      ({ challengeId }) => allChallenges.find((challenge) => challenge.id === challengeId).skill.competenceId,
     );
 
     const remainingChallenges = allChallenges.filter(

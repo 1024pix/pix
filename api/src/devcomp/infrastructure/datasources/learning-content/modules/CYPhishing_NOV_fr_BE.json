@@ -1,0 +1,1004 @@
+{
+  "id": "a38cb700-d52f-45e9-adde-235c747ae208",
+  "shortId": "2582fa21",
+  "slug": "cyber-message-arnaque-fr-be",
+  "title": "Vous avez un nouveau message ✉️ : attention aux arnaques",
+  "isBeta": true,
+  "visibility": "public",
+  "details": {
+    "image": "https://assets.pix.org/modules/CYPhishingNov/cy-phishing-nov-picto.svg",
+    "description": "<p>Chaque jour, nous recevons des messages par SMS ou messagerie instantanée. Certains d’entre eux cachent des arnaques.<br> Dans ce module, découvrez les réflexes à avoir pour éviter de tomber dans le piège. 🛡️<br><br><em>Module produit en partenariat avec cybermalveillance.gouv.fr.</em></p>",
+    "duration": 10,
+    "level": "novice",
+    "objectives": [
+      "<p>Reconnaître une tentative d’arnaque par message (SMS, messagerie instantanée)</p>",
+      "<p>Adopter un comportement de prudence à la réception d’un nouveau message</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "sections": [
+    {
+      "id": "4fde276f-8c0a-49b9-8c54-5b61ea4f0e51",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "525d12e7-0942-44c5-91f7-10f4ee9c35e1",
+          "type": "discovery",
+          "title": "Accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "7b9d7e14-506f-4fe2-8950-36c5778678f1",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Ce matin, Yvette a reçu un message surprenant. Elle en parle à Enzo.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "00a19024-f31f-487a-ad37-d5fddef0b180",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "Conversation d’introduction",
+                  "messages": [
+                    {
+                      "userName": "Yvette",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "J’ai reçu un message bizarre… Il dit que mon compte bancaire va être bloqué si je ne clique pas tout de suite sur un lien. Qu’est-ce que je dois faire ? 😰"
+                    },
+                    {
+                      "userName": "Enzo",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Ah ! Toi aussi, tu l’as reçu ?"
+                    },
+                    {
+                      "userName": "Enzo",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Moi, je l’ai reçu la semaine dernière. Ma sœur aussi, alors qu’elle n’a même pas de compte bancaire !"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "9a0b66df-6b00-4af6-85ef-884aed89b2a0",
+                "type": "qcu-discovery",
+                "instruction": "<p>À votre avis, le message reçu par Yvette est&nbsp;:</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Une erreur de destinataire</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non, ce message a bien été envoyé à Yvette. Mais attention, de nombreux messages cachent une tentative d’arnaque.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Une tentative d’arnaque</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Effectivement, de nombreux messages cachent en fait une tentative d’arnaque.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Une information importante</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non, ce message ne donne aucune information importante, ce blocage de compte est fictif. Attention, de nombreux messages cachent une tentative d’arnaque.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Je ne sais pas.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Il s’agit ici d’une tentative d’arnaque par message.</p>"
+                    }
+                  }
+                ],
+                "solution": "2"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ea21a978-685f-4522-a6b6-f3cf790d9a3b",
+      "type": "explore-to-understand",
+      "grains": [
+        {
+          "id": "29de5b58-dd89-474b-8f3b-034a7193f587",
+          "type": "discovery",
+          "title": "Activité de découverte #1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "53c7ed1f-a6bb-40e0-a1d7-ad14ee7d6ff5",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Comme Yvette et Enzo, vous pouvez recevoir des messages qui proviennent d’inconnus.<br>Lisez le message ci-dessous.&nbsp;</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "1b4050d7-f671-4b59-9698-2f1895ea3d53",
+                "type": "image",
+                "url": "https://assets.pix.org/modules/CYPhishingNov/colis.svg",
+                "alt": "",
+                "alternativeText": "<p>Un smartphone affiche un SMS&nbsp;:«&nbsp;Nous avons essayé de livrer votre colis 00073679039. Confirmez votre adresse de livraison et payez les frais en ligne (2,99&nbsp;€)&nbsp;: http://bit.do/fHXym&nbsp;».</p>",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "6ae6a952-2543-4c4d-a490-de896d793349",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Ce message est une tentative d’arnaque. La personne qui l’a écrit ne cherche pas à livrer un colis.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "2ec63ebd-1ea6-4243-b963-4bc680acef11",
+                "type": "qcu-discovery",
+                "instruction": "<p>À votre avis, que veut réellement l’auteur de ce message ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Récupérer des données personnelles.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Effectivement, l’auteur de ce message est un escroc. Il cherche à <strong>obtenir des informations personnelles </strong>(un mot de passe, un numéro de carte bancaire, une adresse, etc.). Il les utilisera ensuite à son avantage, pour gagner de l’argent et mieux cibler ses attaques suivantes.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Engager la conversation.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Ici,&nbsp;l’auteur de ce message est un escroc. Il&nbsp;ne cherche pas à engager la conversation. Il cherche à <strong>obtenir des informations personnelles</strong> (mot de passe, numéro de carte bancaire, adresse, etc.) pour gagner de l’argent et préparer d’autres arnaques.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Signaler un problème.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non !&nbsp;l’auteur de ce message est un escroc. Il cherche à <strong>obtenir des informations personnelles</strong> (mot de passe, numéro de carte bancaire, adresse, etc.) pour gagner de l’argent et préparer d’autres arnaques.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Je ne sais pas.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>L’auteur de ce message est un escroc. Il cherche à <strong>obtenir des informations personnelles</strong> (mot de passe, numéro de carte bancaire, adresse, etc.) pour gagner de l’argent et préparer d’autres arnaques.</p>"
+                    }
+                  }
+                ],
+                "solution": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "4a1681cc-3307-411b-9b0b-8eea6df8ae82",
+          "type": "short-lesson",
+          "title": "Leçon #1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "d822627d-cca3-42a2-9ed1-02038366bb77",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Les tentatives d’arnaque par message sont des <strong>messages trompeurs</strong> envoyés à <strong>un très grand nombre de personnes</strong> par des escrocs, pour obtenir des informations personnelles.&nbsp;</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "b2389652-63a2-4254-a6e5-60ebe240a41a",
+                "type": "text",
+                "tag": "did-you-know",
+                "content": "<p>On appelle cela de l’hameçonnage (ou phishing en anglais).</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "f916e6c6-5391-4305-beda-10960f64bb07",
+          "type": "transition",
+          "title": "Transition #1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "1168f740-1bab-4182-a1ef-57f4588e6e17",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "Conversation de transition 1",
+                  "messages": [
+                    {
+                      "userName": "Yvette",
+                      "direction": "incoming",
+                      "type": "Texte + Image",
+                      "content": "Alors, qu’est-ce que tu me conseilles de faire avec ce message ?",
+                      "image": {
+                        "src": "https://assets.pix.org/modules/CYPhishingNov/msgyvette.svg",
+                        "alt": "SMS : CREDIT BANQUE\u0003ATTENTION votre compte va être bloqué définitivement suite à des opérations suspectes. Cliquez immédiatement sur le lien pour éviter la désactivation : http://blocbanque.fr"
+                      }
+                    },
+                    {
+                      "userName": "Enzo",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Attention à ce message ! Si tu leur donnes ce qu’ils demandent, tu risques de te faire arnaquer et de perdre de l’argent."
+                    },
+                    {
+                      "userName": "Yvette",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Pourtant moi j’ai bien un compte dans cette banque, c’est bizarre."
+                    },
+                    {
+                      "userName": "Enzo",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Oui les escrocs sont forts, ils arrivent même à se faire passer pour une banque ! 🤯 "
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "22a3a149-3c60-43e4-8ea9-9d23cfe9fdbc",
+          "type": "discovery",
+          "title": "Activité de découverte #2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "860ba08c-77fb-4007-91ae-6e73e0e386ee",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voici plusieurs&nbsp;<strong>tentatives d’arnaque par message</strong>.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "ab920821-0909-43da-b1c0-0963c4ee7886",
+                "type": "custom",
+                "title": "",
+                "instruction": "<p>Pour chaque notification de message ci-dessous, indiquez pour qui l’escroc essaye de se faire passer.</p>",
+                "functionalInstruction": "Cliquez sur chaque notification, puis choisissez une catégorie.",
+                "tagName": "phishing-notification",
+                "props": {
+                  "notifications": [
+                    {
+                      "icon": "bubble",
+                      "sender": "Votre CAF",
+                      "content": "Votre remboursement de 500 €... ",
+                      "category": "Service public",
+                      "time": {
+                        "minutes": 75
+                      }
+                    },
+                    {
+                      "icon": "letter",
+                      "sender": "LeDiscount",
+                      "content": "Gagnant du GRAND JEU de l’été...",
+                      "category": "Commerce",
+                      "time": {
+                        "minutes": 27
+                      }
+                    },
+                    {
+                      "icon": "arobase",
+                      "sender": "Céline Doin",
+                      "content": "Concours pour mes abonnés ! ",
+                      "category": "Célébrité",
+                      "time": {
+                        "minutes": -24
+                      }
+                    },
+                    {
+                      "icon": "bubble",
+                      "sender": "06 39 98 65 47",
+                      "content": "Coucou c’est Clément, j’ai besoin...",
+                      "category": "Particulier",
+                      "time": {
+                        "minutes": -42
+                      }
+                    },
+                    {
+                      "icon": "letter",
+                      "sender": "service-client@telephone.com",
+                      "content": "Alerte facture impayée ! ",
+                      "category": "Entreprise",
+                      "time": {
+                        "minutes": -128
+                      }
+                    }
+                  ],
+                  "categories": [
+                    {
+                      "name": "Célébrité",
+                      "icon": "celebrity"
+                    },
+                    {
+                      "name": "Commerce",
+                      "icon": "business"
+                    },
+                    {
+                      "name": "Particulier",
+                      "icon": "person"
+                    },
+                    {
+                      "name": "Service public",
+                      "icon": "publicService"
+                    },
+                    {
+                      "name": "Entreprise",
+                      "icon": "company"
+                    }
+                  ],
+                  "informationMessage": "Souvent, les escrocs envoient de faux messages qui semblent venir d’un proche, d’une célébrité ou d’un service connu pour gagner votre confiance.",
+                  "titleLevel": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b2fef936-0c39-48f1-b659-cadbca6e20a1",
+          "type": "short-lesson",
+          "title": "Leçon #2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "9be475e6-47e0-455d-8239-b7ddc901eda7",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Un service public ou une entreprise commerciale sérieuse <strong>ne vous demandera pas vos données</strong> bancaires ou vos mots de passe par message ou par téléphone.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "62d874bc-5b00-492f-9e4d-1fa64b155764",
+          "type": "transition",
+          "title": "Transition #2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "a26e4fbf-806e-4d35-9099-a01be8f4cf8a",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "Conversation transition 2",
+                  "messages": [
+                    {
+                      "userName": "Yvette",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Du coup, comment je fais pour reconnaître un message d’arnaque ?"
+                    },
+                    {
+                      "userName": "Enzo",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Là, par exemple, le faux message de ta banque est très alarmiste. C’est pour te pousser à répondre."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "658d6b8d-152f-41db-a4be-32e8cc0e9ad2",
+          "type": "discovery",
+          "title": "Activité de découverte #3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "011ce99e-56f0-4cf2-8a3f-9509fc4b0428",
+                "type": "custom",
+                "title": "",
+                "instruction": "<p>Pour chacun des cas ci-dessous&nbsp;: ouvrez et lisez le message d’arnaque, puis répondez à la question.</p>",
+                "functionalInstruction": "",
+                "tagName": "phishing-message",
+                "props": {}
+              }
+            }
+          ]
+        },
+        {
+          "id": "5713e8dc-5a22-496f-9361-47477fb9c1f7",
+          "type": "short-lesson",
+          "title": "Leçon #3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "4d215559-a483-43e4-90a6-4038835180fd",
+                "type": "image",
+                "url": "https://assets.pix.org/modules/CYPhishingNov/infographie-lecon3.svg",
+                "alt": "image décrite en détail dans l’alternative textuelle",
+                "alternativeText": "<p>Infographie sur les messages d’arnaque. Titre&nbsp;: «&nbsp;Les messages d’arnaque vous poussent toujours à agir rapidement et sans réfléchir&nbsp;».<br> Trois exemples&nbsp;:</p><ul><li>en cliquant sur un lien vers une page web,</li><li>en appelant un numéro de téléphone,</li><li>en répondant au message plus vite.</li></ul>",
+                "legend": "",
+                "licence": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": "4b57a315-4a82-410b-9927-bea7d799445e",
+          "type": "transition",
+          "title": "Transition #3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "0da3a602-8fe6-4dde-8a32-81409f68893a",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "Conversation transition 3",
+                  "messages": [
+                    {
+                      "userName": "Yvette",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Bon, je fais quoi du coup avec le message de ma banque ? 😟"
+                    },
+                    {
+                      "userName": "Enzo",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Déjà, tu m’en as parlé et c’est un bon réflexe."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ecb2b142-f84b-4d03-8f22-2678ab16f000",
+          "type": "discovery",
+          "title": "Activité de découverte #4",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "cfaa8111-3b60-41e6-8482-f2c28775643d",
+                "type": "custom",
+                "title": "",
+                "instruction": "<p>Aidez Enzo à répondre à Yvette.</p>",
+                "functionalInstruction": "",
+                "tagName": "select-conversation",
+                "props": {
+                  "titleLevel": 0,
+                  "incomingMessage": {
+                    "username": "Yvette",
+                    "content": "Ok, mais en cas de doute, je fais quoi ? La banque ça peut être urgent !",
+                    "time": {
+                      "minutes": -5
+                    }
+                  },
+                  "username": "Enzo",
+                  "responseChoices": [
+                    {
+                      "content": "Réponds STOP au SMS, ça va le bloquer.",
+                      "goodIdea": false,
+                      "feedback": "Répondre STOP à un SMS d’arnaque ne permet pas de vérifier s’il est vrai ni de bloquer l’expéditeur.<br>Dans le doute, il faut vérifier l’information par un autre moyen en contactant la personne ou le service qui aurait écrit le message. Par exemple ici, contacter sa banque au numéro de téléphone habituel après avoir reçu un sms suspect d’un conseiller bancaire."
+                    },
+                    {
+                      "content": "Contacte ta banque au numéro habituel ou avec ton application bancaire.",
+                      "goodIdea": true,
+                      "feedback": "Dans le doute, il faut vérifier l’information  par un autre moyen en contactant la personne ou le service qui aurait écrit le message. Par exemple ici, contacter sa banque au numéro de téléphone habituel après avoir reçu un sms suspect d’un conseiller bancaire."
+                    },
+                    {
+                      "content": "Rappelle directement le numéro qui t’a envoyé le message.",
+                      "goodIdea": false,
+                      "feedback": "Rappeler le numéro, c’est prendre le risque de tomber sur un escroc qui vous manipulera.<br>Dans le doute, il faut vérifier l’information par un autre moyen en contactant la personne ou le service qui aurait écrit le message. Par exemple ici, contacter sa banque au numéro de téléphone habituel après avoir reçu un sms suspect d’un conseiller bancaire."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "36236bb8-b9b3-4eae-8328-89e05bffb43e",
+          "type": "short-lesson",
+          "title": "Leçon #4",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "9c3da676-ce41-461b-8f49-1ea4477b65a5",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Pour <strong>éviter de tomber dans le piège</strong>, prenez le temps de réfléchir avant d’agir&nbsp;: ne communiquez pas d’informations personnelles et ignorez le message.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "66ab9409-4910-40f0-92d8-7d6f29fe9112",
+                "type": "text",
+                "tag": "further-information",
+                "content": "<p>Ces messages d’arnaque sont très courants par SMS, sur les messageries instantanées mais aussi par mail et sur les réseaux sociaux.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c327c964-ee7d-4dfa-b6f6-9e384df323e5",
+          "type": "transition",
+          "title": "Transition #4",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "060fb4c8-2fb1-4f74-941b-f259a48c7c22",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "Fin de la conversation",
+                  "messages": [
+                    {
+                      "userName": "Yvette",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "C’est bon, j’ai appelé ma banque. C’était bien une arnaque, il n’y a pas de problème avec mon compte ! "
+                    },
+                    {
+                      "userName": "Enzo",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Ouf ! Tu n’es pas tombée dans le piège. 👏 "
+                    },
+                    {
+                      "userName": "Yvette",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Merci Enzo ! Heureusement que tu étais là !"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eda15cef-fda2-4808-aab9-68c35a2a50ea",
+      "type": "retain-the-essentials",
+      "grains": [
+        {
+          "id": "65d4a1e2-413a-4113-aca4-130c8104ebe0",
+          "type": "summary",
+          "title": "Récapitulatif",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "26e39ce0-1204-4fc5-b85f-f218969cfecb",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Les tentatives d’<strong>arnaque par message</strong> sont des <strong>messages trompeurs</strong> envoyés dans le but de <strong>collecter des informations personnelles</strong>. 📝</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "753f4608-79d0-43dd-8236-e5edce7ecb89",
+                "type": "image",
+                "url": "https://assets.pix.org/modules/CYPhishingNov/cy-phishing-nov-infographie-recap-fond-blanc.svg",
+                "alt": "Infographie décrite en détail dans l’alternative textuelle",
+                "alternativeText": "<p>Un dessin représentant une personne tenant un smartphone. Sur l’écran du téléphone, un message est affiché avec un lien vers une page web.<br>Trois encadrés de texte, reliés au téléphone, expliquent&nbsp;:</p><ul><li>«&nbsp;Ils cherchent à gagner votre confiance, en utilisant l’identité d’un proche ou d’un service public connu.&nbsp;»</li><li>«&nbsp;Ils invitent à agir, souvent en cliquant sur un lien.&nbsp;»</li><li>«&nbsp;Ils utilisent vos émotions pour vous faire réagir rapidement.&nbsp;»</li></ul><p>Liste de recommandations avec le titre&nbsp;: «&nbsp;Trois conseils pour éviter de tomber dans le piège&nbsp;»</p><ol><li>Prenez le temps de réfléchir avant d’agir.</li><li>Ne communiquez pas d’informations personnelles.</li><li>Ne cliquez pas sur le lien, ne répondez pas.</li></ol>",
+                "legend": "",
+                "licence": ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d4c2a953-b3f0-4574-87b9-2723477bb1ed",
+      "type": "practise",
+      "grains": [
+        {
+          "id": "b30e1f5f-dda3-4451-9bf5-212abbab7ac4",
+          "type": "transition",
+          "title": "Transition s’exercer",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "55a1fd33-5387-4639-abfc-7c885c15b5e7",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voyons si vous avez retenu l’essentiel.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "04533434-b8f5-4ecc-a1b2-89be0954c170",
+          "type": "activity",
+          "title": "Activité d’entrainement #1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "93ee9d53-5249-4156-a386-373104444970",
+                "type": "qab",
+                "instruction": "<p>Pour chacune des phrases ci-dessous, indiquez si elle est vraie ou fausse.</p>",
+                "cards": [
+                  {
+                    "id": "a7cf33c7-c473-4aa9-84e4-336bf8a68ff7",
+                    "text": "Un message qui vous demande de cliquer sur un lien rapidement peut cacher une arnaque.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "b305e676-f54a-41bf-bbc2-b63989173e19",
+                    "text": "Donner ses informations personnelles par SMS est sans risque.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "e99c1232-228a-4858-a3ba-3e94f35c3750",
+                    "text": "Un des objectifs des messages d’arnaque est de récupérer vos informations personnelles.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "7132b534-f471-4d40-ad94-c06f5e10a528",
+                    "text": "Répondre à un message permet de vérifier si c’est une arnaque.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": ""
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "1a258b23-da11-48cd-94b6-ea304519170f",
+          "type": "activity",
+          "title": "Activité d’entrainement #2",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "29c76449-729e-4666-96bc-577bfc840bd8",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Pour chacun des messages ci-dessous, indiquez s’il s’agit d’une tentative d’arnaque ou d’un message sûr.</p>"
+                    },
+                    {
+                      "id": "ce11f07a-ed41-4114-ac49-d02728da0b6d",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/CYPhishingNov/mamanpapa.svg",
+                      "alt": "Image décrite dans l’alternative textuelle",
+                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;: <br>«&nbsp;Bonjour maman/papa, c’est moi, mon téléphone est cassé, c’est mon nouveau numéro&nbsp;: +33774889453. Vous pouvez enregistrer ceci. Envoyez-moi un message sur WhatsApp le plus rapidement possible.&nbsp;»</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "cbd2bb90-4769-4ef2-94c3-401508bb4b6c",
+                      "type": "qcu",
+                      "instruction": "<p>Ce message est-il une tentative d’arnaque ou un message sûr ?&nbsp;</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>une tentative d’arnaque</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>Ce message est bien une tentative d’arnaque. Il joue sur le lien parental et le sentiment d’urgence, pour vous inciter à communiquer avec un numéro inconnu.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>un message sûr</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ce message est bien une tentative d’arnaque. Il joue sur le lien parental et le sentiment d’urgence, pour vous inciter à communiquer avec un numéro inconnu.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "6027b26d-b674-406f-989c-7f519bb9f7df",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/CYPhishingNov/venteprivee.svg",
+                      "alt": "Image décrite dans l’alternative textuelle",
+                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;:<br>«&nbsp;VENTE PRIVÉE ce jeudi dans votre magasin Mode chic, -20% sur toute la nouvelle collection pour fêter les 10 ans du magasin ! À très vite. STOP au 36184&nbsp;».</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "466e0c32-49eb-45ea-a116-517c3979fca0",
+                      "type": "qcu",
+                      "instruction": "<p>Ce message est-il une tentative d’arnaque ou un message sûr ?&nbsp;</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>une tentative d’arnaque</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ce message est sûr, il n’y a pas d’incitation à agir. Le message transmet juste une information publicitaire.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>un message sûr</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>C’est bien un message sûr car il n’y a pas d’incitation à agir. Le message transmet juste une information publicitaire.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "cd1e0d07-0333-4c74-b789-001706fab523",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/CYPhishingNov/engie.svg",
+                      "alt": "Image décrite dans l’alternative textuelle",
+                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;:<br>«&nbsp;ENGIE INFO&nbsp;: Vous avez un crédit de 350&nbsp;€ disponible. Cliquez pour le récupérer&nbsp;: engie-refund.site/350 Vérifiez maintenant pour éviter l’annulation automatique. (Ref&nbsp;: 7F4A)&nbsp;»</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "4afc2dd0-1e70-4c2b-8380-7efbf7d55a9c",
+                      "type": "qcu",
+                      "instruction": "<p>Ce message est-il une tentative d’arnaque ou un message sûr ?&nbsp;</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>une tentative d’arnaque</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>Ce message est bien une tentative d’arnaque. Il joue sur l’espoir d’un remboursement et le sentiment d’urgence, pour vous inciter à cliquer sur un lien inconnu.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>un message sûr</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ce message est bien une tentative d’arnaque. Il joue sur l’espoir d’un remboursement et le sentiment d’urgence, pour vous inciter à cliquer sur un lien inconnu.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "a089861d-b07d-416b-a184-feed5a563514",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/CYPhishingNov/ameli.svg",
+                      "alt": "Image décrite dans l’alternative textuelle",
+                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;:<br>«&nbsp;Dernière relance avant suspension de vos droits de la sécurité sociale AMELI. L’actualisation de votre dossier est disponible dès à présent sur votre espace client via ce lien&nbsp;: https://mesdroitsenligne.info.ca&nbsp;»</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "df49eb76-d6d2-4b6e-99c9-dbd147afd335",
+                      "type": "qcu",
+                      "instruction": "<p>Ce message est-il une tentative d’arnaque ou un message sûr ?&nbsp;</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>une tentative d’arnaque</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>Ce message est bien une tentative d’arnaque. Il joue sur le sentiment d’urgence et de peur, pour vous inciter à cliquer sur un lien inconnu.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>un message sûr</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ce message est bien une tentative d’arnaque. Il joue sur le sentiment d’urgence et de peur, pour vous inciter à cliquer sur un lien inconnu.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "f05841d9-8296-4e73-b2ce-3e99504d1c97",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/CYPhishingNov/banquepostale.svg",
+                      "alt": "Image décrite dans l’alternative textuelle",
+                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;:<br>«&nbsp;Relevé La Banque Postale Le 01/09/2025 à 01h35 CCP 0637***8023 Solde +982.36&nbsp;€ -54.99&nbsp;€ -625.00&nbsp;€ -54.99&nbsp;€ -12.99&nbsp;€ Aucun crédit&nbsp;».</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "f323a973-2749-4c12-9811-4cb7f613bfb6",
+                      "type": "qcu",
+                      "instruction": "<p>Ce message est-il une tentative d’arnaque ou un message sûr ?&nbsp;</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>une tentative d’arnaque</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Ce message est sûr, il n’y a pas d’incitation à agir. Le message transmet juste une information liée à un compte bancaire.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>un message sûr</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>Ce message est sûr, il n’y a pas d’incitation à agir. Le message transmet juste une information liée à un compte bancaire.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "86f24015-0797-4874-a71a-2ebe17d044ac",
+      "type": "go-further",
+      "grains": [
+        {
+          "id": "a5865e17-86fb-4dba-b853-6a872704f297",
+          "type": "challenge",
+          "title": "Transfert",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "38e87919-f8bd-4d2f-be63-b7811d18ceec",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Sur Instagram, vous recevez un message de votre chanteur préféré.<br>Il vous envoie un lien pour  un super concours&nbsp;: gagner une rencontre avec lui après un de ses concerts.&nbsp;✨✨✨</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "ed425947-9bd3-44f1-af67-25f9ea9e0ca3",
+                "type": "qcu-discovery",
+                "instruction": "<p>Suite à la lecture de ce module, que faites-vous ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Je clique directement car c’est mon artiste préféré.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Ce n’est pas très prudent ! Quelqu’un peut avoir pris l’identité de l’artiste pour piéger ses fans.&nbsp;</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Je prends le temps de vérifier si le concours est annoncé sur son compte officiel.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bonne idée !  Quelqu’un peut avoir pris l’identité de l’artiste pour piéger ses fans.&nbsp;</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je me méfie, car les escrocs se font souvent passer pour des célébrités.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bien joué ! Certains escrocs créent de faux profils de célébrités et envoient des messages à toutes les personnes qui les suivent pour les piéger.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Je partage le lien à mes contacts pour qu’ils aient une chance de gagner.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Ce n’est pas très prudent ! Quelqu’un peut avoir pris&nbsp; l’identité de l’artiste pour piéger ses fans.&nbsp;</p>"
+                    }
+                  }
+                ],
+                "solution": "2"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "glossary": []
+}

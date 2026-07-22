@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { Scorecard } from '../../../evaluation/domain/models/Scorecard.js';
-import { constants } from '../../../shared/domain/constants.js';
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../shared/constants.js';
 
 const getUserProfile = async function ({
   userId,
@@ -33,8 +33,8 @@ const getUserProfile = async function ({
   });
 
   const pixScore = _.sumBy(scorecards, 'earnedPix');
-  const maxReachableLevel = constants.MAX_REACHABLE_LEVEL;
-  const maxReachablePixScore = constants.MAX_REACHABLE_PIX_SCORE;
+  const maxReachableLevel = MAX_REACHABLE_LEVEL;
+  const maxReachablePixScore = MAX_REACHABLE_PIX_SCORE;
 
   return {
     id: userId,

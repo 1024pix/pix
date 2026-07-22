@@ -751,6 +751,16 @@
       "copy-of": "Copy of",
       "course-label": "Select a course",
       "course-selection-label": "Select a course",
+      "course-title": {
+        "label": "Title of the customised test",
+        "sublabel": "This field will be displayed to campaign participants."
+      },
+      "customization": {
+        "title": "Customization"
+      },
+      "exam-mode": {
+        "label": "Do you want to enable exam mode?"
+      },
       "external-id-label": {
         "label": "external user ID label",
         "question-label": "Do you need an external user ID?",
@@ -800,6 +810,9 @@
         "profiles-collection-info": "A profile collection campaign retrieves the participants’ Pix profile: their level for each competence and their pix score.",
         "profiles-collection-info-certificability-calculation": "The “Eligible for certification” status is updated automatically in the '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Students'</a>' tab."
       },
+      "settings": {
+        "title": "Settings"
+      },
       "tags": {
         "BACK_TO_SCHOOL": "Back to school",
         "COMPETENCES": "Pix Competences",
@@ -817,10 +830,6 @@
       "target-profiles-label": "Select a customised test",
       "target-profiles-list-label": "What would you like to test?",
       "target-profiles-search-placeholder": "Search by name",
-      "test-title": {
-        "label": "Title of the customised test",
-        "sublabel": "This field will be displayed to campaign participants."
-      },
       "title": "Create a campaign",
       "yes": "Yes"
     },
@@ -1073,9 +1082,9 @@
       },
       "tab-filters": {
         "all": "All",
-        "blueprints": "Learning courses",
+        "blueprints": "Learning",
         "label": "Course type",
-        "target-profiles": "Courses"
+        "target-profiles": "Assessment"
       },
       "title": "Courses catalogue"
     },
@@ -1127,11 +1136,17 @@
           "first-name": "First name",
           "last-name": "Last name",
           "modules": "Modules",
+          "reward": "Attestation",
           "status": "Status"
         },
         "description": "List of learning courses participations",
         "module-completion": "{nbItemsCompleted, plural, =0 {No module completed out of {nbItems}} =1 {One module completed out of {nbItems}} other {{nbItemsCompleted} modules completed out of {nbItems}}}.",
         "no-module": "No modules recommended.",
+        "rewards": {
+          "in-progress": "In progress",
+          "not-obtained": "Not obtained",
+          "obtained": "Obtained"
+        },
         "tooltip": {
           "campaigns-column": "'x / y' indicates the participant’s progress : they have completed x campaigns out of a total of y. For example, 1/2 means they have completed 1 campaign out of 2.",
           "modules-column": "'x / y'  indicates the participant's progress : they have completed x modules out of a total of y. The total number of modules differs for each individual, depending on personalised recommendations."

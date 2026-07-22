@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import * as sessionsImportValidationService from '../../../../../../src/certification/enrolment/domain/services/sessions-import-validation-service.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { expect } from '../../../../../test-helper.js';
@@ -467,10 +466,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when there are many complementary subscriptions', function () {
       it('should return an error accordingly and a CORE subscription', async function () {
         // given
-        const subscriptionKeys = [
-          ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-          ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-        ];
+        const subscriptionKeys = [Frameworks.DROIT, Frameworks.EDU_1ER_DEGRE];
         const line = 12;
 
         // when
@@ -513,7 +509,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when there is a double certification subscription', function () {
       it('should return CLEA subscription', async function () {
         // given
-        const subscriptionKeys = [ComplementaryCertificationKeys.CLEA];
+        const subscriptionKeys = [Frameworks.CLEA];
         const line = 12;
 
         // when
@@ -531,7 +527,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when there is a complementary certification subscription', function () {
       it('should return no error and the right subscription', async function () {
         // given
-        const subscriptionKeys = [ComplementaryCertificationKeys.PIX_PLUS_DROIT];
+        const subscriptionKeys = [Frameworks.DROIT];
         const line = 12;
 
         // when
@@ -839,7 +835,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           birthPostalCode: '44329',
           birthINSEECode: '67890',
         };
-        candidate.subscriptions = ['je ne suis pas une subscription'];
+        candidate.subscription = 'je ne suis pas une subscription';
         const certificationCpfCountryRepository = Symbol();
         const certificationCpfCityRepository = Symbol();
         const cpfBirthInformationValidation = new CpfBirthInformationValidation();
@@ -992,6 +988,6 @@ function _buildValidCandidateModel({ lineNumber = 0, candidateNumber = 2 } = { c
     extraTimePercentage: 20,
     billingMode: 'PAID',
     line: lineNumber,
-    subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null })],
+    subscription: Frameworks.CORE,
   });
 }

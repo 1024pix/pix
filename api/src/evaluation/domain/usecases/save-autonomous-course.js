@@ -1,4 +1,4 @@
-import { constants } from '../../../shared/domain/constants.js';
+import { config } from '../../../shared/config.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   NotFoundError,
@@ -29,7 +29,7 @@ const saveAutonomousCourse = async ({
 
   const organizationIds = await targetProfileRepository.findOrganizationIds(autonomousCourse.targetProfileId);
 
-  if (!organizationIds.includes(constants.AUTONOMOUS_COURSES_ORGANIZATION_ID)) {
+  if (!organizationIds.includes(config.autonomousCourse.autonomousCoursesOrganizationId)) {
     throw new TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization();
   }
 

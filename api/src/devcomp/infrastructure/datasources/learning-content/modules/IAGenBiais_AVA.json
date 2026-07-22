@@ -436,7 +436,7 @@
                       "id": "7aeafcd3-3290-47b7-a037-c38d8c96563b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Et est-ce que l’utilisateur peut, lui aussi, donner ses préférences à l’IA ?</h5>\n<p>Oui, l’utilisateur peut par exemple utiliser un&nbsp;<strong>pré-prompt</strong>. Le pré-prompt est une consigne comme le prompt système mais écrite par l’utilisateur. Cette consigne peut <strong>modifier le ton et la posture de l’IA</strong>. Le pré-prompt agit seulement pour la session en cours&nbsp;: il ne modifie pas le prompt système du modèle d’IA.</p>"
+                      "content": "<h5>Et est-ce que l’utilisateur peut, lui aussi, donner ses préférences à l’IA ?</h5><p>Oui, l’utilisateur peut par exemple utiliser un&nbsp;<strong>pré-prompt</strong>. Le pré-prompt est une consigne comme le prompt système mais écrite par l’utilisateur. Cette consigne peut <strong>modifier le ton et la posture de l’IA</strong>. Le pré-prompt agit seulement pour la session en cours&nbsp;: il ne modifie pas le prompt système du modèle d’IA.</p>"
                     }
                   ]
                 }
@@ -583,7 +583,7 @@
                 "id": "cf315382-c3f4-4a21-bb31-57226246a345",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées pour réduire la circulation dans sa ville.</p><p>Il se crée un compte et demande des idées à deux logiciels d’IA générative différents&nbsp;: Grok 4 et ChatGPT 5.5.</p>"
+                "content": "<p>Fabrice, le maire de Jolieville, cherche des idées pour réduire la circulation dans sa ville.</p><p>Il se crée un compte et demande des idées à deux logiciels d’IA générative différents.</p>"
               }
             },
             {
@@ -592,18 +592,18 @@
                 "id": "3778a79e-ea66-427e-a8a1-dca45bc1f9ee",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Comparez les réponses obtenues avec Grok 4 et ChatGPT 5.5.<br></p>",
+                "instruction": "<p>Comparez les réponses obtenues avec les deux logiciels d’intelligence artificielle.</p>",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
                 "props": {
                   "type": "image",
                   "slides": [
                     {
-                      "title": "La réponse donnée par Grok 4",
+                      "title": "La réponse donnée par le premier logiciel d’IA",
                       "description": "Capture d’écran prise le 27 mai 2026",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/biais-avances/ia-gen-biais-ava-grok-capture-ecran27mai2026.png",
+                        "src": "https://assets.pix.org/modules/IAGenBiais_AVA/capture-grok.png",
                         "alt": ""
                       },
                       "license": {
@@ -613,11 +613,11 @@
                       }
                     },
                     {
-                      "title": "La réponse donnée par ChatGPT 5.5",
+                      "title": "La réponse donnée par second logiciel d’IA",
                       "description": "Capture d’écran prise le 27 mai 2026",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/biais-avances/ia-gen-biais-ava-chat-gpt-capture-ecran27mai2026.png",
+                        "src": "https://assets.pix.org/modules/IAGenBiais_AVA/capture-chat-gpt.png",
                         "alt": ""
                       },
                       "license": {
@@ -641,7 +641,7 @@
               "element": {
                 "id": "eb39984b-7e4b-456f-98ad-5d9e164851d5",
                 "type": "qcu-discovery",
-                "instruction": "<p>D’après vous, qu’est-ce qui explique le mieux la différence entre les réponses de Grok 4 et de ChatGPT 5.5 ?</p>",
+                "instruction": "<p>D’après vous, qu’est-ce qui explique le mieux la différence entre les réponses entre les deux logiciels d’intelligence artificielle ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -799,7 +799,7 @@
                 "isCompletionRequired": false,
                 "title": "Trouvez le prompt système",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmeiran750002u401mxq98ith",
-                "instruction": "<p>Discutez avec le logiciel d’IA générative ci-dessous, observez ses réponses puis répondez aux questions qui suivent. </p>",
+                "instruction": "<p>Discutez avec le logiciel d’IA générative ci-dessous, observez ses réponses, puis identifiez le pays qu’il semble mettre en avant dans ses réponses.</p>",
                 "solution": "pix-llm-success",
                 "height": 500
               }
@@ -1119,7 +1119,7 @@
                       },
                       {
                         "id": "7",
-                        "content": "Grok"
+                        "content": "LLama"
                       },
                       {
                         "id": "8",

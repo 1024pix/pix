@@ -1,5 +1,339 @@
 # Pix Changelog
 
+# [5.460.0](https://github.com/1024pix/pix/compare/v5.459.0...v5.460.0) (2026-07-21)
+
+### :rocket: Amélioration
+
+- [#16883](https://github.com/1024pix/pix/pull/16883) Ajout des valeurs de la version active en sous-label (PIX-23482)
+- [#16896](https://github.com/1024pix/pix/pull/16896) Modifs Cy_Virus_AVA avant relecture interne
+- [#16895](https://github.com/1024pix/pix/pull/16895) Modifs module CY_Généralités_IND suite relecture FRI
+- [#16880](https://github.com/1024pix/pix/pull/16880) Notifier l'utilisateur de l'enregistrement de son avis sur la pertinence d'un seul CF (PIX-23594) 
+- [#16865](https://github.com/1024pix/pix/pull/16865) Revoir le style du formulaire de création de centre de certification (PiX-22644)
+- [#16882](https://github.com/1024pix/pix/pull/16882) Structurertext_NOV retours eval et concepteurs
+
+### :building_construction: Tech
+
+- [#16787](https://github.com/1024pix/pix/pull/16787)  Suppression de la table `certification subscriptions` (Pix-22978)
+- [#16859](https://github.com/1024pix/pix/pull/16859) Réécriture du domainBuilder Version (PIX-23580).
+
+### :arrow_up: Montée de version
+
+- [#16890](https://github.com/1024pix/pix/pull/16890) Update dependency @babel/eslint-parser to v8 (audit-logger)
+- [#16891](https://github.com/1024pix/pix/pull/16891) Update dependency @babel/eslint-parser to v8 (dossier racine)
+- [#16874](https://github.com/1024pix/pix/pull/16874) Update dependency js-yaml to v5 (api)
+- [#16888](https://github.com/1024pix/pix/pull/16888) Update slackapi/slack-github-action action to v3.0.5 (workflows)
+
+# [5.459.0](https://github.com/1024pix/pix/compare/v5.458.0...v5.459.0) (2026-07-20)
+
+### :rocket: Amélioration
+
+- [#16870](https://github.com/1024pix/pix/pull/16870) Ajouter un bloc de commentaire dans le formulaire suivant le feedmoji (PIX-23571)
+- [#16716](https://github.com/1024pix/pix/pull/16716) Ajouter un session ID aux access et refresh tokens (PIX-23089)
+- [#16793](https://github.com/1024pix/pix/pull/16793) MDX-238 CY_Antivirus_AVA modif avant relecture
+- [#16808](https://github.com/1024pix/pix/pull/16808) MDX-32 retours panel NR_Datacenter_NOV
+- [#16871](https://github.com/1024pix/pix/pull/16871) Module NR_Ecrans&Santé_NOV : modif découverte et ajout infographie avant faisabilite
+- [#16866](https://github.com/1024pix/pix/pull/16866) modules-ia-lechat-devient-vibe
+- [#16739](https://github.com/1024pix/pix/pull/16739) Permettre l'édition de la configuration du millésime de certification sur PixAdmin (PIX-23357)
+- [#16797](https://github.com/1024pix/pix/pull/16797) Refonte design de la page de création de schéma de parcours combiné sur PixAdmin (PIX-23011)
+- [#16470](https://github.com/1024pix/pix/pull/16470) suppression de la contrainte de clé étrangère sur la table KE vers answers.id (PIX-23053)
+
+### :bug: Correction
+
+- [#16867](https://github.com/1024pix/pix/pull/16867) Amélioration d'un trie qui bug sous firefox (PIX-23590)
+
+### :building_construction: Tech
+
+- [#16731](https://github.com/1024pix/pix/pull/16731) Corriger plusieurs tests
+- [#16770](https://github.com/1024pix/pix/pull/16770) Revoir la configuration des RA Scalingo
+- [#16768](https://github.com/1024pix/pix/pull/16768) Supprimer le AnswersJob et Fast worker
+
+### :arrow_up: Montée de version
+
+- [#16844](https://github.com/1024pix/pix/pull/16844) Update dependency @playwright/test to v1.61.1 (e2e-playwright)
+- [#16875](https://github.com/1024pix/pix/pull/16875) Update dependency js-yaml to v5 (mon-pix)
+- [#16876](https://github.com/1024pix/pix/pull/16876) Update dependency nodemailer to v9 (api)
+- [#16877](https://github.com/1024pix/pix/pull/16877) Update dependency pako to v3 (admin)
+
+# [5.458.0](https://github.com/1024pix/pix/compare/v5.457.0...v5.458.0) (2026-07-17)
+
+### :rocket: Amélioration
+
+- [#16822](https://github.com/1024pix/pix/pull/16822) Amélioration du wording de la page de résultat du moteur de recommandations (PIX-23584)
+- [#16805](https://github.com/1024pix/pix/pull/16805) Cache de release : garder la version de module la plus récente (PIX-23344)
+- [#16799](https://github.com/1024pix/pix/pull/16799) Faire du mode interro un paramètre de campagne plutôt qu'un objectif (PIX-22694)
+- [#16817](https://github.com/1024pix/pix/pull/16817) Filtrer la liste des sessions avec plusieurs IDs (PIX-23428).
+- [#16821](https://github.com/1024pix/pix/pull/16821) MDX-52 NR_Evaluation_AVA, dernières relectures
+- [#16819](https://github.com/1024pix/pix/pull/16819) Tmp datacenter ava retourspanelsinternes
+- [#16824](https://github.com/1024pix/pix/pull/16824) Traiter les erreurs du NPS coté front (PIX-23541)
+- [#16788](https://github.com/1024pix/pix/pull/16788) Update IAGenFonction_Ava.json
+
+### :bug: Correction
+
+- [#16869](https://github.com/1024pix/pix/pull/16869) Correction des bugs liés au SDK OpenTelemetry
+
+### :building_construction: Tech
+
+- [#16831](https://github.com/1024pix/pix/pull/16831) :broom: Supprime les denières utilisations de la table `certification-subscriptions` (PIX-23543)
+- [#16833](https://github.com/1024pix/pix/pull/16833) :truck: Corrige une typo dans le nom d'un repertoire de test
+- [#16774](https://github.com/1024pix/pix/pull/16774) Ajout d'un espace pour l'encart dans la page de fin de parcours (PIX-23530).
+- [#16834](https://github.com/1024pix/pix/pull/16834) Ajout d'une fonction empêchant la proxification OpenTelemetry
+- [#16800](https://github.com/1024pix/pix/pull/16800) Ajout de métriques OpenTelemetry manuelles Hapi
+- [#16802](https://github.com/1024pix/pix/pull/16802) Ajout de teamsToContact et routeDomain aux spans OpenTelemetry
+- [#16777](https://github.com/1024pix/pix/pull/16777) Ajout de traces OpenTelemetry aux jobs PgBoss
+- [#16804](https://github.com/1024pix/pix/pull/16804) Ajout des métriques OpenTelemetry sur les jobs PGBOSS
+- [#16798](https://github.com/1024pix/pix/pull/16798) Ajouter un script pour rattacher des centres de certifications à des organisations (PIX-22687)
+- [#16835](https://github.com/1024pix/pix/pull/16835) Corrige la configuration de l'instrumentation PG pour OpenTelemetry
+- [#16820](https://github.com/1024pix/pix/pull/16820) Création d'un helper pour les primitives OpenTelemetry
+- [#16764](https://github.com/1024pix/pix/pull/16764) Enregistrement des `tubeIds` en place des challenges non calibrés lors de la création d'une version (PIX-23507).
+- [#16794](https://github.com/1024pix/pix/pull/16794) Envoie les logs au backend OpenTelemetry
+- [#16698](https://github.com/1024pix/pix/pull/16698) Ne plus écrire dans la table certification-subscription (PIX-22977)
+
+### :arrow_up: Montée de version
+
+- [#16845](https://github.com/1024pix/pix/pull/16845) Update actions/checkout action to v7 (workflows)
+- [#16815](https://github.com/1024pix/pix/pull/16815) Update adobe/s3mock Docker tag to v5.1.0 (.circleci)
+- [#16816](https://github.com/1024pix/pix/pull/16816) Update adobe/s3mock Docker tag to v5.1.0 (dossier racine)
+- [#16810](https://github.com/1024pix/pix/pull/16810) Update dependency @1024pix/ember-testing-library to ^3.0.41 (admin)
+- [#16811](https://github.com/1024pix/pix/pull/16811) Update dependency @1024pix/ember-testing-library to ^3.0.41 (certif)
+- [#16812](https://github.com/1024pix/pix/pull/16812) Update dependency @1024pix/ember-testing-library to ^3.0.41 (junior)
+- [#16813](https://github.com/1024pix/pix/pull/16813) Update dependency @1024pix/ember-testing-library to ^3.0.41 (mon-pix)
+- [#16814](https://github.com/1024pix/pix/pull/16814) Update dependency @1024pix/ember-testing-library to ^3.0.41 (orga)
+- [#16826](https://github.com/1024pix/pix/pull/16826) Update dependency @1024pix/pix-ui to ^61.3.1 (admin)
+- [#16827](https://github.com/1024pix/pix/pull/16827) Update dependency @1024pix/pix-ui to ^61.3.1 (certif)
+- [#16828](https://github.com/1024pix/pix/pull/16828) Update dependency @1024pix/pix-ui to ^61.3.1 (junior)
+- [#16829](https://github.com/1024pix/pix/pull/16829) Update dependency @1024pix/pix-ui to v61.3.1 (orga)
+- [#16857](https://github.com/1024pix/pix/pull/16857) Update dependency @cyclonedx/cyclonedx-npm to v5 (dossier racine)
+- [#16860](https://github.com/1024pix/pix/pull/16860) Update dependency @cyclonedx/cyclonedx-npm to v6 (dossier racine)
+- [#16830](https://github.com/1024pix/pix/pull/16830) Update dependency @datadog/datadog-api-client to v1.60.0 (api)
+- [#16858](https://github.com/1024pix/pix/pull/16858) Update dependency @getbrevo/brevo to v6 (api)
+- [#16836](https://github.com/1024pix/pix/pull/16836) Update dependency @opentelemetry/instrumentation-pg to ^0.72.0 (api)
+- [#16848](https://github.com/1024pix/pix/pull/16848) Update dependency csv-parse to v7 (e2e-playwright)
+- [#16849](https://github.com/1024pix/pix/pull/16849) Update dependency dependency-cruiser to v18 (api)
+- [#16837](https://github.com/1024pix/pix/pull/16837) Update dependency ember-cli to ~7.1.0 (admin)
+- [#16850](https://github.com/1024pix/pix/pull/16850) Update dependency eslint-plugin-unicorn to v65 (api)
+- [#16851](https://github.com/1024pix/pix/pull/16851) Update dependency eslint-plugin-unicorn to v65 (audit-logger)
+- [#16852](https://github.com/1024pix/pix/pull/16852) Update dependency eslint-plugin-unicorn to v65 (certif)
+- [#16853](https://github.com/1024pix/pix/pull/16853) Update dependency eslint-plugin-unicorn to v65 (dossier racine)
+- [#16838](https://github.com/1024pix/pix/pull/16838) Update dependency oxfmt to ^0.58.0 (api)
+- [#16839](https://github.com/1024pix/pix/pull/16839) Update dependency pdfkit to ^0.19.0 (api)
+- [#16840](https://github.com/1024pix/pix/pull/16840) Update dependency undici to v8.7.0 (api)
+- [#16841](https://github.com/1024pix/pix/pull/16841) Update dependency webpack to v5.108.4 (junior)
+- [#16842](https://github.com/1024pix/pix/pull/16842) Update opentelemetry-js monorepo to ^0.220.0 (api)
+
+# [5.457.0](https://github.com/1024pix/pix/compare/v5.456.0...v5.457.0) (2026-07-16)
+
+### :rocket: Amélioration
+
+- [#16803](https://github.com/1024pix/pix/pull/16803) : modifs CY_Phishing_AVA suite panels
+- [#16769](https://github.com/1024pix/pix/pull/16769) Ajout du second formulaire dans l'encart feedback de fin de parcours (PIX-23506).
+
+### :building_construction: Tech
+
+- [#16773](https://github.com/1024pix/pix/pull/16773) Remplir la table des sujets de version de certif (PIX-23526).
+
+# [5.456.0](https://github.com/1024pix/pix/compare/v5.455.0...v5.456.0) (2026-07-15)
+
+### :rocket: Amélioration
+
+- [#16759](https://github.com/1024pix/pix/pull/16759) #MDX-104 NR_Evaluation_NOV, relecture MGO
+- [#16778](https://github.com/1024pix/pix/pull/16778) Afficher la bannière pour prévenir de la fermeture des espaces SCO (PIX-23528).
+- [#16795](https://github.com/1024pix/pix/pull/16795) inte-retours-IA-droit-auteur-ind
+- [#16796](https://github.com/1024pix/pix/pull/16796) Sauvegarder les nouveaux champs du formulaire de satisfaction (PIX-23540) (PIX-23539)
+
+### :bug: Correction
+
+- [#16780](https://github.com/1024pix/pix/pull/16780) Fix du tri de la liste frameworkHistory (PIX-23516)
+
+# [5.455.0](https://github.com/1024pix/pix/compare/v5.454.0...v5.455.0) (2026-07-14)
+
+### :rocket: Amélioration
+
+- [#16791](https://github.com/1024pix/pix/pull/16791) : Ajouter une nouvelle colonne "survey" à la table user-campaign-surveys (PIX-23538)
+
+### :building_construction: Tech
+
+- [#16749](https://github.com/1024pix/pix/pull/16749) Ajout des libraries pour l'export des metrics host
+- [#16789](https://github.com/1024pix/pix/pull/16789) Ajout du request-id dans les traces OTEL
+- [#16792](https://github.com/1024pix/pix/pull/16792) Enlever le commentaire de corrélation dans les requêtes SQL enregistrées dans les traces OTEL
+
+# [5.454.0](https://github.com/1024pix/pix/compare/v5.453.0...v5.454.0) (2026-07-13)
+
+### :rocket: Amélioration
+
+- [#16702](https://github.com/1024pix/pix/pull/16702) Affiche l'obtention de l'attestation au niveau du suivi du parcours combiné dans PixOrga (PIX-23351)
+- [#16761](https://github.com/1024pix/pix/pull/16761) Ajout des filtres dans la vue prescrit d'Admin (PIX-23152)
+- [#16779](https://github.com/1024pix/pix/pull/16779) Améliorer l'accessibilité de la carte d'un contenu formatif (PIX-23454)
+- [#16776](https://github.com/1024pix/pix/pull/16776) Cache de release : ajouter la colonne version (PIX-23343)
+- [#16772](https://github.com/1024pix/pix/pull/16772) Corriger certaines interactions avec les filtres du catalogue (PIX-23515)
+- [#16737](https://github.com/1024pix/pix/pull/16737) IA-RAG-inte-retours
+- [#16784](https://github.com/1024pix/pix/pull/16784) MDX-123 RequeteMoteurRI_NOV Corrections suite aux relectures édito et experts
+- [#16781](https://github.com/1024pix/pix/pull/16781) MDX-232 FonctMoteurRI_NOV Corrections suite à la relecture experts
+- [#16755](https://github.com/1024pix/pix/pull/16755) MDX-248 Ecrans&Santé_NOV Corrections suite à la première relecture
+- [#16756](https://github.com/1024pix/pix/pull/16756) WIP Créa module Généralités Indépendant
+
+### :building_construction: Tech
+
+- [#16785](https://github.com/1024pix/pix/pull/16785) Active Open Telemetry sur les Review Apps
+- [#16783](https://github.com/1024pix/pix/pull/16783) Active Open Telemetry sur MADDO
+- [#16744](https://github.com/1024pix/pix/pull/16744) Améliorer les traces OpenTelemetry avec l'injection de dépendances
+
+# [5.453.0](https://github.com/1024pix/pix/compare/v5.452.0...v5.453.0) (2026-07-10)
+
+### :rocket: Amélioration
+
+- [#16757](https://github.com/1024pix/pix/pull/16757) Ajouter les tooltips dans les émojis pour le feedback de fin de parcours (PIX-23457).
+- [#16771](https://github.com/1024pix/pix/pull/16771) MDX-17 Biais_AVA integration retours panels
+- [#16762](https://github.com/1024pix/pix/pull/16762) MDX-18 modification de l'illustration
+
+### :building_construction: Tech
+
+- [#16743](https://github.com/1024pix/pix/pull/16743) Ajout d'Open Telemetry à pix api
+- [#16747](https://github.com/1024pix/pix/pull/16747) Ajouter PGBOUNCER_DATABASE_URL pour brancher PGBouncer
+
+### :arrow_up: Montée de version
+
+- [#16775](https://github.com/1024pix/pix/pull/16775) Update dependency @1024pix/pix-ui to ^61.3.1 (mon-pix)
+
+# [5.452.0](https://github.com/1024pix/pix/compare/v5.451.0...v5.452.0) (2026-07-09)
+
+### :rocket: Amélioration
+
+- [#16765](https://github.com/1024pix/pix/pull/16765) Changement de la condition d'exclusion pour supprimer une version non ACTIVE (PIX-23162)
+- [#16750](https://github.com/1024pix/pix/pull/16750) Creation copie du module Phishing_NOV pour contextualisation FWB  [MDX-317]
+- [#16751](https://github.com/1024pix/pix/pull/16751) MDX-138 IAGenPrompt_AVA anglisismes
+- [#16758](https://github.com/1024pix/pix/pull/16758) Modifs suite relecture experts MEF NOV 1
+- [#16715](https://github.com/1024pix/pix/pull/16715) Pouvoir rattacher un centre de certification à une organisation depuis Pix Admin (PIX-22633)
+- [#16760](https://github.com/1024pix/pix/pull/16760) relecture marine RangerFichiers_IND
+- [#16667](https://github.com/1024pix/pix/pull/16667) Restreindre l'accès aux schémas de parcours par rôle (PIX-23125)
+
+### :bug: Correction
+
+- [#16766](https://github.com/1024pix/pix/pull/16766) La souscription par défaut lors de l'inscription individuelle d'un candidat doit toujours être à la certification coeur (PIX-23512)
+
+### :building_construction: Tech
+
+- [#16754](https://github.com/1024pix/pix/pull/16754) Améliorer le temps de traitement du endpoint maddo /api/organizations/{id}/campaigns
+- [#16753](https://github.com/1024pix/pix/pull/16753) Création d'une table de jointure tubes_versions (PIX-23480).
+- [#16763](https://github.com/1024pix/pix/pull/16763) Réduire au silence les alertes de dépréciations Ember de Pix Admin (PIX-23510)
+- [#16709](https://github.com/1024pix/pix/pull/16709) Réduit les contraintes lié à la souscription pour permettre la suppression (PIX-23412)
+
+# [5.451.0](https://github.com/1024pix/pix/compare/v5.450.0...v5.451.0) (2026-07-08)
+
+### :rocket: Amélioration
+
+- [#16736](https://github.com/1024pix/pix/pull/16736) Éviter à un candidat de reprendre sa certif 24h après son début (PIX-23458).
+- [#16745](https://github.com/1024pix/pix/pull/16745) FRI Module MFA IND Integration POI et QCM declaratif
+
+### :building_construction: Tech
+
+- [#16746](https://github.com/1024pix/pix/pull/16746) :broom: Supprime une fonction inutilisée `isPixPlus()` (pix-8011)
+- [#16714](https://github.com/1024pix/pix/pull/16714) Fusionne les fichiers de constantes du domain et de l'infrastructure  (PIX-11343)
+- [#16752](https://github.com/1024pix/pix/pull/16752) Retirer le FT pour gérer l'entrée en certification anglaise (PIX-23459).
+- [#16742](https://github.com/1024pix/pix/pull/16742) Utiliser FormData natif au lieu de la lib form-data
+
+# [5.450.0](https://github.com/1024pix/pix/compare/v5.449.0...v5.450.0) (2026-07-07)
+
+### :rocket: Amélioration
+
+- [#16681](https://github.com/1024pix/pix/pull/16681) Affiche l'objectif de la campagne en premier et cache les autres champs (PIX-22753)
+- [#16708](https://github.com/1024pix/pix/pull/16708) Afficher un bouton pour délier le centre de certif sur la page d'une orga (PIX-22690)
+- [#16722](https://github.com/1024pix/pix/pull/16722) Ajouter un script pour dupliquer un module (PIX-23439)
+- [#16673](https://github.com/1024pix/pix/pull/16673) Création de la vue des prescrits sans filtres dans Pix Admin (PIX-23151)
+- [#16703](https://github.com/1024pix/pix/pull/16703) Créer une route pour détacher un centre de certif d'une orga (PIX-22689)
+- [#16732](https://github.com/1024pix/pix/pull/16732) MDX-121 Visio_IND Corrections suite à la relecture finale
+- [#16719](https://github.com/1024pix/pix/pull/16719) Tracker l'affichage du NPS pour le moteur de recommandations (PIX-23307)
+
+### :bug: Correction
+
+- [#16741](https://github.com/1024pix/pix/pull/16741) Forcer la pleine largeur de la carte de parcours dans la page de création de campagne (PIX-23466)
+- [#16723](https://github.com/1024pix/pix/pull/16723) Ne pas afficher l'encart de feedback dans le cas où il n'y a pas de contenus formatifs recommandés (PIX-23443)
+
+### :building_construction: Tech
+
+- [#16728](https://github.com/1024pix/pix/pull/16728) Ajout de la colonne "rewardRequirementsDescription" dans combined_course_blueprints plutôt que dans quests
+- [#16738](https://github.com/1024pix/pix/pull/16738) Ajouter un log contenant un condensat du code de vérification à chaque appel du endpoint permettant de récupérer les infos d'une certification par code de vérification (PIX-23462)
+- [#16729](https://github.com/1024pix/pix/pull/16729) Réduire la durée de validité des demandes de réinitialisation de mot de passe et la rendre configurable + nettoyage
+- [#16730](https://github.com/1024pix/pix/pull/16730) Réduit l'utilisation de `lodash` (PIX-23455)
+- [#16733](https://github.com/1024pix/pix/pull/16733) Remplace XML buffer to string.
+- [#16740](https://github.com/1024pix/pix/pull/16740) Remplacer @json2csv/plainjs par @json2csv/node
+- [#16734](https://github.com/1024pix/pix/pull/16734) Supprime la dépendance hash-int.
+- [#16724](https://github.com/1024pix/pix/pull/16724) Supprimer micromatch et node-cache de l'API
+
+# [5.449.0](https://github.com/1024pix/pix/compare/v5.448.0...v5.449.0) (2026-07-06)
+
+### :rocket: Amélioration
+
+- [#16725](https://github.com/1024pix/pix/pull/16725) Limiter la durée maximale d'une certification à 24 heures (PIX-23422).
+- [#16649](https://github.com/1024pix/pix/pull/16649) MDX-248 Ecrans&Santé_NOV Création d'un nouveau module
+- [#16686](https://github.com/1024pix/pix/pull/16686) Renommer les onglets du catalogue (PIX-23386)
+
+### :bug: Correction
+
+- [#16721](https://github.com/1024pix/pix/pull/16721) Corriger l'affichage de la page de recommandation sur Safari (PIX-234419).
+- [#16717](https://github.com/1024pix/pix/pull/16717) Groupe la create de job pour l'audit logger (PIX-23373)
+
+### :building_construction: Tech
+
+- [#16689](https://github.com/1024pix/pix/pull/16689) Ne faire qu'une requête pour récupérer les badges et paliers des participants dans GET /api/campaigns/{campaignId}/assessment-results
+- [#16713](https://github.com/1024pix/pix/pull/16713) Remplace le package randomstring.
+- [#16712](https://github.com/1024pix/pix/pull/16712) Suppression évènement certif non utilisé (PIX-23435).
+- [#16720](https://github.com/1024pix/pix/pull/16720) Supprime le code lié à la gestion des rapports de traitement du CPF.
+
+# [5.448.0](https://github.com/1024pix/pix/compare/v5.447.0...v5.448.0) (2026-07-03)
+
+### :rocket: Amélioration
+
+- [#16718](https://github.com/1024pix/pix/pull/16718) Ajoute la date de création d'un centre à la page de détails d'un centre de certification (PIX-23437).
+
+### :building_construction: Tech
+
+- [#16710](https://github.com/1024pix/pix/pull/16710) Déplacer les scripts modulix dans le contexte devcomp (PIX-23375)
+- [#16676](https://github.com/1024pix/pix/pull/16676) Ne plus utiliser les objets Subscriptions sur Pix Certif (PIX-23284)
+- [#16685](https://github.com/1024pix/pix/pull/16685) Refacto de certaines requêtes knex pour exploiter les index apposés sur la colonne "externalId" des tables "certification-centers" et "organizations"
+- [#16707](https://github.com/1024pix/pix/pull/16707) Réflexion domaine : déplacement des repositories correspondant aux entités
+- [#15711](https://github.com/1024pix/pix/pull/15711) Remplacer l'usage d'Axios par le fetch natif (PIX-22183)
+
+# [5.447.0](https://github.com/1024pix/pix/compare/v5.446.0...v5.447.0) (2026-07-02)
+
+### :rocket: Amélioration
+
+- [#16704](https://github.com/1024pix/pix/pull/16704) Afficher la demande de feedback utilisateur (PIX-23305).
+- [#16622](https://github.com/1024pix/pix/pull/16622) Créer un encart pour avoir les retours utilisateur sur la pertinence des recommandations de contenus formatif sur Pix App (PIX-23303).
+- [#16613](https://github.com/1024pix/pix/pull/16613) MDX-138 IAGenPrompt_AVA retours JRO
+- [#16706](https://github.com/1024pix/pix/pull/16706) Modale CF - Ne pas afficher un accordéon vide (PIX-23415)
+- [#16705](https://github.com/1024pix/pix/pull/16705) Modale CF - Revoir la taille de la police du body de "Programme" (PIX-23416)
+- [#16695](https://github.com/1024pix/pix/pull/16695) Modifs Virus_IND relecture Chef de projet
+
+### :building_construction: Tech
+
+- [#16699](https://github.com/1024pix/pix/pull/16699) :sparkles: Ajout  d'un évènement sur la  réconciliation d'un candidat (pix-23414)
+- [#16700](https://github.com/1024pix/pix/pull/16700) Revoir les services de comparaison de chaines
+- [#16675](https://github.com/1024pix/pix/pull/16675) Supprimer le devDep ember-cli-htmlbars (PIX-XXXX)
+
+# [5.446.0](https://github.com/1024pix/pix/compare/v5.445.0...v5.446.0) (2026-07-01)
+
+### :rocket: Amélioration
+
+- [#16684](https://github.com/1024pix/pix/pull/16684)  Suppression du status calculé pour un status static sur certification_version (PIX-23364)
+- [#16666](https://github.com/1024pix/pix/pull/16666) Ajout d'une colonne status dans la table  certification_versions (pix-23369) 
+- [#16679](https://github.com/1024pix/pix/pull/16679) MDX-104 NR_Evaluation_NOV Intégration relectures
+- [#16693](https://github.com/1024pix/pix/pull/16693) Supprime les scripts plus utilisés par prescription (PIX-23408)
+- [#16692](https://github.com/1024pix/pix/pull/16692) Vérifier l'habilitation du centre avant l'entrée en certif (PIX-23234).
+
+### :bug: Correction
+
+- [#16701](https://github.com/1024pix/pix/pull/16701) Ajout de statuts manquants dans les créations de versions dans les tests E2E (PIX-23418).
+- [#16696](https://github.com/1024pix/pix/pull/16696) Éviter les clignotements d'erreur dans la page d'entrée en session de certif (PIX-23410).
+- [#16697](https://github.com/1024pix/pix/pull/16697) Ne pas migrer les utilisateurs anonymisés dans la nouvelle table d'acceptations des CGU (PIX-21748)
+
+### :building_construction: Tech
+
+- [#16672](https://github.com/1024pix/pix/pull/16672) Corrige le OS Health Check derrière un feature toggle.
+- [#16690](https://github.com/1024pix/pix/pull/16690) Remplacer XRegex par des regex native node dans l'API
+- [#16694](https://github.com/1024pix/pix/pull/16694) Supprime le feature toggle `isAnonymizationWithDeletionEnabled` (PIX-23409)
+- [#16687](https://github.com/1024pix/pix/pull/16687) Supprime PgClient au profit de knex.
+- [#16688](https://github.com/1024pix/pix/pull/16688) Utiliser api/admin comme namespace par défaut dans les adapters de admin
+
 # [5.445.0](https://github.com/1024pix/pix/compare/v5.444.0...v5.445.0) (2026-06-30)
 
 ### :rocket: Amélioration

@@ -1,6 +1,6 @@
 {
   "name": "pix",
-  "version": "5.445.0",
+  "version": "5.460.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques",
   "license": "AGPL-3.0",
@@ -92,8 +92,8 @@
   },
   "devDependencies": {
     "@1024pix/eslint-plugin": "^2.1.19",
-    "@babel/eslint-parser": "^7.27.0",
-    "@cyclonedx/cyclonedx-npm": "^4.2.0",
+    "@babel/eslint-parser": "^8.0.0",
+    "@cyclonedx/cyclonedx-npm": "^6.0.0",
     "@eslint/compat": "^2.0.0",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
@@ -104,7 +104,7 @@
     "eslint-plugin-mocha": "^11.0.0",
     "eslint-plugin-n": "^18.0.0",
     "eslint-plugin-prettier": "^5.2.5",
-    "eslint-plugin-unicorn": "^64.0.0",
+    "eslint-plugin-unicorn": "^65.0.0",
     "prettier-plugin-ember-template-tag": "^2.0.4",
     "typescript-eslint": "^8.28.0"
   },

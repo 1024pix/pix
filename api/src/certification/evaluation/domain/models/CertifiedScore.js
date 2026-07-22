@@ -1,4 +1,4 @@
-import { PIX_COUNT_BY_LEVEL } from '../../../../shared/domain/constants.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../shared/constants.js';
 
 class CertifiedScore {
   constructor(value) {

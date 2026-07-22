@@ -3,7 +3,7 @@
  * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  */
 import { Organization } from '../../../../organizational-entities/domain/models/Organization.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Center, MatchingOrganization } from '../../domain/models/Center.js';
@@ -75,7 +75,11 @@ export async function findActiveScoOrganizationId({ certificationCenterId }) {
 
   const [activeOrganizationId] = await knexConn('organizations')
     .pluck('organizations.id')
-    .innerJoin('certification-centers', 'certification-centers.externalId', 'organizations.externalId')
+    .innerJoin(
+      'certification-centers',
+      knexConn.raw('LOWER("certification-centers"."externalId")'),
+      knexConn.raw('LOWER("organizations"."externalId")'),
+    )
     .where({
       'certification-centers.id': certificationCenterId,
       'certification-centers.type': CERTIFICATION_CENTER_TYPES.SCO,

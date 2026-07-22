@@ -1,6 +1,7 @@
 import { Knex } from 'knex';
 
 import { CERTIFICATIONS_DATA } from '../../db-data.ts';
+import { buildVersionTubes } from './build-version-tubes.ts';
 
 export async function buildPixPlusEduData(knex: Knex) {
   const [{ id: versionId }] = await knex('certification_versions')
@@ -8,6 +9,7 @@ export async function buildPixPlusEduData(knex: Knex) {
       scope: CERTIFICATIONS_DATA.EDU_1ER_DEGRE,
       startDate: new Date('2024-10-19'),
       expirationDate: null,
+      status: 'active',
       assessmentDuration: 120,
       minimumAnswersRequiredToValidateACertification: 20,
       globalScoringConfiguration: JSON.stringify([{ bounds: { max: 8, min: 3 }, meshLevel: 0 }]),
@@ -38,6 +40,8 @@ export async function buildPixPlusEduData(knex: Knex) {
       versionId,
     });
   }
+
+  await buildVersionTubes(knex, versionId);
 }
 
 function* generateBoundedValue(min: number, max: number, step: number) {

@@ -4,8 +4,6 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import CopyButton from 'ember-cli-clipboard/components/copy-button';
-import isClipboardSupported from 'ember-cli-clipboard/helpers/is-clipboard-supported';
 
 export default class CopyPasteButton extends Component {
   @tracked tooltipText;
@@ -15,8 +13,21 @@ export default class CopyPasteButton extends Component {
     this.tooltipText = this.args.defaultMessage;
   }
 
+  get isClipboardSupported() {
+    return Boolean(navigator.clipboard);
+  }
+
+  get tooltipId() {
+    return this.args.tooltipId ?? `tooltip-${crypto.randomUUID().slice(0, 10)}`;
+  }
+
+  get tooltipPosition() {
+    return this.args.tooltipPosition ?? 'bottom';
+  }
+
   @action
-  onClipboardSuccess() {
+  async copyToClipboard() {
+    await navigator.clipboard.writeText(this.args.clipBoardtext);
     this.tooltipText = this.args.successMessage;
   }
 
@@ -26,20 +37,25 @@ export default class CopyPasteButton extends Component {
   }
 
   <template>
-    {{#if (isClipboardSupported)}}
-      <PixTooltip @id="copy-paste-button" @position="bottom" @isInline={{true}}>
+    {{#if this.isClipboardSupported}}
+      <PixTooltip
+        @id={{this.tooltipId}}
+        @position={{this.tooltipPosition}}
+        @isInline={{true}}
+        class="copy-paste-button__tooltip hide-on-mobile"
+      >
         <:triggerElement>
-          <CopyButton
-            @text={{@clipBoardtext}}
-            @onSuccess={{this.onClipboardSuccess}}
+          <button
+            type="button"
+            {{on "click" this.copyToClipboard}}
             {{on "mouseLeave" this.onClipboardOut}}
             aria-label={{@defaultMessage}}
-            aria-describedby="copy-paste-button"
-            class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
+            aria-describedby={{this.tooltipId}}
+            class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey copy-paste-button__clipboard"
             ...attributes
           >
             <PixIcon @name="copy" />
-          </CopyButton>
+          </button>
         </:triggerElement>
         <:tooltip>
           {{this.tooltipText}}

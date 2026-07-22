@@ -1,6 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import DownloadSessionResults from 'mon-pix/components/download-session-results';
 import ENV from 'mon-pix/config/environment';
@@ -39,7 +38,7 @@ module('Integration | Component | download-session-results', function (hooks) {
     fileSaver.save.rejects({ status: '400', code: 'INVALID_SESSION_RESULT_TOKEN' });
 
     // when
-    const screen = await render(hbs`<DownloadSessionResults />`);
+    const screen = await render(<template><DownloadSessionResults /></template>);
     const downloadButton = screen.getByRole('button', { name: t('pages.download-session-results.button.label') });
     await click(downloadButton);
 
@@ -54,7 +53,7 @@ module('Integration | Component | download-session-results', function (hooks) {
     sinon.stub(Location, 'getHref').returns(`https://test.pix.fr#${tokenHash}`);
 
     // when
-    const screen = await render(hbs`<DownloadSessionResults />`);
+    const screen = await render(<template><DownloadSessionResults /></template>);
     const downloadButton = screen.getByRole('button', { name: t('pages.download-session-results.button.label') });
     await click(downloadButton);
 

@@ -1,12 +1,14 @@
 import { Knex } from 'knex';
 
 import { CERTIFICATIONS_DATA } from '../../db-data.ts';
+import { buildVersionTubes } from './build-version-tubes.ts';
 
 export async function buildPixPlusProSanteData(knex: Knex) {
   const [{ id: versionId }] = await knex('certification_versions')
     .insert({
       scope: CERTIFICATIONS_DATA.PRO_SANTE,
       startDate: new Date('2024-10-19'),
+      status: 'active',
       expirationDate: null,
       assessmentDuration: 120,
       minimumAnswersRequiredToValidateACertification: 20,
@@ -43,6 +45,8 @@ export async function buildPixPlusProSanteData(knex: Knex) {
       versionId,
     });
   }
+
+  await buildVersionTubes(knex, versionId);
 }
 
 function* generateBoundedValue(min: number, max: number, step: number) {

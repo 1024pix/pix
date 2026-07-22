@@ -17,6 +17,7 @@ const serialize = function (combinedCourseParticipations, meta) {
       'nbCampaigns',
       'nbModulesCompleted',
       'nbCampaignsCompleted',
+      'rewardStatus',
     ],
     meta,
   }).serialize(combinedCourseParticipations);

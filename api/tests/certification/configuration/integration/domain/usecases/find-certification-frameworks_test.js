@@ -3,6 +3,7 @@ import { Frameworks } from '../../../../../../src/certification/shared/domain/mo
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Integration | Domain | UseCase | find-certification-frameworks', function () {
   it('should return all frameworks with their active version start dates', async function () {
@@ -11,28 +12,29 @@ describe('Certification | Configuration | Integration | Domain | UseCase | find-
     const droitStartDate = new Date('2025-06-01');
     const edu1erDegreStartDate = new Date('2025-03-01');
 
-    databaseBuilder.factory.buildCertificationVersion({
-      scope: SCOPES.CORE,
-      startDate: coreStartDate,
-      expirationDate: null,
-    });
+    domainBuilder.certification.configuration
+      .versionBuilder()
+      .asActive({ startDate: coreStartDate })
+      .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 123 })
+      .insertToDB({ databaseBuilder });
 
-    databaseBuilder.factory.buildCertificationVersion({
-      scope: SCOPES.PIX_PLUS_DROIT,
-      startDate: droitStartDate,
-      expirationDate: null,
-    });
+    domainBuilder.certification.configuration
+      .versionBuilder()
+      .asActive({ startDate: droitStartDate })
+      .withParameters({ scope: SCOPES.PIX_PLUS_DROIT, tubeIds: ['tubeA'], id: 456 })
+      .insertToDB({ databaseBuilder });
 
-    databaseBuilder.factory.buildCertificationVersion({
-      scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
-      startDate: new Date(2020, 12, 12),
-      expirationDate: new Date(2020, 12, 14),
-    });
-    databaseBuilder.factory.buildCertificationVersion({
-      scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
-      startDate: edu1erDegreStartDate,
-      expirationDate: null,
-    });
+    domainBuilder.certification.configuration
+      .versionBuilder()
+      .asArchived({ startDate: new Date(2020, 12, 12), expirationDate: new Date(2020, 12, 14) })
+      .withParameters({ scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE, tubeIds: ['tubeA'], id: 789 })
+      .insertToDB({ databaseBuilder });
+
+    domainBuilder.certification.configuration
+      .versionBuilder()
+      .asActive({ startDate: edu1erDegreStartDate })
+      .withParameters({ scope: SCOPES.PIX_PLUS_EDU_1ER_DEGRE, tubeIds: ['tubeA'], id: 159 })
+      .insertToDB({ databaseBuilder });
 
     await databaseBuilder.commit();
 

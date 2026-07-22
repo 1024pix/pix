@@ -60,28 +60,28 @@
                     "id": "1",
                     "content": "Des fichiers uniquement",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. Un dossier peut contenir des <strong>fichiers et d’autres dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec plusieurs niveaux de rangement.</p>"
+                      "diagnosis": "<p>Eh non. Un dossier peut contenir des <strong>fichiers et d’autres dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec <strong>plusieurs niveaux de rangement</strong>.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "Des dossiers uniquement",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. Un dossier peut contenir des <strong>fichiers</strong> et d’autres <strong>dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec plusieurs niveaux de rangement.</p>"
+                      "diagnosis": "<p>Eh non. Un dossier peut contenir des <strong>fichiers</strong> et d’autres <strong>dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec <strong>plusieurs niveaux de rangement</strong>.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "Des fichiers et des dossiers",
                     "feedback": {
-                      "diagnosis": "<p>Eh oui ! Un dossier peut contenir des <strong>fichiers</strong> et d’autres <strong>dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec plusieurs niveaux de rangement.</p>"
+                      "diagnosis": "<p>Eh oui ! Un dossier peut contenir des <strong>fichiers</strong> et d’autres <strong>dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec <strong>plusieurs niveaux de rangement</strong>.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "Je ne sais pas.",
                     "feedback": {
-                      "diagnosis": "<p>Un dossier peut contenir des <strong>fichiers </strong>et d’autres <strong>dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec plusieurs niveaux de rangement.</p>"
+                      "diagnosis": "<p>Un dossier peut contenir des <strong>fichiers </strong>et d’autres <strong>dossiers</strong>.</p><p>C’est ce qui permet de créer une organisation avec <strong>plusieurs niveaux de rangement</strong>.</p>"
                     }
                   }
                 ],
@@ -469,7 +469,7 @@
                 "id": "b2f32e18-08ae-4348-970f-f894d78481a1",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Il faut parfois ouvrir plusieurs dossiers les uns après les autres pour accéder à un fichier.<br>📍 Le <strong>chemin d’accès à un fichier indique où il se trouve</strong> dans l’arborescence.</p>"
+                "content": "<p>Il faut parfois ouvrir plusieurs dossiers les uns après les autres pour accéder à un fichier.<br>📍 Le <strong>chemin d’accès</strong> à un <strong>fichier</strong> indique <strong>où il se trouve</strong> dans l’arborescence.</p>"
               }
             }
           ]

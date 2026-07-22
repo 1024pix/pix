@@ -99,12 +99,8 @@ export class PixPlusDroitV3Seed {
       authorizedToStart: true,
       billingMode: 'FREE',
       reconciledAt: now.toDate(),
+      subscription: Frameworks.DROIT,
     }).id;
-
-    this.databaseBuilder.factory.buildComplementaryCertificationSubscription({
-      certificationCandidateId: candidateId,
-      complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-    });
 
     const certificationCourseId = this.databaseBuilder.factory.buildCertificationCourse({
       createdAt: now.toDate(),

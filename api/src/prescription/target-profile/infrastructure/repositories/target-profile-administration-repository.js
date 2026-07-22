@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { knex as datamartKnex } from '../../../../../datamart/knex-database-connection.js';
 import { TargetProfileForAdmin } from '../../../../prescription/target-profile/domain/models/TargetProfileForAdmin.js';
-import { constants } from '../../../../shared/domain/constants.js';
+import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError, ObjectValidationError } from '../../../../shared/domain/errors.js';
 import { BadgeCriterion, BadgeDetails, CappedTube, SCOPES } from '../../../../shared/domain/models/BadgeDetails.js';
@@ -285,7 +285,7 @@ async function _hasLinkedAutonomousCourse(targetProfile, hasLinkedCampaign) {
   const targetProfileSharesLinkedWithAutonomousCourseOrganization = await knexConn('target-profile-shares')
     .where({
       targetProfileId: targetProfile.id,
-      organizationId: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+      organizationId: config.autonomousCourse.autonomousCoursesOrganizationId,
     })
     .first();
 

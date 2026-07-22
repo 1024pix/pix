@@ -30,26 +30,41 @@
 .results-recommendation-engine-training-card {
   @extend %pix-shadow-default;
 
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--pix-spacing-4x);
   justify-content: space-between;
-  width: 329px;
-  height: 315px;
+  width: 20.6rem;
+  height: 19.7rem;
   padding: var(--pix-spacing-3x);
   padding-bottom: var(--pix-spacing-6x);
   background-color: var(--pix-neutral-0);
   border-radius: 16px 0 16px 16px;
 
   @include breakpoints.device-is('mobile') {
-    min-width: 280px;
+    min-width: 17.5rem;
   }
 
-  &:active {
-    @extend %pix-shadow-default-pressed;
+  &__button:focus {
+    outline: none;
   }
 
-  &:hover {
+  &__button::before {
+    position: absolute;
+    z-index: 1;
+    border-radius: 16px 0 16px 16px;
+    content: '';
+    inset: 0;
+  }
+
+
+  &__button:active::before {
+      @extend %pix-shadow-default-pressed;
+  }
+
+  &__button:focus::before,
+  &__button:hover::before {
     @extend %pix-shadow-default-hover;
   }
 
@@ -70,7 +85,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 127px;
+  width: 100%;
+  height: 7.9rem;
   padding: var(--pix-spacing-7x);
   background-color: var(--pix-primary-10);
   border-radius: 12px;
@@ -78,11 +94,11 @@
   &__editor-logo {
     position: relative;
     z-index: 1;
-    height: 35px;
+    height: 2.2rem;
   }
 
   &__illustration {
-    height: 120px;
+    height: 7.5rem;
   }
 }
 
@@ -95,7 +111,7 @@
     @extend %pix-title-xxs;
 
     display: -webkit-box;
-    min-height: 50px;
+    min-height: 3.1rem;
     overflow: hidden;
     text-align: start;
     text-overflow: ellipsis;
@@ -119,7 +135,7 @@
 
 .results-recommendation-engine-training-card-modal {
   @include breakpoints.device-is('tablet') {
-    width: 742px;
+    width: 46.4rem;
   }
 
   h2 {
@@ -141,6 +157,10 @@
     }
   }
 
+  &__notification {
+    width: 100%;
+  }
+
   &__objectives {
     @extend %pix-body-m;
 
@@ -157,6 +177,8 @@
   }
 
   &__program {
+    @extend %pix-body-m;
+
     color: var(--pix-neutral-800);
     white-space: pre-line;
   }
@@ -232,9 +254,6 @@
   }
 
   &__feedback {
-    display: flex;
-    gap: var(--pix-spacing-2x);
-    align-items: center;
 
     .selected {
       color: var(--pix-neutral-0);
@@ -271,6 +290,7 @@
       @extend %pix-body-m;
 
       float: left;
+      margin: var(--pix-spacing-1x) var(--pix-spacing-2x) 0 0;
     }
   }
 

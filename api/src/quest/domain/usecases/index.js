@@ -1,10 +1,11 @@
 import * as organizationLearnerPrescriptionRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import * as codeGenerator from '../../../shared/domain/services/code-generator.js';
+import * as accessCodeGenerator from '../../../shared/domain/services/access-code-generator.js';
 import * as membershipRepository from '../../../shared/infrastructure/repositories/membership-repository.js';
 import * as organizationFeatureRepository from '../../../shared/infrastructure/repositories/organization-feature-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
-import * as combinedCourseBlueprintRepository from '../../infrastructure/repositories/combined-course-blueprint-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
+import * as combinedCourseBlueprintRepository from '../../infrastructure/repositories/combined-course-blueprints/combined-course-blueprint-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import combinedCourseDetailsService from '../services/combined-course-details-service.js';
@@ -19,7 +20,9 @@ const { combinedCourseDetailsService: injectedCombinedCourseDetailsService } = i
     moduleRepository: repositories.moduleRepository,
     eligibilityRepository: repositories.eligibilityRepository,
     recommendedModuleRepository: repositories.recommendedModuleRepository,
+    profileRewardRepository: repositories.profileRewardRepository,
   },
+  boundedContext,
 );
 
 const dependencies = {
@@ -48,7 +51,7 @@ const dependencies = {
   campaignParticipationRepository: repositories.campaignParticipationRepository,
   profileRewardRepository: repositories.profileRewardRepository,
   combinedCourseBlueprintShareRepository: repositories.combinedCourseBlueprintShareRepository,
-  codeGenerator,
+  accessCodeGenerator,
   logger,
 };
 
@@ -126,6 +129,6 @@ const usecasesWithoutInjectedDependencies = {
   isCombinedCourseBlueprintInOrganization,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

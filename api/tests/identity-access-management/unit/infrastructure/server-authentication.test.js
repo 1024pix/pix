@@ -13,7 +13,7 @@ import { expect } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Infrastructure | serverAuthentication', function () {
   beforeEach(function () {
-    sinon.stub(tokenService, 'extractTokenFromAuthChain');
+    sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
     sinon.stub(tokenService, 'getDecodedToken');
   });
 
@@ -45,7 +45,7 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
         // given
         const request = { headers: { authorization: 'Bearer' } };
         const h = { authenticated: sinon.stub() };
-        tokenService.extractTokenFromAuthChain.withArgs('Bearer').returns(null);
+        tokenService.extractTokenFromAuthorizationHeader.withArgs('Bearer').returns(null);
 
         // when
         const { authenticate } = schemes.jwt.scheme(undefined, {
@@ -70,7 +70,7 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
           headers: { authorization: 'Bearer token', 'x-forwarded-proto': 'https', 'x-forwarded-host': 'app.pix.fr' },
         };
         const h = { authenticated: sinon.stub() };
-        tokenService.extractTokenFromAuthChain.withArgs('Bearer token').returns('token');
+        tokenService.extractTokenFromAuthorizationHeader.withArgs('Bearer token').returns('token');
         tokenService.getDecodedToken.withArgs('token', 'dummy-secret').returns(false);
 
         // when
@@ -102,7 +102,7 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
           },
         };
         const h = { authenticated: sinon.stub() };
-        tokenService.extractTokenFromAuthChain.withArgs('Bearer token').returns('token');
+        tokenService.extractTokenFromAuthorizationHeader.withArgs('Bearer token').returns('token');
         tokenService.getDecodedToken.withArgs('token', 'dummy-secret').returns({
           aud: 'https://app.pix.fr',
         });
@@ -139,7 +139,7 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
             },
           };
           const h = { authenticated: sinon.stub() };
-          tokenService.extractTokenFromAuthChain.withArgs('Bearer token').returns('token');
+          tokenService.extractTokenFromAuthorizationHeader.withArgs('Bearer token').returns('token');
           tokenService.getDecodedToken.withArgs('token', 'dummy-secret').returns({
             user_id: 'user_id',
             aud: 'https://wrong.audience.fr',
@@ -181,7 +181,7 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
             },
           };
           const h = { authenticated: sinon.stub() };
-          tokenService.extractTokenFromAuthChain.withArgs('Bearer token').returns('token');
+          tokenService.extractTokenFromAuthorizationHeader.withArgs('Bearer token').returns('token');
           tokenService.getDecodedToken.withArgs('token', 'dummy-secret').returns({
             user_id: 'user_id',
             aud: 'https://app.pix.fr',
@@ -218,7 +218,7 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
           };
 
           const h = { authenticated: sinon.stub() };
-          tokenService.extractTokenFromAuthChain.withArgs('Bearer token').returns('token');
+          tokenService.extractTokenFromAuthorizationHeader.withArgs('Bearer token').returns('token');
           tokenService.getDecodedToken.withArgs('token', 'dummy-secret').returns({
             user_id: 'user_id',
             aud: 'https://app.pix.fr',
@@ -248,7 +248,7 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
             },
           };
           const h = { authenticated: sinon.stub() };
-          tokenService.extractTokenFromAuthChain.withArgs('Bearer token').returns('token');
+          tokenService.extractTokenFromAuthorizationHeader.withArgs('Bearer token').returns('token');
           tokenService.getDecodedToken.withArgs('token', 'dummy-secret').returns({
             user_id: 'user_id',
             aud: 'https://app.pix.fr',
@@ -288,7 +288,7 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
           scope: ['scope1', 'scope2'],
           source: 'source',
         };
-        tokenService.extractTokenFromAuthChain.withArgs('Bearer token').returns('token');
+        tokenService.extractTokenFromAuthorizationHeader.withArgs('Bearer token').returns('token');
         tokenService.getDecodedToken.withArgs('token', 'dummy-secret').returns(decodedAccessToken);
 
         const { authenticate } = schemes.jwt.scheme(undefined, {
@@ -310,7 +310,7 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
           scope: 'scope',
           source: 'source',
         };
-        tokenService.extractTokenFromAuthChain.withArgs('Bearer token').returns('token');
+        tokenService.extractTokenFromAuthorizationHeader.withArgs('Bearer token').returns('token');
         tokenService.getDecodedToken.withArgs('token', 'dummy-secret').returns(decodedAccessToken);
 
         const { authenticate } = schemes.jwt.scheme(undefined, {

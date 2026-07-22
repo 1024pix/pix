@@ -34,6 +34,21 @@ export async function onCandidatesEnrolledSco({ candidates, dependencies = { eve
 }
 
 /**
+ * @param {object} params
+ * @param {Candidate} params.candidate
+ */
+export async function onCandidateReconciled({ candidate, dependencies = { eventApi } }) {
+  await dependencies.eventApi.pushEvents([
+    {
+      name: EVENT_NAMES.CANDIDATE_RECONCILED,
+      candidateId: candidate.id,
+      createdAt: candidate.createdAt,
+      metadata: { reconciledAt: candidate.reconciledAt, userId: candidate.userId },
+    },
+  ]);
+}
+
+/**
  *
  * @param {object} params
  * @param {Candidate[]} params.candidates

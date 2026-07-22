@@ -1,5 +1,5 @@
 import * as organizationApi from '../../../organizational-entities/application/api/organization-api.js';
-import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 
 export async function hasAccessToCombinedCourse({
   userId,

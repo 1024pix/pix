@@ -81,6 +81,14 @@ export const findByUserIdAndRewardId = async ({ rewardId, userId }) => {
   return profileReward ? toDomain(profileReward) : null;
 };
 
+export const findByUserIdsAndRewardId = async ({ rewardId, userIds }) => {
+  const knexConn = DomainTransaction.getConnection();
+
+  const profileRewards = await knexConn('profile-rewards').whereIn('userId', userIds).where({ rewardId });
+
+  return profileRewards.map(toDomain);
+};
+
 const toDomain = (profileReward) => {
   return new ProfileReward(profileReward);
 };

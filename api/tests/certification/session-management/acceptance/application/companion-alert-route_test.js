@@ -17,10 +17,9 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       // given
       const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter();
       const { id: sessionId } = databaseBuilder.factory.buildSession({ certificationCenterId });
-      const { id: certificationCandidateId, userId } = databaseBuilder.factory.buildCertificationCandidate({
+      const { userId } = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
       const { id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         userId,

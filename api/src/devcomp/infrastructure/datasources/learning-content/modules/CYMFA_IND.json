@@ -169,7 +169,7 @@
                 "id": "8fb3840a-8724-404d-9c10-dc421fed314c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Dans la suite de ce module, nous allons utiliser le terme «&nbsp;<strong>authentification multifacteur&nbsp;</strong>» parfois notée <strong>MFA</strong> (MultiFactor Authentication en anglais).</p>"
+                "content": "<p>Dans la suite de ce module, nous allons utiliser le terme «&nbsp;<strong>authentification multifacteur&nbsp;</strong>» parfois notée <strong>MFA</strong> (<em>MultiFactor Authentication</em> en anglais).</p>"
               }
             }
           ]
@@ -370,7 +370,7 @@
                 "id": "0c73ed69-90b6-442f-9aa1-716b7f7a2da3",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Un facteur d’authentification est un <strong>moyen de prouver son identité</strong>. <br></p><h5>Comment différencier les trois types de facteurs d’authentification ? </h5><ul><li>💬 Les facteurs de connaissance, par exemple&nbsp;: un mot passe. </li><li>👜 Les facteurs de possession, par exemple&nbsp;: une adresse mail. </li><li>🙋 Les facteurs biométriques, par exemple&nbsp;: une empreinte digitale.</li></ul>"
+                "content": "<p>Un facteur d’authentification est un <strong>moyen de prouver son identité</strong>. <br></p><h5>Comment différencier les trois types de facteurs d’authentification ? </h5><ul>    <li> Les facteurs de connaissance, par exemple&nbsp;: un mot passe. 💬</li>    <li> Les facteurs de possession, par exemple&nbsp;: une adresse mail. 👜 </li>    <li> Les facteurs biométriques, par exemple&nbsp;: une empreinte digitale. 🙋</li></ul>"
               }
             }
           ]
@@ -394,7 +394,7 @@
         {
           "id": "3cfca97d-ddb6-4a2a-9783-7f40c6313203",
           "type": "discovery",
-          "title": "Découverte 3 :  Quelles limites aux 3 facteurs ?",
+          "title": "Découverte 3 : Quelles limites aux 3 facteurs ?",
           "components": [
             {
               "type": "element",
@@ -446,11 +446,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Exactement !</p>",
-                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains services exigent le changement régulier de votre mot de passe.</p>"
+                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains exigent le changement régulier de votre mot de passe.</p>"
                         },
                         "invalid": {
                           "state": "<p>Pas tout à fait.</p>",
-                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains services exigent le changement régulier de votre mot de passe.</p>"
+                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains exigent le changement régulier de votre mot de passe.</p>"
                         }
                       },
                       "solutions": [
@@ -498,11 +498,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Exactement !</p>",
-                          "diagnosis": "<p>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). S’il n’y a pas assez de réseau, le code ne peut pas être reçu. &nbsp;En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais ce moyen peut être remplacé.</p>"
+                          "diagnosis": "<p>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). S’il n’y a pas assez de réseau, le code ne peut pas être reçu. En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais ce moyen peut être remplacé.</p>"
                         },
                         "invalid": {
                           "state": "<p>Pas exactement.</p>",
-                          "diagnosis": "<p>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). S’il n’y a pas assez de réseau, le code ne peut pas être reçu. &nbsp;En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais ce moyen peut être remplacé.</p>"
+                          "diagnosis": "<p>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). S’il n’y a pas assez de réseau, le code ne peut pas être reçu. En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais ce moyen peut être remplacé.</p>"
                         }
                       },
                       "solutions": [
@@ -578,7 +578,16 @@
                 "id": "10d652ae-fb1f-4e20-8e2e-08686f539a7d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Chaque type de facteur a des avantages et des inconvénients.<strong> Ils ont tous des limites</strong> en matière de sécurité.</p><p><br>🤔<strong>Bon à savoir</strong> </p><p>Certaines méthodes d’authentification sont <strong>complexes et coûteuses à mettre en place</strong>. Par exemple, c’est pour ça que l’authentification par iris de l’œil n’est pas répandue.&nbsp;Elle coûte très cher. 💶</p><h5><br>Malgré ces limites, comment renforcer la sécurité des accès ?&nbsp; </h5><p>Pour éviter une <strong>usurpation d’identité</strong>, c’est-à-dire que quelqu’un vous vole vos accès et se fasse passer pour vous, les services en ligne demandent plusieurs facteurs d’authentification <strong>de natures différentes </strong>afin d’augmenter le niveau de sécurité globale.&nbsp;🔒&nbsp;🔒</p>"
+                "content": "<p>Chaque type de facteur a des avantages et des inconvénients.<strong> Ils ont tous des limites</strong> en matière de sécurité.</p><h5>Malgré ces limites, comment renforcer la sécurité des accès ?&nbsp; </h5><p>Pour éviter une <strong>usurpation d’identité</strong>, c’est-à-dire que quelqu’un vous vole vos accès et se fasse passer pour vous, les services en ligne demandent plusieurs facteurs d’authentification <strong>de natures différentes </strong>afin d’augmenter le niveau de sécurité globale.&nbsp;🔒&nbsp;🔒</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "c890eaca-8f8e-4355-81da-b34bac3343e3",
+                "type": "text",
+                "tag": "further-information",
+                "content": "<p>Certaines méthodes d’authentification sont <strong>complexes et coûteuses à mettre en place</strong>. Par exemple, c’est pour ça que l’authentification par iris de l’œil n’est pas répandue. Elle coûte très cher. 💶</p>"
               }
             }
           ]
@@ -594,7 +603,7 @@
                 "id": "4c089ab6-8fbd-48ff-9362-cf44b8ee4b28",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pourquoi certains services proposent l’authentification multifacteur et d’autres non ?</p>"
+                "content": "<p>Vous l’avez sans-doute remarqué, certains services proposent l’authentification multifacteur et d’autres non.</p>"
               }
             }
           ]
@@ -608,7 +617,7 @@
               "type": "element",
               "element": {
                 "id": "f74ef229-fadd-4346-a7b5-284057332d4c",
-                "type": "qcm",
+                "type": "qcm-declarative",
                 "instruction": "<p>Sur quels services avez-vous déjà rencontré une authentification multifacteur pour vous connecter ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
@@ -645,26 +654,9 @@
                     "content": "<p>Un autre service</p>"
                   }
                 ],
-                "feedbacks": {
-                  "valid": {
-                    "state": "<p>&nbsp;&nbsp;</p>",
-                    "diagnosis": "<p>Beaucoup de services en ligne imposent l’authentification multifacteur. Ce sont notamment des services qui comportent <strong>des données personnelles ou des informations sensibles</strong> (informations bancaires, médicales, administratives, etc.)</p>"
-                  },
-                  "invalid": {
-                    "state": "<p>&nbsp;&nbsp;</p>",
-                    "diagnosis": "<p>Beaucoup de services en ligne imposent l’authentification multifacteur. Ce sont notamment des services qui comportent <strong>des données personnelles ou des informations sensibles</strong> (informations bancaires, médicales, administratives, etc.)</p>"
-                  }
-                },
-                "solutions": [
-                  "1",
-                  "2",
-                  "3",
-                  "4",
-                  "5",
-                  "6",
-                  "7",
-                  "8"
-                ]
+                "feedback": {
+                  "diagnosis": "<p>Beaucoup de services en ligne imposent l’authentification multifacteur. Ce sont notamment des services qui comportent des données personnelles ou des informations sensibles (informations bancaires, médicales, administratives, etc.)</p>"
+                }
               }
             }
           ]
@@ -680,7 +672,7 @@
                 "id": "c10935b1-81bb-41fd-b911-97d09ec4f67e",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>Et si l’authentification multifacteur n’est pas activée ?</h5><ul><li>⚙️Si le service <strong>propose </strong>la MFA, vous pouvez la configurer <strong>vous-même dans les paramètres</strong> de votre compte.&nbsp;</li><li>‼️Si le service <strong>impose </strong>désormais la MFA, vous serez invité à la <strong>configurer </strong>lors de votre <strong>prochaine connexion</strong>.</li><li>📅 Certains services ne proposent pas la MFA, ou pas encore.</li></ul><p><br>Activer l’authentification multifacteur soi-même ou quand elle est proposée, c’est <strong>ajouter une sécurité supplémentaire</strong>&nbsp;à votre compte et aux informations qu’il contient. 🔒</p>"
+                "content": "<h5>Et si l’authentification multifacteur n’est pas activée ?</h5><ul>    <li>Si le service <strong>propose </strong>la MFA, vous pouvez la configurer <strong>vous-même dans les paramètres</strong> de votre compte. ⚙️</li>    <li>Si le service <strong>impose </strong>désormais la MFA, vous serez invité à la <strong>configurer </strong>lors de votre <strong>prochaine connexion</strong>. ‼️</li>    <li>Certains services ne proposent pas la MFA, ou pas encore. 📅</li></ul><p><br>Activer l’authentification multifacteur soi-même ou quand elle est proposée, c’est <strong>ajouter une sécurité supplémentaire</strong>&nbsp;à votre compte et aux informations qu’il contient. 🔒</p>"
               }
             }
           ]
@@ -702,7 +694,7 @@
                 "id": "c88354b1-ec04-4922-898c-15bbeba3cdd5",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>Il y a trois types de facteurs d’authentification&nbsp;: <strong>ce que je connais</strong> (facteur de connaissance), <strong>ce que je possède </strong>(facteur de possession), et <strong>ce que je suis </strong>(facteur biométrique). 💬👜🙋</li><li>L’authentification multifacteur, c’est quand un service vous demande <strong>au moins deux facteurs d’authentification</strong> à la suite pour prouver votre identité. 2️⃣</li><li>Une authentification multifacteur est <strong>plus sécurisée si les facteurs demandés sont de types différents</strong>, car leurs limites de sécurité sont différentes. 🔒🔒</li><li>Beaucoup de services en ligne qui gèrent des données personnelles imposent l’<strong>authentification multifacteur par défaut</strong>. D’autres services en ligne vous proposent de <strong>l’activer manuellement</strong> pour mieux vous protéger. ⚙️</li></ul>"
+                "content": "<ul>    <li>Il y a trois types de facteurs d’authentification&nbsp;: <strong>ce que je connais</strong> (facteur de connaissance), <strong>ce que je possède </strong>(facteur de possession), et <strong>ce que je suis </strong>(facteur biométrique). 💬👜🙋</li><li>L’authentification multifacteur, c’est quand un service vous demande <strong>au moins deux facteurs d’authentification</strong> à la suite pour prouver votre identité. 2️⃣</li><li>Une authentification multifacteur est <strong>plus sécurisée si les facteurs demandés sont de natures différentes</strong>, car leurs limites de sécurité sont différentes. 🔒🔒</li><li>Beaucoup de services en ligne qui gèrent des données personnelles imposent l’<strong>authentification multifacteur par défaut</strong>. D’autres services en ligne vous proposent de <strong>l’activer manuellement</strong> pour mieux vous protéger. ⚙️</li></ul>"
               }
             }
           ]
@@ -836,7 +828,7 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>Un <strong>code à 6 chiffres reçu par sms</strong>&nbsp;est un</p>"
+                    "content": "<br><p>Un <strong>code à 6 chiffres reçu par sms</strong> est un</p>"
                   },
                   {
                     "type": "select",
@@ -865,7 +857,7 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>Un <strong>code PIN</strong>&nbsp;est un</p>"
+                    "content": "<br><p>Un <strong>code PIN</strong> est un</p>"
                   },
                   {
                     "type": "select",
@@ -894,7 +886,7 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>Une <strong>détection de visage</strong>&nbsp;est un</p>"
+                    "content": "<br><p>Une <strong>détection de visage</strong> est un</p>"
                   },
                   {
                     "type": "select",
@@ -1037,18 +1029,20 @@
                 "id": "1506d9b4-ae81-4810-bc05-c5c0f075ab6b",
                 "type": "text",
                 "tag": " ",
-                "content": "Pour terminer ce module, passons à la pratique."
+                "content": "<p>Pour terminer ce module, passons à la pratique.</p><p>Ambre souhaite activer l’authentification multifacteur de son compte Papotix.</p>"
               }
             },
             {
               "type": "element",
               "element": {
                 "id": "1309371a-0747-4353-a0a2-f22184f4e012",
-                "type": "custom-draft",
-                "title": "Activer l’authentification multifacteur sur un compte en ligne.",
-                "url": "https://1024pix.github.io/atelier-contenus/PCH/CY_MFA_IND-defi-changer-MFA.html",
-                "instruction": "<p>Ambre souhaite activer l’authentification multifacteur de son compte sur hotelsreservations.com.<br>Dans le simulateur suivant, aidez Ambre à paramétrer son compte.</p>",
-                "height": 430
+                "type": "embed",
+                "isCompletionRequired": false,
+                "title": "titre",
+                "url": "https://epreuves.pix.fr/fr/activer-mfa.html",
+                "instruction": "<p> Dans le simulateur suivant, ouvrez Papotix et aidez Ambre à paramétrer son compte.</p>",
+                "solution": "solution",
+                "height": 730
               }
             }
           ]

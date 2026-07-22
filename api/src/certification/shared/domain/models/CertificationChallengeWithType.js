@@ -1,6 +1,6 @@
 import { Type } from '../../../../shared/domain/models/Challenge.js';
 
-class CertificationChallengeWithType {
+export class CertificationChallengeWithType {
   constructor({
     id,
     associatedSkillName,
@@ -32,13 +32,7 @@ class CertificationChallengeWithType {
     this.isNeutralized = false;
   }
 
-  isPixPlus() {
-    return Boolean(this.certifiableBadgeKey);
-  }
-
   skipAutomatically() {
     this.hasBeenSkippedAutomatically = true;
   }
 }
-
-export { CertificationChallengeWithType };

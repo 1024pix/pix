@@ -8,7 +8,7 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certifica
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../../src/certification/shared/domain/constants/sessions-errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -133,7 +133,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         userId: null,
         reconciledAt: null,
         billingMode: BILLING_MODES.FREE,
-        subscriptions: [],
       });
       const session1 = { ...firstSession, candidates: [candidateData1] };
       const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
@@ -143,7 +142,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         userId: null,
         reconciledAt: null,
         billingMode: BILLING_MODES.FREE,
-        subscriptions: [],
       });
       const session2 = { ...secondSession, candidates: [candidateData2] };
 
@@ -237,7 +235,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           userId: null,
           reconciledAt: null,
           billingMode: BILLING_MODES.FREE,
-          subscriptions: [],
         });
         const session1 = { ...firstSession, candidates: [candidateData1] };
         const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
@@ -247,7 +244,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           userId: null,
           reconciledAt: null,
           billingMode: BILLING_MODES.FREE,
-          subscriptions: [],
         });
         const candidateData3 = { ...candidateData2, lastName: 'Brun', firstName: 'Petit Ours' };
         const candidate3 = domainBuilder.certification.enrolment.buildCandidate({
@@ -257,7 +253,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           userId: null,
           reconciledAt: null,
           billingMode: BILLING_MODES.FREE,
-          subscriptions: [],
         });
         const session2 = { sessionId: 2, candidates: [candidateData2, candidateData3] };
 
@@ -440,7 +435,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           createdAt: null,
           userId: null,
           billingMode: BILLING_MODES.FREE,
-          subscriptions: [],
         });
         const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
           ...candidateData2,
@@ -448,7 +442,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           createdAt: null,
           userId: null,
           billingMode: BILLING_MODES.FREE,
-          subscriptions: [],
         });
         const sessionsData = [
           {

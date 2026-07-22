@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class TagAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForQuery(query) {
     const { tagId, recentlyUsedTags } = query;
     delete query.tagId;

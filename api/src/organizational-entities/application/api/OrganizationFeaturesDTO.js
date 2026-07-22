@@ -1,4 +1,4 @@
-import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 
 export class OrganizationFeaturesDTO {
   constructor({ features = [] }) {

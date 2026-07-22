@@ -1,16 +1,14 @@
 import Joi from 'joi';
-import XRegExp from 'xregexp';
-
-import { config } from '../../config.js';
-
-const { passwordValidationPattern } = config.account;
 
 import { EntityValidationError } from '../errors.js';
 
-const pattern = XRegExp(passwordValidationPattern);
+const pattern = /^(?=.*\p{Lu})(?=.*\p{Ll})(?=.*\d).{8,}$/v;
 
-const passwordValidationJoiSchema = Joi.object({
-  password: Joi.string().pattern(pattern).required().max(255).messages({
+/** @type {Joi.StringSchema<string>} */
+export const PasswordSchema = Joi.string().pattern(pattern);
+
+const PasswordWithMessagesSchema = Joi.object({
+  password: PasswordSchema.required().max(255).messages({
     'string.empty': 'Votre mot de passe n’est pas renseigné.',
     'string.pattern.base':
       'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
@@ -20,20 +18,16 @@ const passwordValidationJoiSchema = Joi.object({
 });
 
 /**
- * @param password
- * @return {boolean}
+ * Validates a password against the password policy.
+ *
+ * @param {string} password - The password to validate.
+ * @returns {true} Returns `true` when the password is valid.
+ * @throws {EntityValidationError} When the password fails validation.
  */
-const validate = function (password) {
-  const { error } = passwordValidationJoiSchema.validate({ password });
+export function validate(password) {
+  const { error } = PasswordWithMessagesSchema.validate({ password });
   if (error) {
     throw EntityValidationError.fromJoiErrors(error.details);
   }
   return true;
-};
-
-/**
- * @typedef {Object} PasswordValidator
- * @property {function} validate
- */
-
-export { validate };
+}

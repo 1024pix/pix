@@ -1,4 +1,4 @@
-import { CLIENTS, PIX_ADMIN } from '../../../shared/domain/constants.js';
+import { CLIENTS, PIX_ADMIN } from '../../../shared/constants.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 
 export const deleteAndAnonymizeCombinedCourses = withTransaction(

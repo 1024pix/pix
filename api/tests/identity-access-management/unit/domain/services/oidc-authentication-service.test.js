@@ -1,12 +1,11 @@
 import jsonwebtoken from 'jsonwebtoken';
-import ms from 'ms';
 import sinon from 'sinon';
 
+import { OIDC_ERRORS } from '../../../../../src/identity-access-management/domain/constants/oidc-errors.js';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
-import { OIDC_ERRORS } from '../../../../../src/shared/domain/constants.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { OidcError, OidcMissingFieldsError } from '../../../../../src/shared/domain/errors.js';
 import { AuthenticationSessionContent } from '../../../../../src/shared/domain/models/AuthenticationSessionContent.js';
@@ -155,29 +154,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(result).to.be.false;
       });
-    });
-  });
-
-  describe('#createAccessToken', function () {
-    it('creates access token with user id and audience', function () {
-      // given
-      const userId = 42;
-      const accessToken = Symbol('valid access token');
-      const audience = 'https://admin.pix.fr';
-      const payload = { user_id: userId, aud: audience };
-      const jwtOptions = { expiresIn: ms('48h') / 1000 };
-      sinon
-        .stub(jsonwebtoken, 'sign')
-        .withArgs(payload, settings.authentication.secret, jwtOptions)
-        .returns(accessToken);
-
-      const oidcAuthenticationService = new OidcAuthenticationService(settings.oidcExampleNet, { openidClient });
-
-      // when
-      const result = oidcAuthenticationService.createAccessToken({ userId, audience });
-
-      // then
-      expect(result).to.equal(accessToken);
     });
   });
 

@@ -1,9 +1,8 @@
-import jsYaml from 'js-yaml';
+import { FAILSAFE_SCHEMA, load } from 'js-yaml';
 
 import { YamlParsingError } from '../../../../shared/domain/errors.js';
 import { AnswerStatus } from '../../../../shared/domain/models/AnswerStatus.js';
-import { getEnabledTreatments, useLevenshteinRatio } from '../services-utils.js';
-import { validateAnswer } from '../string-comparison-service.js';
+import { getEnabledTreatments, isAnswerValid } from '../services-utils.js';
 import { applyPreTreatments, applyTreatments } from '../validation-treatments.js';
 
 function applyTreatmentsToSolutions(solutions, enabledTreatments) {
@@ -36,8 +35,8 @@ function getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatment
 
   const answersEvaluation = Object.values(treatedAnswers).map((answer) => {
     for (const [solutionKey, acceptedSolutions] of remainingUnmatchedSolutions) {
-      const status = validateAnswer(answer, acceptedSolutions, useLevenshteinRatio(enabledTreatments));
-      if (status) {
+      const isValid = isAnswerValid(answer, acceptedSolutions, enabledTreatments);
+      if (isValid) {
         remainingUnmatchedSolutions.delete(solutionKey);
         delete solutions[solutionKey];
         return true;
@@ -55,8 +54,8 @@ function getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatment
 function convertYamlToJsObjects(preTreatedAnswers, yamlSolution) {
   let answers, solutions;
   try {
-    answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
-    solutions = jsYaml.load(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
+    answers = load(preTreatedAnswers, { schema: FAILSAFE_SCHEMA });
+    solutions = load(yamlSolution, { schema: FAILSAFE_SCHEMA });
   } catch {
     throw new YamlParsingError();
   }

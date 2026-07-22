@@ -1,13 +1,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import {
-  CertificationEndedByFinalizationError,
-  CertificationEndedByInvigilatorError,
-  ChallengeAlreadyAnsweredError,
-  ChallengeNotAskedError,
-  EmptyAnswerError,
-  ForbiddenAccess,
-  NotFoundError,
-} from '../../../../shared/domain/errors.js';
+import { EmptyAnswerError, ForbiddenAccess, NotFoundError } from '../../../../shared/domain/errors.js';
+import { CertificationDurationExceededError } from '../errors.js';
+import { isDurationExceeded } from '../services/certification-duration-service.js';
 
 export async function evaluateAndSaveAnswer({
   answer,
@@ -17,37 +11,43 @@ export async function evaluateAndSaveAnswer({
   answerRepository,
   assessmentSheetRepository,
   correctionApi,
-  candidateRepository,
   certificationChallengeLiveAlertRepository,
   sharedChallengeRepository,
 }) {
+  if (answer.isEmpty) {
+    throw new EmptyAnswerError();
+  }
+
   const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationCourseId);
   if (!assessmentSheet) {
     throw new NotFoundError(`No certification test found with id ${certificationCourseId}`);
   }
-  checkIfAnswerIsAdmissible({ assessmentSheet, answer, userId });
 
-  const challenge = await sharedChallengeRepository.get(answer.challengeId);
-  const ongoingOrValidatedCertificationChallengeLiveAlert =
+  assessmentSheet.checkIfCandidateCanAnswer({ answer, userId });
+
+  if (isDurationExceeded(assessmentSheet.startedAt)) {
+    assessmentSheet.endDueToCertificationDurationExceeded();
+    await assessmentSheetRepository.update(assessmentSheet);
+    throw new CertificationDurationExceededError();
+  }
+
+  const hasLiveAlertOnChallenge =
     await certificationChallengeLiveAlertRepository.getOngoingOrValidatedByChallengeIdAndAssessmentId({
-      challengeId: challenge.id,
+      challengeId: answer.challengeId,
       assessmentId: assessmentSheet.assessmentId,
     });
-
-  if (ongoingOrValidatedCertificationChallengeLiveAlert) {
+  if (hasLiveAlertOnChallenge) {
     throw new ForbiddenAccess('An alert has been set.');
   }
 
-  const certificationCandidate = await candidateRepository.findByAssessmentId({
-    assessmentId: assessmentSheet.assessmentId,
-  });
+  const challenge = await sharedChallengeRepository.get(answer.challengeId);
   const correctedAnswer = correctionApi.correctAnswer({
+    isCertificationEvaluation: true,
     challenge,
     answer,
     challengeSubmittedAt: assessmentSheet.lastQuestionDate,
     hasChallengeBeenFocusedOut: assessmentSheet.hasLastQuestionBeenFocusedOut(),
-    isCertificationEvaluation: true,
-    accessibilityAdjustmentNeeded: certificationCandidate.accessibilityAdjustmentNeeded,
+    accessibilityAdjustmentNeeded: assessmentSheet.accessibilityAdjustmentNeeded,
     forceOKAnswer,
   });
 
@@ -59,25 +59,4 @@ export async function evaluateAndSaveAnswer({
     answerSaved.levelup = {};
     return answerSaved;
   });
-}
-
-function checkIfAnswerIsAdmissible({ assessmentSheet, answer, userId }) {
-  if (assessmentSheet.userId !== userId) {
-    throw new ForbiddenAccess('User is not allowed to add an answer for this certification test.');
-  }
-  if (assessmentSheet.isEndedByInvigilator()) {
-    throw new CertificationEndedByInvigilatorError();
-  }
-  if (assessmentSheet.hasBeenEndedDueToFinalization()) {
-    throw new CertificationEndedByFinalizationError();
-  }
-  if (!assessmentSheet.isChallengeExpectedToBeAnswered(answer.challengeId)) {
-    throw new ChallengeNotAskedError();
-  }
-  if (assessmentSheet.hasAnsweredChallenge(answer.challengeId)) {
-    throw new ChallengeAlreadyAnsweredError();
-  }
-  if (!answer.hasValue && !answer.hasTimedOut) {
-    throw new EmptyAnswerError();
-  }
 }

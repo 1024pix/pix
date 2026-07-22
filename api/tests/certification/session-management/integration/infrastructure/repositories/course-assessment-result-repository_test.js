@@ -1,5 +1,6 @@
 import * as courseAssessmentResultRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/course-assessment-result-repository.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
@@ -10,7 +11,10 @@ describe('Certification | Course | Integration | Repository | course-assessment-
     context('when assessment result exists', function () {
       it('should return the assessment result', async function () {
         // given
-        const versionId = databaseBuilder.factory.buildCertificationVersion().id;
+        const versionId = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['recTube1'] })
+          .insertToDB({ databaseBuilder }).id;
         const juryId = databaseBuilder.factory.buildUser().id;
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ id: 1 }).id;
         databaseBuilder.factory.buildAssessment({ id: 2, certificationCourseId: 1 });

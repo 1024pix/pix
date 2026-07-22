@@ -1,6 +1,14 @@
-const findPaginatedOrganizationCampaignSummaries = async ({ organizationId, page, campaignReportRepository }) =>
+const findPaginatedOrganizationCampaignSummaries = async ({
+  organizationId,
+  withTargetProfileName,
+  withArchived,
+  page,
+  campaignReportRepository,
+}) =>
   await campaignReportRepository.findAllPaginatedSummariesByOrganizationId({
     organizationId,
+    withTargetProfileName,
+    withArchived,
     page,
   });
 

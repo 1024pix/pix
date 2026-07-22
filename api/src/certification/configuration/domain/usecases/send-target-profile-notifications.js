@@ -1,4 +1,4 @@
-import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/constants.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 const EVENT_NAME = 'attach-target-profile-certif';

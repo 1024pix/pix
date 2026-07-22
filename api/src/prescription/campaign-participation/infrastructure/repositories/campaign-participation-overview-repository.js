@@ -2,7 +2,7 @@ import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { constants } from '../../../../shared/domain/constants.js';
+import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
 import { CampaignParticipationOverview } from '../../domain/read-models/CampaignParticipationOverview.js';
@@ -100,7 +100,7 @@ function _getQueryBuilder(callback) {
         )
         .whereIn('campaigns.type', [CampaignTypes.ASSESSMENT, CampaignTypes.EXAM])
         .where('campaigns.isForAbsoluteNovice', false)
-        .whereNot('organizations.id', constants.AUTONOMOUS_COURSES_ORGANIZATION_ID)
+        .whereNot('organizations.id', config.autonomousCourse.autonomousCoursesOrganizationId)
         .where('campaign-participations.isImproved', false)
         .where(callback);
     })

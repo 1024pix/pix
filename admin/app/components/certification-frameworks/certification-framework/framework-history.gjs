@@ -17,12 +17,13 @@ import { formatMinutes } from 'pix-admin/utils/date';
 
 import CertificationVersionDetailModal from './modal/certification-version-detail-modal';
 
-const STATUS_COLORS = { ACTIVE: 'success', DRAFT: 'tertiary', ARCHIVED: 'secondary' };
+const STATUS_COLORS = { active: 'success', draft: 'tertiary', archived: 'secondary' };
 
 export default class FrameworkHistory extends Component {
   @service store;
   @service intl;
   @service pixToast;
+  @service router;
 
   @tracked selectedVersion = null;
   @tracked selectedVersionStatus = null;
@@ -30,7 +31,7 @@ export default class FrameworkHistory extends Component {
   @tracked showVersionDetailModal = false;
 
   get frameworkHistory() {
-    return this.args.frameworkHistory?.history.sort(sortByStartDateNullFirst) ?? [];
+    return sortByStatus(this.args.frameworkHistory?.history);
   }
 
   get hasHistory() {
@@ -77,6 +78,14 @@ export default class FrameworkHistory extends Component {
     } finally {
       this.closeDeleteVersionModal();
     }
+  }
+
+  @action
+  editVersion(versionId) {
+    this.router.transitionTo(
+      'authenticated.certification-frameworks.certification-framework.versions.version.edit',
+      versionId,
+    );
   }
 
   <template>
@@ -157,24 +166,27 @@ export default class FrameworkHistory extends Component {
                 @triggerAction={{fn this.viewVersion version.id version.status}}
                 @ariaLabel={{t
                   "components.certification-frameworks.certification-framework.history.table.actions.view"
+                  id=version.id
                 }}
                 @iconName="eye"
               />
               <PixIconButton
-                @triggerAction={{this.editVersion}}
+                @triggerAction={{this.editVersion version.id}}
                 @ariaLabel={{t
                   "components.certification-frameworks.certification-framework.history.table.actions.edit"
+                  id=version.id
                 }}
                 @iconName="edit"
-                @isDisabled={{not (eq version.status "DRAFT")}}
+                @isDisabled={{not (eq version.status "draft")}}
               />
               <PixIconButton
                 @triggerAction={{fn this.showDeleteVersionModal version.id}}
                 @ariaLabel={{t
                   "components.certification-frameworks.certification-framework.history.table.actions.delete"
+                  id=version.id
                 }}
                 @iconName="delete"
-                @isDisabled={{not (eq version.status "DRAFT")}}
+                @isDisabled={{not (eq version.status "draft")}}
               />
             </:cell>
           </PixTableColumn>
@@ -215,16 +227,20 @@ export default class FrameworkHistory extends Component {
   </template>
 }
 
-function sortByStartDateNullFirst(historyItemA, historyItemB) {
-  if (historyItemA.startDate === null) {
-    return historyItemB.startDate === null ? historyItemA.id - historyItemB.id : -1;
-  }
-  if (historyItemB.startDate === null) {
-    return 1;
-  }
+function sortByStatus(frameworkHistories) {
+  const draftFrameworkHistory = frameworkHistories.find((frameworkHistory) => frameworkHistory.status === 'draft');
+  const activeFrameworkHistory = frameworkHistories.find((frameworkHistory) => frameworkHistory.status === 'active');
+  const archivedFrameworkHistory = frameworkHistories.filter(
+    (frameworkHistory) => frameworkHistory.status === 'archived',
+  );
 
-  if (historyItemA.startDate > historyItemB.startDate) {
-    return -1;
-  }
-  return 1;
+  archivedFrameworkHistory.sort((frameworkHistoryA, frameworkHistoryB) => {
+    const startDateA = new Date(frameworkHistoryA.startDate);
+    const startDateB = new Date(frameworkHistoryB.startDate);
+    if (startDateA > startDateB) return -1;
+    if (startDateA < startDateB) return 1;
+  });
+
+  const frameworkHistoryList = [draftFrameworkHistory, activeFrameworkHistory, ...archivedFrameworkHistory];
+  return frameworkHistoryList.filter((frameworkHistory) => !!frameworkHistory);
 }

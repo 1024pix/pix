@@ -1,12 +1,25 @@
-import { ALL_TREATMENTS } from '../../../shared/domain/constants.js';
-import { _ } from '../../../shared/infrastructure/utils/lodash-utils.js';
+import { isCloseEnoughToOneOf } from '../../../shared/domain/services/string-similarity-service.js';
 
-function getEnabledTreatments(shouldApplyTreatments, deactivations) {
+const ALL_TREATMENTS = ['t1', 't2', 't3'];
+
+export function getEnabledTreatments(shouldApplyTreatments, deactivations) {
   return shouldApplyTreatments ? ALL_TREATMENTS.filter((treatment) => !deactivations[treatment]) : [];
 }
 
-function useLevenshteinRatio(enabledTreatments) {
-  return _.includes(enabledTreatments, 't3');
+export function useLevenshteinRatio(enabledTreatments = []) {
+  return enabledTreatments.includes('t3');
 }
 
-export { getEnabledTreatments, useLevenshteinRatio };
+/**
+ * Tells whether an answer is valid against a set of accepted solutions.
+ * @param {string} answer - The answer to validate.
+ * @param {string[]} [solutions=[]] - The accepted solutions to compare against.
+ * @param {string[]} [enabledTreatments=[]] - The enabled treatment codes. `'t3'` turns on approximate matching.
+ * @returns {boolean} `true` if the answer matches one of the solutions.
+ */
+export function isAnswerValid(answer, solutions = [], enabledTreatments) {
+  if (useLevenshteinRatio(enabledTreatments)) {
+    return isCloseEnoughToOneOf(answer, solutions);
+  }
+  return solutions.includes(answer);
+}

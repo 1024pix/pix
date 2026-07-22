@@ -1,5 +1,3 @@
-import hashInt from 'hash-int';
-
 import { fallbackChallengeLocales } from '../../../shared/domain/services/locale-service.js';
 
 const NON_EXISTING_ITEM = null;
@@ -37,3 +35,18 @@ const findPreferablyValidatedChallengesWithLocale = (localeChallenges, locale) =
   });
   return challengesWithGivenLocale.length > 0 ? challengesWithGivenLocale : preferablyValidatedChallenges;
 };
+
+// returns pseudo random integer from a given seed
+function hashInt(x) {
+  const A = new Uint32Array(1);
+  A[0] = x | 0;
+  A[0] -= A[0] << 6;
+  A[0] ^= A[0] >>> 17;
+  A[0] -= A[0] << 9;
+  A[0] ^= A[0] << 4;
+  A[0] -= A[0] << 3;
+  A[0] ^= A[0] << 10;
+  A[0] ^= A[0] >>> 15;
+
+  return A[0];
+}

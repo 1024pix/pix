@@ -1,5 +1,4 @@
 import { Factory } from 'miragejs';
-import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
 export default Factory.extend({
   firstName() {
@@ -66,18 +65,5 @@ export default Factory.extend({
 
   accessibilityAdjustmentNeeded() {
     return true;
-  },
-
-  afterCreate(candidate, server) {
-    const hasSubscriptions = candidate.subscriptions?.models?.length ?? false;
-    if (!hasSubscriptions) {
-      const coreSubscription = server.create('subscription', {
-        type: SUBSCRIPTION_TYPES.CORE,
-        complementaryCertificationKey: null,
-      });
-      candidate.update({
-        subscriptions: [coreSubscription],
-      });
-    }
   },
 });

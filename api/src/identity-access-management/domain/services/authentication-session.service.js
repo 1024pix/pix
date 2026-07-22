@@ -1,8 +1,19 @@
+import crypto from 'node:crypto';
+
 import { config } from '../../../shared/config.js';
 import { temporaryStorage } from '../../../shared/infrastructure/key-value-storages/index.js';
+
 const authenticationSessionTemporaryStorage = temporaryStorage.withPrefix('authentication-session:');
 
 const EXPIRATION_DELAY_SECONDS = config.authenticationSession.temporaryStorage.expirationDelaySeconds;
+
+/**
+ * @typedef {function} generateSessionId
+ * @return {string}
+ */
+const generateSessionId = function () {
+  return crypto.randomUUID();
+};
 
 /**
  * @typedef {function} getByKey
@@ -40,7 +51,8 @@ const update = function (key, value) {
  * @property {getByKey} getByKey
  * @property {save} save
  * @property {update} update
+ * @property {generateSessionId} generateSessionId
  */
-const authenticationSessionService = { getByKey, save, update };
+const authenticationSessionService = { getByKey, save, update, generateSessionId };
 
 export { authenticationSessionService };

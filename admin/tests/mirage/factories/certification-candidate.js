@@ -1,5 +1,4 @@
 import { Factory } from 'miragejs';
-import { SUBSCRIPTION_TYPES } from 'pix-admin/models/subscription';
 
 export default Factory.extend({
   firstName() {
@@ -18,6 +17,10 @@ export default Factory.extend({
     //generate a random birthdate between 20 and 50 years ago
     const randomTimestamp = twentyYearsAgo.getTime() + Math.random() * (fiftyYearsAgo - twentyYearsAgo);
     return new Date(randomTimestamp).toISOString().slice(0, 10);
+  },
+
+  subscription() {
+    return 'CORE';
   },
 
   birthCity() {
@@ -66,18 +69,5 @@ export default Factory.extend({
 
   accessibilityAdjustmentNeeded() {
     return true;
-  },
-
-  afterCreate(candidate, server) {
-    const hasSubscriptions = candidate.subscriptions?.models?.length ?? false;
-    if (!hasSubscriptions) {
-      const coreSubscription = server.create('subscription', {
-        type: SUBSCRIPTION_TYPES.CORE,
-        complementaryCertificationId: null,
-      });
-      candidate.update({
-        subscriptions: [coreSubscription],
-      });
-    }
   },
 });

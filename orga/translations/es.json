@@ -751,6 +751,16 @@
       "copy-of": "Copia de",
       "course-label": "Seleccionar un curso",
       "course-selection-label": "Seleccionar un curso",
+      "course-title": {
+        "label": "Título del curso",
+        "sublabel": "Este campo se mostrará a los participantes de la campaña."
+      },
+      "customization": {
+        "title": "Personalización"
+      },
+      "exam-mode": {
+        "label": "¿Desea activar el modo de consulta?"
+      },
       "external-id-label": {
         "label": "Texto del identificador",
         "question-label": "¿Desea solicitar un identificador externo?",
@@ -800,6 +810,9 @@
         "profiles-collection-info": "Se utiliza una campaña de recogida de perfiles para recuperar el perfil de los participantes: niveles por habilidad y puntuación pix.",
         "profiles-collection-info-certificability-calculation": "El estado certificable se actualiza automáticamente en la pestaña <'a href=\"/eleves\" class=\"{linkClasses}\"'>'Alumnos'</a>'."
       },
+      "settings": {
+        "title": "Configuración"
+      },
       "tags": {
         "BACK_TO_SCHOOL": "Curso de vuelta al cole / 6e",
         "COMPETENCES": "Las 16 competencias",
@@ -817,10 +830,6 @@
       "target-profiles-label": "Seleccione una ruta",
       "target-profiles-list-label": "¿Qué le gustaría probar?",
       "target-profiles-search-placeholder": "Buscar por nombre",
-      "test-title": {
-        "label": "Título del curso",
-        "sublabel": "Este campo se mostrará a los participantes de la campaña."
-      },
       "title": "Crear una campaña",
       "yes": "Sí"
     },
@@ -1073,9 +1082,9 @@
       },
       "tab-filters": {
         "all": "Todos",
-        "blueprints": "Rutas de aprendizaje",
+        "blueprints": "Aprendizaje",
         "label": "Tipo de curso",
-        "target-profiles": "Cursos"
+        "target-profiles": "Evaluación"
       },
       "title": "Catálogo de cursos"
     },
@@ -1127,11 +1136,17 @@
           "first-name": "Nombre",
           "last-name": "Nombre",
           "modules": "Módulos",
+          "reward": "Certificado",
           "status": "Estado"
         },
         "description": "Lista de participantes",
         "module-completion": "{nbItemsCompleted, plural, =0 {Ningún módulo completado en {nbItems}} =1 {Un módulo completado en {nbItems}} other {{nbItemsCompleted} módulos completados en {nbItems}}}.",
         "no-module": "No se recomienda ningún módulo.",
+        "rewards": {
+          "in-progress": "Pendiente",
+          "not-obtained": "No obtenido",
+          "obtained": "Obtenido"
+        },
         "tooltip": {
           "campaigns-column": "x / y' indica el progreso del participante: ha completado x campañas de un total de y. Por ejemplo, 1/2 significa que ha completado 1 campaña de un total de 2.",
           "modules-column": "x / y\" indica el progreso del participante: ha completado x módulos de un total de y. El número total de módulos difiere para cada participante, en función de las recomendaciones personalizadas."

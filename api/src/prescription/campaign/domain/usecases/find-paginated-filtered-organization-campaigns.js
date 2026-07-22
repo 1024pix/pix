@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../../shared/infrastructure/constants.js';
+import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../constants.js';
 import { CampaignResultLevelsPerTubesAndCompetences } from '../models/CampaignResultLevelsPerTubesAndCompetences.js';
 
 const findPaginatedFilteredOrganizationCampaigns = withTransaction(async function ({

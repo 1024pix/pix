@@ -1,4 +1,4 @@
-import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../src/shared/constants.js';
 import {
   FEATURE_ATTESTATIONS_MANAGEMENT_ID,
   FEATURE_CAMPAIGN_EXTERNAL_ID,

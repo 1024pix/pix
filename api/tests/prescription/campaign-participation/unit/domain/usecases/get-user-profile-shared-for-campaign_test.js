@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { Scorecard } from '../../../../../../src/evaluation/domain/models/Scorecard.js';
 import { getSharedCampaignParticipationProfile } from '../../../../../../src/prescription/campaign-participation/domain/usecases/get-shared-campaign-participation-profile.js';
-import { constants } from '../../../../../../src/shared/domain/constants.js';
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../../../src/shared/constants.js';
 import { NoCampaignParticipationForUserAndCampaign } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -25,8 +25,8 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
   let expectedMaxReachablePixScore;
 
   beforeEach(function () {
-    expectedMaxReachableLevel = Symbol('maxReachableLevel');
-    expectedMaxReachablePixScore = Symbol('maxReachablePixCount');
+    expectedMaxReachableLevel = MAX_REACHABLE_LEVEL;
+    expectedMaxReachablePixScore = MAX_REACHABLE_PIX_SCORE;
   });
 
   context('When user has shared its profile for the campaign', function () {
@@ -40,8 +40,6 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
       campaignRepository = { get: sinon.stub() };
       organizationLearnerRepository = { isActive: sinon.stub() };
       sinon.stub(Scorecard, 'buildFrom');
-      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(expectedMaxReachableLevel);
-      sinon.stub(constants, 'MAX_REACHABLE_PIX_SCORE').value(expectedMaxReachablePixScore);
     });
 
     it('should return the shared profile for campaign', async function () {
@@ -102,6 +100,7 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
   context('When user has not shared its profile', function () {
     it('should throw an error', async function () {
       // given
+      const campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(null);
 
       // when

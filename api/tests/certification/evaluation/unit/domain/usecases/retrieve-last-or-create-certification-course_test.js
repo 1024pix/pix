@@ -1,5 +1,7 @@
 import sinon from 'sinon';
 
+import { CertificationDurationExceededError } from '../../../../../../src/certification/evaluation/domain/errors.js';
+import { AssessmentSheet } from '../../../../../../src/certification/evaluation/domain/models/AssessmentSheet.js';
 import { retrieveLastOrCreateCertificationCourse } from '../../../../../../src/certification/evaluation/domain/usecases/retrieve-last-or-create-certification-course.js';
 import { SessionNotAccessible } from '../../../../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
@@ -18,7 +20,6 @@ import {
 } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
-import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -30,6 +31,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
   const sessionRepository = {};
   const assessmentRepository = {};
+  const assessmentSheetRepository = {};
   const competenceRepository = {};
   const candidateRepository = {};
   const certificationCourseRepository = {};
@@ -41,6 +43,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
   const injectables = {
     assessmentRepository,
+    assessmentSheetRepository,
     competenceRepository,
     candidateRepository,
     certificationCourseRepository,
@@ -64,6 +67,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     candidateRepository.update = sinon.stub();
     certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId = sinon.stub();
     certificationCourseRepository.save = sinon.stub();
+    assessmentSheetRepository.findByCertificationCourseId = sinon.stub();
+    assessmentSheetRepository.update = sinon.stub();
     sessionRepository.get = sinon.stub();
     sessionRepository.update = sinon.stub();
     placementProfileService.getPlacementProfile = sinon.stub();
@@ -150,7 +155,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               .withArgs({ sessionId: 1, userId: 2 })
               .resolves(candidateNotAuthorizedToStart);
 
-            const version = domainBuilder.certification.configuration.buildVersion();
+            const version = domainBuilder.certification.configuration
+              .versionBuilder()
+              .withParameters({ id: 1 })
+              .build();
             versionApi.getByFrameworkAndDate.resolves(version);
 
             // when
@@ -186,12 +194,19 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               .withArgs({ sessionId: 1, userId: 2 })
               .resolves(candidateNotAuthorizedToStart);
 
-            const existingCertificationCourse = domainBuilder.buildCertificationCourse({ userId: 2, sessionId: 1 });
+            const existingCertificationCourse = domainBuilder.buildCertificationCourse({
+              userId: 2,
+              sessionId: 1,
+              createdAt: new Date(),
+            });
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
               .withArgs({ userId: 2, sessionId: 1 })
               .resolves(existingCertificationCourse);
 
-            const version = domainBuilder.certification.configuration.buildVersion();
+            const version = domainBuilder.certification.configuration
+              .versionBuilder()
+              .withParameters({ id: 1 })
+              .build();
             versionApi.getByFrameworkAndDate.resolves(version);
 
             // when
@@ -270,6 +285,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             const existingCertificationCourse = domainBuilder.buildCertificationCourse({
               userId: 2,
               sessionId: 1,
+              createdAt: new Date(),
             });
             existingCertificationCourse.adjustForAccessibility = sinon.stub();
 
@@ -277,9 +293,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               .withArgs({ userId: 2, sessionId: 1 })
               .resolves(existingCertificationCourse);
 
-            const version = domainBuilder.certification.configuration.buildVersion({
-              challengesConfiguration: { maximumAssessmentLength: 25, defaultCandidateCapacity: -3 },
-            });
+            const version = domainBuilder.certification.configuration
+              .versionBuilder()
+              .withParameters({
+                id: 1,
+                challengesConfiguration: { maximumAssessmentLength: 25, defaultCandidateCapacity: -3 },
+              })
+              .build();
             versionApi.getByFrameworkAndDate.resolves(version);
 
             // when
@@ -328,6 +348,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               userId: 2,
               sessionId: 1,
               version: AlgorithmEngineVersion.V3,
+              createdAt: new Date(),
             });
             existingCertificationCourse.adjustForAccessibility = sinon.stub();
 
@@ -335,9 +356,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               .withArgs({ userId: 2, sessionId: 1 })
               .resolves(existingCertificationCourse);
 
-            const version = domainBuilder.certification.configuration.buildVersion({
-              challengesConfiguration: { maximumAssessmentLength: 25, defaultCandidateCapacity: -3 },
-            });
+            const version = domainBuilder.certification.configuration
+              .versionBuilder()
+              .withParameters({
+                id: 1,
+                challengesConfiguration: { maximumAssessmentLength: 25, defaultCandidateCapacity: -3 },
+              })
+              .build();
             versionApi.getByFrameworkAndDate.resolves(version);
 
             // when
@@ -357,6 +382,119 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 authorizedToStart: false,
               }),
             );
+          });
+
+          context('when the certification duration has been exceeded', function () {
+            it('ends the assessment and throws a CertificationDurationExceededError', async function () {
+              // given
+              const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
+                id: 1,
+                accessCode: 'accessCode',
+              });
+              sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+
+              const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
+                userId: 2,
+                sessionId: 1,
+                authorizedToStart: true,
+                subscriptionFramework: Frameworks.CORE,
+              });
+              candidateRepository.findByUserIdAndSessionId
+                .withArgs({ sessionId: 1, userId: 2 })
+                .resolves(foundCandidate);
+
+              const existingCertificationCourse = domainBuilder.buildCertificationCourse({
+                id: 99,
+                userId: 2,
+                sessionId: 1,
+                createdAt: new Date('2025-12-30T00:00:00Z'),
+              });
+              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                .withArgs({ userId: 2, sessionId: 1 })
+                .resolves(existingCertificationCourse);
+
+              const assessmentSheet = new AssessmentSheet({
+                certificationCourseId: 99,
+                assessmentId: 88,
+                state: Assessment.states.STARTED,
+                startedAt: new Date('2025-12-30T00:00:00Z'),
+                answers: [],
+              });
+              assessmentSheetRepository.findByCertificationCourseId.withArgs(99).resolves(assessmentSheet);
+
+              const version = domainBuilder.certification.configuration
+                .versionBuilder()
+                .withParameters({ id: 1 })
+                .build();
+              versionApi.getByFrameworkAndDate.resolves(version);
+
+              // when
+              const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+                sessionId: 1,
+                accessCode: 'accessCode',
+                userId: 2,
+                locale: 'fr',
+                ...injectables,
+              });
+
+              // then
+              expect(error).to.be.an.instanceOf(CertificationDurationExceededError);
+              expect(assessmentSheet.state).to.equal(Assessment.states.ENDED_DUE_TO_DURATION_EXCEEDED);
+              expect(assessmentSheetRepository.update).to.have.been.calledOnceWith(assessmentSheet);
+              expect(candidateRepository.update).not.to.have.been.called;
+            });
+
+            context('when no assessment sheet is found', function () {
+              it('throws a CertificationDurationExceededError without updating', async function () {
+                // given
+                const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
+                  id: 1,
+                  accessCode: 'accessCode',
+                });
+                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+
+                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
+                  userId: 2,
+                  sessionId: 1,
+                  authorizedToStart: true,
+                  subscriptionFramework: Frameworks.CORE,
+                });
+                candidateRepository.findByUserIdAndSessionId
+                  .withArgs({ sessionId: 1, userId: 2 })
+                  .resolves(foundCandidate);
+
+                const existingCertificationCourse = domainBuilder.buildCertificationCourse({
+                  id: 99,
+                  userId: 2,
+                  sessionId: 1,
+                  createdAt: new Date('2025-12-30T00:00:00Z'),
+                });
+                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                  .withArgs({ userId: 2, sessionId: 1 })
+                  .resolves(existingCertificationCourse);
+
+                assessmentSheetRepository.findByCertificationCourseId.withArgs(99).resolves(null);
+
+                const version = domainBuilder.certification.configuration
+                  .versionBuilder()
+                  .withParameters({ id: 1 })
+                  .build();
+                versionApi.getByFrameworkAndDate.resolves(version);
+
+                // when
+                const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+                  sessionId: 1,
+                  accessCode: 'accessCode',
+                  userId: 2,
+                  locale: 'fr',
+                  ...injectables,
+                });
+
+                // then
+                expect(error).to.be.an.instanceOf(CertificationDurationExceededError);
+                expect(assessmentSheetRepository.update).not.to.have.been.called;
+              });
+            });
           });
         });
 
@@ -399,7 +537,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 .onCall(1)
                 .resolves(certificationCourseCreatedMeanwhile);
 
-              const version = domainBuilder.certification.configuration.buildVersion();
+              const version = domainBuilder.certification.configuration
+                .versionBuilder()
+                .withParameters({ id: 1 })
+                .build();
               versionApi.getByFrameworkAndDate.resolves(version);
 
               // when
@@ -428,9 +569,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             beforeEach(function () {
               user = domainBuilder.buildUser({ id: 2, lang: FRENCH_SPOKEN });
 
-              version = domainBuilder.certification.configuration.buildVersion({
-                challengesConfiguration: { maximumAssessmentLength: 32, defaultCandidateCapacity: -3 },
-              });
+              version = domainBuilder.certification.configuration
+                .versionBuilder()
+                .withParameters({
+                  id: 1,
+                  challengesConfiguration: { maximumAssessmentLength: 32, defaultCandidateCapacity: -3 },
+                })
+                .build();
               versionApi.getByFrameworkAndDate.resolves(version);
             });
 
@@ -441,7 +586,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 accessCode: 'accessCode',
               });
               sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
-              const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+              const certificationVersion = domainBuilder.certification.configuration
+                .versionBuilder()
+                .withParameters({ id: 1 })
+                .build();
 
               const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                 userId: user.id,
@@ -520,7 +668,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 time: '12:00:00',
               });
               sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
-              const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+              const certificationVersion = domainBuilder.certification.configuration
+                .versionBuilder()
+                .withParameters({ id: 1 })
+                .build();
 
               const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                 userId: user.id,
@@ -641,57 +792,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               });
             });
 
-            context('when the locale is english and the english certification feature is disabled', function () {
-              it('should not create a certification', async function () {
-                // given
-                sinon.stub(featureToggles, 'get').withArgs('isCertificationInEnglishEnabled').resolves(false);
-                const userId = 2;
-
-                const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                  id: 1,
-                  accessCode: 'accessCode',
-                  version: 3,
-                });
-                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                  userId,
-                  sessionId: 1,
-                  authorizedToStart: true,
-                  subscriptionFramework: Frameworks.CORE,
-                });
-                candidateRepository.findByUserIdAndSessionId
-                  .withArgs({ sessionId: 1, userId })
-                  .resolves(foundCandidate);
-
-                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                  .withArgs({ userId, sessionId: 1 })
-                  .resolves(null);
-
-                const certificationCenter = domainBuilder.buildCertificationCenter({
-                  habilitations: [],
-                });
-                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-                // when
-                const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-                  sessionId: 1,
-                  accessCode: 'accessCode',
-                  userId,
-                  locale: 'en',
-                  ...injectables,
-                });
-
-                // then
-                expect(certificationCourseRepository.save).not.to.have.been.called;
-                expect(error).to.be.instanceOf(LanguageNotSupportedError);
-              });
-            });
-
-            context('when the locale is english and the english certification feature is enabled', function () {
+            context('when the locale is english', function () {
               it('should create a certification', async function () {
                 // given
-                sinon.stub(featureToggles, 'get').withArgs('isCertificationInEnglishEnabled').resolves(true);
                 const userId = 2;
 
                 const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
@@ -751,7 +854,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   version: 3,
                 });
                 sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-                const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+                const certificationVersion = domainBuilder.certification.configuration
+                  .versionBuilder()
+                  .withParameters({ id: 1 })
+                  .build();
 
                 const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                   userId,
@@ -840,7 +946,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   accessCode: 'accessCode',
                 });
                 sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-                const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+                const certificationVersion = domainBuilder.certification.configuration
+                  .versionBuilder()
+                  .withParameters({ id: 1 })
+                  .build();
 
                 const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
                   userId: 2,
@@ -918,7 +1027,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
                     },
                   );
-                  const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+                  const certificationVersion = domainBuilder.certification.configuration
+                    .versionBuilder()
+                    .withParameters({ id: 1 })
+                    .build();
 
                   const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
                     id: 1,
@@ -1049,7 +1161,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const cleaCertification = domainBuilder.certification.shared.buildComplementaryCertification({
                       key: ComplementaryCertificationKeys.CLEA,
                     });
-                    const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+                    const certificationVersion = domainBuilder.certification.configuration
+                      .versionBuilder()
+                      .withParameters({ id: 1 })
+                      .build();
 
                     const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
                       badgeKey: 'CLEA_BADGE_1',
@@ -1152,7 +1267,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       const cleaCertification = domainBuilder.certification.shared.buildComplementaryCertification({
                         key: ComplementaryCertificationKeys.CLEA,
                       });
-                      const certificationVersion = domainBuilder.certification.configuration.buildVersion();
+                      const certificationVersion = domainBuilder.certification.configuration
+                        .versionBuilder()
+                        .withParameters({ id: 1 })
+                        .build();
 
                       const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
                         id: 1,

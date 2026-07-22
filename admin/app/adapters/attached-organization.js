@@ -4,6 +4,6 @@ export default class AttachedOrganizationAdapter extends ApplicationAdapter {
   urlForQuery(query) {
     const { certificationCenterId } = query;
     delete query.certificationCenterId;
-    return `${this.host}/${this.namespace}/admin/certification-centers/${certificationCenterId}/organizations`;
+    return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/organizations`;
   }
 }

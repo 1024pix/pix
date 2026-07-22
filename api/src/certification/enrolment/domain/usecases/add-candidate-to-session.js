@@ -4,7 +4,6 @@
  * @typedef {import ('./index.js').CertificationCpfService} CertificationCpfService
  * @typedef {import ('./index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import ('./index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
- * @typedef {import ('./index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import ('./index.js').EventAdapter} EventAdapter
  */
 
@@ -13,10 +12,8 @@ import {
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
 } from '../../../../shared/domain/errors.js';
-import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { mailCheck as mailCheckImplementation } from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
-import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 
 /**
  * @param {object} params
@@ -36,7 +33,6 @@ export async function addCandidateToSession({
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
-  complementaryCertificationRepository,
   mailCheck = mailCheckImplementation,
   normalizeStringFnc,
   eventAdapter,
@@ -48,17 +44,9 @@ export async function addCandidateToSession({
     throw new CertificationCandidateOnFinalizedSessionError();
   }
 
-  const allComplementaryCertifications = await complementaryCertificationRepository.findAll();
-  const cleaCertification = allComplementaryCertifications.find(
-    (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.CLEA,
-  );
   try {
-    candidate.validate({
-      isSco: session.isSco,
-      cleaCertificationId: cleaCertification.id,
-    });
+    candidate.validate({ isSco: session.isSco });
   } catch (error) {
-    logger.warn(error);
     throw new CertificationCandidatesError({
       code: error.code,
       meta: { value: error.meta },

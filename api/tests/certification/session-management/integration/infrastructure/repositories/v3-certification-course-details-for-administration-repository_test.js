@@ -32,7 +32,10 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
 
       const userId = databaseBuilder.factory.buildUser().id;
       const sessionId = databaseBuilder.factory.buildSession().id;
-      const versionId = databaseBuilder.factory.buildCertificationVersion({ scope: SCOPES.PIX_PLUS_DROIT }).id;
+      const versionId = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ scope: SCOPES.PIX_PLUS_DROIT, tubeIds: ['recTube1'] })
+        .insertToDB({ databaseBuilder }).id;
 
       databaseBuilder.factory.buildCertificationCourse({
         id: certificationCourseId,
@@ -130,7 +133,10 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
       const thirdChallengeId = 'recCHAL123';
       const assessmentId = 78;
 
-      const versionId = databaseBuilder.factory.buildCertificationVersion({ scope: SCOPES.PIX_PLUS_DROIT }).id;
+      const versionId = domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ scope: SCOPES.PIX_PLUS_DROIT, tubeIds: ['recTube1'] })
+        .insertToDB({ databaseBuilder }).id;
       databaseBuilder.factory.buildCertificationCourse({ id: certificationCourseId, versionId });
       databaseBuilder.factory.buildCertificationChallenge({
         courseId: certificationCourseId,
@@ -274,7 +280,10 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         const certificationCourseId = 123;
         const assessmentId = 78;
 
-        const versionId = databaseBuilder.factory.buildCertificationVersion({ scope: SCOPES.PIX_PLUS_DROIT }).id;
+        const versionId = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.PIX_PLUS_DROIT, tubeIds: ['recTube1'] })
+          .insertToDB({ databaseBuilder }).id;
         databaseBuilder.factory.buildCertificationCourse({ id: certificationCourseId, versionId });
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,

@@ -10,6 +10,7 @@ import * as certificationCourseRepository from '../../../shared/infrastructure/r
 import * as competenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../../shared/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as calibratedChallengeRepository from '../../infrastructure/repositories/calibrated-challenge-repository.js';
 import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 import * as certificationAssessmentHistoryRepository from '../../infrastructure/repositories/certification-assessment-history-repository.js';
@@ -77,7 +78,7 @@ const servicesWithoutInjectedDependencies = {
   handleV3CertificationScoring,
 };
 
-const injectedServices = injectDependencies(servicesWithoutInjectedDependencies, dependencies);
+const injectedServices = injectDependencies(servicesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export const services = {
   ...injectedServices,

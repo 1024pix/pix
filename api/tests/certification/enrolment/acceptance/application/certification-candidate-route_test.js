@@ -4,9 +4,9 @@ import { createServer } from '../../../../../server.js';
 import { CandidateCreatedEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateCreatedEvent.js';
 import { CandidateNotCertifiableEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateNotCertifiableEvent.js';
 import { CandidateReconciledEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateReconciledEvent.js';
-import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
+import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
+import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
@@ -76,16 +76,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
               email: null,
               birthdate: '2000-10-10',
               'organization-learner-id': null,
-              subscriptions: [
-                {
-                  type: SUBSCRIPTION_TYPES.CORE,
-                  complementaryCertificationKey: null,
-                },
-                {
-                  type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-                  complementaryCertificationKey: Frameworks.CLEA,
-                },
-              ],
+              subscription: Frameworks.CLEA,
             },
           },
         },
@@ -400,14 +391,9 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
 
       // then
       const candidate = await knex.from('certification-candidates').where({ id: candidateId }).first();
-      const candidateSubscription = await knex
-        .from('certification-subscriptions')
-        .where({ certificationCandidateId: candidateId })
-        .first();
 
       expect(response.statusCode).to.equal(204);
       expect(candidate).to.be.undefined;
-      expect(candidateSubscription).to.be.undefined;
     });
   });
 
@@ -425,9 +411,6 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
         createdAt,
         reconciledAt,
       }).id;
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: candidateId,
-      });
 
       await databaseBuilder.commit();
 

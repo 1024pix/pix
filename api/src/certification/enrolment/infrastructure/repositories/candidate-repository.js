@@ -4,9 +4,7 @@
 
 // @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { CertificationCandidateNotFoundError } from '../../../shared/domain/errors.js';
-import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 
 /**
@@ -76,11 +74,6 @@ export async function update(candidate) {
   if (!updatedCertificationCandidate) {
     throw new CertificationCandidateNotFoundError();
   }
-  // TODO: supprimer lors du drop de certification-subscriptions
-  const complementaryCertificationsData = await knexConn('complementary-certifications').select('id', 'key');
-  await knexConn('certification-subscriptions').where({ certificationCandidateId: candidate.id }).del();
-  const subscriptions = _buildLegacySubscriptions(knexConn, candidate.id, candidate, complementaryCertificationsData);
-  await knexConn('certification-subscriptions').insert(subscriptions);
 }
 
 /**
@@ -95,8 +88,6 @@ export async function save({ candidates }) {
   const insertedCandidatesData = await knexConn('certification-candidates').insert(candidatesData).returning(['*']);
   const insertedCandidates = [];
 
-  const complementaryCertificationsData = await knexConn('complementary-certifications').select('id', 'key');
-  const subscriptions = [];
   for (const candidate of candidates) {
     const insertedCandidateData = insertedCandidatesData.find(
       (insertedCandidateData) =>
@@ -104,18 +95,9 @@ export async function save({ candidates }) {
         insertedCandidateData.lastName === candidate.lastName &&
         insertedCandidateData.birthdate === candidate.birthdate,
     );
-    // TODO: supprimer lors du drop de certification-subscriptions
-    const candidateSubscriptions = _buildLegacySubscriptions(
-      knexConn,
-      insertedCandidateData.id,
-      candidate,
-      complementaryCertificationsData,
-    );
-    subscriptions.push(...candidateSubscriptions);
     insertedCandidates.push(toDomain(insertedCandidateData));
   }
 
-  await knexConn('certification-subscriptions').insert(subscriptions);
   return insertedCandidates;
 }
 
@@ -127,10 +109,6 @@ export async function save({ candidates }) {
  */
 export async function deleteBySessionId({ sessionId }) {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification-subscriptions')
-    .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
-    .del();
-
   await knexConn('certification-candidates').where({ sessionId }).del();
 }
 
@@ -142,7 +120,6 @@ export async function deleteBySessionId({ sessionId }) {
  */
 export async function remove({ id }) {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification-subscriptions').where({ certificationCandidateId: id }).del();
   return knexConn('certification-candidates').where({ id }).del();
 }
 
@@ -182,6 +159,7 @@ function buildBaseReadQuery(knexConn) {
  * @property {boolean} accessibilityAdjustmentNeeded
  * @property {number | null} extraTimePercentage
  * @property {Date} reconciledAt
+ * @property {string} subscription
  }
  */
 
@@ -245,6 +223,7 @@ function adaptModelToDb(candidate) {
  * @property {number | null} extraTimePercentage
  * @property {Date} reconciledAt
  * @property {Date} createdAt
+ * @property {string} subscription
  */
 
 /**
@@ -257,32 +236,4 @@ function toDomain(candidateData) {
     ...candidateData,
     hasStartedTest: Boolean(candidateData.certificationCourseId),
   });
-}
-
-function _buildLegacySubscriptions(knexConn, candidateId, candidate, complementaryCertificationsData) {
-  const subscription = candidate.subscription;
-  const subscriptions = [];
-  if (!subscription || subscription === Frameworks.CORE) {
-    subscriptions.push({
-      certificationCandidateId: candidateId,
-      type: SUBSCRIPTION_TYPES.CORE,
-      complementaryCertificationId: null,
-    });
-  } else {
-    if (subscription === Frameworks.CLEA) {
-      subscriptions.push({
-        certificationCandidateId: candidateId,
-        type: SUBSCRIPTION_TYPES.CORE,
-        complementaryCertificationId: null,
-      });
-    }
-    const complementaryCertificationId =
-      complementaryCertificationsData.find((c) => c.key === subscription)?.id ?? null;
-    subscriptions.push({
-      certificationCandidateId: candidateId,
-      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-      complementaryCertificationId,
-    });
-  }
-  return subscriptions;
 }

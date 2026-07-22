@@ -1,6 +1,7 @@
 import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseParticipationDetails } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseParticipationDetails.js';
+import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';
@@ -11,6 +12,7 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
 
   beforeEach(async function () {
     const { id: campaignId, organizationId } = databaseBuilder.factory.buildCampaign();
+    const reward = databaseBuilder.factory.buildAttestation({ id: 2 });
     const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO(),
@@ -18,6 +20,7 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
           moduleId: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a',
         }).toDTO(),
       ],
+      rewardId: reward.id,
     });
     const combinedCourse = databaseBuilder.factory.buildCombinedCourse({
       code: 'COMBI1',
@@ -38,6 +41,9 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
       combinedCourseId,
       status: CombinedCourseParticipationStatuses.STARTED,
     });
+
+    databaseBuilder.factory.buildProfileReward({ userId: learner1.userId, rewardId: reward.id });
+
     learner2 = databaseBuilder.factory.buildOrganizationLearner({
       firstName: 'Marianne',
       lastName: 'Klee',
@@ -97,6 +103,7 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
         nbModulesCompleted: 0,
         nbCampaigns: 1,
         nbCampaignsCompleted: 0,
+        rewardStatus: CombinedCourseRewardStatuses.OBTAINED,
       },
       {
         id: participation2.id,
@@ -112,6 +119,7 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
         nbModulesCompleted: 1,
         nbCampaigns: 1,
         nbCampaignsCompleted: 1,
+        rewardStatus: CombinedCourseRewardStatuses.NOT_OBTAINED,
       },
     ]);
   });
@@ -127,23 +135,7 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
     expect(meta).deep.equal({ page: 2, pageSize: 1, rowCount: 2, pageCount: 2 });
     expect(combinedCourseParticipations).lengthOf(1);
     expect(combinedCourseParticipations[0]).instanceOf(CombinedCourseParticipationDetails);
-    expect(combinedCourseParticipations).deep.equal([
-      {
-        id: participation2.id,
-        firstName: learner2.firstName,
-        lastName: learner2.lastName,
-        division: learner2.division,
-        group: learner2.group,
-        status: CombinedCourseParticipationStatuses.COMPLETED,
-        createdAt: participation2.createdAt,
-        updatedAt: participation2.updatedAt,
-        hasFormationItem: false,
-        nbModules: 1,
-        nbModulesCompleted: 1,
-        nbCampaigns: 1,
-        nbCampaignsCompleted: 1,
-      },
-    ]);
+    expect(combinedCourseParticipations[0].id).to.equal(participation2.id);
   });
 
   it('should return a list on participations filtered by fullname', async function () {

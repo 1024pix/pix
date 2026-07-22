@@ -1,7 +1,7 @@
 /**
  * @typedef {import('./Candidate.js').Candidate} Candidate
  */
-import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/constants.js';
 import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 

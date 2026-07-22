@@ -1,6 +1,6 @@
 import { CertifiedLevel } from '../../../../../../src/certification/evaluation/domain/models/CertifiedLevel.js';
 import { CertifiedScore } from '../../../../../../src/certification/evaluation/domain/models/CertifiedScore.js';
-import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/domain/constants.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/constants.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertifiedScore', function () {

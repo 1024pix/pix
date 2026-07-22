@@ -1,12 +1,13 @@
 import * as centerRepository from '../../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as learnersApi from '../../../prescription/learner-management/application/api/learners-api.js';
 import * as schoolRepository from '../../../school/infrastructure/repositories/school-repository.js';
-import * as codeGenerator from '../../../shared/domain/services/code-generator.js';
+import * as accessCodeGenerator from '../../../shared/domain/services/access-code-generator.js';
 import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as countryRepository from '../../../shared/infrastructure/repositories/country-repository.js';
 import * as featureRepository from '../../../shared/infrastructure/repositories/feature-repository.js';
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as administrationTeamRepository from '../../infrastructure/repositories/administration-team-repository.js';
 import * as certificationCenterRepository from '../../infrastructure/repositories/certification-center.repository.js';
 import { certificationCenterApiRepository } from '../../infrastructure/repositories/certification-center-api.repository.js';
@@ -55,7 +56,7 @@ const dependenciesToInject = {
   adminMemberRepository,
   organizationValidator,
   organizationCreationValidator,
-  codeGenerator,
+  accessCodeGenerator,
   centerRepository,
   certificationCenterRepository,
   certificationCenterForAdminRepository,
@@ -94,6 +95,7 @@ import { createNetwork } from './create-network.usecase.js';
 import { createOrganization } from './create-organization.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from './create-organizations-with-tags-and-target-profiles.usecase.js';
 import { createTag } from './create-tag.js';
+import { detachCertificationCenterFromOrganization } from './detach-certification-center-from-organization.usecase.js';
 import { detachParentOrganizationFromOrganization } from './detach-parent-organization-from-organization.usecase.js';
 import { findAllAdministrationTeams } from './find-all-administration-teams.usecase.js';
 import { findAllOrganizationLearnerTypes } from './find-all-organization-learner-types.refactor.js';
@@ -132,6 +134,7 @@ const usecasesWithoutInjectedDependencies = {
   createOrganization,
   createOrganizationsWithTagsAndTargetProfiles,
   createTag,
+  detachCertificationCenterFromOrganization,
   detachParentOrganizationFromOrganization,
   findPaginatedFilteredNetworks,
   findAllTags,
@@ -163,6 +166,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {addOrganizationFeatureInBatch} addOrganizationFeatureInBatch
  * @property {createCertificationCenter} createCertificationCenter
  * @property {createTag} createTag
+ * @property {detachCertificationCenterFromOrganization} detachCertificationCenterFromOrganization
  * @property {detachParentOrganizationFromOrganization} detachParentOrganizationFromOrganization
  * @property {findPaginatedFilteredCertificationCenters} findPaginatedFilteredCertificationCenters
  * @property {findAttachedOrganizationsForAdmin} findAttachedOrganizationsForAdmin
@@ -179,6 +183,6 @@ const usecasesWithoutInjectedDependencies = {
 /**
  * @type {OrganizationalEntitiesUsecases}
  */
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

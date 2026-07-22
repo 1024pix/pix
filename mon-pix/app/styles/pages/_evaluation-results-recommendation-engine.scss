@@ -4,7 +4,15 @@
 @use 'pix-design-tokens/shadows';
 
 .evaluation-results-recommendation-engine {
-  padding: var(--pix-spacing-3x) var(--pix-spacing-3x) 0 var(--pix-spacing-3x);
+  padding: var(--pix-spacing-3x) var(--pix-spacing-3x) var(--pix-spacing-12x) var(--pix-spacing-3x);
+
+  @media (not (prefers-reduced-motion: reduce)) {
+    transition: padding-bottom 0.4s ease;
+  }
+
+  &--drawer-expanded {
+    padding-bottom: 425px;
+  }
 }
 
 .evaluation-results-hero-recommendation-engine {

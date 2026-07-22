@@ -208,7 +208,6 @@ describe('Acceptance | Controller | answer-controller-save', function () {
 
       describe('when there are quests', function () {
         beforeEach(async function () {
-          await featureToggles.set('isAsyncQuestRewardingCalculationEnabled', false);
           await featureToggles.set('isQuestEnabled', true);
         });
 

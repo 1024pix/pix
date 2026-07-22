@@ -244,7 +244,7 @@
                 "id": "d0390b02-3457-4d44-90cd-52338dde1849",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>[Possible aussi en infographie ou avec une illustration complémentaire]</p><br>\n<h5>Quels sont les différents moyens pour intervenir en visioconférence&nbsp;?<br></h5>\n<p>Les outils de visioconférence proposent les fonctionnalités suivantes&nbsp;:</p>\n<ul>\n    <li>La fonctionnalité «&nbsp;<strong>lever la main</strong>&nbsp;» permet de signaler qu’on souhaite intervenir à l’oral, sans couper la parole de la personne qui parle.&nbsp;✋</li>\n    <li>La fonctionnalité de <strong>dialogue en ligne  (chat)</strong> permet de communiquer par écrit,&nbsp;de partager des liens ou des documents.&nbsp;💬</li>\n    <li>Sur certains outils de visioconférence, il existe une fonctionnalité pour <strong>afficher un émoji sur l’écran des autres participants</strong>. Cela permet de réagir à l’oral sans prendre la parole.&nbsp;🙂</li>\n</ul>"
+                "content": "<p>[Possible aussi en infographie ou avec une illustration complémentaire]</p><br>\n<h5>Quels sont les différents moyens pour intervenir en visioconférence&nbsp;?<br></h5>\n<p>Les outils de visioconférence proposent les fonctionnalités suivantes&nbsp;:</p>\n<ul>\n    <li>La fonctionnalité «&nbsp;<strong>lever la main</strong>&nbsp;» permet de signaler qu’on souhaite intervenir à l’oral, sans couper la parole de la personne qui parle.&nbsp;✋</li>\n    <li>La fonctionnalité de <strong>dialogue en ligne  (chat)</strong> permet de communiquer par écrit,&nbsp;de partager des liens ou des documents.&nbsp;💬</li>\n    <li>Sur certains outils de visioconférence, il existe une fonctionnalité pour <strong>afficher un émoji sur l’écran des autres participants</strong>. Cela permet de réagir sans prendre la parole.&nbsp;🙂</li>\n</ul>"
               }
             }
           ]
@@ -642,12 +642,6 @@
                       "type": "text",
                       "tag": " ",
                       "content": "<p>[peut-être sous forme d’infographie]</p><p><br><br>Les outils de visioconférence proposent plusieurs modes de partage d’écran. Vous pouvez généralement partager&nbsp;:</p><ul>    <li><strong>un onglet de votre navigateur web&nbsp;</strong>:<ul>                        <li>✔️&nbsp;Les participants verront uniquement le contenu de l’onglet partagé.</li><li>❌&nbsp;Les participants ne verront pas les contenus des autres onglets ou fenêtres ouverts sur votre ordinateur.</li>        </ul>    </li>    <li><strong>une fenêtre de votre ordinateur</strong> :<ul>                        <li>✔️&nbsp;Les participants verront l’ensemble de la fenêtre partagée (si c’est la fenêtre du navigateur, ils verront lorsque vous changez d’onglet).</li><li>❌ Les participants ne verront pas les contenus des autres fenêtres ouvertes sur votre ordinateur.</li>        </ul>    </li>    <li><strong>tout votre écran</strong> :<ul>            <li>✔️&nbsp;Les participants verront tout ce qui se passe sur votre&nbsp;écran d’ordinateur.</li>        </ul>    </li></ul>"
-                    },
-                    {
-                      "id": "701e9b88-c1ad-4306-bf3b-9c1c4e5dffcc",
-                      "type": "text",
-                      "tag": "did-you-know",
-                      "content": "<p>Dans certains outils, pour partager une vidéo avec les autres participants, il faut activer le partage du son de votre ordinateur grâce à un bouton spécifique.&nbsp;🔊</p>"
                     }
                   ]
                 },

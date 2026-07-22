@@ -11,6 +11,7 @@ export default class CombinedCourseReward extends Model {
   @attr('string') type;
   @attr('string') label;
   @attr('string') templateName;
+  @attr('string') requirementsDescription;
   // eslint-disable-next-line ember/no-empty-attrs
   @attr() data;
 

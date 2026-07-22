@@ -53,11 +53,13 @@ describe('Integration | UseCases | find-paginated-filtered-organization-learners
   });
 
   it('should return paginated organization learners filtered by organizationId', async function () {
-    const organizationId = databaseBuilder.factory.buildOrganization().id;
+    const organization = databaseBuilder.factory.buildOrganization({
+      externalId: 'ABC123',
+    });
     const learner = databaseBuilder.factory.buildOrganizationLearner({
       firstName: 'Jean-René',
       lastName: 'Michel',
-      organizationId,
+      organizationId: organization.id,
     });
     databaseBuilder.factory.buildOrganizationLearner({
       firstName: 'Jean',
@@ -70,12 +72,104 @@ describe('Integration | UseCases | find-paginated-filtered-organization-learners
         size: 2,
         number: 1,
       },
-      filter: { organizationId },
+      filter: { organizationExternalId: organization.externalId },
     });
     const learners = result.learners;
 
     expect(learners).lengthOf(1);
     expect(learners[0]).to.be.an.instanceOf(OrganizationLearnerOverviewForAdmin);
     expect(learners[0].id).to.be.equal(learner.id);
+  });
+
+  it('should return paginated organization learners not disabled', async function () {
+    const organization = databaseBuilder.factory.buildOrganization();
+    databaseBuilder.factory.buildOrganizationLearner({
+      firstName: 'Jean',
+      lastName: 'Dion',
+      isDisabled: true,
+    });
+    const learner = databaseBuilder.factory.buildOrganizationLearner({
+      firstName: 'Jean-René',
+      lastName: 'Michel',
+      organizationId: organization.id,
+      isDisabled: false,
+    });
+    await databaseBuilder.commit();
+
+    const result = await usecases.findOrganizationLearnersForAdmin({
+      page: {
+        size: 2,
+        number: 1,
+      },
+      filter: { hideDisabled: true },
+    });
+    const learners = result.learners;
+
+    expect(learners).lengthOf(1);
+    expect(learners[0]).to.be.an.instanceOf(OrganizationLearnerOverviewForAdmin);
+    expect(learners[0].id).to.be.equal(learner.id);
+  });
+
+  context('Sort', function () {
+    let organization;
+    let otherOrganization;
+    let learner1, learner2;
+    beforeEach(async function () {
+      organization = databaseBuilder.factory.buildOrganization({
+        name: 'Observatoire de Pix',
+      });
+      otherOrganization = databaseBuilder.factory.buildOrganization({
+        name: 'PIX',
+      });
+
+      learner1 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        firstName: 'Annie',
+        birthdate: '2000-01-01',
+        updatedAt: new Date('2022-01-01'),
+      });
+      learner2 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: otherOrganization.id,
+        firstName: 'Jean',
+        lastName: 'De Ségazan',
+        birthdate: '2002-01-01',
+        updatedAt: new Date('2020-01-01'),
+      });
+
+      await databaseBuilder.commit();
+    });
+    it('retrieve learners sorted by organization name desc', async function () {
+      //when
+      const result = await usecases.findOrganizationLearnersForAdmin({
+        sort: {
+          organizationSort: 'desc',
+        },
+      });
+      //then
+      expect(result.learners[0].id).to.be.equal(learner2.id);
+      expect(result.learners[1].id).to.be.equal(learner1.id);
+    });
+    it('retrieve learners sorted by birthdate desc', async function () {
+      //when
+      const result = await usecases.findOrganizationLearnersForAdmin({
+        sort: {
+          birthdateSort: 'desc',
+        },
+      });
+      //then
+      expect(result.learners[0].id).to.be.equal(learner2.id);
+      expect(result.learners[1].id).to.be.equal(learner1.id);
+    });
+    it('retrieve learners sorted by updatedAt asc', async function () {
+      //when
+      const result = await usecases.findOrganizationLearnersForAdmin({
+        sort: {
+          updatedAtSort: 'asc',
+        },
+      });
+      //then
+      expect(result.learners[0].id).to.be.equal(learner2.id);
+      expect(result.learners[1].id).to.be.equal(learner1.id);
+    });
   });
 });

@@ -14,7 +14,7 @@ import {
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../shared/domain/errors.js';
-import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
+import { CenterHabilitationError } from '../../../shared/domain/errors.js';
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
 
 /**
@@ -39,10 +39,7 @@ export const verifyCandidateIdentity = async ({
 }) => {
   const user = await userRepository.get({ id: userId });
 
-  const isEnglishEnabled = await featureToggles.get('isCertificationInEnglishEnabled');
-  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(user.lang, {
-    isEnglishEnabled,
-  });
+  const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(user.lang);
   if (!isUserLanguageValid) {
     throw new LanguageNotSupportedError(user.lang);
   }
@@ -74,6 +71,12 @@ export const verifyCandidateIdentity = async ({
   }
 
   const center = await centerRepository.getById({ id: session.certificationCenterId });
+
+  if (!candidate.hasCoreFrameworkSubscription() && !center.isHabilitated(candidate.subscription)) {
+    throw new CenterHabilitationError({
+      meta: { framework: candidate.subscription },
+    });
+  }
 
   if (center.isMatchingOrganizationScoAndManagingStudents) {
     if (!user.has({ organizationLearnerId: candidate.organizationLearnerId })) {

@@ -12,7 +12,10 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repositori
 
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser().id;
-    versionId = databaseBuilder.factory.buildCertificationVersion().id;
+    versionId = domainBuilder.certification.configuration
+      .versionBuilder()
+      .withParameters({ scope: Frameworks.CORE, tubeIds: [] })
+      .insertToDB({ databaseBuilder }).id;
     const session = databaseBuilder.factory.buildSession();
     const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
       sessionId: session.id,
@@ -25,6 +28,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repositori
       isRejectedForFraud: true,
       userId,
       sessionId: session.id,
+      createdAt: new Date('2022-02-20'),
       updatedAt: new Date('2022-02-22'),
       lastAnswerAt: new Date('2022-01-11'),
       versionId,
@@ -62,6 +66,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repositori
             certificationCourseId,
             assessmentId,
             userId,
+            startedAt: new Date('2022-02-20'),
             abortReason: 'candidate',
             isRejectedForFraud: true,
             state: Assessment.states.COMPLETED,
@@ -119,6 +124,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repositori
             certificationCourseId,
             assessmentId,
             userId,
+            startedAt: new Date('2022-02-20'),
             abortReason: 'candidate',
             isRejectedForFraud: true,
             state: Assessment.states.COMPLETED,
@@ -185,6 +191,7 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repositori
           certificationCourseId,
           assessmentId,
           userId,
+          startedAt: new Date('2022-02-20'),
           abortReason: 'candidate',
           isRejectedForFraud: true,
           state: Assessment.states.STARTED, // updated

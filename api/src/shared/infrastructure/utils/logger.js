@@ -1,11 +1,12 @@
+import { logs, SeverityNumber } from '@opentelemetry/api-logs';
 import isEmpty from 'lodash/isEmpty.js';
 import omit from 'lodash/omit.js';
-import micromatch from 'micromatch';
 import pino from 'pino';
 import pretty from 'pino-pretty';
 
 import { config } from '../../config.js';
-import { getCorrelationInfo } from '../execution-context-manager.js';
+import { CORRELATION_METADATA, getCorrelationInfo } from '../execution-context-manager.js';
+import { tracing } from '../open-telemetry/helpers.js';
 
 const { logging } = config;
 
@@ -31,12 +32,62 @@ export const loggerPino = pino(
   prettyPrint,
 );
 
+const OTEL_SEVERITY_NUMBER_BY_LEVEL = {
+  trace: SeverityNumber.TRACE,
+  debug: SeverityNumber.DEBUG,
+  info: SeverityNumber.INFO,
+  warn: SeverityNumber.WARN,
+  error: SeverityNumber.ERROR,
+  fatal: SeverityNumber.FATAL,
+};
+
+function renderMergingObjectForOtelAttributes(mergingObject) {
+  if (mergingObject instanceof Error) {
+    return pino.stdSerializers.err(mergingObject);
+  }
+  return Object.fromEntries(
+    Object.entries(mergingObject)
+      .map(([key, value]) => {
+        if (value instanceof Error) {
+          const errorObject = pino.stdSerializers.err(value);
+          return Object.entries(errorObject).map(([errorKey, errorValue]) => {
+            return [`error.${errorKey}`, errorValue];
+          });
+        }
+        return [[key, value]];
+      })
+      .flat(),
+  );
+}
+
+function emitOtelLogRecord(context, mergingObject, message, extraBindings) {
+  const severityNumber = OTEL_SEVERITY_NUMBER_BY_LEVEL[context];
+  if (!severityNumber) return;
+
+  // No-op unless OpenTelemetry has been initialized (see initialize-open-telemetry.js), same as the tracing API.
+  const otelLogger = logs.getLogger('pix-api-logger');
+  if (!otelLogger.enabled()) return;
+
+  const isMergingObjectAMessage = typeof mergingObject === 'string';
+  otelLogger.emit({
+    severityNumber,
+    severityText: context,
+    body: isMergingObjectAMessage ? mergingObject : message,
+    attributes: {
+      ...getCorrelationInfo(),
+      ...extraBindings,
+      ...(isMergingObjectAMessage ? undefined : renderMergingObjectForOtelAttributes(mergingObject)),
+    },
+  });
+}
+
 function buildLogWrapper(context, mergingObject, message, extraBindings = {}, extraOptions = undefined) {
   const loggerChild = loggerPino.child({ ...getCorrelationInfo(), ...extraBindings }, extraOptions);
   loggerChild[context](mergingObject, message);
+  emitOtelLogRecord(context, mergingObject, message, extraBindings);
 }
 
-export const logger = {
+export const logger = tracing.prevent({
   trace: (mergingObject, message) => {
     buildLogWrapper('trace', mergingObject, message);
   },
@@ -58,7 +109,7 @@ export const logger = {
   silent: (mergingObject, message) => {
     buildLogWrapper('silent', mergingObject, message);
   },
-};
+});
 
 /**
  * Creates a child logger for a section.
@@ -70,11 +121,18 @@ export const logger = {
 export function child(section, bindings, options) {
   /** @type{Partial<pino.ChildLoggerOptions>} */
   const optionsOverride = {};
-  if (micromatch.isMatch(section, logging.debugSections)) {
-    optionsOverride.level = 'debug';
+
+  // Check if the section matches any debug section pattern
+  for (const debugSection of logging.debugSections) {
+    const regex = new RegExp(`^${debugSection.replace(/\*/g, '.*')}$`);
+    if (regex.test(section)) {
+      optionsOverride.level = 'debug';
+      break;
+    }
   }
+
   const extraOptions = { ...options, ...optionsOverride };
-  return {
+  return tracing.prevent({
     trace: (mergingObject, message) => {
       buildLogWrapper('trace', mergingObject, message, bindings, extraOptions);
     },
@@ -96,7 +154,7 @@ export function child(section, bindings, options) {
     silent: (mergingObject, message) => {
       buildLogWrapper('silent', mergingObject, message, bindings, extraOptions);
     },
-  };
+  });
 }
 
 export const SCOPES = {
@@ -134,6 +192,7 @@ function messageFormatCompact(log, messageKey, _logLevel, { colors }) {
         request_id: req.request_id,
         scriptId: req.scriptId,
         jobId: req.jobId,
+        [CORRELATION_METADATA]: req[CORRELATION_METADATA],
       }),
     );
 

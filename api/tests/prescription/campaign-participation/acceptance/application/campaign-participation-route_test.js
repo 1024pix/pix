@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { createServer } from '../../../../../server.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
 import { SCOPES } from '../../../../../src/shared/domain/models/BadgeDetails.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
@@ -768,8 +767,6 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
 
     it('should return participation which match with filters', async function () {
       // given
-      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
       const startedCampaignParticipation = databaseBuilder.factory.campaignParticipationOverviewFactory.buildOnGoing({
         userId,
         campaignSkills: ['recSkillId1'],
@@ -799,8 +796,6 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId });
       // given
-      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
       const campaignInCombinedCourse = databaseBuilder.factory.buildCampaign({ organizationId });
       const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
         successRequirements: [

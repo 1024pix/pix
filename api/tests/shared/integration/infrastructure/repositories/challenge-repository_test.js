@@ -3,7 +3,6 @@ import nock from 'nock';
 import { ValidatorQCM } from '../../../../../src/evaluation/domain/models/ValidatorQCM.js';
 import { ValidatorQCU } from '../../../../../src/evaluation/domain/models/ValidatorQCU.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -762,7 +761,9 @@ describe('Integration | Repository | challenge-repository', function () {
             // given
             const webComponentServerCall = nock('https://example.com')
               .get('/embed.json')
-              .reply(200, JSON.stringify({ name: 'web-component', props: { prop1: 'value1', prop2: 'value2' } }));
+              .reply(200, JSON.stringify({ name: 'web-component', props: { prop1: 'value1', prop2: 'value2' } }), {
+                'Content-Type': 'application/json',
+              });
 
             // when
             const challenge = await challengeRepository.get('challengeId01');
@@ -1371,94 +1372,6 @@ describe('Integration | Repository | challenge-repository', function () {
           ]);
         });
       });
-    });
-  });
-
-  describe('#findValidatedIdsByTubeIdsAndLocales', function () {
-    it('returns challenge IDS that belong to given tube IDS and are of the languages given in parameters', async function () {
-      databaseBuilder.factory.learningContent.build({
-        skills: [
-          { id: 'skillOk1', tubeId: 'tubeOk1', status: 'actif' },
-          { id: 'skillOk2', tubeId: 'tubeOk2', status: 'actif' },
-        ],
-        challenges: [
-          { id: 'challengeOk1', skillId: 'skillOk1', locales: [FRENCH_SPOKEN], status: 'validé' },
-          { id: 'challengeOk2', skillId: 'skillOk2', locales: [FRENCH_SPOKEN], status: 'validé' },
-          { id: 'challengeKo3', skillId: 'skillOk2', locales: [ENGLISH_SPOKEN], status: 'validé' },
-        ],
-      });
-      await databaseBuilder.commit();
-
-      const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(
-        ['tubeOk1', 'tubeOk2'],
-        [FRENCH_SPOKEN],
-      );
-
-      expect(challengeIds).to.deep.equal(['challengeOk1', 'challengeOk2']);
-    });
-
-    it('ignores valid challenges when not in given tube IDS', async function () {
-      databaseBuilder.factory.learningContent.build({
-        skills: [
-          { id: 'skillOk', tubeId: 'tubeOk', status: 'actif' },
-          { id: 'skillNotInTubeIds', tubeId: 'someOtherTube', status: 'actif' },
-        ],
-        challenges: [
-          { id: 'challengeOk', skillId: 'skillOk', locales: [FRENCH_SPOKEN], status: 'validé' },
-          { id: 'challengeNotInTubeIds', skillId: 'skillNotInTubeIds', locales: [FRENCH_SPOKEN], status: 'validé' },
-        ],
-      });
-      await databaseBuilder.commit();
-
-      const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(['tubeOk'], [FRENCH_SPOKEN]);
-
-      expect(challengeIds).to.deep.equal(['challengeOk']);
-    });
-
-    it('ignores valid challenges when not in given locales', async function () {
-      databaseBuilder.factory.learningContent.build({
-        skills: [{ id: 'skillOk', tubeId: 'tubeOk', status: 'actif' }],
-        challenges: [
-          { id: 'challengeOkFr', skillId: 'skillOk', locales: [FRENCH_SPOKEN], status: 'validé' },
-          { id: 'challengeOkEn', skillId: 'skillOk', locales: [ENGLISH_SPOKEN], status: 'validé' },
-          { id: 'challengeOkNl', skillId: 'skillOk', locales: ['nl'], status: 'validé' },
-        ],
-      });
-      await databaseBuilder.commit();
-
-      const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(
-        ['tubeOk'],
-        [FRENCH_SPOKEN, 'nl'],
-      );
-
-      expect(challengeIds).to.deep.equal(['challengeOkFr', 'challengeOkNl']);
-    });
-
-    it('ignores challenges when skill is not active', async function () {
-      databaseBuilder.factory.learningContent.build({
-        skills: [{ id: 'skillKo', tubeId: 'tubeOk', status: 'archivé' }],
-        challenges: [{ id: 'challengeOkFr', skillId: 'skillOk', locales: [FRENCH_SPOKEN], status: 'validé' }],
-      });
-      await databaseBuilder.commit();
-
-      const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(['tubeOk'], [FRENCH_SPOKEN]);
-
-      expect(challengeIds).to.deep.equal([]);
-    });
-
-    it('ignores challenges when challenge is not validated', async function () {
-      databaseBuilder.factory.learningContent.build({
-        skills: [{ id: 'skillOk', tubeId: 'tubeOk', status: 'actif' }],
-        challenges: [
-          { id: 'challengeOk', skillId: 'skillOk', locales: [FRENCH_SPOKEN], status: 'validé' },
-          { id: 'challengeKo', skillId: 'skillOk', locales: [FRENCH_SPOKEN], status: 'archivé' },
-        ],
-      });
-      await databaseBuilder.commit();
-
-      const challengeIds = await challengeRepository.findValidatedIdsByTubeIdsAndLocales(['tubeOk'], [FRENCH_SPOKEN]);
-
-      expect(challengeIds).to.deep.equal(['challengeOk']);
     });
   });
 });

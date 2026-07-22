@@ -1,6 +1,7 @@
 import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
 import { AuthenticationKeyExpired, MissingUserAccountError } from '../errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { UserAccessToken } from '../models/UserAccessToken.js';
 
 /**
  * @typedef {function} reconcileOidcUserUseCase
@@ -81,8 +82,16 @@ export const reconcileOidcUser = async function ({
     lastUserApplicationConnectionsRepository,
     userLoginRepository,
   });
+  const sessionId = authenticationSessionService.generateSessionId();
 
-  const accessToken = await oidcAuthenticationService.createAccessToken({ userId, audience });
+  const expiresIn = oidcAuthenticationService.sessionDurationSeconds;
+
+  const { accessToken } = UserAccessToken.generateOidcUserToken({
+    userId,
+    audience,
+    sessionId,
+    expiresIn,
+  });
 
   let logoutUrlUUID;
   if (oidcAuthenticationService.shouldCloseSession) {

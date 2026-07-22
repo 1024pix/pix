@@ -8,7 +8,7 @@ const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 /**
  * @returns {Array<CertifiableBadgeAcquisition>} highest complementary certification badges a user acquired
  */
-const findHighestCertifiable = async function ({ userId, limitDate = new Date() }) {
+export async function findHighestCertifiable({ userId, limitDate = new Date() }) {
   const knexConn = DomainTransaction.getConnection();
   const certifiableBadgeAcquisitions = await knexConn
     .with('user-badges', (qb) => {
@@ -66,15 +66,19 @@ const findHighestCertifiable = async function ({ userId, limitDate = new Date() 
     .groupBy('complementaryCertificationId')
     .values()
     .map((certifiableBadgeAcquisitionByComplementaryCertifications) =>
-      _.maxBy(certifiableBadgeAcquisitionByComplementaryCertifications, 'complementaryCertificationBadgeLevel'),
+      maxByComplementaryCertificationBadgeLevel(certifiableBadgeAcquisitionByComplementaryCertifications),
     )
     .flatten()
     .value();
 
   return _toDomain(highestCertifiableBadgeAcquisitionByComplementaryCertificationId);
-};
+}
 
-export { findHighestCertifiable };
+function maxByComplementaryCertificationBadgeLevel(certifiableBadgeAcquisitionByComplementaryCertifications) {
+  return certifiableBadgeAcquisitionByComplementaryCertifications.reduce(function (a, b) {
+    return a.complementaryCertificactionBadgeLevel >= b.complementaryCertificactionBadgeLevel ? a : b;
+  }, {});
+}
 
 function _toDomain(certifiableBadgeAcquisitionsDto) {
   return certifiableBadgeAcquisitionsDto.map(

@@ -8,5 +8,6 @@ import CertificationEnder from 'mon-pix/components/certifications/certification-
     @certificationNumber={{@model.id}}
     @isEndedByInvigilator={{@controller.isEndedByInvigilator}}
     @hasBeenEndedDueToFinalization={{@controller.hasBeenEndedDueToFinalization}}
+    @hasBeenEndedDueToDurationExceeded={{@controller.hasBeenEndedDueToDurationExceeded}}
   />
 </template>

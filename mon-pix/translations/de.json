@@ -764,6 +764,7 @@
         "disconnect": "Abmelden",
         "disconnect-tip": "Wenn dieser Computer nicht dein eigener ist, denke daran, dich abzumelden.",
         "ended-by-invigilator": "Deine Aufsichtsperson hat deinen Zertifizierungstest beendet. Du kannst die Fragen nicht mehr weiter beantworten.",
+        "ended-due-to-duration-exceeded": "Die maximale Zeit zum Beantworten deines Zertifizierungstests wurde überschritten. Du kannst die Fragen nicht mehr weiter beantworten.",
         "ended-due-to-finalization": "Die Testung wurde von deiner Zertifizierungsstelle abgeschlossen. Du kannst nicht mehr weiter Fragen beantworten.",
         "remote-certification": "Wenn du deine Pix-Zertifizierung aus der Ferne absolvierst, achte darauf, dass du dich nach Abschluss deines Tests aus dem Überwachungstool ausloggst.",
         "title": "Test beendet!"
@@ -887,7 +888,7 @@
         },
         "language-not-supported": "Die Pix-Zertifizierung ist derzeit nicht in {userLanguage} verfügbar. '<br>' Die derzeit verfügbaren Sprachen, um die Zertifizierung zu absolvieren, sind : {availableLanguages}. '<br>' Du kannst eine andere Sprache von der Seite",
         "language-not-supported-link": "Mein Konto",
-        "missing-center-habilitation": "Du kannst nicht an der Testung teilnehmen. Die Zertifizierungsstelle ist nicht berechtigt, dich zu dieser Zertifizierung zuzulassen.",
+        "missing-center-habilitation": "Du bist für die Zertifizierung {subscription} angemeldet. '<br><br><strong>'Deine Zertifizierungsstelle ist nicht mehr berechtigt, diese Zertifizierung abzunehmen'</strong>'. '<br><br>' Bitte wende dich an deine Aufsichtsperson.",
         "session-not-accessible": "Die Testung, an der du versuchst teilzunehmen, ist nicht mehr zugänglich.",
         "wrong-account": "Die eingegebenen Informationen beziehen sich auf einen Kandidaten/eine Kandidatin, der/die sich für die Testung angemeldet hat und bereits mit einem anderen Konto angemeldet ist. Vergewissere dich, dass du mit dem Konto verbunden bist, das die Zertifizierung gestartet hat.",
         "wrong-account-sco": "Du verwendest derzeit ein Konto, das nicht mit deiner Organisation verknüpft ist.\nMelde dich bei dem Konto an, mit dem du deine Laufwege absolviert hast, oder bitte die Aufsichtsperson um Hilfe.",
@@ -963,6 +964,7 @@
         "access-code-error": "Dieser Code existiert nicht oder ist nicht mehr gültig.",
         "candidate-not-authorized-to-resume": "Bitte wende dich an deine Aufsichtsperson, damit diese die Wiederaufnahme deines Tests genehmigt.",
         "candidate-not-authorized-to-start": "Deine Aufsichtsperson hat deine Anwesenheit im Testraum nicht bestätigt. Du kannst daher noch nicht mit deinem Zertifizierungstest beginnen. Bitte informiere deine Aufsichtsperson.",
+        "duration-exceeded": "Die maximale Dauer deines Zertifizierungstests wurde überschritten. Du kannst ihn nicht mehr fortsetzen.",
         "generic": "Ein unerwarteter Serverfehler ist aufgetreten.",
         "missing-code": "Dein Zugangscode ist nicht ausgefüllt.",
         "session-not-accessible": "Die Zertifizierungssitzung ist nicht mehr zugänglich.",
@@ -977,8 +979,7 @@
         "options": {
           "english": "Englisch - EN",
           "french": "Französisch - FR"
-        },
-        "warning-message": "Aufgrund eines technischen Problems ist die Pix-Zertifizierung vorübergehend nicht auf Englisch verfügbar. Wir entschuldigen uns für die Unannehmlichkeiten."
+        }
       },
       "link-to-user-certification": "Meine Zertifizierungen ansehen",
       "non-eligible-subscription": "Du bist nicht für {subscriptionLabel} qualifiziert. Du aknnst dennoch deine Pix-Zertifizierung ablegen.",
@@ -2252,6 +2253,50 @@
       },
       "not-finished": "Du kannst deine Ergebnisse noch nicht einsenden, wir haben noch einige Fragen an dich.",
       "recommended-engine": {
+        "drawer": {
+          "content-relevance-form": {
+            "attractiveness": {
+              "legend": "Bewerten Sie, wie ansprechend die Inhalte sind, von nicht ansprechend 1 bis ansprechend 5",
+              "max-label": "Ansprechend",
+              "min-label": "Nicht ansprechend"
+            },
+            "comment-text": {
+              "label": "Optionaler Kommentar",
+              "placeholder": "Kommentar (optional)"
+            },
+            "legend": "Die empfohlenen Inhalte sind…",
+            "personalization": {
+              "legend": "Bewerten Sie, wie personalisiert die Inhalte sind, von generisch 1 bis personalisiert 5",
+              "max-label": "Personalisiert",
+              "min-label": "Generisch"
+            },
+            "score-aria-label": "{score} von 5",
+            "subtitle": "Wie wäre es, noch weiterzugehen…",
+            "title": "Danke für Ihr Feedback!",
+            "usefulness": {
+              "legend": "Bewerten Sie, wie nützlich die Inhalte sind, von nicht nützlich 1 bis nützlich 5",
+              "max-label": "Nützlich",
+              "min-label": "Nicht nützlich"
+            }
+          },
+          "emojis": {
+            "dissatisfied": "Nicht relevant",
+            "neutral": "Ich habe keine Meinung",
+            "satisfied": "Relevant",
+            "very-dissatisfied": "Überhaupt nicht relevant",
+            "very-satisfied": "Sehr relevant"
+          },
+          "error-message": "Beim Senden Ihrer Antwort ist ein Fehler aufgetreten.",
+          "hide": "Ausblenden",
+          "hide-aria-label": "Feedbackbereich für Empfehlungen zu Lerninhalten ausblenden",
+          "instruction": "Klicken Sie auf ein Emoji, um Ihre Meinung zu geben.",
+          "statement": "Erscheinen Ihnen diese Lerninhalte zur Vertiefung Ihres Wissens relevant?",
+          "thank-you": {
+            "subtitle": "Geschafft!",
+            "title": "Danke für Ihr Feedback!"
+          },
+          "title": "Feedback zur Empfehlung von Lerninhalten"
+        },
         "modal": {
           "actions": {
             "discover-module": "Modul starten",
@@ -2260,7 +2305,8 @@
           "duration": "Dauer",
           "editor-name": "Vorgeschlagen von : ",
           "feedback": {
-            "question": "Ist dieser Vorschlag relevant?"
+            "question": "Ist dieser Vorschlag relevant?",
+            "success-message": "Vielen Dank für Ihr Feedback!"
           },
           "localisation": "Standort",
           "objectives": "Ziele",
@@ -2285,7 +2331,7 @@
           }
         },
         "trainings": {
-          "description": "Es wird entsprechend deinen Fortschritten empfohlen, um dir dabei zu helfen, deine Fähigkeiten zu festigen und zum richtigen Zeitpunkt einen Schritt weiter zu gehen.",
+          "description": "Die unten aufgeführten Lösungen werden dir basierend auf deinem Niveau empfohlen.",
           "title": "Gehen Sie noch einen Schritt weiter – ganz in Ihrem eigenen Tempo."
         }
       },

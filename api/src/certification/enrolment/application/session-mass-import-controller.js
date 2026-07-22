@@ -48,7 +48,7 @@ const getTemplate = async function (request, h) {
   const { habilitationLabels, shouldDisplayBillingModeColumns } = await usecases.getMassImportTemplateInformation({
     centerId: request.params.certificationCenterId,
   });
-  const csvTemplateFileContent = getCsvHeaders({
+  const csvTemplateFileContent = await getCsvHeaders({
     habilitationLabels,
     shouldDisplayBillingModeColumns,
   });

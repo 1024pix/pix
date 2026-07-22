@@ -4,7 +4,7 @@ const Joi = BaseJoi.extend(JoiDate);
 
 import { sendJsonApiError, UnprocessableEntityError } from '../../../shared/application/errors/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { MAX_FILE_SIZE_UPLOAD } from '../../../shared/domain/constants.js';
+import { MAX_FILE_SIZE_UPLOAD } from '../../../shared/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { usecases } from '../domain/usecases/index.js';
 import { scoOrganizationManagementController } from './sco-organization-management-controller.js';

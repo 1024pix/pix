@@ -1,12 +1,21 @@
+import _ from 'lodash';
+
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { AuditLoggingJob } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
+import {
+  CampaignParticipationLoggerContext,
+  OrganizationLearnerLoggerContext,
+} from '../../../shared/domain/constants.js';
 import { OrganizationLearnerList } from '../models/OrganizationLearnerList.js';
+
+const CHUNK_SIZE = 1000;
 
 const deleteOrganizationLearners = async function ({
   organizationLearnerIds,
   userId,
   organizationId,
   userRole,
+  learnerToDeleteChunkSize = CHUNK_SIZE,
   client,
   organizationLearnerRepository,
   organizationLearnerImportFormatRepository,
@@ -39,6 +48,8 @@ const deleteOrganizationLearners = async function ({
     userId,
   );
 
+  const learnerToDeleteJobBatches = _.chunk(organizationLearnersToDelete, learnerToDeleteChunkSize);
+
   const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
   const organizationProfileRewards = await organizationsProfileRewardRepository.getByOrganizationId({ organizationId });
 
@@ -59,13 +70,15 @@ const deleteOrganizationLearners = async function ({
       organizationLearner.delete(userId, importFormat);
       organizationLearnersToUpdate.push(organizationLearner.dataToUpdateOnDeletion);
       organizationProfileRewardsToUpdate.push(...organizationLearnerRewards);
+    }
 
+    for (const learnerToDeleteBatch of learnerToDeleteJobBatches) {
       auditLoggingJobs.push(
-        AuditLoggingJob.forUser({
+        AuditLoggingJob.forUsers({
           client,
-          action: organizationLearner.loggerContext,
+          action: OrganizationLearnerLoggerContext.DELETION,
           role: userRole,
-          userId: organizationLearner.id,
+          userIds: learnerToDeleteBatch.map(({ id }) => id),
           updatedByUserId: userId,
           data: {},
         }),
@@ -82,13 +95,15 @@ const deleteOrganizationLearners = async function ({
       campaignParticipation.delete(userId);
       campaignParticipationsToDelete.push(campaignParticipation.dataToUpdateOnDeletion);
       allCampaignParticipationIds.push(campaignParticipation.id);
-
+    }
+    const participationToDeleteJobBatches = _.chunk(campaignParticipations, learnerToDeleteChunkSize);
+    for (const participationToDeleteJobBatch of participationToDeleteJobBatches) {
       auditLoggingJobs.push(
-        AuditLoggingJob.forUser({
+        AuditLoggingJob.forUsers({
           client,
-          action: campaignParticipation.loggerContext,
+          action: CampaignParticipationLoggerContext.DELETION,
           role: userRole,
-          userId: campaignParticipation.id,
+          userIds: participationToDeleteJobBatch.map(({ id }) => id),
           updatedByUserId: userId,
           data: {},
         }),

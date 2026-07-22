@@ -1,10 +1,7 @@
 import Joi from 'joi';
-import XRegExp from 'xregexp';
 
-import { config } from '../../../shared/config.js';
+import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
 import { passwordController } from './password.controller.js';
-
-const { passwordValidationPattern } = config.account;
 
 export const passwordRoutes = [
   {
@@ -14,17 +11,8 @@ export const passwordRoutes = [
       auth: false,
       handler: (request, h) => passwordController.createResetPasswordDemand(request, h),
       validate: {
-        payload: Joi.object({
-          email: Joi.when('data.attributes.email', {
-            then: Joi.string().email().default(Joi.ref('data.attributes.email')),
-            otherwise: Joi.string().email().required(),
-          }),
-          data: {
-            attributes: {
-              email: Joi.string().email().required(),
-            },
-            type: Joi.string(),
-          },
+        payload: Joi.object().required().keys({
+          email: Joi.string().email().required(),
         }),
       },
       notes: ['Route publique', 'Faire une demande de réinitialisation de mot de passe'],
@@ -55,7 +43,7 @@ export const passwordRoutes = [
           data: {
             attributes: {
               'password-reset-token': Joi.string().required(),
-              'new-password': Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+              'new-password': PasswordSchema.required(),
             },
             type: Joi.string(),
           },

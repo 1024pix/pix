@@ -30,7 +30,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
             sessionId,
             userId: candidateUserId,
           });
-          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           databaseBuilder.factory.buildAssessment({
             state: 'started',
             userId: candidateUserId,
@@ -84,7 +83,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
             sessionId,
             userId: candidateUserId,
           });
-          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           databaseBuilder.factory.buildAssessment({
             state: 'started',
             userId: candidateUserId,
@@ -131,12 +129,11 @@ describe('Certification | Session Management | Acceptance | Application | Routes
             sessionId,
             userId: candidateUserId,
           }).id;
-          const candidate = databaseBuilder.factory.buildCertificationCandidate({
+          databaseBuilder.factory.buildCertificationCandidate({
             id: 1001,
             sessionId,
             userId: candidateUserId,
           });
-          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           databaseBuilder.factory.buildAssessment({
             state: 'started',
             userId: candidateUserId,

@@ -31,6 +31,7 @@ module('Integration | Component | certification-centers/information-view', funct
       dataProtectionOfficerLastName: 'Number',
       dataProtectionOfficerEmail: 'lucky@example.net',
       habilitations: [pixDroitHabilitation],
+      createdAt: new Date('2023-07-27'),
     });
 
     // when
@@ -55,6 +56,7 @@ module('Integration | Component | certification-centers/information-view', funct
     assert.strictEqual(screen.getAllByTitle('Délégué à la protection des données').length, 2);
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non habilité pour Cléa')).exists();
+    assert.dom(screen.getByText('27/07/2023')).exists();
   });
 
   test('it should show button to direct user to metabase dashboard', async function (assert) {

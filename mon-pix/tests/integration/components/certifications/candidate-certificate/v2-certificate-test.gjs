@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import V2Certificate from 'mon-pix/components/certifications/candidate-certificate/v2-certificate';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -27,11 +27,9 @@ module('Integration | Component | Certifications | Candidate certificate | v2-ce
       resultCompetenceTree: store.createRecord('result-competence-tree'),
       maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
     });
-    this.set('certification', certification);
 
     // when
-    const screen = await render(hbs`
-      <Certifications::CandidateCertificate::v2Certificate @model={{this.certification}} />`);
+    const screen = await render(<template><V2Certificate @model={{certification}} /></template>);
 
     // then
     assert.dom(screen.getByRole('link', { name: t('pages.certificate.back-link') })).exists();
@@ -59,11 +57,9 @@ module('Integration | Component | Certifications | Candidate certificate | v2-ce
           resultCompetenceTree: store.createRecord('result-competence-tree'),
           maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-      <Certifications::CandidateCertificate::v2Certificate @model={{this.certification}} />`);
+        const screen = await render(<template><V2Certificate @model={{certification}} /></template>);
 
         // then
         assert.dom(screen.getByRole('heading', { level: 2, name: t('pages.certificate.jury-title') })).exists();
@@ -91,11 +87,9 @@ module('Integration | Component | Certifications | Candidate certificate | v2-ce
           resultCompetenceTree: store.createRecord('result-competence-tree'),
           maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-      <Certifications::CandidateCertificate::v2Certificate @model={{this.certification}} />`);
+        const screen = await render(<template><V2Certificate @model={{certification}} /></template>);
 
         // then
         assert
@@ -124,11 +118,9 @@ module('Integration | Component | Certifications | Candidate certificate | v2-ce
           resultCompetenceTree: store.createRecord('result-competence-tree'),
           maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
         });
-        this.set('certification', certification);
 
         // when
-        const screen = await render(hbs`
-      <Certifications::CandidateCertificate::v2Certificate @model={{this.certification}} />`);
+        const screen = await render(<template><V2Certificate @model={{certification}} /></template>);
 
         // then
         assert

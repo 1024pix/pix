@@ -1,7 +1,7 @@
 import nock from 'nock';
 
-import { getModulesListAsCsv } from '../../../../scripts/modulix/get-modules-csv.js';
 import { ModuleFactory } from '../../../../src/devcomp/infrastructure/factories/module-factory.js';
+import { getModulesListAsCsv } from '../../../../src/devcomp/scripts/get-modules-csv.js';
 import { expect } from '../../../test-helper.js';
 import moduleContent from './test-module.json' with { type: 'json' };
 

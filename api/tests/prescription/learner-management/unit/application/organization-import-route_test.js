@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { organizationImportController } from '../../../../../src/prescription/learner-management/application/organization-import-controller.js';
 import { organizationImportRoute as moduleUnderTest } from '../../../../../src/prescription/learner-management/application/organization-import-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

@@ -764,6 +764,7 @@
         "disconnect": "Log out of my account",
         "disconnect-tip": "If this is not your computer, please remember to log out.",
         "ended-by-invigilator": "Your invigilator has marked your certification test as completed. You cannot continue to answer questions.",
+        "ended-due-to-duration-exceeded": "The maximum time allowed to answer your certification test has been exceeded. You can no longer answer questions.",
         "ended-due-to-finalization": "Your certification centre has ended the session. You can no longer answer questions.",
         "remote-certification": "If you're taking your Pix certificate remotely, please make sure you log out from the monitoring tool once your test is finished.",
         "title": "Your test is finished!"
@@ -887,7 +888,7 @@
         },
         "language-not-supported": "The Pix certification is not yet available in {userLanguage}. '<br>' The languages currently available for taking the certification exam are: {availableLanguages}. '<br>' You may choose another language from ",
         "language-not-supported-link": "My account page",
-        "missing-center-habilitation": "You cannot join the session. The certification centre is not authorized to administer this certification to you.",
+        "missing-center-habilitation": "You are registered for the {subscription} certification. '<br><br><strong>'Your certification centre is no longer authorized to administer this certification'</strong>'. '<br><br>' Please contact your invigilator.",
         "session-not-accessible": "The session you are trying to join is no longer available.",
         "wrong-account": "The information entered matches a candidate enrolled in the session and already logged in with another account. Please check that you are logged into the account that started the exam.",
         "wrong-account-sco": "You are currently using an account that is not linked to your school/organisation.\nLog in to the account you used to complete your customised tests or ask the invigilator for help.",
@@ -963,6 +964,7 @@
         "access-code-error": "This code does not exist or is no longer valid.",
         "candidate-not-authorized-to-resume": "Please contact your invigilator to resume your certification test.",
         "candidate-not-authorized-to-start": "Your invigilator has not confirmed your presence in the test room. Therefore, you cannot start your certification test yet. Please inform your invigilator.",
+        "duration-exceeded": "The maximum duration of your certification test has been exceeded. You can no longer resume it.",
         "generic": "An unexpected server error has occurred.",
         "missing-code": "You have not entered your access code.",
         "session-not-accessible": "The certification session is no longer available.",
@@ -977,8 +979,7 @@
         "options": {
           "english": "English - EN",
           "french": "French - FR"
-        },
-        "warning-message": "Due to technical problems, the Pix Certification is momentarily unavailable in English. We apologize for any inconvenience caused."
+        }
       },
       "link-to-user-certification": "See my certificates",
       "non-eligible-subscription": "You are not eligible to {subscriptionLabel}. However, you can still take your Pix Certification.",
@@ -2252,6 +2253,50 @@
       },
       "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
       "recommended-engine": {
+        "drawer": {
+          "content-relevance-form": {
+            "attractiveness": {
+              "legend": "Rate how appealing the content is, from not appealing 1 to appealing 5",
+              "max-label": "Appealing",
+              "min-label": "Not appealing"
+            },
+            "comment-text": {
+              "label": "Optional comment",
+              "placeholder": "Comment (optional)"
+            },
+            "legend": "The recommended content is…",
+            "personalization": {
+              "legend": "Rate how personalized the content is, from generic 1 to personalized 5",
+              "max-label": "Personalized",
+              "min-label": "Generic"
+            },
+            "score-aria-label": "{score} out of 5",
+            "subtitle": "How about going further…",
+            "title": "Thank you for your feedback!",
+            "usefulness": {
+              "legend": "Rate how useful the content is, from not useful 1 to useful 5",
+              "max-label": "Useful",
+              "min-label": "Not useful"
+            }
+          },
+          "emojis": {
+            "dissatisfied": "Not relevant",
+            "neutral": "I have no opinion",
+            "satisfied": "Relevant",
+            "very-dissatisfied": "Not relevant at all",
+            "very-satisfied": "Very relevant"
+          },
+          "error-message": "An error occurred while sending your response.",
+          "hide": "Hide",
+          "hide-aria-label": "Hide the feedback panel for training content recommendations",
+          "instruction": "Click on an emoji to give your feedback.",
+          "statement": "Does this training content to deepen your knowledge seem relevant to you?",
+          "thank-you": {
+            "subtitle": "It's in the bag",
+            "title": "Thank you for your feedback!"
+          },
+          "title": "Feedback on the training content recommendation"
+        },
         "modal": {
           "actions": {
             "discover-module": "Start the module",
@@ -2260,7 +2305,8 @@
           "duration": "Duration",
           "editor-name": "Proposed by: ",
           "feedback": {
-            "question": "Is this proposal relevant?"
+            "question": "Is this proposal relevant?",
+            "success-message": "Thank you for your feedback!"
           },
           "localisation": "Location",
           "objectives": "Objectives",
@@ -2285,7 +2331,7 @@
           }
         },
         "trainings": {
-          "description": "It is recommended based on your progress to help you build your skills and take them to the next level at just the right time.",
+          "description": "The solutions listed below are recommended to you based on your level.",
           "title": "Go further, at your own pace."
         }
       },

@@ -13,6 +13,12 @@ export default class VersionsRoute extends Route {
   }
 
   async model() {
-    return this.modelFor('authenticated.certification-frameworks.certification-framework');
+    const { frameworkKey, frameworkHistory } = this.modelFor(
+      'authenticated.certification-frameworks.certification-framework',
+    );
+    const activeVersion = frameworkHistory.activeHistory
+      ? await this.store.findRecord('certification-version', frameworkHistory.activeHistory.id)
+      : null;
+    return { frameworkKey, activeVersion };
   }
 }

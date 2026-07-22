@@ -12,7 +12,7 @@ import { formatMinutes } from 'pix-admin/utils/date';
 import FrameworkContentDetails from './framework-content-details';
 import VersionComment from './version-comment';
 
-const STATUS_COLORS = { ACTIVE: 'success', DRAFT: 'tertiary', ARCHIVED: 'secondary' };
+const STATUS_COLORS = { active: 'success', draft: 'tertiary', archived: 'secondary' };
 
 export default class CertificationVersionDetailModal extends Component {
   @service intl;
@@ -45,7 +45,7 @@ export default class CertificationVersionDetailModal extends Component {
             "components.certification-frameworks.certification-framework.version-detail-modal.parameters"
           }}</h2>
         <PixBlock class="certification-version-detail-modal__parameters">
-          <dl>
+          <dl aria-label="Paramètres référentiel">
             <PixIcon @name="star" @ariaHidden={{true}} />
             <dt>{{t "components.certification-frameworks.certification-framework.version-detail-modal.status"}}</dt>
             <dd>

@@ -1,16 +1,10 @@
 import sinon from 'sinon';
 
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
-import {
-  constants,
-  MAX_REACHABLE_LEVEL,
-  MAX_REACHABLE_PIX_BY_COMPETENCE,
-} from '../../../../../src/shared/domain/constants.js';
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../src/shared/constants.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 
-const MINIMUM_DELAY_IN_DAYS_FOR_RESET = constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET;
-const MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
 const SCORECARD_STATUS_STARTED = Scorecard.statuses.STARTED;
 const SCORECARD_STATUS_NOT_STARTED = Scorecard.statuses.NOT_STARTED;
 const SCORECARD_STATUS_COMPLETED = Scorecard.statuses.COMPLETED;
@@ -241,7 +235,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
           competence,
         });
         // then
-        expect(actualScorecard.earnedPix).to.equal(constants.MAX_REACHABLE_PIX_BY_COMPETENCE);
+        expect(actualScorecard.earnedPix).to.equal(MAX_REACHABLE_PIX_BY_COMPETENCE);
       });
 
       it('should have the same number of pix if we allow it', function () {
@@ -283,19 +277,10 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
   describe('#computeRemainingDaysBeforeReset', function () {
     let testCurrentDate;
-    const originalConstantValue = MINIMUM_DELAY_IN_DAYS_FOR_RESET;
 
     beforeEach(function () {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
       sinon.useFakeTimers({ now: testCurrentDate.getTime(), toFake: ['Date'] });
-    });
-
-    before(function () {
-      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_FOR_RESET').value(7);
-    });
-
-    after(function () {
-      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_FOR_RESET').value(originalConstantValue);
     });
 
     [
@@ -326,19 +311,10 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
   describe('#computeRemainingDaysBeforeImproving', function () {
     let testCurrentDate;
-    const originalConstantValue = MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
 
     beforeEach(function () {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
       sinon.useFakeTimers({ now: testCurrentDate.getTime(), toFake: ['Date'] });
-    });
-
-    before(function () {
-      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(4);
-    });
-
-    after(function () {
-      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(originalConstantValue);
     });
 
     [
@@ -411,8 +387,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
     it('should return true when level is equal to maxReachableLevel', function () {
       // given
       const level = 18;
-      const maxReachableLevel = 18;
-      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
       const scorecard = new Scorecard({ level });
 
       // when
@@ -438,8 +412,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
     it('should return false when level is below maxReachableLevel', function () {
       // given
       const level = 1;
-      const maxReachableLevel = 2;
-      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
       const scorecard = new Scorecard({ level });
 
       // when
@@ -717,8 +689,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
     ].forEach((testCase) => {
       it('should return percentage ahead of next level', function () {
         // given
-        const pixCountByLevel = 8;
-        sinon.stub(constants, 'PIX_COUNT_BY_LEVEL').value(pixCountByLevel);
         const scorecard = new Scorecard({ pixScoreAheadOfNextLevel: testCase.pixScoreAheadOfNextLevel });
 
         // when
@@ -733,8 +703,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
   describe('#remainingPixToNextLevel', function () {
     it('should return remaining pix to next level', function () {
       // given
-      const pixCountByLevel = 8;
-      sinon.stub(constants, 'PIX_COUNT_BY_LEVEL').value(pixCountByLevel);
       const scorecard = new Scorecard({ pixScoreAheadOfNextLevel: 3 });
 
       // when

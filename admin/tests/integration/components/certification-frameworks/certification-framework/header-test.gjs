@@ -59,7 +59,7 @@ module('Integration | Component | certification-frameworks/certification-framewo
       expirationDate: null,
       assessmentDuration: 90,
       maximumAssessmentLength: 32,
-      status: 'ACTIVE',
+      status: 'active',
     };
 
     const frameworkItem2 = {
@@ -68,7 +68,7 @@ module('Integration | Component | certification-frameworks/certification-framewo
       expirationDate: new Date('2021-06-15'),
       assessmentDuration: 105,
       maximumAssessmentLength: 32,
-      status: 'ARCHIVED',
+      status: 'archived',
     };
     const frameworkItem3 = {
       id: 999,
@@ -76,7 +76,7 @@ module('Integration | Component | certification-frameworks/certification-framewo
       expirationDate: null,
       assessmentDuration: 90,
       maximumAssessmentLength: 32,
-      status: 'DRAFT',
+      status: 'draft',
     };
 
     const frameworkHistory = store.createRecord('framework-history', {

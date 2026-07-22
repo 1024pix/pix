@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import * as correctionService from '../../../../../src/evaluation/domain/services/correction-service.js';
 import { saveAndCorrectAnswerForCompetenceEvaluation } from '../../../../../src/evaluation/domain/usecases/save-and-correct-answer-for-competence-evaluation.js';
-import { AnswerJob } from '../../../../../src/quest/domain/models/quests/events/AnwserJob.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import {
   ChallengeAlreadyAnsweredError,
@@ -33,8 +32,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     competenceEvaluationRepository,
     skillRepository,
     scorecardService,
-    knowledgeElementRepository,
-    answerJobRepository;
+    knowledgeElementRepository;
 
   const nowDate = new Date('2021-03-11T11:00:04Z');
   const locale = 'fr';
@@ -55,9 +53,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     areaRepository = { get: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub(), batchSave: sinon.stub() };
-    answerJobRepository = {
-      performAsync: sinon.stub(),
-    };
+
     competenceRepository.get.resolves(domainBuilder.buildCompetence({ id: 'competenceABC123' }));
     areaRepository.get.resolves(domainBuilder.buildArea());
     competenceEvaluationRepository.findByUserId.resolves([
@@ -90,7 +86,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       skillRepository,
       knowledgeElementRepository,
       scorecardService,
-      answerJobRepository,
       correctionService,
       areaRepository,
       competenceRepository,
@@ -280,47 +275,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       expect(knowledgeElementRepository.batchSave).to.be.calledWith({
         knowledgeElements: [firstCreatedKnowledgeElement, secondCreatedKnowledgeElement],
       });
-    });
-
-    context('when there is no user ID', function () {
-      beforeEach(function () {
-        // given
-        knowledgeElementRepository.findUniqByUserId.withArgs({ userId: null }).resolves([]);
-      });
-
-      it('should not call performAsync from answerJobRepository', async function () {
-        // given
-        assessment.userId = null;
-
-        // when
-        await saveAndCorrectAnswerForCompetenceEvaluation({
-          answer,
-          userId: null,
-          assessment,
-          locale,
-          ...dependencies,
-        });
-
-        // then
-        expect(answerJobRepository.performAsync).not.to.have.been.called;
-      });
-    });
-
-    it('should call performAsync from answerJobRepository', async function () {
-      // given
-      answerJobRepository.performAsync.resolves();
-
-      // when
-      await saveAndCorrectAnswerForCompetenceEvaluation({
-        answer,
-        userId,
-        assessment,
-        locale,
-        ...dependencies,
-      });
-
-      // then
-      expect(answerJobRepository.performAsync).to.have.been.calledWith(new AnswerJob({ userId }));
     });
 
     it('should call repositories to get needed information', async function () {

@@ -5,7 +5,7 @@ import * as badgeAcquisitionRepository from '../../../../evaluation/infrastructu
 import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
-import * as codeGenerator from '../../../../shared/domain/services/code-generator.js';
+import * as accessCodeGenerator from '../../../../shared/domain/services/access-code-generator.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import * as accessCodeRepository from '../../../../shared/infrastructure/repositories/access-code-repository.js';
@@ -25,6 +25,7 @@ import * as learningContentRepository from '../../../shared/infrastructure/repos
 import * as stageAcquisitionRepository from '../../../stages/infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionRepository from '../../../stages/infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../../stages/infrastructure/repositories/stage-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
@@ -62,7 +63,7 @@ const dependencies = {
   campaignReportRepository,
   campaignRepository,
   campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
-  codeGenerator,
+  accessCodeGenerator,
   competenceRepository,
   improvementService,
   divisionRepository,
@@ -166,6 +167,6 @@ const usecasesWithoutInjectedDependencies = {
   getParticipationsCountByMasteryRate,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

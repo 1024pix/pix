@@ -4,10 +4,10 @@ export default class FrameworkHistory extends Model {
   @attr() history;
 
   get hasDraft() {
-    return this.history?.some((version) => version.status === 'DRAFT');
+    return this.history?.some((version) => version.status === 'draft');
   }
 
   get activeHistory() {
-    return this.history?.find((version) => version.status === 'ACTIVE') ?? null;
+    return this.history?.find((version) => version.status === 'active') ?? null;
   }
 }

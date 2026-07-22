@@ -1,5 +1,5 @@
 import { OrganizationLearnerParticipationTypes } from '../../../../quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { constants } from '../../../../shared/domain/constants.js';
+import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
@@ -288,7 +288,7 @@ const hasAssessmentParticipations = async function (userId) {
     .where('assessments.type', '=', Assessment.types.CAMPAIGN)
     .where({ 'assessments.userId': userId })
     .where(function () {
-      this.whereNot('campaigns.organizationId', constants.AUTONOMOUS_COURSES_ORGANIZATION_ID).orWhereNull(
+      this.whereNot('campaigns.organizationId', config.autonomousCourse.autonomousCoursesOrganizationId).orWhereNull(
         'campaigns.organizationId',
       );
     })

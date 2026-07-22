@@ -1,4 +1,4 @@
-import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';

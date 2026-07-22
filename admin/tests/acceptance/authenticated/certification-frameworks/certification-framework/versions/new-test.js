@@ -21,7 +21,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ACTIVE',
+          status: 'active',
         },
         {
           id: 14,
@@ -29,7 +29,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'DRAFT',
+          status: 'draft',
         },
       ],
     });
@@ -41,7 +41,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
           expirationDate: null,
           assessmentDuration: 90,
           maximumAssessmentLength: 32,
-          status: 'ACTIVE',
+          status: 'active',
         },
       ],
     });
@@ -113,7 +113,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
     test('should display a breadcrum with the correct scope', async function (assert) {
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       // when
-      const screen = await visit(`/certification-frameworks/CORE/versions/new?activeVersionId=13`);
+      const screen = await visit(`/certification-frameworks/CORE/versions/new`);
 
       const nav = screen.getAllByRole('navigation')[1];
       // then
@@ -145,11 +145,11 @@ module('Acceptance | Certification Framework | item | Framework | new', function
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
         // when
-        const screen = await visit(`/certification-frameworks/CORE/versions/new?activeVersionId=13`);
+        const screen = await visit(`/certification-frameworks/CORE/versions/new`);
         await click(screen.getByRole('button', { name: 'Créer la nouvelle version du référentiel de certification' }));
 
         // then
-        assert.strictEqual(currentURL(), '/certification-frameworks/CORE/versions/new?activeVersionId=13');
+        assert.strictEqual(currentURL(), '/certification-frameworks/CORE/versions/new');
         assert
           .dom(
             screen.getByText(
@@ -175,7 +175,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
                 expirationDate: null,
                 assessmentDuration: 10,
                 maximumAssessmentLength: 30,
-                status: 'DRAFT',
+                status: 'draft',
               },
             ],
           });
@@ -185,15 +185,20 @@ module('Acceptance | Certification Framework | item | Framework | new', function
             expirationDate: null,
             assessmentDuration: 10,
             maximumAssessmentLength: 30,
+            status: 'draft',
           });
         });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-        const screen = await visit(`/certification-frameworks/DROIT/versions/new?activeVersionId=12`);
+        const screen = await visit(`/certification-frameworks/DROIT/versions/new`);
         await click(screen.getByRole('button', { name: 'Créer la nouvelle version du référentiel de certification' }));
 
         assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/versions/77/edit');
-        assert.dom(screen.getByText('form'));
+        assert.dom(
+          screen.getByText(
+            t('components.certification-frameworks.certification-framework.versions.page-title', { scope: 'DROIT' }),
+          ),
+        );
 
         await click(screen.getByRole('link', { name: 'DROIT' }));
         assert.strictEqual(currentURL(), '/certification-frameworks/DROIT');

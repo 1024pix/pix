@@ -11,24 +11,11 @@ export default {
     defaultValue: true,
     tags: ['frontend'],
   },
-  isAsyncQuestRewardingCalculationEnabled: {
-    type: 'boolean',
-    description: 'Used to switch between synchronous and asynchronous mode for quest reward calculation',
-    defaultValue: false,
-    tags: ['team-prescription', 'frontend'],
-  },
   isQuestEnabled: {
     type: 'boolean',
     description: 'Used to enable quests feature',
     defaultValue: true,
     tags: ['team-prescription', 'frontend'],
-  },
-  isAnonymizationWithDeletionEnabled: {
-    type: 'boolean',
-    description: 'Used to enable anonymization and deletion on prescriber context',
-    defaultValue: false,
-    devDefaultValues: { test: true, reviewApp: true },
-    tags: ['team-prescription', 'pix-api', 'backend'],
   },
   isSelfAccountDeletionEnabled: {
     description: 'Toggle self account deletion feature',
@@ -142,12 +129,5 @@ export default {
     description: 'Enable the OS healthcheck endpoint',
     defaultValue: false,
     tags: ['backend', 'pix-api'],
-  },
-  isCertificationInEnglishEnabled: {
-    type: 'boolean',
-    description: 'Enable English as an available language for Pix certification',
-    defaultValue: false,
-    devDefaultValues: { test: true, reviewApp: true },
-    tags: ['frontend', 'backend', 'team-certif', 'pix-app', 'pix-api'],
   },
 };

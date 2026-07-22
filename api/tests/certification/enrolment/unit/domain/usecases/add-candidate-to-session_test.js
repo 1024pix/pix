@@ -5,7 +5,7 @@ import { BILLING_MODES } from '../../../../../../src/certification/shared/domain
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,
@@ -145,12 +145,8 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     });
 
     context('when candidate is valid', function () {
-      let subscription;
-
       beforeEach(function () {
-        subscription = domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: null });
         candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-          subscriptions: [subscription],
           billingMode: BILLING_MODES.FREE,
         });
       });

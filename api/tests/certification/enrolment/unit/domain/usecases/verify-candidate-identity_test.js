@@ -1,6 +1,8 @@
 import sinon from 'sinon';
 
 import { verifyCandidateIdentity } from '../../../../../../src/certification/enrolment/domain/usecases/verify-candidate-identity.js';
+import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { types } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
@@ -10,7 +12,6 @@ import {
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../../../src/shared/domain/errors.js';
-import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -66,7 +67,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       lastName,
       userId: null,
       birthdate,
-      subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
     });
 
     userRepository.get.withArgs({ id: userId }).resolves(
@@ -89,7 +89,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         firstName: 'Henri',
         lastName: 'Quatre',
         birthdate: '2005-05-01',
-        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
       }),
     ]);
 
@@ -129,28 +128,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     });
   });
 
-  context('when the user language is english and the english certification feature is disabled', function () {
-    it('should throw a LanguageNotSupportedError', async function () {
-      // given
-      sinon.stub(featureToggles, 'get').withArgs('isCertificationInEnglishEnabled').resolves(false);
-      userRepository.get.withArgs({ id: userId }).resolves(
-        domainBuilder.certification.enrolment.buildUser({
-          id: userId,
-          lang: 'en',
-        }),
-      );
-
-      // when
-      const error = await catchErr(verifyCandidateIdentity)({
-        ...dependencies,
-      });
-
-      // then
-      expect(error).to.be.instanceof(LanguageNotSupportedError);
-      expect(error.message).to.equal('Given language is not supported : "en"');
-    });
-  });
-
   context('when there are no matching candidate in session with provided personal info', function () {
     it('should throw a CertificationCandidateByPersonalInfoNotFoundError', async function () {
       // given
@@ -171,7 +148,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           firstName: 'Henri',
           lastName: 'Quatre',
           birthdate: '2005-05-01',
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         }),
       ]);
 
@@ -207,14 +183,12 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           lastName,
           userId: null,
           birthdate,
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         }),
         domainBuilder.certification.enrolment.buildCandidate({
           firstName,
           lastName,
           userId: null,
           birthdate,
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         }),
       ]);
 
@@ -258,7 +232,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           userId: userId + 10,
           reconciledAt: new Date('2024-09-25'),
           birthdate,
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
 
         candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
@@ -267,7 +240,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             firstName: 'Henri',
             lastName: 'Quatre',
             birthdate: '2005-05-01',
-            subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
           }),
         ]);
 
@@ -309,7 +281,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           userId,
           reconciledAt: new Date('2024-09-25'),
           birthdate,
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
 
         candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
@@ -318,7 +289,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             firstName: 'Henri',
             lastName: 'Quatre',
             birthdate: '2005-05-01',
-            subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
           }),
         ]);
 
@@ -360,7 +330,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           userId,
           reconciledAt: new Date('2024-09-25'),
           birthdate: '2005-05-01',
-          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
 
         candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
@@ -369,7 +338,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             lastName,
             userId: null,
             birthdate,
-            subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
           }),
           anotherCandidateWithGivenUserId,
         ]);
@@ -388,6 +356,96 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     });
 
     context('when reconciliation is non-existent on all sides', function () {
+      context('when matching candidate has a complementary subscription', function () {
+        context('when the certification center is not habilitated for the subscription', function () {
+          it('should throw a CenterHabilitationError holding the subscription framework', async function () {
+            // given
+            userRepository.get.withArgs({ id: userId }).resolves(
+              domainBuilder.certification.enrolment.buildUser({
+                id: userId,
+                lang: 'fr',
+              }),
+            );
+            sessionRepository.get.withArgs({ id: sessionId }).resolves(
+              domainBuilder.certification.enrolment.buildSession({
+                id: sessionId,
+                certificationCenterId,
+              }),
+            );
+            centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
+              domainBuilder.certification.enrolment.buildCenter({
+                id: certificationCenterId,
+                habilitations: [],
+                matchingOrganization: null,
+              }),
+            );
+            candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
+              domainBuilder.certification.enrolment.buildCandidate({
+                firstName,
+                lastName,
+                userId: null,
+                birthdate,
+                subscription: Frameworks.DROIT,
+              }),
+            ]);
+
+            // when
+            const error = await catchErr(verifyCandidateIdentity)({
+              ...dependencies,
+            });
+
+            // then
+            expect(error).to.be.instanceof(CenterHabilitationError);
+            expect(error.meta).to.deep.equal({ framework: Frameworks.DROIT });
+          });
+        });
+
+        context('when the certification center is habilitated for the subscription', function () {
+          it('should return the candidate', async function () {
+            // given
+            const matchingCandidate = domainBuilder.certification.enrolment.buildCandidate({
+              firstName,
+              lastName,
+              userId: null,
+              birthdate,
+              subscription: Frameworks.DROIT,
+            });
+            userRepository.get.withArgs({ id: userId }).resolves(
+              domainBuilder.certification.enrolment.buildUser({
+                id: userId,
+                lang: 'fr',
+              }),
+            );
+            sessionRepository.get.withArgs({ id: sessionId }).resolves(
+              domainBuilder.certification.enrolment.buildSession({
+                id: sessionId,
+                certificationCenterId,
+              }),
+            );
+            centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
+              domainBuilder.certification.enrolment.buildCenter({
+                id: certificationCenterId,
+                habilitations: [
+                  domainBuilder.certification.enrolment.buildHabilitation({
+                    key: Frameworks.DROIT,
+                  }),
+                ],
+                matchingOrganization: null,
+              }),
+            );
+            candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([matchingCandidate]);
+
+            // when
+            const result = await verifyCandidateIdentity({
+              ...dependencies,
+            });
+
+            // then
+            expect(result).to.deep.equal(matchingCandidate);
+          });
+        });
+      });
+
       context('when it is a session sco / is managing students', function () {
         context('when matching candidate is not related to a reconcilied learner', function () {
           it('should throw a MatchingReconciledStudentNotFoundError', async function () {
@@ -423,13 +481,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
                 userId: null,
                 birthdate,
                 organizationLearnerId: 789,
-                subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
               }),
               domainBuilder.certification.enrolment.buildCandidate({
                 firstName: 'Henri',
                 lastName: 'Quatre',
                 birthdate: '2005-05-01',
-                subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
               }),
             ]);
 

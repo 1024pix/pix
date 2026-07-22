@@ -12,8 +12,9 @@
  * @typedef {import ('../../../../shared/domain/models/Challenge.js').Challenge} Challenge
  */
 import { config } from '../../../../shared/config.js';
-import { getRequestId } from '../../../../shared/infrastructure/execution-context-manager.js';
+import { addCorrelationInfos, getRequestId } from '../../../../shared/infrastructure/execution-context-manager.js';
 import { redisMutex } from '../../../../shared/infrastructure/mutex/RedisMutex.js';
+import { SCOPES } from '../../../../shared/infrastructure/utils/logger.js';
 import { NextChallengeAlreadyComputingError } from '../../domain/errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 
@@ -94,5 +95,9 @@ export async function evaluateAndSaveAnswer({ answer, userId, certificationCours
  * @returns {Promise<void>}
  */
 export async function completeCertificationAssessment({ certificationCourseId, locale }) {
+  addCorrelationInfos({
+    certificationId: certificationCourseId,
+    scope: SCOPES.CERTIFICATION,
+  });
   return usecases.completeCertificationAssessment({ certificationCourseId, locale });
 }

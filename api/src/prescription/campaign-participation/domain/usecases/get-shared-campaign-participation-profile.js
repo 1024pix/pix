@@ -1,4 +1,4 @@
-import { constants } from '../../../../shared/domain/constants.js';
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../shared/constants.js';
 import { NoCampaignParticipationForUserAndCampaign } from '../../../../shared/domain/errors.js';
 import { SharedProfileForCampaign } from '../read-models/SharedProfileForCampaign.js';
 
@@ -33,8 +33,8 @@ const getSharedCampaignParticipationProfile = async function ({
 
   const competences = await competenceRepository.listPixCompetencesOnly({ locale });
   const allAreas = await areaRepository.list({ locale });
-  const maxReachableLevel = constants.MAX_REACHABLE_LEVEL;
-  const maxReachablePixScore = constants.MAX_REACHABLE_PIX_SCORE;
+  const maxReachableLevel = MAX_REACHABLE_LEVEL;
+  const maxReachablePixScore = MAX_REACHABLE_PIX_SCORE;
 
   return new SharedProfileForCampaign({
     campaignParticipation,

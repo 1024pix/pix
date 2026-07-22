@@ -479,6 +479,36 @@
           }
         }
       },
+      "creation": {
+        "complementary-certifications-habilitations": "Habilitations aux certifications complémentaires",
+        "configuration": "Paramétrage",
+        "dpo": {
+          "acronym": "DPO",
+          "definition": "Délégué à la protection des données",
+          "email": "Adresse e-mail du ",
+          "firstname": "Prénom du ",
+          "lastname": "Nom du "
+        },
+        "error-messages": {
+          "dpo-email": "L'adresse e-mail n'est pas au bon format",
+          "error-toast": "Veuillez corriger les champs en erreur.",
+          "name": "Le nom est requis",
+          "type": "Le type de centre est requis"
+        },
+        "external-id": {
+          "label": "Identifiant externe",
+          "placeholder": "Spécifier l'UAI, le SIRET etc"
+        },
+        "name": {
+          "label": "Nom du centre de certification",
+          "placeholder": "Mon centre de certification"
+        },
+        "success-message": "Le centre de certification a été créé avec succès.",
+        "type": {
+          "label": "Type du centre",
+          "placeholder": "Sélectionner un type"
+        }
+      },
       "invitations": {
         "table": {
           "caption": "Liste des invitations envoyées pour rejoindre un centre de certification. Contient une adresse e-mail de l'utilisateur, le rôle que l'on souhaite lui attribuer, la date de dernier envoi de l'invitation et des actions permettent de renvoyer l'invitation ou de la supprimer."
@@ -513,15 +543,15 @@
         "history": {
           "label": "Versions",
           "statuses": {
-            "ACTIVE": "Actif",
-            "ARCHIVED": "Archivé",
-            "DRAFT": "En cours d'édition"
+            "active": "Actif",
+            "archived": "Archivé",
+            "draft": "En cours d'édition"
           },
           "table": {
             "actions": {
-              "delete": "Supprimer la version",
-              "edit": "Éditer la version",
-              "view": "Voir les détails de la version"
+              "delete": "Supprimer la version {id}",
+              "edit": "Éditer la version {id}",
+              "view": "Voir les détails de la version {id}"
             },
             "caption": "Liste des versions par ordre décroissant",
             "columns": {
@@ -554,6 +584,22 @@
           "status": "Statut :"
         },
         "versions": {
+          "edit": {
+            "assessment-duration-label": "Durée de l’épreuve (hh:mm) :",
+            "challenges-between-same-competence-label": "Nombre de question entre 2 questions de la même compétence :",
+            "default-candidate-capacity-label": "Capacité de départ des candidats :",
+            "default-probability-to-pick-challenge-label": "Probabilité de sélection de la question la plus pertinente (en %) :",
+            "enable-passage-by-all-competences-label": "Forcer le passage par toutes les compétences du référentiel de certification",
+            "limit-to-one-question-per-tube-label": "Limiter à 1 question par sujet",
+            "maximum-assessment-length-label": "Nombre total de questions :",
+            "minimum-answers-required-for-validation-label": "Nombre de questions minimum pour obtenir la certification :",
+            "start-date-label": "Date d'activation prévisionnelle :",
+            "sublabel": "Valeur de la version active : {value}",
+            "submit-button": "Enregistrer pour plus tard",
+            "success-notification": "Les modifications sur la version ont été enregistrées avec succès.",
+            "validation-message-error": "Ce champ doit être rempli",
+            "variation-percent-label": "Capage de la progression de la capacité :"
+          },
           "new": {
             "submit-button": "Créer la nouvelle version du référentiel de certification",
             "success-notification": "La nouvelle version du référentiel de certification a été créé avec succès",
@@ -689,33 +735,41 @@
       },
       "create": {
         "addItemButton": "Ajouter",
+        "attestations": "Les attestations",
+        "content": "Le contenu",
         "contentFeedback": "Votre parcours n'a aucun élément ajouté.",
         "courseContent": "Contenu du parcours",
         "createButton": "Créer le schéma de parcours",
         "fieldsetElement": "Choisissez le type d'élément à ajouter :",
+        "generalInfoCardTitle": "Informations générales",
         "notifications": {
           "addItemError": "Oups. Une erreur est survenue lors de l'ajout de la ressource.",
           "error": "Oups. Une erreur est survenue lors de la création du schéma de parcours.",
+          "evaluationNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi",
           "moduleNotFound": "Il n'existe pas de module avec l'identifiant saisi",
-          "success": "Création du schéma de parcours réussie !",
-          "targetProfileNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi"
+          "success": "Création du schéma de parcours réussie !"
         },
-        "title": "Créer un schéma de parcours"
+        "title": "Création d'un schéma de parcours"
       },
       "items": {
+        "action-header": "Actions",
+        "item-name-header": "Nom de l'élément",
+        "item-type-header": "Type d'élément",
         "module": "Module",
         "targetProfile": "Profil Cible",
-        "title": "Contenu du parcours"
+        "title": "Contenu du schéma de parcours"
       },
       "labels": {
         "attestation": "Attestation",
         "created-at": "Date de création",
         "description": "Description",
+        "description-sublabel": "Cette description sera visible par les utilisateurs",
         "illustration": "Illustration",
         "internal-name": "Nom interne",
         "itemId": "Identifiant",
         "module": "Module",
         "name": "Nom externe",
+        "reward-requirements": "Description des critères d’obtention",
         "survey-link": "Url du questionnaire de fin de parcours",
         "target-profile": "Profil cible"
       },
@@ -780,6 +834,7 @@
         },
         "logout": "Se déconnecter",
         "networks": "Réseaux",
+        "organization-learners": "Prescrits",
         "organizations": "Organisations",
         "sessions": "Sessions de certification",
         "target-profiles": "Profils cibles",
@@ -879,15 +934,55 @@
       },
       "title": "Informations prescrit"
     },
+    "organization-learners": {
+      "list-table": {
+        "caption": "Liste des apprenants des organisations. Contient prénom, nom, date de naissance, INE, classe, organisation et identifiant utilisateur associé.",
+        "headers": {
+          "active": "Actif",
+          "birthdate": "Date de naissance",
+          "division-group": "Groupe/classe",
+          "first-name": "Prénom",
+          "inactive": "Inactif",
+          "last-name": "Nom",
+          "national-student-id": "INE",
+          "organization": "Organisation",
+          "updated-at": "Date MAJ",
+          "user-id": "User ID"
+        },
+        "view-organization": "Voir l'organisation",
+        "view-user": "Voir l'utilisateur"
+      }
+    },
     "organizations": {
       "all-tags": {
         "recently-used-tags": "Liste de tags récemment utilisés avec {tagName}"
       },
       "attached-certification-center": {
+        "actions": {
+          "detach": {
+            "button": "Détacher",
+            "confirm-modal-message": "Êtes-vous sûr de vouloir détacher le centre de certification <strong>{certificationCenterName}</strong> de cette organisation ?",
+            "confirm-modal-title": "Détacher un centre de certification",
+            "success": "Le centre de certification a été détaché avec succès."
+          }
+        },
+        "attach-form": {
+          "input-label": "Rattacher un centre de certification",
+          "input-sublabel": "ID du centre",
+          "name": "Rattacher un centre de certification"
+        },
         "empty": "Aucun centre de certification rattaché.",
+        "notifications": {
+          "attach-success": "Le centre de certification a bien été rattaché à l'organisation.",
+          "errors": {
+            "ALREADY_ATTACHED_CERTIFICATION_CENTER": "Le centre de certification {certificationCenterId} est déjà rattaché à l'organisation {alreadyAttachedOrganizationId}.",
+            "NON_EXISTING_CERTIFICATION_CENTER": "Le centre de certification {certificationCenterId} n'existe pas."
+          }
+        },
         "table": {
           "caption": "Centre de certification rattaché à l'organisation.",
           "headers": {
+            "actions": "Actions",
             "external-id": "Identifiant externe",
             "id": "ID du centre",
             "name": "Nom du centre de certification rattaché"
@@ -1407,6 +1502,10 @@
         "title": "Archiver le centre de certification {certificationCenterName}",
         "warning": "Cette action est irréversible."
       },
+      "breadcrumb": {
+        "new-certification-center": "Nouveau centre de certification",
+        "parent-page": "Tous les centres de certification"
+      },
       "get": {
         "navbar": {
           "aria-label": "Navigation de la section centre de certification",
@@ -1425,6 +1524,7 @@
         },
         "is-archived-warning": "Archivé le {archivedAt} par {archivedBy}.",
         "list": {
+          "createdAt": "Date de création",
           "dpo": "DPO",
           "dpo-definition": "Délégué à la protection des données",
           "dpo-email": "Adresse e-mail du ",
@@ -1432,6 +1532,9 @@
           "external-id": "Identifiant externe",
           "type": "Type"
         }
+      },
+      "new": {
+        "page-title": "Nouveau centre de certification"
       },
       "notifications": {
         "failure": {
@@ -1666,6 +1769,10 @@
         "team": "Équipe"
       }
     },
+    "organization-learners-list": {
+      "main-title": "Liste des prescrits",
+      "page-title": "Prescrits"
+    },
     "organization-network": {
       "notifications": {
         "error": {
@@ -1704,18 +1811,18 @@
         },
         "caption": "Candidats",
         "empty-result": "Aucun résultat",
-        "subscriptions": {
+        "pix-plus-format": {
           "complementary": "Certification PIX / Complémentaire {pixPlusLabel}",
-          "core": "Certification Pix",
-          "dual-core-clea": "Double Certification PIX/CléA Numérique",
-          "pix-plus": "Certification {pixPlusLabel}",
-          "pix-plus-label": {
-            "DROIT": "Pix+ Droit",
-            "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
-            "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
-            "EDU_CPE": "Pix+ Édu CPE",
-            "PRO_SANTE": "Pix+ Pro Santé"
-          }
+          "pix-plus": "Certification {pixPlusLabel}"
+        },
+        "subscriptions": {
+          "CLEA": "Double Certification PIX/CléA Numérique",
+          "CORE": "Certification Pix",
+          "DROIT": "Pix+ Droit",
+          "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
+          "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
+          "EDU_CPE": "Pix+ Édu CPE",
+          "PRO_SANTE": "Pix+ Pro Santé"
         }
       },
       "informations": {
@@ -1767,9 +1874,9 @@
           "external-id": {
             "aria-label": "Filtrer les sessions avec un identifiant externe"
           },
-          "id": {
-            "aria-label": "Filtrer les sessions avec un id",
-            "label": "Identifiant"
+          "ids": {
+            "aria-label": "Filtrer les sessions avec un ou plusieurs id séparés par des virgules",
+            "label": "ID(s) de session(s)"
           },
           "status": {
             "aria-label": "Filtrer les sessions en sélectionnant un statut"

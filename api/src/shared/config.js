@@ -127,11 +127,6 @@ const schema = Joi.object({
   CPF_PLANNER_JOB_CRON: Joi.string().optional(),
   CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD: Joi.number().optional(),
   CPF_PLANNER_JOB_MONTHS_TO_PROCESS: Joi.number().optional(),
-  CPF_RECEIPTS_STORAGE_ACCESS_KEY_ID: Joi.string().optional(),
-  CPF_RECEIPTS_STORAGE_BUCKET_NAME: Joi.string().optional(),
-  CPF_RECEIPTS_STORAGE_ENDPOINT: Joi.string().optional(),
-  CPF_RECEIPTS_STORAGE_REGION: Joi.string().optional(),
-  CPF_RECEIPTS_STORAGE_SECRET_ACCESS_KEY: Joi.string().optional(),
   CPF_SEND_EMAIL_JOB_CRON: Joi.string().optional(),
   CPF_SEND_EMAIL_JOB_RECIPIENT: Joi.string().optional(),
   DATABASE_CONNECTION_POOL_MAX_SIZE: Joi.number().integer().min(0).optional(),
@@ -163,6 +158,7 @@ const schema = Joi.object({
   LLM_DELETE_CHATS_JOB_CRON: Joi.string().optional(),
   LLM_DELETE_CHATS_JOB_MS_BETWEEN_CHUNKS: Joi.number().min(0).optional(),
   LOG_ENABLED: Joi.string().required().valid('true', 'false'),
+  OTEL_ENABLED: Joi.string().optional().valid('true', 'false').default('false'),
   LOG_FOR_HUMANS: Joi.string().optional().valid('true', 'false'),
   LOG_LEVEL: Joi.string().optional().valid('silent', 'fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   LOG_OPS_METRICS: Joi.string().optional().valid('true', 'false'),
@@ -213,9 +209,6 @@ const configuration = (function () {
           forcePathStyle: true,
         },
       },
-    },
-    account: {
-      passwordValidationPattern: '^(?=.*\\p{Lu})(?=.*\\p{Ll})(?=.*\\d).{8,}$',
     },
     anonymous: {
       accessTokenLifespanMs: ms(process.env.ANONYMOUS_ACCESS_TOKEN_LIFESPAN || '4h'),
@@ -293,15 +286,6 @@ const configuration = (function () {
           },
           commands: {
             preSignedExpiresIn: process.env.CPF_EXPORTS_STORAGE_PRE_SIGNED_EXPIRES_IN || 604800,
-          },
-        },
-        cpfReceipts: {
-          client: {
-            accessKeyId: process.env.CPF_RECEIPTS_STORAGE_ACCESS_KEY_ID,
-            secretAccessKey: process.env.CPF_RECEIPTS_STORAGE_SECRET_ACCESS_KEY,
-            endpoint: process.env.CPF_RECEIPTS_STORAGE_ENDPOINT,
-            region: process.env.CPF_RECEIPTS_STORAGE_REGION,
-            bucket: process.env.CPF_RECEIPTS_STORAGE_BUCKET_NAME,
           },
         },
       },
@@ -421,6 +405,7 @@ const configuration = (function () {
     },
     logging: {
       enabled: toBoolean(process.env.LOG_ENABLED),
+      otelEnabled: toBoolean(process.env.OTEL_ENABLED),
       logLevel: process.env.LOG_LEVEL || 'info',
       logForHumans: _getLogForHumans(),
       logForHumansCompactFormat: process.env.LOG_FOR_HUMANS_FORMAT === 'compact',
@@ -429,6 +414,8 @@ const configuration = (function () {
       enableLogEndingEventDispatch: toBoolean(process.env.LOG_ENDING_EVENT_DISPATCH),
       opsEventIntervalInSeconds: process.env.OPS_EVENT_INTERVAL_IN_SECONDS || 15,
       debugSections: process.env.LOG_DEBUG?.split(',') ?? [],
+      certificationVerificationCodeLogHashSecret:
+        process.env.CERTIFICATION_VERIFICATION_CODE_LOG_HASH_SECRET || 'local',
     },
     login: {
       temporaryBlockingThresholdFailureCount: _getNumber(
@@ -547,10 +534,9 @@ const configuration = (function () {
       accessTokenLifespanMs: ms(process.env.SAML_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
     seeds: getSeedsConfig(),
-    temporaryKey: {
+    passwordResetDemand: {
       secret: process.env.AUTH_SECRET,
-      tokenLifespan: '1d',
-      payload: 'PixResetPassword',
+      lifespan: process.env.PASSWORD_RESET_DEMAND_LIFESPAN || '1h',
     },
     temporarySessionsStorageForMassImport: {
       expirationDelaySeconds:
@@ -571,7 +557,7 @@ const configuration = (function () {
     },
     version: process.env.CONTAINER_VERSION || 'development',
     autonomousCourse: {
-      autonomousCoursesOrganizationId: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10),
+      autonomousCoursesOrganizationId: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10) || 0,
     },
     routeDomainToOwnerTeamMapping: parseJSONEnv('ROUTE_DOMAIN_TO_OWNER_TEAM_MAPPING'),
   };
@@ -670,7 +656,7 @@ const configuration = (function () {
 
     config.authentication.secret = 'the-password-must-be-at-least-32-characters-long';
 
-    config.temporaryKey.secret = 'the-password-must-be-at-least-32-characters-long';
+    config.passwordResetDemand.secret = 'the-password-must-be-at-least-32-characters-long';
 
     config.temporaryStorage.redisUrl = process.env.TEST_REDIS_URL;
     config.authentication.permitPixAdminLoginFromPassword = false;
@@ -686,15 +672,6 @@ const configuration = (function () {
         },
         commands: {
           preSignedExpiresIn: 3600,
-        },
-      },
-      cpfReceipts: {
-        client: {
-          accessKeyId: 'cpfReceipts.accessKeyId',
-          secretAccessKey: 'cpfReceipts.secretAccessKey',
-          endpoint: 'http://cpf-receipts.fake.endpoint.example.net',
-          region: 'eu-west-par',
-          bucket: 'cpfReceipts.bucket',
         },
       },
     };

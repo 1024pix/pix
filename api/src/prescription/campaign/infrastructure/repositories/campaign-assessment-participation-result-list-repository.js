@@ -208,9 +208,13 @@ const filterByUnacquiredBadges = (queryBuilder, filters) => {
  *
  * @returns {Promise<Array>}
  */
-const buildCampaignAssessmentParticipationResultList = async (results, stageCollection) =>
-  PromiseUtils.mapSeries(results, async (result) => {
-    const badges = await getAcquiredBadges(result.campaignParticipationId);
+const buildCampaignAssessmentParticipationResultList = async (results, stageCollection) => {
+  const campaignParticipationIds = results.map(({ campaignParticipationId }) => campaignParticipationId);
+  const badgesByParticipationId = await getAcquiredBadgesByParticipationIds(campaignParticipationIds);
+  const stagesByParticipationId = await getAcquiredStagesByParticipationIds(campaignParticipationIds);
+
+  return PromiseUtils.mapSeries(results, async (result) => {
+    const badges = badgesByParticipationId.get(result.campaignParticipationId) ?? [];
 
     if (!stageCollection.hasStage) {
       return new CampaignAssessmentParticipationResultMinimal({
@@ -219,7 +223,7 @@ const buildCampaignAssessmentParticipationResultList = async (results, stageColl
       });
     }
 
-    const acquiredStages = await getAcquiredStages(result.campaignParticipationId);
+    const acquiredStages = stagesByParticipationId.get(result.campaignParticipationId) ?? [];
     const acquiredStagesCollection = new StageAcquisitionCollection(stageCollection.stages, acquiredStages);
 
     return new CampaignAssessmentParticipationResultMinimal({
@@ -231,18 +235,25 @@ const buildCampaignAssessmentParticipationResultList = async (results, stageColl
       badges,
     });
   });
-
-const getAcquiredStages = (campaignParticipationId) => {
-  const knexConn = DomainTransaction.getConnection();
-
-  return knexConn('stage-acquisitions').select('*').where({ campaignParticipationId });
 };
 
-const getAcquiredBadges = (campaignParticipationId) => {
+const getAcquiredStagesByParticipationIds = async (campaignParticipationIds) => {
   const knexConn = DomainTransaction.getConnection();
 
-  return knexConn('badge-acquisitions')
-    .select(['badges.id AS id', 'title', 'altMessage', 'imageUrl'])
+  const stageAcquisitions = await knexConn('stage-acquisitions')
+    .select('*')
+    .whereIn('campaignParticipationId', campaignParticipationIds);
+
+  return Map.groupBy(stageAcquisitions, (stageAcquisition) => stageAcquisition.campaignParticipationId);
+};
+
+const getAcquiredBadgesByParticipationIds = async (campaignParticipationIds) => {
+  const knexConn = DomainTransaction.getConnection();
+
+  const badgesAcquisitions = await knexConn('badge-acquisitions')
+    .select(['badges.id AS id', 'title', 'altMessage', 'imageUrl', 'campaignParticipationId'])
     .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
-    .where({ campaignParticipationId: campaignParticipationId });
+    .whereIn('campaignParticipationId', campaignParticipationIds);
+
+  return Map.groupBy(badgesAcquisitions, (badgesAcquisition) => badgesAcquisition.campaignParticipationId);
 };

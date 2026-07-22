@@ -325,4 +325,22 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
       ]);
     });
   });
+
+  context('#onCandidateReconciled', function () {
+    it('send expected candidate data to event api', async function () {
+      await eventAdapter.onCandidateReconciled({ candidate: candidateA, dependencies });
+
+      expect(eventApi.pushEvents).to.have.been.calledWithExactly([
+        {
+          name: EVENT_NAMES.CANDIDATE_RECONCILED,
+          candidateId: 123,
+          createdAt: 'createdAt A',
+          metadata: {
+            reconciledAt: 'reconciledAt A',
+            userId: 'userId A',
+          },
+        },
+      ]);
+    });
+  });
 });

@@ -1,5 +1,5 @@
 import { OrganizationFeature } from '../../../../../src/organizational-entities/domain/models/OrganizationFeature.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';

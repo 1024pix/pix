@@ -12,8 +12,8 @@ import { CertificationVersionForbiddenDeletionError } from '../errors.js';
 
 export async function deleteCertificationVersion({ certificationVersionId, versionRepository }) {
   const version = await versionRepository.getById({ id: certificationVersionId });
-  if (version.startDate) {
+  if (!version.canRemove) {
     throw new CertificationVersionForbiddenDeletionError();
   }
-  await versionRepository.deleteVersion(certificationVersionId);
+  await versionRepository.remove(certificationVersionId);
 }

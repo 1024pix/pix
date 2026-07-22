@@ -94,8 +94,9 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         const trainingCardButton = screen.getByRole('button', {
           name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
         });
+
         await click(trainingCardButton);
-        const modal = await screen.findByRole('dialog');
+        const modal = await screen.findByRole('dialog', { name: training.title });
 
         // when
         assert.dom(within(modal).getByRole('button', { name: t('common.no') })).doesNotHaveClass('selected');
@@ -110,12 +111,25 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         await click(thumbsDownButton);
         assert.dom(thumbsUpButton).doesNotHaveClass('selected');
         assert.dom(thumbsDownButton).hasClass('selected');
+        assert
+          .dom(await within(modal).findByRole('status'))
+          .hasText(t('pages.skill-review.recommended-engine.modal.feedback.success-message'));
 
         const actionButtons = within(modal).getByRole('list');
         await click(within(actionButtons).getByRole('button', { name: t('common.actions.close') }));
         await click(trainingCardButton);
 
-        const reopenedModal = await screen.findByRole('dialog');
+        const reopenedModal = await screen.findByRole('dialog', { name: training.title });
+
+        assert.dom(within(reopenedModal).queryByRole('status')).doesNotExist();
+        assert
+          .dom(
+            within(reopenedModal).queryByText(
+              t('pages.skill-review.recommended-engine.modal.feedback.success-message'),
+            ),
+          )
+          .doesNotExist();
+
         assert.dom(within(reopenedModal).getByRole('button', { name: t('common.yes') })).doesNotHaveClass('selected');
         assert.dom(within(reopenedModal).getByRole('button', { name: t('common.no') })).hasClass('selected');
       });
@@ -155,7 +169,7 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
             name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
           }),
         );
-        await screen.findByRole('dialog');
+        await screen.findByRole('dialog', { name: training.title });
 
         // then
         sinon.assert.calledWithExactly(trackEventStub, 'Moteur de reco - Clic sur la carte du contenu formatif', {
@@ -180,7 +194,7 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.modal.objectives') }));
 
         // then
-        sinon.assert.callCount(trackEventStub, 4);
+        sinon.assert.callCount(trackEventStub, 5);
 
         // when
         await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.modal.program') }));
@@ -200,7 +214,7 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
         await click(screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.modal.program') }));
 
         // then
-        sinon.assert.callCount(trackEventStub, 5);
+        sinon.assert.callCount(trackEventStub, 6);
 
         // when
         await click(
@@ -235,6 +249,73 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
 
         // then
         assert.dom(screen.queryByText(campaign.title)).doesNotExist();
+      });
+    });
+
+    module('regarding the NPS drawer', function (hooks) {
+      let observerCallback;
+      let observerInstance;
+
+      hooks.beforeEach(function () {
+        server.create('training', {
+          campaignParticipation,
+          title: 'Formation test',
+          link: 'https://example.net/',
+          type: 'webinaire',
+          duration: { hours: 2, days: 1, minutes: 0 },
+          deliveryMode: 'remote',
+          editorName: 'Éditeur test',
+          editorLogoUrl: 'https://example.net/logo.svg',
+          objectives: ['Objectif 1'],
+          program: 'Programme test',
+          description: 'Description test',
+          registrationRequired: false,
+          isRelevant: null,
+        });
+
+        observerInstance = {
+          observe: sinon.stub(),
+          disconnect: sinon.stub(),
+        };
+
+        window.IntersectionObserver = function (callback) {
+          observerCallback = callback;
+          return observerInstance;
+        };
+      });
+
+      hooks.afterEach(function () {
+        delete window.IntersectionObserver;
+        sinon.restore();
+      });
+
+      test('should display the drawer when user has not answered the survey', async function (assert) {
+        // given
+        server.get('/campaigns/:campaignId/has-answered-survey', () => ({ hasAnswered: false }));
+
+        // when
+        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+
+        // then
+        observerCallback([{ isIntersecting: true }]);
+        assert
+          .dom(await screen.findByRole('dialog', { name: t('pages.skill-review.recommended-engine.drawer.title') }))
+          .exists();
+      });
+
+      module('when user has already answered the survey', function () {
+        test('should not display the drawer', async function (assert) {
+          // given
+          server.get('/campaigns/:campaignId/has-answered-survey', () => ({ hasAnswered: true }));
+
+          // when
+          const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+
+          // then
+          assert
+            .dom(screen.queryByRole('dialog', { name: t('pages.skill-review.recommended-engine.drawer.title') }))
+            .doesNotExist();
+        });
       });
     });
   });
@@ -281,6 +362,18 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
 
       // then
       assert.dom('.evaluation-results-recommendation-engine').doesNotExist();
+    });
+
+    test('should not display the NPS drawer nor call has-answered-survey', async function (assert) {
+      // when
+      const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+
+      // then
+      assert
+        .dom(screen.queryByRole('dialog', { name: t('pages.skill-review.recommended-engine.drawer.title') }))
+        .doesNotExist();
+      const requests = server.pretender.handledRequests.filter(({ url }) => url.includes('has-answered-survey'));
+      assert.strictEqual(requests.length, 0, 'Request to GET has-answered-survey should not be done');
     });
   });
 });

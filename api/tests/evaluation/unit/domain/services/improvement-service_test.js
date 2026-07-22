@@ -1,7 +1,4 @@
-import sinon from 'sinon';
-
 import * as improvementService from '../../../../../src/evaluation/domain/services/improvement-service.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
@@ -11,8 +8,6 @@ describe('Unit | Service | ImprovementService', function () {
 
   beforeEach(function () {
     assessmentDate = '2020-07-30';
-    sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(3);
-    sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(4);
 
     //Data For Improvement Service
     const fiveDaysBeforeAssesmentDate = '2020-07-25';
@@ -128,6 +123,8 @@ describe('Unit | Service | ImprovementService', function () {
           isImproving: false,
           isFromCampaign: true,
           createdAt: assessmentDate,
+          minimumDelayInDaysBeforeRetrying: 3,
+          minimumDelayInDaysBeforeImproving: 4,
         });
 
         // then
@@ -149,6 +146,8 @@ describe('Unit | Service | ImprovementService', function () {
           isImproving: true,
           isFromCampaign: true,
           createdAt: assessmentDate,
+          minimumDelayInDaysBeforeRetrying: 3,
+          minimumDelayInDaysBeforeImproving: 4,
         });
 
         // then

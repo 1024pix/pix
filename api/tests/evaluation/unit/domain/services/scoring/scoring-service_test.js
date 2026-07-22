@@ -3,7 +3,7 @@ import {
   MAX_REACHABLE_LEVEL,
   MAX_REACHABLE_PIX_BY_COMPETENCE,
   PIX_COUNT_BY_LEVEL,
-} from '../../../../../../src/shared/domain/constants.js';
+} from '../../../../../../src/shared/constants.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

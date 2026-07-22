@@ -3,8 +3,8 @@ import Joi from 'joi';
 import { sendJsonApiError } from '../../../shared/application/errors/http-errors.js';
 import { PayloadTooLargeError } from '../../../shared/application/errors/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
-import { MAX_FILE_SIZE_UPLOAD } from '../../../shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
+import { MAX_FILE_SIZE_UPLOAD } from '../../../shared/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { organizationImportController } from './organization-import-controller.js';
 

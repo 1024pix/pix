@@ -1,8 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class ToBePublishedSessionAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   urlForQuery() {
     return `${this.host}/${this.namespace}/sessions/to-publish`;
   }

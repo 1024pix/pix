@@ -7,6 +7,7 @@ import { createLiveAlert } from '../../../evaluation/domain/usecases/create-live
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import {
   answerRepository,
   assessmentRepository,
@@ -22,7 +23,6 @@ import {
   sharedCompetenceMarkRepository,
 } from '../../infrastructure/repositories/index.js';
 import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
-import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
 import * as sessionPublicationService from '../services/session-publication-service.js';
 import { abortCertificationCourse } from './abort-certification-course.js';
 import { assignCertificationOfficerToJurySession } from './assign-certification-officer-to-jury-session.js';
@@ -94,7 +94,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
- * @typedef {import('../../infrastructure/storage/cpf-receipts-storage.js').cpfReceiptsStorage} CpfReceiptsStorage
  * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js').cpfExportsStorage} CpfExportsStorage
  * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
  * @typedef {import('../services/session-publication-service.js')} SessionPublicationService
@@ -139,7 +138,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
- * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
  * @typedef {cpfExportsStorage} CpfExportsStorage
  * @typedef {placementProfileService} PlacementProfileService
  * @typedef {certificationCpfService} CertificationCpfService
@@ -161,7 +159,6 @@ const dependencies = {
   sharedCompetenceMarkRepository,
   challengeRepository,
   competenceMarkRepository,
-  cpfReceiptsStorage,
   cpfExportsStorage,
   cpfExportRepository,
   certificationBadgesService,
@@ -222,6 +219,6 @@ const usecasesWithoutInjectedDependencies = {
   updateEduV3ExternalJuryResult,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

@@ -1,4 +1,4 @@
-import { _getTotalElementsCount } from '../../../../scripts/modulix/get-modules-csv.js';
+import { _getTotalElementsCount } from '../../../../src/devcomp/scripts/get-modules-csv.js';
 import { expect } from '../../../test-helper.js';
 import { catchErrSync } from '../../../tooling/test-utils/error.js';
 

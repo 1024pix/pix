@@ -5,7 +5,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
 import { SUBSCRIPTION_TYPES } from '../../shared/domain/constants.js';
-import { ComplementaryCertificationKeys } from '../../shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../shared/domain/models/Frameworks.js';
 import { certificationCandidateController } from './certification-candidate-controller.js';
 
 const Joi = BaseJoi.extend(JoiDate);
@@ -43,16 +43,16 @@ const register = async function (server) {
                   'date.format': 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
                 }),
                 'organization-learner-id': Joi.number().empty(null).forbidden(),
+                subscription: Joi.string().valid(...Object.values(Frameworks)),
                 subscriptions: Joi.array()
                   .items(
                     Joi.object({
                       type: Joi.string().valid(...Object.values(SUBSCRIPTION_TYPES)),
                       complementaryCertificationKey: Joi.string()
-                        .valid(...Object.values(ComplementaryCertificationKeys))
+                        .valid(...Object.values(Frameworks))
                         .allow(null),
                     }),
                   )
-                  .required()
                   .min(1)
                   .max(2),
               },

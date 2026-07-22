@@ -1,3 +1,5 @@
+import { Response } from 'miragejs';
+
 import { applyPagination, getPaginationFromQueryParams } from './pagination-utils';
 
 function getOrganizationPlaces(schema) {
@@ -109,8 +111,25 @@ function getOrganizationAttachedCertificationCenters(schema, request) {
   return schema.attachedCertificationCenters.where({ organizationId });
 }
 
+function attachCertificationCenterToOrganization(schema, request) {
+  const organizationId = request.params.id;
+  const payload = JSON.parse(request.requestBody);
+  const certificationCenterId = payload.certificationCenterId;
+
+  const certificationCenter = schema.certificationCenters.findBy({ id: certificationCenterId });
+
+  schema.create('attached-certification-center', {
+    id: certificationCenterId,
+    organizationId,
+    name: certificationCenter.name,
+  });
+
+  return new Response(204);
+}
+
 export {
   archiveOrganization,
+  attachCertificationCenterToOrganization,
   findOrganizationCampaigns,
   findPaginatedFilteredOrganizations,
   findPaginatedOrganizationMemberships,

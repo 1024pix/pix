@@ -4,12 +4,12 @@ import { computed } from '@ember/object';
 import { equal, not } from '@ember/object/computed';
 import Mixin from '@ember/object/mixin';
 import Model, { attr, belongsTo } from '@ember-data/model';
-import jsyaml from 'js-yaml';
+import { load } from 'js-yaml';
 
 const ValueAsArrayOfString = Mixin.create({
   _valuesAsMap: computed('value', function () {
     try {
-      return jsyaml.load(this.value);
+      return load(this.value);
     } catch {
       return undefined;
     }

@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import * as frameworksAPI from '../../../../learning-content/application/api/frameworks-api.js';
 import * as campaignRepository from '../../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
-import { PIX_ORIGIN } from '../../../../shared/domain/constants.js';
+import { PIX_ORIGIN } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NoSkillsInCampaignError, NotFoundError } from '../../../../shared/domain/errors.js';
 import { CampaignLearningContent } from '../../../../shared/domain/models/CampaignLearningContent.js';

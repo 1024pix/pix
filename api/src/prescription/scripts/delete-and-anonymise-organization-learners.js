@@ -2,7 +2,7 @@ import { knex } from '../../../db/knex-database-connection.js';
 import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
 import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
-import { CLIENTS, PIX_ADMIN } from '../../shared/domain/constants.js';
+import { CLIENTS, PIX_ADMIN } from '../../shared/constants.js';
 import { usecases } from '../learner-management/domain/usecases/index.js';
 // Définition du script
 export class DeleteAndAnonymiseOrganizationLearnerScript extends Script {

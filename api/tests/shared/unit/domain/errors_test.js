@@ -1,4 +1,4 @@
-import { VALIDATION_ERRORS } from '../../../../src/shared/domain/constants.js';
+import { VALIDATION_ERRORS } from '../../../../src/shared/constants.js';
 import {
   AssessmentEndedError,
   EntityValidationError,

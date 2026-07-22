@@ -1,4 +1,3 @@
-import randomString from 'randomstring';
 import sinon from 'sinon';
 
 import * as service from '../../../../../src/identity-access-management/domain/services/password-generator.service.js';
@@ -18,13 +17,13 @@ describe('Unit | Identity Access Management | Domain | Service | password-genera
 
     it('does not contain hard to read characters', function () {
       // given
-      const hardToReadCharacters = '[ilo]';
+      const hardToReadCharacters = /[ilo]/;
 
       // when
       generatedPassword = service.generateSimplePassword();
 
       // then
-      expect(RegExp(hardToReadCharacters).test(generatedPassword)).to.be.false;
+      expect(generatedPassword).to.not.match(hardToReadCharacters);
     });
 
     it('contains 6 lowercase letters and two digits', function () {
@@ -32,23 +31,20 @@ describe('Unit | Identity Access Management | Domain | Service | password-genera
       generatedPassword = service.generateSimplePassword();
 
       // then
-      expect(RegExp('^[a-z]{6}[0-9]{2}$').test(generatedPassword)).to.be.true;
+      expect(generatedPassword).to.match(/^[abcdefghjkmnpqrstuvwxyz]{6}[0-9]{2}$/);
     });
   });
 
   context('#generateComplexPassword', function () {
     it('has a length of 32 characters', function () {
       // given
-      sinon.stub(randomString, 'generate');
+      const generateCode = sinon.stub();
 
       // when
-      generatedPassword = service.generateComplexPassword();
+      service.generateComplexPassword({ generateCode });
 
       // then
-      expect(randomString.generate).to.have.been.calledWithExactly({
-        length: 32,
-        charset: 'alphanumeric',
-      });
+      expect(generateCode).to.have.been.calledWithExactly(32, 'alphanumeric');
     });
   });
 });

@@ -751,6 +751,16 @@
       "copy-of": "Copie de",
       "course-label": "Sélectionnez un parcours",
       "course-selection-label": "Sélectionner un parcours",
+      "course-title": {
+        "label": "Titre du parcours",
+        "sublabel": "Ce champ sera affiché aux participants de la campagne."
+      },
+      "customization": {
+        "title": "Personnalisation"
+      },
+      "exam-mode": {
+        "label": "Souhaitez-vous activer le mode interro ?"
+      },
       "external-id-label": {
         "label": "Libellé de l’identifiant",
         "question-label": "Souhaitez-vous demander un identifiant externe ?",
@@ -800,6 +810,9 @@
         "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix.",
         "profiles-collection-info-certificability-calculation": "Le statut Certifiable est mis à jour automatiquement dans l’onglet '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Élèves'</a>'."
       },
+      "settings": {
+        "title": "Paramétrage"
+      },
       "tags": {
         "BACK_TO_SCHOOL": "Parcours de rentrée / 6e",
         "COMPETENCES": "Les 16 compétences",
@@ -817,10 +830,6 @@
       "target-profiles-label": "Sélectionner un parcours",
       "target-profiles-list-label": "Que souhaitez-vous tester ?",
       "target-profiles-search-placeholder": "Rechercher par nom",
-      "test-title": {
-        "label": "Titre du parcours",
-        "sublabel": "Ce champ sera affiché aux participants de la campagne."
-      },
       "title": "Création d'une campagne",
       "yes": "Oui"
     },
@@ -1073,9 +1082,9 @@
       },
       "tab-filters": {
         "all": "Tous",
-        "blueprints": "Parcours apprenants",
+        "blueprints": "Apprentissage",
         "label": "Type de parcours",
-        "target-profiles": "Parcours"
+        "target-profiles": "Évaluation"
       },
       "title": "Catalogue de parcours"
     },
@@ -1127,11 +1136,17 @@
           "first-name": "Prénom",
           "last-name": "Nom",
           "modules": "Modules",
+          "reward": "Attestation",
           "status": "Statut"
         },
         "description": "Listes des participations au parcours",
         "module-completion": "{nbItemsCompleted, plural, =0 {Aucun module complété sur {nbItems}} =1 {Un module complété sur {nbItems}} other {{nbItemsCompleted} modules complétés sur {nbItems}}}.",
         "no-module": "Aucun module recommandé.",
+        "rewards": {
+          "in-progress": "En cours d'obtention",
+          "not-obtained": "Non obtenue",
+          "obtained": "Obtenue"
+        },
         "tooltip": {
           "campaigns-column": "'x / y' indique la progression du participant : il a terminé x campagnes sur un total de y. Par exemple, 1/2 signifie qu'il a terminé 1 campagne sur 2.",
           "modules-column": "'x / y' indique la progression du participant : il a terminé x modules sur un total de y. Le total de modules diffère pour chacun, en fonction des recommandations personnalisées."

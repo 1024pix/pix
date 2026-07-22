@@ -1,8 +1,7 @@
 import { createServer } from '../../../../../server.js';
 import { IMPORT_KEY_FIELD } from '../../../../../src/prescription/learner-management/domain/constants.js';
 import { getLastByOrganizationId } from '../../../../../src/prescription/learner-management/infrastructure/repositories/organization-import-repository.js';
-import { PIX_ADMIN } from '../../../../../src/shared/domain/constants.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE, PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';

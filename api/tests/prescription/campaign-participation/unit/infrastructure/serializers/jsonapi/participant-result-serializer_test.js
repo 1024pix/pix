@@ -5,7 +5,6 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../../src/prescription/shared/domain/constants.js';
-import { constants } from '../../../../../../../src/shared/domain/constants.js';
 import { KnowledgeElement } from '../../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { AssessmentResult } from '../../../../../../../src/shared/domain/read-models/participant-results/AssessmentResult.js';
 import { expect } from '../../../../../../test-helper.js';
@@ -24,7 +23,6 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
     beforeEach(function () {
       now = new Date('2020-01-04');
       clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(4);
 
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({

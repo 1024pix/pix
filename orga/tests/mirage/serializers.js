@@ -12,6 +12,7 @@ import campaignProfile from './serializers/campaign-profile';
 import campaignProfilesCollectionParticipationSummary from './serializers/campaign-profiles-collection-participation-summary';
 import combinedCourse from './serializers/combined-course';
 import competence from './serializers/competence';
+import course from './serializers/course';
 import framework from './serializers/framework';
 import informationBanner from './serializers/information-banner';
 import membership from './serializers/membership';
@@ -41,6 +42,7 @@ export default {
   campaignProfilesCollectionParticipationSummary,
   combinedCourse,
   competence,
+  course,
   framework,
   informationBanner,
   membership,

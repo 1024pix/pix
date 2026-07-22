@@ -12,7 +12,7 @@ There are three processes the API can run as:
 
 **`index.js` → HTTP server.** The main process. It boots a Hapi server, connects to databases, initializes Redis pub/sub, and registers a Prometheus metrics endpoint. It handles graceful shutdown on `SIGTERM`/`SIGINT`.
 
-**`worker.js` → Background job worker.** A second process that consumes jobs from a PostgreSQL-backed queue (PG Boss). Jobs are grouped into `DEFAULT` and `FAST` queues. This process shares the same domain and infrastructure code but listens for work rather than HTTP requests.
+**`worker.js` → Background job worker.** A second process that consumes jobs from a PostgreSQL-backed queue (PG Boss). Jobs are grouped into `DEFAULT` and `MADDO` queues. This process shares the same domain and infrastructure code but listens for work rather than HTTP requests.
 
 **`server.js` → Server factory.** Not a process itself, but a factory function that configures the Hapi instance: registers plugins, sets up authentication strategies (JWT, OIDC, SAML), registers all routes across 22+ bounded contexts, and configures error handling, CORS, and HSTS headers.
 
@@ -61,10 +61,10 @@ Every bounded context follows the same internal structure:
 
 The API connects to **four PostgreSQL databases**:
 
-| Connection | Purpose |
-|---|---|
-| `DATABASE_URL` | Main transactional database |
-| `JOBS_DATABASE_URL` | PG Boss job queue |
+| Connection          | Purpose                     |
+| ------------------- | --------------------------- |
+| `DATABASE_URL`      | Main transactional database |
+| `JOBS_DATABASE_URL` | PG Boss job queue           |
 
 There are **794 Knex migration files** in `db/migrations/`, representing the full history of the schema. Knex extensions add a few quality-of-life improvements: `whereInArray()` for querying PostgreSQL arrays, automatic date parsing to `YYYY-MM-DD` strings (instead of JavaScript `Date` objects), and query comment injection for observability.
 
@@ -117,16 +117,16 @@ The API takes monitoring seriously:
 
 ## Key Infrastructure Services
 
-| Service | Implementation |
-|---|---|
-| Email | Nodemailer + Brevo (Sendinblue) API |
-| File storage | Generic S3 via `@aws-sdk/client-s3` |
-| Cache / KV | Redis (`ioredis`) with in-memory fallback |
-| Distributed locking | Redis-based `RedisMutex` |
-| Pub/Sub | Redis + GraphQL subscriptions |
-| PDF generation | `pdfkit` + `pdf-lib` |
-| Excel/CSV export | `xlsx` + `@json2csv` |
-| SAML/XML | `samlify`, `xml2js`, `xmlbuilder2` |
+| Service             | Implementation                            |
+| ------------------- | ----------------------------------------- |
+| Email               | Nodemailer + Brevo (Sendinblue) API       |
+| File storage        | Generic S3 via `@aws-sdk/client-s3`       |
+| Cache / KV          | Redis (`ioredis`) with in-memory fallback |
+| Distributed locking | Redis-based `RedisMutex`                  |
+| Pub/Sub             | Redis + GraphQL subscriptions             |
+| PDF generation      | `pdfkit` + `pdf-lib`                      |
+| Excel/CSV export    | `xlsx` + `@json2csv`                      |
+| SAML/XML            | `samlify`, `xml2js`, `xmlbuilder2`        |
 
 ---
 

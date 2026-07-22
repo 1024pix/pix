@@ -1,6 +1,6 @@
 import { JurySession } from '../../../../../../src/certification/session-management/domain/models/JurySession.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

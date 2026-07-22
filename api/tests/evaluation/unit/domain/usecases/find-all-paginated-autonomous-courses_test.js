@@ -1,14 +1,11 @@
 import sinon from 'sinon';
 
 import { findAllPaginatedAutonomousCourses } from '../../../../../src/evaluation/domain/usecases/find-all-paginated-autonomous-courses.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | find-all-paginated-autonomous-courses', function () {
   it('should return a paginated list of autonomous courses', async function () {
     // given
-    sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
     const page = {
       size: 10,
       number: 1,

@@ -98,13 +98,6 @@ export default class Item extends Component {
     return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
   }
 
-  _isAssessmentEndedByInvigilatorOrByFinalization(error) {
-    return (
-      error?.errors?.[0]?.detail === 'Le surveillant a mis fin à votre test de certification.' ||
-      error?.errors?.[0]?.detail === 'La session a été finalisée par votre centre de certification.'
-    );
-  }
-
   @action
   async answerValidated(challenge, assessment, answerValue, answerTimeout, answerFocusedOut) {
     if (assessment.hasOngoingChallengeLiveAlert) {
@@ -140,7 +133,13 @@ export default class Item extends Component {
     } catch (error) {
       answer.rollbackAttributes();
 
-      if (this._isAssessmentEndedByInvigilatorOrByFinalization(error)) {
+      const apiError = error?.errors?.[0];
+      const isCertificationEnded =
+        apiError?.code === 'CERTIFICATION_DURATION_EXCEEDED' ||
+        apiError?.detail === 'Le surveillant a mis fin à votre test de certification.' ||
+        apiError?.detail === 'La session a été finalisée par votre centre de certification.';
+
+      if (isCertificationEnded) {
         this.router.transitionTo('authenticated.certifications.results', assessment.certificationCourse.get('id'));
         return;
       }

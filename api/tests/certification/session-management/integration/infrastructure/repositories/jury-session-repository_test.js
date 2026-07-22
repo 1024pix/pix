@@ -255,28 +255,30 @@ describe('Integration | Repository | JurySession', function () {
         });
       });
 
-      context('when there is a filter on the ID', function () {
-        let expectedSession;
+      context('when there is a filter on the IDs', function () {
+        let firstExpectedSession;
+        let secondExpectedSession;
 
         beforeEach(function () {
-          expectedSession = databaseBuilder.factory.buildSession({ id: 121 });
-          databaseBuilder.factory.buildSession({ id: 333 });
+          firstExpectedSession = databaseBuilder.factory.buildSession({ id: 121 });
+          secondExpectedSession = databaseBuilder.factory.buildSession({ id: 333 });
+          databaseBuilder.factory.buildSession({ id: 555 });
 
           return databaseBuilder.commit();
         });
 
         it('should apply the strict filter and return the appropriate results', async function () {
           // given
-          const filters = { id: expectedSession.id };
+          const filters = { ids: [firstExpectedSession.id, secondExpectedSession.id] };
           const page = { number: 1, size: 10 };
-          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
           // when
           const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
 
           // then
           expect(pagination).to.deep.equal(expectedPagination);
-          expect(jurySessions[0].id).to.equal(expectedSession.id);
+          expect(jurySessions.map(({ id }) => id)).to.have.members([firstExpectedSession.id, secondExpectedSession.id]);
         });
       });
 

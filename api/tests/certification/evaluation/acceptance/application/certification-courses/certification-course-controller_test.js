@@ -1,9 +1,11 @@
 import { createServer } from '../../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationIssueReportCategory } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';
 import {
   generateAuthenticatedUserRequestHeaders,
@@ -32,18 +34,17 @@ describe('Acceptance | API | Certification Course', function () {
       const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
 
       const reconciledAt = new Date('2025-01-01');
-      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCertificationCandidate({
         userId,
         sessionId: session.id,
         reconciledAt,
       }).id;
 
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateId });
-
-      const versionId = databaseBuilder.factory.buildCertificationVersion({
-        startDate: new Date('2024-01-01'),
-        expirationDate: null,
-      }).id;
+      const versionId = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asDraft({ startDate: new Date('2024-01-01') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
+        .insertToDB({ databaseBuilder }).id;
 
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         sessionId: session.id,
@@ -400,12 +401,12 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
     authorizedToStart: true,
     reconciledAt: new Date('2019-02-01'),
   });
-  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
 
-  databaseBuilder.factory.buildCertificationVersion({
-    startDate: new Date('2019-01-01'),
-    expirationDate: null,
-  });
+  domainBuilder.certification.configuration
+    .versionBuilder()
+    .asDraft({ startDate: new Date('2019-01-01') })
+    .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 123 })
+    .insertToDB({ databaseBuilder });
 
   databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
     learningContent,
@@ -426,17 +427,22 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
   return { certificationCandidate };
 }
 
-function _createExistingCertifCourseSetup({ learningContent, userId, sessionId, version = 2 }) {
+function _createExistingCertifCourseSetup({ learningContent, userId, sessionId, version = 2, createdAt = new Date() }) {
   const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
   databaseBuilder.factory.learningContent.build(learningContentObjects);
-  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, version }).id;
+  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+    userId,
+    sessionId,
+    version,
+    createdAt,
+  }).id;
   databaseBuilder.factory.buildAssessment({ userId, certificationCourseId });
 
-  const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
-  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+  databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
 
-  databaseBuilder.factory.buildCertificationVersion({
-    startDate: new Date('2020-01-01'),
-    expirationDate: null,
-  });
+  domainBuilder.certification.configuration
+    .versionBuilder()
+    .asDraft({ startDate: new Date('2020-01-01') })
+    .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
+    .insertToDB({ databaseBuilder });
 }

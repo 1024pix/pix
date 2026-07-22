@@ -1,19 +1,22 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
+import PixTable from '@1024pix/pix-ui/components/pix-table';
+import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { eq, gt } from 'ember-truth-helpers';
-import PixFieldset from 'pix-admin/components/ui/pix-fieldset';
+import { and, eq, gt, not, or } from 'ember-truth-helpers';
 
-import RequirementTag from '../common/combined-courses/requirement-tag';
+import Card from '../card';
 import TubesSelection from '../common/tubes-selection';
 import SelectAttestation from './select-attestation';
 
@@ -22,9 +25,12 @@ export default class CombinedCourseBlueprintForm extends Component {
   @service store;
   @service intl;
   @service router;
-  @tracked itemType = 'targetProfile';
+  @tracked itemType = 'evaluation';
   @tracked itemValue = '';
   @tracked blueprint;
+  @tracked selectedTubes;
+  @tracked itemAddDisabled = true;
+  @tracked itemToAdd = null;
 
   constructor() {
     super(...arguments);
@@ -37,46 +43,45 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  async addItem(event) {
+  addItem(event) {
     event.preventDefault();
+
+    this.addToContent();
+
+    this.itemValue = null;
+    document.getElementsByName('itemType')[0].focus();
+  }
+
+  addToContent() {
+    this.blueprint.content = [...this.blueprint.content, this.itemToAdd];
+  }
+
+  async previewItem() {
+    this.itemToAdd = null;
+
     try {
-      if (this.itemType === 'targetProfile') {
-        await this.addTargetProfile();
+      if (this.itemType === 'module') {
+        const module = await this.store.findRecord('module', this.itemValue);
+        this.itemToAdd = {
+          type: 'module',
+          value: module.id,
+          label: module.title,
+          shortId: module.shortId,
+          image: module.details.image,
+        };
       } else {
-        await this.addModule();
+        const targetProfile = await this.store.findRecord('target-profile', this.itemValue);
+        this.itemToAdd = {
+          type: 'evaluation',
+          value: Number(this.itemValue),
+          label: targetProfile.internalName,
+          image: targetProfile.imageUrl,
+        };
       }
     } catch (responseError) {
       this.#handleErrorForResource(this.itemType, responseError);
-    } finally {
-      this.itemValue = null;
-      document.getElementsByName('itemType')[0].focus();
+      this.itemAddDisabled = true;
     }
-  }
-
-  async addTargetProfile() {
-    const targetProfile = await this.store.findRecord('target-profile', this.itemValue);
-    this.blueprint.content = [
-      ...this.blueprint.content,
-      {
-        type: 'evaluation',
-        value: Number(this.itemValue),
-        label: targetProfile.internalName,
-      },
-    ];
-  }
-
-  async addModule() {
-    const module = await this.store.findRecord('module', this.itemValue);
-
-    this.blueprint.content = [
-      ...this.blueprint.content,
-      {
-        type: 'module',
-        value: module.id,
-        shortId: module.shortId,
-        label: module.title,
-      },
-    ];
   }
 
   #handleErrorForResource(resourceName, responseError) {
@@ -95,9 +100,10 @@ export default class CombinedCourseBlueprintForm extends Component {
   async save() {
     try {
       await this.blueprint.save({
-        adapterOptions: this.selectedTubes
-          ? { cappedTubeRequirements: [{ tubes: this.selectedTubes, threshold: this.threshold }] }
-          : null,
+        adapterOptions:
+          this.selectedTubes && this.selectedTubes.length
+            ? { cappedTubeRequirements: [{ tubes: this.selectedTubes, threshold: this.threshold }] }
+            : null,
       });
       this.pixToast.sendSuccessNotification({
         message: this.args.updateMode
@@ -133,11 +139,22 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   setItemType(e) {
     this.itemType = e.target.value;
+    if (this.itemValue === '') {
+      this.itemAddDisabled = true;
+    }
   }
 
   @action
-  setItemValue(e) {
+  async setItemValue(e) {
     this.itemValue = e.target.value;
+
+    if (this.itemValue === '') {
+      this.itemAddDisabled = true;
+      this.itemToAdd = null;
+    } else {
+      this.itemAddDisabled = false;
+      await this.previewItem();
+    }
   }
 
   @action
@@ -149,8 +166,10 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  removeRequirement({ type, value }) {
-    this.blueprint.content = this.blueprint.content.filter((item) => item.value !== value || item.type !== type);
+  removeRequirement(value) {
+    this.blueprint.content = this.blueprint.content.filter(
+      (item) => item.id !== value.id || item.shortId !== value.shortId,
+    );
   }
 
   @action
@@ -166,172 +185,295 @@ export default class CombinedCourseBlueprintForm extends Component {
     this.threshold = e.target.value;
   }
 
+  @action
+  goToListPage() {
+    this.router.transitionTo('authenticated.combined-course-blueprints.list');
+  }
+
+  @action
+  getItemColor(type) {
+    return type === 'evaluation' ? 'purple' : 'blue';
+  }
+
   <template>
-    <PixBlock @variant="admin" class="combined-course-page">
+    <form class="combined-course-blueprint-form">
+      <h1 class="combined-course-blueprint-form__title">
+        {{if
+          @updateMode
+          (t "components.combined-course-blueprints.update.title")
+          (t "components.combined-course-blueprints.create.title")
+        }}</h1>
 
-      <form class="combined-course-page__form">
-        <h1 class="combined-course-page__title">
-          {{if
-            @updateMode
-            (t "components.combined-course-blueprints.update.title")
-            (t "components.combined-course-blueprints.create.title")
-          }}</h1>
+      <GeneralInfoSection
+        @blueprint={{this.blueprint}}
+        @setData={{this.setData}}
+        @setAttestation={{this.setAttestation}}
+        @updateMode={{@updateMode}}
+        @model={{@model}}
+      />
 
-        {{#unless @updateMode}}
-          <PixFieldset>
-            <:title>
-              {{t "components.combined-course-blueprints.create.fieldsetElement"}}
-            </:title>
-            <:content>
-              <div class="combined-course-page__fieldset">
-                <PixRadioButton
-                  name="itemType"
-                  @value="targetProfile"
-                  checked={{if (eq this.itemType "targetProfile") "checked"}}
-                  {{on "change" this.setItemType}}
-                >
-                  <:label>{{t "components.combined-course-blueprints.labels.target-profile"}}</:label>
-                </PixRadioButton>
-                <PixRadioButton
-                  name="itemType"
-                  checked={{if (eq this.itemType "module") "checked"}}
-                  @value="module"
-                  {{on "change" this.setItemType}}
-                >
-                  <:label>{{t "components.combined-course-blueprints.labels.module"}}</:label>
-                </PixRadioButton>
-              </div>
-            </:content>
-          </PixFieldset>
+      {{#unless @updateMode}}
+        <ContentSection
+          @setItemType={{this.setItemType}}
+          @addItem={{this.addItem}}
+          @setItemValue={{this.setItemValue}}
+          @blueprint={{this.blueprint}}
+          @updateMode={{@updateMode}}
+          @handleKeyPress={{this.handleKeyPress}}
+          @removeRequirement={{this.removeRequirement}}
+          @itemAddDisabled={{this.itemAddDisabled}}
+          @itemToAdd={{this.itemToAdd}}
+          @getItemColor={{this.getItemColor}}
+        />
+      {{/unless}}
 
-          <div class="combined-course-page__form-addItem">
-            <PixInput
-              @id="itemId"
-              @value={{this.itemValue}}
-              @requiredLabel="Champ obligatoire"
-              {{on "change" this.setItemValue}}
-              {{on "keyup" this.handleKeyPress}}
-              class="combined-course-page__input"
-            >
-              <:label>
-                {{t "components.combined-course-blueprints.labels.itemId"}}
-              </:label>
-            </PixInput>
+      {{#if (or (and (not @updateMode) this.blueprint.rewardId) (and @updateMode this.blueprint.attestationLabel))}}
+        <RewardRequirementsSection
+          @blueprint={{this.blueprint}}
+          @setData={{this.setData}}
+          @updateMode={{@updateMode}}
+          @model={{@model}}
+          @updateTubes={{this.updateTubes}}
+          @onThresholdChange={{this.onThresholdChange}}
+          @selectedTubes={{this.selectedTubes}}
+        />
+      {{/if}}
 
-            <PixButton @triggerAction={{this.addItem}} class="combined-course-page__button">{{t
-                "components.combined-course-blueprints.create.addItemButton"
-              }}</PixButton>
-          </div>
-          <hr class="combined-course-page__separator" />
-        {{/unless}}
-
-        <PixInput
-          @id="internalName"
-          @value={{this.blueprint.internalName}}
-          @requiredLabel="Champ obligatoire"
-          {{on "change" (fn this.setData "internalName")}}
-          class="combined-course-page__input"
-        >
-          <:label>
-            {{t "components.combined-course-blueprints.labels.internal-name"}}
-          </:label>
-        </PixInput>
-
-        <PixInput
-          @id="name"
-          @value={{this.blueprint.name}}
-          @requiredLabel="Champ obligatoire"
-          {{on "change" (fn this.setData "name")}}
-          class="combined-course-page__input"
-        >
-          <:label>
-            {{t "components.combined-course-blueprints.labels.name"}}
-          </:label>
-        </PixInput>
-
-        <PixInput
-          @id="illustration"
-          @value={{this.blueprint.illustration}}
-          {{on "change" (fn this.setData "illustration")}}
-          class="combined-course-page__input"
-        >
-          <:label>
-            {{t "components.combined-course-blueprints.labels.illustration"}}
-
-          </:label>
-        </PixInput>
-
-        <PixTextarea
-          @id="description"
-          @value={{this.blueprint.description}}
-          {{on "change" (fn this.setData "description")}}
-          class="combined-course-page__input"
-          rows="10"
-        >
-          <:label>
-            {{t "components.combined-course-blueprints.labels.description"}}
-
-          </:label>
-        </PixTextarea>
-
-        {{#unless @updateMode}}
-          <SelectAttestation
-            @attestations={{@model.attestations}}
-            @value={{this.blueprint.rewardId}}
-            @onChange={{this.setAttestation}}
-          />
-
-          {{#if this.blueprint.rewardId}}
-            <TubesSelection @frameworks={{@model.frameworks}} @onChange={{this.updateTubes}} />
-            <PixInput
-              @id="blueprintThreshold"
-              class="combined-course-page__threshold"
-              type="number"
-              min="0"
-              max="100"
-              @requiredLabel={{t "common.forms.mandatory"}}
-              {{on "change" this.onThresholdChange}}
-            >
-              <:label>Taux de réussite requis</:label>
-            </PixInput>
-          {{/if}}
-        {{/unless}}
-
-        <PixInput
-          @id="surveyLink"
-          @value={{this.blueprint.surveyLink}}
-          {{on "change" (fn this.setData "surveyLink")}}
-          class="combined-course-page__input"
-          rows="10"
-        >
-          <:label>
-            {{t "components.combined-course-blueprints.labels.survey-link"}}
-          </:label>
-        </PixInput>
-      </form>
-
-      <div class="combined-course-page__items">
-        <h2 class="combined-course-page__title">
-          {{t "components.combined-course-blueprints.create.courseContent"}}</h2>
-
-        {{#if (gt this.blueprint.content.length 0)}}
-          <ul class="combined-course-page__list">
-            {{#each this.blueprint.content as |item|}}
-              <li>
-                <RequirementTag @requirement={{item}} @onRemove={{unless @updateMode this.removeRequirement}} />
-              </li>
-            {{/each}}
-          </ul>
-        {{else}}
-          <p> {{t "components.combined-course-blueprints.create.contentFeedback"}}</p>
-        {{/if}}
-
-        <PixButton class="combined-course-page__button" @triggerAction={{this.save}} @variant="success">{{if
+      <fieldset class="controls">
+        <PixButton class="combined-course-blueprint-form__button" @triggerAction={{this.save}} @variant="secondary">{{t
+            "common.actions.cancel"
+          }}</PixButton>
+        <PixButton class="combined-course-blueprint-form__button" @triggerAction={{this.save}} @variant="success">{{if
             @updateMode
             (t "components.combined-course-blueprints.update.updateButton")
             (t "components.combined-course-blueprints.create.createButton")
           }}</PixButton>
-      </div>
-    </PixBlock>
+      </fieldset>
+    </form>
   </template>
 }
+
+const GeneralInfoSection = <template>
+  <Card
+    class="combined-course-blueprint-form__card"
+    @title={{t "components.combined-course-blueprints.create.generalInfoCardTitle"}}
+  >
+    <PixInput
+      @id="internalName"
+      @value={{@blueprint.internalName}}
+      @requiredLabel="Champ obligatoire"
+      {{on "change" (fn @setData "internalName")}}
+    >
+      <:label>
+        {{t "components.combined-course-blueprints.labels.internal-name"}}
+      </:label>
+    </PixInput>
+
+    <PixInput
+      @id="name"
+      @value={{@blueprint.name}}
+      @requiredLabel="Champ obligatoire"
+      {{on "change" (fn @setData "name")}}
+      @subLabel="Ce titre sera visible par les utilisateurs"
+    >
+      <:label>
+        {{t "components.combined-course-blueprints.labels.name"}}
+      </:label>
+    </PixInput>
+
+    <PixInput @id="illustration" @value={{@blueprint.illustration}} {{on "change" (fn @setData "illustration")}}>
+      <:label>
+        {{t "components.combined-course-blueprints.labels.illustration"}}
+
+      </:label>
+    </PixInput>
+
+    <PixTextarea
+      @id="description"
+      @value={{@blueprint.description}}
+      {{on "change" (fn @setData "description")}}
+      rows="10"
+      @subLabel={{t "components.combined-course-blueprints.labels.description-sublabel"}}
+    >
+      <:label>
+        {{t "components.combined-course-blueprints.labels.description"}}
+      </:label>
+    </PixTextarea>
+    <PixInput @id="surveyLink" @value={{@blueprint.surveyLink}} {{on "change" (fn @setData "surveyLink")}} rows="10">
+      <:label>
+        {{t "components.combined-course-blueprints.labels.survey-link"}}
+      </:label>
+    </PixInput>
+    {{#unless @updateMode}}
+      <SelectAttestation
+        @attestations={{@model.attestations}}
+        @value={{@blueprint.rewardId}}
+        @onChange={{@setAttestation}}
+      />
+    {{/unless}}
+
+  </Card>
+</template>;
+
+const ContentSection = <template>
+  <Card
+    class="combined-course-blueprint-form__card"
+    @title={{t "components.combined-course-blueprints.create.content"}}
+  >
+    <div class="content-section">
+      <div class="content-section__add-items-column">
+        <fieldset class="content-section__add-items-column--options">
+          <legend>{{t "components.combined-course-blueprints.create.fieldsetElement"}}</legend>
+          <PixRadioButton
+            name="itemType"
+            @value="evaluation"
+            checked={{if (eq @itemType "evaluation") "checked"}}
+            {{on "change" @setItemType}}
+          >
+            <:label>{{t "components.combined-course-blueprints.labels.target-profile"}}</:label>
+          </PixRadioButton>
+          <PixRadioButton
+            name="itemType"
+            checked={{if (eq @itemType "module") "checked"}}
+            @value="module"
+            {{on "change" @setItemType}}
+          >
+            <:label>{{t "components.combined-course-blueprints.labels.module"}}</:label>
+          </PixRadioButton>
+        </fieldset>
+        <div class="content-section__add-item">
+          <PixInput
+            @id="itemId"
+            @value={{@itemValue}}
+            @requiredLabel="Champ obligatoire"
+            {{on "change" @setItemValue}}
+            {{on "keyup" @handleKeyPress}}
+            class="combined-course-blueprint-form__input"
+          >
+            <:label>
+              {{t "components.combined-course-blueprints.labels.itemId"}}
+            </:label>
+          </PixInput>
+        </div>
+        {{#if @itemToAdd}}
+          <Card class="combined-course-blueprint-form__card--item-to-add">
+            <div class="combined-course-blueprint-form__card--image">
+              <img src={{@itemToAdd.image}} alt={{@itemToAdd.label}} />
+            </div>
+            <div class="combined-course-blueprint-form__card--item-to-add-text">
+              <PixTag class="combined-course-blueprint-form__card--requirement-tag">{{@itemToAdd.type}}</PixTag>
+              {{#if (eq @itemToAdd.type "module")}}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://app.recette.pix.fr/modules/{{@requirement.shortId}}/slug/details"
+                >{{@itemToAdd.label}}</a>
+              {{/if}}
+              {{#if (eq @itemToAdd.type "evaluation")}}
+                <LinkTo
+                  @route="authenticated.target-profiles.target-profile.details"
+                  @model={{@requirement.value}}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{@itemToAdd.label}}
+                </LinkTo>
+              {{/if}}
+            </div>
+          </Card>
+        {{/if}}
+        <PixButton
+          @isDisabled={{@itemAddDisabled}}
+          @variant="secondary"
+          @triggerAction={{@addItem}}
+          class="combined-course-blueprint-form__button"
+        >{{t "components.combined-course-blueprints.create.addItemButton"}}</PixButton>
+      </div>
+      <div class="content-section__items-preview-column">
+        <h3 class="content-section__title">
+          {{t "components.combined-course-blueprints.create.courseContent"}}</h3>
+        <div>
+          {{#if (gt @blueprint.content.length 0)}}
+            <PixTable @variant="admin" @data={{@blueprint.content}} class="table">
+              <:columns as |row context|>
+                <PixTableColumn @context={{context}}>
+                  <:header>
+                    {{t "components.combined-course-blueprints.items.item-type-header"}}
+                  </:header>
+                  <:cell>
+                    <PixTag @color={{@getItemColor row.type}}>{{row.type}}</PixTag>
+                  </:cell>
+                </PixTableColumn>
+                <PixTableColumn @context={{context}}>
+                  <:header>
+                    {{t "components.combined-course-blueprints.items.item-name-header"}}
+                  </:header>
+                  <:cell>
+                    {{#if (eq row.type "MODULE")}}
+                      {{row.shortId}}
+                    {{else}}
+                      {{row.id}}
+                    {{/if}}
+                    {{row.label}}
+                  </:cell>
+                </PixTableColumn>
+                <PixTableColumn @context={{context}}>
+                  <:header>
+                    {{t "components.combined-course-blueprints.items.action-header"}}
+                  </:header>
+                  <:cell>
+                    <PixIconButton
+                      @iconName="delete"
+                      @triggerAction={{fn @removeRequirement row}}
+                      @ariaLabel="Supprimer"
+                    />
+                  </:cell>
+                </PixTableColumn>
+              </:columns>
+
+            </PixTable>
+          {{else}}
+            <p> {{t "components.combined-course-blueprints.create.contentFeedback"}}</p>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </Card>
+</template>;
+
+const RewardRequirementsSection = <template>
+  <Card
+    class="combined-course-blueprint-form__card"
+    @title={{t "components.combined-course-blueprints.create.attestations"}}
+  >
+    <PixTextarea
+      @id="reward-requirements"
+      @value={{@blueprint.rewardRequirements}}
+      {{on "change" (fn @setData "rewardRequirements")}}
+      rows="10"
+    >
+      <:label>
+        {{t "components.combined-course-blueprints.labels.reward-requirements"}}
+      </:label>
+    </PixTextarea>
+
+    {{#unless @updateMode}}
+      {{#if @blueprint.rewardId}}
+        <TubesSelection @frameworks={{@model.frameworks}} @onChange={{@updateTubes}} />
+        {{#if @selectedTubes.length}}
+          <PixInput
+            @id="blueprintThreshold"
+            class="combined-course-blueprint-form__threshold"
+            type="number"
+            min="0"
+            max="100"
+            @requiredLabel={{t "common.forms.mandatory"}}
+            {{on "change" @onThresholdChange}}
+          >
+            <:label>Taux de réussite requis</:label>
+          </PixInput>
+        {{/if}}
+      {{/if}}
+    {{/unless}}
+  </Card>
+</template>;

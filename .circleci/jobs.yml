@@ -92,7 +92,7 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
-      - image: adobe/s3mock:5.0.0
+      - image: adobe/s3mock:5.1.0
         environment:
           COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test,pix-answers-history-export-test'
     resource_class: medium
@@ -140,7 +140,7 @@ executors:
     resource_class: medium
   playwright-executor-medium:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.60.0-noble
+      - image: mcr.microsoft.com/playwright:v1.61.1-noble
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -151,13 +151,13 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
-      - image: adobe/s3mock:5.0.0
+      - image: adobe/s3mock:5.1.0
         environment:
           COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test,pix-answers-history-export-test'
     resource_class: medium
   playwright-executor-large:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.60.0-noble
+      - image: mcr.microsoft.com/playwright:v1.61.1-noble
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -168,7 +168,7 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
-      - image: adobe/s3mock:5.0.0
+      - image: adobe/s3mock:5.1.0
         environment:
           COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test,pix-answers-history-export-test'
     resource_class: large

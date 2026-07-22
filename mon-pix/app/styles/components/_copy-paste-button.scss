@@ -1,0 +1,11 @@
+.copy-paste-button {
+  &__clipboard {
+    margin: -8px 6px 0 2px;
+  }
+
+  &__tooltip {
+    .pix-tooltip__content {
+      margin-bottom: 6px;
+    }
+  }
+}

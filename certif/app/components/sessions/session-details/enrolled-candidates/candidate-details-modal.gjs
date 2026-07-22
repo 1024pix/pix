@@ -85,27 +85,10 @@ export default class CandidateDetailsModal extends Component {
       : '-';
   }
 
-  computeSubscriptionsText = (candidate) => {
-    const complementaryCertificationList = this.args.complementaryCertifications ?? [];
-    const subscriptionLabels = [];
-
-    if (candidate.hasDualCertificationSubscriptionCoreClea(complementaryCertificationList)) {
-      subscriptionLabels.push(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.dual-core-clea`));
-    } else {
-      for (const subscription of candidate.subscriptions) {
-        if (subscription.isCore) subscriptionLabels.unshift(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`));
-        else {
-          const candidateComplementaryCertification = complementaryCertificationList.find(
-            (complementaryCertification) =>
-              complementaryCertification.key === subscription.complementaryCertificationKey,
-          );
-          subscriptionLabels.push(candidateComplementaryCertification?.label || '-');
-        }
-      }
-    }
-
-    return subscriptionLabels.join(', ');
-  };
+  @action
+  getSubscriptionLabel() {
+    return this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.${this.args.candidate.subscription}`);
+  }
 
   <template>
     <PixModal
@@ -138,7 +121,7 @@ export default class CandidateDetailsModal extends Component {
           {{/if}}
           <CandidateDetailsModalRow
             @label={{t 'common.forms.certification-labels.selected-subscriptions'}}
-            @value={{this.computeSubscriptionsText @candidate}}
+            @value={{this.getSubscriptionLabel}}
           />
         </ul>
       </:content>

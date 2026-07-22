@@ -244,7 +244,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
     });
 
     context('when there are badges acquired', function () {
-      let badge1Id, badge2Id;
+      let badge1Id, badge3Id;
 
       beforeEach(async function () {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
@@ -259,14 +259,22 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         badge1Id = databaseBuilder.factory.buildBadge({
           key: 'Badge1',
           targetProfileId: campaign.targetProfileId,
-          title: 'BadgeTitle',
-          altMessage: 'BadgeMessage',
-          imageUrl: 'BadgeImageUrl',
+          title: 'BadgeTitle1',
+          altMessage: 'BadgeMessage1',
+          imageUrl: 'BadgeImageUrl1',
         }).id;
-        badge2Id = databaseBuilder.factory.buildBadge({ key: 'Badge2' }).id;
+        const badge2Id = databaseBuilder.factory.buildBadge({ key: 'Badge2' }).id;
+        badge3Id = databaseBuilder.factory.buildBadge({
+          key: 'Badge3',
+          targetProfileId: campaign.targetProfileId,
+          title: 'BadgeTitle3',
+          altMessage: 'BadgeMessage3',
+          imageUrl: 'BadgeImageUrl3',
+        }).id;
 
         databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge1Id, campaignParticipationId });
         databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge2Id });
+        databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge3Id, campaignParticipationId });
 
         const learningContent = [
           {
@@ -297,9 +305,15 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         expect(participations[0].badges).to.deep.equal([
           {
             id: badge1Id,
-            title: 'BadgeTitle',
-            altMessage: 'BadgeMessage',
-            imageUrl: 'BadgeImageUrl',
+            title: 'BadgeTitle1',
+            altMessage: 'BadgeMessage1',
+            imageUrl: 'BadgeImageUrl1',
+          },
+          {
+            id: badge3Id,
+            title: 'BadgeTitle3',
+            altMessage: 'BadgeMessage3',
+            imageUrl: 'BadgeImageUrl3',
           },
         ]);
       });

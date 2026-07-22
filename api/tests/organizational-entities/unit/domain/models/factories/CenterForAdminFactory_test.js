@@ -10,6 +10,7 @@ describe('Unit | Organizational Entities | Domain | Models | Factories | CenterF
     const habilitation = { complementaryCertificationId: 12, key: 'A_KEY', label: 'This is a key' };
     const center = domainBuilder.certification.enrolment.buildCenter({
       habilitations: [new Habilitation(habilitation)],
+      createdAt: new Date('2022-01-01'),
     });
     const dataProtectionOfficer =
       domainBuilder.buildDataProtectionOfficer.buildDataProtectionOfficerWithCertificationCenterId();
@@ -25,7 +26,7 @@ describe('Unit | Organizational Entities | Domain | Models | Factories | CenterF
           habilitations: [new Habilitation(habilitation)],
           name: center.name,
           externalId: center.externalId,
-          createdAt: undefined,
+          createdAt: center.createdAt,
           updatedAt: undefined,
         },
         dataProtectionOfficer: {

@@ -17,7 +17,7 @@ describe('detect-encoding', function () {
   });
 
   context('when encoding specified in the xml file', function () {
-    it('should return the default encoding', async function () {
+    it('should return the specified encoding', async function () {
       const path = `${__dirname}files/xml/unknown-encoding.xml`;
       const encoding = await detectEncoding(path);
       expect(encoding).to.equal('x-macthai');

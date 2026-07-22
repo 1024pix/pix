@@ -3,6 +3,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as learningContentConversionService from '../../../shared/domain/services/learning-content-conversion-service.js';
 import * as learningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import * as targetProfileRepository from '../../../target-profile/infrastructure/repositories/target-profile-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as organizationsToAttachToTargetProfileRepository from '../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import * as targetProfileAdministrationRepository from '../../infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileBondRepository from '../../infrastructure/repositories/target-profile-bond-repository.js';
@@ -71,6 +72,6 @@ const usecasesWithoutInjectedDependencies = {
   updateTargetProfile,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { usecases };

@@ -2,15 +2,14 @@ import Joi from 'joi';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { config } from '../../../../src/shared/config.js';
-import { InvalidTemporaryKeyError } from '../errors.js';
 
 /**
  * Encodes and signs a payload into a JWT token with a time-limited validity
  *
- * @param {Record<string, any>} payload Token payload
- * @param {string} secret Secret for the signature
- * @param {number} expiresIn expressed in seconds or a string describing a time span, 60, ex. "2 days", "10h", "7d"
- * @returns The encoded and signed token
+ * @param {Record<string, any>} payload
+ * @param {string} secret the secret to use for signing
+ * @param {number|string} expiresIn expressed in seconds or a string describing a time span, 60, ex. "2 days", "10h", "7d"
+ * @returns an encoded and signed token containing the given payload
  */
 function encodeToken(payload, secret, expiresIn) {
   Joi.assert(expiresIn, Joi.required());
@@ -19,10 +18,11 @@ function encodeToken(payload, secret, expiresIn) {
 }
 
 /**
- * Decode a token with the given secret
- * @param {string} token
- * @param {string} secret Secret for the signature
- * @returns The decoded token, otherwise false when cannot be decoded
+ * Decodes a JWT token with the given secret
+ *
+ * @param {string} token the JWT token
+ * @param {string} secret the secret to use to verify the signature
+ * @returns the contained payload, otherwise false when the signature is not valid or the token is expired
  */
 function getDecodedToken(token, secret = config.authentication.secret) {
   try {
@@ -32,22 +32,15 @@ function getDecodedToken(token, secret = config.authentication.secret) {
   }
 }
 
-function extractTokenFromAuthChain(authChain) {
-  if (!authChain) {
-    return authChain;
+function extractTokenFromAuthorizationHeader(authorizationHeader) {
+  if (!authorizationHeader) {
+    return authorizationHeader;
   }
-  const bearerIndex = authChain.indexOf('Bearer ');
+  const bearerIndex = authorizationHeader.indexOf('Bearer ');
   if (bearerIndex < 0) {
     return false;
   }
-  return authChain.replace(/Bearer /g, '');
-}
-
-function decodeIfValid(token) {
-  return new Promise((resolve, reject) => {
-    const decoded = getDecodedToken(token);
-    return !decoded ? reject(new InvalidTemporaryKeyError()) : resolve(decoded);
-  });
+  return authorizationHeader.replace(/Bearer /g, '');
 }
 
 function extractUserId(token) {
@@ -56,9 +49,8 @@ function extractUserId(token) {
 }
 
 export const tokenService = {
-  decodeIfValid,
   getDecodedToken,
   encodeToken,
-  extractTokenFromAuthChain,
+  extractTokenFromAuthorizationHeader,
   extractUserId,
 };

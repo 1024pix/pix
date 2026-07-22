@@ -5,7 +5,7 @@ import {
   MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
   MINIMUM_DELAY_IN_DAYS_FOR_RESET,
   PIX_COUNT_BY_LEVEL,
-} from '../../../shared/domain/constants.js';
+} from '../../../shared/constants.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
 import * as scoringService from '../services/scoring/scoring-service.js';

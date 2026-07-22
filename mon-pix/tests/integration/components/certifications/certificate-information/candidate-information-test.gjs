@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import CandidateInformation from 'mon-pix/components/certifications/certificate-information/candidate-information';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -23,11 +23,9 @@ module('Integration | Component | Certifications | Certificate information | can
         pixScore: 22,
         maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-        <Certifications::CertificateInformation::candidateInformation @certificate={{this.certification}} />`);
+      const screen = await render(<template><CandidateInformation @certificate={{certification}} /></template>);
 
       // then
       assert.dom(screen.getByText(certification.pixScore)).exists();
@@ -56,11 +54,9 @@ module('Integration | Component | Certifications | Certificate information | can
         maxReachableLevelOnCertificationDate: new Date('2018-02-15T15:15:52Z'),
         globalLevelLabel: 'Expert 1',
       });
-      this.set('certification', certification);
 
       // when
-      const screen = await render(hbs`
-        <Certifications::CertificateInformation::candidateInformation @certificate={{this.certification}} />`);
+      const screen = await render(<template><CandidateInformation @certificate={{certification}} /></template>);
 
       // then
       assert.dom(screen.getByText(certification.pixScore)).exists();

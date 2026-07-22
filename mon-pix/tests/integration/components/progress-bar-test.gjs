@@ -1,0 +1,262 @@
+import { render } from '@1024pix/ember-testing-library';
+import { t } from 'ember-intl/test-support';
+import ProgressBar from 'mon-pix/components/progress-bar';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+
+module('Integration | Component | progress-bar', function (hooks) {
+  setupIntlRenderingTest(hooks);
+
+  module('when should show the progress bar', function () {
+    module('when should show the question counter inside the progress bar', function () {
+      test('should display both the progress bar and the question counter above', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+
+        const answers = [
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+        ];
+        const mockAssessment = store.createRecord('assessment', {
+          type: 'CAMPAIGN',
+          showChallengeStepper: true,
+          showGlobalProgression: false,
+          hasCheckpoints: true,
+          showQuestionCounter: true,
+        });
+        mockAssessment.answers = answers;
+
+        const assessment = mockAssessment;
+        const currentChallengeNumber = 2;
+
+        // when
+        const screen = await render(
+          <template>
+            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+          </template>,
+        );
+
+        // then
+        assert.ok(screen.getByText('Question 3 / 5'));
+        assert.dom('.progress-bar-container').exists();
+        // one step is rendered for each of the maxStepsNumber steps
+        assert.dom('.progress-bar-step').exists({ count: 5 });
+        // each step has a gradient background applied
+        document.querySelectorAll('.progress-bar-step').forEach((step) => {
+          assert.ok(step.getAttribute('style').startsWith('background:'));
+        });
+        // the progression width reflects the current step index (2 / 5)
+        assert.dom('.progress-bar-progression').hasAttribute('style', 'width: 50.85%;');
+      });
+
+      test('should display the initial progression width when on the first step', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+
+        const mockAssessment = store.createRecord('assessment', {
+          type: 'CAMPAIGN',
+          showChallengeStepper: true,
+          showGlobalProgression: false,
+          hasCheckpoints: true,
+          showQuestionCounter: true,
+        });
+        mockAssessment.answers = [];
+
+        const assessment = mockAssessment;
+        const currentChallengeNumber = 0;
+
+        // when
+        await render(
+          <template>
+            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+          </template>,
+        );
+
+        // then
+        assert.dom('.progress-bar-progression').hasAttribute('style', 'width: 16px;');
+      });
+    });
+    module('when should not show the question counter inside the progress bar', function () {
+      test('should display both the progress bar and the question counter above', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+
+        const answers = [
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+        ];
+        const mockAssessment = store.createRecord('assessment', {
+          type: 'CAMPAIGN',
+          showChallengeStepper: true,
+          showGlobalProgression: false,
+          hasCheckpoints: true,
+          showQuestionCounter: false,
+        });
+        mockAssessment.answers = answers;
+
+        const assessment = mockAssessment;
+        const currentChallengeNumber = 2;
+
+        // when
+        const screen = await render(
+          <template>
+            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+          </template>,
+        );
+
+        // then
+        assert.dom(screen.queryByText('Question 3 / 5')).doesNotExist();
+        assert.dom('.progress-bar-container').exists();
+      });
+    });
+  });
+
+  module('when should not show the progress bar', function () {
+    module('when should show the question counter outside', function () {
+      test('should display the question counter but not the progress bar', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+
+        const answers = [
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+        ];
+        const mockAssessment = store.createRecord('assessment', {
+          type: 'CERTIFICATION',
+          showChallengeStepper: false,
+          showGlobalProgression: false,
+          hasCheckpoints: false,
+          showQuestionCounter: true,
+          certificationCourse: store.createRecord('certification-course', {
+            nbChallenges: 15,
+          }),
+        });
+        mockAssessment.answers = answers;
+
+        const assessment = mockAssessment;
+        const currentChallengeNumber = 2;
+
+        // when
+        const screen = await render(
+          <template>
+            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+          </template>,
+        );
+
+        // then
+        assert.dom(screen.getByText('Question')).exists();
+        assert.dom(screen.getByText('3 / 15')).exists();
+        assert.dom('.progress-bar-container').doesNotExist();
+      });
+    });
+    module('when should not show the question counter outside', function () {
+      test('should neither display the question counter nor progress bar', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+
+        const answers = [
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+          store.createRecord('answer'),
+        ];
+        const mockAssessment = store.createRecord('assessment', {
+          type: 'CAMPAIGN',
+          showChallengeStepper: false,
+          showGlobalProgression: false,
+          hasCheckpoints: false,
+          showQuestionCounter: false,
+        });
+        mockAssessment.answers = answers;
+
+        const assessment = mockAssessment;
+        const currentChallengeNumber = 2;
+
+        // when
+        const screen = await render(
+          <template>
+            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+          </template>,
+        );
+
+        // then
+        assert.dom(screen.queryByText('Question 3 / 15')).doesNotExist();
+        assert.dom('.progress-bar-container').doesNotExist();
+      });
+      module('global progression', function () {
+        test('should not show global progression if assessment.showGlobalProgression is false', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+
+          const answers = [];
+          const mockAssessment = store.createRecord('assessment', {
+            type: 'CAMPAIGN',
+            showChallengeStepper: false,
+            showGlobalProgression: false,
+            hasCheckpoints: false,
+            showQuestionCounter: false,
+          });
+
+          mockAssessment.answers = answers;
+
+          const assessment = mockAssessment;
+          const currentChallengeNumber = 0;
+
+          // when
+          const screen = await render(
+            <template>
+              <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+            </template>,
+          );
+
+          // then
+          assert.dom(screen.queryByText('Question 3 / 15')).doesNotExist();
+          assert.dom(screen.queryByLabelText(t('pages.challenge.parts.progress'))).doesNotExist();
+        });
+        test('should display global progression if assessment.showGlobalProgression is true', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+
+          const answers = [];
+          const mockAssessment = store.createRecord('assessment', {
+            type: 'CAMPAIGN',
+            showChallengeStepper: false,
+            showGlobalProgression: true,
+            globalProgression: 0.56,
+            hasCheckpoints: false,
+            showQuestionCounter: false,
+          });
+
+          mockAssessment.answers = answers;
+
+          const assessment = mockAssessment;
+          const currentChallengeNumber = 0;
+
+          // when
+          const screen = await render(
+            <template>
+              <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+            </template>,
+          );
+
+          // then
+          assert.dom(screen.queryByRole('progressbar')).exists();
+
+          assert.dom(screen.queryByText(t('pages.checkpoint.completion-percentage.caption'))).exists();
+          assert.strictEqual(screen.queryByRole('progressbar').value, 0.56);
+        });
+      });
+    });
+  });
+});

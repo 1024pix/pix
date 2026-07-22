@@ -1,5 +1,6 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import CreationForm from 'pix-admin/components/certification-centers/creation-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -39,16 +40,17 @@ module('Integration | Component | certification-centers/creation-form', function
     );
 
     // when
-    await fillByLabel('Nom du centre', 'Hello World');
-    await click(screen.getByRole('button', { name: "Type d'établissement" }));
+    await fillByLabel(`${t('components.certification-centers.creation.name.label')} *`, 'Hello World');
+    await click(screen.getByRole('button', { name: `${t('components.certification-centers.creation.type.label')} *` }));
     await screen.findByRole('listbox');
     await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
-    await fillByLabel('Prénom du DPO', 'Jacques');
-    await fillByLabel('Nom du DPO', 'Hadis');
-    await fillByLabel('Adresse e-mail du DPO', 'jacques.hadis@example.com');
+    await fillByLabel(t('components.certification-centers.creation.external-id.label'), '123456');
+    await fillByLabel(`${t('components.certification-centers.creation.dpo.lastname')}DPO`, 'Hadis');
+    await fillByLabel(`${t('components.certification-centers.creation.dpo.firstname')}DPO`, 'Jacques');
+    await fillByLabel(`${t('components.certification-centers.creation.dpo.email')}DPO`, 'jacques.hadis@example.com');
     await click(screen.getByRole('checkbox', { name: 'Pix+Edu' }));
 
-    await click(screen.getByRole('button', { name: 'Ajouter' }));
+    await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
     // then
     assert.ok(store.createRecord.called);
@@ -62,7 +64,7 @@ module('Integration | Component | certification-centers/creation-form', function
     assert.deepEqual(record, {
       name: 'Hello World',
       type: 'SCO',
-      externalId: null,
+      externalId: '123456',
       dataProtectionOfficerFirstName: 'Jacques',
       dataProtectionOfficerLastName: 'Hadis',
       dataProtectionOfficerEmail: 'jacques.hadis@example.com',
@@ -70,7 +72,7 @@ module('Integration | Component | certification-centers/creation-form', function
     });
 
     const message = pixToast.sendSuccessNotification.getCall(0).args[0];
-    assert.deepEqual(message, { message: 'Le centre de certification a été créé avec succès.' });
+    assert.deepEqual(message, { message: t('components.certification-centers.creation.success-message') });
 
     const transitionTo = router.transitionTo.getCall(0).args[0];
     assert.strictEqual(transitionTo, 'authenticated.certification-centers.get');
@@ -85,8 +87,8 @@ module('Integration | Component | certification-centers/creation-form', function
     );
 
     // when
-    await fillByLabel('Nom du centre', 'Hello World');
-    await click(screen.getByRole('button', { name: "Type d'établissement" }));
+    await fillByLabel(`${t('components.certification-centers.creation.name.label')} *`, 'Hello World');
+    await click(screen.getByRole('button', { name: `${t('components.certification-centers.creation.type.label')} *` }));
     await screen.findByRole('listbox');
     await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
 
@@ -96,7 +98,7 @@ module('Integration | Component | certification-centers/creation-form', function
     await click(screen.getByRole('checkbox', { name: 'Pix+Edu' }));
     await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
 
-    await click(screen.getByRole('button', { name: 'Ajouter' }));
+    await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
     // then
     assert.ok(store.createRecord.called);
@@ -113,7 +115,70 @@ module('Integration | Component | certification-centers/creation-form', function
     });
   });
 
-  module('When an error occured', function () {
+  test('sets externalId to null if not filled', async function (assert) {
+    // given
+    const onCancel = () => {};
+
+    const screen = await render(
+      <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+    );
+
+    // when
+    await fillByLabel(`${t('components.certification-centers.creation.name.label')} *`, 'Hello World');
+    await click(screen.getByRole('button', { name: `${t('components.certification-centers.creation.type.label')} *` }));
+    await screen.findByRole('listbox');
+    await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
+
+    await click(screen.getByRole('button', { name: t('common.actions.add') }));
+
+    // then
+    const record = store.createRecord.getCall(0).args[1];
+    assert.deepEqual(record.externalId, null);
+  });
+
+  module('Errors', function () {
+    module('When required fields are not filled in', function () {
+      test('it does not create certification center, displays error toast and specific messages on error fields', async function (assert) {
+        // given
+        const onCancel = () => {};
+        const screen = await render(
+          <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: t('common.actions.add') }));
+
+        // then
+        assert.ok(store.createRecord.notCalled);
+        assert.ok(
+          pixToast.sendErrorNotification.calledWithExactly({
+            message: t('components.certification-centers.creation.error-messages.error-toast'),
+          }),
+        );
+
+        const nameErrorMessage = screen.getByText(t('components.certification-centers.creation.error-messages.name'));
+        const typeErrorMessage = screen.getByText(t('components.certification-centers.creation.error-messages.type'));
+        assert.dom(nameErrorMessage).exists();
+        assert.dom(typeErrorMessage).exists();
+      });
+
+      test('it should focus on first field in error', async function (assert) {
+        // given
+        const onCancel = () => {};
+        const screen = await render(
+          <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: t('common.actions.add') }));
+
+        //then
+        const nameInput = screen.getByRole('textbox', {
+          name: `${t('components.certification-centers.creation.name.label')} *`,
+        });
+        assert.strictEqual(document.activeElement, nameInput);
+      });
+    });
     test('displays default error toast for unexepected error', async function (assert) {
       // given
       const onCancel = () => {};
@@ -124,17 +189,19 @@ module('Integration | Component | certification-centers/creation-form', function
       );
 
       // when
-      await fillByLabel('Nom du centre', 'Hello World');
-      await click(screen.getByRole('button', { name: "Type d'établissement" }));
+      await fillByLabel(`${t('components.certification-centers.creation.name.label')} *`, 'Hello World');
+      await click(
+        screen.getByRole('button', { name: `${t('components.certification-centers.creation.type.label')} *` }),
+      );
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
-      await click(screen.getByRole('button', { name: 'Ajouter' }));
+      await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
       // then
       assert.ok(pixToast.sendErrorNotification.called);
 
       const message = pixToast.sendErrorNotification.getCall(0).args[0];
-      assert.deepEqual(message, { message: 'Une erreur est survenue.' });
+      assert.deepEqual(message, { message: t('common.notifications.generic-error') });
     });
 
     test('displays an error toast for API error', async function (assert) {
@@ -147,11 +214,13 @@ module('Integration | Component | certification-centers/creation-form', function
       );
 
       // when
-      await fillByLabel('Nom du centre', 'Hello World');
-      await click(screen.getByRole('button', { name: "Type d'établissement" }));
+      await fillByLabel(`${t('components.certification-centers.creation.name.label')} *`, 'Hello World');
+      await click(
+        screen.getByRole('button', { name: `${t('components.certification-centers.creation.type.label')} *` }),
+      );
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
-      await click(screen.getByRole('button', { name: 'Ajouter' }));
+      await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
       // then
       assert.ok(pixToast.sendErrorNotification.called);

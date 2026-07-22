@@ -1,21 +1,18 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
-import { isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { UserCampaignSurvey } from '../../domain/models/UserCampaignSurvey.js';
 
 const TABLE_NAME = 'user-campaign-surveys';
 
 export async function save(userCampaignSurvey) {
   const knexConn = DomainTransaction.getConnection();
-  try {
-    const [result] = await knexConn(TABLE_NAME).insert(userCampaignSurvey).returning('id');
-    return result.id;
-  } catch (error) {
-    if (isUniqConstraintViolated(error)) {
-      throw new AlreadyExistingEntityError('User has already submitted a survey for this campaign');
-    }
-    throw error;
-  }
+
+  const userCampaignSurveyDto = _toDto(userCampaignSurvey);
+  const [result] = await knexConn(TABLE_NAME)
+    .insert(userCampaignSurveyDto)
+    .onConflict(['campaignId', 'userId'])
+    .merge('survey')
+    .returning('id');
+  return result.id;
 }
 
 export async function findByCampaignIdAndUserId({ campaignId, userId }) {
@@ -29,6 +26,42 @@ export async function findByCampaignIdAndUserId({ campaignId, userId }) {
   return _toDomain(userCampaignSurvey);
 }
 
-function _toDomain({ campaignId, userId, satisfactionScore } = {}) {
-  return new UserCampaignSurvey({ campaignId, userId, satisfactionScore });
+function _toDomain({ campaignId, userId, survey } = {}) {
+  const { attractivenessScore, comment, personalizationScore, satisfactionScore, usefulnessScore } = survey;
+  return new UserCampaignSurvey({
+    campaignId,
+    userId,
+    attractivenessScore,
+    comment,
+    personalizationScore,
+    satisfactionScore,
+    usefulnessScore,
+  });
+}
+
+function _toDto({
+  campaignId,
+  userId,
+  attractivenessScore,
+  comment,
+  personalizationScore,
+  satisfactionScore,
+  usefulnessScore,
+} = {}) {
+  const formattedSurvey = JSON.stringify(
+    {
+      attractivenessScore,
+      comment,
+      personalizationScore,
+      satisfactionScore,
+      usefulnessScore,
+    },
+    null,
+    2,
+  );
+  return {
+    campaignId,
+    userId,
+    survey: formattedSurvey,
+  };
 }

@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import * as correctionService from '../../../../../src/evaluation/domain/services/correction-service.js';
 import { saveAndCorrectAnswerForCampaign } from '../../../../../src/evaluation/domain/usecases/save-and-correct-answer-for-campaign.js';
-import { AnswerJob } from '../../../../../src/quest/domain/models/quests/events/AnwserJob.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import {
   ChallengeAlreadyAnsweredError,
@@ -36,8 +35,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     competenceEvaluationRepository,
     scorecardService,
     knowledgeElementForParticipationService,
-    campaignRepository,
-    answerJobRepository;
+    campaignRepository;
 
   const nowDate = new Date('2021-03-11T11:00:04Z');
   const locale = 'fr';
@@ -62,9 +60,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     knowledgeElementForParticipationService = {
       findUniqByUserOrCampaignParticipationId: sinon.stub(),
       save: sinon.stub(),
-    };
-    answerJobRepository = {
-      performAsync: sinon.stub(),
     };
     competenceRepository = { get: sinon.stub() };
     areaRepository = { get: sinon.stub() };
@@ -107,7 +102,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       campaignRepository,
       knowledgeElementForParticipationService,
       scorecardService,
-      answerJobRepository,
       correctionService,
       areaRepository,
       competenceRepository,
@@ -336,27 +330,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
           expect(result.levelup).to.deep.equal({});
         });
       });
-    });
-
-    it('should call performAsync from answerJobRepository', async function () {
-      // given
-      KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
-      knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
-        .withArgs({ userId: assessment.userId, campaignParticipationId: assessment.campaignParticipationId })
-        .resolves([]);
-      answerJobRepository.performAsync.resolves();
-
-      // when
-      await saveAndCorrectAnswerForCampaign({
-        answer,
-        userId,
-        assessment,
-        locale,
-        ...dependencies,
-      });
-
-      // then
-      expect(answerJobRepository.performAsync).to.have.been.calledWith(new AnswerJob({ userId }));
     });
   });
 

@@ -2,9 +2,6 @@
  * @typedef {import ('./index.js').CertificationEvaluationApi} CertificationEvaluationApi
  */
 
-import { addCorrelationInfo } from '../../../shared/infrastructure/execution-context-manager.js';
-import { SCOPES } from '../../../shared/infrastructure/utils/logger.js';
-
 /**
  * @function
  * @param {object} params
@@ -14,15 +11,9 @@ import { SCOPES } from '../../../shared/infrastructure/utils/logger.js';
  *
  * @returns {Promise<void>}
  */
-export const completeCertificationAssessment = async function ({
-  certificationCourseId,
-  locale,
-  certificationEvaluationApi,
-}) {
-  addCorrelationInfo('certificationId', certificationCourseId);
-  addCorrelationInfo('scope', SCOPES.CERTIFICATION);
+export async function completeCertificationAssessment({ certificationCourseId, locale, certificationEvaluationApi }) {
   return certificationEvaluationApi.completeCertificationAssessment({
     certificationCourseId,
     locale,
   });
-};
+}

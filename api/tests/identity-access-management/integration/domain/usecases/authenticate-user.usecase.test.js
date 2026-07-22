@@ -6,6 +6,7 @@ import {
   PixAdminLoginFromPasswordDisabledError,
   UserShouldChangePasswordError,
 } from '../../../../../src/identity-access-management/domain/errors.js';
+import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { config } from '../../../../../src/shared/config.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
@@ -46,9 +47,12 @@ describe('Integration | Identity Access Management | Domain | UseCase | authenti
       // then
       expect(result).to.be.an.instanceOf(Object);
       expect(result).to.have.all.keys('accessToken', 'refreshToken', 'expirationDelaySeconds');
-      expect(result.accessToken).to.be.a.string;
-      expect(result.refreshToken).to.be.a.string;
+      expect(result.accessToken).to.be.a('string');
+      expect(result.refreshToken).to.be.a('string');
       expect(result.expirationDelaySeconds).to.be.a('number');
+
+      const decodedAccessToken = UserAccessToken.decode(result.accessToken);
+      expect(decodedAccessToken.sessionId).to.be.a('string');
     });
 
     it('saves the last dates of login', async function () {

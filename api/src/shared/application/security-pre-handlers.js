@@ -6,7 +6,7 @@ import * as certificationIssueReportRepository from '../../certification/shared/
 import { Organization } from '../../organizational-entities/domain/models/Organization.js';
 import * as checkCampaignBelongsToCombinedCourseUsecase from '../../prescription/campaign/application/usecases/checkCampaignBelongsToCombinedCourse.js';
 import * as checkCampaignParticipationBelongsToUserUsecase from '../../prescription/campaign/application/usecases/checkCampaignParticipationBelongsToUser.js';
-import { PIX_ADMIN } from '../../shared/domain/constants.js';
+import { PIX_ADMIN } from '../../shared/constants.js';
 import { ForbiddenAccess } from '../domain/errors.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
 import { PromiseUtils } from '../infrastructure/utils/promise-utils.js';

@@ -1,3 +1,4 @@
+import { CertificationDurationExceededError } from '../../../../../../src/certification/evaluation/domain/errors.js';
 import { usecases } from '../../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import {
@@ -37,6 +38,7 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
     it('throws a NotFound error', async function () {
       const err = await catchErr(evaluateAndSaveAnswer)({
         certificationCourseId: 123,
+        answer: domainBuilder.buildAnswer({ challengeId: challengeIdToAnswer }),
       });
 
       expect(err).to.deepEqualInstance(new NotFoundError('No certification test found with id 123'));
@@ -60,6 +62,7 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
         const err = await catchErr(evaluateAndSaveAnswer)({
           certificationCourseId,
           userId: userId + 1,
+          answer: domainBuilder.buildAnswer({ challengeId: challengeIdToAnswer }),
         });
 
         expect(err).to.deepEqualInstance(
@@ -91,6 +94,7 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
           const err = await catchErr(evaluateAndSaveAnswer)({
             certificationCourseId,
             userId,
+            answer: domainBuilder.buildAnswer({ challengeId: challengeIdToAnswer }),
           });
 
           expect(err).to.deepEqualInstance(new CertificationEndedByInvigilatorError());
@@ -114,9 +118,41 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
           const err = await catchErr(evaluateAndSaveAnswer)({
             certificationCourseId,
             userId,
+            answer: domainBuilder.buildAnswer({ challengeId: challengeIdToAnswer }),
           });
 
           expect(err).to.deepEqualInstance(new CertificationEndedByFinalizationError());
+        });
+      });
+
+      context('when certification test has been started for more than 24 hours', function () {
+        it('ends the assessment due to duration exceeded and throws a CertificationDurationExceededError error', async function () {
+          const sessionId = databaseBuilder.factory.buildSession().id;
+          const candidateId = databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId }).id;
+          certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            userId,
+            candidateId,
+            sessionId,
+            createdAt: new Date('2020-01-01'),
+          }).id;
+          const assessmentId = databaseBuilder.factory.buildAssessment({
+            certificationCourseId,
+            userId,
+            state: STATES.STARTED,
+            lastChallengeId: challengeIdToAnswer,
+            lastQuestionState: STATES_OF_LAST_QUESTION.ASKED,
+          }).id;
+          await databaseBuilder.commit();
+
+          const err = await catchErr(evaluateAndSaveAnswer)({
+            certificationCourseId,
+            userId,
+            answer: domainBuilder.buildAnswer({ challengeId: challengeIdToAnswer }),
+          });
+
+          expect(err).to.deepEqualInstance(new CertificationDurationExceededError());
+          const [state] = await knex('assessments').pluck('state').where({ id: assessmentId });
+          expect(state).to.equal(STATES.ENDED_DUE_TO_DURATION_EXCEEDED);
         });
       });
 
@@ -133,6 +169,7 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
             userId,
             candidateId,
             sessionId,
+            createdAt: new Date(),
           }).id;
           assessmentId = databaseBuilder.factory.buildAssessment({
             certificationCourseId,

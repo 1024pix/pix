@@ -1,6 +1,5 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
-import XRegExp from 'xregexp';
 
 import {
   BadRequestError,
@@ -8,13 +7,12 @@ import {
   UnprocessableEntityError,
 } from '../../../shared/application/errors/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { config } from '../../../shared/config.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
+import { UsernameSchema } from '../../../shared/domain/validators/username-validator.js';
 import { scoOrganizationLearnerController } from './sco-organization-learner-controller.js';
 
 const Joi = BaseJoi.extend(JoiDate);
-
-const { passwordValidationPattern } = config.account;
 
 const register = async function (server) {
   server.route([
@@ -66,9 +64,9 @@ const register = async function (server) {
                 birthdate: Joi.date().format('YYYY-MM-DD').raw().required(),
                 'organization-id': Joi.number().empty(null).required(),
                 'redirection-url': Joi.string().uri().empty(null).required(),
-                password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+                password: PasswordSchema.required(),
                 'with-username': Joi.boolean().required(),
-                username: Joi.string().pattern(XRegExp('^([a-z]+[.]+[a-z]+[0-9]{4})$')).allow(null),
+                username: UsernameSchema.allow(null),
               },
             },
           }),

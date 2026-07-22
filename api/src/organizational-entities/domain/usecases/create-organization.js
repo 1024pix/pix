@@ -10,7 +10,7 @@ const createOrganization = async function ({
   organizationLearnerTypeRepository,
   organizationCreationValidator,
   schoolRepository,
-  codeGenerator,
+  accessCodeGenerator,
   organizationVerificationService,
 }) {
   if (organization.parentOrganizationId) {
@@ -47,7 +47,9 @@ const createOrganization = async function ({
   });
 
   if (savedOrganization.type === Organization.types.SCO1D) {
-    const code = await codeGenerator.generate(schoolRepository);
+    const code = await accessCodeGenerator.generateAvailableAccessCode((code) =>
+      schoolRepository.isCodeAvailable({ code }),
+    );
     await schoolRepository.save({ organizationId: savedOrganization.id, code });
   }
   return await organizationForAdminRepository.get({

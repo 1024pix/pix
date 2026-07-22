@@ -84,21 +84,29 @@ async function getCombinedCourseDetails({
 
 async function getCombinedCourseDetailsForMultipleLearners({
   combinedCourseDetails,
-  organizationLearnerIds,
+  organizationLearners,
   combinedCourseParticipationRepository,
   eligibilityRepository,
   recommendedModuleRepository,
+  profileRewardRepository,
 }) {
+  const organizationLearnerIds = organizationLearners.map((organizationLearner) => organizationLearner.id);
+  const userIds = organizationLearners.map((organizationLearner) => organizationLearner.userId);
+
   const participations = await combinedCourseParticipationRepository.findByLearnerIds({
     organizationLearnerIds,
     combinedCourseId: combinedCourseDetails.id,
   });
 
+  const participationByLearnerId = new Map(
+    participations.map((participation) => [participation.organizationLearnerId, participation]),
+  );
   const learnerIdsWithParticipation = organizationLearnerIds.filter((organizationLearnerId) =>
-    participations.some((participation) => participation.organizationLearnerId === organizationLearnerId),
+    participationByLearnerId.has(organizationLearnerId),
   );
 
   let eligibilitiesByLearnerId = new Map();
+  let profileRewardByUserId = new Map();
 
   if (learnerIdsWithParticipation.length > 0) {
     eligibilitiesByLearnerId = await eligibilityRepository.findByOrganizationAndOrganizationLearnerIds({
@@ -106,42 +114,42 @@ async function getCombinedCourseDetailsForMultipleLearners({
       organizationId: combinedCourseDetails.organizationId,
       moduleIds: combinedCourseDetails.moduleIds,
     });
-  }
 
-  const dataForQuestByLearnerId = new Map();
-  const recommendedModulesByLearnerId = new Map();
-
-  for (const learnerId of learnerIdsWithParticipation) {
-    const eligibility = eligibilitiesByLearnerId.get(learnerId);
-    if (!eligibility) continue;
-
-    const dataForQuest = new DataForQuest({ eligibility });
-    dataForQuestByLearnerId.set(learnerId, dataForQuest);
-
-    const campaignParticipationIds =
-      combinedCourseDetails.quest.findCampaignParticipationIdsContributingToQuest(dataForQuest);
-
-    if (campaignParticipationIds.length > 0) {
-      const recommendedModules = await recommendedModuleRepository.findIdsByCampaignParticipationIds({
-        campaignParticipationIds,
-      });
-      recommendedModulesByLearnerId.set(learnerId, recommendedModules);
-    }
+    const profileRewards = await profileRewardRepository.findByUserIdsAndRewardId({
+      rewardId: combinedCourseDetails.quest.rewardId,
+      userIds,
+    });
+    profileRewardByUserId = new Map(profileRewards.map((profileReward) => [profileReward.userId, profileReward]));
   }
 
   const resultsByLearnerId = new Map();
 
-  for (const organizationLearnerId of organizationLearnerIds) {
-    const participation = participations.find(
-      (participation) => participation.organizationLearnerId === organizationLearnerId,
-    );
-    const dataForQuest = dataForQuestByLearnerId.get(organizationLearnerId);
-    const recommendedModuleIdsForUser = recommendedModulesByLearnerId.get(organizationLearnerId) ?? [];
+  for (const organizationLearner of organizationLearners) {
+    const participation = participationByLearnerId.get(organizationLearner.id);
+    const eligibility = eligibilitiesByLearnerId.get(organizationLearner.id);
+
+    let dataForQuest;
+    let recommendedModuleIdsForUser = [];
+
+    if (eligibility) {
+      dataForQuest = new DataForQuest({ eligibility });
+      const campaignParticipationIds =
+        combinedCourseDetails.quest.findCampaignParticipationIdsContributingToQuest(dataForQuest);
+
+      if (campaignParticipationIds.length > 0) {
+        recommendedModuleIdsForUser = await recommendedModuleRepository.findIdsByCampaignParticipationIds({
+          campaignParticipationIds,
+        });
+      }
+    }
+
+    const profileReward = profileRewardByUserId.get(organizationLearner.userId);
 
     combinedCourseDetails.setDataAndGenerateItems({
       participation,
       recommendedModuleIdsForUser,
       dataForQuest,
+      reward: { obtainedAt: profileReward?.createdAt },
     });
 
     const state = {
@@ -155,7 +163,7 @@ async function getCombinedCourseDetailsForMultipleLearners({
       state.participationDetails = combinedCourseDetails.participationDetails;
     }
 
-    resultsByLearnerId.set(organizationLearnerId, state);
+    resultsByLearnerId.set(organizationLearner.id, state);
   }
 
   return resultsByLearnerId;

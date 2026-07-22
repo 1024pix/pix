@@ -8,13 +8,13 @@ const generateTemporaryKey = async function () {
   const base64RandomBytes = randomBytesBuffer.toString('base64');
   return tokenService.encodeToken(
     { data: base64RandomBytes },
-    config.temporaryKey.secret,
-    config.temporaryKey.tokenLifespan,
+    config.passwordResetDemand.secret,
+    config.passwordResetDemand.lifespan,
   );
 };
 
 const assertTemporaryKey = function (token) {
-  const decoded = tokenService.getDecodedToken(token, config.temporaryKey.secret);
+  const decoded = tokenService.getDecodedToken(token, config.passwordResetDemand.secret);
   if (!decoded) {
     throw new InvalidTemporaryKeyError();
   }

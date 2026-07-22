@@ -16,7 +16,7 @@ import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { constants } from '../../../../../../src/shared/domain/constants.js';
+import { config } from '../../../../../../src/shared/config.js';
 import { DomainTransaction, withTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
@@ -1609,8 +1609,6 @@ describe('Integration | Repository | Campaign Participation', function () {
     let userId, organizationLearnerId, organizationId;
 
     beforeEach(async function () {
-      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
       userId = databaseBuilder.factory.buildUser().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
       organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId }).id;
@@ -1706,7 +1704,7 @@ describe('Integration | Repository | Campaign Participation', function () {
     it('should return false if the user only have autonomouse-course participations', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization({
-        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+        id: config.autonomousCourse.autonomousCoursesOrganizationId,
       });
       const otherOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         userId,

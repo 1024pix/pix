@@ -1,26 +1,37 @@
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Deserializer } = jsonapiSerializer;
+
 import { usecases } from '../domain/usecases/index.js';
 import { certificationInfoSerializer } from '../infrastructure/serializers/certification-info-serializer.js';
-import * as certificationVersionDetailSerializer from '../infrastructure/serializers/certification-version-detail-serializer.js';
+import * as versionDetailsSerializer from '../infrastructure/serializers/version-details-serializer.js';
 
 async function getVersionById(request) {
   const certificationVersionId = request.params.certificationVersionId;
 
-  const certificationVersion = await usecases.getVersionById({
+  const versionDetails = await usecases.getVersionById({
     id: certificationVersionId,
   });
 
-  return certificationVersionDetailSerializer.serialize(certificationVersion);
+  return versionDetailsSerializer.serialize(versionDetails);
 }
 
 async function update(request, h) {
   const certificationVersionId = request.params.certificationVersionId;
-  const comments = request.payload.data.attributes.comments;
+  const updateCommand = await deserialize(request.payload);
 
   await usecases.updateVersion({
+    ...updateCommand,
     id: certificationVersionId,
-    comments,
   });
 
+  return h.response().code(204);
+}
+
+async function updateComments(request, h) {
+  const id = request.params.certificationVersionId;
+  const comments = request.payload.data.attributes.comments;
+  await usecases.updateVersionComment({ id, comments });
   return h.response().code(204);
 }
 
@@ -37,11 +48,11 @@ async function createDraft(request, h) {
 
   const id = await usecases.createDraft({ scope, tubeIds });
 
-  const certificationVersion = await usecases.getVersionById({
+  const versionDetails = await usecases.getVersionById({
     id,
   });
 
-  return h.response(certificationVersionDetailSerializer.serialize(certificationVersion)).code(201);
+  return h.response(versionDetailsSerializer.serialize(versionDetails)).code(201);
 }
 
 async function getInfo(request) {
@@ -59,7 +70,13 @@ const certificationVersionController = {
   getVersionById,
   deleteCertificationVersion,
   update,
+  updateComments,
   getInfo,
 };
 
 export { certificationVersionController };
+
+function deserialize(json) {
+  const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
+  return deserializer.deserialize(json);
+}

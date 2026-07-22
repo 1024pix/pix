@@ -54,7 +54,10 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
       'illustrations/hello.svg',
     );
 
-    await fillIn(screen.getByLabelText(t('components.combined-course-blueprints.labels.description')), 'description');
+    await fillIn(
+      screen.getByLabelText(t('components.combined-course-blueprints.labels.description-sublabel'), { exact: false }),
+      'description',
+    );
 
     await click(
       screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
@@ -70,6 +73,10 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     ).findByRole('listbox');
     await click(within(tubesListbox).getByRole('option', { name: '4' }));
     await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '50');
+    await fillIn(
+      screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
+      'Atteindre tel niveau sur tel sujet',
+    );
 
     await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
 

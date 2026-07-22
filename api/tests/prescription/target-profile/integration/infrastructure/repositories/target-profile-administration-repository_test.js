@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { knex as datamartKnex } from '../../../../../../datamart/knex-database-connection.js';
 import { TargetProfileForAdmin } from '../../../../../../src/prescription/target-profile/domain/models/TargetProfileForAdmin.js';
 import * as targetProfileAdministrationRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
-import { constants } from '../../../../../../src/shared/domain/constants.js';
+import { config } from '../../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError, ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { TargetProfile } from '../../../../../../src/shared/domain/models/TargetProfile.js';
@@ -750,14 +750,12 @@ describe('Integration | Repository | Target-profile', function () {
       context('when target profile owner organisation is autonomous course specific organization', function () {
         it('should return target profile with hasLinkedAutonomousCourse at true', async function () {
           // given
-          sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
           const learningContent = domainBuilder.buildCampaignLearningContent.withSimpleContent();
           const learningContentObjects = learningContentBuilder([learningContent]);
           databaseBuilder.factory.learningContent.build(learningContentObjects);
 
           const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-            id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+            id: config.autonomousCourse.autonomousCoursesOrganizationId,
           });
 
           const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
@@ -782,8 +780,6 @@ describe('Integration | Repository | Target-profile', function () {
       context('when target profile is shared with autonomous course specific organization', function () {
         it('should return target profile with hasLinkedAutonomousCourse at true', async function () {
           // given
-          sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
           const learningContent = domainBuilder.buildCampaignLearningContent.withSimpleContent();
           const learningContentObjects = learningContentBuilder([learningContent]);
           databaseBuilder.factory.learningContent.build(learningContentObjects);
@@ -798,7 +794,7 @@ describe('Integration | Repository | Target-profile', function () {
             targetProfileId,
           });
           const { id: autonomousCourseOrganizationId } = databaseBuilder.factory.buildOrganization({
-            id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+            id: config.autonomousCourse.autonomousCoursesOrganizationId,
           });
 
           databaseBuilder.factory.buildTargetProfileShare({

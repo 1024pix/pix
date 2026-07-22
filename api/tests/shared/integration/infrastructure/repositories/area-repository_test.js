@@ -1,4 +1,4 @@
-import { PIX_ORIGIN } from '../../../../../src/shared/domain/constants.js';
+import { PIX_ORIGIN } from '../../../../../src/shared/constants.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as areaRepository from '../../../../../src/shared/infrastructure/repositories/area-repository.js';
 import { expect } from '../../../../test-helper.js';

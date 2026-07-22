@@ -1,0 +1,137 @@
+import { render } from '@1024pix/ember-testing-library';
+import QcuProposals from 'mon-pix/components/proposals/qcu-proposals';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
+module('Integration | Component | QCU proposals', function (hooks) {
+  setupIntlRenderingTest(hooks);
+
+  /* Rendering
+   ----------------------------------------------------- */
+
+  module('Rendering', function (hooks) {
+    let proposals;
+    let answers;
+    let answerChangedHandler;
+
+    hooks.beforeEach(function () {
+      proposals = '- prop 1\n- prop 2\n- prop 3';
+      answers = [false, true, false];
+      answerChangedHandler = () => true;
+    });
+
+    // Inspired from:
+    // - Ember-mocha: https://github.com/emberjs/ember-mocha#setup-component-tests
+    // - Ember: https://guides.emberjs.com/v2.10.0/testing/testing-components
+    // -        https://guides.emberjs.com/v2.10.0/tutorial/autocomplete-component/
+    test('should render as much radio buttons as proposals', async function (assert) {
+      // given
+      const proposalsValue = proposals;
+      const answersValue = answers;
+      const answerChanged = answerChangedHandler;
+
+      // when
+      const screen = await render(
+        <template>
+          <QcuProposals @answers={{answersValue}} @proposals={{proposalsValue}} @answerChanged={{answerChanged}} />
+        </template>,
+      );
+
+      // then
+      assert.strictEqual(screen.getAllByRole('radio').length, 3);
+      assert.ok(screen.getByLabelText('prop 1'));
+      assert.ok(screen.getByLabelText('prop 2'));
+      assert.ok(screen.getByLabelText('prop 3'));
+    });
+
+    test('should render as much radio buttons as proposals when there are many proposals', async function (assert) {
+      // given
+      const proposalsValue = '- prop 1\n- prop 2\n- prop 3\n- prop 4\n- prop 5';
+      const answerChanged = answerChangedHandler;
+
+      // when
+      const screen = await render(
+        <template><QcuProposals @proposals={{proposalsValue}} @answerChanged={{answerChanged}} /></template>,
+      );
+
+      // then
+      assert.strictEqual(screen.getAllByRole('radio').length, 5);
+    });
+
+    test('should check the radio button matching the given answer value', async function (assert) {
+      // given
+      const proposalsValue = proposals;
+      const answerValue = '2';
+      const answerChanged = answerChangedHandler;
+
+      // when
+      const screen = await render(
+        <template>
+          <QcuProposals @answerValue={{answerValue}} @proposals={{proposalsValue}} @answerChanged={{answerChanged}} />
+        </template>,
+      );
+
+      // then
+      assert.false(screen.getByLabelText('prop 1').checked);
+      assert.true(screen.getByLabelText('prop 2').checked);
+      assert.false(screen.getByLabelText('prop 3').checked);
+    });
+
+    test('should not check any radio button when the given answer value is null', async function (assert) {
+      // given
+      const proposalsValue = proposals;
+      const answerValue = null;
+      const answerChanged = answerChangedHandler;
+
+      // when
+      const screen = await render(
+        <template>
+          <QcuProposals @answerValue={{answerValue}} @proposals={{proposalsValue}} @answerChanged={{answerChanged}} />
+        </template>,
+      );
+
+      // then
+      screen.getAllByRole('radio').forEach((radio) => assert.false(radio.checked));
+    });
+
+    test('should not check any radio button when no answer value is given', async function (assert) {
+      // given
+      const proposalsValue = proposals;
+      const answerValue = '';
+      const answerChanged = answerChangedHandler;
+
+      // when
+      const screen = await render(
+        <template>
+          <QcuProposals @answerValue={{answerValue}} @proposals={{proposalsValue}} @answerChanged={{answerChanged}} />
+        </template>,
+      );
+
+      // then
+      screen.getAllByRole('radio').forEach((radio) => assert.false(radio.checked));
+    });
+
+    test('should shuffle the proposals order when shuffled is true', async function (assert) {
+      // given
+      const proposalsValue = proposals;
+      const answerChanged = answerChangedHandler;
+
+      // when
+      const screen = await render(
+        <template>
+          <QcuProposals
+            @proposals={{proposalsValue}}
+            @shuffled={{true}}
+            @shuffleSeed={{64}}
+            @answerChanged={{answerChanged}}
+          />
+        </template>,
+      );
+
+      // then
+      const labels = screen.getAllByRole('radio').map((radio) => radio.labels[0].textContent.trim());
+      assert.deepEqual(labels, ['prop 3', 'prop 1', 'prop 2']);
+    });
+  });
+});

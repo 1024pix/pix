@@ -57,7 +57,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
     let request;
 
     beforeEach(function () {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
       request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
@@ -132,7 +132,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
     let request;
 
     beforeEach(function () {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
       request = {
         auth: { credentials: { userId: 1234 } },
         params: {
@@ -178,7 +178,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
     let request;
 
     beforeEach(function () {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
       request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
@@ -246,7 +246,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
     let request;
 
     beforeEach(function () {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
       request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
@@ -314,7 +314,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
     let request;
 
     beforeEach(function () {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
       request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
@@ -381,7 +381,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
     let request;
 
     beforeEach(function () {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
       request = {
         params: { id: '1234' },
         auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } },
@@ -435,7 +435,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
 
   describe('#checkUserIsAdminInOrganization', function () {
     beforeEach(function () {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
     });
 
     context('Successful case', function () {
@@ -1075,7 +1075,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
           params: { certificationCenterId: certificationCenterMembership.certificationCenter.id },
         };
 
-        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
         const checkUserIsAdminOfCertificationCenterUsecaseStub = {
           execute: sinon.stub().resolves(true),
         };
@@ -1100,7 +1100,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
           params: { certificationCenterId: certificationCenter.id },
         };
 
-        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
         const checkUserIsAdminOfCertificationCenterUsecaseStub = {
           execute: sinon.stub().resolves(false),
         };
@@ -1341,7 +1341,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
           params: { certificationCenterId: certificationCenterMembership.certificationCenter.id },
         };
 
-        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
         const checkUserIsMemberOfCertificationCenterUsecaseStub = {
           execute: sinon.stub().resolves(true),
         };
@@ -1366,7 +1366,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
           params: { certificationCenterId },
         };
 
-        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
         const checkUserIsMemberOfCertificationCenterUsecaseStub = {
           execute: sinon.stub().resolves(false),
         };
@@ -1396,7 +1396,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
           params: { id: campaign.id },
         };
 
-        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
         const checkAuthorizationToManageCampaignUsecaseStub = {
           execute: sinon.stub().resolves(true),
         };
@@ -1424,7 +1424,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
           params: { id: campaign.id },
         };
 
-        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
         const checkAuthorizationToManageCampaignUsecaseStub = {
           execute: sinon.stub().resolves(false),
         };

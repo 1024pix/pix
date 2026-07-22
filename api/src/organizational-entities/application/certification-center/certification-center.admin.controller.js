@@ -18,7 +18,7 @@ const archiveCertificationCenter = async function (request, h) {
 };
 
 const getTemplateForArchiveInBatch = async function (request, h) {
-  const csvTemplateFileContent = generateCSVTemplate(requiredFieldNamesForCertificationCenterBatchArchive);
+  const csvTemplateFileContent = await generateCSVTemplate(requiredFieldNamesForCertificationCenterBatchArchive);
 
   return h
     .response(csvTemplateFileContent)

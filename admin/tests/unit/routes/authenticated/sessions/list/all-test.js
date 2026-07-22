@@ -25,154 +25,156 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
       };
     });
 
-    module('when queryParams are undefined', function () {
-      test('it should call store.query with no filters', async function (assert) {
-        // when
-        await route.model(params);
-        expectedQueryArgs.filter = {
-          id: undefined,
-          certificationCenterName: undefined,
-          certificationCenterType: undefined,
-          certificationCenterExternalId: undefined,
-          status: undefined,
-          version: undefined,
-        };
+    module('queryParams', function () {
+      module('when queryParams are undefined', function () {
+        test('it should call store.query with no filters', async function (assert) {
+          // when
+          await route.model(params);
+          expectedQueryArgs.filter = {
+            ids: undefined,
+            certificationCenterName: undefined,
+            certificationCenterType: undefined,
+            certificationCenterExternalId: undefined,
+            status: undefined,
+            version: undefined,
+          };
 
-        // then
-        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
-        assert.ok(true);
+          // then
+          sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+          assert.ok(true);
+        });
       });
-    });
 
-    module('when queryParams id is truthy', function () {
-      test('it should call store.query with a filter with trimmed id', async function (assert) {
-        // given
-        params.id = ' someId';
-        expectedQueryArgs.filter = {
-          id: 'someId',
-          certificationCenterName: undefined,
-          certificationCenterType: undefined,
-          certificationCenterExternalId: undefined,
-          status: undefined,
-          version: undefined,
-        };
+      module('when queryParams ids exists', function () {
+        test('it should call store.query with a filter with trimmed integers ids', async function (assert) {
+          // given
+          params.ids = ' 122, unexpectedString, 33';
+          expectedQueryArgs.filter = {
+            ids: ['122', '33'],
+            certificationCenterName: undefined,
+            certificationCenterType: undefined,
+            certificationCenterExternalId: undefined,
+            status: undefined,
+            version: undefined,
+          };
 
-        // when
-        await route.model(params);
+          // when
+          await route.model(params);
 
-        // then
-        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
-        assert.ok(true);
+          // then
+          sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+          assert.ok(true);
+        });
       });
-    });
 
-    module('when queryParams certificationCenterName is truthy', function () {
-      test('it should call store.query with a filter with trimmed certificationCenterName', async function (assert) {
-        // given
-        params.certificationCenterName = ' someName';
-        expectedQueryArgs.filter = {
-          id: undefined,
-          certificationCenterName: 'someName',
-          certificationCenterType: undefined,
-          certificationCenterExternalId: undefined,
-          status: undefined,
-          version: undefined,
-        };
+      module('when queryParams certificationCenterName is truthy', function () {
+        test('it should call store.query with a filter with trimmed certificationCenterName', async function (assert) {
+          // given
+          params.certificationCenterName = ' someName';
+          expectedQueryArgs.filter = {
+            ids: undefined,
+            certificationCenterName: 'someName',
+            certificationCenterType: undefined,
+            certificationCenterExternalId: undefined,
+            status: undefined,
+            version: undefined,
+          };
 
-        // when
-        await route.model(params);
+          // when
+          await route.model(params);
 
-        // then
-        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
-        assert.ok(true);
+          // then
+          sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+          assert.ok(true);
+        });
       });
-    });
 
-    module('when queryParams certificationCenterType is truthy', function () {
-      test('it should call store.query with a filter with trimmed certificationCenterType', async function (assert) {
-        // given
-        params.certificationCenterType = 'SCO';
-        expectedQueryArgs.filter = {
-          id: undefined,
-          certificationCenterName: undefined,
-          certificationCenterType: 'SCO',
-          certificationCenterExternalId: undefined,
-          status: undefined,
-          version: undefined,
-        };
+      module('when queryParams certificationCenterType is truthy', function () {
+        test('it should call store.query with a filter with trimmed certificationCenterType', async function (assert) {
+          // given
+          params.certificationCenterType = 'SCO';
+          expectedQueryArgs.filter = {
+            ids: undefined,
+            certificationCenterName: undefined,
+            certificationCenterType: 'SCO',
+            certificationCenterExternalId: undefined,
+            status: undefined,
+            version: undefined,
+          };
 
-        // when
-        await route.model(params);
+          // when
+          await route.model(params);
 
-        // then
-        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
-        assert.ok(true);
+          // then
+          sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+          assert.ok(true);
+        });
       });
-    });
 
-    module('when queryParams certificationCenterExternalId is truthy', function () {
-      test('it should call store.query with a filter with trimmed certificationCenterExternalId', async function (assert) {
-        // given
-        params.certificationCenterExternalId = 'EXTID';
-        expectedQueryArgs.filter = {
-          id: undefined,
-          certificationCenterName: undefined,
-          certificationCenterType: undefined,
-          certificationCenterExternalId: 'EXTID',
-          status: undefined,
-          version: undefined,
-        };
+      module('when queryParams certificationCenterExternalId is truthy', function () {
+        test('it should call store.query with a filter with trimmed certificationCenterExternalId', async function (assert) {
+          // given
+          params.certificationCenterExternalId = 'EXTID';
+          expectedQueryArgs.filter = {
+            ids: undefined,
+            certificationCenterName: undefined,
+            certificationCenterType: undefined,
+            certificationCenterExternalId: 'EXTID',
+            status: undefined,
+            version: undefined,
+          };
 
-        // when
-        await route.model(params);
+          // when
+          await route.model(params);
 
-        // then
-        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
-        assert.ok(true);
+          // then
+          sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+          assert.ok(true);
+        });
       });
-    });
 
-    module('when queryParams status is truthy', function () {
-      test('it should call store.query with a filter with status', async function (assert) {
-        // given
-        params.status = 'someStatus';
-        expectedQueryArgs.filter = {
-          id: undefined,
-          certificationCenterName: undefined,
-          certificationCenterType: undefined,
-          certificationCenterExternalId: undefined,
-          status: 'someStatus',
-          version: undefined,
-        };
+      module('when queryParams status is truthy', function () {
+        test('it should call store.query with a filter with status', async function (assert) {
+          // given
+          params.status = 'someStatus';
+          expectedQueryArgs.filter = {
+            ids: undefined,
+            certificationCenterName: undefined,
+            certificationCenterType: undefined,
+            certificationCenterExternalId: undefined,
+            status: 'someStatus',
+            version: undefined,
+          };
 
-        // when
-        await route.model(params);
+          // when
+          await route.model(params);
 
-        // then
-        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
-        assert.ok(true);
+          // then
+          sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+          assert.ok(true);
+        });
       });
-    });
 
-    module('when queryParams version is 3', function () {
-      test('it should call store.query with a filter with version', async function (assert) {
-        // given
-        params.version = 3;
-        expectedQueryArgs.filter = {
-          id: undefined,
-          certificationCenterName: undefined,
-          certificationCenterType: undefined,
-          certificationCenterExternalId: undefined,
-          status: undefined,
-          version: 3,
-        };
+      module('when queryParams version is 3', function () {
+        test('it should call store.query with a filter with version', async function (assert) {
+          // given
+          params.version = 3;
+          expectedQueryArgs.filter = {
+            ids: undefined,
+            certificationCenterName: undefined,
+            certificationCenterType: undefined,
+            certificationCenterExternalId: undefined,
+            status: undefined,
+            version: 3,
+          };
 
-        // when
-        await route.model(params);
+          // when
+          await route.model(params);
 
-        // then
-        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
-        assert.ok(true);
+          // then
+          sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+          assert.ok(true);
+        });
       });
     });
 
@@ -210,7 +212,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
       controller = {
         pageNumber: 'somePageNumber',
         pageSize: 'somePageSize',
-        id: 'someId',
+        ids: '122',
         certificationCenterName: 'someName',
         certificationCenterType: 'someType',
         status: 'someStatus',
@@ -226,7 +228,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         // then
         assert.deepEqual(controller.pageNumber, 1);
         assert.deepEqual(controller.pageSize, 10);
-        assert.deepEqual(controller.id, null);
+        assert.deepEqual(controller.ids, null);
         assert.deepEqual(controller.certificationCenterName, null);
         assert.deepEqual(controller.certificationCenterType, null);
         assert.deepEqual(controller.status, null);
@@ -242,7 +244,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         // then
         assert.deepEqual(controller.pageNumber, 'somePageNumber');
         assert.deepEqual(controller.pageSize, 'somePageSize');
-        assert.deepEqual(controller.id, 'someId');
+        assert.deepEqual(controller.ids, '122');
         assert.deepEqual(controller.certificationCenterName, 'someName');
         assert.deepEqual(controller.status, 'someStatus');
         assert.deepEqual(controller.certificationCenterType, 'someType');

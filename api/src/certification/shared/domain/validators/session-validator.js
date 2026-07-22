@@ -75,7 +75,7 @@ const sessionValidationForMassImportJoiSchema = Joi.object({
 });
 
 const sessionFiltersValidationSchema = Joi.object({
-  id: identifiersType.sessionId.optional(),
+  ids: Joi.array().items(identifiersType.sessionId.optional()).single().optional(),
   status: Joi.string()
     .trim()
     .valid(

@@ -6,7 +6,7 @@ import { CenterTypes } from '../../domain/models/CenterTypes.js';
 /**
  * @param {object} params
  * @param {Array<string>} params.externalIds
- * @returns {Promise<Array<number>>} - number of rows affected
+ * @returns {Promise<Array<string>>} - externalIds of rows affected
  */
 export async function addToWhitelistByExternalIds({ externalIds }) {
   const knexConn = DomainTransaction.getConnection();
@@ -19,11 +19,13 @@ export async function addToWhitelistByExternalIds({ externalIds }) {
       type: CenterTypes.SCO,
       archivedAt: null,
     })
-    .whereIn('externalId', externalIds)
+    .whereIn(
+      knexConn.raw('LOWER("externalId")'),
+      externalIds.map((id) => id.toLowerCase()),
+    )
     .returning('externalId');
 
-  const updatedExternalIds = updatedLines.map((line) => line.externalId);
-  return updatedExternalIds;
+  return updatedLines.map((line) => line.externalId);
 }
 
 /**

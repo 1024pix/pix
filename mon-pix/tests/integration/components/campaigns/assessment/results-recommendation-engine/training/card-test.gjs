@@ -1,5 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
+// eslint-disable-next-line no-restricted-imports
+import { click, find } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import TrainingCard from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/training/card';
 import { module, test } from 'qunit';
@@ -22,13 +23,11 @@ module(
 
       // then
       const trainingTitle = screen.getAllByText(training.title);
-      const button = screen.getByRole('button', {
-        name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
-      });
+      const cardContainer = find('.results-recommendation-engine-training-card');
 
       assert.strictEqual(trainingTitle.length, 2);
       assert.dom(screen.getByText('Webinaire')).exists();
-      assert.dom(within(button).getByText('1 jour et 2h')).exists();
+      assert.dom(within(cardContainer).getByText('1 jour et 2h')).exists();
     });
 
     module('when delivery mode is hybrid', function () {
@@ -185,13 +184,12 @@ module(
           );
 
           // when
-          const screen = await render(<template><TrainingCard @training={{training}} /></template>);
+          await render(<template><TrainingCard @training={{training}} /></template>);
 
           // then
-          const button = screen.getByRole('button', {
-            name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
-          });
-          assert.dom(within(button).getByText('3 jours et 1h')).exists();
+          const cardContainer = find('.results-recommendation-engine-training-card');
+
+          assert.dom(within(cardContainer).getByText('3 jours et 1h')).exists();
         });
       });
     });
@@ -215,104 +213,7 @@ module(
         );
 
         // then
-        const modal = await screen.findByRole('dialog');
-        assert
-          .dom(within(modal).getByRole('heading', { name: 'Apprendre à manger un croissant comme les français' }))
-          .exists();
-        assert
-          .dom(
-            within(modal).getByText(t('pages.skill-review.recommended-engine.training-card.registration-required.yes')),
-          )
-          .exists();
-        assert.dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.duration'))).exists();
-        assert.dom(within(modal).getByText(training.editorName)).exists();
-        assert.dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.localisation'))).exists();
-        assert
-          .dom(within(modal).getByText(t('pages.skill-review.recommended-engine.training-card.delivery-mode.remote')))
-          .exists();
-        assert.dom(within(modal).getByText(training.description)).exists();
-        assert.dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.objectives'))).exists();
-        assert.dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.program'))).exists();
-
-        const actionButtons = within(modal).getByRole('list');
-        assert.dom(within(actionButtons).getByRole('button', { name: t('common.actions.close') })).exists();
-      });
-
-      module('when training is modulix type', function () {
-        test('it displays a link button to redirect to a module', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          const training = store.createRecord('training', _buildTraining({ type: 'modulix' }));
-          const onCardClickStub = sinon.stub();
-
-          // when
-          const screen = await render(
-            <template><TrainingCard @training={{training}} @onCardClick={{onCardClickStub}} /></template>,
-          );
-          await click(
-            screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.training-card.aria-label') }),
-          );
-
-          // then
-          const modal = await screen.findByRole('dialog');
-          assert
-            .dom(
-              within(modal).getByRole('link', {
-                name: t('pages.skill-review.recommended-engine.modal.actions.discover-module'),
-              }),
-            )
-            .exists();
-        });
-      });
-
-      module('when training is a other type than modulix', function () {
-        test('it displays a link button to redirect to an external website', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          const training = store.createRecord('training', _buildTraining({ type: 'webinaire' }));
-          const onCardClickStub = sinon.stub();
-
-          // when
-          const screen = await render(
-            <template><TrainingCard @training={{training}} @onCardClick={{onCardClickStub}} /></template>,
-          );
-          await click(
-            screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.training-card.aria-label') }),
-          );
-
-          // then
-          const modal = await screen.findByRole('dialog');
-          assert
-            .dom(
-              within(modal).getByRole('link', {
-                name: `${t('pages.skill-review.recommended-engine.modal.actions.discover-program')} ${t('navigation.external-link-title')}`,
-              }),
-            )
-            .exists();
-        });
-      });
-
-      test('should display a feedback for the relevance of the training', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const training = store.createRecord('training', _buildTraining({}));
-        const onCardClickStub = sinon.stub();
-
-        // when
-        const screen = await render(
-          <template><TrainingCard @training={{training}} @onCardClick={{onCardClickStub}} /></template>,
-        );
-        await click(
-          screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.training-card.aria-label') }),
-        );
-
-        // then
-        const modal = await screen.findByRole('dialog');
-        assert.dom(within(modal).getByRole('button', { name: t('common.yes') })).exists();
-        assert.dom(within(modal).getByRole('button', { name: t('common.no') })).exists();
-        assert
-          .dom(within(modal).getByText(t('pages.skill-review.recommended-engine.modal.feedback.question')))
-          .exists();
+        assert.dom(await screen.findByRole('dialog', { name: training.title })).exists();
       });
 
       test('should call onCardClick function', async function (assert) {

@@ -1,5 +1,5 @@
 import { createServer } from '../../../../server.js';
-import { constants } from '../../../../src/shared/domain/constants.js';
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
@@ -77,8 +77,8 @@ describe('Profile | Acceptance | Router | profile-route', function () {
           type: 'Profiles',
           attributes: {
             'pix-score': knowledgeElement.earnedPix,
-            'max-reachable-level': constants.MAX_REACHABLE_LEVEL,
-            'max-reachable-pix-score': constants.MAX_REACHABLE_PIX_SCORE,
+            'max-reachable-level': MAX_REACHABLE_LEVEL,
+            'max-reachable-pix-score': MAX_REACHABLE_PIX_SCORE,
           },
           relationships: {
             scorecards: {
@@ -264,8 +264,8 @@ describe('Profile | Acceptance | Router | profile-route', function () {
           type: 'Profiles',
           attributes: {
             'pix-score': knowledgeElement.earnedPix,
-            'max-reachable-level': constants.MAX_REACHABLE_LEVEL,
-            'max-reachable-pix-score': constants.MAX_REACHABLE_PIX_SCORE,
+            'max-reachable-level': MAX_REACHABLE_LEVEL,
+            'max-reachable-pix-score': MAX_REACHABLE_PIX_SCORE,
           },
           relationships: {
             scorecards: {

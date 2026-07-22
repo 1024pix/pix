@@ -7,7 +7,7 @@ import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import * as organizationLearnerParticipationRepository from '../../../../../src/quest/infrastructure/repositories/organization-learner-participation-repository.js';
+import * as organizationLearnerParticipationRepository from '../../../../../src/quest/infrastructure/repositories/combined-course-participations/organization-learner-participation-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 

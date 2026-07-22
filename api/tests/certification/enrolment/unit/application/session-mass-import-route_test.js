@@ -1,4 +1,3 @@
-import FormData from 'form-data';
 import sinon from 'sinon';
 
 import { sessionMassImportController } from '../../../../../src/certification/enrolment/application/session-mass-import-controller.js';
@@ -6,17 +5,20 @@ import { sessionMassImportRoute as moduleUnderTest } from '../../../../../src/ce
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
+import { convertFormDataToPayload } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Unit | Router | session-mass-import-route', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/validate-for-mass-import', function () {
     let headers;
     let payload;
 
-    beforeEach(function () {
-      const form = new FormData();
-      form.append('file', Buffer.alloc(0), { filename: 'test-file' });
-      headers = form.getHeaders();
-      payload = form.getBuffer();
+    beforeEach(async function () {
+      const formData = new FormData();
+      formData.append('file', new Blob([Buffer.alloc(0)], { type: 'text/csv' }), 'import-sessions.csv');
+
+      const payloadData = await convertFormDataToPayload(formData);
+      payload = payloadData.payload;
+      headers = new Headers({ 'content-type': payloadData.contentType });
     });
 
     it('should exist', async function () {

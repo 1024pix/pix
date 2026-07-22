@@ -472,6 +472,36 @@
           }
         }
       },
+      "creation": {
+        "complementary-certifications-habilitations": "Habilitations to complementary certifications",
+        "configuration": "Configuration",
+        "dpo": {
+          "acronym": "DPO",
+          "definition": "Data Protection Officer",
+          "email": "E-mail address of ",
+          "firstname": "Firstname of ",
+          "lastname": "Lastname of "
+        },
+        "error-messages": {
+          "dpo-email": "The email adress is not in the correct format",
+          "error-toast": "Please correct the fields with errors.",
+          "name": "Name is required",
+          "type": "Certification center type is required"
+        },
+        "external-id": {
+          "label": "External Identifier",
+          "placeholder": "Specify the UAI, SIRET etc"
+        },
+        "name": {
+          "label": "Name of the certification center",
+          "placeholder": "My new certification center"
+        },
+        "success-message": "The certification center has been successfully created.",
+        "type": {
+          "label": "Type of the certification center",
+          "placeholder": "Select one type"
+        }
+      },
       "invitations": {
         "table": {
           "caption": "Liste des invitations envoyées pour rejoindre un centre de certification. Contient une adresse e-mail de l'utilisateur, le rôle que l'on souhaite lui attribuer, la date de dernier envoi de l'invitation et des actions permettent de renvoyer l'invitation ou de la supprimer."
@@ -505,15 +535,15 @@
         "history": {
           "label": "Versions",
           "statuses": {
-            "ACTIVE": "Active",
-            "ARCHIVED": "Archived",
-            "DRAFT": "Draft"
+            "active": "Active",
+            "archived": "Archived",
+            "draft": "Draft"
           },
           "table": {
             "actions": {
-              "delete": "Delete version",
-              "edit": "Edit version",
-              "view": "View version details"
+              "delete": "Delete version {id}",
+              "edit": "Edit version {id}",
+              "view": "View version details {id}"
             },
             "caption": "Versions list in descending order",
             "columns": {
@@ -544,6 +574,31 @@
           "parameters": "Framework parameters:",
           "start-date": "Start date:",
           "status": "Status:"
+        },
+        "versions": {
+          "edit": {
+            "assessment-duration-label": "Assessment duration (hh:mm):",
+            "challenges-between-same-competence-label": "Number of questions between two questions assessing the same competency:",
+            "default-candidate-capacity-label": "Default candidate ability:",
+            "default-probability-to-pick-challenge-label": "Probability of selecting the most relevant question (%):",
+            "enable-passage-by-all-competences-label": "Require coverage of all competencies in the certification framework:",
+            "limit-to-one-question-per-tube-label": "Limit to 1 question per topic:",
+            "maximum-assessment-length-label": "Total number of questions:",
+            "minimum-answers-required-for-validation-label": "Minimum number of questions required to obtain certification:",
+            "start-date-label": "Planned activation date:",
+            "sublabel": "Value of the active version: {value}",
+            "submit-button": "Save for later",
+            "success-notification": "Changes to the version have been saved successfully.",
+            "validation-message-error": "This field is mandatory",
+            "variation-percent-label": "Ability progression cap:"
+          },
+          "new": {
+            "submit-button": "Submit the new version of the certification framework ",
+            "success-notification": "The new version of the certification framework  has been successfully created.",
+            "title": "Creating a new version of the certification framework for {frameworkLabel}"
+          },
+          "page-title": "Creation of a new version of the certification in {scope} framework",
+          "title": "Creating a Certification Release"
         }
       },
       "deletion-modal": {
@@ -598,16 +653,7 @@
           "title": "Historique des profils cibles rattachés"
         }
       },
-      "title": "All certification frameworks",
-      "versions": {
-        "new": {
-          "submit-button": "Submit the new version of the certification framework ",
-          "success-notification": "The new version of the certification framework  has been successfully created.",
-          "title": "Creating a new version of the certification framework for {frameworkLabel}"
-        },
-        "page-title": "Creation of a new version of the certification in {scope} framework",
-        "title": "Creating a Certification Release"
-      }
+      "title": "All certification frameworks"
     },
     "certifications": {
       "edu-results": {
@@ -681,33 +727,41 @@
       },
       "create": {
         "addItemButton": "Add",
+        "attestations": "Attestations",
+        "content": "Content",
         "contentFeedback": "Your course does not have any items yet.",
         "courseContent": "Course content",
         "createButton": "Create combined course blueprint",
         "fieldsetElement": "Choose the element type you want to add :",
+        "generalInfoCardTitle": "General information",
         "notifications": {
           "addItemError": "Oops. Resource not found.",
           "error": "Oops. Something went wrong. Please try again.",
+          "evaluationNotFound": "No target profile found with given id",
           "moduleNotFound": "No module found with given short id",
-          "success": "Combined course blueprint created successfully!",
-          "targetProfileNotFound": "No target profile found with given id"
+          "success": "Combined course blueprint created successfully!"
         },
         "title": "Create a combined course blueprint"
       },
       "items": {
+        "action-header": "Actions",
+        "item-name-header": "Item name",
+        "item-type-header": "Item type",
         "module": "Module",
         "targetProfile": "Target profile",
-        "title": "Course content"
+        "title": "Combined course blueprint content"
       },
       "labels": {
         "attestation": "Attestation",
         "created-at": "Creation date",
         "description": " Description",
+        "description-sublabel": "This description will be seen by users",
         "illustration": "Illustration",
         "internal-name": "Internal name",
         "itemId": "Id",
         "module": "Module",
         "name": "External name",
+        "reward-requirements": "Reward requirements",
         "survey-link": "Survey link url",
         "target-profile": "Target profile"
       },
@@ -772,6 +826,7 @@
         },
         "logout": "Log out",
         "networks": "Networks",
+        "organization-learners": "Learners",
         "organizations": "Organizations",
         "sessions": "Certification sessions",
         "target-profiles": "Target profiles",
@@ -871,15 +926,55 @@
       },
       "title": "Prescribed information"
     },
+    "organization-learners": {
+      "list-table": {
+        "caption": "List of learners from organisations. Contains first name, surname, date of birth, INE, class, organisation and associated user ID.",
+        "headers": {
+          "active": "Active",
+          "birthdate": "Birthdate",
+          "division-group": "Group/division",
+          "first-name": "First Name",
+          "inactive": "Inactif",
+          "last-name": "Last Name",
+          "national-student-id": "INE",
+          "organization": "Organization",
+          "updated-at": "Updated at",
+          "user-id": "User ID"
+        },
+        "view-organization": "View organization",
+        "view-user": "View user"
+      }
+    },
     "organizations": {
       "all-tags": {
         "recently-used-tags": "List of tags recently used with {tagName}"
       },
       "attached-certification-center": {
+        "actions": {
+          "detach": {
+            "button": "Detach",
+            "confirm-modal-message": "Are you sure you want to detach the certification center <strong>{certificationCenterName}</strong> from this organization?",
+            "confirm-modal-title": "Detach a certification center",
+            "success": "The certification center has been successfully detached."
+          }
+        },
+        "attach-form": {
+          "input-label": "Attach a certification center",
+          "input-sublabel": "ID of the center",
+          "name": "Attach a certification center"
+        },
         "empty": "No certification center attached.",
+        "notifications": {
+          "attach-success": "The certification center has been successfully attached to the organization.",
+          "errors": {
+            "ALREADY_ATTACHED_CERTIFICATION_CENTER": "Certification center {certificationCenterId} is already attached to organisation {alreadyAttachedOrganizationId}.",
+            "NON_EXISTING_CERTIFICATION_CENTER": "Certification center {certificationCenterId} does not exist."
+          }
+        },
         "table": {
           "caption": "Certification center attached to the organisation.",
           "headers": {
+            "actions": "Actions",
             "external-id": "External ID",
             "id": "ID",
             "name": "Name"
@@ -1397,6 +1492,10 @@
         "title": "Archive this certification center {certificationCenterName}",
         "warning": "This action cannot be undone."
       },
+      "breadcrumb": {
+        "new-certification-center": "New certification center",
+        "parent-page": "All certification centers"
+      },
       "information-view": {
         "habilitations": {
           "aria-label": {
@@ -1407,6 +1506,7 @@
         },
         "is-archived-warning": "Archived at {archivedAt} by {archivedBy}.",
         "list": {
+          "createdAt": "Created at",
           "dpo": "DPO",
           "dpo-definition": "Data Protection Officer",
           "dpo-email": "E-mail address of ",
@@ -1420,6 +1520,9 @@
         "attached-organizations": "Attached organization",
         "invitations": "Invitations",
         "team": "Team"
+      },
+      "new": {
+        "page-title": "New certification center"
       },
       "notifications": {
         "failure": {
@@ -1653,6 +1756,10 @@
         "team": "Team"
       }
     },
+    "organization-learners-list": {
+      "main-title": "Learners list",
+      "page-title": "Learners"
+    },
     "organization-network": {
       "notifications": {
         "error": {
@@ -1691,18 +1798,18 @@
         },
         "caption": "Candidats",
         "empty-result": "No result",
-        "subscriptions": {
+        "pix-plus-format": {
           "complementary": "PIX certification / {pixPlusLabel} complementary",
-          "core": "Pix Certification",
-          "dual-core-clea": "Double Certification PIX/CléA Numérique",
-          "pix-plus": "{pixPlusLabel} certification",
-          "pix-plus-label": {
-            "DROIT": "Pix+ Law",
-            "EDU_1ER_DEGRE": "Pix+ Edu Primary School",
-            "EDU_2ND_DEGRE": "Pix+ Edu Secondary School",
-            "EDU_CPE": "Pix+ Edu CPE",
-            "PRO_SANTE": "Pix+ Pro Health"
-          }
+          "pix-plus": "{pixPlusLabel} certification"
+        },
+        "subscriptions": {
+          "CLEA": "Double Certification PIX/CléA Numérique",
+          "CORE": "Pix Certification",
+          "DROIT": "Pix+ Law",
+          "EDU_1ER_DEGRE": "Pix+ Edu Primary School",
+          "EDU_2ND_DEGRE": "Pix+ Edu Secondary School",
+          "EDU_CPE": "Pix+ Edu CPE",
+          "PRO_SANTE": "Pix+ Pro Health"
         }
       },
       "informations": {
@@ -1754,9 +1861,9 @@
           "external-id": {
             "aria-label": "Filtrer les sessions avec un identifiant externe"
           },
-          "id": {
-            "aria-label": "Filtrer les sessions avec un id",
-            "label": "Identifiant"
+          "ids": {
+            "aria-label": "Filtrer les sessions avec un ou plusieurs id séparés par des virgules",
+            "label": "Session(s) ID(s)"
           },
           "status": {
             "aria-label": "Filtrer les sessions en sélectionnant un statut"

@@ -5,4 +5,7 @@
     "pg-query-stream", // https://knexjs.org/guide/interfaces.html#streams
     "json-autotranslate", // used by api/scripts/translate-language-files.js
   ],
+  "ignoreFiles": [
+    "tracing.worker.maddo.js", // used by Procfile-maddo
+  ],
 }

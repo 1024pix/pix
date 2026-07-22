@@ -1,9 +1,12 @@
+import sinon from 'sinon';
+
 import { PasswordResetDemandNotFoundError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { getUserByResetPasswordDemand } from '../../../../../src/identity-access-management/domain/usecases/get-user-by-reset-password-demand.usecase.js';
 import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { config } from '../../../../../src/shared/config.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { InvalidTemporaryKeyError } from '../../../../../src/shared/domain/errors.js';
 import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
@@ -53,6 +56,29 @@ describe('Integration | Identity Access Management | Domain | UseCase | getUserB
 
     // then
     expect(error).to.be.an.instanceOf(InvalidTemporaryKeyError);
+  });
+
+  context('when temporaryKey is expired', function () {
+    it('throws InvalidTemporaryKeyError', async function () {
+      // given
+      sinon.stub(config.passwordResetDemand, 'lifespan').value(0);
+
+      temporaryKey = await resetPasswordService.generateTemporaryKey();
+      databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(getUserByResetPasswordDemand)({
+        temporaryKey,
+        resetPasswordService,
+        tokenService,
+        userRepository,
+        resetPasswordDemandRepository,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(InvalidTemporaryKeyError);
+    });
   });
 
   it('should throws PasswordResetDemandNotFoundError if resetPasswordDemand does not exist', async function () {

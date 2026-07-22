@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { Campaign } from '../../../../../src/quest/domain/models/combined-courses/entities/Campaign.js';
-import * as campaignRepository from '../../../../../src/quest/infrastructure/repositories/campaign-repository.js';
+import * as campaignRepository from '../../../../../src/quest/infrastructure/repositories/combined-courses/campaign-repository.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | campaign', function () {

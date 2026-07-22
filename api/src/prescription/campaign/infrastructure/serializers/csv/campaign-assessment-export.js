@@ -1,13 +1,11 @@
 import _ from 'lodash';
 
 import * as improvementService from '../../../../../evaluation/domain/services/improvement-service.js';
-import {
-  CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
-  CONCURRENCY_HEAVY_OPERATIONS,
-} from '../../../../../shared/infrastructure/constants.js';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../shared/constants.js';
 import { serializeLine } from '../../../../../shared/infrastructure/helpers/csv.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
 import { PromiseUtils } from '../../../../../shared/infrastructure/utils/promise-utils.js';
+import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../domain/constants.js';
 import { CampaignAssessmentResultLine } from '../../exports/campaigns/campaign-assessment-result-line.js';
 
 class CampaignAssessmentExport {

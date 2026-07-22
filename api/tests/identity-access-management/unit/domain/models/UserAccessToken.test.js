@@ -2,9 +2,11 @@ import sinon from 'sinon';
 
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { config } from '../../../../../src/shared/config.js';
+import { InvalidInputDataError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Unit | Identity Access Management | Domain | Model | RefreshToken', function () {
+describe('Unit | Identity Access Management | Domain | Model | UserAccessToken', function () {
   beforeEach(function () {
     sinon.stub(config.authentication, 'secret').value('secret!');
     sinon.stub(config.authentication, 'accessTokenLifespanMs').value(3600000);
@@ -16,10 +18,11 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
     it('decodes a valid token', function () {
       // given
       const token = UserAccessToken.generate({
-        userId: 'userId!',
+        userId: 123456,
         source: 'source!',
         audience: 'audience!',
         expirationDelaySeconds: 1000,
+        sessionId: 'ABC-123-321',
       });
 
       // when
@@ -28,21 +31,19 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
       // then
       expect(decoded).to.be.instanceOf(UserAccessToken);
       expect(decoded).to.deep.include({
-        userId: 'userId!',
+        userId: 123456,
         source: 'source!',
         audience: 'audience!',
+        sessionId: 'ABC-123-321',
       });
     });
 
-    it('returns empty object for invalid token', function () {
+    it('throws an InvalidInputDataError for an invalid token', async function () {
       // given / when
-      const decoded = UserAccessToken.decode('invalid.token');
+      const decodeError = await catchErr(UserAccessToken.decode)('invalid.token');
 
       // then
-      expect(decoded).to.be.instanceOf(UserAccessToken);
-      expect(decoded.userId).to.be.undefined;
-      expect(decoded.audience).to.be.undefined;
-      expect(decoded.source).to.be.undefined;
+      expect(decodeError).to.be.instanceOf(InvalidInputDataError);
     });
   });
 
@@ -50,10 +51,11 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
     it('builds an access token', function () {
       // given / when
       const token = UserAccessToken.generate({
-        userId: 'userId!',
+        userId: 123456,
         source: 'source!',
         audience: 'https://app.pix.fr',
         expirationDelaySeconds: 1000,
+        sessionId: 'sessionId!',
       });
 
       // then
@@ -61,9 +63,10 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
 
       const decoded = UserAccessToken.decode(token);
       expect(decoded).to.deep.include({
-        userId: 'userId!',
+        userId: 123456,
         source: 'source!',
         audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
       });
     });
   });
@@ -72,9 +75,10 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
     it('returns an access token and expiration delay', function () {
       // given / when
       const { accessToken, expirationDelaySeconds } = UserAccessToken.generateUserToken({
-        userId: 'userId!',
+        userId: 123456,
         source: 'source!',
         audience: 'audience!',
+        sessionId: 'sessionId!',
       });
 
       // then
@@ -83,9 +87,10 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
 
       const decoded = UserAccessToken.decode(accessToken);
       expect(decoded).to.deep.include({
-        userId: 'userId!',
+        userId: 123456,
         source: 'source!',
         audience: 'audience!',
+        sessionId: 'sessionId!',
       });
     });
   });
@@ -94,8 +99,9 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
     it('returns an access token and expiration delay', function () {
       // given / when
       const { accessToken, expirationDelaySeconds } = UserAccessToken.generateAnonymousUserToken({
-        userId: 'userId!',
+        userId: 123456,
         audience: 'audience!',
+        sessionId: 'sessionId!',
       });
 
       // then
@@ -104,9 +110,10 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
 
       const decoded = UserAccessToken.decode(accessToken);
       expect(decoded).to.deep.include({
-        userId: 'userId!',
+        userId: 123456,
         source: 'pix',
         audience: 'audience!',
+        sessionId: 'sessionId!',
       });
     });
   });
@@ -115,8 +122,9 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
     it('returns an access token and expiration delay', function () {
       // given / when
       const { accessToken, expirationDelaySeconds } = UserAccessToken.generateSamlUserToken({
-        userId: 'userId!',
+        userId: 123456,
         audience: 'audience!',
+        sessionId: 'sessionId!',
       });
 
       // then
@@ -125,9 +133,34 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
 
       const decoded = UserAccessToken.decode(accessToken);
       expect(decoded).to.deep.include({
-        userId: 'userId!',
+        userId: 123456,
         source: 'external',
         audience: 'audience!',
+        sessionId: 'sessionId!',
+      });
+    });
+  });
+
+  describe('UserAccessToken.generateOidcUserToken', function () {
+    it('returns an access token and expiration delay', function () {
+      // given / when
+      const accessTokenLifespanSeconds = 48 * 60 * 60;
+      const { accessToken, expirationDelaySeconds } = UserAccessToken.generateOidcUserToken({
+        userId: 123456,
+        audience: 'audience!',
+        sessionId: 'sessionId!',
+        expiresIn: accessTokenLifespanSeconds,
+      });
+
+      // then
+      expect(accessToken).to.be.a('string');
+      expect(expirationDelaySeconds).to.equal(accessTokenLifespanSeconds);
+
+      const decoded = UserAccessToken.decode(accessToken);
+      expect(decoded).to.deep.include({
+        userId: 123456,
+        audience: 'audience!',
+        sessionId: 'sessionId!',
       });
     });
   });

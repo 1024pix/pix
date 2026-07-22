@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
 
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import { REQUIREMENT_TYPES } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { PRO_ORGANIZATION_ID } from '../../common/constants.js';
-import { CAMPAIGN_PRO_COMBINED_COURSE_ID } from '../constants.js';
+import { CAMPAIGN_PRO_COMBINED_COURSE_ID, SIXTH_GRADE_REWARD_ID } from '../constants.js';
 
 export const PRO_COMBINED_COURSE = {
   organizationId: PRO_ORGANIZATION_ID,
@@ -14,7 +16,16 @@ export const PRO_COMBINED_COURSE = {
       { type: 'evaluation' },
       { type: 'module', moduleId: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a' },
       { type: 'module', moduleId: 'f32a2238-4f65-4698-b486-15d51935d335' },
+      {
+        requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+        data: {
+          cappedTubes: [{ tubeId: 'recrkpItPsNRg2OjJ', level: 2 }],
+          threshold: 50,
+        },
+      },
     ],
+    rewardType: REWARD_TYPES.ATTESTATION,
+    rewardId: SIXTH_GRADE_REWARD_ID,
     description:
       "#Un parcours\n pour découvrir l'essentiel sur l'intelligence artificielle : [comprendre sa définition](http://pix.fr), ses domaines d'application, comment elle fonctionne, ainsi que ses enjeux, notamment en matière d'impact environnemental.",
     surveyUrl: 'http://pix.fr',

@@ -1,18 +1,6 @@
-import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../src/certification/shared/domain/constants.js';
-import { SCOPES } from '../../../src/certification/shared/domain/models/Scopes.js';
 import { databaseBuffer } from '../database-buffer.js';
 
-const defaultChallengesConfiguration = {
-  maximumAssessmentLength: 32,
-  challengesBetweenSameCompetence: 2,
-  limitToOneQuestionPerTube: true,
-  enablePassageByAllCompetences: true,
-  variationPercent: 0.5,
-  defaultCandidateCapacity: -3,
-  defaultProbabilityToPickChallenge: 51,
-};
-
-const defaultGlobalScoringConfiguration = [
+export const defaultGlobalScoringConfiguration = [
   {
     meshLevel: 0,
     bounds: {
@@ -71,7 +59,7 @@ const defaultGlobalScoringConfiguration = [
   },
 ];
 
-const defaultCompetencesScoringConfiguration = [
+export const defaultCompetencesScoringConfiguration = [
   {
     competence: '1.1',
     competenceId: 'competence1_1',
@@ -136,22 +124,19 @@ const defaultCompetencesScoringConfiguration = [
   },
 ];
 
-export const buildCertificationVersion = function ({
+export function buildCertificationVersion({
   id = databaseBuffer.getNextId(),
-  scope = SCOPES.CORE,
-  startDate = new Date('1977-10-19'),
-  expirationDate = null,
-  assessmentDuration = DEFAULT_SESSION_DURATION_MINUTES,
-  globalScoringConfiguration = defaultGlobalScoringConfiguration,
-  competencesScoringConfiguration = defaultCompetencesScoringConfiguration,
-  challengesConfiguration = defaultChallengesConfiguration,
-  minimumAnswersRequiredToValidateACertification = 20,
-  comments = 'Some comments',
+  scope,
+  startDate,
+  expirationDate,
+  assessmentDuration,
+  globalScoringConfiguration,
+  competencesScoringConfiguration,
+  challengesConfiguration,
+  minimumAnswersRequiredToValidateACertification,
+  status,
+  comments,
 } = {}) {
-  const finalChallengesConfiguration = {
-    ...defaultChallengesConfiguration,
-    ...challengesConfiguration,
-  };
   return databaseBuffer.pushInsertable({
     tableName: 'certification_versions',
     values: {
@@ -162,9 +147,10 @@ export const buildCertificationVersion = function ({
       assessmentDuration,
       globalScoringConfiguration: JSON.stringify(globalScoringConfiguration),
       competencesScoringConfiguration: JSON.stringify(competencesScoringConfiguration),
-      challengesConfiguration: JSON.stringify(finalChallengesConfiguration),
+      challengesConfiguration: JSON.stringify(challengesConfiguration),
       minimumAnswersRequiredToValidateACertification,
+      status,
       comments,
     },
   });
-};
+}

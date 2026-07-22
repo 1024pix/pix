@@ -11,6 +11,7 @@ import { UserToCreate } from '../models/UserToCreate.js';
  *   campaignToJoinRepository,
  *   userToCreateRepository,
  *   tokenService
+ *   authenticationSessionService
  * }} params
  * @return {Promise<string>}
  * @throws {UserCantBeCreatedError}
@@ -22,6 +23,7 @@ export const authenticateAnonymousUser = async function ({
   audience,
   campaignToJoinRepository,
   userToCreateRepository,
+  authenticationSessionService,
 }) {
   const campaign = await campaignToJoinRepository.getByCode({ code: campaignCode });
   if (!campaign.isSimplifiedAccess) {
@@ -31,6 +33,8 @@ export const authenticateAnonymousUser = async function ({
   const userToCreate = UserToCreate.createAnonymous({ lang, locale });
   const anonymousUser = await userToCreateRepository.create({ user: userToCreate });
 
-  const { accessToken } = UserAccessToken.generateAnonymousUserToken({ userId: anonymousUser.id, audience });
+  const sessionId = authenticationSessionService.generateSessionId();
+
+  const { accessToken } = UserAccessToken.generateAnonymousUserToken({ userId: anonymousUser.id, audience, sessionId });
   return accessToken;
 };

@@ -1,10 +1,10 @@
 import { config } from '../src/shared/config.js';
 import { DatabaseConnection } from './database-connection.js';
 import { databaseConnections } from './database-connections.js';
-import knexConfigs from './knexfile.js';
+import { knexConfigWithPgBouncer } from './knexfile.js';
 
 const { environment } = config;
-const databaseConnection = new DatabaseConnection(knexConfigs[environment]);
+const databaseConnection = new DatabaseConnection(knexConfigWithPgBouncer[environment]);
 const configuredLiveKnex = databaseConnection.knex;
 
 databaseConnections.addConnection(databaseConnection);

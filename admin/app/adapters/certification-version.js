@@ -1,11 +1,16 @@
 import ApplicationAdapter from './application';
 
 export default class CertificationVersionAdapter extends ApplicationAdapter {
-  namespace = 'api/admin';
-
   updateRecord(store, type, snapshot) {
     const certificationVersionId = snapshot.id;
-    const url = `${this.host}/${this.namespace}/certification-versions/${certificationVersionId}`;
+
+    let url = `${this.host}/${this.namespace}/certification-versions/${certificationVersionId}`;
+
+    const changedAttributeKeys = Object.keys(snapshot.changedAttributes());
+    if (changedAttributeKeys.length === 1 && changedAttributeKeys.at(0) === 'comments') {
+      url += '/comments';
+    }
+
     const data = this.serialize(snapshot, { includeId: true });
     return this.ajax(url, 'PATCH', { data });
   }

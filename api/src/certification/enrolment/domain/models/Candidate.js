@@ -1,15 +1,11 @@
-/**
- * @typedef {import ('./Subscription.js').Subscription} Subscription
- */
 import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
-import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
+import { BILLING_MODES } from '../../../shared/domain/constants.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { validate } from '../validators/candidate-validator.js';
 
 export class Candidate {
   /**
    * @param {object} params
-   * @param {Array<Subscription>} [params.subscriptions=[]]
    */
   constructor({
     id,
@@ -36,7 +32,6 @@ export class Candidate {
     prepaymentCode,
     hasSeenCertificationInstructions = false,
     subscription,
-    subscriptions = [],
     accessibilityAdjustmentNeeded,
     hasStartedTest = false,
     doubleCertificationEligibility = false,
@@ -64,24 +59,11 @@ export class Candidate {
     this.prepaymentCode = prepaymentCode;
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
     this.subscription = subscription;
-    this.subscriptions = subscriptions;
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
     this.reconciledAt = reconciledAt;
     this.hasStartedTest = hasStartedTest;
     this.doubleCertificationEligibility = doubleCertificationEligibility;
     this.isLinked = Boolean(userId);
-  }
-
-  static create(candidateDTO) {
-    const complementaryKey = candidateDTO.subscriptions.find((sub) => {
-      return sub.type === SUBSCRIPTION_TYPES.COMPLEMENTARY;
-    })?.complementaryCertificationKey;
-    const mainSubscription = complementaryKey || Frameworks.CORE;
-
-    return new Candidate({
-      ...candidateDTO,
-      subscription: mainSubscription,
-    });
   }
 
   static sortByLastNameAndFirstName(candidateA, candidateB) {
@@ -187,15 +169,6 @@ export class Candidate {
 
   hasCoreScopeSubscription() {
     return this.subscription === Frameworks.CORE || this.subscription === Frameworks.CLEA;
-  }
-
-  getComplementarySubscription() {
-    return this.subscriptions.find((subscription) => subscription.type === SUBSCRIPTION_TYPES.COMPLEMENTARY);
-  }
-
-  get complementaryCertificationKey() {
-    const complementarySubscription = this.getComplementarySubscription();
-    return complementarySubscription?.complementaryCertificationKey || null;
   }
 
   isRegisteredToDoubleCertification() {

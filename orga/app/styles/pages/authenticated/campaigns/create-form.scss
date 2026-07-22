@@ -20,7 +20,6 @@
 }
 
 .form__field-with-info {
-
   .pix-multi-select {
     @include breakpoints.device-is('desktop') {
       width: 140px;
@@ -47,8 +46,13 @@
       flex-direction: column;
       align-items: flex-start;
 
-      &__label, .course-card {
+      &__label,
+      .course-card {
         margin-bottom: var(--pix-spacing-4x);
+      }
+
+      .course-card {
+        width: 100%;
       }
     }
   }

@@ -1,6 +1,7 @@
 import ApplicationAdapter from './application';
 
 export default class LearningContentCache extends ApplicationAdapter {
+  namespace = 'api';
   refreshCacheEntries() {
     const url = `${this.host}/${this.namespace}/cache`;
     return this.ajax(url, 'PATCH');

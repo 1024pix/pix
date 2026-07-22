@@ -20,6 +20,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseParticipationDetails ',
         nbCampaigns: 2,
         nbModulesCompleted: 3,
         nbCampaignsCompleted: 1,
+        rewardStatus: null,
       };
 
       // when

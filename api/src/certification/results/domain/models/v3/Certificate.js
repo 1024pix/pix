@@ -1,8 +1,8 @@
 /**
  * @typedef {import ('../../read-models/CertifiedBadge.js').CertifiedBadge} CertifiedBadge
  */
-import { MAX_REACHABLE_SCORE } from '../../../../../shared/domain/constants.js';
 import { CORE_CERTIFICATE_LEVELS } from '../../../../shared/domain/constants/mesh-configuration.js';
+import { MAX_REACHABLE_SCORE } from '../../constants.js';
 import { CertificateMeshLevel } from './CertificateMeshLevel.js';
 
 export class Certificate {

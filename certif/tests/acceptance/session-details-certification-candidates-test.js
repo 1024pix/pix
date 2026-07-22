@@ -3,7 +3,6 @@ import { click, currentURL, fillIn, find, settled, triggerEvent } from '@ember/t
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
-import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
@@ -108,14 +107,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         sessionWithCandidates = server.create('session-enrolment', {
           certificationCenterId: allowedCertificationCenterAccess.id,
         });
-        const coreSubscription = server.create('subscription', {
-          type: SUBSCRIPTION_TYPES.CORE,
-          complementaryCertificationKey: null,
-        });
-        const complementarySubscription = server.create('subscription', {
-          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-          complementaryCertificationKey: 'DROIT',
-        });
+        const coreSubscription = 'CORE';
+        const complementarySubscription = 'DROIT';
+
         server.create('certification-candidate', {
           firstName: 'Alin',
           lastName: 'Cendy',
@@ -124,7 +118,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           resultRecipientEmail: 'cendy@example.com',
           birthdate: '2000-10-10',
           externalId: 'EXTERNAL-ID',
-          subscriptions: [coreSubscription],
+          subscription: coreSubscription,
         });
         server.create('certification-candidate', {
           firstName: 'Alain',
@@ -132,7 +126,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           sessionId: sessionWithCandidates.id,
           isLinked: false,
           resultRecipientEmail: 'sassin@example.com',
-          subscriptions: [complementarySubscription],
+          subscription: complementarySubscription,
         });
         server.create('session-management', {
           id: sessionWithCandidates.id,
@@ -165,7 +159,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         assert.dom(within(rows[1]).getByRole('cell', { name: '10/10/2000' })).exists();
         assert.dom(within(rows[1]).getByRole('cell', { name: '30 %' })).exists();
         assert.dom(within(rows[1]).getByRole('cell', { name: 'Certification Pix' })).exists();
-        assert.dom(within(rows[2]).getByRole('cell', { name: 'Pix+Droit' })).exists();
+        assert.dom(within(rows[2]).getByRole('cell', { name: 'Pix+ Droit' })).exists();
 
         await click(screen.getByRole('button', { name: 'Voir le détail du candidat Alin Cendy' }));
 
@@ -199,6 +193,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             lastName: 'Doe',
             sessionId: session.id,
             accessibilityAdjustedCertificationNeeded: true,
+            subscription: 'CORE',
           });
           server.create('session-management', {
             id: session.id,
@@ -243,7 +238,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           assert.dom(screen.getByText('Commune de naissance')).exists();
           assert.dom(within(modal).getByText('France')).exists();
           assert.dom(within(modal).getByText('Homme')).exists();
-          assert.dom(within(modal).getByText('Pix+Droit')).exists();
+          assert.dom(within(modal).getByText('Pix+ Droit')).exists();
         });
       });
 

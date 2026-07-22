@@ -1,3 +1,4 @@
+import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { FrameworkHistoryEntry } from '../../../../../../src/certification/configuration/domain/read-models/FrameworkHistoryEntry.js';
 
 export const buildFrameworkHistoryEntry = ({
@@ -6,6 +7,7 @@ export const buildFrameworkHistoryEntry = ({
   expirationDate = null,
   assessmentDuration = 90,
   maximumAssessmentLength = 32,
+  status = VERSION_STATUSES.DRAFT,
 } = {}) => {
   return new FrameworkHistoryEntry({
     id,
@@ -13,5 +15,6 @@ export const buildFrameworkHistoryEntry = ({
     expirationDate,
     assessmentDuration,
     maximumAssessmentLength,
+    status,
   });
 };

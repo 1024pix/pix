@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { saveAutonomousCourse } from '../../../../../src/evaluation/domain/usecases/save-autonomous-course.js';
-import { constants } from '../../../../../src/shared/domain/constants.js';
+import { config } from '../../../../../src/shared/config.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   NotFoundError,
@@ -17,11 +17,9 @@ describe('Unit | UseCase | save-autonomous-course', function () {
   let targetProfileAdministrationRepository;
 
   beforeEach(function () {
-    sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-
     autonomousCourse = {
       id: 1,
-      organizationId: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+      organizationId: config.autonomousCourse.autonomousCoursesOrganizationId,
       targetProfileId: 3,
       campaignId: 4,
       publicTitle: 'default public title',
@@ -45,7 +43,7 @@ describe('Unit | UseCase | save-autonomous-course', function () {
   context('when all foreign keys exist', function () {
     it('should save an autonomous-course', async function () {
       // given
-      targetProfileRepository.findOrganizationIds.resolves([constants.AUTONOMOUS_COURSES_ORGANIZATION_ID]);
+      targetProfileRepository.findOrganizationIds.resolves([config.autonomousCourse.autonomousCoursesOrganizationId]);
       targetProfileAdministrationRepository.get.resolves({ isSimplifiedAccess: true });
 
       // when
@@ -67,7 +65,7 @@ describe('Unit | UseCase | save-autonomous-course', function () {
       targetProfileAdministrationRepository.get
         .withArgs({ id: autonomousCourse.targetProfileId })
         .resolves(targetProfile);
-      targetProfileRepository.findOrganizationIds.resolves([constants.AUTONOMOUS_COURSES_ORGANIZATION_ID]);
+      targetProfileRepository.findOrganizationIds.resolves([config.autonomousCourse.autonomousCoursesOrganizationId]);
 
       // when
       const error = await catchErr(saveAutonomousCourse)({

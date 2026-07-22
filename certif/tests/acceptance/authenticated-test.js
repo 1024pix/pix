@@ -1,10 +1,11 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
+import setupIntl from '../helpers/setup-intl';
 import {
   authenticateSession,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
@@ -261,10 +262,24 @@ module('Acceptance | authenticated', function (hooks) {
   });
 
   module('Banners', function () {
-    module('certification opening dates banner', function () {
+    module('SCO access suspension banner', function (hooks) {
+      let clock;
+      let expectedSuspensionDate;
+
+      hooks.beforeEach(function () {
+        expectedSuspensionDate = this.owner
+          .lookup('service:intl')
+          .formatDate(new Date('2026-07-16T00:00:00Z'), { format: 'LL' });
+      });
+
+      hooks.afterEach(function () {
+        clock?.restore();
+      });
+
       module('when certification center is SCO isManagingStudent', function () {
-        test('it should not display the banner', async function (assert) {
+        test('it should display the banner when the suspension date is in the future', async function (assert) {
           // given
+          clock = sinon.useFakeTimers({ now: new Date('2026-07-10'), toFake: ['Date'] });
           const certificationPointOfContact =
             createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted();
           await authenticateSession(certificationPointOfContact.id);
@@ -273,13 +288,32 @@ module('Acceptance | authenticated', function (hooks) {
           const screen = await visit('/sessions');
 
           // then
-          assert.dom(screen.queryByText('La Certification Pix se déroulera du', { exact: false })).doesNotExist();
+          const suspensionDate = screen.getByText(expectedSuspensionDate);
+          assert.dom(suspensionDate).hasTagName('strong');
+          assert
+            .dom(suspensionDate.parentElement)
+            .hasText(/^\s*Conformément au calendrier ministériel de passage des Certifications Pix/);
+        });
+
+        test('it should not display the banner when the suspension date has passed', async function (assert) {
+          // given
+          clock = sinon.useFakeTimers({ now: new Date('2026-07-16T22:00:00Z'), toFake: ['Date'] });
+          const certificationPointOfContact =
+            createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted();
+          await authenticateSession(certificationPointOfContact.id);
+
+          // when
+          const screen = await visit('/sessions');
+
+          // then
+          assert.dom(screen.queryByText(expectedSuspensionDate)).doesNotExist();
         });
       });
 
       module('when certification center is not SCO isManagingStudent', function () {
         test('it should not display the banner', async function (assert) {
           // given
+          clock = sinon.useFakeTimers({ now: new Date('2026-07-10'), toFake: ['Date'] });
           const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
           await authenticateSession(certificationPointOfContact.id);
 
@@ -287,15 +321,7 @@ module('Acceptance | authenticated', function (hooks) {
           const screen = await visit('/sessions');
 
           // then
-          assert
-            .dom(
-              screen.queryByText(
-                (content) =>
-                  content.startsWith('La Certification Pix se déroulera du 7 novembre 2024 au 7 mars 2025 ') &&
-                  content.endsWith('Collèges : du 17 mars au 13 juin 2025.'),
-              ),
-            )
-            .doesNotExist();
+          assert.dom(screen.queryByText(expectedSuspensionDate)).doesNotExist();
         });
       });
     });

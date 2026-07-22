@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import * as injectedCombinedCourseDetailRepository from '../../../../quest/infrastructure/repositories/combined-course-details-repository.js';
-import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
@@ -161,14 +161,36 @@ const findPaginatedFilteredByOrganizationId = async function ({
   return { models: campaignReports, meta: { ...pagination, hasCampaigns } };
 };
 
-const findAllPaginatedSummariesByOrganizationId = async function ({ organizationId, page }) {
+const findAllPaginatedSummariesByOrganizationId = async function ({
+  organizationId,
+  withTargetProfileName = false,
+  withArchived = true,
+  page,
+}) {
   const knexConn = DomainTransaction.getConnection();
 
   const query = knexConn('campaigns')
-    .select('id', 'name', 'code', 'type', 'createdAt', 'archivedAt')
+    .select(
+      'campaigns.id',
+      'campaigns.name',
+      'campaigns.code',
+      'campaigns.type',
+      'campaigns.createdAt',
+      'campaigns.archivedAt',
+    )
     .where({ organizationId })
     .whereNull('deletedAt')
     .orderBy('createdAt', 'DESC');
+
+  if (withTargetProfileName) {
+    query
+      .select('target-profiles.name as targetProfileName')
+      .leftJoin('target-profiles', 'campaigns.targetProfileId', 'target-profiles.id');
+  }
+
+  if (!withArchived) {
+    query.whereNull('archivedAt');
+  }
 
   const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
 

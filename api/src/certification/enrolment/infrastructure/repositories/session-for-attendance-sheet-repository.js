@@ -10,7 +10,7 @@ import { SessionForAttendanceSheet } from '../../domain/read-models/SessionForAt
  * @returns {Promise<SessionForAttendanceSheet>}
  * @throws {NotFoundError}
  */
-const getWithCertificationCandidates = async function ({ id }) {
+export async function getWithCertificationCandidates({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const results = await knexConn
     .select(
@@ -25,7 +25,9 @@ const getWithCertificationCandidates = async function ({ id }) {
       'organizations.isManagingStudents',
     )
     .select({
-      certificationCandidates: knexConn.raw(`
+      certificationCandidates: knexConn
+        .select(
+          knexConn.raw(`
       json_agg(json_build_object(
       'firstName', "certification-candidates"."firstName",
       'lastName', "certification-candidates"."lastName",
@@ -35,33 +37,33 @@ const getWithCertificationCandidates = async function ({ id }) {
       'division', "view-active-organization-learners".division)
       order by lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
       `),
+        )
+        .from('certification-candidates')
+        .leftJoin(
+          'view-active-organization-learners',
+          'view-active-organization-learners.id',
+          'certification-candidates.organizationLearnerId',
+        )
+        .whereRaw('"certification-candidates"."sessionId" = sessions.id'),
     })
     .from('sessions')
     .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
     .leftJoin('organizations', function () {
-      this.on('organizations.externalId', 'certification-centers.externalId').andOn(
+      this.on(knexConn.raw('LOWER("organizations"."externalId") = LOWER("certification-centers"."externalId")')).andOn(
         'organizations.type',
+        '=',
         'certification-centers.type',
       );
     })
-    .innerJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
-    .leftJoin(
-      'view-active-organization-learners',
-      'view-active-organization-learners.id',
-      'certification-candidates.organizationLearnerId',
-    )
-    .groupBy('sessions.id', 'certification-centers.id', 'organizations.id')
     .where({ 'sessions.id': id })
     .first();
 
-  if (!results) {
+  if (!results || results.certificationCandidates === null) {
     throw new NotFoundError("La session n'existe pas ou aucun candidat n'est inscrit à celle-ci");
   }
 
   return _toDomain(results);
-};
-
-export { getWithCertificationCandidates };
+}
 
 /**
  * @typedef {object} Results

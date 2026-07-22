@@ -9,7 +9,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
 
   hooks.beforeEach(function () {
     const currentUser = this.owner.lookup('service:current-user');
-    currentUser.adminMember = { userId: 456 };
+    currentUser.adminMember = { userId: 456, isSuperAdmin: true };
   });
 
   test('it should display details for a combined course blueprint', async function (assert) {
@@ -23,6 +23,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
       illustration: 'http://pix.fr/mon-illu.png',
       attestationLabel: '6ème',
       surveyLink: 'http://pix-survey-test.fr',
+      rewardRequirements: 'Il faut obtenir tel niveau sur tel sujet',
       content: [
         { type: 'module', value: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a', shortId: 'abc-123' },
         { type: 'evaluation', value: 123 },
@@ -43,6 +44,8 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
     assert.ok(screen.getByText('Module - abc-123', { exact: false }));
     assert.ok(screen.getByText('Profil cible - 123', { exact: false }));
     assert.ok(screen.getByRole('link', { name: t('components.combined-course-blueprints.list.downloadButton') }));
+    assert.dom(screen.queryByRole('link', { name: t('common.actions.edit') }));
+    assert.ok(screen.getByText('Il faut obtenir tel niveau sur tel sujet'));
   });
 
   test('it should not display survey link if not available', async function (assert) {
@@ -59,7 +62,24 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
     assert.ok(screen.getByText(t('components.combined-course-blueprints.survey-link.not-provided')));
   });
 
-  test('should hide description and illustration if not provided', async function (assert) {
+  test('it should not display edit button when user is not super admin', async function (assert) {
+    // given
+    const currentUser = this.owner.lookup('service:current-user');
+    currentUser.adminMember = { userId: 456, isSuperAdmin: false };
+
+    const combinedCourseBlueprint = {
+      id: 123,
+      internalName: 'Modèle de parcours apprenant',
+    };
+
+    // when
+    const screen = await render(<template><Details @model={{combinedCourseBlueprint}} /></template>);
+
+    // then
+    assert.dom(screen.queryByRole('link', { name: t('common.actions.edit') })).doesNotExist();
+  });
+
+  test('should hide description, illustration, reward requirements if not provided', async function (assert) {
     // given
     const combinedCourseBlueprint = {
       id: 123,
@@ -76,5 +96,6 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
 
     assert.notOk(screen.queryByText(t('components.combined-course-blueprints.labels.description')));
     assert.notOk(screen.queryByText(t('components.combined-course-blueprints.labels.illustration')));
+    assert.notOk(screen.queryByText(t('components.combined-course-blueprints.labels.reward-requirements')));
   });
 });

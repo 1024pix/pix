@@ -1,6 +1,5 @@
-import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../../shared/domain/constants.js';
 import { DomainError } from '../../../../shared/domain/errors.js';
-import { areTwoStringsCloseEnough } from '../../../../shared/domain/services/string-comparison-service.js';
+import { isCloseEnough } from '../../../../shared/domain/services/string-similarity-service.js';
 import { validateSupOrganizationLearner } from '../validators/sup-organization-learner-validator.js';
 import { SupOrganizationLearner } from './SupOrganizationLearner.js';
 
@@ -95,7 +94,7 @@ class SupOrganizationLearnerSet {
     return keys.some((key) => {
       const reference = this.i18n.__(key).toLowerCase();
       const input = valueToCheck.toLowerCase();
-      return areTwoStringsCloseEnough(input, reference, LEVENSHTEIN_DISTANCE_MAX_RATE);
+      return isCloseEnough(input, reference);
     });
   }
   _transform(learner) {

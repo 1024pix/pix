@@ -17,17 +17,19 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
     it('builds a refresh token model', function () {
       // when
       const refreshToken = new RefreshToken({
-        userId: 'userId!',
+        userId: 123456,
         source: 'source!',
         value: 'token!',
         audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
       });
 
       // then
       expect(refreshToken.value).to.equal('token!');
-      expect(refreshToken.userId).to.equal('userId!');
+      expect(refreshToken.userId).to.equal(123456);
       expect(refreshToken.source).to.equal('source!');
       expect(refreshToken.audience).to.equal('https://app.pix.fr');
+      expect(refreshToken.sessionId).to.equal('sessionId!');
       expect(refreshToken.expirationDelaySeconds).to.equal(defaultRefreshTokenLifespanMs / 1000);
     });
   });
@@ -39,12 +41,15 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
 
       // when
       const refreshToken = RefreshToken.generate({
-        userId: 'userId!',
+        userId: 12345,
+        audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
         source: 'source!',
       });
 
       // then
-      expect(refreshToken.value).to.equal('userId!:XXX-123-456');
+      expect(refreshToken.value).to.equal('12345:XXX-123-456');
+      expect(refreshToken.sessionId).to.equal('sessionId!');
     });
   });
 
@@ -52,10 +57,11 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
     it('returns true with same audience otherwise false', function () {
       // given
       const refreshToken = new RefreshToken({
-        userId: 'userId!',
+        userId: 123456,
         source: 'source!',
         value: 'token!',
         audience: 'https://app.pix.fr',
+        sessionId: 'sessionId!',
       });
 
       // when

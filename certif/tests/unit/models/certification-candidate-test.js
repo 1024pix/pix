@@ -1,6 +1,5 @@
 import { setupTest } from 'ember-qunit';
 import pick from 'lodash/pick';
-import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import setupIntlForModels from '../../helpers/setup-intl';
@@ -100,92 +99,6 @@ module('Unit | Model | certification-candidate', function (hooks) {
 
       // then
       assert.strictEqual(billingModeLabel, '-');
-    });
-  });
-
-  module('hasDualCertificationSubscriptionCoreClea', function () {
-    test('it should return true when candidate has subscribed to both clea and core', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const habilitations = [
-        {
-          id: 123,
-          label: 'Certif cléa',
-          key: COMPLEMENTARY_KEYS.CLEA,
-        },
-      ];
-      const coreSubscription = store.createRecord('subscription', {
-        type: SUBSCRIPTION_TYPES.CORE,
-        complementaryCertificationKey: null,
-      });
-      const cleaSubscription = store.createRecord('subscription', {
-        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-        complementaryCertificationKey: COMPLEMENTARY_KEYS.CLEA,
-      });
-      const candidate = store.createRecord('certification-candidate', {
-        subscriptions: [coreSubscription, cleaSubscription],
-      });
-
-      // when
-      const hasDual = candidate.hasDualCertificationSubscriptionCoreClea(habilitations);
-
-      // then
-      assert.true(hasDual);
-    });
-
-    test('it should return false when candidate has subscribed to core but not clea', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const cleaId = 123;
-      const habilitations = [
-        {
-          id: cleaId,
-          label: 'Certif cléa',
-          key: COMPLEMENTARY_KEYS.CLEA,
-        },
-      ];
-      const coreSubscription = store.createRecord('subscription', {
-        type: SUBSCRIPTION_TYPES.CORE,
-        complementaryCertificationKey: null,
-      });
-      const otherSubscription = store.createRecord('subscription', {
-        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-        complementaryCertificationKey: 'notClea',
-      });
-      const candidate = store.createRecord('certification-candidate', {
-        subscriptions: [coreSubscription, otherSubscription],
-      });
-
-      // when
-      const hasDual = candidate.hasDualCertificationSubscriptionCoreClea(habilitations);
-
-      // then
-      assert.false(hasDual);
-    });
-
-    test('it should return false when candidate has subscribed to clea but not core', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const habilitations = [
-        {
-          id: 123,
-          label: 'Certif cléa',
-          key: COMPLEMENTARY_KEYS.CLEA,
-        },
-      ];
-      const cleaSubscription = store.createRecord('subscription', {
-        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-        complementaryCertificationKey: COMPLEMENTARY_KEYS.CLEA,
-      });
-      const candidate = store.createRecord('certification-candidate', {
-        subscriptions: [cleaSubscription],
-      });
-
-      // when
-      const hasDual = candidate.hasDualCertificationSubscriptionCoreClea(habilitations);
-
-      // then
-      assert.false(hasDual);
     });
   });
 

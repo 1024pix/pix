@@ -58,7 +58,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         getCapacityAndErrorRate: sinon.stub(),
       };
       assessmentId = 777;
-      version = domainBuilder.certification.configuration.buildVersion();
+      version = domainBuilder.certification.configuration.versionBuilder().withParameters({ id: 1 }).build();
 
       assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
         certificationCourseId: 123,
@@ -277,7 +277,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           id: 'nextCalibratedChallenge',
           blindnessCompatibility: 'KO',
           status: 'validé',
-          skill: domainBuilder.buildSkill({ id: 'nottAnsweredSkill' }),
+          skill: domainBuilder.buildSkill({ id: 'nottAnsweredSkill', tubeId: 'recTUBNotAnswered' }),
         });
         const alreadyAnsweredChallenge = domainBuilder.buildChallenge({
           id: 'alreadyAnsweredChallenge',
@@ -536,9 +536,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           getCapacityAndErrorRate: sinon.stub(),
         };
 
-        version = domainBuilder.certification.configuration.buildVersion({
-          challengesConfiguration: { maximumAssessmentLength: 1 },
-        });
+        version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ id: 1, challengesConfiguration: { maximumAssessmentLength: 1 } })
+          .build();
         versionApi.getById.withArgs({ id: version.id }).resolves(version);
 
         assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
@@ -602,9 +603,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             //given
             const nextCalibratedChallenge = domainBuilder.certification.evaluation.buildCalibratedChallenge();
 
-            version = domainBuilder.certification.configuration.buildVersion({
-              challengesConfiguration: flashConfiguration,
-            });
+            version = domainBuilder.certification.configuration
+              .versionBuilder()
+              .withParameters({ id: 1, challengesConfiguration: flashConfiguration })
+              .build();
             versionApi.getById.withArgs({ id: version.id }).resolves(version);
 
             assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
@@ -693,7 +695,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           .withArgs(assessmentSheet.certificationCourseId, [])
           .resolves(null);
 
-        version = domainBuilder.certification.configuration.buildVersion({ scope: Frameworks.EDU_CPE });
+        version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: Frameworks.EDU_CPE, id: 1 })
+          .build();
         versionApi.getById.withArgs({ id: assessmentSheet.versionId }).resolves(version);
 
         calibratedChallengeRepository.findActiveFlashCompatible.resolves([]);

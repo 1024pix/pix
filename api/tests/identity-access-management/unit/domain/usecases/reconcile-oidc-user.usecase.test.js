@@ -6,6 +6,7 @@ import {
   MissingUserAccountError,
 } from '../../../../../src/identity-access-management/domain/errors.js';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
+import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { reconcileOidcUser } from '../../../../../src/identity-access-management/domain/usecases/reconcile-oidc-user.usecase.js';
 import { AlreadyExistingEntityError } from '../../../../../src/shared/domain/errors.js';
 import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
@@ -15,6 +16,7 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-user', function () {
   const audience = 'https://app.pix.fr';
   const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
+  const accessTokenLifespanSeconds = 48 * 60 * 60;
 
   context('when identityProvider is generic', function () {
     let authenticationMethodRepository,
@@ -31,17 +33,20 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       userLoginRepository = {
         updateLastLoggedAt: sinon.stub(),
       };
-      authenticationSessionService = { getByKey: sinon.stub() };
+      authenticationSessionService = {
+        generateSessionId: sinon.stub().returns('random-session-id'),
+        getByKey: sinon.stub(),
+      };
       oidcAuthenticationService = {
         identityProvider,
-        createAccessToken: sinon.stub(),
+        accessTokenLifespanMs: accessTokenLifespanSeconds * 1000,
+        sessionDurationSeconds: accessTokenLifespanSeconds,
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
       };
       oidcAuthenticationServiceRegistry = {
         getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
       };
-
       lastUserApplicationConnectionsRepository = {
         upsert: sinon.stub(),
       };
@@ -178,6 +183,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
         }),
       );
 
+      sinon.stub(UserAccessToken, 'generateOidcUserToken').returns({ accessToken: 'accessToken' });
+
       // when
       await reconcileOidcUser({
         authenticationKey: 'authenticationKey',
@@ -198,6 +205,13 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       expect(authenticationMethod.authenticationComplement).to.be.instanceOf(
         AuthenticationMethod.OidcAuthenticationComplement,
       );
+      expect(authenticationSessionService.generateSessionId).to.have.been.calledOnce;
+      expect(UserAccessToken.generateOidcUserToken).to.have.been.calledWithExactly({
+        userId: 1,
+        audience: 'https://app.pix.fr',
+        sessionId: 'random-session-id',
+        expiresIn: accessTokenLifespanSeconds,
+      });
     });
 
     it('saves the last user connection', async function () {
@@ -253,17 +267,23 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       userLoginRepository,
       lastUserApplicationConnectionsRepository;
 
+    const accessTokenLifespanSeconds = 48 * 60 * 60;
+
     beforeEach(function () {
       identityProvider = POLE_EMPLOI.code;
       authenticationMethodRepository = { create: sinon.stub(), updateLastLoggedAtByIdentityProvider: sinon.stub() };
       userLoginRepository = {
         updateLastLoggedAt: sinon.stub(),
       };
-      authenticationSessionService = { getByKey: sinon.stub() };
+      authenticationSessionService = {
+        generateSessionId: sinon.stub(),
+        getByKey: sinon.stub(),
+      };
       oidcAuthenticationService = {
         identityProvider,
         shouldCloseSession: true,
-        createAccessToken: sinon.stub(),
+        accessTokenLifespanMs: accessTokenLifespanSeconds * 1000,
+        sessionDurationSeconds: accessTokenLifespanSeconds,
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
       };
@@ -331,7 +351,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
           expiredDate: new Date(),
         }),
       );
-      oidcAuthenticationService.createAccessToken.withArgs({ userId, audience }).returns('accessToken');
+      authenticationSessionService.generateSessionId.returns('random-session-id');
+      sinon.stub(UserAccessToken, 'generateOidcUserToken').returns({ accessToken: 'accessToken' });
       oidcAuthenticationService.saveIdToken
         .withArgs({ idToken: sessionContent.idToken, userId })
         .resolves('logoutUrlUUID');
@@ -350,7 +371,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       });
 
       // then
-      expect(oidcAuthenticationService.createAccessToken).to.be.calledOnce;
+      expect(UserAccessToken.generateOidcUserToken).to.be.calledWithExactly({
+        userId,
+        audience,
+        sessionId: 'random-session-id',
+        expiresIn: accessTokenLifespanSeconds,
+      });
       expect(oidcAuthenticationService.saveIdToken).to.be.calledOnce;
       expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId });
       expect(result).to.deep.equal({
