@@ -1,5 +1,4 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -9,7 +8,6 @@ import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
 import sortBy from 'lodash/sortBy';
 import { DescriptionList } from 'pix-admin/components/ui/description-list';
-import ENV from 'pix-admin/config/environment';
 
 import HabilitationTag from './habilitation-tag';
 
@@ -39,11 +37,6 @@ export default class InformationView extends Component {
       );
       return { isHabilitated, label, ariaLabel };
     });
-  }
-
-  get externalURL() {
-    const urlDashboardPrefix = ENV.APP.CERTIFICATION_CENTER_DASHBOARD_URL;
-    return urlDashboardPrefix && urlDashboardPrefix + this.args.certificationCenter.id;
   }
 
   @action
@@ -132,17 +125,6 @@ export default class InformationView extends Component {
           </PixButton>
         </li>
       {{/unless}}
-      <li>
-        <PixButtonLink
-          @variant="secondary"
-          @href={{this.externalURL}}
-          @size="small"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Tableau de bord
-        </PixButtonLink>
-      </li>
     </ul>
 
     {{#if this.isArchiveModalOpen}}

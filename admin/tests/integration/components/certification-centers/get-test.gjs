@@ -13,9 +13,10 @@ module('Integration | Component | certification-centers/get', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  test('it should display certification center name as title', async function (assert) {
+  test('it should display certification center name and id', async function (assert) {
     // given
     const certificationCenter = store.createRecord('certification-center', {
+      id: 42,
       name: 'Centre SCO',
       type: 'SCO',
       habilitations: [],
@@ -27,6 +28,22 @@ module('Integration | Component | certification-centers/get', function (hooks) {
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Centre SCO' })).exists();
+    assert.dom(screen.getByText((_, element) => element.textContent === 'ID : 42')).exists();
+  });
+
+  test('it should show button to direct user to metabase dashboard', async function (assert) {
+    // given
+    const certificationCenter = store.createRecord('certification-center', {
+      name: 'Centre SCO',
+      type: 'SCO',
+      externalId: 'AX129',
+    });
+
+    // when
+    const screen = await render(<template><Get @certificationCenter={{certificationCenter}} /></template>);
+
+    // then
+    assert.dom(screen.getByText('Tableau de bord')).exists();
   });
 
   test('it should display navigation bar with links to navigate', async function (assert) {
