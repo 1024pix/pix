@@ -187,7 +187,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
 
       const expectedSerializedTargetProfile = {
         data: {
-          type: 'target-profiles',
+          type: 'target-profile',
           id: '132',
           attributes: {
             category: 'OTHER',
@@ -225,11 +225,11 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               data: [
                 {
                   id: 'recArea1',
-                  type: 'areas',
+                  type: 'area',
                 },
                 {
                   id: 'recArea2',
-                  type: 'areas',
+                  type: 'area',
                 },
               ],
             },
@@ -237,18 +237,18 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               data: [
                 {
                   id: '100',
-                  type: 'badges',
+                  type: 'badge',
                 },
                 {
                   id: '200',
-                  type: 'badges',
+                  type: 'badge',
                 },
               ],
             },
             'stage-collection': {
               data: {
                 id: '132',
-                type: 'stageCollections',
+                type: 'stageCollection',
               },
             },
           },
@@ -265,7 +265,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             },
           },
           {
-            type: 'badges',
+            type: 'badge',
             id: '100',
             attributes: {
               'alt-message': 'some altMessage badge1',
@@ -327,7 +327,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 ],
               },
             },
-            type: 'badges',
+            type: 'badge',
           },
           {
             attributes: {
@@ -340,7 +340,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               title: 'titre 500',
             },
             id: '500',
-            type: 'stages',
+            type: 'stage',
           },
           {
             attributes: {
@@ -353,7 +353,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               title: 'titre 501',
             },
             id: '501',
-            type: 'stages',
+            type: 'stage',
           },
           {
             attributes: {
@@ -366,7 +366,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               title: 'titre 502',
             },
             id: '502',
-            type: 'stages',
+            type: 'stage',
           },
           {
             attributes: {
@@ -378,23 +378,23 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 data: [
                   {
                     id: '500',
-                    type: 'stages',
+                    type: 'stage',
                   },
                   {
                     id: '501',
-                    type: 'stages',
+                    type: 'stage',
                   },
                   {
                     id: '502',
-                    type: 'stages',
+                    type: 'stage',
                   },
                 ],
               },
             },
-            type: 'stageCollections',
+            type: 'stageCollection',
           },
           {
-            type: 'skills',
+            type: 'skill',
             id: 'recSkill1',
             attributes: {
               difficulty: 1,
@@ -413,13 +413,13 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 data: [
                   {
                     id: 'recSkill1',
-                    type: 'skills',
+                    type: 'skill',
                   },
                 ],
               },
             },
             id: 'recTube1',
-            type: 'tubes',
+            type: 'tube',
           },
           {
             attributes: {
@@ -432,12 +432,12 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 data: [
                   {
                     id: 'recTube1',
-                    type: 'tubes',
+                    type: 'tube',
                   },
                 ],
               },
             },
-            type: 'thematics',
+            type: 'thematic',
           },
           {
             attributes: {
@@ -450,12 +450,12 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 data: [
                   {
                     id: 'recThem1',
-                    type: 'thematics',
+                    type: 'thematic',
                   },
                 ],
               },
             },
-            type: 'competences',
+            type: 'competence',
           },
           {
             attributes: {
@@ -470,12 +470,12 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 data: [
                   {
                     id: 'recComp1',
-                    type: 'competences',
+                    type: 'competence',
                   },
                 ],
               },
             },
-            type: 'areas',
+            type: 'area',
           },
           {
             attributes: {
@@ -491,7 +491,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               },
             },
             id: 'recTube2',
-            type: 'tubes',
+            type: 'tube',
           },
           {
             attributes: {
@@ -507,7 +507,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               },
             },
             id: 'recTube3',
-            type: 'tubes',
+            type: 'tube',
           },
           {
             attributes: {
@@ -520,16 +520,16 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 data: [
                   {
                     id: 'recTube2',
-                    type: 'tubes',
+                    type: 'tube',
                   },
                   {
                     id: 'recTube3',
-                    type: 'tubes',
+                    type: 'tube',
                   },
                 ],
               },
             },
-            type: 'thematics',
+            type: 'thematic',
           },
           {
             attributes: {
@@ -542,12 +542,12 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 data: [
                   {
                     id: 'recThem2',
-                    type: 'thematics',
+                    type: 'thematic',
                   },
                 ],
               },
             },
-            type: 'competences',
+            type: 'competence',
           },
           {
             attributes: {
@@ -562,12 +562,12 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 data: [
                   {
                     id: 'recComp2',
-                    type: 'competences',
+                    type: 'competence',
                   },
                 ],
               },
             },
-            type: 'areas',
+            type: 'area',
           },
         ],
       };
@@ -600,7 +600,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
 
         const expectedSerializedTargetProfile = {
           data: {
-            type: 'target-profiles',
+            type: 'target-profile',
             id: '132',
             attributes: {
               name: 'Mon Super profil cible',
@@ -610,7 +610,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 data: [
                   {
                     id: '100',
-                    type: 'badges',
+                    type: 'badge',
                   },
                 ],
               },
@@ -618,7 +618,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
           },
           included: [
             {
-              type: 'badges',
+              type: 'badge',
               id: '100',
               attributes: {
                 'is-certifiable': true,
