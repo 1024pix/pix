@@ -2256,7 +2256,7 @@
         "drawer": {
           "content-relevance-form": {
             "attractiveness": {
-              "legend": "Evalúa el atractivo de los contenidos, de poco atractivos 1 a atractivos 5",
+              "legend": "Evalúa el atractivo de las recomendaciones, de poco atractivas 1 a atractivas 5",
               "max-label": "Atractivos",
               "min-label": "Poco atractivos"
             },
@@ -2264,9 +2264,10 @@
               "label": "Comentario opcional",
               "placeholder": "Comentario (opcional)"
             },
+            "instruction": "Todos los campos son obligatorios excepto los indicados como opcionales",
             "legend": "Los contenidos recomendados son…",
             "personalization": {
-              "legend": "Evalúa la personalización de los contenidos, de genéricos 1 a personalizados 5",
+              "legend": "Evalúa la personalización de las recomendaciones, de genéricas 1 a personalizadas 5",
               "max-label": "Personalizados",
               "min-label": "Genéricos"
             },
@@ -2274,7 +2275,7 @@
             "subtitle": "¿Y si vamos más allá…?",
             "title": "¡Gracias por tu opinión!",
             "usefulness": {
-              "legend": "Evalúa la utilidad de los contenidos, de poco útiles 1 a útiles 5",
+              "legend": "Evalúa la utilidad de las recomendaciones, de poco útiles 1 a útiles 5",
               "max-label": "Útiles",
               "min-label": "Poco útiles"
             }
@@ -2288,14 +2289,14 @@
           },
           "error-message": "Se produjo un error al enviar tu respuesta.",
           "hide": "Ocultar",
-          "hide-aria-label": "Ocultar el panel de comentarios de las recomendaciones de contenidos formativos",
+          "hide-aria-label": "Ocultar el panel de comentarios de las recomendaciones",
           "instruction": "Haz clic en un emoji para dar tu opinión.",
-          "statement": "¿Te parecen pertinentes estos contenidos formativos para profundizar tus conocimientos?",
+          "statement": "¿Te parecen pertinentes estas recomendaciones para profundizar tus conocimientos?",
           "thank-you": {
             "subtitle": "¡Misión cumplida!",
             "title": "¡Gracias por tu opinión!"
           },
-          "title": "Comentarios sobre la recomendación de contenido formativo"
+          "title": "Comentarios sobre las recomendaciones"
         },
         "modal": {
           "actions": {

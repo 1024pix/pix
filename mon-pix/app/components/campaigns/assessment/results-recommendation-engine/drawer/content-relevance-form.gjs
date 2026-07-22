@@ -78,8 +78,13 @@ export default class ContentRelevanceForm extends Component {
       </p>
       <form>
         <fieldset class="results-recommendation-engine-drawer__content-relevance-form-fieldset">
-          <legend class="results-recommendation-engine-drawer__content-relevance-form-statement">
-            {{t "pages.skill-review.recommended-engine.drawer.content-relevance-form.legend"}}
+          <legend class="results-recommendation-engine-drawer__content-relevance-form-legend">
+            <p class="results-recommendation-engine-drawer__content-relevance-form-legend__title">{{t
+                "pages.skill-review.recommended-engine.drawer.content-relevance-form.legend"
+              }}</p>
+            <p class="results-recommendation-engine-drawer__content-relevance-form-legend__instruction">
+              {{t "pages.skill-review.recommended-engine.drawer.content-relevance-form.instruction"}}
+            </p>
           </legend>
           {{#each SCALES as |scale|}}
             <fieldset class="results-recommendation-engine-drawer__scale">
@@ -95,6 +100,7 @@ export default class ContentRelevanceForm extends Component {
                     @screenReaderOnly={{true}}
                     checked={{eq (get this scale.key) score}}
                     {{on "click" (fn this.selectScore scale.key score)}}
+                    aria-required="true"
                   >
                     <:label>
                       {{t

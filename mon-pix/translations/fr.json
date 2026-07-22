@@ -2256,17 +2256,18 @@
         "drawer": {
           "content-relevance-form": {
             "attractiveness": {
-              "legend": "Évaluez l'attractivité des offres de formation, de pas attirantes 1 à attirantes 5",
+              "legend": "Évaluez l'attractivité des recommandations, de pas attirantes 1 à attirantes 5",
               "max-label": "Attirantes",
               "min-label": "Pas attirantes"
             },
             "comment-text": {
-              "label": "Commentaire optionnel",
-              "placeholder": "Commentaire (optionnel)"
+              "label": "Commentaire facultatif",
+              "placeholder": "Commentaire (facultatif)"
             },
-            "legend": "Les offres de formation recommandées sont…",
+            "instruction": "Tous les champs sont obligatoires sauf ceux indiqués comme étant facultatifs",
+            "legend": "Les recommandations sont…",
             "personalization": {
-              "legend": "Évaluez la personnalisation des offres de formation, de génériques 1 à personnalisées 5",
+              "legend": "Évaluez la personnalisation des recommandations, de génériques 1 à personnalisées 5",
               "max-label": "Personnalisées",
               "min-label": "Génériques"
             },
@@ -2274,28 +2275,28 @@
             "subtitle": "Et si on allait plus loin…",
             "title": "Merci pour votre avis !",
             "usefulness": {
-              "legend": "Évaluez l'utilité des offres de formation, de pas utiles 1 à utiles 5",
+              "legend": "Évaluez l'utilité des recommandations, de pas utiles 1 à utiles 5",
               "max-label": "Utiles",
               "min-label": "Pas utiles"
             }
           },
           "emojis": {
-            "dissatisfied": "Pas pertinent",
+            "dissatisfied": "Pas pertinentes",
             "neutral": "Je n’ai pas d’avis",
-            "satisfied": "Pertinent",
-            "very-dissatisfied": "Pas du tout pertinent",
-            "very-satisfied": "Très pertinent"
+            "satisfied": "Pertinentes",
+            "very-dissatisfied": "Pas du tout pertinentes",
+            "very-satisfied": "Très pertinentes"
           },
           "error-message": "Une erreur est survenue lors de l'envoi de votre réponse.",
           "hide": "Masquer",
-          "hide-aria-label": "Fermer l'encart de retours sur la recommandation des offres de formation",
+          "hide-aria-label": "Fermer l'encart de retours sur la recommandation",
           "instruction": "Cliquez sur un emoji pour donner votre avis.",
-          "statement": "Ces offres de formation pour approfondir vos connaissances vous semblent-elles pertinentes ?",
+          "statement": "Ces recommandations pour approfondir vos connaissances vous semblent-elles pertinentes ?",
           "thank-you": {
             "subtitle": "C'est dans la boîte",
             "title": "Merci pour votre avis !"
           },
-          "title": "Encart de prise de retours sur la recommandation des offres de formation"
+          "title": "Encart de prise de retours sur les recommandations"
         },
         "modal": {
           "actions": {

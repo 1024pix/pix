@@ -183,13 +183,21 @@
     flex-direction: column;
   }
 
-  &__content-relevance-form-statement {
-    @extend %pix-body-l;
-
+  &__content-relevance-form-legend {
     width: 100%;
-    padding-bottom: var(--pix-spacing-2x);
-    font-weight: 700;
+    padding-bottom: var(--pix-spacing-4x);
     text-align: center;
+
+    &__title {
+      @extend %pix-body-l;
+
+      font-weight: 700;
+    }
+
+    &__instruction {
+      @extend %pix-body-xs;
+
+    }
   }
 
   &__content-relevance-form-comment-text {

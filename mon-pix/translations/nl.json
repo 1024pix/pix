@@ -2256,7 +2256,7 @@
         "drawer": {
           "content-relevance-form": {
             "attractiveness": {
-              "legend": "Beoordeel hoe aantrekkelijk de inhoud is, van niet aantrekkelijk 1 tot aantrekkelijk 5",
+              "legend": "Beoordeel hoe aantrekkelijk de aanbevelingen zijn, van niet aantrekkelijk 1 tot aantrekkelijk 5",
               "max-label": "Aantrekkelijk",
               "min-label": "Niet aantrekkelijk"
             },
@@ -2264,9 +2264,10 @@
               "label": "Optionele opmerking",
               "placeholder": "Opmerking (optioneel)"
             },
+            "instruction": "Alle velden zijn verplicht, behalve die welke als optioneel zijn aangeduid",
             "legend": "De aanbevolen inhoud is…",
             "personalization": {
-              "legend": "Beoordeel hoe gepersonaliseerd de inhoud is, van algemeen 1 tot gepersonaliseerd 5",
+              "legend": "Beoordeel hoe gepersonaliseerd de aanbevelingen zijn, van algemeen 1 tot gepersonaliseerd 5",
               "max-label": "Gepersonaliseerd",
               "min-label": "Algemeen"
             },
@@ -2274,7 +2275,7 @@
             "subtitle": "Zullen we verdergaan…",
             "title": "Bedankt voor uw feedback!",
             "usefulness": {
-              "legend": "Beoordeel hoe nuttig de inhoud is, van niet nuttig 1 tot nuttig 5",
+              "legend": "Beoordeel hoe nuttig de aanbevelingen zijn, van niet nuttig 1 tot nuttig 5",
               "max-label": "Nuttig",
               "min-label": "Niet nuttig"
             }
@@ -2288,14 +2289,14 @@
           },
           "error-message": "Er is een fout opgetreden bij het verzenden van uw antwoord.",
           "hide": "Verbergen",
-          "hide-aria-label": "Het feedbackpaneel voor aanbevelingen voor trainingsinhoud verbergen",
+          "hide-aria-label": "Het feedbackpaneel voor aanbevelingen verbergen",
           "instruction": "Klik op een emoji om uw mening te geven.",
-          "statement": "Lijkt de trainingsinhoud om uw kennis te verdiepen u relevant?",
+          "statement": "Lijken deze aanbevelingen om uw kennis te verdiepen u relevant?",
           "thank-you": {
             "subtitle": "Gelukt!",
             "title": "Bedankt voor uw feedback!"
           },
-          "title": "Feedback over de aanbeveling voor trainingsinhoud"
+          "title": "Feedback over de aanbevelingen"
         },
         "modal": {
           "actions": {
