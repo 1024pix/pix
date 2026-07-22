@@ -13,6 +13,7 @@ const buildAnswer = function ({
   updatedAt = new Date('2020-01-02'),
   timeout = null,
   resultDetails = 'Some result details for answer.',
+  isFocusedOut = false,
   timeSpent = 30,
 } = {}) {
   assessmentId = _.isUndefined(assessmentId) ? buildAssessment().id : assessmentId;
@@ -27,6 +28,7 @@ const buildAnswer = function ({
     updatedAt,
     timeout,
     resultDetails,
+    isFocusedOut,
     timeSpent,
   };
   return databaseBuffer.pushInsertable({
