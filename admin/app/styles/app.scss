@@ -107,6 +107,7 @@
 @use 'display/footer-modal' as *;
 
 /* App/Components */
+@use 'ui/copyable-id' as *;
 @use 'ui/deletion-modal' as *;
 @use 'ui/pix-loader' as *;
 @use 'certifications/certification/details-v3' as *;
