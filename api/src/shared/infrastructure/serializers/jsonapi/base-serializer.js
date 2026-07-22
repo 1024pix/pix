@@ -7,6 +7,7 @@ export class Serializer extends JSONApiSerializer {
   constructor(...args) {
     super(...args);
 
+    this.opts.keyForAttribute = args[1]?.keyForAttribute ?? 'camelCase';
     const customTypeForAttribute = this.opts.typeForAttribute;
     this.opts.typeForAttribute = (attribute, attrVal) => {
       const customType =

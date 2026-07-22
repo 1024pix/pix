@@ -1,6 +1,4 @@
-import jsonapiSerializer from 'jsonapi-serializer';
-
-const { Serializer } = jsonapiSerializer;
+import { Serializer } from '../../../shared/infrastructure/serializers/jsonapi/base-serializer.js';
 
 const serialize = function (challenges) {
   return new Serializer('challenge', {

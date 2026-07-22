@@ -3,6 +3,7 @@ import { Serializer } from '../../../../../shared/infrastructure/serializers/jso
 const serialize = function ({ targetProfile, filter }) {
   if (filter?.badges === 'certifiable') {
     return new Serializer('target-profile', {
+      keyForAttribute: 'spinal-case',
       transform(record) {
         record.badges = record.badges.filter((badge) => badge.isCertifiable);
         return record;

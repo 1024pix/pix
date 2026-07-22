@@ -1,4 +1,4 @@
-import { Serializer } from 'jsonapi-serializer';
+import { Serializer } from '../../../shared/infrastructure/serializers/jsonapi/base-serializer.js';
 
 const serialize = function (missions) {
   return new Serializer('mission', {

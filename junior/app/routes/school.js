@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
 import { styleToolkit } from '../utils/layout';
+import { query } from '@warp-drive/utilities/json-api';
 
 export default class SchoolRoute extends Route {
   @service store;

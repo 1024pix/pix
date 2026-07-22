@@ -1,8 +1,8 @@
-import { Serializer } from 'jsonapi-serializer';
+import { Serializer } from '../../../shared/infrastructure/serializers/jsonapi/base-serializer.js';
 
 const serialize = function (school) {
   return new Serializer('school', {
-    pluralizeType: false,
+    //keyForAttribute: 'kebab-case',
     attributes: ['code', 'name', 'organizationLearners'],
   }).serialize(school);
 };
