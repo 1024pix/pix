@@ -1,11 +1,36 @@
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';
+import CopyableId from 'pix-admin/components/ui/copyable-id';
+import HeadInformationBlock from 'pix-admin/components/ui/head-information-block';
+import ENV from 'pix-admin/config/environment';
+
+const getExternalURL = function (certificationCenterId) {
+  const urlDashboardPrefix = ENV.APP.CERTIFICATION_CENTER_DASHBOARD_URL;
+  return urlDashboardPrefix && urlDashboardPrefix + certificationCenterId;
+};
 
 <template>
   <section class="page-body certification-center-get-page">
-    <h1 class="pix-title-m">{{@certificationCenter.name}}</h1>
+    <HeadInformationBlock @title={{@certificationCenter.name}}>
+
+      <:subtitle>
+        <CopyableId @value={{@certificationCenter.id}} @copyButtonId="copy-certification-center-id" />
+      </:subtitle>
+      <:link>
+        <PixButtonLink
+          @variant="secondary"
+          @href={{getExternalURL @certificationCenter.id}}
+          @size="small"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Tableau de bord
+        </PixButtonLink>
+      </:link>
+    </HeadInformationBlock>
 
     {{#if @certificationCenter.isArchived}}
       <PixNotificationAlert class="certification-center-information-display__archived-warning" @type="warning">
@@ -17,7 +42,11 @@ import t from 'ember-intl/helpers/t';
       </PixNotificationAlert>
     {{/if}}
 
-    <PixTabs @variant="primary" @ariaLabel={{t "pages.certification-centers.get.navbar.aria-label"}} class="navigation">
+    <PixTabs
+      @variant="primary"
+      @ariaLabel={{t "pages.certification-centers.get.navbar.aria-label"}}
+      class="navigation"
+    >
       <LinkTo @route="authenticated.certification-centers.get.details" @model={{@certificationCenter.id}}>
         {{t "pages.certification-centers.get.navbar.details"}}
       </LinkTo>
