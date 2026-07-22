@@ -1,7 +1,7 @@
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import t from 'ember-intl/helpers/t';
-import CopyButton from 'pix-admin/components/ui/copy-button';
+import CopyableId from 'pix-admin/components/ui/copyable-id';
 
 <template>
   <div class="network__title-section">
@@ -22,14 +22,6 @@ import CopyButton from 'pix-admin/components/ui/copy-button';
         </PixTooltip>
       {{/if}}
     </div>
-    <div class="network__id">
-      <p>ID : <span>{{@network.id}}</span></p>
-      <CopyButton
-        @id="copy-network-id"
-        @value={{@network.id}}
-        @tooltip={{t "components.networks.copy-id"}}
-        @label={{t "components.networks.copy-id"}}
-      />
-    </div>
+    <CopyableId @value={{@network.id}} @copyButtonId="copy-network-id" />
   </div>
 </template>
