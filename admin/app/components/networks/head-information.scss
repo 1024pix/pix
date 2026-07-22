@@ -15,24 +15,12 @@
 
     .network__name-row {
       display: flex;
-      align-items: center;
       gap: var(--pix-spacing-2x);
+      align-items: center;
     }
 
     .network__name {
       @extend %pix-title-s;
-    }
-
-    .network__id {
-      @extend %pix-title-xxs;
-
-      display: flex;
-      gap: var(--pix-spacing-2x);
-      align-items: center;
-
-      span {
-        font-weight: normal;
-      }
     }
   }
 }
