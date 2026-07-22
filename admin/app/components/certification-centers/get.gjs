@@ -46,7 +46,7 @@ export default class CertificationCentersGet extends Component {
       <PixTabs
         @variant="primary"
         @ariaLabel={{t "pages.certification-centers.get.navbar.aria-label"}}
-        class="navigation"
+        class="navigation certification-center-get-page__navigation"
       >
         <LinkTo @route="authenticated.certification-centers.get.details" @model={{@certificationCenter.id}}>
           {{t "pages.certification-centers.get.navbar.details"}}
