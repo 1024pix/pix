@@ -10,6 +10,7 @@ import { parcoursupRoute } from './src/certification/results/application/parcour
 import { identityAccessManagementRoutes } from './src/identity-access-management/application/routes.js';
 import * as serverAuthentication from './src/identity-access-management/infrastructure/server-authentication.js';
 import { campaignsRoute } from './src/maddo/application/campaigns-routes.js';
+import { menDashboardRoute } from './src/maddo/application/men-dashboard-routes.js';
 import { organizationsRoute } from './src/maddo/application/organizations-routes.js';
 import { replicationsRoute } from './src/maddo/application/replications-routes.js';
 import { poleEmploiRoute } from './src/prescription/campaign-participation/application/pole-emploi-route.js';
@@ -99,7 +100,11 @@ const enableOpsMetrics = async function (server, metrics) {
   metrics.addRecurrentMetrics(
     [
       { type: 'gauge', name: 'captain.api.memory.rss', value: 'rss' },
-      { type: 'gauge', name: 'captain.api.memory.heapTotal', value: 'heapTotal' },
+      {
+        type: 'gauge',
+        name: 'captain.api.memory.heapTotal',
+        value: 'heapTotal',
+      },
       { type: 'gauge', name: 'captain.api.memory.heapUsed', value: 'heapUsed' },
       { type: 'gauge', name: 'captain.api.conteneur', constValue: 1 },
     ],
@@ -110,8 +115,16 @@ const enableOpsMetrics = async function (server, metrics) {
   server.pixCustomIntervals = metrics.intervals;
 
   const gaugeConnections = (pool) => () => {
-    metrics.addMetricPoint({ type: 'gauge', name: 'captain.api.knex.db_connections_used', value: pool.numUsed() });
-    metrics.addMetricPoint({ type: 'gauge', name: 'captain.api.knex.db_connections_free', value: pool.numFree() });
+    metrics.addMetricPoint({
+      type: 'gauge',
+      name: 'captain.api.knex.db_connections_used',
+      value: pool.numUsed(),
+    });
+    metrics.addMetricPoint({
+      type: 'gauge',
+      name: 'captain.api.knex.db_connections_free',
+      value: pool.numFree(),
+    });
     metrics.addMetricPoint({
       type: 'gauge',
       name: 'captain.api.knex.db_connections_pending_creation',
@@ -188,6 +201,7 @@ const setupRoutesAndPlugins = async function (server) {
     healthcheckRoute,
     organizationsRoute,
     replicationsRoute,
+    menDashboardRoute,
     parcoursupRoute,
     poleEmploiRoute,
     livretScolaireRoute,

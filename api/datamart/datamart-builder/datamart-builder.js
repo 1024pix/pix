@@ -50,6 +50,7 @@ class DatamartBuilder {
       'data_active_calibrated_challenges',
       'data_calibrations',
       'target_profiles_course_duration',
+      'men_dashboard_certification_dataset',
     ].forEach((tableName) => {
       rawQuery += `DELETE FROM ${tableName};`;
     });
