@@ -1,5 +1,20 @@
 # Pix Changelog
 
+# [5.461.0](https://github.com/1024pix/pix/compare/v5.460.0...v5.461.0) (2026-07-22)
+
+### :rocket: Amélioration
+
+- [#16486](https://github.com/1024pix/pix/pull/16486) Historisation des réponses sur des fichiers parquet.
+- [#16906](https://github.com/1024pix/pix/pull/16906) surequipement-post-panel
+
+### :building_construction: Tech
+
+- [#16911](https://github.com/1024pix/pix/pull/16911) :bug: Les fichiers d'outilage des tests ne sont pas accessible pour les seeds en RA (PIX-23636)
+- [#16907](https://github.com/1024pix/pix/pull/16907) :truck: Déplace un test d'intégration vers le test unitaire existant (PIX-23632)
+- [#16801](https://github.com/1024pix/pix/pull/16801) Création des tables nécessaires à l'API du tableau de bord numérique du MEN (PIX-23445)
+- [#16806](https://github.com/1024pix/pix/pull/16806) Refactorer le composant de création de campagne dans Pix Orga (PIX-23366)
+- [#16900](https://github.com/1024pix/pix/pull/16900) remove unused file
+
 # [5.460.0](https://github.com/1024pix/pix/compare/v5.459.0...v5.460.0) (2026-07-21)
 
 ### :rocket: Amélioration
