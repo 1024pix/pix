@@ -674,6 +674,84 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
       });
     });
 
+    context('when no juridictions are defined for client id', function () {
+      it('returns a 403 forbidden error', async function () {
+        // given
+        const orga = databaseBuilder.factory.buildOrganization({ name: 'orga-in-jurisdiction' });
+        const client = databaseBuilder.factory.buildClientApplication({ clientId: 'client', jurisdiction: null });
+
+        const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
+        const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
+        const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+        const tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
+        const skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId: tube.id, status: 'actif' }).id;
+        const campaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.ASSESSMENT,
+          organizationId: orga.id,
+        });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/campaigns/${campaign.id}/participations`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeaderForApplication(
+              client.clientId,
+              'pix-client',
+              'campaigns meta',
+            ),
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when the tag juridiction is not the same as the organization one', function () {
+      it('returns a 403 forbidden error', async function () {
+        // given
+        const tag1 = databaseBuilder.factory.buildTag({ name: 'tag1' });
+        const tag2 = databaseBuilder.factory.buildTag({ name: 'tag2' });
+        const orga = databaseBuilder.factory.buildOrganization({ name: 'orga-in-jurisdiction' });
+        databaseBuilder.factory.buildOrganizationTag({ organizationId: orga.id, tagId: tag1.id });
+        const client = databaseBuilder.factory.buildClientApplication({
+          clientId: 'client',
+          jurisdiction: { rules: [{ name: 'tags', value: [tag2.name] }] },
+        });
+
+        const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
+        const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
+        const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+        const tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
+        const skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId: tube.id, status: 'actif' }).id;
+        const campaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.ASSESSMENT,
+          organizationId: orga.id,
+        });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/campaigns/${campaign.id}/participations`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeaderForApplication(
+              client.clientId,
+              'pix-client',
+              'campaigns meta',
+            ),
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
     context('when authentication data are requested', function () {
       let campaign;
       let authorization;
