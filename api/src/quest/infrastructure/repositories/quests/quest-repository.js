@@ -1,7 +1,7 @@
 import chunk from 'lodash/chunk.js';
 
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { Quest } from '../../domain/models/quests/entities/Quest.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { Quest } from '../../../domain/models/quests/entities/Quest.js';
 
 const toDomain = (quests) => quests.map((quest) => new Quest(quest));
 

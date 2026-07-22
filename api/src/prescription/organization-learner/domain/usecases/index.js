@@ -13,7 +13,7 @@ import * as organizationFeaturesAPI from '../../../../organizational-entities/ap
 import { tagRepository } from '../../../../organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as libOrganizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as combinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
-import * as questRepository from '../../../../quest/infrastructure/repositories/quest-repository.js';
+import * as questRepository from '../../../../quest/infrastructure/repositories/quests/quest-repository.js';
 import { cryptoService } from '../../../../shared/domain/services/crypto-service.js';
 import { tokenService } from '../../../../shared/domain/services/token-service.js';
 import * as userReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';

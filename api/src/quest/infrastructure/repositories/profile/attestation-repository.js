@@ -1,9 +1,9 @@
-import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
-import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
-import { REWARD_TYPES } from '../../domain/constants.js';
-import { Attestation } from '../../domain/models/profile/entities/Attestation.js';
+import { ORGANIZATION_FEATURE } from '../../../../shared/constants.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { AlreadyExistingEntityError } from '../../../../shared/domain/errors.js';
+import * as knexUtils from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { REWARD_TYPES } from '../../../domain/constants.js';
+import { Attestation } from '../../../domain/models/profile/entities/Attestation.js';
 
 const ATTESTATION_KEY_UNIQUE_CONSTRAINT = 'attestations_key_unique';
 const DUPLICATE_ATTESTATION_KEY = 'DUPLICATE_ATTESTATION_KEY';

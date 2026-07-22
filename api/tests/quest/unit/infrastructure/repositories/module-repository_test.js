@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { Module } from '../../../../../src/quest/domain/models/combined-courses/entities/Module.js';
+import { Module } from '../../../../../src/quest/domain/models/combined-courses/value-objects/Module.js';
 import * as moduleRepository from '../../../../../src/quest/infrastructure/repositories/combined-courses/module-repository.js';
 import { expect } from '../../../../test-helper.js';
 

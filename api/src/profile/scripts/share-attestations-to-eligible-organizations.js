@@ -6,7 +6,7 @@ import { CampaignParticipationStatuses } from '../../prescription/shared/domain/
 import * as targetProfilesApi from '../../prescription/target-profile/application/api/target-profile-api.js';
 import { DataForQuest } from '../../quest/domain/models/quests/aggregates/DataForQuest.js';
 import { Eligibility } from '../../quest/domain/models/quests/aggregates/Eligibility.js';
-import * as questRepository from '../../quest/infrastructure/repositories/quest-repository.js';
+import * as questRepository from '../../quest/infrastructure/repositories/quests/quest-repository.js';
 import { find } from '../../quest/infrastructure/repositories/success-repository.js';
 import { isoDateParser } from '../../shared/application/scripts/parsers.js';
 import { Script } from '../../shared/application/scripts/script.js';
