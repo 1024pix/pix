@@ -1106,7 +1106,7 @@
         "required-fields-error": "Veuillez remplir tous les champs obligatoires."
       },
       "head-information": {
-        "copy-id": "Copier l'ID",
+        "change-logo": "Changer le logo",
         "head-organization-tag": "Tête de réseau",
         "network": "Réseau :",
         "notifications": {
