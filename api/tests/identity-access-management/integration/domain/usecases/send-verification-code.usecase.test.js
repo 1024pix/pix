@@ -126,7 +126,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | send-ver
       expect(temporaryCodeInfo.action).to.equal('add-email');
       expect(temporaryCodeInfo.code).to.be.a('string');
 
-      await cryptoService.checkPassword({ password, passwordHash: temporaryCodeInfo.passwordHash });
+      await cryptoService.assertMatchPassword({ password, passwordHash: temporaryCodeInfo.passwordHash });
 
       await expect('SendEmailJob').to.have.been.performed.withJobsCount(1);
     });
