@@ -1888,7 +1888,8 @@
       "table": {
         "actions": {
           "download-certificates": "Download certificates",
-          "download-results": "Download session results (.csv)",
+          "download-results": "Download published sessions results (.zip)",
+          "download-results-error": "An error occurred, the session results could not be downloaded.",
           "select-all": {
             "label": "Multiple selection",
             "tooltip": {

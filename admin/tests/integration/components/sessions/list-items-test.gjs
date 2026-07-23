@@ -1,14 +1,45 @@
 import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import ListItems from 'pix-admin/components/sessions/list-items';
+import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/sessions | list-items', function (hooks) {
+const accessToken = 'An access token';
+
+module('Integration | Component | sessions | list-items', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   const triggerFiltering = () => {};
+
+  let fileSaverStub, notificationErrorStub;
+
+  hooks.beforeEach(function () {
+    // session service
+    class SessionService extends Service {
+      data = { authenticated: { access_token: accessToken } };
+    }
+
+    // toast service
+    notificationErrorStub = sinon.stub();
+    class NotificationsStub extends Service {
+      sendErrorNotification = notificationErrorStub;
+    }
+    this.owner.register('service:pixToast', NotificationsStub);
+
+    // file saver service
+    class FileSaver extends Service {
+      save = fileSaverStub;
+    }
+    this.owner.register('service:session', SessionService);
+    this.owner.register('service:file-saver', FileSaver);
+
+    fileSaverStub = sinon.stub();
+  });
 
   test('it should display sessions list', async function (assert) {
     // given
@@ -104,14 +135,14 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       // then
       assert.dom('.session-list__selected-rows').doesNotExist();
       assert
-        .dom(screen.getByRole('button', { name: 'Télécharger les résultats (.csv) des sessions' }))
+        .dom(screen.getByRole('button', { name: t('pages.sessions.table.actions.download-results') }))
         .hasAttribute('aria-disabled', 'true');
       assert
-        .dom(screen.getByRole('button', { name: 'Télécharger les certificats' }))
+        .dom(screen.getByRole('button', { name: t('pages.sessions.table.actions.download-certificates') }))
         .hasAttribute('aria-disabled', 'true');
     });
 
-    test('it should select a row and display its tag and the bulk actions', async function (assert) {
+    test('it should select a row and display its tag', async function (assert) {
       // given
       const sessions = buildSessions();
       const screen = await render(
@@ -119,13 +150,15 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await click(screen.getByRole('checkbox', { name: 'Sélectionner la session 1' }));
+      await click(
+        screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }),
+      );
 
       // then
-      assert.dom(screen.getByRole('checkbox', { name: 'Sélectionner la session 1' })).isChecked();
+      assert
+        .dom(screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }))
+        .isChecked();
       assert.dom('.session-list__selected-rows li').exists({ count: 1 });
-      assert.dom(screen.getByRole('button', { name: 'Télécharger les certificats' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Télécharger les résultats (.csv) des sessions' })).exists();
     });
 
     test('it should deselect a row when clicking its checkbox again', async function (assert) {
@@ -134,7 +167,9 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       const screen = await render(
         <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
       );
-      const checkbox = screen.getByRole('checkbox', { name: 'Sélectionner la session 1' });
+      const checkbox = screen.getByRole('checkbox', {
+        name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }),
+      });
 
       // when
       await click(checkbox);
@@ -151,14 +186,16 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       const screen = await render(
         <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
       );
-      await click(screen.getByRole('checkbox', { name: 'Sélection multiple' }));
+      await click(screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-all.label') }));
 
       // when
       await click('.session-list__selected-rows li:nth-child(1) button');
 
       // then
       assert.dom('.session-list__selected-rows li').exists({ count: 1 });
-      assert.dom(screen.getByRole('checkbox', { name: 'Sélectionner la session 1' })).isNotChecked();
+      assert
+        .dom(screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }))
+        .isNotChecked();
     });
 
     module('select all checkbox', function () {
@@ -170,11 +207,15 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
         );
 
         // when
-        await click(screen.getByRole('checkbox', { name: 'Sélection multiple' }));
+        await click(screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-all.label') }));
 
         // then
-        assert.dom(screen.getByRole('checkbox', { name: 'Sélectionner la session 1' })).isChecked();
-        assert.dom(screen.getByRole('checkbox', { name: 'Sélectionner la session 2' })).isChecked();
+        assert
+          .dom(screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }))
+          .isChecked();
+        assert
+          .dom(screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 2 }) }))
+          .isChecked();
         assert.dom('.session-list__selected-rows li').exists({ count: 2 });
       });
 
@@ -184,7 +225,9 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
         const screen = await render(
           <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
         );
-        const selectAllCheckbox = screen.getByRole('checkbox', { name: 'Sélection multiple' });
+        const selectAllCheckbox = screen.getByRole('checkbox', {
+          name: t('pages.sessions.table.actions.select-all.label'),
+        });
 
         // when
         await click(selectAllCheckbox);
@@ -192,7 +235,9 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
 
         // then
         assert.dom('.session-list__selected-rows').doesNotExist();
-        assert.dom(screen.getByRole('checkbox', { name: 'Sélectionner la session 1' })).isNotChecked();
+        assert
+          .dom(screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }))
+          .isNotChecked();
       });
 
       test('the "select all" checkbox is indeterminate when only some rows are selected', async function (assert) {
@@ -201,20 +246,81 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
         const screen = await render(
           <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
         );
-        const selectAllCheckbox = screen.getByRole('checkbox', { name: 'Sélection multiple' });
+        const selectAllCheckbox = screen.getByRole('checkbox', {
+          name: t('pages.sessions.table.actions.select-all.label'),
+        });
 
         // when
-        await click(screen.getByRole('checkbox', { name: 'Sélectionner la session 1' }));
+        await click(
+          screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }),
+        );
 
         // then
         assert.dom(selectAllCheckbox).hasClass('pix-checkbox__input--indeterminate');
 
         // when
-        await click(screen.getByRole('checkbox', { name: 'Sélectionner la session 2' }));
+        await click(
+          screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 2 }) }),
+        );
 
         // then
         assert.dom(selectAllCheckbox).doesNotHaveClass('pix-checkbox__input--indeterminate');
         assert.dom(selectAllCheckbox).isChecked();
+      });
+    });
+
+    module('actions', function () {
+      module('results download', function () {
+        module('when some sessions are selected', function () {
+          test('it should be possible to download the selection results zip', async function (assert) {
+            // given
+            const sessions = buildSessions();
+
+            // when
+            const screen = await render(
+              <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
+            );
+
+            await click(
+              screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }),
+            );
+            await click(screen.getByRole('button', { name: t('pages.sessions.table.actions.download-results') }));
+
+            // then
+            assert.ok(
+              fileSaverStub.calledWithExactly({
+                url: `${ENV.APP.API_HOST}/api/admin/sessions/download-selection-results?sessionIds=1`,
+                token: accessToken,
+              }),
+            );
+          });
+
+          module('on error', function () {
+            test('it should display an error toast', async function (assert) {
+              // given
+              fileSaverStub = sinon.stub().rejects(new Error('error'));
+
+              const sessions = buildSessions();
+
+              // when
+              const screen = await render(
+                <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
+              );
+
+              await click(
+                screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }),
+              );
+              await click(screen.getByRole('button', { name: t('pages.sessions.table.actions.download-results') }));
+
+              // then
+              assert.ok(notificationErrorStub.calledOnce);
+              assert.strictEqual(
+                notificationErrorStub.firstCall.args[0].message,
+                t('pages.sessions.table.actions.download-results-error'),
+              );
+            });
+          });
+        });
       });
     });
   });
