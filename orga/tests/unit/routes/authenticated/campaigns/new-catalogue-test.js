@@ -26,11 +26,13 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
     const members = Symbol('list of members sorted by firstnames and lastnames');
     const findAllStub = sinon.stub();
 
+    findAllStub.withArgs('member-identity', { adapterOptions: { organizationId: 12345 } }).resolves(members);
+    findAllStub.withArgs('course', { backgroundReload: false, adapterOptions: { organizationId: 12345 } }).resolves([]);
+
     class StoreStub extends Service {
-      findAll = findAllStub.resolves(members);
+      findAll = findAllStub;
       createRecord = sinon.stub();
     }
-
     this.owner.register('service:store', StoreStub);
 
     // when
@@ -69,8 +71,11 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
     const findAllStub = sinon.stub();
     const createRecordStub = sinon.stub();
 
+    findAllStub.withArgs('member-identity', { adapterOptions: { organizationId: 12345 } }).resolves(members);
+    findAllStub.withArgs('course', { backgroundReload: false, adapterOptions: { organizationId: 12345 } }).resolves([]);
+
     class StoreStub extends Service {
-      findAll = findAllStub.resolves(members);
+      findAll = findAllStub;
       createRecord = createRecordStub.resolves(createdCampaignRecord);
     }
 
@@ -85,13 +90,17 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
 
   module('when courseId param is defined', function (hooks) {
     const organizationId = 12345;
-    const createdCampaignRecord = {};
+    let campaign;
     let courseRecord;
-    let peekRecordStub;
 
     hooks.beforeEach(async function () {
       const organization = EmberObject.create({
         id: organizationId,
+      });
+      campaign = EmberObject.create({
+        setType(type) {
+          this.type = type;
+        },
       });
 
       const prescriber = { id: Symbol('prescriber id') };
@@ -107,16 +116,19 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
 
       const findAllStub = sinon.stub();
       const createRecordStub = sinon.stub();
-      peekRecordStub = sinon.stub();
 
       courseRecord = {
         id: Symbol('target profile overview id'),
       };
 
+      findAllStub.withArgs('member-identity', { adapterOptions: { organizationId: 12345 } }).resolves(members);
+      findAllStub
+        .withArgs('course', { backgroundReload: false, adapterOptions: { organizationId: 12345 } })
+        .resolves([courseRecord]);
+
       class StoreStub extends Service {
-        findAll = findAllStub.resolves(members);
-        createRecord = createRecordStub.resolves(createdCampaignRecord);
-        peekRecord = peekRecordStub.resolves(courseRecord);
+        findAll = findAllStub;
+        createRecord = createRecordStub.resolves(campaign);
       }
 
       this.owner.register('service:store', StoreStub);
@@ -132,9 +144,6 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
       const model = await route.model({ courseId: courseRecord.id });
 
       assert.strictEqual(model.campaign.course, courseRecord);
-      sinon.assert.calledWithExactly(peekRecordStub, 'course', courseRecord.id, {
-        adapterOptions: { organizationId },
-      });
     });
 
     module('when course is a target profile', function () {
@@ -163,6 +172,74 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
 
         assert.strictEqual(model.campaign.type, 'COMBINED_COURSE');
       });
+    });
+  });
+
+  module('when there is courses', function (hooks) {
+    let findAllStub;
+
+    hooks.beforeEach(async function () {
+      const organization = EmberObject.create({
+        id: 12345,
+      });
+      const campaign = EmberObject.create({
+        setType(type) {
+          this.type = type;
+        },
+      });
+
+      const prescriber = { id: Symbol('prescriber id') };
+
+      class CurrentUserStub extends Service {
+        organization = organization;
+        prescriber = prescriber;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const members = Symbol('list of members sorted by firstnames and lastnames');
+
+      findAllStub = sinon.stub();
+      const createRecordStub = sinon.stub();
+
+      findAllStub.withArgs('member-identity', { adapterOptions: { organizationId: 12345 } }).resolves(members);
+
+      class StoreStub extends Service {
+        findAll = findAllStub;
+        createRecord = createRecordStub.resolves(campaign);
+      }
+
+      this.owner.register('service:store', StoreStub);
+    });
+
+    test('should set hasBlueprints to false when there is no blueprint course', async function (assert) {
+      // given
+      const route = this.owner.lookup('route:authenticated/campaigns/new-catalogue');
+
+      findAllStub.withArgs('course', { backgroundReload: false, adapterOptions: { organizationId: 12345 } }).resolves([
+        { id: 1, type: 'targetProfile' },
+        { id: 2, type: 'targetProfile' },
+      ]);
+
+      // when
+      const model = await route.model();
+
+      assert.false(model.hasBlueprints);
+    });
+
+    test('should set hasBlueprints to true when there is at least one blueprint course', async function (assert) {
+      // given
+      const route = this.owner.lookup('route:authenticated/campaigns/new-catalogue');
+
+      findAllStub.withArgs('course', { backgroundReload: false, adapterOptions: { organizationId: 12345 } }).resolves([
+        { id: 1, type: 'blueprint' },
+        { id: 2, type: 'targetProfile' },
+      ]);
+
+      // when
+      const model = await route.model();
+
+      assert.true(model.hasBlueprints);
     });
   });
 
@@ -207,22 +284,30 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
 
         const duplicatedCampaignRecord = Symbol('duplicated campaign record');
 
+        const source = Symbol('source campaign id');
+
         const findAllStub = sinon.stub();
         const findRecordStub = sinon.stub();
-        const peekRecordStub = sinon.stub();
         const createRecordStub = sinon.stub();
 
+        findAllStub.withArgs('member-identity', { adapterOptions: { organizationId: 12345 } }).resolves(members);
+        findAllStub
+          .withArgs('course', { backgroundReload: false, adapterOptions: { organizationId: 12345 } })
+          .resolves([]);
+
+        findRecordStub.withArgs('campaign', source).resolves(sourceCampaign);
+        findRecordStub.withArgs('target-profile', sourceCampaign.targetProfileId).resolves(targetProfile);
+
         class StoreStub extends Service {
-          findAll = findAllStub.resolves(members);
+          findAll = findAllStub;
           createRecord = createRecordStub.resolves(duplicatedCampaignRecord);
-          findRecord = findRecordStub.resolves(sourceCampaign);
-          peekRecord = peekRecordStub.returns(targetProfile);
+          findRecord = findRecordStub;
         }
 
         this.owner.register('service:store', StoreStub);
 
         // when
-        const model = await route.model({ source: Symbol('source campaign id') });
+        const model = await route.model({ source });
 
         assert.strictEqual(await model.campaign, duplicatedCampaignRecord);
         sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
@@ -268,14 +353,17 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
 
         const findAllStub = sinon.stub();
         const findRecordStub = sinon.stub();
-        const peekRecordStub = sinon.stub();
         const createRecordStub = sinon.stub();
 
+        findAllStub.withArgs('member-identity', { adapterOptions: { organizationId: 12345 } }).resolves(members);
+        findAllStub
+          .withArgs('course', { backgroundReload: false, adapterOptions: { organizationId: 12345 } })
+          .resolves([]);
+
         class StoreStub extends Service {
-          findAll = findAllStub.resolves(members);
+          findAll = findAllStub;
           createRecord = createRecordStub.resolves(duplicatedCampaignRecord);
           findRecord = findRecordStub.resolves(sourceCampaign);
-          peekRecord = peekRecordStub;
         }
 
         this.owner.register('service:store', StoreStub);
@@ -285,7 +373,6 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
 
         assert.strictEqual(await model.campaign, duplicatedCampaignRecord);
         sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
-        sinon.assert.notCalled(peekRecordStub);
       });
     });
 
@@ -317,8 +404,13 @@ module('Unit | Route | authenticated/campaigns/new-catalogue', function (hooks) 
       const findRecordStub = sinon.stub();
       const createRecordStub = sinon.stub();
 
+      findAllStub.withArgs('member-identity', { adapterOptions: { organizationId: 12345 } }).resolves(members);
+      findAllStub
+        .withArgs('course', { backgroundReload: false, adapterOptions: { organizationId: 12345 } })
+        .resolves([]);
+
       class StoreStub extends Service {
-        findAll = findAllStub.resolves(members);
+        findAll = findAllStub;
         findRecord = findRecordStub.rejects(new Error());
         createRecord = createRecordStub.resolves(createdCampaignRecord);
       }

@@ -46,7 +46,7 @@ export default class NewRoute extends Route {
 
         campaignAttributes.name = `${this.intl.t('pages.campaign-creation.copy-of')} ${from.name}`;
         if (campaignAttributes.targetProfileId) {
-          campaignAttributes.targetProfile = this.store.peekRecord(
+          campaignAttributes.targetProfile = await this.store.findRecord(
             'target-profile',
             campaignAttributes.targetProfileId,
           );
@@ -62,29 +62,25 @@ export default class NewRoute extends Route {
       ...(campaignAttributes ?? campaignAttributes),
     });
 
+    const courses = await this.store.findAll('course', {
+      backgroundReload: false,
+      adapterOptions: { organizationId: organization.id },
+    });
+
     if (params?.courseId) {
-      let course = await this.store.peekRecord('course', params.courseId, {
-        adapterOptions: { organizationId: organization.id },
-      });
-
-      if (!course) {
-        const courses = await this.store.findAll('course', {
-          adapterOptions: { organizationId: organization.id },
-        });
-        course = courses.find(({ id }) => id === params.courseId);
-      }
-
-      campaign.course = course;
+      campaign.course = courses.find(({ id }) => id === params.courseId);
 
       if (campaign.course.type === 'targetProfile') {
-        campaign.type = 'ASSESSMENT';
+        campaign.setType('ASSESSMENT');
       }
       if (campaign.course.type === 'blueprint') {
-        campaign.type = 'COMBINED_COURSE';
+        campaign.setType('COMBINED_COURSE');
       }
     }
 
-    return { campaign, membersSortedByFullName };
+    const hasBlueprints = courses.some((course) => course.type === 'blueprint');
+
+    return { campaign, membersSortedByFullName, hasBlueprints };
   }
 
   resetController(controller, isExiting) {
