@@ -211,10 +211,10 @@
                       "id": "5347533c-7309-4991-b0b3-133784208d25",
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/modeles-ia.png",
-                      "alt": "à venir",
-                      "alternativeText": "<p>à venir<br></p>",
+                      "alt": "Description de 6 modèles d'IA",
+                      "alternativeText": "<p>Description de 6 modèles d'IA :&nbsp;</p><ul><li>Swiss-ai /Apertus-8B-Instruct-2509<ul><li>Open source</li><li>8 milliards paramètres</li><li>Données d’entraînement : 15 billions de tokens</li></ul></li><li>Swiss-ai/ Apertus-v1.1<ul><li>Open source</li><li>4 milliards paramètres</li><li>Données d’entraînement : 1,7 billions de tokens</li></ul></li><li>Meta / Llama 3.1&nbsp; 8B<ul><li>Semi-ouvert</li><li>8 milliards paramètres</li><li>Données d’entraînement : 15 billions de tokens</li></ul></li><li>Meta / Llama 4 Maverick<ul><li>Semi-ouvert</li><li>400 milliards paramètres</li><li>Données d’entraînement : 22 billions de tokens</li></ul></li><li>Google / Gemma 3 27B&nbsp;<ul><li> Semi-ouvert</li><li>27 milliards paramètres</li><li>Données d’entraînement : 14 billions de tokens</li></ul></li><li>Google / Gemma 3 1B<ul><li>Semi-ouvert</li><li>1 milliards paramètres</li><li>Données d’entraînement : 2 billions de tokens</li></ul></li></ul><p>Source : informations disponibles sur le site Hugging Face, en juillet 2026</p>",
                       "legend": "",
-                      "licence": ""
+                      "licence": "Source : Hugging Face, en juillet 2026"
                     },
                     {
                       "id": "4f7a89dc-de3c-4bc0-9e96-ddb6042a6552",
@@ -224,55 +224,55 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Granite 4.1 8B</p>",
+                          "content": "<p>Apertus-8B-Instruct-2509</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non ! </strong></p><p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c’est celui qui a <strong>l</strong><strong>e plus de paramètres.</strong></p><p>Plus un modèle d’IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>GPT 5.5</p>",
+                          "content": "<p>Apertus-v1.1</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non ! </strong></p><p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c’est celui qui a <strong>l</strong><strong>e plus de paramètres.</strong></p><p>Plus un modèle d’IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                            "diagnosis": "<p><strong>Eh non ! </strong></p><p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Llama 4 Maverick</p>",
+                          "content": "<p>Llama 3.1&nbsp; 8</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non ! </strong></p><p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c’est celui qui a <strong>l</strong><strong>e plus de paramètres.</strong></p><p>Plus un modèle d’IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>\n"
                           }
                         },
                         {
                           "id": "4",
-                          "content": "<p>Apertus 70B Instruct</p>",
+                          "content": "<p>Llama 4 Maverick</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non ! </strong></p><p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c’est celui qui a <strong>l</strong><strong>e plus de paramètres.</strong></p><p>Plus un modèle d’IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                            "diagnosis": "<p><strong>Bien vu !</strong></p>\n<p>&nbsp;<strong>Llama 4 Maverick </strong>est le modèle&nbsp;qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>\n"
                           }
                         },
                         {
                           "id": "5",
-                          "content": "<p>Gemini 3.1 Flash Lite</p>",
+                          "content": "<p>Gemma 3 27B</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Eh non ! </strong></p><p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c’est celui qui a <strong>l</strong><strong>e plus de paramètres.</strong></p><p>Plus un modèle d’IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>\n"
                           }
                         },
                         {
                           "id": "6",
-                          "content": "<p>Mistral 3 Large</p>",
+                          "content": "<p>Gemma 3 1B</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Bien vu ! </strong></p><p><strong>Mistral 3 Large </strong>est celui qui a <strong>le plus de paramètres.</strong></p><p>Plus un modèle d’IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>\n"
                           }
                         },
                         {
                           "id": "7",
                           "content": "<p>Je ne sais pas.<br></p>",
                           "feedback": {
-                            "diagnosis": "<p>La bonne réponse était&nbsp;<strong>Mistral 3 Large</strong> car c’est celui qui a l<strong>e plus de paramètres.</strong></p><p>Plus un modèle d’IA a un grand nombre de paramètres, plus son entraînement consomme d’énergie.</p>"
+                            "diagnosis": "<p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>\n\n"
                           }
                         }
                       ],
-                      "solution": "6"
+                      "solution": "4"
                     }
                   ]
                 }
@@ -295,7 +295,7 @@
                       "id": "cd1e0ee5-4378-4996-abc4-99b774160840",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’<strong>entraînement</strong> d’un nouveau modèle d’IA est donc <strong>très coûteux en énergie.</strong></p><p>En plus du <strong>nombre de paramètres du modèle</strong>, il faut aussi prendre en compte la <strong>quantité de données d’entraînement</strong> fournie au modèle d’IA. Plus la quantité est importante, plus l’entraînement est gourmand en énergie.</p>"
+                      "content": "<p>L’<strong>entraînement</strong> d’un nouveau modèle d’IA est donc <strong>très coûteux en énergie.</strong></p><p>La <strong>c</strong><strong>onsommation d'énergie lors de l'entrainement</strong> dépend de la <strong>taille du modèle </strong>(c'est-à-dire son nombre de <strong>paramètres</strong>)&nbsp;et&nbsp;de la <strong>quantité de données de l'entrainement </strong>(généralement exprimée en nombre de <strong>tokens</strong>).&nbsp;Plus le nombre de paramètres et la quantité de données est importante, plus l’entraînement est gourmand en énergie.</p>"
                     }
                   ]
                 },
