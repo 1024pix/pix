@@ -1,387 +1,184 @@
-import _ from 'lodash';
+import sinon from 'sinon';
 
-import { SessionForSupervising } from '../../../../../../src/certification/session-management/domain/read-models/SessionForSupervising.js';
 import * as sessionForSupervisingRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-for-supervising-repository.js';
-import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | SessionForSupervising', function () {
   describe('#get', function () {
-    it('should return session informations in a SessionForSupervising Object', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationCenter({ name: 'Toto', id: 1234 });
-      const session = databaseBuilder.factory.buildSession({
-        certificationCenter: 'Tour Gamma',
-        address: 'centre de certification 1',
-        room: 'Salle A',
-        examiner: 'Monsieur Examinateur',
-        accessCode: 'CODE12',
-        date: '2018-02-23',
-        time: '12:00:00',
-        certificationCenterId: 1234,
-      });
+    let certificationBadgesService, dependencies;
 
-      await databaseBuilder.commit();
-
-      // when
-      const actualSession = await sessionForSupervisingRepository.get({ id: session.id });
-
-      // then
-      expect(actualSession).to.be.deepEqualInstance(
-        new SessionForSupervising({
-          id: session.id,
-          address: 'centre de certification 1',
-          room: 'Salle A',
-          examiner: 'Monsieur Examinateur',
-          accessCode: 'CODE12',
-          date: '2018-02-23',
-          time: '12:00:00',
-          certificationCandidates: [],
-        }),
-      );
+    beforeEach(function () {
+      certificationBadgesService = {
+        findStillValidBadgeAcquisitions: sinon.stub(),
+      };
+      dependencies = { certificationBadgesService };
     });
 
-    it('should return associated certifications candidates ordered by lastname and firstname', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationCenter({ name: 'Toto', id: 1234 });
-      const session = databaseBuilder.factory.buildSession({
-        certificationCenter: 'Tour Gamma',
-        room: 'Salle A',
-        examiner: 'Monsieur Examinateur',
-        date: '2018-02-23',
-        time: '12:00:00',
-        certificationCenterId: 1234,
-      });
-
-      databaseBuilder.factory.buildUser({ id: 11111 });
-      databaseBuilder.factory.buildCertificationCandidate({
-        userId: 11111,
-        lastName: 'Jackson',
-        firstName: 'Michael',
-        sessionId: session.id,
-        authorizedToStart: true,
-      });
-
-      databaseBuilder.factory.buildUser({ id: 22222 });
-      databaseBuilder.factory.buildCertificationCandidate({
-        userId: 22222,
-        lastName: 'Stardust',
-        firstName: 'Ziggy',
-        sessionId: session.id,
-      });
-
-      databaseBuilder.factory.buildUser({ id: 33333 });
-      databaseBuilder.factory.buildCertificationCandidate({
-        userId: 33333,
-        lastName: 'Jackson',
-        firstName: 'Janet',
-        sessionId: session.id,
-      });
-
-      databaseBuilder.factory.buildUser({ id: 12345 });
-      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
-        lastName: 'Joplin',
-        firstName: 'Janis',
-        sessionId: session.id,
-        userId: 12345,
-        authorizedToStart: true,
-      }).id;
-
-      const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-        userId: 12345,
-        sessionId: session.id,
-        createdAt: new Date('2022-10-19T13:37:00Z'),
-        candidateId,
-      });
-
-      databaseBuilder.factory.buildAssessment({
-        certificationCourseId: certificationCourse.id,
-        state: Assessment.states.STARTED,
-      });
-
-      databaseBuilder.factory.buildCertificationCandidate();
-      await databaseBuilder.commit();
-
-      // when
-      const actualSession = await sessionForSupervisingRepository.get({ id: session.id });
-
-      // then
-      const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, [
-          'userId',
-          'sessionId',
-          'lastName',
-          'firstName',
-          'authorizedToStart',
-          'assessmentStatus',
-          'startDateTime',
-        ]),
-      );
-      expect(actualCandidates).to.have.deep.ordered.members([
-        {
-          userId: 33333,
-          lastName: 'Jackson',
-          firstName: 'Janet',
-          authorizedToStart: false,
-          assessmentStatus: null,
-          startDateTime: null,
-        },
-        {
-          userId: 11111,
-          lastName: 'Jackson',
-          firstName: 'Michael',
-          authorizedToStart: true,
-          assessmentStatus: null,
-          startDateTime: null,
-        },
-        {
-          userId: 12345,
-          lastName: 'Joplin',
-          firstName: 'Janis',
-          authorizedToStart: true,
-          assessmentStatus: Assessment.states.STARTED,
-          startDateTime: '2022-10-19T13:37:00+00:00',
-        },
-        {
-          userId: 22222,
-          lastName: 'Stardust',
-          firstName: 'Ziggy',
-          authorizedToStart: false,
-          assessmentStatus: null,
-          startDateTime: null,
-        },
-      ]);
-    });
-
-    it('should return certifications candidates with their subscription key', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationCenter({ name: 'Toto', id: 1234 });
-      const session = databaseBuilder.factory.buildSession({
-        certificationCenter: 'Tour Gamma',
-        room: 'Salle A',
-        examiner: 'Monsieur Examinateur',
-        date: '2018-02-23',
-        time: '12:00:00',
-        certificationCenterId: 1234,
-      });
-
-      databaseBuilder.factory.buildUser({ id: 11111 });
-      databaseBuilder.factory.buildCertificationCandidate({
-        userId: 11111,
-        lastName: 'Jackson',
-        firstName: 'Janet',
-        sessionId: session.id,
-        subscription: ComplementaryCertificationKeys.CLEA,
-      });
-
-      databaseBuilder.factory.buildUser({ id: 22222 });
-      databaseBuilder.factory.buildCertificationCandidate({
-        userId: 22222,
-        lastName: 'Joplin',
-        firstName: 'Janis',
-        sessionId: session.id,
-        subscription: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const actualSession = await sessionForSupervisingRepository.get({ id: session.id });
-
-      // then
-      const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, ['userId', 'lastName', 'firstName', 'subscription']),
-      );
-
-      expect(actualCandidates).to.have.deep.ordered.members([
-        { userId: 11111, lastName: 'Jackson', firstName: 'Janet', subscription: ComplementaryCertificationKeys.CLEA },
-        {
-          userId: 22222,
-          lastName: 'Joplin',
-          firstName: 'Janis',
-          subscription: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-        },
-      ]);
-    });
-
-    it('should return a Not found error when no session was found', async function () {
-      // when
-      const error = await catchErr(sessionForSupervisingRepository.get)({ id: 123123 });
-
-      // then
-      expect(error).to.be.instanceOf(NotFoundError);
-    });
-
-    context('when some candidates have live alerts', function () {
-      it('should return candidates ordered by live alert types, lastname and firstname', async function () {
-        // given
-        databaseBuilder.factory.buildCertificationCenter({ name: 'Toto', id: 1234 });
-        const session = databaseBuilder.factory.buildSession({
-          version: AlgorithmEngineVersion.V3,
-          certificationCenter: 'Tour Gamma',
-          room: 'Salle A',
-          examiner: 'Monsieur Examinateur',
-          date: '2018-02-23',
-          time: '12:00:00',
-          certificationCenterId: 1234,
-        });
-
-        databaseBuilder.factory.buildUser({ id: 11111 });
-        databaseBuilder.factory.buildCertificationCandidate({
-          userId: 11111,
-          lastName: 'Jackson',
-          firstName: 'Michael',
-          sessionId: session.id,
-          authorizedToStart: true,
-        });
-
-        databaseBuilder.factory.buildUser({ id: 22222 });
-        const ziggyCandidateId = databaseBuilder.factory.buildCertificationCandidate({
-          userId: 22222,
-          lastName: 'Stardust',
-          firstName: 'Ziggy',
-          sessionId: session.id,
-        }).id;
-
-        databaseBuilder.factory.buildUser({ id: 33333 });
-        databaseBuilder.factory.buildCertificationCandidate({
-          userId: 33333,
-          lastName: 'Jackson',
-          firstName: 'Janet',
-          sessionId: session.id,
-        });
-
-        databaseBuilder.factory.buildUser({ id: 12345 });
-        const janisCandidateId = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Joplin',
-          firstName: 'Janis',
-          sessionId: session.id,
-          userId: 12345,
-          authorizedToStart: true,
-        }).id;
-
-        const certificationCourseWithBothLiveAlerts = databaseBuilder.factory.buildCertificationCourse({
-          version: AlgorithmEngineVersion.V3,
-          userId: 12345,
-          sessionId: session.id,
-          createdAt: new Date('2022-10-19T13:37:00Z'),
-          candidateId: janisCandidateId,
-        });
-
-        const assessmentWithBothLiveAlerts = databaseBuilder.factory.buildAssessment({
-          certificationCourseId: certificationCourseWithBothLiveAlerts.id,
-          state: Assessment.states.STARTED,
-        });
-
-        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
-          assessmentId: assessmentWithBothLiveAlerts.id,
-        });
-        databaseBuilder.factory.buildCertificationCompanionLiveAlert({
-          assessmentId: assessmentWithBothLiveAlerts.id,
-        });
-
-        const certificationCourseWithChallengeLiveAlert = databaseBuilder.factory.buildCertificationCourse({
-          version: AlgorithmEngineVersion.V3,
-          userId: 22222,
-          sessionId: session.id,
-          createdAt: new Date('2022-10-19T13:37:00Z'),
-          candidateId: ziggyCandidateId,
-        });
-
-        const assessmentWithChallengeLiveAlert = databaseBuilder.factory.buildAssessment({
-          certificationCourseId: certificationCourseWithChallengeLiveAlert.id,
-          state: Assessment.states.STARTED,
-        });
-
-        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
-          assessmentId: assessmentWithChallengeLiveAlert.id,
-        });
-
+    context('when session is not found', function () {
+      it('throws a Not found error', async function () {
+        domainBuilder.certification.sessionManagement
+          .sessionForSupervisingBuilder()
+          .withParameters({ id: 123 })
+          .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
         // when
-        const actualSession = await sessionForSupervisingRepository.get({ id: session.id });
+        const error = await catchErr(sessionForSupervisingRepository.get)({ id: 123123, dependencies });
 
         // then
-        const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-          _.pick(item, [
-            'userId',
-            'sessionId',
-            'lastName',
-            'firstName',
-            'authorizedToStart',
-            'assessmentStatus',
-            'startDateTime',
-            'challengeLiveAlert',
-            'companionLiveAlert',
-          ]),
-        );
-        expect(actualCandidates).to.have.deep.ordered.members([
-          {
-            userId: 12345,
-            lastName: 'Joplin',
-            firstName: 'Janis',
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+
+    context('when session is found', function () {
+      it('return the SessionForSupervising read model', async function () {
+        // given
+        const expectedSessionForSupervising = domainBuilder.certification.sessionManagement
+          .sessionForSupervisingBuilder()
+          .withParameters({
+            id: 123,
+            address: 'centre de certification 1',
+            room: '28D',
+            examiner: 'Antoine Toutvenant',
+            accessCode: 'CODE12',
+            date: '2017-01-20',
+            time: '14:30:00',
+          })
+          .addCandidate({
+            id: 1234,
+            userId: 6789,
+            firstName: 'toto',
+            lastName: 'tata',
+            birthdate: '1984-05-28',
+            extraTimePercentage: 1,
             authorizedToStart: true,
             assessmentStatus: Assessment.states.STARTED,
-            startDateTime: '2022-10-19T13:37:00+00:00',
+            startDateTime: new Date('2022-10-01T13:30:00Z'),
+            theoricalEndDateTime: new Date('2022-10-01T14:30:00Z'),
+            subscription: Frameworks.CORE,
+            isStillEligibleToDoubleCertification: false,
             challengeLiveAlert: {
               type: 'challenge',
-              hasAttachment: false,
+              status: CertificationChallengeLiveAlertStatus.ONGOING,
               hasImage: false,
+              hasAttachment: false,
               hasEmbed: false,
               isFocus: false,
-              status: CertificationChallengeLiveAlertStatus.ONGOING,
             },
             companionLiveAlert: {
               type: 'companion',
               status: CertificationCompanionLiveAlertStatus.ONGOING,
             },
-          },
-          {
-            userId: 22222,
-            lastName: 'Stardust',
-            firstName: 'Ziggy',
+          })
+          .addCandidate({
+            id: 456,
+            userId: 789,
+            firstName: 'fifou',
+            lastName: 'zouzou',
+            birthdate: '1994-03-18',
+            extraTimePercentage: null,
             authorizedToStart: false,
-            assessmentStatus: Assessment.states.STARTED,
-            startDateTime: '2022-10-19T13:37:00+00:00',
-            challengeLiveAlert: {
-              type: 'challenge',
-              hasAttachment: false,
-              hasImage: false,
-              hasEmbed: false,
-              isFocus: false,
-              status: CertificationChallengeLiveAlertStatus.ONGOING,
+            assessmentStatus: null,
+            startDateTime: null,
+            theoricalEndDateTime: null,
+            subscription: Frameworks.DROIT,
+            isStillEligibleToDoubleCertification: false,
+            challengeLiveAlert: null,
+            companionLiveAlert: {
+              type: 'companion',
+              status: CertificationCompanionLiveAlertStatus.ONGOING,
             },
-            companionLiveAlert: null,
-          },
-          {
-            userId: 33333,
-            lastName: 'Jackson',
-            firstName: 'Janet',
-            authorizedToStart: false,
-            assessmentStatus: null,
-            startDateTime: null,
-            challengeLiveAlert: null,
-            companionLiveAlert: null,
-          },
-          {
-            userId: 11111,
-            lastName: 'Jackson',
-            firstName: 'Michael',
-            authorizedToStart: true,
-            assessmentStatus: null,
-            startDateTime: null,
-            challengeLiveAlert: null,
-            companionLiveAlert: null,
-          },
-        ]);
+          })
+          .insertToDB({ databaseBuilder });
+        domainBuilder.certification.sessionManagement
+          .sessionForSupervisingBuilder()
+          .withParameters({
+            id: 99,
+          })
+          .addCandidate({
+            subscription: Frameworks.CLEA,
+          })
+          .insertToDB({ databaseBuilder });
+        await databaseBuilder.commit();
+
+        // when
+        const sessionForSupervising = await sessionForSupervisingRepository.get({ id: 123, dependencies });
+
+        // then
+        expect(sessionForSupervising).to.deepEqualInstance(expectedSessionForSupervising);
+      });
+
+      context('when session has CLEA candidates', function () {
+        it('returns the read model and computes badge acquisitions', async function () {
+          const expectedSessionForSupervising = domainBuilder.certification.sessionManagement
+            .sessionForSupervisingBuilder()
+            .withParameters({
+              id: 123,
+              address: 'centre de certification 1',
+              room: '28D',
+              examiner: 'Antoine Toutvenant',
+              accessCode: 'CODE12',
+              date: '2017-01-20',
+              time: '14:30:00',
+            })
+            .addCandidate({
+              id: 4567,
+              userId: 789,
+              firstName: 'fifou',
+              lastName: 'zouzou',
+              birthdate: '1994-03-18',
+              extraTimePercentage: null,
+              authorizedToStart: false,
+              assessmentStatus: Assessment.states.COMPLETED,
+              startDateTime: new Date('2022-10-01T11:10:00Z'),
+              theoricalEndDateTime: new Date('2022-10-01T12:10:00Z'),
+              subscription: Frameworks.CLEA,
+              isStillEligibleToDoubleCertification: true,
+              challengeLiveAlert: null,
+              companionLiveAlert: {
+                type: 'companion',
+                status: CertificationCompanionLiveAlertStatus.ONGOING,
+              },
+            })
+            .addCandidate({
+              id: 1234,
+              userId: 6789,
+              firstName: 'toto',
+              lastName: 'tata',
+              birthdate: '1984-05-28',
+              extraTimePercentage: 1,
+              authorizedToStart: true,
+              assessmentStatus: Assessment.states.STARTED,
+              startDateTime: new Date('2022-10-01T13:30:00Z'),
+              theoricalEndDateTime: new Date('2022-10-01T14:30:00Z'),
+              subscription: Frameworks.CLEA,
+              isStillEligibleToDoubleCertification: false,
+              challengeLiveAlert: null,
+              companionLiveAlert: null,
+            })
+            .insertToDB({ databaseBuilder });
+          await databaseBuilder.commit();
+          certificationBadgesService.findStillValidBadgeAcquisitions
+            .withArgs({ userId: 6789 })
+            .resolves([{ complementaryCertificationKey: Frameworks.DROIT }]);
+          certificationBadgesService.findStillValidBadgeAcquisitions
+            .withArgs({ userId: 789 })
+            .resolves([{ complementaryCertificationKey: Frameworks.CLEA }]);
+
+          // when
+          const sessionForSupervising = await sessionForSupervisingRepository.get({ id: 123, dependencies });
+
+          // then
+          expect(sessionForSupervising).to.deepEqualInstance(expectedSessionForSupervising);
+        });
       });
     });
   });

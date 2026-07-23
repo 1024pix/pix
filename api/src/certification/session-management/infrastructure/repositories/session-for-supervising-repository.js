@@ -1,11 +1,14 @@
+import dayjs from 'dayjs';
+
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../shared/domain/models/CertificationCompanionLiveAlert.js';
-import { CertificationCandidateForSupervising } from '../../domain/models/CertificationCandidateForSupervising.js';
+import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
+import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import { SessionForSupervising } from '../../domain/read-models/SessionForSupervising.js';
 
-const get = async function ({ id }) {
+export async function get({ id, dependencies = { certificationBadgesService } }) {
   const knexConn = DomainTransaction.getConnection();
   const results = await knexConn
     .select({
@@ -30,6 +33,7 @@ const get = async function ({ id }) {
           'assessmentStatus', "assessments"."state",
           'startDateTime', "certification-courses"."createdAt",
           'assessmentDuration', "certification_versions"."assessmentDuration",
+          'subscription', "certification-candidates"."subscription",
           'challengeLiveAlert', json_build_object(
             'type', 'challenge',
             'status', "certification-challenge-live-alerts".status,
@@ -41,8 +45,7 @@ const get = async function ({ id }) {
           'companionLiveAlert', json_build_object(
             'type', 'companion',
             'status', "certification-companion-live-alerts".status
-          ),
-          'subscription', "certification-candidates"."subscription"
+          )
         ) order by "certification-companion-live-alerts".status, "certification-challenge-live-alerts".status, lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
     `),
         )
@@ -72,19 +75,56 @@ const get = async function ({ id }) {
   if (!results) {
     throw new NotFoundError("La session n'existe pas");
   }
-  return _toDomain(results);
-};
+  return _toDomain(results, dependencies.certificationBadgesService);
+}
 
-export { get };
+async function _toDomain(results, certificationBadgesService) {
+  const candidateRows = results.certificationCandidates?.filter((candidate) => candidate?.id !== null) ?? [];
+  const candidates = [];
+  for (const candidateRow of candidateRows) {
+    let isStillEligibleToDoubleCertification = false;
+    if (candidateRow.subscription === Frameworks.CLEA) {
+      const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+        userId: candidateRow.userId,
+      });
+      isStillEligibleToDoubleCertification = stillValidBadgeAcquisitions.some(
+        (stillValidBadgeAcquisition) => stillValidBadgeAcquisition.complementaryCertificationKey === Frameworks.CLEA,
+      );
+    }
 
-function _toDomain(results) {
-  const certificationCandidates =
-    results.certificationCandidates
-      ?.filter((candidate) => candidate?.id !== null)
-      ?.map((candidate) => new CertificationCandidateForSupervising(candidate)) ?? [];
+    const candidate = {
+      id: candidateRow.id,
+      userId: candidateRow.userId,
+      firstName: candidateRow.firstName,
+      lastName: candidateRow.lastName,
+      birthdate: candidateRow.birthdate,
+      extraTimePercentage:
+        candidateRow.extraTimePercentage != null
+          ? parseFloat(candidateRow.extraTimePercentage)
+          : candidateRow.extraTimePercentage,
+      authorizedToStart: candidateRow.authorizedToStart,
+      assessmentStatus: candidateRow.assessmentStatus,
+      startDateTime: candidateRow.startDateTime ? new Date(candidateRow.startDateTime) : null,
+      theoricalEndDateTime: computeTheoricalEndDateTime(candidateRow.startDateTime, candidateRow.assessmentDuration),
+      subscription: candidateRow.subscription,
+      isStillEligibleToDoubleCertification,
+      challengeLiveAlert: candidateRow.challengeLiveAlert?.status ? candidateRow.challengeLiveAlert : null,
+      companionLiveAlert: candidateRow.companionLiveAlert?.status ? candidateRow.companionLiveAlert : null,
+    };
+    candidates.push(candidate);
+  }
 
   return new SessionForSupervising({
     ...results,
-    certificationCandidates,
+    candidates,
   });
+}
+
+function computeTheoricalEndDateTime(startDateTime, assessmentDuration) {
+  const start = dayjs(startDateTime || null);
+  if (!start.isValid()) {
+    return null;
+  }
+
+  return start.add(assessmentDuration, 'minute').toDate();
 }

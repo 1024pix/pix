@@ -123,7 +123,6 @@ import { buildSchoolAssessment } from './build-school-assessment.js';
 import { buildScoringAndCapacitySimulatorReport } from './build-scoring-and-capacity-simulator-report.js';
 import { buildSessionForAttendanceSheet } from './build-session-for-attendance-sheet.js';
 import { buildSessionForInvigilatorKit } from './build-session-for-invigilator-kit.js';
-import { buildSessionForSupervising } from './build-session-for-supervising.js';
 import { buildSessionJuryComment } from './build-session-jury-comment.js';
 import { buildSessionSummary } from './build-session-summary.js';
 import { buildShareableCertificate } from './build-shareable-certificate.js';
@@ -207,6 +206,7 @@ import { buildCompetence as parcoursupCompetence } from './certification/results
 import { buildParcoursupCertificationLevel } from './certification/results/parcoursup/build-parcoursup-certification-level.js';
 import { buildCertificationDetails } from './certification/session-management/build-certification-details.js';
 import { buildJuryCertification } from './certification/session-management/build-jury-certification.js';
+import { sessionForSupervisingBuilder } from './certification/session-management/build-session-for-supervising.js';
 import { builders as sessionManagementBuilders } from './certification/session-management/index.js';
 import { buildCompetenceForScoring } from './certification/shared/build-competence-for-scoring.js';
 import { buildComplementaryCertification as buildSharedComplementaryCertification } from './certification/shared/build-complementary-certification.js';
@@ -487,7 +487,6 @@ export {
   buildScoringAndCapacitySimulatorReport,
   buildSessionForAttendanceSheet,
   buildSessionForInvigilatorKit,
-  buildSessionForSupervising,
   buildSessionJuryComment,
   buildSessionSummary,
   buildShareableCertificate,

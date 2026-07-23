@@ -3,8 +3,8 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-import { sessionForSupervisingController } from '../../session-management/application/session-for-supervising-controller.js';
 import { assessmentInvigilatorAuthorization } from '../../shared/application/pre-handlers/session-invigilator-authorization.js';
+import { sessionForSupervisingController } from './session-for-supervising-controller.js';
 
 const register = async function (server) {
   server.route([

@@ -1,7 +1,3 @@
-import dayjs from 'dayjs';
-
-import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
-
 export class CertificationCandidateForSupervising {
   constructor({
     id,
@@ -37,25 +33,7 @@ export class CertificationCandidateForSupervising {
     this.companionLiveAlert = companionLiveAlert?.status ? companionLiveAlert : null;
   }
 
-  get theoricalEndDateTime() {
-    const startDateTime = dayjs(this.startDateTime || null);
-    if (!startDateTime.isValid()) {
-      return null;
-    }
-
-    return startDateTime.add(this.assessmentDuration, 'minute').toDate();
-  }
-
   authorizeToStart() {
     this.authorizedToStart = true;
-  }
-
-  get isStillEligibleToDoubleCertification() {
-    return (
-      this.subscription === Frameworks.CLEA &&
-      this.stillValidBadgeAcquisitions.some(
-        (stillValidBadgeAcquisition) => stillValidBadgeAcquisition.complementaryCertificationKey === Frameworks.CLEA,
-      )
-    );
   }
 }

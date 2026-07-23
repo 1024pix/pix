@@ -46,7 +46,6 @@ import { getInvigilatorKitSessionInfo } from './get-invigilator-kit-session-info
 import { getJuryCertification } from './get-jury-certification.js';
 import { getJurySession } from './get-jury-session.js';
 import { getSession } from './get-session.js';
-import { getSessionForSupervising } from './get-session-for-supervising.js';
 import { getV3CertificationCourseDetailsForAdministration } from './get-v3-certification-course-details-for-administration.js';
 import { manuallyResolveCertificationIssueReport } from './manually-resolve-certification-issue-report.js';
 import { processAutoJury } from './process-auto-jury.js';
@@ -86,7 +85,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {import('../../infrastructure/repositories/index.js').SessionJuryCommentRepository} SessionJuryCommentRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionManagementRepository} SessionManagementRepository
  * @typedef {import('../../infrastructure/repositories/index.js').InvigilatorSessionRepository} InvigilatorSessionRepository
- * @typedef {import('../../infrastructure/repositories/index.js').SessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CompetenceMarkRepository} CompetenceMarkRepository
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
@@ -128,7 +126,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {juryCertificationRepository} JuryCertificationRepository
  * @typedef {jurySessionRepository} JurySessionRepository
  * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
- * @typedef {sessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {sessionJuryCommentRepository} SessionJuryCommentRepository
@@ -197,7 +194,6 @@ const usecasesWithoutInjectedDependencies = {
   getInvigilatorKitSessionInfo,
   getJuryCertification,
   getJurySession,
-  getSessionForSupervising,
   getSession,
   getV3CertificationCourseDetailsForAdministration,
   manuallyResolveCertificationIssueReport,
