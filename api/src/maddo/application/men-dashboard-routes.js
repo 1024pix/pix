@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { pageQuerySchema } from '../../shared/application/pagination-query-schema.js';
 import { responseObjectErrorDoc } from '../../shared/infrastructure/open-api-doc/response-object-error-doc.js';
 import {
   getMenDashboardCertificationDataset,
@@ -15,10 +16,7 @@ const register = async function (server) {
         auth: { access: { scope: 'men-dashboard' } },
         validate: {
           query: Joi.object({
-            page: Joi.object({
-              number: Joi.number().integer().empty('').allow(null).optional(),
-              size: Joi.number().integer().max(200).empty('').allow(null).optional(),
-            }).default({}),
+            page: pageQuerySchema,
           }),
         },
         handler: getMenDashboardCertificationDataset,
@@ -79,10 +77,7 @@ const register = async function (server) {
         auth: { access: { scope: 'men-dashboard' } },
         validate: {
           query: Joi.object({
-            page: Joi.object({
-              number: Joi.number().integer().empty('').allow(null).optional(),
-              size: Joi.number().integer().max(200).empty('').allow(null).optional(),
-            }).default({}),
+            page: pageQuerySchema,
           }),
         },
         handler: getMenDashboardParticipationDataset,

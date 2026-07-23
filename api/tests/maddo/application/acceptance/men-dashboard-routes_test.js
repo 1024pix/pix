@@ -62,6 +62,7 @@ describe('Acceptance | Maddo | Route | Men | Dashboard', function () {
       const options = {
         method: 'GET',
         url: '/api/men/dashboard/certifications?page[number]=2&page[size]=2',
+
         headers: {
           authorization: generateValidRequestAuthorizationHeaderForApplication(
             'client-id',
@@ -163,6 +164,45 @@ describe('Acceptance | Maddo | Route | Men | Dashboard', function () {
       const options = {
         method: 'GET',
         url: '/api/men/dashboard/participations?page[number]=2&page[size]=2',
+        headers: {
+          authorization: generateValidRequestAuthorizationHeaderForApplication(
+            'client-id',
+            'pix-client',
+            'men-dashboard',
+          ),
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.dataset).to.have.length(1);
+      expect(response.result.dataset[0].schoolUai).to.equal('UAI_C');
+      expect(response.result.page).to.deep.equal({
+        number: 2,
+        size: 2,
+        count: 2,
+      });
+    });
+
+    it('paginates results when page param is a JSON-encoded object', async function () {
+      // given
+      datamartBuilder.factory.buildMenDashboardParticipationDataset({
+        schoolUai: 'UAI_A',
+      });
+      datamartBuilder.factory.buildMenDashboardParticipationDataset({
+        schoolUai: 'UAI_B',
+      });
+      datamartBuilder.factory.buildMenDashboardParticipationDataset({
+        schoolUai: 'UAI_C',
+      });
+      await datamartBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: '/api/men/dashboard/participations?page=%7B%22number%22%3A2%2C%22size%22%3A2%7D',
         headers: {
           authorization: generateValidRequestAuthorizationHeaderForApplication(
             'client-id',
