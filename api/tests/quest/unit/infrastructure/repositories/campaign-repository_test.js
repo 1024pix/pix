@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { Campaign } from '../../../../../src/quest/domain/models/combined-courses/entities/Campaign.js';
+import { Campaign } from '../../../../../src/quest/domain/models/combined-courses/value-objects/Campaign.js';
 import * as campaignRepository from '../../../../../src/quest/infrastructure/repositories/combined-courses/campaign-repository.js';
 import { expect } from '../../../../test-helper.js';
 

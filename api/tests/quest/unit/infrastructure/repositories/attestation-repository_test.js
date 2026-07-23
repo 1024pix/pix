@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { Attestation } from '../../../../../src/profile/domain/models/Attestation.js';
-import * as attestationRepository from '../../../../../src/quest/infrastructure/repositories/attestation-repository.js';
+import * as attestationRepository from '../../../../../src/quest/infrastructure/repositories/profile/attestation-repository.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | attestation-repository', function () {
