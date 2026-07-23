@@ -31,6 +31,7 @@ const buildCertificationCandidate = function ({
   accessibilityAdjustmentNeeded = false,
   reconciledAt = null,
   subscription = Frameworks.CORE,
+  authorizedToStartAt = null,
 } = {}) {
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -62,6 +63,7 @@ const buildCertificationCandidate = function ({
     accessibilityAdjustmentNeeded,
     reconciledAt,
     subscription,
+    authorizedToStartAt,
   };
 
   databaseBuffer.pushInsertable({
