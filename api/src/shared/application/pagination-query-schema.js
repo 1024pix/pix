@@ -12,13 +12,13 @@ const pageQuerySchema = Joi.alternatives()
       let parsedValue;
       try {
         parsedValue = JSON.parse(value);
-      } catch {
-        return helpers.error('any.invalid');
+      } catch (err) {
+        return helpers.message(`"page" must be a valid JSON string: ${err.message}`);
       }
 
       const { error, value: validatedValue } = pageObjectSchema.validate(parsedValue);
       if (error) {
-        return helpers.error('any.invalid');
+        return helpers.message(error.message);
       }
 
       return validatedValue;
