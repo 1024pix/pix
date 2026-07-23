@@ -516,7 +516,7 @@
                 "id": "8b661573-da41-43c2-ac3f-bd147e37f702",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>Un <strong>antivirus </strong>est un logiciel qui protège un appareil contre les <strong>logiciels malveillants</strong>. Il est nécessaire d’installer un antivirus sur chaque appareil pour mieux le <strong>protéger</strong>. 🛡️</li></ul><ul>    <li>Un antivirus fonctionne<strong> en permanence</strong> et surveille les fichiers et programmes de l’appareil. 👀</li></ul><ul>    <li>Un antivirus compare les fichiers et les programmes à une<strong> base de signatures</strong> recensant les logiciels malveillants connus. Si l’antivirus détecte un logiciel malveillant, il peut le <strong> bloquer ou le supprimer</strong>, puis informe l’utilisateur avec une notification. 🙅</li></ul><ul>    <li>De nouveaux logiciels malveillants sont créés tous les jours. Pour rester efficace, l’antivirus doit être <strong>mis à jour régulièrement </strong>afin d’intégrer les singatures des nouveaux logiciels malveillants recensés.⚙️</li></ul>"
+                "content": "<ul>    <li>Un <strong>antivirus </strong>est un logiciel qui protège un appareil contre les <strong>logiciels malveillants</strong>. Il est nécessaire d’installer un antivirus sur chaque appareil pour mieux le <strong>protéger</strong>. 🛡️</li></ul><ul>    <li>Un antivirus fonctionne<strong> en permanence</strong> et surveille les fichiers et programmes de l’appareil. 👀</li></ul><ul>    <li>Un antivirus compare les fichiers et les programmes à une<strong> base de signatures</strong> recensant les logiciels malveillants connus. Si l’antivirus détecte un logiciel malveillant, il peut le <strong> bloquer ou le supprimer</strong>, puis informe l’utilisateur avec une notification. 🙅</li></ul><ul>    <li>De nouveaux logiciels malveillants sont créés tous les jours. Pour rester efficace, l’antivirus doit être <strong>mis à jour régulièrement </strong>afin d’intégrer les signatures des nouveaux logiciels malveillants recensés.⚙️</li></ul>"
               }
             }
           ]
@@ -677,7 +677,7 @@
               "element": {
                 "id": "d6b082d1-43eb-46b9-b756-3633c2c0e94b",
                 "type": "qrocm",
-                "instruction": "<p>Complétez la phrase suivante au sujet de l'ojectif des mises à jour&nbsp;:</p>",
+                "instruction": "<p>Complétez la phrase suivante au sujet de l'objectif des mises à jour&nbsp;:</p>",
                 "proposals": [
                   {
                     "type": "text",
@@ -698,7 +698,8 @@
                     ],
                     "solutions": [
                       "base de signatures",
-                      "base virale"
+                      "base virale",
+                      "base de données"
                     ]
                   },
                   {
@@ -743,7 +744,7 @@
                     "id": "1",
                     "content": "<p>Installer un logiciel antivirus sur un de mes appareils qui n’en a pas encore.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Très bon premier pas ! Installer un logiciel antivirus complète efficacement la protection de vos appareils. N’oubliez pas d’installer les mises à jour pour rester à la pointe de la protection.</p>"
+                      "diagnosis": "<p>Très bon premier pas ! Installer un logiciel antivirus complète efficacement la protection de vos appareils. N’oubliez pas d’installer les mises à jour pour rester à la pointe de la protection et de bien lire les notifications de votre logiciel antivirus.</p>"
                     }
                   },
                   {
@@ -757,7 +758,7 @@
                     "id": "3",
                     "content": "<p>Mettre à jour mon logiciel antivirus.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Très bon réflexe ! Les mises à jour permettent à votre antivirus de détecter les nouveaux logiciels malveillants. Les accepter régulièrement renforce durablement la protection de vos appareils.</p>"
+                      "diagnosis": "<p>Très bon réflexe ! Les mises à jour permettent à votre antivirus de détecter les nouveaux logiciels malveillants. Les accepter régulièrement renforce durablement la protection de vos appareils. Il est aussi important de bien lire les notifications de votre logiciel antivirus avant de les fermer.</p>"
                     }
                   },
                   {
