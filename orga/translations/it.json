@@ -762,6 +762,10 @@
         "label": "Desiderate attivare la modalità di interrogazione?"
       },
       "external-id-label": {
+        "information": {
+          "label": "Identificativo aggiuntivo",
+          "message": "L'identificativo aggiuntivo ti consente di richiedere, all'inizio della campagna, a ciascun partecipante le informazioni di identificazione che preferisci.'<br>'Selezionando “sì”, potrai filtrare e ordinare i partecipanti in base a questo dato.'<br>'Selezionando “no”, nel monitoraggio della campagna saranno disponibili solo il nome e il cognome dell'account del partecipante."
+        },
         "label": "Denominazione dell'identificativo aggiuntivo",
         "question-label": "Desidera richiedere un identificativo aggiuntivo all'inizio della partecipazione?",
         "required": "Il identificativo aggiuntivo è obbligatorio",

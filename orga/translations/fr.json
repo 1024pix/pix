@@ -762,6 +762,10 @@
         "label": "Souhaitez-vous activer le mode interro ?"
       },
       "external-id-label": {
+        "information": {
+          "label": "Identifiant complémentaire",
+          "message": "L'identifiant complémentaire vous permet de demander l'information identifiante de votre choix en début de campagne, à chaque participant.'<br>'En sélectionnant \"oui\", vous pourrez filtrer et trier les participants sur cette donnée.'<br>'En sélectionnant \"non\", seuls les prénom et nom du compte du participant seront disponibles dans le suivi de la campagne."
+        },
         "label": "Libellé de l’identifiant complémentaire",
         "question-label": "Souhaitez-vous demander un identifiant complémentaire en début de participation ?",
         "required": "L'identifiant complémentaire est obligatoire",

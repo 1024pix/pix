@@ -762,6 +762,10 @@
         "label": "¿Desea activar el modo de consulta?"
       },
       "external-id-label": {
+        "information": {
+          "label": "Identificador adicional",
+          "message": "El identificador adicional te permite solicitar la información de identificación que desees al inicio de la campaña a cada participante.'<br>'Si seleccionas «sí», podrás filtrar y ordenar a los participantes según este dato.'<br>'Si seleccionas «no», solo estarán disponibles el nombre y los apellidos de la cuenta del participante en el seguimiento de la campaña."
+        },
         "label": "Denominación del identificador adicional",
         "question-label": "¿Desea solicitar un identificador adicional al inicio de su participación?",
         "required": "El identificador adicional es obligatorio",

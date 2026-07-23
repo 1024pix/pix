@@ -129,7 +129,7 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
       await fillByLabel('Nom de la campagne *', 'Ma Campagne');
 
       const externalIdentifier = screen
-        .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })
+        .getByText(t('pages.campaign-creation.external-id-label.question-label'))
         .closest('fieldset');
       const element = within(externalIdentifier).getByRole('radio', { name: 'Non' });
       await click(element);
@@ -150,7 +150,7 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
       await clickByName('Collecter les profils Pix des participants');
       await fillByLabel('Nom de la campagne *', 'Ma Campagne');
       const externalIdentifier = screen
-        .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })
+        .getByText(t('pages.campaign-creation.external-id-label.question-label'))
         .closest('fieldset');
       const element = within(externalIdentifier).getByRole('radio', { name: 'Non' });
       await click(element);
@@ -256,7 +256,7 @@ module('Acceptance | Campaign Creation (catalogue)', function (hooks) {
 
       await fillByLabel('Nom de la campagne *', 'Ma Campagne');
       const externalIdentifier = screen
-        .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })
+        .getByText(t('pages.campaign-creation.external-id-label.question-label'))
         .closest('fieldset');
       const element = within(externalIdentifier).getByRole('radio', { name: 'Non' });
       await click(element);

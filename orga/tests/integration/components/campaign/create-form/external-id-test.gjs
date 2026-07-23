@@ -48,6 +48,20 @@ module('Integration | Component | Campaign::CreateForm::ExternalId', function (h
     assert.dom(element).isChecked();
   });
 
+  test('it display explanation information', async function (assert) {
+    // when
+    const screen = await render(
+      <template><ExternalId @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
+    );
+
+    // then
+    assert.dom(screen.getByText(t('pages.campaign-creation.external-id-label.information.label'))).exists();
+    const informationMessageParts = t('pages.campaign-creation.external-id-label.information.message').split('<br>');
+    for (const part of informationMessageParts) {
+      assert.dom(screen.getByText(part, { exact: false })).exists();
+    }
+  });
+
   test('it not displays external id type nor gdpr footnote by default', async function (assert) {
     // when
     const screen = await render(

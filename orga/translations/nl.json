@@ -762,6 +762,10 @@
         "label": "Wil je de vraagmodus activeren?"
       },
       "external-id-label": {
+        "information": {
+          "label": "Aanvullende identificatie",
+          "message": "Met het aanvullende identificatie kunt u aan het begin van de campagne van elke deelnemer de identificatiegegevens opvragen die u wenst.'<br>'Als u “ja” selecteert, kunt u de deelnemers op basis van deze gegevens filteren en sorteren.'<br>'Als u “nee” selecteert, zijn alleen de voor- en achternaam van het account van de deelnemer beschikbaar in de campagne-analyse."
+        },
         "label": "Tekst van de aanvullende identificatie",
         "question-label": "Wilt u bij aanvang van uw deelname een extra identificatie aanvragen?",
         "required": "De aanvullende identificatie is verplicht",

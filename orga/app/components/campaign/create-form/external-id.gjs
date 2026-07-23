@@ -9,6 +9,7 @@ import { eq, not } from 'ember-truth-helpers';
 import { ID_PIX_TYPES } from 'pix-orga/helpers/id-pix-types.js';
 
 import displayCampaignErrors from '../../../helpers/display-campaign-errors';
+import ExplanationCard from '../../ui/explanation-card';
 import FormField from '../../ui/form-field';
 import PixFieldset from '../../ui/pix-fieldset';
 
@@ -45,27 +46,36 @@ export default class ExternalId extends Component {
 
   <template>
     <FormField>
-      <PixFieldset aria-labelledby="external-ids-label" role="radiogroup">
-        <:title>{{t "pages.campaign-creation.external-id-label.question-label"}}</:title>
-        <:content>
-          <PixRadioButton
-            name="external-id-label"
-            @value="false"
-            {{on "change" this.doNotAskLabelIdPix}}
-            checked={{not this.isExternalIdSelectedChecked}}
-          >
-            <:label>{{t "pages.campaign-creation.no"}}</:label>
-          </PixRadioButton>
-          <PixRadioButton
-            name="external-id-label"
-            @value="true"
-            {{on "change" this.askLabelIdPix}}
-            checked={{this.isExternalIdSelectedChecked}}
-          >
-            <:label>{{t "pages.campaign-creation.yes"}}</:label>
-          </PixRadioButton>
-        </:content>
-      </PixFieldset>
+      <:default>
+        <PixFieldset aria-labelledby="external-ids-label" role="radiogroup">
+          <:title>{{t "pages.campaign-creation.external-id-label.question-label"}}</:title>
+          <:content>
+            <PixRadioButton
+              name="external-id-label"
+              @value="false"
+              {{on "change" this.doNotAskLabelIdPix}}
+              checked={{not this.isExternalIdSelectedChecked}}
+            >
+              <:label>{{t "pages.campaign-creation.no"}}</:label>
+            </PixRadioButton>
+            <PixRadioButton
+              name="external-id-label"
+              @value="true"
+              {{on "change" this.askLabelIdPix}}
+              checked={{this.isExternalIdSelectedChecked}}
+            >
+              <:label>{{t "pages.campaign-creation.yes"}}</:label>
+            </PixRadioButton>
+          </:content>
+        </PixFieldset>
+      </:default>
+      <:information>
+        <ExplanationCard id="external-ids-label-info">
+          <:title>{{t "pages.campaign-creation.external-id-label.information.label"}}</:title>
+
+          <:message>{{t "pages.campaign-creation.external-id-label.information.message" htmlSafe=true}}</:message>
+        </ExplanationCard>
+      </:information>
     </FormField>
 
     {{#if this.wantIdPix}}

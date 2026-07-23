@@ -762,6 +762,10 @@
         "label": "Do you want to enable exam mode?"
       },
       "external-id-label": {
+        "information": {
+          "label": "Additional identifier",
+          "message": "The additional identifier allows you to request the identification details of your choice from each participant at the start of the campaign.'<br>'If you select ‘yes’, you will be able to filter and sort participants based on this data.'<br>'If you select ‘no’, only the participant’s first name and surname will be available in the campaign tracking."
+        },
         "label": "Additional identifier label",
         "question-label": "Would you like to request an additional identifier at the start of the test ?",
         "required": "The additional user ID label is mandatory.",
