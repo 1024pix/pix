@@ -1,5 +1,22 @@
 # Pix Changelog
 
+# [5.462.0](https://github.com/1024pix/pix/compare/v5.461.0...v5.462.0) (2026-07-23)
+
+### :rocket: Amélioration
+
+- [#16807](https://github.com/1024pix/pix/pull/16807) Ajout d'une API de mise à disposition des statistiques de certifications pour le TDB-NUM du MEN (PIX-23448)
+- [#16823](https://github.com/1024pix/pix/pull/16823) Duplicate module IAGenPrompt_IND
+- [#16899](https://github.com/1024pix/pix/pull/16899) Ordonner les blueprints par id desc dans "Schémas de parcours" sur PixAdmin (PIX-21250)
+- [#16920](https://github.com/1024pix/pix/pull/16920) relectures panels antivirus ind
+- [#16898](https://github.com/1024pix/pix/pull/16898) Réplication des tables du dashboard du MEN dans le Datamart (PIX-23444)
+- [#16904](https://github.com/1024pix/pix/pull/16904) Revoir les questions pour avoir "recommandations" + ajouter consigne fonctionnelle (PIX-23622)
+- [#16910](https://github.com/1024pix/pix/pull/16910) Stocker le mot de passe d'un utilisateur révoqué par script (PIX-23481)
+- [#16913](https://github.com/1024pix/pix/pull/16913) Supprimer la limite de saisie d'heures (PIX-23623)
+
+### :building_construction: Tech
+
+- [#16902](https://github.com/1024pix/pix/pull/16902) Augmenter la sécurité en rendant plus large le motif de nom de fichiers .env à ignorer
+
 # [5.461.0](https://github.com/1024pix/pix/compare/v5.460.0...v5.461.0) (2026-07-22)
 
 ### :rocket: Amélioration
