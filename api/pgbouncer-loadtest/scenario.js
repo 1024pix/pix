@@ -56,12 +56,14 @@ const rampScenario = {
     // maxVUs is set well above that: running out shows up as dropped_iterations, which
     // masquerades as an API limit when it is really a load-generator limit.
     preAllocatedVUs: 200,
-    maxVUs: 2000,
+    maxVUs: 4000,
     stages: [
       { target: 2, duration: '1m' },
       { target: 5, duration: '2m' },
       { target: 10, duration: '2m' },
       { target: 20, duration: '2m' },
+      { target: 40, duration: '2m' },
+      { target: 80, duration: '2m' },
       { target: 0, duration: '30s' },
     ],
   },
