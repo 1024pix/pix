@@ -32,30 +32,32 @@ const register = async function (server) {
           failAction: 'log',
           status: {
             200: Joi.object({
-              dataset: Joi.array().items(
-                Joi.object({
-                  schoolUai: Joi.string().description("UAI de l'établissement"),
-                  schoolYear: Joi.number().description('Année scolaire concernée par les données'),
-                  academieName: Joi.string().description("Nom de l'académie de l'établissement"),
-                  schoolName: Joi.string().description("Nom de l'établissement"),
-                  provinceCode: Joi.string().description("Numéro du département de l'établissement sur 3 caractères"),
-                  schoolYearGroup: Joi.string().description('Niveau scolaire'),
-                  validatedCertificationCount: Joi.number().description(
-                    'Nombre de certification obtenues (i.e. réussies)',
-                  ),
-                  certificationCount: Joi.number().description(
-                    'Nombre total de certifications (réussies, échouées, abandonnées...)',
-                  ),
-                  averagePixScore: Joi.number().description(
-                    "Moyenne des scores en 'Pix' réalisés sur les certifications obtenues pour une compétence donnée",
-                  ),
-                  competenceCode: Joi.string().description('Code de la compétence'),
-                  avgCompetenceLevel: Joi.number().description(
-                    'Moyenne des niveaux atteints sur les certifications obtenues pour une compétence donnée',
-                  ),
-                  updatedAt: Joi.date().description('Date de dernière mise à jour des données.'),
-                }).label('MenDashboardCertificationRow'),
-              ),
+              dataset: Joi.array()
+                .items(
+                  Joi.object({
+                    schoolUai: Joi.string().description("UAI de l'établissement"),
+                    schoolYear: Joi.number().description('Année scolaire concernée par les données'),
+                    academieName: Joi.string().description("Nom de l'académie de l'établissement"),
+                    schoolName: Joi.string().description("Nom de l'établissement"),
+                    provinceCode: Joi.string().description("Numéro du département de l'établissement sur 3 caractères"),
+                    schoolYearGroup: Joi.string().description('Niveau scolaire'),
+                    validatedCertificationCount: Joi.number().description(
+                      'Nombre de certification obtenues (i.e. réussies)',
+                    ),
+                    certificationCount: Joi.number().description(
+                      'Nombre total de certifications (réussies, échouées, abandonnées...)',
+                    ),
+                    averagePixScore: Joi.number().description(
+                      "Moyenne des scores en 'Pix' réalisés sur les certifications obtenues pour une compétence donnée",
+                    ),
+                    competenceCode: Joi.string().description('Code de la compétence'),
+                    avgCompetenceLevel: Joi.number().description(
+                      'Moyenne des niveaux atteints sur les certifications obtenues pour une compétence donnée',
+                    ),
+                    updatedAt: Joi.date().description('Date de dernière mise à jour des données.'),
+                  }).label('MENDashboardCertificationRow'),
+                )
+                .label('MENDashboardCertificationDataset'),
               page: Joi.object({
                 number: Joi.number().description('Numéro de la page courante'),
                 size: Joi.number().description('Taille de la page courante'),
@@ -63,7 +65,7 @@ const register = async function (server) {
               })
                 .description('Information de pagination')
                 .label('page'),
-            }).label('MenDashboardCertificationDataset'),
+            }).label('MENDashboardCertificationResponse'),
             401: responseObjectErrorDoc,
             403: responseObjectErrorDoc,
           },
@@ -93,35 +95,39 @@ const register = async function (server) {
           failAction: 'log',
           status: {
             200: Joi.object({
-              dataset: Joi.array().items(
-                Joi.object({
-                  schoolUai: Joi.string().description("UAI de l'établissement"),
-                  schoolYear: Joi.number().description('Année scolaire concernée par les données'),
-                  academieName: Joi.string().description("Nom de l'académie de l'établissement"),
-                  schoolName: Joi.string().description("Nom de l'établissement"),
-                  provinceCode: Joi.string().description("Numéro du département de l'établissement sur 3 caractères"),
-                  schoolYearGroup: Joi.string().description('Niveau scolaire'),
-                  competenceCode: Joi.string().description('Code de la compétence'),
-                  competenceName: Joi.string().description('Nom de la compétence'),
-                  participantCount: Joi.number().description('Nombre de participants'),
-                  standardDeviation: Joi.number().description('Écart-type des niveaux atteints'),
-                  firstDecileLevel: Joi.number().description('Premier décile des niveaux atteints'),
-                  firstQuartileLevel: Joi.number().description('Premier quartile des niveaux atteints'),
-                  medianLevel: Joi.number().description('Niveau médian atteint'),
-                  thirdQuartileLevel: Joi.number().description('Troisième quartile des niveaux atteints'),
-                  ninthDecileLevel: Joi.number().description('Neuvième décile des niveaux atteints'),
-                  averageMaxLevelReached: Joi.number().description('Moyenne des niveaux maximum atteints'),
-                  averageMaxLevelReachable: Joi.number().description('Moyenne des niveaux maximum atteignables'),
-                  coverage: Joi.number().description('Taux de couverture'),
-                  updatedAt: Joi.date().description('Date de dernière mise à jour des données.'),
-                }),
-              ),
+              dataset: Joi.array()
+                .items(
+                  Joi.object({
+                    schoolUai: Joi.string().description("UAI de l'établissement"),
+                    schoolYear: Joi.number().description('Année scolaire concernée par les données'),
+                    academieName: Joi.string().description("Nom de l'académie de l'établissement"),
+                    schoolName: Joi.string().description("Nom de l'établissement"),
+                    provinceCode: Joi.string().description("Numéro du département de l'établissement sur 3 caractères"),
+                    schoolYearGroup: Joi.string().description('Niveau scolaire'),
+                    competenceCode: Joi.string().description('Code de la compétence'),
+                    competenceName: Joi.string().description('Nom de la compétence'),
+                    participantCount: Joi.number().description('Nombre de participants'),
+                    standardDeviation: Joi.number().description('Écart-type des niveaux atteints'),
+                    firstDecileLevel: Joi.number().description('Premier décile des niveaux atteints'),
+                    firstQuartileLevel: Joi.number().description('Premier quartile des niveaux atteints'),
+                    medianLevel: Joi.number().description('Niveau médian atteint'),
+                    thirdQuartileLevel: Joi.number().description('Troisième quartile des niveaux atteints'),
+                    ninthDecileLevel: Joi.number().description('Neuvième décile des niveaux atteints'),
+                    averageMaxLevelReached: Joi.number().description('Moyenne des niveaux maximum atteints'),
+                    averageMaxLevelReachable: Joi.number().description('Moyenne des niveaux maximum atteignables'),
+                    coverage: Joi.number().description('Taux de couverture'),
+                    updatedAt: Joi.date().description('Date de dernière mise à jour des données.'),
+                  }).label('MENDashboardParticipationRow'),
+                )
+                .label('MENDashboardParticipationDataset'),
               page: Joi.object({
                 number: Joi.number().description('Numéro de la page courante'),
                 size: Joi.number().description('Taille de la page courante'),
                 count: Joi.number().description('Nombre total de pages'),
-              }).description('Information de pagination'),
-            }).label('MENDashboardParticipationDataset'),
+              })
+                .description('Information de pagination')
+                .label('page'),
+            }).label('MENDashboardParticipationResponse'),
             401: responseObjectErrorDoc,
             403: responseObjectErrorDoc,
           },
