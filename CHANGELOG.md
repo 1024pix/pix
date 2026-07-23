@@ -1,5 +1,17 @@
 # Pix Changelog
 
+# [5.463.0](https://github.com/1024pix/pix/compare/v5.462.0...v5.463.0) (2026-07-23)
+
+### :rocket: Amélioration
+
+- [#16914](https://github.com/1024pix/pix/pull/16914) Ajout d'une API de mise à disposition des statistiques de participations au parcours de rentrée pour le TDB-NUM du MEN (PIX-23449)
+- [#16901](https://github.com/1024pix/pix/pull/16901) Ajouter la sélection de lignes dans les listes de sessions sur PixAdmin (PIX-23429).
+- [#16843](https://github.com/1024pix/pix/pull/16843) Update IAGenImpact_AVA.json - Retours
+
+### :building_construction: Tech
+
+- [#16921](https://github.com/1024pix/pix/pull/16921) Ranger les repos sur le modèle de l'organisation de notre domaine
+
 # [5.462.0](https://github.com/1024pix/pix/compare/v5.461.0...v5.462.0) (2026-07-23)
 
 ### :rocket: Amélioration
