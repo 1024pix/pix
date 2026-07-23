@@ -37,7 +37,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-a
       .where({ id: authenticationMethod.id })
       .first();
     expect(updatedAuthenticationMethod.authenticationComplement.password).to.equal('[revoked]');
-    expect(updatedAuthenticationMethod.authenticationComplement.revokedEncryptedPassword).to.equal('hashed-password');
+    expect(updatedAuthenticationMethod.authenticationComplement.revokedHashedPassword).to.equal('hashed-password');
   });
 
   context('when a user does not have a Pix Authentication method and refresh token', function () {
