@@ -13,26 +13,29 @@ module('Integration | Component | certification-frameworks/list', function (hook
     const certificationFrameworks = [
       store.createRecord('certification-framework', {
         id: 'CORE',
-        name: 'Pix',
-        activeVersionStartDate: new Date('2024-01-01'),
+        scope: 'CORE',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 1,
+            startDate: new Date('2024-01-01'),
+          }),
+        ],
       }),
       store.createRecord('certification-framework', {
         id: 'DROIT',
-        name: 'Pix+Droit',
-        activeVersionStartDate: null,
+        scope: 'DROIT',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 2,
+            startDate: new Date('2024-01-01'),
+            expirationDate: new Date('2024-02-02'),
+          }),
+        ],
       }),
     ];
-    const complementaryCertifications = [];
 
     // when
-    const screen = await render(
-      <template>
-        <List
-          @certificationFrameworks={{certificationFrameworks}}
-          @complementaryCertifications={{complementaryCertifications}}
-        />
-      </template>,
-    );
+    const screen = await render(<template><List @certificationFrameworks={{certificationFrameworks}} /></template>);
 
     // then
     const table = screen.getByRole('table', { name: t('components.certification-frameworks.list.caption') });
@@ -57,21 +60,19 @@ module('Integration | Component | certification-frameworks/list', function (hook
     const certificationFrameworks = [
       store.createRecord('certification-framework', {
         id: 'DROIT',
-        name: 'Pix+Droit',
-        activeVersionStartDate: null,
+        scope: 'DROIT',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 2,
+            startDate: new Date('2024-01-01'),
+            expirationDate: new Date('2024-02-02'),
+          }),
+        ],
       }),
     ];
-    const complementaryCertifications = [];
 
     // when
-    const screen = await render(
-      <template>
-        <List
-          @certificationFrameworks={{certificationFrameworks}}
-          @complementaryCertifications={{complementaryCertifications}}
-        />
-      </template>,
-    );
+    const screen = await render(<template><List @certificationFrameworks={{certificationFrameworks}} /></template>);
 
     // then
     assert.dom(screen.getByText('-')).exists();
@@ -83,25 +84,12 @@ module('Integration | Component | certification-frameworks/list', function (hook
     const certificationFrameworks = [
       store.createRecord('certification-framework', {
         id: 'DROIT',
-        name: 'Pix+Droit',
-      }),
-    ];
-    const complementaryCertifications = [
-      store.createRecord('complementary-certification', {
-        id: '123',
-        key: 'DROIT',
+        scope: 'DROIT',
       }),
     ];
 
     // when
-    const screen = await render(
-      <template>
-        <List
-          @certificationFrameworks={{certificationFrameworks}}
-          @complementaryCertifications={{complementaryCertifications}}
-        />
-      </template>,
-    );
+    const screen = await render(<template><List @certificationFrameworks={{certificationFrameworks}} /></template>);
 
     // then
     const link = screen.getByRole('link', { name: t('components.certification-frameworks.labels.DROIT') });

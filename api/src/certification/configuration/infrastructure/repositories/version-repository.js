@@ -7,7 +7,6 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { Version } from '../../domain/models/Version.js';
-import { FrameworkHistoryEntry } from '../../domain/read-models/FrameworkHistoryEntry.js';
 
 /**
  * @returns {Promise<Version[]>}
@@ -83,22 +82,6 @@ export async function save(version) {
   return id;
 }
 
-/**
- * @param {object} params
- * @param {SCOPES} params.scope
- * @returns {Promise<Array<FrameworkHistoryEntry>>}
- */
-export async function getFrameworkHistory({ scope }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  const rows = await knexConn('certification_versions')
-    .select('id', 'startDate', 'expirationDate', 'assessmentDuration', 'challengesConfiguration', 'status')
-    .where({ scope })
-    .orderBy('startDate', 'desc');
-
-  return rows.map(_toFrameworkHistoryEntry);
-}
-
 export async function remove(id) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('certification_versions_tubes').where({ version_id: id }).delete();
@@ -109,24 +92,6 @@ export async function updateComments({ id, comments }) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('certification_versions').where({ id }).update({
     comments,
-  });
-}
-
-function _toFrameworkHistoryEntry({
-  id,
-  startDate,
-  expirationDate,
-  assessmentDuration,
-  challengesConfiguration,
-  status,
-}) {
-  return new FrameworkHistoryEntry({
-    id,
-    startDate,
-    expirationDate,
-    assessmentDuration,
-    maximumAssessmentLength: challengesConfiguration.maximumAssessmentLength,
-    status,
   });
 }
 

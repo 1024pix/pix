@@ -36,9 +36,9 @@ async function updateComments(request, h) {
 }
 
 async function deleteCertificationVersion(request, h) {
-  const certificationVersionId = request.params.certificationVersionId;
+  const id = request.params.certificationVersionId;
 
-  await usecases.deleteCertificationVersion({ certificationVersionId });
+  await usecases.deleteVersion({ id });
 
   return h.response().code(204);
 }

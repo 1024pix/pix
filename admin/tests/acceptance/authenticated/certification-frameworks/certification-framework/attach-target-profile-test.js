@@ -15,12 +15,7 @@ module('Acceptance | Complementary certifications | certification-framework | at
         test('should display complementary certification and current target profile name', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
-          server.create('framework-history', {
-            id: 'CLEA',
-            history: [],
-          });
-          server.create('complementary-certification', {
+          const complementaryCertification = server.create('complementary-certification', {
             id: 1,
             key: 'CLEA',
             label: 'MARIANNE CERTIF',
@@ -30,6 +25,7 @@ module('Acceptance | Complementary certifications | certification-framework | at
             id: 3,
             name: 'ALEX TARGET',
           });
+          server.create('certification-framework', { id: 'CLEA', complementaryCertification });
           const screen = await visit('/certification-frameworks/CLEA/target-profile/3');
 
           // then
@@ -47,12 +43,7 @@ module('Acceptance | Complementary certifications | certification-framework | at
           test('it should redirect to target profile details page', async function (assert) {
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-            server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
-            server.create('framework-history', {
-              id: 'CLEA',
-              history: [],
-            });
-            server.create('complementary-certification', {
+            const complementaryCertification = server.create('complementary-certification', {
               id: 1,
               key: 'CLEA',
               label: 'MARIANNE CERTIF',
@@ -62,6 +53,7 @@ module('Acceptance | Complementary certifications | certification-framework | at
               id: 3,
               name: 'ALEX TARGET',
             });
+            server.create('certification-framework', { id: 'CLEA', complementaryCertification });
             const screen = await visit('/certification-frameworks/CLEA/target-profile/3');
 
             const currentTargetProfileLinks = screen.getAllByRole('link', { name: 'ALEX TARGET' });
@@ -79,17 +71,13 @@ module('Acceptance | Complementary certifications | certification-framework | at
         test('should not display current target profile name', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
-          server.create('framework-history', {
-            id: 'CLEA',
-            history: [],
-          });
-          server.create('complementary-certification', {
+          const complementaryCertification = server.create('complementary-certification', {
             id: 1,
             key: 'CLEA',
             label: 'MARIANNE CERTIF',
             targetProfilesHistory: [],
           });
+          server.create('certification-framework', { id: 'CLEA', complementaryCertification });
           const screen = await visit('/certification-frameworks/CLEA/target-profile/-1');
 
           // then
@@ -108,12 +96,7 @@ module('Acceptance | Complementary certifications | certification-framework | at
         test('it should display the link of the selected target profile with a change button', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
-          server.create('framework-history', {
-            id: 'CLEA',
-            history: [],
-          });
-          server.create('complementary-certification', {
+          const complementaryCertification = server.create('complementary-certification', {
             id: 1,
             key: 'CLEA',
             label: 'MARIANNE CERTIF',
@@ -128,6 +111,8 @@ module('Acceptance | Complementary certifications | certification-framework | at
             name: 'ALEX TARGET',
             badges: [],
           });
+          server.create('certification-framework', { id: 'CLEA', complementaryCertification });
+
           const screen = await visit('/certification-frameworks/CLEA/target-profile/3');
           const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
           await fillIn(input, '3');
@@ -147,17 +132,13 @@ module('Acceptance | Complementary certifications | certification-framework | at
           test('it should display Notify organisations checkbox', async function (assert) {
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-            server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
-            server.create('framework-history', {
-              id: 'CLEA',
-              history: [],
-            });
-            server.create('complementary-certification', {
+            const complementaryCertification = server.create('complementary-certification', {
               id: 1,
               key: 'CLEA',
               label: 'MARIANNE CERTIF',
               targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: new Date('2023-10-10T10:50:00Z') }],
             });
+            server.create('certification-framework', { id: 'CLEA', complementaryCertification });
             server.create('attachable-target-profile', {
               id: 5,
               name: 'ALEX TARGET',
@@ -196,17 +177,13 @@ module('Acceptance | Complementary certifications | certification-framework | at
           test('it should not display Notify organisations checkbox', async function (assert) {
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-            server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
-            server.create('framework-history', {
-              id: 'CLEA',
-              history: [],
-            });
-            server.create('complementary-certification', {
+            const complementaryCertification = server.create('complementary-certification', {
               id: 1,
               key: 'CLEA',
               label: 'MARIANNE CERTIF',
               targetProfilesHistory: [],
             });
+            server.create('certification-framework', { id: 'CLEA', complementaryCertification });
             server.create('attachable-target-profile', {
               id: 5,
               name: 'ALEX TARGET',
@@ -246,18 +223,14 @@ module('Acceptance | Complementary certifications | certification-framework | at
         test('it should save the new attached target profile and redirect to complementary certification details', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
-          server.create('framework-history', {
-            id: 'CLEA',
-            history: [],
-          });
-          server.create('complementary-certification', {
+          const complementaryCertification = server.create('complementary-certification', {
             id: 1,
             key: 'CLEA',
             hasExternalJury: true,
             label: 'MARIANNE CERTIF',
             targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: new Date('2023-10-10T10:50:00Z') }],
           });
+          server.create('certification-framework', { id: 'CLEA', complementaryCertification });
           server.create('attachable-target-profile', {
             id: 5,
             name: 'ALEX TARGET',
@@ -327,18 +300,15 @@ module('Acceptance | Complementary certifications | certification-framework | at
         test('it should save the level to 1 by default', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
-          server.create('framework-history', {
-            id: 'CLEA',
-            history: [],
-          });
-          server.create('complementary-certification', {
+          const complementaryCertification = server.create('complementary-certification', {
             id: 1,
             key: 'CLEA',
             hasExternalJury: true,
             label: 'MARIANNE CERTIF',
             targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: new Date('2023-10-10T10:50:00Z') }],
           });
+          server.create('certification-framework', { id: 'CLEA', complementaryCertification });
+
           server.create('attachable-target-profile', {
             id: 5,
             name: 'ALEX TARGET',
@@ -398,17 +368,13 @@ module('Acceptance | Complementary certifications | certification-framework | at
       test('it should not allow user to create or update target profile attachment', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ [role]: hasAccess })(server);
-        server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
-        server.create('framework-history', {
-          id: 'CLEA',
-          history: [],
-        });
-        server.create('complementary-certification', {
+        const complementaryCertification = server.create('complementary-certification', {
           id: 1,
           key: 'CLEA',
           label: 'MARIANNE CERTIF',
           targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: new Date('2023-10-10T10:50:00Z') }],
         });
+        server.create('certification-framework', { id: 'CLEA', complementaryCertification });
         server.create('target-profile', {
           id: 3,
           name: 'ALEX TARGET',

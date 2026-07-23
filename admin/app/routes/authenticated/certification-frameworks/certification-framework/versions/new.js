@@ -16,12 +16,14 @@ export default class FrameworkNewRoute extends Route {
 
   async model() {
     const frameworks = await this.store.findAll('framework');
-    const item = await this.modelFor('authenticated.certification-frameworks.certification-framework.versions');
+    const { certificationFramework, activeVersion } = await this.modelFor(
+      'authenticated.certification-frameworks.certification-framework.versions',
+    );
 
     return RSVP.hash({
       frameworks,
-      scope: item.frameworkKey,
-      activeVersion: item.activeVersion,
+      scope: certificationFramework.scope,
+      activeVersion,
     });
   }
 }

@@ -11,7 +11,6 @@ import * as certificationCpfCityRepository from './certification-cpf-city-reposi
 import * as certificationCpfCountryRepository from './certification-cpf-country-repository.js';
 import * as complementaryCertificationBadgeWithOffsetVersionRepository from './complementary-certification-badge-with-offset-version-repository.js';
 import * as complementaryCertificationCourseRepository from './complementary-certification-course-repository.js';
-import * as complementaryCertificationRepository from './complementary-certification-repository.js';
 import * as sessionForAttendanceSheetRepository from './session-for-attendance-sheet-repository.js';
 import * as sessionRepository from './session-repository.js';
 
@@ -20,7 +19,6 @@ import * as sessionRepository from './session-repository.js';
  *
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {centerRepository} CenterRepository
- * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {sessionRepository} SessionRepository
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
@@ -39,7 +37,6 @@ const repositoriesWithoutInjectedDependencies = {
   certificationCenterRepository,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
-  complementaryCertificationRepository,
   dataProtectionOfficerRepository,
   sessionForAttendanceSheetRepository,
   sessionManagementRepository,

@@ -264,6 +264,10 @@ export class CommonCertificationVersions {
    * @returns {Promise<number>}
    */
   static async #createExpiredCoreVersion({ databaseBuilder }) {
+    const challengeIds = await this.#getChallengeIdsByFramework({
+      databaseBuilder,
+      frameworkName: 'Pix',
+    });
     const expiredVersion = await createVersion({
       databaseBuilder,
       status: VERSION_STATUSES.ARCHIVED,
@@ -273,7 +277,7 @@ export class CommonCertificationVersions {
       globalScoringConfiguration: [{ bounds: { max: 8, min: 1 }, meshLevel: 0 }],
       competencesScoringConfiguration: null,
     });
-    await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds: [], versionId: expiredVersion.id });
+    await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: expiredVersion.id });
 
     await databaseBuilder.commit();
 

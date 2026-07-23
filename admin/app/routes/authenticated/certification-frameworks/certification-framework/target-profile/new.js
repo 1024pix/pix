@@ -11,13 +11,14 @@ export default class AttachTargetProfileNewRoute extends Route {
     );
   }
 
-  model(_) {
-    const { currentComplementaryCertification } = this.modelFor(
+  async model(_) {
+    const certificationFramework = this.modelFor(
       'authenticated.certification-frameworks.certification-framework.target-profile',
     );
 
+    const complementaryCertification = await certificationFramework.belongsTo('complementaryCertification').load();
     return {
-      complementaryCertification: currentComplementaryCertification,
+      complementaryCertification,
       currentTargetProfile: null,
     };
   }

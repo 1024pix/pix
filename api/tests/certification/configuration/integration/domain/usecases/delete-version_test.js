@@ -6,7 +6,7 @@ import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Certification | Configuration | Integration | Domain | UseCase | delete-certification-version', function () {
+describe('Certification | Configuration | Integration | Domain | UseCase | delete-version', function () {
   it('should throw CertificationVersionForbiddenDeletionError when version cannot be removed', async function () {
     // given
     const certificationVersion = domainBuilder.certification.configuration
@@ -18,8 +18,8 @@ describe('Certification | Configuration | Integration | Domain | UseCase | delet
     await databaseBuilder.commit();
 
     // when
-    const error = await catchErr(usecases.deleteCertificationVersion)({
-      certificationVersionId: certificationVersion.id,
+    const error = await catchErr(usecases.deleteVersion)({
+      id: certificationVersion.id,
     });
     // then
     expect(error).to.be.instanceOf(CertificationVersionForbiddenDeletionError);
@@ -34,7 +34,7 @@ describe('Certification | Configuration | Integration | Domain | UseCase | delet
     await databaseBuilder.commit();
 
     // when
-    await usecases.deleteCertificationVersion({ certificationVersionId: certificationVersion.id });
+    await usecases.deleteVersion({ id: certificationVersion.id });
 
     // then
     const matchingCertificationVersions = await knex

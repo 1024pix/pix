@@ -98,7 +98,7 @@ export default function routes() {
     const requestBody = JSON.parse(request.requestBody);
     const role = requestBody.data.attributes.role;
     const id = request.params.id;
-    const adminMember = schema.adminMembers.findBy({ id });
+    const adminMember = schema.adminMembers.find(id);
     return adminMember.update({ role });
   });
 
@@ -119,19 +119,17 @@ export default function routes() {
   });
 
   this.delete('/admin/certification-versions/:id', (schema, request) => {
-    const certificationVersions = schema.certificationVersions.all();
-    const certificationVersionToDelete = certificationVersions.filter((version) => version.id === request.params.id);
-    certificationVersionToDelete.destroy();
-
-    const frameworkHistory = schema.frameworkHistories.first();
-
-    frameworkHistory.update({
-      history: frameworkHistory.attrs.history.filter((version) => version.id !== Number(request.params.id)),
-    });
+    schema.certificationVersions.find(request.params.id).destroy();
+    schema.certificationVersionSummaries.find(request.params.id).destroy();
   });
 
   this.get('/admin/certification-frameworks', (schema) => {
     return schema.certificationFrameworks.all();
+  });
+
+  this.get('/admin/certification-frameworks/:id', (schema, request) => {
+    const id = request.params.id;
+    return schema.certificationFrameworks.find(id);
   });
 
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
@@ -139,13 +137,13 @@ export default function routes() {
   this.get('/admin/sessions/with-required-action', getWithRequiredActionSessions);
   this.patch('/admin/sessions/:id/publish', (schema, request) => {
     const sessionId = request.params.id;
-    const session = schema.sessions.findBy({ id: sessionId });
+    const session = schema.sessions.find(sessionId);
     session.update({ publishedAt: new Date() });
     return new Response(204);
   });
   this.patch('/admin/sessions/:id/unpublish', (schema, request) => {
     const sessionId = request.params.id;
-    const session = schema.sessions.findBy({ id: sessionId });
+    const session = schema.sessions.find(sessionId);
     session.update({ publishedAt: null });
     return new Response(204);
   });
@@ -161,7 +159,7 @@ export default function routes() {
   });
   this.patch('/admin/sessions/:id/unfinalize', (schema, request) => {
     const sessionId = request.params.id;
-    const session = schema.sessions.findBy({ id: sessionId });
+    const session = schema.sessions.find(sessionId);
     session.update({ finalizedAt: null, assignedCertificationOfficerId: null });
     return new Response(204);
   });
@@ -171,7 +169,7 @@ export default function routes() {
   this.patch('/admin/sessions/:id/certification-officer-assignment', (schema, request) => {
     const userId = _parseUserIdFromJWT(request);
     const sessionId = request.params.id;
-    const session = schema.sessions.findBy({ id: sessionId });
+    const session = schema.sessions.find(sessionId);
     return session.update({ assignedCertificationOfficerId: userId });
   });
 
@@ -208,8 +206,8 @@ export default function routes() {
   });
   this.put('/admin/users/:id/unblock', (schema, request) => {
     const userId = request.params.id;
-    const user = schema.users.findBy({ id: userId });
-    const userLogin = schema.userLogins.findBy({ id: user.userLoginId });
+    const user = schema.users.find(userId);
+    const userLogin = schema.userLogins.find(user.userLoginId);
     return userLogin.update({
       blockedAt: null,
       temporaryBlockedUntil: null,
@@ -219,13 +217,13 @@ export default function routes() {
 
   this.post('/admin/certification-centers/:id/archive', (schema, request) => {
     const certificationCenterId = request.params.id;
-    const certificationCenter = schema.certificationCenters.findBy({ id: certificationCenterId });
+    const certificationCenter = schema.certificationCenters.find(certificationCenterId);
     return certificationCenter.update({ archivedAt: new Date('2025-01-01'), archivistFullName: 'John Doe' });
   });
 
   this.post('/admin/users/:id/anonymize', (schema, request) => {
     const userId = request.params.id;
-    const user = schema.users.findBy({ id: userId });
+    const user = schema.users.find(userId);
     return user.update({
       firstName: '(anonymised)',
       lastName: '(anonymised)',
@@ -243,7 +241,7 @@ export default function routes() {
       const authenticationMethod = schema.authenticationMethods.findBy({ identityProvider: 'PIX' });
       authenticationMethod.destroy();
 
-      const user = schema.users.findBy({ id: userId });
+      const user = schema.users.find(userId);
       user.update({ email: null });
     }
 
@@ -270,7 +268,7 @@ export default function routes() {
       );
     }
 
-    const user = schema.users.findBy({ id: userId });
+    const user = schema.users.find(userId);
     const newAuthenticationMethod = schema.create('authentication-method', { identityProvider: 'PIX' });
     const authenticationMethods = [...user.authenticationMethods.models, newAuthenticationMethod];
     user.update({ email: email });
@@ -280,7 +278,7 @@ export default function routes() {
   });
   this.post('/admin/users/:userId/authentication-methods/:authenticationMethodId', (schema, request) => {
     const authenticationMethodId = request.params.authenticationMethodId;
-    const authenticationMethod = schema.authenticationMethods.findBy({ id: authenticationMethodId });
+    const authenticationMethod = schema.authenticationMethods.find(authenticationMethodId);
     authenticationMethod.destroy();
     return new Response(204);
   });
@@ -304,7 +302,7 @@ export default function routes() {
     const certificationCenterId = request.params.id;
     const params = JSON.parse(request.requestBody);
     const { email } = params;
-    const certificationCenter = schema.certificationCenters.findBy({ id: certificationCenterId });
+    const certificationCenter = schema.certificationCenters.find(certificationCenterId);
     const user = schema.users.create({ email, firstName: 'Jacques', lastName: 'Use' });
 
     return schema.certificationCenterMemberships.create({
@@ -340,10 +338,8 @@ export default function routes() {
     const certificationCenterMembershipId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
     const role = requestBody.data.attributes.role;
-    const certificationCenterMembership = schema.certificationCenterMemberships.findBy({
-      id: certificationCenterMembershipId,
-    });
-    const user = schema.users.findBy({ id: certificationCenterMembership.userId });
+    const certificationCenterMembership = schema.certificationCenterMemberships.find(certificationCenterMembershipId);
+    const user = schema.users.find(certificationCenterMembership.userId);
     const userFullName = `${user.firstName} ${user.lastName}`;
 
     if (userFullName === 'Gilles Parbal') {
@@ -368,13 +364,13 @@ export default function routes() {
     const params = JSON.parse(request.requestBody);
     const organizationRole = params.data.attributes['organization-role'];
 
-    const organizationMembership = schema.organizationMemberships.findBy({ id: organizationMembershipId });
+    const organizationMembership = schema.organizationMemberships.find(organizationMembershipId);
     return organizationMembership.update({ organizationRole });
   });
   this.post('/admin/memberships/:id/disable', (schema, request) => {
     const organizationMembershipId = request.params.id;
 
-    const organizationMembership = schema.organizationMemberships.findBy({ id: organizationMembershipId });
+    const organizationMembership = schema.organizationMemberships.find(organizationMembershipId);
     return organizationMembership.update({ disabledAt: new Date() });
   });
 
@@ -608,24 +604,6 @@ export default function routes() {
     });
 
     return new Response(204);
-  });
-
-  this.get('admin/certification-frameworks/:scope/target-profiles', (schema, request) => {
-    const framework = schema.certificationFrameworks.findBy({ name: request.params.scope });
-    return {
-      data: {
-        id: request.params.scope,
-        type: 'certification-frameworks',
-        attributes: {
-          name: request.params.scope,
-          'target-profiles-history': framework?.targetProfilesHistory ?? [],
-        },
-      },
-    };
-  });
-
-  this.get('admin/certification-frameworks/:scope/framework-history', (schema) => {
-    return schema.frameworkHistories.first();
   });
 
   this.put('/admin/sessions/:id/comment', (schema, request) => {

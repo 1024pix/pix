@@ -12,7 +12,7 @@ module(
     setupIntlRenderingTest(hooks);
 
     let intl, store, pixToast, draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem;
-
+    const frameworkKey = 'CORE';
     hooks.beforeEach(function () {
       intl = this.owner.lookup('service:intl');
       store = this.owner.lookup('service:store');
@@ -45,13 +45,18 @@ module(
     });
 
     test('it should display the framework history', async function (assert) {
-      const frameworkHistory = store.createRecord('framework-history', {
-        history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
-      });
+      const certificationVersionSummaries = [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem].map(
+        (item) => store.createRecord('certification-version-summary', item),
+      );
 
       // when
       const screen = await render(
-        <template><FrameworkHistory @frameworkKey="DROIT" @frameworkHistory={{frameworkHistory}} /></template>,
+        <template>
+          <FrameworkHistory
+            @frameworkKey={{frameworkKey}}
+            @certificationVersionSummaries={{certificationVersionSummaries}}
+          />
+        </template>,
       );
 
       // then
@@ -88,20 +93,25 @@ module(
 
     test('it opens the detail modal when clicking the view button', async function (assert) {
       // given
-      sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version', { id: 999 }));
-      const frameworkHistory = store.createRecord('framework-history', {
-        history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
-      });
+      sinon.stub(store, 'findRecord').resolves(store.createRecord('certification-version', { id: 999, scope: 'CORE' }));
+      const certificationVersionSummaries = [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem].map(
+        (item) => store.createRecord('certification-version-summary', item),
+      );
 
       // when
       const screen = await render(
-        <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+        <template>
+          <FrameworkHistory
+            @frameworkKey={{frameworkKey}}
+            @certificationVersionSummaries={{certificationVersionSummaries}}
+          />
+        </template>,
       );
 
       await clickByName('Voir les détails de la version 999');
 
       // then
-      sinon.assert.calledOnceWithExactly(store.findRecord, 'certification-version', draftFrameworkItem.id);
+      sinon.assert.calledOnceWithExactly(store.findRecord, 'certification-version', '999');
       assert.dom(screen.getByRole('dialog')).exists();
       assert.dom(screen.getByRole('heading', { name: t('components.certification-frameworks.labels.CORE') })).exists();
     });
@@ -117,16 +127,21 @@ module(
         comments: '',
         areas: [],
       });
-      const frameworkHistory = store.createRecord('framework-history', {
-        history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
-      });
+      const certificationVersionSummaries = [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem].map(
+        (item) => store.createRecord('certification-version-summary', item),
+      );
 
       sinon.stub(certificationVersion, 'save').resolves();
       sinon.stub(store, 'findRecord').resolves(certificationVersion);
       sinon.stub(pixToast, 'sendSuccessNotification');
 
       const screen = await render(
-        <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+        <template>
+          <FrameworkHistory
+            @frameworkKey={{frameworkKey}}
+            @certificationVersionSummaries={{certificationVersionSummaries}}
+          />
+        </template>,
       );
 
       await clickByName('Voir les détails de la version 999');
@@ -141,15 +156,20 @@ module(
 
     module('deletion', function () {
       test('it should only be possible to delete Draft version', async function (assert) {
-        const frameworkHistory = store.createRecord('framework-history', {
-          history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
-        });
+        const certificationVersionSummaries = [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem].map(
+          (item) => store.createRecord('certification-version-summary', item),
+        );
         const certificationVersion = store.createRecord('certification-version', { id: draftFrameworkItem.id });
         sinon.stub(store, 'findRecord').resolves(certificationVersion);
 
         // when
         const screen = await render(
-          <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+          <template>
+            <FrameworkHistory
+              @frameworkKey={{frameworkKey}}
+              @certificationVersionSummaries={{certificationVersionSummaries}}
+            />
+          </template>,
         );
 
         // then
@@ -170,12 +190,17 @@ module(
           sinon.stub(store, 'findRecord').resolves(certificationVersion);
           sinon.stub(store, 'queryRecord').resolves();
           sinon.stub(certificationVersion, 'destroyRecord').resolves();
-          const frameworkHistory = store.createRecord('framework-history', {
-            history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
-          });
+          const certificationVersionSummaries = [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem].map(
+            (item) => store.createRecord('certification-version-summary', item),
+          );
 
           const screen = await render(
-            <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+            <template>
+              <FrameworkHistory
+                @frameworkKey={{frameworkKey}}
+                @certificationVersionSummaries={{certificationVersionSummaries}}
+              />
+            </template>,
           );
 
           // when
@@ -190,9 +215,9 @@ module(
       module('when deletion is a error', function () {
         test('it should send a toast for feedback ', async function (assert) {
           sinon.stub(pixToast, 'sendErrorNotification');
-          const frameworkHistory = store.createRecord('framework-history', {
-            history: [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem],
-          });
+          const certificationVersionSummaries = [draftFrameworkItem, activeFrameworkItem, archivedFrameworkItem].map(
+            (item) => store.createRecord('certification-version-summary', item),
+          );
 
           const certificationVersion = store.createRecord('certification-version', { id: archivedFrameworkItem.id });
           sinon.stub(store, 'findRecord').resolves(certificationVersion);
@@ -200,7 +225,12 @@ module(
           sinon.stub(certificationVersion, 'destroyRecord').rejects();
 
           const screen = await render(
-            <template><FrameworkHistory @frameworkKey="CORE" @frameworkHistory={{frameworkHistory}} /></template>,
+            <template>
+              <FrameworkHistory
+                @frameworkKey={{frameworkKey}}
+                @certificationVersionSummaries={{certificationVersionSummaries}}
+              />
+            </template>,
           );
 
           // when

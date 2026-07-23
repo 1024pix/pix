@@ -1,4 +1,4 @@
-export class FrameworkHistoryEntry {
+export class VersionSummary {
   constructor({ id, startDate, expirationDate, assessmentDuration, maximumAssessmentLength, status }) {
     this.id = id;
     this.startDate = startDate ?? null;

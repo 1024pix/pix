@@ -26,8 +26,8 @@ export default class FrameworkEditRoute extends Route {
   }
 
   resetController(controller, isExiting) {
-    if (isExiting && controller.model.hasDirtyAttributes) {
-      controller.model.rollbackAttributes();
+    if (isExiting && controller.model.draftVersion.hasDirtyAttributes) {
+      controller.model.draftVersion.rollbackAttributes();
     }
   }
 }

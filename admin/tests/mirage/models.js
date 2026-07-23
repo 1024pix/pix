@@ -27,6 +27,7 @@ import certificationDetails from './models/certification-details';
 import certificationFramework from './models/certification-framework';
 import certificationIssueReport from './models/certification-issue-report';
 import certificationVersion from './models/certification-version';
+import certificationVersionSummary from './models/certification-version-summary';
 import certifiedArea from './models/certified-area';
 import certifiedCompetence from './models/certified-competence';
 import certifiedProfile from './models/certified-profile';
@@ -42,7 +43,6 @@ import country from './models/country';
 import featureToggle from './models/feature-toggle';
 import flashAlgorithmConfiguration from './models/flash-algorithm-configuration';
 import framework from './models/framework';
-import frameworkHistory from './models/framework-history';
 import juryCertificationSummary from './models/jury-certification-summary';
 import lastApplicationConnection from './models/last-application-connection';
 import network from './models/network';
@@ -104,6 +104,7 @@ export default {
   certificationFramework,
   certificationIssueReport,
   certificationVersion,
+  certificationVersionSummary,
   certifiedArea,
   certifiedCompetence,
   certifiedProfile,
@@ -119,7 +120,6 @@ export default {
   featureToggle,
   flashAlgorithmConfiguration,
   framework,
-  frameworkHistory,
   juryCertificationSummary,
   lastApplicationConnection,
   network,

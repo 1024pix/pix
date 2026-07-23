@@ -14,7 +14,7 @@ export default class CertificationFrameworkTemplate extends Component {
         label: this.intl.t(`components.certification-frameworks.title`),
       },
       {
-        label: this.args.model.frameworkKey,
+        label: this.args.model.scope,
       },
     ];
   }
@@ -25,18 +25,11 @@ export default class CertificationFrameworkTemplate extends Component {
         <PixBreadcrumb @links={{this.links}} class="breadcrumb" />
       </header>
 
-      <Header
-        @certificationFramework={{@model.currentCertificationFramework}}
-        @frameworkHistory={{@model.frameworkHistory}}
-      />
+      <Header @certificationFramework={{@model}} />
 
       <section class="page-body certification-framework">
-        <Framework
-          @frameworkKey={{@model.frameworkKey}}
-          @certificationFramework={{@model.currentCertificationFramework}}
-          @hasTargetProfilesHistory={{@model.hasTargetProfilesHistory}}
-          @frameworkHistory={{@model.frameworkHistory}}
-        />
+
+        <Framework @certificationFramework={{@model}} />
       </section>
     </div>
   </template>

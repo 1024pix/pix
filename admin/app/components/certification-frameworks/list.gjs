@@ -10,7 +10,7 @@ export default class List extends Component {
     return this.args.certificationFrameworks.map((framework) => {
       return {
         id: framework.id,
-        name: framework.name,
+        name: framework.scope,
         label: `components.certification-frameworks.labels.${framework.id}`,
         activeVersionStartDate: framework.activeVersionStartDate,
         frameworkKey: framework.id,

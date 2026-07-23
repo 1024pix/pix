@@ -13,44 +13,42 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
   test('it should display list of versions in a certification framework', async function (assert) {
     // given
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-    server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
-    server.create('framework-history', {
-      id: 'DROIT',
-      history: [
-        {
-          id: 456,
-          startDate: new Date('2023-10-12'),
-          expirationDate: null,
-          assessmentDuration: 90,
-          maximumAssessmentLength: 32,
-          status: 'active',
-        },
-        {
-          id: 124,
-          startDate: new Date('2023-10-11'),
-          expirationDate: new Date('2023-10-12'),
-          assessmentDuration: 90,
-          maximumAssessmentLength: 32,
-          status: 'archived',
-        },
-        {
-          id: 123,
-          startDate: new Date('2023-10-10'),
-          expirationDate: new Date('2023-10-11'),
-          assessmentDuration: 90,
-          maximumAssessmentLength: 32,
-          status: 'archived',
-        },
-        {
-          id: 789,
-          startDate: null,
-          expirationDate: null,
-          assessmentDuration: 90,
-          maximumAssessmentLength: 32,
-          status: 'draft',
-        },
-      ],
-    });
+    const versionSummaries = [];
+    versionSummaries.push(
+      server.create('certification-version-summary', {
+        id: 456,
+        startDate: new Date('2023-10-12'),
+        expirationDate: null,
+        assessmentDuration: 90,
+        maximumAssessmentLength: 32,
+        status: 'active',
+      }),
+      server.create('certification-version-summary', {
+        id: 124,
+        startDate: new Date('2023-10-11'),
+        expirationDate: new Date('2023-10-12'),
+        assessmentDuration: 90,
+        maximumAssessmentLength: 32,
+        status: 'archived',
+      }),
+      server.create('certification-version-summary', {
+        id: 123,
+        startDate: new Date('2023-10-10'),
+        expirationDate: new Date('2023-10-11'),
+        assessmentDuration: 90,
+        maximumAssessmentLength: 32,
+        status: 'archived',
+      }),
+      server.create('certification-version-summary', {
+        id: 789,
+        startDate: null,
+        expirationDate: null,
+        assessmentDuration: 90,
+        maximumAssessmentLength: 32,
+        status: 'draft',
+      }),
+    );
+    server.create('certification-framework', { id: 'DROIT', versionSummaries });
 
     // when
     const screen = await visit('/certification-frameworks/DROIT');
@@ -71,7 +69,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
   test('it should render target profile page when the framework is CLEA', async function (assert) {
     // given
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-    server.create('complementary-certification', {
+    const complementaryCertification = server.create('complementary-certification', {
       id: 1,
       hasComplementaryReferential: false,
       key: 'CLEA',
@@ -81,14 +79,10 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
         { name: 'JEREM TARGET', id: 2, attachedAt: new Date('2020-10-10T10:50:00Z') },
       ],
     });
-    server.create('certification-framework', { id: 'CLEA', name: 'CLEA' });
+    server.create('certification-framework', { id: 'CLEA', complementaryCertification });
     server.create('target-profile', {
       id: 2,
       name: 'JEREM TARGET',
-    });
-    server.create('framework-history', {
-      id: 'CLEA',
-      history: [],
     });
 
     // when
@@ -98,57 +92,29 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
     assert.strictEqual(currentURL(), '/certification-frameworks/CLEA/target-profile');
   });
 
-  test('it should display the create-button', async function (assert) {
-    // given
-    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-    server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
-    server.create('framework-history', {
-      id: 'DROIT',
-      history: [],
-    });
-
-    // when
-    const screen = await visit('/certification-frameworks/DROIT/');
-
-    // then
-    assert
-      .dom(
-        screen.queryByRole('link', {
-          name: t('components.certification-frameworks.certification-framework.create-button'),
-        }),
-      )
-      .exists();
-  });
-
   test("it shouln't possible to create 2 certification-version with status DRAFT", async function (assert) {
     // given
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-
-    server.create('certification-framework', { id: 'DROIT', name: 'DROIT' });
-    server.create('framework-history', {
-      id: 'DROIT',
-      history: [
-        {
-          id: 13,
-          startDate: new Date('2023-10-10'),
-          expirationDate: null,
-          assessmentDuration: 90,
-          maximumAssessmentLength: 32,
-          status: 'active',
-        },
-        {
-          id: 14,
-          startDate: null,
-          expirationDate: null,
-          assessmentDuration: 90,
-          maximumAssessmentLength: 32,
-          status: 'draft',
-        },
-      ],
-    });
-
-    server.create('certification-version', { id: 13 });
-    server.create('certification-version', { id: 14 });
+    const versionSummaries = [];
+    versionSummaries.push(
+      server.create('certification-version-summary', {
+        id: 13,
+        startDate: new Date('2023-10-10'),
+        expirationDate: null,
+        assessmentDuration: 90,
+        maximumAssessmentLength: 32,
+        status: 'active',
+      }),
+      server.create('certification-version-summary', {
+        id: 14,
+        startDate: null,
+        expirationDate: null,
+        assessmentDuration: 90,
+        maximumAssessmentLength: 32,
+        status: 'draft',
+      }),
+    );
+    server.create('certification-framework', { id: 'DROIT', versionSummaries });
 
     // when
     const screen = await visit('/certification-frameworks/DROIT/');
@@ -176,29 +142,5 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
     assert.strictEqual(rowsAfterDelete.length, 2);
     assert.dom(await screen.queryByRole('cell', { name: "En cours d'édition" })).doesNotExist();
     assert.dom(await screen.getByRole('cell', { name: 'Actif' })).exists();
-  });
-
-  test('it should redirect to the certification framework edit page on click', async function (assert) {
-    // given
-    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-
-    server.create('certification-framework', { id: 'CORE' });
-    server.create('certification-version', { id: 12, status: 'draft' });
-    server.create('framework-history', {
-      id: 'CORE',
-      history: [
-        {
-          id: 12,
-          status: 'draft',
-        },
-      ],
-    });
-    await visit('/certification-frameworks/CORE/');
-
-    // when
-    await clickByName('Éditer la version 12');
-
-    // then
-    assert.strictEqual(currentURL(), '/certification-frameworks/CORE/versions/12/edit');
   });
 });

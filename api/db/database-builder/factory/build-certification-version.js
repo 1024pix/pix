@@ -1,5 +1,15 @@
 import { databaseBuffer } from '../database-buffer.js';
 
+export const defaultChallengesConfiguration = {
+  maximumAssessmentLength: 32,
+  challengesBetweenSameCompetence: 2,
+  limitToOneQuestionPerTube: true,
+  enablePassageByAllCompetences: true,
+  variationPercent: 0.5,
+  defaultCandidateCapacity: -3,
+  defaultProbabilityToPickChallenge: 51,
+};
+
 export const defaultGlobalScoringConfiguration = [
   {
     meshLevel: 0,

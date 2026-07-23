@@ -11,11 +11,18 @@ export default class Header extends Component {
   @service router;
 
   get frameworkLabel() {
-    return this.intl.t(`components.certification-frameworks.labels.${this.args.certificationFramework.name}`);
+    return this.intl.t(`components.certification-frameworks.labels.${this.args.certificationFramework.scope}`);
   }
 
   get canCreateVersion() {
-    return this.args.frameworkHistory?.hasDraft;
+    return this.args.certificationFramework.hasDraft;
+  }
+
+  get activeCertificationVersionId() {
+    const activeVersionId = this.args.certificationFramework.activeVersionId;
+    return {
+      activeVersionId,
+    };
   }
 
   <template>

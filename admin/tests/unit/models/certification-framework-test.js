@@ -10,34 +10,110 @@ module('Unit | Model | certification-framework', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  test('it should have a name and activeVersionStartDate attributes', function (assert) {
-    // given
-    const certificationFramework = store.createRecord('certification-framework', {
-      id: 'CORE',
-      name: 'Pix',
-      activeVersionStartDate: new Date('2024-01-01'),
+  module('#get activeVersionStartDate', function () {
+    test('returns null when no active version', function (assert) {
+      const certificationFramework = store.createRecord('certification-framework', {
+        id: 'CORE',
+        scope: 'CORE',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 1,
+            status: 'draft',
+            startDate: new Date('2024-01-01'),
+          }),
+        ],
+      });
+
+      assert.strictEqual(certificationFramework.activeVersionStartDate, null);
     });
 
-    // when
-    const { name, activeVersionStartDate } = certificationFramework;
-
-    // then
-    assert.strictEqual(name, 'Pix');
-    assert.ok(activeVersionStartDate instanceof Date);
+    test('returns the date of the active version when there is one', function (assert) {
+      const certificationFramework = store.createRecord('certification-framework', {
+        id: 'CORE',
+        scope: 'CORE',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 1,
+            status: 'active',
+            startDate: new Date('2024-01-01'),
+          }),
+        ],
+      });
+      assert.strictEqual(certificationFramework.activeVersionStartDate.getTime(), new Date('2024-01-01').getTime());
+    });
   });
 
-  test('it should handle null activeVersionStartDate', function (assert) {
-    // given
-    const certificationFramework = store.createRecord('certification-framework', {
-      id: 'DROIT',
-      name: 'Pix+Droit',
-      activeVersionStartDate: null,
+  module('#get activeVersionId', function () {
+    test('returns null when no active version', function (assert) {
+      const certificationFramework = store.createRecord('certification-framework', {
+        id: 'CORE',
+        scope: 'CORE',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 1,
+            status: 'draft',
+          }),
+        ],
+      });
+
+      assert.strictEqual(certificationFramework.activeVersionId, null);
     });
 
-    // when
-    const { activeVersionStartDate } = certificationFramework;
+    test('returns the id of the active version when there is one', function (assert) {
+      const certificationFramework = store.createRecord('certification-framework', {
+        id: 'CORE',
+        scope: 'CORE',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 1,
+            status: 'active',
+          }),
+          store.createRecord('certification-version-summary', {
+            id: 2,
+            status: 'draft',
+          }),
+        ],
+      });
+      assert.strictEqual(certificationFramework.activeVersionId, '1');
+    });
+  });
 
-    // then
-    assert.strictEqual(activeVersionStartDate, null);
+  module('#get hasDraft', function () {
+    test('returns true when framework has draft', function (assert) {
+      const certificationFramework = store.createRecord('certification-framework', {
+        id: 'CORE',
+        scope: 'CORE',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 1,
+            status: 'draft',
+          }),
+          store.createRecord('certification-version-summary', {
+            id: 2,
+            status: 'archived',
+          }),
+        ],
+      });
+
+      assert.true(certificationFramework.hasDraft);
+    });
+
+    test('returns false when framework has no draft', function (assert) {
+      const certificationFramework = store.createRecord('certification-framework', {
+        id: 'CORE',
+        scope: 'CORE',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 1,
+            status: 'active',
+          }),
+          store.createRecord('certification-version-summary', {
+            id: 2,
+            status: 'archived',
+          }),
+        ],
+      });
+      assert.false(certificationFramework.hasDraft);
+    });
   });
 });

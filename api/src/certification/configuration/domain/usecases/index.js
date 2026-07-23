@@ -17,13 +17,11 @@ import * as versionDetailsRepository from '../../infrastructure/repositories/ver
 import * as versionRepository from '../../infrastructure/repositories/version-repository.js';
 import { attachBadges } from './attach-badges.js';
 import { createDraft } from './create-draft.js';
-import { deleteCertificationVersion } from './delete-certification-version.js';
+import { deleteVersion } from './delete-version.js';
 import { exportScoWhitelist } from './export-sco-whitelist.js';
-import { findCertificationFrameworks } from './find-certification-frameworks.js';
 import { findComplementaryCertifications } from './find-complementary-certifications.js';
 import { getComplementaryCertificationForTargetProfileAttachmentRepository } from './get-complementary-certification-for-target-profile-attachment.js';
 import { getComplementaryCertificationTargetProfileHistory } from './get-complementary-certification-target-profile-history.js';
-import { getFrameworkHistory } from './get-framework-history.js';
 import { getInfo } from './get-info.js';
 import { getScoBlockedAccessDates } from './get-sco-blocked-access-dates.js';
 import { getVersionById } from './get-version-by-id.js';
@@ -74,13 +72,11 @@ const dependencies = {
 const usecasesWithoutInjectedDependencies = {
   attachBadges,
   createDraft,
-  deleteCertificationVersion,
+  deleteVersion,
   exportScoWhitelist,
-  findCertificationFrameworks,
   findComplementaryCertifications,
   getComplementaryCertificationForTargetProfileAttachmentRepository,
   getComplementaryCertificationTargetProfileHistory,
-  getFrameworkHistory,
   getInfo,
   getScoBlockedAccessDates,
   getVersionById,
