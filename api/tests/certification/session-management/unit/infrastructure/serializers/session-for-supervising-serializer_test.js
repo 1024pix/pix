@@ -1,4 +1,3 @@
-import { CertificationCandidateForSupervising } from '../../../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
 import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/session-for-supervising-serializer.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';

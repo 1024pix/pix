@@ -6,8 +6,19 @@ import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Session Management | Unit | Application | Controller | Certification Candidate', function () {
+  let dependencies;
+
+  beforeEach(function () {
+    dependencies = {
+      supervisedCandidateRepository: {
+        authorizeToStart: sinon.stub(),
+        unauthorizeToStart: sinon.stub(),
+      },
+    };
+  });
+
   describe('#authorizeToStart', function () {
-    it('should return a 204 status code', async function () {
+    it('should return a 204 status code and call authorize', async function () {
       // given
       const request = {
         auth: {
@@ -18,19 +29,32 @@ describe('Certification | Session Management | Unit | Application | Controller |
         },
         payload: { 'authorized-to-start': true },
       };
-
-      sinon.stub(usecases, 'authorizeCertificationCandidateToStart');
-
-      usecases.authorizeCertificationCandidateToStart = sinon.stub().rejects();
-      usecases.authorizeCertificationCandidateToStart
-        .withArgs({
-          certificationCandidateForSupervisingId: 99,
-          authorizedToStart: true,
-        })
-        .resolves();
+      dependencies.supervisedCandidateRepository.authorizeToStart.withArgs(99).resolves();
+      dependencies.supervisedCandidateRepository.unauthorizeToStart.withArgs(99).rejects();
 
       // when
-      const response = await certificationCandidateController.authorizeToStart(request, hFake);
+      const response = await certificationCandidateController.authorizeToStart(request, hFake, dependencies);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('should return a 204 status code and call unauthorize', async function () {
+      // given
+      const request = {
+        auth: {
+          credentials: { userId: '111' },
+        },
+        params: {
+          certificationCandidateId: 99,
+        },
+        payload: { 'authorized-to-start': false },
+      };
+      dependencies.supervisedCandidateRepository.unauthorizeToStart.withArgs(99).resolves();
+      dependencies.supervisedCandidateRepository.authorizeToStart.withArgs(99).rejects();
+
+      // when
+      const response = await certificationCandidateController.authorizeToStart(request, hFake, dependencies);
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -48,16 +72,11 @@ describe('Certification | Session Management | Unit | Application | Controller |
           certificationCandidateId: 99,
         },
       };
-
-      usecases.authorizeCertificationCandidateToResume = sinon.stub().rejects();
-      usecases.authorizeCertificationCandidateToResume
-        .withArgs({
-          certificationCandidateId: 99,
-        })
-        .resolves();
+      dependencies.supervisedCandidateRepository.authorizeToStart.withArgs(99).resolves();
+      dependencies.supervisedCandidateRepository.unauthorizeToStart.withArgs(99).rejects();
 
       // when
-      const response = await certificationCandidateController.authorizeToResume(request, hFake);
+      const response = await certificationCandidateController.authorizeToResume(request, hFake, dependencies);
 
       // then
       expect(response.statusCode).to.equal(204);

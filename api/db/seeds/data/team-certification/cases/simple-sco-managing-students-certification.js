@@ -4,7 +4,6 @@ import { services as enrolmentServices } from '../../../../../src/certification/
 import { Candidate } from '../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
-import { usecases as sessionManagementUseCases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { usecases as prescriptionLearnerManagementUsecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
@@ -204,10 +203,13 @@ export class ScoManagingStudent {
       normalizeStringFnc: normalize,
     });
 
-    await sessionManagementUseCases.authorizeCertificationCandidateToStart({
-      certificationCandidateForSupervisingId: registeredCandidate.id,
-      authorizedToStart: true,
-    });
+    await this.databaseBuilder.knex
+      .from('certification-candidates')
+      .update({
+        authorizedToStart: true,
+        authorizedToStartAt: new Date(),
+      })
+      .where({ id: registeredCandidate.id });
 
     return registeredCandidate;
   }

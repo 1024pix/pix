@@ -2,7 +2,6 @@ import { services as enrolmentServices } from '../../../../../src/certification/
 import { Candidate } from '../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
-import { usecases as sessionManagementUseCases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -192,10 +191,13 @@ export class SupWithHabilitationsSeed {
       normalizeStringFnc: normalize,
     });
 
-    await sessionManagementUseCases.authorizeCertificationCandidateToStart({
-      certificationCandidateForSupervisingId: candidateId,
-      authorizedToStart: true,
-    });
+    await this.databaseBuilder.knex
+      .from('certification-candidates')
+      .update({
+        authorizedToStart: true,
+        authorizedToStartAt: new Date(),
+      })
+      .where({ id: candidateId });
 
     await enrolmentServices.registerCandidateParticipation({
       userId: pixAppUser.id,

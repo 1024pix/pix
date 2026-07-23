@@ -26,8 +26,6 @@ import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-stor
 import * as sessionPublicationService from '../services/session-publication-service.js';
 import { abortCertificationCourse } from './abort-certification-course.js';
 import { assignCertificationOfficerToJurySession } from './assign-certification-officer-to-jury-session.js';
-import { authorizeCertificationCandidateToResume } from './authorize-certification-candidate-to-resume.js';
-import { authorizeCertificationCandidateToStart } from './authorize-certification-candidate-to-start.js';
 import { cancel } from './cancel.js';
 import { clearCompanionAlert } from './clear-companion-alert.js';
 import { commentSessionAsJury } from './comment-session-as-jury.js';
@@ -174,8 +172,6 @@ const dependencies = {
 const usecasesWithoutInjectedDependencies = {
   abortCertificationCourse,
   assignCertificationOfficerToJurySession,
-  authorizeCertificationCandidateToResume,
-  authorizeCertificationCandidateToStart,
   cancel,
   clearCompanionAlert,
   commentSessionAsJury,

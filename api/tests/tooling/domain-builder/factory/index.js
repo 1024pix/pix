@@ -38,7 +38,6 @@ import { buildCertificationAssessment } from './build-certification-assessment.j
 import { buildCertificationAssessmentScore } from './build-certification-assessment-score.js';
 import { buildCertificationAttestation } from './build-certification-attestation.js';
 import { buildCertificationCandidateForAttendanceSheet } from './build-certification-candidate-for-attendance-sheet.js';
-import { buildCertificationCandidateForSupervising } from './build-certification-candidate-for-supervising.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterInvitation } from './build-certification-center-invitation.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
@@ -206,7 +205,6 @@ import { buildCompetence as parcoursupCompetence } from './certification/results
 import { buildParcoursupCertificationLevel } from './certification/results/parcoursup/build-parcoursup-certification-level.js';
 import { buildCertificationDetails } from './certification/session-management/build-certification-details.js';
 import { buildJuryCertification } from './certification/session-management/build-jury-certification.js';
-import { sessionForSupervisingBuilder } from './certification/session-management/build-session-for-supervising.js';
 import { builders as sessionManagementBuilders } from './certification/session-management/index.js';
 import { buildCompetenceForScoring } from './certification/shared/build-competence-for-scoring.js';
 import { buildComplementaryCertification as buildSharedComplementaryCertification } from './certification/shared/build-complementary-certification.js';
@@ -399,7 +397,6 @@ export {
   buildCertificationAssessmentScore,
   buildCertificationAttestation,
   buildCertificationCandidateForAttendanceSheet,
-  buildCertificationCandidateForSupervising,
   buildCertificationCenter,
   buildCertificationCenterInvitation,
   buildCertificationCenterMembership,
