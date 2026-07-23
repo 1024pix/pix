@@ -1,10 +1,10 @@
-import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
+import { applyEmberDataSerializers } from 'ember-cli-mirage';
 import { createServer, Response } from 'miragejs';
 
 export default function makeServer(config) {
   const finalConfig = {
     ...config,
-    models: { ...discoverEmberDataModels(config.store), ...config.models },
+    models: { ...config.models },
     serializers: applyEmberDataSerializers(config.serializers),
     routes,
     logging: true,
@@ -35,7 +35,11 @@ function routes() {
   });
 
   this.get('/assessments/:assessment_id', (schema, request) => {
-    return schema.assessments.find(request.params.assessment_id);
+    const assessment = schema.assessments.find(request.params.assessment_id);
+    if (!assessment) {
+      return new Response(404);
+    }
+    return assessment;
   });
 
   this.get('/assessments/:assessment_id/next', (schema) => {
