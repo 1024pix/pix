@@ -9,6 +9,16 @@ const RUN_NAME = __ENV.RUN_NAME || 'run';
 const SLEEP_MS = Number(__ENV.SLEEP_MS || 200);
 const MAX_CHALLENGES = Number(__ENV.MAX_CHALLENGES || 50);
 
+// The API rejects requests without x-forwarded-proto / x-forwarded-host (network.js#getForwardedOrigin,
+// used to build the token audience). Some fronting proxies inject them (review apps), others don't
+// (recette/prod on a direct hit), so we always forge them. Defaults derive the app host from BASE_URL
+// by swapping the leading "api" for "app" (api.recette.pix.fr → app.recette.pix.fr); override with
+// FWD_HOST / FWD_PROTO if needed.
+const _host = BASE_URL.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+const FWD_PROTO = __ENV.FWD_PROTO || (BASE_URL.startsWith('https') ? 'https' : 'http');
+const FWD_HOST = __ENV.FWD_HOST || _host.replace(/^api/, 'app');
+const forwardedHeaders = { 'x-forwarded-proto': FWD_PROTO, 'x-forwarded-host': FWD_HOST };
+
 // Custom metrics
 const scenarioCompleted = new Rate('scenario_completed');
 const challengesAnswered = new Trend('challenges_per_scenario');
@@ -74,6 +84,7 @@ export const options = {
 
 function jsonApiHeaders(token) {
   return {
+    ...forwardedHeaders,
     accept: 'application/vnd.api+json',
     'accept-language': 'fr,en;q=0.9',
     authorization: `Bearer ${token}`,
@@ -113,7 +124,7 @@ export default function () {
     `${BASE_URL}/api/token/anonymous`,
     { campaign_code: CAMPAIGN_CODE, lang: 'fr' },
     {
-      headers: { accept: 'application/json', 'content-type': 'application/x-www-form-urlencoded' },
+      headers: { ...forwardedHeaders, accept: 'application/json', 'content-type': 'application/x-www-form-urlencoded' },
       tags: { step: 'token' },
     },
   );
