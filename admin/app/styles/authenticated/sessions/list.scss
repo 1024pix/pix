@@ -8,6 +8,24 @@
     justify-content: flex-end;
     margin-bottom: var(--pix-spacing-3x);
   }
+
+  &__selected-rows {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pix-spacing-2x);
+  }
+
+  &__selected-rows-actions {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+
+    button {
+      display: flex;
+      gap: var(--pix-spacing-1x);
+      padding-block: 0;
+    }
+  }
 }
 
 .session-to-be-publish {

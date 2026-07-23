@@ -1,157 +1,128 @@
-import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import { fn } from '@ember/helper';
+import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { concat, fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { trackedArray } from '@ember/reactive/collections';
 import { LinkTo } from '@ember/routing';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
-import map from 'lodash/map';
-import { statusToDisplayName } from 'pix-admin/models/session';
+import FilterBanner from 'pix-admin/components/sessions/filter-banner';
 
 export default class ListItems extends Component {
-  @tracked selectedCertificationCenterTypeOption = null;
-  @tracked selectedSessionResultsSentToPrescriberOption = null;
-  @tracked selectedSessionStatusOption = null;
-  @tracked selectedSessionVersionOption = null;
+  selectedSessionsRows = trackedArray();
 
-  searchedIds = this.args.ids;
-  searchedCertificationCenterName = this.args.certificationCenterName;
-  searchedCertificationCenterExternalId = this.args.certificationCenterExternalId;
-
-  constructor() {
-    super(...arguments);
-
-    // "certification center type" filter
-    this.certificationCenterTypeOptions = [
-      { value: 'all', label: 'Tous' },
-      { value: 'SCO', label: 'Sco' },
-      { value: 'SUP', label: 'Sup' },
-      { value: 'PRO', label: 'Pro' },
-    ];
-    this.selectedCertificationCenterTypeOption = this.getCertificationCenterTypeOptionByValue(
-      this.args.certificationCenterType,
-    );
-
-    // session status
-    this.sessionStatusOptions = [
-      { value: 'all', label: 'Tous' },
-      ...map(statusToDisplayName, (label, status) => ({ value: status, label })),
-    ];
-    this.selectedSessionStatusOption = this.getSessionStatusOptionByValue(this.args.sessionStatus);
-
-    // session version
-    this.sessionVersionOptions = [
-      { value: 'all', label: 'Tous' },
-      { value: '2', label: 'Sessions V2' },
-      { value: '3', label: 'Sessions V3' },
-    ];
-    this.selectedSessionVersionOption = this.getSessionVersionOptionByValue();
+  @action
+  toggleRowSelection(sessionId) {
+    const index = this.selectedSessionsRows.indexOf(sessionId);
+    if (index === -1) {
+      this.selectedSessionsRows.push(sessionId);
+    } else {
+      this.selectedSessionsRows.splice(index, 1);
+    }
   }
 
   @action
-  selectCertificationCenterType(newValue) {
-    this.selectedCertificationCenterTypeOption = this.getCertificationCenterTypeOptionByValue(newValue);
-    this.args.onChangeCertificationCenterType(newValue);
-  }
+  toggleAllRowsSelection() {
+    const hasSelectedRows = this.hasSelectedRows;
 
-  getCertificationCenterTypeOptionByValue(value) {
-    if (value) {
-      return find(this.certificationCenterTypeOptions, { value });
+    this.clearSelectedRows();
+    if (!hasSelectedRows) {
+      this.selectedSessionsRows.push(...this.args.sessions.map((s) => s.id));
     }
-    return this.certificationCenterTypeOptions[0];
   }
 
   @action
-  selectSessionStatus(newValue) {
-    this.selectedSessionStatusOption = this.getSessionStatusOptionByValue(newValue);
-    this.args.onChangeSessionStatus(newValue);
-  }
-
-  getSessionStatusOptionByValue(value) {
-    if (value) {
-      return find(this.sessionStatusOptions, { value });
-    }
-    return this.sessionStatusOptions[0];
+  clearSelectedRows() {
+    this.selectedSessionsRows.splice(0);
   }
 
   @action
-  selectSessionVersion(newValue) {
-    this.selectedSessionVersionOption = this.getSessionVersionOptionByValue(newValue);
-    this.args.onChangeSessionVersion(newValue);
+  isRowSelected(id) {
+    return this.selectedSessionsRows.includes(id);
   }
 
-  getSessionVersionOptionByValue(value) {
-    if (value) {
-      return find(this.sessionVersionOptions, { value });
-    }
-    return this.sessionVersionOptions[0];
+  get hasSelectedRows() {
+    return this.selectedSessionsRows.length > 0;
+  }
+
+  get isIndeterminateSelection() {
+    return this.hasSelectedRows && this.selectedSessionsRows.length !== this.args.sessions.length;
   }
 
   <template>
     <div class="session-list">
-      <PixFilterBanner @title={{t "common.filters.title"}}>
-        <PixInput
-          aria-label={{t "pages.sessions.list.filters.ids.aria-label"}}
-          type="text"
-          value={{this.searchedIds}}
-          oninput={{fn @triggerFiltering "ids"}}
-        >
-          <:label>{{t "pages.sessions.list.filters.ids.label"}}</:label>
-        </PixInput>
-        <PixInput
-          aria-label={{t "pages.sessions.list.filters.certification-name.aria-label"}}
-          type="text"
-          value={{this.searchedCertificationCenterName}}
-          oninput={{fn @triggerFiltering "certificationCenterName"}}
-        >
-          <:label>{{t "pages.sessions.table.headers.certification-name"}}</:label>
-        </PixInput>
-        <PixInput
-          aria-label={{t "pages.sessions.list.filters.external-id.aria-label"}}
-          type="text"
-          value={{this.searchedCertificationCenterExternalId}}
-          oninput={{fn @triggerFiltering "certificationCenterExternalId"}}
-        >
-          <:label>{{t "pages.sessions.table.headers.external-id"}}</:label>
-        </PixInput>
-        <PixSelect
-          @options={{this.certificationCenterTypeOptions}}
-          @onChange={{this.selectCertificationCenterType}}
-          @value={{@certificationCenterType}}
-          @hideDefaultOption={{true}}
-          arial-label={{t "pages.sessions.list.filters.type.aria-label"}}
-        >
-          <:label>{{t "pages.sessions.table.headers.type"}}</:label>
-        </PixSelect>
-        <PixSelect
-          @options={{this.sessionStatusOptions}}
-          @onChange={{this.selectSessionStatus}}
-          @value={{@status}}
-          @hideDefaultOption={{true}}
-          aria-label={{t "pages.sessions.list.filters.status.aria-label"}}
-        >
-          <:label>{{t "pages.sessions.table.headers.status"}}</:label>
-        </PixSelect>
-        <PixSelect
-          @options={{this.sessionVersionOptions}}
-          @onChange={{this.selectSessionVersion}}
-          @value={{@version}}
-          @hideDefaultOption={{true}}
-          aria-label={{t "pages.sessions.list.filters.version.aria-label"}}
-        >
-          <:label>{{t "pages.sessions.list.filters.version.label"}}</:label>
-        </PixSelect>
-      </PixFilterBanner>
+      <FilterBanner @filters={{@filters}} @triggerFiltering={{@triggerFiltering}} @onChangeFilter={{@onChangeFilter}} />
+
+      {{#if this.selectedSessionsRows.length}}
+        <ul class="session-list__selected-rows">
+          {{#each this.selectedSessionsRows as |selectedSessionId|}}
+            <li>
+              <PixTag @displayRemoveButton={{true}} @onRemove={{fn this.toggleRowSelection selectedSessionId}}>
+                {{selectedSessionId}}
+              </PixTag>
+            </li>
+          {{/each}}
+        </ul>
+      {{/if}}
+
+      <div class="session-list__selected-rows-actions">
+        <PixTooltip @isInline={{true}}>
+          <:triggerElement>
+            <PixCheckbox
+              {{on "change" this.toggleAllRowsSelection}}
+              @checked={{this.hasSelectedRows}}
+              @isIndeterminate={{this.isIndeterminateSelection}}
+              @screenReaderOnly={{true}}
+              @size="small"
+            >
+              <:label>{{t "pages.sessions.table.actions.select-all.label"}}</:label>
+            </PixCheckbox>
+          </:triggerElement>
+          <:tooltip>
+            {{#if this.hasSelectedRows}}
+              {{t "pages.sessions.table.actions.select-all.tooltip.deselect"}}
+            {{else}}
+              {{t "pages.sessions.table.actions.select-all.tooltip.select"}}
+            {{/if}}
+          </:tooltip>
+        </PixTooltip>
+
+        <PixButton @variant="tertiary" @isDisabled={{true}}>
+          <PixIcon @name="download" />
+          {{t "pages.sessions.table.actions.download-results"}}
+        </PixButton>
+        <PixButton @variant="tertiary" @isDisabled={{true}}>
+          <PixIcon @name="download" />
+          {{t "pages.sessions.table.actions.download-certificates"}}
+        </PixButton>
+      </div>
 
       {{#if @sessions}}
         <PixTable @variant="admin" @data={{@sessions}} @caption={{t "pages.sessions.table.caption"}}>
           <:columns as |session context|>
+            <PixTableColumn @context={{context}}>
+              <:header>
+              </:header>
+              <:cell>
+                <PixCheckbox
+                  @id={{concat "checkbox_" session.id}}
+                  {{on "change" (fn this.toggleRowSelection session.id)}}
+                  @checked={{this.isRowSelected session.id}}
+                  @screenReaderOnly={{true}}
+                  @size="small"
+                >
+                  <:label>{{t "pages.sessions.table.actions.select-row" sessionId=session.id}}</:label>
+                </PixCheckbox>
+              </:cell>
+            </PixTableColumn>
             <PixTableColumn @context={{context}}>
               <:header>
                 {{t "pages.sessions.table.headers.id"}}

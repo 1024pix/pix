@@ -19,13 +19,24 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
-  @tracked pageSize = 10;
+  @tracked pageSize = 100;
   @tracked ids = null;
   @tracked certificationCenterName = null;
   @tracked certificationCenterExternalId = null;
   @tracked certificationCenterType = null;
   @tracked status = null;
   @tracked version = null;
+
+  get filters() {
+    return {
+      ids: this.ids,
+      certificationCenterName: this.certificationCenterName,
+      certificationCenterExternalId: this.certificationCenterExternalId,
+      certificationCenterType: this.certificationCenterType,
+      status: this.status,
+      version: this.version,
+    };
+  }
 
   updateFilters(filters) {
     for (const filterKey of Object.keys(filters)) {
@@ -40,21 +51,9 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   }
 
   @action
-  updateCertificationCenterTypeFilter(newValue) {
-    this.certificationCenterType = this._getOrNullForOptionAll(newValue);
-    this.updateFilters({ certificationCenterType: this.certificationCenterType });
-  }
-
-  @action
-  updateSessionVersionFilter(newValue) {
-    this.version = this._getOrNullForOptionAll(newValue);
-    this.updateFilters({ version: this.version });
-  }
-
-  @action
-  updateSessionStatusFilter(newValue) {
-    this.status = this._getOrNullForOptionAll(newValue);
-    this.updateFilters({ status: this.status });
+  updateSelectFilter(fieldName, newValue) {
+    this[fieldName] = this._getOrNullForOptionAll(newValue);
+    this.updateFilters({ [fieldName]: this[fieldName] });
   }
 
   _getOrNullForOptionAll(value) {

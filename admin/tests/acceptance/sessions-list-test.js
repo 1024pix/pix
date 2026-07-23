@@ -63,15 +63,15 @@ module('Acceptance | Session List', function (hooks) {
             name: t('pages.sessions.table.caption'),
           });
           const rows = within(table).getAllByRole('row');
-          assert.strictEqual(rows.length, 11);
-          assert.dom(screen.getByText('1-10 sur 35 éléments')).exists();
+          assert.strictEqual(rows.length, 36);
+          assert.dom(screen.getByText('35 éléments')).exists();
         });
       });
 
       module('when selecting a different page', function () {
         test('it should display the second page of finalized sessions', async function (assert) {
           // when
-          const screen = await visit('/sessions/list');
+          const screen = await visit('/sessions/list?pageSize=10');
           await click(screen.getByRole('button', { name: /Aller à la page suivante/ }));
 
           // then
@@ -112,7 +112,7 @@ module('Acceptance | Session List', function (hooks) {
             name: t('pages.sessions.table.caption'),
           });
           const rows = within(table).getAllByRole('row');
-          assert.strictEqual(rows.length, 11);
+          assert.strictEqual(rows.length, 36);
         });
       });
     });
