@@ -763,7 +763,7 @@
       },
       "external-id-label": {
         "label": "external user ID label",
-        "question-label": "Do you need an external user ID?",
+        "question-label": "Would you like to request an additional identifier at the start of the test ?",
         "required": "The external user ID label is mandatory.",
         "suggestion": "Example : \"Student Number\" or \"Email address\" *"
       },

@@ -763,7 +763,7 @@
       },
       "external-id-label": {
         "label": "Texto del identificador",
-        "question-label": "¿Desea solicitar un identificador externo?",
+        "question-label": "¿Desea solicitar un identificador adicional al inicio de su participación?",
         "required": "El identificador externo es obligatorio",
         "suggestion": "Ejemplo: \"Número de estudiante\" o \"Dirección de correo electrónico profesional\" *."
       },

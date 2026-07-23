@@ -763,7 +763,7 @@
       },
       "external-id-label": {
         "label": "Type externe user-ID",
-        "question-label": "Wil je een externe gebruikers-ID aanvragen?",
+        "question-label": "Wilt u bij aanvang van uw deelname een extra identificatie aanvragen?",
         "required": "De externe id is verplicht",
         "suggestion": "Voorbeeld: \"Studentnummer\" of \"Professioneel e-mailadres\" *."
       },

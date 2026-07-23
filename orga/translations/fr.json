@@ -763,7 +763,7 @@
       },
       "external-id-label": {
         "label": "Libellé de l’identifiant",
-        "question-label": "Souhaitez-vous demander un identifiant externe ?",
+        "question-label": "Souhaitez-vous demander un identifiant complémentaire en début de participation ?",
         "required": "L'id externe est obligatoire",
         "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
       },
