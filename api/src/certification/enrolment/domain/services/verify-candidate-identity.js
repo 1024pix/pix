@@ -25,7 +25,7 @@ import { CertificationCourse } from '../../../shared/domain/models/Certification
  * @param {UserRepository} params.userRepository
  * @returns {Promise<Candidate>}
  */
-export const verifyCandidateIdentity = async ({
+export async function verifyCandidateIdentity({
   userId,
   sessionId,
   firstName,
@@ -36,7 +36,7 @@ export const verifyCandidateIdentity = async ({
   sessionRepository,
   userRepository,
   normalizeStringFnc,
-}) => {
+}) {
   const user = await userRepository.get({ id: userId });
 
   const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(user.lang);
@@ -85,7 +85,7 @@ export const verifyCandidateIdentity = async ({
   }
 
   return candidate;
-};
+}
 
 /**
  * @param {object} params

@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { verifyCandidateIdentity } from '../../../../../../src/certification/enrolment/domain/usecases/verify-candidate-identity.js';
+import { verifyCandidateIdentity } from '../../../../../../src/certification/enrolment/domain/services/verify-candidate-identity.js';
 import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { types } from '../../../../../../src/organizational-entities/domain/models/Organization.js';

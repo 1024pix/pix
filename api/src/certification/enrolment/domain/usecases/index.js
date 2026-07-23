@@ -16,9 +16,12 @@ import * as eventAdapter from '../../infrastructure/adapters/event-adapter.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as eligibilityService from '../services/eligibility-service.js';
+import * as reconcileCandidateService from '../services/reconcile-candidate.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
+import * as verifyCandidateIdentityService from '../services/verify-candidate-identity.js';
+import * as verifyCandidateReconciliationRequirementsService from '../services/verify-candidate-reconciliation-requirements.js';
 import { addCandidateToSession } from './add-candidate-to-session.js';
 import { candidateHasSeenCertificationInstructions } from './candidate-has-seen-certification-instructions.js';
 import { createSession } from './create-session.js';
@@ -39,13 +42,10 @@ import { getSession } from './get-session.js';
 import { getUserCertificationEligibility } from './get-user-certification-eligibility.js';
 import { hasBeenCandidate } from './has-been-candidate.js';
 import { importCertificationCandidatesFromCandidatesImportSheet } from './import-certification-candidates-from-candidates-import-sheet.js';
-import { reconcileCandidate } from './reconcile-candidate.js';
 import { registerCandidateParticipation } from './register-candidate-participation.js';
 import { updateEnrolledCandidate } from './update-enrolled-candidate.js';
 import { updateSession } from './update-session.js';
 import { validateSessions } from './validate-sessions.js';
-import { verifyCandidateIdentity } from './verify-candidate-identity.js';
-import { verifyCandidateReconciliationRequirements } from './verify-candidate-reconciliation-requirements.js';
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
@@ -123,6 +123,9 @@ const dependencies = {
   certificationCenterRepository,
   countryRepository,
   eventAdapter,
+  verifyCandidateIdentityService,
+  verifyCandidateReconciliationRequirementsService,
+  reconcileCandidateService,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -146,13 +149,10 @@ const usecasesWithoutInjectedDependencies = {
   getUserCertificationEligibility,
   hasBeenCandidate,
   importCertificationCandidatesFromCandidatesImportSheet,
-  reconcileCandidate,
   updateEnrolledCandidate,
   updateSession,
   validateSessions,
   registerCandidateParticipation,
-  verifyCandidateReconciliationRequirements,
-  verifyCandidateIdentity,
 };
 
 export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
