@@ -768,7 +768,7 @@
         "suggestion": "Voorbeeld: \"Studentnummer\" of \"Professioneel e-mailadres\" *."
       },
       "external-id-type": {
-        "question-label": "Wat is het type externe ID?"
+        "question-label": "Welk type aanvullende identificatie wilt u aanvragen?"
       },
       "landing-page-text": {
         "label": "Tekst op de startpagina",

@@ -768,7 +768,7 @@
         "suggestion": "Ejemplo: \"Número de estudiante\" o \"Dirección de correo electrónico profesional\" *."
       },
       "external-id-type": {
-        "question-label": "¿Cuál es el tipo de identificador externo?"
+        "question-label": "¿Qué tipo de identificador adicional desea solicitar?"
       },
       "landing-page-text": {
         "label": "Texto de la página de inicio",

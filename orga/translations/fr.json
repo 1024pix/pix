@@ -768,7 +768,7 @@
         "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
       },
       "external-id-type": {
-        "question-label": "Quel est le type de l'identifiant externe ?"
+        "question-label": "Quel type d’identifiant complémentaire souhaitez-vous demander ?"
       },
       "landing-page-text": {
         "label": "Texte de la page d'accueil",

@@ -768,7 +768,7 @@
         "suggestion": "Beispiel: \"Schülernummer\" oder \"Geschäftliche E-Mail-Adresse\" *."
       },
       "external-id-type": {
-        "question-label": "Wie lautet der Typ der externen Kennung?"
+        "question-label": "Welche Typ von zusätzlichem Kennung möchten Sie beantragen?"
       },
       "landing-page-text": {
         "label": "Text auf der Startseite",

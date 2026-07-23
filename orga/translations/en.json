@@ -768,7 +768,7 @@
         "suggestion": "Example : \"Student Number\" or \"Email address\" *"
       },
       "external-id-type": {
-        "question-label": "What is the type of the external ID ?"
+        "question-label": "What type of additional identifier would you like to request?"
       },
       "landing-page-text": {
         "label": "Text to display on the starting page",
