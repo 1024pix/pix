@@ -154,7 +154,6 @@ function buildBaseReadQuery(knexConn) {
  * @property {string} billingMode
  * @property {string} prepaymentCode
  * @property {number} organizationLearnerId
- * @property {boolean} authorizedToStart
  * @property {boolean} hasSeenCertificationInstructions
  * @property {boolean} accessibilityAdjustmentNeeded
  * @property {number | null} extraTimePercentage
@@ -183,7 +182,6 @@ function adaptModelToDb(candidate) {
     externalId: candidate.externalId,
     birthdate: candidate.birthdate,
     extraTimePercentage: candidate.extraTimePercentage,
-    authorizedToStart: candidate.authorizedToStart,
     sessionId: candidate.sessionId,
     userId: candidate.userId,
     reconciledAt: candidate.reconciledAt,
@@ -216,7 +214,6 @@ function adaptModelToDb(candidate) {
  * @property {string} billingMode
  * @property {string} prepaymentCode
  * @property {number} organizationLearnerId
- * @property {boolean} authorizedToStart
  * @property {boolean} hasSeenCertificationInstructions
  * @property {boolean} accessibilityAdjustmentNeeded
  * @property {boolean} hasStartedTest
