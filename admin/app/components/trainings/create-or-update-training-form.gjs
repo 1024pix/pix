@@ -255,7 +255,7 @@ export default class CreateOrUpdateTrainingForm extends Component {
             <PixInput
               @id="trainingHoursDuration"
               min="0"
-              max="23"
+              max="999"
               required={{true}}
               aria-required={{true}}
               type="number"
