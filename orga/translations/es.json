@@ -762,9 +762,9 @@
         "label": "¿Desea activar el modo de consulta?"
       },
       "external-id-label": {
-        "label": "Texto del identificador",
+        "label": "Denominación del identificador adicional",
         "question-label": "¿Desea solicitar un identificador adicional al inicio de su participación?",
-        "required": "El identificador externo es obligatorio",
+        "required": "El identificador adicional es obligatorio",
         "suggestion": "Ejemplo: \"Número de estudiante\" o \"Dirección de correo electrónico profesional\" *."
       },
       "external-id-type": {

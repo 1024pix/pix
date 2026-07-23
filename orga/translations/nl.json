@@ -762,9 +762,9 @@
         "label": "Wil je de vraagmodus activeren?"
       },
       "external-id-label": {
-        "label": "Type externe user-ID",
+        "label": "Tekst van de aanvullende identificatie",
         "question-label": "Wilt u bij aanvang van uw deelname een extra identificatie aanvragen?",
-        "required": "De externe id is verplicht",
+        "required": "De aanvullende identificatie is verplicht",
         "suggestion": "Voorbeeld: \"Studentnummer\" of \"Professioneel e-mailadres\" *."
       },
       "external-id-type": {

@@ -762,9 +762,9 @@
         "label": "Do you want to enable exam mode?"
       },
       "external-id-label": {
-        "label": "external user ID label",
+        "label": "Additional identifier label",
         "question-label": "Would you like to request an additional identifier at the start of the test ?",
-        "required": "The external user ID label is mandatory.",
+        "required": "The additional user ID label is mandatory.",
         "suggestion": "Example : \"Student Number\" or \"Email address\" *"
       },
       "external-id-type": {

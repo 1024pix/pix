@@ -762,9 +762,9 @@
         "label": "Möchten Sie den Testmodus aktivieren?"
       },
       "external-id-label": {
-        "label": "Bezeichnung der Kennung",
+        "label": "Bezeichnung der zusätzlichen Kennung",
         "question-label": "Möchten Sie zu Beginn Ihrer Teilnahme eine zusätzliche Kennung anfordern?",
-        "required": "Die externe Id ist obligatorisch",
+        "required": "Die zusätzlichen Kennung ist obligatorisch",
         "suggestion": "Beispiel: \"Schülernummer\" oder \"Geschäftliche E-Mail-Adresse\" *."
       },
       "external-id-type": {

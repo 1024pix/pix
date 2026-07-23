@@ -762,9 +762,9 @@
         "label": "Souhaitez-vous activer le mode interro ?"
       },
       "external-id-label": {
-        "label": "Libellé de l’identifiant",
+        "label": "Libellé de l’identifiant complémentaire",
         "question-label": "Souhaitez-vous demander un identifiant complémentaire en début de participation ?",
-        "required": "L'id externe est obligatoire",
+        "required": "L'identifiant complémentaire est obligatoire",
         "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
       },
       "external-id-type": {

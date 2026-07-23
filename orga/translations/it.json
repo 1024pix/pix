@@ -762,9 +762,9 @@
         "label": "Desiderate attivare la modalità di interrogazione?"
       },
       "external-id-label": {
-        "label": "Formulazione dell'identificatore",
+        "label": "Denominazione dell'identificativo aggiuntivo",
         "question-label": "Desidera richiedere un identificativo aggiuntivo all'inizio della partecipazione?",
-        "required": "L'id esterno è obbligatorio",
+        "required": "Il identificativo aggiuntivo è obbligatorio",
         "suggestion": "Esempio: \"Numero dello studente\" o \"Indirizzo e-mail professionale\" *."
       },
       "external-id-type": {
