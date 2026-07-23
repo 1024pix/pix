@@ -1,36 +1,59 @@
 import { DatamartBuilder } from '../../datamart/datamart-builder/datamart-builder.js';
 
-const COMPETENCE_CODES = [
-  '1.1',
-  '1.2',
-  '1.3',
-  '2.1',
-  '2.2',
-  '2.3',
-  '2.4',
-  '3.1',
-  '3.2',
-  '3.3',
-  '3.4',
-  '4.1',
-  '4.2',
-  '4.3',
-  '5.1',
-  '5.2',
+// Deterministic per-competence variation factor allows to have various avgPixScore
+const COMPETENCES = [
+  { code: '1.1', name: 'Mener une recherche et une veille d’information', variation: 1.0 },
+  { code: '1.2', name: 'Gérer des données', variation: 0.92 },
+  { code: '1.3', name: 'Traiter des données', variation: 1.08 },
+  { code: '2.1', name: 'Interagir', variation: 0.88 },
+  { code: '2.2', name: 'Partager et publier', variation: 1.03 },
+  { code: '2.3', name: 'Collaborer', variation: 0.97 },
+  { code: '2.4', name: 'S’insérer dans le monde numérique', variation: 1.05 },
+  { code: '3.1', name: 'Développer des documents textuels', variation: 0.93 },
+  { code: '3.2', name: 'Développer des documents multimedia', variation: 1.07 },
+  { code: '3.3', name: 'Adapter les documents à leur finalité', variation: 0.99 },
+  { code: '3.4', name: 'Programmer', variation: 0.95 },
+  { code: '4.1', name: 'Sécuriser l’environnement numérique', variation: 1.04 },
+  { code: '4.2', name: 'Protéger les données personnelles et la vie privée', variation: 0.9 },
+  { code: '4.3', name: 'Protéger la santé, le bien-être et l’environnement', variation: 1.02 },
+  { code: '5.1', name: 'Résoudre des problèmes techniques', variation: 0.96 },
+  { code: '5.2', name: 'Construire un environnement numérique', variation: 1.01 },
 ];
 
-// Deterministic per-competence variation factors (index matches COMPETENCE_CODES)
-// Allows to have various avgPixScore
-const COMPETENCE_VARIATIONS = [
-  1.0, 0.92, 1.08, 0.88, 1.03, 0.97, 1.05, 0.93, 1.07, 0.99, 0.95, 1.04, 0.9, 1.02, 0.96, 1.01,
-];
-
-function scoreToLevel(pixScore) {
-  return Math.round((1 + ((pixScore - 1) / 895) * 6) * 10) / 10;
+function roundTo(value, precision) {
+  return Math.round(value * precision) / precision;
 }
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
+}
+
+function scoreToLevel(pixScore) {
+  return roundTo(1 + ((pixScore - 1) / 895) * 6, 10);
+}
+
+function computeCompetenceLevelStats({ basePixScore, variation }) {
+  const averagePixScore = clamp(roundTo(basePixScore * variation, 1), 1, 896);
+  const avgCompetenceLevel = clamp(scoreToLevel(averagePixScore), 1, 7);
+
+  return { averagePixScore, avgCompetenceLevel };
+}
+
+function computeParticipationLevelStats(avgCompetenceLevel) {
+  const medianLevel = clamp(roundTo(avgCompetenceLevel, 1), 1, 6);
+  const averageMaxLevelReached = clamp(roundTo(avgCompetenceLevel, 10), 1, 6);
+  const averageMaxLevelReachable = clamp(roundTo(averageMaxLevelReached + 0.5, 10), 1, 6);
+
+  return {
+    firstDecileLevel: clamp(medianLevel - 2, 1, 6),
+    firstQuartileLevel: clamp(medianLevel - 1, 1, 6),
+    medianLevel,
+    thirdQuartileLevel: clamp(medianLevel + 1, 1, 6),
+    ninthDecileLevel: clamp(medianLevel + 2, 1, 6),
+    averageMaxLevelReached,
+    averageMaxLevelReachable,
+    coverage: clamp(roundTo(averageMaxLevelReached / averageMaxLevelReachable, 100), 0, 1),
+  };
 }
 
 function generateSchoolClassRecords({
@@ -43,13 +66,18 @@ function generateSchoolClassRecords({
   certificationCount,
   validatedCertificationCount,
 }) {
-  return COMPETENCE_CODES.map((competenceCode, index) => {
-    const averagePixScore = clamp(Math.round(basePixScore * COMPETENCE_VARIATIONS[index]), 1, 896);
-    const avgCompetenceLevel = clamp(scoreToLevel(averagePixScore), 1, 7);
+  const schoolYear = 2025;
+  const updatedAt = new Date('2026-07-01');
 
-    return {
+  const certificationRecords = [];
+  const participationRecords = [];
+
+  COMPETENCES.forEach(({ code: competenceCode, name: competenceName, variation }) => {
+    const { averagePixScore, avgCompetenceLevel } = computeCompetenceLevelStats({ basePixScore, variation });
+
+    certificationRecords.push({
       schoolUai,
-      schoolYear: 2025,
+      schoolYear,
       academieName,
       schoolName,
       provinceCode,
@@ -59,9 +87,26 @@ function generateSchoolClassRecords({
       averagePixScore,
       competenceCode,
       avgCompetenceLevel,
-      updatedAt: new Date('2026-07-01'),
-    };
+      updatedAt,
+    });
+
+    participationRecords.push({
+      schoolUai,
+      schoolYear,
+      academieName,
+      schoolName,
+      provinceCode,
+      schoolYearGroup,
+      competenceCode,
+      competenceName,
+      participantCount: certificationCount,
+      standardDeviation: clamp(roundTo(2 - variation, 10), 0.5, 2),
+      ...computeParticipationLevelStats(avgCompetenceLevel),
+      updatedAt,
+    });
   });
+
+  return { certificationRecords, participationRecords };
 }
 
 const SCHOOLS = [
@@ -224,7 +269,7 @@ export async function seed(knex) {
 
   for (const school of SCHOOLS) {
     for (const cls of school.classes) {
-      const records = generateSchoolClassRecords({
+      const { certificationRecords, participationRecords } = generateSchoolClassRecords({
         schoolUai: school.schoolUai,
         academieName: school.academieName,
         schoolName: school.schoolName,
@@ -234,7 +279,8 @@ export async function seed(knex) {
         certificationCount: cls.certificationCount,
         validatedCertificationCount: cls.validatedCertificationCount,
       });
-      records.forEach((record) => datamartBuilder.factory.buildMenDashboardCertificationDataset(record));
+      certificationRecords.forEach((record) => datamartBuilder.factory.buildMenDashboardCertificationDataset(record));
+      participationRecords.forEach((record) => datamartBuilder.factory.buildMenDashboardParticipationDataset(record));
     }
   }
 
