@@ -80,7 +80,8 @@ export default class ExternalId extends Component {
 
     {{#if this.wantIdPix}}
       <FormField>
-        <PixFieldset @required={{true}} aria-labelledby="external-ids-types" role="radiogroup">
+        <:default>
+          <PixFieldset @required={{true}} aria-labelledby="external-ids-types" role="radiogroup">
           <:title>{{t "pages.campaign-creation.external-id-type.question-label"}}</:title>
           <:content>
             <PixRadioButton
@@ -107,6 +108,14 @@ export default class ExternalId extends Component {
             {{/if}}
           </:content>
         </PixFieldset>
+        </:default>
+        <:information>
+          <ExplanationCard id="external-ids-types-info">
+            <:title>{{t "pages.campaign-creation.external-id-type.information.label"}}</:title>
+
+            <:message>{{t "pages.campaign-creation.external-id-type.information.message" htmlSafe=true}}</:message>
+          </ExplanationCard>
+        </:information>
       </FormField>
       <FormField>
         <PixInput

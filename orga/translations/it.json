@@ -772,6 +772,10 @@
         "suggestion": "Esempio: \"Numero dello studente\" o \"Indirizzo e-mail professionale\" *."
       },
       "external-id-type": {
+        "information": {
+          "label": "Tipo di identificativo aggiuntivo",
+          "message": "Il tipo “indirizzo e-mail” consente di verificare che il formato dell'indirizzo inserito dal partecipante sia corretto. Utilizzalo, ad esempio, per richiedere un indirizzo e-mail interno alla tua struttura.'<br>'Il tipo “altro” offre un campo di testo breve. Utilizzalo per richiedere un numero di matricola, un codice identificativo interno, il nome di un gruppo o di una classe."
+        },
         "question-label": "Che tipo di identificativo aggiuntivo desidera richiedere?"
       },
       "landing-page-text": {

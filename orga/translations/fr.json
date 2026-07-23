@@ -772,6 +772,10 @@
         "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
       },
       "external-id-type": {
+        "information": {
+          "label": "Type d’identifiant complémentaire",
+          "message": "Le type \"adresse e-mail\" permet de vérifier que le format de l'adresse saisie par le participant est correct. Utilisez-le pour demander une adresse e-mail interne à votre structure par exemple.'<br>'Le type \"autre\" propose un champ texte court. Utilisez-le pour demander un numéro étudiant, un matricule ou un identifiant interne, un nom de groupe ou de classe."
+        },
         "question-label": "Quel type d’identifiant complémentaire souhaitez-vous demander ?"
       },
       "landing-page-text": {

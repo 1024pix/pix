@@ -772,6 +772,10 @@
         "suggestion": "Beispiel: \"Schülernummer\" oder \"Geschäftliche E-Mail-Adresse\" *."
       },
       "external-id-type": {
+        "information": {
+          "label": "Zusätzliche Kennung Typ",
+          "message": "Mit dem Typ „E-Mail-Adresse“ können Sie überprüfen, ob das Format der vom Teilnehmer eingegebenen Adresse korrekt ist. Verwenden Sie diesen Typ beispielsweise, um eine interne E-Mail-Adresse Ihrer Einrichtung abzufragen.'<br>'Der Typ „Sonstiges“ bietet ein Kurztextfeld. Verwenden Sie diesen Typ, um eine Matrikelnummer, eine interne Kennung oder einen Gruppen- bzw. Klassennamen abzufragen."
+        },
         "question-label": "Welche Typ von zusätzlichem Kennung möchten Sie beantragen?"
       },
       "landing-page-text": {

@@ -62,7 +62,7 @@ module('Integration | Component | Campaign::CreateForm::ExternalId', function (h
     }
   });
 
-  test('it not displays external id type nor gdpr footnote by default', async function (assert) {
+  test('it not displays external id type, explanation nor gdpr footnote by default', async function (assert) {
     // when
     const screen = await render(
       <template><ExternalId @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
@@ -72,10 +72,11 @@ module('Integration | Component | Campaign::CreateForm::ExternalId', function (h
     assert
       .dom(screen.queryByRole('radiogroup', { name: t('pages.campaign-creation.external-id-type.question-label') }))
       .doesNotExist();
+    assert.dom(screen.queryByText(t('pages.campaign-creation.external-id-type.information.label'))).doesNotExist();
     assert.dom(screen.queryByText(t('pages.campaign-creation.legal-warning'))).doesNotExist();
   });
 
-  test('it displays external id type and gdpr footnote once the user asks for an external id', async function (assert) {
+  test('it displays external id type, explanation and gdpr footnote once the user asks for an external id', async function (assert) {
     // given
     const screen = await render(
       <template><ExternalId @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
@@ -88,6 +89,11 @@ module('Integration | Component | Campaign::CreateForm::ExternalId', function (h
     assert
       .dom(screen.getByRole('radiogroup', { name: t('pages.campaign-creation.external-id-type.question-label') }))
       .exists();
+    assert.dom(screen.queryByText(t('pages.campaign-creation.external-id-type.information.label'))).exists();
+    const informationMessageParts = t('pages.campaign-creation.external-id-type.information.message').split('<br>');
+    for (const part of informationMessageParts) {
+      assert.dom(screen.getByText(part, { exact: false })).exists();
+    }
     assert.dom(screen.getByText(t('pages.campaign-creation.legal-warning'))).exists();
   });
 

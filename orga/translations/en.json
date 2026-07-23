@@ -772,6 +772,10 @@
         "suggestion": "Example : \"Student Number\" or \"Email address\" *"
       },
       "external-id-type": {
+        "information": {
+          "label": "Additional identifier type",
+          "message": "The ‘email address’ field type allows you to check that the format of the address entered by the participant is correct. Use this to request an internal email address within your organisation, for example.'<br>'The ‘other’ field type provides a short text field. Use this to request a student number, a registration number or internal ID, or a group or class name."
+        },
         "question-label": "What type of additional identifier would you like to request?"
       },
       "landing-page-text": {

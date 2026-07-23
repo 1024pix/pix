@@ -772,6 +772,10 @@
         "suggestion": "Voorbeeld: \"Studentnummer\" of \"Professioneel e-mailadres\" *."
       },
       "external-id-type": {
+        "information": {
+          "label": "Aanvullende identificatie type",
+          "message": "Met het type “e-mailadres” kunt u controleren of het door de deelnemer ingevoerde adres de juiste indeling heeft. Gebruik dit bijvoorbeeld om een intern e-mailadres binnen uw organisatie te vragen.'<br>'Het type “overig” biedt een kort tekstveld. Gebruik dit om een studentnummer, een personeelsnummer of een interne gebruikersnaam, of de naam van een groep of klas te vragen."
+        },
         "question-label": "Welk type aanvullende identificatie wilt u aanvragen?"
       },
       "landing-page-text": {

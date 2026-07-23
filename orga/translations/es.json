@@ -772,6 +772,10 @@
         "suggestion": "Ejemplo: \"Número de estudiante\" o \"Dirección de correo electrónico profesional\" *."
       },
       "external-id-type": {
+        "information": {
+          "label": "Tipo de identificador adicional",
+          "message": "El tipo «dirección de correo electrónico» permite comprobar que el formato de la dirección introducida por el participante es correcto. Úsalo, por ejemplo, para solicitar una dirección de correo electrónico interna de tu centro.'<br>'El tipo «otro» ofrece un campo de texto breve. Úsalo para solicitar un número de estudiante, un número de matrícula o un identificador interno, o el nombre de un grupo o una clase."
+        },
         "question-label": "¿Qué tipo de identificador adicional desea solicitar?"
       },
       "landing-page-text": {
