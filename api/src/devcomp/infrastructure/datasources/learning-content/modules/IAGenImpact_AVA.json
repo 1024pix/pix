@@ -110,7 +110,7 @@
                 "id": "b2582fac-a970-4816-a870-d41380e4912e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mais pourquoi les IA consomment-elles de l’énergie lors de leur entraînement ? et de leur utilisation ?</p><p>Et comment expliquer cette différence entre les modèles ?&nbsp; </p><p>C’est ce que vous allez découvrir dans ce module.</p>"
+                "content": "<p>Mais pourquoi les IA consomment-elles de l’énergie lors de leur entraînement ? Et de leur utilisation ?</p><p>Et comment expliquer cette différence entre les modèles ?&nbsp; </p><p>C’est ce que vous allez découvrir dans ce module.</p>"
               }
             }
           ]
@@ -132,7 +132,7 @@
                 "id": "b984fed2-3e75-479e-848b-d9d82780b742",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>L'entraînement d'une IA constitue une étape indispensable à son fonctionnement, mais aussi très consommatrice d'énergie.</p>"
+                "content": "<p>L'entraînement d'une IA constitue une étape indispensable à son fonctionnement, mais elle est aussi très consommatrice d'énergie.</p>"
               }
             }
           ]
@@ -171,7 +171,7 @@
                           "id": "2",
                           "content": "<p>Recharger votre smartphone pendant 4 200 000 années.&nbsp;📱</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Drôle d’idée !</strong></p><p>En tout cas, toutes les réponses correspondent à 42 GWh.</p><p>Et ce total ne prend en compte que l’entraînement pour u<strong>ne version du modèle</strong>. </p><p>Depuis la sortie de ChatGPT-4 en 2024,&nbsp;OpenIA a sorti de <strong>nouvelles versions</strong>, comme ChatGPT-5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
+                            "diagnosis": "<p><strong>Drôle d’idée !</strong></p><p>En tout cas, toutes les réponses correspondent à 42 GWh.</p><p>Et ce total ne prend en compte que l’entraînement pour <strong>une version du modèle</strong>. </p><p>Depuis la sortie de ChatGPT-4 en 2024,&nbsp;OpenIA a sorti de <strong>nouvelles versions</strong>, comme ChatGPT-5, qui a nécessité un <strong>nouvel entraînement</strong>. </p>"
                           }
                         },
                         {
