@@ -1,3 +1,5 @@
+import sinon from 'sinon';
+
 import { createServer } from '../../../../../server.js';
 import { CertificationResultsLinkByEmailToken } from '../../../../../src/certification/results/domain/models/tokens/CertificationResultsLinkByEmailToken.js';
 import { CertificationResultsLinkToken } from '../../../../../src/certification/results/domain/models/tokens/CertificationResultsLinkToken.js';
@@ -244,6 +246,76 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
         // then
         expect(response.statusCode).to.equal(401);
       });
+    });
+  });
+
+  describe('GET /api/admin/sessions/download-selection-results', function () {
+    const now = new Date('2026-01-01T05:06:07Z');
+    let clock;
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('should return 200 HTTP status code', async function () {
+      // given
+      const server = await createServer();
+
+      const { id: userId } = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+
+      const { id: sessionId1 } = databaseBuilder.factory.buildSession({ date: '2026-01-01' });
+      const { id: sessionId2 } = databaseBuilder.factory.buildSession({ date: '2026-02-02' });
+
+      const candidates = [
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: sessionId1,
+        }),
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: sessionId1,
+        }),
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: sessionId2,
+        }),
+      ];
+
+      candidates.forEach((candidate) => {
+        const certifCourse = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: candidate.sessionId,
+          userId: candidate.userId,
+          lastName: candidate.lastName,
+          birthdate: candidate.birthdate,
+          createdAt: candidate.createdAt,
+        });
+
+        const assessment = databaseBuilder.factory.buildAssessment({
+          certificationCourseId: certifCourse.id,
+        });
+
+        databaseBuilder.factory.buildAssessmentResult({
+          assessmentId: assessment.id,
+          createdAt: new Date('2018-04-15T00:00:00Z'),
+        });
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/sessions/download-selection-results?sessionIds=${sessionId1}&sessionIds=${sessionId2}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers['content-type']).to.equal('application/zip');
+      expect(response.headers['content-disposition']).to.contain(
+        'attachment; filename=pix-sessions-results-1767243967000.zip',
+      );
     });
   });
 });

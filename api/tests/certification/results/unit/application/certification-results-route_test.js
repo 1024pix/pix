@@ -88,4 +88,57 @@ describe('Certification | Results | Unit | Application | Certification Results R
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('GET /api/admin/sessions/download-selection-results', function () {
+    describe('when sessionIds query param is missing', function () {
+      it('should return a 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/sessions/download-selection-results');
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    describe('when a sessionId is not a valid identifier', function () {
+      it('should return a 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/sessions/download-selection-results?sessionIds=not-a-number',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    describe('when sessionIds query param has duplicated session ids', function () {
+      it('should return a 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/sessions/download-selection-results?sessionIds=1&sessionIds=1',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
 });
