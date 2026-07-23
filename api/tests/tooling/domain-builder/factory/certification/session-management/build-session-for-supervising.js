@@ -166,7 +166,7 @@ class SessionForSupervisingBuilder {
         lastName: candidate.lastName,
         birthdate: candidate.birthdate,
         extraTimePercentage: candidate.extraTimePercentage,
-        authorizedToStart: candidate.authorizedToStart,
+        authorizedToStartAt: candidate.authorizedToStart ? new Date() : null,
         subscription: candidate.subscription,
       }).id;
 

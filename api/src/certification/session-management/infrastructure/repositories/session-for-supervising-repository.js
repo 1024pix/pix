@@ -29,7 +29,7 @@ export async function get({ id, dependencies = { certificationBadgesService } })
           'birthdate', "certification-candidates"."birthdate",
           'id', "certification-candidates"."id",
           'extraTimePercentage', "certification-candidates"."extraTimePercentage",
-          'authorizedToStart', "certification-candidates"."authorizedToStart",
+          'authorizedToStartAt', "certification-candidates"."authorizedToStartAt",
           'assessmentStatus', "assessments"."state",
           'startDateTime', "certification-courses"."createdAt",
           'assessmentDuration', "certification_versions"."assessmentDuration",
@@ -102,7 +102,7 @@ async function _toDomain(results, certificationBadgesService) {
         candidateRow.extraTimePercentage != null
           ? parseFloat(candidateRow.extraTimePercentage)
           : candidateRow.extraTimePercentage,
-      authorizedToStart: candidateRow.authorizedToStart,
+      authorizedToStart: Boolean(candidateRow.authorizedToStartAt),
       assessmentStatus: candidateRow.assessmentStatus,
       startDateTime: candidateRow.startDateTime ? new Date(candidateRow.startDateTime) : null,
       theoricalEndDateTime: computeTheoricalEndDateTime(candidateRow.startDateTime, candidateRow.assessmentDuration),
