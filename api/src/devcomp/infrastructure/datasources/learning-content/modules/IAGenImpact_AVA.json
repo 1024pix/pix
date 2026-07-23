@@ -90,7 +90,7 @@
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Sitan a donné le même prompt aux deux logiciels d’IA génératives, donc il n’y <strong>pas de différence dans l’utilisation.</strong></p><p>La différence vient donc de l’entraînement.</p>"
+                      "diagnosis": "<p>La différence vient à la fois de la phase&nbsp;d’entraînement et de la phase d’utilisation.</p>"
                     }
                   }
                 ],
@@ -110,7 +110,7 @@
                 "id": "b2582fac-a970-4816-a870-d41380e4912e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mais pourquoi les IA consomment-elles de l’énergie lors de leur entraînement ? et de leur utilisation ?</p><p>Et comment expliquer une si grande différence entre les modèles ?&nbsp; </p><p>C’est ce que vous allez découvrir dans ce module.</p>"
+                "content": "<p>Mais pourquoi les IA consomment-elles de l’énergie lors de leur entraînement ? et de leur utilisation ?</p><p>Et comment expliquer cette différence entre les modèles ?&nbsp; </p><p>C’est ce que vous allez découvrir dans ce module.</p>"
               }
             }
           ]
@@ -132,7 +132,7 @@
                 "id": "b984fed2-3e75-479e-848b-d9d82780b742",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>La première source de consommation d’énergie d’une IA, son entraînement, est indispensable à son fonctionnement.</p>"
+                "content": "<p>L'entraînement d'une IA constitue une étape indispensable à son fonctionnement, mais aussi très consommatrice d'énergie.</p>"
               }
             }
           ]
@@ -567,11 +567,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien vu !<br></p>",
-                          "diagnosis": "<p>Même si Google investit dans les énergies renouvelables,<strong> la consommation d’énergie que demande l’IA est trop forte pour être absorbée par les réseaux d’énergie actuels</strong>. Les grands fournisseurs d’IA consomment donc de l’énergie carbonnée.</p>"
+                          "diagnosis": "<p>Même si Google investit dans les énergies renouvelables,<strong> la&nbsp;consommation de l’IA est trop forte pour être absorbée par les réseaux d’énergie actuels</strong>. Les grands fournisseurs d’IA consomment donc aussi des énergies fossiles.</p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non, pas vraiment !<br></p>",
-                          "diagnosis": "<p>Même si Google investit dans les énergies renouvelables, <strong>la consommation d’énergie que demande l’IA est trop forte pour être absorbée par les réseaux d’énergie actuelles</strong>. Les grands fournisseurs d’IA consomment donc de l’énergie carbonnée.</p>"
+                          "diagnosis": "<p>Même si Google investit dans les énergies renouvelables, <strong>la consommation de l’IA est trop forte pour être absorbée par les réseaux d’énergie actuelles</strong>. Les grands fournisseurs d’IA consomment donc aussi des énergies fossiles.</p>"
                         }
                       },
                       "solutions": [
@@ -670,11 +670,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bien&nbsp;vu !</p>",
-                          "diagnosis": "<p>La plupart des entreprises qui créent des logiciels d’IA générative ne publient pas d’étude sur leurs impacts environnementaux. </p><p>En 2025, Mistral AI était l’une des seules à avoir publié une étude, mais sans les chiffres sources.&nbsp;Il n’existe <strong>p</strong><strong>as encore de standard&nbsp;</strong>ou de méthodologie partagée pour évaluer les impacts environnementaux des entreprises d’IA, ce qui <strong>ne permet pas de les comparer.</strong></p>"
+                          "diagnosis": "<p><strong>La plupart des entreprises</strong> qui créent des logiciels d’IA générative <strong>ne publient pas d’étude sur leurs impacts environnementaux. </strong></p><p>En 2025, Mistral AI était l’une des seules à avoir publié une étude, mais sans les chiffres sources.&nbsp;Il n’existe <strong>p</strong><strong>as encore de standard&nbsp;</strong>ou de méthodologie partagée pour évaluer les impacts environnementaux des entreprises d’IA, ce qui <strong>ne permet pas de les comparer.</strong></p>"
                         },
                         "invalid": {
                           "state": "<p>Eh non, pas vraiment !</p>",
-                          "diagnosis": " La plupart des entreprises conceptrices de logiciels d’IA générative ne publient pas d’étude sur leurs impacts environnementaux. En 2025, Mistral AI était l’une des seules à avoir publié une étude, mais sans les chiffres sources. Il n’existe pas encore de standard ou de méthodologie partagée pour évaluer les impacts environnementaux des entreprises d’IA, ce qui ne permet pas de les comparer."
+                          "diagnosis": "<p> <strong>La plupart des entreprises</strong> conceptrices de logiciels d’IA générative <strong>ne publient pas d’étude sur leurs impacts environnementaux.</strong> </p><p>En 2025, Mistral AI était l’une des seules à avoir publié une étude, mais sans les chiffres sources. Il n’existe <strong>pas encore de standard ou de méthodologie</strong> partagée pour évaluer les impacts environnementaux des entreprises d’IA, ce qui <strong>ne permet pas de les comparer.</strong></p>"
                         }
                       },
                       "solutions": [
@@ -794,7 +794,7 @@
                   },
                   {
                     "type": "text",
-                    "content": "<p>nécessite des calculs pendant des semaines qui sont traités dans des centres de</p>"
+                    "content": "nécessite des calculs pendant des semaines qui sont traités dans des centres de"
                   },
                   {
                     "input": "choice2",
@@ -815,7 +815,7 @@
                   },
                   {
                     "type": "text",
-                    "content": "<p>spécialisés équipés des miliers de cartes</p>"
+                    "content": "spécialisés équipés des miliers de cartes"
                   },
                   {
                     "input": "choice3",
