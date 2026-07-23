@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { WrongDomainExtensionForPixPlusError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/domain/usecases/register-candidate-participation.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -20,7 +19,6 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
   const sessionId = 456;
 
   beforeEach(function () {
-    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
     normalizeStringFnc = sinon.stub();
   });
 
