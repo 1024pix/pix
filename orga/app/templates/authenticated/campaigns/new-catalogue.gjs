@@ -11,11 +11,10 @@ import PageTitle from 'pix-orga/components/ui/page-title';
 
   <CreateForm
     @campaign={{@model.campaign}}
-    @targetProfiles={{@model.targetProfiles}}
     @errors={{@controller.errors}}
     @onSubmit={{@controller.createCampaign}}
     @onCancel={{@controller.cancel}}
     @membersSortedByFullName={{@model.membersSortedByFullName}}
-    @combinedCourseBlueprints={{@model.combinedCourseBlueprints}}
+    @hasBlueprints={{@model.hasBlueprints}}
   />
 </template>
