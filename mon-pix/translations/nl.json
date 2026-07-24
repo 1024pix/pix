@@ -227,7 +227,8 @@
         },
         "errors": {
           "expired-demand": "Het spijt ons, maar uw wachtwoordaanvraag is al gebruikt of verlopen. Probeer het opnieuw.",
-          "forbidden": "Er is een fout opgetreden, neem contact op met ondersteuning."
+          "forbidden": "Er is een fout opgetreden, neem contact op met ondersteuning.",
+          "revoked-password-cannot-be-reused": "Het wachtwoord dat u zojuist hebt ingevoerd, is door onze teams uit veiligheidsoverwegingen ongeldig gemaakt. Gebruik dit wachtwoord niet opnieuw. Kies alstublieft een nieuw wachtwoord."
         },
         "fields": {
           "password": {

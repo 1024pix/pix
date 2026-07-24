@@ -227,7 +227,8 @@
         },
         "errors": {
           "expired-demand": "Lo sentimos, pero tu solicitud de restablecimiento de contraseña ya ha sido utilizada o ha caducado. Por favor, vuelve a intentarlo.",
-          "forbidden": "Se ha producido un error, ponte en contacto con el servicio de asistencia."
+          "forbidden": "Se ha producido un error, ponte en contacto con el servicio de asistencia.",
+          "revoked-password-cannot-be-reused": "Nuestros equipos han revocado la contraseña que acabas de introducir como medida de seguridad. No la vuelvas a utilizar. Elige una nueva contraseña."
         },
         "fields": {
           "password": {

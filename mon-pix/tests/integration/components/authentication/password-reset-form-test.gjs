@@ -16,6 +16,8 @@ const I18N_KEYS = {
 };
 
 const I18N_ERROR_KEYS = {
+  REVOKED_PASSWORD_CANNOT_BE_REUSED:
+    'components.authentication.password-reset-form.errors.revoked-password-cannot-be-reused',
   '400': 'common.validation.password.error',
   '403': 'components.authentication.password-reset-form.errors.forbidden',
   '404': 'components.authentication.password-reset-form.errors.expired-demand',
@@ -108,16 +110,23 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
   });
 
   module('When there is an error from server', function () {
-    const HTTP_ERROR_SERVER = ['400', '403', '404', '500', 'unknownError'];
+    const httpErrors = [
+      { type: 'code', value: 'REVOKED_PASSWORD_CANNOT_BE_REUSED' },
+      { type: 'status', value: '400' },
+      { type: 'status', value: '403' },
+      { type: 'status', value: '404' },
+      { type: 'status', value: '500' },
+      { type: 'status', value: 'unknownError' },
+    ];
 
-    HTTP_ERROR_SERVER.forEach((httpErrorCode) => {
-      test(`displays, for the ${httpErrorCode} error code, a specific error message`, async function (assert) {
+    httpErrors.forEach((httpError) => {
+      test(`displays, for the "${httpError.value}" error ${httpError.type}, a specific error message`, async function (assert) {
         // given
         const validPassword = 'Pix12345';
         const user = { save: sinon.stub() };
         const temporaryKey = 'temporaryKey';
 
-        user.save.rejects({ errors: [{ status: httpErrorCode }] });
+        user.save.rejects({ errors: [{ [httpError.type]: httpError.value }] });
 
         // when
         const screen = await render(
@@ -129,7 +138,7 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
 
         // then
         assert.dom(screen.getByRole('alert')).exists();
-        assert.dom(screen.getByText(t(I18N_ERROR_KEYS[httpErrorCode]))).exists();
+        assert.dom(screen.getByText(t(I18N_ERROR_KEYS[httpError.value]))).exists();
       });
     });
   });

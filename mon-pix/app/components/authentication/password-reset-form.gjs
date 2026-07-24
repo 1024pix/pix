@@ -18,6 +18,8 @@ const HTTP_ERROR_MESSAGES = {
   400: 'common.validation.password.error',
   403: 'components.authentication.password-reset-form.errors.forbidden',
   404: 'components.authentication.password-reset-form.errors.expired-demand',
+  REVOKED_PASSWORD_CANNOT_BE_REUSED:
+    'components.authentication.password-reset-form.errors.revoked-password-cannot-be-reused',
   default: 'common.api-error-messages.internal-server-error',
 };
 
@@ -60,8 +62,9 @@ export default class PasswordResetForm extends Component {
       user.password = null;
       this.isPasswordResetSucceeded = true;
     } catch (response) {
-      const status = get(response, 'errors[0].status');
-      this.globalError = HTTP_ERROR_MESSAGES[status] || HTTP_ERROR_MESSAGES['default'];
+      const error = get(response, 'errors[0]');
+      const i18nKey = error.code ?? error.status;
+      this.globalError = HTTP_ERROR_MESSAGES[i18nKey] || HTTP_ERROR_MESSAGES['default'];
     } finally {
       this.isLoading = false;
     }
