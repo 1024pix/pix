@@ -27,6 +27,7 @@ export default async function (defaults) {
     deprecations: {
       DEPRECATE_TRACKING_PACKAGE: false,
     },
+    polyfillUUID: true,
   });
 
   // Use `app.import` to add additional libraries to the generated
