@@ -134,7 +134,7 @@
     "file-type": "^22.0.0",
     "hapi-swagger": "^17.3.2",
     "html-validate": "^11.0.0",
-    "hyparquet-writer": "^0.15.6",
+    "hyparquet-writer": "^0.16.0",
     "i18n": "^0.15.0",
     "iconv-lite": "^0.7.0",
     "ioredis": "5.8.0",
