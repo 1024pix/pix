@@ -949,9 +949,9 @@
         "title": "Weet u zeker dat u de campagne wilt verwijderen?"
       },
       "direct-link": "Directe link",
-      "external-user-id-label": "Type externe user-ID",
+      "external-user-id-label": "Tekst van de aanvullende identificatie",
       "external-user-id-types": {
-        "email": "E-mail",
+        "email": "E-mailadres",
         "string": "Andere"
       },
       "landing-page-text": "Tekst op de startpagina",

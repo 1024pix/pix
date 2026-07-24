@@ -949,9 +949,9 @@
         "title": "Êtes-vous sûr(e) de vouloir supprimer la campagne ?"
       },
       "direct-link": "Lien direct",
-      "external-user-id-label": "Libellé de l'identifiant",
+      "external-user-id-label": "Libellé de l’identifiant complémentaire",
       "external-user-id-types": {
-        "email": "Email",
+        "email": "Adresse e-mail",
         "string": "Autre"
       },
       "landing-page-text": "Texte de la page d'accueil",

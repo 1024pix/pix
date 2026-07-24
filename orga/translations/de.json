@@ -949,9 +949,9 @@
         "title": "Sind Sie sicher, dass Sie die Kampagne löschen möchten?"
       },
       "direct-link": "Direkter Link",
-      "external-user-id-label": "Bezeichnung der Kennung",
+      "external-user-id-label": "Bezeichnung der zusätzlichen Kennung",
       "external-user-id-types": {
-        "email": "E-Mail",
+        "email": "E-Mail-Adresse",
         "string": "Andere"
       },
       "landing-page-text": "Text auf der Startseite",

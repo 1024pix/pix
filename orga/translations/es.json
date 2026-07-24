@@ -949,7 +949,7 @@
         "title": "¿Está seguro de que desea eliminar la campaña?"
       },
       "direct-link": "Enlace directo",
-      "external-user-id-label": "Texto del identificador",
+      "external-user-id-label": "Denominación del identificador adicional",
       "external-user-id-types": {
         "email": "Correo electrónico",
         "string": "Otros"

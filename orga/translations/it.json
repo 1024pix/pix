@@ -949,9 +949,9 @@
         "title": "Sei sicuro di voler eliminare la campagna?"
       },
       "direct-link": "Collegamento diretto",
-      "external-user-id-label": "Formulazione dell'identificatore",
+      "external-user-id-label": "Denominazione dell'identificativo aggiuntivo",
       "external-user-id-types": {
-        "email": "Email",
+        "email": "Indirizzo e-mail",
         "string": "Altro"
       },
       "landing-page-text": "Testo della pagina iniziale",

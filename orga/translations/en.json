@@ -949,9 +949,9 @@
         "title": "Are you sure you want to delete the campaign?"
       },
       "direct-link": "Direct link",
-      "external-user-id-label": "External user ID label",
+      "external-user-id-label": "Additional identifier label",
       "external-user-id-types": {
-        "email": "Email",
+        "email": "Email address",
         "string": "Other"
       },
       "landing-page-text": "Text to display on the starting page",
