@@ -119,15 +119,6 @@
                 {
                   "elements": [
                     {
-                      "id": "cb16c340-5ca3-48bc-b546-1789bd45f097",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/cy_generalites_nov/felix.png",
-                      "alt": "",
-                      "alternativeText": "",
-                      "legend": "",
-                      "licence": ""
-                    },
-                    {
                       "id": "90bb6af7-bafc-426b-889a-11c12bbb5f69",
                       "type": "text",
                       "tag": "context",
@@ -166,16 +157,7 @@
                   ]
                 },
                 {
-                  "elements": [
-                    {
-                      "id": "f1f6d8ca-787d-4c88-8021-344893203c5e",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/cy_generalites_nov/mona.png",
-                      "alt": "",
-                      "alternativeText": "",
-                      "legend": "",
-                      "licence": ""
-                    },
+                  "elements": [                    
                     {
                       "id": "d1f31716-8453-40aa-96d2-54cb86102ca7",
                       "type": "text",
