@@ -76,39 +76,4 @@ describe('Unit | Identity Access Management | Domain | Service | reset-password'
       });
     });
   });
-
-  describe('#invalidateResetPasswordDemand', function () {
-    const userEmail = 'shi@fu.me';
-    let resetPasswordDemandRepository;
-
-    beforeEach(function () {
-      resetPasswordDemandRepository = {
-        markAsUsed: sinon.stub(),
-      };
-      resetPasswordDemandRepository.markAsUsed.throws();
-      resetPasswordDemandRepository.markAsUsed.withArgs(userEmail, 'good-temporary-key').resolves();
-      resetPasswordDemandRepository.markAsUsed.withArgs(userEmail, 'bad-temporary-key').rejects();
-    });
-
-    context('when there is a matching password reset demand', function () {
-      it('resolves', async function () {
-        await resetPasswordService.invalidateResetPasswordDemand(
-          userEmail,
-          'good-temporary-key',
-          resetPasswordDemandRepository,
-        );
-      });
-    });
-
-    context('when there is no matching password reset demand', function () {
-      it('resolves', function () {
-        const promise = resetPasswordService.invalidateResetPasswordDemand(
-          userEmail,
-          'bad-temporary-key',
-          resetPasswordDemandRepository,
-        );
-        return expect(promise).to.be.rejected;
-      });
-    });
-  });
 });

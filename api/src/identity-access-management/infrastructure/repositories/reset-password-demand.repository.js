@@ -21,26 +21,6 @@ const create = async function ({ email, temporaryKey }) {
 
 /**
  * @param {string} email
- * @param {string} temporaryKey
- *
- * @returns {Promise<void>}
- * @throws PasswordResetDemandNotFoundError when resetPasswordDemand has been already used or does not exist
- */
-const markAsUsed = async function (email, temporaryKey) {
-  const knexConn = DomainTransaction.getConnection();
-
-  const resetPasswordDemand = await knexConn(RESET_PASSWORD_DEMANDS_TABLE_NAME)
-    .whereRaw('LOWER("email") = LOWER(?)', email)
-    .where({ temporaryKey, used: false })
-    .update({ used: true, updatedAt: new Date() });
-
-  if (!resetPasswordDemand) {
-    throw new PasswordResetDemandNotFoundError();
-  }
-};
-
-/**
- * @param {string} email
  */
 const markAllAsUsedByEmail = async function (email) {
   const knexConn = DomainTransaction.getConnection();
@@ -82,7 +62,6 @@ const removeAllByEmail = async function (email) {
 
 /**
  * @typedef {Object} ResetPasswordDemandRepository
- * @property {function} markAsUsed
  * @property {function} create
  * @property {function} deleteByUserEmail
  * @property {function} findByTemporaryKey
@@ -90,7 +69,6 @@ const removeAllByEmail = async function (email) {
  * @property {function} markAllAsUsedByEmail
  */
 const resetPasswordDemandRepository = {
-  markAsUsed,
   create,
   removeAllByEmail,
   findByTemporaryKey,
