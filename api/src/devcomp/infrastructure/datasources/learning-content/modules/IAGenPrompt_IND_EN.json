@@ -33,7 +33,7 @@
                 "id": "3a2c5d6d-eff5-40d3-985d-1e0849cb8e79",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave is organising a volleyball tournament at a sports club. 🏐</p><p>He wants to save time, so he asks generative AI software to help him organise the tournament.  </p><p>But he is disappointed with the result… </p>"
+                "content": "<p>Tom is organising a volleyball tournament at a sports club. 🏐</p><p>He wants to save time, so he asks generative AI software to help him organise the tournament.  </p><p>But he is disappointed with the result… </p>"
               }
             }
           ]
@@ -56,7 +56,7 @@
                   "conversationTitle": "Introductory conversation",
                   "messages": [
                     {
-                      "userName": "Gustave",
+                      "userName": "Tom",
                       "direction": "incoming",
                       "type": "Texte",
                       "content": "Emma, I don't understand… You manage to do loads of things with AI, but it just doesn't work for me!"
@@ -68,7 +68,7 @@
                       "content": "Really? What prompt did you use? "
                     },
                     {
-                      "userName": "Gustave",
+                      "userName": "Tom",
                       "direction": "incoming",
                       "type": "Texte",
                       "content": "My prompt was: \"Help me organise the tournament.\""
@@ -110,7 +110,7 @@
         {
           "id": "1f086438-481c-447c-8968-40f69d613abc",
           "type": "discovery",
-          "title": "Improve Gustave's prompt",
+          "title": "Improve Tom's prompt",
           "components": [
             {
               "type": "element",
@@ -118,7 +118,7 @@
                 "id": "c4b28020-fcfe-4f0e-bdd3-a4df480fb3c8",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave's prompt was: \"Help me organise the tournament.\"</p>"
+                "content": "<p>Tom's prompt was: \"Help me organise the tournament.\"</p>"
               }
             },
             {
@@ -126,7 +126,7 @@
               "element": {
                 "id": "1918f494-020c-4f9d-acf0-cc3b946d8bcc",
                 "type": "qcm",
-                "instruction": "<p>What do you think should be added to Gustave's prompt to improve it?</p>",
+                "instruction": "<p>What do you think should be added to Tom's prompt to improve it?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -193,7 +193,7 @@
                 "id": "d467410e-7cd6-4fc9-82a6-e3f5a2bb7683",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave wrote an invitation to the tournament and asked the AI to correct it.</p>"
+                "content": "<p>Tom wrote an invitation to the tournament and asked the AI to correct it.</p>"
               }
             },
             {
@@ -246,28 +246,28 @@
                     "id": "1",
                     "content": "<p>The one with a festive tone.</p>",
                     "feedback": {
-                      "diagnosis": "<p>A fun choice!&nbsp; Ultimately, Gustave will choose the most appropriate tone because he knows the tournament participants best.</p>"
+                      "diagnosis": "<p>A fun choice!&nbsp; Ultimately, Tom will choose the most appropriate tone because he knows the tournament participants best.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>The one with a serious tone.</p>",
                     "feedback": {
-                      "diagnosis": "<p>A formal choice! Ultimately, Gustave will choose the most appropriate tone because he knows the tournament participants best.</p>"
+                      "diagnosis": "<p>A formal choice! Ultimately, Tom will choose the most appropriate tone because he knows the tournament participants best.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>The one with a humorous tone.</p>",
                     "feedback": {
-                      "diagnosis": "<p>An original choice! Ultimately, Gustave will choose the most appropriate tone because he knows the tournament participants best.</p>"
+                      "diagnosis": "<p>An original choice! Ultimately, Tom will choose the most appropriate tone because he knows the tournament participants best.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>I don't like any of them.</p>",
                     "feedback": {
-                      "diagnosis": "<p>No problem! There are many other possible tones, such as ironic or poetic. Gustave will choose the most appropriate one because he knows the tournament participants best!</p>"
+                      "diagnosis": "<p>No problem! There are many other possible tones, such as ironic or poetic. Tom will choose the most appropriate one because he knows the tournament participants best!</p>"
                     }
                   }
                 ],
@@ -303,7 +303,7 @@
                 "id": "ffe1f0cd-a90e-463c-a2f0-a5dca855636e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave wants to train the players at his club ahead of the volleyball tournament. </p>\n<p>To do this, he is preparing a training document on <strong>forearm passing</strong>, in the form of a <strong>table</strong>.</p>"
+                "content": "<p>Tom wants to train the players at his club ahead of the volleyball tournament. </p>\n<p>To do this, he is preparing a training document on <strong>forearm passing</strong>, in the form of a <strong>table</strong>.</p>"
               }
             },
             {
@@ -320,7 +320,7 @@
         {
           "id": "a41ba65b-07b1-4af5-8207-309acea1b347",
           "type": "discovery",
-          "title": "Discovery: Help Gustave with his prompt",
+          "title": "Discovery: Help Tom with his prompt",
           "components": [
             {
               "type": "element",
@@ -454,7 +454,7 @@
                 "id": "e5c05ba8-6377-4c98-9f92-fd6903ca0d0f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave has made his prompts more precise and improved the way he communicates with generative AI software.&nbsp;</p><p>For each prompt, select all the elements that make it clear.</p>"
+                "content": "<p>Tom has made his prompts more precise and improved the way he communicates with generative AI software.&nbsp;</p><p>For each prompt, select all the elements that make it clear.</p>"
               }
             },
             {
@@ -557,7 +557,7 @@
         {
           "id": "2b1ac391-44e4-4531-bafa-d613d9166398",
           "type": "activity",
-          "title": "Gustave organises the notes",
+          "title": "Tom organises the notes",
           "components": [
             {
               "type": "element",
@@ -565,7 +565,7 @@
                 "id": "626250fc-24c4-4c7b-8348-0bc3a9013288",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave took notes during the tournament planning meeting&nbsp;:&nbsp;</p><p><em>- maximum 12 teams. mixed teams → everyone agrees</em></p><p><em>- prizes? medals → cost to be confirmed</em></p><p><em> - referees → volunteers; follow up with those from the last tournament </em></p><p><em>- music: ask the town hall about a sound system </em></p><p><em>- if it rains → is the sports hall available? yes!:-) </em></p><p><em>- refreshments: juice, sandwiches, fruit → no hot food </em></p>"
+                "content": "<p>Tom took notes during the tournament planning meeting&nbsp;:&nbsp;</p><p><em>- maximum 12 teams. mixed teams → everyone agrees</em></p><p><em>- prizes? medals → cost to be confirmed</em></p><p><em> - referees → volunteers; follow up with those from the last tournament </em></p><p><em>- music: ask the town hall about a sound system </em></p><p><em>- if it rains → is the sports hall available? yes!:-) </em></p><p><em>- refreshments: juice, sandwiches, fruit → no hot food </em></p>"
               }
             },
             {
@@ -574,7 +574,7 @@
                 "id": "31b24d96-4c62-4283-83b3-f4d50ed7e690",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave wants to send <strong>meeting minutes</strong> to those who could not attend.</p><p>Talk to the generative AI software below until you obtain <strong>meeting minutes that accurately reflect</strong> Gustave's notes.</p>"
+                "content": "<p>Tom wants to send <strong>report</strong> to those who could not attend.</p><p>Talk to the generative AI software below until you obtain <strong>report that accurately reflect</strong> Tom's notes.</p>"
               }
             },
             {
@@ -596,7 +596,7 @@
                 "id": "afd15a86-fc0d-4a97-a6ff-8ce00a2d46ab",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><span aria-hidden=\"true\">🗝️</span> If you need help, click the hints below&nbsp;:</p><p><br></p><p></p><details><summary>Hint 1</summary><p>Have you checked the result produced by the AI?</p></details><details><summary>Hint 2</summary><p> Have you checked the prizes in the meeting minutes? </p></details><details><summary>Hint 3</summary><p>Have you asked the AI to correct its response?</p></details><p></p><p><br></p>"
+                "content": "<p><span aria-hidden=\"true\">🗝️</span> If you need help, click the hints below&nbsp;:</p><p><br></p><p></p><details><summary>Hint 1</summary><p>Have you checked the result produced by the AI?</p></details><details><summary>Hint 2</summary><p> Have you checked the prizes in the report? </p></details><details><summary>Hint 3</summary><p>Have you asked the AI to correct its response?</p></details><p></p><p><br></p>"
               }
             },
             {
@@ -605,7 +605,7 @@
                 "id": "cec8618a-6abf-486e-b646-7c3976c55ac2",
                 "type": "expand",
                 "title": "🙈 Solution",
-                "content": "<p>If you have produced meeting minutes, the software has probably made a <strong>mistake</strong>. The tournament <strong>prizes</strong> in Gustave's notes are <strong>medals</strong>.&nbsp;🎖️</p><p>You therefore need to ask the software to correct this mistake.</p><p>If you have obtained corrected meeting minutes that include the medals, your answer should be accepted.&nbsp;✅</p>"
+                "content": "<p>If you have produced report, the software has probably made a <strong>mistake</strong>. The tournament <strong>prizes</strong> in Tom's notes are <strong>medals</strong>.&nbsp;🎖️</p><p>You therefore need to ask the software to correct this mistake.</p><p>If you have obtained corrected report that include the medals, your answer should be accepted.&nbsp;✅</p>"
               }
             }
           ]
@@ -627,7 +627,7 @@
                 "id": "509c650d-c46b-435a-81fd-cf7268e94648",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>🎯 <strong>Mission: find a venue for the Jolieville tournament!</strong></p><p>Gustave is looking for a venue that can host the volleyball tournament. He needs at least four courts. </p>\n<p>His maximum budget is 300 pixmoney, but he is of course looking for a good deal. 💸</p><p>Jolieville town council has created AI software to answer questions about its sports facilities.&nbsp;🥅</p>\n\n"
+                "content": "<p>🎯 <strong>Mission: find a venue for the Jolieville tournament!</strong></p><p>Tom is looking for a venue that can host the volleyball tournament. He needs at least four courts. </p>\n<p>His maximum budget is 300 pixmoney, but he is of course looking for a good deal. 💸</p><p>Jolieville town council has created AI software to answer questions about its sports facilities.&nbsp;🥅</p>\n\n"
               }
             },
             {
@@ -648,7 +648,7 @@
               "element": {
                 "id": "27587d08-5548-4486-9004-2fa739fc1f1d",
                 "type": "qrocm",
-                "instruction": "<p>Which sports hall should Gustave contact?</p>",
+                "instruction": "<p>Which sports hall should Tom contact?</p>",
                 "proposals": [
                   {
                     "input": "VenueName",
@@ -665,13 +665,17 @@
                     ],
                     "solutions": [
                       "The Three Firs Sports Hall",
+                      "Sports Hall of the Three Fir Trees",
                       "Three Firs Sports Hall",
                       "Three Firs sports hall",
                       "the Three Firs sports hall",
                       "3 Firs",
                       "Three Firs",
                       "the 3 Firs",
-                      "the Three Firs"
+                      "the Three Firs",
+                      "Hall of the Three Fir Trees",
+                      "Sports Hall of the 3 Fir Trees",
+                      "Hall of the 3 Fir Trees"
                     ]
                   }
                 ],
