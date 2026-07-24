@@ -1,6 +1,7 @@
 import * as scoCertificationCandidateRepository from '../../../../../../src/certification/results/infrastructure/repositories/sco-certification-candidate-repository.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Course | Integration | Repository | SCOCertificationCandidate', function () {
   describe('#findIdsByOrganizationIdAndDivision', function () {
@@ -14,11 +15,20 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         organizationId: anOrganizationId,
         division: '3ème A',
       }).id;
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({
-        userId,
-        sessionId,
-        organizationLearnerId,
-      });
+      const candidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled({
+          userId,
+        })
+        .asScoCandidate({
+          organizationLearnerId,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({
+          databaseBuilder,
+        });
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         lastName: candidate.lastName,
@@ -48,10 +58,17 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         division: '3ème A',
         isDisabled: false,
       }).id;
-      const nonDisabledCandidate = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-        organizationLearnerId: nonDisabledOrganizationLearnerId,
-      });
+      const nonDisabledCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled()
+        .asScoCandidate({
+          organizationLearnerId: nonDisabledOrganizationLearnerId,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder });
+
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         lastName: nonDisabledCandidate.lastName,
@@ -66,10 +83,17 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         division: '3ème A',
         isDisabled: true,
       }).id;
-      const disabledCandidate = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-        organizationLearnerId: disabledOrganizationLearnerId,
-      });
+
+      const disabledCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asScoCandidate({
+          organizationLearnerId: disabledOrganizationLearnerId,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder });
+
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         lastName: disabledCandidate.lastName,
@@ -102,10 +126,17 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         organizationId: anOrganizationId,
         division: '3ème B',
       }).id;
-      const candidateFromTheGivenDivision = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-        organizationLearnerId: aOrganizationLearnerId,
-      });
+      const candidateFromTheGivenDivision = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled()
+        .asScoCandidate({
+          organizationLearnerId: aOrganizationLearnerId,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder });
+
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         lastName: candidateFromTheGivenDivision.lastName,
@@ -115,10 +146,16 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         pixCertificationStatus: 'validated',
       });
 
-      const candidateFromAnotherDivision = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-        organizationLearnerId: anotherOrganizationLearnerId,
-      });
+      const candidateFromAnotherDivision = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled()
+        .asScoCandidate({
+          organizationLearnerId: anotherOrganizationLearnerId,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder });
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         lastName: candidateFromAnotherDivision.lastName,
@@ -157,26 +194,50 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         division: '3ème A',
       }).id;
 
-      const thirdInAlphabeticOrderCandidate = databaseBuilder.factory.buildCertificationCandidate({
-        lastName: 'Zen',
-        firstName: 'Bob',
-        sessionId,
-        organizationLearnerId: aOrganizationLearnerId,
-      });
+      const thirdInAlphabeticOrderCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled()
+        .withIdentity({
+          lastName: 'Zen',
+          firstName: 'Bob',
+        })
+        .asScoCandidate({
+          organizationLearnerId: aOrganizationLearnerId,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder });
 
-      const firstInAlphabeticOrderCandidate = databaseBuilder.factory.buildCertificationCandidate({
-        firstName: 'Smith',
-        lastName: 'Aaron',
-        sessionId,
-        organizationLearnerId: yetAnotherOrganizationLearnerId,
-      });
+      const firstInAlphabeticOrderCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled()
+        .withIdentity({
+          firstName: 'Smith',
+          lastName: 'Aaron',
+        })
+        .asScoCandidate({
+          organizationLearnerId: yetAnotherOrganizationLearnerId,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder });
 
-      const secondInAlphabeticOrderCandidate = databaseBuilder.factory.buildCertificationCandidate({
-        firstName: 'Smith',
-        lastName: 'Ben',
-        sessionId,
-        organizationLearnerId: anotherOrganizationLearnerId,
-      });
+      const secondInAlphabeticOrderCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled()
+        .withIdentity({
+          firstName: 'Smith',
+          lastName: 'Ben',
+        })
+        .asScoCandidate({
+          organizationLearnerId: anotherOrganizationLearnerId,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder });
 
       databaseBuilder.factory.buildCertificationCourse({
         sessionId,
@@ -223,25 +284,43 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
       // given
       const division = '3ème A';
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const candidate = {
-        firstName: 'Smith',
-        lastName: 'Aaron',
-        organizationLearnerId: databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organizationId,
-          division,
-        }).id,
-      };
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organizationId,
+        division,
+      }).id;
       const sessionIdOne = databaseBuilder.factory.buildSession({ publishedAt: '2024-02-01' }).id;
       const sessionIdTwo = databaseBuilder.factory.buildSession({ publishedAt: '2024-01-01' }).id;
       // This candidate has no related certification-course
-      databaseBuilder.factory.buildCertificationCandidate({
-        ...candidate,
-        sessionId: sessionIdOne,
-      });
-      const candidateThatEnteredTheSession = databaseBuilder.factory.buildCertificationCandidate({
-        ...candidate,
-        sessionId: sessionIdTwo,
-      });
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled()
+        .withIdentity({
+          firstName: 'Smith',
+          lastName: 'Aaron',
+        })
+        .asScoCandidate({
+          organizationLearnerId,
+        })
+        .withParameters({
+          sessionId: sessionIdOne,
+        })
+        .insertToDB({ databaseBuilder });
+
+      const candidateThatEnteredTheSession = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled()
+        .withIdentity({
+          firstName: 'Smith',
+          lastName: 'Aaron',
+        })
+        .asScoCandidate({
+          organizationLearnerId,
+        })
+        .withParameters({
+          sessionId: sessionIdTwo,
+        })
+        .insertToDB({ databaseBuilder });
+
       databaseBuilder.factory.buildCertificationCourse({
         sessionId: candidateThatEnteredTheSession.sessionId,
         lastName: candidateThatEnteredTheSession.lastName,
@@ -267,24 +346,41 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         // given
         const division = '3ème A';
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const candidate = {
-          firstName: 'Smith',
-          lastName: 'Aaron',
-          organizationLearnerId: databaseBuilder.factory.buildOrganizationLearner({
-            organizationId: organizationId,
-            division,
-          }).id,
-        };
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organizationId,
+          division,
+        }).id;
         const sessionPublishedId = databaseBuilder.factory.buildSession({ publishedAt: '2024-01-01' }).id;
         const unpublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
-        const candidateFromUnpublishedSession = databaseBuilder.factory.buildCertificationCandidate({
-          ...candidate,
-          sessionId: unpublishedSessionId,
-        });
-        const candidateFromPublishedSession = databaseBuilder.factory.buildCertificationCandidate({
-          ...candidate,
-          sessionId: sessionPublishedId,
-        });
+        const candidateFromUnpublishedSession = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Smith',
+            lastName: 'Aaron',
+          })
+          .asScoCandidate({
+            organizationLearnerId,
+          })
+          .withParameters({
+            sessionId: unpublishedSessionId,
+          })
+          .insertToDB({ databaseBuilder });
+
+        const candidateFromPublishedSession = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled()
+          .withIdentity({
+            firstName: 'Smith',
+            lastName: 'Aaron',
+          })
+          .asScoCandidate({
+            organizationLearnerId,
+          })
+          .withParameters({
+            sessionId: sessionPublishedId,
+          })
+          .insertToDB({ databaseBuilder });
+
         databaseBuilder.factory.buildCertificationCourse({
           sessionId: unpublishedSessionId,
           lastName: candidateFromUnpublishedSession.lastName,
@@ -316,24 +412,30 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         // given
         const division = '3ème A';
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const candidate = {
-          firstName: 'Smith',
-          lastName: 'Aaron',
-          organizationLearnerId: databaseBuilder.factory.buildOrganizationLearner({
-            organizationId: organizationId,
-            division,
-          }).id,
-        };
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organizationId,
+          division,
+        }).id;
         const firstCertificationCourseStartDate = new Date('2022-01-01T09:00:33Z');
         const secondCertificationCourseStartDate = new Date('2022-01-01T09:23:00Z');
 
         const sessionIdOne = databaseBuilder.factory.buildSession({ publishedAt: '2024-02-01' }).id;
         const sessionIdTwo = databaseBuilder.factory.buildSession({ publishedAt: '2024-01-01' }).id;
 
-        const candidateLinkedToTheFirstSession = databaseBuilder.factory.buildCertificationCandidate({
-          ...candidate,
-          sessionId: sessionIdOne,
-        });
+        const candidateLinkedToTheFirstSession = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled()
+          .withIdentity({
+            firstName: 'Smith',
+            lastName: 'Aaron',
+          })
+          .asScoCandidate({
+            organizationLearnerId,
+          })
+          .withParameters({
+            sessionId: sessionIdOne,
+          })
+          .insertToDB({ databaseBuilder });
 
         databaseBuilder.factory.buildCertificationCourse({
           createdAt: firstCertificationCourseStartDate,
@@ -345,10 +447,20 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
           pixCertificationStatus: 'rejected',
         });
 
-        const candidateLinkedToTheSecondSession = databaseBuilder.factory.buildCertificationCandidate({
-          ...candidate,
-          sessionId: sessionIdTwo,
-        });
+        const candidateLinkedToTheSecondSession = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled()
+          .withIdentity({
+            firstName: 'Smith',
+            lastName: 'Aaron',
+          })
+          .asScoCandidate({
+            organizationLearnerId,
+          })
+          .withParameters({
+            sessionId: sessionIdTwo,
+          })
+          .insertToDB({ databaseBuilder });
 
         databaseBuilder.factory.buildCertificationCourse({
           createdAt: secondCertificationCourseStartDate,

@@ -1,7 +1,7 @@
 import { Candidate } from '../../../../../../src/certification/evaluation/domain/models/Candidate.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 
-export const buildEvaluationCandidate = function ({
+export const buildCandidate = function ({
   id = 123,
   userId = 456,
   sessionId = 789,

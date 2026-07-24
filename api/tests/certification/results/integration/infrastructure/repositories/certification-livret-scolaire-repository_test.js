@@ -2,6 +2,7 @@ import { status } from '../../../../../../src/certification/results/domain/read-
 import * as certificationLsRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-livret-scolaire-repository.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import {
   buildCancelledCertificationData,
   buildCertificationDataWithNoCompetenceMarks,
@@ -126,11 +127,18 @@ describe('Integration | Repository | Certification-livret-scolaire ', function (
         certificationCenter,
       });
 
-      databaseBuilder.factory.buildCertificationCandidate({
-        sessionId: session.id,
-        organizationLearnerId: organizationLearner.id,
-        userId: user.id,
-      });
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asScoCandidate({
+          organizationLearnerId: organizationLearner.id,
+        })
+        .asReconciled({
+          userId: user.id,
+        })
+        .withParameters({
+          sessionId: session.id,
+        })
+        .insertToDB({ databaseBuilder });
 
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         userId: user.id,

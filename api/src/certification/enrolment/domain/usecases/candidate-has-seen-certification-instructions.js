@@ -10,16 +10,13 @@ import { CertificationCandidateNotFoundError } from '../../../shared/domain/erro
  * @param {CandidateRepository} params.candidateRepository
  * @returns {Candidate}
  */
-const candidateHasSeenCertificationInstructions = async function ({ certificationCandidateId, candidateRepository }) {
+export async function candidateHasSeenCertificationInstructions({ certificationCandidateId, candidateRepository }) {
   const candidate = await candidateRepository.get({ certificationCandidateId });
 
   if (!candidate) {
     throw new CertificationCandidateNotFoundError();
   }
-
   candidate.validateCertificationInstructions();
   await candidateRepository.update(candidate);
   return candidate;
-};
-
-export { candidateHasSeenCertificationInstructions };
+}

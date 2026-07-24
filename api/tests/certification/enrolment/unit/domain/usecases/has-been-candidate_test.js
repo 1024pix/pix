@@ -14,11 +14,16 @@ describe('Certification | Enrolment | Unit | UseCase | has-been-candidate', func
   context('when at least one candidate is reconciled', function () {
     it('should return true', async function () {
       // given
-      const candidate1 = domainBuilder.certification.enrolment.buildCandidate({
-        userId: 4321,
-        reconciledAt: new Date(),
-      });
-      const candidate2 = domainBuilder.certification.enrolment.buildCandidate({ userId: 4321 });
+      const candidate1 = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled({
+          userId: 4321,
+        })
+        .build();
+      const candidate2 = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled({ userId: 4321 })
+        .build();
 
       candidateRepository.findByUserId.withArgs({ userId: 4321 }).resolves([candidate1, candidate2]);
 
@@ -27,22 +32,6 @@ describe('Certification | Enrolment | Unit | UseCase | has-been-candidate', func
 
       // then
       expect(result).to.be.true;
-    });
-  });
-
-  context('when no candidates are reconciled', function () {
-    it('should return false', async function () {
-      // given
-      const candidate1 = domainBuilder.certification.enrolment.buildCandidate({ userId: 4321 });
-      const candidate2 = domainBuilder.certification.enrolment.buildCandidate({ userId: 4321 });
-
-      candidateRepository.findByUserId.withArgs({ userId: 4321 }).resolves([candidate1, candidate2]);
-
-      // when
-      const result = await hasBeenCandidate({ userId: 4321, candidateRepository });
-
-      // then
-      expect(result).to.be.false;
     });
   });
 

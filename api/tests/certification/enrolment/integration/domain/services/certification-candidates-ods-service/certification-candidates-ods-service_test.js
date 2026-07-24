@@ -31,7 +31,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
   let userId;
   let sessionId, session;
   let mailCheck;
-  let candidateList;
   let cleaComplementaryCertification;
   let eduComplementaryCertification;
 
@@ -83,8 +82,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     await databaseBuilder.commit();
 
     mailCheck = { assertEmailDomainHasMx: sinon.stub() };
-
-    candidateList = _buildCandidateList({ sessionId });
   });
 
   it('should throw a CertificationCandidatesError if there is an error in the file', async function () {
@@ -252,13 +249,51 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
     // then
-    candidateList = _buildCandidateList({ sessionId });
-    const expectedCandidates = candidateList.map((candidate) => {
-      return domainBuilder.certification.enrolment.buildCandidate({
-        ...candidate,
-        subscription: Frameworks.CORE,
-      });
-    });
+    const expectedCandidates = [
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Gallagher',
+          firstName: 'Jack',
+          birthdate: '1980-08-10',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          birthCity: 'Londres',
+          birthCountry: 'ANGLETERRE',
+          birthINSEECode: '99132',
+          sex: 'M',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jack@d.it',
+          extraTimePercentage: '0.15',
+          createdAt: null,
+        })
+        .build(),
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          birthdate: '2005-12-05',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          createdAt: null,
+          birthCity: 'AJACCIO',
+          birthCountry: 'FRANCE',
+          birthINSEECode: '2A004',
+          sex: 'F',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jaja@hotmail.fr',
+          externalId: 'DEF456',
+        })
+        .build(),
+    ];
+
+    expectedCandidates.forEach((c) => delete c.id);
+    actualCandidates.forEach((c) => delete c.id);
     expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
 
@@ -292,19 +327,50 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
       const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
-      candidateList = _buildCandidateList({
-        sessionId: sessionData.id,
-        billingModes: [BILLING_MODES.FREE, BILLING_MODES.FREE],
-      });
+      const sessionId = sessionData.id;
       const expectedCandidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateList[0],
-          subscription: Frameworks.EDU_1ER_DEGRE,
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateList[1],
-          subscription: Frameworks.CLEA,
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'Gallagher',
+            firstName: 'Jack',
+            birthdate: '1980-08-10',
+          })
+          .withSubscription(Frameworks.EDU_1ER_DEGRE)
+          .withParameters({
+            birthCity: 'Londres',
+            birthCountry: 'ANGLETERRE',
+            birthINSEECode: '99132',
+            sex: 'M',
+            sessionId,
+            resultRecipientEmail: 'destinataire@gmail.com',
+            email: 'jack@d.it',
+            extraTimePercentage: '0.15',
+            billingMode: BILLING_MODES.FREE,
+            createdAt: null,
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'Jackson',
+            firstName: 'Janet',
+            birthdate: '2005-12-05',
+          })
+          .withSubscription(Frameworks.CLEA)
+          .withParameters({
+            birthCity: 'AJACCIO',
+            birthCountry: 'FRANCE',
+            birthINSEECode: '2A004',
+            sex: 'F',
+            sessionId,
+            resultRecipientEmail: 'destinataire@gmail.com',
+            email: 'jaja@hotmail.fr',
+            externalId: 'DEF456',
+            billingMode: BILLING_MODES.FREE,
+            createdAt: null,
+          })
+          .build(),
       ];
 
       // when
@@ -322,6 +388,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         });
 
       // then
+      expectedCandidates.forEach((c) => delete c.id);
+      actualCandidates.forEach((c) => delete c.id);
       expect(actualCandidates).to.deep.equal(expectedCandidates);
     });
 
@@ -383,16 +451,50 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     const odsFilePath = `${__dirname}/attendance_sheet_extract_with_billing_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
-    candidateList = _buildCandidateList({
-      billingModes: [BILLING_MODES.PAID, BILLING_MODES.FREE],
-      sessionId,
-    });
-    const expectedCandidates = candidateList.map((candidate) => {
-      return domainBuilder.certification.enrolment.buildCandidate({
-        ...candidate,
-        subscription: Frameworks.CORE,
-      });
-    });
+    const expectedCandidates = [
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Gallagher',
+          firstName: 'Jack',
+          birthdate: '1980-08-10',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          birthCity: 'Londres',
+          birthCountry: 'ANGLETERRE',
+          birthINSEECode: '99132',
+          sex: 'M',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jack@d.it',
+          extraTimePercentage: '0.15',
+          createdAt: null,
+          billingMode: BILLING_MODES.PAID,
+        })
+        .build(),
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          birthdate: '2005-12-05',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          birthCity: 'AJACCIO',
+          birthCountry: 'FRANCE',
+          birthINSEECode: '2A004',
+          sex: 'F',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jaja@hotmail.fr',
+          externalId: 'DEF456',
+          billingMode: BILLING_MODES.FREE,
+          createdAt: null,
+        })
+        .build(),
+    ];
 
     // when
     const actualCandidates =
@@ -408,6 +510,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         mailCheck,
       });
 
+    expectedCandidates.forEach((c) => delete c.id);
+    actualCandidates.forEach((c) => delete c.id);
     // then
     expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
@@ -434,64 +538,52 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
     // then
-    const expectedCandidates = candidateList.map((candidate) => {
-      return domainBuilder.certification.enrolment.buildCandidate({
-        ...candidate,
-        subscription: Frameworks.CORE,
-      });
-    });
+
+    const expectedCandidates = [
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Gallagher',
+          firstName: 'Jack',
+          birthdate: '1980-08-10',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          birthCity: 'Londres',
+          birthCountry: 'ANGLETERRE',
+          birthINSEECode: '99132',
+          sex: 'M',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jack@d.it',
+          extraTimePercentage: '0.15',
+          createdAt: null,
+        })
+        .build(),
+
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          birthdate: '2005-12-05',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          birthCity: 'AJACCIO',
+          birthCountry: 'FRANCE',
+          birthINSEECode: '2A004',
+          sex: 'F',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jaja@hotmail.fr',
+          externalId: 'DEF456',
+          createdAt: null,
+        })
+        .build(),
+    ];
+    expectedCandidates.forEach((c) => delete c.id);
+    actualCandidates.forEach((c) => delete c.id);
     expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
 });
-
-function _buildCandidateList({ billingModes = [], sessionId }) {
-  const candidates = [];
-  candidates.push({
-    id: null,
-    sessionId,
-    createdAt: null,
-    lastName: 'Gallagher',
-    firstName: 'Jack',
-    birthdate: '1980-08-10',
-    sex: 'M',
-    birthCity: 'Londres',
-    birthCountry: 'ANGLETERRE',
-    birthINSEECode: '99132',
-    birthPostalCode: null,
-    birthProvinceCode: null,
-    resultRecipientEmail: 'destinataire@gmail.com',
-    email: 'jack@d.it',
-    externalId: null,
-    extraTimePercentage: 0.15,
-    billingMode: billingModes[0] ? billingModes[0] : null,
-    prepaymentCode: null,
-    subscription: Frameworks.CORE,
-    organizationLearnerId: null,
-    userId: null,
-  });
-  candidates.push({
-    id: null,
-    sessionId,
-    createdAt: null,
-    lastName: 'Jackson',
-    firstName: 'Janet',
-    birthdate: '2005-12-05',
-    sex: 'F',
-    birthCity: 'AJACCIO',
-    birthCountry: 'FRANCE',
-    birthINSEECode: '2A004',
-    birthPostalCode: null,
-    birthProvinceCode: null,
-    resultRecipientEmail: 'destinataire@gmail.com',
-    email: 'jaja@hotmail.fr',
-    externalId: 'DEF456',
-    extraTimePercentage: null,
-    billingMode: billingModes[1] ? billingModes[1] : null,
-    prepaymentCode: null,
-    subscription: Frameworks.CORE,
-    organizationLearnerId: null,
-    userId: null,
-  });
-
-  return candidates;
-}

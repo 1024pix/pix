@@ -973,21 +973,26 @@ function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { ca
 }
 
 function _buildValidCandidateModel({ lineNumber = 0, candidateNumber = 2 } = { candidateNumber: 0, lineNumber: 0 }) {
-  return domainBuilder.certification.enrolment.buildCandidate({
-    lastName: `Candidat ${candidateNumber}`,
-    firstName: `Candidat ${candidateNumber}`,
-    birthdate: '1981-03-12',
-    sex: 'M',
-    birthINSEECode: '134',
-    birthPostalCode: null, //'3456',
-    birthCity: '',
-    birthCountry: 'France',
-    resultRecipientEmail: 'robindahood@email.fr',
-    email: 'robindahood2@email.fr',
-    externalId: 'htehte',
-    extraTimePercentage: 20,
-    billingMode: 'PAID',
-    line: lineNumber,
-    subscription: Frameworks.CORE,
-  });
+  return domainBuilder.certification.enrolment
+    .candidateBuilder()
+    .withIdentity({
+      lastName: `Candidat ${candidateNumber}`,
+      firstName: `Candidat ${candidateNumber}`,
+      birthdate: '1981-03-12',
+    })
+    .withParameters({
+      sex: 'M',
+      birthINSEECode: '134',
+      birthPostalCode: null, //'3456',
+      birthCity: '',
+      birthCountry: 'France',
+      resultRecipientEmail: 'robindahood@email.fr',
+      email: 'robindahood2@email.fr',
+      externalId: 'htehte',
+      extraTimePercentage: 20,
+      billingMode: 'PAID',
+      line: lineNumber,
+      subscription: Frameworks.CORE,
+    })
+    .build();
 }

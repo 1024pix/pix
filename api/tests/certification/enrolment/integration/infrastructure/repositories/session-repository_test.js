@@ -147,8 +147,14 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
         it('should remove candidates and delete the session', async function () {
           // given
           const sessionId = databaseBuilder.factory.buildSession().id;
-          databaseBuilder.factory.buildCertificationCandidate({ sessionId });
-          databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+          domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withParameters({ sessionId })
+            .insertToDB({ databaseBuilder });
+          domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withParameters({ sessionId })
+            .insertToDB({ databaseBuilder });
 
           await databaseBuilder.commit();
 

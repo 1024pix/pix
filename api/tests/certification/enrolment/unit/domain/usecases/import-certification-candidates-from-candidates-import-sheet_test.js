@@ -68,11 +68,12 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         const session = domainBuilder.certification.enrolment.buildSession({ sessionId });
         const odsBuffer = 'buffer';
 
-        candidateRepository.findBySessionId
-          .withArgs({ sessionId })
-          .resolves([
-            domainBuilder.certification.enrolment.buildCandidate({ userId: 123, reconciledAt: new Date('2024-09-25') }),
-          ]);
+        candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
+          domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .asReconciled({ userId: 123, reconciledAt: new Date('2024-09-25') })
+            .build(),
+        ]);
         sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
 
         // when
@@ -101,7 +102,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         });
         candidateRepository.findBySessionId
           .withArgs({ sessionId })
-          .resolves([domainBuilder.certification.enrolment.buildCandidate({ userId: null })]);
+          .resolves([domainBuilder.certification.enrolment.candidateBuilder().build()]);
         sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
       });
 
@@ -109,9 +110,10 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         it('should add the certification candidates', async function () {
           // given
           const odsBuffer = 'buffer';
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            subscription: Frameworks.DROIT,
-          });
+          const candidate = domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withSubscription(Frameworks.DROIT)
+            .build();
           const candidates = [candidate];
 
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet

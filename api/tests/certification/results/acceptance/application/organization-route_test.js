@@ -4,6 +4,7 @@ import { AssessmentResult } from '../../../../../src/shared/domain/models/Assess
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Results | Acceptance | Application | Routes | organization', function () {
@@ -32,10 +33,16 @@ describe('Certification | Results | Acceptance | Application | Routes | organiza
         organizationId: organization.id,
         division: 'aDivision',
       });
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({
-        organizationLearnerId: organizationLearner.id,
-        sessionId,
-      });
+      const candidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled({ userId: user.id })
+        .asScoCandidate({
+          organizationLearnerId: organizationLearner.id,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder });
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         id: 20484096,
         userId: candidate.userId,
@@ -54,10 +61,15 @@ describe('Certification | Results | Acceptance | Application | Routes | organiza
         organizationId: organization.id,
         division: 'aDivision',
       });
-      const candidateDidNotComeToTheSession = databaseBuilder.factory.buildCertificationCandidate({
-        organizationLearnerId: organizationLearnerDidNotComeToTheSession.id,
-        sessionId,
-      });
+      const candidateDidNotComeToTheSession = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asScoCandidate({
+          organizationLearnerId: organizationLearnerDidNotComeToTheSession.id,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder });
       databaseBuilder.factory.buildCertificationCourse({
         sessionId: candidateDidNotComeToTheSession.sessionId,
         isPublished: true,

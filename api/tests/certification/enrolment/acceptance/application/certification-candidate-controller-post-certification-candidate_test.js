@@ -20,14 +20,17 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
     let candidate;
 
     beforeEach(function () {
-      candidate = domainBuilder.certification.enrolment.buildCandidate({
-        birthCountry: 'FRANCE',
-        birthINSEECode: '75115',
-        birthPostalCode: null,
-        birthCity: null,
-        billingMode: BILLING_MODES.FREE,
-        subscription: Frameworks.CLEA,
-      });
+      candidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withSubscription(Frameworks.CLEA)
+        .withParameters({
+          birthCountry: 'FRANCE',
+          birthINSEECode: '75115',
+          birthPostalCode: null,
+          birthCity: null,
+          billingMode: BILLING_MODES.FREE,
+        })
+        .build();
       userId = databaseBuilder.factory.buildUser().id;
 
       databaseBuilder.factory.buildOrganization({

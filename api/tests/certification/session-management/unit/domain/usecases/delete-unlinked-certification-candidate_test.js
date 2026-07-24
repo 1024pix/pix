@@ -26,7 +26,7 @@ describe('Unit | UseCase | delete-unlinked-certification-candidate', function ()
     beforeEach(function () {
       candidateRepository.get
         .withArgs({ certificationCandidateId: candidateId })
-        .resolves(domainBuilder.certification.enrolment.buildCandidate({ userId: null }));
+        .resolves(domainBuilder.certification.enrolment.candidateBuilder().build());
     });
 
     it('should delete the certification candidate', async function () {
@@ -58,15 +58,11 @@ describe('Unit | UseCase | delete-unlinked-certification-candidate', function ()
   });
 
   context('When the certification candidate is reconciled', function () {
-    beforeEach(function () {
+    it('should throw a forbidden deletion error', async function () {
       candidateRepository.get
         .withArgs({ certificationCandidateId: candidateId })
-        .resolves(
-          domainBuilder.certification.enrolment.buildCandidate({ userId: 123, reconciledAt: new Date('2024-09-25') }),
-        );
-    });
+        .resolves(domainBuilder.certification.enrolment.candidateBuilder().asReconciled({ userId: 123 }).build());
 
-    it('should throw a forbidden deletion error', async function () {
       // when
       const err = await catchErr(deleteUnlinkedCertificationCandidate)({
         candidateId,

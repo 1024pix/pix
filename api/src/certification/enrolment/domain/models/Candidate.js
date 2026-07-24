@@ -31,7 +31,7 @@ export class Candidate {
     prepaymentCode,
     hasSeenCertificationInstructions = false,
     subscription,
-    accessibilityAdjustmentNeeded,
+    accessibilityAdjustmentNeeded = false,
     hasStartedTest = false,
     doubleCertificationEligibility = false,
   }) {

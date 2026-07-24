@@ -1,3 +1,4 @@
+import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { candidateSerializer } from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
 import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -91,9 +92,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       const deserializedCandidate = await candidateSerializer.deserialize(candidateJsonApiData);
 
       // then
-      expect(deserializedCandidate).to.deepEqualInstance(
-        domainBuilder.certification.enrolment.buildCandidate({ ...candidateData }),
-      );
+      expect(deserializedCandidate).to.deepEqualInstance(new Candidate({ ...candidateData }));
     });
 
     it('should deserialize correctly candidate with legacy subscriptions array format', async function () {
@@ -129,7 +128,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
   describe('#serializeForParticipation()', function () {
     it('should convert a EnrolledCandidate model object into JSON API data', function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         id: 123,
         firstName: 'Michel',
         lastName: 'Jacques',
@@ -180,7 +179,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
   describe('#serialize()', function () {
     it('should convert a Candidate model object without subscriptions into JSON API data', function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         id: 123,
         firstName: 'Michel',
         lastName: 'Jacques',
@@ -243,29 +242,34 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
   describe('#serializeForSession()', function () {
     it('should convert a Candidate model object with subscriptions into JSON API data', function () {
       // given
-      const sessionCandidate = domainBuilder.certification.enrolment.buildCandidate({
-        id: 123,
-        firstName: 'Michel',
-        lastName: 'Jacques',
-        sex: 'M',
-        birthPostalCode: 'somePostalCode1',
-        birthINSEECode: 'someInseeCode1',
-        birthCity: 'someBirthCity1',
-        birthProvinceCode: 'someProvinceCode1',
-        birthCountry: 'someBirthCountry1',
-        email: 'michel.jacques@example.net',
-        resultRecipientEmail: 'jeanette.jacques@example.net',
-        externalId: 'MICHELJACQUES',
-        birthdate: '1990-01-01',
-        extraTimePercentage: null,
-        userId: 159,
-        organizationLearnerId: null,
-        billingMode: BILLING_MODES.PAID,
-        prepaymentCode: 'somePrepaymentCode1',
-        hasSeenCertificationInstructions: true,
-        subscription: Frameworks.DROIT,
-        accessibilityAdjustmentNeeded: true,
-      });
+      const sessionCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          firstName: 'Michel',
+          lastName: 'Jacques',
+          birthdate: '1990-01-01',
+        })
+        .asReconciled({
+          userId: 159,
+        })
+        .withSubscription(Frameworks.DROIT)
+        .withParameters({
+          id: 123,
+          sex: 'M',
+          birthPostalCode: 'somePostalCode1',
+          birthINSEECode: 'someInseeCode1',
+          birthCity: 'someBirthCity1',
+          birthProvinceCode: 'someProvinceCode1',
+          birthCountry: 'someBirthCountry1',
+          email: 'michel.jacques@example.net',
+          resultRecipientEmail: 'jeanette.jacques@example.net',
+          externalId: 'MICHELJACQUES',
+          billingMode: BILLING_MODES.PAID,
+          prepaymentCode: 'somePrepaymentCode1',
+          hasSeenCertificationInstructions: true,
+          accessibilityAdjustmentNeeded: true,
+        })
+        .build();
       const expectedJsonApiData = {
         data: {
           type: 'certification-candidates',

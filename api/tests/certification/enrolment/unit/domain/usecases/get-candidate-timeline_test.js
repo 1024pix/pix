@@ -63,7 +63,10 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
       // given
       const sessionId = 1234;
       const certificationCandidateId = 4567;
-      const candidate = domainBuilder.certification.enrolment.buildCandidate();
+      const candidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({ createdAt: new Date() })
+        .build();
       candidateRepository.get.resolves(candidate);
 
       // when
@@ -83,10 +86,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
       // given
       const sessionId = 1234;
       const certificationCandidateId = 4567;
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: 222,
-        reconciledAt: new Date(),
-      });
+      const candidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled({ userId: 123 })
+        .withParameters({ createdAt: new Date() })
+        .build();
       candidateRepository.get.resolves(candidate);
       placementProfileService.getPlacementProfile.resolves(domainBuilder.buildPlacementProfile());
       eligibilityService.getUserCertificationEligibility.resolves(
@@ -109,10 +113,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
         // given
         const sessionId = 1234;
         const certificationCandidateId = 4567;
-        const candidate = domainBuilder.certification.enrolment.buildCandidate({
-          userId: 222,
-          reconciledAt: new Date(),
-        });
+        const candidate = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({ userId: 123 })
+          .withParameters({ createdAt: new Date() })
+          .build();
         candidateRepository.get.resolves(candidate);
         certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId.resolves(null);
         const placementProfile = domainBuilder.buildPlacementProfile();
@@ -145,10 +150,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
         const sessionId = 1234;
         const certificationCandidateId = 4567;
         candidateRepository.get.resolves(
-          domainBuilder.certification.enrolment.buildCandidate({
-            userId: 222,
-            reconciledAt: new Date(),
-          }),
+          domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .asReconciled({ userId: 123 })
+            .withParameters({ createdAt: new Date() })
+            .build(),
         );
         const certifCourse = domainBuilder.buildCertificationCourse();
         const placementProfile = domainBuilder.buildPlacementProfile();
@@ -184,11 +190,12 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
           // given
           const sessionId = 1234;
           const certificationCandidateId = 4567;
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            userId: 222,
-            reconciledAt: new Date(),
-            subscription: Frameworks.CLEA,
-          });
+          const candidate = domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .asReconciled({ userId: 123 })
+            .withSubscription(Frameworks.CLEA)
+            .withParameters({ createdAt: new Date() })
+            .build();
           candidateRepository.get.resolves(candidate);
           const placementProfile = domainBuilder.buildPlacementProfile();
           placementProfileService.getPlacementProfile.resolves(placementProfile);
@@ -221,11 +228,12 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
           // given
           const sessionId = 1234;
           const certificationCandidateId = 4567;
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            userId: 222,
-            reconciledAt: new Date(),
-            subscription: Frameworks.CLEA,
-          });
+          const candidate = domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .asReconciled({ userId: 123 })
+            .withSubscription(Frameworks.CLEA)
+            .withParameters({ createdAt: new Date() })
+            .build();
           candidateRepository.get.resolves(candidate);
           const placementProfile = domainBuilder.buildPlacementProfile();
           placementProfileService.getPlacementProfile.resolves(placementProfile);
@@ -262,10 +270,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
           // given
           const sessionId = 1234;
           const certificationCandidateId = 4567;
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            userId: 222,
-            reconciledAt: new Date(),
-          });
+          const candidate = domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .asReconciled({ userId: 123 })
+            .withParameters({ createdAt: new Date() })
+            .build();
           candidateRepository.get.resolves(candidate);
           const placementProfile = domainBuilder.buildPlacementProfile();
           placementProfileService.getPlacementProfile.resolves(placementProfile);
@@ -301,10 +310,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
           const sessionId = 1234;
           const certificationCandidateId = 4567;
           candidateRepository.get.resolves(
-            domainBuilder.certification.enrolment.buildCandidate({
-              userId: 222,
-              reconciledAt: new Date(),
-            }),
+            domainBuilder.certification.enrolment
+              .candidateBuilder()
+              .asReconciled({ userId: 123 })
+              .withParameters({ createdAt: new Date() })
+              .build(),
           );
           const certificationCourse = domainBuilder.buildCertificationCourse({
             lastAnswerAt: new Date('2024-04-21T13:56:00Z'),

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | session-controller', function () {
@@ -48,15 +49,27 @@ describe('Acceptance | Controller | session-controller', function () {
       let expectedCertificationCandidateBAttributes;
 
       beforeEach(function () {
-        const certificationCandidateA = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'A',
-          sessionId,
-        });
+        const certificationCandidateA = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'A',
+          })
+          .asReconciled()
+          .withParameters({
+            sessionId,
+          })
+          .insertToDB({ databaseBuilder });
 
-        const certificationCandidateB = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'B',
-          sessionId,
-        });
+        const certificationCandidateB = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'B',
+          })
+          .asReconciled()
+          .withParameters({
+            sessionId,
+          })
+          .insertToDB({ databaseBuilder });
 
         _.times(5, () => {
           databaseBuilder.factory.buildCertificationCandidate();
