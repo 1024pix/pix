@@ -5,13 +5,42 @@ import { datamartBuilder } from '../../../../tooling/databases.js';
 
 describe('Maddo | Infrastructure | Repositories | Integration | CertificationDataset', function () {
   describe('#findAll', function () {
-    it('returns dataset sorted by schoolUai', async function () {
+    it('returns dataset sorted by academieName, provinceCode, schoolUai, schoolYearGroup then competenceCode', async function () {
       // given
       datamartBuilder.factory.buildMenDashboardCertificationDataset({
+        academieName: 'Amiens',
+        provinceCode: '080',
         schoolUai: 'UAI_B',
+        schoolYearGroup: 'Terminale',
+        competenceCode: '2.1',
       });
       datamartBuilder.factory.buildMenDashboardCertificationDataset({
+        academieName: 'Nantes',
+        provinceCode: '049',
+        schoolUai: 'UAI_B',
+        schoolYearGroup: 'Terminale',
+        competenceCode: '2.1',
+      });
+      datamartBuilder.factory.buildMenDashboardCertificationDataset({
+        academieName: 'Nantes',
+        provinceCode: '085',
         schoolUai: 'UAI_A',
+        schoolYearGroup: 'Terminale',
+        competenceCode: '2.1',
+      });
+      datamartBuilder.factory.buildMenDashboardCertificationDataset({
+        academieName: 'Nantes',
+        provinceCode: '085',
+        schoolUai: 'UAI_B',
+        schoolYearGroup: 'Sixième',
+        competenceCode: '2.1',
+      });
+      datamartBuilder.factory.buildMenDashboardCertificationDataset({
+        academieName: 'Nantes',
+        provinceCode: '085',
+        schoolUai: 'UAI_B',
+        schoolYearGroup: 'Terminale',
+        competenceCode: '1.1',
       });
       await datamartBuilder.commit();
 
@@ -19,8 +48,51 @@ describe('Maddo | Infrastructure | Repositories | Integration | CertificationDat
       const { models } = await findAll();
 
       // then
-      expect(models[0].schoolUai).to.equal('UAI_A');
-      expect(models[1].schoolUai).to.equal('UAI_B');
+      expect(
+        models.map(({ academieName, provinceCode, schoolUai, schoolYearGroup, competenceCode }) => ({
+          academieName,
+          provinceCode,
+          schoolUai,
+          schoolYearGroup,
+          competenceCode,
+        })),
+      ).to.deep.equal([
+        {
+          academieName: 'Amiens',
+          provinceCode: '080',
+          schoolUai: 'UAI_B',
+          schoolYearGroup: 'Terminale',
+          competenceCode: '2.1',
+        },
+        {
+          academieName: 'Nantes',
+          provinceCode: '049',
+          schoolUai: 'UAI_B',
+          schoolYearGroup: 'Terminale',
+          competenceCode: '2.1',
+        },
+        {
+          academieName: 'Nantes',
+          provinceCode: '085',
+          schoolUai: 'UAI_A',
+          schoolYearGroup: 'Terminale',
+          competenceCode: '2.1',
+        },
+        {
+          academieName: 'Nantes',
+          provinceCode: '085',
+          schoolUai: 'UAI_B',
+          schoolYearGroup: 'Sixième',
+          competenceCode: '2.1',
+        },
+        {
+          academieName: 'Nantes',
+          provinceCode: '085',
+          schoolUai: 'UAI_B',
+          schoolYearGroup: 'Terminale',
+          competenceCode: '1.1',
+        },
+      ]);
       expect(models[0]).to.be.instanceOf(CertificationDataset);
     });
 
@@ -52,9 +124,9 @@ describe('Maddo | Infrastructure | Repositories | Integration | CertificationDat
       datamartBuilder.factory.buildMenDashboardCertificationDataset({
         schoolUai: 'UAI001',
         schoolYear: 2025,
-        academieName: 'Paris',
+        academieName: 'Nantes',
         schoolName: 'Lycée Test',
-        provinceCode: '075',
+        provinceCode: '085',
         schoolYearGroup: 'Terminale',
         validatedCertificationCount: 12,
         certificationCount: 20,
@@ -72,9 +144,9 @@ describe('Maddo | Infrastructure | Repositories | Integration | CertificationDat
       const stat = models[0];
       expect(stat.schoolUai).to.equal('UAI001');
       expect(stat.schoolYear).to.equal(2025);
-      expect(stat.academieName).to.equal('Paris');
+      expect(stat.academieName).to.equal('Nantes');
       expect(stat.schoolName).to.equal('Lycée Test');
-      expect(stat.provinceCode).to.equal('075');
+      expect(stat.provinceCode).to.equal('085');
       expect(stat.schoolYearGroup).to.equal('Terminale');
       expect(stat.validatedCertificationCount).to.equal(12);
       expect(stat.certificationCount).to.equal(20);
