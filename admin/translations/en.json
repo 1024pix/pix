@@ -781,6 +781,11 @@
         "detach-organization": "Are you sure you want to detach <strong>{organizationName}</strong> from combined course blueprint <strong>{name}</strong>",
         "detach-organization-success": "Blueprint is not shared with organization {name} anymore."
       },
+      "reward-requirements": {
+        "requirements-group-name": "Requirements group",
+        "threshold": "Required success threshold",
+        "title": "Capped tubes requirements"
+      },
       "survey-link": {
         "not-provided": "No survey link has been defined"
       },

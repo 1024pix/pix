@@ -789,6 +789,11 @@
         "detach-organization": "Etes-vous sûr de vouloir détacher l'organisation <strong>{organizationName}</strong> du schéma de parcours <strong>{name}</strong>",
         "detach-organization-success": "Le schéma de parcours n'est plus partagé avec l'organisation {name}."
       },
+      "reward-requirements": {
+        "requirements-group-name": "Groupe de critères",
+        "threshold": "Taux de réussite requis",
+        "title": "Critères de sujets cappés"
+      },
       "survey-link": {
         "not-provided": "Aucun questionnaire paramétré"
       },

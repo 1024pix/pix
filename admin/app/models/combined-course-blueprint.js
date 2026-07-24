@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class CombinedCourseBlueprint extends Model {
   @attr('string') name;
@@ -12,5 +12,6 @@ export default class CombinedCourseBlueprint extends Model {
   @attr('string') surveyLink;
   @attr({ type: 'date', defaultValue: () => undefined }) createdAt;
   @attr({ defaultValue: () => [] }) content;
-  @attr() cappedTubeRequirements;
+
+  @hasMany('reward-requirement', { async: true, inverse: null }) rewardRequirements;
 }
