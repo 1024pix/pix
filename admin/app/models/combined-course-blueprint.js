@@ -12,6 +12,7 @@ export default class CombinedCourseBlueprint extends Model {
   @attr('string') surveyLink;
   @attr({ type: 'date', defaultValue: () => undefined }) createdAt;
   @attr({ defaultValue: () => [] }) content;
+  @attr() cappedTubeRequirements;
 
   @hasMany('reward-requirement', { async: true, inverse: null }) rewardRequirements;
 }

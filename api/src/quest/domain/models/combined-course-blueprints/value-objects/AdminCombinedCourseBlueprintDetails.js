@@ -2,13 +2,19 @@ import { CombinedCourseBlueprintForCreation } from './CombinedCourseBlueprintFor
 import { QuestInput } from './QuestInput.js';
 
 export class AdminCombinedCourseBlueprintDetails extends CombinedCourseBlueprintForCreation {
-  constructor({ content, ...rest }) {
+  constructor({ content, rewardRequirements = [], ...rest }) {
     super(rest);
     this.content = content;
+    this.rewardRequirements = rewardRequirements;
   }
 
-  static buildFromBlueprint({ combinedCourseBlueprint, modulesById, attestationLabel }) {
+  static buildFromBlueprint({ combinedCourseBlueprint, modulesById, rewardRequirements = [], attestationLabel }) {
     const items = QuestInput.itemsFromQuest({ quest: combinedCourseBlueprint.quest, modulesById });
-    return new AdminCombinedCourseBlueprintDetails({ ...combinedCourseBlueprint, content: items, attestationLabel });
+    return new AdminCombinedCourseBlueprintDetails({
+      ...combinedCourseBlueprint,
+      content: items,
+      rewardRequirements,
+      attestationLabel,
+    });
   }
 }
