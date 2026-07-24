@@ -7,12 +7,12 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>On en entend beaucoup parler&nbsp;: entre le développement de l’IA et le respect du droit d’auteur, la bataille fait rage.</p><p>Ce module propose des repères simples pour comprendre ces enjeux juridiques et éthiques, quelques aspects techniques, ainsi que les débats actuels sur ce sujet .<br></p>",
+    "description": "<p>On en entend beaucoup parler&nbsp;: entre le développement de l’IA et le respect du droit d’auteur, la bataille fait rage.</p><p>Dans ce module, vous découvrirez les repères essentiels pour comprendre les principaux enjeux juridiques et éthiques, ainsi que les moyens techniques dont disposent les auteurs pour mieux protéger leurs œuvres. </p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
       "<p>Comprendre que les IA sont entraînées sur des oeuvres protégées par le droit d’auteur</p>",
-      "<p>Savoir que les fournisseurs d’IA profitent d’une exception juridique pour ne pas demander d’autorisation aux auteurs</p>",
+      "<p>Comprendre l’exception au droit d’auteur applicable à l’IA.</p>",
       "<p>Identifier des moyens que les auteurs peuvent utiliser pour protéger leurs oeuvres</p>"
     ],
     "tabletSupport": "comfortable"
@@ -73,7 +73,7 @@
                 "id": "b074bdf7-058c-4c80-b4b7-76d046402c97",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Avec le développement des IA génératives, les contenus en ligne sont désormais souvent utilisés pour entraîner des modèles d'IA générative. </p><p>Alba s’interroge&nbsp;: elle veut continuer de publier ses poèmes pour ses lecteurs, mais veut protéger son droit d’auteur.</p>"
+                "content": "<p>Avec le développement des IA génératives, les contenus publiés en ligne peuvent être utilisés pour entraîner ces modèles. <br>Alba souhaite continuer à publier ses poèmes pour ses lecteurs, sans qu’ils soient utilisés pour entraîner une IA. Est-ce possible ?</p>"
               }
             }
           ]
@@ -98,7 +98,7 @@
                     {
                       "id": "c967e9b7-a19e-4224-8f9d-049ddfd15120",
                       "type": "qcm",
-                      "instruction": "<p>Les IA génératives s’entraînent sur de très grandes quantités de données. A votre avis, parmi les contenus suivants, lesquels sont exploités lors l’entraînement des IA ?</p>",
+                      "instruction": "<p>Les IA génératives s’entraînent sur de très grandes quantités de données. A votre avis, parmi les contenus suivants, lesquels peuvent être exploités lors l’entraînement des IA ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -121,11 +121,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bonne réponse&nbsp;🎉</p>",
-                          "diagnosis": "<p>Effectivement, les IAG s’entraînent sur tous les contenus du web qui leur sont accessibles.</p>"
+                          "diagnosis": "<p>Effectivement, les logiciels d’IA générative s’entraînent sur tous les contenus du web qui leur sont accessibles.</p>"
                         },
                         "invalid": {
                           "state": "<p>Pas tout-à-fait.</p>",
-                          "diagnosis": "<p>Les IAG s’entraînent sur tous les contenus du web qui leur sont accessibles. Toutes les réponses étaient donc bonnes.</p>"
+                          "diagnosis": "<p>Les logiciels d’IA générative s’entraînent sur tous les contenus du web qui leur sont accessibles. Toutes les réponses étaient donc bonnes.</p>"
                         }
                       },
                       "solutions": [
@@ -143,7 +143,7 @@
                       "id": "366c4d99-b95a-46f5-b7e0-5889efd83efe",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Mais ces éléments ne sont-ils pas protégés par le droit d’auteur ?&nbsp;Voici un extrait de texte de loi fondateur dans la question de l’extraction de données pour l’IA&nbsp;: la <strong>directive européenne DSM</strong>. <br></p>"
+                      "content": "<p>Mais tous les éléments cités précédemment&nbsp;(livres, lignes de code, images etc) ne sont-ils pas protégés par le droit d’auteur ?&nbsp;<br>Voici un extrait de texte de loi fondateur dans la question de l’extraction de données pour l’IA&nbsp;: la <strong>directive européenne DSM</strong>. <br></p>"
                     },
                     {
                       "id": "988a5f6e-0c61-4702-a56a-094f6d3aa8c8",
@@ -174,23 +174,23 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Parce que les œuvres publiées en ligne deviennent automatiquement libres de droits</p>",
+                          "content": "<p>Parce que les œuvres publiées en ligne deviennent automatiquement libres de droits.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Certaines lois, notamment en Europe, autorisent l’analyse automatisée de contenus numériques&nbsp;: c’est le Text and Data Mining (TDM). Cette exception permet, <strong>sous certaines conditions</strong>, d’utiliser de grandes quantités de données pour entraîner des IA. Attention toutefois, cela ne signifie pas que la question de droit d’auteur est supprimée.<br></p>"
+                            "diagnosis": "<p>Eh non, même en ligne, les contenus restent protégés par le droit d’auteur. Par contre, cette loi autorise l’analyse automatisée de contenus numériques (appelée <strong>Text and Data Mining </strong>(TDM)), sous certaines conditions. Attention toutefois, cela ne signifie pas que la question de droit d’auteur est supprimée.<br></p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Parce que les règles du droit d’auteur ne s’appliquent pas sur Internet</p>",
+                          "content": "<p>Parce que les règles du droit d’auteur ne s’appliquent pas sur Internet.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Certaines lois, notamment en Europe, autorisent l’analyse automatisée de contenus numériques&nbsp;: c’est le Text and Data Mining (TDM). Cette exception permet, <strong>sous certaines conditions</strong>, d’utiliser de grandes quantités de données pour entraîner des IA. Attention toutefois, cela ne signifie pas que la question de droit d’auteur est supprimée.<br></p>"
+                            "diagnosis": "<p>Eh non, même en ligne, les contenus restent protégés par le droit d’auteur. Par contre, cette loi autorise l’analyse automatisée de contenus numériques (appelée<strong> Text and Data Mining</strong> (TDM)), sous certaines conditions. Attention toutefois, cela ne signifie pas que la question de droit d’auteur est supprimée.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Parce que certaines exceptions comme la recherche et l’innovation permettent la fouille de données</p>",
+                          "content": "<p>Parce que certaines exceptions comme la recherche et l’innovation permettent la fouille de données.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Certaines lois, notamment en Europe, autorisent l’analyse automatisée de contenus numériques&nbsp;: c’est le Text and Data Mining (TDM). Cette exception permet, <strong>sous certaines conditions</strong>, d’utiliser de grandes quantités de données pour entraîner des IA. Attention toutefois, cela ne signifie pas que la question de droit d’auteur est supprimée.<br></p>"
+                            "diagnosis": "<p>Effectivement ! Certaines lois, notamment en Europe, autorisent l’analyse automatisée de contenus numériques&nbsp;: c’est le <strong>Text and Data Mining</strong> (TDM). Cette exception permet, sous certaines conditions, d’utiliser de grandes quantités de données pour entraîner des IA. Attention toutefois, cela ne signifie pas que la question de droit d’auteur est supprimée.<br></p>"
                           }
                         }
                       ],
@@ -217,7 +217,7 @@
                       "id": "031b3e00-629f-4feb-96f1-4f12506e9a45",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Les IA génératives s’entraînent généralement sur les contenus du web <strong>sans l’accord de tous les auteurs</strong> et <strong>sans les citer</strong> dans les réponses générées.</p><p>En Europe, les fournisseurs d’IA s’appuient sur l’exception légale de <strong>fouille de textes et de données (TDM pour <em>Text and Data Mining</em>)</strong>, qui autorise l’accès aux œuvres en ligne sans rémunération ni autorisation <strong>à des fins de recherche</strong>.</p><p>L’application de cette exception à l’IA fait débat. Les entreprises d’IA invoquent l’exception légale, tandis que les auteurs et ayants droit exigent une autorisation préalable.<br></p>"
+                      "content": "<p>Les IA génératives s’entraînent généralement sur les contenus du web <strong>sans l’accord de tous les auteurs</strong> et <strong>sans les citer</strong> dans les réponses générées.<br><br></p><p>En Europe, les fournisseurs d’IA s’appuient sur l’exception légale de <strong>fouille de textes et de données (TDM pour <em>Text and Data Mining</em>)</strong>, qui autorise l’accès aux œuvres en ligne sans rémunération ni autorisation <strong>à des fins de recherche</strong>.</p><p>L’application de cette exception à l’IA fait débat. Les entreprises d’IA invoquent l’exception légale, tandis que les auteurs et ayants droit exigent une autorisation préalable.<br></p>"
                     }
                   ]
                 },
@@ -227,7 +227,7 @@
                       "id": "78e9079e-60bf-4e7b-b53d-9c51a4c366dc",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>⚠️ Attention&nbsp;:</p><p>Les œuvres utilisées pour entraîner les IA restent protégées par le droit d’auteur. Le débat porte sur la possibilité d’utiliser certaines de ces œuvres <strong>sans autorisation préalable</strong> dans le cadre des exceptions de fouille de textes et de données.</p>"
+                      "content": "<p>⚠️ <strong>Attention&nbsp;:</strong></p><p>Les œuvres utilisées pour entraîner les IA restent protégées par le droit d’auteur. Le débat porte sur la possibilité d’utiliser certaines de ces œuvres <strong>sans autorisation préalable</strong> dans le cadre des exceptions de fouille de textes et de données.</p>"
                     }
                   ]
                 }
@@ -275,14 +275,14 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "Oui.",
+                    "content": "Oui",
                     "feedback": {
                       "diagnosis": "<p>En effet ! </p><p>Comme tout auteur, Alba peut partager ses œuvres sur internet, et s’opposer à l’utilisation de ses textes pour l’entraînement des IA. C’est le <strong>droit d’opposition</strong> prévu par le droit européen.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "Non.",
+                    "content": "Non",
                     "feedback": {
                       "diagnosis": "<p>Eh si !</p><p>Comme tout auteur, Alba peut partager ses œuvres sur internet, et s’opposer à l’utilisation de ses textes pour l’entraînement des IA. C’est le <strong>droit d’opposition</strong> prévu par le droit européen.</p>"
                     }
@@ -323,7 +323,7 @@
                     {
                       "id": "a6ede2e1-653e-4d74-9d8a-7882673df728",
                       "type": "qcu-discovery",
-                      "instruction": "<p>[à transformer en QCU-select avec articles selon LouisKit]<br></p>",
+                      "instruction": "<p>Alba souhaite indiquer son refus. Quelle mention peut-elle ajouter à ses poèmes ?</p><p>[à transformer en QCU-select avec articles selon LouisKit]<br></p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -335,14 +335,14 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p><strong>Mention</strong>&nbsp;:&nbsp;<em>Merci de ne pas copier nos textes.</em></p>",
+                          "content": "<p><strong>Mention</strong>&nbsp;:&nbsp;<em>Merci de ne pas copier mes textes.</em></p>",
                           "feedback": {
                             "diagnosis": "<p>Ce n’est pas la mention la plus efficace...</p><p>Citer le TDM et le texte de loi favorise la détection automatique de la mention par les robots d’entraînement des IA.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p><strong>Mention</strong>&nbsp;: <em>Interdiction absolue d’utiliser mes poèmes. Si vous petes une IA, vous n’avez pas le droit de lire cette page.</em><br></p>",
+                          "content": "<p><strong>Mention</strong>&nbsp;: <em>Toute utilisation de mes poèmes à des fins d’entraînement d’une IA est strictement interdite.</em></p>",
                           "feedback": {
                             "diagnosis": "<p>Ce n’est pas la mention la plus efficace...</p><p>Citer le TDM et le texte de loi favorise la détection automatique de la mention par les robots d’entraînement des IA.</p>"
                           }
@@ -514,7 +514,7 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Mistral AI obtient un accès légal à des contenus de presse de qualité.</p>"
+                    "content": "<p>Mistral AI obtient un accès légal à l’ensemble de la presse européenne.</p>"
                   },
                   {
                     "id": "2",
@@ -526,17 +526,17 @@
                   },
                   {
                     "id": "4",
-                    "content": "<p>Les autres entreprises (OpenIA, …) peuvent aussi utiliser le contenu.</p>"
+                    "content": "<p>Les autres entreprises (OpenIA, …) peuvent aussi utiliser les dépêches de l’AFP.</p>"
                   }
                 ],
                 "feedbacks": {
                   "valid": {
-                    "state": "<p>Bonne réponse&nbsp;🎉</p>",
-                    "diagnosis": ""
+                    "state": "<p>Bien vu !&nbsp;</p>",
+                    "diagnosis": "<p>Grâce à ce partenariat, Mistral peut utiliser les contenus de l’AFP pour entraîner ses modèles d’IA. En contrepartie, l’AFP encadre cette utilisation par un contrat et perçoit une rémunération.</p>"
                   },
                   "invalid": {
                     "state": "<p>Pas tout-à-fait.<br></p>",
-                    "diagnosis": ""
+                    "diagnosis": "<p>Grâce à ce partenariat, Mistral peut utiliser les contenus de l’AFP pour entraîner ses modèles d’IA. En contrepartie, l’AFP encadre cette utilisation par un contrat (seul Mistral peut utiliser ces contenus par exemple) et perçoit une rémunération.</p>"
                   }
                 },
                 "solutions": [
@@ -558,7 +558,16 @@
                 "id": "d6bffff0-5660-4b2b-a435-33bfdc2a60b0",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Certains fournisseurs d’IA utilisent des jeux de données obtenus dans un <strong>cadre contractuel ou sous licence</strong>.</p><p>Plusieurs entreprises d’IA ont conclu des accords avec des groupes de presse ou des plateformes de contenus afin d’utiliser leurs données pour entraîner leurs modèles, <strong>en échange d’une rémunération ou d’un partenariat technologique</strong>.</p><p>Toutefois, il est parfois long et difficile de (accords) et ces négociations n’aboutissent pas toujours.</p>"
+                "content": "<p>Certains fournisseurs d’IA utilisent des jeux de données obtenus dans un <strong>cadre contractuel ou sous licence</strong>.</p><p>Plusieurs entreprises d’IA ont conclu des accords (avec des groupes de presse ou des plateformes de contenus par exemple) afin d’utiliser leurs données pour entraîner leurs modèles, en échange d’une rémunération ou d’autres conditions.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "6f4f8c56-cf94-4569-8555-ee2a1cbf403a",
+                "type": "text",
+                "tag": "further-information",
+                "content": "<p>Mettre en place de tel accord est parfois long et difficile et les négociations n’aboutissent pas toujours.</p>"
               }
             }
           ]
@@ -610,20 +619,9 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "VRAI",
-                    "proposalB": "FAUX",
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
                     "solution": "A"
-                  },
-                  {
-                    "id": "5602a88a-5c3e-48c9-bd22-5e0287980f3e",
-                    "text": "Les IA génératives respectent toujours le droit d’auteur.",
-                    "image": {
-                      "url": "",
-                      "altText": ""
-                    },
-                    "proposalA": "VRAI",
-                    "proposalB": "FAUX",
-                    "solution": "B"
                   },
                   {
                     "id": "b7f672df-a4d8-4ebf-817d-4925d8c89d39",
@@ -632,8 +630,8 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "VRAI",
-                    "proposalB": "FAUX",
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
                     "solution": "B"
                   },
                   {
@@ -643,8 +641,8 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "VRAI",
-                    "proposalB": "FAUX",
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
                     "solution": "A"
                   },
                   {
@@ -654,8 +652,8 @@
                       "url": "",
                       "altText": ""
                     },
-                    "proposalA": "VRAI",
-                    "proposalB": "FAUX",
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
                     "solution": "B"
                   }
                 ],
@@ -677,35 +675,35 @@
                 "id": "c73c43ce-316a-49fa-9b9d-d58fdbb751df",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Voici le contenu du fichier robots.txt à analyser&nbsp;:&nbsp;</p><hr><p><code>User-agent: * </code></p><p><code>Disallow: /administration</code></p><p><code> User-agent: GPTBot </code></p><p><code>Disallow: /administration </code></p><p><code>Disallow: /poemes</code></p><p><code> User-agent: CCBot </code></p><p><code>Disallow: /administration </code></p><p><code>Disallow: /poemes</code><br></p><hr><p></p>"
+                "content": "<p>Voici le contenu du fichier robots.txt à analyser&nbsp;:&nbsp;</p><hr><p><code>User-agent: * </code></p><p><code>Disallow: /administration</code></p><p><code> User-agent: GPTBot </code></p><p><code>Disallow: /administration </code></p><p><code>Disallow: /photos</code></p><p><code> User-agent: ClaudeBot </code></p><p><code>Disallow: /administration </code></p><p><code>Disallow: /photos</code><br></p><hr>"
               }
             },
             {
               "type": "stepper",
-              "instruction": "<p>Répondez par Vrai ou Faux aux propositions suivantes&nbsp;:<br></p>",
+              "instruction": "<p>Répondez par vrai ou faux aux propositions suivantes&nbsp;:<br></p>",
               "steps": [
                 {
                   "elements": [
                     {
                       "id": "63ccc433-ac3f-41d9-9471-5bfe89fe297b",
                       "type": "qcu",
-                      "instruction": "<p>Le robot CCBot est autorisé à accéder au dossier /poemes/</p>",
+                      "instruction": "<p>Le robot ClaudeBot est autorisé à accéder au dossier /photos</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "VRAI",
+                          "content": "Vrai",
                           "feedback": {
                             "state": "<p>Eh non.<br></p>",
-                            "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: CCBot</code> sont spécifiques pour ce robot. </p><p>L’instruction <code>Disallow</code> est suivie des dossiers interdits d’accès.</p>"
+                            "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: ClaudeBot</code> sont spécifiques pour ce robot. </p><p>L’instruction <code>Disallow</code> est suivie des dossiers interdits d’accès.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "FAUX",
+                          "content": "Faux",
                           "feedback": {
                             "state": "<p>Bonne réponse&nbsp;🎉</p>",
-                            "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: CCBot</code> sont spécifiques pour ce robot. Il lui est interdit (<code>Disallow</code>) d’accéder au dossier /poemes/</p>"
+                            "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: ClaudeBot</code> sont spécifiques pour ce robot. Il lui est interdit (<code>Disallow</code>) d’accéder au dossier /photos</p>"
                           }
                         }
                       ],
@@ -718,12 +716,12 @@
                     {
                       "id": "9ba85163-ba3c-46c5-af93-1cf9e16c612e",
                       "type": "qcu",
-                      "instruction": "<p>Le robot GPTBot est autorisé à accéder au dossier /poemes/</p>",
+                      "instruction": "<p>Le robot GPTBot est autorisé à accéder au dossier /photos</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "VRAI",
+                          "content": "Vrai",
                           "feedback": {
                             "state": "<p>Eh non.<br></p>",
                             "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: GPTBot</code> sont spécifiques pour ce robot.</p><p>L’instruction <code>Disallow</code> est suivie des dossiers interdits d’accès.</p>"
@@ -731,10 +729,10 @@
                         },
                         {
                           "id": "2",
-                          "content": "FAUX",
+                          "content": "Faux",
                           "feedback": {
                             "state": "<p>Bonne réponse&nbsp;🎉</p>",
-                            "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: GPTBot</code> sont spécifiques pour ce robot. Il lui est interdit (<code>Disallow</code>) d’accéder au dossier /poemes/</p>"
+                            "diagnosis": "<p>Les restrictions qui suivent la ligne <code>User-agent: GPTBot</code> sont spécifiques pour ce robot. Il lui est interdit (<code>Disallow</code>) d’accéder au dossier /photos</p>"
                           }
                         }
                       ],
@@ -747,12 +745,12 @@
                     {
                       "id": "30d10a68-0fa4-4b3b-94bd-1c0bd1d24e6f",
                       "type": "qcu",
-                      "instruction": "<p>Le robot Google-extended est autorisé à accéder au dossier /poemes/</p>",
+                      "instruction": "<p>Le robot Google-extended est autorisé à accéder au dossier /photos</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "VRAI",
+                          "content": "Vrai",
                           "feedback": {
                             "state": "<p>Bonne réponse&nbsp;🎉</p>",
                             "diagnosis": "<p>Il n’y a pas d’instruction spécifique pour le robot Google-extended. </p><p>Il doit donc respecter la seule règle imposée à tous les autres robots (<code>User-agent: *</code>) de ne pas accéder au dossier /administration/</p>"
@@ -760,7 +758,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "FAUX",
+                          "content": "Faux",
                           "feedback": {
                             "state": "<p>Eh si.<br></p>",
                             "diagnosis": "<p>Il n’y a pas d’instruction spécifique pour le robot Google-extended. </p><p>Il doit donc respecter la seule règle imposée à tous les autres robots (<code>User-agent: *</code>) de ne pas accéder au dossier /administration/</p>"
@@ -781,7 +779,7 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "VRAI",
+                          "content": "Vrai",
                           "feedback": {
                             "state": "<p>Eh non.<br></p>",
                             "diagnosis": "<p>Il n’y a pas d’instruction spécifique pour le robot Google-extended. Il doit donc respecter la règle imposée à tous les autres robots (<code>User-agent: *</code>).</p>"
@@ -789,7 +787,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "FAUX",
+                          "content": "Faux",
                           "feedback": {
                             "state": "<p>Bonne réponse&nbsp;🎉</p>",
                             "diagnosis": "<p>Il n’y a pas d’instruction spécifique pour le robot Google-extended. Il doit donc respecter la règle imposée à tous les autres robots (<code>User-agent: *</code>)&nbsp;de ne pas accéder au dossier /administration/</p>"
@@ -887,19 +885,10 @@
             {
               "type": "element",
               "element": {
-                "id": "9c8da212-ce04-4a06-a1b4-83ff5acb9c53",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Certaines œuvres sont déjà diffusées ou reproduites sur de nombreux sites web, si bien qu’il est parfois difficile d’en connaître les auteurs. </p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
                 "id": "9035ac76-ba80-47ba-925c-cb2c2b8226b5",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Lina et Yanis débattent au sujet de ces oeuvres&nbsp;:</p>",
+                "instruction": "<p>Lina et Yanis échangent sur ce sujet&nbsp;:&nbsp;</p>",
                 "functionalInstruction": "",
                 "tagName": "message-conversation",
                 "props": {
@@ -909,25 +898,31 @@
                       "userName": "Yanis",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "La diffusion d’une œuvre sur le web ne supprime pas ses droits. Les fournisseurs d’IA devraient obtenir l’accord des auteurs avant d’utiliser leurs contenus."
+                      "content": "Je viens de lire un article sur l’entraînement des IA. Les entreprises d’IA disent qu’elles ne peuvent pas faire autrement que de collecter des contenus protégés."
                     },
                     {
                       "userName": "Lina",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "C’est une question de principe de réalité. Les contenus circulent massivement sur des milliers de blogs et forums ; identifier l’origine exacte de chaque donnée est techniquement presque impossible."
+                      "content": "Comment ça ? "
                     },
                     {
                       "userName": "Yanis",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "La complexité technique ne dispense pas du respect de la loi. Si les algorithmes peuvent analyser des milliards de données, ils peuvent aussi apprendre à en tracer les sources."
+                      "content": "Leurs systèmes parcourent Internet, où des contenus protégés sont souvent copiés, partagés ou reproduits sur d’autres sites (des extraits de livres sur des blogs, des photos reprises sur des sites etc)"
                     },
                     {
                       "userName": "Lina",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Ce flux public est trop fragmenté pour un contrôle exhaustif. Imposer des exigences de traçage impossibles à tenir risque de bloquer le développement de l’innovation."
+                      "content": "Tu penses que c’est une vraie contrainte technique… ou un argument pour se défendre ?"
+                    },
+                    {
+                      "userName": "Yanis",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Difficile à dire. Explorer des milliards de pages tout en vérifiant les droits de chaque contenu, ça paraît compliqué."
                     }
                   ],
                   "animationSpeed": 0
@@ -946,21 +941,28 @@
               "element": {
                 "id": "8e31b213-1d15-48c6-aee0-6731edb6db2e",
                 "type": "qcu-declarative",
-                "instruction": "<p>Quel point de vue vous semble le plus convaincant ? </p>",
+                "instruction": "<p>Et vous, qu’en pensez-vous ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Le point de vue de Lina.</p>",
+                    "content": "<p>Les entreprises d’IA devraient mettre en place davantage de moyens pour identifier et exclure les œuvres protégées.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Alors que Lina exige le respect du droit d’auteur via une traçabilité obligatoire des sources, Yanis oppose un principe de réalité technique rendant ce contrôle impossible en raison de la circulation massive des contenus.</p>"
+                      "diagnosis": "<p>C’est une position largement défendue par de nombreux créateurs. Ils estiment que les progrès techniques devraient permettre de mieux identifier et respecter les œuvres protégées. Reste à savoir dans quelle mesure cela est réalisable à grande échelle.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Le point de vue de Yanis.</p>",
+                    "content": "<p>Le cadre juridique actuel offre déjà un bon équilibre entre innovation et protection des auteurs.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Alors que Yanis exige le respect du droit d’auteur via une traçabilité obligatoire des sources, Lina oppose un principe de réalité technique rendant ce contrôle impossible en raison de la circulation massive des contenus.</p>"
+                      "diagnosis": "<p>C’est un point de vue partagé par certains acteurs. Le cadre juridique actuel cherche à concilier le développement de l’IA et la protection des auteurs, mais son équilibre fait encore l’objet de débats comme l’a montré ce module.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je n’ai pas d’avis tranché&nbsp;: la question est trop complexe.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>C’est normal ! Les arguments des différentes parties sont recevables et le cadre juridique continue d’évoluer. L’objectif de ce module est de vous donner les clés pour mieux comprendre ce débat.</p>"
                     }
                   }
                 ]
