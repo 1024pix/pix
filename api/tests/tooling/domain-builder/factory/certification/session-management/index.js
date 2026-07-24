@@ -1,4 +1,5 @@
 import { buildAllowedCertificationCenterAccess } from './build-allowed-certification-center-access.js';
+import { candidateAuthorizationInfoBuilder } from './build-candidate-authorization-info.js';
 import { buildCertificationCandidate } from './build-certification-candidate.js';
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildCertificationDetails } from './build-certification-details.js';
@@ -22,4 +23,5 @@ export const builders = {
   buildSessionManagement,
   buildSession,
   sessionForSupervisingBuilder,
+  candidateAuthorizationInfoBuilder,
 };
