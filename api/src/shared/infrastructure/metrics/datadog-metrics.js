@@ -10,12 +10,12 @@ export class DatadogMetrics {
 
   constructor({ config }) {
     if (!config.metrics.isDirectMetricsEnabled) {
-      logger.info('Metric initialisation : no reporter => no metrics sent');
+      logger.info('DatadogMetrics initialisation : no reporter => no metrics sent');
       metrics.init({ reporter: new metrics.reporters.NullReporter(), flushIntervalSeconds: 0 });
     }
 
     if (config.metrics.isDirectMetricsEnabled) {
-      logger.info('Metric initialisation : linked to Datadog');
+      logger.info('DatadogMetrics initialisation : linked to Datadog');
       metrics.init({
         host: config.infra.containerName,
         prefix: '',
@@ -65,7 +65,7 @@ export class DatadogMetrics {
   #registerMetric({ type, name, tags }) {
     const metricSignature = `${type}|${name}|${tags}`;
     if (!DatadogMetrics.metricDefinitions[metricSignature]) {
-      logger.info(`Metric registered with : ${type}, ${name}, ${tags}`);
+      logger.info(`DatadogMetrics metric registered with : ${type}, ${name}, ${tags}`);
       DatadogMetrics.metricDefinitions[metricSignature] = { type, name, tags };
     }
   }

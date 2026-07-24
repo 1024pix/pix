@@ -34,11 +34,11 @@ export function setInheritedAttributes(ctx, attributes) {
  * `NodeSDK`'s `spanProcessors` option) alongside the processor(s) actually responsible for
  * exporting spans - this one only annotates spans, it does not export them.
  *
- * @implements {import('@opentelemetry/sdk-trace-base').SpanProcessor}
+ * @implements {import('@opentelemetry/sdk-trace').SpanProcessor}
  */
 export class InheritedAttributesSpanProcessor {
   /**
-   * @param {import('@opentelemetry/sdk-trace-base').Span} span
+   * @param {import('@opentelemetry/sdk-trace').Span} span
    * @param {import('@opentelemetry/api').Context} parentContext
    */
   onStart(span, parentContext) {
