@@ -1,0 +1,849 @@
+{
+  "id": "c0618a2a-d5ad-460d-a5ff-63c072d47282",
+  "shortId": "4fdde7f9",
+  "slug": "ia-premier-prompt-pro",
+  "title": "Rédiger un premier prompt",
+  "isBeta": true,
+  "visibility": "private",
+  "details": {
+    "image": "https://assets.pix.org/modules/mon-premier-prompt/picto_moduleIA_prompt1.svg",
+    "description": "<p>Les logiciels d’IA générative comme Vibe, ChatGPT, Gemini ou encore DeepSeek, vous en avez déjà entendu parler. Mais, savez-vous comment on les utilise ?</p><p>Le secret tient en un mot : prompt. C’est quoi au juste un prompt ? C’est ce que vous allez découvrir dans ce module.</p>",
+    "duration": 10,
+    "level": "novice",
+    "objectives": [
+      "<p>Savoir ce qu’est un prompt</p>",
+      "<p>Formuler des prompts clairs et précis pour des tâches de base</p>",
+      "<p>Vérifier la réponse du logiciel d’IA générative et lui demander des précisions si nécessaire</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "sections": [
+    {
+      "id": "e43625a3-9e11-4f20-8879-406105674be0",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "55931fec-6312-4eca-9e22-ecf08161e9ae",
+          "type": "discovery",
+          "title": "Accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "0a6a4d03-288f-4f77-a646-b3735cb35c2a",
+                "type": "custom",
+                "instruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "Association professionnelle",
+                  "messages": [
+                    {
+                      "userName": "Agnès",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "J’aimerais créer une association professionnelle, mais je ne sais pas du tout par où commencer…"
+                    },
+                    {
+                      "userName": "Maëlle",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Vous pourriez essayer avec un logiciel d’IA générative. Il peut vous indiquer les différentes étapes à suivre."
+                    },
+                    {
+                      "userName": "Agnès",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Vraiment ? Mais comment faire ?"
+                    },
+                    {
+                      "userName": "Maëlle",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "C’est assez simple : vous lui écrivez ce que vous voulez, en soignant votre prompt."
+                    }
+                  ]
+                },
+                "title": "",
+                "functionalInstruction": ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fe06f6f9-899c-4da8-bfd0-664c780f3702",
+      "type": "explore-to-understand",
+      "grains": [
+        {
+          "id": "3c96f767-ff5d-4a9f-a08d-48f9d7f717bf",
+          "type": "transition",
+          "title": "texte de transition",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "8abd23d0-226d-4d6d-bf01-1a65d24b627d",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Agnès a suivi le conseil de son collègue. Elle a demandé à un logiciel d’IA générative par où commencer pour créer son association professionnelle. Voici sa discussion avec le logiciel.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "d534221d-b908-49e6-b220-b96af7ed42b2",
+          "type": "discovery",
+          "title": "Activité découverte",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "b6410a37-011d-46f2-98be-e6a0d86ce47e",
+                "type": "custom",
+                "instruction": "<p>Survolez les différentes zones de la conversation pour en apprendre plus.</p>",
+                "tagName": "clickable-image",
+                "props": {
+                  "image": {
+                    "src": "https://assets.pix.org/modules/mon-premier-prompt/demande-asso-yoga-hd-zoome.png",
+                    "alt": "IA générative ChatPIX",
+                    "width": 1149,
+                    "height": 849
+                  },
+                  "areas": [
+                    {
+                      "coords": {
+                        "x1": 330,
+                        "y1": 15,
+                        "x2": 1125,
+                        "y2": 105
+                      },
+                      "info": "Ce texte est le prompt envoyé. C’est la question posée ou la consigne donnée au logiciel d’IA générative par l’utilisateur.",
+                      "tooltipPosition": "bottom"
+                    },
+                    {
+                      "coords": {
+                        "x1": 20,
+                        "y1": 115,
+                        "x2": 1075,
+                        "y2": 515
+                      },
+                      "info": "Ce texte est la réponse apportée par le logiciel d’IA générative.",
+                      "tooltipPosition": "bottom"
+                    },
+                    {
+                      "coords": {
+                        "x1": 20,
+                        "y1": 660,
+                        "x2": 1130,
+                        "y2": 810
+                      },
+                      "info": "Cette zone est le champ de saisie. C’est ici qu’on écrit les prompts.",
+                      "tooltipPosition": "bottom"
+                    }
+                  ]
+                },
+                "title": "",
+                "functionalInstruction": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "20d6cd35-1de5-4ee2-be03-a823e0f1c5f0",
+                "type": "qcu-discovery",
+                "instruction": "<p>Parmi les messages de cette discussion, lequel est le prompt ?</p>",
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Je veux créer une association professionnelle. Par où commencer ?</p>",
+                    "feedback": {
+                      "diagnosis": "<p>En effet, le <strong>prompt</strong>, c’est la <strong>question posée</strong> ou la <strong>consigne donnée</strong> au <strong>logiciel d’IA générative</strong>.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Pour créer votre association professionnelle, commencez par ces étapes&nbsp;:</p><ul><li>Précisez votre objet&nbsp;: quel domaine ? pour qui ? dans quel but ?</li><li>Réunissez au moins deux personnes&nbsp;: il faut être au moins deux pour créer une association.</li><li>Rédigez les statuts&nbsp;: comment fonctionne-t-elle ? qui décide quoi ?</li><li>Déclarez l’association sur le site officiel de l’administration.</li><li>Ouvrez un compte bancaire au nom de l’association.</li><li>Lancez vos activités&nbsp;: trouvez un local, communiquez et démarrez.</li></ul><p>Si vous le souhaitez, je peux vous aider à rédiger les statuts ou à préparer votre dossier.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Non. C’est la réponse donnée par le logiciel d’IA générative. Le <strong>prompt</strong>, c’est la<strong> question posée</strong>ou la<strong> consigne donnée</strong> au <strong>logiciel d’IA générative</strong>.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Poser une question.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Pas tout à fait ! C’est le champ de saisie, la zone pour écrire les prompts ! Le <strong>prompt</strong>, c’est la<strong> question posée</strong> ou la<strong> consigne donnée</strong> au <strong>logiciel d’IA générative</strong>.</p>"
+                    }
+                  }
+                ],
+                "solution": "1",
+                "hasShortProposals": false
+              }
+            }
+          ]
+        },
+        {
+          "id": "3c265e63-d74c-4dcb-bfa5-0db0f9a32a4e",
+          "type": "short-lesson",
+          "title": "Leçon 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "c6210cb0-243c-4956-8f60-273c4a6cccc0",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Les <strong>réponses</strong> d’un logiciel d’IA générative s’affichent comme dans une <strong>conversation de messagerie instantanée</strong>.</p><p>Pour continuer la conversation, on saisit le <strong>prochain prompt</strong> dans la <strong>zone située juste en dessous</strong>.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "814d0fe0-2221-4afc-b2d9-816e82f90c27",
+          "type": "transition",
+          "title": "texte de transition 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "ddc704e4-c1fa-4b65-a966-af84b0f65d99",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Maintenant que vous savez vous repérer dans une conversation avec un logiciel d’IA générative, voyons comment rédiger un prompt.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "d866d6b8-5ac3-4bee-be65-52dadf17cee4",
+          "type": "activity",
+          "title": "activité découverte 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "16723cef-9083-4afd-9812-e1f9f883a37b",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Cliquez sur chaque prompt et observez la réponse du logiciel d’IA générative.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "2a5738f1-2cd8-4979-a87d-ec867cb2d797",
+                "type": "custom",
+                "instruction": "",
+                "tagName": "llm-prompt-select",
+                "props": {
+                  "messages": [
+                    {
+                      "direction": "inbound",
+                      "content": "<strong>Bonjour,</strong> je m’appelle ChatPix !<br>Comment puis-je vous aider aujourd’hui ?"
+                    }
+                  ],
+                  "prompts": [
+                    {
+                      "prompt": "Pont",
+                      "response": "<p>Le mot <strong>pont</strong> peut avoir plusieurs sens selon ce que vous voulez dire. Voici les plus courants :</p><p>1. <strong>Sens physiques / concrets</strong></p><ul><li><strong>Construction qui permet de traverser</strong> une rivière, une route, une vallée.</li><li><strong>Partie d’un navire :</strong> le pont d’un bateau.</li><li><strong>Partie d’un instrument de musique</strong> (violon, guitare…).</li><li><strong>En anatomie</strong> : un pont entre deux parties (ex : pont nasal).</li></ul><p>2. <strong>Sens figurés / expressions</strong></p><ul><li>Prendre un jour de congé entre un jour férié et le week-end.</li><li>Établir un contact, une passerelle.</li></ul>"
+                    },
+                    {
+                      "prompt": "Faire le pont",
+                      "response": "<p><strong>«&nbsp;Faire le pont&nbsp;»</strong> est une expression française qui signifie <strong>profiter d’un jour férié</strong> qui tombe un mardi ou un jeudi <strong>pour faire un long week-end</strong>, en prenant le lundi ou le vendredi comme jour de congé.</p><p>C’est souvent utilisé dans le contexte du <strong>travail</strong>, du <strong>calendrier scolaire</strong>ou des <strong>vacances</strong>.</p><p>Si vous le souhaitez, je peux aussi vous expliquer l’origine de l’expression.</p>"
+                    },
+                    {
+                      "prompt": "Rédige un message pour proposer à mon équipe de faire le pont le vendredi 9 mai.",
+                      "response": "<p>Voici une proposition de message :</p><p><strong>Objet : Proposition de pont le vendredi 9 mai</strong></p><p>Bonjour à toutes et à tous,</p><p>Je vous propose de faire le pont le vendredi 9 mai afin de bénéficier d’un week-end prolongé. Merci de me confirmer vos disponibilités afin d’assurer la continuité du service.</p><p>Bien cordialement.</p>"
+                    }
+                  ]
+                },
+                "title": "",
+                "functionalInstruction": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "0edb4fba-2214-41f8-8859-baec4f1f072b",
+                "type": "qcu-discovery",
+                "instruction": "<p>D’après ce que vous venez de voir, laquelle de ces affirmations est vraie ?</p>",
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>On parle à un logiciel d’IA générative en langage informatique.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Non. On écrit en <strong>langage courant</strong>, de façon simple et claire.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>On parle à un logiciel d’IA générative comme on parle avec une personne.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>En effet. On écrit en <strong>langage courant</strong>, de façon simple et claire.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>On parle à un logiciel d’IA générative avec des mots-clés uniquement.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Non. On écrit en <strong>langage courant</strong>, de façon simple et claire.</p>"
+                    }
+                  }
+                ],
+                "solution": "2",
+                "hasShortProposals": false
+              }
+            }
+          ]
+        },
+        {
+          "id": "63b1bb42-4b54-4e85-a433-79e913284721",
+          "type": "short-lesson",
+          "title": "Leçon 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "7d1219b3-ae36-475b-a366-55e10e4873e4",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>En revanche, pour que le logiciel d’IA générative réponde vraiment à ce que vous voulez, il faut être <strong>précis</strong>.</p><p><br> <strong>Bon à savoir</strong></p><p>Une bonne façon d’être précis est d’utiliser des <strong>verbes d’action</strong> comme : « lister », « traduire », « résumer », etc.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "ecb5fa3a-80fe-487d-b6af-86298ccad3fd",
+          "type": "transition",
+          "title": "texte de transition 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "f819d48e-4297-4a5f-b163-1cea317d0fd4",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Dans certains cas, utiliser un verbe adapté ne suffit pas. Il faut aussi donner des éléments qui décrivent le résultat que l’on veut obtenir. Voyons cela ensemble.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "e957d63a-ce13-4231-be1f-64a95b1f33b6",
+          "type": "activity",
+          "title": "activité découverte 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "e56b3178-2c98-47f7-8643-2bd4732814d5",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Cette fois-ci, Agnès prépare une présentation pour un comité de direction.</p><p>Elle veut des diapositives convaincantes mais ne sait pas comment les structurer.</p><p>Cliquez sur chaque prompt et observez la réponse du logiciel d’IA générative.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "11a84126-3824-4176-a957-e80a00ba6512",
+                "type": "custom",
+                "instruction": "",
+                "tagName": "llm-prompt-select",
+                "props": {
+                  "messages": [
+                    {
+                      "direction": "inbound",
+                      "content": "<strong>Bonjour,</strong> je m’appelle ChatPix !<br>Comment puis-je vous aider aujourd’hui ?"
+                    }
+                  ],
+                  "prompts": [
+                    {
+                      "prompt": "Propose un plan de présentation.",
+                      "response": "<p><strong>Plan proposé :</strong></p><ol><li>Introduction</li><li>Contexte</li><li>Proposition</li><li>Conclusion</li></ol>"
+                    },
+                    {
+                      "prompt": "Propose un plan de présentation pour un comité de direction.",
+                      "response": "<p><strong>Plan proposé :</strong></p><ol><li>Synthèse en une diapositive</li><li>Enjeux et contexte</li><li>Proposition et bénéfices attendus</li><li>Budget et calendrier</li><li>Décision attendue</li></ol>"
+                    },
+                    {
+                      "prompt": "Propose un plan de présentation pour un comité de direction afin de convaincre d’investir dans le projet.",
+                      "response": "<p><strong>Plan proposé :</strong></p><ol><li>Message clé : l’opportunité en une phrase</li><li>Problème et coût de l’inaction</li><li>Solution proposée et bénéfices chiffrés</li><li>Retour sur investissement attendu</li><li>Budget, calendrier et prochaines étapes</li></ol>"
+                    }
+                  ]
+                },
+                "title": "",
+                "functionalInstruction": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "2ec20a13-2034-43db-9747-9aa706b87ce3",
+                "type": "qcu-discovery",
+                "instruction": "<p>D’après vous, parmi ces prompts, lequel exprime le mieux le besoin d’Agnès ?</p>",
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Propose un plan de présentation.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Pas tout à fait. Le logiciel d’IA générative ne peut pas deviner les détails d’une demande. Pour être sûr d’avoir la réponse recherchée, il faut <strong>préciser tous les éléments importants</strong>de la demande dans le prompt.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Propose un plan de présentation pour un comité de direction.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Pas tout à fait. Le logiciel d’IA générative ne peut pas deviner les détails d’une demande. Pour être sûr d’avoir la réponse recherchée, il faut <strong>préciser tous les éléments importants</strong> de la demande dans le prompt.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Propose un plan de présentation pour un comité de direction afin de convaincre d’investir dans le projet.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Exact&nbsp;: ce prompt contient des <strong>éléments précis&nbsp;</strong>: un verbe, une contrainte (comité de direction) et un objectif (convaincre d’investir dans le projet).</p>"
+                    }
+                  }
+                ],
+                "solution": "3",
+                "hasShortProposals": false
+              }
+            }
+          ]
+        },
+        {
+          "id": "f5e0137d-f8c7-4652-8642-3bd980cb4332",
+          "type": "short-lesson",
+          "title": "Leçon 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "65125e6e-c959-4f05-a377-1847de59a5cd",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Une autre façon d’être précis est de donner au logiciel d’IA générative autant d’<strong>informations</strong> que possible. Cela donne du contexte.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "28dc1415-7b23-4f59-9fe8-b7ff76b54e13",
+          "type": "activity",
+          "title": "activité découverte 4",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "9a15e944-22b8-405e-8a65-a9b76fde4e6c",
+                "type": "custom",
+                "instruction": "<p>Lisez attentivement la discussion puis répondez à la question ci-dessous&nbsp;:</p>",
+                "tagName": "llm-messages",
+                "props": {
+                  "messages": [
+                    {
+                      "direction": "outbound",
+                      "content": "<p>Je cherche un cadeau de départ pour un collègue. Mon budget est de 30 euros. Quelles sont les 5 meilleures options ?</p>"
+                    },
+                    {
+                      "direction": "inbound",
+                      "content": "<p>Voici cinq idées de cadeaux :</p> <p>1. Un carnet de qualité</p><p>2. Un mug personnalisé</p><p>3. Une plante de bureau</p><p>4. Un week-end à l’étranger</p><p>5. Un porte-cartes</p>"
+                    }
+                  ]
+                },
+                "title": "",
+                "functionalInstruction": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "33dc2f90-d91d-41c4-9096-bc2786beafe2",
+                "type": "qcu-discovery",
+                "instruction": "<p>Selon vous, la liste de cadeaux donnée par le logiciel d’IA générative ci-dessus répond-elle bien au prompt ?</p>",
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>La réponse du logiciel d’IA générative est adaptée à la demande.</p>",
+                    "feedback": {
+                      "diagnosis": "<p><strong>La réponse</strong> du logiciel d’IA générative <strong>ne respecte pas</strong> le prompt&nbsp;: le week-end à l’étranger dépasse largement le budget de 30 euros indiqué.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>La réponse du logiciel d’IA générative n’est pas adaptée à la demande.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Exact&nbsp;: <strong>la réponse</strong> du logiciel d’IA générative <strong>n’est pas adaptée&nbsp;</strong>: le week-end à l’étranger dépasse largement le budget de 30 euros indiqué.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je ne sais pas.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Regardez bien&nbsp;: <strong>la réponse</strong> du logiciel d’IA générative <strong>ne respecte pas</strong> le prompt, le week-end à l’étranger dépasse le budget de 30 euros.</p>"
+                    }
+                  }
+                ],
+                "solution": "2",
+                "hasShortProposals": false
+              }
+            }
+          ]
+        },
+        {
+          "id": "158596fb-5ef5-402a-b8f9-19556cbfb22c",
+          "type": "short-lesson",
+          "title": "Leçon 4",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "7ab7c24d-9b74-4db3-b535-1d6631b3eee5",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Même si le prompt est clair et précis, et que la réponse paraît bien rédigée, un<strong> logiciel d’IA générative</strong>peut <strong>se tromper</strong>. Il faut <strong>toujours&nbsp;</strong><strong>relire et vérifier la réponse</strong>.</p><p><br><strong>Astuce</strong></p><p>On peut continuer la conversation avec un logiciel d’IA générative en lui envoyant un nouveau message pour <strong>ajuster ou corriger</strong> la réponse.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "88dd26dd-9182-4f45-933a-1fd7c7398196",
+      "type": "retain-the-essentials",
+      "grains": [
+        {
+          "id": "08c5d911-b678-4753-92af-675a7447bf39",
+          "type": "summary",
+          "title": "Recap",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "e83ea0ee-18ea-4f92-94e4-ba028e9fe22d",
+                "type": "text",
+                "tag": " ",
+                "content": "<ul><li>Un <strong>prompt</strong>(« instruction » ou « requête » en français) est une <strong>question</strong> que l’on pose ou une <strong>consigne</strong> que l’on donne au logiciel d’IA générative pour qu’il produise une réponse.</li><li>Un prompt s’écrit en <strong>langage courant.</strong></li><li>Plus la <strong>demande</strong>est <strong>claire et précise</strong>, plus la <strong>réponse</strong>du logiciel d’IA générative sera <strong>adaptée et pertinente</strong>.<br></li><li>Il est important de toujours <strong>relire la réponse</strong> <strong>du logiciel d’IA générative</strong>.</li><li>Si la réponse du logiciel d’IA générative ne convient pas, il faut <strong>reformuler</strong> <strong>son prompt</strong>.</li></ul>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a28b4f76-6035-4a4b-a8cf-d5fe69afa3de",
+      "type": "practise",
+      "grains": [
+        {
+          "id": "0341f119-19e3-405f-ab71-73a62d803b99",
+          "type": "transition",
+          "title": "texte de transition 4",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "93b81d1f-d635-43a2-bf9b-25f0f4b57996",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Vous connaissez maintenant les règles de base pour formuler un prompt. Mettez-les en pratique.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "1d93b25d-ddfd-4f89-82e6-c0eac9f170be",
+          "type": "activity",
+          "title": "activité application",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "45bce185-5427-46df-871c-1f8c84d0c877",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Lisez attentivement les affirmations suivantes et indiquez, pour chacune d’elles, si elle est vraie ou fausse.</p>"
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "5b1783f5-e374-4870-8d21-0f900a391349",
+                      "type": "qcu",
+                      "instruction": "<p>Le prompt est la réponse donnée par le logiciel d’IA générative à la question ou consigne de l’utilisateur.</p>",
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Vrai</p>",
+                          "feedback": {
+                            "state": "<p>Réponse incorrecte</p>",
+                            "diagnosis": "<p>Le prompt n’est pas la réponse que donne un logiciel d’IA générative ! C’est la demande que l’utilisateur fait au logiciel d’IA générative sous forme de question ou de consigne.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Faux</p>",
+                          "feedback": {
+                            "state": "<p>Correct.</p>",
+                            "diagnosis": "<p>Le prompt est la demande que l’utilisateur fait au logiciel d’IA générative sous forme de question ou de consigne.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2",
+                      "hasShortProposals": false
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "2bc2ccd3-5ca7-4773-8af4-225fc759fe7b",
+                      "type": "qcu",
+                      "instruction": "<p>On parle en langage courant avec un logiciel d’IA, avec des phrases simples et claires.</p>",
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Vrai</p>",
+                          "feedback": {
+                            "state": "<p>Correct.</p>",
+                            "diagnosis": "<p>En effet, pas besoin de formulation spéciale pour faire une demande à l’IA générative !</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Faux</p>",
+                          "feedback": {
+                            "state": "<p>Réponse incorrecte</p>",
+                            "diagnosis": "<p>On n’utilise pas de formulation spéciale pour parler à un logiciel d’IA générative. On lui parle en langage courant,&nbsp;avec des phrases simples et claires.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1",
+                      "hasShortProposals": false
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "a3a69dc6-216e-4acc-a1d2-6f5c065f6360",
+                      "type": "qcu",
+                      "instruction": "<p>Quand on fait une demande au logiciel d’IA générative, il suffit d’utiliser un verbe d’action pour être précis.<br></p>",
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Vrai</p>",
+                          "feedback": {
+                            "state": "<p>Réponse incorrecte</p>",
+                            "diagnosis": "<p>En plus du verbe d’action, il faut aussi fournir au logiciel d’IA générative des informations supplémentaires pour lui donner du contexte.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Faux</p>",
+                          "feedback": {
+                            "state": "<p>Correct.</p>",
+                            "diagnosis": "<p>En effet, en plus du verbe d’action, il faut fournir au logiciel d’IA générative des informations supplémentaires pour lui donner du contexte.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2",
+                      "hasShortProposals": false
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "a2315310-5e1f-4742-9df2-a8544673d4eb",
+                      "type": "qcu",
+                      "instruction": "<p>On peut avoir entièrement confiance dans les réponses d’un logiciel d’IA.</p>",
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Vrai</p>",
+                          "feedback": {
+                            "state": "<p>Réponse incorrecte</p>",
+                            "diagnosis": "<p>Il faut toujours relire la réponse d’un logiciel d’IA générative en gardant un regard critique. Si elle ne convient pas, on peut reformuler la demande pour mieux guider le logiciel d’IA générative !</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Faux</p>",
+                          "feedback": {
+                            "state": "<p>Correct.</p>",
+                            "diagnosis": "<p>En effet, il faut toujours relire la réponse du logiciel d’IA générative en gardant un regard critique. Si elle ne convient pas, on peut reformuler la demande pour mieux guider le logiciel d’IA générative !</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2",
+                      "hasShortProposals": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "8a9ffc48-9016-4c31-835a-d6bd75c29769",
+          "type": "activity",
+          "title": "activité application 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "d7d1cc1f-54f9-4177-85ee-546e3d5efacb",
+                "type": "qab",
+                "instruction": "<p>Classez chaque prompt selon sa précision dans une des catégories suivantes : « clair et précis » ou « flou et vague ».</p>",
+                "cards": [
+                  {
+                    "id": "3a7cd1e8-e120-4606-8a6d-c27528315882",
+                    "text": "Quels sont les meilleurs outils gratuits de montage vidéo pour un débutant sur smartphone ?",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Clair et précis",
+                    "proposalB": "Flou et vague",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "53229d22-94cd-4a61-a2f4-40e3c3932238",
+                    "text": "Aide-moi dans mes projets.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Clair et précis",
+                    "proposalB": "Flou et vague",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "8ad34a05-3fab-4d18-8372-02e1b0afdf11",
+                    "text": "Parle-moi de gestion de projet, j’aimerais me former.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Clair et précis",
+                    "proposalB": "Flou et vague",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "f676989a-c07e-4c74-9d2b-003c23b33586",
+                    "text": "Rédige un compte rendu court et clair à partir de ces notes de réunion.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Clair et précis",
+                    "proposalB": "Flou et vague",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "4056fef0-41ee-4be5-bdcc-c7b31dedeb85",
+                    "text": "Propose trois idées d’ateliers pour une journée d’intégration de nouveaux collaborateurs.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Clair et précis",
+                    "proposalB": "Flou et vague",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "ed9c4a6e-c86e-4503-a2d8-2dae5e09f4d8",
+                    "text": "Comment réussir sa carrière ?",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Clair et précis",
+                    "proposalB": "Flou et vague",
+                    "solution": "B"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": ""
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "810a1b2d-e507-4256-a627-db329c9e5389",
+      "type": "go-further",
+      "grains": [
+        {
+          "id": "d21c3598-fea1-4815-8002-cd0d4d5dab7a",
+          "type": "transition",
+          "title": "texte de transition 5",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "9670764f-36e7-4e9d-9923-33f1e070e441",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Vous avez appris à formuler un prompt. Place à la pratique : obtenez la réponse souhaitée.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "22f9821e-9535-4278-a3f2-a99108ad983e",
+          "type": "challenge",
+          "title": "Activité défi",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "a92f1423-0d48-4e39-ab38-62fa62979017",
+                "type": "embed",
+                "isCompletionRequired": true,
+                "title": "Utilisation d’un véritable LLM",
+                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmj79lbyo00001h016m14n3om",
+                "instruction": "<p>Écrivez un prompt au logiciel d’IA générative ci-dessous pour qu’il rédige un message d’invitation à une réunion d’équipe.</p>",
+                "solution": "pix-llm-success",
+                "height": 500
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "244de811-4c7a-4fc7-b965-a947a816f757",
+                "type": "expand",
+                "title": "Indice 1",
+                "content": "<p>Avez-vous&nbsp;vérifié le message produit par le logiciel d’IA générative ?</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "be9d8fcd-032a-4608-9c2e-67d73f192743",
+                "type": "expand",
+                "title": "Indice 2",
+                "content": "<p>Avez-vous demandé au logiciel d’IA générative de corriger sa proposition ?</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "8893b966-a965-41cb-8da8-da7576e181ea",
+                "type": "expand",
+                "title": "Solution",
+                "content": "<p>Si le logiciel d’IA générative a produit un message d’invitation clair et complet (objet, date, heure, lieu), votre réponse devrait être validée.</p><p>Pensez à vérifier qu’il n’a pas inventé d’informations, par exemple une date ou un lieu erronés.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "glossary": []
+}
