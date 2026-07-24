@@ -1,5 +1,7 @@
+import { RevokedPasswordCannotBeReusedError } from '../../../identity-access-management/domain/errors.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../shared/domain/errors.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 /**
  * @param {{
@@ -30,7 +32,27 @@ export const updateUserPassword = withTransaction(async function ({
     throw new UserNotAuthorizedToUpdatePasswordError();
   }
 
-  await resetPasswordService.invalidateResetPasswordDemand(user.email, temporaryKey, resetPasswordDemandRepository);
+  await resetPasswordService.assertTemporaryKey(temporaryKey);
+  const { email } = await resetPasswordService.verifyDemand(temporaryKey, resetPasswordDemandRepository);
+  if (email != user.email) {
+    throw new UserNotAuthorizedToUpdatePasswordError();
+  }
+
+  const pixAuthenticationComplement =
+    await authenticationMethodRepository.getAuthenticationComplementByUserIdAndIdentityProvider({
+      userId,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+    });
+
+  if (pixAuthenticationComplement.revokedHashedPassword) {
+    const isNewPasswordSameAsRevokedPassword = await cryptoService.matchPassword({
+      password,
+      passwordHash: pixAuthenticationComplement.revokedHashedPassword,
+    });
+    if (isNewPasswordSameAsRevokedPassword) {
+      throw new RevokedPasswordCannotBeReusedError();
+    }
+  }
 
   const hashedPassword = await cryptoService.hashPassword(password);
   await authenticationMethodRepository.updatePassword({
