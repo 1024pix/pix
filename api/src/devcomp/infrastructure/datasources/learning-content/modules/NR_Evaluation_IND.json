@@ -6,7 +6,7 @@
   "isBeta": true,
   "visibility": "public",
   "details": {
-    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "image": "https://assets.pix.org/modules/NR_Evaluation_IND/picto_nr_eval_ind.svg",
     "description": "<p>Ce module va vous aider à comprendre la méthode principale utilisée pour évaluer les impacts environnementaux du numérique. Vous verrez quels éléments doivent être pris en compte, pourquoi il faut examiner la vie d’un équipement dans son ensemble, et pourquoi plusieurs indicateurs sont utiles pour comprendre les résultats de l’impact environnemental du numérique.</p>",
     "duration": 10,
     "level": "independent",
@@ -521,7 +521,7 @@
                       "description": "Le graphique montre la répartition des émissions de gaz à effet de serre selon les étapes du cycle de vie et les composantes du numérique. Source : GreenIT 2025 — périmètre mondial",
                       "displayWidth": 600,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/chart-1.png",
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_IND/nr_eval_ind_graphiques1_v2.svg",
                         "alt": "a"
                       },
                       "license": {
@@ -535,7 +535,7 @@
                       "description": "Le graphique montre la répartition de l’épuisement des ressources minérales et métalliques selon les étapes du cycle de vie et les composantes du numérique. Source : GreenIT 2025 — périmètre mondial",
                       "displayWidth": 600,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/chart-2.png",
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_IND/nr_eval_ind_graphiques2_v2.svg",
                         "alt": "aaa"
                       },
                       "license": {
@@ -549,7 +549,7 @@
                       "description": "Le graphique montre la répartition des émissions de particules fines selon les étapes du cycle de vie et les composantes du numérique. Source : GreenIT 2025 — périmètre mondial",
                       "displayWidth": 600,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/chart.png",
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_IND/nr_eval_ind_graphiques3_v2.svg",
                         "alt": "aa"
                       },
                       "license": {
