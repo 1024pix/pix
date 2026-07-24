@@ -12,9 +12,9 @@
  *
  * @returns {Promise<Candidate>}
  */
-export const reconcileCandidate = async ({ userId, candidate, candidateRepository, eventAdapter }) => {
+export async function reconcileCandidate({ userId, candidate, candidateRepository, eventAdapter }) {
   candidate.reconcile(userId);
   await candidateRepository.update(candidate);
   await eventAdapter.onCandidateReconciled({ candidate });
   return candidate;
-};
+}

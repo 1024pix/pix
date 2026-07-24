@@ -13,7 +13,7 @@ import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/error
  * @returns {Promise<void>} if candidate is deemed eligible
  * @throws {UserNotAuthorizedToCertifyError} candidate is not certifiable for CORE
  */
-export const verifyCandidateReconciliationRequirements = async ({ candidate, placementProfileService }) => {
+export async function verifyCandidateReconciliationRequirements({ candidate, placementProfileService }) {
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: candidate.userId,
     limitDate: candidate.reconciledAt,
@@ -22,4 +22,4 @@ export const verifyCandidateReconciliationRequirements = async ({ candidate, pla
   if (!placementProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
   }
-};
+}

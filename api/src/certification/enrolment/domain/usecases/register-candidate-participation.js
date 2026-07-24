@@ -2,8 +2,7 @@
  * @typedef {import ('../../domain/models/Candidate.js').Candidate} Candidate
  */
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { WrongDomainExtensionForPixPlusError } from '../../domain/errors.js';
-import { usecases } from '../../domain/usecases/index.js';
+import { WrongDomainExtensionForPixPlusError } from '../errors.js';
 
 /**
  * Candidate entry to a certification is a multi step process
@@ -18,16 +17,36 @@ import { usecases } from '../../domain/usecases/index.js';
  * @returns {Promise<Candidate>}
  */
 export const registerCandidateParticipation = withTransaction(
-  async ({ userId, sessionId, firstName, lastName, birthdate, isFrenchDomainExtension, normalizeStringFnc }) => {
-    const candidate = await usecases.verifyCandidateIdentity({
+  async ({
+    userId,
+    sessionId,
+    firstName,
+    lastName,
+    birthdate,
+    isFrenchDomainExtension,
+    normalizeStringFnc,
+    candidateRepository,
+    centerRepository,
+    sessionRepository,
+    userRepository,
+    verifyCandidateIdentityService,
+    reconcileCandidateService,
+    verifyCandidateReconciliationRequirementsService,
+    eventAdapter,
+    placementProfileService,
+  }) => {
+    const candidate = await verifyCandidateIdentityService.verifyCandidateIdentity({
       userId,
       sessionId,
       firstName,
       lastName,
       birthdate,
       normalizeStringFnc,
+      candidateRepository,
+      centerRepository,
+      sessionRepository,
+      userRepository,
     });
-
     if (!candidate.hasCoreScopeSubscription() && !isFrenchDomainExtension) {
       throw new WrongDomainExtensionForPixPlusError();
     }
@@ -36,13 +55,16 @@ export const registerCandidateParticipation = withTransaction(
       return candidate;
     }
 
-    const reconciliedCandidate = await usecases.reconcileCandidate({
+    const reconciliedCandidate = await reconcileCandidateService.reconcileCandidate({
       userId,
       candidate,
+      candidateRepository,
+      eventAdapter,
     });
 
-    await usecases.verifyCandidateReconciliationRequirements({
+    await verifyCandidateReconciliationRequirementsService.verifyCandidateReconciliationRequirements({
       candidate: reconciliedCandidate,
+      placementProfileService,
     });
 
     return reconciliedCandidate;

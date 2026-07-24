@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { verifyCandidateReconciliationRequirements } from '../../../../../../src/certification/enrolment/domain/usecases/verify-candidate-reconciliation-requirements.js';
+import { verifyCandidateReconciliationRequirements } from '../../../../../../src/certification/enrolment/domain/services/verify-candidate-reconciliation-requirements.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';

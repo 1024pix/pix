@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 
-import { services as enrolmentServices } from '../../../../../src/certification/enrolment/application/services/index.js';
 import { Candidate } from '../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
@@ -194,7 +193,7 @@ export class ScoManagingStudent {
       studentIds: [organizationLearner.id],
     });
 
-    const registeredCandidate = await enrolmentServices.registerCandidateParticipation({
+    const registeredCandidate = await enrolmentUseCases.registerCandidateParticipation({
       userId: organizationLearner.userId,
       sessionId: session.id,
       firstName: candidate.firstName,

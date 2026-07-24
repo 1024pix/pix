@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { services } from '../../../../../src/certification/enrolment/application/services/index.js';
 import { sessionController } from '../../../../../src/certification/enrolment/application/session-controller.js';
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
@@ -219,8 +218,8 @@ describe('Certification | Enrolment | Unit | Application | Controller | session-
         hasSeenCertificationInstructions: false,
       };
 
-      sinon.stub(services, 'registerCandidateParticipation');
-      services.registerCandidateParticipation
+      sinon.stub(usecases, 'registerCandidateParticipation').resolves();
+      usecases.registerCandidateParticipation
         .withArgs({
           userId,
           sessionId,
