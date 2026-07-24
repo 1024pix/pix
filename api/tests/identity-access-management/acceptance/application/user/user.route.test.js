@@ -390,11 +390,11 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     beforeEach(async function () {
       user = databaseBuilder.factory.buildUser.withRawPassword({
-        email: 'harry.cover@truc.so',
         rawPassword: 'Password2020',
       });
+      await databaseBuilder.factory.buildResetPasswordDemand({ email: user.email, temporaryKey });
+
       await databaseBuilder.commit();
-      await _insertPasswordResetDemand(temporaryKey, user.email);
     });
 
     describe('Error case', function () {
@@ -1185,8 +1185,3 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
     });
   });
 });
-
-function _insertPasswordResetDemand(temporaryKey, email) {
-  const resetDemandRaw = { email, temporaryKey };
-  return knex('reset-password-demands').insert(resetDemandRaw);
-}
