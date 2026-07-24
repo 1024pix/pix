@@ -5,5 +5,10 @@ setupDeprecationWorkflow();
 window.deprecationWorkflow = self.deprecationWorkflow || {};
 
 window.deprecationWorkflow.config = {
-  workflow: [],
+  workflow: [
+    {
+      handler: 'silence',
+      matchId: 'warp-drive:deprecate-legacy-request-methods',
+    },
+  ],
 };

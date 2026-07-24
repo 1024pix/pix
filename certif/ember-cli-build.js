@@ -8,7 +8,7 @@ const sourceMapConfig = {
   default: 'eval-source-map',
 };
 
-module.exports = function (defaults) {
+module.exports = async function (defaults) {
   const app = new EmberApp(defaults, {
     sassOptions: {
       includePaths: ['node_modules/@1024pix/pix-ui/addon/styles', 'app/components'],
@@ -24,14 +24,19 @@ module.exports = function (defaults) {
     },
     '@embroider/macros': {
       setConfig: {
-        '@ember-data/store': {
-          polyfillUUID: true,
-        },
         'ember-qunit': {
           theme: 'ember',
         },
       },
     },
+  });
+
+  const { setConfig } = await import('@warp-drive/build-config');
+  setConfig(app, __dirname, {
+    deprecations: {
+      DEPRECATE_TRACKING_PACKAGE: false,
+    },
+    polyfillUUID: true,
   });
 
   // Use `app.import` to add additional libraries to the generated

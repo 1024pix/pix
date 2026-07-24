@@ -1,4 +1,4 @@
-import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
+import { applyEmberDataSerializers } from 'ember-cli-mirage';
 import { createServer, Response } from 'miragejs';
 
 import { findPaginatedSessionSummaries } from './handlers/find-paginated-session-summaries';
@@ -16,7 +16,7 @@ function parseQueryString(queryString) {
 export default function makeServer(config) {
   const finalConfig = {
     ...config,
-    models: { ...discoverEmberDataModels(config.store), ...config.models },
+    models: { ...config.models },
     serializers: applyEmberDataSerializers(config.serializers),
     routes,
     logging: true,
