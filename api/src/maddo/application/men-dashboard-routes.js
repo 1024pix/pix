@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { pageQuerySchema } from '../../shared/application/pagination-query-schema.js';
+import { pageQuerySchema } from '../../shared/application/query-schema/pagination-query-schema.js';
 import { responseObjectErrorDoc } from '../../shared/infrastructure/open-api-doc/response-object-error-doc.js';
 import {
   getMenDashboardCertificationDataset,

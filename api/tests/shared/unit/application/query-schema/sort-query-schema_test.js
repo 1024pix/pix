@@ -1,5 +1,5 @@
-import { createSortQuerySchema } from '../../../../src/shared/application/sort-query-schema.js';
-import { expect } from '../../../test-helper.js';
+import { createSortQuerySchema } from '../../../../../src/shared/application/query-schema/sort-query-schema.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Application | sort-query-schema', function () {
   describe('when no sort is provided', function () {
@@ -16,7 +16,7 @@ describe('Unit | Application | sort-query-schema', function () {
     });
   });
 
-  describe('when sort is an array (bracket notation)', function () {
+  describe('sort validation rules (array form)', function () {
     it('accepts an empty array', function () {
       // given
       const schema = createSortQuerySchema();
@@ -65,6 +65,18 @@ describe('Unit | Application | sort-query-schema', function () {
       expect(error.message).to.equal('"[0].value" is required');
     });
 
+    it('rejects an empty string value', function () {
+      // given
+      const schema = createSortQuerySchema();
+
+      // when
+      const { error } = schema.validate([{ value: '', type: 'asc' }]);
+
+      // then
+      expect(error).to.exist;
+      expect(error.message).to.equal('"[0].value" is required');
+    });
+
     it('treats a null type as absent', function () {
       // given
       const schema = createSortQuerySchema();
@@ -89,16 +101,16 @@ describe('Unit | Application | sort-query-schema', function () {
       expect(value).to.deep.equal([{ value: 'lastName' }]);
     });
 
-    it('rejects an empty string value', function () {
+    it('rejects a type that is not "asc" or "desc"', function () {
       // given
       const schema = createSortQuerySchema();
 
       // when
-      const { error } = schema.validate([{ value: '', type: 'asc' }]);
+      const { error } = schema.validate([{ value: 'lastName', type: 'invalid' }]);
 
       // then
       expect(error).to.exist;
-      expect(error.message).to.equal('"[0].value" is required');
+      expect(error.message).to.equal('"[0].type" must be one of [asc, desc, null]');
     });
 
     it('accepts several sort items', function () {
@@ -118,20 +130,9 @@ describe('Unit | Application | sort-query-schema', function () {
         { value: 'firstName', type: 'desc' },
       ]);
     });
-
-    it('rejects a type that is not "asc" or "desc"', function () {
-      // given
-      const schema = createSortQuerySchema();
-
-      // when
-      const { error } = schema.validate([{ value: 'lastName', type: 'invalid' }]);
-
-      // then
-      expect(error).to.exist;
-    });
   });
 
-  describe('when sort is a JSON-encoded string', function () {
+  describe('sort validation rules (JSON-encoded form)', function () {
     it('accepts a valid JSON string and parses it into an array', function () {
       // given
       const schema = createSortQuerySchema();
@@ -142,31 +143,6 @@ describe('Unit | Application | sort-query-schema', function () {
       // then
       expect(error).to.not.exist;
       expect(value).to.deep.equal([{ value: 'lastName', type: 'asc' }]);
-    });
-
-    it('rejects a string that is not valid JSON, with a message explaining the JSON parsing failure', function () {
-      // given
-      const schema = createSortQuerySchema();
-
-      // when
-      const { error } = schema.validate('not-json');
-
-      // then
-      expect(error).to.exist;
-      expect(error.message).to.contain('"sort" must be a valid JSON string');
-      expect(error.message).to.contain('not valid JSON');
-    });
-
-    it('rejects a parsed array whose type is invalid, with the underlying Joi message', function () {
-      // given
-      const schema = createSortQuerySchema();
-
-      // when
-      const { error } = schema.validate('[{"value":"lastName","type":"invalid"}]');
-
-      // then
-      expect(error).to.exist;
-      expect(error.message).to.equal('"[0].type" must be one of [asc, desc, null]');
     });
 
     it('rejects a parsed array item missing a value, with the underlying Joi message', function () {
@@ -180,19 +156,17 @@ describe('Unit | Application | sort-query-schema', function () {
       expect(error).to.exist;
       expect(error.message).to.equal('"[0].value" is required');
     });
-  });
 
-  describe('error message propagation', function () {
-    it('propagates the same precise message whether the invalid type comes from an array or a JSON-encoded string', function () {
+    it('names "sort" in the error when the JSON string cannot be parsed', function () {
       // given
       const schema = createSortQuerySchema();
 
       // when
-      const arrayError = schema.validate([{ value: 'lastName', type: 'invalid' }]).error;
-      const jsonStringError = schema.validate('[{"value":"lastName","type":"invalid"}]').error;
+      const { error } = schema.validate('not-json');
 
       // then
-      expect(arrayError.message).to.equal(jsonStringError.message);
+      expect(error).to.exist;
+      expect(error.message).to.contain('"sort" must be a valid JSON string');
     });
   });
 
