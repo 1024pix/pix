@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr } from '@warp-drive/legacy/model';
 
 export const CERTIFICATE_STATUSES = {
   WAITING_FOR_RESULTS: 'WAITING_FOR_RESULTS',

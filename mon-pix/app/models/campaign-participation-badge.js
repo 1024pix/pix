@@ -1,4 +1,4 @@
-import { attr, belongsTo } from '@ember-data/model';
+import { attr, belongsTo } from '@warp-drive/legacy/model';
 import Badge from 'mon-pix/models/badge';
 
 export default class CampaignParticipationBadge extends Badge {
