@@ -111,7 +111,7 @@ module('Integration | Component | Campaign::CreateForm::ExternalId', function (h
 
     // then
     assert.strictEqual(data.campaign.externalIdLabel, null);
-    assert.strictEqual(data.campaign.externalIdType, '');
+    assert.strictEqual(data.campaign.externalIdType, null);
     assert.dom(screen.queryByText(t('pages.campaign-creation.legal-warning'))).doesNotExist();
   });
 
