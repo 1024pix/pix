@@ -15,7 +15,33 @@ const serialize = function (adminCombinedCourseBlueprintDetails) {
       'updatedAt',
       'attestationLabel',
       'rewardRequirementsDescription',
+      'rewardRequirements',
     ],
+    rewardRequirements: {
+      ref: 'id',
+      included: true,
+      attributes: ['cappedTubesThreshold', 'areas'],
+      areas: {
+        ref: 'id',
+        included: true,
+        attributes: ['title', 'code', 'color', 'competences'],
+        competences: {
+          ref: 'id',
+          included: true,
+          attributes: ['name', 'index', 'thematics'],
+          thematics: {
+            ref: 'id',
+            included: true,
+            attributes: ['name', 'index', 'tubes'],
+            tubes: {
+              ref: 'id',
+              included: true,
+              attributes: ['level', 'name', 'practicalTitle'],
+            },
+          },
+        },
+      },
+    },
   }).serialize(adminCombinedCourseBlueprintDetails);
 };
 

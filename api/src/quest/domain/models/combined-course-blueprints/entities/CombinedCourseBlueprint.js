@@ -54,6 +54,15 @@ export class CombinedCourseBlueprint {
       .map(({ data }) => data.moduleId.data);
   }
 
+  get rewardRequirements() {
+    return this.quest.successRequirements
+      .filter((requirement) => requirement.requirement_type === REQUIREMENT_TYPES.CAPPED_TUBES)
+      .map((requirement) => ({
+        threshold: requirement.data.threshold,
+        cappedTubes: requirement.data.cappedTubes,
+      }));
+  }
+
   toCombinedCourse({ code, organizationId, campaigns, name, illustration, description }) {
     const successRequirements = this.quest.successRequirements.map((requirement) => {
       if (requirement.requirement_type === REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS) {
