@@ -69,9 +69,29 @@ const rampScenario = {
   },
 };
 
+// The default ramp pushes to saturation to find the knee / connection-exhaustion regime.
+const slowRampScenario = {
+  campaign_journey: {
+    executor: 'ramping-arrival-rate',
+    startRate: 0,
+    timeUnit: '10s',
+    preAllocatedVUs: 200,
+    maxVUs: 4000,
+    stages: [
+      { target: 2, duration: '1m' },
+      { target: 2, duration: '4m' },
+      { target: 4, duration: '1m' },
+      { target: 4, duration: '4m' },
+      { target: 6, duration: '1m' },
+      { target: 6, duration: '4m' },
+    ],
+  },
+};
+
 function selectScenario() {
   if (__ENV.SMOKE) return smokeScenario;
   if (__ENV.STEADY) return steadyScenario;
+  if (__ENV.SLOW_RAMP) return slowRampScenario;
   return rampScenario;
 }
 
