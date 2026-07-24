@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## [5.463.1](https://github.com/1024pix/pix/compare/v5.463.0...v5.463.1) (2026-07-24)
+
+### :building_construction: Tech
+
+- [#16922](https://github.com/1024pix/pix/pull/16922) Ajout d'une colonne `authorizedToStartAt` de type `timestampz` sur la table `certification-candidates` pour répondre à la nécessité de faire valoir l'autorisation d'entrée que sur une durée réduite (PIX-23661)
+- [#16903](https://github.com/1024pix/pix/pull/16903) Définir un read-model FrameworkInfo pour récupérer les informations générales d'un référentiel de certification sur PixAdmin (PIX-23633)
+- [#16873](https://github.com/1024pix/pix/pull/16873) Divers nettoyage sur la configuration OpenTelemetry
+- [#16782](https://github.com/1024pix/pix/pull/16782) Migration Ember Data vers WarpDrive sur Pix Junior
+
 # [5.463.0](https://github.com/1024pix/pix/compare/v5.462.0...v5.463.0) (2026-07-23)
 
 ### :rocket: Amélioration
