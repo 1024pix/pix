@@ -45,6 +45,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
             'created-at': undefined,
             illustration: null,
             description: null,
+            'prescriber-description': null,
             content: [
               {
                 type: 'evaluation',
@@ -112,6 +113,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
           'internal-name': 'Nom interne',
           illustration: null,
           description: null,
+          'prescriber-description': null,
           'survey-link': 'http://survey-link-test.fr',
           'reward-requirements-description': null,
         },

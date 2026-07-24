@@ -80,6 +80,14 @@ export default class Details extends Component {
                 </DescriptionList.Item>
               {{/if}}
 
+              {{#if @model.prescriberDescription}}
+                <DescriptionList.Item
+                  @label={{t "components.combined-course-blueprints.labels.prescriber-description"}}
+                >
+                  <SafeMarkdownToHtml @markdown={{@model.prescriberDescription}} />
+                </DescriptionList.Item>
+              {{/if}}
+
               <DescriptionList.Item @label={{t "components.combined-course-blueprints.labels.survey-link"}}>
                 {{or @model.surveyLink (t "components.combined-course-blueprints.survey-link.not-provided")}}
               </DescriptionList.Item>

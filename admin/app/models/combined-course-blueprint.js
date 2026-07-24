@@ -5,6 +5,7 @@ export default class CombinedCourseBlueprint extends Model {
   @attr('string') internalName;
   @attr('string') illustration;
   @attr('string') description;
+  @attr('string') prescriberDescription;
   @attr('string') attestationLabel;
   @attr() rewardId;
   @attr('string') rewardRequirementsDescription;
