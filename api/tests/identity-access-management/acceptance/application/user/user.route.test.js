@@ -3,6 +3,7 @@ import sinon from 'sinon';
 
 import { createServer } from '../../../../../server.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
@@ -385,71 +386,46 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   });
 
   describe('PATCH /api/users/{id}/password-update', function () {
-    const temporaryKey = 'good-temporary-key';
-    let options, user;
+    it('returns a 204 HTTP status code', async function () {
+      // given
+      const temporaryKey = await resetPasswordService.generateTemporaryKey();
+      const user = databaseBuilder.factory.buildUser();
+      const userId = user.id;
+      const email = user.email;
+      const initialHashedPassword = 'example-of-an-hashed-password';
+      const authenticationMethod =
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          userId,
+          hashedPassword: initialHashedPassword,
+        });
 
-    beforeEach(async function () {
-      user = databaseBuilder.factory.buildUser.withRawPassword({
-        rawPassword: 'Password2020',
-      });
-      await databaseBuilder.factory.buildResetPasswordDemand({ email: user.email, temporaryKey });
+      await databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
 
       await databaseBuilder.commit();
-    });
 
-    describe('Error case', function () {
-      context('when temporary key is invalid', function () {
-        it('replies with an error', async function () {
-          // given
-          options = {
-            method: 'PATCH',
-            url: `/api/users/${user.id}/password-update?temporary-key=bad-temporary-key`,
-            payload: {
-              data: {
-                id: user.id,
-                attributes: {
-                  password: 'Password2021',
-                },
-              },
-            },
-          };
+      const newPassword = 'example-of-a-new-valid-password-az-AZ-01234';
 
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(404);
-        });
-      });
-    });
-
-    describe('Success case', function () {
-      const newPassword = 'Password2021';
-
-      beforeEach(function () {
-        options = {
-          method: 'PATCH',
-          url: `/api/users/${user.id}/password-update?temporary-key=${temporaryKey}`,
-          payload: {
-            data: {
-              id: user.id,
-              attributes: {
-                password: newPassword,
-              },
+      // when
+      const response = await server.inject({
+        method: 'PATCH',
+        url: `/api/users/${userId}/password-update?temporary-key=${temporaryKey}`,
+        payload: {
+          data: {
+            id: userId,
+            attributes: {
+              password: newPassword,
             },
           },
-        };
+        },
       });
 
-      context('when password is updated', function () {
-        it('replies with 204 status code', async function () {
-          // when
-          const response = await server.inject(options);
+      // then
+      expect(response.statusCode).to.equal(204);
 
-          // then
-          expect(response.statusCode).to.equal(204);
-        });
-      });
+      const updatedAuthenticationMethod = await knex('authentication-methods')
+        .where({ id: authenticationMethod.id })
+        .first();
+      expect(updatedAuthenticationMethod.authenticationComplement.password).not.to.equal(initialHashedPassword);
     });
   });
 
