@@ -1903,6 +1903,7 @@
           "download-certificates": "Télécharger les certificats",
           "download-results": "Télécharger les résultats des sessions publiées (.zip)",
           "download-results-error": "Une erreur est survenue, les résultats des sessions n'ont pas pu être téléchargés.",
+          "download-results-no-results-error": "Aucune session de la sélection ne semble avoir un statut publié. Le téléchargement n'a pas pu être effectué.",
           "select-all": {
             "label": "Sélection multiple",
             "tooltip": {

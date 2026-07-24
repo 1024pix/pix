@@ -296,7 +296,7 @@ module('Integration | Component | sessions | list-items', function (hooks) {
           });
 
           module('on error', function () {
-            test('it should display an error toast', async function (assert) {
+            test('it should display a generic error toast', async function (assert) {
               // given
               fileSaverStub = sinon.stub().rejects(new Error('error'));
 
@@ -318,6 +318,36 @@ module('Integration | Component | sessions | list-items', function (hooks) {
                 notificationErrorStub.firstCall.args[0].message,
                 t('pages.sessions.table.actions.download-results-error'),
               );
+            });
+
+            module('when no selected session has certification results to download', function () {
+              test('it should display a dedicated error toast', async function (assert) {
+                // given
+                fileSaverStub = sinon
+                  .stub()
+                  .callsFake(() => Promise.reject([{ status: '422', code: 'NO_CERTIFICATION_RESULTS_TO_DOWNLOAD' }]));
+
+                const sessions = buildSessions();
+
+                // when
+                const screen = await render(
+                  <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
+                );
+
+                await click(
+                  screen.getByRole('checkbox', {
+                    name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }),
+                  }),
+                );
+                await click(screen.getByRole('button', { name: t('pages.sessions.table.actions.download-results') }));
+
+                // then
+                assert.ok(notificationErrorStub.calledOnce);
+                assert.strictEqual(
+                  notificationErrorStub.firstCall.args[0].message,
+                  t('pages.sessions.table.actions.download-results-no-results-error'),
+                );
+              });
             });
           });
         });

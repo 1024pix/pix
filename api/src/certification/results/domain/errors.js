@@ -18,4 +18,18 @@ class CertificateGenerationError extends DomainError {
   }
 }
 
-export { CertificateGenerationError, MoreThanOneMatchingCertificationError, NoCertificationResultForDivision };
+class NoCertificationResultsToDownloadError extends DomainError {
+  constructor(
+    message = 'No published session with certification results to download.',
+    code = 'NO_CERTIFICATION_RESULTS_TO_DOWNLOAD',
+  ) {
+    super(message, code);
+  }
+}
+
+export {
+  CertificateGenerationError,
+  MoreThanOneMatchingCertificationError,
+  NoCertificationResultForDivision,
+  NoCertificationResultsToDownloadError,
+};

@@ -1890,6 +1890,7 @@
           "download-certificates": "Download certificates",
           "download-results": "Download published sessions results (.zip)",
           "download-results-error": "An error occurred, the session results could not be downloaded.",
+          "download-results-no-results-error": "None of the selected sessions appears to have a published status. The download could not be completed.",
           "select-all": {
             "label": "Multiple selection",
             "tooltip": {

@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { certificationResultsController } from '../../../../../src/certification/results/application/certification-results-controller.js';
 import { certificationResultsRoute as moduleUnderTest } from '../../../../../src/certification/results/application/certification-results-route.js';
+import { NoCertificationResultsToDownloadError } from '../../../../../src/certification/results/domain/errors.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -72,6 +73,22 @@ describe('Integration | Certification | Results | Application | certification-re
 
       // then
       expect(response.statusCode).to.equal(403);
+    });
+
+    it('should return a 422 status code when no selected session has certification results to download', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser.withRole({ role: ROLES.SUPER_ADMIN }).id;
+      await databaseBuilder.commit();
+      certificationResultsController.downloadSelectedSessionsResults.rejects(
+        new NoCertificationResultsToDownloadError(),
+      );
+
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, getHeaders(userId));
+
+      // then
+      expect(response.statusCode).to.equal(422);
+      expect(response.result.errors[0].code).to.equal('NO_CERTIFICATION_RESULTS_TO_DOWNLOAD');
     });
 
     it('should return a 400 status code when no sessionId is set in query parameters', async function () {

@@ -6,6 +6,7 @@
 
 import { getMultipleFilesAsZip } from '../../../../shared/infrastructure/utils/zip/get-multiple-files-as-zip.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
+import { NoCertificationResultsToDownloadError } from '../errors.js';
 
 /**
  * @param {object} params
@@ -35,6 +36,10 @@ export const getSelectedSessionsResultsZip = async function ({
 
       csvFiles.push(csvFile);
     }
+  }
+
+  if (!csvFiles.length) {
+    throw new NoCertificationResultsToDownloadError();
   }
 
   const zipContent = await getMultipleFilesAsZip({ files: csvFiles });

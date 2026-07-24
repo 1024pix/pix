@@ -19,6 +19,8 @@ import { not } from 'ember-truth-helpers';
 import FilterBanner from 'pix-admin/components/sessions/filter-banner';
 import ENV from 'pix-admin/config/environment';
 
+const NO_CERTIFICATION_RESULTS_TO_DOWNLOAD_CODE = 'NO_CERTIFICATION_RESULTS_TO_DOWNLOAD';
+
 export default class ListItems extends Component {
   @service fileSaver;
   @service intl;
@@ -74,9 +76,16 @@ export default class ListItems extends Component {
 
     try {
       await this.fileSaver.save({ url, token });
-    } catch {
+    } catch (errors) {
+      const hasNoResultsToDownload =
+        Array.isArray(errors) && errors.some((error) => error.code === NO_CERTIFICATION_RESULTS_TO_DOWNLOAD_CODE);
+
       this.pixToast.sendErrorNotification({
-        message: this.intl.t('pages.sessions.table.actions.download-results-error'),
+        message: this.intl.t(
+          hasNoResultsToDownload
+            ? 'pages.sessions.table.actions.download-results-no-results-error'
+            : 'pages.sessions.table.actions.download-results-error',
+        ),
       });
     }
   }
