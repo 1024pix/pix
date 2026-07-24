@@ -7,6 +7,7 @@ import { buildJuryCertification } from './build-jury-certification.js';
 import { buildJuryCertificationSummary } from './build-jury-certification-summary.js';
 import { buildJurySessionCounters } from './build-jury-session-counters.js';
 import { buildSession } from './build-session.js';
+import { sessionForSupervisingBuilder } from './build-session-for-supervising.js';
 import { buildSessionManagement } from './build-session-management.js';
 
 export const builders = {
@@ -20,4 +21,5 @@ export const builders = {
   buildJurySessionCounters,
   buildSessionManagement,
   buildSession,
+  sessionForSupervisingBuilder,
 };

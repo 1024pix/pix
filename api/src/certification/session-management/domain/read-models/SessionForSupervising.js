@@ -8,7 +8,7 @@
  */
 
 /**
- * @typedef {object} CertificationCandidateForSupervising
+ * @typedef {object} CandidateView
  * @property {number} id
  * @property {number} userId
  * @property {date} birthdate
@@ -16,8 +16,13 @@
  * @property {string} lastName
  * @property {number} extraTimePercentage
  * @property {boolean} authorizedToStart
+ * @property {string} assessmentStatus
  * @property {date} startDateTime
- * @property {LiveAlert} liveAlert
+ * @property {date} theoricalEndDateTime
+ * @property {string} subscription
+ * @property {boolean} isStillEligibleToDoubleCertification
+ * @property {LiveAlert} challengeLiveAlert
+ * @property {LiveAlert} companionLiveAlert
  */
 
 class SessionForSupervising {
@@ -28,18 +33,18 @@ class SessionForSupervising {
    * @param {string} params.time
    * @param {string} params.examiner
    * @param {string} params.room
-   * @param {Array<CertificationCandidateForSupervising>} params.certificationCandidates
+   * @param {Array<CandidateView>} params.candidates
    * @param {string} params.accessCode
    * @param {string} params.address
    */
-  constructor({ id, date, time, examiner, room, certificationCandidates, accessCode, address } = {}) {
+  constructor({ id, date, time, examiner, room, candidates, accessCode, address } = {}) {
     this.id = id;
     this.date = date;
     this.time = time;
     this.examiner = examiner;
     this.room = room;
-    this.certificationCandidates = certificationCandidates;
     this.accessCode = accessCode;
+    this.candidates = candidates;
     this.address = address;
   }
 }

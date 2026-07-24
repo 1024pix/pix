@@ -18,7 +18,6 @@ import * as certificationReportRepository from '../../../shared/infrastructure/r
 import * as sharedCompetenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
-import * as certificationCandidateForSupervisingRepository from './certification-candidate-for-supervising-repository.js';
 import * as certificationCandidateRepository from './certification-candidate-repository.js';
 import * as certificationCenterAccessRepository from './certification-center-access-repository.js';
 import * as certificationCompanionAlertRepository from './certification-companion-alert-repository.js';
@@ -40,6 +39,7 @@ import * as sessionJuryCommentRepository from './session-jury-comment-repository
 import * as sessionManagementRepository from './session-management-repository.js';
 import * as sessionRepository from './session-repository.js';
 import * as sessionSummaryRepository from './session-summary-repository.js';
+import * as certificationCandidateForSupervisingRepository from './supervised-candidate-repository.js';
 import * as v3CertificationCourseDetailsForAdministrationRepository from './v3-certification-course-details-for-administration-repository.js';
 
 /**

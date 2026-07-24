@@ -1,11 +1,12 @@
-import { usecases } from '../domain/usecases/index.js';
+import * as sessionForSupervisingRepository from '../infrastructure/repositories/session-for-supervising-repository.js';
 import * as sessionForSupervisingSerializer from '../infrastructure/serializers/session-for-supervising-serializer.js';
 
-const get = async function (request) {
+async function get(request, _, dependencies = { sessionForSupervisingRepository }) {
   const sessionId = request.params.sessionId;
-  const session = await usecases.getSessionForSupervising({ sessionId });
-  return sessionForSupervisingSerializer.serialize(session);
-};
+
+  const sessionForSupervising = await dependencies.sessionForSupervisingRepository.get({ id: sessionId });
+  return sessionForSupervisingSerializer.serialize(sessionForSupervising);
+}
 
 const sessionForSupervisingController = { get };
 

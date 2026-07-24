@@ -38,7 +38,6 @@ import { buildCertificationAssessment } from './build-certification-assessment.j
 import { buildCertificationAssessmentScore } from './build-certification-assessment-score.js';
 import { buildCertificationAttestation } from './build-certification-attestation.js';
 import { buildCertificationCandidateForAttendanceSheet } from './build-certification-candidate-for-attendance-sheet.js';
-import { buildCertificationCandidateForSupervising } from './build-certification-candidate-for-supervising.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterInvitation } from './build-certification-center-invitation.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
@@ -123,7 +122,6 @@ import { buildSchoolAssessment } from './build-school-assessment.js';
 import { buildScoringAndCapacitySimulatorReport } from './build-scoring-and-capacity-simulator-report.js';
 import { buildSessionForAttendanceSheet } from './build-session-for-attendance-sheet.js';
 import { buildSessionForInvigilatorKit } from './build-session-for-invigilator-kit.js';
-import { buildSessionForSupervising } from './build-session-for-supervising.js';
 import { buildSessionJuryComment } from './build-session-jury-comment.js';
 import { buildSessionSummary } from './build-session-summary.js';
 import { buildShareableCertificate } from './build-shareable-certificate.js';
@@ -399,7 +397,6 @@ export {
   buildCertificationAssessmentScore,
   buildCertificationAttestation,
   buildCertificationCandidateForAttendanceSheet,
-  buildCertificationCandidateForSupervising,
   buildCertificationCenter,
   buildCertificationCenterInvitation,
   buildCertificationCenterMembership,
@@ -487,7 +484,6 @@ export {
   buildScoringAndCapacitySimulatorReport,
   buildSessionForAttendanceSheet,
   buildSessionForInvigilatorKit,
-  buildSessionForSupervising,
   buildSessionJuryComment,
   buildSessionSummary,
   buildShareableCertificate,
