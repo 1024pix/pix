@@ -38,7 +38,7 @@ export const updateUserPassword = withTransaction(async function ({
     hashedPassword,
   });
 
-  await resetPasswordService.invalidateOldResetPasswordDemandsByEmail(user.email, resetPasswordDemandRepository);
+  await resetPasswordService.invalidateAllResetPasswordDemandsByEmail(user.email, resetPasswordDemandRepository);
 
   await userRepository.updateEmailConfirmed(userId);
 });

@@ -49,7 +49,7 @@ describe('Unit | Identity Access Management | Domain | Service | reset-password'
     });
   });
 
-  describe('#invalidateOldResetPasswordDemandsByEmail', function () {
+  describe('#invalidateAllResetPasswordDemandsByEmail', function () {
     let resetPasswordDemandRepository;
 
     beforeEach(function () {
@@ -64,7 +64,7 @@ describe('Unit | Identity Access Management | Domain | Service | reset-password'
       resetPasswordDemandRepository.markAllAsUsedByEmail.resolves();
 
       // when
-      const promise = resetPasswordService.invalidateOldResetPasswordDemandsByEmail(
+      const promise = resetPasswordService.invalidateAllResetPasswordDemandsByEmail(
         userEmail,
         resetPasswordDemandRepository,
       );

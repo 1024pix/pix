@@ -20,7 +20,7 @@ const assertTemporaryKey = function (token) {
   }
 };
 
-const invalidateOldResetPasswordDemandsByEmail = function (userEmail, resetPasswordDemandRepository) {
+const invalidateAllResetPasswordDemandsByEmail = function (userEmail, resetPasswordDemandRepository) {
   return resetPasswordDemandRepository.markAllAsUsedByEmail(userEmail);
 };
 
@@ -44,14 +44,14 @@ const invalidateResetPasswordDemand = function (email, temporaryKey, resetPasswo
  * @property assertTemporaryKey
  * @property generateTemporaryKey
  * @property invalidateResetPasswordDemand
- * @property invalidateOldResetPasswordDemandsByEmail
+ * @property invalidateAllResetPasswordDemandsByEmail
  * @property verifyDemand
  */
 const resetPasswordService = {
   assertTemporaryKey,
   generateTemporaryKey,
   invalidateResetPasswordDemand,
-  invalidateOldResetPasswordDemandsByEmail,
+  invalidateAllResetPasswordDemandsByEmail,
   verifyDemand,
 };
 export { resetPasswordService };
