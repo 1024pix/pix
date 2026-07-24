@@ -28,6 +28,13 @@
     margin-bottom: var(--pix-spacing-8x);
   }
 
+  &__capped-tubes-requirements {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-4x);
+    margin-bottom: var(--pix-spacing-8x);
+  }
+
   &__breadcrumb {
     margin-bottom: var(--pix-spacing-8x);
   }
