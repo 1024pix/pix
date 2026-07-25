@@ -17,7 +17,6 @@ export const buildEvaluationCandidate = function ({
   accessibilityAdjustmentNeeded = false,
   reconciledAt = new Date('2024-10-18'),
   subscriptionFramework = Frameworks.CORE,
-  authorizedToStart = true,
 } = {}) {
   return new Candidate({
     id,
@@ -35,6 +34,5 @@ export const buildEvaluationCandidate = function ({
     accessibilityAdjustmentNeeded,
     reconciledAt,
     subscriptionFramework,
-    authorizedToStart,
   });
 };
