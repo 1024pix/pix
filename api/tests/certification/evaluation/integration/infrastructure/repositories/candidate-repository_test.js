@@ -288,44 +288,4 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
       });
     });
   });
-
-  describe('#update', function () {
-    it('updates only authorizedToStart field', async function () {
-      // given
-      const candidateInDB = databaseBuilder.factory.buildCertificationCandidate({
-        lastName: 'Joplin',
-        firstName: 'Janis',
-        reconciledAt: new Date('2024-10-17'),
-        authorizedToStart: false,
-        subscription: Frameworks.CLEA,
-      });
-      const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-        candidateId: candidateInDB.id,
-      });
-      const assessmentId = databaseBuilder.factory.buildAssessment({
-        certificationCourseId: certificationCourse.id,
-      }).id;
-
-      await databaseBuilder.commit();
-      const candidate = domainBuilder.certification.evaluation.buildCandidate({
-        ...candidateInDB,
-        reconciledAt: new Date('2021-10-01'),
-        subscriptionFramework: Frameworks.EDU_CPE,
-        authorizedToStart: true,
-      });
-
-      // when
-      await candidateRepository.update(candidate);
-
-      // then
-      const actualCandidate = await candidateRepository.findByAssessmentId({ assessmentId });
-      expect(actualCandidate).to.deep.equal(
-        domainBuilder.certification.evaluation.buildCandidate({
-          ...candidateInDB,
-          subscriptionFramework: candidateInDB.subscription,
-          authorizedToStart: true, // only field changed
-        }),
-      );
-    });
-  });
 });

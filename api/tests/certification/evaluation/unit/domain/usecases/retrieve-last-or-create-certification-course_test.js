@@ -1,1403 +1,509 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CertificationDurationExceededError } from '../../../../../../src/certification/evaluation/domain/errors.js';
-import { AssessmentSheet } from '../../../../../../src/certification/evaluation/domain/models/AssessmentSheet.js';
 import { retrieveLastOrCreateCertificationCourse } from '../../../../../../src/certification/evaluation/domain/usecases/retrieve-last-or-create-certification-course.js';
-import { SessionNotAccessible } from '../../../../../../src/certification/session-management/domain/errors.js';
-import { ComplementaryCertificationCourse } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
-import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import {
-  CandidateNotAuthorizedToJoinSessionError,
-  CandidateNotAuthorizedToResumeCertificationTestError,
   LanguageNotSupportedError,
   NotFoundError,
   UnexpectedUserAccountError,
 } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | UseCase | retrieve-last-or-create-certification-course', function () {
-  let clock;
-  let reconciledAt;
-  let verificationCode;
-
-  const sessionRepository = {};
-  const assessmentRepository = {};
-  const assessmentSheetRepository = {};
-  const competenceRepository = {};
-  const candidateRepository = {};
-  const certificationCourseRepository = {};
-  const certificationCenterRepository = {};
-  const certificationBadgesService = {};
-  const placementProfileService = {};
-  const verifyCertificateCodeService = {};
-  const versionApi = {};
-
-  const injectables = {
-    assessmentRepository,
-    assessmentSheetRepository,
-    competenceRepository,
+describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-certification-course', function () {
+  let assessmentRepository,
     candidateRepository,
     certificationCourseRepository,
-    sessionRepository,
-    certificationCenterRepository,
-    certificationBadgesService,
-    placementProfileService,
-    verifyCertificateCodeService,
+    assessmentSheetRepository,
+    candidateAuthorizationAdapter,
+    sessionAdapter,
     versionApi,
-  };
+    certificationBadgesService,
+    verifyCertificateCodeService,
+    dependencies,
+    clock;
+  const now = new Date('2026-01-01');
+  const clientTimezone = 'Europe/London';
 
   beforeEach(function () {
-    reconciledAt = new Date('2026-01-01T05:06:07Z');
-    clock = sinon.useFakeTimers({ now: reconciledAt, toFake: ['Date'] });
-    verificationCode = Symbol('verificationCode');
-
-    assessmentRepository.save = sinon.stub();
-    competenceRepository.listPixCompetencesOnly = sinon.stub();
-    certificationBadgesService.findStillValidBadgeAcquisitions = sinon.stub();
-    candidateRepository.findByUserIdAndSessionId = sinon.stub();
-    candidateRepository.update = sinon.stub();
-    certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId = sinon.stub();
-    certificationCourseRepository.save = sinon.stub();
-    assessmentSheetRepository.findByCertificationCourseId = sinon.stub();
-    assessmentSheetRepository.update = sinon.stub();
-    sessionRepository.get = sinon.stub();
-    sessionRepository.update = sinon.stub();
-    placementProfileService.getPlacementProfile = sinon.stub();
-    verifyCertificateCodeService.generateCertificateVerificationCode = sinon.stub().resolves(verificationCode);
-    certificationCenterRepository.getBySessionId = sinon.stub();
-    versionApi.getByFrameworkAndDate = sinon.stub();
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    assessmentRepository = {
+      save: sinon.stub(),
+    };
+    candidateRepository = {
+      findByUserIdAndSessionId: sinon.stub(),
+    };
+    certificationCourseRepository = {
+      findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
+      save: sinon.stub(),
+    };
+    versionApi = {
+      getByFrameworkAndDate: sinon.stub(),
+    };
+    assessmentSheetRepository = {
+      findByCertificationCourseId: sinon.stub(),
+      update: sinon.stub(),
+    };
+    candidateAuthorizationAdapter = {
+      find: sinon.stub(),
+    };
+    sessionAdapter = {
+      onCertificationStarted: sinon.stub(),
+    };
+    verifyCertificateCodeService = {
+      generateCertificateVerificationCode: sinon.fake.returns('FAKECODE'),
+    };
+    certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
+    preventStubsToBeCalledUnexpectedly([
+      assessmentRepository.save,
+      candidateRepository.findByUserIdAndSessionId,
+      certificationCourseRepository.save,
+      certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId,
+      assessmentSheetRepository.findByCertificationCourseId,
+      assessmentSheetRepository.update,
+      candidateAuthorizationAdapter.find,
+      sessionAdapter.onCertificationStarted,
+      versionApi.getByFrameworkAndDate,
+      certificationBadgesService.findStillValidBadgeAcquisitions,
+    ]);
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
       return callback();
     });
+    dependencies = {
+      assessmentRepository,
+      candidateRepository,
+      certificationCourseRepository,
+      assessmentSheetRepository,
+      candidateAuthorizationAdapter,
+      sessionAdapter,
+      versionApi,
+      certificationBadgesService,
+      verifyCertificateCodeService,
+    };
   });
 
   afterEach(function () {
     clock.restore();
+    sinon.restore();
   });
 
-  context('when session access code is different from provided access code', function () {
-    it('should throw a not found error', async function () {
+  context('when no candidate found for given user and session', function () {
+    it('should throw a UnexpectedUserAccountError', async function () {
       // given
-      const foundSession = domainBuilder.certification.evaluation.buildSession({
-        accessCode: 'differentAccessCode',
-      });
-      sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+      candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(null);
 
       // when
       const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+        accessCode: 'RIGHTCODE',
         sessionId: 1,
-        accessCode: 'accessCode',
         userId: 2,
-        locale: 'fr',
-        ...injectables,
+        clientTimezone,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(UnexpectedUserAccountError);
+    });
+  });
+
+  context('when candidate exists but is not authorized to start or resume the test', function () {
+    it('should throw a UnexpectedUserAccountError', async function () {
+      // given
+      const candidateAuthorization = domainBuilder.certification.evaluation
+        .candidateAuthorizationBuilder()
+        .reconciled({ userId: 2 })
+        .withSession({ sessionId: 1, accessCode: 'WRONG' })
+        .asAuthorizedToStart()
+        .subscribedTo({ framework: Frameworks.CORE, isCenterHabilitated: true })
+        .build();
+      candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(candidateAuthorization);
+
+      // when
+      const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+        accessCode: 'RIGHTCODE',
+        sessionId: 1,
+        userId: 2,
+        clientTimezone,
+        ...dependencies,
       });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
-      expect(certificationCourseRepository.save).not.to.have.been.called;
-      expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
     });
   });
 
-  context('when session access code is the same as the provided access code', function () {
-    context('when session is not accessible', function () {
-      it('should throw a SessionNotAccessible error', async function () {
+  context('when candidate is authorized but has exceeded test duration for their ongoing test', function () {
+    it('throws a CertificationDurationExceededError and force finishes the ongoing test', async function () {
+      // given
+      const candidateAuthorization = domainBuilder.certification.evaluation
+        .candidateAuthorizationBuilder()
+        .reconciled({ userId: 2 })
+        .withSession({ sessionId: 1, accessCode: 'RIGHTCODE' })
+        .asAuthorizedToStart()
+        .subscribedTo({ framework: Frameworks.CORE, isCenterHabilitated: true })
+        .hasACertification({ certificationId: 3, hasExceededCertificationDuration: true })
+        .build();
+      const assessmentSheetBeforeUpdate = domainBuilder.certification.evaluation.buildAssessmentSheet({
+        certificationCourseId: 3,
+        assessmentId: 4,
+        userId: 2,
+        state: Assessment.states.STARTED,
+        assessmentUpdatedAt: new Date('2021-01-01'),
+      });
+      candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(candidateAuthorization);
+      assessmentSheetRepository.findByCertificationCourseId.withArgs(3).resolves(assessmentSheetBeforeUpdate);
+      assessmentSheetRepository.update.resolves();
+
+      // when
+      const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+        accessCode: 'RIGHTCODE',
+        sessionId: 1,
+        userId: 2,
+        clientTimezone,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(CertificationDurationExceededError);
+      sinon.assert.calledWith(
+        assessmentSheetRepository.update,
+        domainBuilder.certification.evaluation.buildAssessmentSheet({
+          certificationCourseId: 3,
+          assessmentId: 4,
+          userId: 2,
+          state: Assessment.states.ENDED_DUE_TO_DURATION_EXCEEDED,
+          assessmentUpdatedAt: now,
+        }),
+      );
+    });
+  });
+
+  context('when candidate has already a test started', function () {
+    it('returns the existing test and tells the session API that candidate resumed', async function () {
+      // given
+      const candidateAuthorization = domainBuilder.certification.evaluation
+        .candidateAuthorizationBuilder()
+        .reconciled({ userId: 2, at: new Date('2022-02-02') })
+        .withSession({ sessionId: 1, accessCode: 'RIGHTCODE' })
+        .asAuthorizedToStart()
+        .subscribedTo({ framework: Frameworks.CORE, isCenterHabilitated: true })
+        .hasACertification({ certificationId: 3, hasExceededCertificationDuration: false })
+        .build();
+      candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(candidateAuthorization);
+      const candidate = domainBuilder.certification.evaluation.buildCandidate({
+        id: 4,
+        accessibilityAdjustmentNeeded: true,
+      });
+      candidateRepository.findByUserIdAndSessionId.withArgs({ userId: 2, sessionId: 1 }).resolves(candidate);
+      versionApi.getByFrameworkAndDate
+        .withArgs({ framework: Frameworks.CORE, date: new Date('2022-02-02') })
+        .resolves({ id: 5, challengesConfiguration: { maximumAssessmentLength: 99 } });
+      const certificationCourse = domainBuilder.buildCertificationCourse({ id: 3 });
+      certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+        .withArgs({
+          userId: 2,
+          sessionId: 1,
+        })
+        .resolves(certificationCourse);
+      sessionAdapter.onCertificationStarted.resolves();
+
+      // when
+      const result = await retrieveLastOrCreateCertificationCourse({
+        accessCode: 'RIGHTCODE',
+        sessionId: 1,
+        userId: 2,
+        clientTimezone,
+        ...dependencies,
+      });
+
+      // then
+      const expectedCertificationCourse = domainBuilder.buildCertificationCourse({ id: 3 });
+      expectedCertificationCourse._isAdjustedForAccessibility = true;
+      expectedCertificationCourse._numberOfChallenges = 99;
+      expect(result.created).to.be.false;
+      expect(result.certificationCourse).to.deep.equal(expectedCertificationCourse);
+      sinon.assert.calledWith(sessionAdapter.onCertificationStarted, {
+        candidateId: 4,
+        certificationId: 3,
+        sessionId: 1,
+        timezone: clientTimezone,
+      });
+    });
+  });
+
+  context('when candidate is about to start a test chosing a locale not supported', function () {
+    it('throws a LanguageNotSupportedError', async function () {
+      // given
+      const candidateAuthorization = domainBuilder.certification.evaluation
+        .candidateAuthorizationBuilder()
+        .reconciled({ userId: 2, at: new Date('2022-02-02') })
+        .withSession({ sessionId: 1, accessCode: 'RIGHTCODE' })
+        .asAuthorizedToStart()
+        .subscribedTo({ framework: Frameworks.CORE, isCenterHabilitated: true })
+        .build();
+      candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(candidateAuthorization);
+      versionApi.getByFrameworkAndDate
+        .withArgs({ framework: Frameworks.CORE, date: new Date('2022-02-02') })
+        .resolves({ id: 5, challengesConfiguration: { maximumAssessmentLength: 99 } });
+      certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+        .withArgs({
+          userId: 2,
+          sessionId: 1,
+        })
+        .resolves(null);
+
+      // when
+      const err = await catchErr(retrieveLastOrCreateCertificationCourse)({
+        accessCode: 'RIGHTCODE',
+        sessionId: 1,
+        userId: 2,
+        locale: 'es-ES',
+        clientTimezone,
+        ...dependencies,
+      });
+
+      // then
+      expect(err).to.be.instanceOf(LanguageNotSupportedError);
+    });
+  });
+
+  context('when candidate starts the test successfully', function () {
+    it('returns the created test', async function () {
+      // given
+      const candidateAuthorization = domainBuilder.certification.evaluation
+        .candidateAuthorizationBuilder()
+        .reconciled({ userId: 2, at: new Date('2022-02-02') })
+        .withSession({ sessionId: 1, accessCode: 'RIGHTCODE' })
+        .asAuthorizedToStart()
+        .subscribedTo({ framework: Frameworks.CORE, isCenterHabilitated: true })
+        .build();
+      candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(candidateAuthorization);
+      const candidate = domainBuilder.certification.evaluation.buildCandidate({
+        id: 4,
+        firstName: 'Lolo',
+        accessibilityAdjustmentNeeded: true,
+      });
+      candidateRepository.findByUserIdAndSessionId.withArgs({ userId: 2, sessionId: 1 }).resolves(candidate);
+      versionApi.getByFrameworkAndDate
+        .withArgs({ framework: Frameworks.CORE, date: new Date('2022-02-02') })
+        .resolves({ id: 5, challengesConfiguration: { maximumAssessmentLength: 99 } });
+      certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+        .withArgs({
+          userId: 2,
+          sessionId: 1,
+        })
+        .resolves(null);
+      const savedCertificationCourse = domainBuilder.buildCertificationCourse({
+        id: 10,
+        isAdjustedForAccessibility: true,
+      });
+      certificationCourseRepository.save.resolves(savedCertificationCourse);
+      const savedAssessment = domainBuilder.buildAssessment({ id: 11 });
+      assessmentRepository.save.resolves(savedAssessment);
+      sessionAdapter.onCertificationStarted.resolves();
+
+      // when
+      const result = await retrieveLastOrCreateCertificationCourse({
+        accessCode: 'RIGHTCODE',
+        sessionId: 1,
+        userId: 2,
+        clientTimezone,
+        ...dependencies,
+      });
+
+      // then
+      expect(result.created).to.be.true;
+      sinon.assert.match(result.certificationCourse, {
+        _id: 10,
+        _numberOfChallenges: 99,
+        _assessment: savedAssessment,
+      });
+      sinon.assert.calledWith(sessionAdapter.onCertificationStarted, {
+        candidateId: 4,
+        certificationId: 10,
+        sessionId: 1,
+        timezone: clientTimezone,
+      });
+      sinon.assert.calledWith(
+        certificationCourseRepository.save,
+        sinon.match({
+          certificationCourse: sinon.match({
+            _isAdjustedForAccessibility: true,
+            _firstName: 'Lolo',
+            versionId: 5,
+            _version: AlgorithmEngineVersion.V3,
+            framework: Frameworks.CORE,
+            _lang: 'fr-fr',
+            _verificationCode: 'FAKECODE',
+          }),
+        }),
+      );
+    });
+  });
+
+  context('CLEA', function () {
+    context('when candidate starts CLEA test but was not eligible', function () {
+      it('returns the created test on CORE framework', async function () {
         // given
-        const foundSession = domainBuilder.certification.evaluation.buildSession.finalized({
-          id: 1,
-          accessCode: 'accessCode',
+        const candidateAuthorization = domainBuilder.certification.evaluation
+          .candidateAuthorizationBuilder()
+          .reconciled({ userId: 2, at: new Date('2022-02-02') })
+          .withSession({ sessionId: 1, accessCode: 'RIGHTCODE' })
+          .asAuthorizedToStart()
+          .subscribedTo({ framework: Frameworks.CLEA, isCenterHabilitated: true })
+          .build();
+        candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(candidateAuthorization);
+        const candidate = domainBuilder.certification.evaluation.buildCandidate({
+          id: 4,
+          firstName: 'Lolo',
+          accessibilityAdjustmentNeeded: true,
         });
-        sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+        candidateRepository.findByUserIdAndSessionId.withArgs({ userId: 2, sessionId: 1 }).resolves(candidate);
+        versionApi.getByFrameworkAndDate
+          .withArgs({ framework: Frameworks.CLEA, date: new Date('2022-02-02') })
+          .resolves({ id: 5, challengesConfiguration: { maximumAssessmentLength: 99 } });
+        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+          .withArgs({
+            userId: 2,
+            sessionId: 1,
+          })
+          .resolves(null);
+        const savedCertificationCourse = domainBuilder.buildCertificationCourse({
+          id: 10,
+          isAdjustedForAccessibility: true,
+        });
+        certificationCourseRepository.save.resolves(savedCertificationCourse);
+        const savedAssessment = domainBuilder.buildAssessment({ id: 11 });
+        assessmentRepository.save.resolves(savedAssessment);
+        sessionAdapter.onCertificationStarted.resolves();
+        certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 2 }).resolves([]);
 
         // when
-        const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+        const result = await retrieveLastOrCreateCertificationCourse({
+          accessCode: 'RIGHTCODE',
           sessionId: 1,
-          accessCode: 'accessCode',
           userId: 2,
-          locale: 'fr',
-          ...injectables,
+          clientTimezone,
+          ...dependencies,
         });
 
         // then
-        expect(error).to.be.instanceOf(SessionNotAccessible);
-        expect(certificationCourseRepository.save).not.to.have.been.called;
-        expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
+        expect(result.created).to.be.true;
+        sinon.assert.match(result.certificationCourse, {
+          _id: 10,
+          _numberOfChallenges: 99,
+          _assessment: savedAssessment,
+        });
+        sinon.assert.calledWith(sessionAdapter.onCertificationStarted, {
+          candidateId: 4,
+          certificationId: 10,
+          sessionId: 1,
+          timezone: clientTimezone,
+        });
+        sinon.assert.calledWith(
+          certificationCourseRepository.save,
+          sinon.match({
+            certificationCourse: sinon.match({
+              _isAdjustedForAccessibility: true,
+              _firstName: 'Lolo',
+              versionId: 5,
+              _version: AlgorithmEngineVersion.V3,
+              framework: Frameworks.CORE,
+              _lang: 'fr-fr',
+              _verificationCode: 'FAKECODE',
+            }),
+          }),
+        );
       });
     });
 
-    context('when session is accessible', function () {
-      context('when the candidate IS NOT authorized', function () {
-        context('when the user tries to join the session for the first time', function () {
-          it('should throw a CandidateNotAuthorizedToJoinSessionError', async function () {
-            // given
-            const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-              id: 1,
-              accessCode: 'accessCode',
-            });
-            sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+    context('when candidate starts CLEA test and is eligible', function () {
+      it('returns the created test on CLEA framework', async function () {
+        // given
+        const candidateAuthorization = domainBuilder.certification.evaluation
+          .candidateAuthorizationBuilder()
+          .reconciled({ userId: 2, at: new Date('2022-02-02') })
+          .withSession({ sessionId: 1, accessCode: 'RIGHTCODE' })
+          .asAuthorizedToStart()
+          .subscribedTo({ framework: Frameworks.CLEA, isCenterHabilitated: true })
+          .build();
+        candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(candidateAuthorization);
+        const candidate = domainBuilder.certification.evaluation.buildCandidate({
+          id: 4,
+          firstName: 'Lolo',
+          accessibilityAdjustmentNeeded: true,
+        });
+        candidateRepository.findByUserIdAndSessionId.withArgs({ userId: 2, sessionId: 1 }).resolves(candidate);
+        versionApi.getByFrameworkAndDate
+          .withArgs({ framework: Frameworks.CLEA, date: new Date('2022-02-02') })
+          .resolves({ id: 5, challengesConfiguration: { maximumAssessmentLength: 99 } });
+        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+          .withArgs({
+            userId: 2,
+            sessionId: 1,
+          })
+          .resolves(null);
+        const savedCertificationCourse = domainBuilder.buildCertificationCourse({
+          id: 10,
+          isAdjustedForAccessibility: true,
+        });
+        certificationCourseRepository.save.resolves(savedCertificationCourse);
+        const savedAssessment = domainBuilder.buildAssessment({ id: 11 });
+        assessmentRepository.save.resolves(savedAssessment);
+        sessionAdapter.onCertificationStarted.resolves();
+        certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 2 }).resolves([
+          {
+            complementaryCertificationId: 'CLEA CERTIF ID',
+            complementaryCertificationBadgeId: 'CLEA BADGE ID',
+            complementaryCertificationKey: Frameworks.CLEA,
+          },
+        ]);
 
-            const candidateNotAuthorizedToStart = domainBuilder.certification.evaluation.buildCandidate({
-              userId: 2,
-              sessionId: 1,
-              authorizedToStart: false,
-              subscriptionFramework: Frameworks.CORE,
-            });
-            candidateRepository.findByUserIdAndSessionId
-              .withArgs({ sessionId: 1, userId: 2 })
-              .resolves(candidateNotAuthorizedToStart);
-
-            const version = domainBuilder.certification.configuration
-              .versionBuilder()
-              .withParameters({ id: 1 })
-              .build();
-            versionApi.getByFrameworkAndDate.resolves(version);
-
-            // when
-            const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-              sessionId: 1,
-              accessCode: 'accessCode',
-              userId: 2,
-              locale: 'fr',
-              ...injectables,
-            });
-
-            // then
-            expect(error).to.be.an.instanceOf(CandidateNotAuthorizedToJoinSessionError);
-          });
+        // when
+        const result = await retrieveLastOrCreateCertificationCourse({
+          accessCode: 'RIGHTCODE',
+          sessionId: 1,
+          userId: 2,
+          clientTimezone,
+          ...dependencies,
         });
 
-        context('when the user tries to go back to the session without authorization', function () {
-          it('should throw a CandidateNotAuthorizedToResumeCertificationTestError', async function () {
-            // given
-            const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-              id: 1,
-              accessCode: 'accessCode',
-            });
-            sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-            const candidateNotAuthorizedToStart = domainBuilder.certification.evaluation.buildCandidate({
-              userId: 2,
-              sessionId: 1,
-              authorizedToStart: false,
-              subscriptionFramework: Frameworks.CORE,
-            });
-            candidateRepository.findByUserIdAndSessionId
-              .withArgs({ sessionId: 1, userId: 2 })
-              .resolves(candidateNotAuthorizedToStart);
-
-            const existingCertificationCourse = domainBuilder.buildCertificationCourse({
-              userId: 2,
-              sessionId: 1,
-              createdAt: new Date(),
-            });
-            certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-              .withArgs({ userId: 2, sessionId: 1 })
-              .resolves(existingCertificationCourse);
-
-            const version = domainBuilder.certification.configuration
-              .versionBuilder()
-              .withParameters({ id: 1 })
-              .build();
-            versionApi.getByFrameworkAndDate.resolves(version);
-
-            // when
-            const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-              sessionId: 1,
-              accessCode: 'accessCode',
-              userId: 2,
-              locale: 'fr',
-              ...injectables,
-            });
-
-            // then
-            expect(error).to.be.an.instanceOf(CandidateNotAuthorizedToResumeCertificationTestError);
-          });
+        // then
+        expect(result.created).to.be.true;
+        sinon.assert.match(result.certificationCourse, {
+          _id: 10,
+          _numberOfChallenges: 99,
+          _assessment: savedAssessment,
         });
-      });
-
-      context('when the certification candidate is authorized', function () {
-        context('when the user is not connected with the correct account', function () {
-          it('should throw a CandidateNotAuthorizedToJoinSessionError xxx', async function () {
-            // given
-            const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-              id: 1,
-              accessCode: 'accessCode',
-            });
-            sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
-
-            const foundCandidateId = 2;
-            domainBuilder.buildCertificationCourse({
-              userId: foundCandidateId,
-              sessionId: foundSession.id,
-            });
-
-            domainBuilder.certification.evaluation.buildCandidate({
-              userId: foundCandidateId,
-              sessionId: foundSession.id,
-              authorizedToStart: true,
-              subscriptionFramework: Frameworks.CORE,
-            });
-
-            candidateRepository.findByUserIdAndSessionId
-              .withArgs({ sessionId: foundSession.id, userId: foundCandidateId })
-              .resolves(null);
-
-            // when
-            const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-              sessionId: foundSession.id,
-              accessCode: 'accessCode',
-              userId: 5,
-              locale: 'fr',
-              ...injectables,
-            });
-
-            // then
-            expect(error).to.be.an.instanceOf(UnexpectedUserAccountError);
-          });
+        sinon.assert.calledWith(sessionAdapter.onCertificationStarted, {
+          candidateId: 4,
+          certificationId: 10,
+          sessionId: 1,
+          timezone: clientTimezone,
         });
-
-        context('when a certification course with provided userId and sessionId already exists', function () {
-          it('return existing certification course and unauthorize candidate to start', async function () {
-            // given
-            const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-              id: 1,
-              accessCode: 'accessCode',
-            });
-            sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-            const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-              userId: 2,
-              sessionId: 1,
-              authorizedToStart: true,
-              subscriptionFramework: Frameworks.CORE,
-            });
-            candidateRepository.findByUserIdAndSessionId.withArgs({ sessionId: 1, userId: 2 }).resolves(foundCandidate);
-
-            const existingCertificationCourse = domainBuilder.buildCertificationCourse({
-              userId: 2,
-              sessionId: 1,
-              createdAt: new Date(),
-            });
-            existingCertificationCourse.adjustForAccessibility = sinon.stub();
-
-            certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-              .withArgs({ userId: 2, sessionId: 1 })
-              .resolves(existingCertificationCourse);
-
-            const version = domainBuilder.certification.configuration
-              .versionBuilder()
-              .withParameters({
-                id: 1,
-                challengesConfiguration: { maximumAssessmentLength: 25, defaultCandidateCapacity: -3 },
-              })
-              .build();
-            versionApi.getByFrameworkAndDate.resolves(version);
-
-            // when
-            const result = await retrieveLastOrCreateCertificationCourse({
-              sessionId: 1,
-              accessCode: 'accessCode',
-              userId: 2,
-              locale: 'fr',
-              ...injectables,
-            });
-
-            // then
-            expect(existingCertificationCourse.adjustForAccessibility).to.have.been.calledOnceWith(
-              foundCandidate.accessibilityAdjustmentNeeded,
-            );
-            expect(result).to.deep.equal({
-              created: false,
-              certificationCourse: existingCertificationCourse,
-            });
-            expect(candidateRepository.update).to.have.been.calledOnceWith(
-              domainBuilder.certification.evaluation.buildCandidate({
-                ...foundCandidate,
-                authorizedToStart: false,
+        sinon.assert.calledWith(
+          certificationCourseRepository.save,
+          sinon.match({
+            certificationCourse: sinon.match({
+              _isAdjustedForAccessibility: true,
+              _firstName: 'Lolo',
+              versionId: 5,
+              _version: AlgorithmEngineVersion.V3,
+              framework: Frameworks.CLEA,
+              _lang: 'fr-fr',
+              _verificationCode: 'FAKECODE',
+              _complementaryCertificationCourse: sinon.match({
+                complementaryCertificationId: 'CLEA CERTIF ID',
+                complementaryCertificationBadgeId: 'CLEA BADGE ID',
               }),
-            );
-          });
-
-          it('should set numberOfChallenges when existing certification course is V3', async function () {
-            // given
-            const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-              id: 1,
-              accessCode: 'accessCode',
-            });
-            sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-            const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-              userId: 2,
-              sessionId: 1,
-              authorizedToStart: true,
-              subscriptionFramework: Frameworks.CORE,
-              reconciledAt,
-            });
-            candidateRepository.findByUserIdAndSessionId.withArgs({ sessionId: 1, userId: 2 }).resolves(foundCandidate);
-
-            const existingCertificationCourse = domainBuilder.buildCertificationCourse({
-              userId: 2,
-              sessionId: 1,
-              version: AlgorithmEngineVersion.V3,
-              createdAt: new Date(),
-            });
-            existingCertificationCourse.adjustForAccessibility = sinon.stub();
-
-            certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-              .withArgs({ userId: 2, sessionId: 1 })
-              .resolves(existingCertificationCourse);
-
-            const version = domainBuilder.certification.configuration
-              .versionBuilder()
-              .withParameters({
-                id: 1,
-                challengesConfiguration: { maximumAssessmentLength: 25, defaultCandidateCapacity: -3 },
-              })
-              .build();
-            versionApi.getByFrameworkAndDate.resolves(version);
-
-            // when
-            const result = await retrieveLastOrCreateCertificationCourse({
-              sessionId: 1,
-              accessCode: 'accessCode',
-              userId: 2,
-              locale: 'fr',
-              ...injectables,
-            });
-
-            // then
-            expect(result.certificationCourse._numberOfChallenges).to.equal(25);
-            expect(candidateRepository.update).to.have.been.calledOnceWith(
-              domainBuilder.certification.evaluation.buildCandidate({
-                ...foundCandidate,
-                authorizedToStart: false,
-              }),
-            );
-          });
-
-          context('when the certification duration has been exceeded', function () {
-            it('ends the assessment and throws a CertificationDurationExceededError', async function () {
-              // given
-              const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                id: 1,
-                accessCode: 'accessCode',
-              });
-              sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-              const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                userId: 2,
-                sessionId: 1,
-                authorizedToStart: true,
-                subscriptionFramework: Frameworks.CORE,
-              });
-              candidateRepository.findByUserIdAndSessionId
-                .withArgs({ sessionId: 1, userId: 2 })
-                .resolves(foundCandidate);
-
-              const existingCertificationCourse = domainBuilder.buildCertificationCourse({
-                id: 99,
-                userId: 2,
-                sessionId: 1,
-                createdAt: new Date('2025-12-30T00:00:00Z'),
-              });
-              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                .withArgs({ userId: 2, sessionId: 1 })
-                .resolves(existingCertificationCourse);
-
-              const assessmentSheet = new AssessmentSheet({
-                certificationCourseId: 99,
-                assessmentId: 88,
-                state: Assessment.states.STARTED,
-                startedAt: new Date('2025-12-30T00:00:00Z'),
-                answers: [],
-              });
-              assessmentSheetRepository.findByCertificationCourseId.withArgs(99).resolves(assessmentSheet);
-
-              const version = domainBuilder.certification.configuration
-                .versionBuilder()
-                .withParameters({ id: 1 })
-                .build();
-              versionApi.getByFrameworkAndDate.resolves(version);
-
-              // when
-              const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-                sessionId: 1,
-                accessCode: 'accessCode',
-                userId: 2,
-                locale: 'fr',
-                ...injectables,
-              });
-
-              // then
-              expect(error).to.be.an.instanceOf(CertificationDurationExceededError);
-              expect(assessmentSheet.state).to.equal(Assessment.states.ENDED_DUE_TO_DURATION_EXCEEDED);
-              expect(assessmentSheetRepository.update).to.have.been.calledOnceWith(assessmentSheet);
-              expect(candidateRepository.update).not.to.have.been.called;
-            });
-
-            context('when no assessment sheet is found', function () {
-              it('throws a CertificationDurationExceededError without updating', async function () {
-                // given
-                const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                  id: 1,
-                  accessCode: 'accessCode',
-                });
-                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                  userId: 2,
-                  sessionId: 1,
-                  authorizedToStart: true,
-                  subscriptionFramework: Frameworks.CORE,
-                });
-                candidateRepository.findByUserIdAndSessionId
-                  .withArgs({ sessionId: 1, userId: 2 })
-                  .resolves(foundCandidate);
-
-                const existingCertificationCourse = domainBuilder.buildCertificationCourse({
-                  id: 99,
-                  userId: 2,
-                  sessionId: 1,
-                  createdAt: new Date('2025-12-30T00:00:00Z'),
-                });
-                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                  .withArgs({ userId: 2, sessionId: 1 })
-                  .resolves(existingCertificationCourse);
-
-                assessmentSheetRepository.findByCertificationCourseId.withArgs(99).resolves(null);
-
-                const version = domainBuilder.certification.configuration
-                  .versionBuilder()
-                  .withParameters({ id: 1 })
-                  .build();
-                versionApi.getByFrameworkAndDate.resolves(version);
-
-                // when
-                const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-                  sessionId: 1,
-                  accessCode: 'accessCode',
-                  userId: 2,
-                  locale: 'fr',
-                  ...injectables,
-                });
-
-                // then
-                expect(error).to.be.an.instanceOf(CertificationDurationExceededError);
-                expect(assessmentSheetRepository.update).not.to.have.been.called;
-              });
-            });
-          });
-        });
-
-        context('when no certification course exists for this userId and sessionId', function () {
-          context('when a certification course has been created meanwhile', function () {
-            it('should return it with flag created marked as false', async function () {
-              // given
-              const user = domainBuilder.buildUser({ id: 2, lang: FRENCH_SPOKEN });
-
-              const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                id: 1,
-                accessCode: 'accessCode',
-              });
-              sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-              const certificationCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                userId: user.id,
-                sessionId: foundSession.id,
-                authorizedToStart: true,
-                subscriptionFramework: Frameworks.CORE,
-                reconciledAt,
-              });
-
-              candidateRepository.findByUserIdAndSessionId
-                .withArgs({ sessionId: foundSession.id, userId: user.id })
-                .resolves(certificationCandidate);
-
-              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                .withArgs({ userId: user.id, sessionId: foundSession.id })
-                .onCall(0)
-                .resolves(null);
-
-              certificationBadgesService.findStillValidBadgeAcquisitions.resolves([]);
-
-              const certificationCourseCreatedMeanwhile = domainBuilder.buildCertificationCourse({
-                userId: user.id,
-                sessionId: foundSession.id,
-              });
-              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                .withArgs({ userId: user.id, sessionId: foundSession.id })
-                .onCall(1)
-                .resolves(certificationCourseCreatedMeanwhile);
-
-              const version = domainBuilder.certification.configuration
-                .versionBuilder()
-                .withParameters({ id: 1 })
-                .build();
-              versionApi.getByFrameworkAndDate.resolves(version);
-
-              // when
-              const result = await retrieveLastOrCreateCertificationCourse({
-                sessionId: foundSession.id,
-                accessCode: 'accessCode',
-                userId: user.id,
-                locale: 'fr',
-                ...injectables,
-              });
-
-              // then
-              expect(result).to.deep.equal({
-                created: false,
-                certificationCourse: certificationCourseCreatedMeanwhile,
-              });
-              expect(certificationCourseRepository.save).not.to.have.been.called;
-              expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
-            });
-          });
-
-          context('when a certification still has not been created meanwhile', function () {
-            let user;
-            let version;
-
-            beforeEach(function () {
-              user = domainBuilder.buildUser({ id: 2, lang: FRENCH_SPOKEN });
-
-              version = domainBuilder.certification.configuration
-                .versionBuilder()
-                .withParameters({
-                  id: 1,
-                  challengesConfiguration: { maximumAssessmentLength: 32, defaultCandidateCapacity: -3 },
-                })
-                .build();
-              versionApi.getByFrameworkAndDate.resolves(version);
-            });
-
-            it('should return it with flag created marked as true with related resources', async function () {
-              // given
-              const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                id: 1,
-                accessCode: 'accessCode',
-              });
-              sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
-              const certificationVersion = domainBuilder.certification.configuration
-                .versionBuilder()
-                .withParameters({ id: 1 })
-                .build();
-
-              const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                userId: user.id,
-                sessionId: foundSession.id,
-                authorizedToStart: true,
-                subscriptionFramework: Frameworks.CORE,
-                reconciledAt,
-              });
-              candidateRepository.findByUserIdAndSessionId
-                .withArgs({ sessionId: foundSession.id, userId: user.id })
-                .resolves(foundCandidate);
-
-              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                .withArgs({ userId: user.id, sessionId: foundSession.id })
-                .resolves(null);
-
-              const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
-              certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-              certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: user.id }).resolves([]);
-
-              const certificationCourseToSave = CertificationCourse.from({
-                candidate: foundCandidate,
-                certificationVersion,
-                verificationCode,
-                algorithmEngineVersion: AlgorithmEngineVersion.V3,
-                complementaryCertificationCourses: [],
-                lang: user.lang,
-                framework: Frameworks.CORE,
-              });
-              const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                certificationCourseToSave.toDTO(),
-              );
-              certificationCourseRepository.save
-                .withArgs({ certificationCourse: certificationCourseToSave })
-                .resolves(savedCertificationCourse);
-
-              const assessmentToSave = new Assessment({
-                userId: user.id,
-                certificationCourseId: savedCertificationCourse.getId(),
-                state: Assessment.states.STARTED,
-                type: Assessment.types.CERTIFICATION,
-                isImproving: false,
-                method: Assessment.methods.CERTIFICATION_DETERMINED,
-              });
-              const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-              assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
-
-              // when
-              const result = await retrieveLastOrCreateCertificationCourse({
-                sessionId: foundSession.id,
-                accessCode: 'accessCode',
-                userId: user.id,
-                locale: 'fr',
-                ...injectables,
-              });
-
-              // then
-              expect(result).to.deep.equal({
-                created: true,
-                certificationCourse: new CertificationCourse({
-                  ...savedCertificationCourse.toDTO(),
-                  assessment: savedAssessment,
-                  numberOfChallenges: 32,
-                }),
-              });
-            });
-
-            it('updates the session date', async function () {
-              // given
-              const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                id: 1,
-                accessCode: 'accessCode',
-                hasStarted: false,
-                date: '2024-01-01',
-                time: '12:00:00',
-              });
-              sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
-              const certificationVersion = domainBuilder.certification.configuration
-                .versionBuilder()
-                .withParameters({ id: 1 })
-                .build();
-
-              const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                userId: user.id,
-                sessionId: foundSession.id,
-                authorizedToStart: true,
-                subscriptionFramework: Frameworks.CORE,
-                reconciledAt,
-              });
-              candidateRepository.findByUserIdAndSessionId
-                .withArgs({ sessionId: foundSession.id, userId: user.id })
-                .resolves(foundCandidate);
-
-              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                .withArgs({ userId: user.id, sessionId: foundSession.id })
-                .resolves(null);
-
-              const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
-              certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-              certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: user.id }).resolves([]);
-
-              const certificationCourseToSave = CertificationCourse.from({
-                candidate: foundCandidate,
-                certificationVersion,
-                verificationCode,
-                algorithmEngineVersion: AlgorithmEngineVersion.V3,
-                complementaryCertificationCourses: [],
-                lang: user.lang,
-                framework: Frameworks.CORE,
-              });
-              const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                certificationCourseToSave.toDTO(),
-              );
-              certificationCourseRepository.save
-                .withArgs({ certificationCourse: certificationCourseToSave })
-                .resolves(savedCertificationCourse);
-
-              const assessmentToSave = new Assessment({
-                userId: user.id,
-                certificationCourseId: savedCertificationCourse.getId(),
-                state: Assessment.states.STARTED,
-                type: Assessment.types.CERTIFICATION,
-                isImproving: false,
-                method: Assessment.methods.CERTIFICATION_DETERMINED,
-              });
-              const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-              assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
-
-              // when
-              const result = await retrieveLastOrCreateCertificationCourse({
-                sessionId: foundSession.id,
-                accessCode: 'accessCode',
-                userId: user.id,
-                locale: 'fr',
-                clientTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                ...injectables,
-              });
-
-              // then
-              expect(result).to.deep.equal({
-                created: true,
-                certificationCourse: new CertificationCourse({
-                  ...savedCertificationCourse.toDTO(),
-                  assessment: savedAssessment,
-                  numberOfChallenges: 32,
-                }),
-              });
-              expect(sessionRepository.update).to.have.been.calledWithMatch({
-                id: 1,
-                date: '2026-01-01',
-                time: '12:00:00',
-              });
-            });
-
-            context('when the user language is not available in certification', function () {
-              it('should not create a certification', async function () {
-                // given
-                const userId = 2;
-
-                const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                  id: 1,
-                  accessCode: 'accessCode',
-                  version: 3,
-                });
-                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                  userId,
-                  sessionId: 1,
-                  authorizedToStart: true,
-                  subscriptionFramework: Frameworks.CORE,
-                });
-                candidateRepository.findByUserIdAndSessionId
-                  .withArgs({ sessionId: 1, userId })
-                  .resolves(foundCandidate);
-
-                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                  .withArgs({ userId, sessionId: 1 })
-                  .resolves(null);
-
-                const certificationCenter = domainBuilder.buildCertificationCenter({
-                  habilitations: [],
-                });
-                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-                // when
-                const error = await catchErr(await retrieveLastOrCreateCertificationCourse)({
-                  sessionId: 1,
-                  accessCode: 'accessCode',
-                  userId,
-                  locale: 'nl',
-                  ...injectables,
-                });
-
-                // then
-                expect(certificationCourseRepository.save).not.to.have.been.called;
-                expect(error).to.be.instanceOf(LanguageNotSupportedError);
-              });
-            });
-
-            context('when the locale is english', function () {
-              it('should create a certification', async function () {
-                // given
-                const userId = 2;
-
-                const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                  id: 1,
-                  accessCode: 'accessCode',
-                  version: 3,
-                });
-                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                  userId,
-                  sessionId: 1,
-                  authorizedToStart: true,
-                  subscriptionFramework: Frameworks.CORE,
-                  reconciledAt,
-                });
-                candidateRepository.findByUserIdAndSessionId
-                  .withArgs({ sessionId: 1, userId })
-                  .resolves(foundCandidate);
-
-                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                  .withArgs({ userId, sessionId: 1 })
-                  .resolves(null);
-
-                const certificationCenter = domainBuilder.buildCertificationCenter({
-                  habilitations: [],
-                });
-                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-                const savedCertificationCourse = domainBuilder.buildCertificationCourse({ lang: 'en' });
-                certificationCourseRepository.save.resolves(savedCertificationCourse);
-                assessmentRepository.save.resolves(domainBuilder.buildAssessment());
-
-                // when
-                const { created } = await retrieveLastOrCreateCertificationCourse({
-                  sessionId: 1,
-                  accessCode: 'accessCode',
-                  userId,
-                  locale: 'en',
-                  ...injectables,
-                });
-
-                // then
-                expect(created).to.be.true;
-                expect(certificationCourseRepository.save).to.have.been.calledOnce;
-              });
-            });
-
-            context('when the user language is available in certification', function () {
-              it('should create a certification', async function () {
-                // given
-                const userId = 2;
-
-                const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                  id: 1,
-                  accessCode: 'accessCode',
-                  version: 3,
-                });
-                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-                const certificationVersion = domainBuilder.certification.configuration
-                  .versionBuilder()
-                  .withParameters({ id: 1 })
-                  .build();
-
-                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                  userId,
-                  sessionId: 1,
-                  authorizedToStart: true,
-                  subscriptionFramework: Frameworks.CORE,
-                  reconciledAt,
-                  accessibilityAdjustmentNeeded: true,
-                });
-                candidateRepository.findByUserIdAndSessionId
-                  .withArgs({ sessionId: 1, userId })
-                  .resolves(foundCandidate);
-
-                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                  .withArgs({ userId, sessionId: 1 })
-                  .resolves(null);
-
-                const certificationCenter = domainBuilder.buildCertificationCenter({
-                  habilitations: [],
-                });
-                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-                certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId }).resolves([]);
-
-                const user = domainBuilder.buildUser({ id: userId });
-
-                const certificationCourseToSave = CertificationCourse.from({
-                  candidate: foundCandidate,
-                  certificationVersion,
-                  verificationCode,
-                  algorithmEngineVersion: AlgorithmEngineVersion.V3,
-                  lang: user.lang,
-                  isAdjustedForAccessibility: foundCandidate.accessibilityAdjustmentNeeded,
-                  framework: Frameworks.CORE,
-                });
-
-                const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                  certificationCourseToSave.toDTO(),
-                );
-
-                certificationCourseRepository.save
-                  .withArgs({ certificationCourse: certificationCourseToSave })
-                  .resolves(savedCertificationCourse);
-
-                const assessmentToSave = new Assessment({
-                  userId: 2,
-                  certificationCourseId: savedCertificationCourse.getId(),
-                  state: Assessment.states.STARTED,
-                  type: Assessment.types.CERTIFICATION,
-                  isImproving: false,
-                  method: Assessment.methods.CERTIFICATION_DETERMINED,
-                });
-
-                const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
-
-                // when
-                const { created, certificationCourse } = await retrieveLastOrCreateCertificationCourse({
-                  sessionId: 1,
-                  accessCode: 'accessCode',
-                  userId,
-                  locale: 'fr',
-                  ...injectables,
-                });
-
-                // then
-                expect(created).to.be.true;
-                expect(certificationCourse).to.deepEqualInstance(
-                  new CertificationCourse({
-                    ...savedCertificationCourse.toDTO(),
-                    assessment: savedAssessment,
-                    version: 3,
-                    lang: user.lang,
-                    isAdjustedForAccessibility: true,
-                    numberOfChallenges: 32,
-                  }),
-                );
-              });
-            });
-
-            context('when user is enrolled to core certification', function () {
-              it('should not save complementary certification info', async function () {
-                // given
-                const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                  id: 1,
-                  accessCode: 'accessCode',
-                });
-                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-                const certificationVersion = domainBuilder.certification.configuration
-                  .versionBuilder()
-                  .withParameters({ id: 1 })
-                  .build();
-
-                const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                  userId: 2,
-                  authorizedToStart: true,
-                  sessionId: 1,
-                  subscriptionFramework: Frameworks.CORE,
-                  reconciledAt,
-                });
-
-                candidateRepository.findByUserIdAndSessionId
-                  .withArgs({ sessionId: 1, userId: 2 })
-                  .resolves(foundCandidate);
-
-                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                  .withArgs({ userId: 2, sessionId: 1 })
-                  .resolves(null);
-
-                const certificationCenter = domainBuilder.buildCertificationCenter();
-                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-                const certificationCourseToSave = CertificationCourse.from({
-                  candidate: foundCandidate,
-                  certificationVersion,
-                  verificationCode,
-                  complementaryCertificationCourses: [],
-                  algorithmEngineVersion: AlgorithmEngineVersion.V3,
-                  lang: user.lang,
-                  framework: Frameworks.CORE,
-                });
-
-                const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                  certificationCourseToSave.toDTO(),
-                );
-                certificationCourseRepository.save
-                  .withArgs({ certificationCourse: certificationCourseToSave })
-                  .resolves(savedCertificationCourse);
-
-                const assessmentToSave = new Assessment({
-                  userId: 2,
-                  certificationCourseId: savedCertificationCourse.getId(),
-                  state: Assessment.states.STARTED,
-                  type: Assessment.types.CERTIFICATION,
-                  isImproving: false,
-                  method: Assessment.methods.CERTIFICATION_DETERMINED,
-                });
-                const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
-
-                // when
-                const result = await retrieveLastOrCreateCertificationCourse({
-                  sessionId: 1,
-                  accessCode: 'accessCode',
-                  userId: 2,
-                  locale: 'fr',
-                  ...injectables,
-                });
-
-                // then
-                expect(result.certificationCourse._complementaryCertificationCourse).to.be.null;
-              });
-            });
-
-            context('when user is enrolled to a complementary certification', function () {
-              let user;
-
-              beforeEach(function () {
-                user = domainBuilder.buildUser({ id: 2, lang: FRENCH_SPOKEN });
-              });
-
-              context('when certification center is habilitated', function () {
-                it('should save certif course', async function () {
-                  // given
-                  const complementaryCertification = domainBuilder.certification.shared.buildComplementaryCertification(
-                    {
-                      key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-                    },
-                  );
-                  const certificationVersion = domainBuilder.certification.configuration
-                    .versionBuilder()
-                    .withParameters({ id: 1 })
-                    .build();
-
-                  const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                    id: 1,
-                    accessCode: 'accessCode',
-                  });
-                  sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
-
-                  certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                    .withArgs({ userId: user.id, sessionId: foundSession.id })
-                    .resolves(null);
-
-                  const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                    userId: user.id,
-                    sessionId: foundSession.id,
-                    authorizedToStart: true,
-                    subscriptionFramework: Frameworks.DROIT,
-                    reconciledAt,
-                  });
-
-                  candidateRepository.findByUserIdAndSessionId
-                    .withArgs({ sessionId: foundSession.id, userId: user.id })
-                    .resolves(foundCandidate);
-
-                  const certificationCenter = domainBuilder.buildCertificationCenter({
-                    habilitations: [complementaryCertification],
-                  });
-                  certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-                  const certificationCourseToSave = CertificationCourse.from({
-                    candidate: foundCandidate,
-                    certificationVersion,
-                    verificationCode,
-                    complementaryCertificationCourse: null,
-                    algorithmEngineVersion: AlgorithmEngineVersion.V3,
-                    lang: user.lang,
-                    framework: Frameworks.DROIT,
-                  });
-
-                  const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                    certificationCourseToSave.toDTO(),
-                  );
-                  certificationCourseRepository.save
-                    .withArgs({ certificationCourse: certificationCourseToSave })
-                    .resolves(savedCertificationCourse);
-
-                  const assessmentToSave = new Assessment({
-                    userId: user.id,
-                    certificationCourseId: savedCertificationCourse.getId(),
-                    state: Assessment.states.STARTED,
-                    type: Assessment.types.CERTIFICATION,
-                    isImproving: false,
-                    method: Assessment.methods.CERTIFICATION_DETERMINED,
-                  });
-                  const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                  assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
-
-                  // when
-                  const result = await retrieveLastOrCreateCertificationCourse({
-                    sessionId: foundSession.id,
-                    accessCode: 'accessCode',
-                    userId: user.id,
-                    locale: 'fr',
-                    ...injectables,
-                  });
-
-                  // then
-                  expect(result.certificationCourse._complementaryCertificationCourse).to.be.null;
-                });
-              });
-
-              context('when certification center is not habilitated anymore', function () {
-                it('should throw an CenterHabilitationError error', async function () {
-                  // given
-                  const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                    id: 1,
-                    accessCode: 'accessCode',
-                  });
-                  sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-                  const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                    userId: 2,
-                    sessionId: 1,
-                    authorizedToStart: true,
-                    subscriptionFramework: Frameworks.DROIT,
-                    reconciledAt,
-                  });
-
-                  candidateRepository.findByUserIdAndSessionId
-                    .withArgs({ sessionId: 1, userId: 2 })
-                    .resolves(foundCandidate);
-
-                  certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                    .withArgs({ userId: 2, sessionId: 1 })
-                    .resolves(null);
-
-                  const certificationCenter = domainBuilder.buildCertificationCenter({
-                    habilitations: [],
-                  });
-                  certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-                  // when
-                  const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-                    sessionId: 1,
-                    accessCode: 'accessCode',
-                    userId: 2,
-                    locale: 'fr',
-                    ...injectables,
-                  });
-
-                  // then
-                  expect(error).to.be.instanceOf(CenterHabilitationError);
-                });
-              });
-            });
-
-            // clea ;)
-            context('when user is enrolled to a double certification', function () {
-              let user;
-
-              beforeEach(function () {
-                user = domainBuilder.buildUser({ id: 2, lang: FRENCH_SPOKEN });
-              });
-
-              context('when certification center is habilitated', function () {
-                context('when user has acquired corresponding badge', function () {
-                  it('should save complementary certification info', async function () {
-                    // given
-                    const cleaCertification = domainBuilder.certification.shared.buildComplementaryCertification({
-                      key: ComplementaryCertificationKeys.CLEA,
-                    });
-                    const certificationVersion = domainBuilder.certification.configuration
-                      .versionBuilder()
-                      .withParameters({ id: 1 })
-                      .build();
-
-                    const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-                      badgeKey: 'CLEA_BADGE_1',
-                      complementaryCertificationBadgeId: 100,
-                      complementaryCertificationId: cleaCertification.id,
-                      complementaryCertificationKey: cleaCertification.key,
-                    });
-
-                    const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                      id: 1,
-                      accessCode: 'accessCode',
-                    });
-                    sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
-
-                    certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                      .withArgs({ userId: user.id, sessionId: foundSession.id })
-                      .resolves(null);
-
-                    const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                      userId: user.id,
-                      sessionId: foundSession.id,
-                      authorizedToStart: true,
-                      subscriptionFramework: Frameworks.CLEA,
-                      reconciledAt,
-                    });
-
-                    candidateRepository.findByUserIdAndSessionId
-                      .withArgs({ sessionId: foundSession.id, userId: user.id })
-                      .resolves(foundCandidate);
-
-                    const certificationCenter = domainBuilder.buildCertificationCenter({
-                      habilitations: [cleaCertification],
-                    });
-                    certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-                    certificationBadgesService.findStillValidBadgeAcquisitions
-                      .withArgs({ userId: user.id })
-                      .resolves([certifiableBadgeAcquisition]);
-
-                    const complementaryCertificationCourse = new ComplementaryCertificationCourse({
-                      complementaryCertificationId: cleaCertification.id,
-                      complementaryCertificationBadgeId: 100,
-                    });
-
-                    const certificationCourseToSave = CertificationCourse.from({
-                      candidate: foundCandidate,
-                      certificationVersion,
-                      verificationCode,
-                      complementaryCertificationCourse,
-                      algorithmEngineVersion: AlgorithmEngineVersion.V3,
-                      lang: user.lang,
-                      framework: Frameworks.CLEA,
-                    });
-
-                    const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                      certificationCourseToSave.toDTO(),
-                    );
-                    savedCertificationCourse._complementaryCertificationCourse = {
-                      ...complementaryCertificationCourse,
-                      id: 99,
-                      certificationCourseId: savedCertificationCourse.getId(),
-                      complementaryCertificationBadgeId: 100,
-                    };
-                    certificationCourseRepository.save
-                      .withArgs({ certificationCourse: certificationCourseToSave })
-                      .resolves(savedCertificationCourse);
-
-                    const assessmentToSave = new Assessment({
-                      userId: user.id,
-                      certificationCourseId: savedCertificationCourse.getId(),
-                      state: Assessment.states.STARTED,
-                      type: Assessment.types.CERTIFICATION,
-                      isImproving: false,
-                      method: Assessment.methods.CERTIFICATION_DETERMINED,
-                    });
-                    const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                    assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
-
-                    // when
-                    const result = await retrieveLastOrCreateCertificationCourse({
-                      sessionId: foundSession.id,
-                      accessCode: 'accessCode',
-                      userId: user.id,
-                      locale: 'fr',
-                      ...injectables,
-                    });
-
-                    // then
-                    expect(result.certificationCourse._complementaryCertificationCourse).to.deep.equal({
-                      id: 99,
-                      certificationCourseId: savedCertificationCourse.getId(),
-                      complementaryCertificationId: cleaCertification.id,
-                      complementaryCertificationBadgeId: 100,
-                    });
-                  });
-
-                  context('when user has no certifiable badges', function () {
-                    it('should save a certification course but not a complementary course', async function () {
-                      // given
-                      const cleaCertification = domainBuilder.certification.shared.buildComplementaryCertification({
-                        key: ComplementaryCertificationKeys.CLEA,
-                      });
-                      const certificationVersion = domainBuilder.certification.configuration
-                        .versionBuilder()
-                        .withParameters({ id: 1 })
-                        .build();
-
-                      const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                        id: 1,
-                        accessCode: 'accessCode',
-                      });
-                      sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-                      certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                        .withArgs({ userId: 2, sessionId: 1 })
-                        .resolves(null);
-
-                      const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                        userId: 2,
-                        sessionId: 1,
-                        authorizedToStart: true,
-                        subscriptionFramework: Frameworks.CLEA,
-                        reconciledAt,
-                      });
-
-                      candidateRepository.findByUserIdAndSessionId
-                        .withArgs({ sessionId: 1, userId: 2 })
-                        .resolves(foundCandidate);
-
-                      const certificationCenter = domainBuilder.buildCertificationCenter({
-                        habilitations: [cleaCertification],
-                      });
-                      certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-                      certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 2 }).resolves([]);
-
-                      const certificationCourseToSave = CertificationCourse.from({
-                        candidate: foundCandidate,
-                        certificationVersion,
-                        verificationCode,
-                        algorithmEngineVersion: AlgorithmEngineVersion.V3,
-                        lang: user.lang,
-                        framework: Frameworks.CORE,
-                      });
-
-                      const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                        certificationCourseToSave.toDTO(),
-                      );
-                      certificationCourseRepository.save
-                        .withArgs({ certificationCourse: certificationCourseToSave })
-                        .resolves(savedCertificationCourse);
-
-                      const assessmentToSave = new Assessment({
-                        userId: 2,
-                        certificationCourseId: savedCertificationCourse.getId(),
-                        state: Assessment.states.STARTED,
-                        type: Assessment.types.CERTIFICATION,
-                        isImproving: false,
-                        method: Assessment.methods.CERTIFICATION_DETERMINED,
-                      });
-                      const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                      assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
-
-                      // when
-                      const result = await retrieveLastOrCreateCertificationCourse({
-                        sessionId: 1,
-                        accessCode: 'accessCode',
-                        userId: 2,
-                        locale: 'fr',
-                        ...injectables,
-                      });
-
-                      // then
-                      expect(result).to.deep.equal({
-                        created: true,
-                        certificationCourse: new CertificationCourse({
-                          ...savedCertificationCourse.toDTO(),
-                          assessment: savedAssessment,
-                          numberOfChallenges: 32,
-                        }),
-                      });
-                      expect(result.certificationCourse._complementaryCertificationCourse).to.be.null;
-                    });
-                  });
-                });
-              });
-
-              context('when certification center is not habilitated anymore', function () {
-                it('should throw an CenterHabilitationError error', async function () {
-                  // given
-                  const foundSession = domainBuilder.certification.evaluation.buildSession.ongoing({
-                    id: 1,
-                    accessCode: 'accessCode',
-                  });
-                  sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
-
-                  const foundCandidate = domainBuilder.certification.evaluation.buildCandidate({
-                    userId: 2,
-                    sessionId: 1,
-                    authorizedToStart: true,
-                    subscriptionFramework: Frameworks.CLEA,
-                    reconciledAt,
-                  });
-
-                  candidateRepository.findByUserIdAndSessionId
-                    .withArgs({ sessionId: 1, userId: 2 })
-                    .resolves(foundCandidate);
-
-                  certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                    .withArgs({ userId: 2, sessionId: 1 })
-                    .resolves(null);
-
-                  const certificationCenter = domainBuilder.buildCertificationCenter({
-                    habilitations: [],
-                  });
-                  certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-
-                  // when
-                  const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-                    sessionId: 1,
-                    accessCode: 'accessCode',
-                    userId: 2,
-                    locale: 'fr',
-                    ...injectables,
-                  });
-
-                  // then
-                  expect(error).to.be.instanceOf(CenterHabilitationError);
-                });
-              });
-            });
-          });
-        });
+            }),
+          }),
+        );
       });
     });
   });

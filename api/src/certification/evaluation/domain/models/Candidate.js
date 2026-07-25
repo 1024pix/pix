@@ -1,5 +1,3 @@
-import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
-
 export class Candidate {
   /**
    * @param {object} params
@@ -54,13 +52,5 @@ export class Candidate {
     this.reconciledAt = reconciledAt;
     this.subscriptionFramework = subscriptionFramework;
     this.authorizedToStart = authorizedToStart;
-  }
-
-  get hasSubscribedToClea() {
-    return this.subscriptionFramework === Frameworks.CLEA;
-  }
-
-  get hasSubscribedToSomethingElseButCore() {
-    return this.subscriptionFramework !== Frameworks.CORE;
   }
 }

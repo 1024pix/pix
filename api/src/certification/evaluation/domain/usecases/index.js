@@ -10,13 +10,14 @@ import * as versionApi from '../../../configuration/application/api/version-api.
 import * as verifyCertificateCodeService from '../../../evaluation/domain/services/verify-certificate-code-service.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
-import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as sessionManagementCertificationChallengeRepository from '../../../shared/infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as sharedCompetenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
+import * as candidateAuthorizationAdapter from '../../infrastructure/adapters/candidate-authorization-adapter.js';
+import * as sessionAdapter from '../../infrastructure/adapters/session-adapter.js';
 import * as assessmentSheetRepository from '../../infrastructure/repositories/assessment-sheet-repository.js';
 import * as calibratedChallengeRepository from '../../infrastructure/repositories/calibrated-challenge-repository.js';
 import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
@@ -67,6 +68,8 @@ import { simulateScoreFromCapacity } from './simulate-score-from-capacity.js';
  * @typedef {sessionManagementCertificationChallengeRepository} SessionManagementCertificationChallengeRepository
  * @typedef {correctionApi} CorrectionApi
  * @typedef {versionApi} VersionApi
+ * @typedef {candidateAuthorizationAdapter} CandidateAuthorizationAdapter
+ * @typedef {sessionAdapter} SessionAdapter
  * @typedef {certificationCompletedJobRepository} CertificationCompletedJobRepository
  * @typedef {services} Services
  */
@@ -91,7 +94,6 @@ const dependencies = {
   certificationBadgesService,
   pickChallengeService,
   placementProfileService,
-  certificationCenterRepository,
   certificationCompanionAlertRepository,
   certificationCourseRepository,
   certificationAssessmentRepository,
@@ -100,6 +102,8 @@ const dependencies = {
   pixPlusCertificationCourseRepository,
   correctionApi,
   versionApi,
+  candidateAuthorizationAdapter,
+  sessionAdapter,
   certificationCompletedJobRepository,
   services,
 };

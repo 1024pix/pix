@@ -104,7 +104,7 @@ class CandidateAuthorizationBuilder {
    * @param {object} [params]
    * @param {string} [params.framework]
    * @param {boolean} [params.isCenterHabilitated]
-   * @returns {CandidateAuthorizationInfoBuilder}
+   * @returns {CandidateAuthorizationBuilder}
    */
   subscribedTo({ framework = Frameworks.CORE, isCenterHabilitated = true } = {}) {
     this.subscription = framework;
