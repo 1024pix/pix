@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 
-import { SessionNotAccessible } from '../../../../../../src/certification/session-management/domain/errors.js';
-import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
-import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
-  NotFoundError,
-} from '../../../../../../src/shared/domain/errors.js';
+  CenterNotHabilitatedError,
+  SessionNotAccessibleError,
+} from '../../../../../../src/certification/evaluation/domain/errors.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Evaluation | Unit | Domain | Models | Candidate Authorization', function () {
@@ -31,7 +31,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate Author
           .build();
 
         expect(() => candidateAuthorization.verifyCanStartOrResumeCertification('ABCDEF')).to.throw(
-          SessionNotAccessible,
+          SessionNotAccessibleError,
         );
       });
     });
@@ -45,7 +45,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate Author
           .build();
 
         expect(() => candidateAuthorization.verifyCanStartOrResumeCertification('ABCDEF')).to.throw(
-          CenterHabilitationError,
+          CenterNotHabilitatedError,
         );
       });
     });

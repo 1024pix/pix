@@ -1,10 +1,10 @@
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import {
-  CandidateNotAuthorizedToJoinSessionError, // todo move me
-  CandidateNotAuthorizedToResumeCertificationTestError, // todo move me
-  NotFoundError,
-} from '../../../../shared/domain/errors.js';
-import { SessionNotAccessible } from '../../../session-management/domain/errors.js';
-import { CenterHabilitationError } from '../../../shared/domain/errors.js'; // todo create me in eval
+  CandidateNotAuthorizedToJoinSessionError,
+  CandidateNotAuthorizedToResumeCertificationTestError,
+  CenterNotHabilitatedError,
+  SessionNotAccessibleError,
+} from '../errors.js';
 
 export class CandidateAuthorization {
   constructor({
@@ -33,9 +33,9 @@ export class CandidateAuthorization {
 
   verifyCanStartOrResumeCertification(enteredAccessCode) {
     if (this.accessCode !== enteredAccessCode) throw new NotFoundError('Session not found');
-    if (!this.isSessionAccessible) throw new SessionNotAccessible();
+    if (!this.isSessionAccessible) throw new SessionNotAccessibleError();
     if (!this.isCenterHabilitatedForCandidateSubscription) {
-      throw new CenterHabilitationError();
+      throw new CenterNotHabilitatedError();
     }
     if (!this.authorizedToStart) {
       if (this.certificationId) {
