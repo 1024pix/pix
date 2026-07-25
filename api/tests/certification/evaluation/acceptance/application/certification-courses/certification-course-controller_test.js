@@ -399,6 +399,7 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
     sessionId,
     userId,
     authorizedToStart: true,
+    authorizedToStartAt: new Date(),
     reconciledAt: new Date('2019-02-01'),
   });
 
@@ -438,7 +439,12 @@ function _createExistingCertifCourseSetup({ learningContent, userId, sessionId, 
   }).id;
   databaseBuilder.factory.buildAssessment({ userId, certificationCourseId });
 
-  databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
+  databaseBuilder.factory.buildCertificationCandidate({
+    sessionId,
+    userId,
+    authorizedToStart: true,
+    authorizedToStartAt: new Date(),
+  });
 
   domainBuilder.certification.configuration
     .versionBuilder()
