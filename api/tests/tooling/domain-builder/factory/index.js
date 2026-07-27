@@ -185,6 +185,7 @@ import { buildAssessmentSheet } from './certification/evaluation/build-assessmen
 import { buildCalibratedChallenge } from './certification/evaluation/build-calibrated-challenge.js';
 import { buildCalibratedChallengeSkill } from './certification/evaluation/build-calibrated-challenge-skill.js';
 import { buildEvaluationCandidate } from './certification/evaluation/build-candidate.js';
+import { candidateAuthorizationBuilder } from './certification/evaluation/build-candidate-authorization.js';
 import { buildCertificationAssessmentHistory } from './certification/evaluation/build-certification-assessment-history.js';
 import { buildCertificationChallengeCapacity } from './certification/evaluation/build-certification-challenge-capacity.js';
 import { buildChallengeCalibration } from './certification/evaluation/build-challenge-calibration.js';
@@ -288,6 +289,7 @@ const certification = {
     buildChallengeCalibration,
     buildCertificationChallengeCapacity,
     buildCertificationAssessmentHistory,
+    candidateAuthorizationBuilder,
   },
   sessionManagement: sessionManagementBuilders,
   shared: {

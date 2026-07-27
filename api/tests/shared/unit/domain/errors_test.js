@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { VALIDATION_ERRORS } from '../../../../src/shared/constants.js';
 import {
   AssessmentEndedError,
@@ -10,7 +12,6 @@ import {
   UserNotAuthorizedToCertifyError,
   UserNotFoundError,
 } from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Errors', function () {
   context('OidcError', function () {

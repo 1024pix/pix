@@ -106,25 +106,6 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
 
 /**
  * @function
- * @param {Candidate} candidate
- *
- * @returns {Promise<void>}
- */
-export async function update(candidate) {
-  const candidateDataToSave = {
-    authorizedToStart: candidate.authorizedToStart,
-  };
-  const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification-candidates')
-    .where({
-      id: candidate.id,
-    })
-    .update(candidateDataToSave)
-    .returning('*');
-}
-
-/**
- * @function
  * @param {CandidateRecord}
  * @returns {Candidate}
  */

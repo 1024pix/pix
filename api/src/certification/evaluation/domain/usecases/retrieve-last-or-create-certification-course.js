@@ -3,30 +3,22 @@
  * @typedef {import('./index.js').CandidateRepository} CandidateRepository
  * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('./index.js').AssessmentSheetRepository} AssessmentSheetRepository
- * @typedef {import('./index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('./index.js').VersionApi} VersionApi
+ * @typedef {import('./index.js').CandidateAuthorizationAdapter} CandidateAuthorizationAdapter
+ * @typedef {import('./index.js').SessionAdapter} SessionAdapter
  * @typedef {import('./index.js').CertificationBadgesService} CertificationBadgesService
  * @typedef {import('./index.js').VerifyCertificateCodeService} VerifyCertificateCodeService
  */
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import {
-  CandidateNotAuthorizedToJoinSessionError,
-  CandidateNotAuthorizedToResumeCertificationTestError,
-  LanguageNotSupportedError,
-  NotFoundError,
-  UnexpectedUserAccountError,
-} from '../../../../shared/domain/errors.js';
+import { LanguageNotSupportedError, UnexpectedUserAccountError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
-import { SessionNotAccessible } from '../../../session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
-import { CenterHabilitationError } from '../../../shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { CertificationDurationExceededError } from '../errors.js';
-import { isDurationExceeded } from '../services/certification-duration-service.js';
 
 const DEFAULT_LOCALE = 'fr-fr';
 
@@ -37,8 +29,8 @@ const DEFAULT_LOCALE = 'fr-fr';
  * @param {CandidateRepository} params.candidateRepository
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {AssessmentSheetRepository} params.assessmentSheetRepository
- * @param {CertificationCenterRepository} params.certificationCenterRepository
- * @param {SessionRepository} params.sessionRepository
+ * @param {CandidateAuthorizationAdapter} params.candidateAuthorizationAdapter
+ * @param {SessionAdapter} params.sessionAdapter
  * @param {VersionApi} params.versionApi
  * @param {CertificationBadgesService} params.certificationBadgesService
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
@@ -48,27 +40,29 @@ export async function retrieveLastOrCreateCertificationCourse({
   sessionId,
   userId,
   locale = DEFAULT_LOCALE,
+  clientTimezone,
   assessmentRepository,
   candidateRepository,
   certificationCourseRepository,
   assessmentSheetRepository,
-  sessionRepository,
-  certificationCenterRepository,
+  candidateAuthorizationAdapter,
+  sessionAdapter,
   versionApi,
   certificationBadgesService,
   verifyCertificateCodeService,
-  clientTimezone,
 }) {
-  const session = await sessionRepository.get({ id: sessionId });
-  if (session.accessCode !== accessCode) throw new NotFoundError('Session not found');
-  if (session.isNotAccessible) throw new SessionNotAccessible();
-
-  const candidate = await candidateRepository.findByUserIdAndSessionId({ userId, sessionId });
-  if (!candidate) throw new UnexpectedUserAccountError({});
+  const candidateAuthorization = await candidateAuthorizationAdapter.find({ userId, sessionId });
+  if (!candidateAuthorization) {
+    throw new UnexpectedUserAccountError({});
+  }
+  candidateAuthorization.verifyCanStartOrResumeCertification(accessCode);
+  if (candidateAuthorization.hasExceededCertificationDuration) {
+    await endCertification({ certificationId: candidateAuthorization.certificationId, assessmentSheetRepository });
+  }
 
   const certificationVersion = await versionApi.getByFrameworkAndDate({
-    framework: candidate.subscriptionFramework,
-    date: candidate.reconciledAt,
+    framework: candidateAuthorization.subscription,
+    date: candidateAuthorization.reconciledAt,
   });
 
   const existingCertificationCourse =
@@ -77,13 +71,15 @@ export async function retrieveLastOrCreateCertificationCourse({
       sessionId,
     });
 
-  await _endCourseIfDurationExceeded({ existingCertificationCourse, assessmentSheetRepository });
-
-  _validateCandidateIsAuthorizedToStart(candidate, existingCertificationCourse);
-
-  await _preventCandidateFromRestarting(candidate, candidateRepository);
-
   if (existingCertificationCourse) {
+    const candidate = await candidateRepository.findByUserIdAndSessionId({ userId, sessionId });
+    await sessionAdapter.onCertificationStartedOrResumed({
+      // todo rename into startedOrResumed ?
+      certificationId: existingCertificationCourse.getId(),
+      sessionId,
+      candidateId: candidate.id,
+      timezone: clientTimezone,
+    });
     existingCertificationCourse.adjustForAccessibility(candidate.accessibilityAdjustmentNeeded);
     existingCertificationCourse.setNumberOfChallenges(
       certificationVersion.challengesConfiguration.maximumAssessmentLength,
@@ -96,15 +92,15 @@ export async function retrieveLastOrCreateCertificationCourse({
   }
 
   return _startNewCertification({
-    session,
+    sessionId,
     userId,
     locale,
-    candidate,
     certificationVersion,
-    sessionRepository,
+    candidateAuthorization,
+    sessionAdapter,
     assessmentRepository,
     certificationCourseRepository,
-    certificationCenterRepository,
+    candidateRepository,
     verifyCertificateCodeService,
     certificationBadgesService,
     clientTimezone,
@@ -121,59 +117,38 @@ function _validateUserLocale(userLanguage) {
 
 /**
  * @param {object} params
- * @param {CertificationCourse} params.existingCertificationCourse
+ * @param {number} params.certificationId
  * @param {AssessmentSheetRepository} params.assessmentSheetRepository
  */
-async function _endCourseIfDurationExceeded({ existingCertificationCourse, assessmentSheetRepository }) {
-  if (existingCertificationCourse && isDurationExceeded(existingCertificationCourse.getStartDate())) {
-    const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(
-      existingCertificationCourse.getId(),
-    );
-    if (assessmentSheet) {
-      assessmentSheet.endDueToCertificationDurationExceeded();
-      await assessmentSheetRepository.update(assessmentSheet);
-    }
-
-    throw new CertificationDurationExceededError();
-  }
-}
-
-function _validateCandidateIsAuthorizedToStart(candidate, existingCertificationCourse) {
-  if (!candidate.authorizedToStart) {
-    if (existingCertificationCourse) {
-      throw new CandidateNotAuthorizedToResumeCertificationTestError();
-    } else {
-      throw new CandidateNotAuthorizedToJoinSessionError();
-    }
-  }
-}
-
-async function _preventCandidateFromRestarting(candidate, candidateRepository) {
-  candidate.authorizedToStart = false;
-  await candidateRepository.update(candidate);
+async function endCertification({ certificationId, assessmentSheetRepository }) {
+  const assessmentSheet = await assessmentSheetRepository.findByCertificationCourseId(certificationId);
+  assessmentSheet.endDueToCertificationDurationExceeded();
+  await assessmentSheetRepository.update(assessmentSheet);
+  throw new CertificationDurationExceededError();
 }
 
 /**
  * @param {object} params
- * @param {Session} params.session
+ * @param {number} params.sessionId
  * @param {string} params.locale
- * @param {Candidate} params.candidate
+ * @param {CandidateAuthorization} params.candidateAuthorization
  * @param {string} params.clientTimezone
+ * @param {SessionAdapter} params.sessionAdapter
  * @param {CertificationCourseRepository} params.certificationCourseRepository
- * @param {CertificationCenterRepository} params.certificationCenterRepository
  * @param {CertificationBadgesService} params.certificationBadgesService
  * @param {AssessmentRepository} params.assessmentRepository
+ * @param {CandidateRepository} params.candidateRepository
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
  */
 async function _startNewCertification({
-  session,
+  sessionId,
   userId,
-  candidate,
   certificationVersion,
-  sessionRepository,
+  candidateAuthorization,
+  sessionAdapter,
   assessmentRepository,
   certificationCourseRepository,
-  certificationCenterRepository,
+  candidateRepository,
   certificationBadgesService,
   verifyCertificateCodeService,
   locale,
@@ -181,53 +156,31 @@ async function _startNewCertification({
 }) {
   _validateUserLocale(locale);
 
-  const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId: session.id });
-
   let complementaryCertificationCourseData;
-  let framework = candidate.subscriptionFramework;
+  let framework = candidateAuthorization.subscription;
 
-  if (candidate.hasSubscribedToSomethingElseButCore) {
-    if (!certificationCenter.isHabilitated(candidate.subscriptionFramework)) {
-      throw new CenterHabilitationError();
+  if (framework === Frameworks.CLEA) {
+    const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+      userId,
+    });
+
+    const [doubleCertificationBadge] = highestCertifiableBadgeAcquisitions.filter(
+      (acquiredBadge) => acquiredBadge.complementaryCertificationKey === ComplementaryCertificationKeys.CLEA,
+    );
+
+    if (doubleCertificationBadge) {
+      const { complementaryCertificationId, complementaryCertificationBadgeId } = doubleCertificationBadge;
+      complementaryCertificationCourseData = { complementaryCertificationBadgeId, complementaryCertificationId };
+    } else {
+      framework = Frameworks.CORE;
     }
-
-    if (candidate.hasSubscribedToClea) {
-      const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-        userId,
-      });
-
-      const [doubleCertificationBadge] = highestCertifiableBadgeAcquisitions.filter(
-        (acquiredBadge) => acquiredBadge.complementaryCertificationKey === ComplementaryCertificationKeys.CLEA,
-      );
-
-      if (doubleCertificationBadge) {
-        const { complementaryCertificationId, complementaryCertificationBadgeId } = doubleCertificationBadge;
-        complementaryCertificationCourseData = { complementaryCertificationBadgeId, complementaryCertificationId };
-      } else {
-        framework = Frameworks.CORE;
-      }
-    }
-  }
-
-  // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
-  // In case the simultaneous call finished earlier than the current one, we want to return its result
-  const certificationCourseCreatedMeanwhile = await _getCertificationCourseIfCreatedMeanwhile(
-    certificationCourseRepository,
-    userId,
-    session.id,
-  );
-  if (certificationCourseCreatedMeanwhile) {
-    return {
-      created: false,
-      certificationCourse: certificationCourseCreatedMeanwhile,
-    };
   }
 
   return _createCertificationCourse({
-    session,
-    candidate,
+    sessionId,
+    candidateRepository,
     certificationVersion,
-    sessionRepository,
+    sessionAdapter,
     certificationCourseRepository,
     assessmentRepository,
     userId,
@@ -240,31 +193,21 @@ async function _startNewCertification({
 }
 
 /**
- * @param {CertificationCourseRepository} certificationCourseRepository
- * @param {number} userId
- * @param {number} sessionId
- * @returns {Promise<CertificationCourse>}
- */
-function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId) {
-  return certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
-    userId,
-    sessionId,
-  });
-}
-
-/**
  * @param {object} params
+ * @param {number} params.sessionId
  * @param {string} params.clientTimezone
  * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {CandidateRepository} params.candidateRepository
  * @param {AssessmentRepository} params.assessmentRepository
+ * @param {SessionAdapter} params.sessionAdapter
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
  */
 async function _createCertificationCourse({
-  session,
-  candidate,
+  sessionId,
   certificationVersion,
-  sessionRepository,
+  sessionAdapter,
   certificationCourseRepository,
+  candidateRepository,
   assessmentRepository,
   verifyCertificateCodeService,
   userId,
@@ -281,6 +224,7 @@ async function _createCertificationCourse({
       })
     : null;
 
+  const candidate = await candidateRepository.findByUserIdAndSessionId({ userId, sessionId });
   const newCertificationCourse = CertificationCourse.from({
     candidate,
     certificationVersion,
@@ -305,10 +249,12 @@ async function _createCertificationCourse({
     const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
     certificationCourse.setNumberOfChallenges(certificationVersion.challengesConfiguration.maximumAssessmentLength);
 
-    if (!session.hasStarted) {
-      session.setStartDate(clientTimezone);
-      await sessionRepository.update(session);
-    }
+    await sessionAdapter.onCertificationStartedOrResumed({
+      certificationId: savedCertificationCourse.getId(),
+      sessionId,
+      candidateId: candidate.id,
+      timezone: clientTimezone,
+    });
 
     return {
       created: true,
