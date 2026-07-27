@@ -53,6 +53,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
     expect(result).to.deep.equal({
       createdAt: combinedCourseBlueprint.createdAt,
       description: combinedCourseBlueprint.description,
+      prescriberDescription: combinedCourseBlueprint.prescriberDescription,
       id: combinedCourseBlueprint.id,
       illustration: combinedCourseBlueprint.illustration,
       internalName: combinedCourseBlueprint.internalName,
@@ -115,6 +116,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
     expect(result).to.deep.equal({
       createdAt: combinedCourseBlueprint.createdAt,
       description: combinedCourseBlueprint.description,
+      prescriberDescription: combinedCourseBlueprint.prescriberDescription,
       id: combinedCourseBlueprint.id,
       illustration: combinedCourseBlueprint.illustration,
       internalName: combinedCourseBlueprint.internalName,
@@ -167,6 +169,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
     expect(result).to.deep.equal({
       createdAt: combinedCourseBlueprint.createdAt,
       description: combinedCourseBlueprint.description,
+      prescriberDescription: combinedCourseBlueprint.prescriberDescription,
       id: combinedCourseBlueprint.id,
       illustration: combinedCourseBlueprint.illustration,
       internalName: combinedCourseBlueprint.internalName,

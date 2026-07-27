@@ -30,6 +30,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       internalName: 'Une épure pour tel niveau',
       illustration: 'illustrations/mon-epure.png',
       description: 'Description',
+      prescriberDescription: 'Description pour les prescripteurs',
       content,
       quest: questInput.toQuest(),
     });
@@ -45,6 +46,9 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     expect(combinedCourseBlueprints[0].internalName).to.equal(combinedCourseBlueprintForCreation.internalName);
     expect(combinedCourseBlueprints[0].illustration).to.equal(combinedCourseBlueprintForCreation.illustration);
     expect(combinedCourseBlueprints[0].description).to.equal(combinedCourseBlueprintForCreation.description);
+    expect(combinedCourseBlueprints[0].prescriberDescription).to.equal(
+      combinedCourseBlueprintForCreation.prescriberDescription,
+    );
 
     expect(questLinkedToBlueprint.successRequirements).to.deep.equal(expectedQuest.successRequirements);
     expect(questLinkedToBlueprint.rewardId).to.deep.equal(expectedQuest.rewardId);
@@ -77,6 +81,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       internalName: 'Une épure pour tel niveau',
       illustration: 'illustrations/mon-epure.png',
       description: 'Description',
+      prescriberDescription: 'Description pour les prescripteurs',
       content,
       quest: new QuestInput({ items: content }).toQuest(),
     });
@@ -112,6 +117,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       internalName: 'Une épure pour tel niveau',
       illustration: 'illustrations/mon-epure.png',
       description: 'Description',
+      prescriberDescription: 'Description pour les prescripteurs',
       content,
       quest: new QuestInput({ items: content }).toQuest(),
     });
