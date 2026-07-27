@@ -1,6 +1,5 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import * as checkUserIsCandidateUseCase from '../../certification/enrolment/application/usecases/check-user-is-candidate.js';
 import * as centerRepository from '../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import { Organization } from '../../organizational-entities/domain/models/Organization.js';
@@ -59,25 +58,6 @@ function _replyNotFoundError(h) {
   });
 
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-}
-
-async function checkUserIsCandidate(
-  request,
-  h,
-  dependencies = {
-    checkUserIsCandidateUseCase,
-  },
-) {
-  const userId = request.auth.credentials.userId;
-  const certificationCandidateId = request.params.certificationCandidateId;
-
-  const isUserCandidate = await dependencies.checkUserIsCandidateUseCase.execute({ userId, certificationCandidateId });
-
-  if (!isUserCandidate) {
-    return _replyForbiddenError(h);
-  }
-
-  return h.response(true);
 }
 
 async function checkAdminMemberHasRoleSuperAdmin(
@@ -783,6 +763,7 @@ async function checkCampaignBelongsToCombinedCourse(
 export const securityPreHandlers = {
   hasAtLeastOneAccessOf,
   validateAllAccess,
+  replyForbiddenError: _replyForbiddenError,
   checkAdminMemberHasRoleCertif,
   checkAdminMemberHasRoleMetier,
   checkAdminMemberHasRoleSuperAdmin,
@@ -809,7 +790,6 @@ export const securityPreHandlers = {
   checkUserIsAdminOfCertificationCenter,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
-  checkUserIsCandidate,
   checkUserIsMemberOfCertificationCenter,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
