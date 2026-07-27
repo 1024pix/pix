@@ -5,6 +5,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { MAX_FILE_SIZE_UPLOAD } from '../../../shared/constants.js';
 import { identifiersType, queriesType } from '../../../shared/domain/types/identifiers-type.js';
 import { campaignAdministrationController } from './campaign-administration-controller.js';
+import { campaignSecurityPreHandlers } from './security-pre-handlers.js';
 
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
@@ -41,7 +42,7 @@ const register = async function (server) {
             assign: 'isAdminOrCreatorFromTheCampaign',
           },
           {
-            method: securityPreHandlers.checkCampaignBelongsToCombinedCourse,
+            method: campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse,
             assign: 'campaignBelongsToCombinedCourse',
           },
         ],
@@ -80,7 +81,7 @@ const register = async function (server) {
         pre: [
           { method: securityPreHandlers.checkAuthorizationToManageCampaign },
           {
-            method: securityPreHandlers.checkCampaignBelongsToCombinedCourse,
+            method: campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse,
             assign: 'campaignBelongsToCombinedCourse',
           },
         ],

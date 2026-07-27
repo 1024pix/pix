@@ -4,7 +4,6 @@ import * as checkUserIsCandidateUseCase from '../../certification/enrolment/appl
 import * as centerRepository from '../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import { Organization } from '../../organizational-entities/domain/models/Organization.js';
-import * as checkCampaignBelongsToCombinedCourseUsecase from '../../prescription/campaign/application/usecases/checkCampaignBelongsToCombinedCourse.js';
 import * as checkCampaignParticipationBelongsToUserUsecase from '../../prescription/campaign/application/usecases/checkCampaignParticipationBelongsToUser.js';
 import { PIX_ADMIN } from '../../shared/constants.js';
 import { ForbiddenAccess } from '../domain/errors.js';
@@ -769,17 +768,6 @@ async function checkOrganizationLearnerBelongsToOrganization(
   }
 }
 
-async function checkCampaignBelongsToCombinedCourse(
-  request,
-  h,
-  dependencies = { checkCampaignBelongsToCombinedCourseUsecase },
-) {
-  const campaignId = parseInt(request.params.campaignId);
-
-  await dependencies.checkCampaignBelongsToCombinedCourseUsecase.execute({ campaignId });
-  return h.response(true);
-}
-
 export const securityPreHandlers = {
   hasAtLeastOneAccessOf,
   validateAllAccess,
@@ -789,7 +777,6 @@ export const securityPreHandlers = {
   checkAdminMemberHasRoleSupport,
   checkAuthorizationToManageCampaign,
   checkAuthorizationToAccessCampaign,
-  checkCampaignBelongsToCombinedCourse,
   checkCertificationCenterIsNotScoManagingStudents,
   checkOrganizationHasFeature,
   checkRequestedUserIsAuthenticatedUser,

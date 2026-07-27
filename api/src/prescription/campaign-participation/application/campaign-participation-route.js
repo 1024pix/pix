@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { campaignSecurityPreHandlers } from '../../campaign/application/security-pre-handlers.js';
 import { campaignParticipationController } from './campaign-participation-controller.js';
 import { campaignParticipationPreHandlers } from './pre-handlers.js';
 
@@ -71,7 +72,7 @@ const register = async function (server) {
       config: {
         pre: [
           { method: securityPreHandlers.checkAuthorizationToManageCampaign },
-          { method: securityPreHandlers.checkCampaignBelongsToCombinedCourse },
+          { method: campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse },
         ],
         validate: {
           params: Joi.object({
@@ -231,7 +232,7 @@ const register = async function (server) {
               ])(request, h),
           },
           {
-            method: securityPreHandlers.checkCampaignBelongsToCombinedCourse,
+            method: campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse,
           },
         ],
         validate: {
