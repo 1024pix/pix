@@ -51,6 +51,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
             @membersSortedByFullName={{data.defaultMembers}}
+            @hasBlueprints={{true}}
           />
         </template>,
       );
@@ -78,6 +79,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
             @membersSortedByFullName={{data.defaultMembers}}
+            @hasBlueprints={{true}}
           />
         </template>,
       );
@@ -104,6 +106,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
             @membersSortedByFullName={{data.defaultMembers}}
+            @hasBlueprints={{true}}
           />
         </template>,
       );
@@ -135,6 +138,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
             @membersSortedByFullName={{data.defaultMembers}}
+            @hasBlueprints={{true}}
           />
         </template>,
       );
@@ -168,6 +172,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
             @membersSortedByFullName={{data.defaultMembers}}
+            @hasBlueprints={{true}}
           />
         </template>,
       );
@@ -190,6 +195,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
             @membersSortedByFullName={{data.defaultMembers}}
+            @hasBlueprints={{true}}
           />
         </template>,
       );
@@ -209,6 +215,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
             @membersSortedByFullName={{data.defaultMembers}}
+            @hasBlueprints={{true}}
           />
         </template>,
       );
@@ -232,6 +239,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
           @membersSortedByFullName={{data.defaultMembers}}
+          @hasBlueprints={{true}}
         />
       </template>,
     );
@@ -251,6 +259,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
           @membersSortedByFullName={{data.defaultMembers}}
+          @hasBlueprints={{true}}
         />
       </template>,
     );
@@ -280,6 +289,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
           @onCancel={{cancelSpy}}
           @errors={{data.errors}}
           @membersSortedByFullName={{data.defaultMembers}}
+          @hasBlueprints={{true}}
         />
       </template>,
     );
@@ -318,6 +328,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
             @onCancel={{cancelSpy}}
             @errors={{data.errors}}
             @membersSortedByFullName={{data.defaultMembers}}
+            @hasBlueprints={{true}}
           />
         </template>,
       );

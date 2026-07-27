@@ -37,7 +37,9 @@ module('Integration | Component | Campaign::CreateForm::CampaignGoals', function
   test('it displays campaign goals', async function (assert) {
     // when
     const screen = await render(
-      <template><CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
+      <template>
+        <CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} @hasBlueprints={{true}} />
+      </template>,
     );
 
     // then
@@ -51,10 +53,27 @@ module('Integration | Component | Campaign::CreateForm::CampaignGoals', function
       .exists();
   });
 
+  test('it does not display COMBINED_COURSE campaign goal when hasBlueprints is false', async function (assert) {
+    // when
+    const screen = await render(
+      <template>
+        <CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} @hasBlueprints={{false}} />
+      </template>,
+    );
+
+    // then
+    const fieldset = screen.getByRole('radiogroup', { name: t('pages.campaign-creation.purpose.label') });
+    assert
+      .dom(within(fieldset).queryByRole('radio', { name: t('pages.campaign-creation.purpose.combined-course') }))
+      .doesNotExist();
+  });
+
   test('it should not display course selection when no campaign goal is selected', async function (assert) {
     // when
     const screen = await render(
-      <template><CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
+      <template>
+        <CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} @hasBlueprints={{true}} />
+      </template>,
     );
 
     // then
@@ -67,7 +86,9 @@ module('Integration | Component | Campaign::CreateForm::CampaignGoals', function
     test('it displays ASSESSMENT purpose explanation', async function (assert) {
       // given
       const screen = await render(
-        <template><CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
+        <template>
+          <CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} @hasBlueprints={{true}} />
+        </template>,
       );
 
       // when
@@ -81,7 +102,9 @@ module('Integration | Component | Campaign::CreateForm::CampaignGoals', function
     test('it redirects to /catalogue/targetProfile', async function (assert) {
       // given
       const screen = await render(
-        <template><CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
+        <template>
+          <CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} @hasBlueprints={{true}} />
+        </template>,
       );
 
       // when
@@ -98,7 +121,9 @@ module('Integration | Component | Campaign::CreateForm::CampaignGoals', function
     test('it displays COMBINED_COURSE purpose explanation', async function (assert) {
       // given
       const screen = await render(
-        <template><CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
+        <template>
+          <CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} @hasBlueprints={{true}} />
+        </template>,
       );
 
       // when
@@ -112,7 +137,9 @@ module('Integration | Component | Campaign::CreateForm::CampaignGoals', function
     test('it redirects to /catalogue/blueprint for course selection', async function (assert) {
       // given
       const screen = await render(
-        <template><CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
+        <template>
+          <CampaignGoals @campaign={{data.campaign}} @errors={{data.errors}} @hasBlueprints={{true}} />
+        </template>,
       );
 
       // when

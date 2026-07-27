@@ -14,6 +14,10 @@ import CourseSelection from './course-selection';
 export default class CampaignGoals extends Component {
   @service currentUser;
 
+  get displayCampaignGoalCombinedCourse() {
+    return this.args.hasBlueprints;
+  }
+
   get displayCourseSelection() {
     return this.isCampaignGoalAssessment || this.isCampaignGoalCombinedCourse;
   }
@@ -71,15 +75,17 @@ export default class CampaignGoals extends Component {
               <:label>{{t "pages.campaign-creation.purpose.assessment"}}</:label>
             </PixRadioButton>
 
-            <PixRadioButton
-              name="campaign-goal"
-              @value="combined-course"
-              {{on "change" this.setCampaignGoal}}
-              aria-describedby="combined-course-info"
-              checked={{this.isCampaignGoalCombinedCourse}}
-            >
-              <:label>{{t "pages.campaign-creation.purpose.combined-course"}}</:label>
-            </PixRadioButton>
+            {{#if this.displayCampaignGoalCombinedCourse}}
+              <PixRadioButton
+                name="campaign-goal"
+                @value="combined-course"
+                {{on "change" this.setCampaignGoal}}
+                aria-describedby="combined-course-info"
+                checked={{this.isCampaignGoalCombinedCourse}}
+              >
+                <:label>{{t "pages.campaign-creation.purpose.combined-course"}}</:label>
+              </PixRadioButton>
+            {{/if}}
 
             <PixRadioButton
               name="campaign-goal"
