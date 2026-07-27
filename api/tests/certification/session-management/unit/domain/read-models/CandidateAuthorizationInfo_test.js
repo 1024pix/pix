@@ -101,7 +101,7 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Can
   });
 
   describe('#get authorizedToStart', function () {
-    it('returns true when candidate has been authorized to start', function () {
+    it('returns true when candidate has been authorized to start within the last 15 minutes', function () {
       const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
         .asAuthorizedToStart()
@@ -114,6 +114,15 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Can
       const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
         .asNotAuthorizedToStart()
+        .build();
+
+      expect(candidateAuthorizationInfo.authorizedToStart).to.be.false;
+    });
+
+    it('returns false when candidate was authorized beyond 15 minutes ago', function () {
+      const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .candidateAuthorizationInfoBuilder()
+        .asObsoleteAuthorizedToStart()
         .build();
 
       expect(candidateAuthorizationInfo.authorizedToStart).to.be.false;
