@@ -74,7 +74,7 @@ const plugin = {
         return;
       }
       if (event.error) {
-        logger.error({ tags: event.tags, err: event.error }, 'request error');
+        logger.error({ req: request, tags: event.tags, err: event.error }, 'request error');
       }
     });
 
