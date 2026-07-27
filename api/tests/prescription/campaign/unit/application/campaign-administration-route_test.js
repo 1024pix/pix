@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-administration-controller.js';
 import { campaignAdministrationRoute as moduleUnderTest } from '../../../../../src/prescription/campaign/application/campaign-administration-route.js';
+import { campaignSecurityPreHandlers } from '../../../../../src/prescription/campaign/application/security-pre-handlers.js';
 import {
   CampaignCodeFormatError,
   CampaignUniqueCodeError,
@@ -45,7 +46,7 @@ describe('Unit | Application | Router | campaign-administration-router', functio
       // given
       sinon.stub(securityPreHandlers, 'checkAuthorizationToManageCampaign').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkCampaignBelongsToCombinedCourse')
+        .stub(campaignSecurityPreHandlers, 'checkCampaignBelongsToCombinedCourse')
         .callsFake((request, h) => h.response(true));
 
       const httpTestServer = new HttpTestServer();
@@ -57,7 +58,7 @@ describe('Unit | Application | Router | campaign-administration-router', functio
       });
 
       // then
-      expect(securityPreHandlers.checkCampaignBelongsToCombinedCourse).called;
+      expect(campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse).called;
     });
   });
 
@@ -405,7 +406,9 @@ describe('Unit | Application | Router | campaign-administration-router', functio
     // given
     sinon.stub(campaignAdministrationController, 'archiveCampaign').returns(null);
     sinon.stub(securityPreHandlers, 'checkAuthorizationToManageCampaign').callsFake((request, h) => h.response(true));
-    sinon.stub(securityPreHandlers, 'checkCampaignBelongsToCombinedCourse').callsFake((request, h) => h.response(true));
+    sinon
+      .stub(campaignSecurityPreHandlers, 'checkCampaignBelongsToCombinedCourse')
+      .callsFake((request, h) => h.response(true));
 
     const httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
@@ -414,7 +417,7 @@ describe('Unit | Application | Router | campaign-administration-router', functio
     await httpTestServer.request('PUT', '/api/campaigns/123/archive');
 
     // then
-    expect(securityPreHandlers.checkCampaignBelongsToCombinedCourse).called;
+    expect(campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse).called;
   });
 
   describe('DELETE /api/campaigns/{campaignId}/archive', function () {

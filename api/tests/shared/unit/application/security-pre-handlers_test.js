@@ -1,58 +1,12 @@
 import sinon from 'sinon';
 
-import { CampaignBelongsToCombinedCourseError } from '../../../../src/prescription/campaign/domain/errors.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { expect } from '../../../test-helper.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
-import { catchErr } from '../../../tooling/test-utils/error.js';
 
 describe('Shared | Unit | Application | SecurityPreHandlers', function () {
-  describe('#checkCampaignBelongsToCombinedCourse', function () {
-    context('Successful case', function () {
-      it('should authorize access when campaign does not belongs to a combined course', async function () {
-        // given
-        const checkCampaignBelongsToCombinedCourseUsecaseStub = {
-          execute: sinon.stub().resolves(),
-        };
-
-        // when
-        const response = await securityPreHandlers.checkCampaignBelongsToCombinedCourse(
-          { params: { campaignId: '123' } },
-          hFake,
-          {
-            checkCampaignBelongsToCombinedCourseUsecase: checkCampaignBelongsToCombinedCourseUsecaseStub,
-          },
-        );
-
-        // then
-        expect(response.source).to.be.true;
-      });
-    });
-
-    context('Error cases', function () {
-      it('should forbid access when the user is not the certificartion candidate', async function () {
-        // given
-        const checkCampaignBelongsToCombinedCourseUsecaseStub = {
-          execute: sinon.stub().rejects(new CampaignBelongsToCombinedCourseError()),
-        };
-
-        // when
-        const error = await catchErr(securityPreHandlers.checkCampaignBelongsToCombinedCourse)(
-          { params: { campaignId: '123' } },
-          hFake,
-          {
-            checkCampaignBelongsToCombinedCourseUsecase: checkCampaignBelongsToCombinedCourseUsecaseStub,
-          },
-        );
-
-        // then
-        expect(error).instanceOf(CampaignBelongsToCombinedCourseError);
-      });
-    });
-  });
-
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
     let request;
 

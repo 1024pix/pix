@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 
+import { campaignSecurityPreHandlers } from '../../../../../src/prescription/campaign/application/security-pre-handlers.js';
 import { campaignParticipationController } from '../../../../../src/prescription/campaign-participation/application/campaign-participation-controller.js';
 import { campaignParticipationRoute as moduleUnderTest } from '../../../../../src/prescription/campaign-participation/application/campaign-participation-route.js';
 import { campaignParticipationPreHandlers } from '../../../../../src/prescription/campaign-participation/application/pre-handlers.js';
@@ -226,7 +227,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       // given
       sinon.stub(securityPreHandlers, 'checkAuthorizationToManageCampaign').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkCampaignBelongsToCombinedCourse')
+        .stub(campaignSecurityPreHandlers, 'checkCampaignBelongsToCombinedCourse')
         .callsFake((request, h) => h.response(true));
       sinon
         .stub(campaignParticipationController, 'deleteParticipation')
@@ -242,7 +243,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
 
       // then
       expect(securityPreHandlers.checkAuthorizationToManageCampaign.called).true;
-      expect(securityPreHandlers.checkCampaignBelongsToCombinedCourse.called).true;
+      expect(campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse.called).true;
       expect(response.statusCode).to.equal(204);
     });
 
@@ -286,7 +287,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       // given
       const superAdminStub = sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
       const hasRoleSupportStub = sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport');
-      sinon.stub(securityPreHandlers, 'checkCampaignBelongsToCombinedCourse').returns(() => true);
+      sinon.stub(campaignSecurityPreHandlers, 'checkCampaignBelongsToCombinedCourse').returns(() => true);
       sinon
         .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
         .withArgs([superAdminStub, hasRoleSupportStub])
@@ -301,7 +302,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       // then
       expect(securityPreHandlers.hasAtLeastOneAccessOf.calledOnce, 'hasAtLeastOnAccessOf').true;
       expect(
-        securityPreHandlers.checkCampaignBelongsToCombinedCourse.calledOnce,
+        campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse.calledOnce,
         'checkCampaignBelongsToCombinedCourse',
       ).true;
       expect(campaignParticipationController.deleteParticipation.calledOnce, 'deleteParticipation').true;
