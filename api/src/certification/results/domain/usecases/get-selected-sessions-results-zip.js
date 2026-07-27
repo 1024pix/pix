@@ -15,7 +15,7 @@ import { NoCertificationResultsToDownloadError } from '../errors.js';
  * @param {CertificationResultRepository} params.certificationResultRepository
  * @param {SessionForResultsSharingRepository} params.sessionForResultsSharingRepository
  */
-export const getSelectedSessionsResultsZip = async function ({
+export async function getSelectedSessionsResultsZip({
   sessionIds,
   i18n,
   certificationResultRepository,
@@ -48,4 +48,4 @@ export const getSelectedSessionsResultsZip = async function ({
     filename: `pix-sessions-results-${Date.now()}.zip`,
     content: zipContent,
   };
-};
+}
