@@ -1,5 +1,6 @@
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 const MAXIMAL_CERTIFICATION_DURATION_IN_MS = 24 * 60 * 60 * 1000; // 24h
+const AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS = 15 * 60 * 1000; // 15min
 
 export class CandidateAuthorizationInfo {
   constructor({
@@ -40,7 +41,7 @@ export class CandidateAuthorizationInfo {
 
   get hasExceededCertificationDuration() {
     if (this.certificationId) {
-      return Date.now() - this.certificationStartedAt.getTime() > MAXIMAL_CERTIFICATION_DURATION_IN_MS;
+      return this.#elapsedTimeSinceCertificationStarted() > MAXIMAL_CERTIFICATION_DURATION_IN_MS;
     }
     return false;
   }
@@ -50,6 +51,17 @@ export class CandidateAuthorizationInfo {
   }
 
   get authorizedToStart() {
-    return Boolean(this.authorizedToStartAt);
+    if (this.authorizedToStartAt) {
+      return this.#elapsedTimeSinceInvigilatorAuthorizedToStart() < AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS;
+    }
+    return false;
+  }
+
+  #elapsedTimeSinceInvigilatorAuthorizedToStart() {
+    return Date.now() - this.authorizedToStartAt.getTime();
+  }
+
+  #elapsedTimeSinceCertificationStarted() {
+    return Date.now() - this.certificationStartedAt.getTime();
   }
 }

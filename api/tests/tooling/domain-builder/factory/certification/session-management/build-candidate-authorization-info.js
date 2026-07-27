@@ -87,6 +87,17 @@ class CandidateAuthorizationInfoBuilder {
   }
 
   /**
+   * As if the invigilator authorized the candidate a long time ago
+   *
+   * @returns {CandidateAuthorizationInfoBuilder}
+   */
+  asObsoleteAuthorizedToStart() {
+    this.authorizedToStartAt = new Date();
+    this.authorizedToStartAt.setMinutes(this.authorizedToStartAt.getMinutes() - 16);
+    return this;
+  }
+
+  /**
    * As if the invigilator authorized the candidate to enter the session
    *
    * @returns {CandidateAuthorizationInfoBuilder}
