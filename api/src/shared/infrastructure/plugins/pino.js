@@ -11,8 +11,19 @@ const serializersSym = Symbol.for('pino.serializers');
 
 function requestSerializer(req) {
   const request = getInContext('request', req);
+  const requestWithoutHeavyFields = Object.fromEntries(
+    Object.entries(request).filter(
+      ([key]) =>
+        !key.startsWith('_') &&
+        key !== 'raw' &&
+        key !== 'response' &&
+        key !== 'server' &&
+        key !== 'preResponses' &&
+        key !== 'yar',
+    ),
+  );
   const enhancedReq = {
-    ...request,
+    ...requestWithoutHeavyFields,
     version: config.version,
     clientVersion: request.headers['x-app-version'] || '-',
     clientVersionMismatched: config.version !== request.headers['x-app-version'],
