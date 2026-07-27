@@ -6,6 +6,7 @@ import { MAX_FILE_SIZE_UPLOAD, ORGANIZATION_FEATURE } from '../../../shared/cons
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { usecases } from '../domain/usecases/index.js';
 import { organizationLearnersController } from './organization-learners-controller.js';
+import { learnerManagementSecurityPreHandlers } from './security-pre-handlers.js';
 
 const register = async (server) => {
   server.route([
@@ -67,7 +68,7 @@ const register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkOrganizationLearnerBelongsToOrganization,
+            method: learnerManagementSecurityPreHandlers.checkOrganizationLearnerBelongsToOrganization,
             assign: 'organizationLearnerBelongsToOrganization',
           },
           {
@@ -102,7 +103,7 @@ const register = async (server) => {
             assign: 'isAdminInOrganization',
           },
           {
-            method: securityPreHandlers.checkOrganizationLearnerBelongsToOrganization,
+            method: learnerManagementSecurityPreHandlers.checkOrganizationLearnerBelongsToOrganization,
             assign: 'organizationLearnerBelongsToOrganization',
           },
           {

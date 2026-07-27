@@ -1,4 +1,4 @@
-import * as organizationLearnerRepository from '../../../prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
+import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 
 const execute = async function (
   organizationId,

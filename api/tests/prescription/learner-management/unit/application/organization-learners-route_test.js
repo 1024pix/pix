@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { organizationLearnersController } from '../../../../../src/prescription/learner-management/application/organization-learners-controller.js';
 import { organizationLearnersRoute as moduleUnderTest } from '../../../../../src/prescription/learner-management/application/organization-learners-route.js';
+import { learnerManagementSecurityPreHandlers } from '../../../../../src/prescription/learner-management/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -43,7 +44,7 @@ describe('Unit | Prescription | learner management | Application | Router | orga
     it('should call right handler before calling controller', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkOrganizationLearnerBelongsToOrganization')
+        .stub(learnerManagementSecurityPreHandlers, 'checkOrganizationLearnerBelongsToOrganization')
         .callsFake((request, h) => h.response().code(200));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
@@ -68,7 +69,7 @@ describe('Unit | Prescription | learner management | Application | Router | orga
       await httpTestServer.request('DELETE', '/api/admin/organizations/1/organization-learners/2');
 
       // then
-      sinon.assert.calledOnce(securityPreHandlers.checkOrganizationLearnerBelongsToOrganization);
+      sinon.assert.calledOnce(learnerManagementSecurityPreHandlers.checkOrganizationLearnerBelongsToOrganization);
       sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
       sinon.assert.calledOnce(organizationLearnersController.deleteOrganizationLearnerFromAdmin);
     });

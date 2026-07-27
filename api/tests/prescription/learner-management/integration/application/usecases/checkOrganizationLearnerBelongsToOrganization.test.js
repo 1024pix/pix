@@ -1,10 +1,10 @@
-import { execute } from '../../../../../src/shared/application/usecases/checkOrganizationLearnerBelongsToOrganization.js';
-import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
-import { catchErr } from '../../../../tooling/test-utils/error.js';
+import { execute } from '../../../../../../src/prescription/learner-management/application/usecases/checkOrganizationLearnerBelongsToOrganization.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { expect } from '../../../../../test-helper.js';
+import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Integration | Shared | Application | UseCase | checkOrganizationLearnerBelongsToOrganization', function () {
+describe('Integration | Prescription | Learner Management | Application | UseCase | checkOrganizationLearnerBelongsToOrganization', function () {
   describe('#execute', function () {
     it('should return true when organization learner belongs to the organization', async function () {
       // given
