@@ -1,7 +1,7 @@
 /**
  * @typedef {import ('../../domain/models/Candidate.js').Candidate} Candidate
  */
-import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
 import { WrongDomainExtensionForPixPlusError } from '../errors.js';
 
 /**
@@ -16,57 +16,56 @@ import { WrongDomainExtensionForPixPlusError } from '../errors.js';
  * @param {Function} params.normalizeStringFnc
  * @returns {Promise<Candidate>}
  */
-export const registerCandidateParticipation = withTransaction(
-  async ({
+export async function registerCandidateParticipation({
+  userId,
+  sessionId,
+  firstName,
+  lastName,
+  birthdate,
+  isFrenchDomainExtension,
+  normalizeStringFnc,
+  candidateRepository,
+  centerRepository,
+  sessionRepository,
+  userRepository,
+  verifyCandidateIdentityService,
+  reconcileCandidateService,
+  placementProfileService,
+  eventAdapter,
+}) {
+  const candidate = await verifyCandidateIdentityService.verifyCandidateIdentity({
     userId,
     sessionId,
     firstName,
     lastName,
     birthdate,
-    isFrenchDomainExtension,
     normalizeStringFnc,
     candidateRepository,
     centerRepository,
     sessionRepository,
     userRepository,
-    verifyCandidateIdentityService,
-    reconcileCandidateService,
-    verifyCandidateReconciliationRequirementsService,
+  });
+  if (!candidate.hasCoreScopeSubscription() && !isFrenchDomainExtension) {
+    throw new WrongDomainExtensionForPixPlusError();
+  }
+
+  if (candidate.isReconciled()) {
+    return candidate;
+  }
+
+  const placementProfile = await placementProfileService.getPlacementProfile({
+    userId,
+    limitDate: new Date(),
+  });
+
+  if (!placementProfile.isCertifiable()) {
+    throw new UserNotAuthorizedToCertifyError();
+  }
+
+  return reconcileCandidateService.reconcileCandidate({
+    userId,
+    candidate,
+    candidateRepository,
     eventAdapter,
-    placementProfileService,
-  }) => {
-    const candidate = await verifyCandidateIdentityService.verifyCandidateIdentity({
-      userId,
-      sessionId,
-      firstName,
-      lastName,
-      birthdate,
-      normalizeStringFnc,
-      candidateRepository,
-      centerRepository,
-      sessionRepository,
-      userRepository,
-    });
-    if (!candidate.hasCoreScopeSubscription() && !isFrenchDomainExtension) {
-      throw new WrongDomainExtensionForPixPlusError();
-    }
-
-    if (candidate.isReconciled()) {
-      return candidate;
-    }
-
-    const reconciliedCandidate = await reconcileCandidateService.reconcileCandidate({
-      userId,
-      candidate,
-      candidateRepository,
-      eventAdapter,
-    });
-
-    await verifyCandidateReconciliationRequirementsService.verifyCandidateReconciliationRequirements({
-      candidate: reconciliedCandidate,
-      placementProfileService,
-    });
-
-    return reconciliedCandidate;
-  },
-);
+  });
+}

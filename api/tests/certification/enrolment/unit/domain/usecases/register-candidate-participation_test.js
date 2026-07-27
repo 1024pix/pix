@@ -1,16 +1,24 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { WrongDomainExtensionForPixPlusError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/domain/usecases/register-candidate-participation.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | Usecase | register-candidate-participation', function () {
-  let normalizeStringFnc;
+  let normalizeStringFnc,
+    candidateRepository,
+    centerRepository,
+    sessionRepository,
+    userRepository,
+    verifyCandidateIdentityService,
+    reconcileCandidateService,
+    placementProfileService,
+    eventAdapter,
+    dependencies;
 
   const candidateData = {
     firstName: 'Brice',
@@ -20,8 +28,38 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
   const sessionId = 456;
 
   beforeEach(function () {
-    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
     normalizeStringFnc = sinon.stub();
+    candidateRepository = Symbol('candidateRepository');
+    centerRepository = Symbol('centerRepository');
+    sessionRepository = Symbol('sessionRepository');
+    userRepository = Symbol('userRepository');
+    eventAdapter = Symbol('eventAdapter');
+    placementProfileService = {
+      getPlacementProfile: sinon.stub(),
+    };
+    reconcileCandidateService = {
+      reconcileCandidate: sinon.stub(),
+    };
+    verifyCandidateIdentityService = {
+      verifyCandidateIdentity: sinon.stub(),
+    };
+
+    preventStubsToBeCalledUnexpectedly([
+      reconcileCandidateService.reconcileCandidate,
+      verifyCandidateIdentityService.verifyCandidateIdentity,
+    ]);
+
+    dependencies = {
+      normalizeStringFnc,
+      candidateRepository,
+      centerRepository,
+      sessionRepository,
+      userRepository,
+      verifyCandidateIdentityService,
+      reconcileCandidateService,
+      placementProfileService,
+      eventAdapter,
+    };
   });
 
   context('when reconciliation is ok', function () {
@@ -35,28 +73,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
           userId,
           reconciledAt: new Date('2024-09-25'),
         });
-        const verifyCandidateIdentityService = { verifyCandidateIdentity: () => alreadyLinkedCandidate };
-        const reconcileCandidateService = { reconcileCandidate: () => '' };
-        const verifyCandidateReconciliationRequirementsService = {
-          verifyCandidateReconciliationRequirements: () => '',
-        };
-
-        let candidateRepository, centerRepository, sessionRepository, userRepository;
-        sinon.replace(
-          verifyCandidateIdentityService,
-          'verifyCandidateIdentity',
-          sinon.fake(verifyCandidateIdentityService.verifyCandidateIdentity),
-        );
-        sinon.replace(
-          reconcileCandidateService,
-          'reconcileCandidate',
-          sinon.fake(reconcileCandidateService.reconcileCandidate),
-        );
-        sinon.replace(
-          verifyCandidateReconciliationRequirementsService,
-          'verifyCandidateReconciliationRequirements',
-          sinon.fake(verifyCandidateReconciliationRequirementsService.verifyCandidateReconciliationRequirements),
-        );
+        verifyCandidateIdentityService.verifyCandidateIdentity.resolves(alreadyLinkedCandidate);
 
         // when
         await registerCandidateParticipation({
@@ -64,14 +81,11 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
           userId,
           sessionId,
           isFrenchDomainExtension: true,
-          normalizeStringFnc,
-          verifyCandidateIdentityService,
-          verifyCandidateReconciliationRequirementsService,
-          reconcileCandidateService,
+          ...dependencies,
         });
 
         // then
-        expect(verifyCandidateIdentityService.verifyCandidateIdentity).to.have.been.calledWithExactly({
+        sinon.assert.calledOnceWithExactly(verifyCandidateIdentityService.verifyCandidateIdentity, {
           ...candidateData,
           sessionId,
           userId,
@@ -81,9 +95,6 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
           sessionRepository,
           userRepository,
         });
-        expect(reconcileCandidateService.reconcileCandidate).to.not.have.been.called;
-        expect(verifyCandidateReconciliationRequirementsService.verifyCandidateReconciliationRequirements).to.not.have
-          .been.called;
       });
     });
 
@@ -96,16 +107,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
           sessionId,
           subscription: Frameworks.DROIT,
         });
-        const verifyCandidateIdentityService = { verifyCandidateIdentity: () => candidateWithComplementary };
-        const reconcileCandidateService = { reconcileCandidate: () => candidateWithComplementary };
-        const verifyCandidateReconciliationRequirementsService = {
-          verifyCandidateReconciliationRequirements: () => '',
-        };
-        sinon.replace(
-          reconcileCandidateService,
-          'reconcileCandidate',
-          sinon.fake(reconcileCandidateService.reconcileCandidate),
-        );
+        verifyCandidateIdentityService.verifyCandidateIdentity.resolves(candidateWithComplementary);
 
         // when
         const error = await catchErr(registerCandidateParticipation)({
@@ -113,15 +115,11 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
           userId,
           sessionId,
           isFrenchDomainExtension: false,
-          normalizeStringFnc,
-          verifyCandidateIdentityService,
-          verifyCandidateReconciliationRequirementsService,
-          reconcileCandidateService,
+          ...dependencies,
         });
 
         // then
         expect(error).to.be.instanceOf(WrongDomainExtensionForPixPlusError);
-        expect(reconcileCandidateService.reconcileCandidate).to.not.have.been.called;
       });
     });
 
@@ -143,75 +141,59 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
         clock.restore();
       });
 
-      it('verifies candidate subscriptions', async function () {
-        // given
-        unlinkedCandidate.reconcile();
+      context('when the candidate is not certifiable', function () {
+        it('throws UserNotAuthorizedToCertifyError', async function () {
+          // given
+          unlinkedCandidate.reconcile();
+          verifyCandidateIdentityService.verifyCandidateIdentity.resolves(unlinkedCandidate);
+          placementProfileService.getPlacementProfile.resolves({
+            isCertifiable: () => false,
+          });
 
-        const verifyCandidateIdentityService = { verifyCandidateIdentity: () => unlinkedCandidate };
-        const reconcileCandidateService = { reconcileCandidate: () => unlinkedCandidate };
-        const verifyCandidateReconciliationRequirementsService = {
-          verifyCandidateReconciliationRequirements: () => '',
-        };
-        let placementProfileService;
-        sinon.replace(
-          verifyCandidateReconciliationRequirementsService,
-          'verifyCandidateReconciliationRequirements',
-          sinon.fake(verifyCandidateReconciliationRequirementsService.verifyCandidateReconciliationRequirements),
-        );
+          // when
+          const err = await catchErr(registerCandidateParticipation)({
+            ...candidateData,
+            sessionId,
+            userId,
+            isFrenchDomainExtension: true,
+            ...dependencies,
+          });
 
-        // when
-        await registerCandidateParticipation({
-          ...candidateData,
-          sessionId,
-          userId,
-          isFrenchDomainExtension: true,
-          normalizeStringFnc,
-          reconcileCandidateService,
-          verifyCandidateIdentityService,
-          verifyCandidateReconciliationRequirementsService,
-        });
-
-        // then
-        expect(
-          verifyCandidateReconciliationRequirementsService.verifyCandidateReconciliationRequirements,
-        ).to.have.been.calledWithExactly({
-          candidate: unlinkedCandidate,
-          placementProfileService,
+          // then
+          expect(err).to.be.instanceOf(UserNotAuthorizedToCertifyError);
+          sinon.assert.calledOnceWith(verifyCandidateIdentityService.verifyCandidateIdentity, {
+            ...candidateData,
+            userId,
+            sessionId,
+            normalizeStringFnc,
+            candidateRepository,
+            centerRepository,
+            sessionRepository,
+            userRepository,
+          });
         });
       });
 
-      it('should link the candidate to the given user', async function () {
-        const verifyCandidateIdentityService = { verifyCandidateIdentity: () => unlinkedCandidate };
-        const reconcileCandidateService = { reconcileCandidate: () => unlinkedCandidate };
-        const verifyCandidateReconciliationRequirementsService = {
-          verifyCandidateReconciliationRequirements: () => '',
-        };
-        let candidateRepository, centerRepository, sessionRepository, userRepository, eventAdapter;
-        sinon.replace(
-          verifyCandidateIdentityService,
-          'verifyCandidateIdentity',
-          sinon.fake(verifyCandidateIdentityService.verifyCandidateIdentity),
-        );
-        sinon.replace(
-          reconcileCandidateService,
-          'reconcileCandidate',
-          sinon.fake(reconcileCandidateService.reconcileCandidate),
-        );
+      it('verifies candidate subscriptions and reconcile candidate', async function () {
+        // given
+        unlinkedCandidate.reconcile();
+        verifyCandidateIdentityService.verifyCandidateIdentity.resolves(unlinkedCandidate);
+        reconcileCandidateService.reconcileCandidate.resolves(unlinkedCandidate);
+        placementProfileService.getPlacementProfile.resolves({
+          isCertifiable: () => true,
+        });
 
         // when
         await registerCandidateParticipation({
           ...candidateData,
-          userId,
           sessionId,
+          userId,
           isFrenchDomainExtension: true,
-          normalizeStringFnc,
-          reconcileCandidateService,
-          verifyCandidateIdentityService,
-          verifyCandidateReconciliationRequirementsService,
+          ...dependencies,
         });
 
         // then
-        expect(verifyCandidateIdentityService.verifyCandidateIdentity).to.have.been.calledWithExactly({
+        sinon.assert.calledOnceWith(verifyCandidateIdentityService.verifyCandidateIdentity, {
           ...candidateData,
           userId,
           sessionId,
@@ -221,40 +203,13 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
           sessionRepository,
           userRepository,
         });
-        expect(reconcileCandidateService.reconcileCandidate).to.have.been.calledWithExactly({
+        sinon.assert.calledOnceWith(reconcileCandidateService.reconcileCandidate, {
           candidate: unlinkedCandidate,
           userId,
           candidateRepository,
           eventAdapter,
         });
       });
-    });
-  });
-
-  context('when certificability checks fail for a certification', function () {
-    it('should rollback user reconciliation', async function () {
-      const userId = domainBuilder.buildUser().id;
-      const certificationCandidate = domainBuilder.certification.enrolment.buildCandidate();
-      const verifyCandidateIdentityService = { verifyCandidateIdentity: () => certificationCandidate };
-      const reconcileCandidateService = { reconcileCandidate: () => certificationCandidate };
-      const verifyCandidateReconciliationRequirementsService = {
-        verifyCandidateReconciliationRequirements: sinon.fake.throws(new UserNotAuthorizedToCertifyError()),
-      };
-
-      const error = await catchErr(registerCandidateParticipation)({
-        userId,
-        sessionId,
-        firstName: certificationCandidate.firstName,
-        lastName: certificationCandidate.lastName,
-        birthdate: certificationCandidate.birthdate,
-        isFrenchDomainExtension: true,
-        normalizeStringFnc,
-        verifyCandidateIdentityService,
-        reconcileCandidateService,
-        verifyCandidateReconciliationRequirementsService,
-      });
-
-      expect(error).to.be.an.instanceOf(UserNotAuthorizedToCertifyError);
     });
   });
 });
