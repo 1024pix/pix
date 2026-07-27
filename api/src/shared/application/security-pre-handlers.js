@@ -17,7 +17,6 @@ import * as checkAdminMemberHasRoleMetierUseCase from './usecases/checkAdminMemb
 import * as checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdminMemberHasRoleSuperAdmin.js';
 import * as checkAdminMemberHasRoleSupportUseCase from './usecases/checkAdminMemberHasRoleSupport.js';
 import * as checkAuthorizationToAccessCampaignUsecase from './usecases/checkAuthorizationToAccessCampaign.js';
-import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
 import * as checkOrganizationDoesNotHaveFeatureUseCase from './usecases/checkOrganizationDoesNotHaveFeature.js';
 import * as checkOrganizationHasFeatureUseCase from './usecases/checkOrganizationHasFeature.js';
 import * as checkOrganizationIsNotManagingStudentsUseCase from './usecases/checkOrganizationIsNotManagingStudents.js';
@@ -549,22 +548,6 @@ async function checkUserBelongsToOrganization(request, h, dependencies = { check
   return _replyForbiddenError(h);
 }
 
-async function checkAuthorizationToManageCampaign(
-  request,
-  h,
-  dependencies = { checkAuthorizationToManageCampaignUsecase },
-) {
-  const userId = request.auth.credentials.userId;
-  const campaignId = request.params.campaignId || request.params.id;
-  const isAdminOrOwnerOfTheCampaign = await dependencies.checkAuthorizationToManageCampaignUsecase.execute({
-    userId,
-    campaignId,
-  });
-
-  if (isAdminOrOwnerOfTheCampaign) return h.response(true);
-  return _replyForbiddenError(h);
-}
-
 async function checkAuthorizationToAccessCampaign(
   request,
   h,
@@ -771,11 +754,11 @@ async function checkOrganizationLearnerBelongsToOrganization(
 export const securityPreHandlers = {
   hasAtLeastOneAccessOf,
   validateAllAccess,
+  replyForbiddenError: _replyForbiddenError,
   checkAdminMemberHasRoleCertif,
   checkAdminMemberHasRoleMetier,
   checkAdminMemberHasRoleSuperAdmin,
   checkAdminMemberHasRoleSupport,
-  checkAuthorizationToManageCampaign,
   checkAuthorizationToAccessCampaign,
   checkCertificationCenterIsNotScoManagingStudents,
   checkOrganizationHasFeature,

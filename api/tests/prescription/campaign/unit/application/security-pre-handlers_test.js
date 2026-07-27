@@ -2,7 +2,9 @@ import sinon from 'sinon';
 
 import { campaignSecurityPreHandlers } from '../../../../../src/prescription/campaign/application/security-pre-handlers.js';
 import { CampaignBelongsToCombinedCourseError } from '../../../../../src/prescription/campaign/domain/errors.js';
+import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
 import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -47,6 +49,65 @@ describe('Prescription | Campaign | Unit | Application | SecurityPreHandlers', f
 
         // then
         expect(error).instanceOf(CampaignBelongsToCombinedCourseError);
+      });
+    });
+  });
+
+  describe('#checkAuthorizationToManageCampaign', function () {
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is authenticated and is admin in organization and owner of the campaign', async function () {
+        // given
+        const user = domainBuilder.buildUser();
+        const organization = domainBuilder.buildOrganization();
+        domainBuilder.buildMembership({ organization, user, organizationRole: 'ADMIN' });
+        const campaign = domainBuilder.buildCampaign({ organizationId: organization.id, ownerId: user.id });
+
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: user.id } },
+          params: { id: campaign.id },
+        };
+
+        sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
+        const checkAuthorizationToManageCampaignUsecaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
+        // when
+        const response = await campaignSecurityPreHandlers.checkAuthorizationToManageCampaign(request, hFake, {
+          checkAuthorizationToManageCampaignUsecase: checkAuthorizationToManageCampaignUsecaseStub,
+        });
+
+        // then
+        expect(response.source).to.be.true;
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user is member but does not own the campaign', async function () {
+        // given
+        const user = domainBuilder.buildUser();
+        const otherUser = domainBuilder.buildUser();
+        const organization = domainBuilder.buildOrganization();
+        domainBuilder.buildMembership({ organization, user, organizationRole: 'MEMBER' });
+        const campaign = domainBuilder.buildCampaign({ organizationId: organization.id, ownerId: otherUser.id });
+
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: user.id } },
+          params: { id: campaign.id },
+        };
+
+        sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
+        const checkAuthorizationToManageCampaignUsecaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
+
+        // when
+        const response = await campaignSecurityPreHandlers.checkAuthorizationToManageCampaign(request, hFake, {
+          checkAuthorizationToManageCampaignUsecase: checkAuthorizationToManageCampaignUsecaseStub,
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
       });
     });
   });
