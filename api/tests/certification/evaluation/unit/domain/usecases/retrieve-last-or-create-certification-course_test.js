@@ -53,7 +53,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       find: sinon.stub(),
     };
     sessionAdapter = {
-      onCertificationStarted: sinon.stub(),
+      onCertificationStartedOrResumed: sinon.stub(),
     };
     verifyCertificateCodeService = {
       generateCertificateVerificationCode: sinon.fake.returns('FAKECODE'),
@@ -67,7 +67,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       assessmentSheetRepository.findByCertificationCourseId,
       assessmentSheetRepository.update,
       candidateAuthorizationAdapter.find,
-      sessionAdapter.onCertificationStarted,
+      sessionAdapter.onCertificationStartedOrResumed,
       versionApi.getByFrameworkAndDate,
       certificationBadgesService.findStillValidBadgeAcquisitions,
     ]);
@@ -210,7 +210,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
           sessionId: 1,
         })
         .resolves(certificationCourse);
-      sessionAdapter.onCertificationStarted.resolves();
+      sessionAdapter.onCertificationStartedOrResumed.resolves();
 
       // when
       const result = await retrieveLastOrCreateCertificationCourse({
@@ -227,7 +227,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       expectedCertificationCourse._numberOfChallenges = 99;
       expect(result.created).to.be.false;
       expect(result.certificationCourse).to.deep.equal(expectedCertificationCourse);
-      sinon.assert.calledWith(sessionAdapter.onCertificationStarted, {
+      sinon.assert.calledWith(sessionAdapter.onCertificationStartedOrResumed, {
         candidateId: 4,
         certificationId: 3,
         sessionId: 1,
@@ -305,7 +305,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       certificationCourseRepository.save.resolves(savedCertificationCourse);
       const savedAssessment = domainBuilder.buildAssessment({ id: 11 });
       assessmentRepository.save.resolves(savedAssessment);
-      sessionAdapter.onCertificationStarted.resolves();
+      sessionAdapter.onCertificationStartedOrResumed.resolves();
 
       // when
       const result = await retrieveLastOrCreateCertificationCourse({
@@ -323,7 +323,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
         _numberOfChallenges: 99,
         _assessment: savedAssessment,
       });
-      sinon.assert.calledWith(sessionAdapter.onCertificationStarted, {
+      sinon.assert.calledWith(sessionAdapter.onCertificationStartedOrResumed, {
         candidateId: 4,
         certificationId: 10,
         sessionId: 1,
@@ -380,7 +380,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
         certificationCourseRepository.save.resolves(savedCertificationCourse);
         const savedAssessment = domainBuilder.buildAssessment({ id: 11 });
         assessmentRepository.save.resolves(savedAssessment);
-        sessionAdapter.onCertificationStarted.resolves();
+        sessionAdapter.onCertificationStartedOrResumed.resolves();
         certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 2 }).resolves([]);
 
         // when
@@ -399,7 +399,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
           _numberOfChallenges: 99,
           _assessment: savedAssessment,
         });
-        sinon.assert.calledWith(sessionAdapter.onCertificationStarted, {
+        sinon.assert.calledWith(sessionAdapter.onCertificationStartedOrResumed, {
           candidateId: 4,
           certificationId: 10,
           sessionId: 1,
@@ -455,7 +455,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
         certificationCourseRepository.save.resolves(savedCertificationCourse);
         const savedAssessment = domainBuilder.buildAssessment({ id: 11 });
         assessmentRepository.save.resolves(savedAssessment);
-        sessionAdapter.onCertificationStarted.resolves();
+        sessionAdapter.onCertificationStartedOrResumed.resolves();
         certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 2 }).resolves([
           {
             complementaryCertificationId: 'CLEA CERTIF ID',
@@ -480,7 +480,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
           _numberOfChallenges: 99,
           _assessment: savedAssessment,
         });
-        sinon.assert.calledWith(sessionAdapter.onCertificationStarted, {
+        sinon.assert.calledWith(sessionAdapter.onCertificationStartedOrResumed, {
           candidateId: 4,
           certificationId: 10,
           sessionId: 1,

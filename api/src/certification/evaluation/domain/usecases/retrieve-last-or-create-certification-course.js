@@ -73,7 +73,7 @@ export async function retrieveLastOrCreateCertificationCourse({
 
   if (existingCertificationCourse) {
     const candidate = await candidateRepository.findByUserIdAndSessionId({ userId, sessionId });
-    await sessionAdapter.onCertificationStarted({
+    await sessionAdapter.onCertificationStartedOrResumed({
       // todo rename into startedOrResumed ?
       certificationId: existingCertificationCourse.getId(),
       sessionId,
@@ -249,7 +249,7 @@ async function _createCertificationCourse({
     const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
     certificationCourse.setNumberOfChallenges(certificationVersion.challengesConfiguration.maximumAssessmentLength);
 
-    await sessionAdapter.onCertificationStarted({
+    await sessionAdapter.onCertificationStartedOrResumed({
       certificationId: savedCertificationCourse.getId(),
       sessionId,
       candidateId: candidate.id,

@@ -7,7 +7,7 @@ describe('Certification | Evaluation | Unit | Adapter | Session', function () {
 
   beforeEach(function () {
     sessionApi = {
-      onCertificationStarted: sinon.stub(),
+      onCertificationStartedOrResumed: sinon.stub(),
     };
 
     dependencies = {
@@ -15,11 +15,11 @@ describe('Certification | Evaluation | Unit | Adapter | Session', function () {
     };
   });
 
-  describe('#onCertificationStarted', function () {
+  describe('#onCertificationStartedOrResumed', function () {
     it('calls the API with the right attributes', async function () {
-      sessionApi.onCertificationStarted.resolves(null);
+      sessionApi.onCertificationStartedOrResumed.resolves(null);
 
-      await sessionAdapter.onCertificationStarted({
+      await sessionAdapter.onCertificationStartedOrResumed({
         certificationId: 123,
         sessionId: 456,
         candidateId: 789,
@@ -27,7 +27,7 @@ describe('Certification | Evaluation | Unit | Adapter | Session', function () {
         dependencies,
       });
 
-      sinon.assert.calledWith(sessionApi.onCertificationStarted, {
+      sinon.assert.calledWith(sessionApi.onCertificationStartedOrResumed, {
         certificationId: 123,
         sessionId: 456,
         candidateId: 789,

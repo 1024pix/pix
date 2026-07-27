@@ -1,12 +1,12 @@
 import sinon from 'sinon';
 
-import { onCertificationStarted } from '../../../../../../src/certification/session-management/application/api/session-api.js';
+import { onCertificationStartedOrResumed } from '../../../../../../src/certification/session-management/application/api/session-api.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Session Management | Integration | Application | Api | Session', function () {
-  describe('#onCertificationStarted', function () {
+  describe('#onCertificationStartedOrResumed', function () {
     let clock;
     const now = new Date('2022-11-28T01:00:00Z');
 
@@ -34,7 +34,7 @@ describe('Certification | Session Management | Integration | Application | Api |
       await databaseBuilder.commit();
 
       // when
-      await onCertificationStarted({
+      await onCertificationStartedOrResumed({
         certificationId: 123,
         sessionId: 555,
         candidateId: 987,
@@ -68,7 +68,7 @@ describe('Certification | Session Management | Integration | Application | Api |
       await databaseBuilder.commit();
 
       // when
-      await onCertificationStarted({
+      await onCertificationStartedOrResumed({
         certificationId: 555,
         sessionId: 2,
         candidateId: 987,
@@ -102,7 +102,7 @@ describe('Certification | Session Management | Integration | Application | Api |
       await databaseBuilder.commit();
 
       // when
-      await onCertificationStarted({
+      await onCertificationStartedOrResumed({
         certificationId: 123,
         sessionId: 2,
         candidateId: 987,

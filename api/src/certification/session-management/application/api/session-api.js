@@ -3,14 +3,14 @@ import * as supervisedSessionRepository from '../../infrastructure/repositories/
 
 /**
  * @function
- * @name onCertificationStarted
+ * @name onCertificationStartedOrResumed
  * @param {object} params
  * @param {number} params.certificationId
  * @param {number} params.sessionId
  * @param {string} params.timezone - timezone of the candidate starting the certification test
  * @returns {Promise<void>}
  */
-export async function onCertificationStarted({
+export async function onCertificationStartedOrResumed({
   certificationId,
   candidateId,
   sessionId,

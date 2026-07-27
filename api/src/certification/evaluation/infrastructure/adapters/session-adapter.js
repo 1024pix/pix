@@ -8,12 +8,12 @@ import * as sessionApi from '../../../session-management/application/api/session
  * @param {string} params.timezone
  * @returns {Promise<void>}
  */
-export async function onCertificationStarted({
+export async function onCertificationStartedOrResumed({
   certificationId,
   sessionId,
   candidateId,
   timezone,
   dependencies = { sessionApi },
 }) {
-  await dependencies.sessionApi.onCertificationStarted({ certificationId, sessionId, candidateId, timezone });
+  await dependencies.sessionApi.onCertificationStartedOrResumed({ certificationId, sessionId, candidateId, timezone });
 }
