@@ -19,6 +19,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprin
       name: 'Mon parcours',
       internalName: 'Mon modèle de parcours',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      prescriberDescription: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       illustration: '/illustrations/image.svg',
       quest,
     });
@@ -52,6 +53,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprin
           'internal-name': 'Mon modèle de parcours',
           illustration: '/illustrations/image.svg',
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          'prescriber-description': 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
           'created-at': combinedCourseBlueprint.createdAt,
           'updated-at': combinedCourseBlueprint.updatedAt,
         },
