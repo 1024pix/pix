@@ -1,5 +1,31 @@
 # Pix Changelog
 
+# [5.464.0](https://github.com/1024pix/pix/compare/v5.463.1...v5.464.0) (2026-07-27)
+
+### :rocket: Amélioration
+
+- [#16935](https://github.com/1024pix/pix/pull/16935) Ajouter des informations concernant l'identifiant externe lors de la création de campagnes (PIX-22693)
+- [#16881](https://github.com/1024pix/pix/pull/16881) Conditionner l'affichage des onglets du catalogue en fonction de la présence de schema dans l'organisation (PIX-23525)
+- [#16908](https://github.com/1024pix/pix/pull/16908) Déplacer la sélection d'objectif et la sélection de parcours en dehors du paramétrage (PIX-23634)
+- [#16748](https://github.com/1024pix/pix/pull/16748) IA-droit-auteur-ava-modifications
+- [#16887](https://github.com/1024pix/pix/pull/16887) Modif Cy_Généralités_NOV suite relecture FRI
+- [#16918](https://github.com/1024pix/pix/pull/16918) Ne pas afficher l'objectif "Développer les compétences des apprenants" quand l'organisation n'a pas de parcours apprenant (PIX-23601)
+- [#16924](https://github.com/1024pix/pix/pull/16924) Permettre le téléchargement d'un zip contenant les résultats d'une sélection de session (PIX-23598).
+- [#16937](https://github.com/1024pix/pix/pull/16937) Réparer l'affichage de la page Announcements (PIX-23583)
+
+### :building_construction: Tech
+
+- [#16923](https://github.com/1024pix/pix/pull/16923)  Supprime une transaction inutile (Pix-23638)
+- [#16912](https://github.com/1024pix/pix/pull/16912) :truck: Déplace le service `register-candidate-service` dans les cas d'utilisation des inscriptions (PIX-23637)
+- [#16936](https://github.com/1024pix/pix/pull/16936) Ajout du PolyfillUUID dans Junior
+- [#16939](https://github.com/1024pix/pix/pull/16939) Ajouter une colonne `prescriber_description` à la table `combined_course_blueprints` (PIX-23402)
+- [#16927](https://github.com/1024pix/pix/pull/16927) Remplir la colonne `authorizedToStartAt` en même temps que `authorizedToStart` (PIX-23663)
+
+### :arrow_up: Montée de version
+
+- [#16930](https://github.com/1024pix/pix/pull/16930) Update dependency oxfmt to ^0.59.0 (api)
+- [#16931](https://github.com/1024pix/pix/pull/16931) Update slackapi/slack-github-action action to v4 (workflows)
+
 ## [5.463.1](https://github.com/1024pix/pix/compare/v5.463.0...v5.463.1) (2026-07-24)
 
 ### :building_construction: Tech
