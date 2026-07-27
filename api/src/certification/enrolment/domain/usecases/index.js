@@ -21,7 +21,6 @@ import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
 import * as verifyCandidateIdentityService from '../services/verify-candidate-identity.js';
-import * as verifyCandidateReconciliationRequirementsService from '../services/verify-candidate-reconciliation-requirements.js';
 import { addCandidateToSession } from './add-candidate-to-session.js';
 import { candidateHasSeenCertificationInstructions } from './candidate-has-seen-certification-instructions.js';
 import { createSession } from './create-session.js';
@@ -122,7 +121,6 @@ const dependencies = {
   countryRepository,
   eventAdapter,
   verifyCandidateIdentityService,
-  verifyCandidateReconciliationRequirementsService,
   reconcileCandidateService,
 };
 

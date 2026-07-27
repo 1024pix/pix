@@ -1,6 +1,7 @@
 /**
  * @typedef {import ('../../domain/models/Candidate.js').Candidate} Candidate
  */
+import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
 import { WrongDomainExtensionForPixPlusError } from '../errors.js';
 
 /**
@@ -29,9 +30,8 @@ export async function registerCandidateParticipation({
   userRepository,
   verifyCandidateIdentityService,
   reconcileCandidateService,
-  verifyCandidateReconciliationRequirementsService,
-  eventAdapter,
   placementProfileService,
+  eventAdapter,
 }) {
   const candidate = await verifyCandidateIdentityService.verifyCandidateIdentity({
     userId,
@@ -53,17 +53,19 @@ export async function registerCandidateParticipation({
     return candidate;
   }
 
-  const reconciliedCandidate = await reconcileCandidateService.reconcileCandidate({
+  const placementProfile = await placementProfileService.getPlacementProfile({
+    userId,
+    limitDate: new Date(),
+  });
+
+  if (!placementProfile.isCertifiable()) {
+    throw new UserNotAuthorizedToCertifyError();
+  }
+
+  return reconcileCandidateService.reconcileCandidate({
     userId,
     candidate,
     candidateRepository,
     eventAdapter,
   });
-
-  await verifyCandidateReconciliationRequirementsService.verifyCandidateReconciliationRequirements({
-    candidate: reconciliedCandidate,
-    placementProfileService,
-  });
-
-  return reconciliedCandidate;
 }
