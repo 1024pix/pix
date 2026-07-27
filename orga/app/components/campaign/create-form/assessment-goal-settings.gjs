@@ -12,7 +12,6 @@ import FormField from '../../ui/form-field';
 import PixFieldset from '../../ui/pix-fieldset';
 import CampaignName from './campaign-name';
 import CampaignOwner from './campaign-owner';
-import CourseSelection from './course-selection';
 import ExternalId from './external-id';
 import MultipleSendings from './multiple-sendings';
 
@@ -41,8 +40,6 @@ export default class AssessmentGoalSettings extends Component {
   }
 
   <template>
-    <CourseSelection @campaign={{@campaign}} @errors={{@errors}} @tab="targetProfile" />
-
     {{#if @campaign.course}}
       <CampaignName @campaign={{@campaign}} @errors={{@errors}} />
 

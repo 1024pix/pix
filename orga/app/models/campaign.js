@@ -72,6 +72,10 @@ export default class Campaign extends Model {
     return this.type === 'ASSESSMENT';
   }
 
+  get isTypeCombinedCourse() {
+    return this.type === 'COMBINED_COURSE';
+  }
+
   get isTypeExam() {
     return this.type === 'EXAM';
   }

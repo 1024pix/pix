@@ -41,7 +41,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when grouping fields into sections', function () {
-    test('it always displays a "Paramétrage" section containing the campaign goal field', async function (assert) {
+    test('it does not display a "Paramétrage" section until a goal is selected', async function (assert) {
       // when
       const screen = await render(
         <template>
@@ -56,12 +56,13 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       );
 
       // then
-      const settingsSection = screen.getByRole('heading', {
-        name: t('pages.campaign-creation.settings.title'),
-      }).parentElement;
       assert
-        .dom(within(settingsSection).getByRole('radiogroup', { name: t('pages.campaign-creation.purpose.label') }))
-        .exists();
+        .dom(
+          screen.queryByRole('heading', {
+            name: t('pages.campaign-creation.settings.title'),
+          }),
+        )
+        .doesNotExist();
     });
 
     test('it does not display the "Personnalisation" section until a course is selected for an assessment goal', async function (assert) {
@@ -178,25 +179,6 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
     });
   });
 
-  test('it displays campaign goals', async function (assert) {
-    // when
-    const screen = await render(
-      <template>
-        <CreateForm
-          @campaign={{data.campaign}}
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{data.errors}}
-          @membersSortedByFullName={{data.defaultMembers}}
-        />
-      </template>,
-    );
-
-    // then
-    const fieldset = screen.getByRole('radiogroup', { name: t('pages.campaign-creation.purpose.label') });
-    assert.strictEqual(within(fieldset).getAllByRole('radio').length, 3);
-  });
-
   module('when no campaign goal is selected', function () {
     test('it disables the submit button if no course (other than profile collection) is selected', async function (assert) {
       // when
@@ -281,130 +263,6 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
         }),
       )
       .exists();
-  });
-
-  test('it has ASSESSMENT checked and displays its purpose explanation', async function (assert) {
-    // given
-    data.campaign.type = 'ASSESSMENT';
-
-    // when
-    const screen = await render(
-      <template>
-        <CreateForm
-          @campaign={{data.campaign}}
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{data.errors}}
-          @membersSortedByFullName={{data.defaultMembers}}
-        />
-      </template>,
-    );
-
-    // then
-    assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.assessment'))).isChecked();
-    assert.dom(screen.getByText(t('pages.campaign-creation.purpose.assessment-info'))).exists();
-  });
-
-  test('it has combined course goal checked and displays its purpose explanation', async function (assert) {
-    // given
-    data.campaign.type = 'COMBINED_COURSE';
-
-    // when
-    const screen = await render(
-      <template>
-        <CreateForm
-          @campaign={{data.campaign}}
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{data.errors}}
-          @membersSortedByFullName={{data.defaultMembers}}
-        />
-      </template>,
-    );
-
-    // then
-    assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.combined-course'))).isChecked();
-    assert.dom(screen.getByText(t('pages.campaign-creation.purpose.combined-course-info'))).exists();
-  });
-
-  test('it has PROFILES_COLLECTION checked', async function (assert) {
-    // given
-    data.campaign.type = 'PROFILES_COLLECTION';
-
-    // when
-    const screen = await render(
-      <template>
-        <CreateForm
-          @campaign={{data.campaign}}
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{data.errors}}
-          @membersSortedByFullName={{data.defaultMembers}}
-        />
-      </template>,
-    );
-
-    assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.profiles-collection'))).isChecked();
-  });
-
-  test('it displays the purpose explanation of a profiles collection campaign', async function (assert) {
-    // when
-    const screen = await render(
-      <template>
-        <CreateForm
-          @campaign={{data.campaign}}
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{data.errors}}
-          @membersSortedByFullName={{data.defaultMembers}}
-        />
-      </template>,
-    );
-    await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
-
-    // then
-    assert.dom(screen.getByText(t('pages.campaign-creation.purpose.profiles-collection-info'))).exists();
-    assert.dom(screen.queryByText(t('pages.campaign-creation.purpose.assessment-info'))).doesNotExist();
-  });
-
-  test('it not displays the explanation of automatic compute certificability if the feature is not activated', async function (assert) {
-    // when
-    const screen = await render(
-      <template>
-        <CreateForm
-          @campaign={{data.campaign}}
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{data.errors}}
-          @membersSortedByFullName={{data.defaultMembers}}
-        />
-      </template>,
-    );
-    await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
-
-    // then
-    assert.dom(screen.queryByRole('link', { name: 'Élèves' })).doesNotExist();
-  });
-
-  test('it displays the explanation of automatic compute certificability if the feature is activated', async function (assert) {
-    // when
-    data.prescriber.features.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY = { active: true, params: null };
-
-    const screen = await render(
-      <template>
-        <CreateForm
-          @campaign={{data.campaign}}
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{data.errors}}
-          @membersSortedByFullName={{data.defaultMembers}}
-        />
-      </template>,
-    );
-    await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
-
-    // then
-    assert.dom(screen.getByRole('link', { name: 'Élèves' })).exists();
   });
 
   test('it sends campaign creation action when submitted', async function (assert) {

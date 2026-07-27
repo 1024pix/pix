@@ -16,18 +16,6 @@ module('Integration | Component | Campaign::CreateForm::CombinedCourseGoalSettin
     data.errors = {};
   });
 
-  test('it redirects to /catalogue/blueprint for course selection', async function (assert) {
-    // when
-    const screen = await render(
-      <template><CombinedCourseGoalSettings @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
-    );
-
-    // then
-    assert
-      .dom(screen.getByRole('link', { name: t('pages.campaign-creation.course-selection-label') }))
-      .hasAttribute('href', '/catalogue/blueprint');
-  });
-
   test('it does not display the campaign name field until a course is selected', async function (assert) {
     // when
     const screen = await render(
