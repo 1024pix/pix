@@ -232,6 +232,8 @@ export const buildCombinedCourseBlueprints = () => {
     illustration: 'https://assets.pix.org/combined-courses/illu_ia.svg',
     description:
       "#Un parcours\n pour découvrir l'essentiel sur l'intelligence artificielle : [comprendre sa définition](http://pix.fr), ses domaines d'application, comment elle fonctionne, ainsi que ses enjeux, notamment en matière d'impact environnemental.",
+    prescriberDescription:
+      "# Parcours sur l'IA\n**Permet de comprendre:**\n- ses domaines d'application\n- son fonctionnement\n- ses enjeux",
   }).id;
 
   buildCombinedCourseBlueprintShare({ combinedCourseBlueprintId, organizationId: PRO_ORGANIZATION_ID });
