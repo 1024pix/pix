@@ -7,6 +7,7 @@ import { authorization } from '../../shared/application/pre-handlers/authorizati
 import { SUBSCRIPTION_TYPES } from '../../shared/domain/constants.js';
 import { Frameworks } from '../../shared/domain/models/Frameworks.js';
 import { certificationCandidateController } from './certification-candidate-controller.js';
+import { enrolmentSecurityPreHandlers } from './securiy-pre-handlers.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
@@ -137,7 +138,7 @@ const register = async function (server) {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserIsCandidate,
+            method: enrolmentSecurityPreHandlers.checkUserIsCandidate,
             assign: 'authorizationCheck',
           },
         ],
@@ -184,7 +185,7 @@ const register = async function (server) {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserIsCandidate,
+            method: enrolmentSecurityPreHandlers.checkUserIsCandidate,
             assign: 'authorizationCheck',
           },
         ],
