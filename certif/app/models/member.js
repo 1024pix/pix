@@ -1,6 +1,6 @@
 import { memberAction } from '@1024pix/ember-api-actions';
 import { service } from '@ember/service';
-import Model, { attr } from '@ember-data/model';
+import Model, { attr } from '@warp-drive/legacy/model';
 
 export default class Member extends Model {
   @service intl;

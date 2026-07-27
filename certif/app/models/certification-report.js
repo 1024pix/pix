@@ -1,5 +1,5 @@
 import { memberAction } from '@1024pix/ember-api-actions';
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@warp-drive/legacy/model';
 
 export default class CertificationReport extends Model {
   @attr('number') certificationCourseId;

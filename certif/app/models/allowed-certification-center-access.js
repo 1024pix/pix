@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr } from '@warp-drive/legacy/model';
 
 const CERTIFICATION_CENTER_TYPES = {
   SUP: 'SUP',

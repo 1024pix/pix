@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr } from '@ember-data/model';
+import Model, { attr } from '@warp-drive/legacy/model';
 
 export default class CertificationCandidate extends Model {
   @service intl;
