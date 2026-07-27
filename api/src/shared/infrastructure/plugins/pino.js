@@ -10,15 +10,13 @@ import { routeDomainToOwnerTeam } from '../utils/route-domain-to-owner-team.js';
 const serializersSym = Symbol.for('pino.serializers');
 
 function requestSerializer(req) {
-  const enhancedReq = {
-    ...req,
-    version: config.version,
-    clientVersion: req.headers['x-app-version'] || '-',
-    clientVersionMismatched: config.version !== req.headers['x-app-version'],
-  };
+  const request = getInContext('request', req);
+  const serializedRequest = stdSerializers.req(request);
+  serializedRequest.version = config.version;
+  serializedRequest.clientVersion = request.headers['x-app-version'] || '-';
+  serializedRequest.clientVersionMismatched = config.version !== request.headers['x-app-version'];
 
   // monitor api token route
-  const request = getInContext('request', null);
   if (request?.route?.path === '/api/token') {
     const { username, refresh_token, grant_type } = request.payload || {};
     let origin;
@@ -27,16 +25,16 @@ function requestSerializer(req) {
     } catch {
       origin = '-';
     }
-    enhancedReq.audience = origin;
-    enhancedReq.grantType = grant_type || '-';
-    enhancedReq.usernameHash = generateHash(username) || '-';
-    enhancedReq.refreshTokenHash = generateHash(refresh_token) || '-';
+    serializedRequest.audience = origin;
+    serializedRequest.grantType = grant_type || '-';
+    serializedRequest.usernameHash = generateHash(username) || '-';
+    serializedRequest.refreshTokenHash = generateHash(refresh_token) || '-';
     setInContext('user_id', request?.response?.source?.user_id);
   }
 
   const metrics = getInContext('metrics', null);
   return {
-    ...enhancedReq,
+    ...serializedRequest,
     ...getCorrelationInfo(),
     metrics,
     route: request?.route?.path,
@@ -47,15 +45,24 @@ function requestSerializer(req) {
   };
 }
 
+function errorSerializer(err) {
+  const serializedError = stdSerializers.err(err);
+  return {
+    ...serializedError,
+    ...getCorrelationInfo(),
+  };
+}
+
 const plugin = {
   name: 'hapi-pino',
   register: async function (server, options) {
     const serializers = {
       req: stdSerializers.wrapRequestSerializer(requestSerializer),
       res: stdSerializers.wrapResponseSerializer(stdSerializers.res),
+      err: stdSerializers.wrapErrorSerializer(errorSerializer),
     };
     const logger = options.instance;
-    logger[serializersSym] = Object.assign({}, serializers, logger[serializersSym]);
+    logger[serializersSym] = Object.assign({}, logger[serializersSym], serializers);
 
     server.ext('onPostStart', async function () {
       logger.info(server.info, 'server started');
