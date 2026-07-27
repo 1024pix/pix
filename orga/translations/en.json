@@ -762,13 +762,21 @@
         "label": "Do you want to enable exam mode?"
       },
       "external-id-label": {
-        "label": "external user ID label",
-        "question-label": "Do you need an external user ID?",
-        "required": "The external user ID label is mandatory.",
+        "information": {
+          "label": "Additional identifier",
+          "message": "The additional identifier allows you to request the identification details of your choice from each participant at the start of the campaign.'<br>'If you select ‘yes’, you will be able to filter and sort participants based on this data.'<br>'If you select ‘no’, only the participant’s first name and surname will be available in the campaign tracking."
+        },
+        "label": "Additional identifier label",
+        "question-label": "Would you like to request an additional identifier at the start of the test ?",
+        "required": "The additional user ID label is mandatory.",
         "suggestion": "Example : \"Student Number\" or \"Email address\" *"
       },
       "external-id-type": {
-        "question-label": "What is the type of the external ID ?"
+        "information": {
+          "label": "Additional identifier type",
+          "message": "The ‘email address’ field type allows you to check that the format of the address entered by the participant is correct. Use this to request an internal email address within your organisation, for example.'<br>'The ‘other’ field type provides a short text field. Use this to request a student number, a registration number or internal ID, or a group or class name."
+        },
+        "question-label": "What type of additional identifier would you like to request?"
       },
       "landing-page-text": {
         "label": "Text to display on the starting page",
@@ -941,9 +949,9 @@
         "title": "Are you sure you want to delete the campaign?"
       },
       "direct-link": "Direct link",
-      "external-user-id-label": "External user ID label",
+      "external-user-id-label": "Additional identifier label",
       "external-user-id-types": {
-        "email": "Email",
+        "email": "Email address",
         "string": "Other"
       },
       "landing-page-text": "Text to display on the starting page",

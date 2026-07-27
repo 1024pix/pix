@@ -762,13 +762,21 @@
         "label": "Möchten Sie den Testmodus aktivieren?"
       },
       "external-id-label": {
-        "label": "Bezeichnung der Kennung",
-        "question-label": "Möchten Sie eine externe Kennung beantragen?",
-        "required": "Die externe Id ist obligatorisch",
+        "information": {
+          "label": "Zusätzliche Kennung",
+          "message": "Mit dem zusätzlichen Kennung können Sie zu Beginn der Kampagne von jedem Teilnehmer die Identifikationsdaten Ihrer Wahl anfordern.'<br>'Wenn Sie „Ja“ auswählen, können Sie die Teilnehmer anhand dieser Daten filtern und sortieren.'<br>'Wenn Sie „Nein“ auswählen, stehen in der Kampagnenauswertung nur der Vorname und der Nachname des Teilnehmers zur Verfügung."
+        },
+        "label": "Bezeichnung der zusätzlichen Kennung",
+        "question-label": "Möchten Sie zu Beginn Ihrer Teilnahme eine zusätzliche Kennung anfordern?",
+        "required": "Die zusätzlichen Kennung ist obligatorisch",
         "suggestion": "Beispiel: \"Schülernummer\" oder \"Geschäftliche E-Mail-Adresse\" *."
       },
       "external-id-type": {
-        "question-label": "Wie lautet der Typ der externen Kennung?"
+        "information": {
+          "label": "Zusätzliche Kennung Typ",
+          "message": "Mit dem Typ „E-Mail-Adresse“ können Sie überprüfen, ob das Format der vom Teilnehmer eingegebenen Adresse korrekt ist. Verwenden Sie diesen Typ beispielsweise, um eine interne E-Mail-Adresse Ihrer Einrichtung abzufragen.'<br>'Der Typ „Sonstiges“ bietet ein Kurztextfeld. Verwenden Sie diesen Typ, um eine Matrikelnummer, eine interne Kennung oder einen Gruppen- bzw. Klassennamen abzufragen."
+        },
+        "question-label": "Welche Typ von zusätzlichem Kennung möchten Sie beantragen?"
       },
       "landing-page-text": {
         "label": "Text auf der Startseite",
@@ -941,9 +949,9 @@
         "title": "Sind Sie sicher, dass Sie die Kampagne löschen möchten?"
       },
       "direct-link": "Direkter Link",
-      "external-user-id-label": "Bezeichnung der Kennung",
+      "external-user-id-label": "Bezeichnung der zusätzlichen Kennung",
       "external-user-id-types": {
-        "email": "E-Mail",
+        "email": "E-Mail-Adresse",
         "string": "Andere"
       },
       "landing-page-text": "Text auf der Startseite",

@@ -762,13 +762,21 @@
         "label": "Wil je de vraagmodus activeren?"
       },
       "external-id-label": {
-        "label": "Type externe user-ID",
-        "question-label": "Wil je een externe gebruikers-ID aanvragen?",
-        "required": "De externe id is verplicht",
+        "information": {
+          "label": "Aanvullende identificatie",
+          "message": "Met het aanvullende identificatie kunt u aan het begin van de campagne van elke deelnemer de identificatiegegevens opvragen die u wenst.'<br>'Als u “ja” selecteert, kunt u de deelnemers op basis van deze gegevens filteren en sorteren.'<br>'Als u “nee” selecteert, zijn alleen de voor- en achternaam van het account van de deelnemer beschikbaar in de campagne-analyse."
+        },
+        "label": "Tekst van de aanvullende identificatie",
+        "question-label": "Wilt u bij aanvang van uw deelname een extra identificatie aanvragen?",
+        "required": "De aanvullende identificatie is verplicht",
         "suggestion": "Voorbeeld: \"Studentnummer\" of \"Professioneel e-mailadres\" *."
       },
       "external-id-type": {
-        "question-label": "Wat is het type externe ID?"
+        "information": {
+          "label": "Aanvullende identificatie type",
+          "message": "Met het type “e-mailadres” kunt u controleren of het door de deelnemer ingevoerde adres de juiste indeling heeft. Gebruik dit bijvoorbeeld om een intern e-mailadres binnen uw organisatie te vragen.'<br>'Het type “overig” biedt een kort tekstveld. Gebruik dit om een studentnummer, een personeelsnummer of een interne gebruikersnaam, of de naam van een groep of klas te vragen."
+        },
+        "question-label": "Welk type aanvullende identificatie wilt u aanvragen?"
       },
       "landing-page-text": {
         "label": "Tekst op de startpagina",
@@ -941,9 +949,9 @@
         "title": "Weet u zeker dat u de campagne wilt verwijderen?"
       },
       "direct-link": "Directe link",
-      "external-user-id-label": "Type externe user-ID",
+      "external-user-id-label": "Tekst van de aanvullende identificatie",
       "external-user-id-types": {
-        "email": "E-mail",
+        "email": "E-mailadres",
         "string": "Andere"
       },
       "landing-page-text": "Tekst op de startpagina",

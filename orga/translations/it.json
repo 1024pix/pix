@@ -762,13 +762,21 @@
         "label": "Desiderate attivare la modalità di interrogazione?"
       },
       "external-id-label": {
-        "label": "Formulazione dell'identificatore",
-        "question-label": "Desiderate richiedere un identificatore esterno?",
-        "required": "L'id esterno è obbligatorio",
+        "information": {
+          "label": "Identificativo aggiuntivo",
+          "message": "L'identificativo aggiuntivo ti consente di richiedere, all'inizio della campagna, a ciascun partecipante le informazioni di identificazione che preferisci.'<br>'Selezionando “sì”, potrai filtrare e ordinare i partecipanti in base a questo dato.'<br>'Selezionando “no”, nel monitoraggio della campagna saranno disponibili solo il nome e il cognome dell'account del partecipante."
+        },
+        "label": "Denominazione dell'identificativo aggiuntivo",
+        "question-label": "Desidera richiedere un identificativo aggiuntivo all'inizio della partecipazione?",
+        "required": "Il identificativo aggiuntivo è obbligatorio",
         "suggestion": "Esempio: \"Numero dello studente\" o \"Indirizzo e-mail professionale\" *."
       },
       "external-id-type": {
-        "question-label": "Qual è il tipo di identificatore esterno?"
+        "information": {
+          "label": "Tipo di identificativo aggiuntivo",
+          "message": "Il tipo “indirizzo e-mail” consente di verificare che il formato dell'indirizzo inserito dal partecipante sia corretto. Utilizzalo, ad esempio, per richiedere un indirizzo e-mail interno alla tua struttura.'<br>'Il tipo “altro” offre un campo di testo breve. Utilizzalo per richiedere un numero di matricola, un codice identificativo interno, il nome di un gruppo o di una classe."
+        },
+        "question-label": "Che tipo di identificativo aggiuntivo desidera richiedere?"
       },
       "landing-page-text": {
         "label": "Testo della pagina iniziale",
@@ -941,9 +949,9 @@
         "title": "Sei sicuro di voler eliminare la campagna?"
       },
       "direct-link": "Collegamento diretto",
-      "external-user-id-label": "Formulazione dell'identificatore",
+      "external-user-id-label": "Denominazione dell'identificativo aggiuntivo",
       "external-user-id-types": {
-        "email": "Email",
+        "email": "Indirizzo e-mail",
         "string": "Altro"
       },
       "landing-page-text": "Testo della pagina iniziale",

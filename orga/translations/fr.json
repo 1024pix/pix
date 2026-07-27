@@ -762,13 +762,21 @@
         "label": "Souhaitez-vous activer le mode interro ?"
       },
       "external-id-label": {
-        "label": "Libellé de l’identifiant",
-        "question-label": "Souhaitez-vous demander un identifiant externe ?",
-        "required": "L'id externe est obligatoire",
+        "information": {
+          "label": "Identifiant complémentaire",
+          "message": "L'identifiant complémentaire vous permet de demander l'information identifiante de votre choix en début de campagne, à chaque participant.'<br>'En sélectionnant \"oui\", vous pourrez filtrer et trier les participants sur cette donnée.'<br>'En sélectionnant \"non\", seuls les prénom et nom du compte du participant seront disponibles dans le suivi de la campagne."
+        },
+        "label": "Libellé de l’identifiant complémentaire",
+        "question-label": "Souhaitez-vous demander un identifiant complémentaire en début de participation ?",
+        "required": "L'identifiant complémentaire est obligatoire",
         "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
       },
       "external-id-type": {
-        "question-label": "Quel est le type de l'identifiant externe ?"
+        "information": {
+          "label": "Type d’identifiant complémentaire",
+          "message": "Le type \"adresse e-mail\" permet de vérifier que le format de l'adresse saisie par le participant est correct. Utilisez-le pour demander une adresse e-mail interne à votre structure par exemple.'<br>'Le type \"autre\" propose un champ texte court. Utilisez-le pour demander un numéro étudiant, un matricule ou un identifiant interne, un nom de groupe ou de classe."
+        },
+        "question-label": "Quel type d’identifiant complémentaire souhaitez-vous demander ?"
       },
       "landing-page-text": {
         "label": "Texte de la page d'accueil",
@@ -941,9 +949,9 @@
         "title": "Êtes-vous sûr(e) de vouloir supprimer la campagne ?"
       },
       "direct-link": "Lien direct",
-      "external-user-id-label": "Libellé de l'identifiant",
+      "external-user-id-label": "Libellé de l’identifiant complémentaire",
       "external-user-id-types": {
-        "email": "Email",
+        "email": "Adresse e-mail",
         "string": "Autre"
       },
       "landing-page-text": "Texte de la page d'accueil",

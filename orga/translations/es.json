@@ -762,13 +762,21 @@
         "label": "¿Desea activar el modo de consulta?"
       },
       "external-id-label": {
-        "label": "Texto del identificador",
-        "question-label": "¿Desea solicitar un identificador externo?",
-        "required": "El identificador externo es obligatorio",
+        "information": {
+          "label": "Identificador adicional",
+          "message": "El identificador adicional te permite solicitar la información de identificación que desees al inicio de la campaña a cada participante.'<br>'Si seleccionas «sí», podrás filtrar y ordenar a los participantes según este dato.'<br>'Si seleccionas «no», solo estarán disponibles el nombre y los apellidos de la cuenta del participante en el seguimiento de la campaña."
+        },
+        "label": "Denominación del identificador adicional",
+        "question-label": "¿Desea solicitar un identificador adicional al inicio de su participación?",
+        "required": "El identificador adicional es obligatorio",
         "suggestion": "Ejemplo: \"Número de estudiante\" o \"Dirección de correo electrónico profesional\" *."
       },
       "external-id-type": {
-        "question-label": "¿Cuál es el tipo de identificador externo?"
+        "information": {
+          "label": "Tipo de identificador adicional",
+          "message": "El tipo «dirección de correo electrónico» permite comprobar que el formato de la dirección introducida por el participante es correcto. Úsalo, por ejemplo, para solicitar una dirección de correo electrónico interna de tu centro.'<br>'El tipo «otro» ofrece un campo de texto breve. Úsalo para solicitar un número de estudiante, un número de matrícula o un identificador interno, o el nombre de un grupo o una clase."
+        },
+        "question-label": "¿Qué tipo de identificador adicional desea solicitar?"
       },
       "landing-page-text": {
         "label": "Texto de la página de inicio",
@@ -941,7 +949,7 @@
         "title": "¿Está seguro de que desea eliminar la campaña?"
       },
       "direct-link": "Enlace directo",
-      "external-user-id-label": "Texto del identificador",
+      "external-user-id-label": "Denominación del identificador adicional",
       "external-user-id-types": {
         "email": "Correo electrónico",
         "string": "Otros"
