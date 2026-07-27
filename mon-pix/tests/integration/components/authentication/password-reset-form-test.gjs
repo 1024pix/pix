@@ -47,7 +47,7 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
   test('resets password successfully', async function (assert) {
     // given
     const user = { save: sinon.stub().resolves() };
-    const validPassword = 'Pix12345';
+    const validPassword = 'example-of-a-new-valid-password-az-AZ-01234';
     const temporaryKey = 'temporaryKey';
 
     // when
@@ -92,7 +92,7 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
   module('when there is a validationError on the password field', function () {
     test('displays an error message on the password input', async function (assert) {
       // given
-      const invalidPassword = 'pix';
+      const invalidPassword = 'example-of-an-invalid-password';
       const user = { save: sinon.stub() };
       const temporaryKey = 'temporaryKey';
 
@@ -122,7 +122,7 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
     httpErrors.forEach((httpError) => {
       test(`displays, for the "${httpError.value}" error ${httpError.type}, a specific error message`, async function (assert) {
         // given
-        const validPassword = 'Pix12345';
+        const validPassword = 'example-of-a-new-valid-password-az-AZ-01234';
         const user = { save: sinon.stub() };
         const temporaryKey = 'temporaryKey';
 
@@ -140,6 +140,28 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
         assert.dom(screen.getByRole('alert')).exists();
         assert.dom(screen.getByText(t(I18N_ERROR_KEYS[httpError.value]))).exists();
       });
+    });
+  });
+
+  module('when the given password is incorrect', function () {
+    test('it erases the password field', async function (assert) {
+      // given
+      const user = { save: sinon.stub() };
+      user.save.rejects({ errors: [{ code: 'REVOKED_PASSWORD_CANNOT_BE_REUSED' }] });
+
+      const temporaryKey = 'temporaryKey';
+
+      const screen = await render(
+        <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
+      );
+
+      await fillByLabel(t(I18N_KEYS.passwordInputLabel), 'example-of-a-new-valid-but-revoked-password-az-AZ-01234');
+
+      // when
+      await clickByName(t(I18N_KEYS.resetPasswordButton));
+
+      // then
+      assert.dom(screen.getByLabelText(t(I18N_KEYS.passwordInputLabel))).hasValue('');
     });
   });
 });
