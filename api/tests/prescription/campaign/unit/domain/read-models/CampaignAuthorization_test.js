@@ -1,7 +1,7 @@
-import { CampaignAuthorization } from '../../../../../src/shared/application/pre-handlers/CampaignAuthorization.js';
-import { expect } from '../../../../test-helper.js';
+import { CampaignAuthorization } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignAuthorization.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Shared | Unit | Application | PreHandlers | CampaignAuthorization', function () {
+describe('Prescription | Campaign | Unit | Domain | ReadModels | CampaignAuthorization', function () {
   describe('#isAllowedToManage', function () {
     it('should be false if user is member of organization and not owner of the campaign', function () {
       // given

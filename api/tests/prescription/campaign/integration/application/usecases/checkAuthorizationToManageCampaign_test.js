@@ -1,8 +1,8 @@
-import * as checkAuthorizationToManageCampaign from '../../../../../src/shared/application/usecases/checkAuthorizationToManageCampaign.js';
-import { expect } from '../../../../test-helper.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import * as checkAuthorizationToManageCampaignUsecase from '../../../../../../src/prescription/campaign/application/usecases/checkAuthorizationToManageCampaign.js';
+import { expect } from '../../../../../test-helper.js';
+import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Integration | API | checkAuthorizationToManageCampaign', function () {
+describe('Prescription | Campaign | Integration | Application | Usecases | checkAuthorizationToManageCampaign', function () {
   describe('when the user is member in organization and owner of the campaign', function () {
     it('returns true', async function () {
       // given
@@ -13,7 +13,10 @@ describe('Integration | API | checkAuthorizationToManageCampaign', function () {
       await databaseBuilder.commit();
 
       // when
-      const hasAccess = await checkAuthorizationToManageCampaign.execute({ campaignId: campaign.id, userId: user.id });
+      const hasAccess = await checkAuthorizationToManageCampaignUsecase.execute({
+        campaignId: campaign.id,
+        userId: user.id,
+      });
 
       // then
       expect(hasAccess).to.be.true;

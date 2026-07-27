@@ -4,6 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { CampaignParticipationStatuses } from '../../shared/domain/constants.js';
 import { campaignDetailController } from './campaign-detail-controller.js';
+import { campaignSecurityPreHandlers } from './security-pre-handlers.js';
 
 const campaignParticipationStatuses = Object.values(CampaignParticipationStatuses);
 
@@ -32,7 +33,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/campaigns/{campaignId}',
       config: {
-        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
+        pre: [{ method: campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign }],
         validate: {
           params: Joi.object({
             campaignId: identifiersType.campaignId,
@@ -47,7 +48,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/campaigns/{campaignId}/target-profile',
       config: {
-        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
+        pre: [{ method: campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign }],
         validate: {
           params: Joi.object({
             campaignId: identifiersType.campaignId,
@@ -124,7 +125,7 @@ const register = async function (server) {
         pre: [
           {
             method: securityPreHandlers.validateAllAccess([
-              securityPreHandlers.checkAuthorizationToAccessCampaign,
+              campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign,
               securityPreHandlers.checkOrganizationAccess,
             ]),
           },
@@ -150,7 +151,7 @@ const register = async function (server) {
         pre: [
           {
             method: securityPreHandlers.validateAllAccess([
-              securityPreHandlers.checkAuthorizationToAccessCampaign,
+              campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign,
               securityPreHandlers.checkOrganizationAccess,
             ]),
           },

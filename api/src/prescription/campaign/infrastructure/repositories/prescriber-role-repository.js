@@ -1,5 +1,5 @@
-import { prescriberRoles } from '../../application/pre-handlers/CampaignAuthorization.js';
-import { DomainTransaction } from '../../domain/DomainTransaction.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { prescriberRoles } from '../../domain/read-models/CampaignAuthorization.js';
 
 const getForCampaign = async function ({ userId, campaignId }) {
   const result = await _getCampaignAccess({ userId, campaignId });
@@ -15,6 +15,7 @@ const getForCampaign = async function ({ userId, campaignId }) {
 
 export { getForCampaign };
 
+// bounded-context: memberships should be managed by team context
 function _getCampaignAccess({ campaignId, userId }) {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('campaigns')

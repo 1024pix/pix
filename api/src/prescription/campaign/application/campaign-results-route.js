@@ -3,6 +3,7 @@ import Joi from 'joi';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { campaignResultsController } from './campaign-results-controller.js';
+import { campaignSecurityPreHandlers } from './security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -13,7 +14,7 @@ const register = async function (server) {
         pre: [
           {
             method: securityPreHandlers.validateAllAccess([
-              securityPreHandlers.checkAuthorizationToAccessCampaign,
+              campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign,
               securityPreHandlers.checkOrganizationAccess,
             ]),
           },
@@ -53,7 +54,7 @@ const register = async function (server) {
         pre: [
           {
             method: securityPreHandlers.validateAllAccess([
-              securityPreHandlers.checkAuthorizationToAccessCampaign,
+              campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign,
               securityPreHandlers.checkOrganizationAccess,
             ]),
           },

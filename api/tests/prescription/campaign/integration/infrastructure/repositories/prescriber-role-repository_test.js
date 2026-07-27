@@ -1,8 +1,8 @@
-import * as prescriberRoleRepository from '../../../../../src/shared/infrastructure/repositories/prescriber-role-repository.js';
-import { expect } from '../../../../test-helper.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import * as prescriberRoleRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/prescriber-role-repository.js';
+import { expect } from '../../../../../test-helper.js';
+import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Integration | Repository | prescriber-role-repository', function () {
+describe('Prescription | Campaign | Integration | Repository | prescriber-role-repository', function () {
   describe('#getForCampaign', function () {
     describe("when user is an admin of the campaign's organization", function () {
       it('should return ADMIN role', async function () {

@@ -1,3 +1,6 @@
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import * as checkAuthorizationToAccessCampaignUsecase from './usecases/checkAuthorizationToAccessCampaign.js';
+import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
 import * as checkCampaignBelongsToCombinedCourseUsecase from './usecases/checkCampaignBelongsToCombinedCourse.js';
 
 async function checkCampaignBelongsToCombinedCourse(
@@ -11,6 +14,40 @@ async function checkCampaignBelongsToCombinedCourse(
   return h.response(true);
 }
 
+async function checkAuthorizationToManageCampaign(
+  request,
+  h,
+  dependencies = { checkAuthorizationToManageCampaignUsecase },
+) {
+  const userId = request.auth.credentials.userId;
+  const campaignId = request.params.campaignId || request.params.id;
+  const isAdminOrOwnerOfTheCampaign = await dependencies.checkAuthorizationToManageCampaignUsecase.execute({
+    userId,
+    campaignId,
+  });
+
+  if (isAdminOrOwnerOfTheCampaign) return h.response(true);
+  return securityPreHandlers.replyForbiddenError(h);
+}
+
+async function checkAuthorizationToAccessCampaign(
+  request,
+  h,
+  dependencies = { checkAuthorizationToAccessCampaignUsecase },
+) {
+  const userId = request.auth.credentials.userId;
+  const campaignId = request.params.campaignId || request.params.id;
+  const belongsToOrganization = await dependencies.checkAuthorizationToAccessCampaignUsecase.execute({
+    userId,
+    campaignId,
+  });
+
+  if (belongsToOrganization) return h.response(true);
+  return securityPreHandlers.replyForbiddenError(h);
+}
+
 export const campaignSecurityPreHandlers = {
   checkCampaignBelongsToCombinedCourse,
+  checkAuthorizationToManageCampaign,
+  checkAuthorizationToAccessCampaign,
 };
