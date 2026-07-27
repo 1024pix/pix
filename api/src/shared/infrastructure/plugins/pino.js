@@ -10,15 +10,15 @@ import { routeDomainToOwnerTeam } from '../utils/route-domain-to-owner-team.js';
 const serializersSym = Symbol.for('pino.serializers');
 
 function requestSerializer(req) {
+  const request = getInContext('request', req);
   const enhancedReq = {
-    ...req,
+    ...request,
     version: config.version,
-    clientVersion: req.headers['x-app-version'] || '-',
-    clientVersionMismatched: config.version !== req.headers['x-app-version'],
+    clientVersion: request.headers['x-app-version'] || '-',
+    clientVersionMismatched: config.version !== request.headers['x-app-version'],
   };
 
   // monitor api token route
-  const request = getInContext('request', null);
   if (request?.route?.path === '/api/token') {
     const { username, refresh_token, grant_type } = request.payload || {};
     let origin;
