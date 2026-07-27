@@ -19,6 +19,7 @@ export class CombinedCourseBlueprint {
     name,
     internalName,
     description = null,
+    prescriberDescription = null,
     illustration = null,
     surveyLink = null,
     createdAt = null,
@@ -31,6 +32,7 @@ export class CombinedCourseBlueprint {
     this.name = name;
     this.internalName = internalName;
     this.description = description;
+    this.prescriberDescription = prescriberDescription;
     this.illustration = illustration;
     this.surveyLink = surveyLink;
     this.createdAt = createdAt;
@@ -164,6 +166,7 @@ export class CombinedCourseBlueprint {
     this.name = combinedCourseBlueprintForUpdate.name;
     this.internalName = combinedCourseBlueprintForUpdate.internalName;
     this.description = combinedCourseBlueprintForUpdate.description;
+    this.prescriberDescription = combinedCourseBlueprintForUpdate.prescriberDescription;
     this.illustration = combinedCourseBlueprintForUpdate.illustration;
     this.surveyLink = combinedCourseBlueprintForUpdate.surveyLink;
     this.rewardRequirementsDescription = combinedCourseBlueprintForUpdate.rewardRequirementsDescription;
