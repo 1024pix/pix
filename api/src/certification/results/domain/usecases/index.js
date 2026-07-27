@@ -28,6 +28,7 @@ import { getCertificationsResultsForLivretScolaire } from './get-certifications-
 import { getCleaCertifiedCandidateBySession } from './get-clea-certified-candidate-by-session.js';
 import { getPrivateCertificate } from './get-private-certificate.js';
 import { getScoCertificationResultsByDivision } from './get-sco-certification-results-by-division.js';
+import { getSelectedSessionsResultsZip } from './get-selected-sessions-results-zip.js';
 import { getSessionCertificationReports } from './get-session-certification-reports.js';
 import { getSessionResults } from './get-session-results.js';
 import { getSessionResultsByResultRecipientEmail } from './get-session-results-by-result-recipient-email.js';
@@ -49,6 +50,7 @@ import { getShareableCertificate } from './get-shareable-certificate.js';
  * @typedef {certificationLivretScolaireRepository} CertificationLivretScolaireRepository
  * @typedef {competenceTreeRepository} CompetenceTreeRepository
  * @typedef {certificateSummaryRepository} CertificateSummaryRepository
+ * @typedef {sessionForResultsSharingRepository} SessionForResultsSharingRepository
  **/
 
 const dependencies = {
@@ -87,6 +89,7 @@ const usecasesWithoutInjectedDependencies = {
   getSessionResultsByResultRecipientEmail,
   getSessionResults,
   getShareableCertificate,
+  getSelectedSessionsResultsZip,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);

@@ -87,7 +87,20 @@ const generateSessionResultsDownloadLink = function (request, h, dependencies = 
   return h.response({ sessionResultsLink });
 };
 
+const downloadSelectedSessionsResults = async function (request, h) {
+  const i18n = getI18nFromRequest(request);
+  const { sessionIds } = request.query;
+
+  const zip = await usecases.getSelectedSessionsResultsZip({ sessionIds, i18n });
+
+  return h
+    .response(zip.content)
+    .header('Content-Type', 'application/zip')
+    .header('Content-Disposition', `attachment; filename=${zip.filename}`);
+};
+
 const certificationResultsController = {
+  downloadSelectedSessionsResults,
   getCleaCertifiedCandidateDataCsv,
   getSessionResultsByRecipientEmail,
   postSessionResultsToDownload,

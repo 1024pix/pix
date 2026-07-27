@@ -11,12 +11,22 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { trackedArray } from '@ember/reactive/collections';
 import { LinkTo } from '@ember/routing';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
+import { not } from 'ember-truth-helpers';
 import FilterBanner from 'pix-admin/components/sessions/filter-banner';
+import ENV from 'pix-admin/config/environment';
+
+const NO_CERTIFICATION_RESULTS_TO_DOWNLOAD_CODE = 'NO_CERTIFICATION_RESULTS_TO_DOWNLOAD';
 
 export default class ListItems extends Component {
+  @service fileSaver;
+  @service intl;
+  @service pixToast;
+  @service session;
+
   selectedSessionsRows = trackedArray();
 
   @action
@@ -57,6 +67,29 @@ export default class ListItems extends Component {
     return this.hasSelectedRows && this.selectedSessionsRows.length !== this.args.sessions.length;
   }
 
+  @action
+  async downloadSelectionResults() {
+    const token = this.session.data.authenticated.access_token;
+
+    const params = this.selectedSessionsRows.map((sessionId) => `sessionIds=${sessionId}`).join('&');
+    const url = `${ENV.APP.API_HOST}/api/admin/sessions/download-selection-results?${params}`;
+
+    try {
+      await this.fileSaver.save({ url, token });
+    } catch (errors) {
+      const hasNoResultsToDownload =
+        Array.isArray(errors) && errors.some((error) => error.code === NO_CERTIFICATION_RESULTS_TO_DOWNLOAD_CODE);
+
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t(
+          hasNoResultsToDownload
+            ? 'pages.sessions.table.actions.download-results-no-results-error'
+            : 'pages.sessions.table.actions.download-results-error',
+        ),
+      });
+    }
+  }
+
   <template>
     <div class="session-list">
       <FilterBanner @filters={{@filters}} @triggerFiltering={{@triggerFiltering}} @onChangeFilter={{@onChangeFilter}} />
@@ -95,7 +128,11 @@ export default class ListItems extends Component {
           </:tooltip>
         </PixTooltip>
 
-        <PixButton @variant="tertiary" @isDisabled={{true}}>
+        <PixButton
+          @variant="tertiary"
+          @isDisabled={{not this.hasSelectedRows}}
+          @triggerAction={{this.downloadSelectionResults}}
+        >
           <PixIcon @name="download" />
           {{t "pages.sessions.table.actions.download-results"}}
         </PixButton>

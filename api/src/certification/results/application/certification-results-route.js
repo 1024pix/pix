@@ -125,6 +125,36 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/sessions/download-selection-results',
+      config: {
+        validate: {
+          query: Joi.object({
+            lang: Joi.string().optional().valid(FRENCH_SPOKEN, ENGLISH_SPOKEN),
+            sessionIds: Joi.array().items(identifiersType.sessionId).single().min(1).unique().required(),
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: certificationResultsController.downloadSelectedSessionsResults,
+        tags: ['api', 'sessions', 'results'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs ayant un rôle Super Admin, Certif ou Support.',
+          'Elle retourne un fichier Zip contenant un fichier CSV par session sélectionnée.',
+          'Chaque CSV détaille les résultats des certifications de la session.',
+        ],
+      },
+    },
   ]);
 };
 
