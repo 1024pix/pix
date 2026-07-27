@@ -1,8 +1,8 @@
-import * as checkAuthorizationToAccessCampaign from '../../../../../src/shared/application/usecases/checkAuthorizationToAccessCampaign.js';
-import { expect } from '../../../../test-helper.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import * as checkAuthorizationToAccessCampaign from '../../../../../../src/prescription/campaign/application/usecases/checkAuthorizationToAccessCampaign.js';
+import { expect } from '../../../../../test-helper.js';
+import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Integration | API | checkAuthorizationToAccessCampaign', function () {
+describe('Prescription | Campaign | Integration | Application | Usecases | checkAuthorizationToAccessCampaign', function () {
   describe('when the user belongs to organization', function () {
     it('returns true', async function () {
       // given

@@ -111,4 +111,77 @@ describe('Prescription | Campaign | Unit | Application | SecurityPreHandlers', f
       });
     });
   });
+
+  describe('#checkAuthorizationToAccessCampaign', function () {
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is authenticated and is admin in organization and owner of the campaign', async function () {
+        // given
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: Symbol('UserId') } },
+          params: { id: Symbol('campaignId') },
+        };
+
+        const checkAuthorizationToAccessCampaignUsecaseStub = {
+          execute: sinon.stub(),
+        };
+        checkAuthorizationToAccessCampaignUsecaseStub.execute
+          .withArgs({ campaignId: request.params.id, userId: request.auth.credentials.userId })
+          .resolves(true);
+        // when
+        const response = await campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign(request, hFake, {
+          checkAuthorizationToAccessCampaignUsecase: checkAuthorizationToAccessCampaignUsecaseStub,
+        });
+
+        // then
+        expect(response.source).to.be.true;
+      });
+
+      it('should use campaignId param if id is not provided', async function () {
+        // given
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: Symbol('UserId') } },
+          params: { campaignId: Symbol('campaignId') },
+        };
+
+        const checkAuthorizationToAccessCampaignUsecaseStub = {
+          execute: sinon.stub(),
+        };
+        checkAuthorizationToAccessCampaignUsecaseStub.execute
+          .withArgs({ campaignId: request.params.campaignId, userId: request.auth.credentials.userId })
+          .resolves(true);
+        // when
+        const response = await campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign(request, hFake, {
+          checkAuthorizationToAccessCampaignUsecase: checkAuthorizationToAccessCampaignUsecaseStub,
+        });
+
+        // then
+        expect(response.source).to.be.true;
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user is member but does not own the campaign', async function () {
+        // given
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: Symbol('UserId') } },
+          params: { id: Symbol('campaignId') },
+        };
+
+        const checkAuthorizationToAccessCampaignUsecaseStub = {
+          execute: sinon.stub(),
+        };
+        checkAuthorizationToAccessCampaignUsecaseStub.execute
+          .withArgs({ campaignId: request.params.id, userId: request.auth.userId })
+          .resolves(false);
+        // when
+        const response = await campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign(request, hFake, {
+          checkAuthorizationToAccessCampaignUsecase: checkAuthorizationToAccessCampaignUsecaseStub,
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
 });
