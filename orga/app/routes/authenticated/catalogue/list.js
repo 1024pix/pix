@@ -44,7 +44,17 @@ export default class AuthenticatedCatalogueFilter extends Route {
       });
     }
 
-    return { courses, currentCourse, type };
+    const hasBlueprints = courses.some((course) => course.type === 'blueprint');
+
+    return { courses, currentCourse, type, hasBlueprints };
+  }
+
+  afterModel({ hasBlueprints }, transition) {
+    if (transition.to.params?.type === 'all') {
+      if (!hasBlueprints) {
+        return this.router.replaceWith('authenticated.catalogue.list', 'targetProfile');
+      }
+    }
   }
 
   handleCache() {

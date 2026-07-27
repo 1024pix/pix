@@ -11,5 +11,6 @@ import List from 'pix-orga/components/catalogue/list';
     @areas={{@controller.areas}}
     @competences={{@controller.competences}}
     @currentCourse={{@model.currentCourse}}
+    @hasBlueprints={{@model.hasBlueprints}}
   />
 </template>

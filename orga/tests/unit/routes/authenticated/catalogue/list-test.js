@@ -49,7 +49,7 @@ module('Unit | Route | authenticated/catalogue/list', function (hooks) {
         const currentUser = this.owner.lookup('service:current-user');
         const organizationId = Symbol('organizationId');
         sinon.stub(currentUser, 'organization').value({ id: organizationId });
-        const courses = Symbol('Courses');
+        const courses = [Symbol('Course')];
 
         sinon.stub(store, 'peekAll').withArgs('course').returns([]);
         sinon
@@ -62,8 +62,14 @@ module('Unit | Route | authenticated/catalogue/list', function (hooks) {
 
         // then
         assert.ok(store.findAll.calledOnce);
-        assert.deepEqual(result, { courses, currentCourse: undefined, type: 'all' });
+        assert.deepEqual(result, {
+          courses,
+          currentCourse: undefined,
+          type: 'all',
+          hasBlueprints: false,
+        });
       });
+
       test('it returns cached courses without calling the API when the store is not empty', async function (assert) {
         // given
         const currentUser = this.owner.lookup('service:current-user');
@@ -80,8 +86,15 @@ module('Unit | Route | authenticated/catalogue/list', function (hooks) {
         const result = await route.model({ type: 'all' });
         // then
         assert.ok(store.findAll.notCalled);
-        assert.deepEqual(result, { courses, currentCourse: undefined, type: 'all' });
+        assert.deepEqual(result, {
+          courses,
+          currentCourse: undefined,
+          type: 'all',
+
+          hasBlueprints: false,
+        });
       });
+
       test('it unload cached courses when organization change', async function (assert) {
         // given
         const currentUser = this.owner.lookup('service:current-user');
@@ -98,7 +111,13 @@ module('Unit | Route | authenticated/catalogue/list', function (hooks) {
         const result = await route.model({ type: 'all' });
         // then
         assert.ok(store.findAll.notCalled);
-        assert.deepEqual(result, { courses, currentCourse: undefined, type: 'all' });
+        assert.deepEqual(result, {
+          courses,
+          currentCourse: undefined,
+          type: 'all',
+
+          hasBlueprints: false,
+        });
       });
     });
 
@@ -125,7 +144,53 @@ module('Unit | Route | authenticated/catalogue/list', function (hooks) {
 
         // then
         assert.ok(store.findRecord.calledOnce);
-        assert.deepEqual(result, { courses, currentCourse, type: 'all' });
+        assert.deepEqual(result, {
+          courses,
+          currentCourse,
+          type: 'all',
+
+          hasBlueprints: false,
+        });
+      });
+    });
+
+    module('hasBlueprints', function () {
+      test('it should return true if at least one of the courses is a blueprint', async function (assert) {
+        // given
+        const route = this.owner.lookup('route:authenticated/catalogue/list');
+        const store = this.owner.lookup('service:store');
+        const currentUser = this.owner.lookup('service:current-user');
+        const organizationId = Symbol('organizationId');
+        sinon.stub(currentUser, 'organization').value({ id: organizationId });
+        const courses = [{ type: 'blueprint' }, { type: 'targetProfile' }];
+
+        sinon.stub(store, 'peekAll').withArgs('course').returns(courses);
+        sinon.stub(store, 'findAll');
+
+        // when
+        const result = await route.model({ type: 'all' });
+
+        // then
+        assert.true(result.hasBlueprints);
+      });
+
+      test('it should return false otherwise', async function (assert) {
+        // given
+        const route = this.owner.lookup('route:authenticated/catalogue/list');
+        const store = this.owner.lookup('service:store');
+        const currentUser = this.owner.lookup('service:current-user');
+        const organizationId = Symbol('organizationId');
+        sinon.stub(currentUser, 'organization').value({ id: organizationId });
+        const courses = [{ type: 'targetProfile' }, { type: 'targetProfile' }];
+
+        sinon.stub(store, 'peekAll').withArgs('course').returns(courses);
+        sinon.stub(store, 'findAll');
+
+        // when
+        const result = await route.model({ type: 'all' });
+
+        // then
+        assert.false(result.hasBlueprints);
       });
     });
   });
@@ -179,6 +244,33 @@ module('Unit | Route | authenticated/catalogue/list', function (hooks) {
       // then
       assert.true(controller.set.firstCall.calledWithExactly('targetProfileId', null));
       assert.true(controller.set.secondCall.calledWithExactly('blueprintId', null));
+    });
+  });
+
+  module('afterModel', function () {
+    module('when there is a transition to "all"', function () {
+      const transition = {
+        to: {
+          params: {
+            type: 'all',
+          },
+        },
+      };
+
+      test('it should redirect to "targetProfile" if there is no blueprint', async function (assert) {
+        // given
+        const route = this.owner.lookup('route:authenticated/catalogue/list');
+        const routerService = this.owner.lookup('service:router');
+        sinon.stub(routerService, 'replaceWith');
+
+        const hasBlueprints = false;
+
+        // when
+        route.afterModel({ hasBlueprints }, transition);
+
+        // then
+        assert.ok(routerService.replaceWith.calledWith('authenticated.catalogue.list', 'targetProfile'));
+      });
     });
   });
 });

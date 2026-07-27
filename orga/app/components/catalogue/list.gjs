@@ -115,17 +115,29 @@ export default class List extends Component {
     );
   }
 
+  get displayAllTab() {
+    return this.args.hasBlueprints;
+  }
+
+  get displayBlueprintTab() {
+    return this.args.hasBlueprints;
+  }
+
   <template>
     <div class="catalogue">
       <PixTabs @variant="orga" class="catalogue__nav" @ariaLabel={{t "pages.catalogue.tab-filters.label"}}>
-        <LinkTo @route="authenticated.catalogue.list" @model="all">
-          {{t "pages.catalogue.tab-filters.all"}}</LinkTo>
+        {{#if this.displayAllTab}}
+          <LinkTo @route="authenticated.catalogue.list" @model="all">
+            {{t "pages.catalogue.tab-filters.all"}}</LinkTo>
+        {{/if}}
         <LinkTo @route="authenticated.catalogue.list" @model="targetProfile">{{t
             "pages.catalogue.tab-filters.target-profiles"
           }}</LinkTo>
-        <LinkTo @route="authenticated.catalogue.list" @model="blueprint">{{t
-            "pages.catalogue.tab-filters.blueprints"
-          }}</LinkTo>
+        {{#if this.displayBlueprintTab}}
+          <LinkTo @route="authenticated.catalogue.list" @model="blueprint">{{t
+              "pages.catalogue.tab-filters.blueprints"
+            }}</LinkTo>
+        {{/if}}
       </PixTabs>
       <PixFilterBanner
         class="catalogue__filters"
