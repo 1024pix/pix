@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { campaignController } from '../../../../../src/prescription/campaign/application/campaign-controller.js';
 import { campaignRoute as moduleUnderTest } from '../../../../../src/prescription/campaign/application/campaign-route.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { campaignSecurityPreHandlers } from '../../../../../src/prescription/campaign/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
@@ -69,7 +69,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
           .stub(campaignController, 'getLevelPerTubesAndCompetences')
           .callsFake((request, h) => h.response('ok').code(200));
         sinon
-          .stub(securityPreHandlers, 'checkAuthorizationToAccessCampaign')
+          .stub(campaignSecurityPreHandlers, 'checkAuthorizationToAccessCampaign')
           .callsFake((request, h) => h.response().code(403).takeover());
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);

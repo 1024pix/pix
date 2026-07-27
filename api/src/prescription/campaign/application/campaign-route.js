@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { identifiersType as prescriptionIdentifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { campaignController } from './campaign-controller.js';
+import { campaignSecurityPreHandlers } from './security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -45,7 +45,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/campaigns/{campaignId}/level-per-tubes-and-competences',
       config: {
-        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
+        pre: [{ method: campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign }],
         validate: {
           params: Joi.object({
             campaignId: identifiersType.campaignId,
