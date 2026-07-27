@@ -3,7 +3,6 @@ import jsonapiSerializer from 'jsonapi-serializer';
 import * as centerRepository from '../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import { Organization } from '../../organizational-entities/domain/models/Organization.js';
-import * as checkCampaignParticipationBelongsToUserUsecase from '../../prescription/campaign/application/usecases/checkCampaignParticipationBelongsToUser.js';
 import { PIX_ADMIN } from '../../shared/constants.js';
 import { ForbiddenAccess } from '../domain/errors.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
@@ -595,17 +594,6 @@ async function checkUserCanDisableHisOrganizationMembership(
   }
 }
 
-async function checkCampaignParticipationBelongsToUser(request, h) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const { campaignParticipationId } = request.params;
-  await checkCampaignParticipationBelongsToUserUsecase.execute({ userId, campaignParticipationId });
-  return h.response(true);
-}
-
 function makeCheckOrganizationHasFeature(featureKey) {
   return async function (request, h, dependencies = { checkOrganizationHasFeatureUseCase }) {
     try {
@@ -727,7 +715,6 @@ export const securityPreHandlers = {
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToLearnersOrganization,
   checkUserBelongsToOrganization,
-  checkCampaignParticipationBelongsToUser,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
   checkUserCanDisableHisOrganizationMembership,
