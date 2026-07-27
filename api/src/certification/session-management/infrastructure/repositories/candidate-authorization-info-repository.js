@@ -25,7 +25,7 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
       reconciledUserId: 'certification-candidates.userId',
       reconciledAt: 'certification-candidates.reconciledAt',
       subscription: 'certification-candidates.subscription',
-      authorizedToStart: 'certification-candidates.authorizedToStart',
+      authorizedToStartAt: 'certification-candidates.authorizedToStartAt',
       sessionId: 'sessions.id',
       sessionAccessCode: 'sessions.accessCode',
       sessionFinalizedAt: 'sessions.finalizedAt',

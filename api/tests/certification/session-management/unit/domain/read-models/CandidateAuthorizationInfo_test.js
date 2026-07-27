@@ -99,4 +99,24 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Can
       expect(candidateAuthorizationInfo.isCenterHabilitatedForCandidateSubscription).to.be.false;
     });
   });
+
+  describe('#get authorizedToStart', function () {
+    it('returns true when candidate has been authorized to start', function () {
+      const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .candidateAuthorizationInfoBuilder()
+        .asAuthorizedToStart()
+        .build();
+
+      expect(candidateAuthorizationInfo.authorizedToStart).to.be.true;
+    });
+
+    it('returns false when candidate is not authorized to start', function () {
+      const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .candidateAuthorizationInfoBuilder()
+        .asNotAuthorizedToStart()
+        .build();
+
+      expect(candidateAuthorizationInfo.authorizedToStart).to.be.false;
+    });
+  });
 });

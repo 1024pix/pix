@@ -23,7 +23,6 @@ export class Candidate {
     birthdate,
     extraTimePercentage,
     createdAt,
-    authorizedToStart = false,
     sessionId,
     userId,
     reconciledAt,
@@ -51,7 +50,6 @@ export class Candidate {
     this.birthdate = birthdate;
     this.extraTimePercentage = extraTimePercentage != null ? parseFloat(extraTimePercentage) : null;
     this.createdAt = createdAt;
-    this.authorizedToStart = authorizedToStart;
     this.sessionId = sessionId;
     this.userId = userId;
     this.organizationLearnerId = organizationLearnerId;

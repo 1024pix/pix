@@ -20,7 +20,6 @@ import { Candidate } from '../../domain/models/Candidate.js';
  * @property {boolean} accessibilityAdjustmentNeeded
  * @property {Date} reconciledAt
  * @property {string} subscription
- * @property {boolean} authorizedToStart
  */
 
 /**
@@ -50,7 +49,6 @@ export async function findByAssessmentId({ assessmentId }) {
       'certification-candidates.accessibilityAdjustmentNeeded',
       'certification-candidates.reconciledAt',
       'certification-candidates.subscription',
-      'certification-candidates.authorizedToStart',
     )
     .join('certification-courses', 'certification-courses.candidateId', 'certification-candidates.id')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
@@ -92,7 +90,6 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
       'certification-candidates.accessibilityAdjustmentNeeded',
       'certification-candidates.reconciledAt',
       'certification-candidates.subscription',
-      'certification-candidates.authorizedToStart',
     )
     .where({ userId, sessionId })
     .first();

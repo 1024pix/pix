@@ -11,7 +11,7 @@ export class CandidateAuthorizationInfo {
     reconciledUserId,
     reconciledAt,
     subscription,
-    authorizedToStart,
+    authorizedToStartAt,
     certificationId,
     certificationStartedAt,
     centerHabilitations = {},
@@ -24,7 +24,7 @@ export class CandidateAuthorizationInfo {
     this.reconciledUserId = reconciledUserId;
     this.reconciledAt = reconciledAt;
     this.subscription = subscription;
-    this.authorizedToStart = authorizedToStart;
+    this.authorizedToStartAt = authorizedToStartAt;
     this.certificationId = certificationId;
     this.certificationStartedAt = certificationStartedAt;
     this.centerHabilitations = {};
@@ -47,5 +47,9 @@ export class CandidateAuthorizationInfo {
 
   get isCenterHabilitatedForCandidateSubscription() {
     return this.centerHabilitations[this.subscription];
+  }
+
+  get authorizedToStart() {
+    return Boolean(this.authorizedToStartAt);
   }
 }

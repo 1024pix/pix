@@ -28,7 +28,7 @@ class CandidateAuthorizationInfoBuilder {
     this.subscription = Frameworks.CORE;
     this.certificationId = null;
     this.certificationStartedAt = null;
-    this.authorizedToStart = true;
+    this.authorizedToStartAt = new Date();
     this.centerHabilitations = {};
   }
 
@@ -82,7 +82,7 @@ class CandidateAuthorizationInfoBuilder {
    * @returns {CandidateAuthorizationInfoBuilder}
    */
   asAuthorizedToStart() {
-    this.authorizedToStart = true;
+    this.authorizedToStartAt = new Date();
     return this;
   }
 
@@ -92,7 +92,7 @@ class CandidateAuthorizationInfoBuilder {
    * @returns {CandidateAuthorizationInfoBuilder}
    */
   asNotAuthorizedToStart() {
-    this.authorizedToStart = false;
+    this.authorizedToStartAt = null;
     return this;
   }
 
@@ -173,8 +173,8 @@ class CandidateAuthorizationInfoBuilder {
     const candidateId = databaseBuilder.factory.buildCertificationCandidate({
       id: candidateAuthorizationInfo.id ?? undefined,
       userId: candidateAuthorizationInfo.reconciledUserId,
-      authorizedToStart: candidateAuthorizationInfo.authorizedToStart,
-      authorizedToStartAt: candidateAuthorizationInfo.authorizedToStart ? new Date() : null,
+      authorizedToStart: Boolean(candidateAuthorizationInfo.authorizedToStartAt),
+      authorizedToStartAt: candidateAuthorizationInfo.authorizedToStartAt,
       sessionId,
       subscription: candidateAuthorizationInfo.subscription,
       reconciledAt: candidateAuthorizationInfo.reconciledAt,
@@ -206,7 +206,7 @@ class CandidateAuthorizationInfoBuilder {
       sessionAccessCode: this.sessionAccessCode,
       sessionFinalizedAt: this.sessionFinalizedAt,
       sessionPublishedAt: this.sessionPublishedAt,
-      authorizedToStart: this.authorizedToStart,
+      authorizedToStartAt: this.authorizedToStartAt,
       reconciledUserId: this.reconciledUserId,
       reconciledAt: this.reconciledAt,
       subscription: this.subscription,
