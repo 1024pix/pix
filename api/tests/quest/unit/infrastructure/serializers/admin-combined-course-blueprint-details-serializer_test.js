@@ -52,6 +52,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
       name: 'Mon parcours',
       internalName: 'Mon modèle de parcours',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      prescriberDescription: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       illustration: '/illustrations/image.svg',
       content: [
         {
@@ -87,6 +88,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           'internal-name': 'Mon modèle de parcours',
           illustration: '/illustrations/image.svg',
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          'prescriber-description': 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
           content: [
             {
               type: COMBINED_COURSE_ITEM_TYPES.MODULE,

@@ -8,6 +8,7 @@ const serialize = function (adminCombinedCourseBlueprintDetails) {
       'name',
       'internalName',
       'description',
+      'prescriberDescription',
       'illustration',
       'content',
       'surveyLink',
