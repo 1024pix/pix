@@ -4,6 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../shared/domain/services/locale-service.js';
 import { certificationVerificationCodeType, identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificateController } from './certificate-controller.js';
+import { resultsSecurityPreHandlers } from './security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -13,7 +14,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserOwnsCertificationCourse,
+            method: resultsSecurityPreHandlers.checkUserOwnsCertificationCourse,
             assign: 'hasAuthorizationToAccessOwnCertificationCourse',
           },
         ],
@@ -124,7 +125,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserOwnsCertificationCourse,
+            method: resultsSecurityPreHandlers.checkUserOwnsCertificationCourse,
             assign: 'hasAuthorizationToAccessOwnCertificationCourse',
           },
         ],

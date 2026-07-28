@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { V3_CERTIFICATION_AVAILABLE_LOCALES } from '../../shared/domain/models/CertificationCourse.js';
 import { certificationCourseController } from './certification-course-controller.js';
+import { evaluationSecurityPreHandlers } from './security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -46,7 +46,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserOwnsCertificationCourse,
+            method: evaluationSecurityPreHandlers.checkUserOwnsCertificationCourse,
             assign: 'hasAuthorizationToAccessOwnCertificationCourse',
           },
         ],
