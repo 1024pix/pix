@@ -33,7 +33,7 @@
                 "id": "520f3122-18c9-4570-874d-6fb5a3136db7",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Yasmine et Steven doivent aménager les nouveaux locaux de leur entreprise.</p>",
+                "instruction": "<p>Yasmine et Steven aménagent les nouveaux locaux de leur entreprise.</p>",
                 "functionalInstruction": "",
                 "tagName": "message-conversation",
                 "props": {
@@ -43,13 +43,13 @@
                       "userName": "Yasmine",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "J’ai demandé à l’IA de l’aide pour l’aménagement : estimer le nombre de litres de peinture nécessaires pour la salle de réunion, simuler le rendu final, connaître les dernières tendances en aménagement de bureaux… C’est très pratique."
+                      "content": "J’ai demandé à l’IA de l’aide pour l’aménagement : estimer le nombre de litres de peinture nécessaires pour la salle de réunion, simuler le rendu final, connaître les dernières tendances en aménagement de bureaux… C’est très pratique."
                     },
                     {
                       "userName": "Steven",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Mais êtes-vous sûre des réponses ? Je pensais que l’IA se limitait au texte, sans accès aux informations récentes, et qu’elle n’était pas fiable pour les calculs."
+                      "content": "Mais êtes-vous sûre des réponses ? Je pensais que l’IA se limitait au texte, sans accès aux informations récentes, et qu’elle n’était pas fiable pour les calculs."
                     },
                     {
                       "userName": "Yasmine",
@@ -122,16 +122,16 @@
                   "messages": [
                     {
                       "direction": "outbound",
-                      "content": "Quand aura lieu la prochaine vente de mobilier de bureau d’occasion dans notre ville ?"
+                      "content": "Quand aura lieu la prochaine vente de mobilier de bureau d’occasion à Jolieville ?"
                     },
                     [
                       {
                         "direction": "inbound",
-                        "content": " Pour connaître la date de la prochaine vente de mobilier d’occasion à Lyon, je vous suggère de visiter le site officiel de la mairie de Lyon. Les informations sur les événements locaux, y compris les vente de mobilier d’occasions, y sont généralement publiées."
+                        "content": "👉 Pour connaître la date de la prochaine vente de mobilier d’occasion, je vous suggère de visiter le site officiel de la mairie de Jolieville. Les informations sur les événements locaux, y compris les vente de mobilier d’occasions, y sont généralement publiées."
                       },
                       {
                         "direction": "inbound",
-                        "content": " Prochaine vente de mobilier d’occasion : Dimanche 19 avril <br> Cours Azurville (centre-ville) <br> C’est le marché d’antiquités-vente de mobilier d’occasion mensuel, organisé l’avant-dernier dimanche de chaque mois <br> <br> Grand vide-grenier : Dimanche 28 juin <br> Port BeauxRivages <br>  Grand vide-grenier avec environ 120 exposants"
+                        "content": " 🗓️ Prochaine vente de mobilier d’occasion : Dimanche 19 avril <br> 📍 Cours Azurville (centre-ville) <br> 👉 C’est le marché d’antiquités-vente de mobilier d’occasion mensuel, organisé l’avant-dernier dimanche de chaque mois <br> <br> Grand vide-grenier : Dimanche 28 juin <br>📍 Port BeauxRivages <br>  👉 Grand vide-grenier avec environ 120 exposants"
                       }
                     ]
                   ]
@@ -150,7 +150,7 @@
                     "id": "1",
                     "content": "L’exemple 1",
                     "feedback": {
-                      "diagnosis": "<p><strong>Non.</strong>Cette réponse est moins précise que l’autre.</p><p>Les réponses données par les IA génératives se sont améliorées grâce aux <strong>appels d’outils</strong>, par exemple ici, la <strong>recherche sur internet</strong>, utilisée dans l’exemple 2.</p>"
+                      "diagnosis": "<p><strong>Eh non !</strong></p><p>Cette réponse est moins précise que l’autre.</p><p>Les réponses données par les IA génératives se sont améliorées grâce aux <strong>appels d’outils</strong>, par exemple ici, la <strong>recherche sur internet</strong>, utilisée dans l’exemple 2.</p>"
                     }
                   },
                   {
@@ -263,7 +263,7 @@
                         "messages": [
                           {
                             "direction": "outbound",
-                            "content": "Combien de litres de peinture sont nécessaires pour peindre une salle de réunion carrée, dont les murs font 2,5 m en hauteur, 5 m de longueur, pour 3 couches de peinture avec une peinture de rendement 10 m2/L/couche ?"
+                            "content": "Combien de litres de peinture sont nécessaires pour peindre une salle de réunion carrée, dont les murs font 2,5 m en hauteur, 5 m de longueur, pour 3 couches de peinture avec une peinture de rendement 10 m2/L/couche ?"
                           }
                         ]
                       }
@@ -278,7 +278,7 @@
                           "id": "1",
                           "content": "<p>l’application de musique</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non.</strong></p><p>Le logiciel d’IA doit mobiliser la <strong>calculatrice</strong>pour répondre à cette demande.</p><p>Cet outil est justement défini dans son prompt système.</p>"
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>Le logiciel d’IA doit mobiliser la <strong>calculatrice&nbsp;</strong>pour répondre à cette demande.</p><p>Cet outil est justement défini dans son prompt système.</p>"
                           }
                         },
                         {
@@ -292,21 +292,21 @@
                           "id": "3",
                           "content": "<p>l’agenda</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non.</strong></p><p>Le logiciel d’IA doit mobiliser la <strong>calculatrice</strong>pour répondre à cette demande. Cet outil est justement défini dans son prompt système.</p>"
+                            "diagnosis": "<p><strong>Eh non.</strong></p><p>Le logiciel d’IA doit mobiliser la <strong>calculatrice&nbsp;</strong>pour répondre à cette demande. Cet outil est justement défini dans son prompt système.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "Aucun outil ne va être utilisé.",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non.</strong></p><p>Le logiciel d’IA doit mobiliser la <strong>calculatrice</strong>pour répondre à cette demande.</p><p>Cet outil est justement défini dans son prompt système.</p>"
+                            "diagnosis": "<p><strong>Non.</strong></p><p>Le logiciel d’IA doit mobiliser la <strong>calculatrice&nbsp;</strong>pour répondre à cette demande.</p><p>Cet outil est justement défini dans son prompt système.</p>"
                           }
                         },
                         {
                           "id": "5",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Le logiciel d’IA doit mobiliser la <strong>calculatrice</strong>pour répondre à cette demande.</p><p>Cet outil est justement défini dans son prompt système.</p>"
+                            "diagnosis": "<p>Le logiciel d’IA doit mobiliser la <strong>calculatrice&nbsp;</strong>pour répondre à cette demande.</p><p>Cet outil est justement défini dans son prompt système.</p>"
                           }
                         }
                       ],
@@ -327,7 +327,7 @@
                         "messages": [
                           {
                             "direction": "outbound",
-                            "content": "Ajoute à mon agenda le rendez-vous avec le prestataire d’aménagement qui aura lieu samedi prochain à 10 h."
+                            "content": "Ajoute à mon agenda le rendez-vous avec le prestataire d’aménagement qui aura lieu mardi prochain à 10 h."
                           }
                         ]
                       }
@@ -397,7 +397,7 @@
                       "id": "95bcf59a-4f71-498c-98d6-b4f768135daa",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Les développeurs configurent les logiciels d’IA pour faire appel à des outils. Pour cela, les développeurs définissent les <strong>paramètres</strong>des outils dans un <strong>prompt système</strong> et décrivent pour chaque outil&nbsp;: son nom, son contexte d’utilisation (objectif, finalité), ses valeurs d’entrées, le format de la réponse attendue, etc.</p>"
+                      "content": "<p>Les développeurs configurent les logiciels d’IA pour faire appel à des outils. Pour cela, les développeurs définissent les <strong>paramètres&nbsp;</strong>des outils dans un <strong>prompt système</strong> et décrivent pour chaque outil&nbsp;: son nom, son contexte d’utilisation (objectif, finalité), ses valeurs d’entrées, le format de la réponse attendue, etc.</p>"
                     }
                   ]
                 },
@@ -407,7 +407,7 @@
                       "id": "30ee93e1-cb70-43ec-9afa-85b4bf84ec5d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>Mais que peut faire l’utilisateur dans la configuration de ces outils ?</h5><br><p>  Dans certains cas, des <strong>accès</strong>doivent être autorisés par l’utilisateur (exemple&nbsp;: autoriser l’accès à la boîte mail, à un agenda, un cloud, etc.)&nbsp;</p>"
+                      "content": "<h5>Mais que peut faire l’utilisateur dans la configuration de ces outils ?</h5><p> Dans certains cas, des <strong>accès&nbsp;</strong>doivent être autorisés par l’utilisateur (exemple&nbsp;: autoriser l’accès à la boîte mail, à un agenda, un cloud, etc.)&nbsp;</p>"
                     }
                   ]
                 },
@@ -443,7 +443,7 @@
         {
           "id": "5cafc409-4800-47b7-ad71-c694ca88f03d",
           "type": "transition",
-          "title": "transition en dialogue",
+          "title": "transition ",
           "components": [
             {
               "type": "element",
@@ -478,7 +478,7 @@
                     },
                     {
                       "direction": "outbound",
-                      "content": "Nos locaux sont à Lyon et nous voulons réaménager la terrasse extérieure. La météo permettra-t-elle de le faire ce week-end ?"
+                      "content": "Nos locaux sont à Jolieville et nous voulons réaménager la terrasse extérieure. La météo permettra-t-elle de le faire ce week-end ?"
                     }
                   ]
                 }
@@ -498,30 +498,30 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>J’habite à Lyon<br></p>",
+                          "content": "<p>Nos locaux sont à Jolieville</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non.</strong></p><p>C’est l’expression «&nbsp;<strong>est-ce que la météo&nbsp;»</strong>qui&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>Lors de la génération de la réponse, le<strong> logiciel d’IA décide de faire appel ou non à un outil.</strong>L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                            "diagnosis": "<p><strong>Non.</strong></p><p>C’est l’expression «&nbsp;<strong>est-ce que la météo&nbsp;»&nbsp;</strong>qui&nbsp;permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>Lors de la génération de la réponse, le<strong> logiciel d’IA décide de faire appel ou non à un outil.</strong></p><p><strong></strong>L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>et je veux refaire ma terrasse.<br></p>",
+                          "content": "<p>et nous voulons réaménager la terrasse extérieure.</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non.</strong></p><p>C’est l’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>» qui permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>Lors de la génération de la réponse,<strong> le logiciel d’IA décide de faire appel ou non à un outil.</strong> L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                            "diagnosis": "<p><strong>Non.</strong></p><p>C’est l’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>» qui permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>Lors de la génération de la réponse,<strong> le logiciel d’IA décide de faire appel ou non à un outil.</strong></p><p> L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Est-ce que la météo<br></p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Exact.&nbsp;</strong></p><p>Lors de la génération de la réponse, le <strong>logiciel d’IA décide de faire appel ou non à un outil.</strong>L’utilisateur peut aussi demander&nbsp;explicitement dans son prompt l’utilisation d’un outil.</p>"
+                            "diagnosis": "<p><strong>Exact.&nbsp;</strong></p><p>Lors de la génération de la réponse, le <strong>logiciel d’IA décide de faire appel ou non à un outil.</strong></p><p><strong></strong>L’utilisateur peut aussi demander&nbsp;explicitement dans son prompt l’utilisation d’un outil.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>permettra de le faire ce week-end ?<br></p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non.</strong></p><p>C’est l’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>» qui permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>Lors de la génération de la réponse, <strong>le logiciel d’IA décide de faire appel ou non à un outil</strong>. L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
+                            "diagnosis": "<p><strong>Non.</strong></p><p>C’est l’expression  «&nbsp;<strong>est-ce que la météo&nbsp;</strong>» qui permet à l’IA de s’orienter vers l’<strong>outil Météo.</strong></p><p>Lors de la génération de la réponse, <strong>le logiciel d’IA décide de faire appel ou non à un outil</strong>.</p><p> L’utilisateur peut aussi explicitement demander dans son prompt l’utilisation d’un outil.</p>"
                           }
                         }
                       ],
@@ -535,14 +535,14 @@
                       "id": "f8d2fff1-33a0-4491-b605-829b5c88a888",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Le logiciel d’IA <strong>analyse le prompt</strong> qu’il reçoit et <strong>identifie l’outil</strong>pertinent à utiliser pour y répondre.</p><p>L’outil pertinent identifié ici est un logiciel qui se connecte aux informations d’un service externe de <strong>météo</strong>(Météo France, AEMET, National Weather Service, etc.).</p>"
+                      "content": "<p>Le logiciel d’IA <strong>analyse le prompt</strong> qu’il reçoit et <strong>identifie l’outil&nbsp;</strong>pertinent à utiliser pour y répondre.</p><p>L’outil pertinent identifié ici est un logiciel qui se connecte aux informations d’un service externe de <strong>météo&nbsp;</strong>(Météo France, AEMET, National Weather Service, etc.).</p>"
                     },
                     {
                       "id": "52fe8c91-52c7-4091-a9df-aa5a7ec24b1e",
                       "type": "image",
                       "url": "https://assets.pix.org/modules/IAGenFonction_AVA/outils_stepper1.svg",
                       "alt": "Le logiciel d’IA analyse le prompt.",
-                      "alternativeText": "<p>L’IA générative analyse le prompt&nbsp;: «&nbsp;J’habite à Lyon et je veux refaire ma terrasse. Est-ce que la météo permettra de le faire ce week-end ?&nbsp;» puis identifie l’outil Météo.</p>",
+                      "alternativeText": "<p>L’IA générative analyse le prompt&nbsp;: «&nbsp;Nos locaux sont à Jolieville et nous voulons réaménager la terrasse extérieure. La météo permettra-t-elle de le faire ce week-end ?&nbsp;» puis identifie l’outil Météo.</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -591,7 +591,7 @@
                             },
                             {
                               "id": "2",
-                              "content": "\"Lyon\","
+                              "content": "\"Jolieville\","
                             },
                             {
                               "id": "3",
@@ -620,7 +620,7 @@
                             },
                             {
                               "id": "2",
-                              "content": "\"Lyon\","
+                              "content": "\"Jolieville\","
                             },
                             {
                               "id": "3",
@@ -649,7 +649,7 @@
                             },
                             {
                               "id": "2",
-                              "content": "\"Lyon\","
+                              "content": "\"Jolieville\","
                             },
                             {
                               "id": "3",
@@ -668,11 +668,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p><strong>Exact.&nbsp;</strong></p>",
-                          "diagnosis": "<p>Le logiciel a choisi l’<strong>outil Météo</strong>&nbsp;et lui a transmis l’information du lieu et de la date recherchés. Ces informations sont les <strong>arguments</strong>de la requête.</p><br>"
+                          "diagnosis": "<p>Le logiciel a choisi l’<strong>outil Météo</strong>&nbsp;et lui a transmis l’information du lieu et de la date recherchés. Ces informations sont les <strong>arguments&nbsp;</strong>de la requête.</p><br>"
                         },
                         "invalid": {
                           "state": "<p><strong>Non.</strong></p>",
-                          "diagnosis": "<p>Le logiciel a choisi l’<strong>outil Météo</strong>&nbsp;et lui a transmis l’information du lieu et de la date recherchés. Ces informations sont les <strong>arguments</strong>de la requête.</p>"
+                          "diagnosis": "<p>Le logiciel a choisi l’<strong>outil Météo</strong>&nbsp;et lui a transmis l’information du lieu et de la date recherchés. Ces informations sont les <strong>arguments&nbsp;</strong>de la requête.</p>"
                         }
                       }
                     }
@@ -708,35 +708,35 @@
                     {
                       "id": "d0c5e24c-76c6-432d-8ee0-2be5edd71d25",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Quelle réponse à son prompt, qui concernait les travaux de sa terrasse, Yasmine a-t-elle le plus de chance de recevoir de la part du logiciel d’IA générative ?</p>",
+                      "instruction": "<p>Quelle réponse à son prompt, qui concernait les travaux de la terrasse, Yasmine a-t-elle le plus de chance de recevoir de la part du logiciel d’IA générative ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "condition&nbsp;: ensoleillé ; temperature&nbsp;: 30",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non, cette proposition n’est que l’information envoyée par l’outil Météo.</strong></p><p>L’objectif de Yasmine est de vérifier si la météo permettra de refaire sa terrasse ce week-end.</p><p>Une fois <strong>les données de l’outil Météo transmises au logiciel d’IA</strong> générative, celui-ci les utilise pour <strong>générer sa réponse.</strong></p><p>Donc, la bonne réponse était&nbsp;:&nbsp; «&nbsp;Il va faire chaud et sec à Lyon ce week-end, c’est donc plutôt un bon moment&nbsp;[...]&nbsp;».</p>"
+                            "diagnosis": "<p><strong>Non, cette proposition n’est que l’information envoyée par l’outil Météo.</strong></p><p>L’objectif de Yasmine est de vérifier si la météo permettra de refaire la terrasse ce week-end.</p><p>Une fois <strong>les données de l’outil Météo transmises au logiciel d’IA</strong> générative, celui-ci les utilise pour <strong>générer sa réponse.</strong></p><p>Donc, la bonne réponse était&nbsp;:&nbsp; «&nbsp;Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment&nbsp;[...]&nbsp;».</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "<p>Ce week-end à Lyon, le soleil sera au rendez-vous avec une température autour de 30 °.</p>",
+                          "content": "<p>Ce week-end à Jolieville, le soleil sera au rendez-vous avec une température autour de 30 °.</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Non, cette proposition ne répond pas à la question de Yasmine.</strong></p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois<strong> les données de l’outil Météo transmises au logiciel d’IA générative,</strong>celui-ci les utilise<strong> pour générer sa réponse.</strong></p><p>Donc, la bonne réponse était&nbsp;:&nbsp; «&nbsp;Il va faire chaud et sec à Lyon ce week-end, c’est donc plutôt un bon moment&nbsp;[...]&nbsp;».</p>"
+                            "diagnosis": "<p><strong>Non, cette proposition ne répond pas à la question de Yasmine.</strong></p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois<strong> les données de l’outil Météo transmises au logiciel d’IA générative,&nbsp;</strong>celui-ci les utilise<strong> pour générer sa réponse.</strong></p><p>Donc, la bonne réponse était&nbsp;:&nbsp; «&nbsp;Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment&nbsp;[...]&nbsp;».</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>Il va faire chaud et sec à Lyon ce week-end, c’est donc plutôt un bon moment.&nbsp;Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.</p>",
+                          "content": "<p>Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment.&nbsp;Si les travaux de votre terrasse nécessitent du béton, il va sécher très rapidement. Prévoyez de bétonner tôt le matin et humidifiez les coffrages.</p>",
                           "feedback": {
-                            "diagnosis": "<p><strong>Exact.</strong></p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois les<strong> données de l’outil Météo transmises au logiciel d’IA</strong>générative, celui-ci les utilise pour <strong>générer sa réponse.</strong></p>"
+                            "diagnosis": "<p><strong>Exact.</strong></p><p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire la terrasse ce week-end. Une fois les<strong> données de l’outil Météo transmises au logiciel d’IA&nbsp;</strong>générative, celui-ci les utilise pour <strong>générer sa réponse.</strong></p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire sa terrasse ce week-end. Une fois <strong>les données de l’outil Météo transmises au logiciel d’IA</strong> générative, celui-ci les utilise<strong> pour générer sa réponse.</strong></p><p>Donc, la bonne réponse était&nbsp;: «&nbsp;Il va faire chaud et sec à Lyon ce week-end, c’est donc plutôt un bon moment [...]&nbsp;».</p>"
+                            "diagnosis": "<p>L’objectif de Yasmine était de vérifier si la météo permettrait de refaire la terrasse ce week-end. Une fois <strong>les données de l’outil Météo transmises au logiciel d’IA</strong> générative, celui-ci les utilise<strong> pour générer sa réponse.</strong></p><p>Donc, la bonne réponse était&nbsp;: «&nbsp;Il va faire chaud et sec à Jolieville ce week-end, c’est donc plutôt un bon moment [...]&nbsp;».</p>"
                           }
                         }
                       ],
@@ -780,7 +780,7 @@
                 "id": "64698763-321b-419f-a532-1981f4fa49b2",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>⚠Point de vigilance&nbsp;:&nbsp;</strong></p><p>Ce n’est pas parce qu’un logiciel d’IA générative fait appel à un outil qu’il devient infaillible&nbsp;: le logiciel d’IA générative peut toujours halluciner, se tromper d’outil ou envoyer à un outil de mauvaises informations. Restez vigilants et vérifiez les résultats obtenus.</p>"
+                "content": "<p><strong>Point de vigilance&nbsp;:&nbsp;</strong></p><p>Ce n’est pas parce qu’un logiciel d’IA générative fait appel à un outil qu’il devient infaillible&nbsp;: le logiciel d’IA générative peut toujours halluciner, se tromper d’outil ou envoyer à un outil de mauvaises informations. Restez vigilants et vérifiez les résultats obtenus.</p>"
               }
             }
           ]
@@ -812,13 +812,13 @@
                       "userName": "Yasmine",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Oui, c’est un peu comme si elle avait accès à tout un atelier d’outils."
+                      "content": "Oui, c’est un peu comme si elle avait accès à tout un atelier."
                     },
                     {
                       "userName": "Steven",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Alors, on lance ces travaux d’aménagement ?"
+                      "content": "Alors, on lance ces travaux d’aménagement ?"
                     },
                     {
                       "userName": "Yasmine",
@@ -850,7 +850,7 @@
                 "id": "4466ae45-789c-4e07-a1b8-4de62667ba8b",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul> <li>À leur lancement, les logiciels d’IA générative de texte avaient beaucoup de <strong>limites</strong>: ils faisaient des erreurs dans les calculs, n’avaient pas d’accès aux informations en temps réel, etc.&nbsp;</li> <li>Pour dépasser ces limites, les développeurs ont mis en place des <strong>outils</strong>que les logiciels d’IA peuvent appeler pour faire davantage d’<strong>actions&nbsp;</strong>en interagissant avec d’autres logiciels&nbsp;: calculer, exécuter du <strong>code informatique</strong>, générer un support de <strong>présentation</strong>, etc.&nbsp;</li> <li>Ce mécanisme, appelé<strong> appel d’outils</strong> (tool calling), repose sur une liste d’outils définis à l’avance par les développeurs.&nbsp;</li> <li>Pour traiter une demande, un logiciel d’IA identifie des <strong>outils</strong> utiles. Il leur transmet des <strong>requêtes</strong>et intègre les <strong>résultats</strong>dans le prompt pour générer une réponse adaptée.&nbsp;</li></ul><br>"
+                "content": "<ul> <li>À leur lancement, les logiciels d’IA générative de texte avaient beaucoup de <strong>limites&nbsp;</strong>: ils faisaient des erreurs dans les calculs, n’avaient pas d’accès aux informations en temps réel, etc.&nbsp;</li> <li>Pour dépasser ces limites, les développeurs ont mis en place des <strong>outils&nbsp;</strong>que les logiciels d’IA peuvent appeler pour faire davantage d’<strong>actions&nbsp;</strong>en interagissant avec d’autres logiciels&nbsp;: calculer, exécuter du <strong>code informatique</strong>, générer un support de <strong>présentation</strong>, etc.&nbsp;</li> <li>Ce mécanisme, appelé<strong> appel d’outils</strong> (tool calling), repose sur une liste d’outils définis à l’avance par les développeurs.&nbsp;</li> <li>Pour traiter une demande, un logiciel d’IA identifie des <strong>outils</strong> utiles. Il leur transmet des <strong>requêtes&nbsp;</strong>et intègre les <strong>résultats&nbsp;</strong>dans le prompt pour générer une réponse adaptée.&nbsp;</li></ul><br>"
               }
             },
             {
@@ -1312,14 +1312,14 @@
                     "id": "1",
                     "content": "<p>J’ai déjà envoyé des prompts qui faisaient appel à des outils.</p>",
                     "feedback": {
-                      "diagnosis": "C’est probable : ils sont très utilisés."
+                      "diagnosis": "C’est probable&nbsp;: ils sont très utilisés."
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>J’ai déjà activé ou désactivé des outils dans mon interface d’IA générative.</p>",
                     "feedback": {
-                      "diagnosis": "Intéressant : vous avez un usage maîtrisé de votre logiciel d’IA."
+                      "diagnosis": "Intéressant&nbsp;: vous avez un usage maîtrisé de votre logiciel d’IA."
                     }
                   },
                   {
