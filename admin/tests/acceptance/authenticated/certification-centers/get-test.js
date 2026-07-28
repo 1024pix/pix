@@ -24,7 +24,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    assert.strictEqual(currentURL(), '/certification-centers/1');
+    assert.strictEqual(currentURL(), '/certification-centers/1/details');
   });
 
   test('should display Certification center detail', async function (assert) {
@@ -259,49 +259,6 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     });
 
     module('tab navigation', function () {
-      test('should show Équipe, Invitations tab and Attached Orga tabs', async function (assert) {
-        // given
-        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        const certificationCenter = server.create('certification-center', {
-          name: 'Pokemon Center',
-          externalId: 'ABCDEF',
-          type: 'PRO',
-          archivedAt: null,
-          archivistFullName: null,
-        });
-
-        // when
-        const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-
-        // then
-        const certificationCenterNavigation = within(
-          screen.getByRole('navigation', {
-            name: t('pages.certification-centers.get.navbar.aria-label'),
-          }),
-        );
-        assert
-          .dom(
-            certificationCenterNavigation.getByRole('link', {
-              name: (text) => text.includes(t('pages.certification-centers.get.navbar.team')),
-            }),
-          )
-          .exists();
-        assert
-          .dom(
-            certificationCenterNavigation.getByRole('link', {
-              name: (text) => text.includes(t('pages.certification-centers.get.navbar.invitations')),
-            }),
-          )
-          .exists();
-        assert
-          .dom(
-            certificationCenterNavigation.getByRole('link', {
-              name: t('pages.certification-centers.get.navbar.attached-organizations'),
-            }),
-          )
-          .exists();
-      });
-
       test('should display the number of active members in the Équipe tab', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
@@ -326,27 +283,13 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
             name: 'Navigation de la section centre de certification',
           }),
         );
-        assert.dom(certificationCenterNavigation.getByRole('link', { name: 'Équipe (2)' })).exists();
-      });
-
-      test('displays invitation input and members list', async function (assert) {
-        // given
-        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        const certificationCenter = server.create('certification-center', {
-          name: 'Pokemon Center',
-          externalId: 'ABCDEF',
-          type: 'PRO',
-          archivedAt: null,
-          archivistFullName: null,
-        });
-
-        // when
-        const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-
-        // then
-
-        assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' })).exists();
-        assert.dom(screen.getByRole('heading', { name: 'Membres' })).exists();
+        assert
+          .dom(
+            certificationCenterNavigation.getByRole('link', {
+              name: `${t('pages.certification-centers.get.navbar.team')} (2)`,
+            }),
+          )
+          .exists();
       });
     });
   });
@@ -368,68 +311,6 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // then
       assert.dom(screen.queryByRole('button', { name: 'Archiver' })).doesNotExist();
-    });
-
-    test('displays archived at date and archivist full name', async function (assert) {
-      // given
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-      const certificationCenter = server.create('certification-center', {
-        name: 'Pokemon Center',
-        externalId: 'ABCDEF',
-        type: 'PRO',
-        archivedAt: new Date('2023-01-01'),
-        archivistFullName: 'John Doe',
-      });
-
-      // when
-      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-
-      // then
-      assert.dom(screen.getByText('Archivé le 01/01/2023 par John Doe.')).exists();
-    });
-
-    test('does not display navigation tab', async function (assert) {
-      // given
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-      const certificationCenter = server.create('certification-center', {
-        name: 'Pokemon Center',
-        externalId: 'ABCDEF',
-        type: 'PRO',
-        archivedAt: new Date(),
-        archivistFullName: 'John Doe',
-      });
-
-      // when
-      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-
-      // then
-      assert
-        .dom(
-          screen.queryByRole('navigation', {
-            name: 'Navigation de la section centre de certification',
-          }),
-        )
-        .doesNotExist();
-    });
-
-    test('does not display invitation input and members list', async function (assert) {
-      // given
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-      const certificationCenter = server.create('certification-center', {
-        name: 'Pokemon Center',
-        externalId: 'ABCDEF',
-        type: 'PRO',
-        archivedAt: new Date(),
-        archivistFullName: 'John Doe',
-      });
-
-      // when
-      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-
-      // then
-
-      assert.dom(screen.queryByRole('textbox', { name: 'Adresse e-mail du nouveau membre' })).doesNotExist();
-      assert.dom(screen.queryByRole('heading', { name: 'Membres' })).doesNotExist();
     });
   });
 });

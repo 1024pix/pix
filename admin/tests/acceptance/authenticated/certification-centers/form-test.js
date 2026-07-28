@@ -50,7 +50,7 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
     // then
-    assert.strictEqual(currentURL(), '/certification-centers/99');
+    assert.strictEqual(currentURL(), '/certification-centers/99/details');
     assert.dom(screen.getByRole('heading', { name, level: 1 })).exists();
     assert.dom(screen.getByText(type.label)).exists();
     assert.dom(screen.getByText(externalId)).exists();

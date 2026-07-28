@@ -37,7 +37,7 @@ module('Acceptance | Organizations | Attached Certification Center', function (h
       await click(screen.getByRole('link', { name: certificationCenter.id }));
 
       // then
-      assert.strictEqual(currentURL(), `/certification-centers/${certificationCenter.id}`);
+      assert.strictEqual(currentURL(), `/certification-centers/${certificationCenter.id}/details`);
     });
 
     test('detaching a certification center shows a success notification', async function (assert) {

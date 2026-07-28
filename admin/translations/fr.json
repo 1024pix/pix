@@ -1510,6 +1510,7 @@
         "navbar": {
           "aria-label": "Navigation de la section centre de certification",
           "attached-organizations": "Lien orga",
+          "details": "Détails",
           "invitations": "Invitations",
           "team": "Équipe"
         }

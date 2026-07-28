@@ -1496,6 +1496,15 @@
         "new-certification-center": "New certification center",
         "parent-page": "All certification centers"
       },
+      "get": {
+        "navbar": {
+          "aria-label": "Certification center navigation section",
+          "attached-organizations": "Attached organization",
+          "details": "Details",
+          "invitations": "Invitations",
+          "team": "Team"
+        }
+      },
       "information-view": {
         "habilitations": {
           "aria-label": {
@@ -1518,6 +1527,7 @@
       "navbar": {
         "aria-label": "Certification center navigation section",
         "attached-organizations": "Attached organization",
+        "details": "Details",
         "invitations": "Invitations",
         "team": "Team"
       },
