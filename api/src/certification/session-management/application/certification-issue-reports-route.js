@@ -2,7 +2,8 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-import { certificationIssueReportController } from './certification-issue-report-controller.js';
+import { certificationIssueReportsController } from './certification-issue-reports-controller.js';
+import { sessionManagementSecurityPreHandlers } from './security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -12,7 +13,8 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
+            method:
+              sessionManagementSecurityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
             assign: 'hasAuthorizationToAccessSessionsOfCertificationCenters',
           },
         ],
@@ -21,7 +23,7 @@ const register = async function (server) {
             id: identifiersType.certificationIssueReportId,
           }),
         },
-        handler: certificationIssueReportController.deleteCertification,
+        handler: certificationIssueReportsController.deleteCertification,
         tags: ['api', 'certification-issue-reports'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs qui sont membres du centre de certification**\n',
@@ -54,7 +56,7 @@ const register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: certificationIssueReportController.manuallyResolve,
+        handler: certificationIssueReportsController.manuallyResolve,
         tags: ['api', 'certification-issue-reports'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n",
@@ -65,7 +67,7 @@ const register = async function (server) {
   ]);
 };
 
-export const certificationIssueReportRoute = {
+export const certificationIssueReportsRoute = {
   name: 'certification/session-management/certification-issue-reports-api',
   register,
 };

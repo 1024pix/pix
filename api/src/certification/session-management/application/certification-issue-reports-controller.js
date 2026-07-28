@@ -26,6 +26,6 @@ async function manuallyResolve(
   return h.response().code(204);
 }
 
-const certificationIssueReportController = { deleteCertification, manuallyResolve };
+const certificationIssueReportsController = { deleteCertification, manuallyResolve };
 
-export { certificationIssueReportController };
+export { certificationIssueReportsController };

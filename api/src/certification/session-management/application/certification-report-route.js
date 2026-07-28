@@ -1,10 +1,10 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
 import { ABORT_REASONS } from '../../shared/domain/constants/abort-reasons.js';
 import { certificationReportController } from './certification-report-controller.js';
+import { sessionManagementSecurityPreHandlers } from './security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -14,7 +14,8 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
+            method:
+              sessionManagementSecurityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
             assign: 'hasAuthorizationToAccessSessionsOfCertificationCenters',
           },
         ],

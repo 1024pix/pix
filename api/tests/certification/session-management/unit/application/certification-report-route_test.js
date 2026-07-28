@@ -2,10 +2,10 @@ import sinon from 'sinon';
 
 import { certificationReportController } from '../../../../../src/certification/session-management/application/certification-report-controller.js';
 import { certificationReportRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/certification-report-route.js';
+import { sessionManagementSecurityPreHandlers } from '../../../../../src/certification/session-management/application/security-pre-handlers.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import { NotFoundError } from '../../../../../src/shared/application/errors/http-errors.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
@@ -14,7 +14,10 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     it('should return a 200', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId')
+        .stub(
+          sessionManagementSecurityPreHandlers,
+          'checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId',
+        )
         .callsFake((request, h) => h.response(true));
       sinon.stub(certificationReportController, 'saveCertificationIssueReport').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -28,12 +31,15 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
 
     context(
-      'when the prehandler checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId respond a 403',
+      'when the prehandler checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId respond a 403',
       function () {
         it('should return a 403', async function () {
           // given
           sinon
-            .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId')
+            .stub(
+              sessionManagementSecurityPreHandlers,
+              'checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId',
+            )
             .callsFake((request, h) =>
               h
                 .response({ errors: new Error('forbidden') })
