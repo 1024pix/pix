@@ -11,8 +11,11 @@
 # - On the `dev` branch, all jobs always run (full post-merge run)
 # - The `build-and-test` gate job is the single required status check in GitHub
 # - e2e_test_mon_pix, e2e_test_orga and e2e_playwright_test are restricted via
-#   `filters: branches: only: dev` in the workflow: they never run on PR commits,
-#   only automatically after a merge to `dev`
+#   `filters: branches: only: dev` in the `build-and-test` workflow: they never
+#   run automatically on PR commits, only after a merge to `dev`
+# - They can still be run on-demand on a PR by commenting `/run e2e`, which
+#   triggers CircleCI with GHA_Meta=run-e2e-comment, gating the dedicated
+#   `e2e-on-demand` workflow below (see .github/workflows/run-e2e-on-comment.yaml)
 
 version: 2.1
 
@@ -283,8 +286,14 @@ workflows:
   # It will execute job of modified folder
   # all e2e test must be triggered if api or referred frontend modified
   # With no other workflows, normal push events will be ignored currently.
+  # It is skipped for the dedicated `/run e2e` on-demand trigger (see below),
+  # so that a comment-triggered pipeline only runs the 3 e2e jobs.
   build-and-test:
-    when: << pipeline.parameters.GHA_Action >>
+    when:
+      and:
+        - << pipeline.parameters.GHA_Action >>
+        - not:
+            equal: ['run-e2e-comment', << pipeline.parameters.GHA_Meta >>]
     jobs:
       - checkout:
           context: Pix
@@ -422,6 +431,48 @@ workflows:
           filters:
             branches:
               only: dev
+
+  # This workflow is triggered on-demand from a `/run e2e` PR comment
+  # (see .github/workflows/run-e2e-on-comment.yaml), which sets GHA_Meta to
+  # `run-e2e-comment`. It runs only the 3 e2e jobs (plus their required
+  # installs) on the PR branch, without running the rest of build-and-test.
+  e2e-on-demand:
+    when:
+      equal: ['run-e2e-comment', << pipeline.parameters.GHA_Meta >>]
+    jobs:
+      - checkout:
+          context: Pix
+      - api_install:
+          context: Pix
+          requires:
+            - checkout
+      - mon_pix_install:
+          context: Pix
+          requires:
+            - checkout
+      - orga_install:
+          context: Pix
+          requires:
+            - checkout
+      - certif_install:
+          context: Pix
+          requires:
+            - checkout
+      - e2e_test_mon_pix:
+          context: Pix
+          requires:
+            - mon_pix_install
+      - e2e_test_orga:
+          context: Pix
+          requires:
+            - orga_install
+      - e2e_playwright_test:
+          context: Pix
+          requires:
+            - api_install
+            - mon_pix_install
+            - orga_install
+            - certif_install
 
 # ---------------------------------------------------------------------------
 # Jobs

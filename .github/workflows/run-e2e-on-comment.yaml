@@ -1,0 +1,49 @@
+name: Run E2E tests on demand
+
+# Lets a maintainer comment "/run e2e" on a PR to trigger, on CircleCI, only
+# the 3 e2e jobs (e2e_test_mon_pix, e2e_test_orga, e2e_playwright_test) on
+# the PR branch, without running the rest of the build-and-test pipeline.
+# See the `e2e-on-demand` workflow in .circleci/jobs.yml.
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  run-e2e-on-demand:
+    runs-on: ubuntu-latest
+
+    # Only for a "/run e2e" comment on an open PR, from someone with write access
+    if: >
+      github.event.issue.pull_request != null &&
+      github.event.issue.state == 'open' &&
+      startsWith(github.event.comment.body, '/run e2e') &&
+      contains(fromJson('["COLLABORATOR", "MEMBER", "OWNER"]'), github.event.comment.author_association)
+
+    steps:
+      - name: Acknowledge command
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api "repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions" \
+            -f content='+1'
+
+      - name: Resolve PR head branch
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch=$(gh pr view "${{ github.event.issue.number }}" --repo "${{ github.repository }}" --json headRefName -q .headRefName)
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger CircleCI e2e-only run
+        uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.2.0
+        with:
+          target-branch: ${{ steps.pr.outputs.branch }}
+          GHA_Meta: run-e2e-comment
+        env:
+          CCI_TOKEN: ${{ secrets.PIX_SERVICE_CIRCLE_CI_TOKEN }}
