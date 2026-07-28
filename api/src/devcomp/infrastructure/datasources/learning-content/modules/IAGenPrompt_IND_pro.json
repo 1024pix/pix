@@ -338,7 +338,7 @@
                 "type": "embed",
                 "isCompletionRequired": true,
                 "title": "Simulateur LLM",
-                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmix2593q00013v0195p6ayta",
+                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cms4t5y9y00059e01xzezy23p",
                 "instruction": "<p>À vous de mettre en pratique&nbsp;: vous disposez de cinq prompts.</p>",
                 "solution": "pix-llm-success",
                 "height": 550
@@ -584,7 +584,7 @@
                 "type": "embed",
                 "isCompletionRequired": true,
                 "title": "Simulateur de LLM",
-                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmk6rk3fm00003u01qywbbyz4",
+                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cms4snw5k00039e01ydwzac4e",
                 "instruction": "<p>Vous disposez de cinq prompts.</p>",
                 "solution": "pix-llm-success",
                 "height": 550
@@ -627,7 +627,7 @@
                 "id": "3b681347-7546-44ab-86ba-23a65e63f788",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Objectif&nbsp;: trouver une salle pour le séminaire.</strong></p><p>Gustave cherche un lieu pouvant accueillir son équipe. Il a besoin d’au moins 4 salles de réunion.</p><p>Son budget maximal est de 300 euros. Il cherche la meilleure offre.</p><p>Le prestataire a mis à disposition un logiciel d’IA pour répondre aux questions sur ses espaces disponibles.</p>"
+                "content": "<p><strong>Objectif&nbsp;: trouver un lieu pour le séminaire.</strong></p><p>Gustave cherche un lieu pouvant accueillir son équipe. Il a besoin d’au moins 4 salles de réunion.</p><p>Son budget maximal est de 300 euros. Il cherche la meilleure offre.</p><p>Le prestataire a mis à disposition un logiciel d’IA pour répondre aux questions sur ses espaces disponibles.</p>"
               }
             },
             {
@@ -637,7 +637,7 @@
                 "type": "embed",
                 "isCompletionRequired": true,
                 "title": "Simulateur LLM",
-                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmiytd9fw00033v01ys5n87wr",
+                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cms4swso600049e01ryrg4dbs",
                 "instruction": "<p>Utilisez le logiciel d’IA du prestataire, ci-dessous, pour trouver l’espace qui correspond à ses besoins.</p><p>Une fois que vous avez trouvé, écrivez le nom de l’espace ci-dessous.</p>",
                 "solution": "pix-llm-success",
                 "height": 550
