@@ -1,7 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
 import * as centerRepository from '../../certification/enrolment/infrastructure/repositories/center-repository.js';
-import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import { Organization } from '../../organizational-entities/domain/models/Organization.js';
 import { PIX_ADMIN } from '../../shared/constants.js';
 import { ForbiddenAccess } from '../domain/errors.js';
@@ -27,7 +26,6 @@ import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/
 import * as checkUserIsAdminInOrganizationUseCase from './usecases/checkUserIsAdminInOrganization.js';
 import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkUserIsAdminOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
-import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
 import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
@@ -268,57 +266,6 @@ function checkUserIsMemberOfCertificationCenter(
       return _replyForbiddenError(h);
     })
     .catch(() => _replyForbiddenError(h));
-}
-
-async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
-  request,
-  h,
-  dependencies = { checkUserIsMemberOfCertificationCenterSessionUsecase, certificationIssueReportRepository },
-) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const certificationIssueReportId = request.params.id;
-
-  try {
-    const certificationIssueReport = await dependencies.certificationIssueReportRepository.get({
-      id: certificationIssueReportId,
-    });
-    const isMemberOfSession = await dependencies.checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
-      userId,
-      certificationCourseId: certificationIssueReport.certificationCourseId,
-    });
-    return isMemberOfSession ? h.response(true) : _replyForbiddenError(h);
-  } catch {
-    return _replyForbiddenError(h);
-  }
-}
-
-async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
-  request,
-  h,
-  dependencies = {
-    checkUserIsMemberOfCertificationCenterSessionUsecase,
-  },
-) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const certificationCourseId = request.params.certificationCourseId;
-
-  try {
-    const isMemberOfSession = await dependencies.checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
-      userId,
-      certificationCourseId,
-    });
-    return isMemberOfSession ? h.response(true) : _replyForbiddenError(h);
-  } catch {
-    return _replyForbiddenError(h);
-  }
 }
 
 async function checkUserBelongsToScoOrganizationAndManagesStudents(
@@ -708,8 +655,6 @@ export const securityPreHandlers = {
   checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
   checkUserIsMemberOfCertificationCenter,
-  checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
-  checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
   checkUserOwnsCertificationCourse,
   makeCheckOrganizationHasFeature,
   checkOrganizationAccess,
