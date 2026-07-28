@@ -11,7 +11,10 @@ export async function findAll({ page = {} } = {}) {
   const offset = (number - 1) * size;
 
   const [rows, countResult] = await Promise.all([
-    datamartKnex(TABLE_NAME).orderBy('schoolUai').limit(size).offset(offset),
+    datamartKnex(TABLE_NAME)
+      .orderBy(['academieName', 'provinceCode', 'schoolUai', 'schoolYearGroup', 'competenceCode'])
+      .limit(size)
+      .offset(offset),
     datamartKnex(TABLE_NAME).count('* as rowCount').first(),
   ]);
 

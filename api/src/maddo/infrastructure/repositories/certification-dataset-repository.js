@@ -10,7 +10,10 @@ export async function findAll({ page = {} } = {}) {
   const size = page.size ?? DEFAULT_PAGE_SIZE;
   const offset = (number - 1) * size;
 
-  const rows = await datamartKnex(TABLE_NAME).orderBy('schoolUai').limit(size).offset(offset);
+  const rows = await datamartKnex(TABLE_NAME)
+    .orderBy(['academieName', 'provinceCode', 'schoolUai', 'schoolYearGroup', 'competenceCode'])
+    .limit(size)
+    .offset(offset);
   const countResult = await datamartKnex(TABLE_NAME).count('* as rowCount').first();
 
   const rowCount = parseInt(countResult.rowCount, 10);
