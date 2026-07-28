@@ -69,7 +69,9 @@ module('Acceptance | Combined course blueprint | Update', function (hooks) {
       'description',
     );
     await fillIn(
-      screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
+      screen.getByRole('textbox', {
+        name: t('components.combined-course-blueprints.labels.reward-requirements.description'),
+      }),
       'New reward requirements',
     );
 

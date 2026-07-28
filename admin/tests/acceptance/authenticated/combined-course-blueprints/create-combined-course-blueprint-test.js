@@ -65,6 +65,14 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     await screen.findByRole('listbox');
     await click(screen.getByRole('option', { name: 'Parentalite' }));
 
+    await click(
+      screen.getByRole('radio', {
+        name: t('components.combined-course-blueprints.labels.reward-requirements.one-subset-option'),
+      }),
+    );
+
+    assert.ok(screen.getByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' }));
+
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName(/Sélection du niveau du sujet suivant : Tube/);
@@ -74,7 +82,9 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     await click(within(tubesListbox).getByRole('option', { name: '4' }));
     await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '50');
     await fillIn(
-      screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
+      screen.getByRole('textbox', {
+        name: t('components.combined-course-blueprints.labels.reward-requirements.description'),
+      }),
       'Atteindre tel niveau sur tel sujet',
     );
 

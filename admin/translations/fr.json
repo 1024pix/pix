@@ -777,7 +777,13 @@
         "name": "Nom externe",
         "prescriber-description": "Description prescripteur",
         "prescriber-description-sublabel": "Cette description sera visible par les prescripteurs dans Pix Orga",
-        "reward-requirements": "Description des critères d’obtention",
+        "reward-requirements": {
+          "add-new-tubes-selection": "Ajouter une nouvelle sélection de sujets",
+          "description": "Description des critères d’obtention",
+          "multiple-subsets-option": "sur une sélection de sujets du schéma de parcours",
+          "one-subset-option": "sur l'ensemble du schéma de parcours",
+          "reward-criteria-choice": "Définir un critère d'obtention :"
+        },
         "survey-link": "Url du questionnaire de fin de parcours",
         "target-profile": "Profil cible"
       },

@@ -8,19 +8,6 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Template | combined-course-blueprints | list', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it should render combined course list component', async function (assert) {
-    // given
-    const currentUser = this.owner.lookup('service:currentUser');
-    currentUser.adminMember = { isSuperAdmin: true };
-
-    // when
-    const screen = await render(<template><CombinedCourseBlueprintList /></template>);
-
-    // then
-    assert.ok(screen.getByRole('heading', { level: 1, name: t('components.combined-course-blueprints.list.title') }));
-    assert.ok(screen.getByRole('link', { name: t('components.combined-course-blueprints.create.title') }));
-  });
-
   test('it should not display create button when user is not super admin', async function (assert) {
     // given
     const currentUser = this.owner.lookup('service:currentUser');

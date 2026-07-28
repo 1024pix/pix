@@ -171,127 +171,255 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         .hasAttribute('aria-disabled');
     });
 
-    test('it should display tubes selection component only if the user selects an attestation', async function (assert) {
-      //given
-      const attestations = [
-        { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
-        { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
-      ];
-      const frameworks = [
-        {
-          id: '123',
+    module('saving capped tube requirement for attestation', function (hooks) {
+      let store, blueprint, attestations, tube, tube2, thematic, competence, area, framework;
+
+      hooks.beforeEach(function () {
+        store = this.owner.lookup('service:store');
+
+        blueprint = store.createRecord('combined-course-blueprint', {
+          id: '1',
+          name: 'name',
+        });
+        sinon.stub(blueprint, 'save');
+        blueprint.save.resolves();
+
+        attestations = [
+          { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
+          { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
+        ];
+
+        tube = store.createRecord('tube', {
+          id: 'tubeId1',
+          name: '@tubeName1',
+          practicalTitle: 'Tube 1',
+          skills: [],
+          level: 8,
+        });
+
+        tube2 = store.createRecord('tube', {
+          id: 'tubeId2',
+          name: '@tubeName2',
+          practicalTitle: 'Tube 2',
+          skills: [],
+          level: 8,
+        });
+
+        thematic = store.createRecord('thematic', {
+          id: 'thematicId',
+          name: 'Thématique',
+          tubes: [tube, tube2],
+        });
+
+        competence = store.createRecord('competence', {
+          id: 'competenceId',
+          index: '1',
+          name: 'Titre competence',
+          thematics: [thematic],
+        });
+
+        area = store.createRecord('area', {
+          id: 'areaId',
+          title: 'Titre domaine',
+          code: 1,
+          competences: [competence],
+        });
+
+        framework = store.createRecord('framework', {
+          id: 'frameworkId',
           name: 'Pix',
-          areas: [],
-        },
-      ];
-      const model = { attestations, frameworks };
-      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
-
-      //then
-      assert.notOk(await screen.queryByRole('heading', { name: 'Sélection des sujets' }));
-
-      //when
-      await click(
-        screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-      );
-      await screen.findByRole('listbox');
-
-      await click(screen.getByRole('option', { name: 'Parentalite' }));
-      //then
-      assert.ok(screen.getByRole('heading', { name: 'Sélection des sujets' }));
-      assert.ok(
-        screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
-      );
-      assert.notOk(screen.queryByLabelText('Taux de réussite requis', { exact: false }));
-    });
-
-    test('it should save blueprint with selected tubes requirements when they are selected', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-
-      const blueprint = store.createRecord('combined-course-blueprint', {
-        id: '1',
-        name: 'name',
+          areas: [area],
+        });
       });
-      sinon.stub(blueprint, 'save');
-      blueprint.save.resolves();
+      test('it should display tubes selection component only if the user selects an attestation and chooses type of selection', async function (assert) {
+        //given
+        const frameworks = [
+          {
+            id: 123,
+            name: 'Pix',
+            areas: [],
+          },
+        ];
 
-      const attestations = [
-        { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
-        { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
-      ];
+        const attestations = [
+          { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
+          { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
+        ];
 
-      const tube = store.createRecord('tube', {
-        id: 'tubeId1',
-        name: '@tubeName1',
-        practicalTitle: 'Tube 1',
-        skills: [],
-        level: 8,
+        const model = { attestations, frameworks };
+        const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+        //then
+        assert.notOk(
+          await screen.queryByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.one-subset-option'),
+          }),
+        );
+        assert.notOk(
+          await screen.queryByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.multiple-subsets-option'),
+          }),
+        );
+        assert.notOk(
+          await screen.queryByRole('heading', {
+            name: 'Critère d’obtention sur une sélection de sujets du profil cible',
+          }),
+        );
+
+        //when
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+        );
+        await screen.findByRole('listbox');
+
+        await click(screen.getByRole('option', { name: 'Parentalite' }));
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.multiple-subsets-option'),
+          }),
+        );
+
+        //then
+        assert.ok(
+          screen.getByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' }),
+        );
+        assert.ok(
+          screen.getByRole('textbox', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.description'),
+          }),
+        );
+        assert.ok(screen.queryByLabelText('Taux de réussite requis', { exact: false }));
       });
+      test('it should save blueprint with selected tubes requirements when they are selected', async function (assert) {
+        //when
+        const model = {
+          attestations,
+          frameworks: [framework],
+          blueprint,
+        };
+        const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
-      const thematic = store.createRecord('thematic', {
-        id: 'thematicId',
-        name: 'Thématique',
-        tubes: [tube],
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+        );
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Parentalite' }));
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.one-subset-option'),
+          }),
+        );
+
+        assert.ok(
+          screen.getByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' }),
+        );
+
+        await clickByName('1 · Titre domaine');
+        await clickByName('1 Titre competence');
+        await click(screen.getByLabelText('@tubeName1 : Tube 1'));
+
+        const allSelects = await screen.getAllByText(/Sélection du niveau du sujet suivant : Tube/);
+
+        await click(allSelects[0]);
+        const allCells = screen.getAllByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ });
+        const tubesListbox = await within(allCells[0]).findByRole('listbox');
+        await click(within(tubesListbox).getByRole('option', { name: '4' }));
+        await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '75');
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }),
+        );
+
+        //then
+        sinon.assert.calledOnceWith(blueprint.save, {
+          adapterOptions: {
+            cappedTubeRequirements: [
+              {
+                tubes: [{ tubeId: 'tubeId1', level: 4 }],
+                threshold: '75',
+              },
+            ],
+          },
+        });
       });
+      test('it should save blueprint with multiple selections of capped tubes', async function (assert) {
+        const model = {
+          attestations,
+          frameworks: [framework],
+          blueprint,
+        };
+        const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
-      const competence = store.createRecord('competence', {
-        id: 'competenceId',
-        index: '1',
-        name: 'Titre competence',
-        thematics: [thematic],
-      });
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+        );
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Parentalite' }));
 
-      const area = store.createRecord('area', {
-        id: 'areaId',
-        title: 'Titre domaine',
-        code: 1,
-        competences: [competence],
-      });
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.multiple-subsets-option'),
+          }),
+        );
+        assert.ok(
+          screen.getByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' }),
+        );
 
-      const framework = store.createRecord('framework', {
-        id: 'frameworkId',
-        name: 'Pix',
-        areas: [area],
-      });
+        await clickByName('1 · Titre domaine');
+        await clickByName('1 Titre competence');
+        await click(screen.getByLabelText('@tubeName1 : Tube 1'));
 
-      const model = {
-        attestations,
-        frameworks: [framework],
-        blueprint,
-      };
+        const allSelects = await screen.getAllByText(/Sélection du niveau du sujet suivant : Tube/);
 
-      //when
-      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+        await click(allSelects[0]);
+        const allCells = screen.getAllByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ });
+        const tubesListbox = await within(allCells[0]).findByRole('listbox');
 
-      await click(
-        screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-      );
-      await screen.findByRole('listbox');
-      await click(screen.getByRole('option', { name: 'Parentalite' }));
+        await click(within(tubesListbox).getByRole('option', { name: '4' }));
 
-      assert.ok(screen.getByRole('heading', { name: 'Sélection des sujets' }));
-      await clickByName('1 · Titre domaine');
-      await clickByName('1 Titre competence');
-      await clickByName(/Sélection du niveau du sujet suivant : Tube/);
-      const tubesListbox = await within(
-        screen.getByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ }),
-      ).findByRole('listbox');
-      await click(within(tubesListbox).getByRole('option', { name: '4' }));
-      await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '75');
+        await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '75');
 
-      await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
+        await click(
+          screen.getByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
+          }),
+        );
 
-      //then
-      sinon.assert.calledOnceWith(blueprint.save, {
-        adapterOptions: {
-          cappedTubeRequirements: [
-            {
-              tubes: [{ tubeId: 'tubeId1', level: 4 }],
-              threshold: '75',
-            },
-          ],
-        },
+        const nextCappedTubeCriterion = await screen.getByTestId('cappedTubeCriterion1');
+
+        await click(within(nextCappedTubeCriterion).getByText('1 · Titre domaine'));
+        await click(within(nextCappedTubeCriterion).getByText('1 Titre competence'));
+        await click(within(nextCappedTubeCriterion).getByLabelText('@tubeName2 : Tube 2'));
+        const allSelects2 = within(nextCappedTubeCriterion).getAllByText(/Sélection du niveau du sujet suivant : Tube/);
+        await click(allSelects2[1]);
+
+        const allCells2 = within(nextCappedTubeCriterion).getAllByRole('cell', {
+          name: /Sélection du niveau du sujet suivant : Tube/,
+        });
+
+        await click(await within(allCells2[1]).findByRole('option', { name: '3' }));
+
+        await fillIn(within(nextCappedTubeCriterion).getByLabelText('Taux de réussite requis', { exact: false }), '99');
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }),
+        );
+
+        //then
+        sinon.assert.calledOnceWith(blueprint.save, {
+          adapterOptions: {
+            cappedTubeRequirements: [
+              {
+                tubes: [{ tubeId: 'tubeId1', level: 4 }],
+                threshold: '75',
+              },
+              {
+                tubes: [{ tubeId: 'tubeId2', level: 3 }],
+                threshold: '99',
+              },
+            ],
+          },
+        });
       });
     });
   });
@@ -365,7 +493,9 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       );
 
       await fillIn(
-        screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
+        screen.getByRole('textbox', {
+          name: t('components.combined-course-blueprints.labels.reward-requirements.description'),
+        }),
         'Updated requirements',
       );
       await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.update.updateButton') }));
@@ -413,7 +543,9 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       //then
       assert
         .dom(
-          screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
+          screen.getByRole('textbox', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.description'),
+          }),
         )
         .hasValue('Atteindre tel niveau sur tel sujet');
     });
