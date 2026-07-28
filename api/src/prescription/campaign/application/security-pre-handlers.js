@@ -1,8 +1,8 @@
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import * as checkCampaignParticipationBelongsToUserUsecase from '../../campaign-participation/application/usecases/checkCampaignParticipationBelongsToUser.js';
 import * as checkAuthorizationToAccessCampaignUsecase from './usecases/checkAuthorizationToAccessCampaign.js';
 import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
 import * as checkCampaignBelongsToCombinedCourseUsecase from './usecases/checkCampaignBelongsToCombinedCourse.js';
-import * as checkCampaignParticipationBelongsToUserUsecase from './usecases/checkCampaignParticipationBelongsToUser.js';
 
 async function checkCampaignBelongsToCombinedCourse(
   request,
