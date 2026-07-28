@@ -1,5 +1,5 @@
-import * as campaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
-import { CampaignParticipationDoesNotBelongToUser } from '../../domain/errors.js';
+import { CampaignParticipationDoesNotBelongToUser } from '../../../campaign/domain/errors.js';
+import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 
 const execute = async function ({
   userId,

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { campaignSecurityPreHandlers } from '../../prescription/campaign/application/security-pre-handlers.js';
+import { campaignParticipationPreHandlers } from '../../prescription/campaign-participation/application/pre-handlers.js';
 import { PayloadTooLargeError, sendJsonApiError } from '../../shared/application/errors/http-errors.js';
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 import { MAX_FILE_SIZE_UPLOAD } from '../../shared/constants.js';
@@ -19,7 +19,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: campaignSecurityPreHandlers.checkCampaignParticipationBelongsToUser,
+            method: campaignParticipationPreHandlers.checkCampaignParticipationBelongsToUser,
           },
         ],
         handler: questController.getQuestResults,
