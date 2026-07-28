@@ -10,6 +10,9 @@
 # - Each job halts early via `circleci step halt` if its parameter is false
 # - On the `dev` branch, all jobs always run (full post-merge run)
 # - The `build-and-test` gate job is the single required status check in GitHub
+# - e2e_test_mon_pix, e2e_test_orga and e2e_playwright_test are restricted via
+#   `filters: branches: only: dev` in the workflow: they never run on PR commits,
+#   only automatically after a merge to `dev`
 
 version: 2.1
 
@@ -331,6 +334,9 @@ workflows:
           context: Pix
           requires:
             - mon_pix_install
+          filters:
+            branches:
+              only: dev
 
       # --- Orga ---
       - orga_install:
@@ -349,6 +355,9 @@ workflows:
           context: Pix
           requires:
             - orga_install
+          filters:
+            branches:
+              only: dev
 
       # --- Certif ---
       - certif_install:
@@ -400,6 +409,9 @@ workflows:
             - mon_pix_install
             - orga_install
             - certif_install
+          filters:
+            branches:
+              only: dev
       - e2e_playwright_test_recette_certif:
           context: Pix
           requires:
@@ -980,12 +992,6 @@ jobs:
     parallelism: 4
     working_directory: ~/pix/high-level-tests/e2e
     steps:
-      - run:
-          name: Skip if not needed
-          command: |
-            if [[ "$CIRCLE_BRANCH" != "dev" ]] && [[ "<< pipeline.parameters.run-mon-pix >>" == "false" ]] && [[ "<< pipeline.parameters.run-api >>" == "false" ]] && [[ "<< pipeline.parameters.run-e2e-cypress >>" == "false" ]]; then
-              circleci step halt
-            fi
       - browser-tools/install_browser_tools
       - run:
           name: Manual safety start of X11 server
@@ -1064,12 +1070,6 @@ jobs:
       name: node-browsers-redis-postgres-docker
     working_directory: ~/pix/high-level-tests/e2e
     steps:
-      - run:
-          name: Skip if not needed
-          command: |
-            if [[ "$CIRCLE_BRANCH" != "dev" ]] && [[ "<< pipeline.parameters.run-orga >>" == "false" ]] && [[ "<< pipeline.parameters.run-api >>" == "false" ]] && [[ "<< pipeline.parameters.run-e2e-cypress >>" == "false" ]]; then
-              circleci step halt
-            fi
       - browser-tools/install_browser_tools
       - run:
           name: Manual safety start of X11 server
