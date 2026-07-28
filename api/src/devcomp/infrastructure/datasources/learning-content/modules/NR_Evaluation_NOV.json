@@ -119,7 +119,7 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-1.png",
+                        "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte1_slide1.svg",
                         "alt": "<p>Activité&nbsp;: parcourir 100 kilomètres en voiture.</p><p>Gaz émis&nbsp;: dioxyde de carbone (CO2).</p>"
                       },
                       "license": {
@@ -133,7 +133,7 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-2.png",
+                        "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte1_slide2.svg",
                         "alt": "<p>Activité&nbsp;: produire 1 kg de viande de boeuf.</p><p>Gaz émis&nbsp;: méthane (CH4) et&nbsp;dioxyde de carbone (CO2).</p>"
                       },
                       "license": {
@@ -147,7 +147,7 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-3.png",
+                        "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte1_slide3.svg",
                         "alt": "<p>Activité&nbsp;: produire 100 kg de carottes.</p><p>Gaz émis&nbsp;: méthane (CH4) et protoxyde d’azote&nbsp;(NO2).</p>"
                       },
                       "license": {
