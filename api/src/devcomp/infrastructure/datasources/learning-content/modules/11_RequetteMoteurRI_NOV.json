@@ -2,7 +2,7 @@
   "id": "f234d088-1f0e-44c4-8a43-b0153a2a1ddd",
   "shortId": "9a1559a3",
   "slug": "faire-recherche",
-  "title": "Faire une recherche sur internet",
+  "title": "Faire une recherche en ligne",
   "isBeta": true,
   "visibility": "public",
   "details": {
@@ -12,7 +12,7 @@
     "level": "novice",
     "objectives": [
       "<p>Comprendre à quoi sert un moteur de recherche</p>",
-      "<p>Choisir des mots clés pour faire une recherche web</p>",
+      "<p>Choisir des mots clés pour faire une recherche en ligne</p>",
       "<p>Modifier sa recherche en fonction des résultats obtenus</p>"
     ],
     "tabletSupport": "comfortable"
@@ -33,7 +33,7 @@
                 "id": "a205446e-9b8c-4dc2-b06e-d4176fc18a18",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Rosa va à Montréal. Elle fait une recherche sur internet pour trouver un restaurant indien. Elle obtient des résultats qui ne lui conviennent pas.</p><p><br></p><p><strong>Observez les résultats obtenus par Rosa puis répondez à la question qui suit.</strong></p>"
+                "content": "<p>Rosa va à Montréal. Elle fait une recherche en ligne pour trouver un restaurant indien. Elle obtient des résultats qui ne lui conviennent pas.</p><p><br></p><p><strong>Observez les résultats obtenus par Rosa puis répondez à la question qui suit.</strong></p>"
               }
             },
             {
@@ -123,7 +123,7 @@
                 "id": "f8d2156a-e84a-4d68-81f4-ed58a7280adb",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Cette année, Théo veut faire de la natation. 🥽</p><p>Il cherche des informations sur internet à l’aide d’un moteur de recherche. 🔍</p>"
+                "content": "<p>Cette année, Théo veut faire de la natation. 🥽</p><p>Il cherche des informations en ligne à l’aide d’un moteur de recherche. 🔍</p>"
               }
             },
             {
@@ -264,7 +264,7 @@
               "element": {
                 "id": "7bd97e19-eac0-4959-b39b-98240764aca7",
                 "type": "qcu-discovery",
-                "instruction": "<p>À votre avis, comment appelle-t-on ces mots utiles et importants pour faire une recherche sur internet ?</p>",
+                "instruction": "<p>À votre avis, comment appelle-t-on ces mots utiles et importants pour faire une recherche en ligne ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -312,7 +312,7 @@
                 "id": "f6ab76a6-1710-4db8-bf1f-a07a1df0d270",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour faire une recherche sur internet, il n’est pas nécessaire de rédiger une phrase complète. Il faut <strong>choisir quelques mots importants</strong> : ce sont <strong>des mots clés</strong>.</p><p><br></p><p>Certains de ces mots clés <strong>influencent la nature des pages web</strong> proposées par le moteur de recherche.</p><br><p>Le tableau suivant montre quelques exemples.</p><br><table>    <thead>        <tr>            <th scope=\"\\&quot;col\\&quot;\">mot clé recherché</th>            <th scope=\"\\&quot;col\\&quot;\">nature des pages web</th>        </tr>    </thead>    <tbody>        <tr>            <td scope=\"\\&quot;row\\&quot;\">avis</td>            <td>pages web de témoignages d’utilisateurs</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">comparatif</td>            <td>pages web&nbsp;de tests de produits</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">tutoriel (ou tuto)</td>            <td>pages web&nbsp;d’entraide</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">recette</td>            <td>pages web&nbsp;spécialisées dans la cuisine</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">histoire</td>            <td>pages web d'encyclopédie</td>        </tr>    </tbody></table><p><br></p>"
+                "content": "<p>Pour faire une recherche en ligne, il n’est pas nécessaire de rédiger une phrase complète. Il faut <strong>choisir quelques mots importants</strong> : ce sont <strong>des mots clés</strong>.</p><p><br></p><p>Certains de ces mots clés <strong>influencent la nature des pages web</strong> proposées par le moteur de recherche.</p><br><p>Le tableau suivant montre quelques exemples.</p><br><table>    <thead>        <tr>            <th scope=\"\\&quot;col\\&quot;\">mot clé recherché</th>            <th scope=\"\\&quot;col\\&quot;\">nature des pages web</th>        </tr>    </thead>    <tbody>        <tr>            <td scope=\"\\&quot;row\\&quot;\">avis</td>            <td>pages web de témoignages d’utilisateurs</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">comparatif</td>            <td>pages web&nbsp;de tests de produits</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">tutoriel (ou tuto)</td>            <td>pages web&nbsp;d’entraide</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">recette</td>            <td>pages web&nbsp;spécialisées dans la cuisine</td>        </tr>        <tr>            <td scope=\"\\&quot;row\\&quot;\">histoire</td>            <td>pages web d'encyclopédie</td>        </tr>    </tbody></table><p><br></p>"
               }
             }
           ]
@@ -498,7 +498,7 @@
                 "id": "3282bf7c-e23a-4e07-8594-e2c9171e120f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Si les résultats obtenus ne conviennent pas, il est utile de <strong>faire une nouvelle recherche</strong>. Pour cela, il suffit de <strong>modifier</strong> ou de <strong>compléter les mots clés utilisés</strong>.</p><p><br></p><h5>Avez-vous remarqué ? </h5><p>Un moteur de recherche propose toujours <strong>plusieurs résultats</strong>. </p><p>Ces résultats sont présentés sous la forme d’<strong>une liste d</strong><strong>e pages web</strong>.&nbsp;<br></p>"
+                "content": "<p>Si les résultats obtenus ne conviennent pas, il est utile de <strong>faire une nouvelle recherche</strong>. Pour cela, il suffit de <strong>modifier</strong> ou de <strong>compléter les mots clés utilisés</strong>.</p><p><br></p><h5>Avez-vous remarqué ? </h5><p>Un moteur de recherche propose toujours <strong>plusieurs résultats</strong>.</p><p>Ces résultats sont présentés sous la forme d’<strong>une liste de pages web</strong>.<br></p>"
               }
             },
             {
@@ -648,7 +648,7 @@
                 "id": "816054d7-c091-4bb8-b327-ed1b548cb6c7",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>On fait la différence entre <strong>le moteur de recherche</strong> et <strong>le navigateur web</strong> &nbsp;:</p>\n<ul>\n    <li>Le moteur de recherche est l’outil en ligne qui permet de trouver des pages web (par exemple, Google, DuckDuckGo ou Microsoft Bing).</li>\n    <li>Le navigateur web est le logiciel, installé sur un ordinateur ou un smartphone, que l’on utilise pour naviguer sur internet (par exemple, Chrome, Firefox ou Microsoft Edge).</li>\n</ul>"
+                "content": "<p>On fait la différence entre <strong>le moteur de recherche</strong> et <strong>le navigateur web</strong> &nbsp;:</p>\n<ul>\n    <li>Le moteur de recherche est l’outil en ligne qui permet de trouver des pages web (par exemple, Google, DuckDuckGo ou Microsoft Bing).</li>\n    <li>Le navigateur web est le logiciel, installé sur un ordinateur ou un smartphone, que l’on utilise pour naviguer sur le web (par exemple, Chrome, Firefox ou Microsoft Edge).</li>\n</ul>"
               }
             }
           ]
@@ -670,7 +670,7 @@
                 "id": "aa907839-7cb7-4c69-8028-e45b6f0a28c7",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>Pour <strong>rechercher des pages sur le web</strong>, on écrit <strong>des mots </strong><strong>clés</strong> dans <strong>un moteur </strong><strong>de recherche</strong>. 🔎</li>    <li>Chaque mot clé a <strong>une influence sur les résultats</strong> proposés. 🔤</li>    <li>Pour <strong>choisir les bons mots clés</strong>, il faut&nbsp;:<ul>            <li> repérer les informations importantes de la question qu’on se pose,</li>            <li>supprimer les mots inutiles dans sa recherche (comme « les », « des », etc.),</li>            <li><strong>être précis</strong> dans les mots clés utilisés.</li>        </ul>    </li>    <li>Les résultats de la recherche&nbsp;sont présentés sous forme d’une <strong>liste de pages web</strong>.&nbsp;</li>    <li>Il est parfois nécessaire de <strong>modifier sa recherche</strong>.&nbsp;Pour cela, il suffit d’ajouter ou de remplacer certains mots clés.</li></ul>"
+                "content": "<ul>    <li>Pour <strong>rechercher des pages en ligne</strong>, on écrit <strong>des mots </strong><strong>clés</strong> dans <strong>un moteur </strong><strong>de recherche</strong>. 🔎</li>    <li>Chaque mot clé a <strong>une influence sur les résultats</strong> proposés. 🔤</li>    <li>Pour <strong>choisir les bons mots clés</strong>, il faut&nbsp;:<ul>            <li> repérer les informations importantes de la question qu’on se pose,</li>            <li>supprimer les mots inutiles dans sa recherche (comme « les », « des », etc.),</li>            <li><strong>être précis</strong> dans les mots clés utilisés.</li>        </ul>    </li>    <li>Les résultats de la recherche&nbsp;sont présentés sous forme d’une <strong>liste de pages web</strong>.&nbsp;</li>    <li>Il est parfois nécessaire de <strong>modifier sa recherche</strong>.&nbsp;Pour cela, il suffit d’ajouter ou de remplacer certains mots clés.</li></ul>"
               }
             }
           ]
@@ -728,7 +728,7 @@
                   },
                   {
                     "id": "f88ee518-f08d-402d-bae1-1e840722a542",
-                    "text": "Rédiger une phrase complète est utile pour obtenir des résultats intéressants.",
+                    "text": "Rédiger une phrase complète est nécessaire pour obtenir des résultats intéressants.",
                     "image": {
                       "url": "",
                       "altText": ""
