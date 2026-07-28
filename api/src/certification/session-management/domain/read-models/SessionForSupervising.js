@@ -1,3 +1,4 @@
+const AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS = 15 * 60 * 1000; // 15min
 /**
  * @typedef {object} LiveAlert
  * @property {string} status
@@ -40,7 +41,7 @@ export class CandidateForSupervising {
    * @param {string} params.firstName
    * @param {string} params.lastName
    * @param {number} params.extraTimePercentage
-   * @param {boolean} params.authorizedToStart
+   * @param {Date} params.authorizedToStartAt
    * @param {string} params.assessmentStatus
    * @param {date} params.startDateTime
    * @param {date} params.theoricalEndDateTime
@@ -56,7 +57,7 @@ export class CandidateForSupervising {
     firstName,
     lastName,
     extraTimePercentage,
-    authorizedToStart,
+    authorizedToStartAt,
     assessmentStatus,
     startDateTime,
     theoricalEndDateTime,
@@ -71,7 +72,7 @@ export class CandidateForSupervising {
     this.firstName = firstName;
     this.lastName = lastName;
     this.extraTimePercentage = extraTimePercentage;
-    this.authorizedToStart = authorizedToStart;
+    this.authorizedToStartAt = authorizedToStartAt;
     this.assessmentStatus = assessmentStatus;
     this.startDateTime = startDateTime;
     this.theoricalEndDateTime = theoricalEndDateTime;
@@ -79,5 +80,16 @@ export class CandidateForSupervising {
     this.isStillEligibleToDoubleCertification = isStillEligibleToDoubleCertification;
     this.challengeLiveAlert = challengeLiveAlert;
     this.companionLiveAlert = companionLiveAlert;
+  }
+
+  get authorizedToStart() {
+    if (this.authorizedToStartAt) {
+      return this.#elapsedTimeSinceInvigilatorAuthorizedToStart() < AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS;
+    }
+    return false;
+  }
+
+  #elapsedTimeSinceInvigilatorAuthorizedToStart() {
+    return Date.now() - this.authorizedToStartAt.getTime();
   }
 }

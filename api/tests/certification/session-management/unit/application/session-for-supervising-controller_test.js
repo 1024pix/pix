@@ -46,7 +46,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
           lastName: 'tata',
           birthdate: '1984-05-28',
           extraTimePercentage: 3,
-          authorizedToStart: true,
+          authorizedToStartAt: new Date(),
           assessmentStatus: Assessment.states.STARTED,
           startDateTime: new Date('2022-10-01T13:30:00Z'),
           theoricalEndDateTime: new Date('2022-10-01T14:30:00Z'),

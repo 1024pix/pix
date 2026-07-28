@@ -102,7 +102,7 @@ async function _toDomain(results, certificationBadgesService) {
         candidateRow.extraTimePercentage != null
           ? parseFloat(candidateRow.extraTimePercentage)
           : candidateRow.extraTimePercentage,
-      authorizedToStart: Boolean(candidateRow.authorizedToStartAt),
+      authorizedToStartAt: candidateRow.authorizedToStartAt ? new Date(candidateRow.authorizedToStartAt) : null,
       assessmentStatus: candidateRow.assessmentStatus,
       startDateTime: candidateRow.startDateTime ? new Date(candidateRow.startDateTime) : null,
       theoricalEndDateTime: computeTheoricalEndDateTime(candidateRow.startDateTime, candidateRow.assessmentDuration),

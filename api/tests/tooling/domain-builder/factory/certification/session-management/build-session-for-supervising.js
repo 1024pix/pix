@@ -44,7 +44,7 @@ class SessionForSupervisingBuilder {
    * @param {string} params.firstName
    * @param {string} params.lastName
    * @param {number} params.extraTimePercentage
-   * @param {boolean} params.authorizedToStart
+   * @param {Date} params.authorizedToStartAt
    * @param {string} params.assessmentStatus
    * @param {date} params.startDateTime
    * @param {date} params.theoricalEndDateTime
@@ -61,7 +61,7 @@ class SessionForSupervisingBuilder {
     firstName,
     lastName,
     extraTimePercentage,
-    authorizedToStart,
+    authorizedToStartAt,
     assessmentStatus,
     startDateTime,
     theoricalEndDateTime,
@@ -77,7 +77,7 @@ class SessionForSupervisingBuilder {
       firstName: firstName ?? 'Lolo',
       lastName: lastName ?? 'Lapraline',
       extraTimePercentage: extraTimePercentage ?? 2,
-      authorizedToStart: authorizedToStart,
+      authorizedToStartAt,
       assessmentStatus: assessmentStatus ?? 'started',
       startDateTime: startDateTime ?? new Date('2026-06-06T12:00:00Z'),
       theoricalEndDateTime: theoricalEndDateTime ?? new Date('2026-06-06T12:30:00Z'),
@@ -169,7 +169,7 @@ class SessionForSupervisingBuilder {
         lastName: candidate.lastName,
         birthdate: candidate.birthdate,
         extraTimePercentage: candidate.extraTimePercentage,
-        authorizedToStartAt: candidate.authorizedToStart ? new Date() : null,
+        authorizedToStartAt: candidate.authorizedToStartAt,
         subscription: candidate.subscription,
       }).id;
 
