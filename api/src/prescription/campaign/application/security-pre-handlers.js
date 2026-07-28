@@ -2,6 +2,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import * as checkAuthorizationToAccessCampaignUsecase from './usecases/checkAuthorizationToAccessCampaign.js';
 import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
 import * as checkCampaignBelongsToCombinedCourseUsecase from './usecases/checkCampaignBelongsToCombinedCourse.js';
+import * as checkCampaignParticipationBelongsToUserUsecase from './usecases/checkCampaignParticipationBelongsToUser.js';
 
 async function checkCampaignBelongsToCombinedCourse(
   request,
@@ -46,8 +47,21 @@ async function checkAuthorizationToAccessCampaign(
   return securityPreHandlers.replyForbiddenError(h);
 }
 
+// bounded-context: this is not tested
+async function checkCampaignParticipationBelongsToUser(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return securityPreHandlers.replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const { campaignParticipationId } = request.params;
+  await checkCampaignParticipationBelongsToUserUsecase.execute({ userId, campaignParticipationId });
+  return h.response(true);
+}
+
 export const campaignSecurityPreHandlers = {
   checkCampaignBelongsToCombinedCourse,
   checkAuthorizationToManageCampaign,
   checkAuthorizationToAccessCampaign,
+  checkCampaignParticipationBelongsToUser,
 };
