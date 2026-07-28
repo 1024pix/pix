@@ -160,12 +160,12 @@ describe('Integration | Team | Infrastructure | Repository | UserOrgaSettings', 
       );
     });
 
-    it("should return empty object when user-orga-settings doesn't exists", async function () {
+    it("should return null when user-orga-settings doesn't exists", async function () {
       // when
       const foundUserOrgaSettings = await userOrgaSettingsRepository.findOneByUserId(user.id + 1);
 
       // then
-      expect(foundUserOrgaSettings).to.deep.equal({});
+      expect(foundUserOrgaSettings).to.be.null;
     });
   });
 

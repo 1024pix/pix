@@ -1,0 +1,5 @@
+{
+  "name": "deprecated",
+  "dependsOn": ["legal-documents", "organizational-entities", "team", "shared"],
+  "circular": "forbidden"
+}

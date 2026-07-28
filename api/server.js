@@ -17,6 +17,7 @@ import { certificationEnrolmentRoutes } from './src/certification/enrolment/rout
 import { certificationEvaluationRoutes } from './src/certification/evaluation/routes.js';
 import { certificationResultRoutes } from './src/certification/results/routes.js';
 import { certificationSessionRoutes } from './src/certification/session-management/routes.js';
+import { deprecatedRoutes } from './src/deprecated/application/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
 import { evaluationRoutes } from './src/evaluation/routes.js';
 import { identityAccessManagementRoutes } from './src/identity-access-management/application/routes.js';
@@ -41,7 +42,6 @@ import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metr
 import { instrumentHapiServer } from './src/shared/infrastructure/open-telemetry/hapi-tracing.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
-// bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';
 import { swaggers } from './src/shared/swaggers.js';
 import { handleFailAction } from './src/shared/validate.js';
@@ -249,6 +249,7 @@ const setupRoutesAndPlugins = async function (server) {
   await server.register(
     [
       plugins,
+      deprecatedRoutes,
       identityAccessManagementRoutes,
       organizationalEntitiesRoutes,
       sharedRoutes,

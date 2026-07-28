@@ -1,14 +1,8 @@
-import * as sharedMembershipRepository from '../../../../../src/shared/infrastructure/repositories/membership-repository.js';
-import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-import { repositories } from '../../../../../src/team/infrastructure/repositories/index.js';
-import { userOrgaSettingsRepository } from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
+import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
-const getPrescriber = usecases.getPrescriber;
-const prescriberRepository = repositories.prescriberRepository;
-
-describe('Integration | Team | Domain | UseCases | get-prescriber', function () {
+describe('Deprecated | Integration | Domain | UseCases | get-prescriber', function () {
   context('When prescriber does not have a userOrgaSettings', function () {
     it("should create it with the first membership's organization", async function () {
       // given
@@ -18,12 +12,7 @@ describe('Integration | Team | Domain | UseCases | get-prescriber', function () 
       await databaseBuilder.commit();
 
       // when
-      const prescriber = await getPrescriber({
-        userId,
-        prescriberRepository,
-        sharedMembershipRepository,
-        userOrgaSettingsRepository,
-      });
+      const prescriber = await usecases.getPrescriber({ userId });
 
       // then
       const userOrgaSettingsInDB = await knex('user-orga-settings')
@@ -47,12 +36,7 @@ describe('Integration | Team | Domain | UseCases | get-prescriber', function () 
       await databaseBuilder.commit();
 
       // when
-      const prescriber = await getPrescriber({
-        userId,
-        prescriberRepository,
-        sharedMembershipRepository,
-        userOrgaSettingsRepository,
-      });
+      const prescriber = await usecases.getPrescriber({ userId });
 
       // then
       expect(prescriber.userOrgaSettings).to.exist;
@@ -69,12 +53,7 @@ describe('Integration | Team | Domain | UseCases | get-prescriber', function () 
         await databaseBuilder.commit();
 
         // when
-        const prescriber = await getPrescriber({
-          userId,
-          prescriberRepository,
-          sharedMembershipRepository,
-          userOrgaSettingsRepository,
-        });
+        const prescriber = await usecases.getPrescriber({ userId });
 
         // then
         const userOrgaSettingsInDB = await knex('user-orga-settings')
