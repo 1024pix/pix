@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { certificationCourseController as certificationCoursesController } from '../../../../../src/certification/evaluation/application/certification-course-controller.js';
 import { certificationCourseRoute as moduleUnderTest } from '../../../../../src/certification/evaluation/application/certification-course-route.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { evaluationSecurityPreHandlers } from '../../../../../src/certification/evaluation/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
@@ -35,7 +35,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
   describe('GET /api/certification-courses/{id}', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserOwnsCertificationCourse').returns(() => true);
+      sinon.stub(evaluationSecurityPreHandlers, 'checkUserOwnsCertificationCourse').returns(() => true);
       sinon.stub(certificationCoursesController, 'get').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

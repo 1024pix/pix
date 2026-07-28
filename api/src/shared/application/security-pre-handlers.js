@@ -26,7 +26,6 @@ import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/
 import * as checkUserIsAdminInOrganizationUseCase from './usecases/checkUserIsAdminInOrganization.js';
 import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkUserIsAdminOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
-import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 
@@ -488,29 +487,6 @@ function validateAllAccess(securityChecks) {
   };
 }
 
-async function checkUserOwnsCertificationCourse(
-  request,
-  h,
-  dependencies = { checkUserOwnsCertificationCourseUseCase },
-) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const certificationCourseId = request.params.certificationCourseId;
-
-  try {
-    const ownsCertificationCourse = await dependencies.checkUserOwnsCertificationCourseUseCase.execute({
-      userId,
-      certificationCourseId,
-    });
-    return ownsCertificationCourse ? h.response(true) : _replyForbiddenError(h);
-  } catch {
-    return _replyForbiddenError(h);
-  }
-}
-
 async function checkUserCanDisableHisOrganizationMembership(
   request,
   h,
@@ -655,7 +631,6 @@ export const securityPreHandlers = {
   checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
   checkUserIsMemberOfCertificationCenter,
-  checkUserOwnsCertificationCourse,
   makeCheckOrganizationHasFeature,
   checkOrganizationAccess,
 };
