@@ -20,7 +20,7 @@ describe('Certification | SessionManagement | Integration | Repository | Supervi
   });
 
   describe('#authorizeToStart', function () {
-    it('authorizes a candidate to start by altering the right data in DB', async function () {
+    it('authorizes a candidate to start by altering the right data in DB and returns the date', async function () {
       // given
       databaseBuilder.factory.buildCertificationCandidate({
         id: 1,
@@ -36,7 +36,7 @@ describe('Certification | SessionManagement | Integration | Repository | Supervi
       const candidatesDataBefore = await knex.select('*').from('certification-candidates').orderBy('id');
 
       // when
-      await authorizeToStart(2);
+      const date = await authorizeToStart(2);
 
       // then
       const candidatesDataAfter = await knex.select('*').from('certification-candidates').orderBy('id');
@@ -48,6 +48,7 @@ describe('Certification | SessionManagement | Integration | Repository | Supervi
           authorizedToStartAt: now,
         },
       ]);
+      expect(date).to.be.instanceOf(Date);
     });
   });
 
