@@ -1,7 +1,10 @@
 import dayjs from 'dayjs';
 
 import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
-import { SessionForSupervising } from '../../../../../../src/certification/session-management/domain/read-models/SessionForSupervising.js';
+import {
+  CandidateForSupervising,
+  SessionForSupervising,
+} from '../../../../../../src/certification/session-management/domain/read-models/SessionForSupervising.js';
 import { Frameworks, toScope } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 
 /**
@@ -221,7 +224,7 @@ class SessionForSupervisingBuilder {
       room: this.room,
       examiner: this.examiner,
       accessCode: this.accessCode,
-      candidates: this.candidates,
+      candidates: this.candidates.map((candidate) => new CandidateForSupervising(candidate)),
     });
   }
 }

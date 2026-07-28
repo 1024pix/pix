@@ -7,25 +7,7 @@
  * @property {boolean} isFocus
  */
 
-/**
- * @typedef {object} CandidateView
- * @property {number} id
- * @property {number} userId
- * @property {date} birthdate
- * @property {string} firstName
- * @property {string} lastName
- * @property {number} extraTimePercentage
- * @property {boolean} authorizedToStart
- * @property {string} assessmentStatus
- * @property {date} startDateTime
- * @property {date} theoricalEndDateTime
- * @property {string} subscription
- * @property {boolean} isStillEligibleToDoubleCertification
- * @property {LiveAlert} challengeLiveAlert
- * @property {LiveAlert} companionLiveAlert
- */
-
-class SessionForSupervising {
+export class SessionForSupervising {
   /**
    * @param {object} params
    * @param {number} params.id
@@ -33,7 +15,7 @@ class SessionForSupervising {
    * @param {string} params.time
    * @param {string} params.examiner
    * @param {string} params.room
-   * @param {Array<CandidateView>} params.candidates
+   * @param {Array<CandidateForSupervising>} params.candidates
    * @param {string} params.accessCode
    * @param {string} params.address
    */
@@ -49,4 +31,53 @@ class SessionForSupervising {
   }
 }
 
-export { SessionForSupervising };
+export class CandidateForSupervising {
+  /**
+   * @param {object} params
+   * @param {number} params.id
+   * @param {number} params.userId
+   * @param {string} params.birthdate
+   * @param {string} params.firstName
+   * @param {string} params.lastName
+   * @param {number} params.extraTimePercentage
+   * @param {boolean} params.authorizedToStart
+   * @param {string} params.assessmentStatus
+   * @param {date} params.startDateTime
+   * @param {date} params.theoricalEndDateTime
+   * @param {string} params.subscription
+   * @param {boolean} params.isStillEligibleToDoubleCertification
+   * @param {LiveAlert} params.challengeLiveAlert
+   * @param {LiveAlert} params.companionLiveAlert
+   */
+  constructor({
+    id,
+    userId,
+    birthdate,
+    firstName,
+    lastName,
+    extraTimePercentage,
+    authorizedToStart,
+    assessmentStatus,
+    startDateTime,
+    theoricalEndDateTime,
+    subscription,
+    isStillEligibleToDoubleCertification,
+    challengeLiveAlert,
+    companionLiveAlert,
+  }) {
+    this.id = id;
+    this.userId = userId;
+    this.birthdate = birthdate;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.extraTimePercentage = extraTimePercentage;
+    this.authorizedToStart = authorizedToStart;
+    this.assessmentStatus = assessmentStatus;
+    this.startDateTime = startDateTime;
+    this.theoricalEndDateTime = theoricalEndDateTime;
+    this.subscription = subscription;
+    this.isStillEligibleToDoubleCertification = isStillEligibleToDoubleCertification;
+    this.challengeLiveAlert = challengeLiveAlert;
+    this.companionLiveAlert = companionLiveAlert;
+  }
+}

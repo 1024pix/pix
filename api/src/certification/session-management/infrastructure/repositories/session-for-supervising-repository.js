@@ -6,7 +6,7 @@ import { CertificationChallengeLiveAlertStatus } from '../../../shared/domain/mo
 import { CertificationCompanionLiveAlertStatus } from '../../../shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
-import { SessionForSupervising } from '../../domain/read-models/SessionForSupervising.js';
+import { CandidateForSupervising, SessionForSupervising } from '../../domain/read-models/SessionForSupervising.js';
 
 export async function get({ id, dependencies = { certificationBadgesService } }) {
   const knexConn = DomainTransaction.getConnection();
@@ -92,7 +92,7 @@ async function _toDomain(results, certificationBadgesService) {
       );
     }
 
-    const candidate = {
+    const candidate = new CandidateForSupervising({
       id: candidateRow.id,
       userId: candidateRow.userId,
       firstName: candidateRow.firstName,
@@ -110,7 +110,7 @@ async function _toDomain(results, certificationBadgesService) {
       isStillEligibleToDoubleCertification,
       challengeLiveAlert: candidateRow.challengeLiveAlert?.status ? candidateRow.challengeLiveAlert : null,
       companionLiveAlert: candidateRow.companionLiveAlert?.status ? candidateRow.companionLiveAlert : null,
-    };
+    });
     candidates.push(candidate);
   }
 
