@@ -17,8 +17,7 @@ class SupervisedCandidateBuilder {
   constructor() {
     this.id = null;
     this.existingSessionId = null;
-    this.authorizedToStart = true;
-    this.authorizedToStartAt = new Date();
+    this.authorizedToStartAt = null;
   }
 
   /**
@@ -41,7 +40,6 @@ class SupervisedCandidateBuilder {
    * @returns {SupervisedCandidateBuilder}
    */
   asAuthorizedToStart({ authorizedAt = new Date() }) {
-    this.authorizedToStart = true;
     this.authorizedToStartAt = authorizedAt;
     return this;
   }
@@ -52,7 +50,6 @@ class SupervisedCandidateBuilder {
    * @returns {SupervisedCandidateBuilder}
    */
   asNotAuthorizedToStart() {
-    this.authorizedToStart = false;
     this.authorizedToStartAt = null;
     return this;
   }
@@ -90,8 +87,7 @@ class SupervisedCandidateBuilder {
     const candidateId = databaseBuilder.factory.buildCertificationCandidate({
       id: this.id ?? undefined,
       sessionId: this.existingSessionId,
-      authorizedToStart: this.authorizedToStart,
-      authorizedToStartAt: this.authorizedToStart ? this.authorizedToStartAt : null,
+      authorizedToStartAt: this.authorizedToStartAt,
     });
     this.id = candidateId;
   }

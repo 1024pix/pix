@@ -24,12 +24,10 @@ describe('Certification | SessionManagement | Integration | Repository | Supervi
       // given
       databaseBuilder.factory.buildCertificationCandidate({
         id: 1,
-        authorizedToStart: false,
         authorizedToStartAt: null,
       });
       databaseBuilder.factory.buildCertificationCandidate({
         id: 2,
-        authorizedToStart: false,
         authorizedToStartAt: null,
       });
       await databaseBuilder.commit();
@@ -44,7 +42,6 @@ describe('Certification | SessionManagement | Integration | Repository | Supervi
         candidatesDataBefore[0],
         {
           ...candidatesDataBefore[1],
-          authorizedToStart: true,
           authorizedToStartAt: now,
         },
       ]);
@@ -57,12 +54,10 @@ describe('Certification | SessionManagement | Integration | Repository | Supervi
       // given
       databaseBuilder.factory.buildCertificationCandidate({
         id: 1,
-        authorizedToStart: true,
         authorizedToStartAt: new Date('2021-01-01'),
       });
       databaseBuilder.factory.buildCertificationCandidate({
         id: 2,
-        authorizedToStart: true,
         authorizedToStartAt: new Date('2022-02-02'),
       });
       await databaseBuilder.commit();
@@ -77,7 +72,6 @@ describe('Certification | SessionManagement | Integration | Repository | Supervi
         candidatesDataBefore[0],
         {
           ...candidatesDataBefore[1],
-          authorizedToStart: false,
           authorizedToStartAt: null,
         },
       ]);
