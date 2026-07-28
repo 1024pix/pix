@@ -7,7 +7,7 @@
   "visibility": "private",
   "details": {
     "image": "https://assets.pix.org/modules/jameliore-mes-prompts/picto_moduleIA_prompt2.svg",
-    "description": "Les logiciels d’IA générative permettent de répondre à une grande variété de nos demandes. Mais la qualité de leurs réponses dépend beaucoup des questions qu’on leur pose, c’est-à-dire des prompts qu’on leur donne. <br>Dans ce module, vous allez apprendre à formuler des prompts efficaces et à ajuster vos demandes pour améliorer le résultat proposé par le logiciel d’IA générative.<br>",
+    "description": "<p>Les logiciels d’IA générative permettent de répondre à une grande variété de nos demandes. Mais la qualité de leurs réponses dépend beaucoup des questions qu’on leur pose, c’est-à-dire des prompts qu’on leur donne. </p><br><p>Dans ce module, vous allez apprendre à formuler des prompts efficaces et à ajuster vos demandes pour améliorer le résultat proposé par le logiciel d’IA générative.</p><br>",
     "duration": 10,
     "level": "independent",
     "objectives": [
@@ -65,13 +65,13 @@
                       "userName": "Emma",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Ah bon ? Quel prompt avez-vous utilisé ?"
+                      "content": "Ah bon ? Quel prompt avez-vous utilisé ?"
                     },
                     {
                       "userName": "Gustave",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Mon prompt, c’était : « Aide-moi à organiser le séminaire. »"
+                      "content": "Mon prompt, c’était : « Aide-moi à organiser le séminaire. »"
                     },
                     {
                       "userName": "Emma",
@@ -210,25 +210,25 @@
                   "messages": [
                     {
                       "direction": "outbound",
-                      "content": "J’ai écrit ce message d’invitation au séminaire. Pouvez-vous vérifier s’il y a des fautes ?<br>« Bonjour à toutes et à tous,<br>petit rappel amicale pour vous dire que les inscriptions au séminaire sont encore ouvertes, mais plus pour longtems ! Il vous reste jusqu’à vendredi. »"
+                      "content": "J’ai écrit ce message d’invitation au séminaire. Pouvez-vous vérifier s’il y a des fautes ?<br>« Bonjour à toutes et à tous,<br>Comme chaque année, notre séminaire d’entreprise aproche à grands pas ! Ce sera l’occasion idéale de nous retrouver, d’échanger et de célébrer ensemble les réussites de l’année. Merci de confirmer votre inscription avant vendredi.»"
                     },
                     {
                       "direction": "inbound",
-                      "content": "Voici une version corrigée du message :<br>« Bonjour à toutes et à tous,<br>petit rappel <strong>amical</strong> pour vous dire que les inscriptions au séminaire sont encore ouvertes, mais plus pour <strong>longtemps !</strong> Il vous reste jusqu’à vendredi. »"
+                      "content": "Voici une version corrigée du message :<br>« Bonjour à toutes et à tous,<br>Comme chaque année, notre séminaire d’entreprise <strong>approche</strong> à grands pas ! Ce sera l’occasion idéale de nous retrouver, d’échanger et de célébrer ensemble les réussites de l’année. Merci de confirmer votre inscription avant vendredi. »"
                     }
                   ],
                   "prompts": [
                     {
                       "prompt": "Rendez-le plus convivial.",
-                      "response": "<p>Bonne nouvelle : le séminaire approche et il reste des places ! Venez échanger, apprendre et partager un moment convivial avec l’équipe. Que vous soyez déjà inscrit·e ou encore hésitant·e, vous êtes le·la bienvenu·e. Inscrivez-vous vite, les places sont limitées.</p>"
+                      "response": "<p>Il arrive, il arrive... notre séminaire annuel pointe le bout de son nez ! Et on est trop contents à l’idée de tous se retrouver et de trinquer à une année bien remplie 🥳 <br> Alors on compte sur vous : confirmez votre présence avant vendredi pour qu’on puisse tout organiser aux petits oignons !</p>"
                     },
                     {
                       "prompt": "Adoptez un ton plus sérieux.",
                       "response": "Madame, Monsieur,<br>Nous n’avons pas encore reçu votre confirmation pour le séminaire.<br>Nous espérons vivement votre participation.<br>Merci de bien vouloir nous répondre avant vendredi.<br>Restant à votre disposition, nous vous adressons nos salutations distinguées."
                     },
                     {
-                      "prompt": "Et avec une touche d’humour ?",
-                      "response": "<p>Avez-vous entendu parler du séminaire ? Les salles de réunion n’attendent plus que vous, et le café sera à la hauteur de l’événement. Alors, on compte sur votre présence ? Inscrivez-vous avant que votre agenda ne se remplisse tout seul.</p>"
+                      "prompt": "Et avec une touche d’humour ?",
+                      "response": "Alerte séminaire ! 🎉 On échange les visios qui plantent contre du café et de vrais fous rires. Répondez avant vendredi, faute de quoi on suppose que vous préférez vos tableaux Excel à nous (on comprendra, mais on sera vexés)."
                     }
                   ]
                 }
@@ -244,7 +244,7 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Celui avec un ton festif.</p>",
+                    "content": "<p>Celui avec un ton convivial.</p>",
                     "feedback": {
                       "diagnosis": "Bon choix. Au final, Gustave choisira le ton approprié, car c’est lui qui connaît le mieux les participants du séminaire."
                     }
@@ -258,7 +258,7 @@
                   },
                   {
                     "id": "3",
-                    "content": "<p>Celui avec un ton drôle.</p>",
+                    "content": "<p>Celui avec une touche d’humour.</p>",
                     "feedback": {
                       "diagnosis": "Bon choix. Au final, Gustave choisira le ton approprié, car c’est lui qui connaît le mieux les participants du séminaire."
                     }
@@ -267,7 +267,7 @@
                     "id": "4",
                     "content": "<p>Aucun ne me plaît.</p>",
                     "feedback": {
-                      "diagnosis": "Il existe beaucoup d’autres tons&nbsp;: sobre, pédagogique, etc. Gustave choisira le ton approprié, car c’est lui qui connaît le mieux les participants du séminaire."
+                      "diagnosis": "<p>Il existe beaucoup d’autres tons&nbsp;: sobre, décalé, élégant, etc. Gustave choisira le ton approprié, car c’est lui qui connaît le mieux les participants du séminaire.</p>"
                     }
                   }
                 ],
@@ -287,7 +287,7 @@
                 "id": "67e2d9fe-21b5-4484-93eb-478f24556015",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>Comment obtenir une réponse vraiment adaptée à nos besoins ?</h5><p>Pour obtenir un résultat adapté, on peut préciser&nbsp;:</p><ul><li><strong>à qui</strong> on s’adresse (un débutant, un expert du sujet, etc.),</li><li><strong>de quelle manière</strong> (de manière brève, pédagogue, professionnelle, etc.),</li><li><strong>un rôle</strong> à jouer («&nbsp;en tant que formateur&nbsp;», «&nbsp;comme si vous étiez un expert du domaine&nbsp;», etc.).</li></ul>"
+                "content": "<h5>Comment obtenir une réponse vraiment adaptée à nos besoins ?</h5><p>Pour obtenir un résultat adapté, on peut préciser&nbsp;:</p><ul><li><strong>à qui</strong> on s’adresse (un débutant, un expert du sujet, etc.),</li><li><strong>de quelle manière</strong> (de manière brève, pédagogue, professionnelle, etc.),</li><li><strong>un rôle</strong> à jouer («&nbsp;en tant que formateur&nbsp;», «&nbsp;comme si vous étiez un expert du domaine&nbsp;», etc.).</li></ul>"
               }
             }
           ]
@@ -312,7 +312,7 @@
                 "id": "56d41d29-e03f-4472-bf56-a7a990e77db9",
                 "type": "text",
                 "tag": " ",
-                "content": "<table>\n <thead><tr><th scope=\"col\" class=\"width-15\">Niveau</th><th scope=\"col\">Activité</th><th scope=\"col\">Description</th></tr></thead>\n <tbody>\n <tr><th>Débutant</th><td>Prise en main</td><td>Découvrir l’interface et les fonctions de base de l’outil.</td></tr>\n <tr><th>Intermédiaire</th><td>Cas pratique guidé</td><td>Réaliser une tâche courante en suivant un guide pas à pas.</td></tr>\n <tr><th>Avancé</th><td>Cas pratique autonome</td><td>Traiter un cas réel sans assistance.</td></tr>\n <tr><th>Expert</th><td>...</td><td>...</td></tr>\n</tbody>\n</table>"
+                "content": "<table> <thead><tr><th scope=\"col\" class=\"width-15\">Niveau</th><th scope=\"col\">Activité</th><th scope=\"col\">Description</th></tr></thead> <tbody> <tr><th>Débutant</th><td>Prise en main</td><td>Découvrir l’interface et les fonctions de base de l’outil.</td></tr> <tr><th>Intermédiaire</th><td>Cas pratique guidé</td><td>Réaliser une tâche courante en suivant un guide pas à pas.</td></tr> <tr><th>Avancé</th><td>Cas pratique autonome</td><td>Traiter un cas réel sans assistance.</td></tr> <tr><th>Expert</th><td>...</td><td>...</td></tr></tbody></table>"
               }
             }
           ]
@@ -339,7 +339,7 @@
                 "isCompletionRequired": true,
                 "title": "Simulateur LLM",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cmix2593q00013v0195p6ayta",
-                "instruction": "<p>À vous de mettre en pratique : vous disposez de cinq prompts.</p>",
+                "instruction": "<p>À vous de mettre en pratique&nbsp;: vous disposez de cinq prompts.</p>",
                 "solution": "pix-llm-success",
                 "height": 550
               }
@@ -350,7 +350,7 @@
                 "id": "0574526b-4c15-49a0-98e4-7316a54b7e25",
                 "type": "expand",
                 "title": "L’astuce pratique",
-                "content": "<p>Il vous arrive d’envoyer votre prompt alors que vous vouliez juste aller à la ligne ?</p><p>Quand vous voulez aller à la ligne, appuyez à la fois sur les touches Maj (ou Shift) et Entrée.</p>"
+                "content": "<p>Il vous arrive d’envoyer votre prompt alors que vous vouliez juste aller à la ligne ?</p><p>Quand vous voulez aller à la ligne, appuyez à la fois sur les touches Maj (ou Shift) et Entrée.</p>"
               }
             },
             {
@@ -359,7 +359,7 @@
                 "id": "92607ff3-2ba3-4f6a-819a-2fa0eab5fde2",
                 "type": "expand",
                 "title": "Indice 1",
-                "content": "<p>Avez-vous pensé à fournir à l’IA le <strong>tableau</strong>existant ?</p>\n<p>Vous pouvez le copier-coller dans votre prompt !</p>"
+                "content": "<p>Avez-vous pensé à fournir à l’IA le <strong>tableau&nbsp;</strong>existant ?</p><p>Vous pouvez le copier-coller dans votre prompt !</p>"
               }
             },
             {
@@ -368,7 +368,7 @@
                 "id": "0dcf79a9-94ce-4c60-87b7-ba556a6aad74",
                 "type": "expand",
                 "title": "Indice 2",
-                "content": "Avez-vous vérifié que le tableau obtenu comporte des <strong>activités</strong> pour différents niveaux, dont le <strong>niveau expert</strong> ?<br>"
+                "content": "Avez-vous vérifié que le tableau obtenu comporte des <strong>activités</strong> pour différents niveaux, dont le <strong>niveau expert</strong> ?<br>"
               }
             },
             {
@@ -397,7 +397,7 @@
                       "id": "20bc7e51-8640-45bb-bc4e-01235c88ef58",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5> Comment être efficace lorsqu’on utilise un logiciel d’IA générative ? <br></h5><ul><li>Précisez le <strong>format</strong>voulu, par exemple&nbsp;: un <strong>texte</strong>, un <strong>tableau</strong>, une <strong>liste</strong>, une <strong>carte mentale</strong>, etc.</li><li>Ajoutez des <strong>contraintes</strong>comme la <strong>longueur</strong>(«&nbsp;en moins de 10 lignes&nbsp;») ou la <strong>structure</strong>(«&nbsp;fais 2 parties et 2 sous-parties»).</li></ul><p>On peut aussi demander à l’IA de <strong>partir d’un exemple</strong>et de le reproduire.</p>"
+                      "content": "<h5> Comment être efficace lorsqu’on utilise un logiciel d’IA générative ? <br></h5><ul><li>Précisez le <strong>format&nbsp;</strong>voulu, par exemple&nbsp;: un <strong>texte</strong>, un <strong>tableau</strong>, une <strong>liste</strong>, une <strong>carte mentale</strong>, etc.</li><li>Ajoutez des <strong>contraintes&nbsp;</strong>comme la <strong>longueur&nbsp;</strong>(«&nbsp;en moins de 10 lignes&nbsp;») ou la <strong>structure&nbsp;</strong>(«&nbsp;fais 2 parties et 2 sous-parties»).</li></ul><p>On peut aussi demander à l’IA de <strong>partir d’un exemple&nbsp;</strong>et de le reproduire.</p>"
                     }
                   ]
                 },
@@ -432,7 +432,7 @@
                 "id": "d0365e25-bb4e-400a-be87-ac15cef1a59a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quelques conseils pour écrire un prompt efficace&nbsp;:</p><ul> <li> Utilisez un verbe d’<strong>action.</strong></li> <li> Donnez du <strong>contexte.</strong></li><li>Précisez éventuellement le<strong> ton.</strong></li><li>Attribuez si nécessaire une<strong> identité</strong> ou un <strong>rôle</strong>à l’IA.</li> <li>Précisez le <strong>format attendu.</strong></li></ul><p>Après chaque réponse, vous pouvez ajuster ou préciser votre prompt pour obtenir un meilleur résultat.</p><p><strong>⚠&nbsp;</strong>Une réponse peut paraître claire et bien formulée mais contenir des résultats qui<strong> ne correspondent pas à ce qu’on attend&nbsp;</strong>ou être partiellement <strong>fausse. <br></strong></p><p><strong>&nbsp;Relire&nbsp;</strong>la réponse de l’IA est essentiel avant de l’utiliser ou de la présenter à quelqu’un.</p>"
+                "content": "<p>Quelques conseils pour écrire un prompt efficace&nbsp;:</p><ul> <li> Utilisez un verbe d’<strong>action.</strong></li> <li> Donnez du <strong>contexte.</strong></li><li>Précisez éventuellement le<strong> ton.</strong></li><li>Attribuez si nécessaire une<strong> identité</strong> ou un <strong>rôle</strong>à l’IA.</li> <li>Précisez le <strong>format attendu.</strong></li></ul><p>Après chaque réponse, vous pouvez ajuster ou préciser votre prompt pour obtenir un meilleur résultat.</p><p>Une réponse peut paraître claire et bien formulée mais contenir des résultats qui<strong> ne correspondent pas à ce qu’on attend&nbsp;</strong>ou être partiellement <strong>fausse. <br></strong></p><p><strong>&nbsp;Relire&nbsp;</strong>la réponse de l’IA est essentiel avant de l’utiliser ou de la présenter à quelqu’un.</p>"
               }
             }
           ]
@@ -467,7 +467,7 @@
                       "id": "01d067c1-2565-4d1f-99a2-cf88722753fd",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>«&nbsp;Écris un dialogue entre deux participants pendant une pause du séminaire.&nbsp;»</p>"
+                      "content": "<p>«&nbsp;Rédige un court questionnaire de satisfaction à envoyer après le séminaire pour recueillir les retours des participants.&nbsp;»</p>"
                     },
                     {
                       "id": "84b3157b-d9ed-47af-ae10-39738ee033aa",
@@ -495,7 +495,7 @@
                         },
                         "invalid": {
                           "state": "<p>Réponse incorrecte.</p>",
-                          "diagnosis": "<p>Les éléments qui rendent ce prompt clair sont :&nbsp;</p><ul><li> le <strong>format</strong>indiqué : le dialogue,</li><li>et&nbsp;le <strong>contexte</strong>: celui d’une pause du séminaire.</li></ul>"
+                          "diagnosis": "<p>Les éléments qui rendent ce prompt clair sont&nbsp;:&nbsp;</p><ul><li> le <strong>format&nbsp;</strong>indiqué&nbsp;: un court questionnaire de satisfaction,</li><li>et&nbsp;le <strong>contexte&nbsp;</strong>: celui d’un séminaire.</li></ul><p>En revanche, le ton n’est pas précisé.</p>"
                         }
                       },
                       "solutions": [
@@ -511,7 +511,7 @@
                       "id": "dbce1d53-8049-4d72-88d2-d8baccb6ecaf",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>«&nbsp;En tant qu’humoriste, propose un court discours amusant (2 à 3 minutes) pour le pot de départ d’un collègue de l’équipe qui change de poste. Inclus ses grandes qualités (humour, rigueur, franchise) et ses petits défauts (impatient et bavard).&nbsp;»</p>"
+                      "content": "<p>«&nbsp;Propose un court discours amusant (2 à 3 minutes) pour le pot de départ d’un collègue. Inclus ses grandes qualités (humour, rigueur, franchise) et ses petits défauts (impatient et bavard).&nbsp;»</p>"
                     },
                     {
                       "id": "72e94310-1f1b-46df-824f-8aec091aa0a9",
@@ -539,7 +539,7 @@
                         },
                         "invalid": {
                           "state": "<p>Réponse incorrecte.</p>",
-                          "diagnosis": "<p>Les éléments qui rendent ce prompt clair sont :&nbsp;</p><ul><li> le <strong>format</strong>: un discours,&nbsp;</li><li>le <strong>ton</strong>: amusant,</li><li>et le <strong>contexte</strong> qui est donné par la description du pot de départ d’un collègue de l’équipe, décrit avec des éléments précis comme ses qualités et ses défauts.</li></ul>"
+                          "diagnosis": "<p>Les éléments qui rendent ce prompt clair sont&nbsp;:&nbsp;</p><ul><li> le <strong>format&nbsp;</strong>: un discours,&nbsp;</li><li>le <strong>ton&nbsp;</strong>: amusant,</li><li>et le <strong>contexte</strong> qui est donné par la description du pot de départ d’un collègue, décrit avec des éléments précis comme ses qualités et ses défauts.</li></ul>"
                         }
                       },
                       "solutions": [
@@ -565,7 +565,7 @@
                 "id": "e97e5e97-3bf5-4409-b213-83533651fdd8",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave a pris des notes lors de la réunion d’organisation du séminaire&nbsp;:</p><p><em>- max 12 participants. groupes mixtes tout le monde ok</em></p><p><em>- supports ? clés USB à chiffrer</em></p><p><em>- intervenants bénévoles internes, relancer ceux du dernier séminaire</em></p><p><em>- matériel : demander aux services généraux le vidéoprojecteur</em></p><p><em>- si distanciel salle visio dispo ? ok</em></p><p><em>- pause déjeuner : jus, sandwichs, fruits pas de chaud</em></p>"
+                "content": "<p>Gustave a pris des notes lors de la réunion d’organisation du séminaire&nbsp;:</p><p><em>-&nbsp; badges/accueil&nbsp;: qui ? voir avec Médéric </em></p><p><em>- intervenante externe&nbsp;: Mme Rivière&nbsp;: confirmation ok ! </em></p><p><em>- matériel&nbsp;: prévoir rallonge + adaptateur HDMI/USB-C </em></p><p><em>- budget&nbsp;: rester dans enveloppe, factures à envoyer à Isa avant le 15 </em></p><p><em>- animation fin de journée&nbsp;: idée quiz ou jeu par équipe RH </em></p><p><em>- lieu&nbsp;: à trouver - urgent !</em><br></p>"
               }
             },
             {
@@ -596,7 +596,7 @@
                 "id": "923df52a-04b0-4c9d-a88b-0bff05f558a3",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><span aria-hidden=\"true\"></span>Si vous avez besoin d’aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice 1</summary><p>Avez-vous vérifié le résultat proposé par l’IA ?</p></details><details><summary>Indice 2</summary><p>Avez-vous vérifié les supports dans le compte rendu ?</p></details><details><summary>Indice 3</summary><p>Avez-vous demandé à l’IA de corriger sa réponse ?</p></details>"
+                "content": "<p>Si vous avez besoin d’aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><p><details open=\"\"><summary>Indice 1</summary><p>Avez-vous vérifié le résultat proposé par l’IA ?</p></details><details open=\"\"><summary>Indice 2</summary><p>Avez-vous vérifié le matériel dans le compte rendu ?</p></details><details open=\"\"><summary>Indice 3</summary><p>Avez-vous demandé à l’IA de corriger sa réponse ?</p></details></p>"
               }
             },
             {
@@ -605,7 +605,7 @@
                 "id": "9a8940e0-5659-474e-afdd-a99782357df7",
                 "type": "expand",
                 "title": "Solution",
-                "content": "<p>Si vous avez obtenu un compte rendu, le logiciel a peut-être fait une <strong>erreur</strong>. En effet, les <strong>supports</strong> prévus sont des <strong>clés USB</strong> dans les notes de Gustave.</p><p>Il faut donc demander au logiciel de corriger cette erreur.</p><p>Si vous avez obtenu un compte rendu corrigé qui mentionne les clés USB, votre réponse devrait être validée.</p>"
+                "content": "<p>Si vous avez obtenu un compte rendu, le logiciel a peut-être fait une <strong>erreur</strong>. </p><p>En effet, le&nbsp;<strong>matériel </strong>prévu dans les notes de Gustave sont des <strong>r</strong><strong>allonges </strong>et des adatpteurs&nbsp;USBC -Hdmi.</p><p>Il faut donc demander au logiciel de corriger cette erreur.</p><p>Si vous avez obtenu un compte rendu corrigé qui mentionne les <strong>rallonges</strong>, votre réponse devrait être validée.</p>"
               }
             }
           ]
@@ -619,7 +619,7 @@
         {
           "id": "f8773ad4-3411-499e-9dde-f6d8cc6951e7",
           "type": "challenge",
-          "title": "Défi : la salle du séminaire",
+          "title": "Défi : la salle du séminaire",
           "components": [
             {
               "type": "element",
@@ -627,7 +627,7 @@
                 "id": "3b681347-7546-44ab-86ba-23a65e63f788",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Objectif : trouver une salle pour le séminaire.</strong></p><p>Gustave cherche un lieu pouvant accueillir son équipe. Il a besoin d’au moins 4 salles de réunion.</p><p>Son budget maximal est de 300 euros. Il cherche la meilleure offre.</p><p>Le prestataire a mis à disposition un logiciel d’IA pour répondre aux questions sur ses espaces disponibles.</p>"
+                "content": "<p><strong>Objectif&nbsp;: trouver une salle pour le séminaire.</strong></p><p>Gustave cherche un lieu pouvant accueillir son équipe. Il a besoin d’au moins 4 salles de réunion.</p><p>Son budget maximal est de 300 euros. Il cherche la meilleure offre.</p><p>Le prestataire a mis à disposition un logiciel d’IA pour répondre aux questions sur ses espaces disponibles.</p>"
               }
             },
             {
@@ -648,7 +648,7 @@
               "element": {
                 "id": "84022d80-9dfa-4a2b-9fcb-03877b570ae0",
                 "type": "qrocm",
-                "instruction": "<p>Quel espace Gustave devrait-il réserver ?</p>",
+                "instruction": "<p>Quel espace Gustave devrait-il réserver ?</p>",
                 "proposals": [
                   {
                     "input": "NomEspace",
@@ -664,16 +664,8 @@
                       "t3"
                     ],
                     "solutions": [
-                      "L’espace des 3 sapins",
-                      "espace des 3 sapins",
-                      "espace des trois sapins",
-                      "l’espace des trois sapins",
-                      "salle des 3 sapins",
-                      "salle des trois sapins",
-                      "3 sapins",
-                      "trois sapins",
-                      "des 3 sapins",
-                      "des trois sapins"
+                      "L’Escale Créative",
+                      "Escale Créative"
                     ]
                   }
                 ],
@@ -684,7 +676,7 @@
                   },
                   "invalid": {
                     "state": "Réponse incorrecte.",
-                    "diagnosis": "Avez-vous vérifié que tous les critères étaient respectés ?"
+                    "diagnosis": "Avez-vous vérifié que tous les critères étaient respectés ?"
                   }
                 }
               }
@@ -695,7 +687,7 @@
                 "id": "53785484-8ee2-490f-9b9d-1af81c968426",
                 "type": "expand",
                 "title": "Indice 1",
-                "content": "Avez-vous demandé au logiciel d’IA générative des espaces adaptés à une réunion d’équipe ?<br><br>"
+                "content": "Avez-vous demandé au logiciel d’IA générative des espaces adaptés à une réunion d’équipe ?<br><br>"
               }
             },
             {
@@ -704,7 +696,7 @@
                 "id": "2df88055-cb99-46c4-9708-e0ad0acc8fda",
                 "type": "expand",
                 "title": "Indice 2",
-                "content": "Avez-vous vérifié le <strong>nombre de salles de réunion</strong> disponibles ?"
+                "content": "Avez-vous vérifié le <strong>nombre de salles de réunion</strong> disponibles ?"
               }
             },
             {
@@ -713,7 +705,7 @@
                 "id": "40b8a4bf-dad4-42cc-8a9e-767f27e31c53",
                 "type": "expand",
                 "title": "Indice 3",
-                "content": "Avez-vous vérifié le <strong>coût</strong> de l’espace ?"
+                "content": "Avez-vous vérifié le <strong>coût</strong> de l’espace ?"
               }
             }
           ]
