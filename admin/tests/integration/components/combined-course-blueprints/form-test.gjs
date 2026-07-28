@@ -91,13 +91,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       );
 
       await fillIn(
-        screen.getByLabelText(t('components.combined-course-blueprints.labels.prescriber-description'), {
-          exact: false,
-        }),
-        'description prescripteur',
-      );
-
-      await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.survey-link')),
         'http://survey-link.fr',
       );
@@ -124,7 +117,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       ]);
       assert.strictEqual(blueprintStub.illustration, 'illustrations/hello.svg');
       assert.strictEqual(blueprintStub.description, 'description');
-      assert.strictEqual(blueprintStub.prescriberDescription, 'description prescripteur');
       assert.strictEqual(blueprintStub.surveyLink, 'http://survey-link.fr');
       assert.strictEqual(blueprintStub.rewardId, 5);
       assert.strictEqual(blueprintStub.rewardType, 'ATTESTATION');
@@ -150,12 +142,12 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
 
       const attestations = [
-        { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
-        { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
+        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
       ];
       const frameworks = [
         {
-          id: '123',
+          id: 123,
           name: 'Pix',
           areas: [],
         },
@@ -174,12 +166,12 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
     test('it should display tubes selection component only if the user selects an attestation', async function (assert) {
       //given
       const attestations = [
-        { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
-        { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
+        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
       ];
       const frameworks = [
         {
-          id: '123',
+          id: 123,
           name: 'Pix',
           areas: [],
         },
@@ -210,15 +202,15 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       const store = this.owner.lookup('service:store');
 
       const blueprint = store.createRecord('combined-course-blueprint', {
-        id: '1',
+        id: 1,
         name: 'name',
       });
       sinon.stub(blueprint, 'save');
       blueprint.save.resolves();
 
       const attestations = [
-        { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
-        { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
+        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
       ];
 
       const tube = store.createRecord('tube', {
@@ -305,7 +297,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       const router = this.owner.lookup('service:router');
 
       const blueprint = store.createRecord('combined-course-blueprint', {
-        id: '1',
+        id: 1,
         name: 'name',
         internalName: 'internalName',
         content: [
@@ -314,7 +306,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         ],
         illustration: 'illustrations/hello.svg',
         description: 'description',
-        prescriberDescription: 'prescriberDescription',
         surveyLink: 'http://survey-link.fr',
         rewardId: 5,
         rewardType: 'ATTESTATION',
@@ -353,13 +344,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       );
 
       await fillIn(
-        screen.getByLabelText(t('components.combined-course-blueprints.labels.prescriber-description-sublabel'), {
-          exact: false,
-        }),
-        'updatedPrescriberDescription',
-      );
-
-      await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.survey-link')),
         'http://updated-survey-link.fr',
       );
@@ -381,7 +365,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       ]);
       assert.strictEqual(blueprint.illustration, 'illustrations/updatedHello.svg');
       assert.strictEqual(blueprint.description, 'updatedDescription');
-      assert.strictEqual(blueprint.prescriberDescription, 'updatedPrescriberDescription');
       assert.strictEqual(blueprint.surveyLink, 'http://updated-survey-link.fr');
       assert.strictEqual(blueprint.rewardId, 5);
       assert.strictEqual(blueprint.rewardType, 'ATTESTATION');
@@ -397,7 +380,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
     test('it should display reward requirements when reward exists', async function (assert) {
       // given
       const blueprint = {
-        id: '1',
+        id: 1,
         name: 'name',
         internalName: 'internalName',
         attestationLabel: 'Label',
@@ -422,7 +405,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
   module('error cases', function () {
     const frameworks = [
       {
-        id: '123',
+        id: 123,
         name: 'Pix',
         areas: [],
       },
@@ -629,7 +612,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       const frameworks = [
         {
-          id: '123',
+          id: 123,
           name: 'Pix',
           areas: [],
         },
@@ -670,7 +653,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       const frameworks = [
         {
-          id: '123',
+          id: 123,
           name: 'Pix',
           areas: [],
         },

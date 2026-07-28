@@ -64,6 +64,7 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     );
     await screen.findByRole('listbox');
     await click(screen.getByRole('option', { name: 'Parentalite' }));
+    await click(screen.getByRole('checkbox', { name: "sur l'ensemble du schéma de parcours" }));
 
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
