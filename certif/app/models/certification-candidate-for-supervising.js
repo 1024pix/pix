@@ -20,15 +20,12 @@ export default class CertificationCandidateForSupervising extends Model {
   @attr('string') subscription;
   @attr('string') userId;
   @attr('boolean') isStillEligibleToDoubleCertification;
+  @attr('boolean') hasExceededCertificationDuration;
   @attr() challengeLiveAlert;
   @attr() companionLiveAlert;
 
   get hasStarted() {
     return this.assessmentStatus === 'started';
-  }
-
-  get isAuthorizedToResume() {
-    return this.hasStarted && this.authorizedToStart;
   }
 
   get hasCompleted() {

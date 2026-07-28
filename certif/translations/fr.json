@@ -99,6 +99,7 @@
         "accessibility": "Accessibilité",
         "additional-certification": "Choix de la certification",
         "candidate-status": {
+          "certification-overtime": "Délai dépassé",
           "finished": "Terminé",
           "live-alerts": {
             "challenge": {

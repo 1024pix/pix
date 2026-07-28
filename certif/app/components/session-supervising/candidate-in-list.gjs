@@ -55,7 +55,7 @@ export default class CandidateInList extends Component {
     return dayjsUtcFormat([this.args.candidate.birthdate, 'DD/MM/YYYY'], { allowEmpty: true });
   }
 
-  get isConfirmButtonToBeDisplayed() {
+  get isAuthorizedToStartButtonToBeDisplayed() {
     return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
   }
 
@@ -75,14 +75,14 @@ export default class CandidateInList extends Component {
     return this.intl.t(`pages.session-supervising.candidate-in-list.subscriptions.${this.args.candidate.subscription}`);
   }
 
-  get authorizationButtonLabel() {
+  get authorizationToStartButtonLabel() {
     const confirm = this.intl.t('pages.session-supervising.candidate-in-list.actions.confirm.label');
     const cancel = this.intl.t('pages.session-supervising.candidate-in-list.actions.cancel-confirmation.label');
 
     return this.args.candidate.authorizedToStart ? cancel : confirm;
   }
 
-  get authorizationButtonAriaLabel() {
+  get authorizationToStartButtonAriaLabel() {
     const candidateName = `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
     const confirmAriaLabel = this.intl.t(
       'pages.session-supervising.candidate-in-list.actions.confirm.extra-information',
@@ -100,7 +100,7 @@ export default class CandidateInList extends Component {
     return this.args.candidate.authorizedToStart ? cancelAriaLabel : confirmAriaLabel;
   }
 
-  get authorizationButtonBackgroundColor() {
+  get authorizationToStartButtonBackgroundColor() {
     return this.args.candidate.authorizedToStart ? 'transparent-dark' : 'primary';
   }
 
@@ -142,6 +142,10 @@ export default class CandidateInList extends Component {
     const alertType = this.args.candidate.currentLiveAlert?.type;
 
     return this.intl.t(`common.forms.certification-labels.candidate-status.live-alerts.${alertType}.ongoing`);
+  }
+
+  get isCandidatePlaying() {
+    return !this.args.candidate.hasExceededCertificationDuration && this.args.candidate.hasStarted;
   }
 
   _isNotEligibleToEnrolledDoubleCertification() {
@@ -367,7 +371,12 @@ export default class CandidateInList extends Component {
     <li class='session-supervising-candidate-in-list'>
       <div class='session-supervising-candidate-in-list__candidate-data'>
         <div class='session-supervising-candidate-in-list__status'>
-          {{#if @candidate.hasStarted}}
+          {{#if @candidate.hasExceededCertificationDuration}}
+            <PixTag @color='blue'>{{t
+                'common.forms.certification-labels.candidate-status.certification-overtime'
+              }}</PixTag>
+          {{/if}}
+          {{#if this.isCandidatePlaying}}
             {{#if @candidate.currentLiveAlert}}
               <PixTag @color='error'>
                 {{this.currentLiveAlertLabel}}
@@ -415,7 +424,7 @@ export default class CandidateInList extends Component {
             {{/if}}
           </div>
 
-          {{#if @candidate.hasStarted}}
+          {{#if this.isCandidatePlaying}}
             <div class='session-supervising-candidate-in-list__bottom-information'>
               <div class='session-supervising-candidate-in-list-details-time'>
                 <div class='session-supervising-candidate-in-list-details-time__text'>
@@ -455,15 +464,15 @@ export default class CandidateInList extends Component {
             </PixButton>
           {{/if}}
 
-          {{#if this.isConfirmButtonToBeDisplayed}}
+          {{#if this.isAuthorizedToStartButtonToBeDisplayed}}
             <PixButton
-              aria-label={{this.authorizationButtonAriaLabel}}
+              aria-label={{this.authorizationToStartButtonAriaLabel}}
               @triggerAction={{fn this.toggleCandidate @candidate}}
-              @variant={{this.authorizationButtonBackgroundColor}}
+              @variant={{this.authorizationToStartButtonBackgroundColor}}
               @isBorderVisible={{@candidate.authorizedToStart}}
               class='session-supervising-candidate-in-list__confirm-button'
             >
-              {{this.authorizationButtonLabel}}
+              {{this.authorizationToStartButtonLabel}}
             </PixButton>
           {{/if}}
         </div>
@@ -482,15 +491,17 @@ export default class CandidateInList extends Component {
             @close={{this.closeMenu}}
             aria-label={{t 'pages.session-supervising.candidate-in-list.candidate-options'}}
           >
-            {{#if @candidate.hasOngoingCompanionLiveAlert}}
-              <Item @onClick={{this.askUserToHandleCompanionLiveAlert}}>
-                {{t 'pages.session-supervising.candidate-in-list.resume-test-modal.live-alerts.handle-companion'}}
+            {{#if this.isCandidatePlaying}}
+              {{#if @candidate.hasOngoingCompanionLiveAlert}}
+                <Item @onClick={{this.askUserToHandleCompanionLiveAlert}}>
+                  {{t 'pages.session-supervising.candidate-in-list.resume-test-modal.live-alerts.handle-companion'}}
+                </Item>
+              {{/if}}
+
+              <Item @onClick={{this.askUserToConfirmTestResume}}>
+                {{t 'pages.session-supervising.candidate-in-list.resume-test-modal.allow-test-resume'}}
               </Item>
             {{/if}}
-
-            <Item @onClick={{this.askUserToConfirmTestResume}}>
-              {{t 'pages.session-supervising.candidate-in-list.resume-test-modal.allow-test-resume'}}
-            </Item>
 
             <Item @onClick={{this.askUserToConfirmTestEnd}}>
               {{t 'pages.session-supervising.candidate-in-list.test-end-modal.end-assessment'}}
