@@ -80,4 +80,43 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Ses
       });
     });
   });
+
+  describe('#get hasExpired', function () {
+    it('returns false when session has no started certification', function () {
+      const sessionForSupervising = domainBuilder.certification.sessionManagement
+        .sessionForSupervisingBuilder()
+        .addCandidate({
+          startDateTime: null,
+        })
+        .build();
+
+      expect(sessionForSupervising.hasExpired).to.be.false;
+    });
+
+    it('returns false when session has a started certification since below 24 hours', function () {
+      const startDateTime = new Date();
+      startDateTime.setHours(startDateTime.getHours() - 23);
+      const sessionForSupervising = domainBuilder.certification.sessionManagement
+        .sessionForSupervisingBuilder()
+        .addCandidate({
+          startDateTime,
+        })
+        .build();
+
+      expect(sessionForSupervising.hasExpired).to.be.false;
+    });
+
+    it('returns true when session has a started certification for more than 24 hours', function () {
+      const startDateTime = new Date();
+      startDateTime.setHours(startDateTime.getHours() - 25);
+      const sessionForSupervising = domainBuilder.certification.sessionManagement
+        .sessionForSupervisingBuilder()
+        .addCandidate({
+          startDateTime,
+        })
+        .build();
+
+      expect(sessionForSupervising.hasExpired).to.be.true;
+    });
+  });
 });

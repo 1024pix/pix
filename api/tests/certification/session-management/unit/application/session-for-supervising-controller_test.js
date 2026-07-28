@@ -81,6 +81,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
             examiner: 'Antoine Toutvenant',
             room: '28D',
             time: '14:30:00',
+            'has-expired': true,
           },
           id: '12',
           relationships: {

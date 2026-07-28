@@ -19,6 +19,9 @@ export async function get({ id, dependencies = { certificationBadgesService } })
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       address: 'sessions.address',
+      firstCertificationStartedAt: knexConn('certification-courses')
+        .min('createdAt')
+        .whereRaw('"certification-courses"."sessionId" = "sessions"."id"'),
       certificationCandidates: knexConn
         .select(
           knexConn.raw(`

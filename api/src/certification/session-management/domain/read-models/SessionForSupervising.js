@@ -1,5 +1,7 @@
 const AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS = 15 * 60 * 1000; // 15min
 const MAXIMAL_CERTIFICATION_DURATION_IN_MS = 24 * 60 * 60 * 1000; // 24h
+const MAXIMAL_SESSION_DURATION_IN_MS = 24 * 60 * 60 * 1000; // 24h
+
 /**
  * @typedef {object} LiveAlert
  * @property {string} status
@@ -20,8 +22,9 @@ export class SessionForSupervising {
    * @param {Array<CandidateForSupervising>} params.candidates
    * @param {string} params.accessCode
    * @param {string} params.address
+   * @param {Date|null} params.firstCertificationStartedAt
    */
-  constructor({ id, date, time, examiner, room, candidates, accessCode, address } = {}) {
+  constructor({ id, date, time, examiner, room, candidates, accessCode, address, firstCertificationStartedAt }) {
     this.id = id;
     this.date = date;
     this.time = time;
@@ -30,6 +33,19 @@ export class SessionForSupervising {
     this.accessCode = accessCode;
     this.candidates = candidates;
     this.address = address;
+    this.firstCertificationStartedAt = firstCertificationStartedAt;
+  }
+
+  get hasExpired() {
+    const hasACertificationOnGoing = Boolean(this.firstCertificationStartedAt);
+    if (hasACertificationOnGoing) {
+      return this.#elapsedTimeSinceSessionStarted() > MAXIMAL_SESSION_DURATION_IN_MS;
+    }
+    return false;
+  }
+
+  #elapsedTimeSinceSessionStarted() {
+    return Date.now() - this.firstCertificationStartedAt.getTime();
   }
 }
 

@@ -179,6 +179,8 @@ class SessionForSupervisingBuilder {
           candidateId: candidate.id,
           createdAt: candidate.startDateTime,
           versionId,
+          sessionId: row.id,
+          userId: candidate.userId,
         }).id;
         assessmentId = databaseBuilder.factory.buildAssessment({
           state: candidate.assessmentStatus,
@@ -216,6 +218,12 @@ class SessionForSupervisingBuilder {
    * @returns {SessionForSupervising}
    */
   build() {
+    const candidates = this.candidates.map((candidate) => new CandidateForSupervising(candidate));
+    const firstCertificationStartedAt =
+      [...candidates]
+        .filter(({ startDateTime }) => startDateTime)
+        .sort((a, b) => a.startDateTime - b.startDateTime)
+        .at(0)?.startDateTime ?? null;
     return new SessionForSupervising({
       id: this.id,
       date: this.date,
@@ -224,7 +232,8 @@ class SessionForSupervisingBuilder {
       room: this.room,
       examiner: this.examiner,
       accessCode: this.accessCode,
-      candidates: this.candidates.map((candidate) => new CandidateForSupervising(candidate)),
+      candidates,
+      firstCertificationStartedAt,
     });
   }
 }

@@ -20,6 +20,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
             examiner: 'Antoine Toutvenant',
             room: '28D',
             time: '14:30:00',
+            'has-expired': true,
           },
           id: '12',
           relationships: {
