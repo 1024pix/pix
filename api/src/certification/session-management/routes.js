@@ -3,7 +3,7 @@ import { certificationCandidateRoute } from './application/certification-candida
 import { certificationCentersSessionSummariesRoute } from './application/certification-centers-session-summaries-route.js';
 import { certificationCourseRoute } from './application/certification-course-route.js';
 import { certificationDetailsRoute } from './application/certification-details-route.js';
-import { certificationIssueReportRoute } from './application/certification-issue-report-route.js';
+import { certificationIssueReportsRoute } from './application/certification-issue-reports-route.js';
 import { certificationOfficerRoute } from './application/certification-officer-route.js';
 import { certificationReportRoute } from './application/certification-report-route.js';
 import { companionAlertRoute } from './application/companion-alert-route.js';
@@ -26,7 +26,7 @@ const certificationSessionRoutes = [
   certificationCourseRoute,
   certificationOfficerRoute,
   certificationReportRoute,
-  certificationIssueReportRoute,
+  certificationIssueReportsRoute,
   companionAlertRoute,
   complementaryCertificationCourseResultsRoute,
   finalizeRoute,

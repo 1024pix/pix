@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
-import * as usecase from '../../../../../src/shared/application/usecases/checkUserIsMemberOfCertificationCenterSession.js';
-import { expect } from '../../../../test-helper.js';
+import * as usecase from '../../../../../../src/certification/session-management/application/usecases/checkUserIsMemberOfCertificationCenterSession.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenterSession', function () {
   let certificationCourseRepositoryStub;

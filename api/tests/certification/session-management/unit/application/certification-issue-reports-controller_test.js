@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { certificationIssueReportController } from '../../../../../src/certification/session-management/application/certification-issue-report-controller.js';
+import { certificationIssueReportsController } from '../../../../../src/certification/session-management/application/certification-issue-reports-controller.js';
 import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
@@ -13,7 +13,7 @@ describe('Unit | Controller | certification-issue-report-controller', function (
       const dependencies = { deleteCertificationIssueReport: sinon.stub() };
 
       // when
-      const response = await certificationIssueReportController.deleteCertification(
+      const response = await certificationIssueReportsController.deleteCertification(
         {
           params: {
             id: certificationIssueReportId,
@@ -50,7 +50,7 @@ describe('Unit | Controller | certification-issue-report-controller', function (
       const dependencies = { manuallyResolveCertificationIssueReport: sinon.stub() };
 
       // when
-      const response = await certificationIssueReportController.manuallyResolve(request, hFake, dependencies);
+      const response = await certificationIssueReportsController.manuallyResolve(request, hFake, dependencies);
 
       // then
       expect(response.statusCode).to.deep.equal(204);
