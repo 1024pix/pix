@@ -1,4 +1,5 @@
 const AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS = 15 * 60 * 1000; // 15min
+const MAXIMAL_CERTIFICATION_DURATION_IN_MS = 24 * 60 * 60 * 1000; // 24h
 /**
  * @typedef {object} LiveAlert
  * @property {string} status
@@ -58,6 +59,7 @@ export class CandidateForSupervising {
     lastName,
     extraTimePercentage,
     authorizedToStartAt,
+    certificationStartedAt,
     assessmentStatus,
     startDateTime,
     theoricalEndDateTime,
@@ -73,6 +75,7 @@ export class CandidateForSupervising {
     this.lastName = lastName;
     this.extraTimePercentage = extraTimePercentage;
     this.authorizedToStartAt = authorizedToStartAt;
+    this.certificationStartedAt = certificationStartedAt;
     this.assessmentStatus = assessmentStatus;
     this.startDateTime = startDateTime;
     this.theoricalEndDateTime = theoricalEndDateTime;
@@ -87,6 +90,18 @@ export class CandidateForSupervising {
       return this.#elapsedTimeSinceInvigilatorAuthorizedToStart() < AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS;
     }
     return false;
+  }
+
+  get hasExceededCertificationDuration() {
+    const hasACertificationOnGoing = Boolean(this.startDateTime);
+    if (hasACertificationOnGoing) {
+      return this.#elapsedTimeSinceCertificationStarted() > MAXIMAL_CERTIFICATION_DURATION_IN_MS;
+    }
+    return false;
+  }
+
+  #elapsedTimeSinceCertificationStarted() {
+    return Date.now() - this.startDateTime.getTime();
   }
 
   #elapsedTimeSinceInvigilatorAuthorizedToStart() {

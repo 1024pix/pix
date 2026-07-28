@@ -110,6 +110,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
               subscription: 'CLEA',
               'is-still-eligible-to-double-certification': true,
               'user-id': 6789,
+              'has-exceeded-certification-duration': true,
               'challenge-live-alert': {
                 type: 'challenge',
                 status: CertificationChallengeLiveAlertStatus.ONGOING,

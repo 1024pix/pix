@@ -78,9 +78,9 @@ class SessionForSupervisingBuilder {
       lastName: lastName ?? 'Lapraline',
       extraTimePercentage: extraTimePercentage ?? 2,
       authorizedToStartAt,
-      assessmentStatus: assessmentStatus ?? 'started',
-      startDateTime: startDateTime ?? new Date('2026-06-06T12:00:00Z'),
-      theoricalEndDateTime: theoricalEndDateTime ?? new Date('2026-06-06T12:30:00Z'),
+      assessmentStatus: assessmentStatus ?? null,
+      startDateTime: startDateTime ?? null,
+      theoricalEndDateTime: theoricalEndDateTime ?? null,
       subscription: subscription ?? Frameworks.CORE,
       isStillEligibleToDoubleCertification: isStillEligibleToDoubleCertification,
       challengeLiveAlert: challengeLiveAlert ?? null,
@@ -142,7 +142,7 @@ class SessionForSupervisingBuilder {
     for (const candidate of sessionForSupervising.candidates) {
       const candidateScope = toScope(candidate.subscription);
       let versionId = versions.get(candidateScope);
-      if (!versionId) {
+      if (!versionId && candidate.startDateTime) {
         versionId = databaseBuilder.factory.buildCertificationVersion({
           scope: candidateScope,
           assessmentDuration: computeAssessmentDuration(candidate.startDateTime, candidate.theoricalEndDateTime),

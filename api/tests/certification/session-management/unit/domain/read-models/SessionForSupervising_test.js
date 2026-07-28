@@ -40,5 +40,44 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Ses
         expect(sessionForSupervising.candidates[0].authorizedToStart).to.be.false;
       });
     });
+
+    describe('#get hasExceededCertificationDuration', function () {
+      it('returns false when candidate has no started certification', function () {
+        const sessionForSupervising = domainBuilder.certification.sessionManagement
+          .sessionForSupervisingBuilder()
+          .addCandidate({
+            startDateTime: null,
+          })
+          .build();
+
+        expect(sessionForSupervising.candidates[0].hasExceededCertificationDuration).to.be.false;
+      });
+
+      it('returns false when candidate has a started certification that is still below 24 hours long', function () {
+        const startDateTime = new Date();
+        startDateTime.setHours(startDateTime.getHours() - 23);
+        const sessionForSupervising = domainBuilder.certification.sessionManagement
+          .sessionForSupervisingBuilder()
+          .addCandidate({
+            startDateTime,
+          })
+          .build();
+
+        expect(sessionForSupervising.candidates[0].hasExceededCertificationDuration).to.be.false;
+      });
+
+      it('returns true when candidate has a started certification that is beyond 24 hours long', function () {
+        const startDateTime = new Date();
+        startDateTime.setHours(startDateTime.getHours() - 25);
+        const sessionForSupervising = domainBuilder.certification.sessionManagement
+          .sessionForSupervisingBuilder()
+          .addCandidate({
+            startDateTime,
+          })
+          .build();
+
+        expect(sessionForSupervising.candidates[0].hasExceededCertificationDuration).to.be.true;
+      });
+    });
   });
 });

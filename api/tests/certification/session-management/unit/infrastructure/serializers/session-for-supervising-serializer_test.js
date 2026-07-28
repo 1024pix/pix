@@ -49,6 +49,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               subscription: 'CLEA',
               'is-still-eligible-to-double-certification': true,
               'user-id': 6789,
+              'has-exceeded-certification-duration': true,
               'challenge-live-alert': {
                 type: 'challenge',
                 status: CertificationChallengeLiveAlertStatus.ONGOING,

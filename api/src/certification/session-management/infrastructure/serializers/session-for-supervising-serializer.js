@@ -27,6 +27,7 @@ const serialize = function (sessions) {
         'theoricalEndDateTime',
         'subscription',
         'isStillEligibleToDoubleCertification',
+        'hasExceededCertificationDuration',
         'challengeLiveAlert',
         'companionLiveAlert',
       ],

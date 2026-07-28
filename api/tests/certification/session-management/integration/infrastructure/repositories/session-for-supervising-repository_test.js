@@ -92,10 +92,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
             subscription: Frameworks.DROIT,
             isStillEligibleToDoubleCertification: false,
             challengeLiveAlert: null,
-            companionLiveAlert: {
-              type: 'companion',
-              status: CertificationCompanionLiveAlertStatus.ONGOING,
-            },
+            companionLiveAlert: null,
           })
           .insertToDB({ databaseBuilder });
         domainBuilder.certification.sessionManagement
