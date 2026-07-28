@@ -18,7 +18,7 @@ import HandleLiveAlertModal from 'pix-certif/components/session-supervising/hand
 import LiveAlertHandledModal from 'pix-certif/components/session-supervising/live-alert-handled-modal';
 import formatPercentage from 'pix-certif/helpers/format-percentage';
 
-import dayjsUtcFormatHelper, { dayjsUtcFormat } from '../../helpers/dayjs-utc-format';
+import dayjsUtcFormatHelper from '../../helpers/dayjs-utc-format';
 
 const Modals = {
   Confirmation: 'Confirmation',
@@ -47,16 +47,22 @@ export default class CandidateInList extends Component {
   @tracked actionOnConfirmation;
   @tracked isLiveAlertValidated = false;
 
+  get isOvertime() {
+    if (this.args.candidate.hasCompleted) {
+      return false;
+    }
+    if (this.args.candidate.hasStarted) {
+      return this.args.candidate.hasExceededCertificationDuration;
+    }
+    return this.args.hasSessionExpired;
+  }
+
+  get candidateCanStart() {
+    return this.args.candidate.hasNotStarted && !this.args.hasSessionExpired;
+  }
+
   get candidateFullName() {
     return `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
-  }
-
-  get formattedBirthdate() {
-    return dayjsUtcFormat([this.args.candidate.birthdate, 'DD/MM/YYYY'], { allowEmpty: true });
-  }
-
-  get isAuthorizedToStartButtonToBeDisplayed() {
-    return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
   }
 
   get optionsMenuShouldBeDisplayed() {
@@ -76,28 +82,15 @@ export default class CandidateInList extends Component {
   }
 
   get authorizationToStartButtonLabel() {
-    const confirm = this.intl.t('pages.session-supervising.candidate-in-list.actions.confirm.label');
-    const cancel = this.intl.t('pages.session-supervising.candidate-in-list.actions.cancel-confirmation.label');
-
-    return this.args.candidate.authorizedToStart ? cancel : confirm;
+    const key = this.args.candidate.authorizedToStart ? 'cancel-confirmation' : 'confirm';
+    return this.intl.t(`pages.session-supervising.candidate-in-list.actions.${key}.label`);
   }
 
   get authorizationToStartButtonAriaLabel() {
-    const candidateName = `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
-    const confirmAriaLabel = this.intl.t(
-      'pages.session-supervising.candidate-in-list.actions.confirm.extra-information',
-      {
-        candidate: candidateName,
-      },
-    );
-    const cancelAriaLabel = this.intl.t(
-      'pages.session-supervising.candidate-in-list.actions.cancel-confirmation.extra-information',
-      {
-        candidate: candidateName,
-      },
-    );
-
-    return this.args.candidate.authorizedToStart ? cancelAriaLabel : confirmAriaLabel;
+    const key = this.args.candidate.authorizedToStart ? 'cancel-confirmation' : 'confirm';
+    return this.intl.t(`pages.session-supervising.candidate-in-list.actions.${key}.extra-information`, {
+      candidate: this.candidateFullName,
+    });
   }
 
   get authorizationToStartButtonBackgroundColor() {
@@ -129,7 +122,7 @@ export default class CandidateInList extends Component {
   }
 
   get candidateTheoricalEndDateTime() {
-    const pixPlusDuration = this._getPixPlusDurationInMinutes();
+    const pixPlusDuration = this._getPixPlusDurationInMinutes(); // todo should be removed ?
 
     if (pixPlusDuration !== null) {
       return dayjs(this.args.candidate.startDateTime).add(pixPlusDuration, 'minute').format('HH:mm');
@@ -142,10 +135,6 @@ export default class CandidateInList extends Component {
     const alertType = this.args.candidate.currentLiveAlert?.type;
 
     return this.intl.t(`common.forms.certification-labels.candidate-status.live-alerts.${alertType}.ongoing`);
-  }
-
-  get isCandidatePlaying() {
-    return !this.args.candidate.hasExceededCertificationDuration && this.args.candidate.hasStarted;
   }
 
   _isNotEligibleToEnrolledDoubleCertification() {
@@ -346,7 +335,7 @@ export default class CandidateInList extends Component {
   async endAssessmentForCandidate() {
     this.closeConfirmationModal();
     try {
-      await this.args.onInvigilatorEndAssessment(this.args.candidate);
+      await this.args.onInvigilatorEndAssessment(this.candidate);
       this.pixToast.sendSuccessNotification({
         message: this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.success', {
           firstName: this.args.candidate.firstName,
@@ -371,12 +360,15 @@ export default class CandidateInList extends Component {
     <li class='session-supervising-candidate-in-list'>
       <div class='session-supervising-candidate-in-list__candidate-data'>
         <div class='session-supervising-candidate-in-list__status'>
-          {{#if @candidate.hasExceededCertificationDuration}}
+          {{#if this.isOvertime}}
             <PixTag @color='blue'>{{t
                 'common.forms.certification-labels.candidate-status.certification-overtime'
               }}</PixTag>
           {{/if}}
-          {{#if this.isCandidatePlaying}}
+          {{#if @candidate.hasCompleted}}
+            <PixTag @color='blue'>{{t 'common.forms.certification-labels.candidate-status.finished'}}</PixTag>
+          {{/if}}
+          {{#if @candidate.isPlaying}}
             {{#if @candidate.currentLiveAlert}}
               <PixTag @color='error'>
                 {{this.currentLiveAlertLabel}}
@@ -389,9 +381,6 @@ export default class CandidateInList extends Component {
                 {{t 'common.forms.certification-labels.candidate-status.ongoing'}}
               </PixTag>
             {{/if}}
-          {{/if}}
-          {{#if @candidate.hasCompleted}}
-            <PixTag @color='blue'>{{t 'common.forms.certification-labels.candidate-status.finished'}}</PixTag>
           {{/if}}
         </div>
         <div class='session-supervising-candidate-in-list__infos'>
@@ -424,7 +413,7 @@ export default class CandidateInList extends Component {
             {{/if}}
           </div>
 
-          {{#if this.isCandidatePlaying}}
+          {{#if @candidate.isPlaying}}
             <div class='session-supervising-candidate-in-list__bottom-information'>
               <div class='session-supervising-candidate-in-list-details-time'>
                 <div class='session-supervising-candidate-in-list-details-time__text'>
@@ -464,7 +453,7 @@ export default class CandidateInList extends Component {
             </PixButton>
           {{/if}}
 
-          {{#if this.isAuthorizedToStartButtonToBeDisplayed}}
+          {{#if this.candidateCanStart}}
             <PixButton
               aria-label={{this.authorizationToStartButtonAriaLabel}}
               @triggerAction={{fn this.toggleCandidate @candidate}}
@@ -491,7 +480,7 @@ export default class CandidateInList extends Component {
             @close={{this.closeMenu}}
             aria-label={{t 'pages.session-supervising.candidate-in-list.candidate-options'}}
           >
-            {{#if this.isCandidatePlaying}}
+            {{#if @candidate.isPlaying}}
               {{#if @candidate.hasOngoingCompanionLiveAlert}}
                 <Item @onClick={{this.askUserToHandleCompanionLiveAlert}}>
                   {{t 'pages.session-supervising.candidate-in-list.resume-test-modal.live-alerts.handle-companion'}}

@@ -24,8 +24,16 @@ export default class CertificationCandidateForSupervising extends Model {
   @attr() challengeLiveAlert;
   @attr() companionLiveAlert;
 
+  get hasNotStarted() {
+    return !this.assessmentStatus;
+  }
+
   get hasStarted() {
     return this.assessmentStatus === 'started';
+  }
+
+  get isPlaying() {
+    return this.hasStarted && !this.hasExceededCertificationDuration;
   }
 
   get hasCompleted() {

@@ -325,6 +325,34 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     });
   });
 
+  module('when the candidate has not started the test', function () {
+    module('when session is expired', function () {
+      test('it renders Time limit reached label, no actions allowed', async function (assert) {
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: '456',
+          firstName: 'Lolo',
+          lastName: 'Roro',
+          startDateTime: null,
+          theoricalEndDateTime: null,
+          extraTimePercentage: 0.12,
+          authorizedToStart: true,
+          assessmentStatus: null,
+          hasExceededCertificationDuration: true,
+        });
+
+        const screen = await renderScreen(
+          hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} @hasSessionExpired={{true}} />`,
+        );
+
+        assert.dom(screen.getByText('Délai dépassé')).exists();
+        assert.dom(screen.queryByText('Fin théorique :')).doesNotExist();
+        assert.dom(screen.queryByText('+ temps majoré 12 %')).doesNotExist();
+        assert.dom(screen.queryByText('Afficher les options du candidat')).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: "Confirmer la présence de l'élève Lolo Roro" })).doesNotExist();
+      });
+    });
+  });
+
   module('when the candidate has started the test', function () {
     module('when candidate certification test is overtime', function () {
       test('it renders Time limit reached label and hide info, only allows to end the test', async function (assert) {
@@ -347,6 +375,33 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
 
         assert.dom(screen.queryByText('Autoriser la reprise du test')).doesNotExist();
+        assert.dom(screen.getByText('Terminer le test')).exists();
+      });
+    });
+
+    module('when session is overtime but candidate certification is not', function () {
+      test('it renders regular display with test information and menu options available', async function (assert) {
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: '456',
+          startDateTime: new Date('2022-10-19T14:30:15Z'),
+          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          extraTimePercentage: 0.12,
+          authorizedToStart: true,
+          assessmentStatus: 'started',
+          hasExceededCertificationDuration: false,
+        });
+
+        const screen = await renderScreen(
+          hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} @hasSessionExpired={{true}} />`,
+        );
+
+        assert.dom(screen.getByText('En cours')).exists();
+        assert.dom(screen.queryByText('Fin théorique :')).exists();
+        assert.dom(screen.queryByText('+ temps majoré 12 %')).exists();
+
+        await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+
+        assert.dom(screen.getByText('Autoriser la reprise du test')).exists();
         assert.dom(screen.getByText('Terminer le test')).exists();
       });
     });
