@@ -15,7 +15,7 @@ const getRelease = async function () {
   const url = lcmsConfig.url + '/releases/' + (lcmsConfig.releaseId ?? 'latest');
   const response = await httpAgent.get({
     url,
-    headers: { Authorization: `Bearer ${lcmsConfig.apiKey}`, Referer: signature },
+    headers: { 'X-Api-Key': lcmsConfig.apiKey, Referer: signature },
   });
 
   if (!response.isSuccessful) {
@@ -33,7 +33,7 @@ const getRelease = async function () {
 const createRelease = async function () {
   const response = await httpAgent.post({
     url: lcmsConfig.url + '/releases',
-    headers: { Authorization: `Bearer ${lcmsConfig.apiKey}` },
+    headers: { 'X-Api-Key': lcmsConfig.apiKey },
   });
 
   if (!response.isSuccessful) {

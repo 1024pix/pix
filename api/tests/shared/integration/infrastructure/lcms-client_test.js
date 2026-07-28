@@ -37,7 +37,7 @@ describe('Integration | Infrastructure | LCMS Client', function () {
         // given
         const lcmsCall = nock('https://lcms-test.pix.fr/api')
           .get('/releases/latest')
-          .matchHeader('Authorization', 'Bearer test-api-key')
+          .matchHeader('X-Api-Key', 'test-api-key')
           .reply(500);
 
         // when
@@ -65,7 +65,7 @@ describe('Integration | Infrastructure | LCMS Client', function () {
         const learningContent = { models: [{ id: 'fromRelease123' }] };
         const lcmsCall = nock('https://lcms-test.pix.fr/api')
           .get('/releases/123')
-          .matchHeader('Authorization', 'Bearer test-api-key')
+          .matchHeader('X-Api-Key', 'test-api-key')
           .reply(200, { content: learningContent });
 
         // when
@@ -80,7 +80,7 @@ describe('Integration | Infrastructure | LCMS Client', function () {
         // given
         const lcmsCall = nock('https://lcms-test.pix.fr/api')
           .get('/releases/123')
-          .matchHeader('Authorization', 'Bearer test-api-key')
+          .matchHeader('X-Api-Key', 'test-api-key')
           .reply(500);
 
         // when
@@ -99,7 +99,7 @@ describe('Integration | Infrastructure | LCMS Client', function () {
       // given
       const lcmsCall = nock('https://lcms-test.pix.fr/api')
         .post('/releases')
-        .matchHeader('Authorization', 'Bearer test-api-key')
+        .matchHeader('X-Api-Key', 'test-api-key')
         .reply(201);
 
       // when
@@ -114,7 +114,7 @@ describe('Integration | Infrastructure | LCMS Client', function () {
       const learningContent = { models: [{ id: 'recId' }] };
       nock('https://lcms-test.pix.fr/api')
         .post('/releases')
-        .matchHeader('Authorization', 'Bearer test-api-key')
+        .matchHeader('X-Api-Key', 'test-api-key')
         .reply(201, { content: learningContent });
 
       // when
@@ -128,7 +128,7 @@ describe('Integration | Infrastructure | LCMS Client', function () {
       // given
       nock('https://lcms-test.pix.fr/api')
         .post('/releases')
-        .matchHeader('Authorization', 'Bearer test-api-key')
+        .matchHeader('X-Api-Key', 'test-api-key')
         .reply(403);
 
       // when
