@@ -1,5 +1,24 @@
 # Pix Changelog
 
+# [5.465.0](https://github.com/1024pix/pix/compare/v5.464.0...v5.465.0) (2026-07-28)
+
+### :rocket: Amélioration
+
+- [#16950](https://github.com/1024pix/pix/pull/16950) Empêcher le candidat d'entrer en certification lorsque la validité de son autorisation à démarrer est dépassée (PIX-23666)
+- [#16934](https://github.com/1024pix/pix/pull/16934) Tri des endpoints du Tableau de bord du numérique MEN par critères métier
+
+### :building_construction: Tech
+
+- [#16946](https://github.com/1024pix/pix/pull/16946) Ajouter les infos de corrélation dans les logs d'erreur 500 avec stack trace, ainsi que petite réduction du volume d'un log
+- [#16945](https://github.com/1024pix/pix/pull/16945) Déplacement de la logique métier liée à la gestion de la session en dehors du bounded context "certification/evaluation"
+- [#16952](https://github.com/1024pix/pix/pull/16952) Déplacer le pre-handler checkCampaignParticipationBelongsToUser dans prescription/campaign
+- [#16954](https://github.com/1024pix/pix/pull/16954) Déplacer le pre-handler checkOrganizationLearnerBelongsToOrganization dans prescription/learner-management
+- [#16951](https://github.com/1024pix/pix/pull/16951) Déplacer le pre-handler checkUserIsCandidate dans le domaine certif
+- [#16949](https://github.com/1024pix/pix/pull/16949) Déplacer les pre-handlers d'acces aux campagnes dans prescription/campaign
+- [#16948](https://github.com/1024pix/pix/pull/16948) Déplacer les pre-handlers de shared dans leur bon bouded Context (PIX-XXXX)
+- [#16928](https://github.com/1024pix/pix/pull/16928) Lire la nouvelle colonne `authorizedToStartAt` au lieu de `authorizedToStart` (PIX-23666)
+- [#16933](https://github.com/1024pix/pix/pull/16933) Migration Warpdrive sur Certif
+
 # [5.464.0](https://github.com/1024pix/pix/compare/v5.463.1...v5.464.0) (2026-07-27)
 
 ### :rocket: Amélioration
