@@ -295,9 +295,81 @@
         },
         {
           "id": "90e0e584-fd63-4667-b8d2-a8382706fcaa",
-          "type": "short-lesson",
+          "type": "discovery",
           "title": "",
-          "components": []
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "<p><br></p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "84a09ada-f70a-4720-9246-c51929138e9b",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Grâce à la vectorisation, une carte de l’ensemble des tokens est obtenue sur laquelle des tokens “proches” en signification ont des vecteurs avec des valeurs “proches” . </p><p>Observons les tokens proches du token “port” dans ce cas.</p><p>[ajout image]</p>"
+                    },
+                    {
+                      "id": "9a8f030d-920d-4d43-9f0b-40614dd0647a",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Rappellons-nous du prompt d’Anna :</p>"
+                    },
+                    {
+                      "id": "f97315b1-1902-47bc-b873-d68d420a8018",
+                      "type": "custom",
+                      "title": "",
+                      "instruction": "",
+                      "functionalInstruction": "",
+                      "tagName": "llm-messages",
+                      "props": {
+                        "messages": [
+                          {
+                            "direction": "outbound",
+                            "content": "Sur quel port  brancher mon câble ?"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "id": "8e7f577f-833b-4694-a1f2-af951472a66e",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Est-ce que cette signficiation du token “port” est appropriée dans le cas du prompt d’Anna ?&nbsp;</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Oui</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Plutôt pas !</strong></p><p>Comme beaucoup d’autres mots, <strong>le mot “port” peut avoir plusieurs significations. </strong>On va avoir besoin du contexte des autres mots de la phrase ou du paragraphe pour bien comprendre le sens.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Non<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Bien vu !</strong></p>\n<p>Comme beaucoup d’autres mots, <strong>le mot “port” peut avoir plusieurs significations. </strong>On va avoir besoin du contexte des autres mots de la phrase ou du paragraphe pour bien comprendre le sens.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Je ne sais pas.<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Plutôt pas !</strong></p>\n<p>Comme beaucoup d’autres mots, <strong>le mot “port” peut avoir plusieurs significations. </strong>On va avoir besoin du contexte des autres mots de la phrase ou du paragraphe pour bien comprendre le sens.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": []
+                }
+              ]
+            }
+          ]
         }
       ]
     }
