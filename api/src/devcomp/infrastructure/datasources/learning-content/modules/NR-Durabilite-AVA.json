@@ -782,7 +782,9 @@
                               "content": "répare."
                             }
                           ],
-                          "solutions": []
+                          "solutions": [
+                            "4"
+                          ]
                         }
                       ],
                       "feedbacks": {
