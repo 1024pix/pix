@@ -1098,7 +1098,8 @@ describe('Learning Content | Integration | Application | Jobs | Create release',
       beforeEach(function () {
         lcmsApiCall = nock('https://lcms-test.pix.fr/api')
           .post('/releases')
-          .matchHeader('Authorization', 'Bearer test-api-key')
+          .matchHeader('authorization', 'Basic dGVzdC1wYXNzd29yZA==')
+          .matchHeader('x-api-key', 'test-api-key')
           .reply(201, { content: newLearningContent });
       });
 
@@ -1838,7 +1839,8 @@ describe('Learning Content | Integration | Application | Jobs | Create release',
         newLearningContent.missions[0].id = null;
         lcmsApiCall = nock('https://lcms-test.pix.fr/api')
           .post('/releases')
-          .matchHeader('Authorization', 'Bearer test-api-key')
+          .matchHeader('authorization', 'Basic dGVzdC1wYXNzd29yZA==')
+          .matchHeader('x-api-key', 'test-api-key')
           .reply(201, { content: newLearningContent });
       });
 
