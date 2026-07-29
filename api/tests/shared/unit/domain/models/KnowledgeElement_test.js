@@ -406,4 +406,52 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
       expect(resetKe.id).to.be.undefined;
     });
   });
+
+  describe('#toLatestUniqNonResetCollection', function () {
+    it('should returns ke collection', function () {
+      const ke1 = domainBuilder.buildKnowledgeElement({
+        skillId: 'rec1',
+        answerId: 1,
+        createdAt: new Date('2025-01-10'),
+        id: 1,
+      });
+      const ke2 = domainBuilder.buildKnowledgeElement({
+        skillId: 'rec2',
+        answerId: 2,
+        createdAt: new Date('2025-01-11'),
+        id: 2,
+      });
+      const keCollection = KnowledgeElement.toLatestUniqNonResetCollection([ke1, ke2]);
+      expect(keCollection).to.deep.equal([ke2, ke1]);
+    });
+
+    it('should drop reset skillId', function () {
+      const ke1 = domainBuilder.buildKnowledgeElement({
+        skillId: 'rec1',
+        answerId: 1,
+        status: KnowledgeElement.StatusType.RESET,
+        createdAt: new Date('2025-01-10'),
+        id: 1,
+      });
+      const keCollection = KnowledgeElement.toLatestUniqNonResetCollection([ke1]);
+      expect(keCollection).to.deep.equal([]);
+    });
+
+    it('should return most recent uniq skillId', function () {
+      const ke1 = domainBuilder.buildKnowledgeElement({
+        skillId: 'rec1',
+        answerId: 1,
+        createdAt: new Date('2025-01-10'),
+        id: 1,
+      });
+      const ke2 = domainBuilder.buildKnowledgeElement({
+        skillId: 'rec1',
+        answerId: 2,
+        createdAt: new Date('2025-01-11'),
+        id: 2,
+      });
+      const keCollection = KnowledgeElement.toLatestUniqNonResetCollection([ke1, ke2]);
+      expect(keCollection).to.deep.equal([ke2]);
+    });
+  });
 });

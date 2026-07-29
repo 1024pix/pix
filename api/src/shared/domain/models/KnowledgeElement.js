@@ -74,7 +74,7 @@ class KnowledgeElement {
         seen.add(el.skillId);
         return true;
       })
-      .filter((el) => el.status !== KnowledgeElement.StatusType.RESET);
+      .filter((el) => el.status !== statuses.RESET);
   }
 
   /*
