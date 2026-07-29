@@ -18,7 +18,7 @@ const getRelease = async function () {
     headers: {
       Authorization: `Basic ${lcmsConfig.oauthBasicToken}`,
       'X-Api-Key': lcmsConfig.apiKey,
-      Referer: signature
+      Referer: signature,
     },
   });
 
