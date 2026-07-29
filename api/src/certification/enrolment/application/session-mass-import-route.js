@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { organizationalEntitiesSecurityPreHandlers } from '../../../organizational-entities/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { sessionMassImportController } from './session-mass-import-controller.js';
@@ -16,7 +17,7 @@ const register = async function (server) {
             assign: 'isMemberOfCertificationCenter',
           },
           {
-            method: securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
+            method: organizationalEntitiesSecurityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
             assign: 'isCertificationCenterNotScoManagingStudents',
           },
         ],
@@ -46,7 +47,7 @@ const register = async function (server) {
             assign: 'isMemberOfCertificationCenter',
           },
           {
-            method: securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
+            method: organizationalEntitiesSecurityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
             assign: 'isCertificationCenterNotScoManagingStudents',
           },
         ],
@@ -77,7 +78,7 @@ const register = async function (server) {
             assign: 'isMemberOfCertificationCenter',
           },
           {
-            method: securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
+            method: organizationalEntitiesSecurityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
             assign: 'isCertificationCenterNotScoManagingStudents',
           },
         ],
