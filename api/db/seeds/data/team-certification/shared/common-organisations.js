@@ -1,6 +1,6 @@
-import { CenterTypes } from '../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../../../../src/organizational-entities/domain/models/OrganizationLearnerType.js';
+import { CenterTypes } from '../../../../../src/organizational-entities/domain/read-models/CenterTypes.js';
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import * as organizationCreationValidator from '../../../../../src/organizational-entities/domain/validators/organization-creation-validator.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';

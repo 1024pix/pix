@@ -1,13 +1,13 @@
 // @ts-check
 /**
- * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
+ * @typedef {import ('../../../certification/shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  */
-import { Organization } from '../../../../organizational-entities/domain/models/Organization.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/constants.js';
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../shared/constants.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Center, MatchingOrganization } from '../../domain/models/Center.js';
 import { Habilitation } from '../../domain/models/Habilitation.js';
+import { Organization } from '../../domain/models/Organization.js';
 
 /**
  * @function

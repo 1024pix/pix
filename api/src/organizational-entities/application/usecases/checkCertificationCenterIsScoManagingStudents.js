@@ -1,4 +1,4 @@
-import * as centerRepository from '../../../certification/enrolment/infrastructure/repositories/center-repository.js';
+import * as centerRepository from '../../../organizational-entities/infrastructure/repositories/center-repository.js';
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 
 const execute = async function ({

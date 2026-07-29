@@ -2,9 +2,9 @@
  * @typedef {import ('./Habilitation.js').Habilitation} Habilitation
  */
 
-import { types } from '../../../../organizational-entities/domain/models/Organization.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/constants.js';
-import { CenterTypes } from './CenterTypes.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../shared/constants.js';
+import { CenterTypes } from '../read-models/CenterTypes.js';
+import { types } from './Organization.js';
 
 export class Center {
   /**

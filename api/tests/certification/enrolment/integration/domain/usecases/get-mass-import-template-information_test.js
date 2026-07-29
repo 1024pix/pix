@@ -1,5 +1,5 @@
-import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { usecases } from '../../../../../../src/certification/enrolment/domain/usecases/index.js';
+import { CenterTypes } from '../../../../../../src/organizational-entities/domain/read-models/CenterTypes.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';

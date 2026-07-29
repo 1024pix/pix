@@ -1,7 +1,7 @@
-import * as centerRepository from '../../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
 import { AllowedCertificationCenterAccess } from '../../../../../src/identity-access-management/domain/read-models/AllowedCertificationCenterAccess.js';
 import * as certificationPointOfContactRepository from '../../../../../src/identity-access-management/infrastructure/repositories/certification-point-of-contact.repository.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import * as centerRepository from '../../../../../src/organizational-entities/infrastructure/repositories/center-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { CertificationCenter } from '../../../../../src/shared/domain/models/CertificationCenter.js';
 import { expect } from '../../../../test-helper.js';

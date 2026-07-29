@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
-import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { getMassImportTemplateInformation } from '../../../../../../src/certification/enrolment/domain/usecases/get-mass-import-template-information.js';
+import { CenterTypes } from '../../../../../../src/organizational-entities/domain/read-models/CenterTypes.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

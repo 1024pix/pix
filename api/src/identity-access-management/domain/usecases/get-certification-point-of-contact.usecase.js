@@ -1,7 +1,7 @@
 /**
- * @typedef {import('../../../certification/enrolment/infrastructure/repositories/center-repository.js')} CenterRepository
+ * @typedef {import('../../../organizational-entities/infrastructure/repositories/center-repository.js')} CenterRepository
  * @typedef {import('../../infrastructure/repositories/certification-point-of-contact.repository.js')} CertificationPointOfContactRepository
- * @typedef {import('../../../certification/enrolment/domain/models/Center.js')} Center
+ * @typedef {import('../../../organizational-entities/domain/models/Center.js')} Center
  */
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../shared/constants.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';

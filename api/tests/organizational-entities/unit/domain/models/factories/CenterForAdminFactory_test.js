@@ -1,6 +1,6 @@
-import { Habilitation } from '../../../../../../src/certification/enrolment/domain/models/Habilitation.js';
 import { CenterForAdmin } from '../../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import { CenterForAdminFactory } from '../../../../../../src/organizational-entities/domain/models/factories/CenterForAdminFactory.js';
+import { Habilitation } from '../../../../../../src/organizational-entities/domain/models/Habilitation.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
