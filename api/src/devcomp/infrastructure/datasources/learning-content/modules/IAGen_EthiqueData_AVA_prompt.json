@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Entre inspiration et plagiat, les limites sont parfois difficiles à trancher. Aujourd’hui, avec le développement des logiciels d’IA générative, ces limites deviennent de plus en plus complexes.</p><p>Découvrez dans ce module comment utiliser l’IA de façon éthique et conforme au droit d’auteur.</p><p><strong><br>Important</strong>&nbsp;: ce module n’aborde pas l’entraînement des modèles d'IA générative et la question du droit d’auteur vue par les auteurs d’oeuvres. Ces éléments sont traités dans un autre module.</p>",
+    "description": "<p>Entre inspiration et plagiat, les limites sont parfois difficiles à trancher. Aujourd’hui, avec le développement des logiciels d’IA générative, ces limites deviennent de plus en plus complexes.</p><p>Découvrez dans ce module comment utiliser l’IA de façon éthique et conforme au droit d’auteur.</p>",
     "duration": 10,
     "level": "independent",
     "objectives": [
