@@ -6,7 +6,7 @@
   "isBeta": true,
   "visibility": "public",
   "details": {
-    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "image": "https://assets.pix.org/modules/NR_Evaluation_IND/picto_nr_eval_ind.svg",
     "description": "<p>Ce module va vous aider à comprendre la méthode principale utilisée pour évaluer les impacts environnementaux du numérique. Vous verrez quels éléments doivent être pris en compte, pourquoi il faut examiner la vie d’un équipement dans son ensemble, et pourquoi plusieurs indicateurs sont utiles pour comprendre les résultats de l’impact environnemental du numérique.</p>",
     "duration": 10,
     "level": "independent",
@@ -364,7 +364,7 @@
                       "description": "Une grande partie de l’empreinte carbone est liée à l’extraction des métaux et à la fabrication des composants d’un appareil. Cette étape demande beaucoup d’énergie. Elle est aussi souvent réalisée avec une électricité fortement émettrice de CO2.",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/totem_acv_cycle-de-vie-02-1-600x524.png",
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_IND/nr_eval_ind_acv_img1_v2.svg",
                         "alt": "a"
                       },
                       "license": {
@@ -378,7 +378,7 @@
                       "description": "Le transport international des appareils et de leurs composants génère du CO2, mais cela reste limité par rapport à la phase de fabrication.",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/totem_acv_cycle-de-vie-02-1-600x524.png",
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_IND/nr_eval_ind_acv_img2_v2.svg",
                         "alt": "a"
                       },
                       "license": {
@@ -392,7 +392,7 @@
                       "description": "Les émissions de CO2 sont liées à la consommation électrique des appareils, des réseaux et des centres de données nécessaires aux services numériques. Elles dépendent aussi du mode de production de l’électricité utilisée, qui varie selon les pays ou les régions.",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/totem_acv_cycle-de-vie-02-1-600x524.png",
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_IND/nr_eval_ind_acv_img3_v2.svg",
                         "alt": "a"
                       },
                       "license": {
@@ -406,7 +406,7 @@
                       "description": "À l’heure actuelle, les scientifiques disposent de peu de données pour évaluer correctement l’impact environnemental de la fin de vie des appareils numériques. Cette étape est donc parfois peu quantifiée dans les études. Certaines hypothèses, comme le recyclage d’une partie des équipements, peuvent aussi réduire l’impact estimé, même si elles ne reflètent pas toujours ce qui se passe réellement.",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/totem_acv_cycle-de-vie-02-1-600x524.png",
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_IND/nr_eval_ind_acv_img4_v2.svg",
                         "alt": "a"
                       },
                       "license": {
@@ -521,7 +521,7 @@
                       "description": "Le graphique montre la répartition des émissions de gaz à effet de serre selon les étapes du cycle de vie et les composantes du numérique. Source : GreenIT 2025 — périmètre mondial",
                       "displayWidth": 600,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/chart-1.png",
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_IND/nr_eval_ind_graphiques1_v2.svg",
                         "alt": "a"
                       },
                       "license": {
@@ -535,7 +535,7 @@
                       "description": "Le graphique montre la répartition de l’épuisement des ressources minérales et métalliques selon les étapes du cycle de vie et les composantes du numérique. Source : GreenIT 2025 — périmètre mondial",
                       "displayWidth": 600,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/chart-2.png",
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_IND/nr_eval_ind_graphiques2_v2.svg",
                         "alt": "aaa"
                       },
                       "license": {
@@ -549,7 +549,7 @@
                       "description": "Le graphique montre la répartition des émissions de particules fines selon les étapes du cycle de vie et les composantes du numérique. Source : GreenIT 2025 — périmètre mondial",
                       "displayWidth": 600,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/nr_evaluation_ind/chart.png",
+                        "src": "https://assets.pix.org/modules/NR_Evaluation_IND/nr_eval_ind_graphiques3_v2.svg",
                         "alt": "aa"
                       },
                       "license": {
