@@ -1101,7 +1101,8 @@ describe('Learning Content | Integration | Application | Jobs | Refresh', functi
       beforeEach(function () {
         lcmsApiCall = nock('https://lcms-test.pix.fr/api')
           .get('/releases/latest')
-          .matchHeader('Authorization', 'Bearer test-api-key')
+          .matchHeader('authorization', 'Basic dGVzdC1wYXNzd29yZA==')
+          .matchHeader('x-api-key', 'test-api-key')
           .reply(200, { content: newLearningContent });
       });
 
@@ -1842,7 +1843,8 @@ describe('Learning Content | Integration | Application | Jobs | Refresh', functi
         newLearningContent.missions[0].id = null;
         lcmsApiCall = nock('https://lcms-test.pix.fr/api')
           .get('/releases/latest')
-          .matchHeader('Authorization', 'Bearer test-api-key')
+          .matchHeader('authorization', 'Basic dGVzdC1wYXNzd29yZA==')
+          .matchHeader('x-api-key', 'test-api-key')
           .reply(200, { content: newLearningContent });
       });
 
