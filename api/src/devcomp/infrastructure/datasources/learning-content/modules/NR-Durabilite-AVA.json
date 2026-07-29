@@ -42,32 +42,32 @@
                 "id": "9e8b7be9-71a9-49bd-8358-c6542684b92f",
                 "type": "qcu-discovery",
                 "instruction": "<p>À votre avis, en France, quel est le pourcentage de personnes qui changent de téléphone alors que leur téléphone actuel fonctionne encore ?</p>",
-                "hasShortProposals": false,
+                "hasShortProposals": true,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>15&nbsp;%</p>",
+                    "content": "15 %",
                     "feedback": {
                       "diagnosis": "<p>C’est bien plus ! Dans une étude de 2022, l’ADEME (l’Agence de la transition écologique) montre que 88&nbsp;% des Français changent de téléphone alors que l’actuel fonctionne encore.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>47&nbsp;%</p>",
+                    "content": "47 %",
                     "feedback": {
                       "diagnosis": "<p>C’est bien plus&nbsp;! Dans une étude de 2022, l’ADEME (l'Agence de la transition écologique) montre que 88&nbsp;% des Français changent de téléphone alors que l’actuel fonctionne encore.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>88&nbsp;%</p>",
+                    "content": "88 %",
                     "feedback": {
                       "diagnosis": "<p>En effet, dans une étude de 2022, l’ADEME (l’Agence de la transition écologique) montre que 88&nbsp;% des Français changent de téléphone alors que l’actuel fonctionne encore.</p>"
                     }
                   },
                   {
                     "id": "4",
-                    "content": "<p>Je ne sais pas.</p>",
+                    "content": "Je ne sais pas",
                     "feedback": {
                       "diagnosis": "<p>Dans une étude de 2022, l’ADEME&nbsp;(l’Agence de la transition écologique) montre que 88&nbsp;% des Français changent de téléphone alors que l’actuel fonctionne encore.</p>"
                     }
@@ -124,8 +124,8 @@
                       "id": "6dc7cc3b-9fba-498d-bd9d-9ec89d6f0869",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>À votre avis, combien de kilogrammes (kg) de minerais faut-il utiliser pour fabriquer un ordinateur portable ?<br>Déplacez la jauge entre 1&nbsp;kg et 800&nbsp;kg.</p>",
-                      "functionalInstruction": "",
+                      "instruction": "<p>À votre avis, combien de kilogrammes (kg) de minerais faut-il utiliser pour fabriquer un ordinateur portable ?<br></p>",
+                      "functionalInstruction": "<p>Déplacez la jauge entre 1&nbsp;kg et 800&nbsp;kg.</p>",
                       "tagName": "pix-cursor",
                       "props": {
                         "options": [
@@ -168,8 +168,8 @@
                       "id": "10dbae70-c3ba-4cd6-a3a2-adf81cb60eba",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>À votre avis, combien faut-il d’eau pour fabriquer un ordinateur portable ?<br>Déplacez la jauge entre 1 litre (l) et 1&nbsp;500 litres d’eau.</p>",
-                      "functionalInstruction": "",
+                      "instruction": "<p>À votre avis, combien faut-il d’eau pour fabriquer un ordinateur portable ?<br></p>",
+                      "functionalInstruction": "<p>Déplacez la jauge entre 1 litre (l) et 1&nbsp;500 litres d’eau.</p>",
                       "tagName": "pix-cursor",
                       "props": {
                         "options": [
@@ -212,8 +212,8 @@
                       "id": "c6d1cf5f-34f7-4875-8583-234d2bf092a9",
                       "type": "custom",
                       "title": "",
-                      "instruction": "<p>À votre avis, combien de kilogrammes (kg) d’énergies fossiles sont consommés pour fabriquer un ordinateur portable ?<br>Déplacez la jauge entre 1&nbsp;kg et 200&nbsp;kg.</p>",
-                      "functionalInstruction": "",
+                      "instruction": "<p>À votre avis, combien de kilogrammes (kg) d’énergies fossiles sont consommés pour fabriquer un ordinateur portable ?<br></p>",
+                      "functionalInstruction": "<p>Déplacez la jauge entre 1&nbsp;kg et 200&nbsp;kg.</p>",
                       "tagName": "pix-cursor",
                       "props": {
                         "options": [
@@ -593,177 +593,279 @@
           "title": "Activité de découverte 3",
           "components": [
             {
-              "type": "element",
-              "element": {
-                "id": "8975a87a-3103-4b3c-ab41-3b9d585d619a",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Sur le schéma ci-dessous, on voit quatre grandes étapes de vie d'un appareil numérique : la fabrication, la distribution, la consommation et le tri. Lors du tri, plusieurs solutions permettent de donner une seconde vie à l’appareil&nbsp;s'il fonctionne encore (flèches violettes sur le schéma) ou à ses matériaux s'il ne fonctionne plus (flèches bleues sur le schéma). Sur le schéma suivant, ces solutions ont été remplacées par les chiffres 1, 2, 3 et 4.</p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "b43a0e76-a868-44d3-8cef-48095d234f07",
-                "type": "image",
-                "url": "https://assets.pix.org/modules/NR_Durabilite_AVA/schema_economie_circulaire.svg",
-                "alt": "Description en détail ci-après ",
-                "alternativeText": "<p>Schéma représentant quatre niveaux de circularité appliqués au cycle de vie des appareils électroniques: fabrication, distribution, consommation et tri. Au-dessus du cycle linéaire apparaissent quatre boucles. La plus large (1) relie le tri à la fabrication avec l’étiquette “On utilise les matières premières”. Une boucle intermédiaire (2), partant du tri vers la distribution, indique “On remet en état, on revend”. Une boucle plus petite (3), partant de la consommation vers la distribution, est intitulée “On donne, on revend”. Enfin, la plus courte (4) relie la consommation à elle-même et porte la mention “On garde le même appareil”. Ces boucles illustrent les stratégies de réemploi, réparation et prolongation de durée de vie.</p>",
-                "legend": "",
-                "licence": ""
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "c886cc16-235f-4bf9-a9b3-c5d070e28c2d",
-                "type": "qrocm",
-                "instruction": "<p>Après avoir analysé le schéma, complétez les termes manquants.</p>",
-                "proposals": [
-                  {
-                    "type": "text",
-                    "content": "<p>1 =&nbsp;</p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "Un",
-                    "display": "inline",
-                    "placeholder": "- Sélectionner -",
-                    "ariaLabel": "Sélectionner",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "Reconditionner"
-                      },
-                      {
-                        "id": "2",
-                        "content": "Recycler"
-                      },
-                      {
-                        "id": "3",
-                        "content": "Réemployer"
-                      },
-                      {
-                        "id": "4",
-                        "content": "Réparer"
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "a34fe058-504a-4568-9bbf-fbc8ebd25efa",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Lorsqu'un appareil numérique <strong>ne fonctionne plus</strong>, l'appareil numérique peut être mis au tri. Dans ce cas, comme le montre le schéma ci-dessous, il est possible soit de récupérer les <strong>matières premières</strong>, soit de récupérer les <strong>pièces  électroniques</strong> de l'appareil.<br></p>"
+                    },
+                    {
+                      "id": "85c8b03a-f734-4342-9000-f07c11f1941a",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/NR_Durabilite_AVA/schema_eco_step1.svg",
+                      "alt": "",
+                      "alternativeText": "<p>Schéma représentant deux flèches qui partent d'une étiquette nommée \"tri\".&nbsp;La première flèche relie le tri à la fabrication avec l’étiquette “On utilise les matières premières”.&nbsp; La deuxième flèche part du tri vers la distribution avec comme indication \"on récupère les pièces\".</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "c3678de6-bc95-4d82-84da-91faed22715f",
+                      "type": "qrocm",
+                      "instruction": "<p>Complétez avec les termes manquants.<br></p>",
+                      "proposals": [
+                        {
+                          "type": "text",
+                          "content": "<p>Flèche 1 : lorsque l'on récupère les <strong>matières premières</strong> de l'appareil numérique pour fabriquer un nouvel appareil, on&nbsp;&nbsp;</p>"
+                        },
+                        {
+                          "type": "select",
+                          "input": "Un",
+                          "display": "inline",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "- Sélectionner -",
+                          "tolerances": [],
+                          "options": [
+                            {
+                              "id": "1",
+                              "content": "reconditionne."
+                            },
+                            {
+                              "id": "2",
+                              "content": "recycle."
+                            },
+                            {
+                              "id": "3",
+                              "content": "réemploie."
+                            },
+                            {
+                              "id": "4",
+                              "content": "répare."
+                            }
+                          ],
+                          "solutions": [
+                            "2"
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "content": "<p><br>Flèche 2 : lorqu'on réutilise les <strong>pièces électroniques </strong>pour fabriquer un nouvel appareil, on&nbsp;</p>"
+                        },
+                        {
+                          "type": "select",
+                          "input": "Deux",
+                          "display": "inline",
+                          "placeholder": "- Sélectionner -",
+                          "ariaLabel": "Sélectionner",
+                          "tolerances": [],
+                          "options": [
+                            {
+                              "id": "1",
+                              "content": "reconditionne."
+                            },
+                            {
+                              "id": "2",
+                              "content": "recycle."
+                            },
+                            {
+                              "id": "3",
+                              "content": "réemploie."
+                            },
+                            {
+                              "id": "4",
+                              "content": "répare."
+                            }
+                          ],
+                          "solutions": [
+                            "1"
+                          ]
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien joué !</p>",
+                          "diagnosis": "<p> 1 : Quand on utilise les matières premières, on&nbsp;<strong>recycle</strong>.<br>2 : Quand on récupère les pièces détachées, on&nbsp;<strong>reconditionne</strong>&nbsp;à partir des pièces récupérées</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Eh non !&nbsp;<br></p>",
+                          "diagnosis": "<p>1 : Quand on utilise les matières premières, on&nbsp;<strong>recycle</strong>.<br>2 : Quand on récupère les pièces détachées, on&nbsp;<strong>reconditionne</strong>&nbsp;à partir des pièces récupérées</p>"
+                        }
                       }
-                    ],
-                    "solutions": [
-                      "2"
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<p>&nbsp;&nbsp;2 =&nbsp;</p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "Deux",
-                    "display": "inline",
-                    "placeholder": "- Sélectionner -",
-                    "ariaLabel": "Sélectionner",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "Reconditionner"
-                      },
-                      {
-                        "id": "2",
-                        "content": "Recycler"
-                      },
-                      {
-                        "id": "3",
-                        "content": "Réemployer"
-                      },
-                      {
-                        "id": "4",
-                        "content": "Réparer"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "3356a455-b8ab-40e0-a6d0-39cb3954ed7d",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Lorsqu'un appareil numérique <strong>fonctionne encore </strong>ou qu'il est <strong>réparable</strong>, il est possible soit de <strong>redistribuer</strong> l'appareil en le donnant ou en le vendant, soit de <strong>conserver</strong> son appareil numérique.</p>"
+                    },
+                    {
+                      "id": "b3a020ce-560a-4b3d-8a06-2c6594fcd0c7",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/NR_Durabilite_AVA/schema_eco_step2.svg",
+                      "alt": "",
+                      "alternativeText": "<p>Une flèche part de la consommation vers la distribution, est intitulée “On donne, on revend”. Une autre flèche relie la consommation à elle-même et montre des outils.</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "9cf5d57a-e648-4b8f-8d36-0a4be2ed70a2",
+                      "type": "qrocm",
+                      "instruction": "<p>Complétez avec les termes manquants.</p>",
+                      "proposals": [
+                        {
+                          "type": "text",
+                          "content": "<p>Flèche 3 : lorsqu'on donne ou renvend un appareil numérique qui fonctionne encore on&nbsp;&nbsp;<br></p>"
+                        },
+                        {
+                          "type": "select",
+                          "input": "Trois",
+                          "display": "inline",
+                          "placeholder": "- Sélectionner - ",
+                          "ariaLabel": "Sélectionner",
+                          "tolerances": [],
+                          "options": [
+                            {
+                              "id": "1",
+                              "content": "reconditionne."
+                            },
+                            {
+                              "id": "2",
+                              "content": "recycle."
+                            },
+                            {
+                              "id": "3",
+                              "content": "réemploie."
+                            },
+                            {
+                              "id": "4",
+                              "content": "répare."
+                            }
+                          ],
+                          "solutions": [
+                            "3"
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "content": "<p><br>Flèche 4 : lorsque l'on souhaite conserver son appareil numérique et le remettre en état, on&nbsp;<br></p>"
+                        },
+                        {
+                          "type": "select",
+                          "input": "Quatre",
+                          "display": "inline",
+                          "placeholder": "- Sélectionner - ",
+                          "ariaLabel": "Sélectionner",
+                          "tolerances": [],
+                          "options": [
+                            {
+                              "id": "1",
+                              "content": "recycle."
+                            },
+                            {
+                              "id": "2",
+                              "content": "reconditionne."
+                            },
+                            {
+                              "id": "3",
+                              "content": "réemploie."
+                            },
+                            {
+                              "id": "4",
+                              "content": "répare."
+                            }
+                          ],
+                          "solutions": []
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Eh oui !&nbsp;<br></p>",
+                          "diagnosis": "<p>3 : Quand on utilise un appareil encore fonctionnel pour le donner ou le revendre, on parle de&nbsp;<strong>réemploi</strong>.</p><p>4 : Quand on souhaite garder son appareil, on peut également le&nbsp;<strong>réparer</strong>.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Eh non.<br></p>",
+                          "diagnosis": "<p>3 : Quand on utilise un appareil encore fonctionnel pour le donner ou le revendre, on parle de&nbsp;<strong>réemploi</strong>.</p><p>4 : Quand on souhaite garder son appareil, on peut également le&nbsp;<strong>réparer</strong>.</p>"
+                        }
                       }
-                    ],
-                    "solutions": [
-                      "1"
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<br><p>3 =&nbsp;</p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "Trois",
-                    "display": "inline",
-                    "placeholder": "- Sélectionner -",
-                    "ariaLabel": "Sélectionner",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "Recycler"
-                      },
-                      {
-                        "id": "2",
-                        "content": "Réparer"
-                      },
-                      {
-                        "id": "3",
-                        "content": "Reconditionner"
-                      },
-                      {
-                        "id": "4",
-                        "content": "Réemployer"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "20146d23-74c1-4d60-8645-b704e2b7bf20",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Selon vous, comment s'appelle ce modèle ?<br></p>"
+                    },
+                    {
+                      "id": "efe283a1-b458-41d6-aea9-6e363464b8ed",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/NR_Durabilite_AVA/schema_eco_step3.svg",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "8fe2ef17-3d84-46ce-a236-7391ba3e7a70",
+                      "type": "qrocm",
+                      "instruction": "<p>Complétez le terme manquant.<br></p>",
+                      "proposals": [
+                        {
+                          "type": "text",
+                          "content": "<p>Recycler, reconditionner, réemployer et réparer sont des piliers de l'économie&nbsp;<br></p>"
+                        },
+                        {
+                          "input": "circulaire",
+                          "type": "input",
+                          "inputType": "text",
+                          "size": 10,
+                          "display": "inline",
+                          "placeholder": "- Complétez -",
+                          "ariaLabel": "Complétez",
+                          "tolerances": [
+                            "t1",
+                            "t2",
+                            "t3"
+                          ],
+                          "solutions": [
+                            "circulaire"
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "content": "<p>.<br></p>"
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien joué !&nbsp;<br></p>",
+                          "diagnosis": "<p>Ces gestes font partie de l'économie <strong>circulaire</strong>.<br></p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Eh non.<br></p>",
+                          "diagnosis": "<p>Ces gestes font partie de l'économie <strong>circulaire</strong>.</p>"
+                        }
                       }
-                    ],
-                    "solutions": [
-                      "4"
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "content": "<p>&nbsp;&nbsp;4 =&nbsp;</p>"
-                  },
-                  {
-                    "type": "select",
-                    "input": "Quatre",
-                    "display": "inline",
-                    "placeholder": "- Sélectionner -",
-                    "ariaLabel": "Sélectionner",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "Reconditionner"
-                      },
-                      {
-                        "id": "2",
-                        "content": "Recycler"
-                      },
-                      {
-                        "id": "3",
-                        "content": "Réemployer"
-                      },
-                      {
-                        "id": "4",
-                        "content": "Réparer"
-                      }
-                    ],
-                    "solutions": [
-                      "4"
-                    ]
-                  }
-                ],
-                "feedbacks": {
-                  "valid": {
-                    "state": "<p>Bien joué !</p>",
-                    "diagnosis": "<p>Quand on utilise les matières premières, on <strong>recycle</strong>. Quand on récupère les pièces détachées, on <strong>reconditionne</strong> à partir des pièces récupérées. Quand on utilise un appareil encore fonctionnel pour le donner ou le revendre, on parle de <strong>réemploi</strong>. Enfin, quand on souhaite garder son  appareil, on peut également le <strong>réparer</strong>. Ces quatre gestes sont les piliers de l’économie circulaire.</p>"
-                  },
-                  "invalid": {
-                    "state": "<p>Pas vraiment.</p>",
-                    "diagnosis": "<p>Quand on utilise les matières premières, on <strong>recycle</strong>. Quand on récupère les pièces détachées, on <strong>reconditionne</strong> à partir des pièces récupérées. Quand on utilise un appareil encore fonctionnel pour le donner ou le revendre, on parle de <strong>réemploi</strong>. Enfin, quand on souhaite garder son  appareil, on peut également le <strong>réparer</strong>. Ces quatre gestes sont les piliers de l’économie circulaire.</p>"
-                  }
+                    },
+                    {
+                      "id": "a9a4ecbb-6ae0-4394-86e3-68dbfd8fcecb",
+                      "type": "expand",
+                      "title": "Indice ? 🔎",
+                      "content": "<p>Regardez la forme des flèches.</p>"
+                    }
+                  ]
                 }
-              }
+              ]
             }
           ]
         },
@@ -782,7 +884,7 @@
                       "id": "12f35076-ff72-40f7-b41f-14a680bcb313",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’économie classique fonctionne de <strong>manière linéaire</strong>&nbsp;: on extrait, on produit, on consomme, puis on <strong>jette</strong>. Chaque année, de nombreux appareils encore utilisables finissent encore à la poubelle. Ce sont autant d’occasions manquées de les réutiliser.</p>"
+                      "content": "<p>L’économie classique fonctionne de <strong>manière linéaire</strong>&nbsp;: on extrait, on produit, on consomme, puis on <strong>jette</strong>. Chaque année, de nombreux appareils encore utilisables finissent  à la poubelle. Ce sont autant d’occasions manquées de les réutiliser.</p>"
                     }
                   ]
                 },
