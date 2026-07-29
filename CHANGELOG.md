@@ -1,5 +1,15 @@
 # Pix Changelog
 
+# [5.467.0](https://github.com/1024pix/pix/compare/v5.466.0...v5.467.0) (2026-07-29)
+
+### :rocket: Amélioration
+
+- [#16868](https://github.com/1024pix/pix/pull/16868) Modifier la route de création de centre de certif pour y inclure l'organisationId (PIX-22684)
+
+### :building_construction: Tech
+
+- [#16970](https://github.com/1024pix/pix/pull/16970) Déplacer le usecase delete-unassociated-badge dans le domaine eval
+
 # [5.466.0](https://github.com/1024pix/pix/compare/v5.465.0...v5.466.0) (2026-07-29)
 
 ### :rocket: Amélioration
