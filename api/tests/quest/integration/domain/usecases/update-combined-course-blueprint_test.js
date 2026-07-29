@@ -14,6 +14,7 @@ describe('Integration | Combined course | Domain | UseCases | update-combined-co
         internalName: 'Une vieille épure pour tel niveau',
         illustration: 'illustrations/ma-vieille-epure.png',
         description: 'Vieille description',
+        prescriberDescription: 'Vieille description pour les prescripteurs',
         surveyUrl: 'http://www.old-survey',
       });
       await databaseBuilder.commit();
@@ -23,6 +24,7 @@ describe('Integration | Combined course | Domain | UseCases | update-combined-co
         internalName: 'Une nouvelle épure pour tel niveau',
         illustration: 'illustrations/ma-nouvelle-epure.png',
         description: 'Nouvelle description',
+        prescriberDescription: 'Nouvelle description pour les prescripteurs',
         surveyLink: 'http://new-survey',
       });
 
@@ -39,6 +41,9 @@ describe('Integration | Combined course | Domain | UseCases | update-combined-co
       expect(combinedCourseBlueprints[0].internalName).to.equal(combinedCourseBlueprintForUpdate.internalName);
       expect(combinedCourseBlueprints[0].illustration).to.equal(combinedCourseBlueprintForUpdate.illustration);
       expect(combinedCourseBlueprints[0].description).to.equal(combinedCourseBlueprintForUpdate.description);
+      expect(combinedCourseBlueprints[0].prescriberDescription).to.equal(
+        combinedCourseBlueprintForUpdate.prescriberDescription,
+      );
       expect(combinedCourseBlueprints[0].surveyUrl).to.equal(combinedCourseBlueprintForUpdate.surveyLink);
 
       expect(combinedCourseBlueprints[0].updatedAt).to.be.instanceOf(Date);
@@ -51,6 +56,7 @@ describe('Integration | Combined course | Domain | UseCases | update-combined-co
         internalName: 'Une épure pour tel niveau',
         illustration: 'illustrations/mon-epure.png',
         description: 'Description',
+        prescriberDescription: 'Description pour les prescripteurs',
         surveyLink: 'http://www.survey',
       });
 

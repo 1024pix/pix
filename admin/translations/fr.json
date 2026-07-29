@@ -762,13 +762,15 @@
       "labels": {
         "attestation": "Attestation",
         "created-at": "Date de création",
-        "description": "Description",
-        "description-sublabel": "Cette description sera visible par les utilisateurs",
+        "description": "Description Pix App",
+        "description-sublabel": "Cette description sera visible par les utilisateurs de Pix App en début de parcours",
         "illustration": "Illustration",
         "internal-name": "Nom interne",
         "itemId": "Identifiant",
         "module": "Module",
         "name": "Nom externe",
+        "prescriber-description": "Description prescripteur",
+        "prescriber-description-sublabel": "Cette description sera visible par les prescripteurs dans Pix Orga",
         "reward-requirements": "Description des critères d’obtention",
         "survey-link": "Url du questionnaire de fin de parcours",
         "target-profile": "Profil cible"

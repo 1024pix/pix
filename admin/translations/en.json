@@ -754,13 +754,15 @@
       "labels": {
         "attestation": "Attestation",
         "created-at": "Creation date",
-        "description": " Description",
-        "description-sublabel": "This description will be seen by users",
+        "description": "Pix App description",
+        "description-sublabel": "This description will be seen by Pix App users at the beginning of the course",
         "illustration": "Illustration",
         "internal-name": "Internal name",
         "itemId": "Id",
         "module": "Module",
         "name": "External name",
+        "prescriber-description": "Prescriber description",
+        "prescriber-description-sublabel": "This description will be seen by the prescribers in Pix Orga",
         "reward-requirements": "Reward requirements",
         "survey-link": "Survey link url",
         "target-profile": "Target profile"
