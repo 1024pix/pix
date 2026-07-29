@@ -64,6 +64,19 @@ class KnowledgeElement {
     });
   }
 
+  static toLatestUniqNonResetCollection(knowledgeElementRows) {
+    const seen = new Set();
+    return knowledgeElementRows
+      .map((knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow))
+      .toSorted((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .filter((el) => {
+        if (seen.has(el.skillId)) return false;
+        seen.add(el.skillId);
+        return true;
+      })
+      .filter((el) => el.status !== KnowledgeElement.StatusType.RESET);
+  }
+
   /*
   Historiquement, on force la création d'un KE inferré sur un acquis sur lequel l'utilisateur s'est
   possiblement déjà positionné par le passé (dans le cadre d'un assessment différent) pour :
