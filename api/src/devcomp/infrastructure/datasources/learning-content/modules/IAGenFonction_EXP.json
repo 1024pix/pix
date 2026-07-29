@@ -1,0 +1,306 @@
+{
+  "id": "ec84c812-1a2a-4eab-8bd2-77b05fe4f771",
+  "shortId": "d5d93a38",
+  "slug": "llm-vectorisation-generation",
+  "title": "Au cœur des modèles de langage : de la vectorisation à la génération de texte ",
+  "isBeta": true,
+  "visibility": "public",
+  "details": {
+    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "description": "<p>Les grands modèles de langage sont des logiciels capables d’analyser et de générer des textes complexes qui ont du sens.</p><p>Dans ce module, vous allez découvrir tout le processus de génération d’une réponse par un modèle de langage, de l’analyse des prompts de l’utilisateur à la prédiction des mots de la réponse.</p>",
+    "duration": 10,
+    "level": "expert",
+    "objectives": [
+      "<p>Comprendre les principes de transformation du langage naturel en représentation mathématiques par un modèle de langage</p>",
+      "<p>Comprendre le mécanisme d’attention des modèles de langage</p>",
+      "<p>Comprendre le processus de prédiction des modèles de langage</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "sections": [
+    {
+      "id": "2d1e5ddb-8a79-4ebd-95cf-f68c6ad129df",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "dfd6ba42-0481-4710-9058-e511f2378b1a",
+          "type": "discovery",
+          "title": "Que signifie ChatGPT ?",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "08e5d1c9-21d9-43bd-b5cb-f54ff06bb3ba",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Anna utilise un logiciel d’IA générative comme ChatGPT.&nbsp; </p><p>Savez-vous ce que signifie les lettres «&nbsp;<strong>GPT</strong>&nbsp;» dans ChatGPT ? <br></p>"
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "b4e1d4c2-ce6d-4212-9cb9-6a5afba77a2d",
+                      "type": "qrocm",
+                      "instruction": "<p>À quoi correspond la lettre G ?<br></p>",
+                      "proposals": [
+                        {
+                          "input": "G",
+                          "type": "input",
+                          "inputType": "text",
+                          "size": 10,
+                          "display": "inline",
+                          "placeholder": "",
+                          "ariaLabel": "",
+                          "tolerances": [
+                            "t1",
+                            "t2",
+                            "t3"
+                          ],
+                          "solutions": [
+                            "Generative"
+                          ]
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien vu ! </p>",
+                          "diagnosis": "<p>ChatGPT est un logiciel d’IA qui <strong>génère </strong>du texte, mais aussi du code et des images.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Pas tout à fait&nbsp;: G correspond à «&nbsp;Generative&nbsp;».</p>",
+                          "diagnosis": "<p>ChatGPT est un logiciel d’IA qui <strong>génère </strong>du texte, mais aussi du code et des images.</p>"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "5541791e-7605-419b-94da-3db6dff7d136",
+                      "type": "qrocm",
+                      "instruction": "<p>À quoi correspond la lettre P ?</p>",
+                      "proposals": [
+                        {
+                          "input": "P",
+                          "type": "input",
+                          "inputType": "text",
+                          "size": 10,
+                          "display": "inline",
+                          "placeholder": "",
+                          "ariaLabel": "",
+                          "tolerances": [
+                            "t1",
+                            "t2",
+                            "t3"
+                          ],
+                          "solutions": [
+                            "Pre-trained",
+                            "Pré-entraîné"
+                          ]
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien vu !</p>",
+                          "diagnosis": "<p>En effet, ChatGPT est<strong> pré-entraîné</strong> sur des millions de données pour réussir à générer du texte.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Pas tout à fait. P correspond à «&nbsp;Pretrained&nbsp;».</p>",
+                          "diagnosis": "<p>En effet, ChatGPT est <strong>pré-entraîné</strong> sur des millions de données pour réussir à générer du texte.</p>"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "9952572f-aad3-410d-b1a7-d2020f90952e",
+                      "type": "qrocm",
+                      "instruction": "<p>À quoi correspond la lettre T ?</p>",
+                      "proposals": [
+                        {
+                          "input": "P",
+                          "type": "input",
+                          "inputType": "text",
+                          "size": 10,
+                          "display": "inline",
+                          "placeholder": "",
+                          "ariaLabel": "",
+                          "tolerances": [
+                            "t1",
+                            "t2",
+                            "t3"
+                          ],
+                          "solutions": [
+                            "Transformers",
+                            "Transformeurs"
+                          ]
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien vu ! </p>",
+                          "diagnosis": "<p>Un <strong>transformer </strong>est un type de<strong> réseau de neurones</strong> conçu pour traiter du texte de manière efficace. Contrairement aux anciens modèles, il <strong>analyse l’ensemble d’un prompt</strong> en même temps pour comprendre le <strong>contexte</strong>.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Pas tout à fait. T correspond à «&nbsp;Transformer&nbsp;».</p>",
+                          "diagnosis": "<p>Un <strong>transformeur </strong>est un type de<strong> réseau de neurones</strong> conçu pour traiter du texte de manière efficace. Contrairement aux anciens modèles, il <strong>analyse l’ensemble d’un prompt</strong> en même temps pour comprendre le <strong>contexte</strong>.</p>"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "d5ccc1ad-7a3d-41b2-998e-4cf633449fb3",
+          "type": "transition",
+          "title": "transition",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "b5e588b3-818f-44ab-be81-b82c72638c44",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Mais comment fonctionne ces fameux transformeurs ? Et comment un modèle de langage réussi-t-il à utiliser les mathématiques pour produire du texte ?</p><p> C’est ce que nous allons voir dans ce module.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "454d0e4a-0ba8-463e-865d-6bc83baf5c61",
+      "type": "explore-to-understand",
+      "grains": [
+        {
+          "id": "a0fe11f2-de72-40a6-974a-6bbbcd407da7",
+          "type": "discovery",
+          "title": "Au début était le token.",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "9b904793-99e5-4352-9ea0-23df68211182",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Anna a tapé le <strong>prompt </strong>suivant dans ChatPix, un grand modèle de langage.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "47841717-1ecb-45f3-9dcc-558a03538c39",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "llm-messages",
+                "props": {
+                  "messages": [
+                    {
+                      "direction": "outbound",
+                      "content": "Sur quel port  brancher mon câble ?"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "b065cf85-1280-452b-b3f7-533c94c3b2a1",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Un <strong>modèle de langage</strong> ne sait ni parler français, ni aucune langue.&nbsp; Il ne connait pas cette phrase mais il a à sa disposition une bibliothèque de<strong> morceaux de mots</strong>, des <strong>tokens</strong>, qui a été constitué lors de son entraînement. </p><p>Voici un <strong>extrait </strong>de cette <strong>bibliothèque de tokens.</strong></p><p><strong>[tableau à venir]</strong></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "2c42898f-a719-4fa8-9bc3-de44a416f814",
+                "type": "qrocm",
+                "instruction": "<p>D’après la bibliothèque du modèle de langage, combien de tokens sont utilisés dans le prompt d’Anna ?</p>",
+                "proposals": [
+                  {
+                    "input": "nombre de token",
+                    "type": "input",
+                    "inputType": "text",
+                    "size": 3,
+                    "display": "inline",
+                    "placeholder": "",
+                    "ariaLabel": "",
+                    "tolerances": [],
+                    "solutions": [
+                      9,
+                      "neuf"
+                    ]
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Bien vu !</p>",
+                    "diagnosis": "<p>Le <strong>token </strong>est un morceau de mot associé à un identifiant et à un ensemble de nombres, appelé <strong>vecteur</strong>.&nbsp; </p><p>L’étape de <strong>découpage du prompt en token</strong> s’appelle la <strong>tokenisation</strong>.</p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Avez-vous bien compté les tokens dans la bibliothèque de tokens ?</p>",
+                    "diagnosis": "<p>Le <strong>token </strong>est un morceau de mot associé à un identifiant et à un ensemble de nombres, appelé <strong>vecteur</strong>.&nbsp; </p><p>L’étape de <strong>découpage du prompt en token</strong> s’appelle la <strong>tokenisation</strong>.</p>"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "a0deef8e-4bfb-4da4-a937-547a4bc5c785",
+          "type": "short-lesson",
+          "title": "Lesson 1",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "2310f294-043b-4443-9e37-be15d3326081",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Les modèles de langage actuels utilisent généralement une <strong>b</strong><strong>ibliothèque d’environ 50 000 à 100 000 tokens </strong>associés à leurs<strong> vecteurs. &nbsp;&nbsp;</strong></p><p><strong><br></strong> </p><h4>Comment sont calculés les vecteurs de chaque token ? </h4><p>La transformation du token en vecteur s’appelle la <strong>vectorisation</strong>&nbsp; (ou en anglais, <em>embedding</em>). La <strong>vectorisation </strong>a lieu pendant <strong>l’entraînement</strong>, en s’appuyant sur des milliards de textes et observant le nombre de fois où un mot apparaît et avec quels autres mots il est utilisé. Le <strong>vecteur </strong>capte donc une forme de «&nbsp;<strong>signification </strong>» du <strong>token</strong>.</p><p>[ajout schéma]</p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "c7f24403-e0e7-454c-9866-096f5c1bde71",
+                      "type": "text",
+                      "tag": "further-information",
+                      "content": "<p><strong>Pourquoi le prompt est-il découpé en token ? </strong></p><p> Un découpage par caractère fait perdre du sens à chaque unité, tandis qu’un découpage par mot crée trop d’unités dans la bibliothèque et alourdit les calculs.</p><p>Le prompt est donc découpé en <strong>token</strong>, c’est-à-dire des<strong> morceaux de mots ou de ponctuation.</strong></p>"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "90e0e584-fd63-4667-b8d2-a8382706fcaa",
+          "type": "short-lesson",
+          "title": "",
+          "components": []
+        }
+      ]
+    }
+  ],
+  "glossary": []
+}
