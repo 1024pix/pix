@@ -1,5 +1,20 @@
 @use 'pix-design-tokens/typography';
 
+.course-card .pix-card__image,
+.course-modal .pix-card__image {
+  padding: var(--pix-spacing-3x);
+}
+
+.course-card--targetProfile .pix-card__image,
+.course-modal--targetProfile .pix-card__image {
+  background: var(--pix-orga-50);
+}
+
+.course-card--blueprint .pix-card__image,
+.course-modal--blueprint .pix-card__image {
+  background: var(--pix-secondary-50);
+}
+
 .course-card {
   position: relative;
   transition: 0.2s ease;

@@ -17,16 +17,18 @@ export function getCourseInfo(courseType) {
     case TARGET_PROFILE:
     case TARGET_PROFILE_OVERVIEW:
       return {
+        type: 'targetProfile',
         color: 'blue',
         label: 'pages.catalogue.card.tag.target-profile',
-        image: 'https://assets.pix.org/sites/orga/target-profile.png',
+        image: 'https://assets.pix.org/sites/orga/target-profile.svg',
       };
     case BLUEPRINT:
     case COMBINED_COURSE_BLUEPRINT_OVERVIEW:
       return {
+        type: 'blueprint',
         color: 'yellow',
         label: 'pages.catalogue.card.tag.blueprint',
-        image: 'https://assets.pix.org/sites/orga/combined-course.png',
+        image: 'https://assets.pix.org/sites/orga/blueprint.svg',
       };
     default:
       return null;
@@ -39,13 +41,13 @@ export default class CourseCard extends Component {
   }
 
   <template>
-    <div class="course-card">
+    <div class="course-card course-card--{{this.courseInfo.type}}">
       <PixCard
         @variant="orga"
         @title={{@course.name}}
         @subtitle={{if @course.category (t (concat "pages.campaign-creation.tags." @course.category))}}
         @image={{this.courseInfo.image}}
-        class="course-card"
+        @wide={{@isWide}}
       >
         <:tag>
           <PixTag @color={{this.courseInfo.color}} class="course-card__tag">{{t this.courseInfo.label}}</PixTag>

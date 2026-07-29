@@ -20,7 +20,7 @@ export default class CourseModal extends Component {
 
   id = crypto.randomUUID();
 
-  get courseTypeInfo() {
+  get courseInfo() {
     return getCourseInfo(this.courseType);
   }
 
@@ -67,7 +67,7 @@ export default class CourseModal extends Component {
       @hasCenteredContent={{true}}
     >
       <div
-        class="course-modal"
+        class="course-modal course-modal--{{this.courseInfo.type}}"
         role="dialog"
         aria-labelledby="modal-title--{{this.id}}"
         aria-describedby="modal-content--{{this.id}}"
@@ -94,10 +94,10 @@ export default class CourseModal extends Component {
           </div>
           <div class="course-modal__body">
             <div class="pix-card__image pix-card__image--orga">
-              <img src={{this.courseTypeInfo.image}} aria-hidden="true" alt={{@currentCourse.type}} />
+              <img src={{this.courseInfo.image}} aria-hidden="true" alt={{@currentCourse.type}} />
             </div>
-            <PixTag @color={{this.courseTypeInfo.color}} class="course-card__tag">
-              {{t this.courseTypeInfo.label}}
+            <PixTag @color={{this.courseInfo.color}} class="course-card__tag">
+              {{t this.courseInfo.label}}
             </PixTag>
             <h1 id="modal-title--{{this.id}}" class="course-modal__body__name">{{@currentCourse.name}}</h1>
             <SafeMarkdownToHtml
