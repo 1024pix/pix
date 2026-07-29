@@ -22,9 +22,9 @@ const REF_COLUMN_NAME = 'id';
  * @returns { Promise<void> }
  */
 export const up = async function (knex) {
-  await knex.schema.table(TABLE_NAME, function (table) {
-    table.dropForeign(COLUMN_NAME);
-  });
+  await knex.raw(
+    'ALTER TABLE "flash-assessment-results" DROP CONSTRAINT IF EXISTS "flash_assessment_results_answerid_foreign";',
+  );
 };
 
 /**
