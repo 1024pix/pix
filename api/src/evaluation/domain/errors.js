@@ -31,10 +31,24 @@ class AlreadyRatedAssessmentError extends DomainError {
   }
 }
 
+class AcquiredBadgeForbiddenDeletionError extends DomainError {
+  constructor(message = 'Il est interdit de supprimer un badge déjà acquis par un utilisateur.') {
+    super(message);
+  }
+}
+
+class CertificationBadgeForbiddenDeletionError extends DomainError {
+  constructor(message = 'Il est interdit de supprimer un badge lié à une certification.') {
+    super(message);
+  }
+}
+
 export {
+  AcquiredBadgeForbiddenDeletionError,
   AcquiredBadgeForbiddenUpdateError,
   AlreadyRatedAssessmentError,
   AnswerEvaluationError,
+  CertificationBadgeForbiddenDeletionError,
   CompetenceResetError,
   ImproveCompetenceEvaluationForbiddenError,
 };
